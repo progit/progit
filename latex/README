@@ -6,8 +6,8 @@ Pro Git by converting script for converting the contents of the book into
 LaTeX.
 
 * `makepdf` - this does everything to generate the PDF in one go. Just run
-`./makepdf` and it'll make you a `progit.en.pdf`. It uses `pandoc` to
-convert the Markdown into LaTeX.
+  `./makepdf` and it'll make you a `progit.en.pdf`. It uses `pandoc` to
+  convert the Markdown into LaTeX.
 * `main.tex` - this is the main LaTeX file that defines all the macros, etc.
-used by the content. Edit this if you want to change the style of the fonts,
-diagrams, headers/footers, etc.
+  used by the content. Edit this if you want to change the style of the fonts,
+  diagrams, headers/footers, etc.

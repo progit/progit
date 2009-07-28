@@ -1,0 +1,55 @@
+\documentclass[a4paper,twoside]{book}
+\usepackage[
+	urlbordercolor = {1 1 1},
+	linkbordercolor = {1 1 1},
+	citebordercolor = {1 1 1},
+	urlcolor = blue,
+	colorlinks = true,
+	citecolor = black,
+	linkcolor = black]{hyperref}
+\usepackage{graphicx}
+\usepackage{pslatex}
+\usepackage{fancyhdr}
+
+\title{Pro Git}
+\author{Scott Chacon}
+
+\makeatletter
+\let\savedauthor=\@author
+\let\savedtitle=\@title
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+\else\Gin@nat@width\fi}
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO]{{\textsc{\scriptsize{\textbf{Chapter \thechapter}}\hspace*{1ex}\leftmark}}}
+\fancyhead[RE]{{\textsc{\scriptsize{\savedtitle\hspace*{1ex}\textbf{\savedauthor}}}}}
+\fancyfoot[LE,RO]{\footnotesize\textbf\thepage}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\footnotesize\textbf\thepage}}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcounter{img}[chapter]
+\newcommand{\img}[1]{\begin{figure}[h!]
+	\caption{#1}
+	\label{img:\thefigure}
+	\centering\includegraphics[width=\maxwidth]{figures/\thefigure.png}
+\end{figure}}
+
+\newcommand{\chap}[1]{\chapter{#1}\label{chap:\thechapter}}
+\newcommand{\chapref}[1]{\hyperref[chap:#1]{Chapter #1}}
+\newcommand{\imgref}[1]{\hyperref[img:#1]{Figure #1}}
+\newcommand{\e}[1]{$ \times 10^{#1}$}
+
+\linespread{1.03}
+
+\begin{document}
+\maketitle
+\pagenumbering{roman}
+\tableofcontents\newpage
+\pagenumbering{arabic}
+\input{content.tex}
+\end{document}

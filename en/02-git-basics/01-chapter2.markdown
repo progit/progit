@@ -858,7 +858,7 @@ This command lists the tags in alphabetical order; the order in which they appea
 
 You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
 
-	$ git tag -l v1.4.2.*
+	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
 	v1.4.2.2
 	v1.4.2.3

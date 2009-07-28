@@ -1,8 +1,12 @@
 # 起步 #
 
+本章介绍开始使用 Git 前的相关知识。我们会先了解一些版本控制工具的历史背景，然后试着在你的系统上把 Git 跑起来，直到最后配置好，可以开始正常的开发工作。读完本章，你就会理解为什么 Git 会如此流行，为什么你真的需要使用它。
+
 This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
 
-## About Version Control ##
+## 关于版本控制 ##
+
+什么是版本控制？我真的需要吗？版本控制是一种记录若干文件内容变化，以便将来查阅特定版本修订情况的系统。在本书所展示的例子中，我们仅对保存着软件源代码的文本文件作版本控制管理，而实际上，你可以对任何类型的文件进行版本控制。
 
 What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
 

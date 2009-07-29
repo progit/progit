@@ -1,9 +1,20 @@
 # Los geht's #
 
-Dieses Kapitel führt in das Arbeiten mit git ein. Wir werden zuerst ein bisschen Hintergrundwissen über Versionskontrollsysteme erklären, und dann mit der Installation und initialen Konfiguration von git fortfahren. Am Ende des Kapitels solltest Du verstehen warum es Git gibt, und warum du es benutzen solltest - und du solltest in der Lage sein loszulegen.
+Dieses Kapitel führt in das Arbeiten mit Git ein. Wir werden zuerst ein bisschen Hintergrundwissen über Versionskontrollsysteme erklären, und dann mit der Installation und initialen Konfiguration von Git fortfahren. Am Ende des Kapitels solltest Du verstehen warum es Git gibt, und warum du es benutzen solltest - und du solltest in der Lage sein loszulegen.
 
 ## Über Versionskontrolle ##
 
 Was ist Versionskontrolle, und warum sollte es dich Interessieren? Versionskontrolle ist ein Überbegriff für Systeme die Änderungen an Dateien oder an einem ganzen Set von Dateien während eines Bearbeitungszeitraumes archivieren - so dass man bestimmte Versionen später wiederherstellen kann. Für die Beispiele in diesem Buch wirst Du dies mit Software-Sourcecode tun, in der Realität geht das aber mit fast allen Dateien auf einem Computer.
 
 Wenn Du ein Grafiker oder Webdesigner bist, und du möchtest jede Version von einem Bild oder Layout speichern (Du möchtest das wirklich!), ist ein Versionskontrollsystem (VCS - Version Control System) das Werkzeug deiner Wahl. Es erlaubt dir Änderungen an Dateien rückgängig zu machen, das komplette Projekt in einen früheren Zustand zu versetzen, Änderungen zu vergleichen, herauszufinden wer zuletzt eine Änderung gemacht hat die vermutlich ein Problem verursacht hat, zu sehen wer wann ein bestimmtes Thema bearbeitet hat, und vieles mehr. Wenn Du ein Versionskontrollsystem benutzt, bedeutet es aber vor allem, dass du, wenn du (oder jemand anderes) Mist baust, leicht einen früheren Zustand wiederherstellen kannst. Und das bekommst Du meist ohne zusätzlichen nennenswerten Mehraufwand.
+
+### Lokale Versionskontrollsysteme ###
+
+Viele Leute versionieren ihre Projekte und Dateien indem sie Kopien in andere Verzeichnisse (die zum Beispiel nach dem Datum oder Uhrzeit benannt sind) kopieren. Dieser Ansatz ist weitverbreitet, weil er so schön einfach ist - aber er ist auch unglaublich Fehleranfällig. Es ist einfach zu Vergessen in welchem Verzeichnis man gerade arbeitet und aus Versehen die falsche Datei zu speichern oder beim kopieren Dateien zu überschreiben, bei denen man dies nicht wollte.
+
+Um diesen Problemen vorzubeugen haben findige Programmierer schon vor langer Zeit lokal arbeitende Versionskontrollsysteme entwickelt, die in einer einfachen Datenbank alle Änderungen speicherten (siehe Bild 1-1).
+
+Insert 1833ig0101.png
+Bild 1-1. Lokale Versionskontrollsysteme
+
+Eines der populäreren lokalen Versionskontrollsystem ist RCS, welches auch heute noch auf vielen Computern mitgeliefert wird. Sogar das beliebte Mac OS X Betriebssystem stellt das rcs-Kommando mit der Installation der Developer Tools bereit. RCS funktioniert hauptsächlich indem es "Patch Sets" (die Unterschiede zwischen Dateien) von einer Änderung zur anderen in einem speziellen Format speichert. Es kann auf Basis dieser Daten jede Version zu jeder Zeit im Änderungsprozess wiederherstellen, indem es alle Patches nacheinander anwendet.

@@ -18,3 +18,14 @@ Insert 1833ig0101.png
 Bild 1-1. Lokale Versionskontrollsysteme
 
 Eines der populäreren lokalen Versionskontrollsystem ist RCS, welches auch heute noch auf vielen Computern mitgeliefert wird. Sogar das beliebte Mac OS X Betriebssystem stellt das rcs-Kommando mit der Installation der Developer Tools bereit. RCS funktioniert hauptsächlich indem es "Patch Sets" (die Unterschiede zwischen Dateien) von einer Änderung zur anderen in einem speziellen Format speichert. Es kann auf Basis dieser Daten jede Version zu jeder Zeit im Änderungsprozess wiederherstellen, indem es alle Patches nacheinander anwendet.
+
+### Zentralisierte Versionskontrollsysteme ###
+
+Das nächste größere Problem auf das Entwickler für Gewöhnlich stoßen, ist dass sie mit anderen Programmierern auf anderen Computersystemen zusammenarbeiten müssen. Um dieses Problem zu lösen wurden Zentralisierte Versionskontrollsysteme (CVCS - Centralized Version Control Systems) entwickelt. Diese Systeme, wie zum Beispiel CVS, Subversion und Perforce, haben einen einzigen Server der alle versionierten Dateien speichert. Alle Mitarbeiter müssen mit dem Repository auf diesem Server arbeiten, sie checken ihre Änderungen dort ein und holen sich die Änderungen ihrer Kollegen von dort ab. Dies war für viele Jahre der Standard für Versionskontrollsysteme (siehe Bild 1-2).
+
+Insert 18333fig0102.png
+Bild 1-2. Zentralisierte Versionskontrolle
+
+Dieses zentrale Setup bringt viele Vorteile mit sich, insbesondere gegenüber lokalen Versionskontrollsystemen. Zum Beispiel hat jeder einen ungefähren Überblick was alle anderen gerade am Projekt tun. Administratoren können sehr granular bestimmen was wer tun darf, und es ist um Welten einfacher ein CVCS zu administrieren als z.B. lokale Datenbanken auf allen Entwicklercomputern in den Griff zu bekommen.
+
+Wie auch immer, dieses Setup hat leider auch einige ernste Nachteile. Der am meisten offensichtliche ist der "Single Point of Failure", welchen der zentrale Server darstellt. Wenn dieser Server für eine Stunde nicht verfügbar ist, kann während dieser Zeit keiner seine Änderungen an Dateien speichern oder aktualisieren. Wenn die Festplatte des Servers über den Jordan geht und keine ordentlichen Backups existieren, verliert man die komplette Arbeit - bis auf die einzelnen Snapshots auf den Computern der Mitarbeiter; diese enthalten aber meist nicht die Versionshistorie des Projektes.

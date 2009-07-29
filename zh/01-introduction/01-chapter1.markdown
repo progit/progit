@@ -12,7 +12,7 @@
 
 许多人习惯用复制整个项目目录的方式来保存不同的版本，或许还会改名加上备份时间以示区别。这么做唯一的好处就是简单，不过坏处却不少：有时候会混淆所在的工作目录，弄错了文件丢了数据就没了后退的路。
 
-为了解决这个问题，程序员很久以前就开发了许多种本地版本控制系统，大多都采用某种简单的数据库来记录文件的历次更新差异（见图 1-1）。
+为了解决这个问题，人们很久以前就开发了许多种本地版本控制系统，大多都是采用某种简单的数据库来记录文件的历次更新差异（见图 1-1）。
 
 Insert 18333fig0101.png 
 Figure 1-1. Local version control diagram
@@ -118,11 +118,11 @@ The basic Git workflow goes something like this:
 
 If a particular version of a file is in the git directory, it’t considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
-## Installing Git ##
+## 安装 Git ##
 
 Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
 
-### Installing from Source ###
+### 从源代码安装 ###
 
 If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
 
@@ -149,7 +149,7 @@ After this is done, you can also get Git via Git itself for updates:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### 在 Linux 上安装 ###
 
 If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
 
@@ -159,7 +159,7 @@ Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 	$ apt-get instal git-core
 
-### Installing on Mac ###
+### 在 Mac 上安装 ###
 
 There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
 
@@ -174,7 +174,7 @@ The other major way is to install Git via MacPorts (http://www.macports.org). If
 
 You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
 
-### Installing on Windows ###
+### 在 Windows 上安装 ###
 
 Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
 
@@ -182,7 +182,7 @@ Installing Git on Windows is very easy. The msysGit project has one of the easie
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 
-## First-Time Git Setup ##
+## 首次运行 Git 时的配置 ##
 
 Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
 
@@ -194,7 +194,7 @@ Git comes with a tool called git config that lets you get and set configuration 
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (C:\Documents and Settings\$USER for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
-### Your Identity ###
+### 个人身份标识 ###
 
 The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
 
@@ -203,13 +203,13 @@ The first thing you should do when you install Git is to set your user name and 
 
 Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
 
-### Your Editor ###
+### 编辑器 ###
 
 Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### 差异分析工具 ###
 
 Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
 
@@ -217,7 +217,7 @@ Another useful option you may want to configure is the default diff tool to use 
 
 Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
 
-### Checking Your Settings ###
+### 查看你的配置信息 ###
 
 If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
 
@@ -237,7 +237,7 @@ You can also check what Git thinks a specific key’s value is by typing `git co
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## 获取帮助 ##
 
 If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
 
@@ -252,6 +252,6 @@ For example, you can get the manpage help for the config command by running
 These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
-## Summary ##
+## 小结 ##
 
 You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.

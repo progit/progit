@@ -157,7 +157,7 @@ If you want to install Git on Linux via a binary installer, you can generally do
 
 Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
-	$ apt-get instal git-core
+	$ apt-get install git-core
 
 ### Installing on Mac ###
 

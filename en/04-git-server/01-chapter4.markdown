@@ -141,7 +141,7 @@ If a user SSHs into a server and has write access to the `/opt/git/my_project.gi
 
 	$ ssh user@git.example.com
 	$ cd /opt/git/my_project.git
-	$ git init --shared
+	$ git init --bare --shared
 
 You see how easy it is to take a Git repository, create a bare version, and place it on a server to which you and your collaborators have SSH access. Now you’re ready to collaborate on the same project.
 

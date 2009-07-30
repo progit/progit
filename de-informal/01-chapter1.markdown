@@ -38,3 +38,20 @@ Insert 18333fig0103.png
 Bild 1-3. Verteilte Versionskontrollsysteme.
 
 Und das ist nicht alles: viele dieser Systeme kommen recht gut mit mehreren entfernten Repositories klar, auf diese Weise kann man mit verschiedenen Gruppen auf verschiedene Weise gleichzeitig zusammenarbeiten. Dies erlaubt verschiedene Workflows zu etablieren, die in zentralisierten Entwicklungsprozessen nicht möglich wären, wie zum Beispiel hierarchische Modelle.
+
+## Eine kurzer geschichtlicher Überblick über die Entstehung von Git ##
+
+Wie viele großartige dinge im Leben begann die Entwicklung von Git mit einer Portion kreativer Zerstörung und kontroversen Diskussionen. Der Linux-Kernel ist ein Projekt mit ziemlich großen Ausmaßen. Den größten Teil der Linux Kernelentwicklung (1991-2002) wurden Änderungen am Quellcode als Patchsets und Dateiarchive durch die Welt gesendet. 2002 begann das Linux-Kernel Projekt ein proprietäres DVCS namens BitKeeper einzusetzen.
+
+2005 verschlechterten sich die Beziehungen zwischen der Community die den Linux-Kernel entwickelte und der Kommerziellen Firma, die BitKeeper entwickelte, als BitKeeper nicht mehr kostenlos benutzt werden konnte. Dies veranlasste die Linux-Kernel Entwicklergemeinde (und im speziellen Linus Torvalds, der Urheber des Linux-Kernels) basierend auf den mit BitKeeper gemachten Erfahrungen ihr eigenes Werkzeug zu entwickeln. Einige der Ziele des neuen Systems waren:
+
+*       Geschwindigkeit
+*       einfaches Design
+*       gute Unterstützung für nicht-lineare Entwicklung (tausende paralleler Entwicklungszweige
+*       komplett Verteilt
+*       Möglichkeit große Projekte wie das Linux-Kernelprojekt effizient in den Griff zu bekommen (Geschwindigkeit und Datenmenge)
+
+Seit seinem Entstehen in 2005 hat sich Git weiterentwickelt und ist zu einem einfach benutzbarem System gereift, welches trotzdem diese initialen Zielsetzungen erfüllt. Es ist unglaublich schnell, sehr effizient bei großen Projekten, und es hat ein fantastisches Branching-System um mit mehreren Entwicklungszweigen nicht-linear entwickeln zu können (siehe Kapitel 3).
+
+
+

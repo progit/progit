@@ -41,9 +41,9 @@ Und das ist nicht alles: viele dieser Systeme kommen recht gut mit mehreren entf
 
 ## Eine kurzer geschichtlicher Überblick über die Entstehung von Git ##
 
-Wie viele großartige dinge im Leben begann die Entwicklung von Git mit einer Portion kreativer Zerstörung und kontroversen Diskussionen. Der Linux-Kernel ist ein Projekt mit ziemlich großen Ausmaßen. Den größten Teil der Linux Kernelentwicklung (1991-2002) wurden Änderungen am Quellcode als Patchsets und Dateiarchive durch die Welt gesendet. 2002 begann das Linux-Kernel Projekt ein proprietäres DVCS namens BitKeeper einzusetzen.
+Wie viele großartige Dinge im Leben begann die Entwicklung von Git mit einer Portion kreativer Zerstörung und kontroversen Diskussionen. Der Linux-Kernel ist ein Projekt mit ziemlich großen Ausmaßen. Den größten Teil der Linux Kernelentwicklung (1991-2002) wurden Änderungen am Quellcode als Patchsets und Dateiarchive durch die Welt gesendet. 2002 begann das Linux-Kernel Projekt ein proprietäres DVCS namens BitKeeper einzusetzen.
 
-2005 verschlechterten sich die Beziehungen zwischen der Community die den Linux-Kernel entwickelte und der Kommerziellen Firma, die BitKeeper entwickelte, als BitKeeper nicht mehr kostenlos benutzt werden konnte. Dies veranlasste die Linux-Kernel Entwicklergemeinde (und im speziellen Linus Torvalds, der Urheber des Linux-Kernels) basierend auf den mit BitKeeper gemachten Erfahrungen ihr eigenes Werkzeug zu entwickeln. Einige der Ziele des neuen Systems waren:
+2005 verschlechterten sich die Beziehungen zwischen der Community die den Linux-Kernel entwickelte und der kommerziellen Firma die BitKeeper entwickelte, als BitKeeper nicht mehr kostenlos benutzt werden durfte. Dies veranlasste die Linux-Kernel Entwicklergemeinde (und im speziellen Linus Torvalds, der Urheber des Linux-Kernels) basierend auf den mit BitKeeper gemachten Erfahrungen ihr eigenes Werkzeug zu entwickeln. Einige der Ziele des neuen Systems waren:
 
 *       Geschwindigkeit
 *       einfaches Design

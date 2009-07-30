@@ -485,7 +485,7 @@ Gitosis has simple access controls as well. If you want John to have only read a
 	members = scott josie jessica
 
 	[group mobile_ro]
-	readable = iphone_project
+	readonly = iphone_project
 	members = john
 
 Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members, to inherit all of its members automatically.

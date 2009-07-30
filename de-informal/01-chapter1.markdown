@@ -28,4 +28,13 @@ Bild 1-2. Zentralisierte Versionskontrolle
 
 Dieses zentrale Setup bringt viele Vorteile mit sich, insbesondere gegenüber lokalen Versionskontrollsystemen. Zum Beispiel hat jeder einen ungefähren Überblick was alle anderen gerade am Projekt tun. Administratoren können sehr granular bestimmen was wer tun darf, und es ist um Welten einfacher ein CVCS zu administrieren als z.B. lokale Datenbanken auf allen Entwicklercomputern in den Griff zu bekommen.
 
-Wie auch immer, dieses Setup hat leider auch einige ernste Nachteile. Der am meisten offensichtliche ist der "Single Point of Failure", welchen der zentrale Server darstellt. Wenn dieser Server für eine Stunde nicht verfügbar ist, kann während dieser Zeit keiner seine Änderungen an Dateien speichern oder aktualisieren. Wenn die Festplatte des Servers über den Jordan geht und keine ordentlichen Backups existieren, verliert man die komplette Arbeit - bis auf die einzelnen Snapshots auf den Computern der Mitarbeiter; diese enthalten aber meist nicht die Versionshistorie des Projektes.
+Wie auch immer, dieses Setup bringt leider auch einige ernste Nachteile mit sich. Der am meisten offensichtliche ist der "Single Point of Failure", welchen der zentrale Server darstellt. Wenn dieser Server für eine Stunde nicht verfügbar ist, kann während dieser Zeit keiner seine Änderungen an Dateien speichern oder aktualisieren. Wenn die Festplatte des Servers über den Jordan geht und keine ordentlichen Backups existieren, verliert man die komplette Arbeit - bis auf die einzelnen Snapshots auf den Computern der Mitarbeiter; diese enthalten aber meist nicht die Versionshistorie des Projektes.
+
+### Verteilte Versionskontrollsysteme ###
+
+Hier kommen verteilte Versionskontrollsystem (Distributed Version Control Systems, DVCSs) ins Spiel. In einem DVCS (wie zum Beispiel Git, Mercurial, Bazaar oder Darcs), checken die Clients nicht nur den neuesten Stand der Dateien aus: Sie erstellen eine Kopie des kompletten Repositories inklusive der Versionshistorie. Wenn nun der Server, über den diese Systeme miteinander arbeiten, eine Fehlfunktion hat, kann jeder der Clients sein lokales Repository zurueckkopiert werden um den Server wiederherzustellen. Jeder checkout ist somit ein echtes, volles Backup aller Daten auf dem Server.
+
+Insert 18333fig0103.png
+Bild 1-3. Verteilte Versionskontrollsysteme.
+
+Und das ist nicht alles: viele dieser Systeme kommen recht gut mit mehreren entfernten Repositories klar, auf diese Weise kann man mit verschiedenen Gruppen auf verschiedene Weise gleichzeitig zusammenarbeiten. Dies erlaubt verschiedene Workflows zu etablieren, die in zentralisierten Entwicklungsprozessen nicht möglich wären, wie zum Beispiel hierarchische Modelle.

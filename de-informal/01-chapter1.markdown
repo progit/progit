@@ -28,7 +28,7 @@ Bild 1-2. Zentralisierte Versionskontrolle
 
 Dieses zentrale Setup bringt viele Vorteile mit sich, insbesondere gegenüber lokalen Versionskontrollsystemen. Zum Beispiel hat jeder einen ungefähren Überblick was alle anderen gerade am Projekt tun. Administratoren können sehr granular bestimmen was wer tun darf, und es ist um Welten einfacher ein CVCS zu administrieren als z.B. lokale Datenbanken auf allen Entwicklercomputern in den Griff zu bekommen.
 
-Wie auch immer, dieses Setup bringt leider auch einige ernste Nachteile mit sich. Der am meisten offensichtliche ist der "Single Point of Failure", welchen der zentrale Server darstellt. Wenn dieser Server für eine Stunde nicht verfügbar ist, kann während dieser Zeit keiner seine Änderungen an Dateien speichern oder aktualisieren. Wenn die Festplatte des Servers über den Jordan geht und keine ordentlichen Backups existieren, verliert man die komplette Arbeit - bis auf die einzelnen Snapshots auf den Computern der Mitarbeiter; diese enthalten aber meist nicht die Versionshistorie des Projektes.
+Wie auch immer, dieses Setup bringt leider auch einige gewichtige Nachteile mit sich. Der am meisten offensichtliche ist der "Single Point of Failure", welchen der zentrale Server darstellt. Wenn dieser Server für eine Stunde nicht verfügbar ist, kann während dieser Zeit keiner seine Änderungen an Dateien speichern oder aktualisieren. Wenn die Festplatte des Servers über den Jordan geht und keine ordentlichen Backups existieren, verliert man die komplette Arbeit - bis auf die einzelnen Snapshots auf den Computern der Mitarbeiter; diese enthalten aber meist nicht die Versionshistorie des Projektes.
 
 ### Verteilte Versionskontrollsysteme ###
 

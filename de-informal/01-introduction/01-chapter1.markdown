@@ -53,5 +53,6 @@ Wie viele großartige Dinge im Leben begann die Entwicklung von Git mit einer Po
 
 Seit seinem Entstehen in 2005 hat sich Git weiterentwickelt und ist zu einem einfach benutzbarem System gereift, welches trotzdem diese initialen Zielsetzungen erfüllt. Es ist unglaublich schnell, sehr effizient bei großen Projekten, und es hat ein fantastisches Branching-System um mit mehreren Entwicklungszweigen nicht-linear entwickeln zu können (siehe Kapitel 3).
 
+## Git Grundlagen ##
 
-
+Also, was genau ist Git? Dies ist ein wichtiges Kapitel - Du solltest es aufmerksam lesen, denn wenn man erst mal verstanden hat was Git eigentlich ist und was die grundlegenden Funktionen sind, wird Dir die zukünftige Benutzung wahrscheinlich wesentlich einfacher fallen. Während Du die Bedienung von Git lernst vergiss am besten alles was du bisher über andere Versionskontrollsysteme wie beispielsweise Subversion oder Perforce weisst. Das wird Dir helfen Verwirrungen während der Bedienung zu vermeiden. Git speichert und behandelt Informationen fundamental anders als diese anderen Systeme, obgleich das User Interface relativ ähnlich scheint. Wenn Du diese Unterschiede verstanden hast, wird Dir dies helfen Verwirrungen und Missverständnisse in der Bedienung zu umschiffen.

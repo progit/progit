@@ -11,7 +11,8 @@ def verbatim_sanitize(string)
 		gsub('#', '\#').
 		gsub('_', '\_').
 		gsub('^', '\^{}').
-		gsub('%', '\%')
+		gsub('%', '\%').
+		gsub('~', '{\textasciitilde}')
 end
 
 def replace(string)
@@ -22,36 +23,40 @@ def replace(string)
 		s '\begin{enumerate}[1.]', '\begin{enumerate}'
 		s /\\item\s+/, '\item '
 		s /(C\:\\Documents\s+and\s+Settings\\\$USER)/, '\verb!\1!'
-		s /Insert\s18333fig\d+\.png[\\\s]*(Fig(ure)? \d+--\d+\.?)?(.*?)\n\n/m, '\img{\3}'
+		s /Insert\s18333fig\d+\.png[\\\s]*(.*?\d+--\d+\.?)?(.*?)\n\n/m, '\img{\2}'
 		s /Figure\s+(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
 		s /Table\s+(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
 		s /Chapter\s+(\d+)/, '\chapref{\1}'
-		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$'
+		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$)'
 		s '2\^{}80', '$2^{80}$'
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
-		s /—/, '---'
-		s /“(.*?)”/, '``\1\'\''
-		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\small\1}'
+		s /(\\verb!.*?!)/m, '{\footnotesize\1}'
+		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
+		s /--/, '-'
+		s /``(.*?)''/, '“\1”'
+		# pandoc discards #### subsubsections - the following recoveres them
+		s /\n(([A-Zup][A-Z\-a-z]+[ ]?([A-Zawftp][A-Z\-a-z]*[ ]?)+)
+			|((\\texttt\{)?[a-z]+[\.\-][A-Za-z\*]+\}?))\n\n/x, '\subsubsection{\1}'
 		s /\\verb\!(.*?)\!/ do
-			"{\\small\\texttt{#{verbatim_sanitize($1)}}}"
+			"{\\texttt{#{verbatim_sanitize($1)}}}"
 		end
 		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)\\end\{verbatim\}/ do
 			"\\begin{table}[h!]\\refstepcounter{table}\\centering" <<
 			"\\label{tab:\\thetable}\\begin{tabular}{p{2.75cm}p{8.25cm}}\n\\toprule\n" <<
-			verbatim_sanitize($1).gsub(/^([^\n\t]+)\t/, '{\small\texttt{\1}} & ').
+			verbatim_sanitize($1).gsub(/^([^\n\t]+)\t/, '{\footnotesize\texttt{\1}} & ').
 				gsub(/(\n)/, '\\\\\\\\\1').
-				sub(/\{\\small\\texttt(.*?)\n/, '{\1\midrule ') <<
+				sub(/\{\\footnotesize\\texttt(.*?)\n/, '{\1\midrule ') <<
 			"\\bottomrule\n\\end{tabular}\\end{table}"
 		end
 	end
 end
 
-Dir['figures/18333*.png'].each{|file| FileUtils.cp(file, figure_rename(file))}
 FileUtils.cd(File.join(File.dirname(__FILE__), '..'))
+Dir['figures/18333*.png'].each{|file| FileUtils.cp(file, figure_rename(file))}
 Dir['*'].find_all{|l| File.directory?(l) and l.length == 2}.each do |language|
 	content = replace(`pandoc -p -f markdown -t latex #{language}/*/*.markdown`)
 	File.open('content.tex', 'w'){|f| f.write(content)}
-	2.times{`pdflatex latex/main.tex 1>/dev/tty`} # twice for TOC
+	3.times{`xelatex latex/main.tex 1>/dev/tty`} # 3 passes needed for TOC/XeTeX
 	FileUtils.mv('main.pdf', "progit.#{language}.pdf")
 	FileUtils.rm(Dir['main.*'] << 'content.tex')
 end

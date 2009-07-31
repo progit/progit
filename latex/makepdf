@@ -5,6 +5,15 @@ def figure_rename(file)
 	file.gsub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2')
 end
 
+def verbatim_sanitize(string)
+	string.gsub('\\', '{\textbackslash}').
+		gsub('$', '\$').
+		gsub('#', '\#').
+		gsub('_', '\_').
+		gsub('^', '\^{}').
+		gsub('%', '\%')
+end
+
 def replace(string)
 	string.instance_eval do
 		alias :s :gsub!
@@ -13,19 +22,26 @@ def replace(string)
 		s '\begin{enumerate}[1.]', '\begin{enumerate}'
 		s /\\item\s+/, '\item '
 		s /(C\:\\Documents\s+and\s+Settings\\\$USER)/, '\verb!\1!'
-		s /Insert\s18333fig\d+\.png[\\\s]*(Figure \d+--\d+\.?)?(.*?)\n\n/m, '\img{\2}'
+		s /Insert\s18333fig\d+\.png[\\\s]*(Fig(ure)? \d+--\d+\.?)?(.*?)\n\n/m, '\img{\3}'
 		s /Figure\s+(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
+		s /Table\s+(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
 		s /Chapter\s+(\d+)/, '\chapref{\1}'
 		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$'
 		s '2\^{}80', '$2^{80}$'
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
+		s /—/, '---'
+		s /“(.*?)”/, '``\1\'\''
+		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\small\1}'
 		s /\\verb\!(.*?)\!/ do
-			m = $1.gsub('\\', '{\textbackslash}').
-				gsub('$', '\$').
-				gsub('#', '\#').
-				gsub('_', '\_').
-				gsub('^', '\^{}')
-			"\\texttt{#{m}}"
+			"{\\small\\texttt{#{verbatim_sanitize($1)}}}"
+		end
+		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)\\end\{verbatim\}/ do
+			"\\begin{table}[h!]\\refstepcounter{table}\\centering" <<
+			"\\label{tab:\\thetable}\\begin{tabular}{p{2.75cm}p{8.25cm}}\n\\toprule\n" <<
+			verbatim_sanitize($1).gsub(/^([^\n\t]+)\t/, '{\small\texttt{\1}} & ').
+				gsub(/(\n)/, '\\\\\\\\\1').
+				sub(/\{\\small\\texttt(.*?)\n/, '{\1\midrule ') <<
+			"\\bottomrule\n\\end{tabular}\\end{table}"
 		end
 	end
 end
@@ -33,7 +49,7 @@ end
 Dir['figures/18333*.png'].each{|file| FileUtils.cp(file, figure_rename(file))}
 FileUtils.cd(File.join(File.dirname(__FILE__), '..'))
 Dir['*'].find_all{|l| File.directory?(l) and l.length == 2}.each do |language|
-	content = replace(`pandoc -f markdown -t latex #{language}/*/*.markdown`)
+	content = replace(`pandoc -p -f markdown -t latex #{language}/*/*.markdown`)
 	File.open('content.tex', 'w'){|f| f.write(content)}
 	2.times{`pdflatex latex/main.tex 1>/dev/tty`} # twice for TOC
 	FileUtils.mv('main.pdf', "progit.#{language}.pdf")

@@ -12,7 +12,8 @@ def verbatim_sanitize(string)
 		gsub('_', '\_').
 		gsub('^', '\^{}').
 		gsub('%', '\%').
-		gsub('~', '{\textasciitilde}')
+		gsub('~', '{\textasciitilde}').
+		gsub(/(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)/, '\url{\1}')
 end
 
 def replace(string)
@@ -29,14 +30,20 @@ def replace(string)
 		s /Chapter\s+(\d+)/, '\chapref{\1}'
 		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$)'
 		s '2\^{}80', '$2^{80}$'
+		s /(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)/, '\url{\1}'
+		s /\\verb!(\\url\{.*?\})!/, '\1'
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
 		s /(\\verb!.*?!)/m, '{\footnotesize\1}'
+		s /\\begin\{verbatim\}\s+(\\url\{.*?\})\s+\\end\{verbatim\}/m, '\1\par'
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
 		s /--/, '-'
 		s /``(.*?)''/, '“\1”'
 		# pandoc discards #### subsubsections - the following hack recovers them
 		s /\n(([A-Zup][A-Z\-a-z]+[ ]?([A-Zawftp][A-Z\-a-z]*[ ]?)+)
 			|((\\texttt\{)?[a-z]+[\.\-][A-Za-z\*]+\}?))\n\n/x, '\subsubsection{\1}'
+		s /(\\begin\{verbatim\})(.*?)(?=\\end\{verbatim\})/m do
+			$1 << $2.gsub(/\\url\{(.*?)\}/, '\1')
+		end
 		s /\\verb\!(.*?)\!/ do
 			"{\\texttt{#{verbatim_sanitize($1)}}}"
 		end

@@ -56,3 +56,17 @@ Seit seinem Entstehen in 2005 hat sich Git weiterentwickelt und ist zu einem ein
 ## Git Grundlagen ##
 
 Also, was genau ist Git? Dies ist ein wichtiges Kapitel - Du solltest es aufmerksam lesen, denn wenn man erst mal verstanden hat was Git eigentlich ist und was die grundlegenden Funktionen sind, wird Dir die zukünftige Benutzung wahrscheinlich wesentlich einfacher fallen. Während Du die Bedienung von Git lernst vergiss am besten alles was du bisher über andere Versionskontrollsysteme wie beispielsweise Subversion oder Perforce weisst. Das wird Dir helfen Verwirrungen während der Bedienung zu vermeiden. Git speichert und behandelt Informationen fundamental anders als diese anderen Systeme, obgleich das User Interface relativ ähnlich scheint. Wenn Du diese Unterschiede verstanden hast, wird Dir dies helfen Verwirrungen und Missverständnisse in der Bedienung zu umschiffen.
+
+### Projektweite Momentaufnahmen anstelle von Dateiunterschieden ###
+
+Der Hauptunterschied zwischen Git und anderen Versionskontrollsystemen (inklusive Subversion und ähnliche) ist die Art wie Git die zu versionierenden Daten behandelt. Die meisten anderen Systeme (CVS, Subversion, Perforce, Bazaar, usw) speichern Versionierungsinformationen als Liste von Dateibasierten Änderungen die über die Zeit angefallen sind, siehe Abbildung 1.4.
+
+Insert 18333fig0104.png
+Abbildung 1-4. Andere Systeme speichern Daten als Änderung zu einer Basisversion jeder Datei.
+
+Git speichert seine Versionierungsinformation nicht so. Stattdessen behandelt Git Änderungsinformationen ähnlich eines Snapshots eines Dateisystems. Jedes mal wenn Du Änderungen committest oder den Projektstatus in Git speicherst, wird sprichwörtlich eine Momentaufnahme all deiner Dateien erstellt und eine Referenz auf diese gespeichert. Aus Effizienzgründen werden unveränderte Momentaufnahmen nicht neu gespeichert, sondern zur Vorgängerversion verlinkt. Siehe Abbildung 1-5.
+
+Insert 18333fig0105.png
+Abbildung 1-5. Git speichert Daten als Snapshot (Momentaufnahme).
+
+Dies ist ein wichtiger Unterschied zwischen Git und fast allen anderen Versionskontrollsystemen. Git handelt so im Gegensatz zu Systemen der vorherigen Generation eher wie ein kleines Dateisystem mit einigen mitgelieferten nützlichen und mächtigen Werkzeugen. Wir kommen auf die Vorteile dieser Art von Datenbehandlung in Kapitel 3 nochmal zurück.

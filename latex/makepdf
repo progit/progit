@@ -34,7 +34,7 @@ def replace(string)
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
 		s /--/, '-'
 		s /``(.*?)''/, '“\1”'
-		# pandoc discards #### subsubsections - the following recoveres them
+		# pandoc discards #### subsubsections - the following hack recovers them
 		s /\n(([A-Zup][A-Z\-a-z]+[ ]?([A-Zawftp][A-Z\-a-z]*[ ]?)+)
 			|((\\texttt\{)?[a-z]+[\.\-][A-Za-z\*]+\}?))\n\n/x, '\subsubsection{\1}'
 		s /\\verb\!(.*?)\!/ do

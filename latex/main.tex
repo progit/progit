@@ -40,6 +40,8 @@
 	\textbf{\caption{#1}}
 \end{figure}}
 
+\renewcommand{\chaptermark}[1]{\markboth{\textbf{Chapter \thechapter}\hspace*{1ex}#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\textbf{Section \thesection}\hspace*{1ex}#1}}
 \newcommand{\chap}[1]{\newpage\thispagestyle{empty}\chapter{#1}\label{chap:\thechapter}}
 \newcommand{\chapref}[1]{\hyperref[chap:#1]{Chapter #1}}
 \newcommand{\imgref}[1]{\hyperref[img:#1]{Figure #1}}
@@ -57,11 +59,10 @@
 
 \mainmatter
 \fancyhf{}
-\fancyhead[LO]{{\scriptsize{\textbf{Chapter \thechapter}}\hspace*{1ex}\leftmark}}
-\fancyhead[RE]{{\scriptsize{\savedtitle\hspace*{1ex}\textbf{\savedauthor}}}}
-\fancyfoot[LE,RO]{\footnotesize\textbf\thepage}
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\fancyhead[LO]{{\small\leftmark}}
+\fancyhead[LE]{{\small\rightmark}}
+\fancyhead[R]{{\small\savedauthor\hspace*{1ex}\textbf{\savedtitle}}}
+\fancyfoot[LE,RO]{\small\textbf\thepage}
 \pagestyle{fancy}
 
 \input{content.tex}

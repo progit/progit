@@ -1,38 +1,30 @@
 # まずはじめに #
-# Getting Started #
 
 この章で Git への最初の一歩を踏み出しましょう. まずはじめに少しバージョン管理ツールについて説明します. そして Git を各 OS で走らせ, 適切に設定するところまでご案内します. この章の最後までに, Git が支持される所以, ご案内する利用方法の利点を理解しましょう.
-This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
 
 ## バージョン管理について ##
-## About Version Control ##
 
 バージョン管理とは, なぜ必要なのか. バージョン管理はファイルへの変更を時系列に記録するシステムで、後から特定の時系列バージョンを呼び出すことができます.例えば本書では, バージョン管理されたソフトウェア・ソースコードを扱いますが, 実際にはソースコードだけがバージョン管理の対象ではありません.
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
 
 もしあなたがグラフィックや Web のデザイナーで, 画像やレイアウトの中に全てのバージョンを保存しておきたいものがある場合, バージョン管理システム (以降 VCS と呼ぶ) はとても賢い選択です. VCS は, 特定のファイルでもプロジェクト全体でも, ある過去の時点に戻せます. 時系列の変更を比較し, 誰がバグの原因となる修正を施し, またバグを解消し, いつそれが行われたかを確認できます. 一般的に VCS はファイルの損傷や消失を簡単に元に戻せます. 加えてこれら全てにかかる手間はごくわずかなものです.
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
 
 ### ローカル・バージョン管理システム ###
-### Local Version Control Systems ###
 
 バージョン管理の手法として, ファイルを別ディレクトリにコピーするというのがあります(賢い方はディレクトリを時系列に分けているかも知れません). この方法は非常に一般的で, その単純明快さが選ばれる理由であり, 同時に途方もないエラーを生む傾向にあります. どのディレクトリが対象か簡単に忘れてしまいますし, 意図しないファイルに書き込んでしまったり, 間違ったファイルを上書きしてしまうこともあります.
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 
-この問題を解決するため, 昔プログラマーたちはローカルVCSを開発しました. 当時のそれは単純なデータベースによりファイルへの変更全てをリビジョン管理下に置くものでした(Figure 1-1). 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+この問題を解決するため, プログラマーたちはローカルVCSを開発しました. 当時のそれは単純なデータベースによりファイルへの変更全てをリビジョン管理下に置くものでした(図1-1). 
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram
+図1-1. ローカル・バージョン管理の図
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+もっとも有名な VCS ツールの一つに rcs と呼ばれるシステムがありました. これは今日でもまだ多くのコンピュータで使用されています. 有名な Mac OS X でさえも, 開発ツールをインストールすると rcs コマンドが含まれています. このツールは基本的に, 変更から変更を特別なディスク・フォーマットのパッチ・セット(これはファイルとは異なります)に記録して動きます. これはパッチに追加された全ての時点のファイルを再生成することができます.
 
-### Centralized Version Control Systems ###
+### 中央集権型バージョン管理システム ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+次に大きな課題として人々が直面したのが, 他システムを使う開発者たちとのコラボレーションです. これを解決するため, 中央集権型バージョン管理システム(以降 CVCS と呼ぶ)が開発されました. これら CVS や Subversion, Perforce といった CVCS は, 一つのサーバでファイル全てを管理し, 複数のクライアントがサーバからファイルをチェックアウトします. 長年これはバージョン管理のスタンダードでした(図1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram
+図1-2. 中央集権型バージョン管理の図
 
 This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
 

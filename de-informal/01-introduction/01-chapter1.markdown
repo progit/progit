@@ -70,3 +70,11 @@ Insert 18333fig0105.png
 Abbildung 1-5. Git speichert Daten als Snapshot (Momentaufnahme).
 
 Dies ist ein wichtiger Unterschied zwischen Git und fast allen anderen Versionskontrollsystemen. Git handelt so im Gegensatz zu Systemen der vorherigen Generation eher wie ein kleines Dateisystem mit einigen mitgelieferten nützlichen und mächtigen Werkzeugen. Wir kommen auf die Vorteile dieser Art von Datenbehandlung in Kapitel 3 nochmal zurück.
+
+### Fast jede Aktion ist lokal ###
+
+Die meisten Aktionen in Git brauchen lediglich lokale Dateien und Ressourcen um funktionieren zu können - normalerweise wird keine zusätzliche Informationen von anderen Computern im Netzwerk benötigt. Wenn du z.B. das Arbeiten mit CVS gewöhnt bist, wo die meisten Operationen eine gute Portion Netzwerk/Latenzoverhead mit sich bringen, wirst du für die Geschwindigkeit, die das Arbeiten mit Git mit sich bringt, den Göttern danken. Weil Du die gesamte Projekthistorie auf der lokalen Festplatte hast, geschehen die meisten Operationen fast ohne merkbaren Zeitverlust.
+
+Um beispielsweise die Projekthistorie ansehen zu können braucht Git nicht erst eine Verbindung zu einem Server herstellen und von dort diese Anfordern. Das bedeutet Du wirst sie sofort angezeigt bekommen. Selbiges gilt für die Anzeige von Änderungen zwischen verschiedenen Dateiversionen.
+
+Dies alles bringt den immensen Vorteil mit sich, dass es nur wenige Situationen gibt, in denen du Offline oder ohne VPN nicht arbeiten kannst. Wenn Du in einem Flugzeug oder in einem Zug sitzt und arbeiten möchtest, kannst du Änderungen committen ohne eine Netzwerkverbindung haben zu müssen. Wenn du Zuhause bist und keine VPN-Verbindung ins Büro oder die Uni hast, kannst du trotzdem arbeiten. Mit vielen anderen Systemen ist dies entweder unmöglich oder schrecklich umständlich.

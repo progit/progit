@@ -19,6 +19,7 @@ If you are a graphic or web designer and want to keep every version of an image 
 バージョン管理の手法として, ファイルを別ディレクトリにコピーするというのがあります(賢い方はディレクトリを時系列に分けているかも知れません). この方法は非常に一般的で, その単純明快さが選ばれる理由であり, 同時に途方もないエラーを生む傾向にあります. どのディレクトリが対象か簡単に忘れてしまいますし, 意図しないファイルに書き込んでしまったり, 間違ったファイルを上書きしてしまうこともあります.
 Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 
+この問題を解決するため, 昔プログラマーたちはローカルVCSを開発しました. 当時のそれは単純なデータベースによりファイルへの変更全てをリビジョン管理下に置くものでした(Figure 1-1). 
 To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
 
 Insert 18333fig0101.png 

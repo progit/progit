@@ -70,18 +70,31 @@ Git unterstützt eine Reihe unterschiedlicher Übertragungsprotokolle, die du ve
 
 ## Recording Changes to the Repository ##
 
+## Änderungen am Repository nachverfolgen ##
+
 You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+
+Du hast jetzt ein vollständiges und funktionierendes Git Repository und ein Checkout (xxx) (eine Arbeitskopie) der Dateien in diesem Projekt. Du willst jetzt Änderungen an diesen Dateien vornehmen und Snapshots (xxx) (Commits) der Dateien immer dann anlegen, wenn das Projekt einen Zustand erreicht, den du aufzeichnen willst.
 
 Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
 
+Jede Datei in deinem Arbeitsverzeichnis kann sich entweder unter Versionskontrolle stehen (xxx) oder nicht. Dateien, die sich im letzten Snapshot befanden, stehen unter Versionskontrolle. Sie können entweder unverändert, modifiziert oder für den nächsten Commit markiert sein. Alle anderen Dateien stehen nicht unter Versionskontrolle: das sind alle Dateien, die sich in deinem Arbeitsverzeichnis befinden, die aber nicht schon im letzten Snapshot vorhanden waren und die sich nicht in der Staging Area (xxx) befinden. Wenn Du ein Repository gerade geklont hast, sind alle Dateien unter Versionskontrolle und unverändert - du hast sie gerade ausgecheckt (xxx) aber noch nichts verändert.
+
 As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
+
+Sobald du Dateien bearbeitest, wird Git sie als modifiziert erkennen, weil du sie seit dem letzten Commit geändert hast. Du markierst diese geänderten Dateien für den nächsten Commit (d.h. du fügst sie zur Staging Area hinzu), legst aus allen markierten Änderungen einen Commit an und der Vorgang beginnt von vorn. Bild 2-1 stellt diesen Zyklus dar:
 
 Insert 18333fig0201.png 
 Fig 2-1. The lifecycle of the status of your files
+Bild 2-1. Zyklus der Grundzustände deiner Dateien
 
 ### Checking the Status of Your Files ###
 
+### Den Zustand deiner Dateien prüfen ###
+
 The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+
+Das wichtigste Werkzeug, um den Zustand zu überprüfen, in dem sich die Dateien in deinem Repository befinden, ist der Befehl `git status`. Wenn du diesen Befehl ausführst, unmittelbar nachdem du ein Repository geklont hast, solltest du in etwa Folgendes sehen:
 
 	$ git status
 	# On branch master
@@ -89,7 +102,11 @@ The main tool you use to determine which files are in which state is the git sta
 
 This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
 
+Man sagt auch, du hast ein sauberes Arbeitsverzeichnis. In anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und geändert sind - andernfalls würden sie hier aufgelistet werden. Außerdem teilt dir der Befehl mit, in welchem Branch (xxx) du dich befindest. In diesem Beispiel ist dies der Standard Branch `master` (xxx). Mach dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches und Referenzen detailliert eingehen.
+
 Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+
+Sagen wir du fügst eine neue Datei zu deinem Projekt hinzu: eine README Datei. Wenn die Datei zuvor nicht existiert hat und du jetzt `git status` ausführst, wirst die bisher nicht versionskontrollierte Datei wie folgt angezeigt werden:
 
 	$ vim README
 	$ git status
@@ -102,13 +119,21 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 
 You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
 
+Daran, daß deine neue README Datei in der Sektion "Untracked files" aufgelistet wird, siehst du, daß sie noch nicht versionskontrolliert wird. "Untracked" heißt, daß Git die Datei noch nicht aus dem letzten Snapshot kennt. Git nimmt eine solche Datei nicht von sich aus in die Versionskontrolle auf, sondern du mußt das ausdrücklich anfordern. Der Grund dafür ist, daß Git nicht einfache alle möglichen binären Dateien oder anderen Dateien hinzufügen soll, die du nicht in deinem Repository haben willst. Du willst aber jetzt deine neues README Datei zur Versionskontrolle hinzufügen, also mußt du das explit tun.
+
 ### Tracking New Files ###
 
+### Neue Dateien zur Versionskontrolle hinzufügen ###
+
 In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+
+Um eine neue Datei zur Versionskontrolle hinzuzufügen, verwendest du den Befehl `git add`. Für deine neue README Datei kannst du ihn wie folgt ausführen:
 
 	$ git add README
 
 If you run your status command again, you can see that your README file is now tracked and staged:
+
+Wenn du jetzt den `git status` Befehl erneut ausführst, siehst du, daß sich deine README Datei jetzt unter Versionskontrolle befindet und für den nächsten Commit vorgemerkt ist:
 
 	$ git status
 	# On branch master
@@ -119,6 +144,8 @@ If you run your status command again, you can see that your README file is now t
 	#
 
 You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+
+Daß die Datei für den nächsten Commit vorgemerkt ist, siehst du daran, daß sie in der Sektion "Changes to be committed" aufgelistet ist. Wenn du jetzt einen Commit anlegst, wird der Snapshot den Zustand der Datei beinhalten, in dem du den Befehl `git add` ausgeführt hast. Du erinnerst dich sicherlich daran, daß du, als du vorhin `git init` ausgeführt hast, anschließend `git add` ausgeführt hast: an dieser Stelle hast du die Dateien in deinem Verzeichnis der Versionskontrolle hinzugefügt. Der `git add` Befehl akzeptiert einen Pfadnamen einer Datei oder eines Verzeichnisses. Wenn du ein Verzeichnis angibst, fügt `git add` alle Dateien in diesem Verzeichnis und allen Unterverzeichnissen rekursiv hinzu.
 
 ### Staging Modified Files ###
 

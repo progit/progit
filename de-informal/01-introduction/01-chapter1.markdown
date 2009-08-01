@@ -78,3 +78,13 @@ Die meisten Aktionen in Git brauchen lediglich lokale Dateien und Ressourcen um 
 Um beispielsweise die Projekthistorie ansehen zu können braucht Git nicht erst eine Verbindung zu einem Server herstellen und von dort diese Anfordern. Das bedeutet Du wirst sie sofort angezeigt bekommen. Selbiges gilt für die Anzeige von Änderungen zwischen verschiedenen Dateiversionen.
 
 Dies alles bringt den immensen Vorteil mit sich, dass es nur wenige Situationen gibt, in denen du Offline oder ohne VPN nicht arbeiten kannst. Wenn Du in einem Flugzeug oder in einem Zug sitzt und arbeiten möchtest, kannst du Änderungen committen ohne eine Netzwerkverbindung haben zu müssen. Wenn du Zuhause bist und keine VPN-Verbindung ins Büro oder die Uni hast, kannst du trotzdem arbeiten. Mit vielen anderen Systemen ist dies entweder unmöglich oder schrecklich umständlich.
+
+### Git achtet auf Datenintegrität ###
+
+Bevor Git etwas speichert und weiterverarbeitet wird eine Checksumme erstellt. Diese Änderungen werden unter dieser Checksumme referenziert. Das bedeutet, dass es unmöglich ist den Inhalt von Dateien oder Verzeichnissen zu ändern ohne dass Git davon Wind bekommt. Diese Funktionalität ist bis in die untersten Ebenen von Git implementiert und ist essentiell für die Funktionalität. Du kannst keine Informationen während einer Datenübertragung oder aufgrund von Festplattenfehlern verlieren, ohne das Git das mitbekommt.
+
+Der Mechanismus mit dem in Git diese Checksummen erstellt werden wird "SHA-1 Hash" genannt. Dieser besteht aus einer 40-stelligen Zeichenkette welche aus Hexadezimalen Zeichen (0-9 und a-f) zusammengesetzt wird. Der Hash wird auf Basis der Inhalte einer Datei oder eines Verzeichnisses ermittelt. Ein SHA-1 Hash sieht zum Beispiel so aus:
+
+	24b9da6552252987aa493b52f8696cd6d3b00373
+
+Du wirst diese Hashwerte an nahezu jeder Stelle in Git finden, weil sie so extensiv genutzt werden. Tatsächlich speichert Git 

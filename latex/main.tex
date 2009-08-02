@@ -8,9 +8,12 @@
 	citecolor = black,
 	linkcolor = black]{hyperref}
 \usepackage{graphicx}
-\usepackage{pslatex}
+\usepackage{xltxtra}
 \usepackage{fancyhdr}
 \usepackage{booktabs}
+
+\setromanfont{DejaVu Serif}
+\setmonofont{DejaVu Sans Mono}
 
 \title{Pro Git}
 \author{Scott Chacon}
@@ -22,25 +25,24 @@
 \else\Gin@nat@width\fi}
 \makeatother
 
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[LO]{{\textsc{\scriptsize{\textbf{Chapter \thechapter}}\hspace*{1ex}\leftmark}}}
-\fancyhead[RE]{{\textsc{\scriptsize{\savedtitle\hspace*{1ex}\textbf{\savedauthor}}}}}
-\fancyfoot[LE,RO]{\footnotesize\textbf\thepage}
 \fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\footnotesize\textbf\thepage}}
-\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+\pagestyle{plain}
+
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
 \newcounter{img}[chapter]
+\renewcommand{\theimg}{\thechapter.\arabic{img}}
 \newcommand{\img}[1]{\begin{figure}[h!]
-	\caption{#1}
-	\label{img:\thefigure}
-	\centering\includegraphics[width=\maxwidth]{figures/\thefigure.png}
+	\refstepcounter{img}
+	\label{img:\theimg}
+	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}
+	\textbf{\caption{#1}}
 \end{figure}}
 
-\newcommand{\chap}[1]{\chapter{#1}\label{chap:\thechapter}}
+\renewcommand{\chaptermark}[1]{\markboth{\textbf{Chapter \thechapter}\hspace*{1ex}#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\textbf{Section \thesection}\hspace*{1ex}#1}}
+\newcommand{\chap}[1]{\newpage\thispagestyle{empty}\chapter{#1}\label{chap:\thechapter}}
 \newcommand{\chapref}[1]{\hyperref[chap:#1]{Chapter #1}}
 \newcommand{\imgref}[1]{\hyperref[img:#1]{Figure #1}}
 \newcommand{\tabref}[1]{\hyperref[tab:#1]{Table #1}}
@@ -49,9 +51,19 @@
 \linespread{1.03}
 
 \begin{document}
+\frontmatter
 \maketitle
-\pagenumbering{roman}
-\tableofcontents\newpage
-\pagenumbering{arabic}
+\thispagestyle{empty}
+\setcounter{tocdepth}{4}
+\tableofcontents\newpage\thispagestyle{empty}
+
+\mainmatter
+\fancyhf{}
+\fancyhead[LO]{{\small\leftmark}}
+\fancyhead[LE]{{\small\rightmark}}
+\fancyhead[R]{{\small\savedauthor\hspace*{1ex}\textbf{\savedtitle}}}
+\fancyfoot[LE,RO]{\small\textbf\thepage}
+\pagestyle{fancy}
+
 \input{content.tex}
 \end{document}

@@ -54,23 +54,23 @@ Insert 18333fig0103.png
 2005年に誕生してから, Git はその使いやすさとこれら基本品質を保持しながら発展しています. 驚くほど早く, 大規模プロジェクトでとても効率的で, 驚くべきブランチ・システムをノンリニア開発に与えています(第3章参照).
 
 ## Git の基本 ##
-## Git Basics ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+では, 小さな容器の中で Git は何なのでしょう. これは理解すべき重要な部分です. Git とは何か, そして基本的動作を理解すれば, Git を効果的に使うのがより簡単になるはずです. Git 学習のため, Subversion や Perforce など他の VCS は忘れて下さい. これはこのツールを使うときの混乱を避けるのに役立ちます. Git の情報の格納方法と考え方は他 VCS と大きく異なります. そうでありながらユーザインタフェースはかなり似ています. これら違いを理解することが使用時の混乱を防ぎます.
 
-### Snapshots, Not Differences ###
+### スナップショット != 相違 ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Git と他の VCS (Subversion とその類を含む)の代表的な相違は, Git のデータについての考え方です. 概念的に, 他システムのほとんどが情報をファイルごとの変更のリストとして格納します. これらシステム(CVS, Subversion, Perforce, Bazaar 等々)はシステムが保持するファイル群と各ファイルの時間ごとの変更を考えます. 図1-4に表しました.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+図1-4. 他システムはデータを各ファイルの元となるバージョンへの変更として格納します.
 
+Git は考え方もデータ格納方法も上記とは異なります. 代わりに Git は データをミニ・ファイルシステムのスナップショット群のように考えます. コミットする度, Git でプロジェクトの状態を保存する度, 全てのファイルがどのように見えるか, その瞬間の写真を撮るのです. そしてそのスナップショットへの参照を格納します. 効果的にするため, そのファイルは変更されません. Git は2度とそのファイルを格納しません. ちょうど以前の識別可能な格納済みファイルへのリンクのようなものです. Git はデータを図1-5のように考えます.
 Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+図1-5. Git は時間とともにプロジェクトのスナップショットをデータとして格納します.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+これは Git と ほぼそれ以外全ての VCS における相違です.  Git はほぼ全ての面で, 過去の世代からコピーされたほとんどのバージョン管理システムを見直しています. これは Git をミニ・ファイルシステムとその上に組み上げられた驚くほど力強いツールとしています. ただの VCS 以上のものにです. 第3章, Git ブランチを扱う時, データに対するこの考え方で得られる利益を見出せるでしょう.
 
 ### Nearly Every Operation Is Local ###
 

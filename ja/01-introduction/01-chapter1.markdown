@@ -17,18 +17,18 @@
 Insert 18333fig0101.png 
 図1-1. ローカル・バージョン管理の図
 
-もっとも有名な VCS ツールの一つに rcs と呼ばれるシステムがありました. これは今日でもまだ多くのコンピュータで使用されています. 有名な Mac OS X でさえも, 開発ツールをインストールすると rcs コマンドが含まれています. このツールは基本的に, 変更から変更を特別なディスク・フォーマットのパッチ・セット(これはファイルとは異なります)に記録して動きます. これはパッチに追加された全ての時点のファイルを再生成することができます.
+もっとも有名な VCS ツールの一つに RCS と呼ばれるシステムがありました. これは今日でもまだ多くのコンピュータで使用されています. 有名な Mac OS X でさえも, 開発ツールをインストールすると RCS コマンドが含まれています. このツールは基本的に, 変更から変更を特別なディスク・フォーマットのパッチ・セット(これはファイルとは異なります)に記録して動きます. これはパッチに追加された全ての時点のファイルを再生成することができます.
 
-### 中央集権型バージョン管理システム ###
+### 集中型バージョン管理システム ###
 
-次に大きな課題として人々が直面したのが, 他システムを使う開発者たちとのコラボレーションです. これを解決するため, 中央集権型バージョン管理システム(以降 CVCS と呼ぶ)が開発されました. これら CVS や Subversion, Perforce といった CVCS は, 一つのサーバでファイル全てを管理し, 複数のクライアントがサーバからファイルをチェックアウトします. 長年これはバージョン管理のスタンダードでした(図1-2).
+次に人々が直面した問題が, 他システムを使う開発者たちとのコラボレーションです. これを解決するため, 集中型バージョン管理システム(以降 CVCS と呼ぶ)が開発されました. CVS や Subversion, Perforce といった CVCS は, 一つのサーバで全てのファイルを管理し, 複数のクライアントがサーバからファイルをチェックアウトします. CVCS は長年バージョン管理のスタンダードでした(図1-2).
 
 Insert 18333fig0102.png 
-図1-2. 中央集権型バージョン管理の図
+図1-2. 集中型バージョン管理の図
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+CVCS にはローカル VCS 以上の, 多くの利点があります. 例えば, 誰でも自分以外がプロジェクトで何をしているのか正確に把握できます. 管理者はきめ細かく誰が何をするか管理できます. クライアントごとのローカルデータベースを処理するより CVCS で管理する方がはるかに簡単なのです.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+しかし, CVCS にはいくつか深刻な欠点があります. 最も明らかなのは集中型サーバで発生する単一障害点(SPOF)です. サーバが1時間でもダウンすれば, その間は誰ともコラボレーションできませんし, 作業中全ての変更をバージョン管理することもできません. 中央データベースのハードディスクに破損が生じ, 適切にバックアップされていなかった場合, 個々のローカルコンピュータが持つスナップショット以外のプロジェクト全体の変更履歴を失うことになります. ローカル VCS も同じ問題に脅かされています. つまり一カ所でプロジェクト全体の履歴を失えば全てを失うリスクがあるということです.
 
 ### Distributed Version Control Systems ###
 

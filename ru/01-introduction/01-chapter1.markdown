@@ -4,11 +4,11 @@
 
 ## О версионном контроле ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+Так что же такое версионный контроль и почему это должно вас волновать? Версионный контроль это система которая записывает изменения файла или набора файлов во времени, позволяя вам в последствии получить определенную версию. В качестве примеров контролируемых файлов в этой книге использутся исходнный код программ, хотя на практике версионный контроль может применяться для любых файлов.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+Если вы дизайнер или веб-дизайнер и хотите хранить каждую версию изображения или макета (что практически всегда вам необходимо) система контроля версий (Version Control System, VCS) разумный выбор для решения этой проблемы. Она позволит вам откатить файлы к их предыдущиму состоянию, откатить к предыдущему состоянию целый проект, просматривать сделанные изменения, просмотреть кто последний изменил что то, что могло привести к проблеме, кто и когда внес проблему и т.д. Использование VCS означает также, что если вы испортили или потеряли файлы, вы можете их легко восстановить. Кроме того, вы получаете это все за очень небольшие накладные расходы.
 
-### Local Version Control Systems ###
+### Локальные системы контроля версий. ###
 
 Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 

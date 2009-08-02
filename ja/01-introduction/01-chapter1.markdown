@@ -6,7 +6,7 @@
 
 バージョン管理とは, なぜ必要なのか. バージョン管理はファイルへの変更を時系列に記録するシステムで、後から特定の時系列バージョンを呼び出すことができます.例えば本書では, バージョン管理されたソフトウェア・ソースコードを扱いますが, 実際にはソースコードだけがバージョン管理の対象ではありません.
 
-もしあなたがグラフィックや Web のデザイナーで, 画像やレイアウトの中に全てのバージョンを保存しておきたいものがある場合, バージョン管理システム (以降 VCS と呼ぶ) はとても賢い選択です. VCS は, 特定のファイルでもプロジェクト全体でも, ある過去の時点に戻せます. 時系列の変更を比較し, 誰がバグの原因となる修正を施し, またバグを解消し, いつそれが行われたかを確認できます. 一般的に VCS はファイルの損傷や消失を簡単に元に戻せます. 加えてこれら全てにかかる手間はごくわずかなものです.
+もしあなたがグラフィックや Web のデザイナーで, 画像やレイアウトの中に全てのバージョンを保存しておきたいものがある場合, バージョン管理システム(以降 VCS と呼ぶ)はとても賢い選択です. VCS は, 特定のファイルでもプロジェクト全体でも, ある過去の時点に戻せます. 時系列の変更を比較し, 誰がバグの原因となる修正を施し, またバグを解消し, いつそれが行われたかを確認できます. 一般的に VCS はファイルの損傷や消失を簡単に元に戻せます. 加えてこれら全てにかかる手間はごくわずかなものです.
 
 ### ローカル・バージョン管理システム ###
 
@@ -30,29 +30,30 @@ CVCS にはローカル VCS 以上の, 多くの利点があります. 例えば
 
 しかし, CVCS にはいくつか深刻な欠点があります. 最も明らかなのは集中型サーバで発生する単一障害点(SPOF)です. サーバが1時間でもダウンすれば, その間は誰ともコラボレーションできませんし, 作業中全ての変更をバージョン管理することもできません. 中央データベースのハードディスクに破損が生じ, 適切にバックアップされていなかった場合, 個々のローカルコンピュータが持つスナップショット以外のプロジェクト全体の変更履歴を失うことになります. ローカル VCS も同じ問題に脅かされています. つまり一カ所でプロジェクト全体の履歴を失えば全てを失うリスクがあるということです.
 
-### Distributed Version Control Systems ###
+### 分散型バージョン管理システム ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+ここから分散型バージョン管理システム(以降 DVCS と呼ぶ)に入っていきましょう. DVCS (Git, Mercurial, Bazaar, Darcs 等々)では, クライアントはファイルの最新スナップショットをチェックアウトするだけではありません. リポジトリ全体をミラーリングします. 故にどのサーバがダウンしても, そのサーバを介してコラボレーションしていたシステムは, どれか一つのクライアントのリポジトリからサーバ復旧の為バックアップをコピーすることができます. 全てのチェックアウトは全データの完全バックアップなのです(図1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+図1-3. 分散型バージョン管理システムの図
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+加えて, これら DVCS の多くが, 連携する複数のリモート・リポジトリを持ちながら上手く機能します. おかげで同じプロジェクトの中で, 様々の方法を一度に異なった集団でコラボレーションさせることができるのです. DVCS は 集中型システムでは不可能だったいくつかの作業手順も可能にします. 例えば階層型モデルがそうです.
 
-## A Short History of Git ##
+## Git の簡単な歴史 ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+人生における多くの素晴らしい出来事のように, Git はわずかな創造的破壊と情熱的論争から始まりました. Linux カーネルは非常に巨大なオープンソース・ソフトウェア・プロジェクトです. Linux カーネル保守の生涯のほとんど(1991-2002年)で, ソフトウェアへの変更はパッチとして配布されファイルに保管されました. 2002年, Linux カーネル・プロジェクトはプロプライエタリの DVCS である BitKeeper を使い始めました.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+2005年, Linux カーネルの開発コミュニティと BitKeeper 開発会社との関係が砕けました. BitKeeper の無償利用が取り消されたのです. これは Linux 開発コミュニティ(と特に Linux 開発者 Linus Torvalds)に, BitKeeper から得た教訓を踏まえた専用のツール開発を促しました. 新たなシステムのゴールにすえられたもののうちいくつかは以下の通りです:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	スピード
+*	シンプル・デザイン
+*	ノンリニア開発(数千の並列ブランチ)への強力なサポート
+*	完全な分散型
+*	Linux カーネルのような大規模プロジェクトを(スピードとデータサイズで)効率的に処理可能
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+2005年に誕生してから, Git はその使いやすさとこれら基本品質を保持しながら発展しています. 驚くほど早く, 大規模プロジェクトでとても効率的で, 驚くべきブランチ・システムをノンリニア開発に与えています(第3章参照).
 
+## Git の基本 ##
 ## Git Basics ##
 
 So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.

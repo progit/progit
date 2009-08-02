@@ -65,7 +65,6 @@ Insert 18333fig0104.png
 図1-4. 他システムはデータを各ファイルの元となるバージョンへの変更として格納します.
 
 Git は考え方もデータ格納方法も上記とは異なります. 代わりに Git は データをミニ・ファイルシステムのスナップショット群のように考えます. コミットする度, Git でプロジェクトの状態を保存する度, 全てのファイルがどのように見えるか, その瞬間の写真を撮るのです. そしてそのスナップショットへの参照を格納します. 効果的にするため, そのファイルは変更されません. Git は2度とそのファイルを格納しません. ちょうど以前の識別可能な格納済みファイルへのリンクのようなものです. Git はデータを図1-5のように考えます.
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
 
 Insert 18333fig0105.png 
 図1-5. Git は時間とともにプロジェクトのスナップショットをデータとして格納します.

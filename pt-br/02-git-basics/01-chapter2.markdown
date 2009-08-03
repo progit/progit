@@ -47,7 +47,7 @@ Remember that each file in your working directory can be in one of two states: t
 As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
 
 Insert 18333fig0201.png 
-Fig 2-1. The lifecycle of the status of your files
+Figure 2-1. The lifecycle of the status of your files
 
 ### Checking the Status of Your Files ###
 

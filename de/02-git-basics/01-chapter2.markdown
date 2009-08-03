@@ -1,20 +1,36 @@
 # Git Basics #
 
+# Git Grundlagen #
+
 If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+
+Wenn Du nur ein einziges Kapitel aus diesem Buch lesen willst, um mit Git loszulegen, dann lies dieses hier. Wir werden auf jeden grundlegenden Git Befehl eingehen, den du für den allergrößten Teil deiner täglichen Arbeit mit Git brauchst. Am Ende des Kapitels solltest du in der Lage sein, ein neues Repository (xxx) anzulegen und zu konfigurieren, damit Dateien zur Versionskontrolle hinzuzufügen und wieder aus ihr zu entfernen, Änderungen für einen Commit zu markieren und schließlich einen Commit durchzuführen. Wir werden außerdem besprechen, wie du Git so konfigurieren kannst, daß es bestimmte Dateien und Datei Patterns (xxx) zu ignorieren, wie Du Fehler schnell und einfach rückgängig machen, die Historie deines Projektes durchsuchen und Änderungen zwischen bestimmten Commits nachschlagen, und wie du in entfernte Repositories herauf- und von dort herunterladen kannst.
 
 ## Getting a Git Repository ##
 
+## Ein Git Repository anlegen ##
+
 You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+
+Es gibt grundsätzlich zwei Wege, ein Git Repository auf dem eigenen Rechner anzulegen. Im ersten Fall nimmt man ein existierendes Projekt oder Verzeichnis und initialisiert es als ein Git Repository. Im zweiten Fall klont man ein existierendes Repository von einem anderen Rechner, der als Server fungiert.
 
 ### Initializing a Repository in an Existing Directory ###
 
+### Ein existierendes Verzeichnis als Git Repository initialisieren ###
+
 If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+
+Wenn du ein existierendes Projekt auf Deinem Rechner mit Git nachverfolgen willst, kannst du dazu in das jeweilige Verzeichnis gehen und diesen Befehl ausführen:
 
 	$ git init
 
 This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
 
+Dies erzeugt ein Git Verzeichnis .git, in dem alle relevanten Git Repository Dateien enthalten sind - ein Git Repository Grundgerüst also. Zu diesem Zeitpunkt werden aber noch keine Dateien nachverfolgt. (In Kapitel 9 werden wir genauer darauf eingehen, welche Dateien im .git Verzeichnis gerade erzeugt wurden.)
+
 If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
+
+Wenn in deinem Projekt bereits Dateien vorhanden sind (und es sich nicht nur um ein leeres Verzeichnis handelt), willst du diese vermutlich zur Versionskontrolle hinzufügen, damit du Änderungen daran künftig nachverfolgen kannst. Du kannst das mit den folgenden Git Befehlen tun, die Dateien zur Versionskontrolle hinzufügen und anschließend einen ersten Commit anlegen:
 
 	$ git add *.c
 	$ git add README
@@ -22,36 +38,63 @@ If you want to start version-controlling existing files (as opposed to an empty 
 
 We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
 
+Wir werden gleich noch einmal genauer auf diese Befehle eingehen. Im Moment ist nur wichtig zu verstehen, daß du jetzt ein neues, funktionierendes Git Repository erzeugt und einen ersten Commit angelegt hast.
+
 ### Cloning an Existing Repository ###
+
+### Ein existierendes Repository klonen ###
 
 If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
 
+Wenn du eine Kopie eines existierenden Git Repositories anlegen willst - z.B. um an einem existierenden Projekt mitzuarbeiten - dann kannst du dazu den Befehl `git clone` verwenden. Wenn du schon mit anderen VCS Sytemen wie Subversion gearbeitet hast, wird dir auffallen, daß der Befehl `clone` heißt und nicht `checkout`. Dies ist ein wichtiger Unterschied, den du verstehen solltest. Git holt eine Kopie praktisch aller Daten, die sich in dem Repository befinden, das du klonst. Mit `git clone` wird jede einzelne Version jeder einzelnen Datei in der Historie des Repositories heruntergeladen. Wenn ein Repository auf einem Server einmal beschädigt wird (z.B. weil die Festplatte beschädigt wird xxx), kann man tatsächlich jeden beliebigen Klon des Repositories verwenden, um das Repository auf dem Server wieder in dem Zustand wieder herzustellen, in dem es sich befand, als es geklont wurde. (Es kann passieren, daß man einige Hooks xxx auf dem Server verliert, aber alle versionierten Daten bleiben erhalten. In Kapitel 4 gehen wir darauf noch einmal genauer ein.)
+
 You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
+
+Du kannst ein Repository mit dem Befehl `git clone [url]` klonen. Um beispielsweise das Repository der Ruby Git Bibliothek Grit zu klonen, führst du den folgenden Befehl aus:
 
 	$ git clone git://github.com/schacon/grit.git
 
 That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
 
+Das erzeugt ein Verzeichnis `grit`, initialisiert ein `.git` Verzeichnis darin, lädt alle Daten für das Repository herunter, und checkt (xxx) eine Arbeitskopie der letzten Version aus. Wenn Du in das neue `grit` Verzeichnis gehst, siehst du die in diesem Projekt enthaltenen Dateien und kannst sie benutzen oder bearbeiten. Wenn du das Repository in ein Verzeichnis mit einem anderen Namen als `grit` klonen willst, kannst du das wie folgt angeben:
+
 	$ git clone git://github.com/schacon/grit.git mygrit
 
 That command does the same thing as the previous one, but the target directory is called mygrit.
 
+Dieser Befehl tut das gleiche wie der vorhergehende, aber das Zielverzeichnis ist diesmal `mygrit`.
+
 Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
+
+Git unterstützt eine Reihe unterschiedlicher Übertragungsprotokolle, die du verwenden kannst. Das vorhergehende Beispiel verwendet das `git://` Protokoll, aber du wirst auch `http(s)://` oder `user@server:/path.git` begegnen, die das SSH Protokoll verwenden. In Kapitel 4 werden wir die verschiedenen Optionen besprechen, die ein Server hat, um Zugriff auf ein Git Repository zu erlauben - ebenso wie ihre jeweiligen Vor- und Nachteile.
 
 ## Recording Changes to the Repository ##
 
+## Änderungen am Repository nachverfolgen ##
+
 You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+
+Du hast jetzt ein vollständiges und funktionierendes Git Repository und ein Checkout (xxx) (eine Arbeitskopie) der Dateien in diesem Projekt. Du willst jetzt Änderungen an diesen Dateien vornehmen und Snapshots (xxx) (Commits) der Dateien immer dann anlegen, wenn das Projekt einen Zustand erreicht, den du aufzeichnen willst.
 
 Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
 
+Jede Datei in deinem Arbeitsverzeichnis kann sich entweder unter Versionskontrolle stehen (xxx) oder nicht. Dateien, die sich im letzten Snapshot befanden, stehen unter Versionskontrolle. Sie können entweder unverändert, modifiziert oder für den nächsten Commit markiert sein. Alle anderen Dateien stehen nicht unter Versionskontrolle: das sind alle Dateien, die sich in deinem Arbeitsverzeichnis befinden, die aber nicht schon im letzten Snapshot vorhanden waren und die sich nicht in der Staging Area (xxx) befinden. Wenn Du ein Repository gerade geklont hast, sind alle Dateien unter Versionskontrolle und unverändert - du hast sie gerade ausgecheckt (xxx) aber noch nichts verändert.
+
 As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
 
+Sobald du Dateien bearbeitest, wird Git sie als modifiziert erkennen, weil du sie seit dem letzten Commit geändert hast. Du markierst diese geänderten Dateien für den nächsten Commit (d.h. du fügst sie zur Staging Area hinzu), legst aus allen markierten Änderungen einen Commit an und der Vorgang beginnt von vorn. Bild 2-1 stellt diesen Zyklus dar:
+
 Insert 18333fig0201.png 
-Figure 2-1. The lifecycle of the status of your files
+Fig 2-1. The lifecycle of the status of your files
+Bild 2-1. Zyklus der Grundzustände deiner Dateien
 
 ### Checking the Status of Your Files ###
 
+### Den Zustand deiner Dateien prüfen ###
+
 The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+
+Das wichtigste Werkzeug, um den Zustand zu überprüfen, in dem sich die Dateien in deinem Repository befinden, ist der Befehl `git status`. Wenn du diesen Befehl ausführst, unmittelbar nachdem du ein Repository geklont hast, solltest du in etwa Folgendes sehen:
 
 	$ git status
 	# On branch master
@@ -59,7 +102,11 @@ The main tool you use to determine which files are in which state is the git sta
 
 This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
 
+Man sagt auch, du hast ein sauberes Arbeitsverzeichnis. In anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und geändert sind - andernfalls würden sie hier aufgelistet werden. Außerdem teilt dir der Befehl mit, in welchem Branch (xxx) du dich befindest. In diesem Beispiel ist dies der Standard Branch `master` (xxx). Mach dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches und Referenzen detailliert eingehen.
+
 Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+
+Sagen wir du fügst eine neue Datei zu deinem Projekt hinzu: eine README Datei. Wenn die Datei zuvor nicht existiert hat und du jetzt `git status` ausführst, wirst die bisher nicht versionskontrollierte Datei wie folgt angezeigt werden:
 
 	$ vim README
 	$ git status
@@ -72,13 +119,21 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 
 You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
 
+Daran, daß deine neue README Datei in der Sektion "Untracked files" aufgelistet wird, siehst du, daß sie noch nicht versionskontrolliert wird. "Untracked" heißt, daß Git die Datei noch nicht aus dem letzten Snapshot kennt. Git nimmt eine solche Datei nicht von sich aus in die Versionskontrolle auf, sondern du mußt das ausdrücklich anfordern. Der Grund dafür ist, daß Git nicht einfache alle möglichen binären Dateien oder anderen Dateien hinzufügen soll, die du nicht in deinem Repository haben willst. Du willst aber jetzt deine neues README Datei zur Versionskontrolle hinzufügen, also mußt du das explit tun.
+
 ### Tracking New Files ###
 
+### Neue Dateien zur Versionskontrolle hinzufügen ###
+
 In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+
+Um eine neue Datei zur Versionskontrolle hinzuzufügen, verwendest du den Befehl `git add`. Für deine neue README Datei kannst du ihn wie folgt ausführen:
 
 	$ git add README
 
 If you run your status command again, you can see that your README file is now tracked and staged:
+
+Wenn du jetzt den `git status` Befehl erneut ausführst, siehst du, daß sich deine README Datei jetzt unter Versionskontrolle befindet und für den nächsten Commit vorgemerkt ist:
 
 	$ git status
 	# On branch master
@@ -89,6 +144,8 @@ If you run your status command again, you can see that your README file is now t
 	#
 
 You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+
+Daß die Datei für den nächsten Commit vorgemerkt ist, siehst du daran, daß sie in der Sektion "Changes to be committed" aufgelistet ist. Wenn du jetzt einen Commit anlegst, wird der Snapshot den Zustand der Datei beinhalten, in dem du den Befehl `git add` ausgeführt hast. Du erinnerst dich sicherlich daran, daß du, als du vorhin `git init` ausgeführt hast, anschließend `git add` ausgeführt hast: an dieser Stelle hast du die Dateien in deinem Verzeichnis der Versionskontrolle hinzugefügt. Der `git add` Befehl akzeptiert einen Pfadnamen einer Datei oder eines Verzeichnisses. Wenn du ein Verzeichnis angibst, fügt `git add` alle Dateien in diesem Verzeichnis und allen Unterverzeichnissen rekursiv hinzu.
 
 ### Staging Modified Files ###
 

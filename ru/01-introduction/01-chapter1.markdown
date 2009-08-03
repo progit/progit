@@ -10,14 +10,14 @@
 
 ### Локальные системы контроля версий. ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+Распространенным методом версионного контроля является простое копирование файлов в другую папку (самые продвинутые добавляют дату в название папки). Это решение в силу своей простоты весьма распространено, однако зачастую ведет к ошибкам. Забыв в каком каталоге вы сейчас находитесь можно случайно сохранить не в тот файл или скопировать не те файлы которые вы хотели.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Для решения этой проблемы много лет назад были разработаны локальные VCS, которые хранили все изменения контролируемых файлов в своей базе данных (см. рисунок 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram
+Рисунок 1-1. Схема локальной VCS
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+Одной из наиболее популярных VCS данного типа является rcs, которая до сих пор устанавливается на многие компьютеры. Даже в современной операционной системе Mac OS X утилита rcs устанавливается вместе с Developer Tools. Эта улилита основана на работе с наборами патчей (которые являются различием между файлами) между двумя изменениями, хранимыми в специальном формате на диске. it can then re-create what any file looked like at any point in time by adding up all the patches.
 
 ### Centralized Version Control Systems ###
 

@@ -17,18 +17,18 @@
 Insert 18333fig0101.png 
 Рисунок 1-1. Схема локальной VCS
 
-Одной из наиболее популярных VCS данного типа является rcs, которая до сих пор устанавливается на многие компьютеры. Даже в современной операционной системе Mac OS X утилита rcs устанавливается вместе с Developer Tools. Эта улилита основана на работе с наборами патчей (которые являются различием между файлами) между двумя изменениями, хранимыми в специальном формате на диске. it can then re-create what any file looked like at any point in time by adding up all the patches.
+Одной из наиболее популярных VCS данного типа является rcs, которая до сих пор устанавливается на многие компьютеры. Даже в современной операционной системе Mac OS X утилита rcs устанавливается вместе с Developer Tools. Эта улилита основана на работе с наборами патчей (являющимися различием между файлами) между двумя изменениями, хранимыми в специальном формате на диске. Это позволяет пересоздать любой файл на любой момент времени последовательно накладывая патчи.
 
-### Centralized Version Control Systems ###
+### Централизованные системы контроля версий ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Следующей глобальной проблемой оказалась нобходимость взаимодействия с разработчиками других систем. Чтобы решить эту проблему были созданы Централизованные Системы Контроля Версий (Centralized Version Control Systems, CVCSs). Такие системы как CVS, Subversion, and Perforce, обладают одним сервером хранящим все версии файлов и множеством клиентов, которые получают рабочие копии файлов из этого центрального хранилища. На многие годы это стало стандартным подходм к версионному контролю (см. рис. 1-2). 
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram
+Рисунок 1-2. Схема централизованного контроля версий
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Такой подход имеет множество преимуществ, особенно для локальных VCS. К примеру все знают кто и чем занимается на проекте. Администраторы имеют четкий контроль над тем кто и что может делать, и, конечно, гораздо легче администрировать CVSC, чем локальные базы на каждом клиенте.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Однако есть и несколько серьезных недостатков при таком подходе. Наиболее очевидный - централизованый сервер является уязвимым местом всей системы. Если этот сервер выключается на час, то в течение часа не происходит взаимодействие между разработчиками и никто не может сохранить новые версии. Если ж повреждается диск с центральной базой данных, и нет резервной копии вы теряете абсолютно все - всю историю проекта, за исключением разве что нескольких рабочих версий сохранившихся на рабочих машинах пользователей. Локальные системы контроля верчий подвержены той же проблеме, однако если вся история проекта хранится в одном месте вы рискуете потерять все. 
 
 ### Distributed Version Control Systems ###
 

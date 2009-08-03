@@ -92,7 +92,7 @@ def post_pandoc(string, config)
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
 
 		# Ensure monospaced stuff is in a smaller font
-		s /(\\verb!.*?!)/m, '{\footnotesize\1}'
+		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
 
 		# Convert inline-verbatims into \texttt (which is able to wrap)

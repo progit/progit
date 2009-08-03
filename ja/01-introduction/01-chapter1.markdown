@@ -6,7 +6,7 @@
 
 バージョン管理とは, なぜ必要なのか. バージョン管理はファイルへの変更を時系列に記録するシステムで、後から特定の時系列バージョンを呼び出すことができます.例えば本書では, バージョン管理されたソフトウェア・ソースコードを扱いますが, 実際にはソースコードだけがバージョン管理の対象ではありません.
 
-もしあなたがグラフィックや Web のデザイナーで, 画像やレイアウトの中に全てのバージョンを保存しておきたいものがある場合, バージョン管理システム (以降 VCS と呼ぶ) はとても賢い選択です. VCS は, 特定のファイルでもプロジェクト全体でも, ある過去の時点に戻せます. 時系列の変更を比較し, 誰がバグの原因となる修正を施し, またバグを解消し, いつそれが行われたかを確認できます. 一般的に VCS はファイルの損傷や消失を簡単に元に戻せます. 加えてこれら全てにかかる手間はごくわずかなものです.
+もしあなたがグラフィックや Web のデザイナーで, 画像やレイアウトの中に全てのバージョンを保存しておきたいものがある場合, バージョン管理システム(以降 VCS と呼ぶ)はとても賢い選択です. VCS は, 特定のファイルでもプロジェクト全体でも, ある過去の時点に戻せます. 時系列の変更を比較し, 誰がバグの原因となる修正を施し, またバグを解消し, いつそれが行われたかを確認できます. 一般的に VCS はファイルの損傷や消失を簡単に元に戻せます. 加えてこれら全てにかかる手間はごくわずかなものです.
 
 ### ローカル・バージョン管理システム ###
 
@@ -17,59 +17,59 @@
 Insert 18333fig0101.png 
 図1-1. ローカル・バージョン管理の図
 
-もっとも有名な VCS ツールの一つに rcs と呼ばれるシステムがありました. これは今日でもまだ多くのコンピュータで使用されています. 有名な Mac OS X でさえも, 開発ツールをインストールすると rcs コマンドが含まれています. このツールは基本的に, 変更から変更を特別なディスク・フォーマットのパッチ・セット(これはファイルとは異なります)に記録して動きます. これはパッチに追加された全ての時点のファイルを再生成することができます.
+もっとも有名な VCS ツールの一つに RCS と呼ばれるシステムがありました. これは今日でもまだ多くのコンピュータで使用されています. 有名な Mac OS X でさえも, 開発ツールをインストールすると RCS コマンドが含まれています. このツールは基本的に, 変更から変更を特別なディスク・フォーマットのパッチ・セット(これはファイルとは異なります)に記録して動きます. これはパッチに追加された全ての時点のファイルを再生成することができます.
 
-### 中央集権型バージョン管理システム ###
+### 集中型バージョン管理システム ###
 
-次に大きな課題として人々が直面したのが, 他システムを使う開発者たちとのコラボレーションです. これを解決するため, 中央集権型バージョン管理システム(以降 CVCS と呼ぶ)が開発されました. これら CVS や Subversion, Perforce といった CVCS は, 一つのサーバでファイル全てを管理し, 複数のクライアントがサーバからファイルをチェックアウトします. 長年これはバージョン管理のスタンダードでした(図1-2).
+次に人々が直面した問題が, 他システムを使う開発者たちとのコラボレーションです. これを解決するため, 集中型バージョン管理システム(以降 CVCS と呼ぶ)が開発されました. CVS や Subversion, Perforce といった CVCS は, 一つのサーバで全てのファイルを管理し, 複数のクライアントがサーバからファイルをチェックアウトします. CVCS は長年バージョン管理のスタンダードでした(図1-2).
 
 Insert 18333fig0102.png 
-図1-2. 中央集権型バージョン管理の図
+図1-2. 集中型バージョン管理の図
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+CVCS にはローカル VCS 以上の, 多くの利点があります. 例えば, 誰でも自分以外がプロジェクトで何をしているのか正確に把握できます. 管理者はきめ細かく誰が何をするか管理できます. クライアントごとのローカルデータベースを処理するより CVCS で管理する方がはるかに簡単なのです.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+しかし, CVCS にはいくつか深刻な欠点があります. 最も明らかなのは集中型サーバで発生する単一障害点(SPOF)です. サーバが1時間でもダウンすれば, その間は誰ともコラボレーションできませんし, 作業中全ての変更をバージョン管理することもできません. 中央データベースのハードディスクに破損が生じ, 適切にバックアップされていなかった場合, 個々のローカルコンピュータが持つスナップショット以外のプロジェクト全体の変更履歴を失うことになります. ローカル VCS も同じ問題に脅かされています. つまり一カ所でプロジェクト全体の履歴を失えば全てを失うリスクがあるということです.
 
-### Distributed Version Control Systems ###
+### 分散型バージョン管理システム ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+ここから分散型バージョン管理システム(以降 DVCS と呼ぶ)に入っていきましょう. DVCS (Git, Mercurial, Bazaar, Darcs 等々)では, クライアントはファイルの最新スナップショットをチェックアウトするだけではありません. リポジトリ全体をミラーリングします. 故にどのサーバがダウンしても, そのサーバを介してコラボレーションしていたシステムは, どれか一つのクライアントのリポジトリからサーバ復旧の為バックアップをコピーすることができます. 全てのチェックアウトは全データの完全バックアップなのです(図1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+図1-3. 分散型バージョン管理システムの図
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+加えて, これら DVCS の多くが, 連携する複数のリモート・リポジトリを持ちながら上手く機能します. おかげで同じプロジェクトの中で, 様々の方法を一度に異なった集団でコラボレーションさせることができるのです. DVCS は 集中型システムでは不可能だったいくつかの作業手順も可能にします. 例えば階層型モデルがそうです.
 
-## A Short History of Git ##
+## Git の簡単な歴史 ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+人生における多くの素晴らしい出来事のように, Git はわずかな創造的破壊と情熱的論争から始まりました. Linux カーネルは非常に巨大なオープンソース・ソフトウェア・プロジェクトです. Linux カーネル保守の生涯のほとんど(1991-2002年)で, ソフトウェアへの変更はパッチとして配布されファイルに保管されました. 2002年, Linux カーネル・プロジェクトはプロプライエタリの DVCS である BitKeeper を使い始めました.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+2005年, Linux カーネルの開発コミュニティと BitKeeper 開発会社との関係が砕けました. BitKeeper の無償利用が取り消されたのです. これは Linux 開発コミュニティ(と特に Linux 開発者 Linus Torvalds)に, BitKeeper から得た教訓を踏まえた専用のツール開発を促しました. 新たなシステムのゴールにすえられたもののうちいくつかは以下の通りです:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	スピード
+*	シンプル・デザイン
+*	ノンリニア開発(数千の並列ブランチ)への強力なサポート
+*	完全な分散型
+*	Linux カーネルのような大規模プロジェクトを(スピードとデータサイズで)効率的に処理可能
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+2005年に誕生してから, Git はその使いやすさとこれら基本品質を保持しながら発展しています. 驚くほど早く, 大規模プロジェクトでとても効率的で, 驚くべきブランチ・システムをノンリニア開発に与えています(第3章参照).
 
-## Git Basics ##
+## Git の基本 ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+では, 小さな容器の中で Git は何なのでしょう. これは理解すべき重要な部分です. Git とは何か, そして基本的動作を理解すれば, Git を効果的に使うのがより簡単になるはずです. Git 学習のため, Subversion や Perforce など他の VCS は忘れて下さい. これはこのツールを使うときの混乱を避けるのに役立ちます. Git の情報の格納方法と考え方は他 VCS と大きく異なります. そうでありながらユーザインタフェースはかなり似ています. これら違いを理解することが使用時の混乱を防ぎます.
 
-### Snapshots, Not Differences ###
+### スナップショット != 相違 ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Git と他の VCS (Subversion とその類を含む)の代表的な相違は, Git のデータについての考え方です. 概念的に, 他システムのほとんどが情報をファイルごとの変更のリストとして格納します. これらシステム(CVS, Subversion, Perforce, Bazaar 等々)はシステムが保持するファイル群と各ファイルの時間ごとの変更を考えます. 図1-4に表しました.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+図1-4. 他システムはデータを各ファイルの元となるバージョンへの変更として格納します.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git は考え方もデータ格納方法も上記とは異なります. 代わりに Git は データをミニ・ファイルシステムのスナップショット群のように考えます. コミットする度, Git でプロジェクトの状態を保存する度, 全てのファイルがどのように見えるか, その瞬間の写真を撮るのです. そしてそのスナップショットへの参照を格納します. 効果的にするため, そのファイルは変更されません. Git は2度とそのファイルを格納しません. ちょうど以前の識別可能な格納済みファイルへのリンクのようなものです. Git はデータを図1-5のように考えます.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+図1-5. Git は時間とともにプロジェクトのスナップショットをデータとして格納します.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+これは Git と ほぼそれ以外全ての VCS における相違です.  Git はほぼ全ての面で, 過去の世代からコピーされたほとんどのバージョン管理システムを見直しています. これは Git をミニ・ファイルシステムとその上に組み上げられた驚くほど力強いツールとしています. ただの VCS 以上のものにです. 第3章, Git ブランチを扱う時, データに対するこの考え方で得られる利益を見出せるでしょう.
 
 ### Nearly Every Operation Is Local ###
 
@@ -163,12 +163,12 @@ Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
 
-http://code.google.com/p/git-osx-installer
+	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
 Figure 1-7. Git OS X installer
 
-The other major way is to install Git via MacPorts (http://www.macports.org). If you have MacPorts installed, install Git via
+The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
@@ -192,7 +192,7 @@ Git comes with a tool called git config that lets you get and set configuration 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
 *	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (C:\Documents and Settings\$USER for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
 ### Your Identity ###
 

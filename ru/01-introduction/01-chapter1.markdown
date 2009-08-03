@@ -1,23 +1,23 @@
-# Iniciando-se no GIT. #
+# Введение #
 
-Esse capítulo tratará sobre como iniciar-se no GIT. Nós iremos começar explicando alguns conceitos de ferramentas de controle de versão,então continuaremos em como instalar o GIT no seu sistema e finalmente como conseguir configurá-lo. Ao final desse capítulo você entenderá porque o GIT está por aí, porque usá-lo e como usá-lo.
+Эта глава расскажет вам о том, как начать работу с Git.  Мы начнем с рассмотрения некоторых основ версионного контроля, затем рассмотрим как запустить Git на вашей системе, и, наконец, как настроить его для начала работы.  В конце этой главы вы поймете почему Git так популярен, почему вам следует его использовать и что необходимо для этого сделать. 
 
-## Sobre Controle de Versão ##
+## О версионном контроле ##
 
-O que é controle de versão? Por que você deve se importar? O controle de versão é um sistema que registra as mudanças feitas em um arquivo ou um grupo de arquivos com o passar do tempo de forma que você possa rever versões específicas. Nos exemplos desse livro você colocará arquivos de código fonte sob controle de versão, embora você pudesse fazê-lo com praticamente qualquer tipo de arquivo de um computador.
+Так что же такое версионный контроль и почему это должно вас волновать? Версионный контроль это система которая записывает изменения файла или набора файлов во времени, позволяя вам в последствии получить определенную версию. В качестве примеров контролируемых файлов в этой книге использутся исходнный код программ, хотя на практике версионный контроль может применяться для любых файлов.
 
-Se você é um designer gráfico ou um web designer e quer manter todas as versões de uma imagem ou layout (o que você deve querer, com certeza), É uma decisão sábia usar um Sistema de Controle de Versão ou Version Control System (VCS). Ele permitirá reverter arquivos ou um projeto inteiro a um estado anterior. Comparar mudanças que foram feitas ao decorrer do tempo, ver quem foi o último a modificar alguma coisa que pode estar causando problemas, quem introduziu um bug, e quando, e muito mais. Usar um VCS normalmente significa que se você estragou algo ou perdeu arquivos, poderá facilmente reavê-los. Além disso, você pode controlar tudo sem maiores esforços.
+Если вы дизайнер или веб-дизайнер и хотите хранить каждую версию изображения или макета (что практически всегда вам необходимо) система контроля версий (Version Control System, VCS) разумный выбор для решения этой проблемы. Она позволяет откатить файлы к их предыдущиму состоянию, откатить к предыдущему состоянию целый проект, просматривать сделанные изменения, просмотреть кто последний изменил что то, что могло привести к проблеме, кто и когда внес проблему и т.д. Использование VCS означает также, что если вы испортили или потеряли файлы, вы можете их легко восстановить. Кроме того, вы получаете это все за очень небольшие накладные расходы.
 
-### Sistemas de Controle de Versão Locais ###
+### Локальные системы контроля версий. ###
 
-O método mais escolhido por muitas pessoas de controlar versões é copiar arquivos e guardá-los em outro diretório (talvez um diretório com data/hora, se forem espertos). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+Распространенным методом версионного контроля является простое копирование файлов в другую папку (самые продвинутые добавляют дату в название папки). Это решение в силу своей простоты весьма распространено, однако зачастую ведет к ошибкам. Забыв в каком каталоге вы сейчас находитесь можно случайно сохранить не в тот файл или скопировать не те файлы которые вы хотели.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Для решения этой проблемы много лет назад были разработаны локальные VCS, которые хранили все изменения контролируемых файлов в своей базе данных (см. рисунок 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram
+Рисунок 1-1. Схема локальной VCS
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like any point in time by adding up all the patches.
+Одной из наиболее популярных VCS данного типа является rcs, которая до сих пор устанавливается на многие компьютеры. Даже в современной операционной системе Mac OS X утилита rcs устанавливается вместе с Developer Tools. Эта улилита основана на работе с наборами патчей (которые являются различием между файлами) между двумя изменениями, хранимыми в специальном формате на диске. it can then re-create what any file looked like at any point in time by adding up all the patches.
 
 ### Centralized Version Control Systems ###
 
@@ -91,7 +91,7 @@ You will see these hash values all over the place in Git because it uses them so
 
 ### Git Generally Only Adds Data ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is undoable or make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
 
 This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
 
@@ -116,7 +116,7 @@ The basic Git workflow goes something like this:
 2.	You stage the files, adding snapshots of them to your staging area.
 3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
 
-If a particular version of a file is in the git directory, it’t considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
 ## Installing Git ##
 
@@ -157,18 +157,18 @@ If you want to install Git on Linux via a binary installer, you can generally do
 
 Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
-	$ apt-get instal git-core
+	$ apt-get install git-core
 
 ### Installing on Mac ###
 
 There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
 
-	http://code.google.com/p/git-osx-installer
+http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
 Figure 1-7. Git OS X installer
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+The other major way is to install Git via MacPorts (http://www.macports.org). If you have MacPorts installed, install Git via
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
@@ -190,9 +190,9 @@ Git comes with a tool called git config that lets you get and set configuration 
 
 *	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/sysconfig`.
+*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (C:\Documents and Settings\$USER for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
 ### Your Identity ###
 

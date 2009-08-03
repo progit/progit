@@ -293,12 +293,12 @@ There are two easy ways to install Git on a Mac. The easiest is to use the graph
 
 Auf einem Mac kann man Git auf zwei Arten installieren. Der einfachste ist, den grafischen Git Installer (xxx) zu verwenden, den man von der Google Code Webseite herunterladen kann (siehe Bild 1-7)
 
-http://code.google.com/p/git-osx-installer
+	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
 Figure 1-7. Git OS X installer
 
-The other major way is to install Git via MacPorts (http://www.macports.org). If you have MacPorts installed, install Git via
+The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
 
 Die andere Möglichkeit ist, Git via MacPorts (http://www.macports.org) zu installieren. Wenn Du MacPorts installiert hast, installiert der folgende Befehl Git:
 

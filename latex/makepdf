@@ -83,7 +83,7 @@ def post_pandoc(string, config)
 		# Miscellaneous fixes
 		s /FIG: (.*)/, '\img{\1}'
 		s '\begin{enumerate}[1.]', '\begin{enumerate}'
-		s '--', '-'
+		s /(\w)--(\w)/, '\1-\2'
 		s /``(.*?)''/, '“\1”'
 
 		# Typeset the maths in the book with TeX

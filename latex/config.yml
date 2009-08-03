@@ -1,0 +1,13 @@
+default:
+  font: DejaVu Serif
+  mono: DejaVu Sans Mono
+  chap: "Chapter "
+  sect: "Section "
+  fig: "Figure "
+  tab: "Table "
+zh:
+  font: WenQuanYi Zen Hei
+  fig: "图 "
+ja:
+  font: WenQuanYi Zen Hei
+  fig: 図

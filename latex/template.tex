@@ -12,8 +12,10 @@
 \usepackage{fancyhdr}
 \usepackage{booktabs}
 
-\setromanfont{DejaVu Serif}
-\setmonofont{DejaVu Sans Mono}
+\setromanfont{<%= config['font'] %>}
+\setmonofont{<%= config['mono'] %>}
+
+\XeTeXlinebreaklocale{<%= lang %>}
 
 \title{Pro Git}
 \author{Scott Chacon}
@@ -40,12 +42,12 @@
 	\textbf{\caption{#1}}
 \end{figure}}
 
-\renewcommand{\chaptermark}[1]{\markboth{\textbf{Chapter \thechapter}\hspace*{1ex}#1}{}}
-\renewcommand{\sectionmark}[1]{\markright{\textbf{Section \thesection}\hspace*{1ex}#1}}
+\renewcommand{\chaptermark}[1]{\markboth{\textbf{<%= config['chap'] %>\thechapter}\hspace*{1ex}#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\textbf{<%= config['sect'] %>\thesection}\hspace*{1ex}#1}}
 \newcommand{\chap}[1]{\newpage\thispagestyle{empty}\chapter{#1}\label{chap:\thechapter}}
-\newcommand{\chapref}[1]{\hyperref[chap:#1]{Chapter #1}}
-\newcommand{\imgref}[1]{\hyperref[img:#1]{Figure #1}}
-\newcommand{\tabref}[1]{\hyperref[tab:#1]{Table #1}}
+\newcommand{\chapref}[1]{\hyperref[chap:#1]{<%= config['chap'] %>#1}}
+\newcommand{\imgref}[1]{\hyperref[img:#1]{<%= config['fig'] %>#1}}
+\newcommand{\tabref}[1]{\hyperref[tab:#1]{<%= config['tab'] %>#1}}
 \newcommand{\e}[1]{$ \times 10^{#1}$}
 
 \linespread{1.03}
@@ -65,5 +67,5 @@
 \fancyfoot[LE,RO]{\small\textbf\thepage}
 \pagestyle{fancy}
 
-\input{content.tex}
+<%= latex %>
 \end{document}

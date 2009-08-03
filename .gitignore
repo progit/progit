@@ -1,1 +1,6 @@
 progit.*.pdf
+latex/*
+!latex/makepdf
+!latex/README
+!latex/template.tex
+!latex/config.yml

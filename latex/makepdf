@@ -1,70 +1,190 @@
 #!/usr/bin/env ruby
 require 'fileutils'
+require 'open3'
+require 'erb'
+require 'yaml'
 
-def figure_rename(file)
-	file.gsub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2')
-end
+include FileUtils, Open3
+alias :pipe :popen3
 
-def verbatim_sanitize(string)
-	string.gsub('\\', '{\textbackslash}').
-		gsub('$', '\$').
-		gsub('#', '\#').
-		gsub('_', '\_').
-		gsub('^', '\^{}').
-		gsub('%', '\%').
-		gsub('~', '{\textasciitilde}').
-		gsub(/(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)/, '\url{\1}')
-end
+$here = File.dirname(__FILE__)
+$root = File.join($here, '..')
 
-def replace(string)
-	string.instance_eval do
-		alias :s :gsub!
-		s '\section', '\chap'
-		s '\sub', '\\'
-		s '\begin{enumerate}[1.]', '\begin{enumerate}'
-		s /\\item\s+/, '\item '
-		s /(C\:\\Documents\s+and\s+Settings\\\$USER)/, '\verb!\1!'
-		s /Insert\s18333fig\d+\.png[\\\s]*(.*?\d+--\d+\.?)?(.*?)\n\n/m, '\img{\2}'
-		s /Figure\s+(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
-		s /Table\s+(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
-		s /Chapter\s+(\d+)/, '\chapref{\1}'
-		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$)'
-		s '2\^{}80', '$2^{80}$'
-		s /(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)/, '\url{\1}'
-		s /\\verb!(\\url\{.*?\})!/, '\1'
-		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
-		s /(\\verb!.*?!)/m, '{\footnotesize\1}'
-		s /\\begin\{verbatim\}\s+(\\url\{.*?\})\s+\\end\{verbatim\}/m, '\1\par'
-		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
-		s /--/, '-'
-		s /``(.*?)''/, '“\1”'
-		# pandoc discards #### subsubsections - the following hack recovers them
-		s /\n(([A-Zup][A-Z\-a-z]+[ ]?([A-Zawftp][A-Z\-a-z]*[ ]?)+)
-			|((\\texttt\{)?[a-z]+[\.\-][A-Za-z\*]+\}?))\n\n/x, '\subsubsection{\1}'
-		s /(\\begin\{verbatim\})(.*?)(?=\\end\{verbatim\})/m do
-			$1 << $2.gsub(/\\url\{(.*?)\}/, '\1')
+def figures(&block)
+	begin
+		Dir["#$root/figures/18333*.png"].each do |file|
+			cp(file, file.sub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2'))
 		end
-		s /\\verb\!(.*?)\!/ do
-			"{\\texttt{#{verbatim_sanitize($1)}}}"
-		end
-		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)\\end\{verbatim\}/ do
-			"\\begin{table}[h!]\\refstepcounter{table}\\centering" <<
-			"\\label{tab:\\thetable}\\begin{tabular}{p{2.75cm}p{8.25cm}}\n\\toprule\n" <<
-			verbatim_sanitize($1).gsub(/^([^\n\t]+)\t/, '{\footnotesize\texttt{\1}} & ').
-				gsub(/(\n)/, '\\\\\\\\\1').
-				sub(/\{\\footnotesize\\texttt(.*?)\n/, '{\1\midrule ') <<
-			"\\bottomrule\n\\end{tabular}\\end{table}"
+		block.call
+	ensure
+		Dir["#$root/figures/18333*.png"].each do |file|
+			rm(file.gsub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2'))
 		end
 	end
 end
 
-FileUtils.cd(File.join(File.dirname(__FILE__), '..'))
-Dir['figures/18333*.png'].each{|file| FileUtils.cp(file, figure_rename(file))}
-Dir['*'].find_all{|l| File.directory?(l) and l.length == 2}.each do |language|
-	content = replace(`pandoc -p -f markdown -t latex #{language}/*/*.markdown`)
-	File.open('content.tex', 'w'){|f| f.write(content)}
-	3.times{`xelatex latex/main.tex 1>/dev/tty`} # 3 passes needed for TOC/XeTeX
-	FileUtils.mv('main.pdf', "progit.#{language}.pdf")
-	FileUtils.rm(Dir['main.*'] << 'content.tex')
+def usage
+	puts <<USAGE
+Usage:
+  makepdf [OPTION...] LANGUAGE [LANGUAGE 2...]
+
+Options:
+  -d, --debug      prints TeX and other output 
+USAGE
+	exit
 end
-Dir['figures/18333*.png'].each{|file| FileUtils.rm(figure_rename(file))}
+
+def command_exists?(command)
+	ENV['PATH'].split(/:/).map do |path|
+		File.executable?("#{path}/#{command}")
+	end.inject{|a, b| a || b}
+end
+
+def replace(string, &block)
+	string.instance_eval do
+		alias :s :gsub!
+		instance_eval(&block)
+	end
+	string
+end
+
+def verbatim_sanitize(string)
+	string.gsub('\\', '{\textbackslash}').
+		gsub('~', '{\textasciitilde}').
+		gsub(/([\$\#\_\^\%])/, '\\\\' + '\1{}')
+end
+
+def pre_pandoc(string, config)
+	replace(string) do
+		# Pandoc discards #### subsubsections #### - this hack recovers them
+		s /\#\#\#\# (.*?) \#\#\#\#/, 'SUBSUBSECTION: \1'
+
+		# Turns URLs into clickable links
+		s /\`(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\`/, '<\1>'
+		s /(\n\n)\t(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\n([^\t]|\t\n)/, '\1<\2>\1'
+
+		# Process figures
+		s /Insert\s18333fig\d+\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, 'FIG: \1'
+	end
+end
+
+def post_pandoc(string, config)
+	replace(string) do
+		# Reformat for the book documentclass as opposed to article
+		s '\section', '\chap'
+		s '\sub', '\\'
+		s /SUBSUBSECTION: (.*)/, '\subsubsection{\1}'
+
+		# Enable proper cross-reference
+		s /#{config['fig']}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
+		s /#{config['tab']}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
+		s /#{config['chap']}\s*(\d+)/, '\chapref{\1}'
+
+		# Miscellaneous fixes
+		s /FIG: (.*)/, '\img{\1}'
+		s '\begin{enumerate}[1.]', '\begin{enumerate}'
+		s '--', '-'
+		s /``(.*?)''/, '“\1”'
+
+		# Typeset the maths in the book with TeX
+		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$)'
+		s '2\^{}80', '$2^{80}$'
+		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
+
+		# Ensure monospaced stuff is in a smaller font
+		s /(\\verb!.*?!)/m, '{\footnotesize\1}'
+		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
+
+		# Convert inline-verbatims into \texttt (which is able to wrap)
+		s /\\verb(\W)(.*?)\1/ do
+			"{\\texttt{#{verbatim_sanitize($2)}}}"
+		end
+
+		# Make Tables 2-1..2-3 actual tables
+		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)\\end\{verbatim\}/ do
+			"\\begin{table}[h!]
+				\\refstepcounter{table}
+				\\centering
+				\\label{tab:\\thetable}
+				\\begin{tabular}{p{2.75cm}p{8.25cm}}
+					\\toprule\n" <<
+					verbatim_sanitize($1).
+						gsub(/^([^\n\t]+)\t/, '{\footnotesize\texttt{\1}} & ').
+						gsub(/(\n)/, '\\\\\\\\\1').
+						sub(/\{\\footnotesize\\texttt(.*?)\n/, '{\1\midrule ').
+						concat("
+					\\bottomrule
+				\\end{tabular}
+			\\end{table}")
+		end
+	end
+end
+
+ARGV.delete_if{|arg| $DEBUG = true if arg == '-d' or arg == '--debug'}
+languages = ARGV.select{|arg| File.directory?("#$root/#{arg}")}
+usage if languages.empty?
+
+$config = YAML.load_file("#$here/config.yml")
+template = ERB.new(File.read("#$here/template.tex"))
+
+missing = ['pandoc', 'xelatex'].reject{|command| command_exists?(command)}
+unless missing.empty?
+	puts "Missing dependencies: #{missing.join(', ')}."
+	puts "Install these and try again."
+	exit
+end
+
+figures do
+	languages.each do |lang|
+		config = $config['default'].merge($config[lang]) rescue $config['default']
+
+		puts "#{lang}:"
+		markdown = Dir["#$root/#{lang}/*/*.markdown"].sort.map do |file|
+			File.read(file)
+		end.join("\n\n")
+
+		print "\tParsing markdown... "
+		latex = pipe('pandoc -p -f markdown -t latex') do |stdin, stdout|
+			stdin.write(pre_pandoc(markdown, config))
+			stdin.close
+			post_pandoc(stdout.read, config)
+		end
+		puts "done"
+
+		print "\tCreating main.tex for #{lang}... "
+		dir = "#$here/#{lang}"
+		mkdir_p(dir)
+		File.open("#{dir}/main.tex", 'w') do |file|
+			file.write(template.result(binding))
+		end
+		puts "done"
+
+		abort = false
+
+		puts "\tRunning XeTeX:"
+		cd($root)
+		3.times do |i|	
+			print "\t\tPass #{i + 1}... "
+			pipe("xelatex -output-directory='#{dir}' '#{dir}/main.tex' 2>&1") do |_, stdout|
+				unless $DEBUG
+					if ~ /^!\s/
+						puts "failed with:\n\t\t\t#{$_.strip}"
+						puts "\tConsider running this again with --debug."
+						abort = true
+						break
+					end while stdout.gets
+				else
+					STDERR.print while stdout.gets rescue abort = true
+				end
+			end
+			break if abort
+			puts "done"
+		end
+
+		unless abort
+			print "\tCopying output to progit.#{lang}.pdf... "
+			cp("#{dir}/main.pdf", "#$root/progit.#{lang}.pdf")
+			puts "done"
+		end
+	end
+end

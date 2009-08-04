@@ -70,15 +70,17 @@ end
 
 def post_pandoc(string, config)
 	replace(string) do
+		space = /\s/
+
 		# Reformat for the book documentclass as opposed to article
 		s '\section', '\chap'
 		s '\sub', '\\'
 		s /SUBSUBSECTION: (.*)/, '\subsubsection{\1}'
 
 		# Enable proper cross-reference
-		s /#{config['fig']}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
-		s /#{config['tab']}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
-		s /#{config['chap']}\s*(\d+)/, '\chapref{\1}'
+		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
+		s /#{config['tab'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
+		s /#{config['chap'].gsub(space, '\s')}\s*(\d+)/, '\chapref{\1}'
 
 		# Miscellaneous fixes
 		s /FIG: (.*)/, '\img{\1}'

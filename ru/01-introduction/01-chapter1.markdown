@@ -30,16 +30,16 @@ Insert 18333fig0102.png
 
 Однако есть и несколько серьезных недостатков при таком подходе. Наиболее очевидный - централизованый сервер является уязвимым местом всей системы. Если этот сервер выключается на час, то в течение часа не происходит взаимодействие между разработчиками и никто не может сохранить новые версии. Если ж повреждается диск с центральной базой данных, и нет резервной копии вы теряете абсолютно все - всю историю проекта, за исключением разве что нескольких рабочих версий сохранившихся на рабочих машинах пользователей. Локальные системы контроля верчий подвержены той же проблеме, однако если вся история проекта хранится в одном месте вы рискуете потерять все. 
 
-### Distributed Version Control Systems ###
+### Распределенные системы контроля версий ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+This is where Distributed Version Control Systems (DVCSs) step in. В DVCS (таких как Git, Mercurial, Bazaar или Darcs), клиенты не просто забирают последние версии файлов, а полностью копируют репозиторий. Поэтому в случае когда "умирает" сервер, через который осуществлялось взаимодействие, любой клиентский репозиторий может быть скопирован обратно на сервер для восстановления. Каждый раз при получении версий файлов создается полная копия всех данных (см. рисунок 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+Рисунок 1-3. Схема распределенной системы контроля версий
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Кроме того, большая часть этих систем позвляет работать с несколькими удаленными репозиториями, таким образом вы можете взаимодействовать с раличными группами людей разными способами одновременно в рамках одного проекта. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
 
-## A Short History of Git ##
+## Краткая история Git ##
 
 As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 

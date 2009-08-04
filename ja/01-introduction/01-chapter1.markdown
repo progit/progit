@@ -71,13 +71,14 @@ Insert 18333fig0105.png
 
 これは Git と ほぼそれ以外全ての VCS における相違です.  Git はほぼ全ての面で, 過去の世代からコピーされたほとんどのバージョン管理システムを見直しています. これは Git をミニ・ファイルシステムとその上に組み上げられた驚くほど力強いツールとしています. ただの VCS 以上のものにです. 第3章, Git ブランチを扱う時, データに対するこの考え方で得られる利益を見出せるでしょう.
 
+### ほぼ全ての操作はローカル ###
 ### Nearly Every Operation Is Local ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Git のほとんどの操作はローカルファイルと操作のためのリソース – 基本的にネットワーク上の他コンピュータから情報は必要ありません. ほとんどの操作を呼び出し時間のオーバヘッドがあるネットワークで行う集中型バージョン管理に慣れていると, この面で Git は, この世のものでない, 神に祝福をされたスピードだと思えるでしょう. これはプロジェクト全体の履歴を目前のコンピュータが全て持っているからに他なりません. ほとんどの操作が一瞬に感じられます.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+例えば, プロジェクトの履歴を参照するのに, Git はサーバにアクセスして履歴を取得する必要がありません. 単純にローカルデータベースを直接参照します. つまりプロジェクトの履歴をほぼ即座に確認できます. 現バージョンのファイルと1ヶ月前の変更を確認したければ, Git は1ヶ月前のファイルを検索しローカルで相違の確認が出来ます. サーバに相違の確認を問い合わせる必要も古いバージョンをサーバから入手してローカルで確認する手間もありません.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+つまるところ, オフラインや VPN に接続していないコンピュータで何も出来ないわけではありません. 飛行機や電車で作業したい場合, どこかでネットワーク接続するまでコミットを続けられます. もし自宅で VPN クライアントが正常に動作しなくても, 作業は続けられます. 多くの他システムでこれは不可能か現実的ではありません. Perforce では例えばネットワーク接続がないと大したことができません. Subversion と CVS ではファイルの編集は出来ますが変更のコミットをデータベースに反映できません(データベースに接続できないので). これは大きな問題ではないかも知れません. しかし Git のもたらす大きな利点には驚いたのではないでしょうか.
 
 ### Git Has Integrity ###
 

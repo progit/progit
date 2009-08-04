@@ -171,8 +171,7 @@ figures do
 						puts "failed with:\n\t\t\t#{$_.strip}"
 						puts "\tConsider running this again with --debug."
 						abort = true
-						break
-					end while stdout.gets
+					end while stdout.gets and not abort
 				else
 					STDERR.print while stdout.gets rescue abort = true
 				end

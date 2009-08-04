@@ -2,17 +2,17 @@
 
 This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
 
-In diesem Kapitel wird es darum gehen, wie man mit Git loslegen kann. Wir werden erläutern, wozu Versionskontrollsystemen gut sind, wie man Git auf verschiedenen Systemen installieren und konfigurieren kann, so daß man in der Lage ist, mit der Arbeit anzufangen. Am Ende dieses Kapitels solltest du verstehen, wozu Git gut ist, weshalb du es verwenden solltest und wie du damit loslegen kannst.
+In diesem Kapitel wird es darum gehen, wie man mit Git loslegen kann. Wir werden erläutern, wozu Versionskontrollsystemen gut sind, wie man Git auf verschiedenen Systemen installieren und konfigurieren kann, so daß man in der Lage ist, mit der Arbeit anzufangen. Am Ende dieses Kapitels solltest Du verstehen, wozu Git gut ist, weshalb Du es verwenden solltest und wie Du damit loslegen kannst.
 
 ## Wozu Versionskontrolle? ##
 
 What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
 
-Was ist Versionskontrolle, und warum solltest du dich dafür interessieren? Versionskontrollsysteme (VCS) protokollieren Änderungen an einer Datei oder einer Anzahl von Dateien über die Zeit hinweg, so daß man zu jedem Zeitpunkt auf Versionen und Änderungen zugreifen kann. Die Beispiele in diesem Buch verwenden Software Quellcode Dateien, tatsächlich aber kannst du Änderungen an praktisch jeder Art von Datei per Versionskontrolle nachverfolgen.
+Was ist Versionskontrolle, und warum solltest Du dich dafür interessieren? Versionskontrollsysteme (VCS) protokollieren Änderungen an einer Datei oder einer Anzahl von Dateien über die Zeit hinweg, so daß man zu jedem Zeitpunkt auf Versionen und Änderungen zugreifen kann. Die Beispiele in diesem Buch verwenden Software Quellcode Dateien, tatsächlich aber kannst Du Änderungen an praktisch jeder Art von Datei per Versionskontrolle nachverfolgen.
 
 If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
 
-Als ein Grafik- oder Webdesigner zum Beispiel willst du in der Lage sein, jede Version eines Bildes oder Layouts zurückverfolgen zu können. Es wäre daher sehr ratsam, ein Versionskontrollsystem zu verwenden. Ein solches System erlaubt Dir, einzelne Dateien oder auch ein ganzes Projekt in einen früheren Zustand zurückzuversetzen, nachzuvollziehen, wer zuletzt welche Änderungen vorgenommen hat, die möglicherweise Probleme verursachen, wer eine Änderung ursprünglich vorgenommen hat usw. Ein Versionskontrollsystem für Deine Arbeit zu verwenden, versetzt dich in die Lage jederzeit zu einem vorherigen, funktionierenden Zustand zurückzugehen, wenn du vielleicht Mist gebaut oder aus irgendeinem Grunde Dateien verloren hast. All diese Vorteile erhältst du für einen nur sehr geringen, zusätzlichen Aufwand.
+Als ein Grafik- oder Webdesigner zum Beispiel willst Du in der Lage sein, jede Version eines Bildes oder Layouts zurückverfolgen zu können. Es wäre daher sehr ratsam, ein Versionskontrollsystem zu verwenden. Ein solches System erlaubt Dir, einzelne Dateien oder auch ein ganzes Projekt in einen früheren Zustand zurückzuversetzen, nachzuvollziehen, wer zuletzt welche Änderungen vorgenommen hat, die möglicherweise Probleme verursachen, wer eine Änderung ursprünglich vorgenommen hat usw. Ein Versionskontrollsystem für Deine Arbeit zu verwenden, versetzt dich in die Lage jederzeit zu einem vorherigen, funktionierenden Zustand zurückzugehen, wenn Du vielleicht Mist gebaut oder aus irgendeinem Grunde Dateien verloren hast. All diese Vorteile erhältst Du für einen nur sehr geringen, zusätzlichen Aufwand.
 
 ### Local Version Control Systems ###
 
@@ -33,7 +33,7 @@ Bild 1-1. Diagramm: Lokale Versionskontrolle
 
 One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 
-Eines der populärsten Versionskontrollsystem war rcs, und es wird heute immer noch mit vielen Computern ausgeliefert. Z.B. umfaßt auch das beliebte Betriebssystem Mac OS X den Befehl rcs, wenn du die Developer Tools installierst. Dieser Befehl arbeitet nach dem Prinzip, daß er für jede Änderung einen Patch (d.h. eine Kodierung der Unterschiede, die eine Änderung an einer oder mehreren Dateien umfaßt) in einem speziellen Format in einer Datei auf der Festplatte speichert. 
+Eines der populärsten Versionskontrollsystem war rcs, und es wird heute immer noch mit vielen Computern ausgeliefert. Z.B. umfaßt auch das beliebte Betriebssystem Mac OS X den Befehl rcs, wenn Du die Developer Tools installierst. Dieser Befehl arbeitet nach dem Prinzip, daß er für jede Änderung einen Patch (d.h. eine Kodierung der Unterschiede, die eine Änderung an einer oder mehreren Dateien umfaßt) in einem speziellen Format in einer Datei auf der Festplatte speichert. 
 
 ### Centralized Version Control Systems ###
 
@@ -103,7 +103,7 @@ Seit seiner Geburt 2005 wurde Git kontinuierlich weiterentwickelt und verbessert
 
 So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
 
-Was also ist Git, in wenigen Worten (xxx)? Diesen Abschnitt, in dem es um die fundamentalen Grundlagen von Git geth, zu verstehen ist wichtig, weil es dich in die Lage versetzen wird, Git einfacher und effektiver zu verwenden. Versuche dein vorhandenes Wissen über andere Versionskontrollsysteme, wie Subversion oder Perforce, zu ignorieren, während du Git lernst. Git speichert und konzipiert Information anders als andere Systeme, auch wenn das Interface (xxx) relativ ähnlich wirkt. Diese Unterschiede zu verstehen wird dir helfen, Verwirrung bei der Anwendung von Git zu vermeiden.
+Was also ist Git, in wenigen Worten (xxx)? Diesen Abschnitt, in dem es um die fundamentalen Grundlagen von Git geth, zu verstehen ist wichtig, weil es dich in die Lage versetzen wird, Git einfacher und effektiver zu verwenden. Versuche dein vorhandenes Wissen über andere Versionskontrollsysteme, wie Subversion oder Perforce, zu ignorieren, während Du Git lernst. Git speichert und konzipiert Information anders als andere Systeme, auch wenn das Interface (xxx) relativ ähnlich wirkt. Diese Unterschiede zu verstehen wird dir helfen, Verwirrung bei der Anwendung von Git zu vermeiden.
 
 ### Snapshots, Not Differences ###
 
@@ -119,7 +119,7 @@ Bild 1-4. Andere Systeme speichern Daten als Änderungen an einzelnen Dateien ei
 
 Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
 
-Git betrachtet Daten nicht in dieser Weise. Stattdessen sieht Git seine Daten eher als eine Menge von Snapshots (xxx) eines Mini-Dateisystems. Jedes Mal, wenn du commitest (xxx) oder den Status deines Projektes in Git speicherst, sichert Git den Zustand sämtlicher Dateien in diesem Moment ("Snapshot") und speichert eine Referenz auf diesen Snapshot. Um dies möglichst effizient zu tun, speichert Git Dateien, die nicht geändert wurden, auch nicht erneut, sondern legt lediglich eine Verknüpfung zu der vorherigen Version der Datei an. Git betrachtet Daten also wie in Bild 1-5 dargestellt.
+Git betrachtet Daten nicht in dieser Weise. Stattdessen sieht Git seine Daten eher als eine Menge von Snapshots (xxx) eines Mini-Dateisystems. Jedes Mal, wenn Du commitest (xxx) oder den Status deines Projektes in Git speicherst, sichert Git den Zustand sämtlicher Dateien in diesem Moment ("Snapshot") und speichert eine Referenz auf diesen Snapshot. Um dies möglichst effizient zu tun, speichert Git Dateien, die nicht geändert wurden, auch nicht erneut, sondern legt lediglich eine Verknüpfung zu der vorherigen Version der Datei an. Git betrachtet Daten also wie in Bild 1-5 dargestellt.
 
 Insert 18333fig0105.png 
 Figure 1-5. Git stores data as snapshots of the project over time.
@@ -127,7 +127,7 @@ Bild 1-5. Git speichert Daten als eine Historie von Snapshots des Projektes.
 
 This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
 
-Dies ist ein wichtiger Unterschied zwischen Git und praktisch allen anderen Versionskontrollsystemen. In Git wurde daher fast alle Aspekte der Versionskontrolle neu überdacht, die in anderen Systemen von jeweils vorhergegangenen Generationen übernommen worden waren. Git arbeitet eher wie ein Mini-Dateisystem, auf das einige unglaublich mächtige Werkzeuge aufsetzen, als wie ein gängiges Versionskontrollsystem. Wir werden auf einige der Vorteile eingehen, die du hast, wenn du Daten in dieser Weise betrachtest.
+Dies ist ein wichtiger Unterschied zwischen Git und praktisch allen anderen Versionskontrollsystemen. In Git wurde daher fast alle Aspekte der Versionskontrolle neu überdacht, die in anderen Systemen von jeweils vorhergegangenen Generationen übernommen worden waren. Git arbeitet eher wie ein Mini-Dateisystem, auf das einige unglaublich mächtige Werkzeuge aufsetzen, als wie ein gängiges Versionskontrollsystem. Wir werden auf einige der Vorteile eingehen, die Du hast, wenn Du Daten in dieser Weise betrachtest.
 
 Auf einige der Vorteile, die es mit sich bringt, Daten in dieser Weise zu betrachten, werden wir in Kapitel 3 eingehen, wenn wir Git Branching (xxx) diskutieren.
 
@@ -137,15 +137,15 @@ Auf einige der Vorteile, die es mit sich bringt, Daten in dieser Weise zu betrac
 
 Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
 
-Die meisten Operationen in Git benötigen nur die lokalen Dateien und Resourcen, um zu funktionieren, d.h. im Allgemeinen werden keine Informationen von einem anderen Rechner im Netzwerk benötigt. Wenn du mit einem CVCS gearbeitet hast, das für die meisten Operationen einen Netzwerk Latency Overhead (xxx) hat, dann wirst du den Eindruck haben, daß die Götter der Geschwindigkeit Git mit unaussprechlichen Fähigkeiten ausgestattet haben. Weil man die vollständige Historie auf dem lokalen Rechner hat, werden die meisten Operationen ohne jede Verzögerung ausgeführt und sind sehr schnell.
+Die meisten Operationen in Git benötigen nur die lokalen Dateien und Resourcen, um zu funktionieren, d.h. im Allgemeinen werden keine Informationen von einem anderen Rechner im Netzwerk benötigt. Wenn Du mit einem CVCS gearbeitet hast, das für die meisten Operationen einen Netzwerk Latency Overhead (xxx) hat, dann wirst Du den Eindruck haben, daß die Götter der Geschwindigkeit Git mit unaussprechlichen Fähigkeiten ausgestattet haben. Weil man die vollständige Historie auf dem lokalen Rechner hat, werden die meisten Operationen ohne jede Verzögerung ausgeführt und sind sehr schnell.
 
 For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
 
-Um beispielsweise die Historie des Projektes zu durchsuchen, braucht Git sie nicht von einem entfernten Server zu holen - es liest sie einfach von der lokalen Datenbank. Das heißt, du siehst die vollständige Projekthistorie ohne jede Verzögerung. Wenn Du sehen willst, worin sich die aktuelle Version einer Datei von einer Version von vor einem Monat unterscheidet, dann kann Git diese Versionen lokal nachschlagen und ihre Unterschiede lokal bestimmen. Es braucht dazu keinen entfernten Server - weder um Dateien nachzuschlagen, noch um Unterschiede bestimmen zu lassen.
+Um beispielsweise die Historie des Projektes zu durchsuchen, braucht Git sie nicht von einem entfernten Server zu holen - es liest sie einfach von der lokalen Datenbank. Das heißt, Du siehst die vollständige Projekthistorie ohne jede Verzögerung. Wenn Du sehen willst, worin sich die aktuelle Version einer Datei von einer Version von vor einem Monat unterscheidet, dann kann Git diese Versionen lokal nachschlagen und ihre Unterschiede lokal bestimmen. Es braucht dazu keinen entfernten Server - weder um Dateien nachzuschlagen, noch um Unterschiede bestimmen zu lassen.
 
 This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
 
-Außerdem bedeutet dies, daß es fast nichts gibt, was du nicht tun kann, nur weil du offline bist oder keinen Zugriff auf das VPN hast. Wenn Du im Flugzeug oder Zug ein wenig arbeiten willst, kannst Du problemlos deine Arbeit committen (xxx) und erst dann auf den Server hochladen, wenn du wieder mit einem Netzwerk verbunden bist. Wenn du zu Hause bist aber nicht auf das VPN zugreifen kannst, kannst du dennoch arbeiten. Perforce z.B. läßt dich dagegen nicht viel tun, wenn du nicht mit dem Server verbunden bist. Und in Subversion und CVS kannst du Dateien zwar ändern, die Änderungen aber nicht in der Datenbank sichern (weil die Datenbank offline ist). Das mag auf den ersten Blick nicht nach einer großen Angelegenheit aussehen, aber du wirst überrascht sein, welch einen großen Unterschied das ausmachen kann.
+Außerdem bedeutet dies, daß es fast nichts gibt, was Du nicht tun kannst, nur weil Du offline bist oder keinen Zugriff auf das VPN hast. Wenn Du im Flugzeug oder Zug ein wenig arbeiten willst, kannst Du problemlos deine Arbeit committen (xxx) und erst dann auf den Server hochladen, wenn Du wieder mit einem Netzwerk verbunden bist. Wenn Du zu Hause bist aber nicht auf das VPN zugreifen kannst, kannst Du dennoch arbeiten. Perforce z.B. läßt dich dagegen nicht viel tun, wenn Du nicht mit dem Server verbunden bist. Und in Subversion und CVS kannst Du Dateien zwar ändern, die Änderungen aber nicht in der Datenbank sichern (weil die Datenbank offline ist). Das mag auf den ersten Blick nicht nach einer großen Angelegenheit aussehen, aber Du wirst überrascht sein, welch einen großen Unterschied das ausmachen kann.
 
 ### Git Has Integrity ###
 
@@ -184,7 +184,7 @@ Das ist einer der Gründe, warum es so viel Spaß macht, mit Git zu arbeiten. Ma
 
 Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
 
-Jetzt aufgepaßt. Das folgende ist die wichtigste Information, die du brauchst, wenn du Git lernen und Fallstricke vermeiden willst. Git definiert drei Haupt-Zustände, in denen sich eine Datei befinden kann: committed (xxx), geändert ("modified") und staged (xxx). "Committed" bedeutet, daß die Daten in der lokalen Datenbank gesichert sind. "Modified" bedeutet, daß die Datei geändert, diese Änderung aber noch nicht committed wurde. "Staged" bedeutet, daß du eine geänderte Datei in ihrem gegenwärtigen Zustand für den nächsten Commit Snapshot markiert hast.
+Jetzt aufgepaßt. Das folgende ist die wichtigste Information, die Du brauchst, wenn Du Git lernen und Fallstricke vermeiden willst. Git definiert drei Haupt-Zustände, in denen sich eine Datei befinden kann: committed (xxx), geändert ("modified") und staged (xxx). "Committed" bedeutet, daß die Daten in der lokalen Datenbank gesichert sind. "Modified" bedeutet, daß die Datei geändert, diese Änderung aber noch nicht committed wurde. "Staged" bedeutet, daß Du eine geänderte Datei in ihrem gegenwärtigen Zustand für den nächsten Commit Snapshot markiert hast.
 
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
@@ -220,7 +220,7 @@ Der grundlegend Git Arbeitsprozeß sieht etwa so aus:
 
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
-Wenn eine bestimmte Version einer Datei im Git Verzeichnis liegt, gilt sie als "committed". Wenn sie geändert und zur Staging Area hinzugefügt worden ist, gilt sie als "staged". Und wenn sie geändert, aber noch nicht zur Staging Area hinzugefügt wurde, gilt sie als "modified". In Kapitel 2 wirst du mehr über diese Zustände lernen und darüber, wie du sie sinnvoll einsetzen, und auch, wie du den Zwischenschritt der Staging Area einfach überspringen kannst.
+Wenn eine bestimmte Version einer Datei im Git Verzeichnis liegt, gilt sie als "committed". Wenn sie geändert und zur Staging Area hinzugefügt worden ist, gilt sie als "staged". Und wenn sie geändert, aber noch nicht zur Staging Area hinzugefügt wurde, gilt sie als "modified". In Kapitel 2 wirst Du mehr über diese Zustände lernen und darüber, wie Du sie sinnvoll einsetzen, und auch, wie Du den Zwischenschritt der Staging Area einfach überspringen kannst.
 
 ## Installing Git ##
 
@@ -236,7 +236,7 @@ Legen wir los. Der erste Schritt besteht natürlich darin, Git zu installieren -
 
 If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
 
-Wenn es dir möglich ist, ist es empfehlenswert, Git vom Quellcode aus zu installieren, weil Du die jeweils neueste Version erhältst. Jede Version von Git enthält normalerweise nützliche Verbesserungen (z.B. am Interface), so daß es sich lohnt die jeweils neueste Version zu verwenden - sofern du gut damit klarkommst, Software aus dem Quellcode zu kompilieren. Viele Linux Distributionen umfassen sehr alte Git Versionen. Wenn Du also keine sehr aktuelle Distribution oder Backports (xxx) verwendest, empfehlen wir, diesen Weg in Erwägung ziehen.
+Wenn es dir möglich ist, ist es empfehlenswert, Git vom Quellcode aus zu installieren, weil Du die jeweils neueste Version erhältst. Jede Version von Git enthält normalerweise nützliche Verbesserungen (z.B. am Interface), so daß es sich lohnt die jeweils neueste Version zu verwenden - sofern Du gut damit klarkommst, Software aus dem Quellcode zu kompilieren. Viele Linux Distributionen umfassen sehr alte Git Versionen. Wenn Du also keine sehr aktuelle Distribution oder Backports (xxx) verwendest, empfehlen wir, diesen Weg in Erwägung ziehen.
 
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
@@ -250,7 +250,7 @@ Um Git zu installieren, benötigst Du die folgenden Bibliotheken, die von Git ve
 	
 When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
 
-Nachdem du die genannten Bibliotheken installiert hast, besorge dir die letzte Version des Quellcodes von der Git Webseite:
+Nachdem Du die genannten Bibliotheken installiert hast, besorge dir die letzte Version des Quellcodes von der Git Webseite:
 
 	http://git-scm.com/download
 	
@@ -265,7 +265,7 @@ Danach kannst Du dann Git kompilieren und installieren:
 
 After this is done, you can also get Git via Git itself for updates:
 
-Von nun an kannst du Git mit Hilfe von Git selbst aktualisieren:
+Von nun an kannst Du Git mit Hilfe von Git selbst aktualisieren:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
@@ -320,7 +320,7 @@ Das msysGit Projekt macht die Installation von Git unter Windows ist sehr einfac
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 
-Danach hast du sowohl eine Kommandozeilenversion (inklusive eines SSH Clients, der sich später noch als nützlich erweisen wird xxx) als auch die Standard GUI installiert.
+Danach hast Du sowohl eine Kommandozeilenversion (inklusive eines SSH Clients, der sich später noch als nützlich erweisen wird xxx) als auch die Standard GUI installiert.
 
 ## First-Time Git Setup ##
 
@@ -328,18 +328,18 @@ Danach hast du sowohl eine Kommandozeilenversion (inklusive eines SSH Clients, d
 
 Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
 
-Nachdem Du jetzt Git auf deinem System installiert hast, solltest du deine Git Umgebung anpassen. Das brauchst du nur einmal zu tun, diese Konfiguration wird auch bestehen bleiben, wenn du Git auf eine neuere Version aktualisierst. Du kannst sie jederzeit ändern, indem du die folgenden Befehle einfach nochmals ausführst.
+Nachdem Du jetzt Git auf deinem System installiert hast, solltest Du deine Git Umgebung anpassen. Das brauchst Du nur einmal zu tun, diese Konfiguration wird auch bestehen bleiben, wenn Du Git auf eine neuere Version aktualisierst. Du kannst sie jederzeit ändern, indem Du die folgenden Befehle einfach nochmals ausführst.
 
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 
-Git umfaßt das Werkzeug git config, das dir erlaubt, Konfigurationswerte zu verändern. Auf diese Weise kannst du anpassen, wie Git arbeitet und aussieht. Diese Werte sind an drei verschiedenen Orten gespeichert:
+Git umfaßt das Werkzeug git config, das dir erlaubt, Konfigurationswerte zu verändern. Auf diese Weise kannst Du anpassen, wie Git arbeitet und aussieht. Diese Werte sind an drei verschiedenen Orten gespeichert:
 
 *	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
 *	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
 
-* Die Datei `/etc/gitconfig` enthält Werte, die für jeden Anwender des Systems und all ihre Projekte gelten. Wenn du `git config` mit der Option `--system` verwendest, wird diese Datei verwendet.
-* Die Werte in der Datei `~/.gitconfig` gelten ausschließlich für dich und all deine Projekte. Wenn du `git config` mit der Option `--global` verwendest, wird diese Datei verwendet.
+* Die Datei `/etc/gitconfig` enthält Werte, die für jeden Anwender des Systems und all ihre Projekte gelten. Wenn Du `git config` mit der Option `--system` verwendest, wird diese Datei verwendet.
+* Die Werte in der Datei `~/.gitconfig` gelten ausschließlich für dich und all deine Projekte. Wenn Du `git config` mit der Option `--global` verwendest, wird diese Datei verwendet.
 * Die Datei `.git/config` im Git Verzeichnis eines Projektes enthält Werte, die nur für das jeweilige Projekt gelten. Diese Dateien überschreiben Werte aus den jeweils vorhergehenden Dateien in dieser Reihenfolge. D.h. Werte in beispielsweise `.git/config` überschreiben diejenigen in `/etc/gitconfig`.
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (C:\Documents and Settings\$USER for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
@@ -352,14 +352,14 @@ Auf Windows Systemen sucht Git nach der `.gitconfig` Datei im `$HOME` Verzeichni
 
 The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
 
-Nachdem du Git installiert hast, solltest du als erstes deinen Namen und deine E-Mail Adresse konfigurieren. Das ist wichtig, weil Git diese Information für jeden Commit verwendet, den du anlegst, und sie ist unveränderlich in deine Commits eingebaut (xxx):
+Nachdem Du Git installiert hast, solltest Du als erstes deinen Namen und deine E-Mail Adresse konfigurieren. Das ist wichtig, weil Git diese Information für jeden Commit verwendet, den Du anlegst, und sie ist unveränderlich in deine Commits eingebaut (xxx):
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
 Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
 
-Du brauchst diese Konfiguration wie gesagt nur einmal vorzunehmen, wenn du die `--global` Option verwendest, weil Git diese Information dann für all deine Projekte verwenden wird. Wenn du sie für ein spezielles Projekt mit einem anderen Namen oder einer anderen E-Mail Adresse überschreiben willst, kannst du dazu den Befehl ohne die `--global` Option innerhalb dieses Projektes ausführen.
+Du brauchst diese Konfiguration wie gesagt nur einmal vorzunehmen, wenn Du die `--global` Option verwendest, weil Git diese Information dann für all deine Projekte verwenden wird. Wenn Du sie für ein spezielles Projekt mit einem anderen Namen oder einer anderen E-Mail Adresse überschreiben willst, kannst Du dazu den Befehl ohne die `--global` Option innerhalb dieses Projektes ausführen.
 
 ### Your Editor ###
 
@@ -367,7 +367,7 @@ Du brauchst diese Konfiguration wie gesagt nur einmal vorzunehmen, wenn du die `
 
 Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
 
-Nachdem Du deine Identität jetzt konfiguriert hast, kannst du einstellen, welchen Texteditor Git in Situationen verwenden soll, in denen du eine Nachricht eingeben mußt. Normalerweise verwendet Git den Standard-Texteditor deines Systems - das ist üblicherweise Vi oder Vim. Wenn du einen anderen Texteditor, z.B. Emacs, verwenden willst, kannst du das wie folgt festlegen:
+Nachdem Du deine Identität jetzt konfiguriert hast, kannst Du einstellen, welchen Texteditor Git in Situationen verwenden soll, in denen Du eine Nachricht eingeben mußt. Normalerweise verwendet Git den Standard-Texteditor deines Systems - das ist üblicherweise Vi oder Vim. Wenn Du einen anderen Texteditor, z.B. Emacs, verwenden willst, kannst Du das wie folgt festlegen:
 
 	$ git config --global core.editor emacs
 	
@@ -377,7 +377,7 @@ Nachdem Du deine Identität jetzt konfiguriert hast, kannst du einstellen, welch
 
 Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
 
-Eine andere nützliche Einstellung, die du möglicherweise vornehmen willst, ist das Diff Programm, mit dem du Konflikte auflösen kannst, die während der Arbeit mit Git manchmal auftreten. Wenn du beispielsweise vimdiff verwenden willst, kannst du das so festlegen:
+Eine andere nützliche Einstellung, die Du möglicherweise vornehmen willst, ist das Diff Programm, mit dem Du Konflikte auflösen kannst, die während der Arbeit mit Git manchmal auftreten. Wenn Du beispielsweise vimdiff verwenden willst, kannst Du das so festlegen:
 
 	$ git config --global merge.tool vimdiff
 
@@ -391,7 +391,7 @@ Git kann von Hause aus mit den folgenden Diff Programmen arbeiten: kdiff3, tkdif
 
 If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
 
-Wenn du deine Einstellungen überprüfen willst, kannst du den Befehl `git config --list` verwenden, um alle Einstellungen anzuzeigen, die Git an dieser Stelle (z.B. innerhalb eines bestimmten Projektes) bekannt sind:
+Wenn Du deine Einstellungen überprüfen willst, kannst Du den Befehl `git config --list` verwenden, um alle Einstellungen anzuzeigen, die Git an dieser Stelle (z.B. innerhalb eines bestimmten Projektes) bekannt sind:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -434,10 +434,10 @@ Beispielsweise erhältst Du die Hilfeseite für den config Befehl so:
 These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
-Diese manpage Dokumentation ist deshalb sehr nützlich, weil du sie jederzeit anzeigen kannst, auch wenn Du offline (xxx) bist. Wenn dir die manpages und dieses Buch nicht ausreichen, kannst du deine Fragen auch in den Chaträumen `#git` oder `#github` auf dem Freenode IRC Server (irc.freenode.net) stellen. Diese Räumen sind in der Regel sehr gut besucht. Hunderte von Anwendern, die oft sehr viel über Git wissen, beantworten Fragen in der Regel gern.
+Diese manpage Dokumentation ist deshalb sehr nützlich, weil Du sie jederzeit anzeigen kannst, auch wenn Du offline (xxx) bist. Wenn dir die manpages und dieses Buch nicht ausreichen, kannst Du deine Fragen auch in den Chaträumen `#git` oder `#github` auf dem Freenode IRC Server (irc.freenode.net) stellen. Diese Räumen sind in der Regel sehr gut besucht. Hunderte von Anwendern, die oft sehr viel über Git wissen, beantworten Fragen in der Regel gern.
 
 ## Summary ##
 
 You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
 
-Du solltest jetzt ein basales Verständnis davon haben, was Git ist und wie es sich von anderen CVCS unterscheidet, die du möglicherweise schon verwendet hast. Du solltest außerdem eine funktionierende Git Version auf deinem Rechner installiert und konfiguriert haben. Jetzt wird es Zeit, einige Git Grundlagen zu besprechen.
+Du solltest jetzt ein basales Verständnis davon haben, was Git ist und wie es sich von anderen CVCS unterscheidet, die Du möglicherweise schon verwendet hast. Du solltest außerdem eine funktionierende Git Version auf deinem Rechner installiert und konfiguriert haben. Jetzt wird es Zeit, einige Git Grundlagen zu besprechen.

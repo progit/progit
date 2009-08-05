@@ -6,7 +6,7 @@
 
 Так что же такое версионный контроль и почему это должно вас волновать? Версионный контроль это система которая записывает изменения файла или набора файлов во времени, позволяя вам в последствии получить определенную версию. В качестве примеров контролируемых файлов в этой книге использутся исходнный код программ, хотя на практике версионный контроль может применяться для любых файлов.
 
-Если вы дизайнер или веб-дизайнер и хотите хранить каждую версию изображения или макета (что практически всегда вам необходимо) система контроля версий (Version Control System, VCS) разумный выбор для решения этой проблемы. Она позволяет откатить файлы к их предыдущиму состоянию, откатить к предыдущему состоянию целый проект, просматривать сделанные изменения, просмотреть кто последний изменил что то, что могло привести к проблеме, кто и когда внес проблему и т.д. Использование VCS означает также, что если вы испортили или потеряли файлы, вы можете их легко восстановить. Кроме того, вы получаете это все за очень небольшие накладные расходы.
+Если вы дизайнер или веб-дизайнер и хотите хранить каждую версию изображения или макета (что практически всегда вам необходимо) система контроля версий (Version Control System, VCS) разумный выбор для решения этой проблемы. Она позволит вам откатить файлы к их предыдущиму состоянию, откатить к предыдущему состоянию целый проект, просматривать сделанные изменения, просмотреть кто последний изменил что то, что могло привести к проблеме, кто и когда внес проблему и т.д. Использование VCS означает также, что если вы испортили или потеряли файлы, вы можете их легко восстановить. Кроме того, вы получаете это все с крайне малыми затратами.
 
 ### Локальные системы контроля версий. ###
 
@@ -17,29 +17,29 @@
 Insert 18333fig0101.png 
 Рисунок 1-1. Схема локальной VCS
 
-Одной из наиболее популярных VCS данного типа является rcs, которая до сих пор устанавливается на многие компьютеры. Даже в современной операционной системе Mac OS X утилита rcs устанавливается вместе с Developer Tools. Эта улилита основана на работе с наборами патчей (которые являются различием между файлами) между двумя изменениями, хранимыми в специальном формате на диске. it can then re-create what any file looked like at any point in time by adding up all the patches.
+Одной из наиболее популярных VCS данного типа является rcs, которая до сих пор устанавливается на многие компьютеры. Даже в современной операционной системе Mac OS X утилита rcs устанавливается вместе с Developer Tools. Эта улилита основана на работе с наборами патчей (являющимися различием между файлами) между двумя изменениями, хранимыми в специальном формате на диске. Это позволяет пересоздать любой файл на любой момент времени последовательно накладывая патчи.
 
-### Centralized Version Control Systems ###
+### Централизованные системы контроля версий ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Следующей глобальной проблемой оказалась нобходимость взаимодействия с разработчиками других систем. Чтобы решить эту проблему были созданы Централизованные Системы Контроля Версий (Centralized Version Control Systems, CVCSs). Такие системы как CVS, Subversion, and Perforce, обладают одним сервером хранящим все версии файлов и множеством клиентов, которые получают рабочие копии файлов из этого центрального хранилища. На многие годы это стало стандартным подходм к версионному контролю (см. рис. 1-2). 
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram
+Рисунок 1-2. Схема централизованного контроля версий
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Такой подход имеет множество преимуществ, особенно для локальных VCS. К примеру все знают кто и чем занимается на проекте. Администраторы имеют четкий контроль над тем кто и что может делать, и, конечно, гораздо легче администрировать CVSC, чем локальные базы на каждом клиенте.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Однако есть и несколько серьезных недостатков при таком подходе. Наиболее очевидный - централизованый сервер является уязвимым местом всей системы. Если этот сервер выключается на час, то в течение часа не происходит взаимодействие между разработчиками и никто не может сохранить новые версии. Если ж повреждается диск с центральной базой данных, и нет резервной копии вы теряете абсолютно все - всю историю проекта, за исключением разве что нескольких рабочих версий сохранившихся на рабочих машинах пользователей. Локальные системы контроля верчий подвержены той же проблеме, однако если вся история проекта хранится в одном месте вы рискуете потерять все. 
 
-### Distributed Version Control Systems ###
+### Распределенные системы контроля версий ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+This is where Distributed Version Control Systems (DVCSs) step in. В DVCS (таких как Git, Mercurial, Bazaar или Darcs), клиенты не просто забирают последние версии файлов, а полностью копируют репозиторий. Поэтому в случае когда "умирает" сервер, через который осуществлялось взаимодействие, любой клиентский репозиторий может быть скопирован обратно на сервер для восстановления. Каждый раз при получении версий файлов создается полная копия всех данных (см. рисунок 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+Рисунок 1-3. Схема распределенной системы контроля версий
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Кроме того, большая часть этих систем позвляет работать с несколькими удаленными репозиториями, таким образом вы можете взаимодействовать с раличными группами людей разными способами одновременно в рамках одного проекта. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
 
-## A Short History of Git ##
+## Краткая история Git ##
 
 As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 

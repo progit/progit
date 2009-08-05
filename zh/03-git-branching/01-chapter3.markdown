@@ -32,15 +32,16 @@ Git中的一个分支仅仅是一个轻巧的指向一个commit的可变指针�
 Insert 18333fig0303.png 
 图3-3. 指向提交数据历史的分支
 
-What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
+创建一个新分支的时候会发生什么事情呢？答案是你会有一个新的指针来四处移动。比如你创建了一个叫做testing的新分支。创建它的命令是`git branch`:
 
 	$ git branch testing
 
-This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
+这将在你当前所在的commit建立一个新的指针（见图3-4）。
 
 Insert 18333fig0304.png 
-Figure 3-4. Multiple branches pointing into the commit’s data history
+图 3-4. 多个分支指向提交数据的历史
 
+Git如何知道你当前在哪一个分支工作呢？它保存一个名为HEAD的特别指针。
 How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
 
 Insert 18333fig0305.png 

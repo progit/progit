@@ -6,31 +6,31 @@
 
 ## 什么是分支(branching) ##
 
-To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
+为了真正弄明白Git分支的方式，我们需要回顾一下Git储存其数据的方式。你或许还记得第一章的内容，Git不以文件差异或者变化量的形式保存数据，而是保存一系列的镜像。
 
-When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+你在Git中提交的时候，Git会保存一个commit对象，它包含一个指向你缓存内容快照的指针，作者和相关附属信息，以及一定数量（可能为零）的指向该commit对象的直接祖先的指针：第一次提交有没有直接祖先，普通的提交有一个祖先，由两个或多个分支合并产生的提交具有多个祖先。
 
-To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
+为了更直观，我们假设有个一包含3个文件的目录，并且你将他们暂存并提交。暂存操作会对每一个文件进行校验（在第一章中提到的SHA-1哈希），把这个版本的文件保存到Git仓库(Git使用blobs引用它们)，并且将校验值加入暂存区域：
 
 	$ git add README test.rb LICENSE2
 	$ git commit -m 'initial commit of my project'
 
-When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
+当你使用git commit创建一个commit，Git会校验每一个子目录（本例中仅工程的根目录）并且在Git仓库中保存这些Tree对象。然后Git会创建一个commit对象，包含相关附加信息和一个指向工程目录树的指针，如此它就可以在需要的时候重建这个快照了。
 
-Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
+你的Git仓库现在包含了5个对象：对应3个文件的blob对象，一个列举根目录内容以及各文件与blog对象对应关系的tree对象，以及一个包含指向根树和附加信息的commit对象。概念上，你Git仓库里的数据看起来如图3-1所示：
 
 Insert 18333fig0301.png 
-Figure 3-1. Single commit repository data
+图3-1. 一次提交后仓库里的数据
 
-If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
+如果你做了一写修改然后再一次提交，这次提交包含一个指向上次提交的指针。两次提交以后，仓库历史会变成图3-2的样子：
 
 Insert 18333fig0302.png 
-Figure 3-2. Git object data for multiple commits 
+图3-2. 多次提交后的Git对象 
 
-A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
+Git中的一个分支仅仅是一个轻巧的指向一个commit的可变指针。Git里默认的分支名字为master。初次提交若干次后，你其实已经拥有一个指向最后一次提交的master分支。它在你每一次提交的时候自动向前移动。
 
 Insert 18333fig0303.png 
-Figure 3-3. Branch pointing into the commit data’s history
+图3-3. 指向提交数据历史的分支
 
 What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
 

@@ -43,19 +43,19 @@ Insert 18333fig0103.png
 
 As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+В 2005 отношения между сообщество разработчиков ядра Linux и компанией разработавшей BitKeeper испортились и право бесплатного пользования продуктом было отменено. Это подтолкнуло разработчиков Linux (и в частности Линуса Торвальдса, создателя Linux) приступить к разработке собственной системы, базирущейся на знаниях полученых за время использования BitKeeper. Основные требования к новой системе были следующими:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Скорость	
+*	Простота дизайна
+*	Поддержка нелинейной разработки (тысяси параллельных веток)
+*	Полная распределенность
+*	Возможность эффективной работы с такими большими проектами как ядро Linux (как по скорости, так и по размеру данных)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+С момента рождения в 2005 Git развивался так, чтоб быть легким в использовании, сохраняя свои первоначальные своиства. Он невероятно быстр, очень эффективен для больших проектов, а также обладает превосходной системой ветвления для нелинейной разработки (см. главу 3).
 
-## Git Basics ##
+## Основы Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Так что ж такое Git в двух словах? Эту часть важно усвоить, поскольку если вы поймете что есть Git и основы того как он работает вам будет гораздо проще пользоваться им эффективно. Когда вы изучаете Git, постарайтесь освободиться от всего что вы знали о других VCS, таких как Subversion или Perforce. Это позволит вам избежать коварных ловушек при использовании Git. Git хранит и работает с информацией иначе, чем другие системы, даже когда пользовательский интерфейс очень похож. Понимание этих различий поможет вам не запутаться при его использовании.
 
 ### Snapshots, Not Differences ###
 

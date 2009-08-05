@@ -79,15 +79,15 @@ Git のほとんどの操作はローカルファイルと操作のためのリ�
 
 つまるところ, オフラインや VPN に接続していないコンピュータで何も出来ないわけではありません. 飛行機や電車で作業したい場合, どこかでネットワーク接続するまでコミットを続けられます. もし自宅で VPN クライアントが正常に動作しなくても, 作業は続けられます. 多くの他システムでこれは不可能か現実的ではありません. Perforce では例えばネットワーク接続がないと大したことができません. Subversion と CVS ではファイルの編集は出来ますが変更のコミットをデータベースに反映できません(データベースに接続できないので). これは大きな問題ではないかも知れません. しかし Git のもたらす大きな利点には驚いたのではないでしょうか.
 
-### Git Has Integrity ###
+### Git は誠実です ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Git のリソースは全て, 格納前と参照前にチェックサムが実施されます. つまり Git に感知されずにファイルやディレクトリに変更を加えることは不可能です. これは根本的な機能として組み込まれ, Git の哲学にもなっています. 情報伝達を失うこともファイルを破壊することも, Git 抜きでは不可能です.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Git の用いるこのチェックサム・メカニズムは SHA-1 ハッシュです. これは40文字からなる16進数(0-9 と a-f)と ファイルの中身や Git のディレクトリ構造を計算した物を基本としています. SHA-1 ハッシュは下記のようなものです:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Git の中ではこのようなハッシュをいたるところで目にするでしょう. 実際, Git は全てをファイル名でなく, ファイルの内容をハッシュ値でデータベースに記録します.
 
 ### Git Generally Only Adds Data ###
 

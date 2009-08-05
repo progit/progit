@@ -93,7 +93,11 @@ This is in sharp contrast to the way most VCS tools branch, which involves copyi
 
 Let’s see why you should do so.
 
+<<<<<<< HEAD:zh/03-git-branching/01-chapter3.markdown
 ## 基本的分支与合并(merge) ##
+=======
+## 基本的分支与合并 ##
+>>>>>>> chunzi/master:zh/03-git-branching/01-chapter3.markdown
 
 Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
 
@@ -220,7 +224,11 @@ Now that your work is merged in, you have no further need for the `iss53` branch
 
 	$ git branch -d iss53
 
+<<<<<<< HEAD:zh/03-git-branching/01-chapter3.markdown
 ### 简单冲突(conflicts)的合并 ###
+=======
+### 简单冲突的合并 ###
+>>>>>>> chunzi/master:zh/03-git-branching/01-chapter3.markdown
 
 Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
 
@@ -341,7 +349,11 @@ If you really do want to delete the branch and lose that work, you can force it 
 
 Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
 
+<<<<<<< HEAD:zh/03-git-branching/01-chapter3.markdown
 ### 长期(long-term）分支 ###
+=======
+### 长期分支 ###
+>>>>>>> chunzi/master:zh/03-git-branching/01-chapter3.markdown
 
 Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
 
@@ -360,7 +372,11 @@ Figure 3-19. It may be helpful to think of your branches as silos.
 You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
 Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
 
+<<<<<<< HEAD:zh/03-git-branching/01-chapter3.markdown
 ### 特性(Topic)分支 ###
+=======
+### 特性分支 ###
+>>>>>>> chunzi/master:zh/03-git-branching/01-chapter3.markdown
 
 Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
 
@@ -378,7 +394,11 @@ Figure 3-21. Your history after merging in dumbidea and iss91v2
 
 It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
 
+<<<<<<< HEAD:zh/03-git-branching/01-chapter3.markdown
 ## 远程(Remote)分支 ##
+=======
+## 远程分支 ##
+>>>>>>> chunzi/master:zh/03-git-branching/01-chapter3.markdown
 
 Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
 
@@ -409,7 +429,11 @@ Now, you can run `git fetch teamone` to fetch everything server has that you don
 Insert 18333fig0326.png 
 Figure 3-26. You get a reference to teamone’s master branch position locally.
 
+<<<<<<< HEAD:zh/03-git-branching/01-chapter3.markdown
 ### 推送(pushing) ###
+=======
+### 推送 ###
+>>>>>>> chunzi/master:zh/03-git-branching/01-chapter3.markdown
 
 When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
 

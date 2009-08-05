@@ -12,7 +12,7 @@ Some people refer to the branching model in Git as its “killer feature,” and
 Um den Weg des branching in Git richtig zu verstehen, müssen wir eine Schritt zurück machen und untersuchen, wie Git die Daten speichert. Wie du sicher noch aus Kapitel 1 weisst, speichert Git nicht eine Reihe von Änderungen und Unterschiede, sondern immer in Form von Snapshots, also aktuelle Sichten auf den Code. 
 To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 
-Wenn du ein Commit durchführst, speichert Git ein Commit-Objekt, das einen Zeiger auf die aktuelle Sicht des geänderten Inhalts besitzt. Gleichzeitig wird der Autor, einige zusätzliche Informationen und kein oder mehrere Zeiger auf die direkten Elternteile dieses Commits abgespeichert: kein Zeiger für den ersten Commit, ein Zeiger für ein normales Commit und mehrere Zeiger für ein Commit, dass auf Basis eines merge von ein oder mehreren branches durchgeführt wurde.
+Wenn du ein Commit durchführst, speichert Git ein Commit-Objekt, das einen Pointer auf die aktuelle Sicht des geänderten Inhalts besitzt. Gleichzeitig wird der Autor, einige zusätzliche Informationen und kein oder mehrere Pointer auf die direkten Elternteile dieses Commits abgespeichert: kein Pointer für den ersten Commit, ein Pointer für ein normales Commit und mehrere Pointer für ein Commit, dass auf Basis eines merge von ein oder mehreren branches durchgeführt wurde.
 When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
 
 Um das zu verdeutlichen, lass uns annehmen, du hast ein Verzeichnis mit drei Dateien, die du alle markierst und commitest. Das Markieren der Dateien erzeugt für jede eine Prüfsumme (der SHA-1 Hash, der ebenfalls in Kapitel 1 erwähnt wurde), speichert diese Version der Datei im Git Repository (Git referenziert auf diese als Blobs) und fügt diese Prüfsumme der markierten Ebene hinzu:
@@ -21,87 +21,100 @@ To visualize this, let’s assume that you have a directory containing three fil
 	$ git add README test.rb LICENSE2
 	$ git commit -m 'initial commit of my project'
 
-Wenn du ein Commit mit dem Kommando 'git commit' erstellst, erzeugt Git für jedes Unterverzeichnis eine Pürfsumme (in diesem Fall nur für das Root-Verzeichnis) und speichert diese drei Objekte im Git Repository. Git erzeugt dann ein Commit Objekt, das die Metadaten und den Zeiger zur Wurzel des Projektbaums, um bei Bedarf den Snapshot erneut erzeugen zu können.
+Wenn du ein Commit mit dem Kommando 'git commit' erstellst, erzeugt Git für jedes Unterverzeichnis eine Pürfsumme (in diesem Fall nur für das Root-Verzeichnis) und speichert diese drei Objekte im Git Repository. Git erzeugt dann ein Commit Objekt, das die Metadaten und den Pointer zur Wurzel des Projektbaums, um bei Bedarf den Snapshot erneut erzeugen zu können.
 When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
 
-Dein Git Repository enthält nun fünf Objekte: einen Blob für den Inhalt jeder der drei Dateien, einen Baum, der den Inhalt des Verzeichnisses auflistet und spezifiziert, welcher Dateiname zu welchem Blob gehört, und einen Zeiger, der auf die Wurzel des Projektbaums verweist und alle Metadaten des Commits. Dem Bgriff nach können deine Daten im Git Repository wie in Abbildung 3-1 aussehen. 
+Dein Git Repository enthält nun fünf Objekte: einen Blob für den Inhalt jeder der drei Dateien, einen Baum, der den Inhalt des Verzeichnisses auflistet und spezifiziert, welcher Dateiname zu welchem Blob gehört, und einen Pointer, der auf die Wurzel des Projektbaums verweist und alle Metadaten des Commits. Dem Bgriff nach können deine Daten im Git Repository wie in Abbildung 3-1 aussehen. 
 Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
 
 Insert 18333fig0301.png 
 Abbildung 3-1. Repository-Daten eines einzelnen Commits
 Figure 3-1. Single commit repository data
 
-Wenn du erneut etwas änderst und wieder ein Commit machst, wird dieses einen Zeiger speichern, der auf das vorhergehende verweist. Nach zwei weiteren Commits könnte die Historie wie in Abbildung 3-2 aussehen.
+Wenn du erneut etwas änderst und wieder ein Commit machst, wird dieses einen Pointer speichern, der auf das vorhergehende verweist. Nach zwei weiteren Commits könnte die Historie wie in Abbildung 3-2 aussehen.
 If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
 
 Insert 18333fig0302.png 
 Abbildung 3-2. Git Objektdaten für mehrere Commits 
 Figure 3-2. Git object data for multiple commits 
 
-Eine Branch in Git ist nichts anderes als ein leichtgewichtiger Zeiger auf eines dieser Commits. Der Standardname für eine Branch in Git ist master. Mit dem initialen Commit erhältst du eine master branch, die auf dein letztes Commit zeigt. Mit jedem Commit wird bewegt sie sich automatisch vorwärts.
+Eine Branch in Git ist nichts anderes als ein leichtgewichtiger Pointer auf eines dieser Commits. Der Standardname für eine Branch in Git ist master. Mit dem initialen Commit erhältst du eine master branch, die auf dein letztes Commit zeigt. Mit jedem Commit wird bewegt sie sich automatisch vorwärts.
 A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
 
 Insert 18333fig0303.png 
-Abbildung 3-3. Branch-Zeiger in die Commit Datenhistorie
+Abbildung 3-3. Branch-Pointer in die Commit Datenhistorie
 Figure 3-3. Branch pointing into the commit data’s history
 
-Was passiert, wenn du eine neue Branch erstellst? Zunächst wird ein neuer Zeiger erstellt. Sagen wir, du hast eine neue Branch mit dem Namen testing erstellt. Das machst du mit dem 'git branch' Befehl:
+Was passiert, wenn du eine neue Branch erstellst? Zunächst wird ein neuer Pointer erstellt. Sagen wir, du hast eine neue Branch mit dem Namen testing erstellt. Das machst du mit dem 'git branch' Befehl:
 What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
 
 	$ git branch testing
 
-Dies erzeugt einen neuen Zeiger auf das gleiche Commit auf dem du gerade arbeitest (Abbildung 3-4).
+Dies erzeugt einen neuen Pointer auf das gleiche Commit auf dem du gerade arbeitest (Abbildung 3-4).
 This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
 
 Insert 18333fig0304.png 
 Abbildung 3-4. Mehrere Branches zeigen in die Commit Datenhistorie
 Figure 3-4. Multiple branches pointing into the commit’s data history
 
-Woher weiß Git, welche Branch du momentan verwendest? Dafür gibt es einen speziellen Zeiger mit dem Namen HEAD. Berücksichtige, dass dieses grundsätzlich anders als die HEAD-Konzepten anderer VCS, wie Subversion oder CVS, funktioniert. Bei Git handelt es sich hierbei um einen Zeiger deiner aktuellen lokalen Branch. In dem Fall bist du immer noch auf der master Branch. Das 'git branch' Kommando hat nur einen neue Branch erstellt, aber nicht dahin umgeschaltet (Abbildung 3-5).
+Woher weiß Git, welche Branch du momentan verwendest? Dafür gibt es einen speziellen Pointer mit dem Namen HEAD. Berücksichtige, dass dieses grundsätzlich anders als die HEAD-Konzepten anderer VCS, wie Subversion oder CVS, funktioniert. Bei Git handelt es sich hierbei um einen Pointer deiner aktuellen lokalen Branch. In dem Fall bist du immer noch auf der master Branch. Das 'git branch' Kommando hat nur einen neue Branch erstellt, aber nicht dahin umgeschaltet (Abbildung 3-5).
 How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
 
 Insert 18333fig0305.png 
 Abbildung 3-5. HEAD Datei zeigt auf die von dir benutzte Branch
 Figure 3-5. HEAD file pointing to the branch you’re on
 
+Um zu einen anderen Branch zu wechseln, benutze das Kommando 'git checkout'. Lass uns zur neue 'testing' Branch wechseln:
 To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
 
 	$ git checkout testing
 
+Das lässt HEAD nun auf die 'testing' Branch verweisen (siehe auch Abbildung 3-6).
 This moves HEAD to point to the testing branch (see Figure 3-6).
 
 Insert 18333fig0306.png
+Abbildung 3-6. HEAD zeigt auf eine andere Branch, wenn man diese gewechselt hat.
 Figure 3-6. HEAD points to another branch when you switch branches.
 
+Wofür benötigt man das? Ok, lass uns ein anderes 'commit' machen:
 What is the significance of that? Well, let’s do another commit:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
+Abbildung 3-7 verdeutlich das Ergebnis.
 Figure 3-7 illustrates the result.
 
 Insert 18333fig0307.png 
+Abbildung 3-7. Die Branch, auf die HEAD zeigt, bewegt sich mit jedem 'commit' nach vorn.
 Figure 3-7. The branch that HEAD points to moves forward with each commit.
 
+Das Interessante daran ist, dass sich jetzt deine 'testing' Branch vorwärts bewegt hat und die 'master' immer noch auf den 'commit' verweist bevor du mit 'git checkout' gewechselt hast. Lass uns zurück zu 'master' wechseln:
 This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
 
 	$ git checkout master
 
+Abbildung 3-8 zeigt das Ergebnis.
 Figure 3-8 shows the result.
 
 Insert 18333fig0308.png 
+Abbildung 3-8. HEAD zeigt auf eine andere Branch, wenn 'checkout' verwendet wurde.
 Figure 3-8. HEAD moves to another branch on a checkout.
 
+Dieses Kommando macht zwei Dinge. Es veranlasst den HEAD Pointer zurück auf die 'master' Branch zu zeigen und es setzt die Dateien in deinem Arbeitsverzeichnis zurück z udem Zeitpunkt, als der letzte 'master' Snapshot gemacht wurde. Das heißt auch, dass alle Änderungen, die du ab jetzt machst, auf Basis eines älteren Standes des Projekts erfolgen. Es setzt grundsätzlich alle Änderungen der 'testing' Branch vorübergehend zurück und gibt dir die Möglichkeit, einen ganz anderen Weg in der Entwicklung einzuschlagen.
 That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
 
+Lass uns ein paar Änderungen machen und diese per 'commit' festhalten:
 Let’s make a few changes and commit again:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
+Jetzt läuft dein Projekt auseinander (siehe Abbildung 3-9). Du hast eine Branch angelegt, zu ihr gewechselt, einen Änderungen vorgenommen und wieder zurück zu deiner Haupt-Branch geschaltet und etwas anderes geändert. Beide Änderungswege sind von einander isoliert in eigene Branches: du kannst hin und her schalten und sie zusammenführen, wenn du denkst, dass es soweit ist. Und das alles mit den einfachen Kommandos 'branch' und 'checkout'.
 Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
 
 Insert 18333fig0309.png 
+Abbildung 3-9. Die Branch-Historie läuft auseinander.
 Figure 3-9. The branch histories have diverged.
 
 Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).

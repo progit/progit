@@ -59,25 +59,25 @@ Insert 18333fig0103.png
 
 ### Snapshots, Not Differences ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Главное отличей Git от других VCS (например Subversion) заключается в способе работы с данными. Концептуально большинство других систем хранит информацию как список изменений по файлам. Эти системы (CVS, Subversion, Perforce, Bazaar и другие) относятся к хранимым данным как к набору файлов и изменениям в каждом из них во времени, как показано на рисунке 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Рисунок 1-4. Другие системы хранят данные как изменения к базовой версии для каждого файла.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git хранит данные другим способом. Вместо этого Git считает хранимые данные набором слепков мини файловой системы. Каждый раз когда вы делаете коммит, т.е. сохраняете текущую версию проекта в Git, он по сути сохраняет как выгялят все файлы вашего проекта на текущий момент и сохраняет в виде слепка. В целях сохранения эффективности если файлы не менялись Git сохраняет не сам файл, а ссылку на ранее сохраненный файл. Подход Git к хранению данных приблизительно показан на рисунке 1-5. 
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Рисунок 1-5. Git хранит данные как слепки состояний проекта во времени.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Это важное отличие Git от практически всех других систем контроля версий. Это наполняет новым смыслом практически все аспекиы версионного контроля, которые другие системы взяли от своих предшествениц. Это делает Git больше похожим на небольшую файловую систему, с невероятно мощными инструментами работающими поверх нее, чем на просто VCS. Мы рассмотрим некоторые преимущества которые вы получаете, думая о хранении данных, когда коснемся работы с ветвями в Git в главе 3. 
 
-### Nearly Every Operation Is Local ###
+### Практически все операции локальны ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Для совершения большинства операций в Git необходимы только локальные файлы и ресурсы, т.е. обычно информация с других компьютеров в сети не нужна. Если вы пользовались централизованными системами, где правктическе на каждую операцию накладывается сетевая задержка, этот аспект работы Git заставит вас подумать, что боги скорости наделили Git неземной силой. Поскольку вся история проекта хранится локально у вас на диске, большинство операций выглядит практически мгновенными. 
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+К примеру что бы просматривать историю проекта Git не нужно предварительно скачивать эти данные с сервера, достаточно просто прочитать её непосредственно из вашего локального репозитория. Это позовляет просматривать историю практически мгновенно. Если вам нужно просмотреть изменения между текущей версией файла и версией сделаной месяц назад, Git может прочитать файл месячной давности и вычислить разницу локально, вместо того чтоб посылать запрос на получение разницы на удаленный сервер или стягивать старую версию файла с сервера и делать локальное сравнение. 
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+Также это означает, что только небольшую часть операций вы не можете сделать без доступа к сети или VPN. Когда вы летите в самолете или путешествуете поездом и хотите немного поработать, вы можете сохранять новые версии и отгрузить их когда сетевое соединение будет доступно. Придя домой и не сумев подключить ваш VPN кленет, вы можете продолжать работать. Во многих других системах это не возможно, или же крайне неудобно. Используя Perforce, к примеру, вы не сможете сделать много юех соединения с сервером. Работая с Subversion и CVS вы можете редактироваться файлы, но вы не можете сохранить изменения в базе (потому что база отключена). Возможно сейчас это не выглядит существенным, но потом вы удивитесь увидев на сколько это бывает важным.
 
 ### Git Has Integrity ###
 
@@ -102,7 +102,7 @@ Now, pay attention. This is the main thing to remember about Git if you want the
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory
+Рисунок 1-6. Working directory, staging area, and git directory
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
 
@@ -161,12 +161,12 @@ Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 ### Installing on Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Рисунок 1-7):
 
 http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer
+Рисунок 1-7. Git OS X installer
 
 The other major way is to install Git via MacPorts (http://www.macports.org). If you have MacPorts installed, install Git via
 

@@ -601,7 +601,7 @@ In Table 2-3 we’ll list these and a few other common options for your referenc
 
 For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
 
-	$ git log --pretty="%h:%s" --author=gitster --since="2008-10-01" \
+	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()

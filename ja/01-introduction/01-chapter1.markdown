@@ -71,23 +71,23 @@ Insert 18333fig0105.png
 
 これは Git と ほぼそれ以外全ての VCS における相違です.  Git はほぼ全ての面で, 過去の世代からコピーされたほとんどのバージョン管理システムを見直しています. これは Git をミニ・ファイルシステムとその上に組み上げられた驚くほど力強いツールとしています. ただの VCS 以上のものにです. 第3章, Git ブランチを扱う時, データに対するこの考え方で得られる利益を見出せるでしょう.
 
-### Nearly Every Operation Is Local ###
+### ほぼ全ての操作はローカル ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Git のほとんどの操作はローカルファイルと操作のためのリソースだけで十分です. 基本的にネットワーク上の他コンピュータから情報は必要ありません. ほとんどの操作を呼び出し時間のオーバヘッドがあるネットワークで行う集中型バージョン管理に慣れていると, この面で Git は, この世のものでない, 神に祝福をされたスピードだと思えるでしょう. これはプロジェクト全体の履歴を目前のコンピュータが全て持っているからに他なりません. ほとんどの操作が一瞬に感じられます.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+例えば, プロジェクトの履歴を参照するのに, Git はサーバにアクセスして履歴を取得する必要がありません. 単純にローカルデータベースを直接参照します. つまりプロジェクトの履歴をほぼ即座に確認できます. 現バージョンのファイルと1ヶ月前の変更を確認したければ, Git は1ヶ月前のファイルを検索しローカルで相違の確認が出来ます. サーバに相違の確認を問い合わせる必要も古いバージョンをサーバから入手してローカルで確認する手間もありません.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+つまるところ, オフラインや VPN に接続していないコンピュータで何も出来ないわけではありません. 飛行機や電車で作業したい場合, どこかでネットワーク接続するまでコミットを続けられます. もし自宅で VPN クライアントが正常に動作しなくても, 作業は続けられます. 多くの他システムでこれは不可能か現実的ではありません. Perforce では例えばネットワーク接続がないと大したことができません. Subversion と CVS ではファイルの編集は出来ますが変更のコミットをデータベースに反映できません(データベースに接続できないので). これは大きな問題ではないかも知れません. しかし Git のもたらす大きな利点には驚いたのではないでしょうか.
 
-### Git Has Integrity ###
+### Git は誠実です ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Git のリソースは全て, 格納前と参照前にチェックサムが実施されます. つまり Git に感知されずにファイルやディレクトリに変更を加えることは不可能です. これは根本的な機能として組み込まれ, Git の哲学にもなっています. 情報伝達を失うこともファイルを破壊することも, Git 抜きでは不可能です.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Git の用いるこのチェックサム・メカニズムは SHA-1 ハッシュです. これは40文字からなる16進数(0-9 と a-f)と ファイルの中身や Git のディレクトリ構造を計算した物を基本としています. SHA-1 ハッシュは下記のようなものです:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Git の中ではこのようなハッシュをいたるところで目にするでしょう. 実際, Git は全てをファイル名でなく, ファイルの内容をハッシュ値でデータベースに記録します.
 
 ### Git Generally Only Adds Data ###
 

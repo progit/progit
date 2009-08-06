@@ -94,59 +94,59 @@ Insert 18333fig0309.png
 
 ## 基本的分支与合并(merge) ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+现在使用一个简单的分支与合并的例子来演示一下你可能在现实中使用的工作流行。你将遵循以下步骤：
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.	在一个网站上工作。
+2.	为你的一个新作品创建一个分支。
+3.	在这个分支上做一些工作。
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+在这个阶段，你接到一个电话说有一个很严重的突发问题需要紧急修补。你会做下面这些事情：
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.	返回你的主分支。
+2.	为这次紧急修补建立一个新分支。
+3.	经过测试，合并这个修补分支，把它推送到主分支。
+4.	转换到你原来的作品继续工作。
 
 ### 基本分支 ###
 
-First, let’s say you’re working on your project and have a couple of commits already (见图 3-10).
+首先，我们假设你正在你的项目中工作并且已经进行了几次提交：（见图 3-10）。
 
 Insert 18333fig0310.png 
-图 3-10. A short and simple commit history
+图 3-10. 一段短小简单的提交历史
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+你决定修补公司的问题追踪系统上的问题#53。顺便声明，Git并不依附任何问题追踪系统；但因为问题#53是一个你想修补的关键问题，你会它创建一个新分支。要建立一个新分支同时转换进去，运行`git checkout`并加上`-b`参数：
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
-This is shorthand for 
+这是以下命令的简写：
 
 	$ git branch iss53
 	$ git checkout iss53
 
-图 3-11 illustrates the result.
+图 3-11 示意该命令的结果。
 
 Insert 18333fig0311.png 
-图 3-11. Creating a new branch pointer
+图 3-11. 创建一个新分支指针
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; 见图 3-12):
+你在你的网站上工作并进行一些提交。这会让`iss53`分支向前推进，因为它处于签出的状态（或者说，你的HEAD指针目前指向它，见图3-12）：
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-图 3-12. The iss53 branch has moved forward with your work.
+图 3-12. iss53分支随你的工作向前推进
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+现在你就接到了那个网站问题的紧急电话，需要马上修补。在Git里，你不需要同时发布这个补丁和你在`iss53`里作出的修改，也不需要在创建和发布该补丁到服务器之前花费很多努力来复原这些修改。唯一需要的仅仅是转换回你的master分支：
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+不过，在这之前，留心你的暂存区或者工作目录里那些还没有提交的修改，它会和你即将签出的分支产生冲突从而阻止Git为你转换分支。转换分支的时候最好保持一个清洁的工作区域。有几个可以绕过这个问题的办法（stashing和amending）将在以后给出。目前你已经提交了所有的修改，所以你可以转换到master分支：
 
 	$ git checkout master
 	Switched to branch "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+这时候，项目目录里的内容和你在解决问题#53之前一模一样，你可以集中精力进行紧急修补。这一点值得牢记：Git会把你目录的内容恢复为你签出某分支时它所指向的那个commit的快照。它会自动的添加，删除和修改文件以确保目录的内容和你上次提交时完全一样。
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (见图 3-13):
+接下来，你得进行紧急修补。我们创建一个紧急修补(译注：命名为hotfix)分支来进行工作，直到搞定（见图 3-13）
 
 	$ git checkout -b 'hotfix'
 	Switched to a new branch "hotfix"
@@ -156,9 +156,9 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-图 3-13. hotfix branch based back at your master branch point
+图 3-13. 从master原点分支出来的hotfix分支
 
-You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
+你可以进行一些测试，确保修补是成功的，然后把它合并到master分支并发布到服务器。用`git merge`命令来进行合并：
 
 	$ git checkout master
 	$ git merge hotfix
@@ -167,19 +167,19 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
+注意合并时出现的"Fast forward"（快进）提示。由于所并入的分支指向一个位于被并入分支直接上游的commit，Git只需要把指针（译注：所并入分支的指针，例中的master）直接前移。换句话说，如果顺着一个分支走下去可以到达另一个分支，那Git在二者合并的时候只会简单的把指针前移，因为没有什么分歧需要解决——这个过程叫做一次“快进(Fast forward)。
 
-Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (见图 3-14).
+现在你的修改进入了master分支指向的commit里的快照，可以发布了（见图3-14）。
 
 Insert 18333fig0314.png 
-图 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+图 3-14. 合并之后，你的master分支和hotfix分支指向同一位置。
 
-After that your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+在那个超级重要的修补发布以后，你想要回到被打扰之前的工作。不过你想先删掉`hotfix`分支，因为它已经没用了——`master`指向相同的地方。你可以用`git branch`的`-d`选项删除之：
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (见图 3-15):
+现在可以回到未完成的问题#53分支继续工作了（图3-15）：
 
 	$ git checkout iss53
 	Switched to branch "iss53"
@@ -189,9 +189,9 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-图 3-15. Your iss53 branch can move forward independently.
+图 3-15. iss53分支可以不受影响继续推进。
 
-It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+`hotfix`分支的内容没有包含在`iss53`不值得担心。如果需要它的存在，你可以用`git merge master`把master分支合并得到`iss53`，或者等到你把`iss53`分支整合到`master`的时候。
 
 ### 基本合并 ###
 

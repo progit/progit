@@ -74,11 +74,11 @@ Insert 18333fig0201.png
 
 ### 跟踪新文件 ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+使用命令 `git add` 开始跟踪一个新文件。所以，要跟踪 README 文件，运行：
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+此时再运行 `git status` 命令，会看到 README 文件已被跟踪，并处于暂存状态：
 
 	$ git status
 	# On branch master
@@ -88,9 +88,9 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+只要在 “Changes to be committed” 这行下面的，就说明是已暂存状态。如果此时提交，那么该文件此时此刻的版本将被留存在历史记录中。你可能会想起之前我们使用 `git init` 后就运行了 `git add` 命令，开始跟踪当前目录下的文件。git add 后可以接要跟踪的文件或目录的路径。如果是目录的话，就说明要递归跟踪所有该目录下的文件。
 
-### Staging Modified Files ###
+### 暂存已修改文件 ###
 
 Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
 
@@ -148,7 +148,7 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### 忽略某些文件 ###
 
 Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
 

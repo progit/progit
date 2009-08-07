@@ -49,17 +49,17 @@ Git 支持许多数据传输协议。之前的例子使用的是 `git://` 协议
 Insert 18333fig0201.png 
 图 2-1. 文件的状态变化周期
 
-### Checking the Status of Your Files ###
+### 检查当前文件状态 ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+要确定哪些文件当前处于什么状态，可以用 git status 命令。如果在克隆仓库之后立即执行此命令，会看到类似这样的输出：
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+这说明你现在的工作目录相当干净。换句话说，当前没有任何跟踪着的文件，也没有任何文件在上次提交后更改过。此外，上面的信息还表明，当前目录下没有出现任何处于未跟踪的新文件，否则 Git 会在这里列出来。最后，该命令还显示了当前所在的分支是 master，这是默认的分支名称，实际是可以修改的，现在不必多虑。下一章我们就会详细讨论分支和引用。
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+现在让我们用 vim 编辑一个新文件 README，保存退出后运行 `git status` 会看到该文件出现在未跟踪文件列表中：
 
 	$ vim README
 	$ git status
@@ -70,9 +70,9 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+就是在“Untracked files”这行下面。Git 不会自动将之纳入跟踪范围，除非你明明白白地告诉它这么做，因而不用担心把临时文件什么的也归入版本管理。不过现在我们确实想要跟踪管理 README 这个文件。
 
-### Tracking New Files ###
+### 跟踪新文件 ###
 
 In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
 

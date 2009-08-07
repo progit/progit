@@ -6,8 +6,10 @@ default:
   fig: "Figure "
   tab: "Table "
 zh:
-  font: WenQuanYi Zen Hei
+  font: AR PL UMing CN
   fig: "图 "
 ja:
-  font: WenQuanYi Zen Hei
+  font: Kochi Mincho
   fig: 図
+ru:
+  fig: "рисунок "

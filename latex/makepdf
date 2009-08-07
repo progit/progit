@@ -70,20 +70,22 @@ end
 
 def post_pandoc(string, config)
 	replace(string) do
+		space = /\s/
+
 		# Reformat for the book documentclass as opposed to article
 		s '\section', '\chap'
 		s '\sub', '\\'
 		s /SUBSUBSECTION: (.*)/, '\subsubsection{\1}'
 
 		# Enable proper cross-reference
-		s /#{config['fig']}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
-		s /#{config['tab']}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
-		s /#{config['chap']}\s*(\d+)/, '\chapref{\1}'
+		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
+		s /#{config['tab'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
+		s /#{config['chap'].gsub(space, '\s')}\s*(\d+)/, '\chapref{\1}'
 
 		# Miscellaneous fixes
 		s /FIG: (.*)/, '\img{\1}'
 		s '\begin{enumerate}[1.]', '\begin{enumerate}'
-		s '--', '-'
+		s /(\w)--(\w)/, '\1-\2'
 		s /``(.*?)''/, '“\1”'
 
 		# Typeset the maths in the book with TeX
@@ -92,7 +94,7 @@ def post_pandoc(string, config)
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
 
 		# Ensure monospaced stuff is in a smaller font
-		s /(\\verb!.*?!)/m, '{\footnotesize\1}'
+		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
 
 		# Convert inline-verbatims into \texttt (which is able to wrap)
@@ -171,8 +173,7 @@ figures do
 						puts "failed with:\n\t\t\t#{$_.strip}"
 						puts "\tConsider running this again with --debug."
 						abort = true
-						break
-					end while stdout.gets
+					end while stdout.gets and not abort
 				else
 					STDERR.print while stdout.gets rescue abort = true
 				end

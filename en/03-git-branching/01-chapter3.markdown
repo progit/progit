@@ -332,8 +332,8 @@ This shows your other branch. Because it contains work that isn’t merged in ye
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
+	If you are sure you want to delete it, run 'git branch -D testing'.
 
-If you are sure you want to delete it, run `git branch -D testing`.
 If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
 
 ## Branching Workflows ##

@@ -1,6 +1,8 @@
 # Основы Git #
 
-If you can read only one chapter to get going with Git, this is it. Эта глава охватывает все базовые команды, необходимые вам для решения подавляющего большинства задач возникающих при работе с Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+If you can read only one chapter to get going with Git, this is it. Эта глава охватывает все базовые команды, необходимые вам для решения подавляющего большинства задач возникающих при работе с Git. После прочтения этой главы вы сможете настроить и инициализировать репозиторий, добавлять и удалять файлы под версионный контроль, а также 
+
+By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
 
 ## Getting a Git Repository ##
 

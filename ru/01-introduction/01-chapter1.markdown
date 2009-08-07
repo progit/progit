@@ -89,13 +89,13 @@ Insert 18333fig0105.png
 
 Работая с Git, вы будете постоянно встречать эти хэши, поскольку они очень активно используются. Фактически Git сохраняет данные не по имени файла, а обращается к файлам в своей базе адресуя их по хэшам их содержимого.
 
-### Git Generally Only Adds Data ###
+### Git практически всегда добавляет данные ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Практически все действия, которые вы совершаете в Git, только добавляют данные в базу данных. Поэтому очень сложно заставить систему сделать что то, что нельзя отменить или приводящее к удалению данных. Конечно, как и в любой другой системе контроля версий вы можете потерять изменения которые еще не были сохранены в Git, но после того как вы сделали коммит очень сложно их потерять, особенно если вы регулярно отправляете вашу базу в другой репозиторий.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Это делает использование Git похожим на игру, поскольку вы можете эксперементировать, не боясь серьезно что то поломать. Если вы хотите более детально изучить как Git хранит данные и как вы можете восстановить их, когда вдруг они кажется что они потерялись, ознакомьтесь с разделом "Under the Covers" в главе 9.
 
-### The Three States ###
+### Три состояния ###
 
 Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
 

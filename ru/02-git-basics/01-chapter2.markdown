@@ -25,7 +25,7 @@ If you’re starting to track an existing project in Git, you need to go to the 
 
 This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
 
-Если вы хотите добавить под версионный контроль существующие файлы (в отличие от пустого каталога), вам стоит проиндексировать эти файлы и осуществить первую фиксацию изменений. Осуществить это вы можете с помощью нескольких команд git add указывающих индексируемые файлы и последующей фиксации (commit):
+Если вы хотите добавить под версионный контроль существующие файлы (в отличие от пустого каталога), вам стоит проиндексировать эти файлы и осуществить первую фиксацию изменений. Осуществить это вы можете с помощью нескольких команд git add указывающих индексируемые файлы и последующего коммита:
 
 If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
 
@@ -33,7 +33,7 @@ If you want to start version-controlling existing files (as opposed to an empty 
 	$ git add README
 	$ git commit –m 'initial project version'
 
-Мы разберем что делают эти команды чуть позже. На данном этапе, у вас есть репозиторий Git с добавленными файлами и начальным коммитом
+Мы разберем что делают эти команды чуть позже. На данном этапе, у вас есть репозиторий Git с добавленными файлами и начальным коммитом.
 
 We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
 
@@ -50,7 +50,7 @@ You clone a repository with `git clone [url]`. For example, if you want to clone
 
 	$ git clone git://github.com/schacon/grit.git
 
-Эта команда создает каталог с именем "grit", в нем инициализирует каталог `.git`, скачивает все данные для этого репозитория и создает (checks out) рабочую копию последней версии. Если вы зайдете в новый каталог `grit`, вы увидите в нем проектные файлы пригодные для изменения и/или использования. Если вы хотите клонировать репозиторий в каталог отличный от `grit`, вы можете указать это следующим параметром командной строки: 
+Эта команда создает каталог с именем "grit", в нем инициализирует каталог `.git`, скачивает все данные для этого репозитория и создает (checks out) рабочую копию последней версии. Если вы зайдете в новый каталог `grit`, вы увидите в нем проектные файлы пригодные для изменения и/или использования. Если вы хотите клонировать репозиторий в каталог отличный от `grit`, вы можете указать это следующим параметром командной строки:
 
 That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
 
@@ -64,18 +64,29 @@ Git реализует несколько транспортных проток�
 
 Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
 
+## Запись Изменений в Репозиторий ##
 ## Recording Changes to the Repository ##
+
+Итак, у вас имеется подлинный репозиторий Git и отладочная(checkout) или рабочая копия файлов для некоторого проекта. Вам хочется делать некоторые изменения и фиксировать "снимки" состояния (snapshots) этих изменений в вашем репозитории каждый раз, когда проект достигает состояния, которое вам хотелось бы сохранить.
 
 You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
 
+Запомните, каждый файл в вашем рабочем каталоге может находится в одном из двух состояний: под версионным контролем (отслеживаемые) и нет (неотслеживаемые). Отслеживаемые файлы - это те файлы, которые были в последнем слепке состояния проекта (snapshot); они могут быть неизмененными, измененными или подготовленными к коммиту (staged). Неотслеживаемые файлы - это все остальное, любые файлы в вашем рабочем каталоге, которые не входили в ваш последний слепок состояния и не подготовлены к коммиту. Когда вы впервые клонируете репозиторий, все ваши файлы будут отслеживаемыми и неизмененные, потому что вы только (checked them out) и ничего пока не редактировали.
+
 Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
+
+Как только вы отредактируете файлы, Git будет рассматривать их как измененные, т.к. вы изменили их с момента последнего коммита. Вы индексируете (stage) эти изменения и затем фиксируете все индексированные изменения, а затем цикл повторяется. Этот жизненный цикл изображен на рисунке 2-1.
 
 As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
 
 Insert 18333fig0201.png 
+Рисунок 2-1. Жизненный цикл состояния ваших файлов
 Figure 2-1. The lifecycle of the status of your files
 
+### Определение Состояния Ваших Файлов ###
 ### Checking the Status of Your Files ###
+
+Основной инструмент используемый вами для определения какие файлы в каком состоянии находятся - это команда git status. Если вы выполните эту команду сразу после клонирования, вы увидите что-то вроде этого:
 
 The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
 
@@ -83,7 +94,11 @@ The main tool you use to determine which files are in which state is the git sta
 	# On branch master
 	nothing to commit (working directory clean)
 
+Это означает, что у вас чистый рабочий каталог, другими словами - в нем нет отслеживаемых и измененный файлов. Git также не обнаружил неотслеживаемых файлов, в противном случае они бы были перечислены здесь. И наконец команда сообщает вам на какой ветке (branch) вы сейчас находитесь. Пока вы всегда на ветке master, это ветка по-умолчанию, в этой главе это не важно. В следующей главе подробно рассказывается про ветки и ссылки.
+
 This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+
+Предположим вы добавили новый файл в ваш проект, простой README файл. Если этого файла раньше не было, и вы выполните `git status`, вы увидите ваш неотслеживаемый файл как-то так:
 
 Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
 
@@ -96,13 +111,20 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
+Вы можете видеть, что ваш новый файл README неотслеживаемый, т.к. он находится в секции “Untracked files” в выводе команды status. Неотслеживаемый файл обычно означает, что Git нашел файл отсутствующий в предыдущем снимке состояния (коммите); Git не станет добавлять его в ваши коммиты, пока вы явно это ему не укажете. Это предохраняет вас от случайного добавления в репозиторий сгенерированных двоичных файлов или каких-либо других, которые вы и не думали добавлять. Вы хотите добавить README, так что давайте сделаем это.
+
 You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
 
+### Отслеживание Новых Файлов ###
 ### Tracking New Files ###
+
+Для того чтобы начать отслеживать (добавить под версионный контроль) новый файл, вы используете команду `git add`. Чтобы начать отслеживание файла README, вы можете выполнить:
 
 In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
 
 	$ git add README
+
+Если вы снова выполните команду status, то увидите, что файл README теперь отслеживаемый и индексированный:
 
 If you run your status command again, you can see that your README file is now tracked and staged:
 
@@ -113,6 +135,8 @@ If you run your status command again, you can see that your README file is now t
 	#
 	#	new file:   README
 	#
+
+Вы можете видеть что файл проиндексирован по тому, что он находится в секции “Changes to be committed”. Если вы выполните коммит в этот момент, то версия файла, существовавшая на момент выполнения вами команды git add, будет добавлена в историю снимков состояния. Вы помните, что когда вы ранее выполнили git init, вы затем выполнили git add (files) - это было сделано для того, чтобы добавить файлы в вашем каталоге под версионный контроль. Команда git add принимает параметром путь к файлу или каталогу, если это каталог, команда рекурсивно добавляет (индексирует) все файлы в данном каталоге.
 
 You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
 

@@ -97,24 +97,42 @@ Insert 18333fig0105.png
 
 ### Три состояния ###
 
+Теперь, внимание. Это одна из главных вещей которую вы должны запомнить о Git, если вы хотить чтобы дальнейшее изучение прошло гладко. В Git файлы могут находиться в одном из трех состояний: зафиксированные,измененные и подготовленные. Если файл зафиксирован, это означает, что он уже сохранен в вашей локальной базе. К измененным относятся файлы которые были поменяны и еще не были зафиксированны. Подготовленные файлы – это файлы которые вы пометили для включения в следующий коммит. 
+
 Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+
+Таким образом в проекте с использованием Git есть три части: каталог Git (Git directory), рабочий каталог (working directory) и область подготовленых файлов (staging area).
 
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
 Insert 18333fig0106.png 
-Рисунок 1-6. Working directory, staging area, and git directory
+Рисунок 1-6. Рабочий каталог, область подготовленых файлов, каталог Git
+
+Каталог Git – это место где Git хранит метаданные и базу данных объектов вашего проекта. Это наиболее важная часть Git, и именно она копируется когда вы клонируете репозиторий с другого компьютера.
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
 
+Рабочая директория — это извлеченная из базы копия определенной версии проекта. Эти файлы извлеченные из сжатой базы данных в каталоге Git и помещенные на диск для просмотра и модификаций.
+
 The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+
+Область подготовленных файлов это файл, обычно хранищийся в вашем каталоге Git, в котором хранится информация о том, что должно войти в следующий коммит. Иногда ее называют индексом (index), но последнее время становится стандартом называть ее областью подготовленых фалов.
 
 The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
 
+Стандартный рабочий процесс с использованием Git выглядит примерно так:
+
 The basic Git workflow goes something like this:
+
+1.	Вы изменяете файлы в вашем рабочем каталоге.
+2.	Вы подготавливаете файлы, добавляя их слепки в область подготовленых файлов.
+3.	Вы делаете коммит, при этом слепки файлов сохраненные в области подготовленных файлов перемещаются на хранение в каталог Git.
 
 1.	You modify files in your working directory.
 2.	You stage the files, adding snapshots of them to your staging area.
 3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+
+Если рабочая версия файла совпадает с версией в каталоге Git, файл считается зафиксированым. Если файл изменен, но добавлен в область подготовленных данных, он подготовлен к коммиту. Если ж файл изменен, но не подготовлен, то он считается модифицированным. В главе 2 вы узнаете больше об этих трех сосотояних и как вы можете либо получить преимущество, либо пропустить стадию подготовленных файлов.
 
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 

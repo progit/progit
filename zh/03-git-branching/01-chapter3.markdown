@@ -4,7 +4,7 @@
 
 有人把Git的分支模式成为它的“必杀特性”，而它的确使得Git在版本控制系统的家族里一枝独秀。它为什么这么特别呢？Git的分支可谓是难以置信的轻量级，使得其创建操作几乎可以在瞬间完成并且在不同分支间的反复切换也差不多快。不同于很多其他的版本控制系统，Git鼓励在工作流程中经常性的分支与合并，哪怕在一天之内进行多次。理解和掌握这个特性你会获得一个强大而独特的工具，并且真正的改变你开发的方式。
 
-## 什么是分支(branching) ##
+## 什么是分支(branch) ##
 
 为了真正弄明白Git分支的方式，我们需要回顾一下Git储存其数据的方式。你或许还记得第一章的内容，Git不以文件差异或者变化量的形式保存数据，而是保存一系列的镜像。
 
@@ -32,121 +32,121 @@ Git中的一个分支仅仅是一个轻巧的指向一个commit的可变指针�
 Insert 18333fig0303.png 
 图3-3. 指向提交数据历史的分支
 
-What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
+创建一个新分支的时候会发生什么事情呢？答案是你会有一个新的指针来四处移动。比如你创建了一个叫做testing的新分支。创建它的命令是`git branch`:
 
 	$ git branch testing
 
-This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
+这将在你当前所在的commit建立一个新的指针（见图3-4）。
 
 Insert 18333fig0304.png 
-Figure 3-4. Multiple branches pointing into the commit’s data history
+图 3-4. 多个分支指向提交数据的历史
 
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+Git如何知道你当前在哪一个分支工作呢？它保存一个名为HEAD的特别指针。请注意它和你熟知的许多其他版本控制里的HEAD概念大不相同,比如Subversion或CVS。在Git中，它是一个指向你正在工作的本地分支的指针。在本例中，你仍然处于master。git branch命令仅仅建立一个新分支——而不会进入这个分支（参考图3-5）。
 
 Insert 18333fig0305.png 
-Figure 3-5. HEAD file pointing to the branch you’re on
+图 3-5. HEAD文件指向你所在的分支
 
-To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
+要转换到某个现存的分支，你需要执行`git checkout`命令。我们现在转换到新建的testing分支：
 
 	$ git checkout testing
 
-This moves HEAD to point to the testing branch (see Figure 3-6).
+这样HEAD就指向了testing分支（见图3-6）。
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD points to another branch when you switch branches.
+图3-6. HEAD在你转换分支的时候指向了另一分支
 
-What is the significance of that? Well, let’s do another commit:
+这一点有什么重要性吗？我们不妨再进行一次提交：
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
-Figure 3-7 illustrates the result.
+图3-7 展示了提交后的结果。
 
 Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+图3-7. HEAD指向的分支在每次提交后向前移动
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+非常有趣，因为现在你的testing分支向前移动了，但你的master分支仍然指向你使用`git checkout`来转换分支时所在的commit。现在我们转回master分支：
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+图 3-8 显示了结果。
 
 Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+图 3-8. HEAD在一次checkout之后移动到了另一个分支。
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+这条命令做了两件事。它把HEAD指针移回了master分支，并且它把你工作目录里的文件换成了master指向快照里的内容。这也意味这你在这里作出的改变将始于本工程中一个较旧的版本。它的主要作用是将你在testing分支里做出的改变暂时取消，这样你就可以向另一个方向进行开发。
 
-Let’s make a few changes and commit again:
+我们做一些修改然后再一次提交：
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+现在你工程的历史产生了分叉（见图3-9）。你创建并转换到一个分支，在里面进行了一些工作，然后转换回你的主分支进行了另一些工作。这些改变分别孤立在不同的分支里：你可以在不同分支里反复切换并且在时机成熟的时候把它们合并在一起。而你仅用了`branch`和`checkout`命令就做到了这些。
 
 Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+图 3-9. 分叉了的分支历史
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+由于一个分支实际仅仅是Git中一个包含它所指向内容的40字符SHA-1校验值的文件，创建和销毁一个分支就变的非常廉价。创建一个新分支可以快捷和简单到向一个文件写入41个字节（40个字符加一个换行符）。
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+这和大多数版本控制系统管理分支的方法形成鲜明的对比，它们的方法涉及到把所有的工程文件复制到另一个目录里。该过程可能要花掉数秒甚至数分钟，取决于工程的体积，而Git永远可以在瞬间完成。同时，因为每次提交的时候记录了祖先的信息，寻找合并分支时恰当的合并基础的工走已经自动完成并且非常容易。这些特性能够鼓励开发者经常性的创建和使用分支。
 
-Let’s see why you should do so.
+我们来看看为什么你应该这么做。
 
 ## 基本的分支与合并(merge) ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+现在使用一个简单的分支与合并的例子来演示一下你可能在现实中使用的工作流行。你将遵循以下步骤：
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.	在一个网站上工作。
+2.	为你的一个新作品创建一个分支。
+3.	在这个分支上做一些工作。
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+在这个阶段，你接到一个电话说有一个很严重的突发问题需要紧急修补。你会做下面这些事情：
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.	返回你的主分支。
+2.	为这次紧急修补建立一个新分支。
+3.	经过测试，合并这个修补分支，把它推送到主分支。
+4.	转换到你原来的作品继续工作。
 
 ### 基本分支 ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+首先，我们假设你正在你的项目中工作并且已经进行了几次提交：（见图 3-10）。
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history
+图 3-10. 一段短小简单的提交历史
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+你决定修补公司的问题追踪系统上的问题#53。顺便声明，Git并不依附任何问题追踪系统；但因为问题#53是一个你想修补的关键问题，你会它创建一个新分支。要建立一个新分支同时转换进去，运行`git checkout`并加上`-b`参数：
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
-This is shorthand for 
+这是以下命令的简写：
 
 	$ git branch iss53
 	$ git checkout iss53
 
-Figure 3-11 illustrates the result.
+图 3-11 示意该命令的结果。
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer
+图 3-11. 创建一个新分支指针
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+你在你的网站上工作并进行一些提交。这会让`iss53`分支向前推进，因为它处于签出的状态（或者说，你的HEAD指针目前指向它，见图3-12）：
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+图 3-12. iss53分支随你的工作向前推进
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+现在你就接到了那个网站问题的紧急电话，需要马上修补。在Git里，你不需要同时发布这个补丁和你在`iss53`里作出的修改，也不需要在创建和发布该补丁到服务器之前花费很多努力来复原这些修改。唯一需要的仅仅是转换回你的master分支：
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+不过，在这之前，留心你的暂存区或者工作目录里那些还没有提交的修改，它会和你即将签出的分支产生冲突从而阻止Git为你转换分支。转换分支的时候最好保持一个清洁的工作区域。有几个可以绕过这个问题的办法（stashing和amending）将在以后给出。目前你已经提交了所有的修改，所以你可以转换到master分支：
 
 	$ git checkout master
 	Switched to branch "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+这时候，项目目录里的内容和你在解决问题#53之前一模一样，你可以集中精力进行紧急修补。这一点值得牢记：Git会把你目录的内容恢复为你签出某分支时它所指向的那个commit的快照。它会自动的添加，删除和修改文件以确保目录的内容和你上次提交时完全一样。
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+接下来，你得进行紧急修补。我们创建一个紧急修补(译注：命名为hotfix)分支来进行工作，直到搞定（见图 3-13）
 
 	$ git checkout -b 'hotfix'
 	Switched to a new branch "hotfix"
@@ -156,9 +156,9 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point
+图 3-13. 从master原点分支出来的hotfix分支
 
-You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
+你可以进行一些测试，确保修补是成功的，然后把它合并到master分支并发布到服务器。用`git merge`命令来进行合并：
 
 	$ git checkout master
 	$ git merge hotfix
@@ -167,19 +167,19 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
+注意合并时出现的"Fast forward"（快进）提示。由于所并入的分支指向一个位于被并入分支直接上游的commit，Git只需要把指针（译注：所并入分支的指针，例中的master）直接前移。换句话说，如果顺着一个分支走下去可以到达另一个分支，那Git在二者合并的时候只会简单的把指针前移，因为没有什么分歧需要解决——这个过程叫做一次“快进(Fast forward)。
 
-Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
+现在你的修改进入了master分支指向的commit里的快照，可以发布了（见图3-14）。
 
 Insert 18333fig0314.png 
-Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+图 3-14. 合并之后，你的master分支和hotfix分支指向同一位置。
 
-After that your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+在那个超级重要的修补发布以后，你想要回到被打扰之前的工作。不过你想先删掉`hotfix`分支，因为它已经没用了——`master`指向相同的地方。你可以用`git branch`的`-d`选项删除之：
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
+现在可以回到未完成的问题#53分支继续工作了（图3-15）：
 
 	$ git checkout iss53
 	Switched to branch "iss53"
@@ -189,9 +189,9 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-Figure 3-15. Your iss53 branch can move forward independently.
+图 3-15. iss53分支可以不受影响继续推进。
 
-It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+`hotfix`分支的内容没有包含在`iss53`不值得担心。如果需要它的存在，你可以用`git merge master`把master分支合并得到`iss53`，或者等到你把`iss53`分支整合到`master`的时候。
 
 ### 基本合并 ###
 
@@ -203,17 +203,17 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
+This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. 图 3-16 highlights the three snapshots that Git uses to do its merge in this case.
 
 Insert 18333fig0316.png 
-Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
+图 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
 
-Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
+Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (见图 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
 
 It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
 
 Insert 18333fig0317.png 
-Figure 3-17. Git automatically creates a new commit object that contains the merged work.
+图 3-17. Git automatically creates a new commit object that contains the merged work.
 
 Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
 
@@ -346,15 +346,15 @@ Because Git uses a simple three-way merge, merging from one branch into another 
 
 Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
 
-In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
+In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (见图 3-18).
 
 Insert 18333fig0318.png 
-Figure 3-18. More stable branches are generally farther down the commit history.
+图 3-18. More stable branches are generally farther down the commit history.
 
-It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (see Figure 3-19).
+It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (见图 3-19).
 
 Insert 18333fig0319.png 
-Figure 3-19. It may be helpful to think of your branches as silos.
+图 3-19. It may be helpful to think of your branches as silos.
 
 You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
 Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
@@ -365,15 +365,15 @@ Topic branches, however, are useful in projects of any size. A topic branch is a
 
 You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
 
-Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
+Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like 图 3-20.
 
 Insert 18333fig0320.png 
-Figure 3-20. Your commit history with multiple topic branches
+图 3-20. Your commit history with multiple topic branches
 
-Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
+Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like 图 3-21.
 
 Insert 18333fig0321.png 
-Figure 3-21. Your history after merging in dumbidea and iss91v2
+图 3-21. Your history after merging in dumbidea and iss91v2
 
 It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
 
@@ -383,30 +383,30 @@ Remote branches are references to the state of branches on your remote repositor
 
 They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
+This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (见图 3-22).
 
 Insert 18333fig0322.png 
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+图 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
 
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (见图 3-23).
 
 Insert 18333fig0323.png 
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+图 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
+To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (见图 3-24).
 
 Insert 18333fig0324.png 
-Figure 3-24. The git fetch command updates your remote references.
+图 3-24. The git fetch command updates your remote references.
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
+To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (见图 3-25).
 
 Insert 18333fig0325.png 
-Figure 3-25. Adding another server as a remote
+图 3-25. Adding another server as a remote
 
-Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
+Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (见图 3-26).
 
 Insert 18333fig0326.png 
-Figure 3-26. You get a reference to teamone’s master branch position locally.
+图 3-26. You get a reference to teamone’s master branch position locally.
 
 ### 推送(pushing) ###
 
@@ -476,15 +476,15 @@ In Git, there are two main ways to integrate changes from one branch into anothe
 
 ### 衍合(rebasing)基础 ###
 
-If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
+If you go back to an earlier example from the Merge section (见图 3-27), you can see that you diverged your work and made commits on two different branches.
 
 Insert 18333fig0327.png 
-Figure 3-27. Your initial diverged commit history
+图 3-27. Your initial diverged commit history
 
-The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
+The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in 图 3-28.
 
 Insert 18333fig0328.png 
-Figure 3-28. Merging a branch to integrate the diverged work history
+图 3-28. Merging a branch to integrate the diverged work history
 
 However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
 
@@ -495,15 +495,15 @@ In this example, you’d run the following:
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
+It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. 图 3-29 illustrates this process.
 
 Insert 18333fig0329.png 
-Figure 3-29. Rebasing the change introduced in C3 onto C4
+图 3-29. Rebasing the change introduced in C3 onto C4
 
-At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
+At this point, you can go back to the master branch and do a fast-forward merge (见图 3-30).
 
 Insert 18333fig0330.png 
-Figure 3-30. Fast-forwarding the master branch
+图 3-30. Fast-forwarding the master branch
 
 Now, the snapshot pointed to by C3 is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
 
@@ -513,10 +513,10 @@ Note that the snapshot pointed to by the final commit you end up with, whether i
 
 ### 更多有趣的衍合 ###
 
-You can also have your rebase replay on something other than the rebase branch. Take a history like Figure 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+You can also have your rebase replay on something other than the rebase branch. Take a history like 图 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
 
 Insert 18333fig0331.png 
-Figure 3-31. A history with a topic branch off another topic branch
+图 3-31. A history with a topic branch off another topic branch
 
 Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
 
@@ -525,15 +525,15 @@ Suppose you decide that you want to merge your client-side changes into your mai
 This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
 
 Insert 18333fig0332.png 
-Figure 3-32. Rebasing a topic branch off another topic branch
+图 3-32. Rebasing a topic branch off another topic branch
 
-Now you can fast-forward your master branch (see Figure 3-33):
+Now you can fast-forward your master branch (见图 3-33):
 
 	$ git checkout master
 	$ git merge client
 
 Insert 18333fig0333.png 
-Figure 3-33. Fast-forwarding your master branch to include the client branch changes
+图 3-33. Fast-forwarding your master branch to include the client branch changes
 
 Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
 
@@ -542,7 +542,7 @@ Let’s say you decide to pull in your server branch as well. You can rebase the
 This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
 
 Insert 18333fig0334.png 
-Figure 3-34. Rebasing your server branch on top of your master branch
+图 3-34. Rebasing your server branch on top of your master branch
 
 Then, you can fast-forward the base branch (`master`):
 
@@ -555,7 +555,7 @@ You can remove the `client` and `server` branches because all the work is integr
 	$ git branch -d server
 
 Insert 18333fig0335.png 
-Figure 3-35. Final commit history
+图 3-35. Final commit history
 
 ### 衍合的风险 ###
 
@@ -570,22 +570,22 @@ When you rebase stuff, you’re abandoning existing commits and creating new one
 Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.
 
 Insert 18333fig0336.png 
-Figure 3-36. Clone a repository, and base some work on it.
+图 3-36. Clone a repository, and base some work on it.
 
 Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figure 3-37.
 
 Insert 18333fig0337.png 
-Figure 3-37. Fetch more commits, and merge them into your work.
+图 3-37. Fetch more commits, and merge them into your work.
 
 Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
 
 Insert 18333fig0338.png 
-Figure 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+图 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
 
-At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (see Figure 3-39).
+At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (见图 Figure 3-39).
 
 Insert 18333fig0339.png 
-Figure 3-39. You merge in the same work again into a new merge commit.
+图 3-39. You merge in the same work again into a new merge commit.
 
 You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
 

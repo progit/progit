@@ -117,22 +117,34 @@ Insert 18333fig0309.png
 Abbildung 3-9. Die Branch-Historie läuft auseinander.
 Figure 3-9. The branch histories have diverged.
 
+Eine Branch in Git ist eine einfache Datei, die nur die 40 Zeichen lange SHA-1 Prüfsumme des Commits enthält, auf das sie zeigt. Es kostet nicht viel, Branches zu erstellen und zu zerstören. Das Erstellen einer Branch ist der einfache und schnelle Weg, 41 Bytes in eine Datei zu schreiben (40 Zeichen für die Prüdsumme und ein Zeilenumbruch).
 Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
 
+Das steht im krassen Kontrast zum Weg den andere VCS Tools zum Thema Branch einschlagen. Vielfach ist ein Kopieren aller Projekt-Dateien in ein anderes Verzeichnis damit verbunden. Das kann einige Zeit in Anspruch nehmen und hängt von der Größe des Projektes ab. In Git geht das blitzschnell. Genauso, weil wir immer auch den Ursprung bem Commit mit aufzeichnen, haben wir automatisch eine gute Basis zum Zusammenführen verschiedner Zweige. Damit soll es Entwicklern erleichtert werden, Branches viel einzusetzen.
 This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
 
+Lass uns anschauen, wie du das machen kannst.
 Let’s see why you should do so.
 
 ## Basic Branching and Merging ##
 
+Lass uns das Ganze an einem Beispiel durchgehen, dessen Workflow zum Thema Branching und Zusammenführen du im echten Leben verwenden kannst. Folge einfach diesen Schritten:
 Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
 
+1.	Arbeite an einer Webseite.
+2.	Erstell eine Branch für eine neue Geschichte an der du arbeitest.
+3.	Arbeite an dieser Branch.
 1.	Do work on a web site.
 2.	Create a branch for a new story you’re working on.
 3.	Do some work in that branch.
 
+In diesem Augenblick kommt ein Anruf, dass ein anderes Problem sehr kritisch ist und sofort gelöst werden muss. Du machst folgendes:
 At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
 
+1.	Geh zurück auf deine produktive Branch.
+2.	Erstelle eine Branch für den Hotfix.
+3.	Nach dem Testen führst du die Hotfix-Branch mit der Produktion-Branch zusammen.
+4.	Schalte jetzt wieder auf deine Origialstory zurück und setze deine Arbeit fort.
 1.	Revert back to your production branch.
 2.	Create a branch to add the hotfix.
 3.	After it’s tested, merge the hotfix branch, and push to production.
@@ -140,9 +152,11 @@ At this stage, you’ll receive a call that another issue is critical and you ne
 
 ### Basic Branching ###
 
+Sagen wir, du hast an deinem Projekt gearbeitet und einige Commits bereits durchgeführt (siehe Abbildung 3-10).
 First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
 
 Insert 18333fig0310.png 
+Abbildung 3-10. Eine kurze, einfache Commit-Historie
 Figure 3-10. A short and simple commit history
 
 You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:

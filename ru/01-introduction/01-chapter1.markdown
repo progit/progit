@@ -1,16 +1,16 @@
 # Введение #
 
-Эта глава расскажет вам о том, как начать работу с Git.  Мы начнем с рассмотрения некоторых основ версионного контроля, затем рассмотрим как запустить Git на вашей системе, и, наконец, как настроить его для начала работы.  В конце этой главы вы поймете почему Git так популярен, почему вам следует его использовать и что необходимо для этого сделать. 
+Эта глава расскажет вам о том, как начать работу с Git.  Мы начнем с рассмотрения некоторых основ версионного контроля, затем рассмотрим, как запустить Git на вашей системе, и, наконец, как настроить его для начала работы.  В конце этой главы вы поймете, почему Git так популярен, почему вам следует его использовать, и что необходимо для этого сделать. 
 
 ## О версионном контроле ##
 
-Так что же такое версионный контроль и почему это должно вас волновать? Версионный контроль это система которая записывает изменения файла или набора файлов во времени, позволяя вам в последствии получить определенную версию. В качестве примеров контролируемых файлов в этой книге использутся исходнный код программ, хотя на практике версионный контроль может применяться для любых файлов.
+Так что же такое версионный контроль и почему это должно вас волновать? Версионный контроль - это система которая записывает изменения файла или набора файлов во времени, позволяя вам в последствии получить определенную версию. В качестве примеров контролируемых файлов в этой книге использутся исходнный код программ, хотя на практике версионный контроль может применяться для любых файлов.
 
-Если вы дизайнер или веб-дизайнер и хотите хранить каждую версию изображения или макета (что практически всегда вам необходимо) система контроля версий (Version Control System, VCS) разумный выбор для решения этой проблемы. Она позволит вам откатить файлы к их предыдущиму состоянию, откатить к предыдущему состоянию целый проект, просматривать сделанные изменения, просмотреть кто последний изменил что то, что могло привести к проблеме, кто и когда внес проблему и т.д. Использование VCS означает также, что если вы испортили или потеряли файлы, вы можете их легко восстановить. Кроме того, вы получаете это все с крайне малыми затратами.
+Если вы дизайнер или веб-дизайнер и хотите хранить каждую версию изображения или макета (что практически всегда вам необходимо) система контроля версий (Version Control System, VCS) - разумный выбор для решения этой проблемы. Она позволит вам откатить файлы к их предыдущиму состоянию, откатить к предыдущему состоянию целый проект, просматривать сделанные изменения, просмотреть, кто последний изменил что-то, что могло привести к проблеме, кто и когда внес проблему и т.д. Использование VCS означает также, что если вы испортили или потеряли файлы, вы можете их легко восстановить. Кроме того, вы получаете это все с крайне малыми затратами.
 
 ### Локальные системы контроля версий. ###
 
-Распространенным методом версионного контроля является простое копирование файлов в другую папку (самые продвинутые добавляют дату в название папки). Это решение в силу своей простоты весьма распространено, однако зачастую ведет к ошибкам. Забыв в каком каталоге вы сейчас находитесь можно случайно сохранить не в тот файл или скопировать не те файлы которые вы хотели.
+Распространенным методом версионного контроля является простое копирование файлов в другую папку (самые продвинутые добавляют дату в название папки). Это решение в силу своей простоты весьма распространено, однако зачастую ведет к ошибкам. Забыв, в каком каталоге вы сейчас находитесь, можно случайно сохранить не в тот файл или скопировать не те файлы, которые вы хотели.
 
 Для решения этой проблемы много лет назад были разработаны локальные VCS, которые хранили все изменения контролируемых файлов в своей базе данных (см. рисунок 1-1).
 
@@ -21,100 +21,118 @@ Insert 18333fig0101.png
 
 ### Централизованные системы контроля версий ###
 
-Следующей глобальной проблемой оказалась нобходимость взаимодействия с разработчиками других систем. Чтобы решить эту проблему были созданы Централизованные Системы Контроля Версий (Centralized Version Control Systems, CVCSs). Такие системы как CVS, Subversion, and Perforce, обладают одним сервером хранящим все версии файлов и множеством клиентов, которые получают рабочие копии файлов из этого центрального хранилища. На многие годы это стало стандартным подходм к версионному контролю (см. рис. 1-2). 
+Следующей глобальной проблемой оказалась нобходимость взаимодействия с разработчиками других систем. Чтобы решить эту проблему, были созданы Централизованные Системы Контроля Версий (Centralized Version Control Systems, CVCSs). Такие системы как CVS, Subversion и Perforce, обладают одним сервером хранящим все версии файлов и множеством клиентов, которые получают рабочие копии файлов из этого центрального хранилища. На многие годы это стало стандартным подходм к версионному контролю (см. рис. 1-2). 
 
 Insert 18333fig0102.png 
 Рисунок 1-2. Схема централизованного контроля версий
 
-Такой подход имеет множество преимуществ, особенно для локальных VCS. К примеру все знают кто и чем занимается на проекте. Администраторы имеют четкий контроль над тем кто и что может делать, и, конечно, гораздо легче администрировать CVSC, чем локальные базы на каждом клиенте.
+Такой подход имеет множество преимуществ, особенно для локальных VCS. К примеру, все знают кто и чем занимается на проекте. Администраторы имеют четкий контроль над тем, кто и что может делать, и, конечно, гораздо легче администрировать CVSC, чем локальные базы на каждом клиенте.
 
-Однако есть и несколько серьезных недостатков при таком подходе. Наиболее очевидный - централизованый сервер является уязвимым местом всей системы. Если этот сервер выключается на час, то в течение часа не происходит взаимодействие между разработчиками и никто не может сохранить новые версии. Если ж повреждается диск с центральной базой данных, и нет резервной копии вы теряете абсолютно все - всю историю проекта, за исключением разве что нескольких рабочих версий сохранившихся на рабочих машинах пользователей. Локальные системы контроля верчий подвержены той же проблеме, однако если вся история проекта хранится в одном месте вы рискуете потерять все. 
+Однако есть и несколько серьезных недостатков при таком подходе. Наиболее очевидный - централизованый сервер является уязвимым местом всей системы. Если этот сервер выключается на час, то в течение часа не происходит взаимодействие между разработчиками и никто не может сохранить новые версии. Если же повреждается диск с центральной базой данных и нет резервной копии, вы теряете абсолютно все - всю историю проекта, за исключением разве что нескольких рабочих версий, сохранившихся на рабочих машинах пользователей. Локальные системы контроля версий подвержены той же проблеме - если вся история проекта хранится в одном месте, вы рискуете потерять все.
 
 ### Распределенные системы контроля версий ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. В DVCS (таких как Git, Mercurial, Bazaar или Darcs), клиенты не просто забирают последние версии файлов, а полностью копируют репозиторий. Поэтому в случае когда "умирает" сервер, через который осуществлялось взаимодействие, любой клиентский репозиторий может быть скопирован обратно на сервер для восстановления. Каждый раз при получении версий файлов создается полная копия всех данных (см. рисунок 1-3).
+Это ситуация, когда Распределенные Системы Контроля Версий (Distributed Version Control Systems, DVCSs) вступают в дело. В DVCS (таких как Git, Mercurial, Bazaar или Darcs), клиенты не просто забирают последние версии файлов, а полностью копируют репозиторий. Поэтому в случае, когда "умирает" сервер, через который осуществлялось взаимодействие, любой клиентский репозиторий может быть скопирован обратно на сервер для восстановления. Каждый раз при получении версий файлов создается полная копия всех данных (см. рисунок 1-3).
 
 Insert 18333fig0103.png 
 Рисунок 1-3. Схема распределенной системы контроля версий
 
-Кроме того, большая часть этих систем позвляет работать с несколькими удаленными репозиториями, таким образом вы можете взаимодействовать с раличными группами людей разными способами одновременно в рамках одного проекта. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Кроме того, большая часть этих систем позвляет работать с несколькими удаленными репозиториями, таким образом, вы можете взаимодействовать с различными группами людей разными способами в одно и то же время в рамках одного проекта. Это позволяет вам вести несколько типов рабочих процессов одновременно, что не возможно в централизованных системах, таких как иерархическая модель.
 
 ## Краткая история Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Как и многие замечательные вещи Git начинался в некотором роде с отказа от имеющихся решений и жарких споров. Ядро Linux - действительно очень большой открытый проект. Большую часть существования ядра Linux (1991-2002) изменения вносились в код путем приема патчей и архивирования версий. В 2002 году проект перешел на использование проприетарной распределенной системы контроля версий BitKeeper. 
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+В 2005 отношения между сообществом разработчиков ядра Linux и компанией, разработавшей BitKeeper, испортились, и право бесплатного пользования продуктом было отменено. Это подтолкнуло разработчиков Linux (и в частности Линуса Торвальдса, создателя Linux) приступить к разработке собственной системы, базирущейся на знаниях, полученых за время использования BitKeeper. Основные требования к новой системе были следующими:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Скорость	
+*	Простота дизайна
+*	Поддержка нелинейной разработки (тысяси параллельных веток)
+*	Полная распределенность
+*	Возможность эффективной работы с такими большими проектами как ядро Linux (как по скорости, так и по размеру данных)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+С момента рождения в 2005 Git развивался так, чтоб быть легким в использовании, сохраняя свои первоначальные своиства. Он невероятно быстр, очень эффективен для больших проектов, а также обладает превосходной системой ветвления для нелинейной разработки (см. главу 3).
 
-## Git Basics ##
+## Основы Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Так что ж такое Git в двух словах? Эту часть важно усвоить, поскольку если вы поймете, что есть Git, и основы того, как он работает, вам будет гораздо проще пользоваться им эффективно. Когда вы изучаете Git, постарайтесь освободиться от всего, что вы знали о других VCS, таких как Subversion или Perforce. Это позволит вам избежать коварных ловушек при использовании Git. Git хранит и работает с информацией иначе, чем другие системы, даже когда пользовательский интерфейс очень похож. Понимание этих различий поможет вам не запутаться при его использовании.
 
 ### Snapshots, Not Differences ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Главное из отличей Git от других VCS (например Subversion) заключается в способе работы с данными. Концептуально большинство других систем хранит информацию как список изменений по файлам. Эти системы (CVS, Subversion, Perforce, Bazaar и другие) относятся к хранимым данным как к набору файлов и изменениям в каждом из них во времени, как показано на рисунке 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Рисунок 1-4. Другие системы хранят данные как изменения к базовой версии для каждого файла.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git хранит данные другим способом. Вместо этого Git считает хранимые данные набором слепков мини файловой системы. Каждый раз когда вы делаете коммит, т.е. сохраняете текущую версию проекта в Git, он по сути сохраняет как выгядят все файлы вашего проекта на текущий момент и сохраняет в виде слепка. В целях сохранения эффективности, если файлы не менялись Git сохраняет не сам файл, а ссылку на ранее сохраненный файл. Подход Git к хранению данных приблизительно показан на рисунке 1-5. 
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Рисунок 1-5. Git хранит данные как слепки состояний проекта во времени.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Это важное отличие Git от практически всех других систем контроля версий. Это наполняет новым смыслом практически все аспекиы версионного контроля, которые другие системы взяли от своих предшествениц. Это делает Git больше похожим на небольшую файловую систему, с невероятно мощными инструментами работающими поверх нее, чем на просто VCS. Мы рассмотрим некоторые преимущества, которые вы получаете, думая о хранении данных, когда коснемся работы с ветвями в Git в главе 3. 
 
-### Nearly Every Operation Is Local ###
+### Использование локальных операций ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Для совершения большинства операций в Git необходимы только локальные файлы и ресурсы, т.е. обычно информация с других компьютеров в сети не нужна. Если вы пользовались централизованными системами, где практически на каждую операцию накладывается сетевая задержка, этот аспект работы Git заставит вас подумать, что боги скорости наделили Git неземной силой. Поскольку вся история проекта хранится локально у вас на диске, большинство операций выглядит практически мгновенными. 
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+К примеру, чтобы просматривать историю проекта Git, не нужно предварительно скачивать эти данные с сервера, достаточно просто прочитать её непосредственно из вашего локального репозитория. Это позовляет просматривать историю практически мгновенно. Если вам нужно просмотреть изменения между текущей версией файла и версией, сделаной месяц назад, Git может прочитать файл месячной давности и вычислить разницу локально, вместо того чтоб посылать запрос на получение разницы на удаленный сервер или стягивать старую версию файла с сервера и делать локальное сравнение. 
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+Также это означает, что только небольшую часть операций вы не можете сделать без доступа к сети или VPN. Когда вы летите в самолете или путешествуете поездом и хотите немного поработать, вы можете сохранять новые версии и отгрузить их, когда сетевое соединение будет доступно. Придя домой и не сумев подключить ваш VPN кленет, вы можете продолжать работать. Во многих других системах это невозможно, или же крайне неудобно. Используя Perforce, к примеру, вы не сможете сделать много без соединения с сервером. Работая с Subversion и CVS вы можете редактироваться файлы, но вы не можете сохранить изменения в базе (потому что база отключена). Возможно сейчас это не выглядит существенным, но потом вы удивитесь, увидев, на сколько это бывает важным.
 
-### Git Has Integrity ###
+### Git следит за целостностью данных ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Перед сохранением любых данных Git вычисляет контрольные суммы, которые в дальнейшем используются в качестве ключа для доступа к данным. Из этого следует, что невозможно изменить содержимое файла или каталога так, чтобы Git об этом не знал. Эта функциональность имплементирована на самых нижних уровнях Git и является важной составляющей его философии. Вы не потеряете информацию при передаче данных или в случае повреждения файлов, поскольку Git всегда может это определить. 
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Механизм используемый Git для вычисления контрольных сумм называется хэш SHA-1. Результатом вычисления контрольной суммы является 40-символьная строка, содержащия шестнадцатеричные цифры (0-9 и a-f). Она вычисляется на основе содержимого файла или каталога хранимого Git. SHA-1 хэш выглядить примерно так: 
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Работая с Git, вы будете постоянно встречать эти хэши, поскольку они очень активно используются. Фактически Git сохраняет данные не по имени файла, а обращается к файлам в своей базе адресуя их по хэшам их содержимого.
 
-### Git Generally Only Adds Data ###
+### Git практически всегда добавляет данные ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Практически все действия, которые вы совершаете в Git, только добавляют данные в базу данных. Поэтому очень сложно заставить систему сделать что то, что нельзя отменить или приводящее к удалению данных. Конечно, как и в любой другой системе контроля версий вы можете потерять изменения которые еще не были сохранены в Git, но после того как вы сделали коммит очень сложно их потерять, особенно если вы регулярно отправляете вашу базу в другой репозиторий.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Это делает использование Git похожим на игру, поскольку вы можете эксперементировать, не боясь серьезно что то поломать. Если вы хотите более детально изучить как Git хранит данные и как вы можете восстановить их, когда вдруг они кажется что они потерялись, ознакомьтесь с разделом "Under the Covers" в главе 9.
 
-### The Three States ###
+### Три состояния ###
+
+Теперь, внимание. Это одна из главных вещей которую вы должны запомнить о Git, если вы хотить чтобы дальнейшее изучение прошло гладко. В Git файлы могут находиться в одном из трех состояний: зафиксированные,измененные и подготовленные. Если файл зафиксирован, это означает, что он уже сохранен в вашей локальной базе. К измененным относятся файлы которые были поменяны и еще не были зафиксированны. Подготовленные файлы – это файлы которые вы пометили для включения в следующий коммит. 
 
 Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+
+Таким образом в проекте с использованием Git есть три части: каталог Git (Git directory), рабочий каталог (working directory) и область подготовленых файлов (staging area).
 
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory
+Рисунок 1-6. Рабочий каталог, область подготовленых файлов, каталог Git
+
+Каталог Git – это место где Git хранит метаданные и базу данных объектов вашего проекта. Это наиболее важная часть Git, и именно она копируется когда вы клонируете репозиторий с другого компьютера.
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
 
+Рабочая директория — это извлеченная из базы копия определенной версии проекта. Эти файлы извлеченные из сжатой базы данных в каталоге Git и помещенные на диск для просмотра и модификаций.
+
 The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+
+Область подготовленных файлов это файл, обычно хранищийся в вашем каталоге Git, в котором хранится информация о том, что должно войти в следующий коммит. Иногда ее называют индексом (index), но последнее время становится стандартом называть ее областью подготовленых фалов.
 
 The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
 
+Стандартный рабочий процесс с использованием Git выглядит примерно так:
+
 The basic Git workflow goes something like this:
+
+1.	Вы изменяете файлы в вашем рабочем каталоге.
+2.	Вы подготавливаете файлы, добавляя их слепки в область подготовленых файлов.
+3.	Вы делаете коммит, при этом слепки файлов сохраненные в области подготовленных файлов перемещаются на хранение в каталог Git.
 
 1.	You modify files in your working directory.
 2.	You stage the files, adding snapshots of them to your staging area.
 3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+
+Если рабочая версия файла совпадает с версией в каталоге Git, файл считается зафиксированым. Если файл изменен, но добавлен в область подготовленных данных, он подготовлен к коммиту. Если ж файл изменен, но не подготовлен, то он считается модифицированным. В главе 2 вы узнаете больше об этих трех сосотояних и как вы можете либо получить преимущество, либо пропустить стадию подготовленных файлов.
 
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
@@ -161,12 +179,12 @@ Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 ### Installing on Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Рисунок 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer
+Рисунок 1-7. Git OS X installer
 
 The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
 

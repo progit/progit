@@ -222,7 +222,7 @@ Installing Git on Windows is very easy. The msysGit project has one of the easie
 
 	http://code.google.com/p/msysgit
 
-После установки у вас будет как консольная версия (включая SSH-клиент, ...), так и стандартная графическая.
+После установки у вас будет как консольная версия (включающая SSH-клиент, который пригодится позднее), так и стандартная графическая.
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 

@@ -24,43 +24,42 @@
 
 ### 从现有仓库克隆 ###
 
-如果想对某个开源项目出一份力，可以先把该项目的 Git 仓库复制一份出来，这就需要用到 git clone 命令。如果你熟悉其他的 VCS 比如 Subversion，你可能已经注意到这里使用的是 clone 而不是 checkout。这是个非常重要的差别，Git 收取的是项目历史的所有数据（每一个文件的每一个版本），服务器上有的数据克隆之后本地也都有了。实际上，即便服务器的磁盘发生故障，用任何一个克隆出来的客户端都可以重建服务器上的仓库，回到此客户端当时克隆时的状态（可能会丢失某些服务器端的挂钩设置，但所有版本的数据仍旧还在，有关细节请参考第四章）。
+如果想对某个开源项目出一份力，可以先把该项目的 Git 仓库复制一份出来，这就需要用到 git clone 命令。如果你熟悉其他的 VCS 比如 Subversion，你可能已经注意到这里使用的是 clone 而不是 checkout。这是个非常重要的差别，Git 收取的是项目历史的所有数据（每一个文件的每一个版本），服务器上有的数据克隆之后本地也都有了。实际上，即便服务器的磁盘发生故障，用任何一个克隆出来的客户端都可以重建服务器上的仓库，回到当初克隆时的状态（可能会丢失某些服务器端的挂钩设置，但所有版本的数据仍旧还在，有关细节请参考第四章）。
 
 克隆仓库的命令格式为 `git clone [url]`。比如，要克隆 Ruby 语言的 Git 代码仓库 Grit，可以用下面的命令：
 
 	$ git clone git://github.com/schacon/grit.git
 
-这会在当前目录下创建一个名为 “grit” 的目录，其中内含一个 `.git` 的目录，并从仓库中拉出所有的数据，取出最新版本的文件拷贝。如果进入这个新建的 `grit` 目录，你会看到项目中的所有文件已经在里边了，准备好后续的开发和使用。如果希望在克隆的时候，自己定义要新建的项目目录名称，可以在上面的命令最后指定：
+这会在当前目录下创建一个名为 “grit” 的目录，其中内含一个 `.git` 的目录，并从同步后的仓库中拉出所有的数据，取出最新版本的文件拷贝。如果进入这个新建的 `grit` 目录，你会看到项目中的所有文件已经在里边了，准备好后续的开发和使用。如果希望在克隆的时候，自己定义要新建的项目目录名称，可以在上面的命令最后指定：
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-唯一的差别就是，现在新建的目录成了 mugrit，其他的都和上边的一样。
+唯一的差别就是，现在新建的目录成了 mygrit，其他的都和上边的一样。
 
-Git 支持许多数据传输协议。之前的例子使用的是 `git://` 协议，不过你也可以用 `http(s)://` 或者 `user@server:/path.git` 表示的 SSH 传输协议。我们会在第四章详细介绍
-所有这些协议在服务器端该如何配置使用，以及各种方式之间的利弊。
+Git 支持许多数据传输协议。之前的例子使用的是 `git://` 协议，不过你也可以用 `http(s)://` 或者 `user@server:/path.git` 表示的 SSH 传输协议。我们会在第四章详细介绍所有这些协议在服务器端该如何配置使用，以及各种方式之间的利弊。
 
-## Recording Changes to the Repository ##
+## 记录每次更新到仓库 ##
 
-You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+现在我们手上已经有了一个真实项目的 Git 仓库，并从这个仓库中取出了所有文件的工作拷贝。接下来，对这些文件作些修改，在完成了一个阶段的目标之后，提交本次更新到仓库。
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
+请记住，工作目录下面的所有文件都不外乎这两种状态：已跟踪或未跟踪。已跟踪的文件是指本来就被纳入版本控制管理的文件，在上次快照中有它们的记录，工作一段时间后，它们的状态可能是未更新，已修改或者已放入暂存区。而所有其他文件都属于未跟踪文件。它们既没有上次更新时的快照，也不在当前的暂存区域。初次克隆某个仓库时，工作目录中的所有文件都属于已跟踪文件，且状态为未修改。
 
-As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
+在编辑过某些文件之后，Git 将这些文件标为已修改。我们逐步把这些修改过的文件放到暂存区域，然后等最后一次性提交暂存区域的所有文件更新，如此重复。所以使用 Git 时的文件状态变化周期如图 2-1 所示。
 
 Insert 18333fig0201.png 
-图 2-1. The lifecycle of the status of your files
+图 2-1. 文件的状态变化周期
 
-### Checking the Status of Your Files ###
+### 检查当前文件状态 ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+要确定哪些文件当前处于什么状态，可以用 git status 命令。如果在克隆仓库之后立即执行此命令，会看到类似这样的输出：
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+这说明你现在的工作目录相当干净。换句话说，当前没有任何跟踪着的文件，也没有任何文件在上次提交后更改过。此外，上面的信息还表明，当前目录下没有出现任何处于未跟踪的新文件，否则 Git 会在这里列出来。最后，该命令还显示了当前所在的分支是 master，这是默认的分支名称，实际是可以修改的，现在不必多虑。下一章我们就会详细讨论分支和引用。
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+现在让我们用 vim 编辑一个新文件 README，保存退出后运行 `git status` 会看到该文件出现在未跟踪文件列表中：
 
 	$ vim README
 	$ git status
@@ -71,15 +70,15 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+就是在“Untracked files”这行下面。Git 不会自动将之纳入跟踪范围，除非你明明白白地告诉它这么做，因而不用担心把临时文件什么的也归入版本管理。不过现在我们确实想要跟踪管理 README 这个文件。
 
-### Tracking New Files ###
+### 跟踪新文件 ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+使用命令 `git add` 开始跟踪一个新文件。所以，要跟踪 README 文件，运行：
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+此时再运行 `git status` 命令，会看到 README 文件已被跟踪，并处于暂存状态：
 
 	$ git status
 	# On branch master
@@ -89,11 +88,11 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+只要在 “Changes to be committed” 这行下面的，就说明是已暂存状态。如果此时提交，那么该文件此时此刻的版本将被留存在历史记录中。你可能会想起之前我们使用 `git init` 后就运行了 `git add` 命令，开始跟踪当前目录下的文件。git add 后可以接要跟踪的文件或目录的路径。如果是目录的话，就说明要递归跟踪所有该目录下的文件。
 
-### Staging Modified Files ###
+### 暂存已修改文件 ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+现在我们修改下之前已跟踪过的文件 `benchmarks.rb`，然后再次运行 `status` 命令，会看到这样的状态报告：
 
 	$ git status
 	# On branch master
@@ -108,7 +107,7 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+文件 benchmarks.rb 出现在 “Changed but not updated” 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。要暂存这次更新，需要运行 `git add` 命令（这是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等）。现在让我们运行 `git add` 将 benchmarks.rb 放到暂存区，然后再看看 `git status` 的输出：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -120,7 +119,7 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+现在两个文件都已暂存，下次提交时就会一并记录到仓库。假设此时，你想要在 benchmarks.rb 里再加条注释，重新编辑存盘后，准备好提交。不过且慢，再运行 `git status` 看看：
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -137,7 +136,7 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+见鬼！benchmarks.rb 文件出现了两次！一次算未暂存，一次算已暂存，这怎么可能呢？好吧，实际上 Git 只不过暂存了你运行 git add 命令时的版本，如果现在提交，那么提交的是添加注释前的版本，而非当前工作目录中的版本。所以，运行了 `git add` 之后又作了修订的文件，需要重新运行 `git add` 把最新版本重新暂存起来：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -149,33 +148,33 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### 忽略某些文件 ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。通常都是些自动生成的文件，像是日志或者编译过程中创建的等等。我们可以创建一个名为 .gitignore 的文件，列出要忽略的文件模式，来看一个简单的例子：
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+第一行告诉 Git 忽略所有以 .o 或 .a 结尾的文件。一般这类对象文件和存档文件都是编译过程中出现的，我们用不着跟踪它们的版本。第二行告诉 Git 忽略所有以波浪符（`~`）结尾的文件，许多文本编辑软件（比如 Emacs）都用这样的文件名保存副本。此外，你可能还需要忽略 log，tmp 或者 pid 目录，以及自动生成的文档等等。要养成一开始就设置好 .gitignore 文件的习惯，以免将来误提交这类无用的文件。
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+文件 .gitignore 的格式规范如下：
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+* 所有空行或者以注释符号 ＃ 开头的行都会被 Git 忽略。
+* 可以使用标准的 glob 模式匹配。
+* 匹配模式最后跟反斜杠（`/`）说明要忽略的是目录。
+* 要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（`!`）取反。
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters seperated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。星号（`*`）匹配零个或多个任意字符；`[abc]` 匹配任何一个列在方括号中的字符（这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）；问号（`?`）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如 `[0-9]` 表示匹配所有 0 到 9 的数字）。
 
-Here is another example .gitignore file:
+我们再看一个 .gitignore 文件的例子：
 
-	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# 此为注释 – 将被 Git 忽略
+	*.a       # 忽略所有 .a 结尾的文件
+	!lib.a    # 但 lib.a 除外
+	/TODO     # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
+	build/    # 忽略 build/ 目录下的所有文件
+	doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 
 ### Viewing Your Staged and Unstaged Changes ###
 

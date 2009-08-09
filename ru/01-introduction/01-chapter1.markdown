@@ -136,26 +136,36 @@ The basic Git workflow goes something like this:
 
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
-## Installing Git ##
+## Установка Git ##
+
+Настало время немного ознакомиться с использованием Git. Первое что вам необходимо сделать – установить его. Есть несколько способов сделать это; два основных ― установка из исходников и установка собранного пакета для вашей платформы.
 
 Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
 
-### Installing from Source ###
+### Установка из исходников ###
+
+Установка из исходного кода обычно лучше, поскольку вы получаете самую свежую версию. Каждая новая версия Git обычно включает полезный улучшения интерфейса, поэтому установка последней версии часто лучший выбор, если конечно вас не затрудняет установка программ из исходников. Это также правильный выбор, поскольку многие дистрибутивы Linux содержат очень старые пакеты, поэтому если вы не используете очень свежий дистрибутив или , установка из исходников лучше.
 
 If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+
+Для установки Git, вам понадобятся следующие библиотеки, являющиеся зависимостями: curl, zlib, openssl, expat, and libiconv. Если вы к примеру используете систему в которой есть yum (такую как Fedora) или apt-get (такую как системы основаные на Debian), вы можете использовать одну из следующих команд чтобы разрешить все зависимости.
 
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
 
-	$ apt-get install curl-devel expat-devel gettext-devel \
-	  openssl-devel zlib-devel
+	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+	  libz-dev 
 	
+После того как вы поставите все необходимые библиотеки, вы можете начинать установку, скачав последнюю версию с сайта Git:
+
 When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
 
 	http://git-scm.com/download
 	
+Теперь скомпилируйте и установите:
+
 Then, compile and install:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
@@ -163,40 +173,56 @@ Then, compile and install:
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
+После этого вы можете клонировать исходный код Git с помощью Git, для получения обновлений:
+
 After this is done, you can also get Git via Git itself for updates:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### Установка в Linux ###
+
+Если вы хотитие уставновить Git под Linux как бинарный пакет, вы можете это сделать использую утилиту для управления пакетами входящую в ваш дистрибутив. Если вы используете Fedora, вы можете воспользоваться yum:
 
 If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
 
 	$ yum install git-core
 
+Если ж у вас дистрибутив основаный на Debian, например Ubuntu, попробуйте apt-get:
+
 Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Установка на Mac ###
+
+Есть два простых способа установить Git на Mac. Более простой ― использовать графический инсталлятор Git, который вы можете скачать со страницы Google Code (см. рисунок 1-7):
 
 There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Рисунок 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Рисунок 1-7. Git OS X installer
+Рисунок 1-7. Инсталлятор Git под OS X
+
+Другой распространенный способ установка Git через MacPorts (`http://www.macports.org`). Если у вас установлены MacPorts, инсталлируйте Git так:
 
 The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
+Вы не обязаны включать все дополнения, но возможно вы захотите включить +svn в случае если вам нужно использовать Git совместно с репозиториями Subversion (см. главу 8).
+
 You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
 
-### Installing on Windows ###
+### Установка в Windows ###
+
+Установка Git в Windows очень проста. Проект msysGit предлагает очень простую процедуру установки. Просто скачайте exe файл инсталлятора со страницы Google Code и запустите его:
 
 Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
 
 	http://code.google.com/p/msysgit
+
+После установки у вас будет как консольная версия (включая SSH-клиент, ...), так и стандартная графическая.
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 

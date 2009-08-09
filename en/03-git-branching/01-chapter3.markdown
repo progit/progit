@@ -12,7 +12,7 @@ When you commit in Git, Git stores a commit object that contains a pointer to th
 
 To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
 
-	$ git add README test.rb LICENSE2
+	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
 When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
@@ -332,8 +332,8 @@ This shows your other branch. Because it contains work that isn’t merged in ye
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
+	If you are sure you want to delete it, run 'git branch -D testing'.
 
-If you are sure you want to delete it, run `git branch -D testing`.
 If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
 
 ## Branching Workflows ##

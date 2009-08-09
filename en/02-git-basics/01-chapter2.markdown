@@ -261,7 +261,9 @@ Now you can use `git diff` to see what is still unstaged
 
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
-	and git diff --cached to see what you’ve staged so far:
+
+and `git diff --cached` to see what you’ve staged so far:
+
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index 3cb747f..e445e28 100644

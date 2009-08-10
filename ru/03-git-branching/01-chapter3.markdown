@@ -1,14 +1,18 @@
 # Ветвление в Git #
+# Git Branching #
 
 Практически каждая VCS имеет какую-то форму поддержки ветвления. Ветвление означает, что вы отклоняетесь от основной линии разработки и продолжаете работу, не внося беспорядок в основную линию. Во многих VCS инструментах это в некотором роде дорогостоящий процесс, зачастую требующий от вас создания новой копии вашей директории исходного кода, что может занять продолжительное время для больших проектов.
 
 Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
 
-Некоторые люди упоминают о модели ветвления в Git, как о "потрясающей функциии" и это безусловно выделяет Git в VCS сообществе. Чем она столь хороша? Способ ветвления в Git черезвычайно легковесен, что делает операции ветвления практически мгновенными и переключение туда сюда между ветвями в целом поистине быстрым. В отличие от многих других VCSs, Git поддерживает процесс работы, который ветвится и соединяется очень часто, даже по несколько раз в день. Понимание и владение этой функцией дает вам мощный уникальный инструмент и может буквально изменить ваш процесс разработки.
+Некоторые люди упоминают о модели ветвления в Git, как о "потрясающей функциии", и это безусловно выделяет Git в VCS сообществе. Чем она столь хороша? Способ ветвления в Git черезвычайно легковесен, что делает операции ветвления практически мгновенными и переключение туда сюда между ветвями в целом поистине быстрым. В отличие от многих других VCSs, Git поддерживает процесс работы, который ветвится и соединяется очень часто, даже по несколько раз в день. Понимание и владение этой функцией дает вам мощный уникальный инструмент и может буквально изменить ваш процесс разработки.
 
 Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
 
+## Что такое Ветвь ##
 ## What a Branch Is ##
+
+Чтобы на самом деле разобраться в способбе ветвления в Git, мы должны сделать шаг назад и рассмотреть, как Git хранит свои данные. Как вы наверное помните из Главы 1, Git не хранит данные как последовательность изменений или отличий, а как последовательность слепков.
 
 To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 

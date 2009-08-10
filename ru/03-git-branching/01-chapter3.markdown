@@ -20,6 +20,8 @@ To really understand the way Git does branching, we need to take a step back and
 
 When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
 
+Чтобы представить это, давайте предположим, что у вас есть дирректория, содержащая три файла, и вы их все поготавливаете и фиксируете. При подготовке файлов вычисляется контрольная сумма для каждого (SHA-1 хэш мы упоминали в Главе 1), эта версия файла сохраняется в Git репозиторий (Git ссылается на них как !!blobs??) и  эта контрольная сумма добавляется в область подготовленных файлов:
+
 To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
 
 	$ git add README test.rb LICENSE2

@@ -499,7 +499,8 @@ The other files are your new packfile and an index. The packfile is a single fil
 
 How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
 
-	$ git verify-pack -v pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
+	$ git verify-pack -v \
+	  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
 	0155eb4229851634a0f03eb265b69f5a2d56f341 tree   71 76 5400
 	05408d195263d853f09dca71d55116663690c27c blob   12908 3478 874
 	09f01cea547666f58d6a8d809583841a7c6f0130 tree   106 107 5086

@@ -1,18 +1,26 @@
 # Ветвление в Git #
+# Git Branching #
 
 Практически каждая VCS имеет какую-то форму поддержки ветвления. Ветвление означает, что вы отклоняетесь от основной линии разработки и продолжаете работу, не внося беспорядок в основную линию. Во многих VCS инструментах это в некотором роде дорогостоящий процесс, зачастую требующий от вас создания новой копии вашей директории исходного кода, что может занять продолжительное время для больших проектов.
 
 Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
 
-Некоторые люди упоминают о модели ветвления в Git, как о "потрясающей функциии" и это безусловно выделяет Git в VCS сообществе. Чем она столь хороша? Способ ветвления в Git черезвычайно легковесен, что делает операции ветвления практически мгновенными и переключение туда сюда между ветвями в целом поистине быстрым. В отличие от многих других VCSs, Git поддерживает процесс работы, который ветвится и соединяется очень часто, даже по несколько раз в день. Понимание и владение этой функцией дает вам мощный уникальный инструмент и может буквально изменить ваш процесс разработки.
+Некоторые люди упоминают о модели ветвления в Git, как о "потрясающей функциии", и это безусловно выделяет Git в VCS сообществе. Чем она столь хороша? Способ ветвления в Git черезвычайно легковесен, что делает операции ветвления практически мгновенными и переключение туда сюда между ветвями в целом поистине быстрым. В отличие от многих других VCSs, Git поддерживает процесс работы, который ветвится и соединяется очень часто, даже по несколько раз в день. Понимание и владение этой функцией дает вам мощный уникальный инструмент и может буквально изменить ваш процесс разработки.
 
 Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
 
+## Что такое Ветвь ##
 ## What a Branch Is ##
+
+Чтобы на самом деле разобраться в способбе ветвления в Git, мы должны сделать шаг назад и рассмотреть, как Git хранит свои данные. Как вы наверное помните из Главы 1, Git не хранит данные как последовательность изменений или отличий, а как последовательность слепков.
 
 To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 
+Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который соодержит указатель на слепок содержимого, подготовленного к фиксации, метаданные автора и комментария и ноль или больше указателей на фиксацию или фиксации, которые были прямыми предками этой фиксации: ноль предков для первой фиксации, один - для обычной фиксации и несколько - для фиксации, происходящей в результате слияния двух или более веток.
+
 When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+
+Чтобы представить это, давайте предположим, что у вас есть дирректория, содержащая три файла, и вы их все поготавливаете и фиксируете. При подготовке файлов вычисляется контрольная сумма для каждого (SHA-1 хэш мы упоминали в Главе 1), эта версия файла сохраняется в Git репозиторий (Git ссылается на них как !!blobs??) и  эта контрольная сумма добавляется в область подготовленных файлов:
 
 To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
 

@@ -643,7 +643,7 @@ As an example, if you commit and then realize you forgot to stage the changes in
 	$ git add forgotten_file
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second command replaces the results of the first.
+All three of these commands end up with a single commit — the second commit replaces the results of the first.
 
 ### Unstaging a Staged File ###
 

@@ -190,7 +190,7 @@ After all this is set, if you run diff commands such as this:
 Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.
 
 Insert 18333fig0701.png 
-Figure 7-1. P4Merge
+Figure 7-1. P4Merge.
 
 If you try to merge two branches and subsequently have merge conflicts, you can run the command `git mergetool`; it starts P4Merge to let you resolve the conflicts through that GUI tool.
 

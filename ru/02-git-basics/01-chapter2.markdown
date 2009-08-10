@@ -1,14 +1,14 @@
 # Основы Git #
 # Git Basics #
 
-Если Вы хотите начать работать с Git прочитав всего одну главу, то эта глава - то что вам нужно. Здесь рассмотрены все базовые команды, необходимые вам для решения подавляющего большинства задач возникающих при работе с Git. После прочтения этой главы вы сможете настроить и инициализировать репозиторий, добавлять и удалять файлы под версионный контроль, а также stage и фиксировать (commit) изменения. Мы также продемонстрируем вам как настроить игнорирование отдельных файлов или их групп в Git, как быстро и просто отменить ошибочные изменения, как просмотреть историю вашего проекта и изменения между отдельными коммитами (commit), а также как выкладывать (push) и забирать (pull) изменения в/из удаленного (remote) репозитория.
+Если Вы хотите начать работать с Git прочитав всего одну главу, то эта глава — то что вам нужно. Здесь рассмотрены все базовые команды, необходимые вам для решения подавляющего большинства задач возникающих при работе с Git. После прочтения этой главы вы сможете настроить и инициализировать репозиторий, добавлять и удалять файлы под версионный контроль, а также stage и фиксировать (commit) изменения. Мы также продемонстрируем вам как настроить игнорирование отдельных файлов или их групп в Git, как быстро и просто отменить ошибочные изменения, как просмотреть историю вашего проекта и изменения между отдельными коммитами (commit), а также как выкладывать (push) и забирать (pull) изменения в/из удаленного (remote) репозитория.
 
 If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
 
 ## Получение Репозитория Git ##
 ## Getting a Git Repository ##
 
-Для получения репозитория Git существуют два основных подхода. Первый подход - импорт в Git уже существующего проекта или каталога. Второй - клонирование уже существующего репозитория с сервера.
+Для получения репозитория Git существуют два основных подхода. Первый подход — импорт в Git уже существующего проекта или каталога. Второй — клонирование уже существующего репозитория с сервера.
 
 You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
 
@@ -21,7 +21,7 @@ If you’re starting to track an existing project in Git, you need to go to the 
 
 	$ git init
 
-Эта команда создает в текущем каталоге новый подкаталог с именем .git содержащий все необходимые файлы репозитория - основу репозитория Git. На этом этапе ваш проект еще не находится под версионным контролем. (В Главе 9 приведено подробное описание файлов содержащихся в только что созданном вами каталоге ".git")
+Эта команда создает в текущем каталоге новый подкаталог с именем .git содержащий все необходимые файлы репозитория — основу репозитория Git. На этом этапе ваш проект еще не находится под версионным контролем. (В Главе 9 приведено подробное описание файлов содержащихся в только что созданном вами каталоге ".git")
 
 This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
 
@@ -40,7 +40,7 @@ We’ll go over what these commands do in just a minute. At this point, you have
 ### Клонирование Существующего Репозитория ###
 ### Cloning an Existing Repository ###
 
-Если вы желаете получить копию существующего репозитория Git, например проекта в котором вы хотите поучаствовать, то вам нужна команда git clone. Если вы знакомы с другими системами контроля версий, такими как Subversion, то заметите что команда называется clone, а не checkout. Это важное отличие - Git получает копию практически всех данных, что есть на сервере. Каждая версия каждого файла из истории проекта забирается (pulled) с сервера когда вы выполняете `git clone`. Фактически, если серверный диск выйдет из строя, вы можете использовать любой из клонов на любом из клиентов, для того чтобы вернуть сервер в то состояние, в котором он находился в момент клонирования (вы можете потерять часть серверных правил (server-side hooks) и т.п., но все данные помещенные под версионный контроль будут сохранены, подробнее см. в Главе 4).
+Если вы желаете получить копию существующего репозитория Git, например проекта в котором вы хотите поучаствовать, то вам нужна команда git clone. Если вы знакомы с другими системами контроля версий, такими как Subversion, то заметите что команда называется clone, а не checkout. Это важное отличие — Git получает копию практически всех данных, что есть на сервере. Каждая версия каждого файла из истории проекта забирается (pulled) с сервера когда вы выполняете `git clone`. Фактически, если серверный диск выйдет из строя, вы можете использовать любой из клонов на любом из клиентов, для того чтобы вернуть сервер в то состояние, в котором он находился в момент клонирования (вы можете потерять часть серверных правил (server-side hooks) и т.п., но все данные помещенные под версионный контроль будут сохранены, подробнее см. в Главе 4).
 
 If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
 
@@ -71,7 +71,7 @@ Git has a number of different transfer protocols you can use. The previous examp
 
 You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
 
-Запомните, каждый файл в вашем рабочем каталоге может находится в одном из двух состояний: под версионным контролем (отслеживаемые) и нет (неотслеживаемые). Отслеживаемые файлы - это те файлы, которые были в последнем слепке состояния проекта (snapshot); они могут быть неизмененными, измененными или подготовленными к коммиту (staged). Неотслеживаемые файлы - это все остальное, любые файлы в вашем рабочем каталоге, которые не входили в ваш последний слепок состояния и не подготовлены к коммиту. Когда вы впервые клонируете репозиторий, все ваши файлы будут отслеживаемыми и неизмененные, потому что вы только (checked them out) и ничего пока не редактировали.
+Запомните, каждый файл в вашем рабочем каталоге может находится в одном из двух состояний: под версионным контролем (отслеживаемые) и нет (неотслеживаемые). Отслеживаемые файлы — это те файлы, которые были в последнем слепке состояния проекта (snapshot); они могут быть неизмененными, измененными или подготовленными к коммиту (staged). Неотслеживаемые файлы - это все остальное, любые файлы в вашем рабочем каталоге, которые не входили в ваш последний слепок состояния и не подготовлены к коммиту. Когда вы впервые клонируете репозиторий, все ваши файлы будут отслеживаемыми и неизмененные, потому что вы только (checked them out) и ничего пока не редактировали.
 
 Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
 
@@ -86,7 +86,7 @@ Figure 2-1. The lifecycle of the status of your files
 ### Определение Состояния Ваших Файлов ###
 ### Checking the Status of Your Files ###
 
-Основной инструмент используемый вами для определения какие файлы в каком состоянии находятся - это команда git status. Если вы выполните эту команду сразу после клонирования, вы увидите что-то вроде этого:
+Основной инструмент используемый вами для определения какие файлы в каком состоянии находятся — это команда git status. Если вы выполните эту команду сразу после клонирования, вы увидите что-то вроде этого:
 
 The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
 
@@ -94,7 +94,7 @@ The main tool you use to determine which files are in which state is the git sta
 	# On branch master
 	nothing to commit (working directory clean)
 
-Это означает, что у вас чистый рабочий каталог, другими словами - в нем нет отслеживаемых и измененный файлов. Git также не обнаружил неотслеживаемых файлов, в противном случае они бы были перечислены здесь. И наконец команда сообщает вам на какой ветке (branch) вы сейчас находитесь. Пока вы всегда на ветке master, это ветка по-умолчанию, в этой главе это не важно. В следующей главе подробно рассказывается про ветки и ссылки.
+Это означает, что у вас чистый рабочий каталог, другими словами — в нем нет отслеживаемых и измененный файлов. Git также не обнаружил неотслеживаемых файлов, в противном случае они бы были перечислены здесь. И наконец команда сообщает вам на какой ветке (branch) вы сейчас находитесь. Пока вы всегда на ветке master, это ветка по-умолчанию, в этой главе это не важно. В следующей главе подробно рассказывается про ветки и ссылки.
 
 This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
 
@@ -140,7 +140,10 @@ If you run your status command again, you can see that your README file is now t
 
 You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
 
+### Индексация Измененных Файлов ###
 ### Staging Modified Files ###
+
+Давайте модифицируем файл уже находящийся под версионным контролем. Если вы измените отслеживаемый файл `benchmarks.rb`, и, после этого снова выполните команду `status`, то результат будет примерно следующим:
 
 Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
 
@@ -157,6 +160,7 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
+Файл benchmarks.rb находится в секции “Changed but not updated” — это означает, что отслеживаемый файл был изменен в рабочем каталоге, но пока не проиндексирован. Чтобы проиндексировать его, вы выполняете команду `git add` (это )
 The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
 
 	$ git add benchmarks.rb

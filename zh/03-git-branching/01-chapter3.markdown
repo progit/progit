@@ -221,14 +221,14 @@ Insert 18333fig0317.png
 
 ### 简单冲突(conflicts)的合并 ###
 
-Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
+有些时候，合并操作不会这么顺利。如果你同时修改了两个待合并分支里同一个文件的同一部分，Git就无法干净的把二者合并在一起。如果你在解决问题#53的时候修改了`hotfix`中修改的部分，你将得到一个类似如下的结果：
 
 	$ git merge iss53
 	Auto-merging index.html
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
+Git还没有自动创建一个新的合并提交。它会暂停下来等待你解决冲突。如果你想看下哪些文件在合并冲突中没被合并，可以使用`git status`：
 
 	[master*]$ git status
 	index.html: needs merge
@@ -240,7 +240,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
-Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
+任何包含未解决冲突的文件都会以尚未合并(unmerged)的状态被列出。Git会在有冲突的文件里加入标准的冲突解决标记，你可以通过它们来手工解决这些冲突。这些文件将包含一些类似下面这样的部分：
 
 	<<<<<<< HEAD:index.html
 	<div id="footer">contact : email.support@github.com</div>
@@ -250,14 +250,14 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
-This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
+这表示在HEAD（你的master，在运行merge命令的时候签出的分支）的版本在上半部分（`=======`之前的内容），而在`iss53`分支的内容在下面。解决冲突的办法无非是二者选其一或者由你亲自整合到一起。比如你可以通过把它替换为如下这样来解决：
 
 	<div id="footer">
 	please contact us at email.support@github.com
 	</div>
 
-This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
-If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:
+这个结局方案包括了两者的各一部分，而且我还删除了`<<<<<<<`，`=======`，和`>>>>>>>`这些行。解决了所有文件里的所有冲突以后，运行`git add`将把它们标记为已解决（resolved）。在Git缓存中为已解决冲突。
+如果你想用一个有图形界面的工具来解决这些问题，不妨运行`git mergetool`，它会调启用一个可视化的合并工具并引导你解决所有冲突：
 
 	$ git mergetool
 	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
@@ -268,11 +268,11 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
+如果不想用默认的合并工具（Git为我默认选择了`opendiff`，因为我在Mac上运行了该命令），你可以在上方"merge tool candidates（候选合并工具）"里找到可用的合并工具的列表。输入你想用的工具名。在第7章，我们将讨论怎样改变环境中的默认值。
 
-After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
+退出合并工具以后，Git会询问你合并是否成功。如果你告诉脚本是，它会为你把相关文件合并并标记为已解决。
 
-You can run `git status` again to verify that all conflicts have been resolved:
+再运行一次`git status`来确认所有冲突已经被解决：
 
 	$ git status
 	# On branch master
@@ -282,7 +282,7 @@ You can run `git status` again to verify that all conflicts have been resolved:
 	#	modified:   index.html
 	#
 
-If you’re happy with that, and you verify that everything that had conflicts has been staged, you can type `git commit` to finalize the merge commit. The commit message by default looks something like this:
+如果觉得满意了，并且确认所有解决的冲突都已经进入了缓存，你就可以用`git commit`来完成这次合并提交。提交的记录差不多是这样：
 
 	Merge branch 'iss53'
 
@@ -295,7 +295,7 @@ If you’re happy with that, and you verify that everything that had conflicts h
 	# and try again.
 	#
 
-You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
+如果你想给将来看到这次合并的人一些方便，可以修改该信息来提供更多合并的细节——你都做了什么以及原因，如果这些不明显。
 
 ## 分支管理 ##
 

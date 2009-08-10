@@ -195,7 +195,7 @@ Insert 18333fig0315.png
 
 ### 基本合并 ###
 
-Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
+假设你觉得问题#53相关的工作已经完成并且可以合并到`master`分支了。要这样做，你可以用与之前合并`hotfix`分支差不多的方式来合并`iss53`。只需签出你想要合并进去的分支并运行`git merge`命令：
 
 	$ git checkout master
 	$ git merge iss53
@@ -203,19 +203,19 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. 图 3-16 highlights the three snapshots that Git uses to do its merge in this case.
+看上去这次和`hotfix`的合并有一点不同。这一次，你的开发历史是从更早的地方开始分叉的。由于你目前分支的位置不是你想要并入分支的直接祖先，Git不得不进行一些处理。本例中，Git会用两个分支的末端和他们的共同祖先进行一次三方合并。图3-16标出了Git在例中用来合并的三个快照：
 
 Insert 18333fig0316.png 
-图 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
+图 3-16. Git为分支合并自动识别出最佳的同源合并点。
 
-Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (见图 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
+Git没有简单的把分支指针前移，而是创建了一个包含三方合并结果的新快照并且自动创建一个指向它的commit。（见图3-17）。这个commit被称为一个合并提交(merge commit)，它是一个包含多个祖先的特殊commit。
 
-It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
+值得一提的是Git可以自己决定哪个共同祖先是最佳的合并基础；这和CVS或者Subversion(1.5以前的版本)是不同的：后者需要进行合并的开发者来寻找最佳的合并基础。该特性让Git的合并操作比其他系统要简单不少。
 
 Insert 18333fig0317.png 
-图 3-17. Git automatically creates a new commit object that contains the merged work.
+图 3-17. Git自动创建了一个包含了合并结果的commit对象。
 
-Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
+既然你的工作成果已经合并了，`iss53`也就没用了。你可以就此删除它，并且从你的问题追踪系统里把该问题关闭。
 
 	$ git branch -d iss53
 

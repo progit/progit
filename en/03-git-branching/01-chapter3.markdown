@@ -119,7 +119,7 @@ You’ve decided that you’re going to work on issue #53 in whatever issue-trac
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
-This is shorthand for 
+This is shorthand for:
 
 	$ git branch iss53
 	$ git checkout iss53
@@ -174,7 +174,7 @@ Your change is now in the snapshot of the commit pointed to by the `master` bran
 Insert 18333fig0314.png 
 Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
 
-After that your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).

@@ -222,19 +222,29 @@ Installing Git on Windows is very easy. The msysGit project has one of the easie
 
 	http://code.google.com/p/msysgit
 
-После установки у вас будет как консольная версия (включая SSH-клиент, ...), так и стандартная графическая.
+После установки у вас будет как консольная версия (включающая SSH-клиент, который пригодится позднее), так и стандартная графическая.
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 
-## First-Time Git Setup ##
+## Первоначальная настройка Git ##
+
+Теперь, когда Git установлен в вашей системе, вам нужно настроить некоторые параметры Git. Это нужно сделать только один раз ― при обновлении настройки сохраняются. Но вы можете их поменять в любой момент выполнив те же команды снова.
 
 Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
 
+В состав Git входит утилита git config которая позволяет вам просматривать и устанавливать параметры, котролирующие все аспекты работы и внешнего вида Git. Эти параметры могут быть сохранены в трех местах:
+
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+
+*	файл `/etc/gitconfig`. Содержит переменные общие для всех пользователей вашей системы и всех их репозиториев. Если вы указываете параметр `--system`, запуская `git config`, то параметры читаются и сохраняются в этот файл.
+*	файл `~/.gitconfig`. Хранит настройки конкретного пользователя. Этот файл использутеся при указании параметра `--global`.
+*	конфигурационный файл в каталоге Git (`.git/config`) используемого репозитория. Содержит параметры используемы только при работе с данным репозиторием. Каждый более конкретный файл настроек имеет более высокий приоритет чем файл предыдущего уровня, т.е. значения в `.git/config` перекрывают соответствующие значения в `/etc/gitconfig`.
 
 *	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
 *	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+
+В системах семейства Windows, файл `.gitconfig` хранится в каталоге $HOME (`C:\Documents and Settings\$USER` для большенства пользователей). Кроме того Git ищет файл /etc/gitconfig относительно корневого каталога MSys, который вы указали в инсталляторе Git во время установки.
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 

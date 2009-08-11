@@ -195,7 +195,7 @@ Figure 6-1. Example history for range selection
 
 You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
 
-	$ git log master..experiemnt
+	$ git log master..experiment
 	D
 	C
 

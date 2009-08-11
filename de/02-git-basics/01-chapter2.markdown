@@ -1050,7 +1050,7 @@ Ich habe in vorangegangenen Kapiteln schon Beispiele dafür gegeben, wie man ein
 
 Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
 
-Jetzt kannst du 
+Jetzt kannst du den Namen "pb" anstelle der vollständingen URL in verschiedenen Befehlen verwenden. Wenn du bespielsweise alle Informationen, die in Paul's, aber noch nicht in deinem eigenen Repository verfügbar sind, herunterladen willst, kannst du den Befehl `git fetch pb` verwenden:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -1063,29 +1063,51 @@ Jetzt kannst du
 
 Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
 
+Paul's master Branch ist jetzt lokal auf deinem Rechner als `pb/master` verfügbar - du kannst ihn mit einem deiner eigenen Branches zusammenführen oder auf einen lokalen Branch wechseln (xxx aus-checken xxx), um ihn zu begutachten (xxx).
+
 ### Fetching and Pulling from Your Remotes ###
 
+### Aus entfernten Repositories herunterladen und ziehen ###
+
 As you just saw, to get data from your remote projects, you can run
+
+Wie du gerade gesehen hast, kannst du Daten aus entfernten Repositories herunterladen, indem du den Befehl verwendest:
 
 	$ git fetch [remote-name]
 
 The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
 
+Dieser Befehl lädt alle Daten aus dem entfernten Repository herunter, die noch nicht auf deinem Rechner verfügbar sind. Danach kennt dein eigenes Repository Verweise auf alle Branches in dem entfernten Repository, die du jederzeit mit deinen eigenen Branches zusammenführen oder lesen kannst. (Wir werden in Kapitel 3 detaillierter darauf eingehen, was genau Branches sind.)
+
 If you cloned a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+
+Wenn du ein Repository geklont hast, legt der Befehl automatisch einen Verweis auf dieses Repository unter dem Namen `origin` an. D.h. `git fetch origin` holt alle Neuigkeiten herunter, die es in dem entfernten Repository gibt, seit du es geklont hast (oder zuletzt `git fetch` ausgeführt hast). Es ist wichtig, zu verstehen, daß der `git fetch` Befehl Daten lediglich in dein lokale Repository lädt. Er führt sich mit deinen eigenen Commits in keiner Weise zusammen oder modifiziert, woran du im Moment arbeitest. D.h. du mußt diese Daten dann selbst manuell mit deinen eigenen zusammeführen, wenn du das willst.
 
 If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 
+Wenn du allerdings einen Branch so aufgesetzt hast, daß er einem entfernten "folgt" (wir werden im nächsten Abschnitt und in Kapitel 3 noch genauer darauf eingehen), dann kannst du den `git pull` Befehl verwenden, um automatisch neue Daten herunterzuladen *und* den entfernten Branch mit dem aktuellen, lokalen Branch zusammenzuführen. Das ist oft die bequemere Arbeitsweise und `git clone` setzt deinen lokalen master Branch standardmäßig so auf, daß er dem entfernten master branch des geklonten Repositories folgt (sofern das entfernte Repository einen master Branch hat). Wenn du nun `git pull` ausführst, wird Git die neuen Commits aus dem entfernten Repository holen und versuchen, sie automatisch mit dem Code zusammenzuführen, an dem du gerade arbeitest.
+
 ### Pushing to Your Remotes ###
 
+### Änderungen in ein entferntes Repository hochladen ###
+
 When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+
+Wenn du mit deinem Projekt an einen Punkt gekommen bist, an dem du es anderen zur Verfügung stellen willst, kannst du deine Änderungen in ein gemeinsam genutztes Repository hochladen. Der Befehl dafür ist einfach: `git push [remote-name] [branch-name]`. Wenn du deinen master Branch auf den `origin` Server hochladen willst (noch einmal, ein Repository zu klonen setzt diese Namen automatisch für dich auf), dann kannst du diesen Befehl verwenden:
 
 	$ git push origin master
 
 This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
 
+Dieser Befehl funktioniert nur dann, wenn du Schreibrechte für das jeweilige Repository hast und niemand anders in der Zwischenzeit irgendwelche Änderungen hochgeladen hat. Wenn du und jemand anders ein Repository zur gleichen Zeit klonen und dann zuerst der andere seine Änderungen hochlädt und dann du versuchst, das gleiche zu tun, dann wird dein Versuch korrekterweise abgewiesen. Du wirst seine Änderungen zunächst herunterladen und mit deinen eigenen zusammenführen müssen, um dann erneut hochzuladen. Siehe Kapitel 3 für ausführlichere Informationen darüber, wie du auf entfernte Server hochladen kannst.
+
 ### Inspecting a Remote ###
 
+### Ein entferntes Repository inspizieren ###
+
 If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+
+Wenn du etwas über ein bestimmtes, entferntes Repository wissen willst, kannst du den Befehl `git remote show [remote-name]` verwenden. Wenn du diesen Befehl mit dem entsprechenden Kurznamen, z.B. `origin` verwendest, erhältst du etwas wie:
 
 	$ git remote show origin
 	* remote origin
@@ -1098,7 +1120,11 @@ If you want to see more information about a particular remote, you can use the `
 
 It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
 
+Er zeigt dir die URL für das entfernte Repository und die Tracking information (xxx) für Branches.
+
 That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+
+Obiges ist ein einfaches Beispiel, das dir früher oder später über den Weg laufen wird. Wenn du Git aber täglich verwendest, erhältst du sehr viel mehr Information mit `git remote show`:
 
 	$ git remote show origin
 	* remote origin
@@ -1124,9 +1150,15 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 
 This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
 
+Dieser Befehl zeigt, welcher Branch automatisch hochgeladen werden wird, wenn du `git push` auf bestimmten Branches ausführst. Er zeigt außerdem, welche Branches es im entfernten Repository gibt, die du selbst noch nicht hast, welche Branches dort gelöscht wurden, und Branches, die automatisch mit lokalen Branches zusammengeführt werden, wenn du `git pull` ausführst.
+
 ### Removing and Renaming Remotes ###
 
+### Verweise auf entfernte Repositories löschen und umbenennen ###
+
 If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+
+Wenn du eine Referenz auf ein entferntes Repository umbenennen willst, kannst du in neueren Git Versionen den Befehl `git remote rename` verwenden, um den Kurznamen zu ändern. Wenn du beispielsweise `pb` in `paul` umbenennen willst, lautet der Befehl:
 
 	$ git remote rename pb paul
 	$ git remote
@@ -1135,7 +1167,11 @@ If you want to rename a reference, in newer versions of Git you can run `git rem
 
 It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
 
+Beachte dabei, daß dies deine Branch Namen für entfernte Branches ebenfalls ändert. Der Branch, der zuvor mit `pb/master` referenziert werden konnte, heißt jetzt `paul/master`.
+
 If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+
+Wenn du eine Referenz aus irgendeinem Grund entfernen willst (z.B. weil du den Server umgezogen hast oder einen bestimmten Mirror nicht länger verwendest, oder weil ein jemand vielleicht nicht länger mitarbeitet), kannst du `git remote rm` verwenden:
 
 	$ git remote rm paul
 	$ git remote
@@ -1143,11 +1179,19 @@ If you want to remove a reference for some reason — you’ve moved the server 
 
 ## Tagging ##
 
+## Tagging ##
+
 Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+
+Wie die meisten anderen VCS kann Git bestimmte Punkte in der Historie als besonders wichtig markieren, also taggen. Normalerweise verwendet man diese Funktionalität, um Release Versionen zu markieren (z.B. v1.0). In diesem Abschnitt gehen wir darauf ein, wie du die vorhandenen Tags anzuzeigen und neue Tags erstellen kannst, und worin die Unterschiede zwischen verschiedenen Typen von Tags bestehen.
 
 ### Listing Your Tags ###
 
+### Vorhandene Tags anzeigen ###
+
 Listing the available tags in Git is straightforward. Just type `git tag`:
+
+Um die vorhandenen Tags in Git anzuzeigen, kannst den Befehl `git tag` ohne irgendwelche weiteren Optionen verwenden:
 
 	$ git tag
 	v0.1
@@ -1155,7 +1199,11 @@ Listing the available tags in Git is straightforward. Just type `git tag`:
 
 This command lists the tags in alphabetical order; the order in which they appear has no real importance.
 
+Dieser Befehl listet die Tags in alphabetischer Reihenfolge auf.
+
 You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+
+Du kannst auch nach Tags mit einem bestimmten Muster suchen. Das Git Quellcode Repository enthält beispielsweise mehr als 240 Tags. Wenn du nur an denjenigen interessiert bist, die zur 1.4.2 Serie gehören, kannst du folgendes tun:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -1165,11 +1213,19 @@ You can also search for tags with a particular pattern. The Git source repo, for
 
 ### Creating Tags ###
 
+### Neue Tags anlegen ###
+
 Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+
+Git kennt im wesentlichen zwei Typen von Tags: leichte und kommentierte (xxx) ("lightweight" und "annotated") Tags. Ein leichte Tag ist praktisch ein Branch, der sich niemals ändert - es ist ein Zeiger auf einen speziellen Commit. Kommentierte Tags dagegen werden als vollwertige Objekte in der Git Datenbank gespeichert. Sie haben eine Checksumme, beinhalten Namen und E-Mail Adresse desjenigen, der den Tag angelegt hat, das jeweilige Datum sowie eine Meldung. Sie können überdies mit GNU Privacy Guard (GPG) signiert und verifiziert werden. Generell empfiehlt sich deshalb, kommentierte Tags anzulegen. Wenn man aber aus irgendeinem Grund einen temporären Tag anlegen will, für den all diese Informationen nicht nötig sind, dann kann man auf leichte Tags zurückgreifen.
 
 ### Annotated Tags ###
 
+### Kommentierte Tags (xxx) ###
+
 Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+
+In Git kann man einen kommentierten Tag einfach dadurch anlegen, daß man dem `tag` Befehl die Option `-a` übergibt:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -1179,7 +1235,11 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 
 The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
 
+Die Option `-m` spezifiziert wiederum die Meldung, die zum Tag hinzugefügt wird. Wenn du keine Meldung angibst, wird Git wie üblich deinen Editor starten, so daß du eine Meldung bequem eingeben kannst.
+
 You can see the tag data along with the commit that was tagged by using the `git show` command:
+
+Du siehst dann die folgenden Tag Daten zusammen mit dem jeweiligen Commit, der getagged (xxx) wurde, wenn Du den Befehl `git show` verwendest:
 
 	$ git show v1.4
 	tag v1.4
@@ -1196,9 +1256,15 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
 
+Diese Ausgabe zeigt die Informationen über denjenigen, der den Tag angelegt hat, sowie die Tag Meldung vor den Commit Informationen.
+
 ### Signed Tags ###
 
+### Signierte Tags ###
+
 You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+
+Wenn du einen privaten GPG Schlüssel hast, kannst du deine Tags zusätzlich mit GPG signieren. Dazu verwendest du einfach die Option `-s` anstelle von `-a`:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
@@ -1206,6 +1272,8 @@ You can also sign your tags with GPG, assuming you have a private key. All you h
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
 If you run `git show` on that tag, you can see your GPG signature attached to it:
+
+Wenn du jetzt `git show` auf diesen Tag anwendest, siehst du, daß der Tag deine GPG Signatur kennt:
 
 	$ git show v1.5
 	tag v1.5
@@ -1229,9 +1297,15 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 A bit later, you’ll learn how to verify signed tags.
 
+Darauf, wie du signierte Tags verifizieren kannst, werden wir gleich noch eingehen.
+
 ### Lightweight Tags ###
 
+### Leichte Tags (xxx) ###
+
 Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+
+Leichte Tags sind die zweite Form von Tags, die Git kennt. Für einen leichten Tag wird im wesentlichen die jeweilige Commit Checksumme, und sonst keine andere Information, in einer Datei gespeichert. Um einen leichten Tag anzulegen, verwendest du einfach keine der drei Optionen `-a`, `-s` und `-m`:
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1243,6 +1317,8 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 
 This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
 
+Wenn du jetzt `git show` auf den Tag ausführst, siehst du keine der zusätzlichen Tag Informationen. Der Befehl zeigt einfach den jeweiligen Commit:
+
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
 	Merge: 4a447f7... a6b4c97...
@@ -1253,7 +1329,11 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 ### Verifying Tags ###
 
+### Tags verifizieren ###
+
 To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+
+Um einen signierten Tag zu verifizieren, kannst du `git tag -v [tag-name]` verwenden. Dieser Befehl verwendet GPG, um die Signatur mit Hilfe des öffentlichen GPG Schlüssels des Signierenden zu verifizieren - weshalb du diesen Schlüssel in deinem GPG Schlüsselbund haben mußt:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1271,13 +1351,19 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 
 If you don’t have the signer’s public key, you get something like this instead:
 
+Wenn du den öffentlichen Schlüssel des Signierenden nicht in deinem Schlüsselbund hast, wirst du statt dessen eine Meldung sehen wie:
+
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
 ### Tagging Later ###
 
+### Nachträglich taggen ###
+
 You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+
+Du kannst Commits lange, nachdem sie angelegt wurden, taggen. Nehmen wir an, deine Commit Historie sieht wie folgt aus:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -1293,9 +1379,13 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 
 Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
 
+Nehmen wir außerdem an, daß du vergessen hast, Version v1.2 des Projektes zu taggen, und daß dies der Commit "updated rakefile" gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
+
 	$ git tag -a v1.2 9fceb02
 
 You can see that you’ve tagged the commit:
+
+Du siehst jetzt, daß du einen Tag für den Commit angelegt hast:
 
 	$ git tag 
 	v0.1
@@ -1320,7 +1410,11 @@ You can see that you’ve tagged the commit:
 
 ### Sharing Tags ###
 
+### Tags hochladen (xxx) ###
+
 By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
+
+Der `git push` Befehl wird Tags von sich aus nicht auf entfernte Server laden. Stattdessen muß Du Tags explizit auf einen entfernten Server hochladen, nachdem du sie angelegt hast. Der Vorgang ist derselbe wie mit Branches: du kannst den Befehl `git push origin [tagname]` verwenden.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1331,6 +1425,8 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	* [new tag]         v1.5 -> v1.5
 
 If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+
+Wenn du viele Tags auf einmal hochladen willst, kannst du dem `git push` Befehl außerdem die `--tags` Option übergeben und auf diese Weise sämtliche Tags auf den entfernten Server transferieren, die dort noch nicht bekannt sind.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1346,37 +1442,63 @@ If you have a lot of tags that you want to push up at once, you can also use the
 
 Now, when someone else clones or pulls from your repository, they will get all your tags as well.
 
+Wenn jetzt jemand anderes das Repository klont oder von dort aktualisiert, wird er all diese Tags ebenfalls erhalten.
+
 ## Tips and Tricks ##
+
+## Tipps und Tricks ###
 
 Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
 
+Bevor wir an das Ende dieses Grundlagen Kapitels kommen, noch einige Tipps und Tricks, die dir den Umgang mit Git ein bißchen vereinfachen können. Du kannst Git verwenden, ohne diese Tipps anzuwenden, und wir werden später in diesem Buch auch nicht darauf Bezug nehmen oder sie voraussetzen. Aber du solltest sie kennen, weil sie einfach nützlich sind.
+
 ### Auto-Completion ###
 
+### Auto-Vervollständigung ###
+
 If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+
+Wenn du die Bash Shell verwendest, dann kannst du ein Skript für Git Auto-Vervollständigung einbinden, das mit Git mitgeliefert wird. Wenn du den Git Quellcode heruntergeladen hast, findest du im Verzeichnis `contrib/completion` die Datei `git-completion.bash`. Kopiere diese Datei in dein Home Verzeicnis (xxx) und füge die folgende Zeile in deine `.bashrc` Datei hinzu:
 
 	source ~/.git-completion.bash
 
 If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
 
+Wenn du Git Auto-Vervollständigung für alle User (xxx) deines Rechners aufsetzen willst, kopiere das Skript in das Verzeichnis `/opt/local/etc/bash_completion.d` (auf Mac OS X Systemen) bzw. `/etc/bash_completion.d/` (auf Linux Systemen). Bash sucht in diesem Verzeichnis nach Erweiterungen für die Autovervollständigung und läd sie automatisch.
+
 If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
 
+Auf Windows Systemen sollte die Autovervollständigung für Git Bash bereits vorkonfiguriert sein. Git Bash ist standardmäßig installiert, wenn du msysGit verwendest.
+
 Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+
+Während du einen Git Befehl tippst, kannst du jetzt die Tab Taste drücken und wirst dann eine Auswahl von Vorschlägen erhalten, aus denen du auswählen kannst:
 
 	$ git co<tab><tab>
 	commit config
 
 In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+
+D.h., wenn du `git co` schreibst und dann die Tab Taste zwei Mal drückst, erhältst du die Vorschläge `commit` und `config`. Wenn du Tab nur ein Mal drückst, vervollständigt den Befehl direkt zu `git commit`.
 	
 This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+
+Das funktioniert auch mit Optionen, was oftmals sogar noch hilfreicher ist. Wenn du beispielsweise `git log` verwenden willst und dich nicht an eine bestimmte Option erinnern kannst, schreibst du einfach den Befehl und drückst die Tab Taste, um die Optionen anzuzeigen:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
 That’s a pretty nice trick and may save you some time and documentation reading.
 
+Das erspart dir, viel Zeit damit zu verbringen, in der Dokumentation nachzuschlagen.
+
 ### Git Aliases ###
 
+### Git Aliase ###
+
 Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+
+Git versucht nicht, zu erraten, welchen Befehl du verwenden willst, wenn du ihn nur teilweise eingibst. Wenn du lange Befehle nicht immer wieder eintippen willst, kannst du mit `git config` auf einfache Weise einen Alias dafür vergeben. Hier einige Beispiele, die du vielleicht nützlich findest:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
@@ -1385,20 +1507,30 @@ Git doesn’t infer your command if you type it in partially. If you don’t wan
 
 This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
 
+Das heißt, daß du z.B. einfach `git ci` anstelle von `git commit` schreiben kannst. Wenn du Git oft verwendest, werden dir sicher weitere Befehle begegnen, die du sehr oft nutzt. In diesem Fall zögere nicht, weitere Aliase zu definieren.
+
 This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+
+Diese Technik kann auch dabei helfen, Git Befehle zu definieren, von denen du denkst, es sollte sie geben:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
 This makes the following two commands equivalent:
+
+Das bewirkt, daß die beiden folgenden Befehle äquivalent sind:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
 This seems a bit clearer. It’s also common to add a `last` command, like this:
 
+Das ist etwas klarer, oder? Ein weiterer, typischer Alias ist der `last` Befehl:
+
 	$ git config --global alias.last 'log -1 HEAD'
 
 This way, you can see the last commit easily:
+
+Auf diese Weise kannst Du leicht den letzten Commit nachschlagen:
 	
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1411,8 +1543,15 @@ This way, you can see the last commit easily:
 
 As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
 
+Wie du dir denken kannst, ersetzt Git ganz einfach den Alias mit dem jeweiligen Befehl, für den er definiert ist. Wenn du statt dessen einen externen Befehl anstelle eines Git Subbefehls ausführen willst, kannst du den Befehl mit einem Auführungszeichen (`!`) anfangen. Das ist in der Regel nützlich, wenn du deine eigenen Hilfsmittel schreibst, um Git zu erweitern. Wir können das demonstrieren, indem wir `git visual` als `gitk` definieren:
+
 	$ git config --global alias.visual "!gitk"
 
 ## Summary ##
 
+## Zusammenfassung ##
+
 At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+
+Du solltest jetzt in der Lage sein, die wichtigsten Git Befehle einzusetzen und Repositories neu zu erzeugen und zu klonen, Änderungen vorzunehmen und zur Staging Area hinzuzufügen, Commits anzulegen und die Historie aller Commits in einem Repository zu durchsuchen. Als nächstes werden wir auf Gits "Killer Feature" (xxx) eingehen: das Branch Konzept.
+

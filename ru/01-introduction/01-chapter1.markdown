@@ -248,30 +248,42 @@ Git comes with a tool called git config that lets you get and set configuration 
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
-### Your Identity ###
+### Имя пользователя ###
+
+Первое, что вам следует сделать после установки Git ― указать ваше имя и адрес электронной почты. Это важно потому что каждый коммит в Git содержит эту информацию, и она включена в коммиты, отправляемые вами:
 
 The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
+Повторюсь, что эти настройки нужно сделать один раз если вы указываете параметр `--global`, поскольку в этом случае Git будет использовать эти данные для всего что вы делаете в этой системе. Если вы хотить указать другое имя или электронную почту для конкретных проектов, вы можете запустить команду без параметра `--global` в каталоге с нужным проектом.
+
 Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
 
-### Your Editor ###
+### Выбор редактора ###
+
+Теперь, когда вы указали свое имя, вы можете выбрать редактор по умолчанию, который будет использоваться когда необходимо ввести сообщение в Git. Изначально Git использует редактор по умолчанию для вашей системы, обычно это Vi или Vim. Если вы хотите использовать другой текстовый редактор, например Emacs, вы можете воспользоваться командой:
 
 Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### Утилита сравнения ###
+
+Другая полезная настройка, которая может вам понадобиться ― утилита сравнения по умолчанию, которая будет использоваться для разрешения конфликтов слияния. Например для vimdiff:
 
 Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
+Git умеет работать с kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge и opendiff, но вы можете настроить и другую утилиту, о чем вы можете прочитать в главе 7.
+
 Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
 
-### Checking Your Settings ###
+### Проверка настроек ###
+
+Если вы хотите проверить используемые настройки, вы можете воспользоваться командой `git config --list`, чтоб просмотреть все настройки:
 
 If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
 
@@ -284,14 +296,20 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
+Вы можете обнаружить некоторые параметры несколько раз, потому что Git прочитал их из разных файлов (например из `/etc/gitconfig` и `~/.gitconfig`). В этом случае используется последнее значение для каждого найденного параметра.
+
 You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+
+Также вы можете проверить значение конкретного параметра выполнив `git config {параметр}`:
 
 You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Как получить помощь? ##
+
+Если вам нужна помощь при использовании Git, есть три способа открыть страницу руководства (manpage) по любой команде Git:
 
 If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
 
@@ -299,13 +317,20 @@ If you ever need help while using Git, there are three ways to get the manual pa
 	$ git <verb> --help
 	$ man git-<verb>
 
+Например, вы можете открыть руководство на команду config, запустив:
+
 For example, you can get the manpage help for the config command by running
 
 	$ git help config
 
+Эти команды также хороши тем что вы всегда можете ими воспользоваться, даже без подключения к сети.
+Если руководства и этой книги недостаточно, и вам нужна персональная помощь, вы можете попытаться поискать ее на каналах `#git` и `#github` сервера Freenode IRC (irc.freenode.net). Обычно там сотни людей отлично знающих Git, могущих помочь.
+
 These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
-## Summary ##
+## Итоги ##
+
+Теперь у вас должно быть общее понимание что такое Git, и чем он отличается от CVCS, которыми вы могли пользоваться раньше. Также у вас должна быть установлена рабочая версия Git с вашими личными настройками. Настало время перейти изучению некоторых основ Git.
 
 You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.

@@ -153,11 +153,11 @@ Außerdem bedeutet dies, dass es fast nichts gibt, was Du nicht tun kannst, nur 
 
 Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
 
-In Git wird alles in eine Checksumme (xxx) umgerechnet, bevor es gespeichert wird. Anschließend werden Änderungen mit dieser Checksumme referenziert. Das heißt es ist unmöglich, daß sie die Inhalte von Dateien oder Verzeichnissen ändern, ohne dass Git das mitbekommt. Git basiert auf dieser Funktionalität und sie ist ein integraler Teil von Gits Philosophie. Man kann Informationen nicht während der Übermittlung verlieren oder beschädigte Dateien verwenden, ohne dass Git in der Lage ist, dies festzustellen.
+In Git wird alles in eine Checksumme (xxx) umgerechnet, bevor es gespeichert wird. Anschließend werden Änderungen mit dieser Checksumme referenziert. Das heißt es ist unmöglich, dass sie die Inhalte von Dateien oder Verzeichnissen ändern, ohne dass Git das mitbekommt. Git basiert auf dieser Funktionalität und sie ist ein integraler Teil von Gits Philosophie. Man kann Informationen nicht während der Übermittlung verlieren oder beschädigte Dateien verwenden, ohne dass Git in der Lage ist, dies festzustellen.
 
 The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
 
-Der Mechanismus, den Git verwendet, um diese Checksummen zu erstellen, heißt SHA-1 Hash. Eine solche Checksumme ist ein 40 Zeichen langer String (xxx), der aus hexadezimalen Zeichen besteht. Und er wird von Git aus den Inhalten einer Datei oder Verzeichnisstruktur kalkuliert. Ein SHA-1 Hash sieht wie folgt aus:
+Der Mechanismus, den Git verwendet, um diese Checksummen zu erstellen, heißt SHA-1 Hash. Eine solche Checksumme ist eine 40 Zeichen lange Zeichenfolge, die aus hexadezimalen Zeichen besteht und diese wird von Git aus den Inhalten einer Datei oder Verzeichnisstruktur kalkuliert. Ein SHA-1 Hash sieht wie folgt aus:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 	24b9da6552252987aa493b52f8696cd6d3b00373

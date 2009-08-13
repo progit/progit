@@ -2,13 +2,13 @@
 
 This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
 
-In diesem Kapitel wird es darum gehen, wie man mit Git loslegen kann. Wir werden erläutern, wozu Versionskontrollsystemen gut sind, wie man Git auf verschiedenen Systemen installieren und konfigurieren kann, so daß man in der Lage ist, mit der Arbeit anzufangen. Am Ende dieses Kapitels solltest Du verstehen, wozu Git gut ist, weshalb Du es verwenden solltest und wie Du damit loslegen kannst.
+In diesem Kapitel wird es darum gehen, wie man mit Git loslegen kann. Wir werden erläutern, wozu Versionskontrollsysteme gut sind, wie man Git auf verschiedenen Systemen installieren und konfigurieren kann, so dass man in der Lage ist, mit der Arbeit anzufangen. Am Ende dieses Kapitels solltest Du verstehen, wozu Git gut ist, weshalb Du es verwenden solltest und wie Du damit loslegen kannst.
 
 ## Wozu Versionskontrolle? ##
 
 What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
 
-Was ist Versionskontrolle, und warum solltest Du dich dafür interessieren? Versionskontrollsysteme (VCS) protokollieren Änderungen an einer Datei oder einer Anzahl von Dateien über die Zeit hinweg, so daß man zu jedem Zeitpunkt auf Versionen und Änderungen zugreifen kann. Die Beispiele in diesem Buch verwenden Software Quellcode Dateien, tatsächlich aber kannst Du Änderungen an praktisch jeder Art von Datei per Versionskontrolle nachverfolgen.
+Was ist Versionskontrolle, und warum solltest Du dich dafür interessieren? Versionskontrollsysteme (VCS) protokollieren Änderungen an einer Datei oder einer Anzahl von Dateien über die Zeit hinweg, so dass man zu jedem Zeitpunkt auf Versionen und Änderungen zugreifen kann. Die Beispiele in diesem Buch verwenden Software Quellcode Dateien, tatsächlich aber kannst Du Änderungen an praktisch jeder Art von Datei per Versionskontrolle nachverfolgen.
 
 If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
 
@@ -20,7 +20,7 @@ Als ein Grafik- oder Webdesigner zum Beispiel willst Du in der Lage sein, jede V
 
 Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 
-Viele Leute kontrollieren Versionen ihrer Arbeit, indem sie einfach Dateien in ein anderes Verzeichnis kopieren (wenn sie clever sind: ein Verzeichnis mit einem Zeitstempel im Namen). Diese Vorgehensweise ist üblich, weil sie so einfach ist. Aber sie ist auch unglaublich fehleranfällig. Man vergißt sehr leicht, in welchem Verzeichnis man sich gerade befindet und kopiert die falschen Dateien oder überschreibt Dateien, die man eigentlich nicht überschreiben wollte.
+Viele Leute kontrollieren Versionen ihrer Arbeit, indem sie einfach Dateien in ein anderes Verzeichnis kopieren (wenn sie clever sind: ein Verzeichnis mit einem Zeitstempel im Namen). Diese Vorgehensweise ist üblich, weil sie so einfach ist. Aber sie ist auch unglaublich fehleranfällig. Man vergisst sehr leicht, in welchem Verzeichnis man sich gerade befindet und kopiert die falschen Dateien oder überschreibt Dateien, die man eigentlich nicht überschreiben wollte.
 
 To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
 
@@ -33,7 +33,7 @@ Bild 1-1. Diagramm: Lokale Versionskontrolle
 
 One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 
-Eines der populärsten Versionskontrollsystem war rcs, und es wird heute immer noch mit vielen Computern ausgeliefert. Z.B. umfaßt auch das beliebte Betriebssystem Mac OS X den Befehl rcs, wenn Du die Developer Tools installierst. Dieser Befehl arbeitet nach dem Prinzip, daß er für jede Änderung einen Patch (d.h. eine Kodierung der Unterschiede, die eine Änderung an einer oder mehreren Dateien umfaßt) in einem speziellen Format in einer Datei auf der Festplatte speichert. 
+Eines der populärsten Versionskontrollsysteme war rcs, und es wird heute immer noch mit vielen Computern ausgeliefert. Auch das beliebte Betriebssystem Mac OS X umfasst den Befehl rcs, wenn Du die Developer Tools installierst. Dieser Befehl arbeitet nach dem Prinzip, dass er für jede Änderung einen Patch (d.h. eine Kodierung der Unterschiede, die eine Änderung an einer oder mehreren Dateien umfasst) in einem speziellen Format in einer Datei auf der Festplatte speichert. 
 
 ### Centralized Version Control Systems ###
 
@@ -41,7 +41,7 @@ Eines der populärsten Versionskontrollsystem war rcs, und es wird heute immer n
 
 The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
 
-Das nächste Problem, mit dem Programmierer sich dann konfrontiert sahen, bestand in der Zusammenarbeit mit anderen: Änderungen an dem gleichen Projekt mußten auf verschiedenen Computern, möglicherweise verschiedenen Betriebssystemen vorgenommen werden können. Um dieses Problem zu lösen, wurden Zentralisierte Versionskontrollsysteme (CVCS) entwickelt. Diese Systemen, beispielsweise CVS, Subversion und Perforce, basieren auf einem zentralen Server, der alle versionierten Dateien verwaltet. Wer an diesen Dateien arbeiten will, kann sie von diesem Server abholen ("check out" xxx), auf seinem eigenen Computer bearbeiten und dann wieder auf dem Server abliefern. Diese Art von System war über viele Jahre hinweg der Standard für Versionskontrollsysteme (siehe Bild 1-2).
+Das nächste Problem, mit dem Programmierer sich dann konfrontiert sahen, bestand in der Zusammenarbeit mit anderen: Änderungen an dem gleichen Projekt mussten auf verschiedenen Computern, möglicherweise verschiedenen Betriebssystemen vorgenommen werden können. Um dieses Problem zu lösen, wurden Zentralisierte Versionskontrollsysteme (CVCS) entwickelt. Diese Systemen, beispielsweise CVS, Subversion und Perforce, basieren auf einem zentralen Server, der alle versionierten Dateien verwaltet. Wer an diesen Dateien arbeiten will, kann sie von diesem Server abholen ("check out" xxx), auf seinem eigenen Computer bearbeiten und dann wieder auf dem Server abliefern. Diese Art von System war über viele Jahre hinweg der Standard für Versionskontrollsysteme (siehe Bild 1-2).
 
 Insert 18333fig0102.png 
 Figure 1-2. Centralized version control diagram
@@ -67,7 +67,7 @@ Bild 1-3. Diagramm: Distribuierte Versionskontrolle
 
 Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
 
-Darüberhinaus können derartige Systeme hervorragend mit verschiedenen externen ("remote" xxx) Repositories (xxx) umgehen, so daß man mit verschiedenen Gruppen von Leuten simultan in verschiedenen Weisen zusammenarbeiten kann. Das macht es möglich, verschiedene Arten von Arbeitsabläufen (wie Hierarchien) zu integrieren, was mit zentralisierten Systemen nicht möglich ist.
+Darüber hinaus können derartige Systeme hervorragend mit verschiedenen externen ("remote" xxx) Repositories (xxx) umgehen, so dass man mit verschiedenen Gruppen von Leuten simultan in verschiedenen Weisen zusammenarbeiten kann. Das macht es möglich, verschiedene Arten von Arbeitsabläufen (wie Hierarchien) zu integrieren, was mit zentralisierten Systemen nicht möglich ist.
 
 ## A Short History of Git ##
 
@@ -75,11 +75,11 @@ Darüberhinaus können derartige Systeme hervorragend mit verschiedenen externen
 
 As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 
-Wie viele großartige Dinge im Leben entstand Git aus einer kreativen Zerstörung (xxx) und einer wilden (xxx) Diskussion. Der Linux Kernel ist ein Open Source Software Projekt mit einem erheblichen Umfang. Während der gesamten Entwicklungszeit des Linux Kernels von 1991 bis 2002 wurden Änderungen an der Software als Patches (xxx) und archivierte Dateien herumgereicht. 2002 began man, ein proprietäres DVCS System mit dem Namen "Bitkeeper" zu verwenden.
+Wie viele großartige Dinge im Leben entstand Git aus einer kreativen Zerstörung (xxx) und einer wilden (xxx) Diskussion. Der Linux Kernel ist ein Open Source Software Projekt mit einem erheblichen Umfang. Während der gesamten Entwicklungszeit des Linux Kernels von 1991 bis 2002 wurden Änderungen an der Software als Patches (xxx) und archivierte Dateien herumgereicht. 2002 begann man, ein proprietäres DVCS System mit dem Namen "Bitkeeper" zu verwenden.
 
 In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
 
-2005 began sich die Beziehung zwischen der Community, die den Linux Kernel entwickelte, und des kommerziell ausgerichteten Unternehmens, das BitKeeper entwickelte, zu verschlechtern (xxx). Die zuvor ausgesprochene Erlaubnis, BitKeeper kostenlos zu verwenden, wurde widerrufen. Dies war für die Linux Entwickler Community der Auslöser dafür, ein eigenes Tool zu entwickeln, das auf den Erfahrungen mit BitKeeper basierte. Einige der Ziele des neuen Systems waren die folgenden:
+2005 begann sich die Beziehung zwischen der Community, die den Linux Kernel entwickelte, und des kommerziell ausgerichteten Unternehmens, das BitKeeper entwickelte, zu verschlechtern (xxx). Die zuvor ausgesprochene Erlaubnis, BitKeeper kostenlos zu verwenden, wurde widerrufen. Dies war für die Linux Entwickler Community der Auslöser dafür, ein eigenes Tool zu entwickeln, das auf den Erfahrungen mit BitKeeper basierte. Einige der Ziele des neuen Systems waren die folgenden:
 
 *	Speed
 *	Simple design
@@ -103,7 +103,7 @@ Seit seiner Geburt 2005 wurde Git kontinuierlich weiterentwickelt und verbessert
 
 So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
 
-Was also ist Git, in wenigen Worten (xxx)? Diesen Abschnitt, in dem es um die fundamentalen Grundlagen von Git geth, zu verstehen ist wichtig, weil es dich in die Lage versetzen wird, Git einfacher und effektiver zu verwenden. Versuche dein vorhandenes Wissen über andere Versionskontrollsysteme, wie Subversion oder Perforce, zu ignorieren, während Du Git lernst. Git speichert und konzipiert Information anders als andere Systeme, auch wenn das Interface (xxx) relativ ähnlich wirkt. Diese Unterschiede zu verstehen wird dir helfen, Verwirrung bei der Anwendung von Git zu vermeiden.
+Was also ist Git, in wenigen Worten (xxx)? Diesen Abschnitt, in dem es um die fundamentalen Grundlagen von Git geht, zu verstehen ist wichtig, weil es dich in die Lage versetzen wird, Git einfacher und effektiver zu verwenden. Versuche dein vorhandenes Wissen über andere Versionskontrollsysteme, wie Subversion oder Perforce, zu ignorieren, während Du Git lernst. Git speichert und konzipiert Information anders als andere Systeme, auch wenn das Interface (xxx) relativ ähnlich wirkt. Diese Unterschiede zu verstehen wird dir helfen, Verwirrung bei der Anwendung von Git zu vermeiden.
 
 ### Snapshots, Not Differences ###
 
@@ -137,7 +137,7 @@ Auf einige der Vorteile, die es mit sich bringt, Daten in dieser Weise zu betrac
 
 Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
 
-Die meisten Operationen in Git benötigen nur die lokalen Dateien und Resourcen, um zu funktionieren, d.h. im Allgemeinen werden keine Informationen von einem anderen Rechner im Netzwerk benötigt. Wenn Du mit einem CVCS gearbeitet hast, das für die meisten Operationen einen Netzwerk Latency Overhead (xxx) hat, dann wirst Du den Eindruck haben, daß die Götter der Geschwindigkeit Git mit unaussprechlichen Fähigkeiten ausgestattet haben. Weil man die vollständige Historie auf dem lokalen Rechner hat, werden die meisten Operationen ohne jede Verzögerung ausgeführt und sind sehr schnell.
+Die meisten Operationen in Git benötigen nur die lokalen Dateien und Ressourcen, um zu funktionieren, d.h. im Allgemeinen werden keine Informationen von einem anderen Rechner im Netzwerk benötigt. Wenn Du mit einem CVCS gearbeitet hast, das für die meisten Operationen einen Netzwerk Latency Overhead (xxx) hat, dann wirst Du den Eindruck haben, dass die Götter der Geschwindigkeit Git mit unaussprechlichen Fähigkeiten ausgestattet haben. Weil man die vollständige Historie auf dem lokalen Rechner hat, werden die meisten Operationen ohne jede Verzögerung ausgeführt und sind sehr schnell.
 
 For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
 
@@ -145,7 +145,7 @@ Um beispielsweise die Historie des Projektes zu durchsuchen, braucht Git sie nic
 
 This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
 
-Außerdem bedeutet dies, daß es fast nichts gibt, was Du nicht tun kannst, nur weil Du offline bist oder keinen Zugriff auf das VPN hast. Wenn Du im Flugzeug oder Zug ein wenig arbeiten willst, kannst Du problemlos deine Arbeit committen (xxx) und erst dann auf den Server hochladen, wenn Du wieder mit einem Netzwerk verbunden bist. Wenn Du zu Hause bist aber nicht auf das VPN zugreifen kannst, kannst Du dennoch arbeiten. Perforce z.B. läßt dich dagegen nicht viel tun, wenn Du nicht mit dem Server verbunden bist. Und in Subversion und CVS kannst Du Dateien zwar ändern, die Änderungen aber nicht in der Datenbank sichern (weil die Datenbank offline ist). Das mag auf den ersten Blick nicht nach einer großen Angelegenheit aussehen, aber Du wirst überrascht sein, welch einen großen Unterschied das ausmachen kann.
+Außerdem bedeutet dies, dass es fast nichts gibt, was Du nicht tun kannst, nur weil Du offline bist oder keinen Zugriff auf das VPN hast. Wenn Du im Flugzeug oder Zug ein wenig arbeiten willst, kannst Du problemlos deine Arbeit committen (xxx) und erst dann auf den Server hochladen, wenn Du wieder mit einem Netzwerk verbunden bist. Wenn Du zu Hause bist aber nicht auf das VPN zugreifen kannst, kannst Du dennoch arbeiten. Perforce z.B. lässt dich dagegen nicht viel tun, wenn Du nicht mit dem Server verbunden bist. Und in Subversion und CVS kannst Du Dateien zwar ändern, die Änderungen aber nicht in der Datenbank sichern (weil die Datenbank offline ist). Das mag auf den ersten Blick nicht nach einer großen Angelegenheit aussehen, aber Du wirst überrascht sein, welch einen großen Unterschied das ausmachen kann.
 
 ### Git Has Integrity ###
 
@@ -153,11 +153,11 @@ Außerdem bedeutet dies, daß es fast nichts gibt, was Du nicht tun kannst, nur 
 
 Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
 
-In Git wird alles in eine Checksumme (xxx) umgerechnet, bevor es gespeichert wird. Anschließend werden Änderungen mit dieser Checksumme referenziert. Das heißt es ist unmöglich, daß sie die Inhalte von Dateien oder Verzeichnissen ändern, ohne daß Git das mitbekommt. Git basiert auf dieser Funktionalität und sie ist ein integraler Teil von Gits Philosophie. Man kann Informationen nicht während der Übermittlung verlieren oder beschädigte Dateien verwenden, ohne daß Git in der Lage ist, dies festzustellen.
+In Git wird alles in eine Checksumme (xxx) umgerechnet, bevor es gespeichert wird. Anschließend werden Änderungen mit dieser Checksumme referenziert. Das heißt es ist unmöglich, dass sie die Inhalte von Dateien oder Verzeichnissen ändern, ohne dass Git das mitbekommt. Git basiert auf dieser Funktionalität und sie ist ein integraler Teil von Gits Philosophie. Man kann Informationen nicht während der Übermittlung verlieren oder beschädigte Dateien verwenden, ohne dass Git in der Lage ist, dies festzustellen.
 
 The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
 
-Der Mechanismus, den Git verwendet, um diese Checksummen zu erstellen, heißt SHA-1 Hash. Eine solche Checksumme ist ein 40 Zeichen langer String (xxx), der aus hexadezimalen Zeichen besteht. Und er wird von Git aus den Inhalten einer Datei oder Verzeichnisstruktur kalkuliert. Ein SHA-1 Hash sieht wie folgt aus:
+Der Mechanismus, den Git verwendet, um diese Checksummen zu erstellen, heißt SHA-1 Hash. Eine solche Checksumme ist eine 40 Zeichen lange Zeichenfolge, die aus hexadezimalen Zeichen besteht und diese wird von Git aus den Inhalten einer Datei oder Verzeichnisstruktur kalkuliert. Ein SHA-1 Hash sieht wie folgt aus:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 	24b9da6552252987aa493b52f8696cd6d3b00373
@@ -184,7 +184,7 @@ Das ist einer der Gründe, warum es so viel Spaß macht, mit Git zu arbeiten. Ma
 
 Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
 
-Jetzt aufgepaßt. Das folgende ist die wichtigste Information, die Du brauchst, wenn Du Git lernen und Fallstricke vermeiden willst. Git definiert drei Haupt-Zustände, in denen sich eine Datei befinden kann: committed (xxx), geändert ("modified") und staged (xxx). "Committed" bedeutet, daß die Daten in der lokalen Datenbank gesichert sind. "Modified" bedeutet, daß die Datei geändert, diese Änderung aber noch nicht committed wurde. "Staged" bedeutet, daß Du eine geänderte Datei in ihrem gegenwärtigen Zustand für den nächsten Commit Snapshot markiert hast.
+Jetzt aufgepasst. Das folgende ist die wichtigste Information, die Du brauchst, wenn Du Git lernen und Fallstricke vermeiden willst. Git definiert drei Haupt-Zustände, in denen sich eine Datei befinden kann: committed (xxx), geändert ("modified") und staged (xxx). "Committed" bedeutet, dass die Daten in der lokalen Datenbank gesichert sind. "Modified" bedeutet, dass die Datei geändert, diese Änderung aber noch nicht committed wurde. "Staged" bedeutet, dass Du eine geänderte Datei in ihrem gegenwärtigen Zustand für den nächsten Commit Snapshot markiert hast.
 
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
@@ -208,7 +208,7 @@ Die Staging Area (xxx) ist einfach eine Datei, normalerweise im Git Verzeichnis,
 
 The basic Git workflow goes something like this:
 
-Der grundlegend Git Arbeitsprozeß sieht etwa so aus:
+Der grundlegend Git Arbeitsprozess sieht etwa so aus:
 
 1.	You modify files in your working directory.
 2.	You stage the files, adding snapshots of them to your staging area.
@@ -236,7 +236,7 @@ Legen wir los. Der erste Schritt besteht natürlich darin, Git zu installieren -
 
 If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
 
-Wenn es dir möglich ist, ist es empfehlenswert, Git vom Quellcode aus zu installieren, weil Du die jeweils neueste Version erhältst. Jede Version von Git enthält normalerweise nützliche Verbesserungen (z.B. am Interface), so daß es sich lohnt die jeweils neueste Version zu verwenden - sofern Du gut damit klarkommst, Software aus dem Quellcode zu kompilieren. Viele Linux Distributionen umfassen sehr alte Git Versionen. Wenn Du also keine sehr aktuelle Distribution oder Backports (xxx) verwendest, empfehlen wir, diesen Weg in Erwägung ziehen.
+Wenn es dir möglich ist, ist es empfehlenswert, Git vom Quellcode aus zu installieren, weil Du die jeweils neueste Version erhältst. Jede Version von Git enthält normalerweise nützliche Verbesserungen (z.B. am Interface), so dass es sich lohnt die jeweils neueste Version zu verwenden - sofern Du gut damit klarkommst, Software aus dem Quellcode zu kompilieren. Viele Linux Distributionen umfassen sehr alte Git Versionen. Wenn Du also keine sehr aktuelle Distribution oder Backports (xxx) verwendest, empfehlen wir, diesen Weg in Erwägung ziehen.
 
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
@@ -332,7 +332,7 @@ Nachdem Du jetzt Git auf deinem System installiert hast, solltest Du deine Git U
 
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 
-Git umfaßt das Werkzeug git config, das dir erlaubt, Konfigurationswerte zu verändern. Auf diese Weise kannst Du anpassen, wie Git arbeitet und aussieht. Diese Werte sind an drei verschiedenen Orten gespeichert:
+Git umfasst das Werkzeug git config, das dir erlaubt, Konfigurationswerte zu verändern. Auf diese Weise kannst Du anpassen, wie Git arbeitet und aussieht. Diese Werte sind an drei verschiedenen Orten gespeichert:
 
 *	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
@@ -367,7 +367,7 @@ Du brauchst diese Konfiguration wie gesagt nur einmal vorzunehmen, wenn Du die `
 
 Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
 
-Nachdem Du deine Identität jetzt konfiguriert hast, kannst Du einstellen, welchen Texteditor Git in Situationen verwenden soll, in denen Du eine Nachricht eingeben mußt. Normalerweise verwendet Git den Standard-Texteditor deines Systems - das ist üblicherweise Vi oder Vim. Wenn Du einen anderen Texteditor, z.B. Emacs, verwenden willst, kannst Du das wie folgt festlegen:
+Nachdem Du deine Identität jetzt konfiguriert hast, kannst Du einstellen, welchen Texteditor Git in Situationen verwenden soll, in denen Du eine Nachricht eingeben musst. Normalerweise verwendet Git den Standard-Texteditor deines Systems - das ist üblicherweise Vi oder Vim. Wenn Du einen anderen Texteditor, z.B. Emacs, verwenden willst, kannst Du das wie folgt festlegen:
 
 	$ git config --global core.editor emacs
 	

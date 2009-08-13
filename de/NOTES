@@ -13,4 +13,34 @@ Code Review
 Tree hash
 Committer
 Patch
-Merge: "Merge", "Zusammenführung", "zusammenführen"
+"Merge", "Zusammenführung", "zusammenführen"
+
+
+to version-control something - ?
+	"Many people’s version-control method of choice is ..."
+
+"... Git began with a bit of creative destruction and fiery controversy"
+	... entstand Git aus kreativem Chaos und hitziger Diskussion.
+
+Überschrift: "Snapshots, Not Differences" - "Snapshots, nicht Diffs" ?
+
+
+source code, source	- Quellcode
+repository, repositories - Repository, Repositories
+remote repository - entferntes Repositories (??)
+branch, to branch, branching model - Branch, branchen, Branch Konzept
+	Zweig, Verzweigung, Arm - klingt alles ein bißchen blöd
+interface - Interface
+commit, to commit - Commit, committen
+history - Historie
+to push - auf den Server hochladen, pushen?
+checksum, to checksum - Checksumme, Checksumme berechnen
+SHA-1 hash - SHA-1 Hash
+to stage - stagen, für einen Commit vormerken, zur Staging Area hinzufügen
+to clone - klonen
+checkout, to check in/out - Checkout, ein/auschecken (??)
+snapshot - Snapshot 
+	Schnappschuß klingt blöd 
+	Speicherauszug sagt Leo http://dict.leo.org/ende?search=Snapshot
+online/offline - online/offline
+

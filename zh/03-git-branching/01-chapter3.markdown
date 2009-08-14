@@ -299,42 +299,42 @@ Git还没有自动创建一个新的合并提交。它会暂停下来等待你�
 
 ## 分支管理 ##
 
-Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+目前为止你已经创建，合并和删除了一些分支，我们现在关注一下几个分支管理系统，它们可能在你开始常规使用分支以后变得异常有帮助。
 
-The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
+`git branch`命令不仅仅能创建和删除分支。如果你不加任何参数运行之，你将得到一个当前分支的清单：
 
 	$ git branch
 	  iss53
 	* master
 	  testing
 
-Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch –v`:
+注意看`master`分支前的`*`字符：它指出你当前签出的分支。这意味着如果你现在进行提交，`master`分支将由于你的进度前移。若要看一下各分支的最后一次commit，运行`git branch -v`：
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
+另一个有用的选项是筛从该清单中筛选出你已经或尚未与当前分支合并的分支。为此从Git的1.5.6版本开始加入了有用的`--merge`和`--no-merged`选项。你可以用`git branch -merge`查看哪些分支已经被并入了当前分支：
 
 	$ git branch --merged
 	  iss53
 	* master
 
-Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+由于你之前已经合并了`iss53`，你将在该列表中发现它。该列表中没有`*`在前面的分支通常都可以用`git branch -d`来删掉；你已经把他们包含的工作整合到了其他分支，所以你不会损失任何东西。
 
-To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
+你可以用`git branch --no-merged`查看尚未合并的工作：
 
 	$ git branch --no-merged
 	  testing
 
-This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
+这将显示剩余的分支。由于它们包含还没有被合并的工作，用`git branch -d`来删除的尝试将会失败：
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 
-If you are sure you want to delete it, run `git branch -D testing`.
-If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
+如果你坚信你要删除它，运行`git branch -D testing`。
+如果你确实想要删掉这个分支同时丢失其中包含的工作，你可以用`-D`强制执行。
 
 ## 分支式工作流程 ##
 

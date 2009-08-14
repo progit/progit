@@ -338,26 +338,26 @@ Git还没有自动创建一个新的合并提交。它会暂停下来等待你�
 
 ## 分支式工作流程 ##
 
-Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
+如今你已经有了分支与合并的基础，你可以或者应该用它做点什么？在本节，我们将介绍一些由轻巧的分支带来的常见的工作流程，由此你可以决定是否在你自己的工作循环中使用它们。
 
 ### 长期(long-term）分支 ###
 
-Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
+由于Git使用简单的三方合并，长期反复的从一个分支合并到另一个分支通常是很容易的。这意味着你可以拥有多个开放的分支用来进行不同阶段的开发；你可以经常性的把一个合并到另一个里。
 
-Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+许多Git开发者在其工作流程中采用该方法，比如在`master`分支里只保留完全稳定的代码——唯一已经或将要发布的代码。他们还有一个平行的分支名为develop或者next来进行工作或者进行稳定性测试 —— 它不一定永远稳定，不过一旦它进入一个稳定状态，它可以被合并到`master`里。它是被用来从完成开发的特性分支（短期分支，如前例的`iss53`分支）里提取(pull)内容，从而确保它们通过所有的测试并且不引入错误。
 
-In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (见图 3-18).
+实际上，我们讨论的是随着你创造的commit不停前移的指针。稳定分支在你提交的历史里比较落后，而前沿的分支则遥遥领先（见图3-18）。
 
 Insert 18333fig0318.png 
-图 3-18. More stable branches are generally farther down the commit history.
+图 3-18. 更稳定的分支通常比较落后。
 
-It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (见图 3-19).
+可能把它们想象成工作流水线比较容易理解，经过测试的commit集合被遴选到更稳定的流水线。
 
 Insert 18333fig0319.png 
-图 3-19. It may be helpful to think of your branches as silos.
+图 3-19. 想象成流水线可能会容易点。
 
-You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
-Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
+你可以用这招维护不同层次的稳定性。一些更大的项目还会有一个`proposed(建议)'或`pu`(proposed updates，建议更新)分支，它包含着那些可能还没有成熟到进入`next`或`master`的分支。这样的目的是你拥有了不同层次的稳定性；当这些分支进入到更稳定的水平的时候，你再把它们合并到更高层次中去。
+使用多个长期分支不一定是必要的，但通常都会有帮助，尤其是在你应付非常大型或者复杂的工程的时候。
 
 ### 特性(Topic)分支 ###
 

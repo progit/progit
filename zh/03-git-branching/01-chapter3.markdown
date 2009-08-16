@@ -344,7 +344,7 @@ Git还没有自动创建一个新的合并提交。它会暂停下来等待你�
 
 由于Git使用简单的三方合并，长期反复的从一个分支合并到另一个分支通常是很容易的。这意味着你可以拥有多个开放的分支用来进行不同阶段的开发；你可以经常性的把一个合并到另一个里。
 
-许多Git开发者在其工作流程中采用该方法，比如在`master`分支里只保留完全稳定的代码——唯一已经或将要发布的代码。他们还有一个平行的分支名为develop或者next来进行工作或者进行稳定性测试 —— 它不一定永远稳定，不过一旦进入一个稳定状态，它便可以被合并到`master`里。它的作用是从已完成的特性分支（短期分支，如前例的`iss53`分支）里提取(pull)内容，从而确保这些分支的内容通过所有的测试并且不引入错误。
+许多Git开发者在其工作流程中采用该方法，比如在`master`分支里只保留完全稳定的代码——唯一已经或将要发布的代码。他们还有一个平行的分支名为develop或者next来进行工作或者进行稳定性测试 —— 它不一定永远稳定，不过一旦进入一个稳定状态，它便可以被合并到`master`里。其的作用是从已完成的特性分支（短期分支，如前例的`iss53`分支）里提取(pull)内容，从而确保这些分支的内容通过所有的测试并且不引入更多错误。
 
 实际上，我们讨论的是随着你创造的commit不停前移的指针。稳定分支在你提交的历史里比较落后，而前沿的分支则遥遥领先（见图3-18）。
 
@@ -379,34 +379,34 @@ Insert 18333fig0321.png
 
 ## 远程(Remote)分支 ##
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
+远程分支是对远程仓库状态的索引。它们是一些本地你无法移动的分支；只有在你进行Git的网络活动时才会移动。远程分支就像是一些书签,提醒着你上次连接远程仓库时上面各分支位置。 
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+它们形如`(远程仓库名)/(分支)`。假使你想看看上次和`origin`仓库通讯的时候`master`是什么样的，你应该查看`origin/master`分支。如果你和同伴一起修复某个问题而他们推送了一个`iss53`分支，虽然你可能也有一个本地的`iss53`分支，服务器上的分支却应该以`origin/iss53`指向其commit。
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (见图 3-22).
+这可能有点混乱，我们不妨举例说明。假设你的团队有个地址为`git.ourcompany.com`的Git服务器。如果你从这里克隆，Git会自动为你将它（远程仓库）命名为`origin`，下载其中所有的数据，建立一个指向它`master`分支的指针，并在本地命名为`origin/master`，但你无法移动它。Git同时建立一个属于你的`master`分支，始于和origin上的master分支相同的位置，你可以就此开始工作（见图3-22）。
 
 Insert 18333fig0322.png 
-图 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+图 3-22. 一次Git克隆会建立一个你自己的master分支和一个origin/master并共同指向origin的master分支。
 
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (见图 3-23).
+要是你在本地的master分支做了一点工作，与此同时，其他人向`git.ourcompany.com`推送了内容，更新了它的master分支，你的提交历史会开始朝不同的方向发展。不过只要你不和服务器通讯，你的`origin/master`指针不会移动。
 
 Insert 18333fig0323.png 
-图 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+图 3-23. 在本地工作的同时有人向远程仓库推送内容会让提交历史发生分歧。
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (见图 3-24).
+你可以运行`git fetch origin`来进行同步。该命令首先找到origin是哪个服务器（本例中，结果是`git.ourcompany.com`），从上面获取你尚未拥有的数据，更新你本地的数据库，然后把`origin/master`移到它最新的位置（见图3-24）。
 
 Insert 18333fig0324.png 
-图 3-24. The git fetch command updates your remote references.
+图 3-24. git fetch命令会更新你的remote索引。
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (见图 3-25).
+为了演示拥有多个远程服务器的多个远程分支的项目是个什么样，我们假设你还有另一个仅供你的迅捷开发小组使用的内部服务器。该服务器处于`git.team1.ourcompany.com`。你可以用第二章中提到的`git remote add`命令把它加为当前项目的远程分支之一。我们把它命名为`teamone`，这就变成了那一整个URL的缩写（见图3-25）。
 
 Insert 18333fig0325.png 
-图 3-25. Adding another server as a remote
+图 3-25. 把另一个服务器加为远程仓库
 
-Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (见图 3-26).
+现在你可以用`git fetch teamone`来获取服务器上你还没有的数据了。因为这个服务器上的内容是你`origin`服务器上的子集，Git不会下载任何数据而是简单的创建一个叫`teamone/master`的分支来指向`teamone`在它的`master`里的commit（见图3-26）。
 
 Insert 18333fig0326.png 
-图 3-26. You get a reference to teamone’s master branch position locally.
+图 3-26. 你在本地有了一个指向teamone的master分支的索引。
 
 ### 推送(pushing) ###
 

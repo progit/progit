@@ -361,21 +361,21 @@ Insert 18333fig0319.png
 
 ### 特性(Topic)分支 ###
 
-Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
+特性分支在任何规模的项目中都十分有用。一个特性分支是一个短期的，用来实现单一特性或与其相关工作的分支。这可能是你在以前的版本控制系统里从未做过的事请，因为通常创建和合并分支消耗太大。然而在Git中，一天之内建立，使用，合并再删除多个分支是常见的事。
 
-You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
+你在上节`iss53`和`hotfix`分支的例子里已经见过了。你向它们进行几次提交然后在合并到主分支以后彻底删除之。该技术允许你迅速和完全的进行语境切换——因为你的工作分散在不同的流水线里，每个分支里的改变都和它的目标特性相关，浏览代码之类的事情因而变得更简单了。你可以把做出的改变保持在其中几分钟，几天或者几个月，等它们成熟以后再合并，而不用在乎他们建立的顺序或者进度。
 
-Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like 图 3-20.
+设想在一个例子中做一点工作（在`master`里），分出一个问题解决分支（`iss91`），在该分支里工作一会，分出另一个分支来尝试用不同的方法来解决同一个问题（`iss91v2`），返回master分支然后在那里再工作一下，再从那里分支尝试一个你不太确定的想法（`dumbidea`分支）。你的提交历史将变成图 3-20 这样。
 
 Insert 18333fig0320.png 
-图 3-20. Your commit history with multiple topic branches
+图 3-20. 拥有多个特性分支的提交历史。
 
-Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like 图 3-21.
+现在，假定你决定第二个解决方案是最好的（`iss91v2`）；你拿`dumbidea`分支给你的同事们看了以后发现它竟然是个天才之作。现在需要抛弃原来的`iss91`分支（失去C5和C6）并把另外两个分支并入。提交历史将变成图3-21这样。
 
 Insert 18333fig0321.png 
-图 3-21. Your history after merging in dumbidea and iss91v2
+图 3-21. 合并了dumbidea和iss91v2以后的历史。
 
-It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
+牢记这些分支全部本地分支这一点很重要。当你在使用分支和合并的时候，一切都是在你自己的Git仓库里进行的——完全不涉及与服务器的交流。
 
 ## 远程(Remote)分支 ##
 

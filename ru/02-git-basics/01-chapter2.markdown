@@ -382,13 +382,18 @@ and `git diff --cached` to see what you’ve staged so far:
 	          log = git.commits('master', 15)
 	          log.size
 
+### Фиксация Ваших Изменений ###
 ### Committing Your Changes ###
+
+Теперь, когда ваш индекс настроен так как вам и хотелось, вы можете зафиксировать ваши изменения. Запомните, все что до сих пор не проиндексировано — любые файлы, созданные или измененные вами, и для которых вы не выполнили `git add` после момента редактирования — не войдут в этот коммит. Они останутся измененными файлами на вашем диске.
+В нашем случае, когда вы в последний раз выполняли `git status`, вы видели что все проиндексировано, и вот, вы готовы к коммиту. Простейший способ зафиксировать ваши изменения — это набрать `git commit`:
 
 Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
 In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
 
 	$ git commit
 
+Эта команда откроет выбранный вами текстовый редактор. (Редактор устанавливается вашей системной переменной `$EDITOR` — часто это )
 Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
 
 The editor displays the following text (this example is a Vim screen):

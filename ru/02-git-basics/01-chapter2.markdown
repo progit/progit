@@ -160,7 +160,8 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-Файл benchmarks.rb находится в секции “Changed but not updated” — это означает, что отслеживаемый файл был изменен в рабочем каталоге, но пока не проиндексирован. Чтобы проиндексировать его, вы выполняете команду `git add` (это )
+Файл benchmarks.rb находится в секции “Changed but not updated” — это означает, что отслеживаемый файл был изменен в рабочем каталоге, но пока не проиндексирован. Чтобы проиндексировать его, необходимо выполнить команду `git add` (это многофункциональная команда, она используется для добавления под версионный контроль новых файлов, для индексации изменений, а также для других целей, например для указания файлов с исправленным конфликтом слияния). Выполним `git add`, чтобы проиндексировать benchmarks.rb, а затем снова выполним `git status`:
+
 The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
 
 	$ git add benchmarks.rb
@@ -172,6 +173,8 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
+
+Теперь оба файла проиндексированы и войдут в следующий коммит. В этот момент, вы, предположим, вспомнили одно небольшое изменение, которое вы хотите сделать в benchmarks.rb до фиксации. Вы открываете файл, вносите и сохраняете необходимые изменения и вроде бы готовы к коммиту. НО давайте ка еще раз выполним `git status`:
 
 Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
 
@@ -190,6 +193,8 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
+Что за черт? Теперь benchmarks.rb отображается как проиндексированный и непроиндексированный одновременно. Как такое возможно? Такая ситуация наглядно демонстрирует, что Git индексирует файл в точности в том состоянии, в котором он находился, когда вы выполнили команду git add. Если вы выполните коммит сейчас, то файл benchmarks.rb попадет в коммит в том состоянии, в котором он находился когда вы последний раз выполняли команду git add, а не в том, в котором он находится в вашем рабочем каталоге в момент выполнения git commit. Если вы изменили файл после выполнения `git add`, вам придется снова выполнить `git add`, чтобы проиндексировать последнюю версию файла:
+
 What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
 
 	$ git add benchmarks.rb
@@ -202,7 +207,10 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
+### Игнорирование файлов ###
 ### Ignoring Files ###
+
+Зачастую, у вас имеется группа файлов, которые вы не только не хотите автоматически добавлять в репозиторий, но и видеть в списках неотслеживаемых. К таким файлам обычно относятся автоматически генерируемые файлы (различные логи, результаты построения программ и т.п.). В таком случае, вы можете создать файл, перечисляющий шаблоны для поиска таких файлов, и назвающийся .gitignore. Вот пример файла .gitignore:
 
 Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
 
@@ -210,15 +218,25 @@ Often, you’ll have a class of files that you don’t want Git to automatically
 	*.[oa]
 	*~
 
+Первая строка предписывает Git-у игнорировать любые файлы заканчивающиеся на .o или .a — объектные и архивные файлы, которые могут быть результатами построения вашего кода. Вторая строка предписывает игнорировать все файлы заканчивающиеся на тильду (`~`), которая используется во многих текстовых редакторах, например Emacs, для обозначения временных файлов. Вы можете также включить каталоги log, tmp или pid; автоматически создаваемую документацию; и т.д. и т.п. Хорошая практика заключается в настройке файла .gitignore до того, как начать серьезно работать, это защитит вас от случайного добавления в репозиторий файлов, которых вы там видеть не хотите.
+
 The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
 
+в файле .gitignore к шаблонам применяются следующие привила:
+
 The rules for the patterns you can put in the .gitignore file are as follows:
+
+*	Пустые строки, а также строки начинающиеся с # игнорируются.
+*	Можно использовать стандартные glob шаблоны.
+*	Можно заканчивать шаблон символом слэша (`/`) для указания каталога
+*	Можно инвертировать шаблон, использовав восклицательный знак (`!`) в качестве первого символа.
 
 *	Blank lines or lines starting with # are ignored.
 *	Standard glob patterns work.
 *	You can end patterns with a forward slash (`/`) to specify a directory.
 *	You can negate a pattern by starting it with an exclamation point (`!`).
 
+Glob шаблоны представляют собой 
 Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters seperated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
 
 Here is another example .gitignore file:

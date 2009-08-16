@@ -184,7 +184,7 @@ figures do
 
 		unless abort
 			print "\tCopying output to progit.#{lang}.pdf... "
-			cp("#{dir}/main.pdf", "#$root/progit.#{lang}.pdf")
+			cp("#$root/main.pdf", "#$root/progit.#{lang}.pdf")
 			puts "done"
 		end
 	end

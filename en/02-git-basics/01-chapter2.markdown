@@ -261,7 +261,9 @@ Now you can use `git diff` to see what is still unstaged
 
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
-	and git diff --cached to see what you’ve staged so far:
+
+and `git diff --cached` to see what you’ve staged so far:
+
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index 3cb747f..e445e28 100644
@@ -601,7 +603,7 @@ In Table 2-3 we’ll list these and a few other common options for your referenc
 
 For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
 
-	$ git log --pretty="%h:%s" --author=gitster --since="2008-10-01" \
+	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
@@ -631,7 +633,7 @@ One of the common undos takes place when you commit too early and possibly forge
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command it immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
 
 The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
 

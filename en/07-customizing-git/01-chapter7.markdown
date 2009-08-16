@@ -117,7 +117,7 @@ When that value is set, Git colors its output if the output goes to a terminal. 
 
 You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `--color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use.
 
-#### color.* ####
+#### `color.*` ####
 
 If you want to be more specific about which commands are colored and how, or you have an older version, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:
 

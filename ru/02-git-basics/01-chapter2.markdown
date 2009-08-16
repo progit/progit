@@ -236,10 +236,20 @@ The rules for the patterns you can put in the .gitignore file are as follows:
 *	You can end patterns with a forward slash (`/`) to specify a directory.
 *	You can negate a pattern by starting it with an exclamation point (`!`).
 
-Glob шаблоны представляют собой 
+Glob шаблоны представляют собой упрощенные регулярные выражения используемые командными интерпретаторами. Символ `*` соответствует 0 или более любых символов; последовательность `[abc]` - любому символу из указанных в скобка (в данном примере a, b или c); знак вопроса (`?`) соответствует любому одному символу; `[0-9]` - соответствует любому символу из интервала (в данном случае от 0 до 9).
+
 Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters seperated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
 
+Вот еще один пример файла .gitignore:
+
 Here is another example .gitignore file:
+
+	# комментарий – эта строка игнорируется
+	*.a       # не обрабатывать файлы имя которых заканчивается на .a
+	!lib.a    # НО отслеживать файл lib.a, несмотря на то, что мы игнорируем все .a файлы с помощью предыдущего правила
+	/TODO     # игнорировать только файл TODO находящийся в корневом каталоге, не относится к файлам вида subdir/TODO
+	build/    # игнорировать все файлы в каталоге build/
+	doc/*.txt # игнорировать doc/notes.txt, но не doc/server/arch.txt
 
 	# a comment – this is ignored
 	*.a       # no .a files

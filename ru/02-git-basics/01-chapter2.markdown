@@ -258,9 +258,14 @@ Here is another example .gitignore file:
 	build/    # ignore all files in the build/ directory
 	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
 
+### Просмотр Ваших Индексированных и Неиндексированных Изменений ###
 ### Viewing Your Staged and Unstaged Changes ###
 
+Если результат работы команды `git status` недостаточно информативен для вас — вам хочется знать, что конкретно поменялось, а не только какие файлы были изменены — вы можете использовать команду `git diff`. Позже мы рассмотрим команду `git diff` подробнее; вы скорее всего будете использовать эту команду для получения ответов на два вопроса: что вы изменили но еще не проиндексировали, и что вы проиндексировали и собираетесь фиксировать. Если `git status` отвечает на эти вопросы слишком обобщенно, то `git diff` показывает вам непосредственно добавленные и удаленные строки - собственно заплатку (patch).
+
 If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+
+Допустим вы снова изменили и проиндексировали файл README а затем изменили файл benchmarks.rb без индексирования. Если вы выполните команду `status`, вы опять увидите что-то вроде:
 
 Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
 
@@ -276,6 +281,8 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#
 	#	modified:   benchmarks.rb
 	#
+
+Чтобы увидеть что же вы изменили, но пока не проиндексировали, наберите `git diff` без аргументов:
 
 To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
 
@@ -296,7 +303,11 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
+Эта команда сравнивает содержимое вашего рабочего каталога с содержимым индекса. Результат показывает ваши еще не проиндексированные изменения.
+
 That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+
+Если вы хотите посмотреть, что вы проиндексировали и что войдет в следующий коммит, вы можете выполнить `git diff –-cached`. (В Git версии 1.6.1 и выше, вы также можете использовать `git diff –-staged`, которая легче запоминается.) Зта команда сравнивает ваши индексированные изменения с последним коммитом:
 
 If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
 
@@ -313,7 +324,11 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
+Важно отметить, что `git diff` сама по себе не показывает все изменения сделанные с последнего коммита — только те, что еще не проиндексированы. Такое поведение может сбивать с толку, так как если вы проиндексируете все свои изменения, то `git diff` ничего не вернет.
+
 It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+
+Другой пример, вы проиндексировали файл benchmarks.rb и затем изменили его, вы можете использовать `git diff` для просмотра как индексированных изменений в этом файле, так и тех, что пока не проиндексированны:
 
 For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
 
@@ -331,6 +346,8 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
+Теперь вы можете используя `git diff` посмотреть непроиндексированные изменения
+
 Now you can use `git diff` to see what is still unstaged
 
 	$ git diff 
@@ -343,7 +360,11 @@ Now you can use `git diff` to see what is still unstaged
 
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
-	and git diff --cached to see what you’ve staged so far:
+
+а также уже проиндексированные, используя `git diff --cached`:
+
+and `git diff --cached` to see what you’ve staged so far:
+
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index 3cb747f..e445e28 100644
@@ -361,13 +382,18 @@ Now you can use `git diff` to see what is still unstaged
 	          log = git.commits('master', 15)
 	          log.size
 
+### Фиксация Ваших Изменений ###
 ### Committing Your Changes ###
+
+Теперь, когда ваш индекс настроен так как вам и хотелось, вы можете зафиксировать ваши изменения. Запомните, все что до сих пор не проиндексировано — любые файлы, созданные или измененные вами, и для которых вы не выполнили `git add` после момента редактирования — не войдут в этот коммит. Они останутся измененными файлами на вашем диске.
+В нашем случае, когда вы в последний раз выполняли `git status`, вы видели что все проиндексировано, и вот, вы готовы к коммиту. Простейший способ зафиксировать ваши изменения — это набрать `git commit`:
 
 Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
 In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
 
 	$ git commit
 
+Эта команда откроет выбранный вами текстовый редактор. (Редактор устанавливается вашей системной переменной `$EDITOR` — часто это )
 Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
 
 The editor displays the following text (this example is a Vim screen):
@@ -683,7 +709,7 @@ In Table 2-3 we’ll list these and a few other common options for your referenc
 
 For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
 
-	$ git log --pretty="%h:%s" --author=gitster --since="2008-10-01" \
+	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
@@ -713,7 +739,7 @@ One of the common undos takes place when you commit too early and possibly forge
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command it immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
 
 The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
 

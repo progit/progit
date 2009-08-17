@@ -160,7 +160,8 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-Файл benchmarks.rb находится в секции “Changed but not updated” — это означает, что отслеживаемый файл был изменен в рабочем каталоге, но пока не проиндексирован. Чтобы проиндексировать его, вы выполняете команду `git add` (это )
+Файл benchmarks.rb находится в секции “Changed but not updated” — это означает, что отслеживаемый файл был изменен в рабочем каталоге, но пока не проиндексирован. Чтобы проиндексировать его, необходимо выполнить команду `git add` (это многофункциональная команда, она используется для добавления под версионный контроль новых файлов, для индексации изменений, а также для других целей, например для указания файлов с исправленным конфликтом слияния). Выполним `git add`, чтобы проиндексировать benchmarks.rb, а затем снова выполним `git status`:
+
 The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
 
 	$ git add benchmarks.rb
@@ -172,6 +173,8 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
+
+Теперь оба файла проиндексированы и войдут в следующий коммит. В этот момент, вы, предположим, вспомнили одно небольшое изменение, которое вы хотите сделать в benchmarks.rb до фиксации. Вы открываете файл, вносите и сохраняете необходимые изменения и вроде бы готовы к коммиту. НО давайте ка еще раз выполним `git status`:
 
 Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
 
@@ -190,6 +193,8 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
+Что за черт? Теперь benchmarks.rb отображается как проиндексированный и непроиндексированный одновременно. Как такое возможно? Такая ситуация наглядно демонстрирует, что Git индексирует файл в точности в том состоянии, в котором он находился, когда вы выполнили команду git add. Если вы выполните коммит сейчас, то файл benchmarks.rb попадет в коммит в том состоянии, в котором он находился когда вы последний раз выполняли команду git add, а не в том, в котором он находится в вашем рабочем каталоге в момент выполнения git commit. Если вы изменили файл после выполнения `git add`, вам придется снова выполнить `git add`, чтобы проиндексировать последнюю версию файла:
+
 What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
 
 	$ git add benchmarks.rb
@@ -202,7 +207,10 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
+### Игнорирование файлов ###
 ### Ignoring Files ###
+
+Зачастую, у вас имеется группа файлов, которые вы не только не хотите автоматически добавлять в репозиторий, но и видеть в списках неотслеживаемых. К таким файлам обычно относятся автоматически генерируемые файлы (различные логи, результаты построения программ и т.п.). В таком случае, вы можете создать файл, перечисляющий шаблоны для поиска таких файлов, и назвающийся .gitignore. Вот пример файла .gitignore:
 
 Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
 
@@ -210,18 +218,36 @@ Often, you’ll have a class of files that you don’t want Git to automatically
 	*.[oa]
 	*~
 
+Первая строка предписывает Git-у игнорировать любые файлы заканчивающиеся на .o или .a — объектные и архивные файлы, которые могут быть результатами построения вашего кода. Вторая строка предписывает игнорировать все файлы заканчивающиеся на тильду (`~`), которая используется во многих текстовых редакторах, например Emacs, для обозначения временных файлов. Вы можете также включить каталоги log, tmp или pid; автоматически создаваемую документацию; и т.д. и т.п. Хорошая практика заключается в настройке файла .gitignore до того, как начать серьезно работать, это защитит вас от случайного добавления в репозиторий файлов, которых вы там видеть не хотите.
+
 The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
 
+в файле .gitignore к шаблонам применяются следующие привила:
+
 The rules for the patterns you can put in the .gitignore file are as follows:
+
+*	Пустые строки, а также строки начинающиеся с # игнорируются.
+*	Можно использовать стандартные glob шаблоны.
+*	Можно заканчивать шаблон символом слэша (`/`) для указания каталога
+*	Можно инвертировать шаблон, использовав восклицательный знак (`!`) в качестве первого символа.
 
 *	Blank lines or lines starting with # are ignored.
 *	Standard glob patterns work.
 *	You can end patterns with a forward slash (`/`) to specify a directory.
 *	You can negate a pattern by starting it with an exclamation point (`!`).
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+Glob шаблоны представляют собой упрощенные регулярные выражения используемые командными интерпретаторами. Символ `*` соответствует 0 или более любых символов; последовательность `[abc]` - любому символу из указанных в скобка (в данном примере a, b или c); знак вопроса (`?`) соответствует любому одному символу; `[0-9]` - соответствует любому символу из интервала (в данном случае от 0 до 9).
+
+Вот еще один пример файла .gitignore:
 
 Here is another example .gitignore file:
+
+	# комментарий – эта строка игнорируется
+	*.a       # не обрабатывать файлы имя которых заканчивается на .a
+	!lib.a    # НО отслеживать файл lib.a, несмотря на то, что мы игнорируем все .a файлы с помощью предыдущего правила
+	/TODO     # игнорировать только файл TODO находящийся в корневом каталоге, не относится к файлам вида subdir/TODO
+	build/    # игнорировать все файлы в каталоге build/
+	doc/*.txt # игнорировать doc/notes.txt, но не doc/server/arch.txt
 
 	# a comment – this is ignored
 	*.a       # no .a files
@@ -230,9 +256,14 @@ Here is another example .gitignore file:
 	build/    # ignore all files in the build/ directory
 	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
 
+### Просмотр Ваших Индексированных и Неиндексированных Изменений ###
 ### Viewing Your Staged and Unstaged Changes ###
 
+Если результат работы команды `git status` недостаточно информативен для вас — вам хочется знать, что конкретно поменялось, а не только какие файлы были изменены — вы можете использовать команду `git diff`. Позже мы рассмотрим команду `git diff` подробнее; вы скорее всего будете использовать эту команду для получения ответов на два вопроса: что вы изменили но еще не проиндексировали, и что вы проиндексировали и собираетесь фиксировать. Если `git status` отвечает на эти вопросы слишком обобщенно, то `git diff` показывает вам непосредственно добавленные и удаленные строки - собственно заплатку (patch).
+
 If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+
+Допустим вы снова изменили и проиндексировали файл README а затем изменили файл benchmarks.rb без индексирования. Если вы выполните команду `status`, вы опять увидите что-то вроде:
 
 Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
 
@@ -248,6 +279,8 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#
 	#	modified:   benchmarks.rb
 	#
+
+Чтобы увидеть что же вы изменили, но пока не проиндексировали, наберите `git diff` без аргументов:
 
 To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
 
@@ -268,7 +301,11 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
+Эта команда сравнивает содержимое вашего рабочего каталога с содержимым индекса. Результат показывает ваши еще не проиндексированные изменения.
+
 That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+
+Если вы хотите посмотреть, что вы проиндексировали и что войдет в следующий коммит, вы можете выполнить `git diff –-cached`. (В Git версии 1.6.1 и выше, вы также можете использовать `git diff –-staged`, которая легче запоминается.) Зта команда сравнивает ваши индексированные изменения с последним коммитом:
 
 If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
 
@@ -285,7 +322,11 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
+Важно отметить, что `git diff` сама по себе не показывает все изменения сделанные с последнего коммита — только те, что еще не проиндексированы. Такое поведение может сбивать с толку, так как если вы проиндексируете все свои изменения, то `git diff` ничего не вернет.
+
 It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+
+Другой пример, вы проиндексировали файл benchmarks.rb и затем изменили его, вы можете использовать `git diff` для просмотра как индексированных изменений в этом файле, так и тех, что пока не проиндексированны:
 
 For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
 
@@ -303,6 +344,8 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
+Теперь вы можете используя `git diff` посмотреть непроиндексированные изменения
+
 Now you can use `git diff` to see what is still unstaged
 
 	$ git diff 
@@ -315,7 +358,11 @@ Now you can use `git diff` to see what is still unstaged
 
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
-	and git diff --cached to see what you’ve staged so far:
+
+а также уже проиндексированные, используя `git diff --cached`:
+
+and `git diff --cached` to see what you’ve staged so far:
+
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index 3cb747f..e445e28 100644
@@ -333,13 +380,18 @@ Now you can use `git diff` to see what is still unstaged
 	          log = git.commits('master', 15)
 	          log.size
 
+### Фиксация Ваших Изменений ###
 ### Committing Your Changes ###
+
+Теперь, когда ваш индекс настроен так как вам и хотелось, вы можете зафиксировать ваши изменения. Запомните, все что до сих пор не проиндексировано — любые файлы, созданные или измененные вами, и для которых вы не выполнили `git add` после момента редактирования — не войдут в этот коммит. Они останутся измененными файлами на вашем диске.
+В нашем случае, когда вы в последний раз выполняли `git status`, вы видели что все проиндексировано, и вот, вы готовы к коммиту. Простейший способ зафиксировать ваши изменения — это набрать `git commit`:
 
 Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
 In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
 
 	$ git commit
 
+Эта команда откроет выбранный вами текстовый редактор. (Редактор устанавливается вашей системной переменной `$EDITOR` — часто это )
 Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
 
 The editor displays the following text (this example is a Vim screen):
@@ -655,7 +707,7 @@ In Table 2-3 we’ll list these and a few other common options for your referenc
 
 For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
 
-	$ git log --pretty="%h:%s" --author=gitster --since="2008-10-01" \
+	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
@@ -685,7 +737,7 @@ One of the common undos takes place when you commit too early and possibly forge
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command it immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
 
 The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
 

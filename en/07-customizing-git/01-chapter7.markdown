@@ -582,12 +582,12 @@ You have to figure out how to get the commit message from each of these commits 
 	author Scott Chacon <schacon@gmail.com> 1205815931 -0700
 	committer Scott Chacon <schacon@gmail.com> 1240030591 -0700
 
-	changed the verison number
+	changed the version number
 
 A simple way to get the commit message from a commit when you have the SHA-1 value is to go to the first blank line and take everything after that. You can do so with the `sed` command on Unix systems:
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
-	changed the verison number
+	changed the version number
 
 You can use that incantation to grab the commit message from each commit that is trying to be pushed and exit if you see anything that doesn’t match. To exit the script and reject the push, exit non-zero. The whole method looks like this:
 

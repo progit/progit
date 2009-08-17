@@ -645,7 +645,7 @@ You get an object back — that object is in loose format on the server, and you
 	author Scott Chacon <schacon@gmail.com> 1205815931 -0700
 	committer Scott Chacon <schacon@gmail.com> 1240030591 -0700
 
-	changed the verison number
+	changed the version number
 
 Next, you have two more objects to retrieve — `cfda3b`, which is the tree of content that the commit we just retrieved points to; and `085bb3`, which is the parent commit:
 

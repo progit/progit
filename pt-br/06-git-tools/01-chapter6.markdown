@@ -220,7 +220,7 @@ The double-dot syntax is useful as a shorthand; but perhaps you want to specify 
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For insance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC

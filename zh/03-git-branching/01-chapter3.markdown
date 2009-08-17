@@ -513,84 +513,84 @@ Insert 18333fig0330.png
 
 ### 更多有趣的衍合 ###
 
-You can also have your rebase replay on something other than the rebase branch. Take a history like 图 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+你还可以在衍合分支以外的地方衍合。以图3-31的历史为例。你创建了一个特性分支（`server`）来给服务器端添加一些功能，然后提交。然后你从那里再增加一个分支(`client`）来对客户端进行一些修改，进行几次提交。最后，你回到server分支又提交了几次。
 
 Insert 18333fig0331.png 
-图 3-31. A history with a topic branch off another topic branch
+图 3-31. 从一个特性分支里再分出一个特性分支的历史。
 
-Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
+假设你决定为一次发布把客户端的变化合并到主线中，而在进一步测试之前暂缓服务端的变化。你可以仅提取对客户端的改变（C8和C9）然后通过使用`git rebase`的`--onto`选项来把它们在master分支上重演：
 
 	$ git rebase --onto master server client
 
-This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
+这基本上等于在说“签出client分支，找出`client`分支和`server`分支共同祖先之后发生的变化，然后把它们在`master`上重演一遍。是不是有点复杂？不过它的结果，如图3-32所示，非常酷：
 
 Insert 18333fig0332.png 
-图 3-32. Rebasing a topic branch off another topic branch
+图 3-32. 衍合一个特性分支上的另一个特性分支。
 
-Now you can fast-forward your master branch (见图 3-33):
+现在可以快进master分支了（见图3-33）：
 
 	$ git checkout master
 	$ git merge client
 
 Insert 18333fig0333.png 
-图 3-33. Fast-forwarding your master branch to include the client branch changes
+图 3-33. 快进master分支，使之包含client分支的变化。
 
-Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
+现在你决定把server分支的变化也包含进来。你可以直接把server分支衍合到master而不用事先通过`git rebase [主分支] [特性分支]`来签出它——后者签出特性分支（本例中指`server`）然后在主分支上（本例中指`master`）重演：
 
 	$ git rebase master server
 
-This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
+这会把`server`的进度应用到`master`的基础上，如图3-34。
 
 Insert 18333fig0334.png 
-图 3-34. Rebasing your server branch on top of your master branch
+图 3-34. 在master分支上衍合server分支。
 
-Then, you can fast-forward the base branch (`master`):
+然后，你可以快进主分支（`master'）：
 
 	$ git checkout master
 	$ git merge server
 
-You can remove the `client` and `server` branches because all the work is integrated and you don’t need them anymore, leaving your history for this entire process looking like Figure 3-35:
+现在`client`和`server`分支的变化都被整合了，不妨删掉它们，把你的提交历史变成图3-35的样子：
 
 	$ git branch -d client
 	$ git branch -d server
 
 Insert 18333fig0335.png 
-图 3-35. Final commit history
+图 3-35. 最终的提交历史
 
 ### 衍合的风险 ###
 
-Ahh, but the bliss of rebasing isn’t without its drawbacks, which can be summed up in a single line:
+呃，奇妙的衍合也不是完美无缺的，一句话可以总结这点：
 
-**Do not rebase commits that you have pushed to a public repository.**
+**永远不要衍合那些已经推送到公共仓库的commit。**
 
-If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.
+如果你遵循这条金科玉律，就不会出差错。如果不遵循，人民会仇恨你，而且你将糟到朋友和家人的一致谴责（译注：^_^）。
 
-When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.
+在你衍合的时候，实际上抛弃了一些现存的commit而创造了一些类似但不同的新commit。如果你把commit推送到某处然后其他人下载并在其基础上工作，然后你用`git rebase`重写了这些commit再推送一次，你的和作者们将不得不重新合并他们的工作，这样当你再次从他们那里获取内容的时候事情就会变得一团糟。
 
-Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.
+我们用一个例子来说明为什么公开的衍合会带来问题。假设你从一个中央服务器克隆然后在它的基础上搞了一些开发。你的提交历史类似图3-36。
 
 Insert 18333fig0336.png 
-图 3-36. Clone a repository, and base some work on it.
+图 3-36. 克隆一个仓库，在其基础上工作一番。
 
-Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figure 3-37.
+现在，其他人进行了一些包含一次合并的工作，然后把它推送到了中央服务器。你获取了这些并把新的远程分支里的内容合并到你的开发进程里，让你的历史变成类似图3-37这样：
 
 Insert 18333fig0337.png 
-图 3-37. Fetch more commits, and merge them into your work.
+图 3-37. 获取更多commit，并入你的开发进程。
 
-Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
+接下来，那个推送带有合并的工作的人决定用衍合取代那次合并；他们用`git push --force`覆盖了服务器上的历史。然后你再从服务器上获取它，得到新的变化。
 
 Insert 18333fig0338.png 
-图 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+图 3-38. 有人推送了衍合过的commit，丢弃了你作为开发基础的commit。
 
-At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (见图 Figure 3-39).
+这时候，你需要再次合并这些内容，尽管之前已经做过一次了。衍合会改变这些commit的SHA-1校验值，这样Git会把它们当作新的commit，然而这时候在你的提交历史早就有了C4的内容（见图3-39）。
 
 Insert 18333fig0339.png 
-图 3-39. You merge in the same work again into a new merge commit.
+图 3-39. 你把相同的内容又合并了一遍，生成一个新的commit。
 
-You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
+你或早或晚必须要并入那些内容，这样才能和其他开发者在将来保持同步。当你做完这些，你的提交历史里会同时包含C4和C4'，二者有着不同的SHA-1校验值却拥有一样的作者日期与附加信息，令人费解！更糟糕的是，当你把这样的历史推送到服务器，会再次把这些衍合的commit引入了中央服务器，进一步的迷惑其他人。
 
-If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
+如果把衍合当成一种在推送之前清理提交历史的手段，而且你仅衍合那些永远不会公开的commit，那不会有任何问题。如果你衍合那些已经公开的commit，而其他人已经用这些commit进行了一些工作，那么你会遇到令人沮丧的麻烦。
 
 ## 小结 ##
 
-We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.
+我们介绍了Git基本的分支与合并。你应该熟悉了如何创建并转换到新分支，在不同分支间转换以及合并本地分支。你还学会了如何把分支推送到共享服务器上来和世界分享它们，与他人在共享的分支上合作以及在分享之前进行衍合。

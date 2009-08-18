@@ -16,7 +16,7 @@ Some people refer to the branching model in Git as its “killer feature,” and
 
 To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 
-Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который соодержит указатель на слепок содержимого, подготовленного к фиксации, метаданные автора и комментария и ноль или больше указателей на фиксацию или фиксации, которые были прямыми предками этой фиксации: ноль предков для первой фиксации, один - для обычной фиксации и несколько - для фиксации, происходящей в результате слияния двух или более веток.
+Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который соодержит указатель на слепок содержимого, подготовленного к коммит, метаданные автора и комментария и ноль или больше указателей на коммит или коммиты, которые были прямыми предками этого коммита: ноль предков для первого коммита, один - для обычного коммита и несколько - для коммита, происходящей в результате слияния двух или более веток.
 
 When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
 
@@ -27,29 +27,35 @@ To visualize this, let’s assume that you have a directory containing three fil
 	$ git add README test.rb LICENSE2
 	$ git commit -m 'initial commit of my project'
 
-Когда вы создаете фиксацию запуском `git commit`, Git вычисляет контрольную сумму каждой подиректории (в нашем случае, только корневой директории) и сохраняет это дерево объектов в Git репозиторий. Затем Git создает фиксируемый объект, который имеет метаданные и указатель на корень проектного дерева, таким образом, он может снова создать слепок, когда нужно.
+Когда вы создаете коммит запуском `git commit`, Git вычисляет контрольную сумму каждой подиректории (в нашем случае, только корневой директории) и сохраняет это дерево объектов в Git репозиторий. Затем Git создает фиксируемый объект, который имеет метаданные и указатель на корень проектного дерева, таким образом, он может снова создать слепок, когда нужно.
 
 When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
 
-Ваш Git репозиторий теперь соодержит пять объектов: по одному массиву двоичных данных для содержимого каждого из трех файлов, одно дерево, которое перечисляет содержимое директории и определяет соответствие имен файлов и массивов двоичных данных, и одна фиксация с указателем на корень этого дерева и все метаданные фиксации. Мысленно данные в вашем Git репозитории выглядят, как показано на Рисунке 3-1.
+Ваш Git репозиторий теперь соодержит пять объектов: по одному массиву двоичных данных для содержимого каждого из трех файлов, одно дерево, которое перечисляет содержимое директории и определяет соответствие имен файлов и массивов двоичных данных, и один коммит с указателем на корень этого дерева и все метаданные коммита. Мысленно данные в вашем Git репозитории выглядят, как показано на Рисунке 3-1.
 
 Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
 
 Insert 18333fig0301.png 
+Рисунок 3-1. Репозиторий данный с единственным комитом
+
 Figure 3-1. Single commit repository data
 
-Если вы делаете какие-то изменения и фиксируете их снова, следующая фиксация хранит указатель на фиксацию, которая прошла непосредственно перед ней. После еще двух фиксаций ваша история может выглядеть, как показано на Рисунке 3-2.
+Если вы делаете какие-то изменения и фиксируете их снова, следующий коммит хранит указатель на коммит, который прошел непосредственно перед ним. После еще двух коммитов ваша история может выглядеть, как показано на Рисунке 3-2.
 
 If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
 
 Insert 18333fig0302.png 
+Рисунок 3-2. Объектные данные Git для множественных коммитов
+
 Figure 3-2. Git object data for multiple commits 
 
-Ветвь в Git - это просто легковесный подвижный указатель на одну из этих фиксаций. Имя ветви по умолчанию в Git - master. Когда вы впервые создаете фиксацию, вам отдается ветвь master, которая является указателем на последнюю фиксацию, которую вы сделали. Каждый раз когда вы фиксируетесь, он (указатель) двигается вперед автоматически.
+Ветвь в Git - это просто легковесный подвижный указатель на один из этих коммитов. Имя ветви по умолчанию в Git - master. Когда вы впервые создаете коммит, вам отдается ветвь master, которая является указателем на последний коммит, который вы сделали. Каждый раз когда вы фиксируетесь, он (указатель) двигается вперед автоматически.
 
 A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
 
 Insert 18333fig0303.png 
+Рисунок 3-3. Ветвь, указывающая на историю зафиксированных данных
+
 Figure 3-3. Branch pointing into the commit data’s history
 
 Что произойдет, когда вы создаете новую ветвь? Ну, это действие создает новый указатель для вас для перемещения. Например, вы создаете новую ветвь под названием testing. Это производится коммандой `git branch`:
@@ -58,64 +64,103 @@ What happens if you create a new branch? Well, doing so creates a new pointer fo
 
 	$ git branch testing
 
-Эта команда создает указатель на ту же самую фиксацию, на которой вы сейчас находитесь (см. Рисунок 3-4).
+Эта команда создает указатель на ту же самый коммит, на котором вы сейчас находитесь (см. Рисунок 3-4).
 
 This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
 
 Insert 18333fig0304.png 
+Рисунок 3-4. Несколько ветвей, указывающих на историю зафиксированных данных
+
 Figure 3-4. Multiple branches pointing into the commit’s data history
+
+Как Git узнает, на какой ветви вы находитесь в данный момент? Он хранит специальный указатель, который называется HEAD (верхушка). Учтите, что существует множество различий с концепцией HEAD в других VCS, которые вы может быть использовали, таких как Subversion или CVS. В Git это указатель на локальную ветвь, на которой вы находитесь. В данном случае вы все еще на ветви master. Команда git branch только создала новую ветвь; она не передвинула вас на нее.
 
 How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
 
 Insert 18333fig0305.png 
+Рисунок 3-5. HEAD файл, указывающий на текущую ветвь
+
 Figure 3-5. HEAD file pointing to the branch you’re on
+
+Чтобы перейти на существующую ветвь, вам надо выполнить команду `git checkout`. Давайте перейдем на новую ветвь testing:
 
 To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
 
 	$ git checkout testing
 
+Это действие передвигает HEAD, чтобы тот указывал на ветвь testing (см. Рисунок 3-6).
+
 This moves HEAD to point to the testing branch (see Figure 3-6).
 
 Insert 18333fig0306.png
+Рисунок 3-6. HEAD указывает на другую ветвь, когда вы их переключаете
+
 Figure 3-6. HEAD points to another branch when you switch branches.
+
+В чем важность этого действия? Давайте сделаем еще один коммит:
 
 What is the significance of that? Well, let’s do another commit:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
+На Рисунке 3-7 показан результат.
+
 Figure 3-7 illustrates the result.
 
 Insert 18333fig0307.png 
+Рисунок 3-7. Ветвь, на которую указывает HEAD, движется вперед с каждым коммитом
+
 Figure 3-7. The branch that HEAD points to moves forward with each commit.
+
+Это интересно, потому что теперь ваша ветвь testing передвинулась вперед, но ваша ветвь master все еще указывает на коммит, на котором вы были, когда выполняли `git checkout`, чтобы переключить ветви. Давайте перейдем обратно на ветвь master:
 
 This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
 
 	$ git checkout master
 
+На Рисунке 3-8 можно увидеть результат.
+
 Figure 3-8 shows the result.
 
 Insert 18333fig0308.png 
+Рисунко 3-8. HEAD двигается на другую ветвь при checkout'е
+
 Figure 3-8. HEAD moves to another branch on a checkout.
 
+Эта команда выполнила два действия. Она передвинула указатель HEAD назад на ветвь master и вернула файлы в вашей рабочей директории назад, чтобы соответвствовать слепоку, на который указывает master. Это также означает, что изменения, которые вы делаете, начиная с этого момента, будут ответвляться от старой версии проекта. Это полностью откатывает временные изменения, которые вы сделали на ветви testing, так что вы можете двигаться в другом направлении.
+
 That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+
+Давайте сделаем немного изменений и зафиксируемся снова:
 
 Let’s make a few changes and commit again:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
+Теперь история вашего проекта разветвилась (см. Рисунок 3-9). Вы создали новую ветвь, перешли на нее, поработали на ней немного, переключились обратно на основную ветвь и выполнили другую работу. Оба этих изменений изолирована на отдельных ветвях: вы можете переключаться туда и обратно между ветвями и соединить их, когда вы готовы. И вы сделали все это простыми командами `branch` и `checkout`.
+
 Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
 
 Insert 18333fig0309.png 
+Рисунок 3-9. История с разошедшимися ветвями
+
 Figure 3-9. The branch histories have diverged.
+
+Из-за того, что ветвь в Git на самом деле является простым файлом, которые соодержит 40 символов результирующей суммы SHA-1 коммита, на который он указывает, создание и удаление ветвей практически беззатратно. Создание новой ветви настолько быстро и просто, насколько быстра и проста запись 41 байта в файл (40 символов + символ перехода на новую строку).
 
 Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
 
+Это разительно отличается от способов ветвления в большинстве VCS, которые включают копирование всех проектных файлов в другую директорию. Это может занять несколько секунд или даже минут, в зависимости от размера проекта, тогда как в Git этот процесс всегда моментален. Также, из-за того что мы запоминаем предков каждого коммита, поиск нужной базовой версии для соединения уже автоматически выполнен для нас, и в общем случае это легко выполнимо. Эти функции помогают поощрать разработчиков к частому созданию и использованию ветвей.
+
 This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+
+Давайте посмотрим, почему мы должны это делать.
 
 Let’s see why you should do so.
 
+## Основы ветвления и слияния ##
 ## Basic Branching and Merging ##
 
 Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:

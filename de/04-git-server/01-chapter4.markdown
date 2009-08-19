@@ -20,17 +20,29 @@ Für den Fall, dass keine Bedenken bestehen, Code von externen Anbietern hosten 
 
 If you have no interest in running your own server, you can skip to the last section of the chapter to see some options for setting up a hosted account and then move on to the next chapter, where we discuss the various ins and outs of working in a distributed source control environment.
 
+Wenn du kein Interesse am Betreiben eines eigenen Servers hast, kannst du zum letzten Absatz des Kapitels springen, um ein paar Möglichkeiten zum Einrichten eines gehosteten Accounts zu sehen. Im nächsten Kapitel diskutieren wir verschiedene Vorteile und Nachteile vom Arbeiten in einer verteilten Quellcode-Kontroll-Umgebung.
+
 A remote repository is generally a _bare repository_ — a Git repository that has no working directory. Because the repository is only used as a collaboration point, there is no reason to have a snapshot checked out on disk; it’s just the Git data. In the simplest terms, a bare repository is the contents of your project’s `.git` directory and nothing else.
 
+Ein externes Repository ist im Allgemeinen ein _einfaches Repository_ - ein Git Repository ohne Arbeitsverzeichnis. Weil das Repository nur als Zusammenarbeitspunkt genutzt wird, gibt es keinen Grund, einen Schnappschuss ausgecheckt auf der Festplatte zu haben; es sind nur die Git Daten. Mit einfachen Begriffen, ein einfaches Repository ist der Inhalt von deinem `.git` Verzeichnis in deinem Projekt und nichts anderes.
+
 ## The Protocols ##
+## Die Protokolle ##
 
 Git can use four major network protocols to transfer data: Local, Secure Shell (SSH), Git, and HTTP. Here we’ll discuss what they are and in what basic circumstances you would want (or not want) to use them.
 
+Git kann vier wichtige Netzwerk Protokolle zum Datentransfer benutzen: Lokal, Secure Shell (SSH), Git und HTTP. Hier wollen wir diskutieren, was diese Protokolle sind und unter welchen grundlegenden Gegebenheiten du sie benutzen möchtest (oder auch nicht).
+
 It’s important to note that with the exception of the HTTP protocols, all of these require Git to be installed and working on the server.
 
+Es ist wichtig zu beachten, mit der Ausnahme des HTTP-Protokolls, es ist Vorraussetzung, dass Git auf dem Server installiert sein muss und laufen muss.
+
 ### Local Protocol ###
+### Lokales Protokoll ###
 
 The most basic is the _Local protocol_, in which the remote repository is in another directory on disk. This is often used if everyone on your team has access to a shared filesystem such as an NFS mount, or in the less likely case that everyone logs in to the same computer. The latter wouldn’t be ideal, because all your code repository instances would reside on the same computer, making a catastrophic loss much more likely.
+
+Am einfachsten ist das _Lokale Protokoll_, wobei das externe Repository in einem anderen Verzeichnis auf der Festplatte ist. Das wird oft genutzt, wenn jeder aus deinem Team Zugriff zu einem gemeinsamen Dateisystem hat, zum Beispiel ein eingebundenes NFS, oder im unwahrscheinlicheren Fall jeder loggt sich auf bei dem gleichen Computer ein. Das letztere ist nicht ideal, weil alle Code Repository Instanzen auf dem selben Computer wären, ein katastrophaler Verlust wäre wahrscheinlicher.
 
 If you have a shared mounted filesystem, then you can clone, push to, and pull from a local file-based repository. To clone a repository like this or to add one as a remote to an existing project, use the path to the repository as the URL. For example, to clone a local repository, you can run something like this:
 

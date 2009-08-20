@@ -1,12 +1,12 @@
 # 服务器上的Git #
 
-At this point, you should be able to do most of the day-to-day tasks for which you’ll be using Git. However, in order to do any collaboration in Git, you’ll need to have a remote Git repository. Although you can technically push changes to and pull changes from individuals’ repositories, doing so is discouraged because you can fairly easily confuse what they’re working on if you’re not careful. Furthermore, you want your collaborators to be able to access the repository even if your computer is offline — having a more reliable common repository is often useful. Therefore, the preferred method for collaborating with someone is to set up an intermediate repository that you both have access to, and push to and pull from that. We’ll refer to this repository as a "Git server"; but you’ll notice that it generally takes a tiny amount of resources to host a Git repository, so you’ll rarely need to use an entire server for it.
+到目前为止，你已经学会了用Git完成日常的工作。然而，如果想与他人合作，你还需要一个远程的Git仓库。尽管技术上你可以从个人的仓库里推送和获取数据，我们不鼓励这样的做法，因为如果你不小心的花这样很容易引起混乱。进一步讲，你也希望你的合作者们即使在你不开机的时候也能从仓库获取数据——拥有一个更稳定的公共仓库就很有必要了。因此，更好的合作方法是建立一个大家都可以访问的共享仓库，并从那里进行推送和获取数据。我们将把这个仓库成为“Git服务器”；但你会发现架设一个Git仓库只需要花费一点点的资源，所以你很少需要一整个服务器来支持它。
 
-Running a Git server is simple. First, you choose which protocols you want your server to communicate with. The first section of this chapter will cover the available protocols and the pros and cons of each. The next sections will explain some typical setups using those protocols and how to get your server running with them. Last, we’ll go over a few hosted options, if you don’t mind hosting your code on someone else’s server and don’t want to go through the hassle of setting up and maintaining your own server.
+假设一个Git服务器很简单。首先，选择一个与服务器通讯的协议。本章的第一节将介绍可用的协议以及他们的优缺点。下面一节将介绍一些针对各个协议典型的设置以及如何在服务器上跑它们。最后，我们介绍几个网络上的仓库服务，如果你不介意在别人的服务器上保存你的代码并且不想经历自己架设和维护服务器的麻烦。
 
-If you have no interest in running your own server, you can skip to the last section of the chapter to see some options for setting up a hosted account and then move on to the next chapter, where we discuss the various ins and outs of working in a distributed source control environment.
+如果你对假设自己的服务器没兴趣，你可以跳到本章最后一节去看看如何设定一个代码寄存账户然后继续下一章，我们将讨论一个分布式的代码控制环境的里里外外。
 
-A remote repository is generally a _bare repository_ — a Git repository that has no working directory. Because the repository is only used as a collaboration point, there is no reason to have a snapshot checked out on disk; it’s just the Git data. In the simplest terms, a bare repository is the contents of your project’s `.git` directory and nothing else.
+一个远程仓库通常只是一个 _纯仓库(bare repository)_ ——一个没有当前工作目录的仓库。因为该仓库只是一个合作媒介，不需要有一个从硬盘上签出的快照；它仅仅是一些Git数据。简单的说，一个纯仓库是你项目里`.git`目录的内容，别无他物。
 
 ## The Protocols ##
 

@@ -642,9 +642,9 @@ Insert 18333fig0202.png
 
 上面的三条命令最终得到一个提交，第二个提交命令修正了第一个的提交内容。
 
-### Unstaging a Staged File ###
+### 取消已经暂存的文件 ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+接下来的两个小节将演示如何取消暂存区域中的文件，以及如何取消工作目录中已修改的文件。不用担心，查看文件状态的时候就提示了该如何撤消，所以不需要死记硬背。来看下面的例子，有两个修改过的文件，我们想要分开提交，但不小心用 `git add *` 全加到了暂存区域。该如何撤消暂存其中的一个文件呢？`git status` 命令的输出会告诉你怎么做：
 
 	$ git add .
 	$ git status
@@ -656,7 +656,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+就在 “Changes to be committed” 下面，括号中有提示，可以使用 `git reset HEAD <file>...` 的方式取消暂存。好吧，我们来试试取消暂存 benchmarks.rb 文件：
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -674,7 +674,7 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
+这条命令看起来有些古怪，先不用管，能用就行。现在 benchmarks.rb 文件又回到了之前已修改未暂存的状态。
 
 ### Unmodifying a Modified File ###
 

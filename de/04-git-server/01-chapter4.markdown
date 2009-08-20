@@ -46,19 +46,29 @@ Am einfachsten ist das _Lokale Protokoll_, wobei das externe Repository in einem
 
 If you have a shared mounted filesystem, then you can clone, push to, and pull from a local file-based repository. To clone a repository like this or to add one as a remote to an existing project, use the path to the repository as the URL. For example, to clone a local repository, you can run something like this:
 
+Wenn du ein gemeinsames Dateisystem eingebunden hast, kannst du von einem lokalen Datei-basiertem Repository clonen, pushen und pullen. Um ein Repository wie dieses zu clonen, oder ein externes zu einem bestehenden Projekt hinzuzufügen, benutze den Pfad zu dem Repository als URL. Um zum Beispiel ein lokales Repository zu clonen kannst du einen Befehl wie diesen nutzen:
+
 	$ git clone /opt/git/project.git
 
 Or you can do this:
+
+Oder du kannst das machen:
 
 	$ git clone file:///opt/git/project.git
 
 Git operates slightly differently if you explicitly specify `file://` at the beginning of the URL. If you just specify the path, Git tries to use hardlinks or directly copy the files it needs. If you specify `file://`, Git fires up the processes that it normally uses to transfer data over a network which is generally a lot less efficient method of transferring the data. The main reason to specify the `file://` prefix is if you want a clean copy of the repository with extraneous references or objects left out — generally after an import from another version-control system or something similar (see Chapter 9 for maintenance tasks). We’ll use the normal path here because doing so is almost always faster.
 
+Git arbeitet etwas anders, wenn du am Anfang der URL ausdrücklich `file://` angibst. Wenn du nur den Pfad angibst, versucht Git harte Links zu benutzen oder Git kopiert direkt die benötigten Dateien. Wenn du `file://` angibst, startet Git den Prozess, den es normalerweise zum Übertragen von Daten über ein Netzwerk verwendet, dass ist gewöhnlich eine wesentlich ineffizientere Methode zum Übertragen der Daten. Der Hauptgrund das `file://`-Präfix anzugeben ist eine saubere Kopie von dem Repository mit fremden Referenzen oder fehlenden Objekten - generell nach einem Import von einem anderen Versionskontrollsystem oder etwas ähnliches (siehe Kapitel 9 für Wartungsarbeiten). Wir benutzen hier den normalen Pfad, weil das fast immer schneller ist.
+
 To add a local repository to an existing Git project, you can run something like this:
+
+Um ein lokales Repository zu einem existierenden Git Projekt hinzuzufügen, kannst du einen Befehl wie diesen ausführen:
 
 	$ git remote add local_proj /opt/git/project.git
 
 Then, you can push to and pull from that remote as though you were doing so over a network.
+
+Dann kannst du von einem externen Repository pushen und pullen, obwohl du das über ein Netzwerk machst.
 
 #### The Pros ####
 

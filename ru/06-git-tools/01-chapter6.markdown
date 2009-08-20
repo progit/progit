@@ -77,22 +77,36 @@ Git can figure out a short, unique abbreviation for your SHA-1 values. If you pa
 
 Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
 
+### Небольшое замечание о SHA-1###
+
 ### A SHORT NOTE ABOUT SHA-1 ###
+
+Многие люди интересуются что произойдет, если они в какой-то момент, по некоторой случайности, получат два объекта в репозитории, которые будут иметь два одинаковых значения SHA-1 хэша. Что тогда?
 
 A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
 
+Если вы вдруг закоммитите объект, SHA-1 хэш которого такой же, как у некоторого предыдущего объекта в вашем репозитории, Git обнаружит предыдущий объект в вашей базе данных Git, и посчитает, что он был уже записан. Если Вы в какой-то момент попытаетесь получить этот объект опять, вы всегда будете получать данные первого объекта.
+
 If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+
+Однако, вы должны осозновать то, как смехотворно маловероятен этот сценарий. Длина SHA-1 составляет 20 байт или 160 бит. Количество случайно хэшированных объектов, необходимое для того, чтобы получить 50% вероятность одиночного совпадения составляет порядка 2^80 (формула для определения вероятности совпадения - `p = (n(n-1)/2) * (1/2^160))`). 2^80 это 1.2 x 10^24 или один миллион миллиарда миллиардов. Это в 1200 раз больше количества песчинок на земле.
 
 However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
 
+Вот пример для того, чтобы дать вам понимание того, что необходимо чтобы получить SHA-1 коллизию. Если бы все 6.5 миллиардов людей на Земле программировали, и каждую секунду каждую из них производил количество кода, эквивалентное всей истории ядра Linux (1 миллион Git объектов) и выкладывал его в один огромный Git-репозиторий, то потребовалось бы 5 лет для того, чтобы заполнить репозиторий достаточно для того, чтобы получить 50% вероятность единичной SHA-1 коллизии. Существует более высокая вероятность того, что кто-то из вашей команды программистов одной ночью будет атакован и убит волками при невыясненных обстоятельствах.
+
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
-### Branch References ###
+### Ссылки на ветки ###
+
+Самый прямой метод указать коммит требует, чтобы он имел ветку ссылающуюся на него. Тогда, вы можете использовать имя ветки в любой команде Git, которая ожидает коммит или значение SHA-1. Например, если вы хотите посмотреть последний коммит в ветке, следующие команды эквивалентны, предполагая, что ветка `topic1` ссылается на `ca82a6d`:
 
 The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
+
+Если вы хотите увидеть SHA, на который указывет ветка, или, если вы хотите чтобы любые из этих примеров свелись к SHA, вы можете использовать низкоуровневую (plumbing) утилиту Git, называемую `rev-parse`. Вы можете заглянуть в Главу 9 для получения большей информации о низкоуровневых утилитах; упрощенно, `rev-parse` существует для низкоуровневых операци и не предназначена для использования в ежедневных операциях. Однако, она может быть полезна, когда вам необходимо увидеть что в действительности происходит. В данном случае, вы можете применить `rev-parse` к вашей ветке.
 
 If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
 

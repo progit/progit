@@ -15,9 +15,9 @@ Veel mensen hebben hun eigen versiebeheer methode: ze kopiëren bestanden naar e
 Om met dit probleem om te gaan, hebben programmeurs lang geleden lokale VCSen ontwikkeld die een simpele database hadden die alle veranderingen aan bestandend beheerden (zie Figuur 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram.
+Figuur 1-1. Een diagram van een lokaal versiebeheersysteem.
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+Een populair gereedschap voor VCS was een systeem genaamd rcs, wat vandaag de dag nog steeds met veel computers wordt mee geleverd. Zelfs het populaire besturingssysteem Mac OS X heeft rcs, als je de Developer Tools installeert. Dit gereedschap werkt in principe door verzamelingen van ‘patches’ (de verschillen tussen bestanden) van de verschillende bestanden in een speciaal formaat op de harde schijf op te slaan; zo kan je teruggaan naar hoe een bestand er uitzag op een bepaalde tijd, door alle patches bij elkaar op te tellen.
 
 ### Centralized Version Control Systems ###
 

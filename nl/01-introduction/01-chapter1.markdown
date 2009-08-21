@@ -8,9 +8,9 @@ Wat is versiebeheer, en wat heeft dat met jou te maken? Versiebeheer is een syst
 
 Als je een grafisch ontwerper bent of websites maakt, en elke versie van een afbeelding of opmaak (wat je zeker zou willen), is het verstandig een versiebeheersysteem (Version Control System in het Engels, afgekort to VCS) te gebruiken. Als je dat gebruikt kan je eerdere versies van bestanden terughale, een eerdere versie van het hele project terughalen, verschillen tussen twee momentented bekijken, zien wie het laatst iets aangepast heeft wat problemen zou kunnen veroorzaken, wie een probleen heeft veroorzaakt en wanneer, en nog veel meer. Een VCS gebruiken betekent meestal ook dat je de situatie gemakkelijk terug kan draaien als je een fout maakt of bestanden kwijtraakt. Daarbij komt nog dat dit allemaal heel weinig extra kosten met zich mee brengt.
 
-### Local Version Control Systems ###
+### Lokale Versiebeheersystemen ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+Veel mensen hebben hun eigen versiebeheer methode: ze kopiëren bestanden naar een andere map (en als ze slim zijn, geven ze die map ook een datum). Deze methode wordt veel gebruikt omdat het zo simpel is, maar het is ook ongelovelijk foutgevoelig. Het is makkelijk te vergeten in welke map je zit, en naar het verkeerde bestand te schrijven, of over bestanden heen te kopiëren waar je dat niet wou.
 
 To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
 

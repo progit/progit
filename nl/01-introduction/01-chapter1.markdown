@@ -37,7 +37,7 @@ En hier verschijnen Gedistribueerde Versiebeheersystemen (DVCSen) ten tonele. In
 Insert 18333fig0103.png 
 Figuur 1-3. Diagram van een gedistribueerd versiebeheersysteem
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Bovendien werken veel van deze systemen behoorlijk goed met meerdere (niet-lokale) repositories tegelijk, zodat je met verschillende groepen mensen op verschillende manieren tegelijk aan hetzelfde project kan werken. Hierdoor kan je verschillende werkprocessen (‘workflows’) opzetten die niet mogelijk waren geweest met gecentraliseerde systemen, zoals hiërarchische modellen. 
 
 ## A Short History of Git ##
 

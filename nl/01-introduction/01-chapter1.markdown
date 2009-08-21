@@ -47,11 +47,11 @@ In 2005 viel de relatie tussen de gemeenschap die de Linuxkernel ontwikkelde en 
 
 *	Snelheid
 *	Eenvoudig ontwerp
-*	Goede ondersteuning voor non-lineaire ontwikkeling (duizenden aparte takken tegelijk)
+*	Goede ondersteuning voor niet-lineaire ontwikkeling (duizenden aparte takken tegelijk)
 *	Volledig gedistribueerd
-*	In staat om efficient om te gaan met grote projecten als Linux efficient (zowel in snelheid als geheugenruimte)
+*	In staat om efficient om te gaan met grote projecten als Linux efficiënt (zowel in snelheid als geheugenruimte)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Sinds zijn geboorte in 2005 is Git gegroeid tot zijn huidige vorm: het is gemakkelijk te gebruiken en heeft toch die oorspronkelijke eigenschappen behouden. Het is ongelofelijk snel, enorm efficiënt met grote projecten, en zijn systeem voor aparte takken (‘branches’) van niet-lineaire ontwikkeling is ongeëvenaard (zie Hoofdstuk 3).
 
 ## Git Basics ##
 

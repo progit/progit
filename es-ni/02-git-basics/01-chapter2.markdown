@@ -6,7 +6,7 @@ Si solo pudieras leer un capítulo de este libro para poder trabajar con Git, es
 
 Tu puedes obtener un proyecto basado en Git utilizando dos métodos principales. El primero consiste en tomar un proyecto existente e importarlo dentro de Git. El segundo se basa en clonar un repositorio Git desde otro servidor.
 
-### Inicializando un Pepositorio Dentro de un Directorio Preexistente ###
+### Inicializando un Repositorio Dentro de un Directorio Preexistente ###
 
 Si quisieramos comenzar a realizar un seguimiento de un proyecto con Git, lo que necesitamos es ir al directorio del proyecto y tipear
 

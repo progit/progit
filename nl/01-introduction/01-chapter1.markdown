@@ -30,12 +30,12 @@ Deze manier van versiebeheer bied veel voordelen, vooral als je het vergelijkt m
 
 Maar helaas, deze methode heeft ook behoorlijke nadelen. De duidelijkste is het ‘single point of failure’: als de centrale server neergaat en een uur later weer terug komt, kan niemand in dat uur samenwerken, of versies bewaren van de dingen waar ze aan werken. Als de harde schrijf waar de centrale database op staat corrupt raakt, en er geen backups van zijn, verlies je echt alles — de hele geschiedenis van het project, behalve het momentopname mensen op hun eigen computers hebben staan. Lokale VCSen hebben hetzelfde probleem — als je de hele geschiedenis van het project op één enkele plaats bewaard, loop je ook kans alles te verliezen.
 
-### Distributed Version Control Systems ###
+### Gedistribueerde Versiebeheersystemen ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+En hier verschijnen Gedistribueerde Versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar of Darcs), downloaden clients niet alleen de laatste momentopnames van de bestanden: de hele geschiedenis (het ‘repository’) wordt gekopiërd. Dus als een server neergaat, en deze systemen werkten via die server samen, kan de kopie van elke willekeurige kopie client terug worden gekopiëerd naar de server om het te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+Figuur 1-3. Diagram van een gedistribueerd versiebeheersysteem
 
 Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
 

@@ -39,9 +39,9 @@ Figuur 1-3. Diagram van een gedistribueerd versiebeheersysteem
 
 Bovendien werken veel van deze systemen behoorlijk goed met meerdere (niet-lokale) repositories tegelijk, zodat je met verschillende groepen mensen op verschillende manieren tegelijk aan hetzelfde project kan werken. Hierdoor kan je verschillende werkprocessen (‘workflows’) opzetten die niet mogelijk waren geweest met gecentraliseerde systemen, zoals hiërarchische modellen. 
 
-## A Short History of Git ##
+## Een Kleine Geschiedenis van Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Zoals zoveel goede dingen in het leven, begon Git met een beetje creatieve destructie en een hoogoplopende controverse. De Linuxkernel is een open source softwareproject met een behoorlijk groot draagvlak. Voor het grootste gedeelte van het leven van het onderhoud van de Linuxkernel (1991–2002), werden aanpassingen aan de software verspreid via patches en gearchiveerde bestanden. In 2002 veranderde dat, want vanaf dat jaar begon het project het gesloten DVCS genaamd BitKeeper te gebruiken.
 
 In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
 

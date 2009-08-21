@@ -12,7 +12,7 @@ Als je een grafisch ontwerper bent of websites maakt, en elke versie van een afb
 
 Veel mensen hebben hun eigen versiebeheer methode: ze kopiëren bestanden naar een andere map (en als ze slim zijn, geven ze die map ook een datum). Deze methode wordt veel gebruikt omdat het zo simpel is, maar het is ook ongelovelijk foutgevoelig. Het is makkelijk te vergeten in welke map je zit, en naar het verkeerde bestand te schrijven, of over bestanden heen te kopiëren waar je dat niet wou.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Om met dit probleem om te gaan, hebben programmeurs lang geleden lokale VCSen ontwikkeld die een simpele database hadden die alle veranderingen aan bestandend beheerden (zie Figuur 1-1).
 
 Insert 18333fig0101.png 
 Figure 1-1. Local version control diagram.

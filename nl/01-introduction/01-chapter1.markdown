@@ -43,13 +43,13 @@ Bovendien werken veel van deze systemen behoorlijk goed met meerdere (niet-lokal
 
 Zoals zoveel goede dingen in het leven, begon Git met een beetje creatieve destructie en een hoogoplopende controverse. De Linuxkernel is een open source softwareproject met een behoorlijk groot draagvlak. Voor het grootste gedeelte van het leven van het onderhoud van de Linuxkernel (1991–2002), werden aanpassingen aan de software verspreid via patches en gearchiveerde bestanden. In 2002 veranderde dat, want vanaf dat jaar begon het project het gesloten DVCS genaamd BitKeeper te gebruiken.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+In 2005 viel de relatie tussen de gemeenschap die de Linuxkernel ontwikkelde en het commerciële bedrijf dat BitKeeper maakte uiteen, en het programma kon niet meer gratis worden gebruikt. Dit was aanleiding voor de gemeenschap (en Linus Torvalds, de maker van Linux, in het bijzonder) om hun eigen gereedschap te ontwikkelen, gebaseerd op een paar lessen die ze geleerd hadden toen ze nog BitKeeper gebruikten. Een paar van de doelen die ze hadden voor het nieuwe systeem waren als volgt:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Snelheid
+*	Eenvoudig ontwerp
+*	Goede ondersteuning voor non-lineaire ontwikkeling (duizenden aparte takken tegelijk)
+*	Volledig gedistribueerd
+*	In staat om efficient om te gaan met grote projecten als Linux efficient (zowel in snelheid als geheugenruimte)
 
 Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
 

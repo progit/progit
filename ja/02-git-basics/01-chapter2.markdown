@@ -611,14 +611,14 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 
 約 20,000 件におよぶ Git ソースコードのコミットの歴史の中で、このコマンドの条件にマッチするのは 6 件となります。
 
-### Using a GUI to Visualize History ###
+### GUI による歴史の可視化 ###
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
+もう少しグラフィカルなツールでコミットの歴史を見たい場合は、Tcl/Tk のプログラムである gitk を見てみましょう。これは Git に同梱されています。gitk は、簡単に言うとビジュアルな `git log` ツールです。`git log` で使えるフィルタリングオプションにはほぼすべて対応しています。プロジェクトのコマンドラインで gitk と打ち込むと、図 2-2 のような画面があらわれるでしょう。
 
 Insert 18333fig0202.png 
-Figure 2-2. The gitk history visualizer
+図 2-2. gitk history visualizer
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+ウィンドウの上半分に、コミットの歴史がきれいな家系図とともに表示されます。ウィンドウの下半分には diff ビューアがあり、任意のコミットをクリックしてその変更内容を確認することができます。
 
 ## Undoing Things ##
 

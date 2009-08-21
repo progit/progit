@@ -13,3 +13,8 @@ ja:
   fig: 図
 ru:
   fig: "рисунок "
+cs:
+  chap: "Kapitola "
+  sect: "Oddíl "
+  fig: "Obrázek "
+  tab: "Tabulka "

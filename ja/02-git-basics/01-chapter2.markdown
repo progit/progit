@@ -176,11 +176,11 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	build/    # build/ ディレクトリのすべてのファイルを無視します
 	doc/*.txt # doc/notes.txt は無視しますが、doc/server/arch.txt は無視しません
 
-### Viewing Your Staged and Unstaged Changes ###
+### ステージされている変更 / されていない変更の閲覧 ###
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+`git status` コマンドだけではよくわからない (どのファイルが変更されたのかだけではなく、実際にどのように変わったのかが知りたい) という場合は `git diff` コマンドを使用します。`git diff` コマンドについては後で詳しく解説します。おそらく、最もよく使う場面としては次の二つの問いに答えるときになるでしょう。「変更したけどまだステージしていない変更は?」「コミット対象としてステージした変更は?」もちろん `git status` でもこれらの質問に対するおおまかな答えは得られますが、`git diff` の場合は追加したり削除したりした正確な行をパッチ形式で表示します。
 
-Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
+先ほどの続きで、ふたたび README ファイルを編集してステージし、一方 benchmarks.rb ファイルは編集だけしてステージしない状態にあると仮定しましょう。ここで `status` コマンドを実行すると、次のような結果となります。
 
 	$ git status
 	# On branch master
@@ -195,7 +195,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#	modified:   benchmarks.rb
 	#
 
-To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
+変更したけれどもまだステージしていない内容を見るには、引数なしで `git diff` を実行します。
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -214,9 +214,9 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+このコマンドは、作業ディレクトリの内容とステージングエリアの内容を比較します。この結果を見れば、あなたが変更した内容のうちまだステージされていないものを知ることができます。
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+次のコミットに含めるべくステージされた内容を知りたい場合は、`git diff –-cached` を使用します (Git バージョン 1.6.1 以降では `git diff –-staged` も使えます。こちらのほうが覚えやすいでしょう)。このコマンドは、ステージされている変更と直近のコミットの内容を比較します。
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -231,9 +231,9 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+`git diff` 自体は、直近のコミット以降のすべての変更を表示するわけではないことに注意しましょう。あくまでもステージされていない変更だけの表示となります。これにはすこし戸惑うかもしれません。変更内容をすべてステージしてしまえば `git diff` は何も出力しなくなるわけですから。
 
-For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
+もうひとつの例を見てみましょう。benchmarks.rb ファイルをいったんステージした後に編集してみましょう。`git diff` を使用すると、ステージされたファイルの変更とまだステージされていないファイルの変更を見ることができます。
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -249,7 +249,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
-Now you can use `git diff` to see what is still unstaged
+ここで `git diff` を使うと、まだステージされていない内容を知ることができます。
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -262,7 +262,7 @@ Now you can use `git diff` to see what is still unstaged
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
 
-and `git diff --cached` to see what you’ve staged so far:
+そして `git diff --cached` を使うと、これまでにステージした内容を知ることができます。
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb

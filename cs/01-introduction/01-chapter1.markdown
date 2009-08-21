@@ -1,43 +1,79 @@
-# Getting Started #
+# Úvod #
 
-This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
+V této kapitole si vysvětlíme, jak začít s Gitem: Jak fungují systémy kontroly verzí, ukážeme si, jak Git nainstalovat
+a jak ho nastavit tak, abychom s ním mohli pohodlně pracovat. Objasníme si, proč Git používá tolik lidí
+a proč byste ho měli používat i vy.
 
-## About Version Control ##
+## Správa verzí ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+Co je to správa verzí? Proč by vás to vůbec mělo zajímat? Správa verzí je systém,
+který zaznamenává změny souborů v čase tak, že se v případě potřeby můžeme vrátit
+k některé z předchozích verzí. Pro příklady v této knize použijeme zdrojový kód softwaru
+jako ony spravované soubory, ale samozřejmě to není nutné -- můžete spravovat v podstatě
+jakýkoli druh souborů.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+Pokud jste grafik nebo web-designer a chcete si schovat každou verzi obrázku nebo
+rozvržení stránky (což zcela jistě budete chtít), je velmi moudré rozhodnutí použít
+systém pro správu verzí (SSV).[^1] Umožňuje vám vrátit jednotlivé soubory nebo celý projekt
+do nějakého z předchozích stavů, porovnávat změny, vidět, kdo naposledy změnil soubor, ve kterém
+se objevil nějaký problém, kdo napsal chybový kód a mnohé další ... Používat SSV také obecně
+znamená, že pokud něco zkazíte nebo přijdete o nějaké soubory, můžete se jed\-no\-du\-še vrátit.
+Navíc s minimálními režijními náklady.
 
-### Local Version Control Systems ###
+[^1]: Pozn. překl.: V anglickém originále VCS -- Version Control System
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+### Místní systémy správy verzí ###
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Mnoha lidmi používaná metoda je prosté kopírování souborů na jiné místo, občas označené
+např. datem, pokud jsou chytřejší. Tento přístup je oblíbený pro svoji jednoduchost, ale
+je neskutečně chybový. Je tak jednoduché zapomenout, ve kterém adresáři se zrovna nacházíte,
+a omylem zapsat do špatného souboru nebo chybně kopírovat.
+
+Kdysi dávno právě z těchto důvodů vznikly místní SSV, které v jednoduché databázi udržovaly
+všechny změny spravovaných souborů (obr. 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram
+Obrázek 1-1. Místní SSV
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+Jeden z populárnějších SSV byl program rcs, který je stále ještě dodáván i s mnoha dnešními počítači.
+Zvláště populární operační systém Mac OS X obsahuje příkaz rcs, když instalujete Developer Tools.
+Funguje v podstatě na principu uchovávání patchů mezi jednotlivými změnami ve speciálním formátu
+na disku, takže může obnovit jakýkoli bod v minulosti aplikováním všech těchto patchů v sérii.
 
-### Centralized Version Control Systems ###
+### Centralizované systémy správy verzí ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Další požadavek na SSV je, aby umožnil spolupráci více vývojářů z různých koutů světa. Proto byly vytvořeny
+centralizované systémy správy verzí (CSSV). Tyto systémy, jako např. CVS, Subversion nebo Perforce,
+mají vždy jeden server, který obsahuje všechny spravované soubory ve všech verzích, a množství klientů,
+již stahují soubory z tohoto jednoho centrálního místa. Po mnoho let byl toto standard ve správě verzí (obr. 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram
+Obrázek 1-2. Centralizovaný SSV
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Toto uspořádání přináší mnoho výhod, zvláště proti místním SSV. Třeba všichni ví do jisté míry, kdo další
+se ještě na projektu podílí. Administrátoři mají přesnou kontrolu nad tím, kdo co dělá -- je to daleko jednodušší
+než spravovat místní databáze u každého klienta zvlášť.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Samozřejmě to má i vážná úskalí. Nejviditelnější je asi ten jeden jediný bod uprostřed reprezentovaný centralizovaným
+serverem. Když má server hodinový výpadek, pak samozřejmě behem této hodiny nikdo nepřispěje, nikdo nemůže uložit
+své provedené změny na projektu, na kterém právě pracuje. Pokud dojde k poruše harddisku centrální databáze a nikdo dostatečně nezálohoval,
+pak ztratíte absolutně všechno. Kompletní historii projektu kromě nějakých osamělých kopií, které mají uživatelé a vývojáři na svém
+vlastním počítači. Tím mimochodem trpí i místní SSV -- jakmile máte všechno na jednom místě, riskujete,
+že při neopatrnosti nebo poruše jednoduše přijdete o všechno.
 
-### Distributed Version Control Systems ###
+### Distribuované systémy správy verzí ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+Proto nastoupily na scénu distribuované SSV (DSSV). V takovém systému (Git, Mercurial, Bazaar, Darcs apod.)
+klient neuchovává jen poslední verzi souborů, nýbrž vytváří kompletní duplikát repositáře. Pak pokud nějaký
+server v těchto podmínkách odejde do počítačového nebe, nic se vlastně nestane. Jakýkoli repositář u klienta
+je možno nahrát zpět na server a jede se dál. Každý checkout je v podstatě kompletní záloha všech dat (obr. 1-3)
 
 Insert 18333fig0103.png 
 Figure 1-3. Distributed version control diagram
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Navíc mnoho těchto systémů umí slušně pracovat s více vzdálenými repositáři najednou, takže můžete spolupracovat
+s různými skupinami lidí na různých částech téhož projektu. To umožňuje mít různé způsoby organizace práce,
+které v centralizovaných systémech vůbec nejsou možné, jako je hierarchický model.
 
 ## A Short History of Git ##
 

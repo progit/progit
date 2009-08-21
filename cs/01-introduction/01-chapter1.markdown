@@ -164,14 +164,18 @@ ale jakmile je commitnete, je velmi obtížné o ně přijít, zvláště pak po
 Je pak radost používat Git, protože víme, že můžeme experimentovat bez nebezpečí, že bychom si něco vážně poškodili. Pro hlubší náhled do problematiky,
 jak Git ukládá data a jak se můžete vrátit k datům, která vypadají, že jsou ztracena, si přečtěte kapitolu 9.
 
-### The Three States ###
+### Tři stavy ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Teď dávejte pozor. Tohle je hlavní věc, kterou si u Gitu musíte pamatovat, pokud chcete, aby vaše další studium Gitu šlo hladce.
+Git má tři základní stavy, kterých můžou vaše soubory nabývat: "commited", "modified", "staged". Commited znamená, že data jsou
+bezpečně uložena v místní databázi. Modified znamená, že soubor byl oproti poslednímu commitu změněn. A staged je ten soubor,
+u kterého máte značku, že bude v této verzi zařazen do nejbližšího commitu.
 
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+To nás vede ke třem hlavním sekcím projektu v Gitu: Adresář Gitu, pracovní adresář a "staging area".
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory
+Figure 1-6. Pracovní adresář, staging area a adresář gitu.
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
 

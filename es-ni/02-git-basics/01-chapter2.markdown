@@ -2,9 +2,9 @@
 
 Si solo pudieras leer un capítulo de este libro para poder trabajar con Git, este es él capítulo. Este capítulo cobre todos los comandos básicos que son necesarios para la vasta mayoría de tareas que eventualmente ocuparán tu tiempo cuando trabajes con Git. Para el final del capítulo, deberías ser capaz de configurar e inicializar un repositorio, iniciar y detener el seguimiento de archivos, y 'stage' y commitear los cambios. También te mostraremos cómo configurar Git para que ignore determinados archivos y patrones de nombres para los archivos, como desahacer equivocaciones rápida y sencillamente, como navegador por el historial de tu proyecto y ver los cambios entre cada commit, y cómo empujar y 'pull' desde repositorios remotos.
 
-## Getting a Git Repository ##
+## Obteniendo un repositorio Git ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+Tu puedes obtener un proyecto basado en Git utilizando dos métodos principales. El primero consiste en tomar un proyecto existente e importarlo dentro de Git. El segundo se basa en clonar un repositorio Git desde otro servidor.
 
 ### Initializing a Repository in an Existing Directory ###
 

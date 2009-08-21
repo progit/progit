@@ -117,7 +117,7 @@ The `master^{tree}` syntax specifies the tree object that is pointed to by the l
 Conceptually, the data that Git is storing is something like Figure 9-1.
 
 Insert 18333fig0901.png 
-Figure 9-1. Simple version of the Git data model
+Figure 9-1. Simple version of the Git data model.
 
 You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your text.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `--add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `--cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:
 
@@ -165,7 +165,7 @@ Notice that this tree has both file entries and also that the test.txt SHA is th
 If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like Figure 9-2.
 
 Insert 18333fig0902.png 
-Figure 9-2. The content structure of your current Git data
+Figure 9-2. The content structure of your current Git data.
 
 ### Commit Objects ###
 
@@ -242,7 +242,7 @@ Amazing. You’ve just done the low-level operations to build up a Git history w
 If you follow all the internal pointers, you get an object graph something like Figure 9-3.
 
 Insert 18333fig0903.png 
-Figure 9-3. All the objects in your Git directory
+Figure 9-3. All the objects in your Git directory.
 
 ### Object Storage ###
 
@@ -327,7 +327,7 @@ Your branch will contain only work from that commit down:
 Now, your Git database conceptually looks something like Figure 9-4.
 
 Insert 18333fig0904.png 
-Figure 9-4. Git directory objects with branch head references included
+Figure 9-4. Git directory objects with branch head references included.
 
 When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
 
@@ -499,7 +499,8 @@ The other files are your new packfile and an index. The packfile is a single fil
 
 How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
 
-	$ git verify-pack -v pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
+	$ git verify-pack -v \
+	  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
 	0155eb4229851634a0f03eb265b69f5a2d56f341 tree   71 76 5400
 	05408d195263d853f09dca71d55116663690c27c blob   12908 3478 874
 	09f01cea547666f58d6a8d809583841a7c6f0130 tree   106 107 5086

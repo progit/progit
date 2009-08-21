@@ -318,7 +318,7 @@ This way, you can set up HTTP-based read access to any of your projects for a fa
 Now that you have basic read/write and read-only access to your project, you may want to set up a simple web-based visualizer. Git comes with a CGI script called GitWeb that is commonly used for this. You can see GitWeb in use at sites like `http://git.kernel.org` (see Figure 4-1).
 
 Insert 18333fig0401.png 
-Figure 4-1. The GitWeb web-based user interface
+Figure 4-1. The GitWeb web-based user interface.
 
 If you want to check out what GitWeb would look like for your project, Git comes with a command to fire up a temporary instance if you have a lightweight server on your system like `lighttpd` or `webrick`. On Linux machines, `lighttpd` is often installed, so you may be able to get it to run by typing `git instaweb` in your project directory. If you’re running a Mac, Leopard comes preinstalled with Ruby, so `webrick` may be your best bet. To start `instaweb` with a non-lighttpd handler, you can run it with the `--httpd` option.
 
@@ -590,18 +590,18 @@ GitHub is also a commercial company that charges for accounts that maintain priv
 The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
 
 Insert 18333fig0402.png
-Figure 4-2. The GitHub plan page
+Figure 4-2. The GitHub plan page.
 
 Here you must choose a username that isn’t yet taken in the system and enter an e-mail address that will be associated with the account and a password (see Figure 4-3).
 
 Insert 18333fig0403.png 
-Figure 4-3. The GitHub user signup form
+Figure 4-3. The GitHub user signup form.
 
 If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
 Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).
 
 Insert 18333fig0404.png 
-Figure 4-4. The GitHub user dashboard
+Figure 4-4. The GitHub user dashboard.
 
 Next you can create a new repository. 
 
@@ -610,17 +610,17 @@ Next you can create a new repository.
 Start by clicking the "create a new one" link next to Your Repositories on the user dashboard. You’re taken to the Create a New Repository form (see Figure 4-5).
 
 Insert 18333fig0405.png 
-Figure 4-5. Creating a new repository on GitHub
+Figure 4-5. Creating a new repository on GitHub.
 
 All you really have to do is provide a project name, but you can also add a description. When that is done, click the "Create Repository" button. Now you have a new repository on GitHub (see Figure 4-6).
 
 Insert 18333fig0406.png 
-Figure 4-6. GitHub project header information
+Figure 4-6. GitHub project header information.
 
 Since you have no code there yet, GitHub will show you instructions for how create a brand-new project, push an existing Git project up, or import a project from a public Subversion repository (see Figure 4-7).
 
 Insert 18333fig0407.png 
-Figure 4-7. Instructions for a new repository
+Figure 4-7. Instructions for a new repository.
 
 These instructions are similar to what we’ve already gone over. To initialize a project if it isn’t already a Git project, you use
 
@@ -636,7 +636,7 @@ When you have a Git repository locally, add GitHub as a remote and push up your 
 Now your project is hosted on GitHub, and you can give the URL to anyone you want to share your project with. In this case, it’s `http://github.com/testinguser/iphone_project`. You can also see from the header on each of your project’s pages that you have two Git URLs (see Figure 4-8).
 
 Insert 18333fig0408.png 
-Figure 4-8. Project header with a public URL and a private URL
+Figure 4-8. Project header with a public URL and a private URL.
 
 The Public Clone URL is a public, read-only Git URL over which anyone can clone the project. Feel free to give out that URL and post it on your web site or what have you.
 
@@ -647,7 +647,7 @@ The Your Clone URL is a read/write SSH-based URL that you can read or write over
 If you have an existing public Subversion project that you want to import into Git, GitHub can often do that for you. At the bottom of the instructions page is a link to a Subversion import. If you click it, you see a form with information about the import process and a text box where you can paste in the URL of your public Subversion project (see Figure 4-9).
 
 Insert 18333fig0409.png 
-Figure 4-9. Subversion importing interface
+Figure 4-9. Subversion importing interface.
 
 If your project is very large, nonstandard, or private, this process probably won’t work for you. In Chapter 7, you’ll learn how to do more complicated manual project imports.
 
@@ -658,17 +658,17 @@ Let’s add the rest of the team. If John, Josie, and Jessica all sign up for ac
 Click the "edit" button in the project header or the Admin tab at the top of the project to reach the Admin page of your GitHub project (see Figure 4-10).
 
 Insert 18333fig0410.png 
-Figure 4-10. GitHub administration page
+Figure 4-10. GitHub administration page.
 
 To give another user write access to your project, click the “Add another collaborator” link. A new text box appears, into which you can type a username. As you type, a helper pops up, showing you possible username matches. When you find the correct user, click the Add button to add that user as a collaborator on your project (see Figure 4-11).
 
 Insert 18333fig0411.png 
-Figure 4-11. Adding a collaborator to your project
+Figure 4-11. Adding a collaborator to your project.
 
 When you’re finished adding collaborators, you should see a list of them in the Repository Collaborators box (see Figure 4-12).
 
 Insert 18333fig0412.png 
-Figure 4-12. A list of collaborators on your project
+Figure 4-12. A list of collaborators on your project.
 
 If you need to revoke access to individuals, you can click the "revoke" link, and their push access will be removed. For future projects, you can also copy collaborator groups by copying the permissions of an existing project.
 
@@ -677,7 +677,7 @@ If you need to revoke access to individuals, you can click the "revoke" link, an
 After you push your project up or have it imported from Subversion, you have a main project page that looks something like Figure 4-13.
 
 Insert 18333fig0413.png 
-Figure 4-13. A GitHub main project page
+Figure 4-13. A GitHub main project page.
 
 When people visit your project, they see this page. It contains tabs to different aspects of your projects. The Commits tab shows a list of commits in reverse chronological order, similar to the output of the `git log` command. The Network tab shows all the people who have forked your project and contributed back. The Downloads tab allows you to upload project binaries and link to tarballs and zipped versions of any tagged points in your project. The Wiki tab provides a wiki where you can write documentation or other information about your project. The Graphs tab has some contribution visualizations and statistics about your project. The main Source tab that you land on shows your project’s main directory listing and automatically renders the README file below it if you have one. This tab also shows a box with the latest commit information.
 
@@ -695,7 +695,7 @@ Figure 4-14. Get a writable copy of any repository by clicking the "fork" button
 After a few seconds, you’re taken to your new project page, which indicates that this project is a fork of another one (see Figure 4-15).
 
 Insert 18333fig0415.png 
-Figure 4-15. Your fork of a project 
+Figure 4-15. Your fork of a project.
 
 ### GitHub Summary ###
 

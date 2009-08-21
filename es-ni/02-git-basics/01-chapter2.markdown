@@ -12,7 +12,7 @@ Si quisieramos comenzar a realizar un seguimiento de un proyecto con Git, lo que
 
 	$ git init
 
-Esta acción creará un nuevo subdirecotrio llamado .git que contendrá todos los archivos necesarios por el repositorio (el esqueleto básico de un repositorio Git). En este punto, nada en el proyecto está siendo rastreado aún. (Revisa el Capítulo 9 para mayor información acerca de qué archivo son contenidos exáctamente dentro del directorio `.git` que acaba de ser creado.)
+Esta acción creará un nuevo subdirectorio llamado .git que contendrá todos los archivos necesarios por el repositorio (el esqueleto básico de un repositorio Git). En este punto, nada en el proyecto está siendo rastreado aún. (Revisa el Capítulo 9 para mayor información acerca de qué archivo son contenidos exáctamente dentro del directorio `.git` que acaba de ser creado.)
 
 Si quisieramos comenzar a llevar un control de versiones de los archivos existentes (en contraposición con un directorio vacío), entonces probablemente queramos comenzar a realizar un seguimiento de los archivos del directorio y realizar un commit inicial de los mismos. Puedes lograr esto con unos pocos comandos de git que especifican los archivos sobre los que quieres realizar un seguimientos, seguidos por un commit:
 

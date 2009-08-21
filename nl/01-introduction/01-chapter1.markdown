@@ -2,9 +2,9 @@
 
 Dit hoofdstuk leg ik uit je hoe je aan de slag kunt gaan met Git.  We zullen aan het begin beginnen: je krijgt een beetje achtergrondinformatie over versiebeheersystemen, daarna een korte uitleg hoe je Git werkend kan krijgen op je computer en hoe je het kan instellen zodat je ermee aan het werk kunt.  Aan het einde van dit hoofdstuk zou je moeten kunnen begrijpen waarom Git er is, waarom je het nodig is en zal alles zo ingesteld staan dat dat ook kan.
 
-## About Version Control ##
+## Het Wat en Waarom van Versiebeheer ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+Wat is versiebeheer, en wat heeft dat met jou te maken? Versiebeheer is een systeem dat veranderingen in een bestand, of groep van bestanden, over de tijd onthoudt, zodat je specifieke versies later kan opvragen. In de voorbeelden in dit boek is het broncode waarvan de versies worden beheerd, maar je kan het eigenlijk met zo goed als elk soort bestand op een computer doen.
 
 If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
 

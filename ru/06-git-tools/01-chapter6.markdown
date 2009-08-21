@@ -1,20 +1,38 @@
+# Инструменты Git #
 # Git Tools #
+
+К этой главе вы уже выучили большинство ежедневных команд и действий, которые необходимы для того чтобы поддерживать Git-репозиторий как средство версионного контроля вашего кода. Вы изучили простые задачи добавления файлов под контроль версий и фиксации сделанных изменений, и у вас есть мощь подготовительной (stage) области и легковесного ветвления и слияния.
 
 By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
 
+Сейчас вы встретитесь с множеством более сложных возможностей Git. Вы совсем не обязательно будете использовать их каждый день, но, возможно, в какой-то момент они вам понадобятся.
+
 Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
+
+## Выбор ревизии ##
 
 ## Revision Selection ##
 
+Git позволяет вам указывать конкретные коммиты или их последовательности несколькими способами. Они не всегда очевидны, но иногда их полезно знать.
+
 Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+
+### Одиночные ревизии ###
 
 ### Single Revisions ###
 
+Вы можете просто сослаться на коммит по его SHA-1 хэшу, но также существуют более дружественные для человека способы ссылаться на коммиты. В этой секции обозреваются различные способы, которыми вы можете сослаться на одиночный коммит.
+
 You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
 
+### Сокращенный SHA ###
 ### Short SHA ###
 
+Git достаточно умен для того, чтобы понять какой коммит вы имеете в виду по первым нескольким символам (частичному хэшу), конечно если их не меньше 4-х и они однозначны - то есть если хэш только одного объекта в вашем репозитории начинается с этих символов.
+
 Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
+
+Например, предположим, что вы хотите посмотреть содержимое какого-то конкретного коммита. Вы выполняете команду `git log` и находите этот коммит (например тот, в котором вы добавили какую-то функциональность):
 
 For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
 
@@ -38,11 +56,15 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 	    added some blame and merge stuff
 
+В этом случае, это коммит `1c002dd....`. Если вы будете использовать `git show`, чтобы посмотреть содержимое этого коммита следующие команды эквивалентны (предполагая, что сокращенные версии однозначны):
+
 In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
+
+Git может может показать короткие, уникальные сокращения ваших SHA-1 хэшей. Если вы передадите опцию `--abbrev-commit` в команду `git log`, то ее вывод будет использовать сокращенные значения, но сохранит их уникальными; по умолчанию будут использоваться семь символов, но при необходимости длина будет увеличена для сохранения однозначности хэшей:
 
 Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
 
@@ -51,24 +73,40 @@ Git can figure out a short, unique abbreviation for your SHA-1 values. If you pa
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
+В общем случае, от восемь-десять символов более чем достаточно для уникальности внутри проекта. В одном из самых больших проектов на Git, ядре Linux только начинает появляться необходимость использовать 12 символов из 40 возможных для сохранения однозначности.
+
 Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+
+### Небольшое замечание о SHA-1###
 
 ### A SHORT NOTE ABOUT SHA-1 ###
 
+Многие люди интересуются что произойдет, если они в какой-то момент, по некоторой случайности, получат два объекта в репозитории, которые будут иметь два одинаковых значения SHA-1 хэша. Что тогда?
+
 A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
+
+Если вы вдруг закоммитите объект, SHA-1 хэш которого такой же, как у некоторого предыдущего объекта в вашем репозитории, Git обнаружит предыдущий объект в вашей базе данных Git, и посчитает, что он был уже записан. Если Вы в какой-то момент попытаетесь получить этот объект опять, вы всегда будете получать данные первого объекта.
 
 If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
 
+Однако, вы должны осозновать то, как смехотворно маловероятен этот сценарий. Длина SHA-1 составляет 20 байт или 160 бит. Количество случайно хэшированных объектов, необходимое для того, чтобы получить 50% вероятность одиночного совпадения составляет порядка 2^80 (формула для определения вероятности совпадения - `p = (n(n-1)/2) * (1/2^160))`). 2^80 это 1.2 x 10^24 или один миллион миллиарда миллиардов. Это в 1200 раз больше количества песчинок на земле.
+
 However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+
+Вот пример для того, чтобы дать вам понимание того, что необходимо чтобы получить SHA-1 коллизию. Если бы все 6.5 миллиардов людей на Земле программировали, и каждую секунду каждую из них производил количество кода, эквивалентное всей истории ядра Linux (1 миллион Git объектов) и выкладывал его в один огромный Git-репозиторий, то потребовалось бы 5 лет для того, чтобы заполнить репозиторий достаточно для того, чтобы получить 50% вероятность единичной SHA-1 коллизии. Существует более высокая вероятность того, что кто-то из вашей команды программистов одной ночью будет атакован и убит волками при невыясненных обстоятельствах.
 
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
-### Branch References ###
+### Ссылки на ветки ###
+
+Самый прямой метод указать коммит требует, чтобы он имел ветку ссылающуюся на него. Тогда, вы можете использовать имя ветки в любой команде Git, которая ожидает коммит или значение SHA-1. Например, если вы хотите посмотреть последний коммит в ветке, следующие команды эквивалентны, предполагая, что ветка `topic1` ссылается на `ca82a6d`:
 
 The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
+
+Если вы хотите увидеть SHA, на который указывет ветка, или, если вы хотите чтобы любые из этих примеров свелись к SHA, вы можете использовать низкоуровневую (plumbing) утилиту Git, называемую `rev-parse`. Вы можете заглянуть в Главу 9 для получения большей информации о низкоуровневых утилитах; упрощенно, `rev-parse` существует для низкоуровневых операци и не предназначена для использования в ежедневных операциях. Однако, она может быть полезна, когда вам необходимо увидеть что в действительности происходит. В данном случае, вы можете применить `rev-parse` к вашей ветке.
 
 If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
 
@@ -191,7 +229,7 @@ Now that you can specify individual commits, let’s see how to specify ranges o
 The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
 
 Insert 18333fig0601.png 
-Figure 6-1. Example history for range selection.
+Figure 6-1. Example history for range selection
 
 You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
 
@@ -982,7 +1020,7 @@ A good way to do this in Git is to make each of the subfolders a separate Git re
 
 Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b` work or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
 
 Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
 

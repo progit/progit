@@ -379,15 +379,15 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 このコマンドは、`~` で終わるファイル名のファイルをすべて削除します。
 
-### Moving Files ###
+### ファイルの移動 ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+他の多くの VCS とは異なり、Git はファイルの移動を明示的に追跡することはありません。Git の中でファイル名を変更しても、「ファイル名を変更した」というメタデータは Git には保存されないのです。しかし Git は賢いので、ファイル名が変わったことを知ることができます。ファイルの移動を検出する仕組みについては後ほど説明します。
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+しかし Git には `mv` コマンドがあります。ちょっと混乱するかもしれませんね。Git の中でファイル名を変更したい場合は次のようなコマンドを実行します。
 
 	$ git mv file_from file_to
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+このようなコマンドを実行してから status を確認すると、Git はそれをファイル名が変更されたと解釈していることがわかるでしょう。
 
 	$ git mv README.txt README
 	$ git status
@@ -400,13 +400,13 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+しかし、実際のところこれは、次のようなコマンドを実行するのと同じ意味となります。
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git はこれが暗黙的なファイル名の変更であると理解するので、この方法であろうが `mv` コマンドを使おうがどちらでもかまいません。唯一の違いは、この方法だと 3 つのコマンドが必要になるかわりに `mv` だとひとつのコマンドだけで実行できるという点です。より重要なのは、ファイル名の変更は何でもお好みのツールで行えるということです。あとでコミットする前に add/rm を指示してやればいいのです。
 
 ## Viewing the Commit History ##
 

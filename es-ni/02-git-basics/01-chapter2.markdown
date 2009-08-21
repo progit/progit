@@ -22,21 +22,21 @@ Si quisieramos comenzar a llevar un control de versiones de los archivos existen
 
 Volveremos sobre estos mismos comandos en solo un minuto. En este punto, ya tienes un repositorio Git con archivos versionados en el mismo y un commit inicial.
 
-### Cloning an Existing Repository ###
+### Clonando un Repositorio Existente ###
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
+Si quisieras obtener una copia de un repositorio Git existente (por ejemplo, de un projecto con el cuál quieres contribuir) el comando que estás buscando es git clone. Si eres familiar con otros sistemas VCS como Subversion, notarás que el comando se llama clone y no checkout. Esta es una distinción muy importante, Git recibe una copia de casi todos los datos que el servidor posee. Cada version de cada archivo de la historia del proyecto es descargado cuando ejecutas `git clone`. De hecho, si el disco del servidor se corrompiera, puede usar cualquiera de los clones de cualquiera de los clientes para restaurar el estado del servidor de nuevo al estado en que estaba cuando fue clonado (es posible que se pierdan algunos de los hooks ubicados en el servidor y configuraciones por el estilo, pero toda la información versionada estará ahí; revisa el Capítulo 4 para más detalles.)
 
-You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
+Clonarás un repositorio con el comando `git clone [url]`. Por ejemplo, si quisieras clonar la librería de Git en Ruby llamada Grit, puedes hacer lo siguiente:
 
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
+Esta acción creará un directorio llamado "grit", inicializará el directorio `.git` dentro del mismo, descargará toda la información del repositorio, y generará una copia de trabajo de la última versión. Si ingresas al nuevo directorio recién creado `grit`, verás que se encuentran dentro del mismo todos los archivos, listos para ser trabajados o utilizados. Si quieres clonar un repositorio en un directorio que se llama de otra forma en lugar de grit, puedes especificar el comando de la siguiente forma:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-That command does the same thing as the previous one, but the target directory is called mygrit.
+Este comando hace lo mismo que el comando anterior pero el nombre del directorio destino será mygrit.
 
-Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
+Git tiene un número de protocoles diferentes que pueden ser utilizados. En los ejemplos previos utilizamos el protocolo `git://` pero también será normal observar los protocolos `http(s)://` or `usuario@servidor:/path.git`, que utiliza el protocolo SSH de transferencia. En el Capítulo 4 se introducirán todas las opciones disponibles con las cuáles un servidor puede ser configurado para el acceso al repositorio Git y las ventajas y las desventajas de cada una de ellas.
 
 ## Recording Changes to the Repository ##
 

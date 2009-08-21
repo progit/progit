@@ -148,33 +148,33 @@ benchmarks.rb ファイルは “Changed but not updated” という欄に表�
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### ファイルの無視 ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+ある種のファイルについては、Git で自動的に追加してほしくないしそもそも「追跡されていない」と表示されるのも気になる。そんなことがよくあります。たとえば、ログファイルやビルドシステムが生成するファイルなどの自動生成されるファイルがそれにあたるでしょう。そんな場合は、無視させたいファイルのパターンを並べた .gitignore というファイルを作成します。.gitignore ファイルは、たとえばこのようになります。
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+最初の行は .o あるいは .a で終わる名前のファイル (コードをビルドする際にできるであろうオブジェクトファイルとアーカイブファイル) を無視するよう Git に伝えています。次の行で Git に無視させているのは、チルダ (`~`) で終わる名前のファイルです。Emacs をはじめとする多くのエディタが、この形式の一時ファイルを作成します。これ以外には、たとえば log、tmp、pid といった名前のディレクトリや自動生成されるドキュメントなどもここに含めることになるでしょう。実際に作業を始める前に .gitignore ファイルを準備しておくことをお勧めします。そうすれば、予期せぬファイルを間違って Git リポジトリにコミットしてしまう事故を防げます。
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+.gitignore ファイルに記述するパターンの規則は、次のようになります。
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+*	空行あるいは # で始まる行は無視される
+*	標準の glob パターンを使用可能
+*	ディレクトリを指定するには、パターンの最後にスラッシュ (`/`) をつける
+*	パターンを逆転させるには、最初に感嘆符 (`!`) をつける
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+glob パターンとは、シェルで用いる簡易正規表現のようなものです。アスタリスク (`*`) は、ゼロ個以上の文字にマッチします。`[abc]` は、角括弧内の任意の文字 (この場合は a、b あるいは c) にマッチします。疑問符 (`?`) は一文字にマッチします。また、ハイフン区切りの文字を角括弧で囲んだ形式 (`[0-9]`) は、ふたつの文字の間の任意の文字 (この場合は 0 から 9 までの間の文字) にマッチします。
 
-Here is another example .gitignore file:
+では、.gitignore ファイルの例をもうひとつ見てみましょう。
 
-	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# コメント。これは無視されます
+	*.a       # .a ファイルは無視
+	!lib.a    # しかし、lib.a ファイルだけは .a であっても追跡対象とします
+	/TODO     # ルートディレクトリの TODO ファイルだけを無視し、サブディレクトリの TODO は無視しません
+	build/    # build/ ディレクトリのすべてのファイルを無視します
+	doc/*.txt # doc/notes.txt は無視しますが、doc/server/arch.txt は無視しません
 
 ### Viewing Your Staged and Unstaged Changes ###
 

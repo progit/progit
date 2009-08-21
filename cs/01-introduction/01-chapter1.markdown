@@ -119,31 +119,50 @@ si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor
 Insert 18333fig0105.png 
 Obrázek 1-5. Git ukládá data jako snapshoty projektu.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+To je důležitý rozdíl mezi Gitem a skoro všemi ostatními SSV. Nutí to Git znovu uvážit téměř každý aspekt správy verzí, které většina
+ostatních systémů převzala z předchozí generace. To dělá z Gitu spíše malý filesystém s několika neuvěřitelně mocnými nástroji
+nad sebou než prostě SSV. K některým výhodám tohoto přístupu dojdeme v kapitole 3, kde se budeme zabývat větvením vývojového stromu.
 
-### Nearly Every Operation Is Local ###
+### Většině operací stačí váš stroj ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Drtivá většina operací v Gitu nepotřebuje víc než místní soubory a zdroje. Obecně nepotřebuje žádnou informawci z jiného než vašeho stroje.
+Pokud jste zvyklí na CSSV, kde téměř všechny operace mají režijní náklady zvýšené o zpoždění na síti, pak si budete myslet, že božstvo rychlosti
+požehnalo Gitu a udělilo mu nadzemskou moc. Protože máte celou historii projektu právě u sebe na místním disku, vypadá většina operací,
+že jsou vykonány okamžitě.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+Například pokud si chcete prohlédnout historii projektu, Git nepotřebuje jít na server, aby získal historii a zobrazil ji pro vás -- jednoduše
+ji přečte přímo z vaší místní databáze. To znamená, že historii projektu vidíte téměř hned. Pokud chcete vidět změny mezi současnou verzí souboru
+a verzí měsíc starou, Git najde soubor v místní databázi a spočítá rozdíly lokálně místo toho, aby o to buďto požádal vzdálený server, nebo alespoň
+stáhl starou verzi.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+To také znamená, že je velmi málo toho, co nemůžete dělat, pokud jste offline. Sedíte-li na palubě letadla nebo ve vlaku a chcete udělat trochu práce,
+můžete vesele commitovat, i když nemáte připojení k síti. Pokud jste doma a nemůžete se připojit k repositáři, můžete stále pracovat. U mnoha jiných systému
+je to dosti bolestivý proces, ne-li zhola nemožný. V Perforce např. nemůžete dělat skoro nic; v Subversion nebo CVS můžete upravovat soubory, ale
+commitnout je nejde (logicky -- databáze je offline). To nemusí vypadat jako velká změna, ale může vás příjemně překvapit, jak výrazný rozdíl to může být.
 
-### Git Has Integrity ###
+### Git drží integritu ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Než je cokoli v Gitu uloženo, je tomu spočítán kontrolní součet, který se též potom používá k identifikaci tohoto commitu.
+To znamená, že je zhola nemožné změnit obsah jakéhokoli souboru nebo adresáře bez toho, aby o tom Git věděl. Tato vlastnost
+je do Gitu zabudována na těch nejnižších úrovních a je nedílnou součástí jeho filosofie. Nemůžete ztratit informace při přenosu
+nebo přijít k poškození dat bez toho, aby to byl Git schopen odhalit.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Git k tomu používá mechanismus zvaný SHA-1 hash. To je 40 znaků dlouhý řetězec sestávající z hexadecimálních znaků (0-9 a a-f)
+a spočítaný na základě obsahu souboru nebo adresářové struktury v Gitu. SHA-1 hash vypadá nějak takto:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+S těmito hashi se v Gitu setkáte úplně všude. V podstatě Git všechno ukládá nikoli na základě jména souboru, ale právě na základě
+hashe jeho obsahu.
 
-### Git Generally Only Adds Data ###
+### Git obecně jen přidává data ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Pokud něco v Gitu děláte, téměř cokoli z toho jen přidá data do jeho databáze. Je opravdu obtížné donutit systém udělat něco, co by se nedalo vrátit,
+nebo donutit ho nějakým způsobem smazat svoje data. Jako v každém SSV můžete samozřejmě ztratit změny provedené od posledního commitu,
+ale jakmile je commitnete, je velmi obtížné o ně přijít, zvláště pak pokud pravidelně zálohujete databázi do jiného repositáře.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Je pak radost používat Git, protože víme, že můžeme experimentovat bez nebezpečí, že bychom si něco vážně poškodili. Pro hlubší náhled do problematiky,
+jak Git ukládá data a jak se můžete vrátit k datům, která vypadají, že jsou ztracena, si přečtěte kapitolu 9.
 
 ### The Three States ###
 

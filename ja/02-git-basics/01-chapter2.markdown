@@ -620,27 +620,27 @@ Insert 18333fig0202.png
 
 ウィンドウの上半分に、コミットの歴史がきれいな家系図とともに表示されます。ウィンドウの下半分には diff ビューアがあり、任意のコミットをクリックしてその変更内容を確認することができます。
 
-## Undoing Things ##
+## 作業のやり直し ##
 
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always undo some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+どんな場面であっても、何かをやり直したくなることはあります。ここでは、行った変更を取り消すための基本的なツールについて説明します。注意しなければならいのは、ここで扱う内容の中には「やり直しのやり直し」ができないものもあるということです。Git で何か間違えたときに作業内容を失ってしまう数少ない例がここにあります。
 
-### Changing Your Last Commit ###
+### 直近のコミットの変更 ###
 
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+やり直しを行う場面としてもっともよくあるのは、「コミットを早まりすぎて追加すべきファイルを忘れてしまった」「コミットメッセージが変になってしまった」などです。そのコミットをもう一度やりなおす場合は、`--amend` オプションをつけてもう一度コミットします。
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+このコマンドは、ステージングエリアの内容をコミットに使用します。直近のコミット以降に何も変更をしていない場合 (たとえば、コミットの直後にこのコマンドを実行したような場合)、スナップショットの内容はまったく同じでありコミットメッセージを変更することになります。
 
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+コミットメッセージのエディタが同じように立ち上がりますが、既に前回のコミット時のメッセージが書き込まれた状態になっています。ふだんと同様にメッセージを編集できますが、前回のコミット時のメッセージがその内容で上書きされます。
 
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+たとえば、いったんコミットした後、何かのファイルをステージするのを忘れていたのに気づいたとしましょう。そんな場合はこのようにします。
 
-	$ git commit -m 'initial commit'
-	$ git add forgotten_file
+	$ git commit -m '初期コミット'
+	$ git add 忘れてたファイル
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second command replaces the results of the first.
+この 3 つのコマンドの結果、最終的にできあがるのはひとつのコミットです。二番目の commit コマンドが、最初のコミットの結果を上書きするのです。
 
 ### Unstaging a Staged File ###
 

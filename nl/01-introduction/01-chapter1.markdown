@@ -26,7 +26,7 @@ Het volgende grote probleem waar mensen tegenaan lopen is dat ze samen moeten we
 Insert 18333fig0102.png 
 Figuur 1-2. Een diagram van een gecentraliseerd versiebeheersysteem.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Deze manier van versiebeheer bied veel voordelen, vooral als je het vergelijkt met lokale VCSen. Bijvoorbeeld, iedereen weet tot op een bepaalde hoogte wat de rest die aan het project werken aan het doen zijn. Beheerders hebben precieze controle over wie wat kan doen; en het is veel eenvoudiger om een CVCS te beheren dan te moeten werken met lokale databases voor elke client.
 
 However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
 

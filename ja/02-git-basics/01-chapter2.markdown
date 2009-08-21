@@ -642,9 +642,9 @@ Insert 18333fig0202.png
 
 この 3 つのコマンドの結果、最終的にできあがるのはひとつのコミットです。二番目の commit コマンドが、最初のコミットの結果を上書きするのです。
 
-### Unstaging a Staged File ###
+### ステージしたファイルの取り消し ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+続くふたつのセクションでは、ステージングエリアと作業ディレクトリの変更に関する作業を扱います。すばらしいことに、これらふたつの場所の状態を表示するコマンドを使用すると、変更内容を取り消す方法も同時に表示されます。たとえば、ふたつのファイルを変更し、それぞれを別のコミットとするつもりだったのに間違えて `git add *` と打ち込んでしまったときのことを考えましょう。ファイルが両方ともステージされてしまいました。ふたつのうちの一方だけのステージを解除するにはどうすればいいでしょう? `git status` コマンドが教えてくれます。
 
 	$ git add .
 	$ git status
@@ -656,7 +656,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+“Changes to be committed”の直後に、use `git reset HEAD <file>...` to unstage と書かれています。では、アドバイスに従って benchmarks.rb ファイルのステージを解除してみましょう。
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -674,7 +674,7 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
+ちょっと奇妙に見えるコマンドですが、きちんと動作します。benchmarks.rb ファイルは、変更されたもののステージされていない状態に戻りました。
 
 ### Unmodifying a Modified File ###
 

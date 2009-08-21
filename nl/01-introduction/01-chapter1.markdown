@@ -19,12 +19,12 @@ Figuur 1-1. Een diagram van een lokaal versiebeheersysteem.
 
 Een populair gereedschap voor VCS was een systeem genaamd rcs, wat vandaag de dag nog steeds met veel computers wordt mee geleverd. Zelfs het populaire besturingssysteem Mac OS X heeft rcs, als je de Developer Tools installeert. Dit gereedschap werkt in principe door verzamelingen van ‘patches’ (de verschillen tussen bestanden) van de verschillende bestanden in een speciaal formaat op de harde schijf op te slaan; zo kan je teruggaan naar hoe een bestand er uitzag op een bepaalde tijd, door alle patches bij elkaar op te tellen.
 
-### Centralized Version Control Systems ###
+### Gecentraliseerde Versiebeheersystemen ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Het volgende grote probleem waar mensen tegenaan lopen is dat ze samen moeten werken met ontwikkelaars op andere computers. Om dit probleem op te lossen ontwikkelden ze Gecentraliseerde Versiebeheersystemen (CVCSen). Deze systemen, zoals CVS, Subversion en Perforce, hebben één centrale server waarop alle versies van de bestanden staan, en een aantal clients die de bestanden daarvandaan halen (‘check out’, in het Engels). Vele jaren was dit de standaard voor versiebeheer (zie Figuur 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram.
+Figuur 1-2. Een diagram van een gecentraliseerd versiebeheersysteem.
 
 This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
 

@@ -84,7 +84,7 @@ BitKeeper.
 
 Po třech letech (2005) ochladly vztahy mezi vývojáři jádra a firmou, která BitKepper vyvinula, už neměl být zdarma,
 a tak se komunita vývojářů jádra (zvláště Linus Torvalds, tvůrce Linuxu) rozhodla vytvořit vlastní DSSV
-postavený na získaných zkušenostech z BitKeeperu. Požadovaná vlastnosti nového systému byly:
+postavený na získaných zkušenostech z BitKeeperu. Požadované vlastnosti nového systému byly:
 
 *	Rychlost
 *	Jednoduchý návrh
@@ -110,7 +110,7 @@ Koncepcí většiny ostatních systémů je ukládat informace jako seznam změn
 a změny v nich provedené (obr. 1-4).
 
 Insert 18333fig0104.png
-Obrázek 1-4. Ostatní systémy obvykle ukládají data jako změny oproti základnímu stavu každého souboru.
+Obrázek 1-4. Ostatní systémy ukládají data jako změny každého souboru.
 
 Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho snapshotů malého filesystému. Pokaždé, když commitnete
 nebo uložíte stav svého projektu do Gitu, jednoduše udělá obrázek, jak teď právě vypadají všechny soubory, a uloží si to. Pro úsporu
@@ -171,7 +171,6 @@ Git má tři základní stavy, kterých můžou vaše soubory nabývat: "commite
 bezpečně uložena v místní databázi. Modified znamená, že soubor byl oproti poslednímu commitu změněn. A staged je ten soubor,
 u kterého máte značku, že bude v této verzi zařazen do nejbližšího commitu.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 To nás vede ke třem hlavním sekcím projektu v Gitu: Adresář Gitu, pracovní adresář a "staging area".
 
 Insert 18333fig0106.png 

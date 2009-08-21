@@ -69,7 +69,7 @@ server v těchto podmínkách odejde do počítačového nebe, nic se vlastně n
 je možno nahrát zpět na server a jede se dál. Každý checkout je v podstatě kompletní záloha všech dat (obr. 1-3)
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+Obrázek 1-3. Distribuovaný SSV
 
 Navíc mnoho těchto systémů umí slušně pracovat s více vzdálenými repositáři najednou, takže můžete spolupracovat
 s různými skupinami lidí na různých částech téhož projektu. To umožňuje mít různé způsoby organizace práce,
@@ -90,26 +90,34 @@ postavený na získaných zkušenostech z BitKeeperu. Požadovaná vlastnosti no
 *	Jednoduchý návrh
 *	Propracovaná podpora pro nelineární vývoj (tisíce paralelních větví)
 *	Plná distribuovanost
-*	Schopnost udržet tak velký projekt jako jádro Linuxu efektivně (z hlediska rychlosti a množství dat)
+*	Schopnost udržet tak velký projekt jako jádro Linuxu úsporně z hlediska rychlosti i množství dat
 
 Od jeho zrodu v roce 2005 se Git vyvinul a dospěl do jednoduše použitelného systému a stále splňuje tyto původní
-předpoklady. Je neuvěřitelně rychlý, velmi efektivní i u velkých projektů a má nevídaný systém větvení (kap. 3)
+předpoklady. Je neuvěřitelně rychlý, bez velkých režijních nákladů i u obrovských projektů a má nevídaný systém větvení (kap. 3)
 pro nelineární vývoj.
 
 ## Základy Gitu ##
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Takže v kostce, co je to Git? Tohle je důležité vědět, protože pokud budete rozumět, co to Git je a jak zhruba funguje,
+bude pro vás pravděpodobně výrazně jednodušší ho používat efektivně. Až se Git naůčíte, zkuste zapomenout všechno,
+co jste věděli o ostatních SSV jako Subversion nebo Perforce. Git ukládá informace a přemýšlí o nich naprosto
+odlišným způsobem i přesto, že uživatelské rozhraní je dosti podobné. Porozumět těmto drobným rozdílům pomůže
+překonat možnou prvotní zmatenost z přechodu na Git.
 
-### Snapshots, Not Differences ###
+### Snapshoty, ne rozdíly ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Hlavní rozdíl mezi Gitem a ostatními SSV (Subversion a jeho přátelé) je způsob, jakým Git přemýšlí nad svými daty.
+Koncepcí většiny ostatních systémů je ukládat informace jako seznam změn v jednotlivých souborech. Udržují si sadu souborů
+a změny v nich provedené (obr. 1-4).
 
-Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Insert 18333fig0104.png
+Obrázek 1-4. Ostatní systémy obvykle ukládají data jako změny oproti základnímu stavu každého souboru.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho snapshotů malého filesystému. Pokaždé, když commitnete
+nebo uložíte stav svého projektu do Gitu, jednoduše udělá obrázek, jak teď právě vypadají všechny soubory, a uloží si to. Pro úsporu
+si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor. Git přemýšlí nad daty asi jako na obrázku 1-5.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Obrázek 1-5. Git ukládá data jako snapshoty projektu.
 
 This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
 

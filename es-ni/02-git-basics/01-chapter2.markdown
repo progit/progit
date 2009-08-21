@@ -6,21 +6,21 @@ Si solo pudieras leer un capítulo de este libro para poder trabajar con Git, es
 
 Tu puedes obtener un proyecto basado en Git utilizando dos métodos principales. El primero consiste en tomar un proyecto existente e importarlo dentro de Git. El segundo se basa en clonar un repositorio Git desde otro servidor.
 
-### Initializing a Repository in an Existing Directory ###
+### Inicializando un Pepositorio Dentro de un Directorio Preexistente ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+Si quisieramos comenzar a realizar un seguimiento de un proyecto con Git, lo que necesitamos es ir al directorio del proyecto y tipear
 
 	$ git init
 
-This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
+Esta acción creará un nuevo subdirecotrio llamado .git que contendrá todos los archivos necesarios por el repositorio (el esqueleto básico de un repositorio Git). En este punto, nada en el proyecto está siendo rastreado aún. (Revisa el Capítulo 9 para mayor información acerca de qué archivo son contenidos exáctamente dentro del directorio `.git` que acaba de ser creado.)
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
+Si quisieramos comenzar a llevar un control de versiones de los archivos existentes (en contraposición con un directorio vacío), entonces probablemente queramos comenzar a realizar un seguimiento de los archivos del directorio y realizar un commit inicial de los mismos. Puedes lograr esto con unos pocos comandos de git que especifican los archivos sobre los que quieres realizar un seguimientos, seguidos por un commit:
 
 	$ git add *.c
 	$ git add README
 	$ git commit –m 'initial project version'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+Volveremos sobre estos mismos comandos en solo un minuto. En este punto, ya tienes un repositorio Git con archivos versionados en el mismo y un commit inicial.
 
 ### Cloning an Existing Repository ###
 

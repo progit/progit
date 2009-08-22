@@ -72,13 +72,13 @@ Supongamos que agregas un nuevo archivo al proyecto, uno simple que se llame REA
 
 Podemos saber que el nuevo archivo llamado README aún no ha sido versionado gracias que aparece listado debajo de la cabecera "Untracked files" en la salida del comando. Sin versionar significa que Git notó que el archivo no existía en el snapshot previo (commit); Git no comenzará a incluirlo hasta que explícitamente le digamos que debe hacerlo. Lo hace de esta forma para evitar que accidentalmente comiencen a ser versionados archivos binarios generados por otros procesos u otros tipos de archivos que no deberían ser incluidos. Nosotros sí queremos que el archivo README sea versionado, así que le indicaremos q Git que comience el seguimiento del mismo.
 
-### Tracking New Files ###
+### Versionando Archivos Nuevos ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+Para versionar un archivo nuevo, puedes utilizar el comando `git add`. Para comenzar a versionar el archivo llamado README, puede ejecutar el siguiente comando:
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+Si ejecutas el comando de estado nuevamente, podrás notar que el archivo README ahora está versionado y 'estacionado':
 
 	$ git status
 	# On branch master
@@ -88,7 +88,7 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+Se puede decir que el archivo está estacionado debido a que está debajo de la cabecera “Changes to be committed” (“Cambios que será commiteados”). Si realizas un commit en este punto, la versión del archivo al momento en que ejecutaste el comando git add estará en el snapshot histórico. Si recuerdas el momento en que ejecutaste git init en las secciones anteriores, podrás recordas que también ejecutaste git add (nombre de los archivos), esto se realizo de esa manera para versionar todos los archivos que estaban dentro del directorio. El comando git add puede aceptar como parámetro tanto el nombre de un archivo como el nombre de un directorio; si es un directorio, el comando agregará todos los archivos dentro del mismo de forma recursiva.
 
 ### Staging Modified Files ###
 

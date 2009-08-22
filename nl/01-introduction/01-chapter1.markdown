@@ -64,10 +64,10 @@ Een groot verschil tussen Git en elke andere VCS (inclusief Subversion en consor
 Insert 18333fig0104.png 
 Figuur 1-4. Andere systemen bewaren data meestal als veranderingen aan een basisversie van elk bestand.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandsysteem. Elke keer dat je ‘commit’, de status van van je project in Git opslaat, neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie Git ongewijzigde bestanden niet elke keer opnieuw op—alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Figuur 1-5. Git bewaart data als momentopnames van het project.
 
 This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
 

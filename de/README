@@ -1,0 +1,34 @@
+# Deutsche Übersetzung
+
+Wenn du mitarbeiten willst, melde dich einfach. Ich werde dich als
+Collaborator hinzufügen - es ist leichter im gleichen Repository zu arbeiten.
+
+Wir haben die Arbeit bisher in keiner Weise strukturiert, mit Ausnahme der
+Konvention:
+
+-> Wenn du mit einem Kapitel anfangen willst, "checke" es dadurch "aus", daß
+   du eine neue, leere Datei dafür anlegst, commitest und pushst.
+
+Andere sehen dann, daß jemand bereits an diesem Kapitel arbeitet, und wir
+können hoffentlich doppelte Arbeit vermeiden.
+
+Einige Erfahrungen:
+
+* Es macht Sinn, die Englische Fassung des Textes zu kopieren und dann Absatz
+  für Absatz die Übersetzung einzufügen, das Original aber vorläufig stehen zu
+  lassen. Das macht es leichter, in späteren Iterationen mit dem Original zu
+  vergleichen.
+
+* Ich fand es nützlich in Iterationen zu arbeiten, um möglichst die ganze Zeit
+  mentail im gleichen "Modus" zu bleiben. In meiner ersten Iteration habe ich
+  das Original so zügig wie möglich übersetzt. Schwierigere Stellen oder Worte
+  habe ich lediglich mit "xxx" markiert und bin weitergegangen. In der zweiten
+  Iteration habe ich dann mehr auf den Stil geachtet, umformuliert und die
+  (wenigen) zuvor ausgelassenen Stellen nach-übersetzt.
+
+* Ich arbeite wesentlich effizienter, wenn ich mir eine Timebox setze und in
+  mich in dieser Zeit von nichts anderem ablenken lasse. Das funktioniert für
+  mich z.B. gut morgens in der U-Bahn auf dem Weg ins Office und nachmittags
+  wieder zurück. Dort kann ich etwa eine halbe Stunde lang ungestört
+  übersetzen - eine Zeitspanne, die ich als angenehm empfinde.
+

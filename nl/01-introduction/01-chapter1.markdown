@@ -116,7 +116,7 @@ De algemene manier van werken met Git gaat ongeveer zo:
 2.	Je bereid de bestanden voor, momentopnames worden toegevoegd aan de wachtrij.
 3.	Je maakt een commit, wat alle momentopnames van de wachtrij neemt en die permanent in je Gitmap opslaat.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd als gecommit. Als het aangepast, maar aan de wachtrij is toegevoegd, is het voorbereid. En als het veranderd is sinds het gekopiëerd was, maar niet voorbereid is, is het aangepast. In Hoofdstuk 2 leer je meer over deze toestanden en hoe er voordeel aan kan hebben, of de wachtrij over kan slaan.
 
 ## Installing Git ##
 

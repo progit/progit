@@ -99,12 +99,12 @@ Je zult nog veel plezier van Git hebben, omdat je weet dat je kun experimenteren
 
 Let nu goed op. Dit is het belangrijkste wat je over Git moet weten als je wilt dat de rest van het leerproces goed verloopt. Git heeft drie hoofdtoestanden waarin je bestanden kunnen zijn: gecommit (‘commited’), aangepast (‘modified’) en voorbereid voor een commit (‘staged’). Gecommit betekent dat alle data al veilig opgeslagen is in je lokale database. Aangepast betekent dat je je bestand hebt veranderd maar dat je nog geen nieuwe momentopname in je database hebt. Voorbereid betekend dat je al hebt aangegeven dat de huidige versie van het aangepaste bestand in je volgende momentopname toevoegt.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+Dit brengt ons tot de drie hoofdonderdelen van een Gitproject: de Gitmap, de werkmap, en de wachtrij voor een commit (‘staging area’)
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+Figuur 1-6. Werkmap, wachtrij en Gitmap
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+De Gitmap is waar Git de metadata en objectdatabase van je project opslaat. Dit is het belangrijkste deel van Git, dit is hetgene wat gekopiëerd wordt als je een repository kloont vanaf een andere computer.
 
 The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
 

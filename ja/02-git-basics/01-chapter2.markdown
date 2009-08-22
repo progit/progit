@@ -762,17 +762,17 @@ Git を使ったプロジェクトで共同作業を進めていくには、リ�
 
 Paul の master ブランチは、ローカルでは `pb/master` としてアクセスできます。これを自分のブランチにマージしたり、ローカルブランチとしてチェックアウトして中身を調べたりといったことが可能となります。
 
-### Fetching and Pulling from Your Remotes ###
+### リモートからのフェッチ、そしてプル ###
 
-As you just saw, to get data from your remote projects, you can run
+ごらんいただいたように、データをリモートリポジトリから取得するには次のコマンドを実行します。
 
 	$ git fetch [remote-name]
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
+このコマンドは、リモートプロジェクトのすべてのデータの中からまだあなたが持っていないものを引き出します。実行後は、リモートにあるすべてのブランチを参照できるようになり、いつでもそれをマージしたり中身を調べたりすることが可能となります (ブランチとは何なのか、どのように使うのかについては、第 3 章でより詳しく説明します)。
 
-If you cloned a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+リポジトリをクローンしたときには、リモートリポジトリに対して自動的に origin という名前がつけられます。つまり、`git fetch origin` とすると、クローンしたとき (あるいは直近でフェッチを実行したとき) 以降にサーバにプッシュされた変更をすべて取得することができます。ひとつ注意すべき点は、fetch コマンドはデータをローカルリポジトリに引き出すだけだということです。ローカルの環境にマージされたり作業中の内容を書き換えたりすることはありません。したがって、必要に応じて自分でマージをする必要があります。
 
-If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+リモートブランチを追跡するためのブランチを作成すれば (次のセクションと第 3 章で詳しく説明します)、`git pull` コマンドを使うことができます。これは、自動的にフェッチを行い、リモートブランチの内容を現在のブランチにマージします。おそらくこのほうが、よりお手軽で使いやすいことでしょう。またデフォルトで、`git clone` コマンドはローカルの master ブランチが (取得元サーバ上の) リモートの master ブランチを追跡するよう自動設定します (リモートに master ブランチが存在することを前提としています)。`git pull` を実行すると、通常は最初にクローンしたサーバからデータを取得し、現在作業中のコードへのマージを試みます。
 
 ### Pushing to Your Remotes ###
 

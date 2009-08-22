@@ -57,12 +57,12 @@ Sinds zijn geboorte in 2005 is Git gegroeid tot zijn huidige vorm: het is gemakk
 
 Dus, wat is Git in een notendop? Dit is een belangrijk deelhoofdstuk, omdat het waarschijnlijk een stuk makkelijker wordt om Git effectief te gebruiken als je goed begrijpt wat Git is en hoe het werkt. Probeer te vergeten wat je al weet over andere VCSen zoals Subversion en Perforce als je Git aan het leren bent; zo kan je verwarring door de subtiele verschillen voorkomen. Git gaat op een hele andere manier met informatie om dan die andere systemen, ook al lijken de verschillende commando’s behoorlijk op elkaar; als je die verschillen begrijpt, kan je voorkomen dat je verward raakt als je Git gebruikt.
 
-### Snapshots, Not Differences ###
+### Momentopnames in Plaats van Verschillen ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Een groot verschil tussen Git en elke andere VCS (inclusief Subversion en consorten) is hoe Git denkt over zijn data. Conceptueel bewaren de meeste andere systemen informatie als een lijst van veranderingen per bestand. Deze systemen (CVS, Subversion, Perforce, Bazaar, enzovoort) zien de informatie die ze bewaren als een aantal bestanden en de veranderingen die aan die bestanden zijn aangebracht over de tijd, zoals geïllustreerd in Figuur 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Figuur 1-4. Andere systemen bewaren data meestal als veranderingen aan een basisversie van elk bestand.
 
 Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
 

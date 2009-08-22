@@ -738,9 +738,9 @@ Git を使ったプロジェクトで共同作業を進めていくには、リ�
 
 つまり、これらのユーザによる変更を用意にプルして取り込めるということです。ここで、origin リモートだけが SSH の URL であることに注目しましょう。私がプッシュできるのは origin だけだということになります (なぜそうなるのかについては第 4 章で説明します)。
 
-### Adding Remote Repositories ###
+### リモートリポジトリの追加 ###
 
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+これまでのセクションでも何度かリモートリポジトリの追加を行ってきましたが、ここで改めてその方法をきちんと説明しておきます。新しいリモート Git リポジトリにアクセスしやすいような名前をつけて追加するには、`git remote add [shortname] [url]` を実行します。
 
 	$ git remote
 	origin
@@ -749,7 +749,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+これで、コマンドラインに URL を全部打ち込むかわりに pb という文字列を指定するだけでよくなりました。たとえば、Paul が持つ情報の中で自分のリポジトリにまだ存在しないものをすべて取得するには、git fetch pb を実行すればよいのです。
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -760,7 +760,7 @@ Now you can use the string pb on the command line in lieu of the whole URL. For 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+Paul の master ブランチは、ローカルでは `pb/master` としてアクセスできます。これを自分のブランチにマージしたり、ローカルブランチとしてチェックアウトして中身を調べたりといったことが可能となります。
 
 ### Fetching and Pulling from Your Remotes ###
 

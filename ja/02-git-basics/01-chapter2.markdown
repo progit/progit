@@ -844,17 +844,17 @@ Git をもっと使い込むようになると、`git remote show` で得られ�
 
 多くの VCS と同様に Git にもタグ機能があり、歴史上の重要なポイントに印をつけることができます。一般に、この機能は (バージョン 1.0 などの) リリースポイントとして使われています。このセクションでは、既存のタグ一覧の取得や新しいタグの作成、さまざまなタグの形式などについて扱います。
 
-### Listing Your Tags ###
+### タグの一覧表示 ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+Git で既存のタグの一覧を表示するのは簡単で、単に `git tag` と打ち込むだけです。
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+このコマンドは、タグをアルファベット順に表示します。この表示順に深い意味はありません。
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+パターンを指定してタグを検索することもできます。Git のソースリポジトリを例にとると、240 以上のタグが登録されています。その中で 1.4.2 系のタグのみを見たい場合は、このようにします。
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1

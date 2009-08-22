@@ -83,11 +83,11 @@ Dat betekend dat er maar heel weinig is dat je niet kan doen als je offline bent
 
 Git maakt een controlegetal (‘checksum’) van alles voordat het wordt opgeslaten, en er wordt later naar die data verwezen met dat controlegetal. Dat betekent dat het onmogelijk is om de inhoud van een bestand of map te veranderen zonder dat Git ervanaf weet. Deze functionaliteit is ingebouwd in de diepste diepten van Git en staat centraal in zijn filosofie. Je kan geen informatie kwijtraken als het wordt verstuurd en bestanden kunnen niet corrupt raken zonder dat Git het doorheeft.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Het mechanisme dat Git gebruikt voor die controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en berekend met de inhoud van een bestand of mapstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Je zal deze hashtekenreeksen overal tegenkomen in Git, omdat het er zoveel gebruik van maakt. Sterker nog, Git bewaart data niet onder hun bestandsnaam maar in de database van Git, onder de hash van zijn inhoud.
 
 ### Git Generally Only Adds Data ###
 

@@ -93,18 +93,27 @@ It’s also important to mention that this isn’t necessarily the fastest optio
 Es ist auch wichtig zu erwähnen, dass dies nicht unbedingt die schnellste Möglichkeit ist, wenn du ein gemeinsames Dateisystem oder ähnliches hast. Ein lokales Repository ist nur dann schnell, wenn du schnellen Zugriff auf die Daten hast. Ein NFS-basiertes Repository ist oftmals langsamer als ein Repository über SSH auf dem gleichen Server, weil Git über SSH auf jedem System auf den lokalen Festplatten arbeitet.
 
 ### The SSH Protocol ###
+### Das SSH Protokoll ###
 
 Probably the most common transport protocol for Git is SSH. This is because SSH access to servers is already set up in most places — and if it isn’t, it’s easy to do. SSH is also the only network-based protocol that you can easily read from and write to. The other two network protocols (HTTP and Git) are generally read-only, so even if you have them available for the unwashed masses, you still need SSH for your own write commands. SSH is also an authenticated network protocol; and because it’s ubiquitous, it’s generally easy to set up and use.
 
+Das vermutlich gebräuchlichste Transport-Protokoll für Git ist SSH. Das hat den Grund, weil der SSH-Zugriff an den meisten Orten bereits eingerichtet ist - und wenn das nicht der Fall ist, ist es einfach zu machen. SSH ist außerdem das einzige Netzwerk-basierte Protokoll von dem man einfach lesen und darauf schreiben kann. Die beiden anderen Netzwerk-Protokolle (HTTP und Git) sind nur lesbar. Auch wenn sie für die breite Masse sind, brauchst du trotzdem SSH für deine Schreib-Befehle. SSH ist auch ein authentifiziertes Netzwerk-Protokoll, und weil es universell ist, ist es im Allgemeinen einfach einzurichten und zu benutzen. 
+
 To clone a Git repository over SSH, you can specify ssh:// URL like this:
+
+Um ein Git Repository über SSH zu clonen, kannst du eine ssh:// URL angeben:
 
 	$ git clone ssh://user@server:project.git
 
 Or you can not specify a protocol — Git assumes SSH if you aren’t explicit:
+
+Oder du kannst auch kein Protokoll angeben - Git nimmt SSH an, wenn du nicht eindeutig bist:
 	
 	$ git clone user@server:project.git
 
 You can also not specify a user, and Git assumes the user you’re currently logged in as.
+
+Du kannst auch keinen Benutzer angeben, und Git nimmt den Benutzer an, als der du gerade eingeloggt bist.
 
 #### The Pros ####
 

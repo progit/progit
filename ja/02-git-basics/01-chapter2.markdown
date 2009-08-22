@@ -774,13 +774,13 @@ Paul の master ブランチは、ローカルでは `pb/master` としてアク
 
 リモートブランチを追跡するためのブランチを作成すれば (次のセクションと第 3 章で詳しく説明します)、`git pull` コマンドを使うことができます。これは、自動的にフェッチを行い、リモートブランチの内容を現在のブランチにマージします。おそらくこのほうが、よりお手軽で使いやすいことでしょう。またデフォルトで、`git clone` コマンドはローカルの master ブランチが (取得元サーバ上の) リモートの master ブランチを追跡するよう自動設定します (リモートに master ブランチが存在することを前提としています)。`git pull` を実行すると、通常は最初にクローンしたサーバからデータを取得し、現在作業中のコードへのマージを試みます。
 
-### Pushing to Your Remotes ###
+### リモートへのプッシュ ###
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+あなたのプロジェクトがみんなと共有できる状態に達したら、それを上流にプッシュしなければなりません。そのためのコマンドが `git push [remote-name] [branch-name]` です。master ブランチの内容を `origin` サーバ (何度も言いますが、クローンした地点でこのブランチ名とサーバ名が自動設定されます) にプッシュしたい場合は、このように実行します。
 
 	$ git push origin master
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
+このコマンドが動作するのは、自分が書き込みアクセス権を持つサーバからクローンし、かつその後だれもそのサーバにプッシュしていない場合のみです。あなた以外の誰かが同じサーバからクローンし、誰かが上流にプッシュした後で自分がプッシュしようとすると、それは拒否されます。拒否された場合は、まず誰かがプッシュした作業内容を引き出してきてローカル環境で調整してからでないとプッシュできません。リモートサーバへのプッシュ方法の詳細については第 3 章を参照ください。
 
 ### Inspecting a Remote ###
 

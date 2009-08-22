@@ -79,9 +79,9 @@ Een voorbeeld: Git hoeft niet aan een of andere server de geschiedenis van je pr
 
 Dat betekend dat er maar heel weinig is dat je niet kan doen als je offline bent of zonder VPN zit. Als je in een vliegtuig of trein zit, en je wilt nog even een beetje werken, kan je vrolijk doorgaan met commits maken tot je een netwerkverbinding krijgt, zodat je je werk kan uploaden. Als je naar huis gaat, en je VPN client niet aan de praat kan krijgen, kan je nog steeds doorwerken. Bij veel andere systemen is dat of onmogelijk, of anders zeer onaangenaam. Als je bijvoorbeeld Perforce gebruikt, kan je niet zo veel doen als je niet verbonden bent met de server; en met Subversion en CVS kan je bestanden bewerken, maar je kan geen commits maken voor je database (omdat die offline is). Dat lijkt misschien niet zo belangrijk, maar je zal nog versteld staan wat een verschil het kan maken.
 
-### Git Has Integrity ###
+### Git Is Integer ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Git maakt een controlegetal (‘checksum’) van alles voordat het wordt opgeslaten, en er wordt later naar die data verwezen met dat controlegetal. Dat betekent dat het onmogelijk is om de inhoud van een bestand of map te veranderen zonder dat Git ervanaf weet. Deze functionaliteit is ingebouwd in de diepste diepten van Git en staat centraal in zijn filosofie. Je kan geen informatie kwijtraken als het wordt verstuurd en bestanden kunnen niet corrupt raken zonder dat Git het doorheeft.
 
 The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
 

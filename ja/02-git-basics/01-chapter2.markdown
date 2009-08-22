@@ -950,9 +950,9 @@ GPG 秘密鍵を持っていれば、タグに署名をすることができま�
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### タグの検証 ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+署名付きのタグを検証するには `git tag -v [tag-name]` を使用します。このコマンドは、GPG を使って署名を検証します。これを正しく実行するには、署名者の公開鍵があなたの鍵リングに含まれている必要があります。
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -968,7 +968,7 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-If you don’t have the signer’s public key, you get something like this instead:
+署名者の公開鍵を持っていない場合は、このようなメッセージが表示されます。
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found

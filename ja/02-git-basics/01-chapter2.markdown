@@ -895,16 +895,16 @@ Git では、注釈付きのタグをシンプルな方法で作成できます�
 
 タグ付けした人の情報とその日時、そして注釈メッセージを表示したあとにコミットの情報が続きます。
 
-### Signed Tags ###
+### 署名付きのタグ ###
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+GPG 秘密鍵を持っていれば、タグに署名をすることができます。その場合は `-a` の場合に `-s` を指定すればいいだけです。
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+このタグに対して `git show` を実行すると、あなたの GPG 署名が表示されます。
 
 	$ git show v1.5
 	tag v1.5
@@ -926,7 +926,7 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+タグの署名を検証する方法については後ほど説明します。
 
 ### Lightweight Tags ###
 

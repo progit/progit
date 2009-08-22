@@ -149,33 +149,35 @@ Ambos archivos están estacionados y serán enviados en el próximo commit. En e
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### Ignorando Archivos ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+A menudo, habrá determinado tipo de archivos que no querrás que Git automáticamente agregue o siquiera que te los muestre como no versionados. Estos archivos son generalmente generados automáticamente, como suelen ser archivos de log o archivos generados por procesos de compilación. En estos casos, puedes crear un archivo listando los patrones de nombre que quieren que sean ignorados y nombrar este archivo .gitignor. A continuación encontrarás un ejemplo de un archivot .gitignore:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+La primer línea le indica a Git que ignore cualquier archivo que finalice con .o o .a, archivos objeto que suelen ser el producto de procesos de compilación de código fuente. La segunda línea le indica a Git que ignore todos los archivos que finalizan con una tild (`~`), como los que son utilizados por muchos editores de textos como archivos temporales; y demás. Configurar un archivo .gitignore antes de comenzar a trabajar suele ser por lo general una buena idea para evitar que accidentalmente commitees archivos que realmente no quieres que estén en tu repositorio Git.
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+Las reglas para los patrones que pueden ser incluidos en el archivo .gitignore son:
 
-*	Blank lines or lines starting with # are ignored.
+*	Las líneas en blanco o que comienzan con # son ignoradas.
 *	Standard glob patterns work.
 *	You can end patterns with a forward slash (`/`) to specify a directory.
+*	Puedes especificar un directorio agregando un barra (`/`) al final del patrón.
 *	You can negate a pattern by starting it with an exclamation point (`!`).
+*	Puedes negar un patrón anteponiéndole un signo de exclamación (`!`) al principio.
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+Los patrones globales son expresiones regulares simplificadas que pueden ser utilizadas por el shell. Un asterisco (`*`) reconoce creo o más caracteres; `[abc]` reconoce cualquier caracter que se encuentre entre los corchetes; un signo de pregunta cerrado (`?`) reconoce un caracter y caracteres separados por un guión encerrados entres corchetes (`[0-9]`) reconoce cualquier caracter que se encuentre entre ellos (en este caso de 0 a 9).
 
-Here is another example .gitignore file:
+Aquí hay otro ejemplo de un archivo .gitignore:
 
-	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# un comentario - es ignorado
+	*.a       # ningún archivo .a
+	!lib.a    # pero si queremos versionar el archivo lib.a, incluse aunque estemos ignorando los archivos .a más arriba
+	/TODO     # solo ignorar el archivo TODO del directorio raíz, no de los subdirectorios
+	build/    # ignorar todos los archivos dentro del directorio build/
+	doc/*.txt # ignorar el archivo doc/notes.txt, pero no doc/server/arch.txt
 
 ### Viewing Your Staged and Unstaged Changes ###
 

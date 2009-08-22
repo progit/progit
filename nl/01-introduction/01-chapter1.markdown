@@ -69,7 +69,7 @@ Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan word
 Insert 18333fig0105.png 
 Figuur 1-5. Git bewaart data als momentopnames van het project.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Dat is een belangrijk verschil tussen Git en bijna alle VCSen. Hierdoor vindt Git bijna elk onderdeel van versiebeheer opnieuw uit, terwijl de meeste andere systemen het allemaal gewoon overnemen van de eerdere generaties. Hierdoor is Git meer een soort miniatuurbestandssysteem met een paar ongelooflijk krachtige gereedschappen, in plaats van niets meer dan een VCS. We zullen een paar van de voordelen die je krijgt als je op die manier over data denkt gaan onderzoeken, als we het gaan hebben over ‘branches’ (takken van ontwikkeling) gaan hebben in Hoofdstuk 3 .
 
 ### Nearly Every Operation Is Local ###
 

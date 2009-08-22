@@ -30,7 +30,7 @@ You clone a repository with `git clone [url]`. For example, if you want to clone
 
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
+That creates a directory named grit, initialize a `.git` directory inside it, pull down all the data for that repository, and check out a working copy of the latest version. If you go into the new grit directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
@@ -858,7 +858,7 @@ This command lists the tags in alphabetical order; the order in which they appea
 
 You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
 
-	$ git tag -l 'v1.4.2.*'
+	$ git tag -l v1.4.2.*
 	v1.4.2.1
 	v1.4.2.2
 	v1.4.2.3

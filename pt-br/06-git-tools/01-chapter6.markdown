@@ -558,7 +558,7 @@ Running this command gives you a list of commits in your text editor that looks 
 
 It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
 
-	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
+	$ git log --pretty=format:"%h %s HEAD~3..HEAD"
 	a5f4a0d added cat-file
 	310154e updated README formatting and added blame
 	f7f3f6d changed my name a bit

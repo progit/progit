@@ -1,0 +1,15 @@
+default:
+  font: DejaVu Serif
+  mono: DejaVu Sans Mono
+  chap: "Chapter "
+  sect: "Section "
+  fig: "Figure "
+  tab: "Table "
+zh:
+  font: AR PL UMing CN
+  fig: "图 "
+ja:
+  font: Kochi Mincho
+  fig: 図
+ru:
+  fig: "рисунок "

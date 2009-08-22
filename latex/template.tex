@@ -1,0 +1,71 @@
+\documentclass[a4paper,twoside]{book}
+\usepackage[
+	urlbordercolor = {1 1 1},
+	linkbordercolor = {1 1 1},
+	citebordercolor = {1 1 1},
+	urlcolor = blue,
+	colorlinks = true,
+	citecolor = black,
+	linkcolor = black]{hyperref}
+\usepackage{graphicx}
+\usepackage{xltxtra}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+
+\setromanfont{<%= config['font'] %>}
+\setmonofont{<%= config['mono'] %>}
+
+\XeTeXlinebreaklocale{<%= lang %>}
+
+\title{Pro Git}
+\author{Scott Chacon}
+
+\makeatletter
+\let\savedauthor=\@author
+\let\savedtitle=\@title
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+\else\Gin@nat@width\fi}
+\makeatother
+
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[LE,RO]{\footnotesize\textbf\thepage}}
+\pagestyle{plain}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcounter{img}[chapter]
+\renewcommand{\theimg}{\thechapter.\arabic{img}}
+\newcommand{\img}[1]{\begin{figure}[h!]
+	\refstepcounter{img}
+	\label{img:\theimg}
+	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}
+	\textbf{\caption{#1}}
+\end{figure}}
+
+\renewcommand{\chaptermark}[1]{\markboth{\textbf{<%= config['chap'] %>\thechapter}\hspace*{1ex}#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\textbf{<%= config['sect'] %>\thesection}\hspace*{1ex}#1}}
+\newcommand{\chap}[1]{\newpage\thispagestyle{empty}\chapter{#1}\label{chap:\thechapter}}
+\newcommand{\chapref}[1]{\hyperref[chap:#1]{<%= config['chap'] %>#1}}
+\newcommand{\imgref}[1]{\hyperref[img:#1]{<%= config['fig'] %>#1}}
+\newcommand{\tabref}[1]{\hyperref[tab:#1]{<%= config['tab'] %>#1}}
+\newcommand{\e}[1]{$ \times 10^{#1}$}
+
+\linespread{1.03}
+
+\begin{document}
+\frontmatter
+\maketitle
+\thispagestyle{empty}
+\setcounter{tocdepth}{4}
+\tableofcontents\newpage\thispagestyle{empty}
+
+\mainmatter
+\fancyhf{}
+\fancyhead[LO]{{\small\leftmark}}
+\fancyhead[LE]{{\small\rightmark}}
+\fancyhead[R]{{\small\savedauthor\hspace*{1ex}\textbf{\savedtitle}}}
+\fancyfoot[LE,RO]{\small\textbf\thepage}
+\pagestyle{fancy}
+
+<%= latex %>
+\end{document}

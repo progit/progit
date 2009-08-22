@@ -163,7 +163,7 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 
 在 Mac 上安装 Git 有两种方式。最容易的当属使用图形化的 Git 安装工具，界面如图 1-7，下载地址在：
 
-http://code.google.com/p/git-osx-installer
+	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
 图 1-7. Git OS X 安装工具体

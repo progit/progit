@@ -706,9 +706,9 @@ Git にコミットした内容のすべては、ほぼ常に取り消しが可�
 
 Git を使ったプロジェクトで共同作業を進めていくには、リモートリポジトリの扱い方を知る必要があります。リモートリポジトリとは、インターネット上あるいはその他ネットワーク上のどこかに存在するプロジェクトのことです。複数のリモートリポジトリを持つこともできますし、それぞれを読み込み専用にしたり読み書き可能にしたりすることもできます。他のメンバーと共同作業を進めていくにあたっては、これらのリモートリポジトリを管理し、必要に応じてデータのプル・プッシュを行うことで作業を分担していくことになります。リモートリポジトリの管理には「リモートリポジトリの追加」「不要になったリモートリポジトリの削除」「リモートブランチの管理や追跡対象/追跡対象外の設定」などさまざまな作業が含まれます。このセクションでは、これらの作業について説明します。
 
-### Showing Your Remotes ###
+### リモートの表示 ###
 
-To see which remote servers you have configured, you can run the git remote command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
+今までにどのリモートサーバを設定したのかを知るには git remote コマンドを実行します。これは、今までに設定したリモートハンドルの名前を一覧表示します。リポジトリをクローンしたのなら、少なくとも origin という名前が見えるはずです。これは、クローン元のサーバに対して Git がデフォルトでつける名前です。
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -721,12 +721,12 @@ To see which remote servers you have configured, you can run the git remote comm
 	$ git remote 
 	origin
 
-You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+`-v` を指定すると、その名前に対応する URL を表示します。
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
-If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
+複数のリモートを設定している場合は、このコマンドはそれをすべて表示します。たとえば、私の Grit リポジトリの場合はこのようになっています。
 
 	$ cd grit
 	$ git remote -v
@@ -736,7 +736,7 @@ If you have more than one remote, the command lists them all. For example, my Gr
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in Chapter 4).
+つまり、これらのユーザによる変更を用意にプルして取り込めるということです。ここで、origin リモートだけが SSH の URL であることに注目しましょう。私がプッシュできるのは origin だけだということになります (なぜそうなるのかについては第 4 章で説明します)。
 
 ### Adding Remote Repositories ###
 

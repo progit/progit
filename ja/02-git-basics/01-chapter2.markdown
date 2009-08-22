@@ -1045,9 +1045,9 @@ GPG 秘密鍵を持っていれば、タグに署名をすることができま�
 
 これで、誰か他の人がリポジトリのクローンやプルを行ったときにすべてのタグを取得できるようになりました。
 
-## Tips and Tricks ##
+## ヒントと裏技 ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+Git の基本を説明した本章を終える前に、ほんの少しだけヒントと裏技を披露しましょう。これを知っておけば、Git をよりシンプルかつお手軽に使えるようになり、Git になじみやすくなることでしょう。ほとんどの人はこれらのことを知らずに Git を使っています。別にどうでもいいことですし本書の後半でこれらの技を使うわけでもないのですが、その方法ぐらいは知っておいたよいでしょう。
 
 ### Auto-Completion ###
 

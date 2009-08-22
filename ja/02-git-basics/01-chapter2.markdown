@@ -782,9 +782,9 @@ Paul の master ブランチは、ローカルでは `pb/master` としてアク
 
 このコマンドが動作するのは、自分が書き込みアクセス権を持つサーバからクローンし、かつその後だれもそのサーバにプッシュしていない場合のみです。あなた以外の誰かが同じサーバからクローンし、誰かが上流にプッシュした後で自分がプッシュしようとすると、それは拒否されます。拒否された場合は、まず誰かがプッシュした作業内容を引き出してきてローカル環境で調整してからでないとプッシュできません。リモートサーバへのプッシュ方法の詳細については第 3 章を参照ください。
 
-### Inspecting a Remote ###
+### リモートの調査 ###
 
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+特定のリモートの情報をより詳しく知りたい場合は `git remote show [remote-name]` コマンドを実行します。たとえば `origin` のように名前を指定すると、このような結果が得られます。
 
 	$ git remote show origin
 	* remote origin
@@ -795,9 +795,9 @@ If you want to see more information about a particular remote, you can use the `
 	    master
 	    ticgit
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+リモートリポジトリの URL と、追跡対象になっているブランチの情報が表示されます。また、ご丁寧にも「master ブランチ上で `git pull` すると、リモートの情報を取得した後で自動的にリモートの master ブランチの内容をマージする」という説明があります。また、引き出してきたすべてのリモート情報も一覧表示されます。
 
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+Git をもっと使い込むようになると、`git remote show` で得られる情報はどんどん増えていきます。たとえば次のような結果を得ることになるかもしれません。
 
 	$ git remote show origin
 	* remote origin
@@ -821,7 +821,7 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+このコマンドは、特定のブランチ上で `git push` したときにどのブランチに自動プッシュされるのかを表示しています。また、サーバ上のリモートブランチのうちまだ手元に持っていないもの、手元にあるブランチのうちすでにサーバ上では削除されているもの、`git pull` を実行したときに自動的にマージされるブランチなども表示されています。
 
 ### Removing and Renaming Remotes ###
 

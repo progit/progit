@@ -974,9 +974,9 @@ GPG 秘密鍵を持っていれば、タグに署名をすることができま�
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Tagging Later ###
+### 後からのタグ付け ###
 
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+過去にさかのぼってコミットにタグ付けすることもできます。仮にあなたのコミットの歴史が次のようなものであったとしましょう。
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -990,11 +990,11 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+今になって、このプロジェクトに v1.2 のタグをつけるのを忘れていたことに気づきました。本来なら "updated rakefile" のコミットにつけておくべきだったものです。しかし今からでも遅くありません。特定のコミットにタグをつけるには、そのコミットのチェックサム (あるいはその一部) をコマンドの最後に指定します。
 
 	$ git tag -a v1.2 9fceb02
 
-You can see that you’ve tagged the commit:
+これで、そのコミットにタグがつけられたことが確認できます。
 
 	$ git tag 
 	v0.1

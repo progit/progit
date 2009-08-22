@@ -89,9 +89,9 @@ Het mechanisme dat Git gebruikt voor die controlegetallen heet een SHA-1-hash. D
 
 Je zal deze hashtekenreeksen overal tegenkomen in Git, omdat het er zoveel gebruik van maakt. Sterker nog, Git bewaart data niet onder hun bestandsnaam maar in de database van Git, onder de hash van zijn inhoud.
 
-### Git Generally Only Adds Data ###
+### Git Voegt Normaal Gesproken Alleen Data Toe ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Wanneer je iets doet in Git, is de kans groot dat het alleen maar data aan de database van Git toevoegt. Het is erg moeilijk om het systeem iets te laten doen wat je niet ongedaan kan maken, of het data uit te laten wissen op wat voor manier dan ook. Zoals met elke VCS kan je veranderingen verliezen of verhaspelen waar je nog geen momentopname van hebt gemaakt; maar als je dat eenmaal hebt gedaan, is het erg moeilijk om die data te verliezen, zeker als je je lokale database regelmatig uploadt (‘push’) naar een ander repository.
 
 This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
 

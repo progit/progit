@@ -149,13 +149,13 @@ Als dat allemaal klaar is, kan je de nieuwste versie van Git ophalen met dit com
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### Op Linux Installeren ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Als je direct de uitvoerbare bestanden van Git op Linux wilt installeren, kan je dat meestal doen door het standaard pakketbeheersysteem dat meegeleverd is met je distributie. Als je Fedora gebruikt kan je yum gebruiken:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Of als je een distributie hebt dat op Debian gebaseerd is, zoals Ubuntu, kan je apt-get proberen:
 
 	$ apt-get install git-core
 

@@ -118,9 +118,9 @@ De algemene manier van werken met Git gaat ongeveer zo:
 
 Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd als gecommit. Als het aangepast, maar aan de wachtrij is toegevoegd, is het voorbereid. En als het veranderd is sinds het gekopiëerd was, maar niet voorbereid is, is het aangepast. In Hoofdstuk 2 leer je meer over deze toestanden en hoe er voordeel aan kan hebben, of de wachtrij over kan slaan.
 
-## Installing Git ##
+## Git Installeren ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Laten we eens een beetje Git gebruiken. Je kan natuurlijk niet meteen beginnen — je moet het eerst installeren. Er zijn een aantal manieren om eraan te komen; te belangrijkste twee zijn installeren vanaf broncode, en een bestaand pakket voor jouw platform te gebruiken.
 
 ### Installing from Source ###
 

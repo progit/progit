@@ -1047,31 +1047,31 @@ GPG 秘密鍵を持っていれば、タグに署名をすることができま�
 
 ## ヒントと裏技 ##
 
-Git の基本を説明した本章を終える前に、ほんの少しだけヒントと裏技を披露しましょう。これを知っておけば、Git をよりシンプルかつお手軽に使えるようになり、Git になじみやすくなることでしょう。ほとんどの人はこれらのことを知らずに Git を使っています。別にどうでもいいことですし本書の後半でこれらの技を使うわけでもないのですが、その方法ぐらいは知っておいたよいでしょう。
+Git の基本を説明した本章を終える前に、ほんの少しだけヒントと裏技を披露しましょう。これを知っておけば、Git をよりシンプルかつお手軽に使えるようになり、Git になじみやすくなることでしょう。ほとんどの人はこれらのことを知らずに Git を使っています。別にどうでもいいことですし本書の後半でこれらの技を使うわけでもないのですが、その方法ぐらいは知っておいたほうがよいでしょう。
 
-### Auto-Completion ###
+### 自動補完 ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+Bash シェルを使っているのなら、Git にはよくできた自動補完スクリプトが付属しています。Git のソースコードをダウンロードし、`contrib/completion` ディレクトリを見てみましょう。`git-completion.bash` というファイルがあるはずです。このファイルをホームディレクトリにコピーし、それを `.bashrc` ファイルに追加しましょう。
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+すべてのユーザに対して Git 用の Bash シェル補完を使わせたい場合は、Mac なら `/opt/local/etc/bash_completion.d` ディレクトリ、Linux 系なら `/etc/bash_completion.d/` ディレクトリにこのスクリプトをコピーします。Bash は、これらのディレクトリにあるスクリプトを自動的に読み込んでシェル補完を行います。
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+Windows で Git Bash を使用している人は、msysGit で Windows 版 Git をインストールした際にデフォルトでこの機能が有効になっています。
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+Git コマンドの入力中にタブキーを押せば、補完候補があらわれて選択できるようになります。
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+ここでは、git co と打ち込んだ後にタブキーを二度押してみました。すると commit と config という候補があらわれました。さらに `m<tab>` と入力すると、自動的に `git commit` と補完されます。
 	
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+これは、コマンドのオプションに対しても機能します。おそらくこっちのほうがより有用でしょう。たとえば、`git log` を実行しようとしてそのオプションを思い出せなかった場合、タブキーを押せばどんなオプションを使えるのかがわかります。
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+この裏技を使えば、ドキュメントを調べる時間を節約できることでしょう。
 
 ### Git Aliases ###
 

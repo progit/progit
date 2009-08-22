@@ -122,9 +122,9 @@ Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd 
 
 Laten we eens een beetje Git gebruiken. Je kan natuurlijk niet meteen beginnen — je moet het eerst installeren. Er zijn een aantal manieren om eraan te komen; te belangrijkste twee zijn installeren vanaf broncode, en een bestaand pakket voor jouw platform te gebruiken.
 
-### Installing from Source ###
+### Installeren Vanaf de Bron ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Als het mogelijk is, is het meestal handig om Git vanaf de broncode te installeren, omdat je dan altijd de nieuwste versie hebt. Elke versie van Git brengt meestal goede verbeteringen aan de gebruikersinterface met zich mee, dus de laatste versie is vaak de beste manier als je het gewend bent software vanaf de broncode te compileren. Vaak hebben Linuxdistributies behoorlijk oude pakketen; dus tenzij je een hele up-to-date distro hebt of ‘backports’ (verbeteringen van een nieuwe versie op een oudere versie toepassen) gebruikt, is installeren vanaf broncode misschien wel de beste manier voor jou.
 
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 

@@ -866,9 +866,9 @@ Git で既存のタグの一覧を表示するのは簡単で、単に `git tag`
 
 Git のタグには、軽量 (lightweight) 版と注釈付き (annotated) 版の二通りがあります。軽量版のタグは、変更のないブランチのようなものです。特定のコミットに対する単なるポインタでしかありません。しかし注釈付きのタグは、Git データベース内に完全なオブジェクトとして格納されます。チェックサムが付き、タグを作成した人の名前・メールアドレス・作成日時・タグ付け時のメッセージなども含まれます。また、署名をつけて GNU Privacy Guard (GPG) で検証することもできます。一般的には、これらの情報を含められる注釈付きのタグを使うことをおすすめします。しかし、一時的に使うだけのタグである場合や何らかの理由で情報を含めたくない場合は、軽量版のタグも使用可能です。
 
-### Annotated Tags ###
+### 注釈付きのタグ ###
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+Git では、注釈付きのタグをシンプルな方法で作成できます。もっとも簡単な方法は、`tag` コマンドの実行時に `-a` を指定することです。
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -876,9 +876,9 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+`-m` で、タグ付け時のメッセージを指定します。これはタグとともに格納されます。注釈付きタグの作成時にメッセージを省略すると、エディタが立ち上がるのでそこでメッセージを記入します。
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+タグのデータとそれに関連づけられたコミットを見るには `git show` コマンドを使用します。
 
 	$ git show v1.4
 	tag v1.4
@@ -893,7 +893,7 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+タグ付けした人の情報とその日時、そして注釈メッセージを表示したあとにコミットの情報が続きます。
 
 ### Signed Tags ###
 

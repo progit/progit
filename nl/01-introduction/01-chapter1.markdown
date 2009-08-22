@@ -134,18 +134,18 @@ Om Git te installeren heb je de volgende bibliotheken (‘libraries’) nodig: c
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
 	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Als je alle benodigdheden hebt, kan je de laatste momentopname van Git van de officiële website downloaden:
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+Daarna compileren en installeren:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Als dat allemaal klaar is, kan je de nieuwste versie van Git ophalen met dit commando:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	

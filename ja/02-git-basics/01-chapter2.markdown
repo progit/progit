@@ -841,9 +841,9 @@ If you want to remove a reference for some reason — you’ve moved the server 
 	$ git remote
 	origin
 
-## Tagging ##
+## タグ ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+多くの VCS と同様に Git にもタグ機能があり、歴史上の重要なポイントに印をつけることができます。一般に、この機能は (バージョン 1.0 などの) リリースポイントとして使われています。このセクションでは、既存のタグ一覧の取得や新しいタグの作成、さまざまなタグの形式などについて扱います。
 
 ### Listing Your Tags ###
 

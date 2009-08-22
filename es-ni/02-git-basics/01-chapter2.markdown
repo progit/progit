@@ -49,17 +49,17 @@ As you edit files, Git sees them as modified, because you’ve changed them sinc
 Insert 18333fig0201.png 
 Fig 2-1. The lifecycle of the status of your files
 
-### Checking the Status of Your Files ###
+### Revisando el Estado de Tus Archivos ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+La herramienta principal que se utiliza para determinar qué archivos están en qué estados es el comando git status. Si ejecutas este comando inmediatamente después de realizar una clonación, deberías visualizar una salida similar a la siguiente:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+Esto significa que tienes una copia de trabajo limpia, en otras palabras, que no hay ningún archivo versionado que haya sido modificado. Git tampoco detectó ningún archivo sin versionar, de otra manera debería estar listado aquí. Por último, el comando indica en qué branch estás trabajando. Por ahora, siempre será master, que es el branch por defecto; no hace falta que te preocupes por saber qué significa en este punto aún. En el próximo capítulo analizaremos los branches y referencias en detalle.
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+Supongamos que agregas un nuevo archivo al proyecto, uno simple que se llame README. Si el archivo no existía con anterioridad, al ejecutar el comando `git status`, verás los archivos sin versionar de la siguiente forma:
 
 	$ vim README
 	$ git status
@@ -70,7 +70,7 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+Podemos saber que el nuevo archivo llamado README aún no ha sido versionado gracias que aparece listado debajo de la cabecera "Untracked files" en la salida del comando. Sin versionar significa que Git notó que el archivo no existía en el snapshot previo (commit); Git no comenzará a incluirlo hasta que explícitamente le digamos que debe hacerlo. Lo hace de esta forma para evitar que accidentalmente comiencen a ser versionados archivos binarios generados por otros procesos u otros tipos de archivos que no deberían ser incluidos. Nosotros sí queremos que el archivo README sea versionado, así que le indicaremos q Git que comience el seguimiento del mismo.
 
 ### Tracking New Files ###
 

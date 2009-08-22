@@ -108,7 +108,7 @@ De Gitmap is waar Git de metadata en objectdatabase van je project opslaat. Dit 
 
 De werkmap is een kopie van een bepaalde versie van het project (een ‘checkout’). Deze bestanden worden uit de gecomprimeerde database in de Gitmap gehaald en op de harde schijf geplaatst waar jij het kan gebruiken of bewerken.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+De wachtrij is een simpel bestand, dat zich in het algemeen in je Gitmap bevindt, dat informatie opslaat over wat in de volgende commit moet. Het wordt soms de index genoemd, maar tegenwoordig wordt het de wachtrij (staging area) genoemd.
 
 De algemene manier van werken met Git gaat ongeveer zo:
 

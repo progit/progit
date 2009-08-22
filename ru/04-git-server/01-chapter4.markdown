@@ -16,29 +16,45 @@ If you have no interest in running your own server, you can skip to the last sec
 
 A remote repository is generally a _bare repository_ — a Git repository that has no working directory. Because the repository is only used as a collaboration point, there is no reason to have a snapshot checked out on disk; it’s just the Git data. In the simplest terms, a bare repository is the contents of your project’s `.git` directory and nothing else.
 
-## The Protocols ##
+## Протоколы ##
+
+Git умеет работать с четыремя сетевыми протоколами для передачи данных: локальный, Secure Shell (SSH), Git и HTTP. В этой части мы обсудим каждый из них и в каких случаях стоит (или не стоит) их использовать.
 
 Git can use four major network protocols to transfer data: Local, Secure Shell (SSH), Git, and HTTP. Here we’ll discuss what they are and in what basic circumstances you would want (or not want) to use them.
 
+Важно понимать, что за исключением протокола HTTP, все эти протоколы требуют, чтобы Git был установлен и работал на сервере.
+
 It’s important to note that with the exception of the HTTP protocols, all of these require Git to be installed and working on the server.
 
-### Local Protocol ###
+### Локальный протокол ###
+
+Базовым протоколом является _Локальный протокол_, при использовании которого удаленный репозиторий ― другой каталог на диске. Наиболее часто он используется если все члены команды имеют доступ к общей файловой системе, например к NFS, или, что менее вероятно, когда все работают на одном компьютере. Последний вариант не столь хорош, поскольку все копии вашего репозитория находятся на одном компьютере, делая возможность потерять все более вероятной.
 
 The most basic is the _Local protocol_, in which the remote repository is in another directory on disk. This is often used if everyone on your team has access to a shared filesystem such as an NFS mount, or in the less likely case that everyone logs in to the same computer. The latter wouldn’t be ideal, because all your code repository instances would reside on the same computer, making a catastrophic loss much more likely.
+
+Если у вас смонтирована общая файловая система, вы можете клонировать, отравлять и получать изменения из локального репозитория. Чтобы склонировать такой репозиторий или добавить его в качестве удаленного в существующий проект, используйте путь к репозиторию в качестве URL. Например для клонирования локального репозитория вы можете запустить что-то вроде этого:
 
 If you have a shared mounted filesystem, then you can clone, push to, and pull from a local file-based repository. To clone a repository like this or to add one as a remote to an existing project, use the path to the repository as the URL. For example, to clone a local repository, you can run something like this:
 
 	$ git clone /opt/git/project.git
 
+Или этого:
+
 Or you can do this:
 
 	$ git clone file:///opt/git/project.git
 
+Git работает немного по-другому если вы укажете префикс `file://` для вашего URL. Когда вы просто указываете путь, Git пытается использовать жесткие ссылки и копировать файлы когда это нужно. Если вы указываете `file://`, Git работает с данными также, как при использовании сетевых протоколов, что в целом менее эффективный способ передачи данных. Причиной для использования `file://` может быть необходимость создания чистой копии репозитория содержащего внешние ссылки или ... Мы будем использовать обычные пути, поскольку это практически всегда быстрее.
+
 Git operates slightly differently if you explicitly specify `file://` at the beginning of the URL. If you just specify the path, Git tries to use hardlinks or directly copy the files it needs. If you specify `file://`, Git fires up the processes that it normally uses to transfer data over a network which is generally a lot less efficient method of transferring the data. The main reason to specify the `file://` prefix is if you want a clean copy of the repository with extraneous references or objects left out — generally after an import from another version-control system or something similar (see Chapter 9 for maintenance tasks). We’ll use the normal path here because doing so is almost always faster.
+
+Чтобы добавить локальный репозиторий в существующий проект, вы можете воспользоваться командой:
 
 To add a local repository to an existing Git project, you can run something like this:
 
 	$ git remote add local_proj /opt/git/project.git
+
+Теперь, вы можете отправлять и получать изменения из этого репозитория так как вы это делали по сети.
 
 Then, you can push to and pull from that remote as though you were doing so over a network.
 

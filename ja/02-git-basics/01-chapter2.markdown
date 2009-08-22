@@ -1017,9 +1017,9 @@ GPG 秘密鍵を持っていれば、タグに署名をすることができま�
 	    updated rakefile
 	...
 
-### Sharing Tags ###
+### タグの共有 ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
+デフォルトでは、`git push` コマンドはタグ情報をリモートに送りません。タグを作ったら、タグをリモートサーバにプッシュするよう明示する必要があります。その方法は、リモートブランチを共有するときと煮ています。`git push origin [tagname]` を実行するのです。
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1029,7 +1029,7 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+多くのタグを一度にプッシュしたい場合は、`git push` コマンドのオプション `--tags` を使用します。これは、手元にあるタグのうちまだリモートサーバに存在しないものをすべて転送します。
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1043,7 +1043,7 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+これで、誰か他の人がリポジトリのクローンやプルを行ったときにすべてのタグを取得できるようになりました。
 
 ## Tips and Tricks ##
 

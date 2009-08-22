@@ -282,16 +282,16 @@ Ahora puedes utilizar `git diff` para ver qué es lo que no ha sido estacionado 
 	          log = git.commits('master', 15)
 	          log.size
 
-### Committing Your Changes ###
+### Enviando Los Cambios ###
 
-Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
+Ahora que el area de estacionado está lista en la forma en que uno lo deseaba, puedes enviar tus cambios. Recuerdo que cualquier cosa que aún no esté estacionada (cualquier archivo que hayas creado o editado pero sobre los cuáles aún no hayas ejecutado `git add` sobre ellos desde que los editaste) no irán en el siguiente envio. Se mantendrán como archivos modificados en tu disco.
+En este caso, la última vez que ejecutaste `git status`, viste qué es lo que estaba estacionado, así que ya estás listo para enviar los cambios. La forma más simple de enviar los cambios es tipear `git commit`:
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+Al hacerlo, se iniciará un editor de textos de tu gusto. (Esto se logra configurando la variable de entorno `$EDITOR` de tu shell, usualmente es vim o emacs, aunque puedes configurar su valor utilizando el comando `git config --global core.editor` como lo vimos en el Capítulo 1).
 
-The editor displays the following text (this example is a Vim screen):
+El editor presentará el siguiente texto (este es un ejemplo tomado de una pantalla de Vim):
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -306,18 +306,18 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+Como puedes ver, el mensaje de envio por defecto contiene la última salida del comando `git status` como comentario y una línea vacía arriba de todo. Puedes remover los comentarios y tipear tu propio mensaje para este envio, o puedes dejarlos para recordar qué es lo que estás enviando. (Para un mensaje recordatorio aún más explícito de qué es lo que has modificado, puedes añadir el argumento `-v` al comando `git commit`. Al hacelo también se agregará a los cambios presentes en el editor las diferencias de los cambios de manera que puedas saber exactamente qué cambiaste.) Cuando salgas del editor, Git creará un envio con el mensaje que acabas de redactar (junto con los comentarios y las diferencias).
 
-Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
+También existe otra alternativa, puedes tipear el mensaje del envio junto con el comando `commit` especificando el parámetro -m, como se muestra a continuación:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+¡Acabas de crear tu primer envio! Notarás que el comando `commit` generó cierta información como salida: a qué rama ha sido enviada (master), cuál es la verificación SHA-1 del envio (`463dc4f`), cuántos archivos han cambiado, y las estadísticas acerca de cuántas líneas han sido añadidas o removidas en el envio.
 
-Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
+Recuerda que un envio registra la instantánea que preparaste en el área de estacionado. Nada que no hayas estacionado aún estará ahí, modificado; puedes hacer otro envio para agregarlo al historial. Cada vez que realizas un envío, estás generando una instantánea del proyecto que luego podrás utilizar para volver atrás o comparar.
 
 ### Skipping the Staging Area ###
 

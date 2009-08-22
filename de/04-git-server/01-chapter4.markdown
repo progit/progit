@@ -8,7 +8,7 @@ Um Zusammenarbeit zu ermöglichen solltest du jedoch darüber nachdenken, ein ex
 Wenngleich es technisch ohne Weiteres möglich ist, direkt mit Repositories Anderer zu arbeiten und Änderungen dorthin zu pushen oder von dort zu holen, macht es dieses Vorgehen zu leicht Verwirrung zu stiften. Wenn man nicht vorsichtig ist, verliert man schnell den Überblick darüber wer woran arbeitet.
 Des weiteren erfordert der direkte Umgang mit Git Repositories, dass diese permanent verfügbar sind. Ein Repository auf dem eigenen Computer ist nur dann für alle Mitentwickler erreichbar, wenn der Computer läuft.
 Es macht deshalb Sinn, ein zentrales und zuverlässig erreichbares Repository einzurichten.
-Wir werden dieses Repository im Folgenden als "Git Server" bezeichen. Es sollte jedoch schnell klar werden, dass nur minimale Resourcen notwendig sind, um Git Repositories zu hosten. In den seltensten Fällen ist ein dedizierter Server dafür notwendig.
+Wir werden dieses Repository im Folgenden als "Git Server" bezeichnen. Es sollte jedoch schnell klar werden, dass nur minimale Ressourcen notwendig sind, um Git Repositories zu hosten. In den seltensten Fällen ist ein dedizierter Server dafür notwendig.
 
 Running a Git server is simple. First, you choose which protocols you want your server to communicate with. The first section of this chapter will cover the available protocols and the pros and cons of each. The next sections will explain some typical setups using those protocols and how to get your server running with them. Last, we’ll go over a few hosted options, if you don’t mind hosting your code on someone else’s server and don’t want to go through the hassle of setting up and maintaining your own server.
 

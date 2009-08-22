@@ -823,18 +823,18 @@ Git をもっと使い込むようになると、`git remote show` で得られ�
 
 このコマンドは、特定のブランチ上で `git push` したときにどのブランチに自動プッシュされるのかを表示しています。また、サーバ上のリモートブランチのうちまだ手元に持っていないもの、手元にあるブランチのうちすでにサーバ上では削除されているもの、`git pull` を実行したときに自動的にマージされるブランチなども表示されています。
 
-### Removing and Renaming Remotes ###
+### リモートの削除・リネーム ###
 
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+リモートを参照する名前を変更したい場合、新しいバージョンの Git では `git remote rename` を使うことができます。たとえば `pb` を `paul` に変更したい場合は `git remote rename` をこのように実行します。
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+これは、リモートブランチ名も変更することを付け加えておきましょう。これまで `pb/master` として参照していたブランチは、これからは `paul/master` となります。
 
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+何らかの理由でリモートの参照を削除したい場合 (サーバを移動したとか特定のミラーを使わなくなったとか、あるいはプロジェクトからメンバーが抜けたとかいった場合) は `git remote rm` を使用します。
 
 	$ git remote rm paul
 	$ git remote

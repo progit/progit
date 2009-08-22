@@ -90,9 +90,9 @@ Si ejecutas el comando de estado nuevamente, podrás notar que el archivo README
 
 Se puede decir que el archivo está estacionado debido a que está debajo de la cabecera “Changes to be committed” (“Cambios que será commiteados”). Si realizas un commit en este punto, la versión del archivo al momento en que ejecutaste el comando git add estará en el snapshot histórico. Si recuerdas el momento en que ejecutaste git init en las secciones anteriores, podrás recordas que también ejecutaste git add (nombre de los archivos), esto se realizo de esa manera para versionar todos los archivos que estaban dentro del directorio. El comando git add puede aceptar como parámetro tanto el nombre de un archivo como el nombre de un directorio; si es un directorio, el comando agregará todos los archivos dentro del mismo de forma recursiva.
 
-### Staging Modified Files ###
+### Estacionando Archivos Modificados ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+Vamos a modificar el contenido de algunos archivos que ya han sido versionados. Si realizar una modificación en el archivo versionado con anterioridad que se llama 'benchmarks.rb' y luego ejecutas el comando de estado nuevamente, obtendrás algo similar a lo siguiente:
 
 	$ git status
 	# On branch master
@@ -108,6 +108,7 @@ Let’s change a file that was already tracked. If you change a previously track
 	#
 
 The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+El archivo benchmarks.rb aparece debajo de una sección denominada “Changed but not updated” (“Modificada pero no actualizada”), que significa que el archivo versionado ha sido modificado en el directorio de trabajo pero todavía no ha sido estacionado.
 
 	$ git add benchmarks.rb
 	$ git status
@@ -119,7 +120,7 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+Ambos archivos están estacionados y serán enviados en el próximo commit. En este punto, supongamos que recuerdas realizar una pequeña modificación que querías realizar al archivo benchmarks.rb antes de commitearlo. Abres de nuevo el archivo y realizas la modificación, y estás listo para commitear. Sin embargo, antes corramos el comando `git status` una vez más:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -136,7 +137,7 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+¿Qué es lo que ha sucedido? Ahora el archivo benchmarks.rb está marcado como estacionado y no estacionado. ¿Cómo es esto posible? Resulta que Git estaciona el archivo exactamente como lo encuentra cuando ejecutas el comando git add. Si realizas el commit en este momento, la versión que Git encontré cuando ejecutaste el comando git add es lo que irá en el contenido del commit, no la versión que como aparece en tu copia de trabajo luego de que realizaras la última modificación. Si modificas un archivo luego de ejecutar el comando `git add`, tendrás que volver a ejecutarlo para estacionar los cambios de la última versión del archivo:
 
 	$ git add benchmarks.rb
 	$ git status

@@ -82,10 +82,15 @@ This is also a nice option for quickly grabbing work from someone else’s worki
 Dies ist auch eine nette Möglichkeit zum Schnellen besorgen von Arbeit aus dem Arbeitsverzeichnis von jemand anderem. Wenn du und ein Kollege an dem gleichen Projekt arbeitet und ihr wollt etwas auschecken, ein Befehl wie `git pull /home/john/project` ist oft einfacher als das pushen zu einem externen Server und das pullen zurück.
 
 #### The Cons ####
+#### Die Nachteile ####
 
 The cons of this method are that shared access is generally more difficult to set up and reach from multiple locations than basic network access. If you want to push from your laptop when you’re at home, you have to mount the remote disk, which can be difficult and slow compared to network-based access.
 
+Die Nachteile von dieser Methode sind, dass gemeinsamer Zugriff im Allgemeinen schwieriger einrichten ist und der Zugriff von mehreren Orten ist schwieriger als einfacher Netzwerk Zugriff. Wenn du von deinem Laptop zuhause pushen möchtest, musst du eine entfernte Festplatte einbinden. Das kann schwierig und langsam sein, verglichen mit Netzwerk-basiertem Zugriff.
+
 It’s also important to mention that this isn’t necessarily the fastest option if you’re using a shared mount of some kind. A local repository is fast only if you have fast access to the data. A repository on NFS is often slower than the repository over SSH on the same server, allowing Git to run off local disks on each system.
+
+Es ist auch wichtig zu erwähnen, dass dies nicht unbedingt die schnellste Möglichkeit ist, wenn du ein gemeinsames Dateisystem oder ähnliches hast. Ein lokales Repository ist nur dann schnell, wenn du schnellen Zugriff auf die Daten hast. Ein NFS-basiertes Repository ist oftmals langsamer als ein Repository über SSH auf dem gleichen Server, weil Git über SSH auf jedem System auf den lokalen Festplatten arbeitet.
 
 ### The SSH Protocol ###
 

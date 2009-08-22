@@ -71,10 +71,15 @@ Then, you can push to and pull from that remote as though you were doing so over
 Dann kannst du von einem externen Repository pushen und pullen, obwohl du das über ein Netzwerk machst.
 
 #### The Pros ####
+#### Die Vorteile ####
 
 The pros of file-based repositories are that they’re simple and they use existing file permissions and network access. If you already have a shared filesystem to which your whole team has access, setting up a repository is very easy. You stick the bare repository copy somewhere everyone has shared access to and set the read/write permissions as you would for any other shared directory. We’ll discuss how to export a bare repository copy for this purpose in the next section, “Getting Git on a Server.”
 
+Die Vorteile von Datei-basierten Repositories sind die Einfachheit und sie nutzen bestehende Datei-Berechtigungen und den bestehenden Netzwerk-Zugriff. Wenn du bereits ein gemeinsames Dateisystem hast, zu dem das gesamte Team Zugriff hat, ist das Einrichten eines Repositories sehr einfach. Du packst die Kopie des einfachen Repositories dahin, wo jeder gemeinsamen Zugriff hat und stellst die Lese- und Schreibberechtigungen wie bei jedem anderem gemeinsamen Verzeichnis ein. Wir werden im nächsten Abschnitt “Git auf einen Server bekommen.” diskutieren, wie man die Kopie eines einfachen Repositories für diesen Zweck exportiert.
+
 This is also a nice option for quickly grabbing work from someone else’s working repository. If you and a co-worker are working on the same project and they want you to check something out, running a command like `git pull /home/john/project` is often easier than them pushing to a remote server and you pulling down.
+
+Dies ist auch eine nette Möglichkeit zum Schnellen besorgen von Arbeit aus dem Arbeitsverzeichnis von jemand anderem. Wenn du und ein Kollege an dem gleichen Projekt arbeitet und ihr wollt etwas auschecken, ein Befehl wie `git pull /home/john/project` ist oft einfacher als das pushen zu einem externen Server und das pullen zurück.
 
 #### The Cons ####
 

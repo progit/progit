@@ -117,11 +117,19 @@ Du kannst auch keinen Benutzer angeben, und Git nimmt den Benutzer an, als der d
 
 #### The Pros ####
 
+#### Die Vorteile ####
+
 The pros of using SSH are many. First, you basically have to use it if you want authenticated write access to your repository over a network. Second, SSH is relatively easy to set up — SSH daemons are commonplace, many network admins have experience with them, and many OS distributions are set up with them or have tools to manage them. Next, access over SSH is secure — all data transfer is encrypted and authenticated. Last, like the Git and Local protocols, SSH is efficient, making the data as compact as possible before transferring it.
+
+Die Vorteile von SSH sind vielseitig. Erstens, grundlegend musst du es benutzen, wenn du authentifizierten Schreib-Zugriff auf dein Repository über ein Netzwerk haben möchtest. Zweitens, SSH ist relativ einfach einzurichten - SSH-Dämonen sind alltäglich, viele Netzwerk-Administratoren haben Erfahrungen mit ihnen und viele Betriebssysteme sind mit ihnen eingerichtet oder haben Tools um sie zu verwalten. Als nächstes, Zugriff über SSH ist sicher - der gesamte Daten-Transfer ist verschlüsselt und authentifiziert. Als letztes, wie Git und die Lokalen Protokolle, SSH ist effizient, es macht die Daten so kompakt wie möglich bevor es die Daten überträgt.
 
 #### The Cons ####
 
+#### Die Nachteile ####
+
 The negative aspect of SSH is that you can’t serve anonymous access of your repository over it. People must have access to your machine over SSH to access it, even in a read-only capacity, which doesn’t make SSH access conducive to open source projects. If you’re using it only within your corporate network, SSH may be the only protocol you need to deal with. If you want to allow anonymous read-only access to your projects, you’ll have to set up SSH for you to push over but something else for others to pull over.
+
+Die negative Seite von SSH ist, dass du deine Repositories nicht anonym darüber anbieten kannst. Die Leute müssen Zugriff auf deine Maschine über SSH haben um zuzugreifen, auch mit einem Nur-Lese-Zugriff, was SSH nicht zuträglich zu Open-Source-Projekten macht. Wenn du es nur innerhalb von deinem Firmen-Netzwerk benutzt, SSH ist vielleicht das einzige Protokoll mit dem du arbeiten musst. Wenn du anonymen Nur-Lese-Zugriff zu deinen Projekten erlauben willst, musst du SSH für dich einsetzen um zu pushen, aber ein anderes Protokoll für andere um zu pullen.
 
 ### The Git Protocol ###
 

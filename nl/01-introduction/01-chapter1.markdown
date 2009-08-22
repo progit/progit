@@ -126,7 +126,7 @@ Laten we eens een beetje Git gebruiken. Je kan natuurlijk niet meteen beginnen �
 
 Als het mogelijk is, is het meestal handig om Git vanaf de broncode te installeren, omdat je dan altijd de nieuwste versie hebt. Elke versie van Git brengt meestal goede verbeteringen aan de gebruikersinterface met zich mee, dus de laatste versie is vaak de beste manier als je het gewend bent software vanaf de broncode te compileren. Vaak hebben Linuxdistributies behoorlijk oude pakketen; dus tenzij je een hele up-to-date distro hebt of ‘backports’ (verbeteringen van een nieuwe versie op een oudere versie toepassen) gebruikt, is installeren vanaf broncode misschien wel de beste manier voor jou.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+Om Git te installeren heb je de volgende bibliotheken (‘libraries’) nodig: curl, zlib, openssl, expat, and libiconv. Als je bijvoorbeeld op een systeem zit dat yum heeft (zoals Fedora) of apt-get (zoals systemen gebaseerd op Debian), kan je één van de volgende commando's gebruiken om alle bibliotheken waar Git van afhangt te installeren:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel

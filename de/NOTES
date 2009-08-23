@@ -29,7 +29,7 @@ to version-control something - ?
 
 source code, source	- Quellcode
 repository, repositories - Repository, Repositories
-remote repository - entferntes Repositories (??)
+remote repository - externes Repository
 branch, to branch - Branch, branchen
 	Zweig, Verzweigung, Arm - klingt alles ein bißchen blöd
 branching - Branching
@@ -56,7 +56,7 @@ online/offline - online/offline
 hooks ("you may lose some server-side hooks") - ???
 to track a file - Änderungen an einer Datei nachverfolgen, eine Datei versionieren
 a tracked file - eine versionierte Datei, eine Datei unter Versionskontrolle, eine Datei deren Änderungen nachverfolgt werden
-a tracking branch - Tracking Branch, ein Branch, der einem entfernten Branch folgt ???
+a tracking branch - Tracking Branch, ein Branch, der einem externen Branch folgt ???
 tracking branch information - Tracking Branch Information
 lightweight Tag - leichter Tag (???), schlanker Tag (???)
 annotated Tag - kommentierter Tag (???), annotierter Tag (???)

@@ -4,7 +4,7 @@
 
 If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
 
-Wenn Du nur ein einziges Kapitel aus diesem Buch lesen willst, um mit Git loslegen zu können, dann lies dieses hier. Wir werden hier auf diejenigen grundlegenden Git Befehle eingehen, die du für den allergrößten Teil deiner täglichen Arbeit mit Git brauchst. Am Ende des Kapitels solltest du in der Lage sein, ein neues Repository anzulegen und zu konfigurieren, Dateien zur Versionskontrolle hinzuzufügen und wieder aus ihr zu entfernen, Änderungen in der Staging Area für einen Commit vorzumerken und schließlich einen Commit durchzuführen. Wir werden außerdem besprechen, wie du Git so konfigurieren kannst, daß es bestimmte Dateien und Dateimuster ignoriert, wie du Fehler schnell und einfach rückgängig machen, wie du die Historie deines Projektes durchsuchen und Änderungen zwischen bestimmten Commits nachschlagen, und wie du in entfernte Repositories herauf- und von dort herunterladen kannst.
+Wenn Du nur ein einziges Kapitel aus diesem Buch lesen willst, um mit Git loslegen zu können, dann lies dieses hier. Wir werden hier auf diejenigen grundlegenden Git Befehle eingehen, die du für den allergrößten Teil deiner täglichen Arbeit mit Git brauchst. Am Ende des Kapitels solltest du in der Lage sein, ein neues Repository anzulegen und zu konfigurieren, Dateien zur Versionskontrolle hinzuzufügen und wieder aus ihr zu entfernen, Änderungen in der Staging Area für einen Commit vorzumerken und schließlich einen Commit durchzuführen. Wir werden außerdem besprechen, wie du Git so konfigurieren kannst, daß es bestimmte Dateien und Dateimuster ignoriert, wie du Fehler schnell und einfach rückgängig machen, wie du die Historie deines Projektes durchsuchen und Änderungen zwischen bestimmten Commits nachschlagen, und wie du in externe Repositories herauf- und von dort herunterladen kannst.
 
 ## Getting a Git Repository ##
 
@@ -986,20 +986,20 @@ Beachte, daß was auch immer jemals in einem Commit in Git enthalten war, fast i
 
 ## Working with Remotes ##
 
-## Mit entfernten Repositories arbeiten ##
+## Mit externen Repositories arbeiten ##
 
 To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
 Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
 
-Um mit anderen via Git zusammenarbeiten zu können, mußt du wissen, wie du auf entfernte ("remote") Repositories zugreifen kannst. Entfernte Repositories sind Versionen deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositories haben und du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositories zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um deine Arbeit für andere verfügbar zu machen. Um entfernte Repositories zu verwalten, muß man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man entfernte Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
+Um mit anderen via Git zusammenarbeiten zu können, mußt du wissen, wie du auf externe ("remote") Repositories zugreifen kannst. Externe Repositories sind Versionen deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositories haben und du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositories zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um deine Arbeit für andere verfügbar zu machen. Um externe Repositories zu verwalten, muß man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
 
 ### Showing Your Remotes ###
 
-### Entfernte Repositories anzeigen ###
+### Externe Repositories anzeigen ###
 
 To see which remote servers you have configured, you can run the git remote command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
 
-Der `git remote` Befehl zeigt dir an, welche entfernten Server du für dein Projekt lokal konfiguriert hast, und listet die Kurzbezeichnungen für jedes entfernte Repository auf. Wenn du ein Repository geklont hast, solltest du mindestens `origin` sehen - welches der Standardname ist, den Git für denjenigen Server vergibt, von dem Du klonst:
+Der `git remote` Befehl zeigt dir an, welche externen Server du für dein Projekt lokal konfiguriert hast, und listet die Kurzbezeichnungen für jedes externe Repository auf. Wenn du ein Repository geklont hast, solltest du mindestens `origin` sehen - welches der Standardname ist, den Git für denjenigen Server vergibt, von dem Du klonst:
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -1021,7 +1021,7 @@ Du kannst außerdem die Option `-v` verwenden, was für jeden Kurznamen auch die
 
 If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
 
-Wenn du mehr als ein entferntes Repository konfiguriert hast, zeigt der Befehl alle an. Für mein eigenes Grit Repository sieht das beispielsweise wie folgt aus:
+Wenn du mehr als ein externes Repository konfiguriert hast, zeigt der Befehl alle an. Für mein eigenes Grit Repository sieht das beispielsweise wie folgt aus:
 
 	$ cd grit
 	$ git remote -v
@@ -1037,11 +1037,11 @@ D.h., mein lokales Repository kennt die Repositories von all diesen Leuten und i
 
 ### Adding Remote Repositories ###
 
-### Entfernte Repositories hinzufügen ###
+### Externe Repositories hinzufügen ###
 
 I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
 
-Ich habe in vorangegangenen Kapiteln schon Beispiele dafür gegeben, wie man ein entferntes Repository hinzufügen kann, aber ich will noch einmal explizit darauf eingehen. Um ein neues entferntes Repository mit einem Kurznamen hinzuzufügen, den du dir leicht merken kannst, führst du den Befehl `git remote add [shortname] [url]` aus:
+Ich habe in vorangegangenen Kapiteln schon Beispiele dafür gegeben, wie man ein externes Repository hinzufügen kann, aber ich will noch einmal explizit darauf eingehen. Um ein neues externes Repository mit einem Kurznamen hinzuzufügen, den du dir leicht merken kannst, führst du den Befehl `git remote add [shortname] [url]` aus:
 
 	$ git remote
 	origin
@@ -1069,29 +1069,29 @@ Paul's master Branch ist jetzt lokal auf deinem Rechner als `pb/master` verfügb
 
 ### Fetching and Pulling from Your Remotes ###
 
-### Aus entfernten Repositories herunterladen und ziehen ###
+### Aus externen Repositories herunterladen und ziehen ###
 
 As you just saw, to get data from your remote projects, you can run
 
-Wie du gerade gesehen hast, kannst du Daten aus entfernten Repositories herunterladen, indem du den Befehl verwendest:
+Wie du gerade gesehen hast, kannst du Daten aus externen Repositories herunterladen, indem du den Befehl verwendest:
 
 	$ git fetch [remote-name]
 
 The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
 
-Dieser Befehl lädt alle Daten aus dem entfernten Repository herunter, die noch nicht auf deinem Rechner verfügbar sind. Danach kennt dein eigenes Repository Verweise auf alle Branches in dem entfernten Repository, die du jederzeit mit deinen eigenen Branches zusammenführen oder lesen kannst. (Wir werden in Kapitel 3 detaillierter darauf eingehen, was genau Branches sind.)
+Dieser Befehl lädt alle Daten aus dem externen Repository herunter, die noch nicht auf deinem Rechner verfügbar sind. Danach kennt dein eigenes Repository Verweise auf alle Branches in dem externen Repository, die du jederzeit mit deinen eigenen Branches zusammenführen oder lesen kannst. (Wir werden in Kapitel 3 detaillierter darauf eingehen, was genau Branches sind.)
 
 If you cloned a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
 
-Wenn du ein Repository geklont hast, legt der Befehl automatisch einen Verweis auf dieses Repository unter dem Namen `origin` an. D.h. `git fetch origin` lädt alle Neuigkeiten herunter, die in dem entfernten Repository von anderen hinzugefügt wurden, seit du es geklont hast (oder zuletzt `git fetch` ausgeführt hast). Es ist wichtig, zu verstehen, daß der `git fetch` Befehl Daten lediglich in dein lokale Repository lädt. Er führt sich mit deinen eigenen Commits in keiner Weise zusammen oder modifiziert, woran du gerade arbeitest. D.h. du mußt die heruntergeladenen Änderungen anschließend selbst manuell mit deinen eigenen zusammeführen, wenn du das willst.
+Wenn du ein Repository geklont hast, legt der Befehl automatisch einen Verweis auf dieses Repository unter dem Namen `origin` an. D.h. `git fetch origin` lädt alle Neuigkeiten herunter, die in dem externen Repository von anderen hinzugefügt wurden, seit du es geklont hast (oder zuletzt `git fetch` ausgeführt hast). Es ist wichtig, zu verstehen, daß der `git fetch` Befehl Daten lediglich in dein lokale Repository lädt. Er führt sich mit deinen eigenen Commits in keiner Weise zusammen oder modifiziert, woran du gerade arbeitest. D.h. du mußt die heruntergeladenen Änderungen anschließend selbst manuell mit deinen eigenen zusammeführen, wenn du das willst.
 
 If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 
-Wenn du allerdings einen Branch so aufgesetzt hast, daß er einem entfernten "folgt" (also einen "Tracking Branch", wir werden im nächsten Abschnitt und in Kapitel 3 noch genauer darauf eingehen), dann kannst du den Befehl `git pull` verwenden, um automatisch neue Daten herunterzuladen *und* den entfernten Branch gleichzeitig mit dem aktuellen, lokalen Branch zusammenzuführen. Das ist oft die bequemere Arbeitsweise. `git clone` setzt deinen lokalen master Branch deshalb standardmäßig so auf, daß er dem entfernten master Branch des geklonten Repositories folgt (sofern das entfernte Repository einen master Branch hat). Wenn du dann `git pull` ausführst, wird Git die neuen Commits aus dem entfernten Repository holen und versuchen, sie automatisch mit dem Code zusammenzuführen, an dem du gerade arbeitest.
+Wenn du allerdings einen Branch so aufgesetzt hast, daß er einem externen Branch "folgt" (also einen "Tracking Branch", wir werden im nächsten Abschnitt und in Kapitel 3 noch genauer darauf eingehen), dann kannst du den Befehl `git pull` verwenden, um automatisch neue Daten herunterzuladen *und* den externen Branch gleichzeitig mit dem aktuellen, lokalen Branch zusammenzuführen. Das ist oft die bequemere Arbeitsweise. `git clone` setzt deinen lokalen master Branch deshalb standardmäßig so auf, daß er dem externen master Branch des geklonten Repositories folgt (sofern das externe Repository einen master Branch hat). Wenn du dann `git pull` ausführst, wird Git die neuen Commits aus dem externen Repository holen und versuchen, sie automatisch mit dem Code zusammenzuführen, an dem du gerade arbeitest.
 
 ### Pushing to Your Remotes ###
 
-### Änderungen in ein entferntes Repository hochladen ###
+### Änderungen in ein externes Repository hochladen ###
 
 When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
 
@@ -1105,11 +1105,11 @@ Das funktioniert nur dann, wenn du Schreibrechte für das jeweilige Repository h
 
 ### Inspecting a Remote ###
 
-### Ein entferntes Repository inspizieren ###
+### Ein externes Repository inspizieren ###
 
 If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
 
-Wenn du etwas über ein bestimmtes, entferntes Repository wissen willst, kannst du den Befehl `git remote show [remote-name]` verwenden. Wenn du diesen Befehl mit dem entsprechenden Kurznamen, z.B. `origin` verwendest, erhältst du etwas wie:
+Wenn du etwas über ein bestimmtes, externes Repository wissen willst, kannst du den Befehl `git remote show [remote-name]` verwenden. Wenn du diesen Befehl mit dem entsprechenden Kurznamen, z.B. `origin` verwendest, erhältst du etwas wie:
 
 	$ git remote show origin
 	* remote origin
@@ -1122,7 +1122,7 @@ Wenn du etwas über ein bestimmtes, entferntes Repository wissen willst, kannst 
 
 It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
 
-Das zeigt dir die URL für das entfernte Repository, die Tracking Information (xxx) für Branches und welcher Branch aus dem entfernten Repository mit deinem eigenen Master zusammengeführt wird, wenn du `git pull` ausführst. 
+Das zeigt dir die URL für das externe Repository, die Tracking Information (xxx) für Branches und welcher Branch aus dem externen Repository mit deinem eigenen Master zusammengeführt wird, wenn du `git pull` ausführst. 
 
 That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
 
@@ -1152,15 +1152,15 @@ Dies ist ein eher einfaches Beispiel, das dir früher oder später so ähnlich �
 
 This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
 
-Dieser Befehl zeigt, welcher Branch automatisch hochgeladen werden wird, wenn du `git push` auf bestimmten Branches ausführst. Er zeigt außerdem, welche Branches es im entfernten Repository gibt, die du selbst noch nicht hast, welche Branches dort gelöscht wurden, und Branches, die automatisch mit lokalen Branches zusammengeführt werden, wenn du `git pull` ausführst.
+Dieser Befehl zeigt, welcher Branch automatisch hochgeladen werden wird, wenn du `git push` auf bestimmten Branches ausführst. Er zeigt außerdem, welche Branches es im externen Repository gibt, die du selbst noch nicht hast, welche Branches dort gelöscht wurden, und Branches, die automatisch mit lokalen Branches zusammengeführt werden, wenn du `git pull` ausführst.
 
 ### Removing and Renaming Remotes ###
 
-### Verweise auf entfernte Repositories löschen und umbenennen ###
+### Verweise auf externe Repositories löschen und umbenennen ###
 
 If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
 
-Wenn du eine Referenz auf ein entferntes Repository umbenennen willst, kannst du in neueren Git Versionen den Befehl `git remote rename` verwenden, um den Kurznamen zu ändern. Wenn du beispielsweise `pb` in `paul` umbenennen willst, lautet der Befehl:
+Wenn du eine Referenz auf ein externes Repository umbenennen willst, kannst du in neueren Git Versionen den Befehl `git remote rename` verwenden, um den Kurznamen zu ändern. Wenn du beispielsweise `pb` in `paul` umbenennen willst, lautet der Befehl:
 
 	$ git remote rename pb paul
 	$ git remote
@@ -1169,7 +1169,7 @@ Wenn du eine Referenz auf ein entferntes Repository umbenennen willst, kannst du
 
 It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
 
-Beachte dabei, daß dies deine Branch Namen für entfernte Branches ebenfalls ändert. Der Branch, der zuvor mit `pb/master` referenziert werden konnte, heißt jetzt `paul/master`.
+Beachte dabei, daß dies deine Branch Namen für externe Branches ebenfalls ändert. Der Branch, der zuvor mit `pb/master` referenziert werden konnte, heißt jetzt `paul/master`.
 
 If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
 
@@ -1416,7 +1416,7 @@ Du siehst jetzt, daß du einen Tag für den Commit angelegt hast:
 
 By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
 
-Der `git push` Befehl lädt Tags nicht von sich aus auf entfernte Server. Stattdessen muß Du Tags explizit auf einen entfernten Server hochladen, nachdem du sie angelegt hast. Der Vorgang ist derselbe wie mit Branches: du kannst den Befehl `git push origin [tagname]` verwenden.
+Der `git push` Befehl lädt Tags nicht von sich aus auf externe Server. Stattdessen muß Du Tags explizit auf einen externen Server hochladen, nachdem du sie angelegt hast. Der Vorgang ist derselbe wie mit Branches: du kannst den Befehl `git push origin [tagname]` verwenden.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1428,7 +1428,7 @@ Der `git push` Befehl lädt Tags nicht von sich aus auf entfernte Server. Stattd
 
 If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
 
-Wenn du viele Tags auf einmal hochladen willst, kannst du dem `git push` Befehl außerdem die `--tags` Option übergeben und auf diese Weise sämtliche Tags auf den entfernten Server transferieren, die dort noch nicht bekannt sind.
+Wenn du viele Tags auf einmal hochladen willst, kannst du dem `git push` Befehl außerdem die `--tags` Option übergeben und auf diese Weise sämtliche Tags auf den externen Server transferieren, die dort noch nicht bekannt sind.
 
 	$ git push origin --tags
 	Counting objects: 50, done.

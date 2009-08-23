@@ -474,42 +474,42 @@ Insert 18333fig0326.png
 
 Git には、あるブランチの変更を別のブランチに統合するための方法が大きく分けて二つあります。`merge` と `rebase` です。このセクションでは、リベースについて「どういう意味か」「どのように行うのか」「なぜそんなにもすばらしいのか」「どんなときに使うのか」を説明します。
 
-### The Basic Rebase ###
+### リベースの基本 ###
 
-If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
+マージについての説明で使用した例を振り返ってみましょう (図 3-27 を参照ください)。作業が二つに分岐しており、それぞれのブランチに対してコミットされていることがわかります。
 
 Insert 18333fig0327.png 
-Figure 3-27. Your initial diverged commit history.
+図 3-27. 分岐したコミットの歴史
 
-The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
+このブランチを統合する最も簡単な方法は、先に説明したように `merge` コマンドを使うことです。これは、二つのブランチの最新のスナップショット (C3 と C4) とそれらの共通の祖先 (C2) による三方向のマージを行い、新しいスナップショットを作成 (そしてコミット) します。その結果は図 3-28 のようになります。
 
 Insert 18333fig0328.png 
-Figure 3-28. Merging a branch to integrate the diverged work history.
+図 3-28. 分岐した作業履歴をひとつに統合する
 
-However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
+しかし、別の方法もあります。C3 で行った変更のパッチを取得し、それを C4 の先端に適用するのです。Git では、この作業のことを _リベース (rebasing)_ と呼んでいます。`rebase` コマンドを使用すると、一方のブランチにコミットされたすべての変更をもう一方のブランチで再現することができます。
 
-In this example, you’d run the following:
+今回の例では、次のように実行します。
 
 	$ git checkout experiment
 	$ git rebase master
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
+これは、まずふたつのブランチ (現在いるブランチとリベース先のブランチ) の共通の先祖に移動し、現在のブランチ上の各コミットの diff を取得して一時ファイルに保存し、現在のブランチの指す先をリベース先のブランチと同じコミットに移動させ、そして先ほどの変更を順に適用していきます。図 3-29 にこの手順をまとめました。
 
 Insert 18333fig0329.png 
-Figure 3-29. Rebasing the change introduced in C3 onto C4.
+図 3-29. C3 での変更の C4 へのリベース
 
-At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
+この時点で、master ブランチに戻って fast-forward マージができるようになりました (図 3-30 を参照ください)。
 
 Insert 18333fig0330.png 
-Figure 3-30. Fast-forwarding the master branch.
+図 3-30. master ブランチの Fast-forward
 
-Now, the snapshot pointed to by C3 is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
+これで、C3 が指しているスナップショットの内容は、先ほどのマージの例で C5 が指すスナップショットと全く同じものになりました。最終的な統合結果には差がありませんが、リベースのほうがよりすっきりした歴史になります。リベース後のブランチのログを見ると、まるで一直線の歴史のように見えます。元々平行稼働していたにもかかわらず、それが一連の作業として見えるようになるのです。
 
-Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
+リモートブランチ上での自分のコミットをすっきりさせるために、よくこの作業を行います。たとえば、自分がメンテナンスしているのではないプロジェクトに対して貢献したいと考えている場合などです。この場合、あるブランチ上で自分の作業を行い、プロジェクトに対してパッチを送る準備ができたらそれを `origin/master` にリベースすることになります。そうすれば、メンテナは特に統合作業をしなくても単に fast-forward するだけで済ませられるのです。
 
-Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.
+あなたが最後に行ったコミットが指すスナップショットは、リベースした結果の最後のコミットであってもマージ後の最終のコミットであっても同じものとなることに注意しましょう。違ってくるのは、そこに至る歴史だけです。リベースは、一方のラインの作業内容をもう一方のラインに順に適用しますが、マージの場合はそれぞれの最終地点を統合します。
 
 ### More Interesting Rebases ###
 

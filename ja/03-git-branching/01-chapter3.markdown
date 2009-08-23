@@ -511,51 +511,51 @@ Insert 18333fig0330.png
 
 あなたが最後に行ったコミットが指すスナップショットは、リベースした結果の最後のコミットであってもマージ後の最終のコミットであっても同じものとなることに注意しましょう。違ってくるのは、そこに至る歴史だけです。リベースは、一方のラインの作業内容をもう一方のラインに順に適用しますが、マージの場合はそれぞれの最終地点を統合します。
 
-### More Interesting Rebases ###
+### さらに興味深いリベース ###
 
-You can also have your rebase replay on something other than the rebase branch. Take a history like Figure 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+リベース先のブランチ以外でもそのリベースを再現することができます。たとえば図 3-31 のような歴史を考えてみましょう。トピックブランチ (`server`) を作成してサーバ側の機能をプロジェクトに追加し、それをコミットしました。その後、そこからさらにクライアント側の変更用のブランチ (`client`) を切って数回コミットしました。最後に、server ブランチに戻ってさらに何度かコミットを行いました。
 
 Insert 18333fig0331.png 
-Figure 3-31. A history with a topic branch off another topic branch.
+図 3-31. トピックブランチからさらにトピックブランチを作成した歴史
 
-Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
+クライアント側の変更を本流にマージしてリリースしたいけれど、サーバ側の変更はまだそのままテストを続けたいという状況になったとします。クライアント側の変更のうちサーバ側にはないもの (C8 と C9) を master ブランチで再現するには、`git rebase` の `--onto` オプションを使用します。
 
 	$ git rebase --onto master server client
 
-This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
+これは「client ブランチに移動して `client` ブランチと `server` ブランチの共通の先祖からのパッチを取得し、`master` 上でそれを適用しろ」という意味になります。ちょっと複雑ですが、その結果は図 3-32 に示すように非常にクールです。
 
 Insert 18333fig0332.png 
-Figure 3-32. Rebasing a topic branch off another topic branch.
+図 3-32. 別のトピックブランチから派生したトピックブランチのリベース
 
-Now you can fast-forward your master branch (see Figure 3-33):
+これで、master ブランチを fast-forward することができるようになりました (図 3-33 を参照ください)。
 
 	$ git checkout master
 	$ git merge client
 
 Insert 18333fig0333.png 
-Figure 3-33. Fast-forwarding your master branch to include the client branch changes.
+図 3-33. master ブランチを fast-forward し、client ブランチの変更を含める
 
-Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
+さて、いよいよ server ブランチのほうも取り込む準備ができました。server ブランチの内容を master ブランチにリベースする際には、事前にチェックアウトする必要はなく `git rebase [basebranch] [topicbranch]` を実行するだけでだいじょうぶです。このコマンドは、トピックブランチ (ここでは `server`) をチェックアウトしてその変更をベースブランチ (`master`) 上に再現します。
 
 	$ git rebase master server
 
-This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
+これは、`server` での作業を `master` の作業に続け、結果は図 3-34 のようになります。
 
 Insert 18333fig0334.png 
-Figure 3-34. Rebasing your server branch on top of your master branch.
+図 3-34. server ブランチを master ブランチ上にリベースする
 
-Then, you can fast-forward the base branch (`master`):
+これで、ベースブランチ (`master`) を fast-forward することができます。
 
 	$ git checkout master
 	$ git merge server
 
-You can remove the `client` and `server` branches because all the work is integrated and you don’t need them anymore, leaving your history for this entire process looking like Figure 3-35:
+ここで `client` ブランチと `server` ブランチを削除します。すべての作業が取り込まれたので、これらのブランチはもはや不要だからです。これらの処理を済ませた結果、最終的な歴史は図 3-35 のようになりました。
 
 	$ git branch -d client
 	$ git branch -d server
 
 Insert 18333fig0335.png 
-Figure 3-35. Final commit history.
+図 3-35. 最終的なコミット履歴
 
 ### The Perils of Rebasing ###
 

@@ -92,20 +92,20 @@ Git におけるブランチとは、実際のところ特定のコミットを�
 
 では、なぜブランチを切るべきなのかについて見ていきましょう。
 
-## Basic Branching and Merging ##
+## ブランチとマージの基本 ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+実際の作業に使うであろう流れを例にとって、ブランチとマージの処理を見てみましょう。次の手順で進めます。
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.	ウェブサイトに関する作業を行っている
+2.	新たな作業用にブランチを作成する
+3.	そのブランチで作業を行う
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+ここで、重大な問題が発生したので至急対応してほしいという連絡を受けました。その後の流れは次のようになります。
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.	実運用環境用のブランチに戻る
+2.	修正を適用するためのブランチを作成する
+3.	テストをした後で修正用ブランチをマージし、実運用環境用のブランチにプッシュする
+4.	元の作業用ブランチに戻り、作業を続ける
 
 ### Basic Branching ###
 

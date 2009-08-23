@@ -375,36 +375,36 @@ Insert 18333fig0321.png
 
 ここで重要なのは、これまで作業してきたブランチが完全にローカル環境に閉じていたということです。ブランチを作ったりマージしたりといった作業は、すべてみなさんの Git リポジトリ内で完結しており、サーバとのやりとりは発生していません。
 
-## Remote Branches ##
+## リモートブランチ ##
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
+リモートブランチは、リモートリポジトリ上のブランチの状態を指すものです。ネットワーク越しの操作をしたときに自動的に移動します。リモートブランチは、前回リモートリポジトリに接続したときにブランチがどの場所を指していたかを示すブックマークのようなものです。
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+ブランチ名は `(remote)/(branch)` のようになります。たとえば、`origin` サーバに最後に接続したときの `master` ブランチの状態を知りたければ `origin/master` ブランチをチェックします。誰かとかの人と共同で問題に対応しており、相手が `iss53` ブランチにプッシュしたとしましょう。あなたの手元にはローカルの `iss53` ブランチがあります。しかし、サーバ側のブランチは `origin/iss53` のコミットを指しています。
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
+……ちょっと混乱してきましたか? では、具体例で考えてみましょう。ネットワーク上の `git.ourcompany.com` に Git サーバがあるとします。これをクローンすると、Git はそれに `origin` という名前をつけ、すべてのデータを引き出し、`master` ブランチを指すポインタを作成し、そのポインタにローカルで `origin/master` という名前をつけます。それを自分で移動させることはできません。Ｇit はまた、`master` というブランチも作成します。これは origin の `master` ブランチと同じ場所を指しており、ここから何らかの作業を始めます (図 3-22 を参照ください)。
 
 Insert 18333fig0322.png 
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+図 3-22. git clone により、ローカルの master ブランチのほかに origin の master ブランチを指す origin/master が作られる
 
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+ローカルの master ブランチで何らかの作業をしている間に、誰かが `git.ourcompany.com` にプッシュして master ブランチを更新したとしましょう。この時点であなたの歴史とはことなる状態になってしまいます。また、origin サーバと再度接続しない限り、`origin/master` が指す先は移動しません (図 3-23 を参照ください)。
 
 Insert 18333fig0323.png 
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+図 3-23. ローカルで作業している間に誰かがリモートサーバにプッシュすると、両者の歴史が異なるものとなる
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
+手元での作業を同期させるには、`git fetch origin` コマンドを実行します。このコマンドは、まず origin が指すサーバ (今回の場合は `git.ourcompany.com`) を探し、まだ手元にないデータをすべて取得し、ローカルデータベースを更新し、`origin/master` が指す先を最新の位置に変更します (図 3-24 を参照ください)。
 
 Insert 18333fig0324.png 
-Figure 3-24. The git fetch command updates your remote references.
+図 3-24. git fetch コマンドによるリモートへの参照の更新
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
+複数のリモートサーバがあった場合にリモートのブランチがどのようになるのかを知るために、もうひとつ Git サーバがあるものと仮定しましょう。こちらのサーバは、チームの一部のメンバーが開発目的にのみ使用しています。このサーバは `git.team1.ourcompany.com` にあるものとしましょう。このサーバをあなたの作業中のプロジェクトから参照できるようにするには、第 2 章で紹介した `git remote add` コマンドを使用します。このリモートに `teamone` という名前をつけ、URL ではなく短い名前で参照できるようにします (図 3-25 を参照ください)。
 
 Insert 18333fig0325.png 
-Figure 3-25. Adding another server as a remote.
+図 3-25. 別のサーバをリモートとして追加
 
-Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
+`git fetch teamone` を実行すれば、まだ手元にないデータをすべてサーバから取得できるようになりました。このサーバは `origin` サーバの現在の状態のサブセットなので、実際のところ Git は何のデータも取得しません。`teamone/master` というリモートブランチの指す先を、`teamone` の `master` ブランチが指す先にあわせます (図 3-26 を参照ください)。
 
 Insert 18333fig0326.png 
-Figure 3-26. You get a reference to teamone’s master branch position locally.
+図 3-26. teamone の master ブランチの位置をローカルに取得する
 
 ### Pushing ###
 

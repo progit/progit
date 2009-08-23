@@ -187,15 +187,27 @@ Es ist möglich, Git-Daten auch über HTTP zu pushen, trotzdem wird diese Techni
 
 #### The Pros ####
 
+#### Die Vorteile ####
+
 The upside of using the HTTP protocol is that it’s easy to set up. Running the handful of required commands gives you a simple way to give the world read access to your Git repository. It takes only a few minutes to do. The HTTP protocol also isn’t very resource intensive on your server. Because it generally uses a static HTTP server to serve all the data, a normal Apache server can serve thousands of files per second on average — it’s difficult to overload even a small server.
+
+Die Oberseite beim Benutzen des HTTP-Protokolls ist, dass es einfach einzurichten ist. Das Ausführen von einer Handvoll notwendiger Befehle ist ein einfacher Weg, um der Welt Lese-Zugriff auf dein Git-Repository zu geben. Es braucht nur ein paar Minuten. Das HTTP Protokoll braucht auch nicht viele Ressourcen auf deinem Server. Es braucht generell nur einen statischen Server braucht um die Daten zu servieren. Ein normaler Apache-Server kann Tausende von Dateien pro Sekunde servieren - es ist schwierig selbst einen kleinen Server zu überlasten.
 
 You can also serve your repositories read-only over HTTPS, which means you can encrypt the content transfer; or you can go so far as to make the clients use specific signed SSL certificates. Generally, if you’re going to these lengths, it’s easier to use SSH public keys; but it may be a better solution in your specific case to use signed SSL certificates or other HTTP-based authentication methods for read-only access over HTTPS.
 
+Du kannst deine Repositories auch als Nur-Lese-Repositories über HTTPS servieren, du kannst also den Daten-Transfer verschlüsseln. Oder du kannst so weit gehen, dass die Clients spezifische signierte SSL-Zertifikate benutzen. Im Allgemeinen, wenn du soweit gehst, ist es einfacher, öffentliche SSH-Schlüssel zu benutzen; aber es ist vielleicht für deinen Fall eine bessere Lösung, signierte SSL-Zertifikate zu benutzen oder andere HTTP-basierte Authentifizierungs-Methoden für Nur-Lese-Zugriff über HTTPS zu benutzen.
+
 Another nice thing is that HTTP is such a commonly used protocol that corporate firewalls are often set up to allow traffic through this port.
+
+Eine andere schöne Sache ist, dass HTTP so oft genutzt wird, dass Firmen-Firewalls oft Traffic über den HTTP-Port erlauben.
 
 #### The Cons ####
 
+#### Die Nachteile ####
+
 The downside of serving your repository over HTTP is that it’s relatively inefficient for the client. It generally takes a lot longer to clone or fetch from the repository, and you often have a lot more network overhead and transfer volume over HTTP than with any of the other network protocols. Because it’s not as intelligent about transferring only the data you need — there is no dynamic work on the part of the server in these transactions — the HTTP protocol is often referred to as a _dumb_ protocol. For more information about the differences in efficiency between the HTTP protocol and the other protocols, see Chapter 9.
+
+Die Unterseite vom Servieren von deinem Repository über HTTP ist, dass es recht ineffizient für den Client ist. Es braucht im Allgemeinen länger zu clonen oder Daten vom Repository zu holen und du hast oft wesentlich mehr Netzwerk-Overhead und Transfer-Volumen als mit jedem anderen Netzwerk Protokoll. Weil es nicht so intelligent beim Daten-Transfer ist, um nur die benötigten Daten zu übertragen - es gibt keine dynamische Arbeit auf dem Server bei diesen Aktionen - das HTTP Protokoll wird oft als _dummes_ Protokoll bezeichnet. Für mehr Informationen über die Unterschiede bei der Effizienz zwischen dem HTTP Protokoll und den anderen Protokollen: siehe Kapitel 9.
 
 ## Getting Git on a Server ##
 

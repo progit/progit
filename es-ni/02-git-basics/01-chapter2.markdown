@@ -336,11 +336,11 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 
 Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
 
-### Removing Files ###
+### Eliminando Archivos ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+Para remover un archivo del repositorio Git, es necesario removerlo de los archivos versionados (para ser más exacto, removerlo del área de estacionado) y luego realizar un envío. El comando `git rm` hace exactamente esto y también remueve el archivo de tu copia de trabajo para que no esté presente como no versionado en el futuro.
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+Si simplemente eliminas el archivo de tu copia de trabajo, aparecerá bajo la sección "Changed but not updated" ("Modificado pero no actualizado", es decir, _no versionado_) cuando ejecutes el comando `git status`:
 
 	$ rm grit.gemspec
 	$ git status
@@ -352,7 +352,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+Si entonces ejecutas el comando `git rm`, añade la eliminación del archivo al área de estacionado:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -365,21 +365,21 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+En el próximo envio, el archivo desaparecerá y no dejará de estar versionado. Si has modificado el archivo y lo has añadido al índice, deberás forzar la eliminación con el argumento `-f`. Esta es una medida de seguridad para prevenir la eliminación accidental de información que aún no ha sido versionada y que no podrá ser recuperada del repositorio Git.
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+Otro dato que te podrá resultar útil conocer es que puedes mantener un archivo en tu copia de trabajo pero puedes eliminarlo del área de estacionado. En otras palabras, puedes dejar el archivo en el disco dura pero evitar que Git lo versione. Esta funcionalidad es muy útil si olvidás añadir algo al archivo `.gitignore` y accidentalmente lo versionas, como podría ser un archivo de log muy extenso o un montón de archivo `.a` generados por un compilador. Para hacer uso de esta función, debes utilizar la opción `--cached` junto con el comando para eliminar un archivo:
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+El comando `git rm` también acepta tanto archivos como directorios o patrones globales. Esto signfica que puedes hacer cosas como las siguientes
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+Presta atención a la barra invertida (`\`) que está delante del `*`. Esta es necesaria debido a que Git realiza su propia expansión en los nombres de los archivo en adición a la que realiza el shell. Este comando elimina todos los archivos que tengan la extensión `.log` en el directorio `log/`. O puedes hacer algo como lo siguiente:
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+Este comando elimina todos los archivos que finalizan en `~`.
 
 ### Moving Files ###
 

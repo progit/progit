@@ -193,9 +193,9 @@ Insert 18333fig0315.png
 
 ここで、`hotfix` ブランチ上で行った作業は `iss53` ブランチには含まれていないことに注意しましょう。もしそれを取得する必要があるのなら、方法はふたつあります。ひとつは `git merge master` で `master` ブランチの内容を `iss53` ブランチにマージすること。そしてもうひとつはそのまま作業を続け、いつか `iss53` ブランチの内容を `master` に適用することになった時点で統合することです。
 
-### Basic Merging ###
+### マージの基本 ###
 
-Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
+問題番号 53 の対応を終え、`master` ブランチにマージする準備ができたとしましょう。`iss53` ブランチのマージは、先ほど `hotfix` ブランチをマージしたときとまったく同じような手順でできます。つまり、マージ先のブランチに切り替えてから `git merge` コマンドを実行するだけです。
 
 	$ git checkout master
 	$ git merge iss53
@@ -203,19 +203,19 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
+先ほどの `hotfix` のマージとはちょっとちがう感じですね。今回の場合、開発の歴史が過去のとある時点で分岐しています。マージ先のコミットがマージ元のコミットの直系の先祖ではないため、Git 側でちょっとした処理が必要だったのです。ここでは、各ブランチが指すふたつのスナップショットとそれらの共通の先祖との間で三方向のマージを行いました。図 3-16 に、今回のマージで使用した三つのスナップショットを示します。
 
 Insert 18333fig0316.png 
-Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
+図 3-16. Git が共通の先祖を自動的に見つけ、ブランチのマージに使用する
 
-Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
+単にブランチのポインタを先に進めるのではなく、Git はこの三方向のマージ結果から新たなスナップショットを作成し、それを指す新しいコミットを自動作成します (図 3-17 を参照ください)。これはマージコミットと呼ばれ、複数の親を持つ特別なコミットとなります。
 
-It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
+マージの基点として使用する共通の先祖を Git が自動的に判別するというのが特筆すべき点です。CVS や Subversion (バージョン 1.5 より前のもの) は、マージの基点となるポイントを自分で見つける必要があります。これにより、他のシステムに比べて Git のマージが非常に簡単なものとなっているのです。
 
 Insert 18333fig0317.png 
-Figure 3-17. Git automatically creates a new commit object that contains the merged work.
+図 3-17. マージ作業の結果から、Git が自動的に新しいコミットオブジェクトを作成する
 
-Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
+これで、今までの作業がマージできました。もはや `iss53` ブランチは不要です。削除してしまい、問題追跡システムのチケットもクローズしておきましょう。
 
 	$ git branch -d iss53
 

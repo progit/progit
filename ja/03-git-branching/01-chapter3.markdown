@@ -470,9 +470,9 @@ Insert 18333fig0326.png
 
 ドッカーン。これでブランチはサーバから消えてしまいました。このページの端を折っておいたほうがいいかもしれませんね。実際にこのコマンドが必要になったときには、おそらくこの構文を忘れてしまっているでしょうから。このコマンドを覚えるコツは、少し前に説明した構文 `git push [remotename] [localbranch]:[remotebranch]` を思い出すことです。`[localbranch]` の部分をそのまま残して考えると、これは基本的に「こっちの (何もなし) で、向こうの `[remotebranch]` を更新しろ」と言っていることになります。
 
-## Rebasing ##
+## リベース ##
 
-In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
+Git には、あるブランチの変更を別のブランチに統合するための方法が大きく分けて二つあります。`merge` と `rebase` です。このセクションでは、リベースについて「どういう意味か」「どのように行うのか」「なぜそんなにもすばらしいのか」「どんなときに使うのか」を説明します。
 
 ### The Basic Rebase ###
 

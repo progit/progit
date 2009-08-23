@@ -460,15 +460,15 @@ Insert 18333fig0326.png
 
 これで、ローカルブランチ sf が自動的に origin/serverfix を追跡するようになりました。
 
-### Deleting Remote Branches ###
+### リモートブランチの削除 ###
 
-Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
+リモートブランチでの作業が終わったとしましょう。つまり、あなたや他のメンバーが一通りの作業を終え、それをリモートの `master` ブランチ (あるいは安定版のコードラインとなるその他のブランチ) にマージし終えたということです。リモートブランチを削除するコマンドは、少しわかりにくい構文ですが `git push [remotename] :[branch]` となります。サーバの `serverfix` ブランチを削除したい場合は次のようになります。
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
+ドッカーン。これでブランチはサーバから消えてしまいました。このページの端を折っておいたほうがいいかもしれませんね。実際にこのコマンドが必要になったときには、おそらくこの構文を忘れてしまっているでしょうから。このコマンドを覚えるコツは、少し前に説明した構文 `git push [remotename] [localbranch]:[remotebranch]` を思い出すことです。`[localbranch]` の部分をそのまま残して考えると、これは基本的に「こっちの (何もなし) で、向こうの `[remotebranch]` を更新しろ」と言っていることになります。
 
 ## Rebasing ##
 

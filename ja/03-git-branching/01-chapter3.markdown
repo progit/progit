@@ -557,39 +557,39 @@ Insert 18333fig0334.png
 Insert 18333fig0335.png 
 図 3-35. 最終的なコミット履歴
 
-### The Perils of Rebasing ###
+### ほんとうは怖いリベース ###
 
-Ahh, but the bliss of rebasing isn’t without its drawbacks, which can be summed up in a single line:
+あぁ、このすばらしいリベース機能。しかし、残念ながら欠点もあります。その欠点はほんの一行でまとめることができます。
 
-**Do not rebase commits that you have pushed to a public repository.**
+**公開リポジトリにプッシュしたコミットをリベースしてはいけない**
 
-If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.
+この指針に従っている限り、すべてはうまく進みます。もしこれを守らなければ、あなたは嫌われ者となり、友人や家族からも軽蔑されることになるでしょう。
 
-When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.
+リベースをすると、既存のコミットを破棄して新たなコミットを作成することになります。新たに作成したコミットは破棄したものと似てはいますが別物です。あなたがどこかにプッシュしたコミットを誰かが取得してその上で作業を始めたとしましょう。あなたが `git rebase` でそのコミットを書き換えて再度プッシュすると、相手は再びマージすることになります。そして相手側の作業を自分の環境にプルしようとするとおかしなことになってしまします。
 
-Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.
+いったん公開した作業をリベースするとどんな問題が発生するのか、例を見てみましょう。中央サーバからクローンした環境上で何らかの作業を進めたものとします。現在のコミット履歴は図 3-36 のようになっています。
 
 Insert 18333fig0336.png 
-Figure 3-36. Clone a repository, and base some work on it.
+図 3-36. リポジトリをクローンし、なんらかの作業をすませた状態
 
-Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figure 3-37.
+さて、誰か他の人が、マージを含む作業をしてそれを中央サーバにプッシュしました。それを取得し、リモートブランチの内容を作業環境にマージすると、図 3-37 のような状態になります。
 
 Insert 18333fig0337.png 
-Figure 3-37. Fetch more commits, and merge them into your work.
+図 3-37. さらなるコミットを取得し、作業環境にマージした状態
 
-Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
+次に、さきほどマージした作業をプッシュした人が、気が変わったらしく新たにリベースし直したようです。なんと `git push --force` を使ってサーバ上の歴史を上書きしてしまいました。あなたはもう一度サーバにアクセスし、新しいコミットを手元に取得します。
 
 Insert 18333fig0338.png 
-Figure 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+図 3-38. 誰かがリベースしたコミットをプッシュし、あなたの作業環境の元になっているコミットが破棄された
 
-At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (see Figure 3-39).
+ここであなたは、新しく取得した内容をまたマージしなければなりません。すでにマージ済みのはずであるにもかかわらず。リベースを行うとコミットの SHA-1 ハッシュが変わってしまうので、Git はそれを新しいコミットと判断します。実際のところ C4 の作業は既に取り込み済みなのですが (図 3-39 を参照ください)。
 
 Insert 18333fig0339.png 
-Figure 3-39. You merge in the same work again into a new merge commit.
+図 3-39. 同じ作業を再びマージして新たなマージコミットを作成する
 
-You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
+今後の他の開発者の作業を追いかけていくために、今回のコミットもマージする必要があります。そうすると、あなたのコミット履歴には C4 と C4' の両方のコミットが含まれることになります。これらは SHA-1 ハッシュが異なるだけで、作業内容やコミットメッセージは同じものです。このような状態の歴史の上で `git log` を実行すると、同じ人による同じ日付で同じメッセージのコミットがふたつ登場することになり、混乱します。さらに、この歴史をサーバにプッシュすると、リベースしたコミットを再び中央サーバに戻すことになってしまい、混乱する人がさらに増えます。
 
-If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
+リベースはあくまでもプッシュする前のコミットをきれいにするための方法であるととらえ、リベースするのはまだ公開していないコミットのみに限定するようにしている限りはすべてがうまく進みます。もしいったんプッシュした後のコミットをリベースしてしまい、どこか他のところでそのコミットを元に作業を進めている人がいたとすると、やっかいなトラブルに巻き込まれることになるでしょう。
 
 ## Summary ##
 

@@ -296,44 +296,44 @@ Git は新たなマージコミットを自動的には作成しませんでし�
 
 このメッセージを変更して、どのようにして衝突を解決したのかを詳しく説明しておくのもよいでしょう。後から他の人がそのマージを見たときに、あなたがなぜそのようにしたのかがわかりやすくなります。
 
-## Branch Management ##
+## ブランチの管理 ##
 
-Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+これまでにブランチの作成、マージ、そして削除を行いました。ここで、いくつかのブランチ管理ツールについて見ておきましょう。今後ブランチを使い続けるにあたって、これらのツールが便利に使えるでしょう。
 
-The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
+`git branch` コマンドは、単にブランチを作ったり削除したりするだけのものではありません。何も引数を渡さずに実行すると、現在のブランチの一覧を表示します。
 
 	$ git branch
 	  iss53
 	* master
 	  testing
 
-Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch –v`:
+`*` という文字が `master` ブランチの先頭についていることに注目しましょう。これは、現在チェックアウトされているブランチを意味します。つまり、ここでコミットを行うと、`master` ブランチがひとつ先に進むということです。各ブランチにおける直近のコミットを調べるには `git branch –v` を実行します。
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
+各ブランチの状態を知るために便利なもうひとつの機能として、現在作業中のブランチにマージ済みかそうでないかによる絞り込みができるようになっています。そのための便利なオプション `--merged` と `--no-merged` が、Git バージョン 1.5.6 以降で使用可能となりました。現在作業中のブランチにマージ済みのブランチを調べるには `git branch –merged` を実行します。
 
 	$ git branch --merged
 	  iss53
 	* master
 
-Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+すでに先ほど `iss53` ブランチをマージしているので、この一覧に表示されています。このリストにあがっているブランチのうち先頭に `*` がついていないものは、通常は `git branch -d` で削除してしまって問題ないブランチです。すでにすべての作業が別のブランチに取り込まれているので、もはや何も失うことはありません。
 
-To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
+まだマージされていない作業を持っているすべてのブランチを知るには、`git branch --no-merged` を実行します。
 
 	$ git branch --no-merged
 	  testing
 
-This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
+先ほどのブランチとは別のブランチが表示されます。まだマージしていない作業が残っているので、このブランチを `git branch -d` で削除しようとしても失敗します。
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
-If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
+本当にそのブランチを消してしまってよいのなら `-D` で強制的に消すこともできます。……と、親切なメッセージで教えてくれていますね。
 
 ## Branching Workflows ##
 

@@ -591,6 +591,6 @@ Insert 18333fig0339.png
 
 リベースはあくまでもプッシュする前のコミットをきれいにするための方法であるととらえ、リベースするのはまだ公開していないコミットのみに限定するようにしている限りはすべてがうまく進みます。もしいったんプッシュした後のコミットをリベースしてしまい、どこか他のところでそのコミットを元に作業を進めている人がいたとすると、やっかいなトラブルに巻き込まれることになるでしょう。
 
-## Summary ##
+## まとめ ##
 
-We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.
+本章では、Git におけるブランチとマージの基本について取り上げました。新たなブランチの作成、ブランチの切り替え、ローカルブランチのマージなどの作業が気軽にできるようになったことでしょう。また、ブランチを共有サーバにプッシュして公開したり他の共有ブランチ上で作業をしたり、公開する前にブランチをリベースしたりする方法を身につけました。

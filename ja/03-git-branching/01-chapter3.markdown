@@ -442,23 +442,23 @@ Insert 18333fig0326.png
 
 これで、`origin/serverfix` が指す先から作業を開始するためのローカルブランチができあがりました。
 
-### Tracking Branches ###
+### 追跡ブランチ ###
 
-Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+リモートブランチからローカルブランチにチェックアウトすると、_追跡ブランチ (tracking branch)_ というブランチが自動的に作成されます。追跡ブランチとは、リモートブランチと直接のつながりを持つローカルブランチのことです。追跡ブランチ上で git push を実行すると、Git は自動的にプッシュ先のサーバとブランチを判断します。また、追跡ブランチ上で `git pull` を実行すると、リモートの参照先からすべてのデータを取得し、対応するリモートブランチの内容を自動的にマージします。
 
-When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
+あるリポジトリをクローンしたら、自動的に `master` ブランチを作成し、`origin/master` を追跡するようになります。これが、`git push` や `git pull` が引数なしでもうまく動作する理由です。しかし、必要に応じてそれ以外の追跡ブランチを作成し、`origin` 以外にあるブランチや `master` 以外のブランチを追跡させることも可能です。シンプルな方法としては、`git checkout -b [branch] [remotename]/[branch]` を実行します。Git バージョン 1.6.2 以降では、より簡単に `--track` を使うことができます。
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
+ローカルブランチをリモートブランチと違う名前にしたい場合は、最初に紹介した方法でローカルブランチに別の名前を指定します。
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
+これで、ローカルブランチ sf が自動的に origin/serverfix を追跡するようになりました。
 
 ### Deleting Remote Branches ###
 

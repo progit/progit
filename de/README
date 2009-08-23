@@ -3,8 +3,8 @@
 Wenn du mitarbeiten willst, melde dich einfach. Ich werde dich als
 Collaborator hinzufügen - es ist leichter im gleichen Repository zu arbeiten.
 
-Wir haben die Arbeit bisher in keiner Weise strukturiert, mit Ausnahme der
-Konvention:
+Wir haben die Arbeit bisher kaum strukturiert, mit Ausnahme folgender
+Konvention und untenstehenden Workflows:
 
 -> Wenn du mit einem Kapitel anfangen willst, "checke" es dadurch "aus", daß
    du eine neue, leere Datei dafür anlegst, commitest und pushst.
@@ -12,7 +12,61 @@ Konvention:
 Andere sehen dann, daß jemand bereits an diesem Kapitel arbeitet, und wir
 können hoffentlich doppelte Arbeit vermeiden.
 
+Workflow:
+
+Wir arbeiten lokal in einem working/topic branch. Du kannst diesen branch nach Github pushen, wenn du willst, aber du solltest die working branches anderer nicht ändern.
+
+Der branch, in den wir unsere gemeinsame Arbeit an der deutschen Übersetzung synchronisieren (mergen) ist der branch translation-de. Wir verwenden dazu nicht master, damit es einfacher ist master in Sync mit Scott's Repository zu halten.
+
+git clone git@github.com:svenfuchs/progit.git
+
+# Lokalen working branch anlegen, darin arbeiten, rebasen und pushen
+git checkout --track -b translation-de origin/translation-de
+git checkout -b work
+# ... Änderungen in diesem branch vornehmen ...
+git checkout translation-de
+git pull
+git checkout work
+git rebase translation-de
+# ggf. Konflikte beheben:
+# git mergetool
+# git rebase --continue
+git checkout translation-de
+git merge work
+git push
+
+# Möglicherweise vorhandene Änderungen bei uns auf progit/master rebasen
+git remote add progit git://github.com/progit/progit.git
+git fetch progit
+git rebase progit/master
+# ggf. Konflikte beheben:
+# git mergetool
+# git rebase --continue
+git push
+
+# Änderungen aus translation-de auf master rebasen
+git checkout master
+git pull
+git checkout translation-de
+git rebase master
+# ggf. Konflikte beheben:
+# git mergetool
+# git rebase --continue
+git checkout master
+git merge translation-de
+git push
+
 Einige Erfahrungen:
+
+* Es macht Sinn, möglichst oft zu rebasen und zu pushen, damit man nicht
+  allzuviele Konflikte erhält.
+
+* Wenn du andere wirklich nerven willst, dann nimm Rechtschreibkorrekturen an
+  ihren noch unfertigen Übersetzungen vor. Rechtschreibung und Feinheiten in
+  Formulierungen zu korrigieren, daß man zahlreiche winzige Änderungen in
+  verschiedenen Versionen von ganzen Absätzen zusammenführen muß. Das kostet
+  massiv Zeit und lohnt sich einfach nicht, solange die Übersetzung noch nicht
+  fertig ist.
 
 * Es macht Sinn, die Englische Fassung des Textes zu kopieren und dann Absatz
   für Absatz die Übersetzung einzufügen, das Original aber vorläufig stehen zu

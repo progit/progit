@@ -3,20 +3,11 @@
 
 At this point, you should be able to do most of the day-to-day tasks for which you’ll be using Git. However, in order to do any collaboration in Git, you’ll need to have a remote Git repository. Although you can technically push changes to and pull changes from individuals’ repositories, doing so is discouraged because you can fairly easily confuse what they’re working on if you’re not careful. Furthermore, you want your collaborators to be able to access the repository even if your computer is offline — having a more reliable common repository is often useful. Therefore, the preferred method for collaborating with someone is to set up an intermediate repository that you both have access to, and push to and pull from that. We’ll refer to this repository as a "Git server"; but you’ll notice that it generally takes a tiny amount of resources to host a Git repository, so you’ll rarely need to use an entire server for it.
 
-Zum jetzigen Zeitpunkt solltest du in der Lage sein, die am häufigsten wiederkehrenden Aufgaben mit Git zu lösen.
-Um Zusammenarbeit zu ermöglichen solltest du jedoch darüber nachdenken, ein externes Repository zur Verfügung stellen.
-Wenngleich es technisch ohne Weiteres möglich ist, direkt mit Repositories Anderer zu arbeiten und Änderungen dorthin zu pushen oder von dort zu holen, macht es dieses Vorgehen zu leicht Verwirrung zu stiften. Wenn man nicht vorsichtig ist, verliert man schnell den Überblick darüber wer woran arbeitet.
-Des weiteren erfordert der direkte Umgang mit Git Repositories, dass diese permanent verfügbar sind. Ein Repository auf dem eigenen Computer ist nur dann für alle Mitentwickler erreichbar, wenn der Computer läuft.
-Es macht deshalb Sinn, ein zentrales und zuverlässig erreichbares Repository einzurichten.
-Wir werden dieses Repository im Folgenden als "Git Server" bezeichnen. Es sollte jedoch schnell klar werden, dass nur minimale Ressourcen notwendig sind, um Git Repositories zu hosten. In den seltensten Fällen ist ein dedizierter Server dafür notwendig.
+Zum jetzigen Zeitpunkt solltest du in der Lage sein, die am häufigsten wiederkehrenden Aufgaben mit Git zu lösen. Um Zusammenarbeit zu ermöglichen solltest du jedoch darüber nachdenken, ein externes Repository zur Verfügung stellen. Wenngleich es technisch ohne Weiteres möglich ist, direkt mit Repositories Anderer zu arbeiten und Änderungen dorthin zu pushen oder von dort zu holen, macht es dieses Vorgehen zu leicht Verwirrung zu stiften. Wenn man nicht vorsichtig ist, verliert man schnell den Überblick darüber wer woran arbeitet. Des weiteren erfordert der direkte Umgang mit Git Repositories, dass diese permanent verfügbar sind. Ein Repository auf dem eigenen Computer ist nur dann für alle Mitentwickler erreichbar, wenn der Computer läuft. Es macht deshalb Sinn, ein zentrales und zuverlässig erreichbares Repository einzurichten. Wir werden dieses Repository im Folgenden als "Git Server" bezeichnen. Es sollte jedoch schnell klar werden, dass nur minimale Ressourcen notwendig sind, um Git Repositories zu hosten. In den seltensten Fällen ist ein dedizierter Server dafür notwendig.
 
 Running a Git server is simple. First, you choose which protocols you want your server to communicate with. The first section of this chapter will cover the available protocols and the pros and cons of each. The next sections will explain some typical setups using those protocols and how to get your server running with them. Last, we’ll go over a few hosted options, if you don’t mind hosting your code on someone else’s server and don’t want to go through the hassle of setting up and maintaining your own server.
 
-Einen Git Server zu betreiben ist einfach.
-Die erste Entscheidung, die zu treffen ist, ist die des zu verwendenden Protokolls zur Kommunikation mit dem Server.
-Der erste Teil dieses Kapitels wird deshalb die zur Verfügung stehenden Protokolle und ihre Vor und Nachteile beschreiben.
-Darüber hinaus werden einige typische Konfigurationen zum Betreiben eines Git Servers vorgestellt.
-Für den Fall, dass keine Bedenken bestehen, Code von externen Anbietern hosten zu lassen, werden zuletzt ein paar Optionen für gehostete Git Repositories gezeigt. Dies erspart die Mehrarbeit der Einrichtung und Wartung eines eigenen Git Servers.
+Einen Git Server zu betreiben ist einfach. Die erste Entscheidung, die zu treffen ist, ist die des zu verwendenden Protokolls zur Kommunikation mit dem Server. Der erste Teil dieses Kapitels wird deshalb die zur Verfügung stehenden Protokolle und ihre Vor und Nachteile beschreiben. Darüber hinaus werden einige typische Konfigurationen zum Betreiben eines Git Servers vorgestellt. Für den Fall, dass keine Bedenken bestehen, Code von externen Anbietern hosten zu lassen, werden zuletzt ein paar Optionen für gehostete Git Repositories gezeigt. Dies erspart die Mehrarbeit der Einrichtung und Wartung eines eigenen Git Servers.
 
 If you have no interest in running your own server, you can skip to the last section of the chapter to see some options for setting up a hosted account and then move on to the next chapter, where we discuss the various ins and outs of working in a distributed source control environment.
 
@@ -35,7 +26,7 @@ Git kann vier wichtige Netzwerk Protokolle zum Datentransfer benutzen: Lokal, Se
 
 It’s important to note that with the exception of the HTTP protocols, all of these require Git to be installed and working on the server.
 
-Es ist wichtig zu beachten, mit der Ausnahme des HTTP-Protokolls, es ist Vorraussetzung, dass Git auf dem Server installiert sein muss und laufen muss.
+Es ist wichtig zu beachten, dass alle Protokolle mit Ausnahme von HTTP eine funktionierende Git Installation auf dem Server benötigen.
 
 ### Local Protocol ###
 ### Lokales Protokoll ###
@@ -75,7 +66,7 @@ Dann kannst du von einem externen Repository pushen und pullen, obwohl du das ü
 
 The pros of file-based repositories are that they’re simple and they use existing file permissions and network access. If you already have a shared filesystem to which your whole team has access, setting up a repository is very easy. You stick the bare repository copy somewhere everyone has shared access to and set the read/write permissions as you would for any other shared directory. We’ll discuss how to export a bare repository copy for this purpose in the next section, “Getting Git on a Server.”
 
-Die Vorteile von Datei-basierten Repositories sind die Einfachheit und sie nutzen bestehende Datei-Berechtigungen und den bestehenden Netzwerk-Zugriff. Wenn du bereits ein gemeinsames Dateisystem hast, zu dem das gesamte Team Zugriff hat, ist das Einrichten eines Repositories sehr einfach. Du packst die Kopie des einfachen Repositories dahin, wo jeder gemeinsamen Zugriff hat und stellst die Lese- und Schreibberechtigungen wie bei jedem anderem gemeinsamen Verzeichnis ein. Wir werden im nächsten Abschnitt “Git auf einen Server bekommen.” diskutieren, wie man die Kopie eines einfachen Repositories für diesen Zweck exportiert.
+Die Vorteile von Datei-basierten Repositories sind die Einfachheit und sie nutzen bestehende Datei-Berechtigungen und den bestehenden Netzwerk-Zugriff. Wenn du bereits ein gemeinsames Dateisystem hast, zu dem das gesamte Team Zugriff hat, ist das Einrichten eines Repositories sehr einfach. Du extrahierst die Kopie des einfachen Repositories dahin, wo jeder gemeinsamen Zugriff hat und stellst die Lese- und Schreibberechtigungen wie bei jedem anderem gemeinsamen Verzeichnis ein. Wir werden im nächsten Abschnitt “Git auf einen Server bekommen.” diskutieren, wie man die Kopie eines einfachen Repositories für diesen Zweck exportiert.
 
 This is also a nice option for quickly grabbing work from someone else’s working repository. If you and a co-worker are working on the same project and they want you to check something out, running a command like `git pull /home/john/project` is often easier than them pushing to a remote server and you pulling down.
 

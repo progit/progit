@@ -8,11 +8,11 @@ Git サーバを立ち上げるのは簡単です。まず、サーバとの通�
 
 リモートリポジトリは、一般的に _ベアリポジトリ_ となります。これは、作業ディレクトリをもたない Git リポジトリのことです。このリポジトリは共同作業の中継地点としてのみ用いられるので、ディスク上にスナップショットをチェックアウトする必要はありません。単に Git のデータがあればそれでよいのです。端的に言うと、ベアリポジトリとはそのプロジェクトの `.git` ディレクトリだけで構成されるもののことです。
 
-## The Protocols ##
+## プロトコル ##
 
-Git can use four major network protocols to transfer data: Local, Secure Shell (SSH), Git, and HTTP. Here we’ll discuss what they are and in what basic circumstances you would want (or not want) to use them.
+Git では、データ転送用のネットワークプロトコルとして Local、Secure Shell (SSH)、Git そして HTTP の四つを使用できます。ここでは、それぞれがどんなものなのかとどんな場面で使うべきか (使うべきでないか) を説明します。
 
-It’s important to note that with the exception of the HTTP protocols, all of these require Git to be installed and working on the server.
+注意すべき点として、HTTP 以外のすべてのプロトコルは、サーバ上に Git がインストールされている必要があります。
 
 ### Local Protocol ###
 

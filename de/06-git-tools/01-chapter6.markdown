@@ -1,22 +1,39 @@
 # Git Tools #
+# Git Tools #
 
-By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control.
+You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+
+Bis hierher hast du die meisten täglichen Kommandos und Arbeitsweisen gelernt, die du brauchst um ein Git Repository für deine Quellcode Kontrolle, zu benutzen. Du hast die grundlegenden Aufgaben des tracking und committing von Dateien gemeistert und du hast von der Macht der staging area, des branching und des merging Gebrauch gemacht.
 
 Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
 
+Nun werden wir einige sehr mächtige Dinge entdecken, die du mit Git machen kannst, die du aber nicht unbedingt im täglichen Gebrauch nutzen wirst, du wirst sie aber mit Sicherheit an einem bestimmten Punkt brauchen werden.
+
 ## Revision Selection ##
+## Revision Auswahl ##
 
 Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
 
+Git erlaubt dir spezifische oder eine reihe von commits auf verschiedenste Art und Weise auszuwählen. Diese sind nicht immer offensichtlich aber es ist hilfreich diese zu kennen.
+
 ### Single Revisions ###
+### Einzelne Revisionen ###
 
 You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
 
+Du kannst offensichtlich mithilfe des SHA-1 hash einen commit auswählen, aber es gibt auch Menschen freundlichere Methoden auf ein commit zu verweisen. Dieser Bereich skizziert die verschiedenen Wege, die man gehen kann um auf ein einzelnen commit zu referenzieren.
+
 ### Short SHA ###
+### Abgekürztes SHA ###
 
 Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
 
+Git ist intelligent genug, den richtigen commit herauszufinden, wenn man nur die ersten paar Zeichen angibt aber nur unter der Bedingung, dass der SHA-1 hash mindestens vier Zeichen lang und einzigartig ist — das bedeutet, dass es nur ein Objekt im derzeitigen Repository gibt, das mit diesem bestimmten SHA-1 hash beginnt.
+
 For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
+
+Um zum Beispiel einen bestimmten commit zu sehen, kann man das `git log` Kommando ausführen und den commit identifizieren in dem man eine bestimmte Funktionalität hinzugefügt hat:
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -40,11 +57,15 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
 
+In diesem Fall wählt man `1c002dd....` wenn du diesen commit mit `git show` anzeigen lassen willst, die folgenden Kommandos sind äquivalent (vorausgesetzt die verkürzte Version ist einzigartig):
+
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
 Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
+
+Git kann auch selber eine Kurzform für deine einzigartigen SHA-1 Werte erzeugen. Wenn du `--abbrev-commit` dem `git log` Kommando übergibst, wird es den kürzeren Wert benutzen diesen aber einzigartig halten; die Standardeinstellung sind sieben Zeichen aber es werden automatisch mehr benutzt wenn dies nötig ist um den SHA-1 hash eindeutig zu bezeichnen.
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
@@ -53,7 +74,10 @@ Git can figure out a short, unique abbreviation for your SHA-1 values. If you pa
 
 Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
 
+Generell kann man sagen das acht bis zehn Zeichen mehr als ausreichend in einem Projekt sind, um eindeutig zu bleiben. Eines der größten Git Projekte, der Linux kernel, fängt langsam an 12 von maximal 40 Zeichen zu nutzen um eindeutig zu bleiben.
+
 ### A SHORT NOTE ABOUT SHA-1 ###
+### EINE KURVE NOTIZ ÜBER SHA-1 ###
 
 A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
 

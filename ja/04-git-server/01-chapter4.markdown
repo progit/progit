@@ -147,9 +147,9 @@ Git サーバを立ち上げるには、既存のリポジトリをエクスポ�
 
 次のいくつかのセクションでは、より洗練された環境を作るための方法を説明します。いちいちユーザごとにアカウントを作らなくて済む方法、一般向けにリポジトリへの読み込みアクセスを開放する方法、ウェブ UI の設定、Gitosis の使い方などです。しかし、数名のメンバーで閉じたプロジェクトでの作業なら、SSH サーバとベアリポジトリ _さえ_ あれば十分なことは覚えておきましょう。
 
-### Small Setups ###
+### ちょっとしたセットアップ ###
 
-If you’re a small outfit or are just trying out Git in your organization and have only a few developers, things can be simple for you. One of the most complicated aspects of setting up a Git server is user management. If you want some repositories to be read-only to certain users and read/write to others, access and permissions can be a bit difficult to arrange.
+小規模なグループ、あるいは数名の開発者しかいない組織で Git を使うなら、すべてはシンプルに進められます。Git サーバを準備する上でもっとも複雑なことのひとつは、ユーザ管理です。同一リポジトリに対して「このユーザは読み込みのみが可能、あのユーザは読み書きともに可能」などと設定したければ、アクセス権とパーミッションの設定は多少難しくなります。
 
 #### SSH Access ####
 

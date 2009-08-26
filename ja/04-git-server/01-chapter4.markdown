@@ -78,11 +78,11 @@ Git プロトコルは、もっとも高速な転送プロトコルです。公�
 
 #### 欠点 ####
 
-Git プロトコルの弱点は、認証の仕組みがないことです。Git プロトコルだけでしかプロジェクトにアクセスできないという状況は、一般的に望ましくありません。SSH と組み合わせ、プッシュ (書き込み) 権限を持つ一部の開発者には SSH を使わせてそれ以外の人には `git://` での読み込み専用アクセスを用意することになるでしょう。また、Git プロトコルは準備するのがもっとも難しいプロトコルでもあります。まず、独自のデーモンを起動しなければなりません (この章の“Gitosis”のところで詳しく説明します)。そのためには `xinetd` やそれに類するものの設定も必要になりますが、これはそんなにお手軽にできるものではありません。また、ファイヤウォールでポート 9418 のアクセスを許可する必要もあります。これは標準のポートではないので、企業のファイヤウォールでは許可されなていないかもしれません。大企業のファイヤウォールでは、こういったよくわからないポートは普通ブロックされています。
+Git プロトコルの弱点は、認証の仕組みがないことです。Git プロトコルだけでしかプロジェクトにアクセスできないという状況は、一般的に望ましくありません。SSH と組み合わせ、プッシュ (書き込み) 権限を持つ一部の開発者には SSH を使わせてそれ以外の人には `git://` での読み込み専用アクセスを用意することになるでしょう。また、Git プロトコルは準備するのがもっとも難しいプロトコルでもあります。まず、独自のデーモンを起動しなければなりません (この章の“Gitosis”のところで詳しく説明します)。そのためには `xinetd` やそれに類するものの設定も必要になりますが、これはそんなにお手軽にできるものではありません。また、ファイアウォールでポート 9418 のアクセスを許可する必要もあります。これは標準のポートではないので、企業のファイアウォールでは許可されなていないかもしれません。大企業のファイアウォールでは、こういったよくわからないポートは普通ブロックされています。
 
-### The HTTP/S Protocol ###
+### HTTP/S プロトコル ###
 
-Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the simplicity of setting it up. Basically, all you have to do is put the bare Git repository under your HTTP document root and set up a specific `post-update` hook, and you’re done (See Chapter 7 for details on Git hooks). At that point, anyone who can access the web server under which you put the repository can also clone your repository. To allow read access to your repository over HTTP, do something like this:
+最後は HTTP プロトコルです。HTTP あるいは HTTPS のうれしいところは、準備するのが簡単だという点です。基本的に、必要な作業といえば Git リポジトリを HTTP のドキュメントルート以下に置いて `post-update` フックを用意することだけです (Git のフックについては第 7 章で詳しく説明します)。これで、ウェブサーバ上のその場所にアクセスできる人ならだれでもリポジトリをクローンできるようになります。リポジトリへの HTTP での読み込みアクセスを許可するには、こんなふうにします。
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -90,25 +90,25 @@ Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the 
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-That’s all. The `post-update` hook that comes with Git by default runs the appropriate command (`git update-server-info`) to make HTTP fetching and cloning work properly. This command is run when you push to this repository over SSH; then, other people can clone via something like
+これだけです。Git に標準でついてくる `post-update` フックは、適切なコマンド (`git update-server-info`) を実行して HTTP でのフェッチとクローンをうまく動くようにします。このコマンドが実行されるのは、このリポジトリに対して SSH 越しでのプッシュがあったときです。その他の人たちがクローンする際には次のようにします。
 
 	$ git clone http://example.com/gitproject.git
 
-In this particular case, we’re using the `/var/www/htdocs` path that is common for Apache setups, but you can use any static web server — just put the bare repository in its path. The Git data is served as basic static files (see Chapter 9 for details about exactly how it’s served).
+今回の例ではたまたま `/var/www/htdocs` (一般的な Apache の標準設定) を使用しましたが、別にそれに限らず任意のウェブサーバを使うことができます。単にベアリポジトリをそのパスに置けばよいだけです。Git のデータは、普通の静的ファイルとして扱われます (実際のところどのようになっているかの詳細は第 9 章を参照ください)。
 
-It’s possible to make Git push over HTTP as well, although that technique isn’t as widely used and requires you to set up complex WebDAV requirements. Because it’s rarely used, we won’t cover it in this book. If you’re interested in using the HTTP-push protocols, you can read about preparing a repository for this purpose at `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. One nice thing about making Git push over HTTP is that you can use any WebDAV server, without specific Git features; so, you can use this functionality if your web-hosting provider supports WebDAV for writing updates to your web site.
+HTTP 越しの Git のプッシュを行うことも可能ですが、あまり使われていません。また、これには複雑な WebDAV の設定が必要です。めったに使われることがないので、本書では取り扱いません。HTTP でのプッシュに興味があるかたのために、それ用のリポジトリを準備する方法が `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` で公開されています。HTTP 越しでの Git のプッシュに関して、よいお知らせがひとつあります。どんな WebDAV サーバでも使うことが可能で、特に Git ならではの機能は必要ありません。つまり、もしプロバイダが WebDAV によるウェブサイトの更新に対応しているのなら、それを使用することができます。
 
-#### The Pros ####
+#### 利点 ####
 
-The upside of using the HTTP protocol is that it’s easy to set up. Running the handful of required commands gives you a simple way to give the world read access to your Git repository. It takes only a few minutes to do. The HTTP protocol also isn’t very resource intensive on your server. Because it generally uses a static HTTP server to serve all the data, a normal Apache server can serve thousands of files per second on average — it’s difficult to overload even a small server.
+HTTP を使用する利点は、簡単にセットアップできるということです。便利なコマンドで、Git リポジトリへの読み取りアクセスを全世界に公開できます。ものの数分で用意できることでしょう。また、HTTP はサーバ上のリソースを激しく使用することはありません。すべてのデータは HTTP サーバ上の静的なファイルとして扱われます。普通の Apache サーバは毎秒数千ファイルぐらいは余裕でさばくので、小規模サーバであったとしても (Git リポジトリへのへのアクセスで) サーバが過負荷になることはないでしょう。
 
-You can also serve your repositories read-only over HTTPS, which means you can encrypt the content transfer; or you can go so far as to make the clients use specific signed SSL certificates. Generally, if you’re going to these lengths, it’s easier to use SSH public keys; but it may be a better solution in your specific case to use signed SSL certificates or other HTTP-based authentication methods for read-only access over HTTPS.
+HTTPS で読み込み専用のリポジトリを公開することもできます。これで、転送されるコンテンツを暗号化したりクライアント側で特定の署名つき SSL 証明書を使わせたりすることができるようになります。そこまでやるぐらいなら SSH の公開鍵を使うほうが簡単ではありますが、場合によっては署名入り SSL 証明書やその他の HTTP ベースの認証方式を使った HTTPS での読み込み専用アクセスを使うこともあるでしょう。
 
-Another nice thing is that HTTP is such a commonly used protocol that corporate firewalls are often set up to allow traffic through this port.
+もうひとつの利点としてあげられるのは、HTTP が非常に一般的なプロトコルであるということです。たいていの企業のファイアウォールはこのポートを通すように設定されています。
 
-#### The Cons ####
+#### 欠点 ####
 
-The downside of serving your repository over HTTP is that it’s relatively inefficient for the client. It generally takes a lot longer to clone or fetch from the repository, and you often have a lot more network overhead and transfer volume over HTTP than with any of the other network protocols. Because it’s not as intelligent about transferring only the data you need — there is no dynamic work on the part of the server in these transactions — the HTTP protocol is often referred to as a _dumb_ protocol. For more information about the differences in efficiency between the HTTP protocol and the other protocols, see Chapter 9.
+HTTP によるリポジトリの提供の問題点は、クライアント側から見て非効率的だということです。リポジトリのフェッチやクローンには非常に時間がかかります。また、他のネットワークプロトコルにくらべてネットワークのオーバーヘッドや転送量が非常に増加します。必要なデータだけをやりとりするといった賢い機能はない (サーバ側で転送時になんらかの作業をすることができない) ので、HTTP はよく _ダム (dumb)_ プロトコルなどと呼ばれています。HTTP とその他のプロトコルの間の効率の違いに関する詳細な情報は、第 9 章を参照ください。
 
 ## Getting Git on a Server ##
 

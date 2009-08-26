@@ -151,17 +151,17 @@ Git サーバを立ち上げるには、既存のリポジトリをエクスポ�
 
 小規模なグループ、あるいは数名の開発者しかいない組織で Git を使うなら、すべてはシンプルに進められます。Git サーバを準備する上でもっとも複雑なことのひとつは、ユーザ管理です。同一リポジトリに対して「このユーザは読み込みのみが可能、あのユーザは読み書きともに可能」などと設定したければ、アクセス権とパーミッションの設定は多少難しくなります。
 
-#### SSH Access ####
+#### SSH アクセス ####
 
-If you already have a server to which all your developers have SSH access, it’s generally easiest to set up your first repository there, because you have to do almost no work (as we covered in the last section). If you want more complex access control type permissions on your repositories, you can handle them with the normal filesystem permissions of the operating system your server runs.
+開発者全員が SSH でアクセスできるサーバがすでにあるのなら、リポジトリを用意するのは簡単です。先ほど説明したように、ほとんど何もする必要はないでしょう。より複雑なアクセス制御をリポジトリ上で行いたい場合は、そのサーバの OS 上でファイルシステムのパーミッションを設定するとよいでしょう。
 
-If you want to place your repositories on a server that doesn’t have accounts for everyone on your team whom you want to have write access, then you must set up SSH access for them. We assume that if you have a server with which to do this, you already have an SSH server installed, and that’s how you’re accessing the server.
+リポジトリに対する書き込みアクセスをさせたいメンバーの中にサーバのアカウントを持っていない人がいる場合は、新たに SSH アカウントを作成しなければなりません。あなたがサーバにアクセスできているということは、すでに SSH サーバはインストールされているということです。
 
-There are a few ways you can give access to everyone on your team. The first is to set up accounts for everybody, which is straightforward but can be cumbersome. You may not want to run `adduser` and set temporary passwords for every user.
+その状態で、チームの全員にアクセス権限を与えるにはいくつかの方法があります。ひとつは全員分のアカウントを作成すること。直感的ですがすこし面倒です。ひとりひとりに対して `adduser` を実行して初期パスワードを設定するという作業をしなければなりません。
 
-A second method is to create a single 'git' user on the machine, ask every user who is to have write access to send you an SSH public key, and add that key to the `~/.ssh/authorized_keys` file of your new 'git' user. At that point, everyone will be able to access that machine via the 'git' user. This doesn’t affect the commit data in any way — the SSH user you connect as doesn’t affect the commits you’ve recorded.
+もうひとつの方法は、'git' ユーザをサーバ上に作成し、書き込みアクセスが必要なユーザには SSH 公開鍵を用意してもらってそれを 'git' ユーザの `~/.ssh/authorized_keys` に追加します。これで、全員が 'git' ユーザでそのマシンにアクセスできるようになりました。これがコミットデータに影響を及ぼすことはありません。SSH で接続したときのユーザとコミットするときに記録されるユーザとは別のものだからです。
 
-Another way to do it is to have your SSH server authenticate from an LDAP server or some other centralized authentication source that you may already have set up. As long as each user can get shell access on the machine, any SSH authentication mechanism you can think of should work.
+あるいは、SSH サーバの認証を LDAP サーバやその他の中央管理形式の仕組みなど既に用意されているものにするとこもできます。各ユーザがサーバ上でシェルへのアクセスができさえすれば、どんな仕組みの SSH 認証であっても動作します。
 
 ## Generating Your SSH Public Key ##
 

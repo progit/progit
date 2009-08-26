@@ -125,27 +125,27 @@ Git サーバを立ち上げるには、既存のリポジトリをエクスポ�
 
 設定ファイルにはちょっとした違いもありますが、ほぼこんなものです。作業ディレクトリなしで Git リポジトリを受け取り、それ単体のディレクトリを作成しました。
 
-### Putting the Bare Repository on a Server ###
+### ベアリポジトリのサーバ上への設置 ###
 
-Now that you have a bare copy of your repository, all you need to do is put it on a server and set up your protocols. Let’s say you’ve set up a server called `git.example.com` that you have SSH access to, and you want to store all your Git repositories under the `/opt/git` directory. You can set up your new repository by copying your bare repository over:
+ベアリポジトリを取得できたので、あとはそれをサーバ上においてプロトコルを準備するだけです。ここでは、`git.example.com` というサーバがあってそこに SSH でアクセスできるものと仮定しましょう。Git リポジトリはサーバ上の `/opt/git` ディレクトリに置く予定です。新しいリポジトリを作成するには、ベアリポジトリを次のようにコピーします。
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
-At this point, other users who have SSH access to the same server which has read-access to the `/opt/git` directory can clone your repository by running
+この時点で、同じサーバに SSH でアクセスできてかつ `/opt/git` ディレクトリへの読み込みアクセス権限がある人なら、次のようにしてこのリポジトリをクローンできるようになりました。
 
 	$ git clone user@git.example.com:/opt/git/my_project.git
 
-If a user SSHs into a server and has write access to the `/opt/git/my_project.git` directory, they will also automatically have push access.  Git will automatically add group write permissions to a repository properly if you run the `git init` command with the `--shared` option.
+ユーザが SSH でアクセスでき、かつ `/opt/git/my_project.git` ディレクトリへの書き込みアクセス権限があれば、すでにプッシュもできる状態になっています。`git init` コマンドで `--shared` オプションを指定すると、リポジトリに対するグループ書き込みパーミッションを自動的に追加することができます。
 
 	$ ssh user@git.example.com
 	$ cd /opt/git/my_project.git
 	$ git init --bare --shared
 
-You see how easy it is to take a Git repository, create a bare version, and place it on a server to which you and your collaborators have SSH access. Now you’re ready to collaborate on the same project.
+既存の Git リポジトリからベアリポジトリを作成し、メンバーが SSH でアクセスできるサーバにそれを配置するだけ。簡単ですね。これで、そのプロジェクトでの共同作業ができるようになりました。
 
-It’s important to note that this is literally all you need to do to run a useful Git server to which several people have access — just add SSH-able accounts on a server, and stick a bare repository somewhere that all those users have read and write access to. You’re ready to go — nothing else needed.
+複数名が使用する Git サーバをたったこれだけの作業で用意できるというのは特筆すべきことです。サーバ SSH アクセス可能なアカウントを作成し、ベアリポジトリをサーバのどこかに置き、そこに読み書き可能なアクセス権を設定する。これで準備OK。他には何もいりません。
 
-In the next few sections, you’ll see how to expand to more sophisticated setups. This discussion will include not having to create user accounts for each user, adding public read access to repositories, setting up web UIs, using the Gitosis tool, and more. However, keep in mind that to collaborate with a couple of people on a private project, all you _need_ is an SSH server and a bare repository.
+次のいくつかのセクションでは、より洗練された環境を作るための方法を説明します。いちいちユーザごとにアカウントを作らなくて済む方法、一般向けにリポジトリへの読み込みアクセスを開放する方法、ウェブ UI の設定、Gitosis の使い方などです。しかし、数名のメンバーで閉じたプロジェクトでの作業なら、SSH サーバとベアリポジトリ _さえ_ あれば十分なことは覚えておきましょう。
 
 ### Small Setups ###
 

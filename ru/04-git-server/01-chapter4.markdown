@@ -106,15 +106,19 @@ The negative aspect of SSH is that you can’t serve anonymous access of your re
 
 ### Git-протокол ###
 
-Следующий протокол ― Git-протокол. Вместе с Git поставляется специальный демон который слушает порт 9418 и предоставляет сервис схожий с протоколом ssh, но абсолютно без аутентификации. 
+Следующий протокол ― Git-протокол. Вместе с Git поставляется специальный демон который слушает порт 9418 и предоставляет сервис схожий с протоколом ssh, но абсолютно без аутентификации. Чтобы использовать Git-протокол для репозитория, вы должны создать файл `git-export-daemon-ok`, иначе демон работать с этим репозиторием, но следует помнить, что в протоколе отсутствуют средства безопасности. Соответственно любой репозиторий в Git может быть либо доступен для клонирования всем, либо не доступен никому. Как следствие обычно вы не можете отгружать изменения по этому протоколу. Вы можете открыть доступ на запись, но из-за отсутствия авторизации в этом случае кто угодно зная URL вашего проекта сможет его изменить. В общем это редко используемая возможность.
 
 Next is the Git protocol. This is a special daemon that comes packaged with Git; it listens on a dedicated port (9418) that provides a service similar to the SSH protocol, but with absolutely no authentication. In order for a repository to be served over the Git protocol, you must create the `git-export-daemon-ok` file — the daemon won’t serve a repository without that file in it — but other than that there is no security. Either the Git repository is available for everyone to clone or it isn’t. This means that there is generally no pushing over this protocol. You can enable push access; but given the lack of authentication, if you turn on push access, anyone on the internet who finds your project’s URL could push to your project. Suffice it to say that this is rare.
 
-#### The Pros ####
+#### Достоинства ####
+
+Git-протокол ― самый быстрый из доступных протоколов. Если у вас проект с публичным доступом и большой трафик, или у вас очень большой проект, для которого не требуется авторизация пользователей для чтения, вам стоит настроить демон Git для вашего проекта. Он использует тот же механизм передачи данных, что и протокол SSH, но без дополнительных затрат на кодирование и аутентификацию.
 
 The Git protocol is the fastest transfer protocol available. If you’re serving a lot of traffic for a public project or serving a very large project that doesn’t require user authentication for read access, it’s likely that you’ll want to set up a Git daemon to serve your project. It uses the same data-transfer mechanism as the SSH protocol but without the encryption and authentication overhead.
 
-#### The Cons ####
+#### Недостатки ####
+
+Недостатком Git-протокола является отсутствие аутентификации. Поэтому обычно не следует использовать этот протокол как единственный способ доступа к вашему проекту. Обычно он используется в паре с SSH разработчиков, имеющих доступ на запись, тогда как все остальные используют `git://` для доступа на чтение. Кроме того это вероятно самый сложный для настройки протокол. Вы должны запустить собственно демон, не являющийся стандартным. Мы рассмотрим его настройку в разделе "Gitosis" этой главы. К тому же ему необходим сервис `xinetd` или ему подобный, что не всегда легко сделать. Также для работы необходимо настроить фаервол, чтобы открыть нестандартный порт 9418, который обычно закрыт на корпоративных брандмауэрах. За крупными корпоративными фаерволами, этот неизвестный порт практически всегда заблокирован.
 
 The downside of the Git protocol is the lack of authentication. It’s generally undesirable for the Git protocol to be the only access to your project. Generally, you’ll pair it with SSH access for the few developers who have push (write) access and have everyone else use `git://` for read-only access.
 It’s also probably the most difficult protocol to set up. It must run its own daemon, which is custom — we’ll look at setting one up in the “Gitosis” section of this chapter — it requires `xinetd` configuration or the like, which isn’t always a walk in the park. It also requires firewall access to port 9418, which isn’t a standard port that corporate firewalls always allow. Behind big corporate firewalls, this obscure port is commonly blocked.

@@ -198,16 +198,16 @@ Git サーバを立ち上げるには、既存のリポジトリをエクスポ�
 
 各種 OS 上での SSH 鍵の作り方については、GitHub の `http://github.com/guides/providing-your-ssh-key` に詳しく説明されています。
 
-## Setting Up the Server ##
+## サーバのセットアップ ##
 
-Let’s walk through setting up SSH access on the server side. In this example, you’ll use the `authorized_keys` method for authenticating your users. We also assume you’re running a standard Linux distribution like Ubuntu. First, you create a 'git' user and a `.ssh` directory for that user.
+それでは、サーバ側での SSH アクセスの設定について順を追って見ていきましょう。この例では `authorized_keys` 方式でユーザの認証を行います。また、Ubuntu のような標準的な Linux ディストリビューションを動かしているものと仮定します。まずは 'git' ユーザを作成し、そのユーザの `.ssh` ディレクトリを作りましょう。
 
 	$ sudo adduser git
 	$ su git
 	$ cd
 	$ mkdir .ssh
 
-Next, you need to add some developer SSH public keys to the `authorized_keys` file for that user. Let’s assume you’ve received a few keys by e-mail and saved them to temporary files. Again, the public keys look something like this:
+次に、開発者たちの SSH 公開鍵をそのユーザの `authorized_keys` に追加していきましょう。受け取った鍵が一時ファイルとして保存されているものとします。先ほどもごらんいただいたとおり、公開鍵の中身はこのような感じになっています。
 
 	$ cat /tmp/id_rsa.john.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
@@ -217,22 +217,22 @@ Next, you need to add some developer SSH public keys to the `authorized_keys` fi
 	O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 	dAv8JggJICUvax2T9va5 gsg-keypair
 
-You just append them to your `authorized_keys` file:
+これを `authorized_keys` に追加していきましょう。
 
 	$ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
-Now, you can set up an empty repository for them by running `git init` with the `--bare` option, which initializes the repository without a working directory:
+さて、彼らが使うための空のリポジトリを作成しましょう。`git init` に `--bare` オプションを指定して実行すると、作業ディレクトリのない空のリポジトリを初期化します。
 
 	$ cd /opt/git
 	$ mkdir project.git
 	$ cd project.git
 	$ git --bare init
 
-Then, John, Josie, or Jessica can push the first version of their project into that repository by adding it as a remote and pushing up a branch. Note that someone must shell onto the machine and create a bare repository every time you want to add a project. Let’s use `gitserver` as the hostname of the server on which you’ve set up your 'git' user and repository. If you’re running it internally, and you set up DNS for `gitserver` to point to that server, then you can use the commands pretty much as is:
+これで、John と Josie そして Jessica はプロジェクトの最初のバージョンをプッシュできるようになりました。このリポジトリをリモートとして追加し、ブランチをプッシュすればいいのです。何か新しいプロジェクトを追加しようと思ったら、そのたびに誰かがサーバにログインし、ベアリポジトリを作らなければならないことに注意しましょう。'git' ユーザとリポジトリを作ったサーバのホスト名を `gitserver` としておきましょう。`gitserver` がそのサーバを指すように DNS を設定しておけば、このようなコマンドを使えます。
 
-	# on Johns computer
+	# John のコンピュータで
 	$ cd myproject
 	$ git init
 	$ git add .
@@ -240,28 +240,28 @@ Then, John, Josie, or Jessica can push the first version of their project into t
 	$ git remote add origin git@gitserver:/opt/git/project.git
 	$ git push origin master
 
-At this point, the others can clone it down and push changes back up just as easily:
+これで、他のメンバーがリポジトリをクローンして変更内容を書き戻せるようになりました。
 
 	$ git clone git@gitserver:/opt/git/project.git
 	$ vim README
 	$ git commit -am 'fix for the README file'
 	$ git push origin master
 
-With this method, you can quickly get a read/write Git server up and running for a handful of developers.
+この方法を使えば、小規模なチーム用の読み書き可能な Git サーバをすばやく立ち上げることができます。
 
-As an extra precaution, you can easily restrict the 'git' user to only doing Git activities with a limited shell tool called `git-shell` that comes with Git. If you set this as your 'git' user’s login shell, then the 'git' user can’t have normal shell access to your server. To use this, specify `git-shell` instead of bash or csh for your user’s login shell. To do so, you’ll likely have to edit your `/etc/passwd` file:
+万一の場合に備えて 'git' ユーザができることを制限するのも簡単で、Git に関する作業しかできない制限付きシェル `git-shell` が Git に付属しています。これを 'git' ユーザのログインシェルにしておけば、'git' ユーザはサーバへの通常のシェルアクセスができなくなります。これを使用するには、ユーザのログインシェルとして bash や csh ではなく `git-shell` を指定します。そのためには `/etc/passwd` ファイルを編集しなければなりません。
 
 	$ sudo vim /etc/passwd
 
-At the bottom, you should find a line that looks something like this:
+いちばん最後に、このような行があるはずです。
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-Change `/bin/sh` to `/usr/bin/git-shell` (or run `which git-shell` to see where it’s installed). The line should look something like this:
+ここで `/bin/sh` を `/usr/bin/git-shell` (`which git-shell` を実行してインストール先を探し、それを指定します) に変更します。変更後はこのようになるでしょう。
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-Now, the 'git' user can only use the SSH connection to push and pull Git repositories and can’t shell onto the machine. If you try, you’ll see a login rejection like this:
+これで、'git' ユーザは Git リポジトリへのプッシュやプル以外のシェル操作ができなくなりました。それ以外の操作をしようとすると、このように拒否されます。
 
 	$ ssh git@gitserver
 	fatal: What do you think I am? A shell?

@@ -163,17 +163,16 @@ Git サーバを立ち上げるには、既存のリポジトリをエクスポ�
 
 あるいは、SSH サーバの認証を LDAP サーバやその他の中央管理形式の仕組みなど既に用意されているものにするとこもできます。各ユーザがサーバ上でシェルへのアクセスができさえすれば、どんな仕組みの SSH 認証であっても動作します。
 
-## Generating Your SSH Public Key ##
+## SSH 公開鍵の作成 ##
 
-That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
-First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:
+多くの Git サーバでは、SSH の公開鍵認証を使用しています。この方式を使用するには、各ユーザが自分の公開鍵を作成しなければなりません。公開鍵のつくりかたは、OS が何であってもほぼ同じです。まず、自分がすでに公開鍵を持っていないかどうか確認します。デフォルトでは、各ユーザの SSH 鍵はそのユーザの `~/.ssh` ディレクトリに置かれています。自分が鍵を持っているかどうかを確認するには、このディレクトリに行ってその中身を調べます。
 
 	$ cd ~/.ssh
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
 
-You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:
+そして「○○」「○○.pub」というファイル名の組み合わせを探します。「○○」の部分は、通常は `id_dsa` あるいは `id_rsa` となります。もし見つかったら、`.pub` がついているほうのファイルがあなたの公開鍵で、もう一方があなたの秘密鍵です。そのようなファイルがない (あるいはそもそも `.ssh` ディレクトリがない) 場合は、`ssh-keygen` というプログラムを実行してそれを作成します。このプログラムは Linux/Mac なら SSH パッケージに含まれており、Windows では MSysGit パッケージに含まれています。
 
 	$ ssh-keygen 
 	Generating public/private rsa key pair.
@@ -185,9 +184,9 @@ You’re looking for a pair of files named something and something.pub, where th
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-First it confirms where you want to save the key (`.ssh/id_rsa`), and then it asks twice for a passphrase, which you can leave empty if you don’t want to type a password when you use the key.
+まず、鍵の保存先 (`.ssh/id_rsa`) を指定し、それからパスフレーズを二回入力するよう求められます。鍵を使うときにパスフレーズを入力したくない場合は、パスフレーズを空のままにしておきます。
 
-Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:
+さて、次に各ユーザは自分の公開鍵をあなた (あるいは Git サーバの管理者である誰か) に送らなければなりません (ここでは、すでに公開鍵認証を使用するように SSH サーバが設定済みであると仮定します)。公開鍵を送るには、`.pub` ファイルの中身をコピーしてメールで送ります (訳注: メールなんかで送っていいの? とツッコミたいところだ……)。公開鍵は、このようなファイルになります。
 
 	$ cat ~/.ssh/id_rsa.pub 
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -197,7 +196,7 @@ Now, each user that does this has to send their public key to you or whoever is 
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
-For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
+各種 OS 上での SSH 鍵の作り方については、GitHub の `http://github.com/guides/providing-your-ssh-key` に詳しく説明されています。
 
 ## Setting Up the Server ##
 

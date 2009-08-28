@@ -182,9 +182,9 @@ Git op Windows installeren is erg eenvoudig. Het msysGitproject heeft één van 
 
 Als het geïnstalleerd is, kan je Git zowel vanaf de commandprompt gebruiken (waar ook een SSH client bijzit die later nog van pas zal komen) en de standaard GUI.
 
-## First-Time Git Setup ##
+## Git Klaarmaken Voor Eerste Gebruik ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Nu je Git op je computer hebt staan, is het handig dat je een paar dingen doet om je Gitomgeving aan je voorkeuren aan te passen. Je hoeft dit normaliter maar één keer te doen; ze blijven hetzelfde als je een nieuwe versie van Git installeerd. Je kan ze op elk moment weer veranderen door de commando’s opnieuw in te voeren.
 
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 

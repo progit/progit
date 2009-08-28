@@ -159,14 +159,14 @@ Of als je een distributie hebt dat op Debian gebaseerd is, zoals Ubuntu, kan je 
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Op een Mac Installeren ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste is om het grafische Gitinstallatieprogram te gebruiken, wat je van de volgende pagina op Google Code kan downloaden (zie Figuur 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer.
+Figuur 1-7. Gitinstallatieprogramma voor OS X.
 
 The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
 

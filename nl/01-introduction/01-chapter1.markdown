@@ -168,11 +168,11 @@ Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste 
 Insert 18333fig0107.png 
 Figuur 1-7. Gitinstallatieprogramma voor OS X.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+De andere veelgebruikte manier is om Git via MacPorts (`http://www.macports.org`) te installeren. Als je MacPorts hebt, kun je Git installeren met
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Je hoeft niet al die extra’s toe te voegen, maar je wil waarschijnlijk +svn erbij hebben voor het geval je ooit onder Git met Subversion repositories moet omgaan (zie Hoofdstuk 8).
 
 ### Installing on Windows ###
 

@@ -186,7 +186,7 @@ Als het geïnstalleerd is, kan je Git zowel vanaf de commandprompt gebruiken (wa
 
 Nu je Git op je computer hebt staan, is het handig dat je een paar dingen doet om je Gitomgeving aan je voorkeuren aan te passen. Je hoeft dit normaliter maar één keer te doen; ze blijven hetzelfde als je een nieuwe versie van Git installeerd. Je kan ze op elk moment weer veranderen door de commando’s opnieuw in te voeren.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git komt standaard met een gereedschap genaamd git config, waarmee je configuratie-eigenschappen, die alle aspecten van het uiterlijk en gedrag van Git aanpassen, kan bekijken en veranderen. Deze eigenschappen kunnen op drie verschillende plaatsen worden bewaard:
 
 *	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 

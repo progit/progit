@@ -267,29 +267,29 @@ Git サーバを立ち上げるには、既存のリポジトリをエクスポ�
 	fatal: What do you think I am? A shell?
 	Connection to gitserver closed.
 
-## Public Access ##
+## 一般公開 ##
 
-What if you want anonymous read access to your project? Perhaps instead of hosting an internal private project, you want to host an open source project. Or maybe you have a bunch of automated build servers or continuous integration servers that change a lot, and you don’t want to have to generate SSH keys all the time — you just want to add simple anonymous read access.
+匿名での読み込み専用アクセス機能を追加するにはどうしたらいいでしょうか? 身内に閉じたプロジェクトではなくオープンソースのプロジェクトを扱うときに、これを考えることになります。あるいは、自動ビルドや継続的インテグレーション用に大量のサーバが用意されており、それがしばしば入れ替わるという場合など。単なる読み込み専用の匿名アクセスのためだけに毎回 SSH 鍵を作成しなければならないのは大変です。
 
-Probably the simplest way for smaller setups is to run a static web server with its document root where your Git repositories are, and then enable that `post-update` hook we mentioned in the first section of this chapter. Let’s work from the previous example. Say you have your repositories in the `/opt/git` directory, and an Apache server is running on your machine. Again, you can use any web server for this; but as an example, we’ll demonstrate some basic Apache configurations that should give you an idea of what you might need.
+おそらく一番シンプルな方法は、静的なウェブサーバを立ち上げてそのドキュメントルートに Git リポジトリを置き、本章の最初のセクションで説明した `post-update` フックを有効にすることです。先ほどの例を続けてみましょう。リポジトリが `/opt/git` ディレクトリにあり、マシン上で Apache が稼働中であるものとします。念のために言いますが、別に Apache に限らずどんなウェブサーバでも使えます。しかしここでは、Apache の設定を例にして何が必要なのかを説明していきます。
 
-First you need to enable the hook:
+まずはフックを有効にします。
 
 	$ cd project.git
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-If you’re using a version of Git earlier than 1.6, the `mv` command isn’t necessary — Git started naming the hooks examples with the .sample postfix only recently. 
+バージョン 1.6 より前の Git を使っている場合は `mv` コマンドは不要です。Git がフックのサンプルに .sample という拡張子をつけるようになったのは、つい最近のことです。
 
-What does this `post-update` hook do? It looks basically like this:
+この `post-update` は、いったい何をするのでしょうか? その中身はこのようになります。
 
 	$ cat .git/hooks/post-update 
 	#!/bin/sh
 	exec git-update-server-info
 
-This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.
+SSH 経由でサーバへのプッシュが行われると、Git はこのコマンドを実行し、HTTP 経由での取得に必要なファイルを更新します。
 
-Next, you need to add a VirtualHost entry to your Apache configuration with the document root as the root directory of your Git projects. Here, we’re assuming that you have wildcard DNS set up to send `*.gitserver` to whatever box you’re using to run all this:
+次に、Apache の設定に VirtualHost エントリを追加して Git プロジェクトのディレクトリをドキュメントルートに設定します。ここでは、ワイルドカード DNS を設定して `*.gitserver` へのアクセスがすべてこのマシンに来るようになっているものとします。
 
 	<VirtualHost *:80>
 	    ServerName git.gitserver
@@ -300,15 +300,15 @@ Next, you need to add a VirtualHost entry to your Apache configuration with the 
 	    </Directory>
 	</VirtualHost>
 
-You’ll also need to set the Unix user group of the `/opt/git` directories to `www-data` so your web server can read-access the repositories, because the Apache instance running the CGI script will (by default) be running as that user:
+また、`/opt/git` ディレクトリの所有グループを `www-data` にし、ウェブサーバがこのリポジトリにアクセスできるようにしなければなりません。CGI スクリプトを実行する Apache インスタンスのユーザ権限で動作することになるからです。
 
 	$ chgrp -R www-data /opt/git
 
-When you restart Apache, you should be able to clone your repositories under that directory by specifying the URL for your project:
+Apache を再起動すれば、プロジェクトの URL を指定してリポジトリのクローンができるようになります。
 
 	$ git clone http://git.gitserver/project.git
 
-This way, you can set up HTTP-based read access to any of your projects for a fair number of users in a few minutes. Another simple option for public unauthenticated access is to start a Git daemon, although that requires you to daemonize the process - we’ll cover this option in the next section, if you prefer that route.
+この方法を使えば、多数のユーザに HTTP での読み込みアクセス権を与える設定がたった数分でできあがります。多数のユーザに認証なしでのアクセスを許可するためのもうひとつの方法として、Git デーモンを立ち上げることもできます。しかし、その場合はプロセスをデーモン化させなければなりません。その方法については次のセクションで説明します。
 
 ## GitWeb ##
 

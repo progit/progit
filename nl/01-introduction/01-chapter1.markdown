@@ -174,13 +174,13 @@ De andere veelgebruikte manier is om Git via MacPorts (`http://www.macports.org`
 
 Je hoeft niet al die extra’s toe te voegen, maar je wil waarschijnlijk +svn erbij hebben voor het geval je ooit onder Git met Subversion repositories moet omgaan (zie Hoofdstuk 8).
 
-### Installing on Windows ###
+### Op Windows Installeren ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Git op Windows installeren is erg eenvoudig. Het msysGitproject heeft één van de eenvoudigste installatieprocedures. Je hoeft alleen maar het installatieprogramma te downloaden van Google Code, en het uit te voeren:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Als het geïnstalleerd is, kan je Git zowel vanaf de commandprompt gebruiken (waar ook een SSH client bijzit die later nog van pas zal komen) en de standaard GUI.
 
 ## First-Time Git Setup ##
 

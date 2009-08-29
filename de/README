@@ -4,13 +4,19 @@ Wenn du mitarbeiten willst, melde dich einfach. Ich werde dich als
 Collaborator hinzufügen - es ist leichter im gleichen Repository zu arbeiten.
 
 Wir haben die Arbeit bisher kaum strukturiert, mit Ausnahme folgender
-Konvention und untenstehenden Workflows:
+Konvention, einer Mailingliste und untenstehenden Workflows.
 
 -> Wenn du mit einem Kapitel anfangen willst, "checke" es dadurch "aus", daß
    du eine neue, leere Datei dafür anlegst, commitest und pushst.
 
 Andere sehen dann, daß jemand bereits an diesem Kapitel arbeitet, und wir
 können hoffentlich doppelte Arbeit vermeiden.
+
+Mailingliste:
+
+Unsere Mailingliste ist hier: http://groups.google.com/group/progit-german
+
+Wenn du an der deutschen Übersetzung von Progit arbeitest oder arbeiten willst, sag uns dort bitte bescheid, damit wir uns alle eventuelle doppelte Arbeit sparen :)
 
 Workflow:
 

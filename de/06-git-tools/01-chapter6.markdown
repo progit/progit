@@ -81,11 +81,19 @@ Generell kann man sagen das acht bis zehn Zeichen mehr als ausreichend in einem 
 
 A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
 
+Eine Menge Leute machen sich Sorgen, dass ab einem zufälligen Punkt zwei Objekte im Repository vorhanden sind, die den gleichen SHA-1 hash wert haben. Was Dann?
+
 If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+
+Wenn es passiert, dass bei einem commit, ein Objekt mit dem gleichen SHA-1 hash Wert im Repository vorhanden ist, wird Git sehen, dass das vorherige Objekt bereits in der Datenbank vorhanden ist und davon ausgehen, dass es bereits geschrieben wurde. Wenn du versuchst das Objekt später wieder auszuchecken wirst du immer die Daten des ersten Objekts bekommen.
 
 However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
 
+Allerdings solltest du dir bewusst machen wie unglaublich unwahrscheinlich dieses Szenario ist. Die Länge des SHA-1 hashs beträgt 20 bytes oder 160bits. Die Anzahl der Objekte die benötigt werden, um eine 50% Chance einer Kollision zu haben, beträgt ungefähr 2^80 (die Formel zum berechnen der Kollisionswahrscheinlichkeit lautet ‚p = (n(n-1)/2) * (1/2^160))‘. 2^80 ist somit 1.2 x 10^24 oder eine Trilliarden. Das ist 1200 mal die Anzahl der Sandkörner die es auf der Erde gibt.
+
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+
+Hier ist ein Beispiel welches dir eine Vorstellung davon geben wird was nötig ist um in SHA-1 eine Kollision zu bekommen. Wenn alle 6,5 Milliarden Menschen auf der Erde Programmieren würden und jeder jede Sekunde Code schreiben würde, der der gesamten Geschichte des Linux Kernels (1 Millionen Git Objekte) entspricht und diesen dann in ein gigantisches Git Repository übertragen würden, würde es fünf Jahre dauern bis das Repository genügend Objekte hätte um eine 50% Wahrscheinlichkeit für eine einzige SHA-1 Kollision aufzuweisen. Es ist wahrscheinlicher das jedes Mitglied deines Programmierer Teams, unabhängig voneinander, in einer Nacht von Wölfen angegriffen und getötet wird.
 
 ### Branch References ###
 

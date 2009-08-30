@@ -697,10 +697,10 @@ Insert 18333fig0415.png
 
 これで GitHub についての説明を終えますが、特筆すべき点はこれらの作業を本当に手早く済ませられることです。アカウントを作ってプロジェクトを追加してそこにプッシュする、ここまでがほんの数分でできてしまいます。オープンソースのプロジェクトを公開したのなら、数多くの開発者のコミュニティがあなたのプロジェクトにアクセスできるようになりました。きっと中にはあなたに協力してくれる人もあらわれることでしょう。少なくとも、Git を動かして試してみる土台としては使えるはずです。
 
-## Summary ##
+## まとめ ##
 
-You have several options to get a remote Git repository up and running so that you can collaborate with others or share your work.
+リモート Git リポジトリを用意するためのいくつかの方法を紹介し、他のメンバーとの共同作業ができるようになりました。
 
-Running your own server gives you a lot of control and allows you to run the server within your own firewall, but such a server generally requires a fair amount of your time to set up and maintain. If you place your data on a hosted server, it’s easy to set up and maintain; however, you have to be able to keep your code on someone else’s servers, and some organizations don’t allow that.
+自前でサーバを構築すれば、多くのことを制御できるようになり、ファイアウォールの内側でもサーバを実行することができます。しかし、サーバを構築して運用するにはそれなりの手間がかかります。ホスティングサービスを使えば、サーバの準備や保守は簡単になります。しかし、他人のサーバ上に自分のコードを置き続けなければなりません。組織によってはそんなことを許可していないかもしれません。
 
-It should be fairly straightforward to determine which solution or combination of solutions is appropriate for you and your organization.
+どの方法 (あるいは複数の方法の組み合わせ) を使えばいいのか、自分や所属先の事情に合わせて考えましょう。

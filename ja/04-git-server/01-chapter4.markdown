@@ -638,14 +638,14 @@ Public Clone URL は、読み込み専用の公開 URL で、これを使えば�
 
 Your Clone URL は、読み書き可能な SSH の URL で、先ほどアップロードした公開鍵に対応する SSH 秘密鍵を使った場合にのみアクセスできます。他のユーザがこのプロジェクトのページを見てもこの URL は表示されず、公開 URL のみが見えるようになっています。
 
-### Importing from Subversion ###
+### Subversion からのインポート ###
 
-If you have an existing public Subversion project that you want to import into Git, GitHub can often do that for you. At the bottom of the instructions page is a link to a Subversion import. If you click it, you see a form with information about the import process and a text box where you can paste in the URL of your public Subversion project (see Figure 4-9).
+GitHub では、Subversion で公開しているプロジェクトを Git にインポートすることもできます。先ほどの説明ページの最後のリンクをクリックすると、Subversion からのインポート用ページに進みます。このページにはインポート処理についての情報が表示されており、公開 Subversion リポジトリの URL を入力するテキストボックスが用意されています。
 
 Insert 18333fig0409.png 
-Figure 4-9. Subversion importing interface.
+図 4-9. Subversion からのインポート
 
-If your project is very large, nonstandard, or private, this process probably won’t work for you. In Chapter 7, you’ll learn how to do more complicated manual project imports.
+もしそのプロジェクトが非常に大規模なものであったり標準とは異なるものであったり、あるいは公開されていないものであったりした場合は、この手順ではうまくいかないでしょう。第 7 章で、手動でのプロジェクトのインポート手順について詳しく説明します。
 
 ### Adding Collaborators ###
 

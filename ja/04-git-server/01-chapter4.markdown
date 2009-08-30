@@ -677,21 +677,21 @@ Insert 18333fig0413.png
 
 他の人がこのプロジェクトにアクセスしたときに見えるのがこのページとなります。このページには、さまざまな情報を見るためのタブが用意されています。Commits タブに表示されるのはコミットの一覧で、`git log` コマンドの出力と同様にコミット時刻が新しい順に表示されます。Network タブには、このプロジェクトをフォークして何か貢献してくれた人の一覧が表示されます。Downloads タブには、プロジェクト内でタグが打たれている任意の点について tar や zip でまとめたものをアップロードすることができます。Wiki タブには、プロジェクトに関するドキュメントやその他の情報を書き込むための wiki が用意されています。Graphs タブは、プロジェクトに対する貢献やその他の統計情報を視覚化して表示します。そして、Source タブにはプロジェクトのメインディレクトリの一覧が表示され、もし README ファイルがあればその内容が下に表示されます。このタブでは、最新のコミットについての情報も表示されます。
 
-### Forking Projects ###
+### プロジェクトのフォーク ###
 
-If you want to contribute to an existing project to which you don’t have push access, GitHub encourages forking the project. When you land on a project page that looks interesting and you want to hack on it a bit, you can click the "fork" button in the project header to have GitHub copy that project to your user so you can push to it.
+プッシュアクセス権のない別のプロジェクトに協力したくなったときは、GitHub ではプロジェクトをフォークすることを推奨しています。興味を持ったとあるプロジェクトのページに行って、それをちょっとばかりハックしたくなったときは、プロジェクトのヘッダにある "fork" ボタンをクリックしましょう。GitHub が自分のところにそのプロジェクトをコピーしてくれるので、そこへのプッシュができるようになります。
 
-This way, projects don’t have to worry about adding users as collaborators to give them push access. People can fork a project and push to it, and the main project maintainer can pull in those changes by adding them as remotes and merging in their work.
+この方式なら、プッシュアクセス権を与えるために共同作業者としてユーザを追加することを気にせずにすみます。プロジェクトをフォークした各ユーザが自分のところにプッシュし、主メンテナーは必要に応じてかれらの作業をマージすればいいのです。
 
-To fork a project, visit the project page (in this case, mojombo/chronic) and click the "fork" button in the header (see Figure 4-14).
+プロジェクトをフォークするには、そのプロジェクトのページ (この場合は mojombo/chronic) に移動してヘッダの "fork" ボタンをクリックします (図 4-14 を参照ください)。
 
 Insert 18333fig0414.png 
-Figure 4-14. Get a writable copy of any repository by clicking the "fork" button.
+図 4-14. 任意のプロジェクトの書き込み可能なコピーを取得する "fork" ボタン
 
-After a few seconds, you’re taken to your new project page, which indicates that this project is a fork of another one (see Figure 4-15).
+数秒後に新しいプロジェクトのページに移動します。そこには、このプロジェクトがどのプロジェクトのフォークであるかが表示されています (図 4-15 を参照ください)。
 
 Insert 18333fig0415.png 
-Figure 4-15. Your fork of a project.
+図 4-15. フォークしたプロジェクト
 
 ### GitHub Summary ###
 

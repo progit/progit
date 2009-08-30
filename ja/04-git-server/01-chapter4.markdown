@@ -582,62 +582,61 @@ GitHub がその他多くのコードホスティングサイトと異なるの�
 
 GitHub は営利企業なので、非公開のリポジトリについては料金をとって管理しています。しかし、フリーのアカウントを取得すればオープンソースのプロジェクトを好きなだけ公開することができます。その方法についてこれから説明します。
 
-### Setting Up a User Account ###
+### ユーザアカウントの作成 ###
 
-The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
+まずはフリー版のユーザアカウントを作成しましょう。Pricing and Signup のページ `http://github.com/plans` で、フリーアカウントの "Sign Up" ボタンを押すと (図 4-2 を参照ください)、新規登録ページに移動します。
 
 Insert 18333fig0402.png
-Figure 4-2. The GitHub plan page.
+図 4-2. GitHub のプラン説明ページ
 
-Here you must choose a username that isn’t yet taken in the system and enter an e-mail address that will be associated with the account and a password (see Figure 4-3).
+ユーザ名を選び、メールアドレスを入力します。アカウントとパスワードがこのメールアドレスに関連づけられます (図 4-3 を参照ください)。
 
 Insert 18333fig0403.png 
-Figure 4-3. The GitHub user signup form.
+図 4-3. GitHub のユーザ登録フォーム
 
-If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
-Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).
+それが終われば、次に SSH の公開鍵を追加しましょう。新しい鍵を作成する方法については、さきほど「ちょっとしたセットアップ」のところで説明しましょう。公開鍵の内容をコピーし、SSH Public Key のテキストボックスに貼り付けます。"explain ssh keys" のリンクをクリックすると、主要 OS 上での公開鍵の作成手順を詳しく説明してくれます。"I agree, sign me up" ボタンをクリックすると、あなたのダッシュボードに移動します (図 4-4 を参照ください)。
 
 Insert 18333fig0404.png 
-Figure 4-4. The GitHub user dashboard.
+図 4-4. GitHub のユーザダッシュボード
 
-Next you can create a new repository. 
+では次に、新しいリポジトリの作成に進みましょう。
 
-### Creating a New Repository ###
+### 新しいリポジトリの作成 ###
 
-Start by clicking the "create a new one" link next to Your Repositories on the user dashboard. You’re taken to the Create a New Repository form (see Figure 4-5).
+ダッシュボードで、Your Repositories の横にあるリンク "create a new one" をクリックしましょう。新規リポジトリの作成フォームに進みます (図 4-5 を参照ください)。
 
 Insert 18333fig0405.png 
-Figure 4-5. Creating a new repository on GitHub.
+図 4-5. GitHub での新しいリポジトリの作成
 
-All you really have to do is provide a project name, but you can also add a description. When that is done, click the "Create Repository" button. Now you have a new repository on GitHub (see Figure 4-6).
+ここで必要なのはプロジェクト名を決めることだけです。ただ、それ以外に説明文を追加することもできます。ここで "Create Repository" ボタンを押せば、GitHub 上での新しいリポジトリのできあがりです (図 4-6 を参照ください)。
 
 Insert 18333fig0406.png 
-Figure 4-6. GitHub project header information.
+図 4-6. GitHub でのプロジェクトのヘッダ情報
 
-Since you have no code there yet, GitHub will show you instructions for how create a brand-new project, push an existing Git project up, or import a project from a public Subversion repository (see Figure 4-7).
+まだ何もコードが追加されていないので、ここでは「新しいプロジェクトを作る方法」「既存の Git プロジェクトをプッシュする方法」「Subversion の公開リポジトリからインポートする方法」が説明されています (図 4-7 を参照ください)。
 
 Insert 18333fig0407.png 
-Figure 4-7. Instructions for a new repository.
+図 4-7. 新しいリポジトリに関する説明
 
-These instructions are similar to what we’ve already gone over. To initialize a project if it isn’t already a Git project, you use
+この説明は、本書でこれまでに説明してきたものとほぼ同じです。まだ Git プロジェクトでないプロジェクトを初期化するには、次のようにします。
 
 	$ git init
 	$ git add .
 	$ git commit -m 'initial commit'
 
-When you have a Git repository locally, add GitHub as a remote and push up your master branch:
+ローカルにある Git リポジトリを使用する場合は、GitHub をリモートに登録して master ブランチをプッシュします。
 
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
 
-Now your project is hosted on GitHub, and you can give the URL to anyone you want to share your project with. In this case, it’s `http://github.com/testinguser/iphone_project`. You can also see from the header on each of your project’s pages that you have two Git URLs (see Figure 4-8).
+これで GitHub 上でリポジトリが公開され、だれもがプロジェクトにアクセスできるような URL ができあがりました。この例の場合は `http://github.com/testinguser/iphone_project` です。各プロジェクトのページのヘッダには、ふたつの Git URL が表示されています (図 4-8 を参照ください)。
 
 Insert 18333fig0408.png 
-Figure 4-8. Project header with a public URL and a private URL.
+図 4-8. 公開 URL とプライベート URL が表示されたヘッダ
 
-The Public Clone URL is a public, read-only Git URL over which anyone can clone the project. Feel free to give out that URL and post it on your web site or what have you.
+Public Clone URL は、読み込み専用の公開 URL で、これを使えば誰でもプロジェクトをクローンできます。この URL は、あなたのウェブサイトをはじめとしたお好みの場所で紹介することができます。
 
-The Your Clone URL is a read/write SSH-based URL that you can read or write over only if you connect with the SSH private key associated with the public key you uploaded for your user. When other users visit this project page, they won’t see that URL—only the public one.
+Your Clone URL は、読み書き可能な SSH の URL で、先ほどアップロードした公開鍵に対応する SSH 秘密鍵を使った場合にのみアクセスできます。他のユーザがこのプロジェクトのページを見てもこの URL は表示されず、公開 URL のみが見えるようになっています。
 
 ### Importing from Subversion ###
 

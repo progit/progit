@@ -693,9 +693,9 @@ Insert 18333fig0414.png
 Insert 18333fig0415.png 
 図 4-15. フォークしたプロジェクト
 
-### GitHub Summary ###
+### GitHub のまとめ ###
 
-That’s all we’ll cover about GitHub, but it’s important to note how quickly you can do all this. You can create an account, add a new project, and push to it in a matter of minutes. If your project is open source, you also get a huge community of developers who now have visibility into your project and may well fork it and help contribute to it. At the very least, this may be a way to get up and running with Git and try it out quickly.
+これで GitHub についての説明を終えますが、特筆すべき点はこれらの作業を本当に手早く済ませられることです。アカウントを作ってプロジェクトを追加してそこにプッシュする、ここまでがほんの数分でできてしまいます。オープンソースのプロジェクトを公開したのなら、数多くの開発者のコミュニティがあなたのプロジェクトにアクセスできるようになりました。きっと中にはあなたに協力してくれる人もあらわれることでしょう。少なくとも、Git を動かして試してみる土台としては使えるはずです。
 
 ## Summary ##
 

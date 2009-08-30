@@ -500,23 +500,23 @@ John はプロジェクトをクローンして変更内容を受け取れます
 
 何か問題が発生した場合には、`[gitosis]` セクションの下に `loglevel=DEBUG` を書いておくと便利です。設定ミスでプッシュ権限を奪われてしまった場合は、サーバ上の `/home/git/.gitosis.conf` を直接編集して元に戻します。Gitosis は、このファイルから情報を読み取っています。`gitosis.conf` ファイルへの変更がプッシュされてきたときに、その内容をこのファイルに書き出します。このファイルを手動で変更しても、次に `gitosis-admin` プロジェクトへのプッシュが成功した時点でその内容が書き換えられることになります。
 
-## Git Daemon ##
+## Git デーモン ##
 
-For public, unauthenticated read access to your projects, you’ll want to move past the HTTP protocol and start using the Git protocol. The main reason is speed. The Git protocol is far more efficient and thus faster than the HTTP protocol, so using it will save your users time.
+認証の不要な読み取り専用アクセスを一般に公開する場合は、HTTP を捨てて Git プロトコルを使うことを考えることになるでしょう。主な理由は速度です。Git プロトコルのほうが HTTP に比べてずっと効率的で高速です。Git プロトコルを使えば、ユーザの時間を節約することになります。
 
-Again, this is for unauthenticated read-only access. If you’re running this on a server outside your firewall, it should only be used for projects that are publicly visible to the world. If the server you’re running it on is inside your firewall, you might use it for projects that a large number of people or computers (continuous integration or build servers) have read-only access to, when you don’t want to have to add an SSH key for each.
+Git プロトコルは、認証なしで読み取り専用アクセスを行うためのものです。ファイアウォールの外にサーバがあるのなら、一般に公開しているプロジェクトにのみ使うようにしましょう。ファイアウォール内で使うのなら、たとえば大量のメンバーやコンピュータ (継続的インテグレーションのビルドサーバなど) に対して SSH の鍵なしで読み取り専用アクセスを許可するという使い方もあるでしょう。
 
-In any case, the Git protocol is relatively easy to set up. Basically, you need to run this command in a daemonized manner:
+いずれにせよ、Git プロトコルは比較的容易にセットアップすることができます。デーモン化するためには、このようなコマンドを実行します。
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` allows the server to restart without waiting for old connections to time out, the `--base-path` option allows people to clone projects without specifying the entire path, and the path at the end tells the Git daemon where to look for repositories to export. If you’re running a firewall, you’ll also need to punch a hole in it at port 9418 on the box you’re setting this up on.
+`--reuseaddr` は、前の接続がタイムアウトするのを待たずにサーバを再起動させるオプションです。`--base-path` オプションを指定すると、フルパスをしていしなくてもプロジェクトをクローンできるようになります。そして最後に指定したパスは、Git デーモンに公開させるリポジトリの場所です。ファイアウォールを使っているのなら、ポート 9418 に穴を開けなければなりません。
 
-You can daemonize this process a number of ways, depending on the operating system you’re running. On an Ubuntu machine, you use an Upstart script. So, in the following file
+プロセスをデーモンにする方法は、OS によってさまざまです。Ubuntu の場合は Upstart スクリプトを使います。
 
 	/etc/event.d/local-git-daemon
 
-you put this script:
+のようなファイルを用意して、このようなスクリプトを書きます。
 
 	start on startup
 	stop on shutdown
@@ -527,42 +527,42 @@ you put this script:
 	    /opt/git/
 	respawn
 
-For security reasons, it is strongly encouraged to have this daemon run as a user with read-only permissions to the repositories – you can easily do this by creating a new user 'git-ro' and running the daemon as them.  For the sake of simplicity we’ll simply run it as the same 'git' user that Gitosis is running as.
+セキュリティを考慮して、リポジトリに対する読み込み権限しかないユーザでこのデーモンを実行させるようにしましょう。新しいユーザ 'git-ro' を作り、このユーザでデーモンを実行させるとよいでしょう。ここでは、説明を簡単にするために Gitosis と同じユーザ 'git' で実行させることにします。
 
-When you restart your machine, your Git daemon will start automatically and respawn if it goes down. To get it running without having to reboot, you can run this:
+マシンを再起動すれば Git デーモンが自動的に立ち上がり、終了させても再び起動するようになります。再起動せずに実行させるには、次のコマンドを実行します。
 
 	initctl start local-git-daemon
 
-On other systems, you may want to use `xinetd`, a script in your `sysvinit` system, or something else — as long as you get that command daemonized and watched somehow.
+その他のシステムでは、`xinetd` や `sysvinit` システムのスクリプトなど、コマンドをデーモン化して監視できる仕組みを使います。
 
-Next, you have to tell your Gitosis server which repositories to allow unauthenticated Git server-based access to. If you add a section for each repository, you can specify the ones from which you want your Git daemon to allow reading. If you want to allow Git protocol access for your iphone project, you add this to the end of the `gitosis.conf` file:
+次に、どのプロジェクトに対して Git プロトコルでの認証なしアクセスを許可するのかを Gitosis に指定します。各リポジトリ用のセクションを追加すれば、Git デーモンからの読み込みアクセスを許可するように指定することができます。Git プロトコルでのアクセスを iphone プロジェクトに許可したい場合は、`gitosis.conf` の最後に次のように追加します。
 
 	[repo iphone_project]
 	daemon = yes
 
-When that is committed and pushed up, your running daemon should start serving requests for the project to anyone who has access to port 9418 on your server.
+この変更をコミットしてプッシュすると、デーモンがこのプロジェクトへのアクセスを受け付けるようになります。
 
-If you decide not to use Gitosis, but you want to set up a Git daemon, you’ll have to run this on each project you want the Git daemon to serve:
+Gitosis を使わずに Git デーモンを設定したい場合は、Git デーモンで公開したいプロジェクトに対してこのコマンドを実行しなければなりません。
 
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok
 
-The presence of that file tells Git that it’s OK to serve this project without authentication.
+このファイルが存在するプロジェクトについては、Git は認証なしで公開してもよいものとみなします。
 
-Gitosis can also control which projects GitWeb shows. First, you need to add something like the following to the `/etc/gitweb.conf` file:
+Gitosis を使うと、どのプロジェクトを GitWeb で見せるのかを指定することもできます。まずは次のような行を `/etc/gitweb.conf` に追加しましょう。
 
 	$projects_list = "/home/git/gitosis/projects.list";
 	$projectroot = "/home/git/repositories";
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
-You can control which projects GitWeb lets users browse by adding or removing a `gitweb` setting in the Gitosis configuration file. For instance, if you want the iphone project to show up on GitWeb, you make the `repo` setting look like this:
+GitWeb でどのプロジェクトを見せるのかを設定するには、Gitosis の設定ファイルで `gitweb` を指定します。たとえば、iphone プロジェクトを GitWeb で見せたい場合は、`repo` の設定は次のようになります。
 
 	[repo iphone_project]
 	daemon = yes
 	gitweb = yes
 
-Now, if you commit and push the project, GitWeb will automatically start showing your iphone project.
+これをコミットしてプッシュすると、GitWeb で iphone プロジェクトが自動的に表示されるようになります。
 
 ## Hosted Git ##
 

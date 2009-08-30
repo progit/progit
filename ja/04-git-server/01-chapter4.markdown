@@ -578,9 +578,9 @@ GitHub は最大のオープンソース Git ホスティングサイトで、�
 
 ### GitHub ###
 
-GitHub is slightly different than most code-hosting sites in the way that it namespaces projects. Instead of being primarily based on the project, GitHub is user centric. That means when I host my `grit` project on GitHub, you won’t find it at `github.com/grit` but instead at `github.com/schacon/grit`. There is no canonical version of any project, which allows a project to move from one user to another seamlessly if the first author abandons the project.
+GitHub がその他多くのコードホスティングサイトと異なるのは、プロジェクトの位置づけです。プロジェクトを主体に考えるのではなく、GitHub ではユーザ主体の構成になっています。私が GitHub に `grit` プロジェクトを公開したとして、それは `github.com/grit` ではなく `github.com/schacon/grit` となります。どのプロジェクトにも「正式な」バージョンというものはありません。たとえ最初の作者がプロジェクトを放棄したとしても、それをユーザからユーザへと自由に移動することができます。
 
-GitHub is also a commercial company that charges for accounts that maintain private repositories, but anyone can quickly get a free account to host as many open source projects as they want. We’ll quickly go over how that is done.
+GitHub は営利企業なので、非公開のリポジトリについては料金をとって管理しています。しかし、フリーのアカウントを取得すればオープンソースのプロジェクトを好きなだけ公開することができます。その方法についてこれから説明します。
 
 ### Setting Up a User Account ###
 

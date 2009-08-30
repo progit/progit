@@ -564,17 +564,17 @@ GitWeb でどのプロジェクトを見せるのかを設定するには、Gito
 
 これをコミットしてプッシュすると、GitWeb で iphone プロジェクトが自動的に表示されるようになります。
 
-## Hosted Git ##
+## Git のホスティング ##
 
-If you don’t want to go through all of the work involved in setting up your own Git server, you have several options for hosting your Git projects on an external dedicated hosting site. Doing so offers a number of advantages: a hosting site is generally quick to set up and easy to start projects on, and no server maintenance or monitoring is involved. Even if you set up and run your own server internally, you may still want to use a public hosting site for your open source code — it’s generally easier for the open source community to find and help you with.
+Git サーバを立ち上げる作業が面倒なら、外部の専用ホスティングサイトに Git プロジェクトを置くという選択肢があります。この方法には多くの利点があります。ホスティングサイトでプロジェクトを立ち上げるのは簡単ですし、サーバのメンテナンスや日々の監視も不要です。自前のサーバを持っているとしても、オープンソースのコードなどはホスティングサイトで公開したいこともあるかもしれません。そのほうがオープンソースコミュニティのメンバーに見つけてもらいやすく、そして支援を受けやすくなります。
 
-These days, you have a huge number of hosting options to choose from, each with different advantages and disadvantages. To see an up-to-date list, check out the GitHosting page on the main Git wiki:
+今ではホスティングの選択肢が数多くあり、それぞれ利点もあれば欠点もあります。最新の情報を知るには、Git wiki で GitHosting のページを調べましょう。
 
 	http://git.or.cz/gitwiki/GitHosting
 
-Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved. 
+これらすべてについて網羅することは不可能ですし、たまたま私自身がこの中のひとつで働いていることもあるので、ここでは GitHub を使ってアカウントの作成からプロジェクトの立ち上げまでの手順を説明します。どのような流れになるのかを見ていきましょう。
 
-GitHub is by far the largest open source Git hosting site and it’s also one of the very few that offers both public and private hosting options so you can keep your open source and private commercial code in the same place. In fact, we used GitHub to privately collaborate on this book.
+GitHub は最大のオープンソース Git ホスティングサイトで、公開リポジトリだけでなく非公開のリポジトリもホスティングできる数少ないサイトのひとつです。つまり、オープンソースのコードと非公開のコードを同じ場所で管理できるのです。実際、本書に関する非公開の共同作業についても GitHub を使っています。
 
 ### GitHub ###
 

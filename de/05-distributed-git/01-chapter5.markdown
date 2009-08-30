@@ -719,9 +719,15 @@ Bild 5-18. Commit Historie mit dem neuen `featureBv2` Branch
 
 ### Public Large Project ###
 
+### Große öffentliche Projekte ###
+
 Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now.
 
+Viele große Projekte haben einen etablierten Prozeß, nach dem sie vorgehen, wenn es darum geht, Patches zu akzeptieren. Du mußt dich mit den jeweiligen Regeln vertraut machen, die in jedem Projekt ein bißchen anders sind. Allerdings akzeptieren viele große Projekte Patches per E-Mail über eine Entwickler Mailingliste (xxx oder einen Bugtracker, wie Rails xxx). Deshalb gehen wir auf dieses Beispiel als nächstes ein.
+
 The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list:
+
+Der Workflow ist ähnlich wie im vorherigen Szenario. Du legst für jeden Patch oder jede Patch Serie einen Topic Branch an, in dem du arbeitest. Der Unterschied besteht dann darin, auf welchem Wege du die Änderungen an das Projekt schickst. Statt das Projekt zu forken und Änderungen in deinen Fork hochzuladen, erzeugst du eine E-Mail Version deiner Commits und schickst sie als Patch an die Entwickler Mailingliste.
 
 	$ git checkout -b topicA
 	$ (work)
@@ -731,11 +737,15 @@ The workflow is similar to the previous use case — you create topic branches f
 
 Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these commits:
 
+Jetzt hast du zwei Commits, die du an die Mailingliste schicken willst. Du kannst den Befehl `git format-patch` verwenden, um aus diesen Commits Dateien zu erzeugen, die im mbox-Format formatiert sind und die du per E-Mail verschicken kannst. Dieser Befehl macht aus jedem Commit eine E-Mail Datei. Die erste Zeile der Commit Meldung wird zum Betreff der E-Mail und der Rest der Commit Meldung sowie der Patch des Commits selbst wird zum Text der E-Mail. Das schöne daran ist, daß wenn man einen auf diese Weise erzeugten Patch benutzt, dann bleiben alle Commit Informationen erhalten. Du kannst das in den nächsten Beispielen sehen:
+
 	$ git format-patch -M origin/master
 	0001-add-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
 
 The `format-patch` command prints out the names of the patch files it creates. The `-M` switch tells Git to look for renames. The files end up looking like this:
+
+Der Befehl `git format-patch` zeigt dir die Namen der Patch Dateien an, die er erzeugt hat. (Die `-M` option weist Git an, nach umbenannten Dateien Ausschau zu halten.) Die Dateien sehen dann so aus:
 
 	$ cat 0001-add-limit-to-log-function.patch 
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
@@ -767,9 +777,15 @@ The `format-patch` command prints out the names of the patch files it creates. T
 
 You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.
 
+Du kannst diese Patch Dateien anschließend bearbeiten, z.B. um weitere Informationen für die Mailingliste hinzuzufügen, die du nicht in der Commit Meldung haben willst. Wenn du zusätzlichen Text zwischen der `--` Zeile und dem Anfang des Patches (der Zeile `lib/simplegit.rb` in diesem Fall), dann ist er für den Leser sichtbar, aber Git wird ihn ignorieren, wenn man den Patch verwendet.
+
 To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.
 
+Um das jetzt an die Mailingliste zu schicken, kannst du entweder die Datei per copy-and-paste in dein E-Mail Programm kopieren, als Anhang an eine E-Mail anhängen oder du kannst die Dateien mit einem Befehlszeilen Programm direkt verschicken. Patches zu kopieren verursacht oft Formatierungsprobleme - insbesondere mit "smarten" E-Mail Clients, die die Dinge umformatieren, die man einfügt. Zum Glück bringt Git aber ein Tool mit, mit dem man Patches in ihrer korrekten Formatierung über IMAP verschicken kann. In folgendem Beispiel zeige ich, wie man Patches über Gmail verschicken kann, welches der E-Mail Client ist, den ich selbst verwende. Darüberhinaus findest du ausführliche Beschreibungen für zahlreiche E-Mail Programme am Ende der schon erwähnten Datei `Documentation/SubmittingPatches` im Git Quellcode.
+
 First, you need to set up the imap section in your `~/.gitconfig` file. You can set each value separately with a series of `git config` commands, or you can add them manually; but in the end, your config file should look something like this:
+
+Zunächst mußt du die IMAP Sektion in deiner `~/.gitconfig` Datei ausfüllen. Du kannst jeden Wert separat mit dem Befehl `git config` eingeben oder du kannst die Datei öffnen und sie manuell eingeben. Im Endeffekt sollte deine `~/.gitconfig` Datei in etwa so aussehen:
 
 	[imap]
 	  folder = "[Gmail]/Drafts"
@@ -782,6 +798,8 @@ First, you need to set up the imap section in your `~/.gitconfig` file. You can 
 If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
 When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:
 
+Wenn dein IMAP Server kein SSL verwendet, kannst du die letzten beiden Zeilen wahrscheinlich weglassen und der `host` dürfte mit `imap://` und nicht `imaps://` beginnen. Wenn du diese Einstellungen konfiguriert hast, kannst du `git send-email` verwenden, um deine Patches in den Entwurfsordner des angegebenen IMAP Servers zu kopieren:
+
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
@@ -791,6 +809,8 @@ When that is set up, you can use `git send-email` to place the patch series in t
 	Message-ID to be used as In-Reply-To for the first email? y
 
 Then, Git spits out a bunch of log information looking something like this for each patch you’re sending:
+
+Git gibt dann für jeden Patch, den du verschickst, ein paar Log Informationen aus, die in etwa so aussehen:
 
 	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
 	  \line 'From: Jessica Smith <jessica@example.com>'
@@ -809,40 +829,70 @@ Then, Git spits out a bunch of log information looking something like this for e
 
 At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
 
+Jetzt solltest du in den Entwurfsordner deines E-Mail Clients gehen, als Empfänger Adresse die jeweilige Mailingliste angeben, möglicherweise ein CC an den Projektbetreiber oder einen anderen Verantwortlichen setzen und die E-Mail dann verschicken können.
+
 ### Summary ###
+
+### Zusammenfassung ###
 
 This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process. Next, you’ll see how to work the other side of the coin: maintaining a Git project. You’ll learn how to be a benevolent dictator or integration manager.
 
+Wir haben jetzt eine Reihe von Workflows besprochen, die für jeweils sehr verschiedene Arten von Projekten üblich sind und denen du vermutlich begegnen wirst. Wir haben außerdem einige neue Tools besprochen, die dabei hilfreich sind, diese Workflows umzusetzen. Als nächstes werden wir auf die andere Seite dieser Medaille eingehen: wie du selbst ein Git Projekt betreiben kannst. Du wirst lernen, wie du als "wohlwollender Diktator" oder als Integration Manager arbeiten kannst.
+
 ## Maintaining a Project ##
+
+## Ein Projekt betreiben ##
 
 In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
 
+Neben dem Wissen, das du brauchst, um zu einem bestehenden Projekt Änderungen beizutragen, wirst du vermutlich wissen wollen, wie du selbst ein Projekt betreiben kannst. Dazu willst du Patches akzeptieren und anwenden, die per `git format-patch` erzeugt und dir per E-Mail geschickt wurden. Oder du willst Änderungen aus externen Branches übernehmen, die du zu deinem Projekt hinzugefügt hast. Ob du nun für das Hauptrepository verantwortlich bist oder ob du dabei helfen willst, Patches zu verifizieren und zu bestätigen - in beiden Fällen mußt du wissen, wie du Änderungen in einer Weise übernehmen kannst, die für andere Mitarbeiter nachvollziehbar und für dich selbst tragbar ist.
+
 ### Working in Topic Branches ###
+
+### In Topic Branches arbeiten ###
 
 When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
 As you’ll remember, you can create the branch based off your master branch like this:
+
+Wenn du Änderungen von anderen übernehmen willst, ist normalerweise eine gute Idee, sie in einem Topic Branch auszuprobieren - d.h., einem temporären Branch, dessen Zweck nur darin besteht, die jeweiligen Änderungen auszuprobieren. Auf diese Weise ist es einfach, Patches ggf. anzupassen oder sie im Zweifelsfall im Topic Branch liegen zu lassen, wenn sie nicht funktionieren und du im Moment nicht die Zeit hast, dich weiter damit zu befassen. Es ist empfehlenswert, Topic Branches Namen zu geben, die gut kommunizieren, worum es sich bei den jeweiligen Änderungen dreht, wie z.B. `ruby_client` oder etwas ähnlich aussagekräftiges, das dir hilft, dich daran zu erinnern. Der Projekt Betreiber des Git Projektes selbst vergibt Namensräume für solche Branches - wie z.B. `sc/ruby_client`, wobei `sc` ein Kürzel für den jeweiligen Autor des Patches ist. Wie du inzwischen weißt, kannst du einen neuen Branch, der auf dem gegenwärtigen `master` Branch basiert, wie folgt erzeugen (xxx falsch, das stimmt nur, wenn `master` der aktuelle Branch ist xxx):
 
 	$ git branch sc/ruby_client master
 
 Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
 
+Oder, wenn außerdem direkt zu dem neuen Branch wechseln willst, kannst du die `-b` für den `git checkout` Befehl verwenden:
+
 	$ git checkout -b sc/ruby_client master
 
 Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
 
+Nachdem du jetzt einen Topic Branch angelegt hast, kannst du die Änderungen zu diesem Branch hinzufügen, um herauszufinden, ob du sie dauerhaft in einen offiziellen Branch übernehmen willst.
+
 ### Applying Patches from E-mail ###
+
+### Patches aus E-Mails verwenden ###
 
 If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
 
+Wenn du einen Patch, den du auf dein Projekt anwenden willst, per E-Mail erhältst, gibt es zwei Möglichkeiten, das zu tun: `git apply` und `git am`.
+
 #### Applying a Patch with apply ####
 
+#### Einen Patch verwenden: git apply ###
+
 If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
+
+Wenn der Patch mit `git diff` oder dem Unix Befehl `diff` erzeugt wurde, dann kannst du ihn mit dem Befehl `git apply` anwenden. Nehmen wir an, du hast den Patch nach `/tmp/patch-ruby-client.patch` gespeichert. Dann kannst du ihn wie folgt verwenden:
 
 	$ git apply /tmp/patch-ruby-client.patch
 
 This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches then patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is over all much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
 
+Das ändert die Dateien in deinem Git Arbeitsverzeichnis. Das ist fast das selbe wie wenn du den Unix Befehl `patch -p1` verwendest. Der Git Befehl ist aber paranoider und akzeptiert nicht so viele unklare Übereinstimmungen. Außerdem kann er mit neu hinzugefügten, gelöschten und umbenannten Dateien umgehen, was der Unix Befehl `patch` nicht kann. Schließlich ist `git apply` ein "alles oder nichts" Befehl, der entweder alle Änderungen übernimmt oder gar keine (wenn bei einem etwas schief geht), während `patch` Änderungen auch teilweise übernimmt, so daß er dein Arbeitsverzeichnis gegebenenfalls in einem unbrauchbaren Zustand hinterläßt. `git apply` ist also insgesamt strenger als `patch`. Es legt im übrigen keinen Commit für dich an. Nachdem du `git apply` ausgeführt hast, mußt du die Änderungen manuell zur Staging Area hinzufügen und comitten.
+
 You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
+
+Du kannst `git apply --check` verwenden, um zu testen, ob der Patch sauber anwendbar wäre:
 
 	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
 	error: patch failed: ticgit.gemspec:1
@@ -850,11 +900,19 @@ You can also use git apply to see if a patch applies cleanly before you try actu
 
 If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
 
+Wenn dieser Befehl nichts ausgibt, sollte der Befehl sauber anwendbar sein.
+
 #### Applying a Patch with am ####
+
+#### Einen Patch verwenden: git am ###
 
 If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
 
+Wenn der Autor des Patches selbst mit Git arbeitet, kann er dir das Leben leichter machen, indem er `git format-patch` verwender, um seinen Patch zu erzeugen: der Patch wird dann die Commit Informationen über den Autor sowie die Commit Meldung enthalten. Es ist also empfehlenswert, Entwickler darum zu bitten und zu ermutigen, `git format-patch` statt `git diff` zu verwenden. Du wirst dann `git apply` nur sehr selten anwenden müssen (xxx legacy patches ??? xxx)
+
 To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this:
+
+Um einen Patch zu verwenden, der mit `git format-patch` erzeugt wurde, benutzt du den Befehl `git am`. Technisch gesehen ist `git am` ein Befehl, der eine mbox Datei lesen kann, d.h. eine einfache Nur-Text-Datei, die eine oder mehrere E-Mails enthalten kann. Eine solche Datei sieht in etwa wie folgt aus:
 
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>

@@ -647,26 +647,26 @@ Insert 18333fig0409.png
 
 もしそのプロジェクトが非常に大規模なものであったり標準とは異なるものであったり、あるいは公開されていないものであったりした場合は、この手順ではうまくいかないでしょう。第 7 章で、手動でのプロジェクトのインポート手順について詳しく説明します。
 
-### Adding Collaborators ###
+### 共同作業者の追加 ###
 
-Let’s add the rest of the team. If John, Josie, and Jessica all sign up for accounts on GitHub, and you want to give them push access to your repository, you can add them to your project as collaborators. Doing so will allow pushes from their public keys to work.
+では、チームの他のメンバーを追加しましょう。John、Josie そして Jessica は全員すでに GitHub のアカウントを持っており、彼らもこのリポジトリにプッシュできるようにしたければ、プロジェクトの共同作業者として登録します。そうすれば、彼らの公開鍵をつかったプッシュも可能となります。
 
-Click the "edit" button in the project header or the Admin tab at the top of the project to reach the Admin page of your GitHub project (see Figure 4-10).
+プロジェクトのヘッダにある "edit" ボタンをクリックするかプロジェクトの上の Admin タブを選択すると、GitHub プロジェクトの管理者用ページに移動します (図 4-10 を参照ください)。
 
 Insert 18333fig0410.png 
-Figure 4-10. GitHub administration page.
+図 4-10. GitHub の管理者用ページ
 
-To give another user write access to your project, click the “Add another collaborator” link. A new text box appears, into which you can type a username. As you type, a helper pops up, showing you possible username matches. When you find the correct user, click the Add button to add that user as a collaborator on your project (see Figure 4-11).
+別のユーザにプロジェクトへの書き込み権限を付与するには、“Add another collaborator”リンクをクリックします。新しいテキストボックスがあらわれるので、そこにユーザ名を記入します。何か入力すると、マッチするユーザ名の候補がポップアップ表示されます。ユーザが見つかれば、Add ボタンをクリックすればそのユーザを共同作業者に追加できます (図 4-11 を参照ください)。
 
 Insert 18333fig0411.png 
-Figure 4-11. Adding a collaborator to your project.
+図 4-11. プロジェクトへの共同作業者の追加
 
-When you’re finished adding collaborators, you should see a list of them in the Repository Collaborators box (see Figure 4-12).
+対象者を全員追加し終えたら、Repository Collaborators のところにその一覧が見えるはずです (図 4-12 を参照ください)。
 
 Insert 18333fig0412.png 
-Figure 4-12. A list of collaborators on your project.
+図 4-12. プロジェクトの共同作業者一覧
 
-If you need to revoke access to individuals, you can click the "revoke" link, and their push access will be removed. For future projects, you can also copy collaborator groups by copying the permissions of an existing project.
+誰かのアクセス権を剥奪したい場合は、"revoke" リンクをクリックすればそのユーザはプッシュできなくなります。また、今後新たにプロジェクトを作ったときに、この共同作業者一覧をコピーして使うこともできます。
 
 ### Your Project ###
 

@@ -230,15 +230,25 @@ Si una versión concreta de un archivo está en el directorio de Git, se conside
 
 > If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
-## Installing Git ##
+## Instalando Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+> Installing Git
 
-### Installing from Source ###
+Vamos a empezar a usar un poco de Git. Lo primero es lo primero - tienes que instalarlo. Puedes obtenerlo de varias maneras; las dos principales son instalarlo desde código fuente, o instalar un paquete existente para tu plataforma.
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+> Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+### Instalando desde código fuente ###
+
+> Installing from Source
+
+Si puedes, en general es útil instalar Git desde código fuente, porque obtendrás la versión más reciente. Cada versión de Git tiende a incluir útiles mejoras en la interfaz de usuario, por lo que utilizar la última versión es a menudo el camino más adecuado si te sientes cómodo compilando software desde código fuente. También ocurre que muchas distribuciones de Linux contienen paquetes muy antiguos; así que a menos que estés en una distribución muy actualizada o estés usando backports, instalar desde código fuente puede ser la mejor apuesta.
+
+> If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+
+Para instalar Git, necesitas tener las siguientes librerías de las que Git depende: curl, zlib, openssl, expat, y libiconv. Por ejemplo, si estás en un sistema que tiene yum (como Fedora) o apt-get (como un sistema basado en Debian), puedes usar uno de estos comandos para instalar todas las dependencias:
+
+> To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -246,53 +256,81 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
 
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Cuando tengas todas las dependencias necesarias, puedes ir y descargar la versión más reciente de Git desde su página web:
+
+> When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
 
 	http://git-scm.com/download
 
-Then, compile and install:
+Luego compila e instala:
+
+>Then, compile and install:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Una vez hecho esto, también puedes obtener Git a través del propio Git para futuras actualizaciones:
+
+> After this is done, you can also get Git via Git itself for updates:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 
-### Installing on Linux ###
+### Instalando en Linux ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+> Installing on Linux
+
+Si quieres instalar Git en Linux a través de un instalador binario, en general puedes hacerlo a través de la herramienta básica de gestión de paquetes que trae tu distribución. Si estás en Fedora, puedes usar yum:
+
+> If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+O si estás en una distribución basada en Debian como Ubuntu, prueba con apt-get:
+
+> Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Instalando en Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+> Installing on Mac
+
+Hay dos maneras fáciles de instalar Git en un Mac. La más fácil es usar el instalador gráfico de Git, que puedes descargar desde la página de Google Code (ver Figura 1-7):
+
+> There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png
-Figure 1-7. Git OS X installer.
+Figura 1-7. Instalador de Git para OS X.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+> Figure 1-7. Git OS X installer.
+
+La otra manera es instalar Git a través de MacPorts (`http://www.macports.org`). Si tienes MacPorts instalado, instala Git con:
+
+> The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via:
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+No necesitas añadir todos los extras, pero probablemente quieras incluir +svn en caso de que alguna vez necesites usar Git con repositorios Subversion (ver Capítulo 8).
 
-### Installing on Windows ###
+> You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+### Instalando en Windows ###
+
+> Installing on Windows
+
+Instalar Git en Windows es muy fácil. El proyecto msysGit tiene uno de los procesos de instalación más sencillos. Simplemente descarga el archivo exe del instalador desde la página de Google Code, y ejecútalo:
+
+> Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Una vez instalado, tendrás tanto la versión de línea de comandos (incluido un cliente SSH que nos será útil más adelante) como la interfaz gráfica de usuario estándar.
+
+> After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 
 ## First-Time Git Setup ##
 
@@ -300,8 +338,8 @@ Now that you have Git on your system, you’ll want to do a few things to custom
 
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically.
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option.
+*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
+*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
 *	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
@@ -320,7 +358,7 @@ Again, you need to do this only once if you pass the `--global` option, because 
 Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
 
 	$ git config --global core.editor emacs
-
+	
 ### Your Diff Tool ###
 
 Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:

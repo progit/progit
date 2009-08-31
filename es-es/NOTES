@@ -1,14 +1,18 @@
 # Palabras que me crean regomeyo
 
-- Branch/Branching: Podría traducirlo como *rama*/*ramificación*.
+- Backport: No encuentro una traducción adecuada.
+- Branch/Branching: Podría traducirlo como *rama*/*ramificación*, pero pongo entre () el término original.
 - Checkin: No encuentro una traducción adecuada.
 - Checkout: No encuentro una traducción adecuada.
-- Checksum: Lo traduzco como *suma de comprobación* a regañadientes.
-- Commit/Committed: Lo traduzco como *confirmar*/*confirmado*.
+- Checksum: Lo traduzco como *suma de comprobación* a regañadientes, pongo entre () el término original.
+- Commit/Committed: Lo traduzco como *confirmar*/*confirmado*, pero pongo entre () el término original.
+- Diff: Lo traduzco como *diferencia*.
+- Fork: Lo traduzco como *bifurcación*, pero pongo entre () el término original.
 - Kernel: La traducción habitual es *núcleo*, así que la usaré.
+- Merge: Lo traduzco como *unión*, pero pongo entre () el término original.
 - Rebase: No encuentro una traducción adecuada.
-- Pull: No encuentro una traducción adecuada.
-- Push: No encuentro una traducción adecuada.
-- Snapshot: Lo traduzco como *instantánea*.
-- Stage/Staged: Lo traduzco como *preparar*/*preparado*.
-- Staging area: Parece ser un término militar. Se refiere a una localización temporal donde se reúnen recursos antes de un ataque o invasión. Lo traduzco como *área de preparación*.
+- Pull: No quiero usar *descargar* o *bajar*, porque parece que hace referencia a entornos cliente/servidor. No encuentro una traducción adecuada.
+- Push: No quiero usar *subir*, porque parece que hace referencia a entornos cliente/servidor. No encuentro una traducción adecuada.
+- Snapshot: Lo traduzco como *instantánea*, pero pongo entre () el término original.
+- Stage/Staged: Lo traduzco como *preparar*/*preparado*, pero pongo entre () el término original.
+- Staging area: Parece ser un término militar. Se refiere a una localización temporal donde se reúnen recursos antes de un ataque o invasión. Lo traduzco como *área de preparación*, pero pongo entre () el término original.

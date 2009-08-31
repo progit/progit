@@ -12,8 +12,8 @@
 - Manpage: Lo traduzco como *página del manual*, pero pongo entre () el término original.
 - Merge: Lo traduzco como *unión*, pero pongo entre () el término original.
 - Rebase: No encuentro una traducción adecuada.
-- Pull: No quiero usar *descargar* o *bajar*, porque parece que hace referencia a entornos cliente/servidor. No encuentro una traducción adecuada.
-- Push: No quiero usar *subir*, porque parece que hace referencia a entornos cliente/servidor. No encuentro una traducción adecuada.
+- Pull: Lo traduzco como *recibir*, pero pongo entre () el término original. No quiero usar *descargar* o *bajar*, porque parece que hace referencia a entornos cliente/servidor.
+- Push: Lo traduzco como *mandar*, pero pongo entre () el término original. No quiero usar *subir*, porque parece que hace referencia a entornos cliente/servidor.
 - Snapshot: Lo traduzco como *instantánea*, pero pongo entre () el término original.
 - Stage/Staged: Lo traduzco como *preparar*/*preparado*, pero pongo entre () el término original.
 - Staging area: Parece ser un término militar. Se refiere a una localización temporal donde se reúnen recursos antes de un ataque o invasión. Lo traduzco como *área de preparación*, pero pongo entre () el término original.

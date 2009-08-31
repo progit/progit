@@ -423,19 +423,27 @@ También puedes comprobar qué valor cree Git que tiene una clave específica ej
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Obteniendo ayuda ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+> Getting Help
+
+Si alguna vez necesitas ayuda usando Git, hay tres formas de ver la página del manual (manpage) para cualquier comando de Git:
+
+> If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+Por ejemplo, puedes ver la página del manual para el comando config ejecutando:
+
+> For example, you can get the manpage help for the config command by running:
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
+Estos comandos están bien porque puedes acceder a ellos desde cualquier sitio, incluso sin conexión. Si las páginas del manual y este libro no son suficientes y necesitas que te ayude una persona, puedes probar en los canales `#git` o `#github` del servidor de IRC Freenode (irc.freenode.net). Estos canales están llenos de cientos de personas muy entendidas en Git, y suelen estar dispuestos a ayudar.
+
+> These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
 ## Summary ##

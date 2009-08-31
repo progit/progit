@@ -446,6 +446,10 @@ Estos comandos están bien porque puedes acceder a ellos desde cualquier sitio, 
 > These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
-## Summary ##
+## Resumen ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+> Summary
+
+Deberías tener un conocimiento básico de qué es Git y en qué se diferencia del CVCS que puedes haber estado utilizando. También deberías tener funcionando en tu sistema una versión de Git configurada con tu identidad. Es el momento de aprender algunos fundamentos de Git.
+
+> You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.

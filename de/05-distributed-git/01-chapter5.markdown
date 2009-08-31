@@ -921,14 +921,20 @@ Um einen Patch zu verwenden, der mit `git format-patch` erzeugt wurde, benutzt d
 
 	Limit log functionality to the first 20
 
-This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time.
+
+Das ist der Anfang der Ausgabe des `git format-patch` Befehls, die du im vorherigen Abschnitt gesehen hast - und außerdem valides mbox E-Mail Format. Wenn du eine solche Datei im mbox Format erhalten hast und der Absender `git send-email` korrekt verwendet hat, kannst du `git am` mit der Datei verwenden und alle darin enthaltenen Patches werden auf dein Projekt angewendet. Wenn du einen E-Mail Client verwendest, der mehrere E-Mails im mbox Format in einer Datei speichern oder exportieren kann, kannst du auch eine ganze Reihe von Patches in eine einzige Datei speichern und dann `git am` verwenden, um sie nacheinander anzuwenden.
 
 However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
+
+Wenn jemand einen Patch, der mit `git format-patch` erzeugt wurde, in einem Ticketsystem oder ähnlichem abgelegt hat, kannst du die Datei lokal speichern und dann ebenfalls `git am` ausführen, um den Patch anzuwenden:
 
 	$ git am 0001-limit-log-function.patch 
 	Applying: add limit to log function
 
 You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
+
+Der Patch paßte sauber auf die Codebase und hat automatisch einen neuen Commit angelegt. Die Autor Information wurde aus den `From` und `Date` Headern der E-Mail übernommen und die Commit Meldung aus dem Subject und Body der E-Mail. Wenn der Patch z.B. aus dem mbox Beispiel von oben stammt, sieht der resultierende Commit wie folgt aus:
 
 	$ git log --pretty=fuller -1
 	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
@@ -943,7 +949,11 @@ You can see that it applied cleanly and automatically created the new commit for
 
 The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
 
+Das `Commit` Feld zeigt den Namen desjenigen, der den Patch angewendet hat und `CommitDate` das jeweilige Datum und Uhrzeit. Die Felder `Author` und `AuthorDate` geben an, wer den Commit wann angelegt hat.
+
 But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
+
+Es ist allerdings möglich, daß der Patch nicht sauber auf den gegenwärtigen Code paßt. Möglicherweise unterscheidet sich der jeweilige Branch inzwischen erheblich von dem Zustand, in dem er sich befand, als die in dem Patch enthaltenen Änderungen geschrieben wurden. In dem Fall wird `git am` fehlschlagen und dir mitteilen, was zu tun ist:
 
 	$ git am 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -956,12 +966,16 @@ But it’s possible that the patch won’t apply cleanly. Perhaps your main bran
 
 This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
 
+Der Befehl fügt Konfliktmarkierungen in allen problematischen Dateien ein, so wie bei einem konfligierenden Merge oder Rebase. Und du kannst den Konflikt in der selben Weise beheben: die Datei bearbeiten, die Änderungen zur Staging Area hinzufügen und dann `git am --resolved` ausführen, um mit dem jeweils nächsten Patch (falls vorhanden) fortzufahren.
+
 	$ (fix the file)
 	$ git add ticgit.gemspec 
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
 If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
+
+Wenn Du willst, daß Git versucht, einen Konflikt etwas intelligenter zu lösen, kannst du die `-3` Option angeben, so daß Git einen 3-Wege-Merge versucht. Dies ist deshalb nicht der Standard, weil ein 3-Wege-Merge nicht funktioniert, wenn der Commit, auf dem der Patch basiert, nicht Teil deines Repositories ist. Wenn du den Commit allerdings in deiner Historie hast, d.h. wenn der Patch auf einem öffentlichen Commit basiert, dann ist die `-3` Option oft die bessere Variante, um einen konfligierenden Patch anzuwenden:
 
 	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -973,7 +987,11 @@ If you want Git to try a bit more intelligently to resolve the conflict, you can
 
 In this case, I was trying to apply a patch I had already applied. Without the `-3` option, it looks like a conflict.
 
+In diesem Fall habe ich versucht, einen Patch anzuwenden, der ich bereits zuvor angewendet hatte. Ohne die `-3` Option würde ich einen Konflikt erhalten.
+
 If you’re applying a number of patches from an mbox, you can also run the `am` command in interactive mode, which stops at each patch it finds and asks if you want to apply it:
+
+Wenn du eine Reihe von Patches aus einer Datei im mbox Format anwendest, kannst du außerdem den `git am` Befehl in einem interaktiven Modus ausführen. In diesem Modus hält Git bei jedem Patch an und fragt dich jeweils, ob du den Patch anwenden willst:
 
 	$ git am -3 -i mbox
 	Commit Body is:
@@ -984,13 +1002,21 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 
 This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
 
+Das ist praktisch, wenn du eine ganze Reihe von Patches in einer Datei hast. Du kannst jeweils Patches anzeigen, an die du dich nicht erinnern kannst, oder Patches auslassen, z.B. weil du sie schon zuvor angewendet hattest.
+
 When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
+
+Nachdem du alle Patches in deinem Topic Branch angewendet hast, kannst du die Änderungen durchsehen, testen und entscheiden, ob du sie in einen dauerhaft bestehenden Branch übernehmen willst.
 
 ### Checking Out Remote Branches ###
 
 If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.
 
+Möglicherweise kommen die Änderungen aber nicht als Patch sondern von einem Git Anwender, der sein eigenes Repository aufgesetzt hat, seine Änderungen dorthin hochgeladen und dir dann die URL des Repositories und den Namen des Branches geschickt hat. In diesem Fall kannst du das Repository als ein "remote" (externes Repository) hinzufügen und die Änderungen lokal mergen.
+
 For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:
+
+Wenn Dir z.B. Jessica eine E-Mail schickt und mitteilt, daß sie ein großartiges, neues Feature im `ruby-client` Branch ihres Repositories hat, dann kannst du das Feature testen, indem du das Repository als externes Repository deines Projektes konfigurieren und den Branch lokal auscheckst:
 
 	$ git remote add jessica git://github.com/jessica/myproject.git
 	$ git fetch jessica
@@ -998,9 +1024,15 @@ For instance, if Jessica sends you an e-mail saying that she has a great new fea
 
 If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
 
+Wenn sie dir später erneut eine E-Mail mit einem anderen Branch schickt, der ein anderes, großartiges Feature enthält, dann kannst du diesen Branch direkt herunterladen und auschecken, weil du das externe Repository noch konfiguriert hast.
+
 This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
 
+Dies ist insbesondere nützlich, wenn du mit jemandem regelmäßig zusammen arbeitest. Wenn jemand lediglich gelegentlich einen einzelnen Patch beiträgt, dann ist es wahrscheinlich weniger aufwendig, ihn per E-Mail zu akzeptieren, als von jedem zu erwarten, einen eigenen Server zu betreiben, und selbst ständig externe Repositories hinzuzufügen und zu entfernen. Du wirst kaum hunderte von externen Repositories verwalten wollen, nur um von jedem ein paar Änderungen zu erhalten. Auf der anderen Seite erleichtern dir Scripts und Hosted Services diesen Prozeß. Es hängt also alles davon ab, wie du selbst und wie deine Mitarbeiter entwickeln.
+
 The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
+
+Wenn du mit jemandem nicht regelmäßig zusammen arbeitest, aber trotzdem aus ihrem Repository mergen willst, dann kannst du dem `git pull` Befehl die URL ihres externen Repositories übergeben. Das lädt den entsprechenden Branch einmalig herunter und merged ihn in deinen aktuellen Branch, ohne aber die externe URL als eine Referenz zu speichern:
 
 If you aren’t working with a person consistently but still want to pull from them in this way, you can provide the URL of the remote repository to the `git pull` command. This does a one-time pull and doesn’t save the URL as a remote reference:
 
@@ -1011,9 +1043,15 @@ If you aren’t working with a person consistently but still want to pull from t
 
 ### Determining What Is Introduced ###
 
+### Neuigkeiten durchsehen ###
+
 Now you have a topic branch that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
 
+Du hast jetzt einen Topic Branch, der die neuen Änderungen enthält, und kannst jetzt herausfinden, was du damit anfangen willst. In diesem Abschnitt gehen wir noch mal auf einige Befehle ein, die nützlich sind, um herauszufinden, welche Änderungen du übernehmen würdest, wenn du den Topic Branch in deinen Hauptbranch mergest.
+
 It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `--not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this:
+
+Es ist in der Regel hilfreich, sich Commits anzusehen, die sich in diesem Branch, nicht aber im `master` Branch befinden. Du kannst Commits aus dem `master` Branch ausschließen, indem du die `--not` Option verwendest. Wenn du beispielsweise zwei neue Commits erhalten und sie in einen Topic Branch `contrib` übernommen hast, kannst du folgendes tun:
 
 	$ git log contrib --not master
 	commit 5b6235bd297351589efc4d73316f0a68d484f118
@@ -1030,11 +1068,17 @@ It’s often helpful to get a review of all the commits that are in this branch 
 
 To see what changes each commit introduces, remember that you can pass the `-p` option to `git log` and it will append the diff introduced to each commit.
 
+Wie du schon gelernt hast, kannst du außerdem die Option `-p` verwenden, um zu sehen, welche Diffs die Commits enthalten.
+
 To see a full diff of what would happen if you were to merge this topic branch with another branch, you may have to use a weird trick to get the correct results. You may think to run this:
+
+Wenn du ein vollständiges Diff aller Änderungen sehen willst, die dein Topic Branch gegenüber z.B. dem `master` Branch enthält, brauchst du einen Trick. Möglicherweise würdest du zuerst das hier ausprobieren:
 
 	$ git diff master
 
 This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.
+
+Der Befehl gibt dir ein Diff aus, aber es ist irreführend.
 
 If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch.
 

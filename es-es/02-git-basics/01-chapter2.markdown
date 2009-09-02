@@ -148,9 +148,13 @@ Puedes ver que está preparado porque aparece bajo la cabecera “Cambios a conf
 
 > You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
 
-### Staging Modified Files ###
+### Preparando archivos modificados ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+> Staging Modified Files
+
+Vamos a modificar un archivo que estuviese bajo seguimiento. Si modificas el archivo `benchmarks.rb` que estaba bajo seguimiento, y ejecutas el comando `status` de nuevo, verás algo así:
+
+> Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
 
 	$ git status
 	# On branch master
@@ -165,7 +169,9 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+El archivo benchmarks.rb aparece bajo la cabecera “Modificados pero no actualizados” (“Changed but not updated”) - esto significa que un archivo bajo seguimiento ha sido modificado en el directorio de trabajo, pero no ha sido preparado todavía. Para prepararlo, ejecuta el comando `git add` (es un comando multiusos - puedes usarlo para empezar el seguimiento  de archivos nuevos, para preparar archivos, y para otras cosas como marcar como resueltos archivos con conflictos de unión). Ejecutamos `git add` para preparar el archivo benchmarks.rb, y volvemos a ejecutar `git status`:
+
+> The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -177,7 +183,9 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+Ambos archivos están ahora preparados, y se incluirán en tu próxima confirmación. Supón que en este momento recuerdas que tenías que hacer una pequeña modificación en benchmarks.rb antes de confirmarlo. Lo vuelves abrir, haces ese pequeño cambio, y ya estás listo para confirmar. Sin embargo, si vuelves a ejecutar `git status` verás lo siguiente:
+
+> Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
 
 	$ vim benchmarks.rb
 	$ git status
@@ -194,7 +202,9 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+¿Pero qué...? Ahora benchmarks.rb aparece listado como preparado y como no preparado. ¿Cómo es posible? Resulta que Git prepara un archivo tal y como era en el momento de ejecutar el comando `git add`. Si confirmas ahora, la versión de benchmarks.rb que se incluirá en la confirmación será la que fuese cuando ejecutaste el comando `git add`, no la versión que estás viendo en tu directorio de trabajo ahora. Si modificas un archivo después de haber ejecutado `git add`, tendrás que volver a ejecutar `git add` para preparar la última versión del archivo:
+
+> What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -206,26 +216,43 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### Ignorando archivos ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+> Ignoring Files
+
+A menudo tendrás un tipo de archivos que no quieras que Git añada automáticamente o te muestre como no versionado. Suelen ser archivos generados automáticamente, como archivos de log, o archivos generados por tu compilador. Para estos casos puedes crear un archivo llamado .gitignore, en el que listas los patrones de nombres que deseas que sean ignorados. He aquí un archivo .gitignore de ejemplo:
+
+> Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+La primera línea le dice a Git que ignore cualquier archivo cuyo nombre termine en .o o .a - archivos objeto que suelen ser producto de la compilación de código. La segunda línea le dice a Git que ignore todos los archivos que terminan en tilde (`~`), usada por muchos editores de texto, como Emacs, para marcar archivos temporales. También puedes incluir directorios log, tmp, pid, documentación generada automáticamente, etc. Configurar un archivo .gitignore antes de empezar a trabajar suele ser una buena idea, para así no confirmar archivos que no quieres en tu repositorio Git.
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+> The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+Las reglas para los patrones que pueden ser incluidos en el archivo .gitignore son:
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) .
+> The rules for the patterns you can put in the .gitignore file are as follows:
 
-Here is another example .gitignore file:
+*	Las líneas en blanco, o que comienzan por #, son ignoradas.
+*	Puedes usar patrones glob estándar.
+*	Puedes indicar un directorio añadiendo una barra hacia delante (`/`) al final.
+*	Puedes negar un patrón añadiéndo una exclamación (`!`) al principio.
+
+> *	Blank lines or lines starting with # are ignored.
+> *	Standard glob patterns work.
+> *	You can end patterns with a forward slash (`/`) to specify a directory.
+> *	You can negate a pattern by starting it with an exclamation point (`!`).
+
+Los patrones glob son expresiones regulares simplificadas que pueden ser usadas por las shells. Un asterisco (`*`) reconoce cero o más caracteres; `[abc]` reconoce cualquier caracter de los especificados entre corchetes (en este caso, a, b, o c); una interrogación (`?`) reconoce un único caracter; y caracteres entre corchetes separados por un guión (`[0-9]`) reconoce cualquier caracter entre ellos (en este caso, de 0 a 9).
+
+> Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen (`[0-9]`) matches any character between them (in this case 0 through 9) .
+
+He aquí otro ejemplo de archivo .gitignore:
+
+> Here is another example .gitignore file:
 
 	# a comment – this is ignored
 	*.a       # no .a files

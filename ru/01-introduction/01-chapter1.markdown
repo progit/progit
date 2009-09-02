@@ -106,7 +106,7 @@ Now, pay attention. This is the main thing to remember about Git if you want the
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
 Insert 18333fig0106.png 
-Рисунок 1-6. Рабочий каталог, область подготовленых файлов, каталог Git
+Рисунок 1-6. Рабочий каталог, область подготовленых файлов, каталог Git.
 
 Каталог Git – это место где Git хранит метаданные и базу данных объектов вашего проекта. Это наиболее важная часть Git, и именно она копируется, когда вы клонируете репозиторий с другого компьютера.
 
@@ -202,7 +202,7 @@ There are two easy ways to install Git on a Mac. The easiest is to use the graph
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Рисунок 1-7. Инсталлятор Git под OS X
+Рисунок 1-7. Инсталлятор Git под OS X.
 
 Другой распространенный способ установка Git через MacPorts (`http://www.macports.org`). Если у вас установлены MacPorts, инсталлируйте Git так:
 

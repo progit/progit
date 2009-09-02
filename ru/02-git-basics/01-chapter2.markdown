@@ -80,8 +80,8 @@ Remember that each file in your working directory can be in one of two states: t
 As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
 
 Insert 18333fig0201.png 
-Рисунок 2-1. Жизненный цикл состояния ваших файлов
-Figure 2-1. The lifecycle of the status of your files
+Рисунок 2-1. Жизненный цикл состояния ваших файлов.
+Figure 2-1. The lifecycle of the status of your files.
 
 ### Определение Состояния Ваших Файлов ###
 ### Checking the Status of Your Files ###
@@ -237,6 +237,8 @@ The rules for the patterns you can put in the .gitignore file are as follows:
 *	You can negate a pattern by starting it with an exclamation point (`!`).
 
 Glob шаблоны представляют собой упрощенные регулярные выражения используемые командными интерпретаторами. Символ `*` соответствует 0 или более любых символов; последовательность `[abc]` - любому символу из указанных в скобка (в данном примере a, b или c); знак вопроса (`?`) соответствует любому одному символу; `[0-9]` - соответствует любому символу из интервала (в данном случае от 0 до 9).
+
+Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
 
 Вот еще один пример файла .gitignore:
 
@@ -528,7 +530,7 @@ When you run `git log` in this project, you should get output that looks somethi
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
 
-	    changed the verison number
+	    changed the version number
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -553,7 +555,7 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
 
-	    changed the verison number
+	    changed the version number
 
 	diff --git a/Rakefile b/Rakefile
 	index a874b73..8f94139 100644
@@ -594,7 +596,7 @@ You can also use a series of summarizing options with `git log`. For example, if
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
 
-	    changed the verison number
+	    changed the version number
 
 	 Rakefile |    2 +-
 	 1 files changed, 1 insertions(+), 1 deletions(-)
@@ -623,14 +625,14 @@ As you can see, the `--stat` option prints below each commit entry a list of mod
 Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
 
 	$ git log --pretty=oneline
-	ca82a6dff817ec66f44342007202690a93763949 changed the verison number
+	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
 The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
-	ca82a6d - Scott Chacon, 11 months ago : changed the verison number
+	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
@@ -723,7 +725,7 @@ Of the nearly 20,000 commits in the Git source code history, this command shows 
 If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
 
 Insert 18333fig0202.png 
-Figure 2-2. The gitk history visualizer
+Figure 2-2. The gitk history visualizer.
 
 You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
 
@@ -747,7 +749,7 @@ As an example, if you commit and then realize you forgot to stage the changes in
 	$ git add forgotten_file
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second command replaces the results of the first.
+All three of these commands end up with a single commit — the second commit replaces the results of the first.
 
 ### Unstaging a Staged File ###
 
@@ -872,13 +874,13 @@ Paul’s master branch is accessible locally as `pb/master` — you can merge it
 
 ### Fetching and Pulling from Your Remotes ###
 
-As you just saw, to get data from your remote projects, you can run
+As you just saw, to get data from your remote projects, you can run:
 
 	$ git fetch [remote-name]
 
 The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
 
-If you cloned a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
 
 If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 

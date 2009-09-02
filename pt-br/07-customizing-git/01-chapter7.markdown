@@ -71,7 +71,7 @@ If you have a commit-message policy in place, then putting a template for that p
 
 #### core.pager ####
 
-The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to more or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
+The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
 
 	$ git config --global core.pager ''
 

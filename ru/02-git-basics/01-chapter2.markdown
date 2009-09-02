@@ -393,8 +393,11 @@ In this case, the last time you ran `git status`, you saw that everything was st
 
 	$ git commit
 
-Эта команда откроет выбранный вами текстовый редактор. (Редактор устанавливается вашей системной переменной `$EDITOR` — часто это )
+Эта команда откроет выбранный вами текстовый редактор. (Редактор устанавливается вашей системной переменной `$EDITOR` — обычно это vim или emacs, хотя вы можете установить ваш любимый с помощью команды `git config --global core.editor` как было показано в Главе 1).
+
 Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+
+В редакторе будет отображен следующий текст (это пример окна Vim-а):
 
 The editor displays the following text (this example is a Vim screen):
 
@@ -411,7 +414,11 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
+Вы можете видеть, что комментарий по-умолчанию для коммита содержит закомментированный результат работы ("выхлоп") команды `git status` и сверху одну пустую строку. Вы можете удалить эти комментарии и набрать ваше сообщение или же оставить их, чтобы впоследствии помочь вам вспомнить — что же вы фиксировали. (Для еще более подробного напоминания, что же вы именно меняли, вы можете передать аргумент `-v` в команду `git commit`. Это приведет к тому, что в комментарий будет помещена также разница/diff ваших изменений, таким образом вы сможете точно увидеть что же вы сделали.) Когда вы выходите из редактора, Git создает ваш коммит с этим сообщением (с комментариями и выводом diff-а).
+
 You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+
+Другой способ: вы можете набрать ваш комментарий к коммиту в командной строке вместе с командой `commit` указав его после параметра -m, как в следующем примере:
 
 Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
 
@@ -420,11 +427,18 @@ Alternatively, you can type your commit message inline with the `commit` command
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
+Итак, вы создали свой первый коммит! Вы можете видеть, что коммит вывел вам немного информации о себе: на какую ветку вы выполнили коммит (master), какая контрольная сумма SHA-1 у этого коммита (`463dc4f`), сколько файлов было изменено, а также статистику по добавленным/удаленным строкам в этом коммите.
+
 Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+
+Запомните, что коммит сохраняет снимок состояния вашего индекса. Все, что вы не проиндексировали, так и торчит в рабочем каталоге как измененное; вы можете сделать еще один коммит чтобы добавить эти изменения в репозиторий. Каждый раз, когда вы делаете коммит, вы сохраняете снимок состояния вашего проекта который позже вы можете восстановить или с которым можно сравнить текущее состояние.
 
 Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
 
+### Игнорирование Индексации ###
 ### Skipping the Staging Area ###
+
+Несмотря на то, что индекс может быть удивительно полезным для создания коммитов точно как вам и хотелось, он временами несколько сложнее чем вам нужно в процессе работы. Если у вас есть желание пропустить явное индексирование, Git предоставляет простой способ. Добавление параметра `-a` в команду `git commit` заставляет Git автоматически индексировать каждый уже отслеживаемый на момент коммита файл, позволяя вам обойтись без `git add`:
 
 Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
 
@@ -439,11 +453,18 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
+Обратите внимание на то, что в данном случае перед коммитом вам не нужно выполнять `git add` для файла benchmarks.rb.
+
 Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
 
+### Удаление Файлов ###
 ### Removing Files ###
 
+Для того чтобы удалить файл из Git, вам необходимо удалить его из отслеживаемых файлов (точнее, удалить его из вашего индекса) а затем выполнить коммит. Это позволяет сделать команда `git rm`, которая также удаляет файл из вашего рабочего каталога, так что вы в следующий раз не видите его как "неотслеживаемый".
+
 To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+
+Если вы просто удалите файл из вашего рабочего каталога, он будет показан в секции "Измененные но не обновленные" (читай не проиндексированные) вывода команды `git status`:
 
 If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
 
@@ -456,6 +477,8 @@ If you simply remove the file from your working directory, it shows up under the
 	#
 	#       deleted:    grit.gemspec
 	#
+
+Затем, если вы выполните команду `git rm`, она проиндексирует удаление файла:
 
 Then, if you run `git rm`, it stages the file’s removal:
 
@@ -470,29 +493,46 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
+После следующего коммита, файл исчезнет и больше не будет отслеживаться. Если вы изменили файл и уже проиндексировали его, вы должны использовать принудительное удаление с помощью параметра `-f`. Это сделано для повышения безопасности, чтобы предотвратить ошибочное удаление данных, которые еще не были записаны в снимок состояния и которые нельзя восстановить из Git.
+
 The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+
+Другая полезная штука, которую вы можете захотеть сделать — это удалить файл из индекса, оставив его при этом в вашем рабочем каталоге. Другими словами, вы можете захотеть оставить файл на вашем винчестере, и убрать его из под бдительного ока Git-а. Это особенно полезно, если вы забыли добавить что-то в ваш файл `.gitignore` и по-ошибке проиндексировали, например большой файл с логами, или куча промежуточных файлов компилляции. Чтобы это сделать, используйте параметр `--cached`:
 
 Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
 
 	$ git rm --cached readme.txt
 
+В команду `git rm` вы можете передавать файлы, каталоги или glob-шаблоны. Это означает, что вы можете вытворять что-то вроде:
+
 You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
 
 	$ git rm log/\*.log
+
+Обратите внимание на обратный слэш (`\`) перед `*`. Это обязательно, т.к. Git использует свой собственный обработчик имен файлов в добавок к обработчику вашего командного интерпретатора. Эта команда удаляет все файлы которые имеют расширение `.log` в каталоге `log/`. Или же вы можете сделать вот так:
 
 Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
 
 	$ git rm \*~
 
+Эта команда удаляет все файлы чьи именя заканчиваются на `~`.
+
 This command removes all files that end with `~`.
 
+### Перемещение Файлов ###
 ### Moving Files ###
 
+В отличие от многих других систем версионного контроля, Git не отслеживает непосредственно перемещение файла. Если вы переименовываете файл в репозитории, то в Git не сохраняется никаких метаданных которые бы могли сообщить Git что вы переименовали файл. Однако, Git достаточно догадлив в плане обнаружения перемещений постфактум — мы рассмотрим обнаружение перемещения файлов чуть позже.
+
 Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+
+Таким образом наличие в Git команды `mv` выглядит несколько странным. Если вам хочется переименовать файл в Git, вы можете сделать что-то вроде:
 
 Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
 
 	$ git mv file_from file_to
+
+и это отлично сработает. На самом деле, если вы выполните что-то вроде этого и посмотрите на статус, вы увидите что Git считает это переименованным файлом:
 
 and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
 
@@ -507,11 +547,15 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
+Однако, это эквивалентно выполнению следующих команд:
+
 However, this is equivalent to running something like this:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
+
+Git неявно определяет, что было переименование, поэтому не важно переименуете вы файл так или используя команду `mv`. Единственное отличие состоит лишь в том, что `mv` это одна команда вместо трех — это <convenience function>. Важнее другое — вы можете использовать любой способ/программу чтобы переименовать файл, и затем перед коммитом выполнить add/rm.
 
 Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
 

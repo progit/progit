@@ -1,6 +1,6 @@
 # Distributed Git #
 
-# Distribuiertes Git (xxx) #
+# Distribuierte Arbeit mit Git (xxx) #
 
 Now that you have a remote Git repository set up as a point for all the developers to share their code, and you’re familiar with basic Git commands in a local workflow, you’ll look at how to utilize some of the distributed workflows that Git affords you.
 
@@ -1078,13 +1078,19 @@ Wenn du ein vollständiges Diff aller Änderungen sehen willst, die dein Topic B
 
 This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.
 
-Der Befehl gibt dir ein Diff aus, aber es ist irreführend.
+Der Befehl gibt dir ein Diff aus, kann aber irreführend sein. Wenn im `master` Branch Änderungen committed wurden, seit der Branch angelegt wurde, erhältst du scheinbar merkwürdige Ergebnisse. Das liegt daran, daß Git den Snapshot des letzten Commits des Topic Branches, in dem du dich momentan befindest, mit dem letzten Commit des `master` Branches vergleicht. Wenn du beispielsweise eine Zeile in einer Datei im `master` branch hinzugefügt hast, scheint der direkte Vergleich auszusagen, daß diese Zeile im Topic Branch entfernt wurde.
 
 If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch.
 
+Wenn `master` ein direkter Vorfahr deines Topic Branches ist, ist das kein Problem. Aber wenn sich die beiden Historien auseinander bewegt (xxx) haben, dann scheint das Diff auszusagen, daß du alle Neuigkeiten im Topic Branch hinzufügst und alle Neuigkeiten im `master` Branch entfernst.
+
 What you really want to see are the changes added to the topic branch — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your topic branch with the first common ancestor it has with the master branch.
 
+Was du aber eigentlich wissen willst, ist welche Änderungen der Topic Branch hinzugefügt hat, d.h. die Änderungen, die du in den `master` Branch neu einführen würdest, wenn du den Topic Branch mergest. Dieses Ergebnis erhälst du, wenn du den letzten Commit im Topic Branch mit dem letzten Commit vergleichst, den der Topic Branch mit `master` gemeinsam hat.
+
 Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
+
+Technisch gesehen könntest du den letzten gemeinsamen Commit explizit erfragen und dann ein Diff darauf ausführen:
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
@@ -1092,64 +1098,114 @@ Technically, you can do that by explicitly figuring out the common ancestor and 
 
 However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
 
+Das ist natürlich nicht sonderlich bequem, weshalb Git eine Kurzform dafür definiert: die triple-dot Syntax (xxx). Im Context des `git diff` Befehls bewirkt dies, daß du ein Diff erhältst, das den letzten gemeinsamen Commit der Histories beider angegebener Branches mit dem letzten Commit des zuletzt angegebenen Branches vergleicht:
+
 	$ git diff master...contrib
 
 This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.
 
+Dieser Befehl zeigt dir diejenigen Änderungen, die im Topic Branch eingeführt wurden, die aber noch nicht in `master` enthalten sind.
+
 ### Integrating Contributed Work ###
+
+### Beiträge anderer integrieren ###
 
 When all the work in your topic branch is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
 
+Sobald du die Änderungen in deinem Topic Branch in einen dauerhafteren Branch übernehmen willst, fragt sich, wie du das anstellen kannst. Und welchen generellen Workflow willst du verwenden, um das Projekt zu pflegen? Wir werden eine Reihe von Möglichkeiten besprechen, die dir zur Verfügung stehen.
+
 #### Merging Workflows ####
 
+#### Merge Workflows ####
+
 One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
+
+Eine einfache Möglichkeit besteht darin, deine Arbeit einfach in den `master` Branch zu mergen. In diesem Workflow hast du einen `master` Branch, der eine stabilen Code beinhaltet. Wenn du Änderungen in einem Topic Branch hast, die von dir selbst oder jemand anderem geschrieben und die verifiziert sind, dann mergest du diesen Topic Branch in den `master` Branch, löschst den Topic Branch und fährst mit diesem Prozeß so fort. Wenn es ein Repository mit zwei Branches gibt, die `ruby_client` und `php_client` heißen (wie in Bild 5-19), und du mergest `ruby_client` zuerst und `php_client` danach, dann wird die Historie danach aussehen wie im Bild 5-20.
 
 Insert 18333fig0519.png 
 Figure 5-19. History with several topic branches
 
+Bild 5-19. Historie mit verschiedenen Topic Branches
+
 Insert 18333fig0520.png
 Figure 5-20. After a topic branch merge
 
+Bild 5-20. Nach dem Merge mit verschiedenen Topic Branches
+
 That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
 
+Dies ist vermutlich der einfachste, mögliche Workflow. Er ist allerdings für große Repositories oder Projekte manchmal problematisch.
+
 If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
+
+Wenn du mehr Entwickler oder ein größeres Projekt hast, wirst du in der Regel einen Merge Zyklus mit mindestens zwei Phasen verwenden wollen. In einem solchen Workflow hast du dann zwei dauerhafte Branches, z.B. `master` und `develop`, wobei `master` ausschließlich sehr stabile Releases enthält und neuer Code im `develop` Branch integriert wird. Jedes Mal, wenn du einen neuen Topic Branch mergen willst, mergest du ihn nach `develop` (Bild 5-22). Und nur dann, wenn du einen Release taggen willst, führst du ein fast-forward (xxx) it `master` bis zum gegenwärtigen, nun stabilen Status des `develop` Branch durch.
 
 Insert 18333fig0521.png 
 Figure 5-21. Before a topic branch merge
 
+Bild 5-21. Vor dem Topic Branch Merge
+
 Insert 18333fig0522.png 
 Figure 5-22. After a topic branch merge
+
+Bild 5-22. Nach dem Topic Branch Merge
 
 Insert 18333fig0523.png 
 Figure 5-23. After a topic branch release
 
+BIld 5-23. Nach dem Topic Branch Release
+
 This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
 You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
 
+Auf diese Weise kann jeder, der dein Repository klont, auf einfache Weise deinen aktuellen `master` Branch verwenden und ihn auf neue Releases aktualisieren. Oder er kann den `develop` Branch ausprobieren, in dem sich die jeweils letzten, brandneuen Änderungen befinden. Du kannst dieses Konzept noch weiterführen, indem du einen `integrate` Branch pflegst, in den neue Änderungen jeweils integriert werden. Sobald der Code in diesem Branch stabil zu sein scheint und alle Tests durchlaufen (xxx), übernimmst du die Änderungen in den `develop` Branch. Und wenn sie sich für eine Weile in der Praxis als stabil erwiesen haben, fast-forwardest (xxx) du den `master` Branch.
+
 #### Large-Merging Workflows ####
 
+#### Workflows für umfassende Merges ####
+
 The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
+
+Das Git Projekt selbst hat view dauerhafte Branches: `master`, `next`, `pu` ("proposed updates", d.h. vorgeschlagene Änderungen) und `maint` ("maintenance backports", d.h. xxx Rückportierungen). Wenn neue Änderungen herein kommen, werden sie in Topic Branches im Projekt Repository gesammelt, ganz ähnlich wie wir gerade besprochen haben (siehe Bild 5-24). Dann wird evaluiert, ob die Änderungen sicher sind und übernommen werden sollen oder ob sie noch weiter bearbeitet werden müssen. Wenn sie übernommen werden sollen, werden sie in den Branch `next` gemerged und dieser Branch wird hochgeladen, so daß jeder ausprobieren kann, wie die neue Codebase funktioniert, nachdem die Änderungen miteinander integriert wurden.
 
 Insert 18333fig0524.png 
 Figure 5-24. Managing a complex series of parallel contributed topic branches
 
+Bild 5-24. Komplexe, parallel entwickelte Topic Branches verwalten
+
 If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
+
+Wenn die Topic Branches noch weiter bearbeitet werden müssen, werden sie statt dessen in den `pu` Branch gemerged. Wenn sie dann stabil sind, werden sie erneut in `master` gemerged und aus denjenigen Änderungen neu aufgebaut, die sich in `next` befanden, es aber noch nicht bis in den `master` Branch geschafft haben (xxx wie jetzt?? xxx). D.h., `master` bewegt sich fast ständig, `next` wird gelegentlich rebased, und `pu` wird noch sehr viel häufiger rebased (siehe Bild 5-25).
 
 Insert 18333fig0525.png 
 Figure 5-25. Merging contributed topic branches into long-term integration branches
 
+Bild 5-25. Topic Branches in dauerhafte Integrationsbranches mergen
+
 When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
+
+Wenn ein Topic Branch schließlich in `master` gemerged wird, wird er aus dem Repository gelöscht. Das Git Projekt hat außerdem einen `maint` Branch, der jeweils vom letzten Release verzweigt. In diesem Branch werden rückportierte Patches für den Fall gesammelt, daß ein Maintenance Release nötig ist. D.h., wenn du das Git Projekt Repository klonst, findest du vier Branches des Projektes in verschiedenen Stadien, die du jeweils ausprobieren kannst, je nachdem wie hochaktuellen Code du testen oder wie du zu dem Projekt beitragen willst. Und der Projekt Betreiber hat auf diese Weise einen klar strukturierten Workflow, der es einfacher macht, neue Beiträge zu prüfen und zu verarbeiten.
 
 #### Rebasing and Cherry Picking Workflows ####
 
+#### Rebase und Cherry Picking Workflows ####
+
 Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a topic branch and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
 
+Andere Betreiber bevorzugen, neue Änderungen auf der Basis ihres `master` Branches zu rebasen oder zu cherry-picken statt sie zu mergen, um auf diese Weise eine eher lineare Historie zu erhalten. Wenn du Änderungen in einem Topic Branch hast, die du integrieren willst, dann gehst du in diesen Branch und führst den `rebase` Befehl aus, um diese Änderungen auf der Basis des gegenwärtigen `master` Branches (oder irgendeines anderen, stabileren Branches) neu zu schreiben. Wenn das glatt läuft, kannst du den `master` Branch fast-forwarden (xxx) und erhältst so eine lineare Projekt Historie.
+
 The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
+
+Eine andere Möglichkeit, Commits aus einem Branch in einen anderen zu übernehmen ist der `cherry-pick` Befehl. In Git ist dieser Befehl quasi ein rebase für einen einzelnen Commit. Er nimmt den Patch, der mit dem Commit eingeführt wurde, und versucht, diesen auf den Branch anzuwenden, in dem du dich gerade befindest. Das ist nützlich, wenn du in einem Topic Branch eine Anzahl von Commits hast, aber lediglich einen davon übernehmen willst. Oder wenn du überhaupt nur einen Commit im Topic Branch hast, diesen aber lieber cherry-picken willst, statt den ganzen Branch zu rebasen. Nehmen wir z.B. an, du hast ein Projekt, das so aussieht wie in Bild 5-26.
 
 Insert 18333fig0526.png 
 Figure 5-26. Example history before a cherry pick
 
+Bild 5-26. Beispiel Historie vor einem cherry-pick
+
 If you want to pull commit `e43a6` into your master branch, you can run
+
+Wenn du den Commit `e43a6` in deinen `master` Branch übernehmen willst, kannst du folgendes ausführen:
 
 	$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 	Finished one cherry-pick.
@@ -1158,14 +1214,24 @@ If you want to pull commit `e43a6` into your master branch, you can run
 
 This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
 
+Das wendet dieselben Änderungen, die in `e43a6` eingeführt wurden, auf den `master` Branch an, aber du erhältst einen neuen Commit SHA-1 Hash, weil auch das Datum ein anderes ist. Jetzt sieht deine Historie so aus:
+
 Insert 18333fig0527.png 
 Figure 5-27. History after cherry-picking a commit on a topic branch
 
+Bild 5-27. Historie nach dem cherry-pick eines Commits aus einem Topic Branch
+
 Now you can remove your topic branch and drop the commits you didn’t want to pull in.
+
+Jetzt kannst du den Topic Branch inklusive der ggf. darin enthaltenen Commits löschen, falls du sie nicht noch übernehmen willst.
 
 ### Tagging Your Releases ###
 
+### Releases taggen ###
+
 When you’ve decided to cut a release, you’ll probably want to drop a tag so you can re-create that release at any point going forward. You can create a new tag as I discussed in Chapter 2. If you decide to sign the tag as the maintainer, the tagging may look something like this:
+
+Wenn du einen Release herausgeben willst, ist es empfehlenswert, einen Tag dafür anzulegen, so daß man den jeweiligen Zustand der Historie jederzeit leicht wiederherstellen kann. Wir sind bereits in Kapitel 2 auf Git Tags eingegangen. Wenn du als Betreiber den neuen Tag signieren willst, könnte das wie folgt aussehen:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
@@ -1173,6 +1239,8 @@ When you’ve decided to cut a release, you’ll probably want to drop a tag so 
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
 If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`:
+
+Wenn du deine Tags signierst, könnte das Problem bestehen, daß du den jeweiligen öffentlichen PGP key zur Verfügung stellen mußt. Der Betreiber des Git Projektes löst das, in dem er den öffentlichen Schlüssel als Inhalt im Repository selbst zur Verfügung stellt und einen Tag hat, der direkt auf diesen Inhalt zeigt. Um das zu tun, mußt du zunächst herausfinden, welchen Schlüssel du verwenden willst:
 
 	$ gpg --list-keys
 	/Users/schacon/.gnupg/pubring.gpg
@@ -1183,33 +1251,53 @@ If you do sign your tags, you may have the problem of distributing the public PG
 
 Then, you can directly import the key into the Git database by exporting it and piping that through `git hash-object`, which writes a new blob with those contents into Git and gives you back the SHA-1 of the blob:
 
+Dann kannst du den Schlüssel direkt in die Git Datenbank importieren, indem du ihn aus GPG exportierst und die Ausgabe nach `git hash-object` weiterreichst. Das schreibt ein neues Objekt mit dem Schlüssel in die Git Datenbank und gibt dir einen SHA-1 Hash zurück, der dieses Objekt referenziert:
+
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
 
 Now that you have the contents of your key in Git, you can create a tag that points directly to it by specifying the new SHA-1 value that the `hash-object` command gave you:
 
+Nachdem du jetzt den Schlüssel im Repository hast, kannst du einen Tag für den SHA-1 Hash anlegen, den `git hash-object` zurückgegeben hat:
+
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
 If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG:
 
+Wenn du `git push --tags` ausführst, wird jetzt der `maintainer-pgp-pub` Tag auf den Server geladen, so daß jeder darauf zugreifen kann. Wenn jemand jetzt einen signierten Tag verifizieren will, kann er deinen öffentlichen PGP Schlüssel direkt aus der Datenbank holen und in seinen Schlüsselbund importieren:
+
 	$ git show maintainer-pgp-pub | gpg --import
 
 They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.
+	
+Dieser Schlüssel kann anschließend für alle signierten Tages verwendet werden. Zusätzlich kannst du deinen Anwendern in der Tag Meldung erklären, wie sie signierte Tags mit diesem Schlüssel verifizieren können.
 
 ### Generating a Build Number ###
 
+### Eine Build Nummer generieren ###
+
 Because Git doesn’t have monotonically increasing numbers like 'v123' or the equivalent to go with each commit, if you want to have a human-readable name to go with a commit, you can run `git describe` on that commit. Git gives you the name of the nearest tag with the number of commits on top of that tag and a partial SHA-1 value of the commit you’re describing:
+
+Weil Git keine globalen Nummern wie `v123` kennt, die mit jedem Commit monoton hochgezählt werden, kannst du, um einen leicht lesbaren Bezeichner für einen bestimmten Commit zu erhalten, den Befehl `git describe` auf diesen Befehl ausführen. Git erzeugt dann einen Bezeichner zurück, der den Namen des nächsten Tags enthält, der Anzahl der Commits seit diesem Tag und die ersten Zeichen des SHA-1 Hashs des Commits:
 
 	$ git describe master
 	v1.6.2-rc1-20-g8c5b85c
 
 This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name.
 
+Auf diese Weise kannst du in einer Weise auf einen Commit oder Build verweisen, der für Andere leichter verständlich ist. Wenn du z.B. Git selbst aus dem Quellcode kompilierst, der sich im Git Projekt Repository befindet, dann gibt `git --version` einen ähnlichen Bezeichner zurück. Wenn du übrigens `git describe` auf einen Commit ausführst, den du direkt getagged hast, dann erhältst du statt dessen den Tag Namen.
+
 The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated.
+
+Der `git describe` Befehl funktioniert mit kommentierten Tags besser (d.h. Tags, die mit dem `-a` oder `-s` Flag erzeugt wurden), so daß es sich empfiehlt, Release Tags auf diese Weise anzulegen, wenn man `git describe` verwenden will. Du kannst diese Bezeichner auch als Parameter für andere Git Befehle, z.B. `git checkout` oder `git show`, wobei Git allerdings lediglich auf den abgekürzten SHA-1 Hash am Ende achtet, so daß er möglicherweise nicht ewig gültig ist. Das Linux Kernel Projekt beispielsweise erhöhte die Anzahl der Zeichen in abgekürzten Hashes kürzlich von 8 auf 10, um die Eindeutigkeit von SHA-1 Hashes sicherzustellen. Ältere `git describe` Ausgaben wurden damit ungültig.
 
 ### Preparing a Release ###
 
+### Ein Release vorbereiten ###
+
 Now you want to release a build. One of the things you’ll want to do is create an archive of the latest snapshot of your code for those poor souls who don’t use Git. The command to do this is `git archive`:
+
+Du willst jetzt ein Release herausgeben. Dazu willst du u.a. ein Archiv mit dem letzten Snapshot deines Codes erzeugen, damit ihn auch arme Seelen herunterladen können, die Git nicht verwenden. Der folgende Befehl hilft dir dabei:
 
 	$ git archive master --prefix='project/' | gzip > `git describe master`.tar.gz
 	$ ls *.tar.gz
@@ -1217,13 +1305,21 @@ Now you want to release a build. One of the things you’ll want to do is create
 
 If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `--format=zip` option to `git archive`:
 
+Das erzeugt einen Tarball, der den aktuellen Snapshot in deinem Arbeitsverzeichnis enthält. Du kannst auf die gleiche Weise ein Zip Archiv erzeugen, indem du `git archive` die `--format=zip` Option übergibst.
+
 	$ git archive master --prefix='project/' --format=zip > `git describe master`.zip
 
 You now have a nice tarball and a zip archive of your project release that you can upload to your website or e-mail to people.
 
+Du hast jetzt sowohl einen Tarball als auch ein Zip Archiv deines Releases. Diese kannst du z.B. auf deiner Webseite publizieren oder auch per E-Mail verschicken.
+
 ### The Shortlog ###
 
+### Das Shortlog ###
+
 It’s time to e-mail your mailing list of people who want to know what’s happening in your project. A nice way of quickly getting a sort of changelog of what has been added to your project since your last release or e-mail is to use the `git shortlog` command. It summarizes all the commits in the range you give it; for example, the following gives you a summary of all the commits since your last release, if your last release was named v1.0.1:
+
+Es wird Zeit, den Lesern der Mailingliste zu erklären, was es im Projekt Neues gibt. Der `git shortlog` Befehl ist eine Möglichkeit, schnell eine Art Changelog der Änderungen seit dem letzten Release auszugeben. Er faßt alle Commits in der angegebenen Zeitspanne zusammen. Der folgende Befehl z.B. erzeugt eine Zusammenfassung der Commits seit dem letzten Release, der als `v1.0.1` getagged wurde:
 
 	$ git shortlog --no-merges master --not v1.0.1
 	Chris Wanstrath (8):
@@ -1242,6 +1338,12 @@ It’s time to e-mail your mailing list of people who want to know what’s happ
 
 You get a clean summary of all the commits since v1.0.1, grouped by author, that you can e-mail to your list.
 
+Du erhältst eine saubere Auflistung aller Commits seit `v1.0.1`, gruppiert nach Autor. Diese kannst du z.B. an die Mailingliste schicken oder irgendwie anders publizieren.
+
 ## Summary ##
 
+## Zusammenfassung ##
+
 You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.
+
+Du solltest dich jetzt einigermaßen vertraut damit fühlen, sowohl Beiträge bei einem bestehenden Projekt einzureichen als auch selbst ein eigenes Projekt zu betreiben und Beiträge anderer zu integrieren. Herzlichen Glückwunsch, du bist jetzt ein erfolgreicher Git Entwickler! (xxx hä? xxx) Im nächsten Kapitel wirst du weitere mächtige Git Werkzeuge und Tipps dafür kennenlernen, mit komplexen Situationen umzugehen - die einen wahren Git Meister aus dir werden. (xxx aha? xxx)

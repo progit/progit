@@ -228,16 +228,20 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 Hast du die Nachricht "Fast forward" beim Zusammenführen gesehen? Da du auf die aktuelle Branch aufgesetzt hast und die Änderung eine direkte Weiterführung dieser war, hat Git den Pointer weitergestellt. Anders ausgedrückt, wenn zwischen zwei Branches kein Unterschied besteht oder nur eine davon eine Weiterentwicklung darstellt, bringt Git diese beiden wieder auf 'Linie' - das wird dann 'fast forward' genannt.
 You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
 
+Deine Änderung befindet sich nun in dem commit-Snapshot der auf die 'master' Branch zeigt und du kannst ein deploy deiner Änderungen durchführen (siehe Abbildung 3-14).
 Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
 
 Insert 18333fig0314.png 
+Abbildung 3-14. Dein Master-Branch zeigt, nach dem Merge, auf den gleichen Commit, wie der Hotfix-Branch.
 Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
 
+Nachdem du den super wichtigen Fix erstellt hast, kannst du mit der Arbeit weiter zu machen, die du zuvor angefangen hast. Als erstes kannst du den 'hotfix'-Branch löschen, da er nicht länger benötigt wird - der 'master'-Branch zeigt auf die gleiche Version. Den Branch kannst du mit der '-d'-Option, angehängen an 'git branch', löschen:
 After that your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
+Nun kannst du zurück auf deinen "Work-In-Progress"-Branch, Issue #53, wechseln und mit deiner Arbeit weiter machen (Abbildung 3-15):
 Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
 
 	$ git checkout iss53
@@ -248,12 +252,16 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
+Abbildung 3-15. Deine "iss53" Branch kann sich unabhängig weiter entwickeln.
 Figure 3-15. Your iss53 branch can move forward independently.
 
+Es gilt zu beachten, dass die Arbeit, die du an der 'hotfix' Branch gemacht hast, nicht in der 'iss53' Branch enthalten ist. Wenn du diese jetzt brauchst, kannst du deine "master" Branch in deine "iss53' Branch 'mergen'. Das geschieht mit dem 'git merge master' Kommando. Oder du wartest, bis du später deine 'iss53' Branch zurück in die 'master' Branch schreibst. 
 It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
 
+### Die Grundlagen des Zusammenführens (Mergen) ###
 ### Basic Merging ###
 
+Angenommen du entscheidest dich, dass deine Arbeit an issue #53 getan ist und du diese mit der 'master' Branch zusammenführen möchtest. Das passiert, indem du ein 'merge' in die 'iss53' Branch machst, ähnlich dem 'merge' mit der 'hotfix' Branch von vorhin. Alles was du machen musst, ist ein 'checkout' der Branch, in die du das 'merge' machen willst und das Ausführen des Kommandos 'git merge':
 Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
 
 	$ git checkout master
@@ -262,24 +270,32 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
+Das sieht ein bisschen anders aus als das 'hotfix merge' von vorhin. Hier läuft deine Entwicklungshistorie auseinander. Ein 'commit' auf deine Arbeits-Branch ist kein direkter Nachfolger der Branch in die du das 'merge' gemacht hast, Git hat da einiges zu tun, es macht einen 3-Wege 'merge': es geht von den beiden 'snapshots' der Branches und dem allgemeinen Nachfolger der beiden aus. Abbildung 3-16 zeigt die drei 'snapshots', die Git in diesem Fall für das 'merge' verwendet.
 This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
 
 Insert 18333fig0316.png 
+Abbildung 3-16. Git ermittelt automatisch die beste Nachfolgebasis für die Branchzusammenführung.
 Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
 
+Anstatt einfach den 'pointer' weiterzubewegen, erstellt Git einen neuen 'snapshot', der aus dem 3-Wege 'merge' resultiert und erzeugt einen neuen 'commit', der darauf verweist (siehe Abbildung 3-17). Dies wird auch als 'merge commit' bezeichnet und ist ein Spezialfall, weil es mehr als nur ein Elternteil hat.
 Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
 
+Es ist wichtig herauszustellen, dass Git den besten Nachfolger für die 'merge' Basis ermittelt, denn hierin unterscheidet es sich von CVS und Subversion (vor Version 1.5), wo der Entwickler die 'merge' Basis selbst ermitteln muss. Damit wird das Zusammenführen um einiges leichter in Git als in anderen Systemen.
 It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
 
 Insert 18333fig0317.png 
+Abbildung 3-17. Git erstellt automatisch ein 'commit', dass die zusammengeführte Arbeit enthält.
 Figure 3-17. Git automatically creates a new commit object that contains the merged work.
 
+Jetzt da wir die Arbeit zusammengeführt haben, ist die 'iss53' Branch nicht mehr notwendig. Du kansst sie löschen und das Ticket im 'ticket-tracking' System schliessen.
 Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
 
 	$ git branch -d iss53
 
+### Grundlegende 'merge' Konflikte ###
 ### Basic Merge Conflicts ###
 
+Gelegentlich verläuft der Prozess nicht ganz so gatt. Wenn du an den selben Stellen in den selben Dateien unterschiedlicher Branches etwas geändert hast, kann Git diese nicht sauber zusammenführen. Wenn dein Fix an 'issue #53' die selbe Stelle in einer Datei verändert hat, die du auch mit 'hotfix' angefasst hast, wirst du einen 'megre' Konflickt erhalten, der ungefähr so aussehen könnte:
 Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
 
 	$ git merge iss53
@@ -287,6 +303,7 @@ Occasionally, this process doesn’t go smoothly. If you changed the same part o
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
+Git hat hier keinen 'merge commit' erstellt. Es hat den Prozess gestoppt, damit du den Konflikt beseitigen kannst. Wenn du sehen willst, welche Dateien 'unmerged' aufgrund eines 'merge' Konflikts sind, benutze einfach 'git status':
 Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
 
 	[master*]$ git status
@@ -299,6 +316,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
+Alles, was einen 'merge' Konflikt aufweist und nicht gelöst werden konnte, wird als 'unmerged' aufgeführt. Git fügt Standard-Konfliktlösungsmarker den betroffen Dateien hinzu, so dass du diese öffnen und den Konflikt manuell lösen kannst. Deine Datei enthält einen Bereich, der so aussehen könnte:
 Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
 
 	<<<<<<< HEAD:index.html
@@ -309,12 +327,15 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
+Das heisst, die Version in HEAD (deiner 'master' Branch, denn die wurde per 'checkout' aktiviert, als du das 'merge' gemacht hast) ist der obere Teil des Blocks (alles oberhalb von '======='), und die Version aus der 'iss53' Branch sieht wie der darunter befindliche Teil aus. Um den Konflikt zu lösen, musst du dich entweder für einen der beiden Teile entscheiden oder du ersetzt den Teil komplett:
 This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
 
 	<div id="footer">
 	please contact us at email.support@github.com
 	</div>
 
+Diese Lösung hat von allen Bereichen etwas und ich habe die Zeilen mit `<<<<<<<`, `=======`, und `>>>>>>>` komplett gelöscht. Nachdem du alle problematischen Bereiche in allen durch den Konflikt betroffenen Dateien beseitigt hast, mach einfach 'git add' für alle betroffenen Dateien und markieren sie damit als bereinigt. Dieses 'staging' der Dateien markiert sie für Git als bereinigt.
+Wenn du ein graphischen Tool zur Bereinigung benutzen willst, verwende 'git mergetool', welches ein empfohlenes graphisches 'merge' Tool startet und dich durch die Konfliktbereiche führt:
 This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
 If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:
 

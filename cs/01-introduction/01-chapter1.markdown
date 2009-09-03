@@ -112,9 +112,11 @@ a změny v nich provedené (obr. 1-4).
 Insert 18333fig0104.png
 Obrázek 1-4. Ostatní systémy ukládají data jako změny každého souboru.
 
-Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho snapshotů malého filesystému. Pokaždé, když commitnete
-nebo uložíte stav svého projektu do Gitu, jednoduše udělá obrázek, jak teď právě vypadají všechny soubory, a uloží si to. Pro úsporu
+Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho snapshotů malého filesystému. Pokaždé, když commitnete[^2]
+stav svého projektu do Gitu, jednoduše si udělá obrázek, jak teď právě vypadají všechny soubory, a uloží to. Pro úsporu
 si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor. Git přemýšlí nad daty asi jako na obrázku 1-5.
+
+[^2]Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
 
 Insert 18333fig0105.png 
 Obrázek 1-5. Git ukládá data jako snapshoty projektu.
@@ -136,13 +138,14 @@ a verzí měsíc starou, Git najde soubor v místní databázi a spočítá rozd
 stáhl starou verzi.
 
 To také znamená, že je velmi málo toho, co nemůžete dělat, pokud jste offline. Sedíte-li na palubě letadla nebo ve vlaku a chcete udělat trochu práce,
-můžete vesele commitovat, i když nemáte připojení k síti. Pokud jste doma a nemůžete se připojit k repositáři, můžete stále pracovat. U mnoha jiných systému
-je to dosti bolestivý proces, ne-li zhola nemožný. V Perforce např. nemůžete dělat skoro nic; v Subversion nebo CVS můžete upravovat soubory, ale
-commitnout je nejde (logicky -- databáze je offline). To nemusí vypadat jako velká změna, ale může vás příjemně překvapit, jak výrazný rozdíl to může být.
+můžete vesele commitovat, i když zrovna nemáte připojení k síti. Pokud jste doma a nemůžete se připojit k repositáři,
+můžete stále pracovat. U mnoha jiných systému je to dosti bolestivý proces, ne-li zhola nemožný.
+V Perforce např. nemůžete dělat skoro nic; v Subversion nebo CVS můžete upravovat soubory, ale
+předat je nejde (logicky -- databáze je offline). To nemusí vypadat jako velká změna, ale může vás příjemně překvapit, jak výrazný rozdíl to může být.
 
 ### Git drží integritu ###
 
-Než je cokoli v Gitu uloženo, je tomu spočítán kontrolní součet, který se též potom používá k identifikaci tohoto commitu.
+Než je cokoli v Gitu uloženo, je tomu spočítán kontrolní součet. Ten se potom používá i k identifikaci celého commitu.
 To znamená, že je zhola nemožné změnit obsah jakéhokoli souboru nebo adresáře bez toho, aby o tom Git věděl. Tato vlastnost
 je do Gitu zabudována na těch nejnižších úrovních a je nedílnou součástí jeho filosofie. Nemůžete ztratit informace při přenosu
 nebo přijít k poškození dat bez toho, aby to byl Git schopen odhalit.
@@ -159,7 +162,7 @@ hashe jeho obsahu.
 
 Pokud něco v Gitu děláte, téměř cokoli z toho jen přidá data do jeho databáze. Je opravdu obtížné donutit systém udělat něco, co by se nedalo vrátit,
 nebo donutit ho nějakým způsobem smazat svoje data. Jako v každém SSV můžete samozřejmě ztratit změny provedené od posledního commitu,
-ale jakmile je commitnete, je velmi obtížné o ně přijít, zvláště pak pokud pravidelně zálohujete databázi do jiného repositáře.
+ale jakmile jsou commitnuty, je velmi obtížné o ně přijít, zvláště pak pokud pravidelně zálohujete databázi do jiného repositáře.
 
 Je pak radost používat Git, protože víme, že můžeme experimentovat bez nebezpečí, že bychom si něco vážně poškodili. Pro hlubší náhled do problematiky,
 jak Git ukládá data a jak se můžete vrátit k datům, která vypadají, že jsou ztracena, si přečtěte kapitolu 9.
@@ -167,34 +170,45 @@ jak Git ukládá data a jak se můžete vrátit k datům, která vypadají, že 
 ### Tři stavy ###
 
 Teď dávejte pozor. Tohle je hlavní věc, kterou si u Gitu musíte pamatovat, pokud chcete, aby vaše další studium Gitu šlo hladce.
-Git má tři základní stavy, kterých můžou vaše soubory nabývat: "commited", "modified", "staged". Commited znamená, že data jsou
-bezpečně uložena v místní databázi. Modified znamená, že soubor byl oproti poslednímu commitu změněn. A staged je ten soubor,
-u kterého máte značku, že bude v této verzi zařazen do nejbližšího commitu.
+Git má tři základní stavy, kterých můžou vaše soubory nabývat: "commited", "modified" a "staged"[^3].
+Commited znamená, že data jsou bezpečně uložena v místní databázi. Modified znamená, že soubor byl oproti poslednímu předání změněn.
+A staged je ten soubor, u kterého máte značku, že bude v této verzi zařazen do nejbližšího commitu.
 
-To nás vede ke třem hlavním sekcím projektu v Gitu: Adresář Gitu, pracovní adresář a "staging area".
+[^3] Pozn. překl.: Vzhledem k neexistující lokalizaci Gitu do češtiny budu nadále používat tyto anglické výrazy,
+se kterými se v Gitu setkáte de facto na každém rohu narozdíl od českých ekvivalentů.
+
+To nás vede ke třem hlavním sekcím projektu v Gitu: Git directory, working directory a staging area[^4].
+
+[^4] Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
 
 Insert 18333fig0106.png 
-Figure 1-6. Pracovní adresář, staging area a adresář gitu.
+Figure 1-6. Git directory, working directory a staging area
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git directory je místo, kde Git skladuje svoje vnitřní data a databázi objektů vašeho projektu. To je ta nejdůležitější část Gitu,
+která se kopíruje, pokud si stahujete repositář z jiného počítače.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Working directory je samotný obraz jedné verze spravovaného projektu. Jsou to soubory vytažené z databáze v Git directory
+a umístěné na disk, abyste je použili nebo měnili.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+Staging area je jednoduchý soubor, obvykle uložený ve vašem Git directory, který ukládá informace o tom, co bude součástí nejbližšího commitu.
+Občas je též nazýván index, ale v angličtině se postupně stává standardem označovat ho jako "staging area".
 
-The basic Git workflow goes something like this:
+Základní pracovní postup Gitu je pak zhruba takovýto:
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	Změníte soubory ve svém working directory.
+2.	Vložíte soubory do staging area.
+3.	Vytvoříte commit, který vezme všechny soubory tak, jak jsou ve staging area, a uloží tento snímek permanentně do Git directory.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Pokud je nějaká verze souboru v Git directory, je označována jako commited, pokud je upravena a vložena do staging area, je staged. A konečně
+pokud byla změněna a není staged, pak je modified. V kapitole 2 se dozvíte více o těchto stavech a jak můžete využít jejich výhod, nebo
+naopak úplně přeskočit staging area.
 
-## Installing Git ##
+## Instalujeme Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Ponořme se nyní do používání Gitu. Ale od začátku -- nejprve ho musíte nainstalovat; dá se získat mnoha způsoby -- dva hlavní jsou
+instalace ze zdrojových souborů a instalace už existujícího balíčku pro váš systém. 
 
-### Installing from Source ###
+### Instalujeme ze zdroje ###
 
 If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
 

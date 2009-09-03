@@ -116,7 +116,11 @@ Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho 
 stav svého projektu do Gitu, jednoduše si udělá obrázek, jak teď právě vypadají všechny soubory, a uloží to. Pro úsporu
 si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor. Git přemýšlí nad daty asi jako na obrázku 1-5.
 
+<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
+[^2]: Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
+=======
 [^2]Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
+>>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
 
 Insert 18333fig0105.png 
 Obrázek 1-5. Git ukládá data jako snapshoty projektu.
@@ -174,12 +178,20 @@ Git má tři základní stavy, kterých můžou vaše soubory nabývat: "commite
 Commited znamená, že data jsou bezpečně uložena v místní databázi. Modified znamená, že soubor byl oproti poslednímu předání změněn.
 A staged je ten soubor, u kterého máte značku, že bude v této verzi zařazen do nejbližšího commitu.
 
+<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
+[^3]: Pozn. překl.: Vzhledem k neexistující lokalizaci Gitu do češtiny budu nadále používat tyto anglické výrazy,
+=======
 [^3] Pozn. překl.: Vzhledem k neexistující lokalizaci Gitu do češtiny budu nadále používat tyto anglické výrazy,
+>>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
 se kterými se v Gitu setkáte de facto na každém rohu narozdíl od českých ekvivalentů.
 
 To nás vede ke třem hlavním sekcím projektu v Gitu: Git directory, working directory a staging area[^4].
 
+<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
+[^4]: Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
+=======
 [^4] Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
+>>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
 
 Insert 18333fig0106.png 
 Figure 1-6. Git directory, working directory a staging area

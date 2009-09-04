@@ -228,7 +228,7 @@ A menudo tendrás un tipo de archivos que no quieras que Git añada automáticam
 	*.[oa]
 	*~
 
-La primera línea le dice a Git que ignore cualquier archivo cuyo nombre termine en .o o .a - archivos objeto que suelen ser producto de la compilación de código. La segunda línea le dice a Git que ignore todos los archivos que terminan en tilde (`~`), usada por muchos editores de texto, como Emacs, para marcar archivos temporales. También puedes incluir directorios log, tmp, pid, documentación generada automáticamente, etc. Configurar un archivo .gitignore antes de empezar a trabajar suele ser una buena idea, para así no confirmar archivos que no quieres en tu repositorio Git.
+La primera línea le dice a Git que ignore cualquier archivo cuyo nombre termine en .o o .a - archivos objeto que suelen ser producto de la compilación de código. La segunda línea le dice a Git que ignore todos los archivos que terminan en tilde (`~`), usada por muchos editores de texto, como Emacs, para marcar archivos temporales. También puedes incluir directorios de log, temporales, documentación generada automáticamente, etc. Configurar un archivo .gitignore antes de empezar a trabajar suele ser una buena idea, para así no confirmar archivos que no quieres en tu repositorio Git.
 
 > The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
 
@@ -706,7 +706,7 @@ Otra opción realmente útil es `--pretty`, que modifica el formato de la salida
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-La opción más interesante es `format`, que te permite especificar tu propio formato de log. Esto resulta especialmente útil si estás generando una salida para que sea parseada por otro programa - como especificas el formato explícitamente, sabes que no cambiará en futuras actualizaciones de Git:
+La opción más interesante es `format`, que te permite especificar tu propio formato. Esto resulta especialmente útil si estás generando una salida para que sea parseada por otro programa - como especificas el formato explícitamente, sabes que no cambiará en futuras actualizaciones de Git:
 
 > The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
 
@@ -799,11 +799,11 @@ Las opciones `oneline` y `format` son especialmente útiles combinadas con otra 
 >	--graph	Display an ASCII graph of the branch and merge history beside the log output.
 >	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
 
-### Limitando la salida de log ###
+### Limitando la salida del histórico ###
 
 > Limiting Log Output
 
-Además de las opciones de formateo, `git log` acepta una serie de opciones para limitar su salida - es decir, opciones que te permiten mostrar únicamente parte de las confirmaciones. Ya has visto una de ellas - la opción `-2` muestra sólo las dos últimas confirmaciones. De hecho, puedes hacer `-<n>`, siendo `n` cualquier entero, para mostrar las últimas `n` confirmaciones. En realidad es poco probable que uses esto con frecuencia, ya que Git por defecto pagina su salida para que veas cada página de log por separado.
+Además de las opciones de formateo, `git log` acepta una serie de opciones para limitar su salida - es decir, opciones que te permiten mostrar únicamente parte de las confirmaciones. Ya has visto una de ellas - la opción `-2` muestra sólo las dos últimas confirmaciones. De hecho, puedes hacer `-<n>`, siendo `n` cualquier entero, para mostrar las últimas `n` confirmaciones. En realidad es poco probable que uses esto con frecuencia, ya que Git por defecto pagina su salida para que veas cada página del histórico por separado.
 
 > In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
 
@@ -833,8 +833,8 @@ En la Tabla 2-3 se listan estas opciones, y algunas otras bastante comunes, a mo
 	-(n)	Muestra solamente las últimas n confirmaciones
 	--since, --after	Muestra aquellas confirmaciones hechas después de la fecha especificada.
 	--until, --before	Muestra aquellas confirmaciones hechas antes de la fecha especificada.
-	--author	Muestra solo aquellas confirmaciones cuyo autor coincide con la cadena especificada.
-	--committer	Muestra solo aquellas confirmaciones cuyo confirmador coincide con la cadena especificada.
+	--author	Muestra sólo aquellas confirmaciones cuyo autor coincide con la cadena especificada.
+	--committer	Muestra sólo aquellas confirmaciones cuyo confirmador coincide con la cadena especificada.
 
 >	Option	Description
 >	-(n)	Show only the last n commits
@@ -856,16 +856,26 @@ Por ejemplo, si quieres ver cuáles de las confirmaciones hechas sobre archivos 
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+De las casi 20.000 confirmaciones en la historia del código fuente de Git, este comando muestra las 6 que cumplen estas condiciones.
 
-### Using a GUI to Visualize History ###
+> Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
+### Usando un interfaz gráfico para visualizar el histórico ###
+
+> Using a GUI to Visualize History
+
+Si deseas utilizar una herramienta más gráfica para visualizar el histórico de confirmaciones, puede que quieras echarle un ojo a un programa Tcl/Tk llamado gitk que se distribuye junto con Git. Gitk es básicamente un `git log` visual, y acepta casi todas las opciones de filtrado que acepta `git log`. Si tecleas gitk en la línea de comandos dentro de tu proyecto, deberías ver algo como lo de la Figura 2-2.
+
+> If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
 
 Insert 18333fig0202.png
-Figure 2-2. The gitk history visualizer.
+Figura 2-2. El visualizador de histórico gitk.
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+> Figure 2-2. The gitk history visualizer.
+
+Puedes ver el histórico de confirmaciones en la mitad superior de la ventana, junto con un gráfico de ascendencia. El visor de diferencias de la mitad inferior muestra las modificaciones introducidas en cada confirmación que selecciones.
+
+> You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
 
 ## Undoing Things ##
 

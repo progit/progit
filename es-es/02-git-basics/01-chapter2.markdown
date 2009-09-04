@@ -568,15 +568,23 @@ Git se da cuenta de que es un renombrado de manera implícita, así que no impor
 
 > Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
 
-## Viewing the Commit History ##
+## Viendo el histórico de confirmaciones ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+> Viewing the Commit History
 
-These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run
+Después de haber hecho varias confirmaciones, o si has clonado un repositorio que ya tenía un histórico de confirmaciones, probablemente quieras mirar atrás para ver qué modificaciones se han llevado a cabo. La herramienta más básica y potente para hacer esto es el comando `git log`.
+
+> After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+
+Estos ejemplos usan un proyecto muy sencillo llamado simplegit que suelo usar para hacer demostraciones. Para clonar el proyecto, ejecuta:
+
+> These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+Cuando ejecutes `git log` sobre este proyecto, deberías ver una salida similar a esta:
+
+> When you run `git log` in this project, you should get output that looks something like this:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -597,11 +605,17 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+Por defecto, si no pasas ningún argumento, `git log` lista las confirmaciones hechas sobre ese repositorio en orden cronológico inverso. Es decir, las confirmaciones más recientes se muestran al principio. Como puedes ver, este comando lista cada confirmación con su suma de comprobación SHA-1, el nombre y dirección de correo del autor, y el mensaje de confirmación.
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+> By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+El comando `git log` proporciona gran cantidad de opciones, para mostrarte exactamente lo que buscas. Aquí veremos algunas de las más usadas.
+
+> A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+
+Una de las opciones más útiles es `-p`, que muestra las diferencias introducidas en cada confirmación. También puedes usar la opción `-2`, que hace que se muestren únicamente las dos últimas entradas del histórico:
+
+> One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
 
 	$ git log –p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -641,8 +655,13 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+Esta opción muestra la misma información, pero añadiendo tras cada entrada las diferencias que le corresponden. Esto resulta muy útil para revisiones de código, o para visualizar rápidamente lo que ha pasado en las confirmaciones enviadas por un colaborador.
+
+> This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
+
+También puedes usar con `git log` una serie de opciones de resumen. Por ejemplo, si quieres ver algunas estadísticas de cada confirmación, puedes usar la opción `--stat`:
+
+> You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -674,43 +693,73 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+Como puedes ver, la opción `--stat` imprime tras cada confirmación una lista de archivos modificados, indicando cuántas líneas han sido añadidas y eliminadas para cada uno de ellos, y un resumen de toda esta información.
+
+> As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
+
+Otra opción realmente útil es `--pretty`, que modifica el formato de la salida. Tienes unos cuantos estilos disponibles. La opción `oneline` imprime cada confirmación en una única línea, lo que puede resultar útil si estás analizando gran cantidad de confirmaciones. Otras opciones son `short`, `full` y `fuller`, que muestran la salida en un formato parecido, pero añadiendo menos o más información, respectivamente:
+
+> Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+La opción más interesante es `format`, que te permite especificar tu propio formato de log. Esto resulta especialmente útil si estás generando una salida para que sea parseada por otro programa - como especificas el formato explícitamente, sabes que no cambiará en futuras actualizaciones de Git:
+
+> The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+La Tabla 2-1 lista algunas de las opciones más útiles aceptadas por `format`.
 
-	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+> Table 2-1 lists some of the more useful options that format takes.
 
-You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+	Opción	Descripción de la salida
+	%H	Hash de confirmación
+	%h	Hash de confirmación abreviado
+	%T	Hash del árbol
+	%t	Hash del árbol abreviado
+	%P	Hashes de los padres
+	%p	Hashes de los padres abreviados
+	%an	Nombre del autor
+	%ae	Dirección de correo del autor
+	%ad	Fecha de autoría (el formato respeta la opción `-–date`)
+	%ar	Fecha de autoría, relativa
+	%cn	Nombre del confirmador
+	%ce	Dirección de correo del confirmador
+	%cd	Fecha de confirmación
+	%cr	Fecha de confirmación, relativa
+	%s	Asunto
 
-The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
+>	Option	Description of Output
+>	%H	Commit hash
+>	%h	Abbreviated commit hash
+>	%T	Tree hash
+>	%t	Abbreviated tree hash
+>	%P	Parent hashes
+>	%p	Abbreviated parent hashes
+>	%an	Author name
+>	%ae	Author e-mail
+>	%ad	Author date (format respects the –date= option)
+>	%ar	Author date, relative
+>	%cn	Committer name
+>	%ce	Committer email
+>	%cd	Committer date
+>	%cr	Committer date, relative
+>	%s	Subject
+
+Puede que te estés preguntando la diferencia entre _autor_ (_author_) y _confirmador_ (_committer_). El autor es la persona que escribió originalmente el trabajo, mientras que el confirmador es quien lo aplicó. Por tanto, si mandas un parche a un proyecto, y uno de sus miembros lo aplica, ambos recibiréis reconocimiento - tú como autor, y el miembro del proyecto como confirmador. Veremos esta distinción en mayor profundidad en el Capítulo 5.
+
+> You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+
+Las opciones `oneline` y `format` son especialmente útiles combinadas con otra opción llamada `--graph`. Ésta añade un pequeño gráfico ASCII mostrando tu histórico de ramificaciones (branch) y uniones (merge), como podemos ver en nuestra copia del repositorio del proyecto Grit:
+
+> The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -724,43 +773,79 @@ The oneline and format options are particularly useful with another `log` option
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
+Éstas son sólo algunas de las opciones para formatear la salida de `git log` - existen muchas más. La Tabla 2-2 lista las opcines vistas hasta ahora, y algunas otras opciones de formateo que pueden resultarte útiles, así como su efecto sobre la salida.
 
-	Option	Description
-	-p	Show the patch introduced with each commit.
-	--stat	Show statistics for files modified in each commit.
-	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
-	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+> Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
 
-### Limiting Log Output ###
+	Opción	Descripción
+	-p	Muestra el parche introducido en cada confirmación.
+	--stat	Muestra estadísticas sobre los archivos modificados en cada confirmación.
+	--shortstat	Muestra solamente la línea de resumen de la opción `--stat`.
+	--name-only	Muestra la lista de archivos afectados.
+	--name-status	Muestra la lista de archivos afectados, indicando además si fueron añadidos, modificados o eliminados.
+	--abbrev-commit	Muestra solamente los primeros caracteres de la suma SHA-1, en vez de los 40 caracteres de que se compone.
+	--relative-date	Muestra la fecha en formato relativo (por ejemplo, “2 weeks ago” (“hace 2 semanas”)) en lugar del formato completo.
+	--graph	Muestra un gráfico ASCII con la historia de ramificaciones y uniones.
+	--pretty	Muestra las confirmaciones usando un formato alternativo. Posibles opciones son oneline, short, full, fuller, y format (mediante el cual puedes especificar tu propio formato).
 
-In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+>	Option	Description
+>	-p	Show the patch introduced with each commit.
+>	--stat	Show statistics for files modified in each commit.
+>	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
+>	--name-only	Show the list of files modified after the commit information.
+>	--name-status	Show the list of files affected with added/modified/deleted information as well.
+>	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
+>	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
+>	--graph	Display an ASCII graph of the branch and merge history beside the log output.
+>	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+### Limitando la salida de log ###
+
+> Limiting Log Output
+
+Además de las opciones de formateo, `git log` acepta una serie de opciones para limitar su salida - es decir, opciones que te permiten mostrar únicamente parte de las confirmaciones. Ya has visto una de ellas - la opción `-2` muestra sólo las dos últimas confirmaciones. De hecho, puedes hacer `-<n>`, siendo `n` cualquier entero, para mostrar las últimas `n` confirmaciones. En realidad es poco probable que uses esto con frecuencia, ya que Git por defecto pagina su salida para que veas cada página de log por separado.
+
+> In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+
+Sin embargo, las opciones temporales como `--since` (desde) y `--until` (hasta) sí que resultan muy útiles. Por ejemplo, este comando lista todas las confirmaciones hechas durante las dos últimas semanas:
+
+> However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+Este comando acepta muchos formatos - puedes indicar una fecha concreta (“2008-01-15”), o relativa, como “2 years 1 day 3 minutes ago” (“hace 2 años, 1 día y 3 minutos”).
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+> This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+También puedes filtrar la lista para que muestre sólo aquellas confirmaciones que cumplen ciertos criterios. La opción `--author` te permite filtrar por autor, y `--grep` te permite buscar palabras clave entre los mensajes de confirmación. (Ten en cuenta que si quieres aplicar ambas opciones simultáneamente, tienes que añadir `--all-match`, o el comando mostrará las confirmaciones que cumplan cualquiera de las dos, no necesariamente las dos a la vez.)
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+> You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
 
-	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+La última opción verdaderamente útil para filtrar la salida de `git log` es especificar una ruta. Si especificas la ruta de un directorio o archivo, puedes limitar la salida a aquellas confirmaciones que introdujeron un cambio en dichos archivos. Ésta debe ser siempre la última opción, y suele ir precedida de dos guiones (`--`) para separar la ruta del resto de opciones.
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+> The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+
+En la Tabla 2-3 se listan estas opciones, y algunas otras bastante comunes, a modo de referencia.
+
+> In Table 2-3 we’ll list these and a few other common options for your reference.
+
+	Opción	Descripción
+	-(n)	Muestra solamente las últimas n confirmaciones
+	--since, --after	Muestra aquellas confirmaciones hechas después de la fecha especificada.
+	--until, --before	Muestra aquellas confirmaciones hechas antes de la fecha especificada.
+	--author	Muestra solo aquellas confirmaciones cuyo autor coincide con la cadena especificada.
+	--committer	Muestra solo aquellas confirmaciones cuyo confirmador coincide con la cadena especificada.
+
+>	Option	Description
+>	-(n)	Show only the last n commits
+>	--since, --after	Limit the commits to those made after the specified date.
+>	--until, --before	Limit the commits to those made before the specified date.
+>	--author	Only show commits in which the author entry matches the specified string.
+>	--committer	Only show commits in which the committer entry matches the specified string.
+
+Por ejemplo, si quieres ver cuáles de las confirmaciones hechas sobre archivos de prueba del código fuente de Git fueron enviadas por Junio Hamano, y no fueron uniones, en el mes de octubre de 2008, ejecutarías algo así:
+
+> For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/

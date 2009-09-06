@@ -188,9 +188,9 @@ Nu je Git op je computer hebt staan, is het handig dat je een paar dingen doet o
 
 Git komt standaard met een gereedschap genaamd git config, waarmee je configuratie-eigenschappen, die alle aspecten van het uiterlijk en gedrag van Git aanpassen, kan bekijken en veranderen. Deze eigenschappen kunnen op drie verschillende plaatsen worden bewaard:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	Het bestand `/etc/gitconfig`: Bevat eigenschappen voor elke account op de computer en al hun repositories. Als je de optie de optie `--system` meegeeft aan `git config`, zal het dit bestand gebruiken om opties te lezen en veranderen. 
+*	Het bestand `~/.gitconfig`: Eigenschappen voor jouw account. Je kan Git dit bestand laten gebruiken door de optie `--global` mee te geven.
+*	Het configbestand in de Gitmap (dus `.git/config`) van het repository wat je op het moment gebruik: Specifiek voor dat ene repository. Elk niveau is belangrijker dan het voorgaande, dus waarden in `.git/config` worden gebruikt in plaats die in  `/etc/gitconfig`.
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 

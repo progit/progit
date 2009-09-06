@@ -10,9 +10,9 @@
 
 ## The Protocols ##
 
-Git can use four major network protocols to transfer data: Local, Secure Shell (SSH), Git, and HTTP. Here we’ll discuss what they are and in what basic circumstances you would want (or not want) to use them.
+Git允许使用四种主要的网络协议进行数据传输：本地传输，SSH协议，Git协议和HTTP协议。下面分别介绍一下他们以及应该（或不应该）在怎样的情形下使用他们。
 
-It’s important to note that with the exception of the HTTP protocols, all of these require Git to be installed and working on the server.
+值得注意的是除了HTTP协议之外，所有协议都要求在服务器端安装并运行Git。
 
 ### Local Protocol ###
 

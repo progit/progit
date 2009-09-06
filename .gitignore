@@ -5,3 +5,4 @@ latex/*
 !latex/template.tex
 !latex/config.yml
 zh/03-git-branching/01-chapter3.markdown~
+zh/04-git-server/01-chapter4.markdown~

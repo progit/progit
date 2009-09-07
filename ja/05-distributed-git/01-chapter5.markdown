@@ -577,9 +577,9 @@ Git はその後、各パッチについてこのようなログ情報をはき�
 
 受け取った作業はこのトピックブランチですすめ、長期ブランチに統合するかどうかを判断することになります。
 
-### Applying Patches from E-mail ###
+### メールで受け取ったパッチの適用 ###
 
-If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
+あなたのプロジェクトへのパッチをメールで受け取った場合は、まずそれをトピックブランチに適用して中身を検証します。メールで届いたパッチを適用するには `git apply` と `git am` の二通りの方法があります。
 
 #### Applying a Patch with apply ####
 

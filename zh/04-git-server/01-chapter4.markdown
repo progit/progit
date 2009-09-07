@@ -14,25 +14,24 @@ Git允许使用四种主要的网络协议进行数据传输：本地传输，SS
 
 值得注意的是除了HTTP协议之外，所有协议都要求在服务器端安装并运行Git。
 
-### Local Protocol ###
+### 本地协议 ###
 
-The most basic is the _Local protocol_, in which the remote repository is in another directory on disk. This is often used if everyone on your team has access to a shared filesystem such as an NFS mount, or in the less likely case that everyone logs in to the same computer. The latter wouldn’t be ideal, because all your code repository instances would reside on the same computer, making a catastrophic loss much more likely.
+最基础的就是 _本地协议(Local protocol)_ 了，远程仓库在该协议中就是硬盘上的另一个目录。这在每一个团队成员都对一个共享的文件系统(例如NFS)都有访问权的时候非常常见，抑或在比较少见的多人共用同一台电脑的情况。后者不是很理想，因为你所有的代码仓库实例都储存在同一台电脑里，增加了灾难性的数据损失的可能性。
 
-If you have a shared mounted filesystem, then you can clone, push to, and pull from a local file-based repository. To clone a repository like this or to add one as a remote to an existing project, use the path to the repository as the URL. For example, to clone a local repository, you can run something like this:
+如果你使用一个共享的文件系统，就可以在一个本地仓库里克隆，推送和获取。要从这样的仓库里克隆或者向一个显存工程里增加一个远程仓库，可以用指向该仓库的路径作为URL。比如，克隆一个本地仓库，可以用如下命令完成：
 
 	$ git clone /opt/git/project.git
 
-Or you can do this:
+或者这样：
 
 	$ git clone file:///opt/git/project.git
+如果你在URL的开头明确的使用 `file://`，那么Git会以一种略微不同的方式运行。如果你只给出路径，Git会尝试使用硬链接或者直接复制它需要的文件。如果使用了 `file://` ，Git会调用它平时通过网络来传输数据的过程，而它的效率相对很低。使用 `file://` 的主要原因是当你需要一个包含多余索引或对象的完整仓库副本的时候，一般是从其他版本控制系统的导入或类似的情形下（参见第9章的维护任务）。这里为了更快的速度我们使用普通路径。
 
-Git operates slightly differently if you explicitly specify `file://` at the beginning of the URL. If you just specify the path, Git tries to use hardlinks or directly copy the files it needs. If you specify `file://`, Git fires up the processes that it normally uses to transfer data over a network which is generally a lot less efficient method of transferring the data. The main reason to specify the `file://` prefix is if you want a clean copy of the repository with extraneous references or objects left out — generally after an import from another version-control system or something similar (see Chapter 9 for maintenance tasks). We’ll use the normal path here because doing so is almost always faster.
-
-To add a local repository to an existing Git project, you can run something like this:
+要向现存的Git工程添加一个本地仓库，运行如下命令：
 
 	$ git remote add local_proj /opt/git/project.git
 
-Then, you can push to and pull from that remote as though you were doing so over a network.
+然后就可以像在网络上一样向这个远程仓库推送和获取数据了。
 
 #### The Pros ####
 

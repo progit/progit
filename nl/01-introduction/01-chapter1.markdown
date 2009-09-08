@@ -192,7 +192,7 @@ Git komt standaard met een gereedschap genaamd git config, waarmee je configurat
 *	Het bestand `~/.gitconfig`: Eigenschappen voor jouw account. Je kan Git dit bestand laten gebruiken door de optie `--global` mee te geven.
 *	Het configbestand in de Gitmap (dus `.git/config`) van het repository wat je op het moment gebruik: Specifiek voor dat ene repository. Elk niveau is belangrijker dan het voorgaande, dus waarden in `.git/config` worden gebruikt in plaats die in  `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+Op systemen met Windows zoekt Git in de `$HOME`-map voor het `.gitconfig`-bestand (`C:\Documents and Settings\$USER` voor de meesten). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
 
 ### Your Identity ###
 

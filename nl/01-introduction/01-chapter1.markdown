@@ -237,13 +237,13 @@ Je kan ook bekijken wat Git als instelling heeft bij een specifieke waarde door 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Hulp Krijgen ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Als je ooit hulp nodig hebt terwijl je Git gebruikt, hier zijn drie manieren om gebruiksaanwijzing (manpage) voor elk Git commando te krijgen:
 
-	$ git help <verb>
-	$ git <verb> --help
-	$ man git-<verb>
+	$ git help <actie>
+	$ git <actie> --help
+	$ man git-<actie>
 
 For example, you can get the manpage help for the config command by running
 

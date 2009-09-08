@@ -230,9 +230,9 @@ Als je je instellingen wilt zien, kan je `git config --list` gebruiken om een li
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Je zult waarden misschien meerdere keren langs zien komen, omdat Git dezelfde waarde van verschillende bestanden heeft gelezen (bijvoorbeeld `/etc/gitconfig` en `~/.gitconfig`). In dit geval gebruikt Git de laatste instelling van elke unieke waarde die het tegenkomt.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Je kan ook bekijken wat Git als instelling heeft bij een specifieke waarde door `git config {waarde}` in te voeren:
 
 	$ git config user.name
 	Scott Chacon

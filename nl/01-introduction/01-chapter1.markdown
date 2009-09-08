@@ -203,9 +203,9 @@ Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebrui
 
 Nogmaals, dit hoef je maar één keer te doen als je de `--global` optie eraan plakt, omdat Git die informatie zal gebruiken voor alles wat je doet op dat systeem. Als je een andere naam of e-mail wilt gebruiken voor specifieke projecten, kan je het commando uitvoeren zonder de `--global` optie als je in de map van dat project zit.
 
-### Your Editor ###
+### Je Tekstverwerker ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Nu Git weet wie je bent, kan je de tekstverwerker instellen die gebruikt zal worden als Git je een bericht in wil laten typen. Standaard gebruikt Git de standaardtekstverwerker van je systeem, wat meestal Vi of Vim is. Als je een andere tekstverwerker wilt gebruiken, zoals Emacs, kan je het volgende doen:
 
 	$ git config --global core.editor emacs
 	

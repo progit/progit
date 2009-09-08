@@ -8,9 +8,9 @@
 
 一个远程仓库通常只是一个 _纯仓库(bare repository)_ ——一个没有当前工作目录的仓库。因为该仓库只是一个合作媒介，不需要有一个从硬盘上签出的快照；它仅仅是一些Git数据。简单的说，一个纯仓库是你项目里`.git`目录的内容，别无他物。
 
-## The Protocols ##
+## 有关协议 ##
 
-Git允许使用四种主要的网络协议进行数据传输：本地传输，SSH协议，Git协议和HTTP协议。下面分别介绍一下他们以及应该（或不应该）在怎样的情形下使用他们。
+Git允许使用四种主要的协议进行数据传输：本地传输，SSH协议，Git协议和HTTP协议。下面分别介绍一下他们以及应该（或不应该）在怎样的情形下使用他们。
 
 值得注意的是除了HTTP协议之外，所有协议都要求在服务器端安装并运行Git。
 
@@ -33,11 +33,11 @@ Git允许使用四种主要的网络协议进行数据传输：本地传输，SS
 
 然后就可以像在网络上一样向这个远程仓库推送和获取数据了。
 
-#### The Pros ####
+#### （本地协议的）优点 ####
 
-The pros of file-based repositories are that they’re simple and they use existing file permissions and network access. If you already have a shared filesystem to which your whole team has access, setting up a repository is very easy. You stick the bare repository copy somewhere everyone has shared access to and set the read/write permissions as you would for any other shared directory. We’ll discuss how to export a bare repository copy for this purpose in the next section, “Getting Git on a Server.”
+基于文件仓库的有点在于简单并切保留了现存文件的权限和网络连接。如果你的团队已经有一个全体共享的文件系统，建立仓库就十分容易了。你只需把一份仓库的副本放在大家能访问的地方，然后像对其他共享文件目录一样设置读写以下读写权限就行了。我们将在下一节“在服务器上部署Git”中讨论如何为次导出一个纯仓库的副本。
 
-This is also a nice option for quickly grabbing work from someone else’s working repository. If you and a co-worker are working on the same project and they want you to check something out, running a command like `git pull /home/john/project` is often easier than them pushing to a remote server and you pulling down.
+这也是个从别人工作目录里获取他工作进展的快捷方法。假如你和你的同事在一个项目中合作，你想获取一些信息，运行类似`git pull /home/john/project`通常会比从他推送的远程服务器上获取要简单的多。
 
 #### The Cons ####
 

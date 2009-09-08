@@ -1,6 +1,6 @@
-# Git Basics #
+# De Basis van Git #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+Als je één hoofdstuk zou mogen lezen voordat je aan de slag gaat met Git, is dit een goede keus. Dit hoofdstuk behandelt elk van de basiscommando's, die je voor het grootste gedeelte van de tijd die je met Git werkt nodig hebt. Aan het einde van dit hoofdstuk kan je een repository configureren en creëren, bestanden beginnen en stoppen te volgen en veranderingen voorbereiden en committen. We laten ook zien hoe je Git kan instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe fouten snel en gemakkelijk ongedaan te maken, hoe je de geschiedenis van je project kan doorlopen en veranderingen tussen commits kunt zien, en hoe je kan pushen en pullen van en naar remote repositories.
 
 ## Getting a Git Repository ##
 

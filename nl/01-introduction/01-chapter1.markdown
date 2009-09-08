@@ -252,6 +252,6 @@ Bijvoorbeeld, je kan de manpage voor het commando `git config` krijgen door het 
 Deze commando's zijn fijn omdat je ze overal kan bekijken, zelfs als je offline bent.
 Als de gebruiksaanwijzing en dit boek niet genoeg zijn en je persoonlijke hulp nodig hebt, kan je de channels (een soort kamers) `#git` of `#github` (beiden Engelstalig) op de IRC server van Freenode (irc.freenode.net) proberen. Deze channels zijn regelmatig gevuld met honderden mensen die allemaal veel weten over Git en vaak bereid zijn te helpen.
 
-## Summary ##
+## Conclusie ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+Je zou nu een beetje een idee moeten hebben van wat Git is en op wat voor manieren het verschilt van de CVCS die je misschien eerder gebruikte. Je zou nu ook een werkende versie van Git op je systeem moeten hebben dat is ingesteld met jouw identiteit. Nu is het tijd om de basis van Git te gaan leren.

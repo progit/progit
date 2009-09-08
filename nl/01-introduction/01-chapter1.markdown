@@ -217,9 +217,9 @@ En andere bruikbare optie die je misschien wel wilt instellen is het standaard d
 
 Git accepteert kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge en opendiff als geldige samenvoegingsgereedschap. Je kan ook een ander programma gebruiken; zie Hoofdstuk 7 voor meer informatie daarover.
 
-### Checking Your Settings ###
+### Je Instellingen Bekijken ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Als je je instellingen wilt zien, kan je `git config --list` gebruiken om een lijstje met alle instellingen die Git vanaf de huidige map kan vinden:
 
 	$ git config --list
 	user.name=Scott Chacon

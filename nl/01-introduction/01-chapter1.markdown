@@ -194,12 +194,12 @@ Git komt standaard met een gereedschap genaamd git config, waarmee je configurat
 
 Op systemen met Windows zoekt Git in de `$HOME`-map voor het `.gitconfig`-bestand (`C:\Documents and Settings\$USER` voor de meesten). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
 
-### Your Identity ###
+### Jouw Identiteit ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebruikersnaam en e-mail address opgeven. Dat is belangrijk, omdat elke commit in Git deze informatie gebruikt, en het onveranderlijk in de commits die je ronddeeld verpakt zit:
 
-	$ git config --global user.name "John Doe"
-	$ git config --global user.email johndoe@example.com
+	$ git config --global user.name "Jan Steen"
+	$ git config --global user.email jansteen@ergens.com
 
 Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
 

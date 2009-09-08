@@ -201,7 +201,7 @@ Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebrui
 	$ git config --global user.name "Jan Steen"
 	$ git config --global user.email jansteen@ergens.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Nogmaals, dit hoef je maar één keer te doen als je de `--global` optie eraan plakt, omdat Git die informatie zal gebruiken voor alles wat je doet op dat systeem. Als je een andere naam of e-mail wilt gebruiken voor specifieke projecten, kan je het commando uitvoeren zonder de `--global` optie als je in de map van dat project zit.
 
 ### Your Editor ###
 

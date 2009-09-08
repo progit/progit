@@ -209,13 +209,13 @@ Nu Git weet wie je bent, kan je de tekstverwerker instellen die gebruikt zal wor
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### Je Diffprogramma ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+En andere bruikbare optie die je misschien wel wilt instellen is het standaard diffprogramma om samenvoegingsconflicten op te lossen. Stel dat je vimdiff wilt gebruiken:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git accepteert kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge en opendiff als geldige samenvoegingsgereedschap. Je kan ook een ander programma gebruiken; zie Hoofdstuk 7 voor meer informatie daarover.
 
 ### Checking Your Settings ###
 

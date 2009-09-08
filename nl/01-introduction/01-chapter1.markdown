@@ -245,12 +245,12 @@ Als je ooit hulp nodig hebt terwijl je Git gebruikt, hier zijn drie manieren om 
 	$ git <actie> --help
 	$ man git-<actie>
 
-For example, you can get the manpage help for the config command by running
+Bijvoorbeeld, je kan de manpage voor het commando `git config` krijgen door het volgende uit te voeren:
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+Deze commando's zijn fijn omdat je ze overal kan bekijken, zelfs als je offline bent.
+Als de gebruiksaanwijzing en dit boek niet genoeg zijn en je persoonlijke hulp nodig hebt, kan je de channels (een soort kamers) `#git` of `#github` (beiden Engelstalig) op de IRC server van Freenode (irc.freenode.net) proberen. Deze channels zijn regelmatig gevuld met honderden mensen die allemaal veel weten over Git en vaak bereid zijn te helpen.
 
 ## Summary ##
 

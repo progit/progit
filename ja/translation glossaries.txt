@@ -1,0 +1,4 @@
+# UTF-8でっせ
+(n)change	変更
+(n)modify	修正
+(vt)stage	ステージする

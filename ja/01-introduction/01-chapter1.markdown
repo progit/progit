@@ -190,20 +190,20 @@ WindowsにGitをインストールするのはとても簡単です。msysGitプ
 
 Gitには、git configと呼ばれるツールが付属します。これで、どのようにGitが見えて機能するかの全ての面を制御できる設定変数を取得し、設定することができます。これらの変数は三つの異なる場所に格納されうります：
 
-*	`/etc/gitconfig` file: システム上の全てのユーザーと全てのリポジトリーに対する設定値を保持します。もし`--system`オプションで`git config`に省略すると、明確にこのファイルから読み書きを行ないます。
-*	`~/.gitconfig` file: 特定のユーザーに対する設定値を保持します. `--global`オプションを省略することで、Gitに、明確にこのファイルに読み書きを行なわせることができます。
+*	`/etc/gitconfig` file: システム上の全てのユーザーと全てのリポジトリーに対する設定値を保持します。もし`--system`オプションを`git config`に指定すると、明確にこのファイルに読み書きを行ないます。
+*	`~/.gitconfig` file: 特定のユーザーに対する設定値を保持します. `--global`オプションを指定することで、Gitに、明確にこのファイルに読み書きを行なわせることができます。
 *	現在使っている、あらゆるリポジトリのGitディレクトリーの設定ファイル(`.git/config`のことです): 特定の単一リポジトリーに対する設定値を保持します。それぞれのレベルの値は以前のレベルの値を上書きするため、`.git/config`の中の設定値は`/etc/gitconfig`の設定値に優先されます。
 
-Windows環境下では、Gitは`$HOME`ディレクトリ(ほとんどのユーザーは`C:\Documents and Settings\$USER`)（訳者注：環境変数USERPROFILEで指定される）の中の`.gitconfig`ファイルを検索に行きます。インストーラーを動かしているときに、WindowsのどこにでもGitをインストールできる、MSysのインストール先のルートとの相対位置になりますが、/etc/gitconfigもまた見に行きます。
+Windows環境下では、Gitは`$HOME`ディレクトリ（ほとんどのユーザーは`C:\Documents and Settings\$USER`)（訳者注：環境変数`USERPROFILE`で指定される）の中の`.gitconfig`ファイルを検索に行きます。インストーラーを動かしているときに、WindowsのどこにでもGitをインストールできる、MSysのインストール先のルートとの相対位置になりますが、/etc/gitconfigもまた見に行きます。
 
-### Your Identity ###
+### 個人の識別情報 ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Gitをインストールしたときに最初にすべきことは、ユーザー名とE-mailアドレスを設定することです。全てのGitのコミットはこの情報を用いるため、これは重要で、次々とまわすコミットに永続的に焼き付けられます：
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+また、もし`--global`オプションを指定するのであれば、Gitはその後、そのシステム上で行なう（訳者注：あるユーザーの）全ての操作に対して常にこの情報を使うようになるため、この操作を行なう必要はたった一度だけです。もし、違う名前とE-mailアドレスを特定のプロジェクトで上書きしたいのであれば、そのプロジェクトの（訳者注：Gitディレクトリーの）中で、`--global`オプション無しでこのコマンドを実行することができます。
 
 ### Your Editor ###
 

@@ -194,7 +194,7 @@ Gitには、git configと呼ばれるツールが付属します。これで、�
 *	`~/.gitconfig` file: 特定のユーザーに対する設定値を保持します. `--global`オプションを指定することで、Gitに、明確にこのファイルに読み書きを行なわせることができます。
 *	現在使っている、あらゆるリポジトリのGitディレクトリーの設定ファイル(`.git/config`のことです): 特定の単一リポジトリーに対する設定値を保持します。それぞれのレベルの値は以前のレベルの値を上書きするため、`.git/config`の中の設定値は`/etc/gitconfig`の設定値に優先されます。
 
-Windows環境下では、Gitは`$HOME`ディレクトリ（ほとんどのユーザーは`C:\Documents and Settings\$USER`)（訳者注：環境変数`USERPROFILE`で指定される）の中の`.gitconfig`ファイルを検索に行きます。インストーラーを動かしているときに、WindowsのどこにでもGitをインストールできる、MSysのインストール先のルートとの相対位置になりますが、/etc/gitconfigもまた見に行きます。
+Windows環境下では、Gitは`$HOME`ディレクトリ（ほとんどのユーザーは`C:\Documents and Settings\$USER`)（訳者注：環境変数`USERPROFILE`で指定される）の中の`.gitconfig`ファイルを検索に行きます。また、インストーラー時にWidnowsシステムにGitをインストールすると決めたところにある、MSysのルートとの相対位置であったとしても、/etc/gitconfigも見に行きます。
 
 ### 個人の識別情報 ###
 
@@ -205,9 +205,9 @@ Gitをインストールしたときに最初にすべきことは、ユーザ�
 
 また、もし`--global`オプションを指定するのであれば、Gitはその後、そのシステム上で行なう（訳者注：あるユーザーの）全ての操作に対して常にこの情報を使うようになるため、この操作を行なう必要はたった一度だけです。もし、違う名前とE-mailアドレスを特定のプロジェクトで上書きしたいのであれば、そのプロジェクトの（訳者注：Gitディレクトリーの）中で、`--global`オプション無しでこのコマンドを実行することができます。
 
-### Your Editor ###
+### エディター ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+今や、個人の識別情報が設定され、Gitがメッセージのタイプをさせる必要があるときに使う、標準のテキストエディターを設定できます。標準では、Gitはシステムのデフォルト・エディターを使います。これは大抵の場合、ViかVimです。Emacsのような違うテキスト・エディターを使いたい場合は、次のようにします：
 
 	$ git config --global core.editor emacs
 	

@@ -745,31 +745,30 @@ Jessica から「すばらしい新機能を作ったので、私のリポジト
 
 トピックブランチでの作業をメインブランチに取り込む準備ができたら、どのように取り込むかを考えることになります。さらに、プロジェクトを運営していくにあたっての全体的な作業の流れはどのようにしたらいいでしょうか? さまざまな方法がありますが、ここではそのうちのいくつかを紹介します。
 
-#### Merging Workflows ####
+#### マージのワークフロー ####
 
-One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
+シンプルなワークフローのひとつとして、作業を自分の `master` ブランチに取り込むことを考えます。ここでは、`master` ブランチで安定版のコードを管理しているものとします。トピックブランチでの作業が一段落したら (あるいは誰かから受け取ったパッチをトピックブランチ上で検証し終えたら)、それを master ブランチにマージしてからトピックブランチを削除し、作業を進めることになります。`ruby_client` および `php_client` の二つのブランチを持つ図 5-19 のようなリポジトリでまず `ruby_client` をマージしてから `php_client` もマージすると、歴史は図 5-20 のようになります。
 
 Insert 18333fig0519.png 
-Figure 5-19. History with several topic branches.
+図 5-19. いくつかのトピックブランチを含む履歴
 
 Insert 18333fig0520.png
-Figure 5-20. After a topic branch merge.
+図 5-20. トピックブランチをマージした後の状態
 
-That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
+これがおそらく一番シンプルなワークフローでしょうが、大規模なリポジトリやプロジェクトで作業をしていると問題が発生することもあります。
 
-If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
+多人数で開発していたり大規模なプロジェクトに参加していたりする場合は、二段階以上のマージサイクルを使うこともあるでしょう。ここでは、長期間運用するブランチが `master` と `develop` のふたつあるものとします。`master` が更新されるのは安定版がリリースされるときだけで、新しいコードはずべて `develop` ブランチに統合されるという流れです。これらのブランチは、両方とも定期的に公開リポジトリにプッシュすることになります。新しいトピックブランチをマージする準備ができたら (図 5-21)、それを `develop` にマージします (図 5-22)。そしてリリースタグを打つときに、`master` を現在の `develop` ブランチが指す位置に進めます (図 5-23)。
 
 Insert 18333fig0521.png 
-Figure 5-21. Before a topic branch merge.
+図 5-21. トピックブランチのマージ前
 
 Insert 18333fig0522.png 
-Figure 5-22. After a topic branch merge.
+図 5-22. トピックブランチのマージ後
 
 Insert 18333fig0523.png 
-Figure 5-23. After a topic branch release.
+図 5-23. トピックブランチのリリース後
 
-This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
-You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
+他の人があなたのプロジェクトをクローンするときには、master をチェックアウトすれば最新の安定版をビルドすることができ、その後の更新を追いかけるのも容易にできるようになります。一方 develop をチェックアウトすれば、さらに最先端の状態を取得することができます。この考え方を推し進めると、統合用のブランチを用意してすべての作業をいったんそこにマージするようにもできます。統合ブランチ上のコードが安定してテストを通過すれば、それを develop ブランチにマージします。そしてそれが安定していることが確認できたら master ブランチを先に進めるということになります。
 
 #### Large-Merging Workflows ####
 

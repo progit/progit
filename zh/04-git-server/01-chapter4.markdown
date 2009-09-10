@@ -39,11 +39,11 @@ Git允许使用四种主要的协议进行数据传输：本地传输，SSH协�
 
 这也是个从别人工作目录里获取他工作进展的快捷方法。假如你和你的同事在一个项目中合作，你想获取一些信息，运行类似`git pull /home/john/project`通常会比从他推送的远程服务器上获取要简单的多。
 
-#### The Cons ####
+#### （本地协议的）缺点 ####
 
-The cons of this method are that shared access is generally more difficult to set up and reach from multiple locations than basic network access. If you want to push from your laptop when you’re at home, you have to mount the remote disk, which can be difficult and slow compared to network-based access.
+该方法的缺点是，与基本的网路连接相比，共享链接的架设更复杂而且不容易从不同的位置获取。如果你想在家里从本本上推送，就要先挂载远程硬盘，这和给予网络的连接相比可能更加困难和缓慢。
 
-It’s also important to mention that this isn’t necessarily the fastest option if you’re using a shared mount of some kind. A local repository is fast only if you have fast access to the data. A repository on NFS is often slower than the repository over SSH on the same server, allowing Git to run off local disks on each system.
+另一个很重还要的问题是该方法不一定就是最快的，尤其是对于共享挂载的文件系统。本地仓库只有在你对数据访问速度快的时候才快。通常情况下，如果二者同时允许Git访问硬盘，在同一个服务器上通过NFS访问仓库会比SSH慢。
 
 ### The SSH Protocol ###
 

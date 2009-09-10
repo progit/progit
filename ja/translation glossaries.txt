@@ -1,4 +1,13 @@
 # UTF-8でっせ
+(vt)store	格納
 (n)change	変更
 (n)modify	修正
 (vt)stage	ステージする
+(n)staging area	ステージング・エリア
+(n)GIT directory	Gitディレクトリ
+(n)working directory	作業ディレクトリ
+(n)workflow	ワークフロー
+(a)comitted	コミット済
+(a)modified	修正済
+(a)staged	ステージ済
+(n)non-linear development ノンリニア開発

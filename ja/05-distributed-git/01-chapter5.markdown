@@ -886,6 +886,6 @@ tarball を開けば、プロジェクトのディレクトリの下に最新の
 
 v1.0.1 以降のすべてのコミットの概要が、作者別にまとめて得られました。これをメーリングリストに投稿するといいでしょう。
 
-## Summary ##
+## まとめ ##
 
-You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.
+Git を使っているプロジェクトにコードを提供したり、自分のプロジェクトに他のユーザからのコードを取り込んだりといった作業を安心してこなせるようになりましたね。おめでとうございます。Git を使いこなせる開発者の仲間入りです! 次の章では、複雑な状況に対応するためのより強力なツールやヒントを学びます。これであなたは真の Git マスターとなることでしょう。

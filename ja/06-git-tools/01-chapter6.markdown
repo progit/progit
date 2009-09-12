@@ -4,9 +4,9 @@ Git を使ったソースコード管理のためのリポジトリの管理や�
 
 では、Git の非常に強力な機能の数々をさらに探っていきましょう。日々の作業でこれらを使うことはあまりありませんが、いつかは必要になるかもしれません。
 
-## Revision Selection ##
+## リビジョンの選択 ##
 
-Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+Git で特定のコミットやコミットの範囲を指定するにはいくつかの方法があります。明白なものばかりではありませんが、知っておくと役立つでしょう。
 
 ### Single Revisions ###
 

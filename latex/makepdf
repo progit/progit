@@ -7,7 +7,7 @@ require 'yaml'
 include FileUtils, Open3
 alias :pipe :popen3
 
-$here = File.dirname(__FILE__)
+$here = File.expand_path(File.dirname(__FILE__))
 $root = File.join($here, '..')
 
 def figures(&block)

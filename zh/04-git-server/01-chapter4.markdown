@@ -47,6 +47,7 @@ Git允许使用四种主要的协议进行数据传输：本地传输，SSH协�
 
 ### The SSH Protocol ###
 
+Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大多数地方本身已经支持 SSH 对服务器的访问——即使还没有，也很容易做到。
 Probably the most common transport protocol for Git is SSH. This is because SSH access to servers is already set up in most places — and if it isn’t, it’s easy to do. SSH is also the only network-based protocol that you can easily read from and write to. The other two network protocols (HTTP and Git) are generally read-only, so even if you have them available for the unwashed masses, you still need SSH for your own write commands. SSH is also an authenticated network protocol; and because it’s ubiquitous, it’s generally easy to set up and use.
 
 To clone a Git repository over SSH, you can specify ssh:// URL like this:

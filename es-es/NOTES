@@ -15,6 +15,7 @@
 - Rebase: No encuentro una traducción adecuada.
 - Pull: Lo traduzco como *recibir*, pero pongo entre () el término original. No quiero usar *descargar* o *bajar*, porque parece que hace referencia a entornos cliente/servidor.
 - Push: Lo traduzco como *mandar*, pero pongo entre () el término original. No quiero usar *subir*, porque parece que hace referencia a entornos cliente/servidor.
+- Remote: Lo traduzco como *servidor remoto* o *remoto*, pero pongo entre () el término original.
 - Snapshot: Lo traduzco como *instantánea*.
 - Stage/Staged: Lo traduzco como *preparar*/*preparado*, pero pongo entre () el término original.
 - Staging area: Parece ser un término militar. Se refiere a una localización temporal donde se reúnen recursos antes de un ataque o invasión. Lo traduzco como *área de preparación*, pero pongo entre () el término original.

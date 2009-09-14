@@ -159,67 +159,67 @@ Of als je een distributie hebt dat op Debian gebaseerd is, zoals Ubuntu, kan je 
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Op een Mac Installeren ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste is om het grafische Gitinstallatieprogram te gebruiken, wat je van de volgende pagina op Google Code kan downloaden (zie Figuur 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer.
+Figuur 1-7. Gitinstallatieprogramma voor OS X.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+De andere veelgebruikte manier is om Git via MacPorts (`http://www.macports.org`) te installeren. Als je MacPorts hebt, kun je Git installeren met
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Je hoeft niet al die extra’s toe te voegen, maar je wil waarschijnlijk +svn erbij hebben voor het geval je ooit onder Git met Subversion repositories moet omgaan (zie Hoofdstuk 8).
 
-### Installing on Windows ###
+### Op Windows Installeren ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Git op Windows installeren is erg eenvoudig. Het msysGitproject heeft één van de eenvoudigste installatieprocedures. Je hoeft alleen maar het installatieprogramma te downloaden van Google Code, en het uit te voeren:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Als het geïnstalleerd is, kan je Git zowel vanaf de commandprompt gebruiken (waar ook een SSH client bijzit die later nog van pas zal komen) en de standaard GUI.
 
-## First-Time Git Setup ##
+## Git Klaarmaken Voor Eerste Gebruik ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Nu je Git op je computer hebt staan, is het handig dat je een paar dingen doet om je Gitomgeving aan je voorkeuren aan te passen. Je hoeft dit normaliter maar één keer te doen; ze blijven hetzelfde als je een nieuwe versie van Git installeerd. Je kan ze op elk moment weer veranderen door de commando’s opnieuw in te voeren.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git komt standaard met een gereedschap genaamd git config, waarmee je configuratie-eigenschappen, die alle aspecten van het uiterlijk en gedrag van Git aanpassen, kan bekijken en veranderen. Deze eigenschappen kunnen op drie verschillende plaatsen worden bewaard:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	Het bestand `/etc/gitconfig`: Bevat eigenschappen voor elke account op de computer en al hun repositories. Als je de optie de optie `--system` meegeeft aan `git config`, zal het dit bestand gebruiken om opties te lezen en veranderen. 
+*	Het bestand `~/.gitconfig`: Eigenschappen voor jouw account. Je kan Git dit bestand laten gebruiken door de optie `--global` mee te geven.
+*	Het configbestand in de Gitmap (dus `.git/config`) van het repository wat je op het moment gebruik: Specifiek voor dat ene repository. Elk niveau is belangrijker dan het voorgaande, dus waarden in `.git/config` worden gebruikt in plaats die in  `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+Op systemen met Windows zoekt Git in de `$HOME`-map voor het `.gitconfig`-bestand (`C:\Documents and Settings\$USER` voor de meesten). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
 
-### Your Identity ###
+### Jouw Identiteit ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebruikersnaam en e-mail address opgeven. Dat is belangrijk, omdat elke commit in Git deze informatie gebruikt, en het onveranderlijk in de commits die je ronddeeld verpakt zit:
 
-	$ git config --global user.name "John Doe"
-	$ git config --global user.email johndoe@example.com
+	$ git config --global user.name "Jan Steen"
+	$ git config --global user.email jansteen@ergens.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Nogmaals, dit hoef je maar één keer te doen als je de `--global` optie eraan plakt, omdat Git die informatie zal gebruiken voor alles wat je doet op dat systeem. Als je een andere naam of e-mail wilt gebruiken voor specifieke projecten, kan je het commando uitvoeren zonder de `--global` optie als je in de map van dat project zit.
 
-### Your Editor ###
+### Je Tekstverwerker ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Nu Git weet wie je bent, kan je de tekstverwerker instellen die gebruikt zal worden als Git je een bericht in wil laten typen. Standaard gebruikt Git de standaardtekstverwerker van je systeem, wat meestal Vi of Vim is. Als je een andere tekstverwerker wilt gebruiken, zoals Emacs, kan je het volgende doen:
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### Je Diffprogramma ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+En andere bruikbare optie die je misschien wel wilt instellen is het standaard diffprogramma om samenvoegingsconflicten op te lossen. Stel dat je vimdiff wilt gebruiken:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git accepteert kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge en opendiff als geldige samenvoegingsgereedschap. Je kan ook een ander programma gebruiken; zie Hoofdstuk 7 voor meer informatie daarover.
 
-### Checking Your Settings ###
+### Je Instellingen Bekijken ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Als je je instellingen wilt zien, kan je `git config --list` gebruiken om een lijstje met alle instellingen die Git vanaf de huidige map kan vinden:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -230,20 +230,20 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Je zult waarden misschien meerdere keren langs zien komen, omdat Git dezelfde waarde van verschillende bestanden heeft gelezen (bijvoorbeeld `/etc/gitconfig` en `~/.gitconfig`). In dit geval gebruikt Git de laatste instelling van elke unieke waarde die het tegenkomt.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Je kan ook bekijken wat Git als instelling heeft bij een specifieke waarde door `git config {waarde}` in te voeren:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Hulp Krijgen ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Als je ooit hulp nodig hebt terwijl je Git gebruikt, hier zijn drie manieren om gebruiksaanwijzing (manpage) voor elk Git commando te krijgen:
 
-	$ git help <verb>
-	$ git <verb> --help
-	$ man git-<verb>
+	$ git help <actie>
+	$ git <actie> --help
+	$ man git-<actie>
 
 For example, you can get the manpage help for the config command by running
 

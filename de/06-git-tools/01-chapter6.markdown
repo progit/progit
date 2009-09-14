@@ -1,5 +1,4 @@
 # Git Tools #
-# Git Tools #
 
 By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control.
 You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
@@ -76,7 +75,6 @@ Generally, eight to ten characters are more than enough to be unique within a pr
 
 Generell kann man sagen das acht bis zehn Zeichen mehr als ausreichend in einem Projekt sind, um eindeutig zu bleiben. Eines der größten Git Projekte, der Linux kernel, fängt langsam an 12 von maximal 40 Zeichen zu nutzen um eindeutig zu bleiben.
 
-### A SHORT NOTE ABOUT SHA-1 ###
 ### EINE KURVE NOTIZ ÜBER SHA-1 ###
 
 A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?

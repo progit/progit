@@ -69,96 +69,158 @@ server v těchto podmínkách odejde do počítačového nebe, nic se vlastně n
 je možno nahrát zpět na server a jede se dál. Každý checkout je v podstatě kompletní záloha všech dat (obr. 1-3)
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+Obrázek 1-3. Distribuovaný SSV
 
 Navíc mnoho těchto systémů umí slušně pracovat s více vzdálenými repositáři najednou, takže můžete spolupracovat
 s různými skupinami lidí na různých částech téhož projektu. To umožňuje mít různé způsoby organizace práce,
 které v centralizovaných systémech vůbec nejsou možné, jako je hierarchický model.
 
-## A Short History of Git ##
+## Stručná historie Gitu ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Stejně jako mnoho velkých událostí i historie Gitu začíná trochou tvořivé destrukce a prudké kontroverze.
+Linuxové jádro je dosti rozsáhlý open-source softwarový projekt. Nejprve docela dlouho (1991-2002) byly
+změny kódu prováděny jako patche a archivované soubory. V roce 2002 pak projekt přešel na proprietární DSSV
+BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+Po třech letech (2005) ochladly vztahy mezi vývojáři jádra a firmou, která BitKepper vyvinula, už neměl být zdarma,
+a tak se komunita vývojářů jádra (zvláště Linus Torvalds, tvůrce Linuxu) rozhodla vytvořit vlastní DSSV
+postavený na získaných zkušenostech z BitKeeperu. Požadované vlastnosti nového systému byly:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Rychlost
+*	Jednoduchý návrh
+*	Propracovaná podpora pro nelineární vývoj (tisíce paralelních větví)
+*	Plná distribuovanost
+*	Schopnost udržet tak velký projekt jako jádro Linuxu úsporně z hlediska rychlosti i množství dat
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Od jeho zrodu v roce 2005 se Git vyvinul a dospěl do jednoduše použitelného systému a stále splňuje tyto původní
+předpoklady. Je neuvěřitelně rychlý, bez velkých režijních nákladů i u obrovských projektů a má nevídaný systém větvení (kap. 3)
+pro nelineární vývoj.
 
-## Git Basics ##
+## Základy Gitu ##
+Takže v kostce, co je to Git? Tohle je důležité vědět, protože pokud budete rozumět, co to Git je a jak zhruba funguje,
+bude pro vás pravděpodobně výrazně jednodušší ho používat efektivně. Až se Git naůčíte, zkuste zapomenout všechno,
+co jste věděli o ostatních SSV jako Subversion nebo Perforce. Git ukládá informace a přemýšlí o nich naprosto
+odlišným způsobem i přesto, že uživatelské rozhraní je dosti podobné. Porozumět těmto drobným rozdílům pomůže
+překonat možnou prvotní zmatenost z přechodu na Git.
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+### Snapshoty, ne rozdíly ###
 
-### Snapshots, Not Differences ###
+Hlavní rozdíl mezi Gitem a ostatními SSV (Subversion a jeho přátelé) je způsob, jakým Git přemýšlí nad svými daty.
+Koncepcí většiny ostatních systémů je ukládat informace jako seznam změn v jednotlivých souborech. Udržují si sadu souborů
+a změny v nich provedené (obr. 1-4).
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Insert 18333fig0104.png
+Obrázek 1-4. Ostatní systémy ukládají data jako změny každého souboru.
 
-Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho snapshotů malého filesystému. Pokaždé, když commitnete[^2]
+stav svého projektu do Gitu, jednoduše si udělá obrázek, jak teď právě vypadají všechny soubory, a uloží to. Pro úsporu
+si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor. Git přemýšlí nad daty asi jako na obrázku 1-5.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
+[^2]: Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
+=======
+[^2]Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
+>>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Obrázek 1-5. Git ukládá data jako snapshoty projektu.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+To je důležitý rozdíl mezi Gitem a skoro všemi ostatními SSV. Nutí to Git znovu uvážit téměř každý aspekt správy verzí, které většina
+ostatních systémů převzala z předchozí generace. To dělá z Gitu spíše malý filesystém s několika neuvěřitelně mocnými nástroji
+nad sebou než prostě SSV. K některým výhodám tohoto přístupu dojdeme v kapitole 3, kde se budeme zabývat větvením vývojového stromu.
 
-### Nearly Every Operation Is Local ###
+### Většině operací stačí váš stroj ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Drtivá většina operací v Gitu nepotřebuje víc než místní soubory a zdroje. Obecně nepotřebuje žádnou informawci z jiného než vašeho stroje.
+Pokud jste zvyklí na CSSV, kde téměř všechny operace mají režijní náklady zvýšené o zpoždění na síti, pak si budete myslet, že božstvo rychlosti
+požehnalo Gitu a udělilo mu nadzemskou moc. Protože máte celou historii projektu právě u sebe na místním disku, vypadá většina operací,
+že jsou vykonány okamžitě.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+Například pokud si chcete prohlédnout historii projektu, Git nepotřebuje jít na server, aby získal historii a zobrazil ji pro vás -- jednoduše
+ji přečte přímo z vaší místní databáze. To znamená, že historii projektu vidíte téměř hned. Pokud chcete vidět změny mezi současnou verzí souboru
+a verzí měsíc starou, Git najde soubor v místní databázi a spočítá rozdíly lokálně místo toho, aby o to buďto požádal vzdálený server, nebo alespoň
+stáhl starou verzi.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+To také znamená, že je velmi málo toho, co nemůžete dělat, pokud jste offline. Sedíte-li na palubě letadla nebo ve vlaku a chcete udělat trochu práce,
+můžete vesele commitovat, i když zrovna nemáte připojení k síti. Pokud jste doma a nemůžete se připojit k repositáři,
+můžete stále pracovat. U mnoha jiných systému je to dosti bolestivý proces, ne-li zhola nemožný.
+V Perforce např. nemůžete dělat skoro nic; v Subversion nebo CVS můžete upravovat soubory, ale
+předat je nejde (logicky -- databáze je offline). To nemusí vypadat jako velká změna, ale může vás příjemně překvapit, jak výrazný rozdíl to může být.
 
-### Git Has Integrity ###
+### Git drží integritu ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Než je cokoli v Gitu uloženo, je tomu spočítán kontrolní součet. Ten se potom používá i k identifikaci celého commitu.
+To znamená, že je zhola nemožné změnit obsah jakéhokoli souboru nebo adresáře bez toho, aby o tom Git věděl. Tato vlastnost
+je do Gitu zabudována na těch nejnižších úrovních a je nedílnou součástí jeho filosofie. Nemůžete ztratit informace při přenosu
+nebo přijít k poškození dat bez toho, aby to byl Git schopen odhalit.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Git k tomu používá mechanismus zvaný SHA-1 hash. To je 40 znaků dlouhý řetězec sestávající z hexadecimálních znaků (0-9 a a-f)
+a spočítaný na základě obsahu souboru nebo adresářové struktury v Gitu. SHA-1 hash vypadá nějak takto:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+S těmito hashi se v Gitu setkáte úplně všude. V podstatě Git všechno ukládá nikoli na základě jména souboru, ale právě na základě
+hashe jeho obsahu.
 
-### Git Generally Only Adds Data ###
+### Git obecně jen přidává data ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Pokud něco v Gitu děláte, téměř cokoli z toho jen přidá data do jeho databáze. Je opravdu obtížné donutit systém udělat něco, co by se nedalo vrátit,
+nebo donutit ho nějakým způsobem smazat svoje data. Jako v každém SSV můžete samozřejmě ztratit změny provedené od posledního commitu,
+ale jakmile jsou commitnuty, je velmi obtížné o ně přijít, zvláště pak pokud pravidelně zálohujete databázi do jiného repositáře.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Je pak radost používat Git, protože víme, že můžeme experimentovat bez nebezpečí, že bychom si něco vážně poškodili. Pro hlubší náhled do problematiky,
+jak Git ukládá data a jak se můžete vrátit k datům, která vypadají, že jsou ztracena, si přečtěte kapitolu 9.
 
-### The Three States ###
+### Tři stavy ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Teď dávejte pozor. Tohle je hlavní věc, kterou si u Gitu musíte pamatovat, pokud chcete, aby vaše další studium Gitu šlo hladce.
+Git má tři základní stavy, kterých můžou vaše soubory nabývat: "commited", "modified" a "staged"[^3].
+Commited znamená, že data jsou bezpečně uložena v místní databázi. Modified znamená, že soubor byl oproti poslednímu předání změněn.
+A staged je ten soubor, u kterého máte značku, že bude v této verzi zařazen do nejbližšího commitu.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
+[^3]: Pozn. překl.: Vzhledem k neexistující lokalizaci Gitu do češtiny budu nadále používat tyto anglické výrazy,
+=======
+[^3] Pozn. překl.: Vzhledem k neexistující lokalizaci Gitu do češtiny budu nadále používat tyto anglické výrazy,
+>>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
+se kterými se v Gitu setkáte de facto na každém rohu narozdíl od českých ekvivalentů.
+
+To nás vede ke třem hlavním sekcím projektu v Gitu: Git directory, working directory a staging area[^4].
+
+<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
+[^4]: Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
+=======
+[^4] Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
+>>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory
+Figure 1-6. Git directory, working directory a staging area
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git directory je místo, kde Git skladuje svoje vnitřní data a databázi objektů vašeho projektu. To je ta nejdůležitější část Gitu,
+která se kopíruje, pokud si stahujete repositář z jiného počítače.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Working directory je samotný obraz jedné verze spravovaného projektu. Jsou to soubory vytažené z databáze v Git directory
+a umístěné na disk, abyste je použili nebo měnili.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+Staging area je jednoduchý soubor, obvykle uložený ve vašem Git directory, který ukládá informace o tom, co bude součástí nejbližšího commitu.
+Občas je též nazýván index, ale v angličtině se postupně stává standardem označovat ho jako "staging area".
 
-The basic Git workflow goes something like this:
+Základní pracovní postup Gitu je pak zhruba takovýto:
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	Změníte soubory ve svém working directory.
+2.	Vložíte soubory do staging area.
+3.	Vytvoříte commit, který vezme všechny soubory tak, jak jsou ve staging area, a uloží tento snímek permanentně do Git directory.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Pokud je nějaká verze souboru v Git directory, je označována jako commited, pokud je upravena a vložena do staging area, je staged. A konečně
+pokud byla změněna a není staged, pak je modified. V kapitole 2 se dozvíte více o těchto stavech a jak můžete využít jejich výhod, nebo
+naopak úplně přeskočit staging area.
 
-## Installing Git ##
+## Instalujeme Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Ponořme se nyní do používání Gitu. Ale od začátku -- nejprve ho musíte nainstalovat; dá se získat mnoha způsoby -- dva hlavní jsou
+instalace ze zdrojových souborů a instalace už existujícího balíčku pro váš systém. 
 
-### Installing from Source ###
+### Instalujeme ze zdroje ###
 
 If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
 

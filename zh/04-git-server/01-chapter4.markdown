@@ -47,22 +47,21 @@ Git允许使用四种主要的协议进行数据传输：本地传输，SSH协�
 
 ### The SSH Protocol ###
 
-Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大多数地方本身已经支持 SSH 对服务器的访问——即使还没有，也很容易做到。
-Probably the most common transport protocol for Git is SSH. This is because SSH access to servers is already set up in most places — and if it isn’t, it’s easy to do. SSH is also the only network-based protocol that you can easily read from and write to. The other two network protocols (HTTP and Git) are generally read-only, so even if you have them available for the unwashed masses, you still need SSH for your own write commands. SSH is also an authenticated network protocol; and because it’s ubiquitous, it’s generally easy to set up and use.
+Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大多数地方本身已经支持 SSH 对服务器的访问——即使还没有，也很容易做到。SSH 也是唯一一个同时方便读和写操作的网络协议。另外两个网络协议（ HTTP 和 Git ）通常都是只读的，所以虽然二者对大多数人都可用，但为了写操作我们还是需要SSH。SSH 同时也是一个验证授权的网络协议；而因为其普遍性，通常也容易假设和使用。
 
-To clone a Git repository over SSH, you can specify ssh:// URL like this:
+通过 SSH 克隆一个Git仓库，需要指明向下面这样给出 ssh:// 的 URL：
 
 	$ git clone ssh://user@server:project.git
 
-Or you can not specify a protocol — Git assumes SSH if you aren’t explicit:
+或者不指明某个协议——这时Git会默认使用 SSH ：
 	
 	$ git clone user@server:project.git
 
-You can also not specify a user, and Git assumes the user you’re currently logged in as.
+也可以不指明用户，Git 会默认使用当前活动的用户。 
 
-#### The Pros ####
+#### （SSH 的）优点 ####
 
-The pros of using SSH are many. First, you basically have to use it if you want authenticated write access to your repository over a network. Second, SSH is relatively easy to set up — SSH daemons are commonplace, many network admins have experience with them, and many OS distributions are set up with them or have tools to manage them. Next, access over SSH is secure — all data transfer is encrypted and authenticated. Last, like the Git and Local protocols, SSH is efficient, making the data as compact as possible before transferring it.
+使用 SSH 的好处有很多。首先，为了授权对网络仓库的写操作，基本上不可能不使用SSH。其次，SSH 架设相对比较简单—— SSH 进程很常见，大多数网络管理员都有一些使用经验，而且很多操作系统都自带了它或者相关的管理工具。再次，通过 SSH 进行访问是安全的——所有数据传输都是加密和授权的。最后，类似 Git 和 本地协议，SSH 很高效，会在传输之前尽可能的压缩数据。
 
 #### The Cons ####
 

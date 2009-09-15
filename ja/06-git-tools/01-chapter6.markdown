@@ -121,10 +121,9 @@ SHA-1 の衝突を見るにはどうしたらいいのか、ひとつの例を�
 
 参照ログの情報は、完全にローカルなものであることに気をつけましょう。これは、あなた自身が自分のリポジトリで何をしたのかを示す記録です。つまり、同じリポジトリをコピーした別の人の参照ログとは異なる内容になります。また、最初にリポジトリをクローンした直後の参照ログは空となります。まだリポジトリ上であなたが何もしていないからです。`git show HEAD@{2.months.ago}` が動作するのは、少なくとも二ヶ月以上前にそのリポジトリをクローンした場合のみで、もしつい 5 分前にクローンしたばかりなら何も結果を返しません。
 
-### Ancestry References ###
+### 家系の参照 ###
 
-The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
-Suppose you look at the history of your project:
+コミットを特定する方法として他によく使われるのが、その家系をたどっていく方法です。参照の最後に `^` をつけると、Git はそれを「指定したコミットの親」と解釈します。あなたのプロジェクトの歴史がこのようになっていたとしましょう。
 
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
@@ -136,7 +135,7 @@ Suppose you look at the history of your project:
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD":
+直前のコミットを見るには `HEAD^` を指定します。これは "HEAD の親" という意味になります。
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -146,7 +145,7 @@ Then, you can see the previous commit by specifying `HEAD^`, which means "the pa
 
 	    Merge commit 'phedders/rdocs'
 
-You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:
+`^` の後に数字を指定することもできます。たとえば `d921970^2` は "d921970 の二番目のの親" という意味になります。これが役立つのはマージコミット (親が複数存在する) のときくらいでしょう。最初の親はマージを実行したときにいたブランチとなり、二番目の親は取り込んだブランチ上のコミットとなります。
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -162,7 +161,7 @@ You can also specify a number after the `^` — for example, `d921970^2` means "
 
 	    Some rdoc changes
 
-The other main ancestry specification is the `~`. This also refers to the first parent, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means "the first parent of the first parent," or "the grandparent" — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
+家系の指定方法としてもうひとつよく使うのが `~` です。これも最初の親を指します。つまり `HEAD~` と `HEAD^` は同じ意味になります。違いが出るのは、数字を指定したときです。`HEAD~2` は "最初の親の最初の親" つまり "祖父母" という意味になります。指定した数だけ、順に最初の親をさかのぼっていくことになります。たとえば、先ほど示したような歴史上では `HEAD~3` は次のようになります。
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -171,7 +170,7 @@ The other main ancestry specification is the `~`. This also refers to the first 
 
 	    ignore *.gem
 
-This can also be written `HEAD^^^`, which again is the first parent of the first parent of the first parent:
+これは `HEAD^^^` のようにあらわすこともできます。これは「最初の親の最初の親の最初の親」という意味になります。
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -180,7 +179,7 @@ This can also be written `HEAD^^^`, which again is the first parent of the first
 
 	    ignore *.gem
 
-You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
+これらふたつの構文を組み合わせることもできます。直近の参照 (マージコミットだったとします) の二番目の親を取得するには `HEAD~3^2` などとすればいいのです。
 
 ### Commit Ranges ###
 

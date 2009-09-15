@@ -245,13 +245,13 @@ Als je ooit hulp nodig hebt terwijl je Git gebruikt, hier zijn drie manieren om 
 	$ git <actie> --help
 	$ man git-<actie>
 
-Bijvoorbeeld, je kan de manpage voor het commando `git config` krijgen door het volgende uit te voeren:
+Bijvoorbeeld, je kunt de gebruikershandleiding voor het commando `git config` krijgen door het volgende te typen:
 
 	$ git help config
 
-Deze commando's zijn fijn omdat je ze overal kan bekijken, zelfs als je offline bent.
-Als de gebruiksaanwijzing en dit boek niet genoeg zijn en je persoonlijke hulp nodig hebt, kan je de channels (een soort kamers) `#git` of `#github` (beiden Engelstalig) op de IRC server van Freenode (irc.freenode.net) proberen. Deze channels zijn regelmatig gevuld met honderden mensen die allemaal veel weten over Git en vaak bereid zijn te helpen.
+Deze commando's zijn fijn omdat je ze overal kunt opvragen, zelfs als je offline bent.
+Als de gebruiksaanwijzing en dit boek niet genoeg zijn en je persoonlijke hulp nodig hebt, kan je de kanalen `#git` of `#github` (beiden Engelstalig) op de Freenode IRC (irc.freenode.net) proberen. Deze kanalen zijn regelmatig gevuld met honderden mensen die allemaal zeer vakkundig zijn over Git en vaak bereid zijn te helpen.
 
-## Conclusie ##
+## Samenvatting ##
 
-Je zou nu een beetje een idee moeten hebben van wat Git is en op wat voor manieren het verschilt van de CVCS die je misschien eerder gebruikte. Je zou nu ook een werkende versie van Git op je systeem moeten hebben dat is ingesteld met jouw identiteit. Nu is het tijd om de basis van Git te gaan leren.
+Je zou nu een beetje een idee moeten hebben van wat Git is en op wat voor manieren het verschilt van het versiebeheersysteem dat je misschien eerder gebruikte. Je zou nu ook een werkende versie van Git op je systeem moeten hebben, dat is ingesteld met jouw identiteit. Nu is het tijd om de basis van Git te gaan leren.

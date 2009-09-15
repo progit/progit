@@ -63,9 +63,9 @@ Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大�
 
 使用 SSH 的好处有很多。首先，为了授权对网络仓库的写操作，基本上不可能不使用SSH。其次，SSH 架设相对比较简单—— SSH 进程很常见，大多数网络管理员都有一些使用经验，而且很多操作系统都自带了它或者相关的管理工具。再次，通过 SSH 进行访问是安全的——所有数据传输都是加密和授权的。最后，类似 Git 和 本地协议，SSH 很高效，会在传输之前尽可能的压缩数据。
 
-#### The Cons ####
+#### ( SSH 的）缺点 ####
 
-The negative aspect of SSH is that you can’t serve anonymous access of your repository over it. People must have access to your machine over SSH to access it, even in a read-only capacity, which doesn’t make SSH access conducive to open source projects. If you’re using it only within your corporate network, SSH may be the only protocol you need to deal with. If you want to allow anonymous read-only access to your projects, you’ll have to set up SSH for you to push over but something else for others to pull over.
+SSH 的限制在于你不能通过它实现仓库的匿名访问。即使仅为读取数据，人们也必须在能通过 SSH 访问主机的前提下才能访问仓库，这对于开源工程没什么帮助。如果你仅仅在公司网络里使用，SSH 可以是你唯一需要使用的协议。如果想允许对项目的匿名只读访问，那么除了为自己推送设定 SSH 协议之外还需要更多工作来让别人获取数据。
 
 ### The Git Protocol ###
 

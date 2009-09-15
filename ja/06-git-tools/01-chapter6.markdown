@@ -181,9 +181,9 @@ SHA-1 の衝突を見るにはどうしたらいいのか、ひとつの例を�
 
 これらふたつの構文を組み合わせることもできます。直近の参照 (マージコミットだったとします) の二番目の親を取得するには `HEAD~3^2` などとすればいいのです。
 
-### Commit Ranges ###
+### コミットの範囲指定 ###
 
-Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
+個々のコミットを指定できるようになったので、次はコミットの範囲を指定する方法を覚えていきましょう。これは、ブランチをマージするときに便利です。たくさんのブランチを持っている場合など「で、このブランチの作業のなかでまだメインブランチにマージしていないのはどれだったっけ?」といった疑問に答えるために範囲指定を使えます。
 
 #### Double Dot ####
 

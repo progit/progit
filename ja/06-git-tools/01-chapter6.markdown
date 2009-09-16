@@ -209,20 +209,20 @@ experiment ブランチの内容のうち、まだ master ブランチにマー�
 
 このコマンドは、現在のブランチ上でのコミットのうち、リモート `origin` の `master` ブランチに存在しないものをすべて表示します。現在のブランチが `origin/master` を追跡しているときに `git push` を実行すると、`git log origin/master..HEAD` で表示されたコミットがサーバに転送されます。この構文で、どちらか片方を省略することもできます。その場合、Git は省略したほうを HEAD とみなします。たとえば、`git log origin/master..` と入力すると先ほどの例と同じ結果が得られます。Git は、省略した側を HEAD に置き換えて処理を進めるのです。
 
-#### Multiple Points ####
+#### 複数のポイント ####
 
-The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
+ダブルドット構文は、とりあえず使うぶんには便利です。しかし、二つよりもっと多くのブランチを指定してリビジョンを特定したいこともあるでしょう。複数のブランチの中から現在いるブランチには存在しないコミットを見つける場合などです。Git でこれを行うには `^` 文字を使うか、あるいはそこからたどりつけるコミットが不要な参照の前に `--not` をつけます。これら三つのコマンドは、同じ意味となります。
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+これらの構文が便利なのは、二つよりも多くの参照を使って指定できるというところです。ダブルドット構文では二つの参照しか指定できませんでした。たとえば、`refA` と `refB` のどちらかからはたどれるけれども `refC` からはたどれないコミットを取得したい場合は、次のいずれかを実行します。
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-This makes for a very powerful revision query system that should help you figure out what is in your branches.
+この非常に強力なリビジョン問い合わせシステムを使えば、今あなたのブランチに何があるのかを知るのに非常に役立つことでしょう。
 
 #### Triple Dot ####
 

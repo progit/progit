@@ -265,9 +265,9 @@ Git には、コマンドラインでの作業をしやすくするためのス�
 
 Commands セクションでは、さまざまなことができるようになっています。ファイルをステージしたりステージングエリアから戻したり、ファイルの一部だけをステージしたりまだ追跡されていないファイルを追加したり、あるいは何がステージされたのかを diff で見たりといったことが可能です。
 
-### Staging and Unstaging Files ###
+### ファイルのステージとその取り消し ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+`What now>` プロンプトで `2` または `u` と入力すると、どのファイルをステージするかを聞いてきます。
 
 	What now> 2
 	           staged     unstaged path
@@ -276,7 +276,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+TODO と index.html をステージするには、その番号を入力します。
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -285,7 +285,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+ファイル名の横に `*` がついていれば、そのファイルがステージ対象として選択されたことを意味します。`Update>>` プロンプトで何も入力せずに Enter を押すと、選択されたすべてのファイルを Git がステージします。
 
 	Update>> 
 	updated 2 paths
@@ -299,7 +299,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+TODO と index.html がステージされ、simplegit.rb はまだステージされていないままです。ここで仮に TODO ファイルのステージを取り消したくなったとしたら、`3` あるいは `r` (revert の r) を選択します。
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -317,7 +317,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+もう一度 Git のステータスを見ると、TODO ファイルのステージが取り消されていることがわかります。
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -328,7 +328,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+ステージした変更の diff を見るには、`6` あるいは `d` (diff の d) を使用します。このコマンドは、ステージしたファイルの一覧を表示します。その中から、ステージされた diff を見たいファイルを選択します。これは、コマンドラインで `git diff --cached` を使用するのと同じようなことです。
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -350,7 +350,7 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+これらの基本的なコマンドを使えば、ステージングエリアでの対話的な追加モードを多少簡単に扱えるようになるでしょう。
 
 ### Staging Patches ###
 

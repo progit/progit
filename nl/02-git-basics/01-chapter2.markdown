@@ -320,7 +320,7 @@ Onthoud dat de commit de snapshot, die je in je staging gebied ingesteld hebt, o
 
 ### Het Staging Gebied overslaan ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+Alhoewel het ontzettend makkelijk kan zijn om commits precies zoals je wilt te maken, is het staging gebied soms iets ingewikkelder dan je in je manier van werken nodig hebt. Als je het staging gebied wilt overslaan, dan biedt Git een makkelijke route binnendoor. Door de `-a` optie aan het `git commit` commando mee te geven, zal Git automatisch ieder bestand dat al getracked wordt voor de commit stagen, zodat je het `git add` gedeelte kunt overslaan:
 
 	$ git status
 	# On branch master
@@ -333,13 +333,13 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+Let op dat je nu geen `git add` op het benchmarks.rb bestand hoeft te doen voordat je commit.
 
-### Removing Files ###
+### Bestanden Verwijderen ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+Om een bestand van Git te verwijderen, moet je het van de tracked bestanden verwijderen (om precies te zijn, verwijderen van je staging gebied) en dan een commit doen. Het `git rm` commando doet dat, en verwijderd het bestand ook van je werkmap zodat je het de volgende keer niet als een untracked bestand ziet.
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+Als je het bestand simpelweg verwijderd uit je werkmap, zal het te zien zijn onder het "Changed but not updated" (dat wil zeggen, _unstaged_) gedeelte van je `git status` output:
 
 	$ rm grit.gemspec
 	$ git status
@@ -351,7 +351,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+Als je daarna `git rm` uitvoerd, zal de verwijdering van het bestand gestaged worden:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -364,31 +364,31 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+Als je de volgende keer een commit doet, zal het bestand verdwenen zijn en niet meer getracked worden. Als je het bestand veranderd hebt en al aan de index toegevoegd hebt, dan zul je de verwijdering moeten forceren met de `-f` optie. Dit is een veiligheids maatregel om te voorkomen dat je per ongeluk data die nog niet in een snapshot zit, en dus niet teruggehaald kan worden uit Git, weggooit.
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+Een ander handigheidje wat je misschien wilt doen is het bestand in je werkmap houden, maar van je staging gebied verwijderen. Met andere woorden, je wilt het bestand misschien op je harde schijf bewaren, maar niet dat Git het bestand nog tracked. Dit is erg handig als je iets vergeten bent aan je `.gitignore` bestand toe te voegen, en het per ongeluk toegevoegd hebt. Zoals een groot logbestand, of een serie `.a` gecompileerde bestanden. Gebruik de `--cached` optie om dit te doen:
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+Je kunt bestanden, mappen en bestandspatronen aan het `git rm` commando meegeven. Dat betekend dat je zoiets als dit kunt doen
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+Let op de backslash (`\`) voor de `*`. Dit is nodig omdat Git zijn eigen bestandsnaam expansie doet, naast die van je shell. Dit commando verwijderd alle bestanden die de `.log` extensie hebben in de `log/` map. Of, je kunt zoiets als dit doen:
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+Dit commando verwijderd alle bestanden die eindigen met `~`.
 
-### Moving Files ###
+### Bestanden Verplaatsen ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Anders dan vele andere VCS systemen, traceert Git niet expliciete verplaatsingen van bestanden. Als je een bestand een nieuwe naam geeft in Git, is er geen metadata opgeslagen in Git die verteld dat je het bestand hernoemt hebt. Maar, Git is slim genoeg om dit alsnog te zien – we zullen bestandsverplaatsing detectie wat later behandelen.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+Het is daarom een beetje verwarrend dat Git een `mv` commando heeft. Als je een bestand wilt hernoemen in Git, kun je zoiets als dit doen
 
 	$ git mv file_from file_to
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+en dat werkt prima. Sterker nog, als je zoiets als dit uitvoert en naar de status kijkt, zul je zien dat Git het als een hernoemd bestand beschouwd:
 
 	$ git mv README.txt README
 	$ git status
@@ -401,23 +401,23 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+Maar, dat is gelijk aan het volgende uitvoeren:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git komt er impliciet achter dat het om een hernoemd bestand gaat, dus het maakt niet uit of je een bestand op deze manier hernoemd of met het `mv` commando. Het enige echte verschil is dat het `mv` commando slechts één commando is in plaats van drie. En belangrijker nog is dat je iedere applicatie kunt gebruiken om een bestand te hernoemen, en de add/rm later kunt behandelen, voordat je commit.
 
-## Viewing the Commit History ##
+## De Commit Geschiedenis Bekijken ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+Nadat je een aantal commits gecrëeerd hebt, of als je een repository met een bestaande commit geschiedenis gecloned hebt, zul je waarschijnlijk terug willen zien wat er gebeurd is. Het meest basale en krachtige tool om dit te doen is het `git log` commando.
 
-These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run 
+Deze voorbeelden maken gebruik van een eenvoudig project genaamd simplegit dat ik vaak voor demonstraties gebruikt. Om het project te halen, voer dit uit
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+Als je `git log` in dit project uitvoert, zou je output moeten krijgen die er ongeveer zo uitziet:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -438,11 +438,11 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+Zonder argumenten toont `git log` de commits die gedaan zijn in dat repository, in omgekeerde chronologische volgorde. Dat wil zeggen, de meest recente commits worden als eerste getoond. Zoals je kunt zien, toont dit commando iedere commit met zijn SHA-1 checksum, de naam van de maker en zijn e-mail, de datum van opslaan, en de commit boodschap.
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+Een gigantisch aantal en varieteit aan opties zijn op het `git log` commando beschikbaar om je precies te laten zien waar je naar op zoek bent. Hier laten we je de meest gebruikte opties zien.
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+Een van de meest behulpzame opties is `-p`, wat de diff laat zien van de dingen die in iedere commit geintroduceerd zijn. Je kunt ook `-2` gebruiken, om alleen de laatste twee items te laten zien:
 
 	$ git log –p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -482,8 +482,8 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+Deze optie toont dezelfde informatie, maar dan met een diff volgend op ieder item. Dit is erg handig voor een code review, of om snel te zien wat er tijdens een serie commits gebeurd is die een medewerker toegevoegd heeft.
+Je kunt ook een serie samenvattende opties met `git log` gebruiken. Bijvoorbeeld, als je wat verkorte statistieken bij iedere commit wilt zien, kun je de `--stat` optie gebruiken:
 
 	$ git log --stat 
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -515,43 +515,43 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+Zoals je ziet, drukt de `--stat` optie onder iedere commit een lijst gewijzigde bestanden af, hoeveel bestanden gewijzigd zijn, en hoeveel regels in die bestanden zijn toegevoegd en verwijderd. Het toont ook een samenvatting van de informatie aan het einde.
+Een andere handige optie is `--pretty`. Deze optie veranderd de log output naar een ander formaat dan de standaard. Er zijn al een paar voorgebouwde opties voor je beschikbaar. De oneline optie drukt iedere commit op een enkele regel af, wat handig is als je naar een hoop commits kijkt. Daarnaast tonen de `short`, `full` en `fuller` optie de output in grofweg hetzelfde formaat, maar met minder of meer informatie, respektievelijk: 
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+De meest interessante optie is `format`, waarmee je je eigen log formaat kunt specificeren. Dit is in het bijzonder handig als je output aan het genereren bent voor een tool – omdat je expliciet het formaat kan specificeren, weet je dat het niet zal veranderen bij volgende versies van Git:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+Tabel 2-1 toont een aantal handige opties die aan format gegeven kunnen worden.
 
-	Option	Description of Output
+	Optie	Omschrijving van de Output
 	%H	Commit hash
-	%h	Abbreviated commit hash
+	%h	Afgekorte commit hash
 	%T	Tree hash
-	%t	Abbreviated tree hash
+	%t	Afgekorte tree hash
 	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+	%p	Afgekorte parent hashes
+	%an	Auteur naam
+	%ae	Auteur e-mail
+	%ad	Auteur datum (formaat respecteerd de –date= optie)
+	%ar	Auteur datum, relatief
+	%cn	Committer naam
+	%ce	Committer e-mail
+	%cd	Committer datum
+	%cr	Committer datum, relatief
+	%s	Onderwerp
 
-You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+Je zult je misschien afvragen wat het verschil is tussen _author_ en _committer_. De auteur is de persoon die het werk oorspronkelijk geschreven heeft, en de committer is de persoon die het werk als laatste toegevoegd heeft. Dus als je een patch naar een project stuurt en een van de leden voegt de patch toe, dan krijgen jullie beiden de eer – jij als de auteur en het kernlid als de committer. We gaan hier wat verder op in in Hoofdstuk 5.
 
-The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
+De oneline en format opties zijn erg handig in combinatie met een andere `log` optie genaamd `--graph`. Deze optie maakt een mooie ASCII grafiek waarin je branch en merge geschiedenis getoond worden, die we kunnen zien in onze kopie van de Grite repository:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -565,18 +565,18 @@ The oneline and format options are particularly useful with another `log` option
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
+Dat zijn slechts een paar simpele output formaat opties voor `git log` – er zijn er nog veel meer. Tabel 2-2 toont de opties waarover we het tot nog toe gehad hebben, en wat veel voorkomende formaat opties die je misschien handig vindt, samen met hoe ze de output van het log commando veranderen.
 
-	Option	Description
-	-p	Show the patch introduced with each commit.
-	--stat	Show statistics for files modified in each commit.
-	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
+	Optie	Omschrijving
+	-p	Toon de patch geintroduceerd bij iedere commit.
+	--stat	Toon statistieken voor gewijzigde bestanden in iedere commit.
+	--shortstat	Toon alleen de gewijzigde/ingevoegde/verwijderde regel van het --stat commando.
+	--name-only	Toon de lijst van bestanden die gewijzigd zijn na de commit informatie.
+	--name-status	Toon ook de lijst van bestanden die beinvloed zijn door de toegevoegde/gewijzigde/verwijderde informatie.
+	--abbrev-commit	Toon alleen de eerste paar karakteres van de SHA-1 checksum in plaats van alle 40.
 	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
-	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+	--graph	Display Een ASCII grafiek van de branch en merge geschiedenis naast de the log output.
+	--pretty	Toon commits in een alternatief formaat. De opties bevatten oneline, short, full, fuller, en format (waarbij je je eigen formaat specificeert).
 
 ### Limiting Log Output ###
 

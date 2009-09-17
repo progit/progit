@@ -578,30 +578,30 @@ Dat zijn slechts een paar simpele output formaat opties voor `git log` – er zi
 	--graph	Display Een ASCII grafiek van de branch en merge geschiedenis naast de the log output.
 	--pretty	Toon commits in een alternatief formaat. De opties bevatten oneline, short, full, fuller, en format (waarbij je je eigen formaat specificeert).
 
-### Limiting Log Output ###
+### Log Output Limiteren ###
 
-In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+Naast het formateren van de output, heeft git log nog een aantal bruikbare limiterende opties – dat wil zeggen, opties die je een subset van de commits tonen. Je hebt zo'n optie al gezien – de `-2` optie, die slechts de laatste twee commits laat zien. In feite kun je `-<n>` doen, waarbij `n` ieder heel getal is wat de laatste `n` commits laat zien. In feite zul je deze vorm weinig gebruiken, omdat Git standaard alle output door een pager (pagineer applicatie) stuurt zodat je één pagina log output per keer ziet.
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+Maar, de tijd limiterende opties zoals `--since` en `--until` zijn erg handig. Dit commando bijvoorbeeld, geeft een lijst met commits die gedaan zijn gedurende de laatste twee weken:
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+Dit commando werkt met veel formaten – je kunt een specifieke datum kiezen ("2008-01-15”) of een relatieve datum zoals "2 jaar 1 dag en 3 minuten geleden".
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+Je kunt ook de lijst met commits filteren op bepaalde criteria. De `--author` optie laat je filteren op een specifieke auteur, en de `--grep` optie laat je op bepaalde zoekwoorden filteren in de commit boodschappen. (Let op dat als je zowel auteur als grep opties wilt specificeren, je `--all-match` moet toevoegen of anders zal het commando beiden matchen.)
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+De laatste echt handige optie om aan `git log` als filter mee te geven is een pad. Als je een map of bestandsnaam op geeft, kun je de log output limiteren tot commits die een verandering introduceren op die bestanden. Dit is altijd de laatste optie en wordt over het algemeen vooraf gegaan door dubbele streepjes (`--`) om de paden van de opties te scheiden.
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+In Tabel 2-3 laten we deze en een paar andere veel voorkomende opties zien als referentie.
 
-	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+	Optie	Omschrijving
+	-(n)	Laat alleen de laatste n commits zien
+	--since, --after	Limiteer de commits tot degenen na de gegeven datum.
+	--until, --before	Limiteer de commits tot degenen voor de gegeven datum.
+	--author	Laat alleen de commits zien waarvan de auteur bij de gegeven tekst past.
+	--committer	Laat alleen de commits zien waarvan de committer bij de gegeven tekst past.
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+Bijvoorbeeld, als je wilt zien welke commits test bestanden in de Git broncode geschiedenis aanpasten waarvan de committer Junio Hamano is en die niet in de maand oktober van 2008 gemerged zijn, kun je zoiets als dit uitvoeren:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -612,42 +612,42 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+Van de bijna 20.000 commits in de Git broncode historie, laat dit commando de 6 zien die bij die criteria passen.
 
-### Using a GUI to Visualize History ###
+### Een Grafische Interface Gebruiken Om De Historie Te Visualiseren ###
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
+Als je een meer grafische applicatie wilt gebruiken om je commit historie te visualiseren, wil je misschien een kijkje nemen naar het Tcl/Tk programma genaamd gitk dat met Git meegeleverd wordt. Gitk is eigenlijk een visuele `git log`, en het accepteerd bijna alle filter opties die `git log` ook accepteerd. Als je gitk in de shell in je project typed, zou je zoiets als in Figuur 2-2 moeten zien.
 
 Insert 18333fig0202.png 
-Figure 2-2. The gitk history visualizer.
+Figuur 2-2. De gitk historie visualiseerder.
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+Je kunt de commit historie in de bovenste helft van het scherm zien, samen met een afkomst graaf. De diff in de onderste helft van het scherm laat je de veranderingen zien die bij iedere commit die je aanklikt geintroduceerd zijn.
 
-## Undoing Things ##
+## Dingen Ongedaan Maken ##
 
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always undo some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+Op ieder moment wil je misschien iets ongedaan maken. Hier zullen we een aantal basis applicaties laten zien om veranderingen die je gemaakt hebt weer ongedaan te maken. Let op, je kunt niet altijd het ongedaan maken weer ongedaan maken. Dit is één van de weinige gedeeltes in Git waarbij je werk kwijt kunt raken als je het verkeerd doet.
 
-### Changing Your Last Commit ###
+### Je Laatste Commit Veranderen ###
 
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+Een van de veel voorkomende ongedaan maak acties vindt plaats als je te vroeg commit en misschien vergeet een aantal bestanden toe te voegen, of je verknald je commit boodschap. Als je opnieuw wilt proberen te committen, dan kun je commit met de `--ammend` optie uitvoeren:
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+Dit commando neemt je staging gebied en gebruikt dit voor de commit. Als je geen veranderingen sinds je laatste commit hebt gedaan (bijvoorbeeld, je voert dit commando meteen na je laatste commit uit), dan zal je snapshot er precies hetzelfde uitzien en zal je commit boodschap het enige zijn dat je veranderd.
 
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+Dezelfde commit-boodschap editor start op, maar het bevat meteen de boodschap van je vorige commit. Je kunt de boodschap net als andere keren aanpassen, maar het overschrijft je vorige commit.
 
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+Als voorbeeld, als je commit en je dan realiseert dat je vergeten bent de veranderingen in een bestand dat je wou toevoegen in deze commit te stagen, dan kun je zoiets als dit doen:
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second commit replaces the results of the first.
+Alledrie van deze commando's eindigen met één commit – de tweede commit vervangd de resultaten van de eerste.
 
-### Unstaging a Staged File ###
+### Een Staged Bestand Unstagen ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+De volgende twee paragrafen laten zien hoe je je staging gebied en veranderingen in je werkmappen aanpakt. Het leuke gedeelte is dat het commando dat je gebruikt om de status van die gebieden te bepalen, je ook herinnerd hoe je de veranderingen eraan ongedaan kunt maken. Bijvoorbeeld, stel dat je twee bestanden gewijzigd hebt en je wilt ze committen als twee aparte veranderingen, maar je typed per ongeluk `git add *` en staged ze allebei. Hoe kun je één van de twee nu unstagen? Het `git status` commando herinnerd je eraan:
 
 	$ git add .
 	$ git status
@@ -659,7 +659,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+Recht onder de "Changes to be committed" tekst, staat dat je `git reset HEAD <bestand>...` moet gebruiken om te unstagen. Laten we dat advies volgen om het benchmarks.rb bestand te unstagen:
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -679,9 +679,9 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 
 The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
 
-### Unmodifying a Modified File ###
+### Een Gewijzigd Bestand Ongedaan Maken ###
 
-What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
+Wat als je je realiseert dat je je wijzigingen aan het benchmarks.rb bestand niet wilt houden? Hoe kun je dit makkelijk ongedaan maken – terug brengen in de staat waarin het was toen je voor het laatst gecommit hebt (of initieel gecloned, of hoe je het ook in je werkmap gekregen hebt)? Gelukkig verteld `git status` je ook hoe je dat moet doen. In de laatse voorbeeld output, ziet het unstaged gebied er zo uit:
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -690,7 +690,7 @@ What if you realize that you don’t want to keep your changes to the benchmarks
 	#       modified:   benchmarks.rb
 	#
 
-It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
+Het vertelt je behoorlijk expliciet hoe je je veranderingen moet weggooien (tenminste, de nieuwere versies van Git, 1.6.1 of nieuwer, doen dit – als je een oudere versie hebt, raden we je ten zeerste aan om het te upgraden zodat je een aantal van deze fijne bruikbaarheids opties krijgt). Laten we eens doen wat er staat:
 
 	$ git checkout -- benchmarks.rb
 	$ git status

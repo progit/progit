@@ -135,11 +135,17 @@ Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the 
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
+Вот и все. Обработчик `post-update`, входящий в состав Git по умолчанию выполняет необходимую команду (`git update-server-info`), чтобы обеспечить правильное скачивание и клонирование репозитория. Эта команда выполняется когда вы обновляете репозиторий через SSH, благодаря чему репозиторий можно склонировать командой:
+
 That’s all. The `post-update` hook that comes with Git by default runs the appropriate command (`git update-server-info`) to make HTTP fetching and cloning work properly. This command is run when you push to this repository over SSH; then, other people can clone via something like
 
 	$ git clone http://example.com/gitproject.git
 
+В рассмотреном примере, мы использовали каталог `var/www/htdocs`, обычно используемый сервером Apache, но вы можете использовать любой веб-сервер, отдающий статический контент, расположив чистый репозиторий в нужном каталоге. Данные Git представляют собой обычные файлы (в главе 9 предоставление данных рассматривается более подробно).
+
 In this particular case, we’re using the `/var/www/htdocs` path that is common for Apache setups, but you can use any static web server — just put the bare repository in its path. The Git data is served as basic static files (see Chapter 9 for details about exactly how it’s served).
+
+Также возможна настройка Git, для доступа на запись через HTTP, однако этот способ мало распространен и требует от вас насройки WebDAV. Поскольку этот способ редко используется, мы не будем рассматривать его в рамках этой книги. 
 
 It’s possible to make Git push over HTTP as well, although that technique isn’t as widely used and requires you to set up complex WebDAV requirements. Because it’s rarely used, we won’t cover it in this book. If you’re interested in using the HTTP-push protocols, you can read about preparing a repository for this purpose at `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. One nice thing about making Git push over HTTP is that you can use any WebDAV server, without specific Git features; so, you can use this functionality if your web-hosting provider supports WebDAV for writing updates to your web site.
 

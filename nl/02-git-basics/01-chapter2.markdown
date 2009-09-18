@@ -766,29 +766,29 @@ Nu kun je de naam pb in de shell gebruiken in plaats van de hele URL. Bijvoorbee
 
 Paul zijn master branch is lokaal toegankelijk als `pb/master` – je kunt het in een van jouw branches mergen, of je kunt een lokale branch uitchecken op dat punt als je het wil zien.
 
-### Fetching and Pulling from Your Remotes ###
+### Van Je Remotes Fetching En Pullen ###
 
-As you just saw, to get data from your remote projects, you can run:
+Zoals je zojuist gezien hebt, kun je om data van je remote projecten te halen dit uitvoeren:
 
 	$ git fetch [remote-name]
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
+Het commando gaat naar het remote project en haalt alle data van dat remote project dat jij nog niet hebt. Nadat je dit gedaan hebt, zou je references (referenties) naar alle branches van dat remote moeten hebben, die je op ieder tijdstip kunt mergen en bekijken. (We zullen zien wat branches precies zijn, en hoe je ze moet gebruiken in meer detail in Hoofstuk 3.) 
 
-If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+Als je een repository cloned, voegt dat commando dat remote repository automatisch toe onder de naam origin. Dus `git fetch origin` fetched (haalt) ieder nieuw werk dat gepushed is naar die server sinds je gecloned hebt (of voor het laatst ge-fetched hebt). Het is belangrijk om te weten dat het fetch commando de data naar je locale repository haalt – het merged niet automatisch met je werk of veranderd waar je momenteel aan zit te werken. Je kunt het handmatig in je werk mergen als je er klaar voor bent.
 
-If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+Als je een branch geconfigureerd hebt om een remote branch te tracken (volgen) (zie de volgende sectie en Hoofdstuk 3 voor meer informatie), dan kun je het `git pull` commando gebruiken om automatisch een remote branch te fetchen en mergen in je huidige branch. Dit kan makkelijker of meer comfortabel zijn voor je werkwijze; en standaard stelt het `git clone` commando je lokale master branch zo in dat het de remote master branch van de server waarvan je gecloned hebt volgt (aangenomen dat de remote een master branch heeft). Over het algemeen zal een `git pull` dat van de server waarvan je origineel gecloned hebt halen en proberen het automatisch in de code waar je op dat moment aan zit te werken te mergen.
 
-### Pushing to Your Remotes ###
+### Je Remotes Pushen ###
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+Wanneer je je project op een punt krijgt dat je het wilt delen, dan moet je het stroomopwaarts pushen. Het commando hiervoor is simpel: `git push [remote-name] [branch-name]`. Als je je master branch naar je `origin` server wilt pushen (nogmaals, over het algemeen zet clonen beide namen automatisch goed voor je), dan kun je dit uitvoeren om je werk terug op de server te pushen:
 
 	$ git push origin master
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
+Dit commando werkt alleen als je gecloned hebt van een server waarop je schrijf toegang hebt, en als niemand in de tussentijd gepushed heeft. Als jij en iemand anders op hetzelfde tijdstip gecloned hebben en zij pushen stroomopwaarts en dan jij, dan zal je push terecht geweigerd worden. Je zult eerst hun werk moeten pullen en in jouw werk verwerken voordat je toegestaand wordt te pushen. Zie Hoofstuk 3 voor meer gedetaileerde informatie over hoe je naar remote servers moet pushen.
 
-### Inspecting a Remote ###
+### Een Remote Inspecteren ###
 
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+Als je meer informatie over een bepaalde remote wilt zien, kun je het `git remote show [remote-name]` commando gebruiken. Als je dit commando met een bepaalde alias uitvoert, zoals `origin`, dan krijg je zoiets als dit:
 
 	$ git remote show origin
 	* remote origin
@@ -799,9 +799,9 @@ If you want to see more information about a particular remote, you can use the `
 	    master
 	    ticgit
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+Het toont de URL voor de remote repository, samen met de tracking branch informatie. Het commando verteld je behulpzaam dat als je op de master branch zit, en je voert `git pull` uit, dan zal het automatisch de master branch op de remote mergen nadat het alle remote references gehaald heeft. Het toont ook alle remote referenties die het gepulled heeft.
 
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+Dat is een eenvoudig voorbeeld dat je vaak tegenkomt. Als je Git meer intens gebruikt, zul je veel meer informatie van `git remote show` krijgen:
 
 	$ git remote show origin
 	* remote origin
@@ -825,40 +825,40 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+Dit commando toont welke branch automatisch gepushed wordt als je `git push` uitvoert op bepaalde branches. Het toont je ook welke remote branches op de server je nog niet hebt, welke remote branches je hebt die verwijderd zijn van de server, en meerdere branches die automatisch gemerged worden als je `git pull` uitvoerd.
 
-### Removing and Renaming Remotes ###
+### Remotes Verwijderen En Hernoemen ###
 
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+Als je een referentie wilt hernoemen, dan kun je in nieuwere versie van Git `git remote rename` uitvoeren om een alias van een remote te wijzigen. Bijvoorbeeld, als je `pb` wilt hernoemen naar `paul`, dan kun je dat doen met `git remote rename`:
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+Het is de moeite om te melden dat dit ook je remote branch naam veranderd. Wat voorheen gerefereerd werd als `pb/master` is nu `paul/master`.
 
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+Als je om een of andere reden een referentie wilt verwijderen – je hebt de server verplaatst of je gebruikt een bepaalde spiegel niet meer, of een medewerker doet niet meer mee – dan kun je `git remote rm` gebruiken:
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
-## Tagging ##
+## Labelen ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+Zoals de meeste VCS'en, heeft git de mogelijkheid om specifieke punten in de history als belangrijk te taggen (labelen). Over het algemeen gebruiken mensen deze functionaliteit om versie punten te markeren (v1.0, en verder). In deze sectie zul je leren hoe de beschikbare tags te tonen, hoe nieuwe tags te crëeren, en wat de verschillende typen tags zijn.
 
-### Listing Your Tags ###
+### Je Tags Laten Zien ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+De beschikbare tags in Git laten zien is rechttoe rechtaan. Type gewoon `git tag`:
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+Dit commando toont de tags in alfabetische volgorde; de volgorde waarin ze verschijnen heeft geen echt belang.
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+Je kunt ook zoeken op tags met een bepaald patroon. De Git bron repository, bijvoorbeeld, bevat meer dan 240 tags. Als je alleen geinteresseerd bent om naar de 1.4.2 serie te kijken, kun je dit uitvoeren:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -866,13 +866,13 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### Tags Crëeren ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git gebruikt twee soorten tags: lightweight (lichtgewicht) en annotated (beschreven). Een lichtgewicht tag komt overeen met een branch die niet veranderd – het is slechts een wijzer naar een specifieke commit. Beschreven tags daarentegen, zijn als volwaardige objecten in de Git database opgeslagen. Ze worden gechecksummed; bevatten de naam van de tagger, e-mail en datum; hebben een tag boodschap; en kunnen gesigneerd en geverifieerd worden met GNU Privacy Guard (GPG). Het wordt over het algemeen aangeraden om beschreven tags te maken zodat je deze informatie hebt; maar als je een tijdelijke tag wilt of om een of andere reden de andere informatie niet wilt houden, dan zijn er ook lichtgewicht tags.
 
-### Annotated Tags ###
+### Beschreven Tags ###
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+Een beschreven tag in Git maken is eenvoudig. Het makkelijkst is om de `-a` optie te specificeren als je het `tag` commando uitvoerd:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -880,9 +880,9 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+De `-m` specificeerd een tag boodschap, die bij de tag opgeslagen wordt. Als je geen boodschap voor een beschreven tag opgeeft, dan opent Git je editor zodat je hem in kunt typen.
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+Je kunt de tag data zien, samen met de commit die getagged was, door het `git show` commando te gebruiken:
 
 	$ git show v1.4
 	tag v1.4
@@ -897,18 +897,18 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+Dat toont de tagger informatie, de datum waarop de commit getagged was, en de beschrijvende boodschap alvorens de commit boodschap te laten zien.
 
-### Signed Tags ###
+### Gesigneerde Tags ###
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+Je kunt je tags ook signeren met GPG, aangenomen dat je een prive sleutel hebt. Het enige dat je moet doen is de `-s` optie gebruiken in plaats van de `-a`:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+Als je `git show` op die tag uitvoert, dan kun je jouw GPG handtekening eraan vast zien zitten:
 
 	$ git show v1.5
 	tag v1.5
@@ -930,11 +930,11 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+Verderop zul je leren hoe je gesigneerde tags kunt verifieeren.
 
-### Lightweight Tags ###
+### Lichtgewicht Tags ###
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+Een andere manier om een tag te committen is met behulp van een lichtgewicht tag. Dit is in principe de commit checksum in een bestand opgeslagen – er wordt geen andere informatie bijgehouden. Om een lichtgewicht tag te maken voeg je niet de `-a`, `-s` of de `-m` optie toe:
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -944,7 +944,7 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+Als je deze keer `git show` op de tag doet, zie je niet de extra tag informatie. Het commando toont alleen de commit:
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -954,9 +954,9 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### Tags Verifieren ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+Om een gesigneerde tag te verifieren, gebruik je `git tag -v [tag-naam]`. Dit commando gebruikt GPG om de handtekening te verifieren. Je moet de publieke sleutel van degene die getekend heeft wel in je sleutelbos hebben staan om het goed te laten werken:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -972,15 +972,15 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-If you don’t have the signer’s public key, you get something like this instead:
+Als je de publieke sleutel van degene die getekend heeft niet hebt, dan krijg je in plaats daarvan zoiets:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Tagging Later ###
+### Later Taggen ###
 
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+Je kunt ook commits taggen nadat je verder gegaan bent. Stel dat je commit historie er zo uitziet:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -994,11 +994,11 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+Nu, stel dat je vergeten bent het project op v1.2 te taggen, daar waar de "updated rakefile" commit was. Je kunt dit nadien toevoegen. Om die commit te taggen, specificeer je de commit boodschap (of een gedeelte daarvan) aan het einde van het commando:
 
 	$ git tag -a v1.2 9fceb02
 
-You can see that you’ve tagged the commit:
+Je kunt zien dat je de commit getagged hebt:
 
 	$ git tag 
 	v0.1
@@ -1021,9 +1021,9 @@ You can see that you’ve tagged the commit:
 	    updated rakefile
 	...
 
-### Sharing Tags ###
+### Tags Delen ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
+Standaard zal het `git push` commando geen tags naar remote servers versturen. Je zult expliciet tags naar een gedeelde server moeten pushen, nadat je ze gemaakt hebt. Dit proces is hetzelfde als remote branches delen – je kunt `git push origin [tagnaam]` uitvoeren.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1033,7 +1033,7 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+Als je veel tags hebt die je ineens wilt pushen, kun je ook de `--tags` optie aan het `git push` commando toevoegen. Dit zal al je tags, die nog niet op de remote server zijn, ineens ernaartoe sturen.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1047,61 +1047,61 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+Als nu iemand anders van jouw repository cloned of pulled, dan zullen zij al jouw tags ook krijgen.
 
-## Tips and Tricks ##
+## Tips and Trucs ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+Voordat we dit hoofdstuk over de basis van Git afsluiten laten we je nog wat kleine tips en trucs zien die je Git ervaring een beetje eenvoudiger, makkelijker of bekender maken. Veel mensen gebruiken Git zonder deze tips, en we refereren er niet meer aan of gaan er niet vanuit dat je ze gebruikt verderop in dit boek; maar je zult waarschijnlijk willen weten hoe je ze moet doen.
 
-### Auto-Completion ###
+### Auto-Aanvulling ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+Als je de Bash shell gebruikt, heeft Git een fijn auto-aanvulling script dat je aan kunt zetten. Download de Git broncode, en kijk in de `contrib/completion` map; daar zou een bestand genaamd `git-completion.bash` moeten staan. Kopieer dit bestand naar je home map, en voeg dit aan je `.bashrc` bestand toe:
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+Als je Git wilt instellen dat het automatische Bash shell aanvulling heeft voor alle gebruikers, kopieer dit script dan naar de `/opt/local/etc/bash_completion.d` map op Mac systemen, of naar de `/etc/bash_completion.d/` map op Linux systemen. Dit is een map met scripts dat Bash automatisch zal laden om shell aanvullingen aan te bieden.
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+Als je Windows gebruikt met Git Bash, wat de standaard is als je Git op Windows installeerd met msysGit, dan zou auto-aanvulling voorgeconfigureerd moeten zijn.
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+Druk de Tab toets als je een Git commando aan het typen bent, en het zou een set suggesties voor je moeten teruggeven:
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+In dit geval zal git co en dan de Tab toets twee keer indrukken git commit en config voorstellen. `m<tab>` toevoegen, vult `git commit` automatisch aan.
 	
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+Dit werkt ook met opties, wat waarschijnlijk meer bruikbaar is. Bijvoorbeeld, als je een `git log` commando uitvoert en je niet meer kunt herinneren wat een van de opties is, dan kun je beginnen met het te typen en Tab twee keer indrukken om te zien wat er past:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+Dat is een erg handig trucje en zal je misschien wat tijd en documentatie lezen besparen.
 
-### Git Aliases ###
+### Git Aliasen ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+Git zal geen commando's raden als je het gedeeltelijk intyped. Als je niet de hele tekst van ieder Git commando wilt intypen, kun je gemakkelijk een alias voor ieder commando configureren door `git config` te gebruiken. Hier zijn een aantal voorbeelden die je misschien wilt instellen:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+Dit betekend dat je, bijvoorbeeld, in plaats van `git commit` je alleen `git ci` hoeft in te typen. Als je verder gaat met Git, zul je waarschijnlijk andere commando's ook vaker gaan gebruiken; in dat geval, schroom je niet om nieuwe aliassen te maken.
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+Deze techniek kan ook makkelijk zijn om commando's te maken waarvan je vind dat ze moeten bestaand. Bijvoorbeeld, om het bruikbaarheidsprobleem wat je met het unstagen van een bestand hebt op te lossen, kun je je eigen unstage alias aan Git toevoegen:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+Dit maakt de volgende twee commando's equivalent:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Het lijkt wat helderder. Het is ook gebruikelijk om een `last` commando toe te voegen:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+Op deze manier kun je de laatste commit makkelijk zien:
 	
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1112,10 +1112,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Zoals je kunt zien, vervangt Git eenvoudigweg het nieuwe commando met waarvoor je het gealiassed hebt. Maar, misschien wil je een extern commando uitvoeren, in plaats van een Git subcommando. In dat geval begin je het commando met een `!` karakter. Dit is handig als je je eigen applicaties maakt die met een Git repository werken. We kunnen dit demonstreren door `git visual` een `gitk` te laten uitvoeren:
 
 	$ git config --global alias.visual "!gitk"
 
-## Summary ##
+## Samenvatting ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+Op dit punt kun je alle basis locale Git operaties doen – een repository crëeeren of clonen, wijzigingen maken, de wijzigingen stagen en committen, en de historie van alle veranderingen waardoor het repository gegaan is zien. Als volgende gaan we Gits beste optie bekijken: het branching model. 

@@ -677,7 +677,7 @@ Recht onder de "Changes to be committed" tekst, staat dat je `git reset HEAD <be
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
+Het commando is een beetje vreemd, maar het werkt. Het benchmarks.rb bestand is gewijzigd maar weer ge-unstaged.
 
 ### Een Gewijzigd Bestand Ongedaan Maken ###
 
@@ -701,18 +701,18 @@ Het vertelt je behoorlijk expliciet hoe je je veranderingen moet weggooien (tenm
 	#       modified:   README.txt
 	#
 
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go. 
+Je kunt zien dat de veranderingen teruggedraaid zijn. Je moet je ook realiseren dat dit een gevaarlijk commando is: alle veranderingen die je aan dat bestand gedaan hebt zijn weg – je hebt er zojuist een ander bestand overheen gezet. Gebruik dit commando dan ook nooit, tenzij je heel zeker weet dat je het bestand niet wilt. Als je het alleen maar uit de weg wilt hebben, gebruik dan branching of stashing wat we behandelen in het volgende hoofdstuk; dit zijn vaak de betere opties.
 
-Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see Chapter 9 for data recovery). However, anything you lose that was never committed is likely never to be seen again.
+Onthoud, alles dat in Git gecommit is kan bijna altijd weer hersteld worden. Zelfs commits die op reeds verwijderde branges gedaan zijn, of commits die zijn overschreven door een `--amend` commit, kunnen weer hersteld worden (zie Hoofdstuk 9 voor data herstel). Maar, alles wat je verliest dan nog nooit was gecommit is waarschijnlijk voor altijd verloren.
 
-## Working with Remotes ##
+## Werken Met Remotes ##
 
-To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
+Om samen te kunnen werken op ieder Git project, moet je weten hoe je je remote repositories moet beheren. Remote repositories zijn versies van je project, die worden beheerd op het Internet of ergens op een netwerk. Je kunt er meerdere hebben, waarvan ieder ofwel alleen leesbaar, of lees- en schrijfbaar is voor jou. Samenwerken met anderen houdt in dat je deze remote repositories kunt beheren en data kunt pushen en pullen op het moment dat je werk moet delen.
+Remote repositories beheren houdt ook in hoe je ze moet toevoegen, ongeldige repositories moet verwijderen, meerdere remote branches moet beheren en ze als tracked of niet kunt definieren, en meer. In deze sectie zullen we deze remote-beheer vaardigheden behandelen.
 
-### Showing Your Remotes ###
+### Laat Je Remotes Zien ###
 
-To see which remote servers you have configured, you can run the git remote command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
+Om te zien welke remote servers je geconfigureerd hebt, kun je het git remote commando uitvoern. Het laat de verkorte namen van iedere remote alias zien die je gespecificeerd hebt. Als je je repository gecloned hebt, dan zul je op z'n minst de origin zien – dat is de standaard naam die Git aan de server geeft waarvan je gecloned hebt:
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -725,12 +725,12 @@ To see which remote servers you have configured, you can run the git remote comm
 	$ git remote 
 	origin
 
-You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+Je kunt ook `-v` specificeren, wat je de URL laat zien die Git bij de verkorte naam heeft opgeslagen om naar geexpandeerd te worden:
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
-If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
+Als je meer dan één remote hebt, dan laat het commande ze allemaal zien. Bijvoorbeeld, mijn Grit repository ziet er ongeveer zo uit.
 
 	$ cd grit
 	$ git remote -v
@@ -740,11 +740,11 @@ If you have more than one remote, the command lists them all. For example, my Gr
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in Chapter 4).
+Dit betekend dat we vrij gemakkelijk de bijdragen van ieder van deze gebruikers naar binnen kunnen pullen. Let op dat alleen de origin een SSH URL is, dus dat is de enige waar ik naartoe kan pushen (we laten het waarom zien in Hoofdstuk 4).
 
-### Adding Remote Repositories ###
+### Remote Repositories Toevoegen ###
 
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+Ik heb het toevoegen van remote repositories al genoemd en getoond in vorige secties, maar zo doe je het expliciet. Om een nieuw Git remote repository als een makkelijk te refereren alias toe te voegen, voer `git remote add [verkorte naam] [url]`:
 
 	$ git remote
 	origin
@@ -753,7 +753,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+Nu kun je de naam pb in de shell gebruiken in plaats van de hele URL. Bijvoorbeeld, als je alle informatie die Paul wel, maar jij niet in je repository wilt fetchen, dan kun je git fetch pb uitvoeren:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -764,7 +764,7 @@ Now you can use the string pb on the command line in lieu of the whole URL. For 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+Paul zijn master branch is lokaal toegankelijk als `pb/master` – je kunt het in een van jouw branches mergen, of je kunt een lokale branch uitchecken op dat punt als je het wil zien.
 
 ### Fetching and Pulling from Your Remotes ###
 

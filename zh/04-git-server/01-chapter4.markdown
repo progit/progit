@@ -67,18 +67,18 @@ Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大�
 
 SSH 的限制在于你不能通过它实现仓库的匿名访问。即使仅为读取数据，人们也必须在能通过 SSH 访问主机的前提下才能访问仓库，这对于开源工程没什么帮助。如果你仅仅在公司网络里使用，SSH 可以是你唯一需要使用的协议。如果想允许对项目的匿名只读访问，那么除了为自己推送设定 SSH 协议之外还需要更多工作来让别人获取数据。
 
-### The Git Protocol ###
+### Git 协议 ###
 
-Next is the Git protocol. This is a special daemon that comes packaged with Git; it listens on a dedicated port (9418) that provides a service similar to the SSH protocol, but with absolutely no authentication. In order for a repository to be served over the Git protocol, you must create the `git-export-daemon-ok` file — the daemon won’t serve a repository without that file in it — but other than that there is no security. Either the Git repository is available for everyone to clone or it isn’t. This means that there is generally no pushing over this protocol. You can enable push access; but given the lack of authentication, if you turn on push access, anyone on the internet who finds your project’s URL could push to your project. Suffice it to say that this is rare.
+接下来是 Git 协议。这是一个包含在 Git 软件包中的特殊进程； 它会监听一个用来提供与 SSH 类似服务的特定端口（9418），而无需任何授权。用 Git 协议运营仓库，你需要创建 `git-export-deamon-ok` 文件——它是协议进程提供仓库服务的必要条件——虽然该服务没有什么安全措施。要么全世界都能克隆Git 仓库，要么谁也不能。这也意味着该协议通常不能用来进行推送。你可以允许推送操作；然而由于没有授权机制，一旦允许该操作，网络上任何一个知道项目 URL 的人将都有推送权限。不用说，这是十分罕见的情况。
 
-#### The Pros ####
+#### （Git 协议的）优点 ####
 
-The Git protocol is the fastest transfer protocol available. If you’re serving a lot of traffic for a public project or serving a very large project that doesn’t require user authentication for read access, it’s likely that you’ll want to set up a Git daemon to serve your project. It uses the same data-transfer mechanism as the SSH protocol but without the encryption and authentication overhead.
+Git 协议是现存最快的传输协议。如果一个公共项目提供需要满足很大的访问量，或者一个体积庞大的项目不需要对读操作进行授权，设立一个 Git 协议进程来供应仓库是个不错的选择。它使用与 SSH 协议相同的数据传输机制，但省去了加密和授权的麻烦。
 
-#### The Cons ####
+#### （Git 协议的）缺点 ####
 
-The downside of the Git protocol is the lack of authentication. It’s generally undesirable for the Git protocol to be the only access to your project. Generally, you’ll pair it with SSH access for the few developers who have push (write) access and have everyone else use `git://` for read-only access.
-It’s also probably the most difficult protocol to set up. It must run its own daemon, which is custom — we’ll look at setting one up in the “Gitosis” section of this chapter — it requires `xinetd` configuration or the like, which isn’t always a walk in the park. It also requires firewall access to port 9418, which isn’t a standard port that corporate firewalls always allow. Behind big corporate firewalls, this obscure port is commonly blocked.
+Git 协议消极的一面是缺少授权机制。拿 Git 协议作为访问项目的唯一方法是不可取的。通常的做法是，同时提供 SSH 接口，让几个开发者拥有推送（写）权限，其他人通过 `git://` 拥有只读权限。
+Git 协议可能也是最难架设的协议。它要求有单独的进程，需要定制——我们将在本章的 “Gitosis” 一节详细介绍它的假设——需要设定 `xinetd` 或类似的程序，而这些就没那么大众了。它还需要防火墙开放 9418 端口，而企业级防火墙一般不允许对这个非标准端口的访问。大型的企业级防火墙通常会封锁这个少见的端口。
 
 ### The HTTP/S Protocol ###
 

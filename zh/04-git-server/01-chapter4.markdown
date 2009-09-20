@@ -1,4 +1,4 @@
-# 服务器上的Git #
+# 服务器上的 Git #
 
 到目前为止，你已经学会了用Git完成日常的工作。然而，如果想与他人合作，你还需要一个远程的Git仓库。尽管技术上可以从某个人的仓库里推送和获取数据，我们不鼓励这样做，因为这样一不小心就会引起混乱。退一步讲，你也希望你的合作者们即使在自己不开机的时候也能从仓库获取数据——拥有一个更稳定的公共仓库是很有必要的。因此，更好的合作方式是建立一个大家都可以访问的共享仓库，并从那里进行推送和获取数据。我们将把这个仓库成为“Git服务器”；你会发现架设一个Git仓库只需要花费一点点的资源，所以很少需要整个服务器来支持它。
 
@@ -80,9 +80,10 @@ Git 协议是现存最快的传输协议。如果一个公共项目提供需要�
 Git 协议消极的一面是缺少授权机制。拿 Git 协议作为访问项目的唯一方法是不可取的。通常的做法是，同时提供 SSH 接口，让几个开发者拥有推送（写）权限，其他人通过 `git://` 拥有只读权限。
 Git 协议可能也是最难架设的协议。它要求有单独的进程，需要定制——我们将在本章的 “Gitosis” 一节详细介绍它的假设——需要设定 `xinetd` 或类似的程序，而这些就没那么大众了。它还需要防火墙开放 9418 端口，而企业级防火墙一般不允许对这个非标准端口的访问。大型的企业级防火墙通常会封锁这个少见的端口。
 
-### The HTTP/S Protocol ###
+### HTTP/S 协议 ###
 
-Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the simplicity of setting it up. Basically, all you have to do is put the bare Git repository under your HTTP document root and set up a specific `post-update` hook, and you’re done (See Chapter 7 for details on Git hooks). At that point, anyone who can access the web server under which you put the repository can also clone your repository. To allow read access to your repository over HTTP, do something like this:
+最后还剩下 HTTP 协议。HTTP 或 HTTPS 协议的优美之处在于架设的简便性。基本上，
+只需要把 Git 的纯仓库文件放在 HTTP 的文件根目录下，配置一个特定的 `post-update` 挂钩，就搞定了（Git 挂钩的细节见第七章）。从此，每个能访问 Git 仓库所在服务器上的网页服务的人都可以进行克隆操作。下面的操作可以允许通过 HTTP 对仓库进行读取：
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -90,7 +91,7 @@ Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the 
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-That’s all. The `post-update` hook that comes with Git by default runs the appropriate command (`git update-server-info`) to make HTTP fetching and cloning work properly. This command is run when you push to this repository over SSH; then, other people can clone via something like
+完成了。Git 附带的 `post-update` 挂钩会默认运行合适的命令（`git update-server-info`）来确保通过 HTTP 的获取和克隆正常工作。以下命令是别人在你用 SSH 向仓库推送内容之后，别人克隆仓库时用的：
 
 	$ git clone http://example.com/gitproject.git
 

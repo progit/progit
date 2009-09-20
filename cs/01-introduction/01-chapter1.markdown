@@ -222,9 +222,15 @@ instalace ze zdrojových souborů a instalace už existujícího balíčku pro v
 
 ### Instalujeme ze zdroje ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Pokud to umíte, je obecně možné instalovat Git ze zdrojových kódů, protože získáte nejnovější verzi.
+Vývojáři se stále snaží vylepšovat uživatelské rozhraní, takže stažení poslední verze je obvykle nejlepší cesta k cíli, 
+pokud se tedy cítíte na překládání zdrojových souborů. To je také řešení případu, kdy je ve mnoha dostribucích Linuxu dostupný
+jen nějaký starý balík; takže pokud zrovna nemáte nějakou aktuální distribuci nebo nepoužíváte "backports", bude instalace
+ze zdroje asi nejlepší možností.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+Git závisí na několika knihovnách, bez kterých ho nenainstalujete: curl, zlib, openssl, expat a libiconv. Např. pokud máte distribuci
+užívající balíčkovací systém Yum (Fedora) nebo Apt (Debian a distribuce na něm založené), můžete použít jeden z těchto příkazů k instalaci
+těchto závislostí.
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -232,32 +238,33 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
 	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Když jste už všechno nainstalovali, můžete pokročit dále a stáhnout si poslední verzi z webových stránek Gitu:
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+Rozbalíme, přeložíme a nainstalujeme:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Když jsme hotovi, můžeme také získat Git prostřednictvím jeho samotného (možnost další aktualizace):
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### Instalujeme na Linuxu ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Pokud chcete instalovat Git na Linuxu z binárního balíčku, měli byste použít váš balíčkovací program podle vaší distribuce,
+který udělá vše za vás. Pokud máte Fedoru, můžete použít Yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Nebo pokud jste na distribuci založené na Debianu (např. Ubuntu), použijte Apt:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Instalujeme na Macu ###
 
 There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
 

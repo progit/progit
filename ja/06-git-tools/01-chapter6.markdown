@@ -524,17 +524,17 @@ Git を使って作業をしていると、何らかの理由でコミットの�
 
 この技を使う際には注意が必要です。この処理を行うとコミットの SHA-1 が変わるからです。いわば、非常に小規模なリベースのようなものです。すでにプッシュしているコミットは書き換えないようにしましょう。
 
-### Changing Multiple Commit Messages ###
+### 複数のコミットメッセージの変更 ###
 
-To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
+さらに歴史をさかのぼったコミットを変更したい場合は、もう少し複雑なツールを使わなければなりません。Git には歴史を修正するツールはありませんが、リベースツールを使って一連のコミットを (別の場所ではなく) もともとあった場所と同じ HEAD につなげるという方法を使うことができます。対話的なリベースツールを使えば、各コミットについてメッセージを変更したりファイルを追加したりお望みの変更をすることができます。対話的なリベースを行うには、`git rebase` に `-i` オプションを追加します。どこまでさかのぼってコミットを書き換えるかを指示するために、どのコミットにリベースするかを指定しなければなりません。
 
-For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
+直近の三つのコミットメッセージあるいはそのいずれかを変更したくなった場合、変更したい最古のコミットの親を `git rebase -i` の引数に指定します。ここでは `HEAD~2^` あるいは `HEAD~3` となります。直近の三つのコミットを編集しようと考えているのだから、`~3` のほうが覚えやすいでしょう。しかし、実際のところは四つ前 (変更したい最古のコミットの親) のコミットを指定していることに注意しましょう。
 
 	$ git rebase -i HEAD~3
 
-Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
+これはリベースコマンドであることを認識しておきましょう。 `HEAD~3..HEAD` に含まれるすべてのコミットは、実際にメッセージを変更したか否かにかかわらずすべて書き換えられます。すでに中央サーバにプッシュしたコミットをここに含めてはいけません。含めてしまうと、同じ変更が別のバージョンで見えてしまうことになって他の開発者が混乱します。
 
-Running this command gives you a list of commits in your text editor that looks something like this:
+このコマンドを実行すると、テキストエディタが開いてコミットの一覧が表示され、このようになります。
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -551,22 +551,22 @@ Running this command gives you a list of commits in your text editor that looks 
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
+このコミット一覧の表示順は、`log` コマンドを使ったときの通常の表示順とは逆になることに注意しましょう。`log` を実行すると、このようになります。
 
 	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
 	a5f4a0d added cat-file
 	310154e updated README formatting and added blame
 	f7f3f6d changed my name a bit
 
-Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
+逆順になっていますね。対話的なリベースを実行するとスクリプトが出力されるので、それをあとで実行することになります。このスクリプトはコマンドラインで指定したコミット (`HEAD~3`) から始まり、それ以降のコミットを古い順に再現していきます。最新のものからではなく古いものから表示されているのは、最初に再現するのがいちばん古いコミットだからです。
 
-You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:
+このスクリプトを編集し、手を加えたいコミットのところでスクリプトを停止させるようにします。そのためには、各コミットのうちスクリプトを停止させたいものについて「pick」を「edit」に変更します。たとえば、三番目のコミットメッセージだけを変更したい場合はこのようにファイルを変更します。
 
 	edit f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
+これを保存してエディタを終了すると、Git はそのリストの最初のコミットまで処理を巻き戻し、次のようなメッセージとともにコマンドラインを返します。
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -578,15 +578,15 @@ When you save and exit the editor, Git rewinds you back to the last commit in th
 
 	       git rebase --continue
 
-These instructions tell you exactly what to do. Type
+この指示が、まさにこれからすべきことを教えてくれています。
 
 	$ git commit --amend
 
-Change the commit message, and exit the editor. Then, run
+と打ち込んでコミットメッセージを変更してからエディタを終了し、次に
 
 	$ git rebase --continue
 
-This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.
+を実行します。このコマンドはその他のふたつのコミットも自動的に適用するので、これで作業は終了です。複数行で「pick」を「edit」に変更した場合は、これらの作業を各コミットについてくりかえすことになります。それぞれの場面で Git が停止するので、amend でコミットを書き換えて continue で処理を続けます。
 
 ### Reordering Commits ###
 

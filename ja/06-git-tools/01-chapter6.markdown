@@ -483,9 +483,9 @@ apply オプションは、スタックに隠した作業を再度適用する�
 
 あるいは `git stash pop` を実行すれば、隠した内容を再適用してその後スタックからも削除してくれます。
 
-### Creating a Branch from a Stash ###
+### 隠した変更からのブランチの作成 ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+作業をいったん隠し、しばらくそのブランチで作業を続けていると、隠した内容を再適用するときに問題が発生する可能性があります。隠した後に何らかの変更をしたファイルに変更を再適用しようとすると、マージ時にコンフリクトが発生してそれを解決しなければならなくなるでしょう。もう少しお手軽な方法で以前の作業を確認したい場合は `git stash branch` を実行します。このコマンドは、まず新しいブランチを作成し、作業をスタックに隠したときのコミットをチェックアウトし、スタックにある作業を再適用し、それに成功すればスタックからその作業を削除します。
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -502,7 +502,7 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+これを使うと、保存していた作業をお手軽に復元して新しいブランチで作業をすることができます。
 
 ## Rewriting History ##
 

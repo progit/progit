@@ -682,15 +682,15 @@ Git はスクリプトの最後のコミット (`a5f4a0d`) を適用し、歴史
 
 Git がツリーを書き換えてコミットし、ブランチのポインタを末尾に移動させる様子がごらんいただけるでしょう。この作業は、まずはテスト用ブランチで実行してから結果をよく吟味し、それから master ブランチに適用することをおすすめします。`filter-branch` をすべてのブランチで実行するには、このコマンドに `--all` を渡します。
 
-#### Making a Subdirectory the New Root ####
+#### サブディレクトリを新たなルートへ ####
 
-Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
+別のソース管理システムからのインポートを終えた後、無意味なサブディレクトリ (trunk、tags など) が残っている状態を想定しましょう。すべてのコミットの `trunk` ディレクトリを新たなプロジェクトルートとしたい場合にも、`filter-branch` が助けになります。
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
-Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. 
+これで、新たなプロジェクトルートはそれまで `trunk` ディレクトリだった場所になります。Git は、このサブディレクトリに影響を及ぼさないコミットを自動的に削除します。
 
 #### Changing E-Mail Addresses Globally ####
 

@@ -374,42 +374,42 @@ Insert 18333fig0321.png
 
 请务必牢记这些分支全部都是本地分支，这一点很重要。当你在使用分支及合并的时候，一切都是在你自己的 Git 仓库中进行的 —— 完全不涉及与服务器的交互。
 
-## 远程(Remote)分支 ##
+## 远程分支 ##
 
-远程分支是对远程仓库状态的索引。它们是一些本地你无法移动的分支；只有在你进行Git的网络活动时才会移动。远程分支就像是一些书签,提醒着你上次连接远程仓库时上面各分支位置。 
+远程分支（remote branch）是对远程仓库状态的索引。它们是一些无法移动的本地分支；只有在进行 Git 的网络活动时才会更新。远程分支就像是书签，提醒着你上次连接远程仓库时上面各分支的位置。 
 
-它们形如`(远程仓库名)/(分支名)`。假使你想看看上次和`origin`仓库通讯的时候`master`是什么样的，你应该查看`origin/master`分支。如果你和同伴一起修复某个问题而他们推送了一个`iss53`分支，虽然你可能也有一个本地的`iss53`分支，服务器上的分支却应该以`origin/iss53`指向其commit。
+我们用 `(远程仓库名)/(分支名)` 这样的形式表示远程分支。比如我们想看看上次同 `origin` 仓库通讯时 `master` 的样子，就应该查看 `origin/master` 分支。如果你和同伴一起修复某个问题，但他们先推送了一个 `iss53` 分支到远程仓库，虽然你可能也有一个本地的 `iss53` 分支，但指向服务器上最新更新的却应该是 `origin/iss53` 分支。
 
-这可能有点混乱，我们不妨举例说明。假设你的团队有个地址为`git.ourcompany.com`的Git服务器。如果你从这里克隆，Git会自动为你将它（远程仓库）命名为`origin`，下载其中所有的数据，建立一个指向它`master`分支的指针，并在本地命名为`origin/master`，但你无法移动它。Git同时建立一个属于你的`master`分支，始于和origin上的master分支相同的位置，你可以就此开始工作（见图3-22）。
+可能有点乱，我们不妨举例说明。假设你们团队有个地址为 `git.ourcompany.com` 的 Git 服务器。如果你从这里克隆，Git 会自动为你将此远程仓库命名为 `origin`，并下载其中所有的数据，建立一个指向它的 `master` 分支的指针，在本地命名为 `origin/master`，但你无法在本地更改其数据。接着，Git 建立一个属于你自己的本地 `master` 分支，始于 `origin` 上 `master` 分支相同的位置，你可以就此开始工作（见图 3-22）：
 
 Insert 18333fig0322.png 
-图 3-22. 一次Git克隆会建立一个你自己的master分支和一个origin/master并共同指向origin的master分支。
+图 3-22. 一次 Git 克隆会建立你自己的本地分支 master 和远程分支 origin/master，它们都指向 origin/master 分支的最后一次提交。
 
-要是你在本地的master分支做了一点工作，与此同时，其他人向`git.ourcompany.com`推送了内容，更新了它的master分支，你的提交历史会开始朝不同的方向发展。不过只要你不和服务器通讯，你的`origin/master`指针不会移动。
+要是你在本地 `master` 分支做了会儿事情，与此同时，其他人向 `git.ourcompany.com` 推送了内容，更新了上面的 `master` 分支，那么你的提交历史会开始朝不同的方向发展。不过只要你不和服务器通讯，你的 `origin/master` 指针不会移动（见图 3-23）。
 
 Insert 18333fig0323.png 
 图 3-23. 在本地工作的同时有人向远程仓库推送内容会让提交历史发生分歧。
 
-你可以运行`git fetch origin`来进行同步。该命令首先找到origin是哪个服务器（本例中，结果是`git.ourcompany.com`），从上面获取你尚未拥有的数据，更新你本地的数据库，然后把`origin/master`移到它最新的位置（见图3-24）。
+可以运行 `git fetch origin` 来进行同步。该命令首先找到 `origin` 是哪个服务器（本例为 `git.ourcompany.com`），从上面获取你尚未拥有的数据，更新你本地的数据库，然后把 `origin/master` 的指针移到它最新的位置（见图 3-24）。
 
 Insert 18333fig0324.png 
-图 3-24. git fetch命令会更新你的remote索引。
+图 3-24. git fetch 命令会更新 remote 索引。
 
-为了演示拥有多个远程服务器的多个远程分支的项目是个什么样，我们假设你还有另一个仅供你的迅捷开发小组使用的内部服务器。该服务器处于`git.team1.ourcompany.com`。你可以用第二章中提到的`git remote add`命令把它加为当前项目的远程分支之一。我们把它命名为`teamone`，这就变成了那一整个URL的缩写（见图3-25）。
+为了演示拥有多个远程分支（不同的远程服务器）的项目是个什么样，我们假设你还有另一个仅供你的敏捷开发小组使用的内部服务器 `git.team1.ourcompany.com`。可以用第二章中提到的 `git remote add` 命令把它加为当前项目的远程分支之一。我们把它命名为 `teamone`，表示那一整串 Git 地址（见图 3-25）。
 
 Insert 18333fig0325.png 
 图 3-25. 把另一个服务器加为远程仓库
 
-现在你可以用`git fetch teamone`来获取服务器上你还没有的数据了。因为这个服务器上的内容是你`origin`服务器上的子集，Git不会下载任何数据而是简单的创建一个叫`teamone/master`的分支来指向`teamone`在它的`master`里的commit（见图3-26）。
+现在你可以用 `git fetch teamone` 来获取小组服务器上你还没有的数据了。由于当前该服务器上的内容是你 `origin` 服务器上的子集，Git 不会下载任何数据，而只是简单地创建一个名为 `teamone/master` 的分支来指向 `teamone` 服务器上 `master` 所指向的更新 `31b8e`（见图 3-26）。
 
 Insert 18333fig0326.png 
-图 3-26. 你在本地有了一个指向teamone的master分支的索引。
+图 3-26. 你在本地有了一个指向 teamone 服务器上 master 分支的索引。
 
-### 推送(pushing) ###
+### 推送 ###
 
-在你想和全世界分享一个分支的时候，你需要把它推送到一个你拥有写权限的远程仓库。你的本地分支不会自动的被同步到你写入的远程分支里——除非你特意把想要分享的分支推送出去。这样一来，你可以为你不想分享的部分建立私人的分支，同时只分享那些想要与其他人合作的特性分支。
+要想和其他人分享某个分支，你需要把它推送到一个你拥有写权限的远程仓库。你的本地分支不会被自动同步到你引入的远程分支中，除非你明确执行推送操作。换句话说，对于无意分享的，你尽可以保留为私人分支，而只推送那些协同工作的特性分支。
 
-如果你有个叫`serverfix`的分支需要和其他人一起开发，你可以用推送第一个分支的相同方法推送之。运行`git branch (远程仓库名) (分支名)`：
+如果你有个叫 `serverfix` 的分支需要和他人一起开发，可以运行 `git push (远程仓库名) (分支名)`：
 
 	$ git push origin serverfix
 	Counting objects: 20, done.
@@ -419,9 +419,9 @@ Insert 18333fig0326.png
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-这其实有点像一条捷径。Git自动把`serverfix`分支名扩展为`refs/heads/serverfix:refs/heads/serverfix`，意为“取出我的serverfix本地分支，推送它来更新远程仓库的 serverfix分支。”我们将在第9章里进一步介绍`refs/heads/`部分的细节，不过通常你可以省略它。你也可以运行`git push origin serverfix:serferfix`来实现相同的效果——它的意思是“提取我的serverfix并把它设定为远程仓库的serverfix。”通过这个格式你可以把一个本地分支推送到一个命名不同的远程分支。如果不想它在远程被叫做`serverfix`，可以用`git push origin serverfix:awesomebranch`取而代之，它把你本地的`serverfix`分支推动到远程的`awesomebranch`分支。
+这其实有点像条捷径。Git 自动把 `serverfix` 分支名扩展为 `refs/heads/serverfix:refs/heads/serverfix`，意为“取出我的 serverfix 本地分支，推送它来更新远程仓库的 serverfix 分支”。我们将在第九章进一步介绍 `refs/heads/` 部分的细节，不过一般使用的时候都可以省略它。也可以运行 `git push origin serverfix:serferfix` 来实现相同的效果，它的意思是“提取我的 serverfix 并更新到远程仓库的 serverfix”。通过此语法，你可以把本地分支推送到某个命名不同的远程分支：若想把远程分支叫作 `awesomebranch`，可以用 `git push origin serverfix:awesomebranch` 来推送数据。
 
-当你的和作者们再次从服务器获取数据的时候，他们将得到一个指向`serverfix`在远程的`origin/serverfix`分支的索引：
+接下来，当你的协作者再次从服务器上获取数据时，他们将得到一个新的远程分支 `origin/serverfix`：
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -431,47 +431,49 @@ Insert 18333fig0326.png
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-值得强调的是，在一次fetch获得了新的远程分支以后，你不会自动获得本地的，可以编辑的副本。换句话说，在本例中，你不会有一个新的`serverfix`分支——只有一个你无法移动的`origin/serverfix`指针。
+值得注意的是，在 fetch 操作抓来新的远程分支之后，你仍然无法在本地编辑该远程仓库。换句话说，在本例中，你不会有一个新的 `serverfix` 分支，有的只是一个你无法移动的 `origin/serverfix` 指针。
 
-如果要把该内容合并到当前的分支，你可以运行`git merge origin/serverfix`。如果你想要一份自己的`serverfix`来进行开发，可以从远程分支上获得：
+如果要把该内容合并到当前分支，可以运行 `git merge origin/serverfix`。如果想要一份自己的 `serverfix` 来开发，可以在远程分支的基础上分化出一个新的分支来：
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-这将给你一个始于`origin/serverfix`位置的本地分支用来开发。
+这会切换到新建的 `serverfix` 本地分支，其内容同远程分支 `origin/serverfix` 一致，你可以在里面继续开发了。
 
-### 跟踪(tracking)分支 ###
+### 跟踪分支 ###
 
-从一个远程分支签出一个本地分支的操作会自动建立一个所谓的 _跟踪分支(tracking branch)_ 。跟踪分支是一种和远程分支有直接联系的本地分支。如果你在一个跟踪分支里输入git push，Git自动知道应该向那个服务器的哪个分支推送。同时，在这些分支里运行`git pull`会获取所有的远程索引并且把它们都合并到相应的本地分支。
+从远程分支签出的本地分支，称为_跟踪分支(tracking branch)_。跟踪分支是一种和远程分支有直接联系的本地分支。在跟踪分支里输入 `git push`，Git 会自行推断应该向哪个服务器的哪个分支推送数据。反过来，在这些分支里运行 `git pull` 会获取所有远程索引，并把它们的数据都合并到本地分支中来。
 
-在克隆一个仓库的时候，Git通常自动创建一个`master`分支来跟踪`origin/master`。这正是`git push`和`git pull`一开始就正常工作的原因。当然，你可以随心所有的设定其他的跟踪分支——那些不跟踪`origin`上的分支的，或者不跟踪`master`分支的。最简单的例子是你刚刚看到的，运行`git checkout -b [分支名] [远程名]/[分支名]`。如果你有1.6.2以上版本的Git，还可以用`--track``缩写：
+在克隆仓库时，Git 通常会自动创建一个 `master` 分支来跟踪 `origin/master`。这正是 `git push` 和 `git pull` 一开始就能正常工作的原因。当然，你可以随心所欲地设定为其它跟踪分支，比如 `origin` 上除了 `master` 之外的其它分支。刚才我们已经看到了这样的一个例子：`git checkout -b [分支名] [远程名]/[分支名]`。如果你有 1.6.2 以上版本的 Git，还可以用 `--track` 选项简化：
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-要为本地分支设定一个不同于远程分支的名字，只需要在第一个版本的命令里换个名字：
+要为本地分支设定不同于远程分支的名字，只需在前个版本的命令里换个名字：
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-现在你的本地分支sf会自动的向origin/serverfix推送和抓取了。
+现在你的本地分支 `sf` 会自动向 `origin/serverfix` 推送和抓取数据了。
 
 ### 删除远程分支 ###
 
-如果你不需要某个远程分支了——比如说，你和你的合作者搞定了某个特性并且把它合并进了远程的`master`分支（或者任何其他你们存放稳定代码的地方）。你可以用这个非常无厘头的语法来删除它：`git push [远程名] :[分支名]`。如果你想在服务器上删除`serverfix`分支，运行如下命令：
+如果不再需要某个远程分支了，比如搞定了某个特性并把它合并进了远程的 `master` 分支（或任何其他存放稳定代码的地方），可以用这个非常无厘头的语法来删除它：`git push [远程名] :[分支名]`。如果想在服务器上删除 `serverfix` 分支，运行下面的命令：
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-咚！服务器上的分支没了。你最好特别留心这一页，因为你一定会用到那个命令，而且你很可能会忘掉它的语法。一种方便记忆这条命令的方法是记住我们不久前见过的`git push [远程名] [本地分支]:[远程分支]`的语法。如果你省略`[本地分支]`的部分，那基本等于在说“在这里提取空白然后把它变成`[远程分支]`。”
+咚！服务器上的分支没了。你最好特别留心这一页，因为你一定会用到那个命令，而且你很可能会忘掉它的语法。有种方便记忆这条命令的方法：记住我们不久前见过的 `git push [远程名] [本地分支]:[远程分支]` 语法，如果省略 `[本地分支]`，那就等于是在说“在这里提取空白然后把它变成`[远程分支]`”。
+
+## 衍合 ##
 
 在Git里主要有两种把一个分支整合到另一个分支里的办法：`merge（合并）`和`rebase（衍合）`。在本章你将学习什么事衍合，怎样使用它，它为什么是个异常有用的工具，以及你应该在什么情况下使用它。
 
-### 衍合(rebasing)基础 ###
+### 衍合基础 ###
 
 如果你回顾之前有关合并的一节（见图3-27），你会看到你的开发被分叉并在两个不同分支里进行了提交。
 

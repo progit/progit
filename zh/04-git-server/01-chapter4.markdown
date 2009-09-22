@@ -91,15 +91,15 @@ Git 协议可能也是最难架设的协议。它要求有单独的进程，需�
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-完成了。Git 附带的 `post-update` 挂钩会默认运行合适的命令（`git update-server-info`）来确保通过 HTTP 的获取和克隆正常工作。以下命令是别人在你用 SSH 向仓库推送内容之后，别人克隆仓库时用的：
+这样就可以了。Git 附带的 `post-update` 挂钩会默认运行合适的命令（`git update-server-info`）来确保通过 HTTP 的获取和克隆正常工作。以下命令是别人在你用 SSH 向仓库推送内容之后，别人克隆仓库时用的：
 
 	$ git clone http://example.com/gitproject.git
 
-In this particular case, we’re using the `/var/www/htdocs` path that is common for Apache setups, but you can use any static web server — just put the bare repository in its path. The Git data is served as basic static files (see Chapter 9 for details about exactly how it’s served).
+在本例中，我们使用了 Apache 设定中常用的 `var/www/htdocs` 路径，不过任何静态网页服务都一样——把纯仓库放在它的目录里就行了。 Git 的数据是以最基本的静态文件的形式供应的。
 
-It’s possible to make Git push over HTTP as well, although that technique isn’t as widely used and requires you to set up complex WebDAV requirements. Because it’s rarely used, we won’t cover it in this book. If you’re interested in using the HTTP-push protocols, you can read about preparing a repository for this purpose at `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. One nice thing about making Git push over HTTP is that you can use any WebDAV server, without specific Git features; so, you can use this functionality if your web-hosting provider supports WebDAV for writing updates to your web site.
+通过HTTP进行推送操作是可能的，不过这种做法不太常见并且牵扯到复杂的 WebDAV 架设。由于太冷僻，本书将略过对该内容的讨论。如果你对 HTTP 推送协议感兴趣，不妨在这个地址看一下如何操作：`http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` 。通过 HTTP 推送的好处是任何 WebDAV 服务都可以进行，不要求为 Git 设定特殊环境；所以只要主机支持通过 WebDAV 更新网站内容，你就可以使用这项功能。
 
-#### The Pros ####
+#### HTTP/S 协议的优点 ####
 
 The upside of using the HTTP protocol is that it’s easy to set up. Running the handful of required commands gives you a simple way to give the world read access to your Git repository. It takes only a few minutes to do. The HTTP protocol also isn’t very resource intensive on your server. Because it generally uses a static HTTP server to serve all the data, a normal Apache server can serve thousands of files per second on average — it’s difficult to overload even a small server.
 

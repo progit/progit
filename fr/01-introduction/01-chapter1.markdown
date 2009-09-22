@@ -30,30 +30,32 @@ Cette configuration présente de nombreux avantages, en particulier sur les VCS 
 
 Toutefois, cette façon de faire a également de sérieux inconvénients. Le plus évident est le point de défaillance unique que représente le serveur centralisé. Si ce serveur tombe en panne pendant une heure, personne ne peut alors récupérer des fichiers ou sauver les changements sur lesquels ils travaillaient. Si le disque dur de la base de données centrale est endommagé et que des sauvegardes n'ont pas été faites, vous perdez alors absolument tout l'historique du projet excepté les quelques instantanés du projet que les personnes auraient sur leurs machines locales. Les VCS locaux souffrent de ce même problème : dès lors que vous avez tout l'historique du projet en un seul endroit, vous risquez de tout perdre.
 
-### Distributed Version Control Systems ###
+### Systèmes de Gestion de Version Décentralisés ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+C'est là qu'entrent les systèmes de gestion de version décentralisés (ou DVCS, *Distributed Control Systems* en anglais). Dans un DVCS (comme Git, Mercurial, Bazaar ou Darcs), les clients ne téléchargent pas uniquement la dernière version des fichiers : ils sont la copie complète du dépot. Ainsi, si un serveur meurt, n'importe quel dépot client peut être copié sur le serveur pour le restaurer. Chaque copie est vraiment une sauvegarde complète de toutes les données (voir Figure 1-3). 
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+Figure 1-3. Diagramme de gestionnaire de version décentralisé.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+De plus, beaucoup de ces systèmes fonctionnent assez bien avec plusieurs dépôts distants, ainsi vous pouvez collaborer avec plusieurs groupes de personnes simultanément dans le même projet. Cela vous permet de mettre en place plusieurs façons de travailler qui ne sont pas possibles dans les systèmes centralisés, comme les modèles hiérarchiques.
 
-## A Short History of Git ##
+## Un petit historique de Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Comme pour beaucoup de grandes choses dans la vie, Git a commencé avec un peu de création destructive et une contreverse enflammée. Le noyau Linux est un projet de logiciel libre très large. Pendant la plus grande partie de la maintenance du noyau Linux (1991-2002), les modifications du code étaient échangées en tant que patchs et fichiers. En 2002, le projet a commencé à utiliser un DVCS propriétaire appelé BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+En 2005, la relation entre la communauté qui développait le noyau Linux et la société commerciale qui développait BitKeeper a été rompue et le droit d'utilisation gratuite a été révoqué. Cela a incité la communauté de développement de Linux (et en particulier Linus Torvalds, le créateur de Linux) à développer leur propre outil basé sur quelques-unes des leçons qu'ils ont appris en utilisant BitKeeper. Certains des objectifs du nouveau système sont les suivants :
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Vitesse
+*	Conception simple
+*	Permettre un développement non-linéaire (milliers de branches parallèles)
+*	Entièrement décentralisé
+*	Capable de gérer de grands projets comme le noyau Linux de manière effice (vitesse et taille des données)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Depuis sa naissance en 2005, Git a évolé et mûri pour être facile à utiliser mais en conservant cepandant ces qualités initiales. Il est incroyablement rapide, il est très efficace avec de grands projets et il a un incroyable système de branches pour des développements non-linéaires (voir chapitre 3).
 
-## Git Basics ##
+## Bases de Git ##
+
+Alors, qu'est ce que Git en quelques mots ? Il s'agit d'une section importante à absorber, parce que si vous comprennez ce qu'est Git et les fondamentaux de la façon dont il fonctionne, alors utiliser Git efficacement sera probablement beaucoup plus facile pour vous.
 
 So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
 

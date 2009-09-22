@@ -101,15 +101,15 @@ Git 协议可能也是最难架设的协议。它要求有单独的进程，需�
 
 #### HTTP/S 协议的优点 ####
 
-The upside of using the HTTP protocol is that it’s easy to set up. Running the handful of required commands gives you a simple way to give the world read access to your Git repository. It takes only a few minutes to do. The HTTP protocol also isn’t very resource intensive on your server. Because it generally uses a static HTTP server to serve all the data, a normal Apache server can serve thousands of files per second on average — it’s difficult to overload even a small server.
+使用 HTTP 协议的好处是易于架设。几条必要的命令就可以让全世界读取到仓库的内容。花费不过几分钟。HTTP 协议不会占用过多服务器资源。因为它一般只用到静态的 HTTP 服务提供所有的数据，正常的 Apache 服务器平均每秒能供应数千个文件——哪怕是让一个很菜的服务器超载都很难。
 
-You can also serve your repositories read-only over HTTPS, which means you can encrypt the content transfer; or you can go so far as to make the clients use specific signed SSL certificates. Generally, if you’re going to these lengths, it’s easier to use SSH public keys; but it may be a better solution in your specific case to use signed SSL certificates or other HTTP-based authentication methods for read-only access over HTTPS.
+只读的仓库还可以通过 HTTPS 来供应，这意味着传输内容可以加密；你甚至可以要求客户端使用特定签名的 SSL 证书。一般情况下，如果到了这一步，使用 SSH 公共密钥可能是更简单的方案；不过也存在一些特殊情况，这时用带签名的 SSL 证书或者其他基于 HTTP 的 HTTPS 方法来授权只读连接。
 
-Another nice thing is that HTTP is such a commonly used protocol that corporate firewalls are often set up to allow traffic through this port.
+HTTP 还有个额外的好处：HTTP 由于是一个如此常见的协议，以至于商用防火墙通常都允许通信经过它的端口。
 
-#### The Cons ####
+#### HTTP/S 的缺点 ####
 
-The downside of serving your repository over HTTP is that it’s relatively inefficient for the client. It generally takes a lot longer to clone or fetch from the repository, and you often have a lot more network overhead and transfer volume over HTTP than with any of the other network protocols. Because it’s not as intelligent about transferring only the data you need — there is no dynamic work on the part of the server in these transactions — the HTTP protocol is often referred to as a _dumb_ protocol. For more information about the differences in efficiency between the HTTP protocol and the other protocols, see Chapter 9.
+HTTP 协议的消极面在于它会相对降低给客户端的效率。克隆或者下载仓库内容可能会花费更多时间，而且 HTTP 传输的体积和负担比其他任何一个协议都大。因为它没有按需供应的能力——传输过程中没有服务端的动态计算——因而 HTTP 协议有时会被称为 _傻瓜(dumb)_ 协议。更多 HTTP 协议和其他协议效率上的差异见第九章。
 
 ## Getting Git on a Server ##
 

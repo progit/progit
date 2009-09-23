@@ -806,9 +806,9 @@ Git は、まだうまく動いていたと指定されたコミット (v1.0) �
 
 Git では、サブモジュールを使ってこの問題に対応します。サブモジュールを使うと、ある Git リポジトリを別の Git リポジトリのサブディレクトリとして扱うことができるようになります。これで、別のリポジトリをプロジェクト内にクローンしても自分のコミットは別管理とすることができるようになります。
 
-### Starting with Submodules ###
+### サブモジュールの作り方 ###
 
-Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
+Rack ライブラリ (Ruby のウェブサーバゲートウェイインターフェイス) を自分のプロジェクトに取り込むことになったとしましょう。手元で変更を加えるかもしれませんが、本家で更新があった場合にはそれを取り込み続けるつもりです。まず最初にしなければならないことは、外部のリポジトリをサブディレクトリにクローンすることです。外部のプロジェクトをサブモジュールとして追加するには `git submodule add` コマンドを使用します。
 
 	$ git submodule add git://github.com/chneukirchen/rack.git rack
 	Initialized empty Git repository in /opt/subtest/rack/.git/
@@ -818,7 +818,7 @@ Suppose you want to add the Rack library (a Ruby web server gateway interface) t
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 
-Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things:
+これで、プロジェクト内の `rack` サブディレクトリに Rack プロジェクトが取り込まれました。このサブディレクトリに入って変更を加えたり、書き込み権限のあるリモートリポジトリを追加してそこに変更をプッシュしたり、本家のリポジトリの内容を取得してマージしたり、さまざまなことができるようになります。サブモジュールを追加した直後に `git status` を実行すると、二つのものが見られます。
 
 	$ git status
 	# On branch master
@@ -829,16 +829,16 @@ Now you have the Rack project under a subdirectory named `rack` within your proj
 	#      new file:   rack
 	#
 
-First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
+まず気づくのが `.gitmodules` ファイルです。この設定ファイルには、プロジェクトの URL とそれを取り込んだローカルサブディレクトリの対応が格納されています。
 
 	$ cat .gitmodules 
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
+複数のサブモジュールを追加した場合は、このファイルに複数のエントリが書き込まれます。このファイルもまた他のファイルと同様にバージョン管理下に置かれることに注意しましょう。`.gitignore` ファイルと同じことです。プロジェクトの他のファイルと同様、このファイルもプッシュやプルの対象となります。プロジェクトをクローンした人は、このファイルを使ってサブモジュールの取得元を知ることになります。
 
-The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
+`git status` の出力に、もうひとつ rack というエントリが含まれています。これに対して `git diff` を実行すると、ちょっと興味深い結果が得られます。
 
 	$ git diff --cached rack
 	diff --git a/rack b/rack
@@ -849,11 +849,11 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
+`rack` は作業ディレクトリ内にあるサブディレクトリですが、Git はそれがサブモジュールであるとみなし、あなたがそのディレクトリにいない限りその中身を追跡することはありません。そのかわりに、Git はこのサブディレクトリを元のプロジェクトの特定のコミットとして記録します。このサブディレクトリ内に変更を加えてコミットすると、親プロジェクト側で HEAD が変わったことを検知し、実際の作業内容をコミットとして記録します。そうすることで、他の人がこのプロジェクトをクローンしたときに正しく環境を作れるようになります。
 
-This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
+ここがサブモジュールのポイントです。サブモジュールは、それがある場所の実際のコミットとして記録され、`master` やその他の参照として記録することはできません。
 
-When you commit, you see something like this:
+コミットすると、このようになります。
 
 	$ git commit -m 'first commit with submodule rack'
 	[master 0550271] first commit with submodule rack
@@ -861,9 +861,9 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
-Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
+rack エントリのモードが 160000 となったことに注目しましょう。これは Git における特別なモードで、サブディレクトリやファイルではなくディレクトリエントリとしてこのコミットを記録したことを意味します。
 
-You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
+`rack` ディレクトリを独立したプロジェクトとして扱い、ときどき親プロジェクトをアップデートして親プロジェクトの最新コミットにポインタを移動させることができます。すべての Git コマンドが、これらふたつのディレクトリで独立して使用可能です。
 
 	$ git log -1
 	commit 0550271328a0038865aad6331e620cd7238601bb

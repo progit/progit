@@ -708,9 +708,9 @@ Git がツリーを書き換えてコミットし、ブランチのポインタ�
 
 これで、すべてのコミットであなたのアドレスを新しいものに書き換えます。コミットにはその親の SHA-1 値が含まれるので、このコマンドは (マッチするメールアドレスが存在するものだけではなく) すべてのコミットを書き換えます。
 
-## Debugging with Git ##
+## Git によるデバッグ ##
 
-Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
+Git には、プロジェクトで発生した問題をデバッグするためのツールも用意されています。Git はほとんどあらゆる種類のプロジェクトで使えるように設計されているので、このツールも非常に汎用的なものです。しかし、バグを見つけたり不具合の原因を探したりするための助けとなるでしょう。
 
 ### File Annotation ###
 

@@ -1036,15 +1036,13 @@ Git でこれと同じことをするためのよい方法は、それぞれの�
 
 さて、戻ってきたら、空っぽの `rack` ディレクトリが得られました。ここで `git submodule update` を実行して再クローンするか、あるいは `/tmp/rack` ディレクトリを書き戻します。
 
-## Subtree Merging ##
+## サブツリーマージ ##
 
-Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
+サブモジュールの仕組みに関する問題を見てきました。今度は同じ問題を解決するための別の方法を見ていきましょう。Git でマージを行うときには、何をマージしなければならないのかを Git がまず調べてそれに応じた適切なマージ手法を選択します。ふたつのブランチをマージするときに Git が使うのは、_再帰 (recursive)_ 戦略です。三つ以上のブランチをマージするときには、Git は _たこ足 (octopus)_ 戦略を選択します。どちらの戦略を使うかは、Git が自動的に選択します。再帰戦略は複雑な三方向のマージ (共通の先祖が複数あるなど) もこなせますが、ふたつのブランチしか処理できないからです。たこ足マージは三つ以上のブランチを扱うことができますが、難しいコンフリクトを避けるためにより慎重になります。そこで、三つ以上のブランチをマージするときのデフォルトの戦略として選ばれています。しかし、それ以外にも選べる戦略があります。そのひとつが _サブツリー (subtree)_ マージで、これを使えば先ほどのサブプロジェクト問題に対応することができます。先ほどのセクションと同じような rack の取り込みを、サブツリーマージを用いて行う方法を紹介しましょう。
 
-However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
+サブツリーマージの考え方は、ふたつのプロジェクトがあるときに一方のプロジェクトをもうひとつのプロジェクトのサブディレクトリに位置づけたりその逆を行ったりするというものです。サブツリーマージを指定すると、Git は一方が他方のサブツリーであることを理解して適切にマージを行います。驚くべきことです。
 
-The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
-
-You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
+まずは Rack アプリケーションをプロジェクトに追加します。つまり、Rack プロジェクトをリモート参照として自分のプロジェクトに追加し、そのブランチにチェックアウトします。
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
@@ -1063,7 +1061,7 @@ You first add the Rack application to your project. You add the Rack project as 
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
-Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch. If you check out one and then the other, you can see that they have different project roots:
+これで Rack プロジェクトのルートが `rack_branch` ブランチに取得でき、あなたのプロジェクトが `master` ブランチにある状態になりました。まずどちらかをチェックアウトしてそれからもう一方に移ると、それぞれ別のプロジェクトルートとなっていることがわかります。
 
 	$ ls
 	AUTHORS	       KNOWN-ISSUES   Rakefile      contrib	       lib
@@ -1073,32 +1071,32 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	$ ls
 	README
 
-You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
+Rack プロジェクトを `master` プロジェクトのサブディレクトリとして取り込みたくなったときには、`git read-tree` を使います。`read-tree` とその仲間たちについては第 9 章で詳しく説明します。現時点では、とりあえず「あるブランチのルートツリーを読み込んで、それを現在のステージングエリアと作業ディレクトリに書き込むもの」だと認識しておけばよいでしょう。まず `master` ブランチに戻り、`rack` ブランチの内容を `master` ブランチの `rack` サブディレクトリに取り込みます。
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
+これをコミットすると、Rack のファイルをすべてサブディレクトリに取り込んだようになります。そう、まるで tarball からコピーしたかのような状態です。おもしろいのは、あるブランチでの変更を簡単に別のブランチにマージできるということです。もし Rack プロジェクトが更新されたら、そのブランチに切り替えてプルするだけで本家の変更を取得できます。
 
 	$ git checkout rack_branch
 	$ git pull
 
-Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
+これで、変更を master ブランチにマージできるようになりました。`git merge -s subtree` を使えばうまく動作します。が、Git は歴史もともにマージしようとします。おそらくこれはお望みの動作ではないでしょう。変更をプルしてコミットメッセージを埋めるには、戦略を指定するオプション `-s subtree` のほかに `--squash` オプションと `--no-commit` オプションを使います。
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+Rack プロジェクトでのすべての変更がマージされ、ローカルにコミットできる準備が整いました。この逆を行うこともできます。master ブランチの `rack` サブディレクトリで変更した内容を後で `rack_branch` ブランチにマージし、それをメンテナに投稿したり本家にプッシュしたりといったことも可能です。
 
-To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
+`rack` サブディレクトリの内容と `rack_branch` ブランチのコードの差分を取得する (そして、マージしなければならない内容を知る) には、通常の `diff` コマンドを使うことはできません。そのかわりに、`git diff-tree` で比較対象のブランチを指定します。
 
 	$ git diff-tree -p rack_branch
 
-Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
+あるいは、`rack` サブディレクトリの内容と前回取得したときのサーバの `master` ブランチとを比較するには、次のようにします。
 
 	$ git diff-tree -p rack_remote/master
 
-## Summary ##
+## まとめ ##
 
-You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.
+さまざまな高度な道具を使い、コミットやステージングエリアをより細やかに操作できる方法をまとめました。何か問題が起こったときには、いつ誰がどのコミットでそれを仕込んだのかを容易に見つけられるようになったことでしょう。また、プロジェクトの中で別のプロジェクトを使いたくなったときのための方法もいくつか紹介しました。Git を使った日々のコマンドラインでの作業の大半を、自身を持ってできるようになったことでしょう。

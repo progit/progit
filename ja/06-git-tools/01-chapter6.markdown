@@ -879,9 +879,9 @@ rack エントリのモードが 160000 となったことに注目しましょ�
 
 	    Document version change
 
-### Cloning a Project with Submodules ###
+### サブモジュールを含むプロジェクトのクローン ###
 
-Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
+ここでは、内部にサブモジュールを含むプロジェクトをクローンしてみます。すると、サブモジュールを含むディレクトリは取得できますがその中にはまだ何もファイルが入っていません。
 
 	$ git clone git://github.com/schacon/myproject.git
 	Initialized empty Git repository in /opt/myproject/.git/
@@ -897,7 +897,7 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
-The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
+`rack` ディレクトリは存在しますが、中身がからっぽです。ここで、ふたつのコマンドを実行しなければなりません。まず `git submodule init` でローカルの設定ファイルを初期化し、次に `git submodule update` でプロジェクトからのデータを取得し、親プロジェクトで指定されている適切なコミットをチェックアウトします。
 
 	$ git submodule init
 	Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
@@ -910,7 +910,7 @@ The `rack` directory is there, but empty. You must run two commands: `git submod
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
+これで、サブディレクトリ `rack` の中身が先ほどコミットしたときとまったく同じ状態になりました。別の開発者が rack のコードを変更してコミットしたときにそれを取り込んでマージするには、もう少し付け加えます。
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -926,7 +926,7 @@ Now your `rack` subdirectory is at the exact state it was in when you committed 
 	#      modified:   rack
 	#
 
-You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory:
+このマージで、サブモジュールが指すポインタの位置が変わりました。しかしサブモジュールディレクトリ内のコードは更新されていません。つまり、作業ディレクトリ内でダーティな状態になっています。
 
 	$ git diff
 	diff --git a/rack b/rack
@@ -937,7 +937,7 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
+これは、サブモジュールのポインタが指す位置と実際のサブモジュールディレクトリの中身が異なるからです。これを修正するには、ふたたび `git submodule update` を実行します。
 
 	$ git submodule update
 	remote: Counting objects: 5, done.
@@ -948,15 +948,15 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
+サブモジュールの変更をプロジェクトに取り込んだときには、毎回これをしなければなりません。ちょっと奇妙ですが、これでうまく動作します。
 
-One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
+よくある問題が、開発者がサブモジュール内でローカルに変更を加えたけれどそれを公開サーバにプッシュしていないときに起こります。ポインタの指す先を非公開の状態にしたまま、それを親プロジェクトにプッシュしてしまうと、他の開発者が `git submodule update` をしたときにサブモジュールが参照するコミットを見つけられなくなります。そのコミットは最初の開発者の環境にしか存在しないからです。この状態になると、次のようなエラーとなります。
 
 	$ git submodule update
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
 
-You have to see who last changed the submodule:
+サブモジュールを最後に更新したのがいったい誰なのかを突き止めなければなりません。
 
 	$ git log -1 rack
 	commit 85a3eee996800fcfa91e2119372dd4172bf76678
@@ -965,7 +965,7 @@ You have to see who last changed the submodule:
 
 	    added a submodule reference I will never make public. hahahahaha!
 
-Then, you e-mail that guy and yell at him.
+犯人がわかったら、メールで彼に怒鳴りつけてやりましょう。
 
 ### Superprojects ###
 

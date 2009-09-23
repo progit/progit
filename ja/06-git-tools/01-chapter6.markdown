@@ -973,13 +973,13 @@ rack エントリのモードが 160000 となったことに注目しましょ�
 
 Git でこれと同じことをするためのよい方法は、それぞれのサブフォルダを別々の Git リポジトリにして、それらのサブモジュールとして含む親プロジェクトとなる Git リポジトリを作ることです。この方式の利点は、親プロジェクトのタグやブランチを活用してプロジェクト間の関係をより細やかに定義できることです。
 
-### Issues with Submodules ###
+### サブモジュールでの問題 ###
 
-Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
+しかし、サブモジュールを使っているとなにかしらちょっとした問題が出てくるものです。まず、サブモジュールのディレクトリで作業をするときはいつも以上に注意深くならなければなりません。`git submodule update` を実行すると、プロジェクトの特定のバージョンをチェックアウトしますが、それはブランチの中にあるものではありません。これを、切り離されたヘッド (detached head) と呼びます。つまり、HEAD が何らかの参照ではなく直接特定のコミットを指している状態です。通常は、ヘッドが切り離された状態で作業をしようとは思わないでしょう。手元の変更が簡単に失われてしまうからです。最初に `submodule update` し、作業用のブランチを作らずにサブモジュールディレクトリ内にコミットし、`git submodule update` を再び実行すると、親プロジェクトでコミットが何もなくても Git は手元の変更を断りなく上書きしてしまいます。技術的な意味では手元の作業は失われたわけではないのですが、それを指すブランチが存在しない以上、先ほどの作業を取り戻すのは困難です。
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+この問題を回避するには、サブモジュールのディレクトリで作業をするときに `git checkout -b work` などとしてブランチを作っておきます。次にサブモジュールを更新するときにあなたの作業は消えてしまいますが、少なくとも元に戻すためのポインタは残っています。
 
-Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
+サブモジュールを含むブランチを切り替えるのは、これまた用心が必要です。新しいブランチを作成してそこにサブモジュールを追加し、サブモジュールを含まないブランチに戻ったとしましょう。そこには、サブモジュールのディレクトリが「追跡されていないディレクトリ」として残ったままになります。
 
 	$ git checkout -b rack
 	Switched to a new branch "rack"
@@ -1002,15 +1002,15 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	#
 	#      rack/
 
-You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up.
+これをどこか別の場所に移すか、削除しなければなりません。いずれにせよ、先ほどのブランチに戻ったときには改めてクローンしなおさなければならず、ローカルでの変更やプッシュしていないブランチは失われてしまうことになります。
 
-The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you:
+最後にもうひとつ、多くの人がハマるであろう点を指摘しておきましょう。これは、サブディレクトリからサブモジュールへ切り替えるときに起こることです。プロジェクト内で追跡しているファイルをサブモジュール内に移動したくなったとしましょう。よっぽど注意しないと、Git に怒られてしまいます。rack のファイルをプロジェクト内のサブディレクトリで管理しており、それをサブモジュールに切り替えたくなったとしましょう。サブディレクトリをいったん削除してから `submodule add` と実行すると、Git に怒鳴りつけられてしまいます。
 
 	$ rm -Rf rack/
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
 
-You have to unstage the `rack` directory first. Then you can add the submodule:
+まず最初に `rack` ディレクトリをアンステージしなければなりません。それからだと、サブモジュールを追加することができます。
 
 	$ git rm -r rack
 	$ git submodule add git@github.com:schacon/rack.git rack
@@ -1021,12 +1021,12 @@ You have to unstage the `rack` directory first. Then you can add the submodule:
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
 	Resolving deltas: 100% (1952/1952), done.
 
-Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
+これをどこかのブランチで行ったとしましょう。そこから、(まだサブモジュールへの切り替えがすんでおらず実際のツリーがある状態の) 別のブランチに切り替えようとすると、このようなエラーになります。
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
 
-You have to move the `rack` submodule directory out of the way before you can switch to a branch that doesn’t have it:
+いったん `rack` サブモジュールのディレクトリを別の場所に追い出してからでないと、サブモジュールを持たないブランチに切り替えることはできません。
 
 	$ mv rack /tmp/
 	$ git checkout master
@@ -1034,7 +1034,7 @@ You have to move the `rack` submodule directory out of the way before you can sw
 	$ ls
 	README	rack
 
-Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
+さて、戻ってきたら、空っぽの `rack` ディレクトリが得られました。ここで `git submodule update` を実行して再クローンするか、あるいは `/tmp/rack` ディレクトリを書き戻します。
 
 ## Subtree Merging ##
 

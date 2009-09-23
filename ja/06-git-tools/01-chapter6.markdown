@@ -967,11 +967,11 @@ rack エントリのモードが 160000 となったことに注目しましょ�
 
 犯人がわかったら、メールで彼に怒鳴りつけてやりましょう。
 
-### Superprojects ###
+### 親プロジェクト ###
 
-Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
+時には、大規模なプロジェクトのサブディレクトリから今自分がいるチームに応じた組み合わせを取得したくなることもあるでしょう。これは、CVS や Subversion から移行した場合によくあることでしょう。モジュールを定義したりサブディレクトリのコレクションを定義していたりといったかつてのワークフローをそのまま維持したいというような状況です。
 
-A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
+Git でこれと同じことをするためのよい方法は、それぞれのサブフォルダを別々の Git リポジトリにして、それらのサブモジュールとして含む親プロジェクトとなる Git リポジトリを作ることです。この方式の利点は、親プロジェクトのタグやブランチを活用してプロジェクト間の関係をより細やかに定義できることです。
 
 ### Issues with Submodules ###
 

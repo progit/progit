@@ -1,22 +1,22 @@
 # Git 工具 #
 
-By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+现在，你已经学习了为源代码控制而管理或者维护 Git 仓库所需的大多数日常命令和工作流程。你已经完成了跟踪和提交文件的基本任务，并且利用了暂存区和轻量级分支与合并的力量。
 
-Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
+接下来你将领略到一些 Git 可以做到的非常强大的功能，这些功能你可能并不会在日常操作中用到，但是有时你会发现它们非常有用。
 
 ## 修订版本（Revision）选择 ##
 
-Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+Git 允许你通过几种方法来指明特定的提交或者一定范围内的提交。了解它们并不是必需的，但是了解总没坏处。
 
-### Single Revisions ###
+### 单个修订版本 ###
 
-You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
+虽然你可以明确使用 SHA-1 校验和来指明一次提交，不过也有更加人性化的方法来做同样的事。本节概述了指明一次提交的诸多方法。
 
-### Short SHA ###
+### 短的 SHA ###
 
-Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
+Git 很聪明，它能够通过你提供的前几个字符来识别你想要的那次提交，只要你提供的那部分 SHA-1 最少有四个字符长，并且没有歧义——也就是说，当前仓库中只有一次提交以这段 SHA-1 开头。
 
-For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
+例如，想要查看一次指定的提交，假设你运行 `git log` 命令并找到你增加了功能的那次提交：
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,20 +38,20 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 	    added some blame and merge stuff
 
-In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
+假如这样，选择 `1c002dd....` 。如果你想 `git show` 这次提交，下面的命令是等价的（假设短的版本没有歧义）：
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
+Git 会根据你提供的 SHA-1 值识别出短的、独一无二的缩写。如果你传递 `--abbrev-commit` 给 `git log` 命令，输出会使用短的但独一无二的值；它默认使用七个字符来表示，不过必要时为了避免 SHA-1 的歧义，会增加字符数：
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the verison number
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+通常在一个项目中，使用八到十个字符来避免 SHA-1 歧义已经足够了。最大的 Git 项目之一，Linux 内核，也刚刚需要 12 个字符，而不是可能的 40 个字符来避免歧义。
 
 ### A SHORT NOTE ABOUT SHA-1 ###
 

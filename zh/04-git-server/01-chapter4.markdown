@@ -2,9 +2,9 @@
 
 到目前为止，你已经学会了用Git完成日常的工作。然而，如果想与他人合作，你还需要一个远程的Git仓库。尽管技术上可以从某个人的仓库里推送和获取数据，我们不鼓励这样做，因为这样一不小心就会引起混乱。退一步讲，你也希望你的合作者们即使在自己不开机的时候也能从仓库获取数据——拥有一个更稳定的公共仓库是很有必要的。因此，更好的合作方式是建立一个大家都可以访问的共享仓库，并从那里进行推送和获取数据。我们将把这个仓库成为“Git服务器”；你会发现架设一个Git仓库只需要花费一点点的资源，所以很少需要整个服务器来支持它。
 
-假设一个Git服务器不难。第一步是选择与服务器通讯的协议。本章的第一节将介绍可用的协议以及他们各自的优缺点。下面一节将介绍一些针对各个协议典型的设置以及如何在服务器上运行它们。最后，如果你不介意在别人的服务器上保存你的代码，并且经历自己架设和维护服务器的麻烦，我们介绍几个网络上的仓库运营服务。
+架设一个Git服务器不难。第一步是选择与服务器通讯的协议。本章的第一节将介绍可用的协议以及他们各自的优缺点。下面一节将介绍一些针对各个协议典型的设置以及如何在服务器上运行它们。最后，如果你不介意在别人的服务器上保存你的代码，并且经历自己架设和维护服务器的麻烦，我们介绍几个网络上的仓库运营服务。
 
-如果你对假设自己的服务器没兴趣，你可以跳到本章最后一节去看看如何创建一个代码寄存账户然后继续下一章，我们会在那里讨论一个分布式的代码控制环境的里里外外。
+如果你对架设自己的服务器没兴趣，你可以跳到本章最后一节去看看如何创建一个代码寄存账户然后继续下一章，我们会在那里讨论一个分布式的代码控制环境的里里外外。
 
 一个远程仓库通常只是一个 _纯仓库(bare repository)_ ——一个没有当前工作目录的仓库。因为该仓库只是一个合作媒介，所以不需要从硬盘上签出的快照；它仅仅是一些 Git 数据。简单的说，一个纯仓库是你项目里 `.git` 目录的内容，别无他物。
 
@@ -47,7 +47,7 @@ Git 允许使用四种主要的协议进行数据传输：本地传输，SSH 协
 
 ### SSH 协议 ###
 
-Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大多数地方本身已经支持 SSH 对服务器的访问——即使还没有，也很容易做到。SSH 也是唯一一个同时方便读和写操作的网络协议。另外两个网络协议（ HTTP 和 Git ）通常都是只读的，所以虽然二者对大多数人都可用，但为了写操作我们还是需要SSH。SSH 同时也是一个验证授权的网络协议；而因为其普遍性，通常也容易假设和使用。
+Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大多数地方本身已经支持 SSH 对服务器的访问——即使还没有，也很容易做到。SSH 也是唯一一个同时方便读和写操作的网络协议。另外两个网络协议（ HTTP 和 Git ）通常都是只读的，所以虽然二者对大多数人都可用，但为了写操作我们还是需要SSH。SSH 同时也是一个验证授权的网络协议；而因为其普遍性，通常也容易架设和使用。
 
 通过 SSH 克隆一个Git仓库，需要指明向下面这样给出 ssh:// 的 URL：
 
@@ -78,7 +78,7 @@ Git 协议是现存最快的传输协议。如果一个公共项目提供需要�
 #### Git 协议的缺点 ####
 
 Git 协议消极的一面是缺少授权机制。拿 Git 协议作为访问项目的唯一方法是不可取的。通常的做法是，同时提供 SSH 接口，让几个开发者拥有推送（写）权限，其他人通过 `git://` 拥有只读权限。
-Git 协议可能也是最难架设的协议。它要求有单独的进程，需要定制——我们将在本章的 “Gitosis” 一节详细介绍它的假设——需要设定 `xinetd` 或类似的程序，而这些就没那么大众了。它还需要防火墙开放 9418 端口，而企业级防火墙一般不允许对这个非标准端口的访问。大型的企业级防火墙通常会封锁这个少见的端口。
+Git 协议可能也是最难架设的协议。它要求有单独的进程，需要定制——我们将在本章的 “Gitosis” 一节详细介绍它的架设——需要设定 `xinetd` 或类似的程序，而这些就没那么大众了。它还需要防火墙开放 9418 端口，而企业级防火墙一般不允许对这个非标准端口的访问。大型的企业级防火墙通常会封锁这个少见的端口。
 
 ### HTTP/S 协议 ###
 
@@ -151,31 +151,31 @@ HTTP 协议的消极面在于它会相对降低给客户端的效率。克隆或
 
 ### 小型安装 ###
 
-如果设备较少或者你只想在小型的开发团队里尝试 Git ，那么一切都很简单。假设 Git 服务最复杂的方面之一在于账户管理。如果需要仓库对特定的用户可读，而给另一部分用户读写权限，那么访问和许可的安排就比较困难。
+如果设备较少或者你只想在小型的开发团队里尝试 Git ，那么一切都很简单。架设 Git 服务最复杂的方面之一在于账户管理。如果需要仓库对特定的用户可读，而给另一部分用户读写权限，那么访问和许可的安排就比较困难。
 
-#### SSH Access ####
+#### SSH 连接 ####
 
-If you already have a server to which all your developers have SSH access, it’s generally easiest to set up your first repository there, because you have to do almost no work (as we covered in the last section). If you want more complex access control type permissions on your repositories, you can handle them with the normal filesystem permissions of the operating system your server runs.
+如果已经有了一个所有开发成员都可以用 SSH 访问的服务器，架设第一个服务器将变得异常简单，几乎什么都不用做（正如上节中介绍的那样）。如果需要对仓库进行更复杂的访问控制，只要使用服务器操作系统的本地文件访问许可机制就行了。
 
-If you want to place your repositories on a server that doesn’t have accounts for everyone on your team whom you want to have write access, then you must set up SSH access for them. We assume that if you have a server with which to do this, you already have an SSH server installed, and that’s how you’re accessing the server.
+如果需要团队里的每个人都对仓库有写权限，又不能给每个人在服务器上建立账户，那么提供 SSH 连接就是唯一的选择了。我们假设用来共享仓库的服务器已经安装了 SSH 服务，而且你通过它访问服务器。
 
-There are a few ways you can give access to everyone on your team. The first is to set up accounts for everybody, which is straightforward but can be cumbersome. You may not want to run `adduser` and set temporary passwords for every user.
+有好几个办法可以让团队的每个人都有访问权。第一个办法是给每个人建立一个账户，直截了当但过于繁琐。反复的运行 `adduser` 并且给所有人设定临时密码可不是好玩的。
 
-A second method is to create a single 'git' user on the machine, ask every user who is to have write access to send you an SSH public key, and add that key to the `~/.ssh/authorized_keys` file of your new 'git' user. At that point, everyone will be able to access that machine via the 'git' user. This doesn’t affect the commit data in any way — the SSH user you connect as doesn’t affect the commits you’ve recorded.
+第二个办法是在主机上建立一个 `git` 账户，让每个需要写权限的人发送一个 SSH 公钥，然后将其加入 `git` 账户的 `~/.ssh/authorized_keys` 文件。这样一来，所有人都将通过 `git` 账户访问主机。这丝毫不会影响提交的数据——访问主机用的身份不会影响commit的记录。
 
-Another way to do it is to have your SSH server authenticate from an LDAP server or some other centralized authentication source that you may already have set up. As long as each user can get shell access on the machine, any SSH authentication mechanism you can think of should work.
+另一个办法是让 SSH 服务器通过某个 LDAP 服务，或者其他已经设定好的集中授权机制，来进行授权。只要每个人都能获得主机的 shell 访问权，任何可用的 SSH 授权机制都能达到相同效果。
 
-## Generating Your SSH Public Key ##
+## 生成 SSH 公钥 ##
 
-That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
-First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:
+话虽如此，大多数 Git 服务器使用 SSH 公钥来授权。为了得到授权，系统中的每个没有公钥用户都得生成一个新的。该过程在所有操作系统上都差不多。
+首先，确定一下是否已经有一个公钥了。SSH 公钥默认储存在账户的 `~/.ssh` 目录。进入那里并查看其内容，有没有公钥一目了然：
 
 	$ cd ~/.ssh
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
 
-You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:
+关键是看有没有用 文件名 和 文件名.pub 来命名的一对文件，这个 文件名 通常是 `id_dsa` 或者 `id_rsa`。 `.pub` 文件是公钥，另一个文件是密钥。假如没有这些文件（或者干脆连 `.ssh` 目录都没有），你可以用 `ssh-keygen` 的程序来建立它们，该程序在 Linux/Mac 系统由 SSH 包提供， 在 Windows 上则包含在 MSysGit 包里：
 
 	$ ssh-keygen 
 	Generating public/private rsa key pair.
@@ -187,9 +187,9 @@ You’re looking for a pair of files named something and something.pub, where th
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-First it confirms where you want to save the key (`.ssh/id_rsa`), and then it asks twice for a passphrase, which you can leave empty if you don’t want to type a password when you use the key.
+它先要求你确认保存公钥的位置（`.ssh/id_rsa`），然后它会让你重复一个密码两次，如果不想在使用公钥的时候输入密码，可以留空。
 
-Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:
+现在，所有做过这一步的用户都得把它们的公钥给你或者 Git 服务器的管理者（假设 SSH 服务被设定为使用公钥机制）。他们只需要复制 `.put` 文件的内容然后 e-email 之。公钥的样子大致如下：
 
 	$ cat ~/.ssh/id_rsa.pub 
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -199,7 +199,7 @@ Now, each user that does this has to send their public key to you or whoever is 
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
-For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
+关于在多个操作系统上设立相同 SSH 公钥的教程，可以在 GitHub 有关 SSH 公钥的向导中找到：`http://github.com/guides/providing-your-ssh-key`。
 
 ## Setting Up the Server ##
 

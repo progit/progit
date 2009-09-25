@@ -266,18 +266,19 @@ Nebo pokud jste na distribuci založené na Debianu (např. Ubuntu), použijte A
 
 ### Instalujeme na Macu ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Existují dva jednoduché způsoby, jak nainstalovat Git na Mac. Nejjednodušší je použít grafický instalátor, který si můžete stáhnout ze stránek Google Code (viz obr. 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer
+Obrázek 1-7. Git OS X installer
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+Druhá základní možnost je přes MacPorts (`http://www.macports.org`). Když už je máte, instalujete Git pomocí
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Nemusíte samozřejmě přidávat všechny extra balíčky, ale určitě si vyberete naapř. +svn, pokud musíte ještě
+používat Git s repoozitáři Subversion (více v kapitole 8).
 
 ### Installing on Windows ###
 

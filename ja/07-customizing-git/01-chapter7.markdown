@@ -27,11 +27,11 @@ Git の設定オプションは、おおきく二種類に分類できます。�
 
 #### core.editor ####
 
-By default, Git uses whatever you’ve set as your default text editor or else falls back to the Vi editor to create and edit your commit and tag messages. To change that default to something else, you can use the `core.editor` setting:
+コミットやタグのメッセージを編集するときに使うエディタは、ユーザがデフォルトエディタとして設定したものとなります。デフォルトエディタが設定されていない場合は Vi エディタを使います。このデフォルト設定を別のものに変更するには `core.editor` を設定します。
 
 	$ git config --global core.editor emacs
 
-Now, no matter what is set as your default shell editor variable, Git will fire up Emacs to edit messages.
+これで、シェルのデフォルトエディタを設定していない場合に Git が起動するエディタが Emacs に変わりました。
 
 #### commit.template ####
 

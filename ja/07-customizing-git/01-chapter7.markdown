@@ -71,11 +71,11 @@ Git の設定オプションは、おおきく二種類に分類できます。�
 
 #### core.pager ####
 
-The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
+core.pager は、Git が `log` や `diff` などを出力するときに使うページャを設定します。`more` などのお好みのページャを設定したり (デフォルトは `less` です)、空文字列を設定してページャを使わないようにしたりすることができます。
 
 	$ git config --global core.pager ''
 
-If you run that, Git will page the entire output of all commands, no matter how long they are.
+これを実行すると、すべてのコマンドの出力を、どんなに長くなったとしても全部 Git が出力するようになります。
 
 #### user.signingkey ####
 

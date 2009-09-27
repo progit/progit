@@ -89,7 +89,7 @@ core.pager は、Git が `log` や `diff` などを出力するときに使う�
 
 #### core.excludesfile ####
 
-You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have.
+プロジェクトごとの `.gitignore` ファイルでパターンを指定すると、`git add` したときに Git がそのファイルを無視してステージしないようになります。これについては第 2 章で説明しました。しかし、これらの内容をプロジェクトの外部で管理したい場合は、そのファイルがどこにあるのかを `core.excludesfile` で設定します。ここに設定する内容はファイルのパスです。ファイルの中身は `.gitignore` と同じ形式になります。
 
 #### help.autocorrect ####
 

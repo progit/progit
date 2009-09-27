@@ -79,11 +79,11 @@ core.pager は、Git が `log` や `diff` などを出力するときに使う�
 
 #### user.signingkey ####
 
-If you’re making signed annotated tags (as discussed in Chapter 2), setting your GPG signing key as a configuration setting makes things easier. Set your key ID like so:
+署名入りの注釈付きタグ (第 2 章で取り上げました) を作る場合は、GPG 署名用の鍵を登録しておくと便利です。鍵の ID を設定するには、このようにします。
 
 	$ git config --global user.signingkey <gpg-key-id>
 
-Now, you can sign tags without having to specify your key every time with the `git tag` command:
+これで、`git tag` コマンドでいちいち鍵を指定しなくてもタグに署名できるようになりました。
 
 	$ git tag -s <tag-name>
 

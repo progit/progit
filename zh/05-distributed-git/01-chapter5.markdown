@@ -106,7 +106,7 @@ If all your commit messages look like this, things will be a lot easier for you 
 
 In the following examples, and throughout most of this book, for the sake of brevity I don’t format messages nicely like this; instead, I use the `-m` option to `git commit`. Do as I say, not as I do.
 
-### Private Small Team ###
+### 私有的小型团队 ###
 
 The simplest setup you’re likely to encounter is a private project with one or two other developers. By private, I mean closed source — not read-accessible to the outside world. You and the other developers all have push access to the repository.
 

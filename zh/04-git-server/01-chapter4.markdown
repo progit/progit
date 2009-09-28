@@ -6,7 +6,7 @@
 
 如果你对架设自己的服务器没兴趣，可以跳到本章最后一节去看看如何创建一个代码托管账户然后继续下一章，我们会在那里讨论一个分布式源码控制环境的林林总总。
 
-远程仓库通常只是一个 _纯仓库(bare repository)_ ——一个没有当前工作目录的仓库。因为该仓库只是一个合作媒介，所以不需要从一个处于已从磁盘上签出状态的快照；仓库里仅仅是 Git 的数据。简单的说，纯仓库是你项目里 `.git` 目录的内容，别无他物。
+远程仓库通常只是一个 _纯仓库(bare repository)_ ——一个没有当前工作目录的仓库。因为该仓库只是一个合作媒介，所以不需要从一个处于已从硬盘上签出状态的快照；仓库里仅仅是 Git 的数据。简单的说，纯仓库是你项目里 `.git` 目录的内容，别无他物。
 
 ## 协议 ##
 
@@ -83,7 +83,7 @@ Git 协议可能也是最难架设的协议。它要求有单独的守护进程�
 ### HTTP/S 协议 ###
 
 最后还剩下 HTTP 协议。HTTP 或 HTTPS 协议的优美之处在于架设的简便性。基本上，
-只需要把 Git 的纯仓库文件放在 HTTP 的文件根目录下，配置一个特定的 `post-update` 挂钩（hook），就搞定了（Git 挂钩的细节见第七章）。从此，每个能访问 Git 仓库所在服务器上的网页服务的人都可以进行克隆操作。下面的操作可以允许通过 HTTP 对仓库进行读取：
+只需要把 Git 的纯仓库文件放在 HTTP 的文件根目录下，配置一个特定的 `post-update` 挂钩（hook），就搞定了（Git 挂钩的细节见第七章）。从此，每个能访问 Git 仓库所在服务器上的 web 服务的人都可以进行克隆操作。下面的操作可以允许通过 HTTP 对仓库进行读取：
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -95,7 +95,7 @@ Git 协议可能也是最难架设的协议。它要求有单独的守护进程�
 
 	$ git clone http://example.com/gitproject.git
 
-在本例中，我们使用了 Apache 设定中常用的 `/var/www/htdocs` 路径，不过你可以使用任何静态网页服务——把纯仓库放在它的目录里就行了。 Git 的数据是以最基本的静态文件的形式提供的（关于如何提供文件的详情见第9章）。
+在本例中，我们使用了 Apache 设定中常用的 `/var/www/htdocs` 路径，不过你可以使用任何静态 web 服务——把纯仓库放在它的目录里就行了。 Git 的数据是以最基本的静态文件的形式提供的（关于如何提供文件的详情见第9章）。
 
 通过HTTP进行推送操作也是可能的，不过这种做法不太常见并且牵扯到复杂的 WebDAV 架设。由于很少用到，本书将略过对该内容的讨论。如果你对 HTTP 推送协议感兴趣，不妨在这个地址看一下如何操作：`http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` 。通过 HTTP 推送的好处之一是你可以使用任何 WebDAV 服务器，不需要为 Git 设定特殊环境；所以如果主机提供商支持通过 WebDAV 更新网站内容，你也可以使用这项功能。
 
@@ -270,29 +270,29 @@ HTTP 协议的消极面在于，相对来说客户端效率更低。克隆或者
 	fatal: What do you think I am? A shell? （你以为我是个啥？shell吗？)
 	Connection to gitserver closed. （gitserver 连接已断开。）
 
-## Public Access ##
+## 公共访问 ##
 
-What if you want anonymous read access to your project? Perhaps instead of hosting an internal private project, you want to host an open source project. Or maybe you have a bunch of automated build servers or continuous integration servers that change a lot, and you don’t want to have to generate SSH keys all the time — you just want to add simple anonymous read access.
+匿名的读取权限该怎么实现呢？也许除了内部私有的项目之外，你还需要托管一些开源项目。抑或你使用一些自动化的服务器来进行编译，或者一些经常变化的服务器群组，而又不想整天生成新的 SSH 密钥——总之，你需要简单的匿名读取权限。
 
-Probably the simplest way for smaller setups is to run a static web server with its document root where your Git repositories are, and then enable that `post-update` hook we mentioned in the first section of this chapter. Let’s work from the previous example. Say you have your repositories in the `/opt/git` directory, and an Apache server is running on your machine. Again, you can use any web server for this; but as an example, we’ll demonstrate some basic Apache configurations that should give you an idea of what you might need.
+或许对小型的配置来说最简单的办法就是运行一个静态 web 服务，把它的根目录设定为 Git 仓库所在的位置，然后开启本章第一节提到的 `post-update` 挂钩。这里继续使用之前的例子。假设仓库处于 `/opt/git` 目录，主机上运行着 Apache 服务。重申一下，任何 web 服务程序都可以达到相同效果；作为范例，我们将用一些基本的 Apache 设定来展示大体需要的步骤。
 
-First you need to enable the hook:
+首先，开启挂钩：
 
 	$ cd project.git
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-If you’re using a version of Git earlier than 1.6, the `mv` command isn’t necessary — Git started naming the hooks examples with the .sample postfix only recently. 
+假如使用的 Git 版本小于 1.6，那 `mv` 命令可以省略—— Git 是从较晚的版本才开始在挂钩实例的结尾添加 .sample 后缀名的。
 
-What does this `post-update` hook do? It looks basically like this:
+`post-update` 挂钩是做什么的呢？其内容大致如下：
 
 	$ cat .git/hooks/post-update 
 	#!/bin/sh
 	exec git-update-server-info
 
-This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.
+意思是当通过 SSH 向服务器推送时，Git 将运行这个命令来更新 HTTP 获取所需的文件。
 
-Next, you need to add a VirtualHost entry to your Apache configuration with the document root as the root directory of your Git projects. Here, we’re assuming that you have wildcard DNS set up to send `*.gitserver` to whatever box you’re using to run all this:
+其次，在 Apache 配置文件中添加一个 VirtualHost 条目，把根文件（译注： DocumentRoot 参数）设定为 Git 项目的根目录。假定 DNS 服务已经配置好，会把 `.gitserver` 发送到任何你所在的主机来运行这些：
 
 	<VirtualHost *:80>
 	    ServerName git.gitserver
@@ -303,15 +303,15 @@ Next, you need to add a VirtualHost entry to your Apache configuration with the 
 	    </Directory>
 	</VirtualHost>
 
-You’ll also need to set the Unix user group of the `/opt/git` directories to `www-data` so your web server can read-access the repositories, because the Apache instance running the CGI script will (by default) be running as that user:
+另外，需要把 `/opt/git` 目录的 Unix 用户组设定为 `www-data` ，这样 web 服务才可以读取仓库内容，因为 Apache 运行 CGI 脚本的模块（默认）使用的是该用户：
 
 	$ chgrp -R www-data /opt/git
 
-When you restart Apache, you should be able to clone your repositories under that directory by specifying the URL for your project:
+重启 Apache 之后，就可以通过项目的 URL 来克隆该目录下的仓库了。
 
 	$ git clone http://git.gitserver/project.git
 
-This way, you can set up HTTP-based read access to any of your projects for a fair number of users in a few minutes. Another simple option for public unauthenticated access is to start a Git daemon, although that requires you to daemonize the process - we’ll cover this option in the next section, if you prefer that route.
+这一招可以让你在几分钟内为相当数量的用户架设好基于 HTTP 的读取权限。另一个提供非授权访问的简单方法是开启一个 Git 守护进程，不过这将要求该进程的常驻——下一节将是想走这条路的人准备的。
 
 ## GitWeb ##
 

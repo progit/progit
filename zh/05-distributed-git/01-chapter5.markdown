@@ -53,7 +53,7 @@ Insert 18333fig0503.png
 
 ## 为项目作贡献 ##
 
-You know what the different workflows are, and you should have a pretty good grasp of fundamental Git usage. In this section, you’ll learn about a few common patterns for contributing to a project.
+接下来，我们来学习一下作为项目贡献者，有哪些常见的工作模式。
 
 The main difficulty with describing this process is that there are a huge number of variations on how it’s done. Because Git is very flexible, people can and do work together many ways, and it’s problematic to describe how you should contribute to a project — every project is a bit different. Some of the variables involved are active contributor size, chosen workflow, your commit access, and possibly the external contribution method.
 

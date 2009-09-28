@@ -165,17 +165,17 @@ Een tweede methode is een 'git' gebruiker aanmaken op de machine, aan iedere geb
 
 Een andere manier waarop je het kunt doen is je SSH server laten verifieren vanaf een LDAP server of een andere gecentraliseerde verifivatie bron, die je misschien al ingesteld hebt. Zolang dat iedere gebruiker een shell toegang heeft op de machine, zou ieder SSH verificatie mechanisme dat je kunt bedenken moeten werken.
 
-## Generating Your SSH Public Key ##
+## Je Publieke SSH Sleutel Genereren ##
 
-That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
-First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:
+Dat gezegd hebbende, zijn er vele Git servers die verifieren met een publieke SSH sleutel. Om een publieke sleutel te hebben, zal iedere gebruiker in je systeem er een moeten genereren als ze er nog geen hebben. Dit proces is bij alle operating systemen vergelijkbaar.
+Als eerste moet je controleren dat je er niet al een hebt. Standaard staan de SSH sleutels van de gebruikers in hun eigen `~/.ssh` map. Je kunt makkelijk nagaan of je al een sleutel hebt door naar die map te gaan en de inhoud te tonen:
 
 	$ cd ~/.ssh
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
 
-You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:
+Je bent op zoek naar een aantal bestanden genaamd iets en iets.pub, waarbij het iets meestal zoiets is als `id_dsa` of `id_rsa`. Het `.pub` bestand is je publieke sleutel en het andere bestand is je private sleutel. Als je deze bestanden niet hebt (of als je zelfs geen `.ssh` map hebt), dan kun je ze aanmaken door een applicatie genaamd `ssh-keygen` uit te voeren, wat meegeleverd wordt met het SSH pakket op Linux/Mac systemen en meegeleverd wordt met het MSysGit pakket op Windows:
 
 	$ ssh-keygen 
 	Generating public/private rsa key pair.
@@ -187,9 +187,9 @@ You’re looking for a pair of files named something and something.pub, where th
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-First it confirms where you want to save the key (`.ssh/id_rsa`), and then it asks twice for a passphrase, which you can leave empty if you don’t want to type a password when you use the key.
+Eerst bevestigd het de lokatie waar je de sleutel wilt opslaan (`.ssh/id_rsa`), en vervolgens vraagt het tweemaal om een wachtzin, die je leeg kunt laten als je geen wachtwoordt wilt intypen op het moment dat je de sleutel gebruikt.
 
-Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:
+Iedere gebruiker die dit doet, moet zijn sleutel sturen naar jou of degene die de Git server beheerd (aangenomen dat je een SSH server gebruikt die publieke sleutels vereist). Het enige dat ze hoeven doen is de inhoud van het `.pub` bestand kopieeren en e-mailen. De publieke sleutel ziet er ongeveer zo uit:
 
 	$ cat ~/.ssh/id_rsa.pub 
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -199,18 +199,18 @@ Now, each user that does this has to send their public key to you or whoever is 
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
-For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
+Voor een uitgebreide tutorial over het aanmaken van een SSH sleutel op meerdere operating systemen, zie de GitHub handleiding over SSH sleutels op `http://github.com/guides/providing-your-ssh-key`.
 
-## Setting Up the Server ##
+## De Server Instellen ##
 
-Let’s walk through setting up SSH access on the server side. In this example, you’ll use the `authorized_keys` method for authenticating your users. We also assume you’re running a standard Linux distribution like Ubuntu. First, you create a 'git' user and a `.ssh` directory for that user.
+Laten we het instellen van SSH toegang aan de server kant eens doorlopen. In dit voorbeeld zul je de `authorized_keys` methode gebruiken om je gebruikers te verifieren. We gaan er ook vanuit dat je een standaard Linux distributie gebruikt zoals Ubuntu. Als eerste creeer je een 'git' gebruiker een een `.ssh` map voor die gebruiker.
 
 	$ sudo adduser git
 	$ su git
 	$ cd
 	$ mkdir .ssh
 
-Next, you need to add some developer SSH public keys to the `authorized_keys` file for that user. Let’s assume you’ve received a few keys by e-mail and saved them to temporary files. Again, the public keys look something like this:
+Daarna moet je een aantal publieke SSH sleutels van ontwikkelaars aan het `authorized_keys` bestand toevoegen voor die gebruiker. Laten we aannemen dat je een aantal sleutels per e-mail ontvangen hebt en ze hebt opgeslagen in tijdelijke bestanden. Nogmaals, de sleutels zien er ongeveer zo uit:
 
 	$ cat /tmp/id_rsa.john.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
@@ -220,20 +220,20 @@ Next, you need to add some developer SSH public keys to the `authorized_keys` fi
 	O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 	dAv8JggJICUvax2T9va5 gsg-keypair
 
-You just append them to your `authorized_keys` file:
+Je voegt ze slechts toe aan je `authorized_keys` bestand:
 
 	$ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
-Now, you can set up an empty repository for them by running `git init` with the `--bare` option, which initializes the repository without a working directory:
+Nu kun je een leeg repository voor ze instellen door `git init` uit te voeren met de `--bare` optie, wat het repository initialiseerd zonder een werkmap:
 
 	$ cd /opt/git
 	$ mkdir project.git
 	$ cd project.git
 	$ git --bare init
 
-Then, John, Josie, or Jessica can push the first version of their project into that repository by adding it as a remote and pushing up a branch. Note that someone must shell onto the machine and create a bare repository every time you want to add a project. Let’s use `gitserver` as the hostname of the server on which you’ve set up your 'git' user and repository. If you’re running it internally, and you set up DNS for `gitserver` to point to that server, then you can use the commands pretty much as is:
+Daarna kunnen John, Josie of Jessica de eerste versie van hun project in dat repository pushen door het als een remote toe te voegen en naar een branch te pushen. Let op dat iemand met een shell in de machine zal moeten loggen een een bare repository moet creeeren, iedere keer als je een project wilt toevoegen. Laten we `gitserver` als hostnaam gebruiken voor de server waar je je 'git' gebruiker en repository hebt ingesteld. Als je het intern gaat draaien, en je de DNS insteld zodat `gitserver` naar die server wijst, dan kun je de commando's vrijwel ongewijzigd gebruiken:
 
 	# on Johns computer
 	$ cd myproject
@@ -243,7 +243,7 @@ Then, John, Josie, or Jessica can push the first version of their project into t
 	$ git remote add origin git@gitserver:/opt/git/project.git
 	$ git push origin master
 
-At this point, the others can clone it down and push changes back up just as easily:
+Op dat punt kunnen de anderen het clonen en wijzigingen even gemakkelijk terug pushen:
 
 	$ git clone git@gitserver:/opt/git/project.git
 	$ vim README

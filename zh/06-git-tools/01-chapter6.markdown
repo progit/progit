@@ -14,7 +14,7 @@ Git 允许你通过几种方法来指明特定的提交或者一定范围内的�
 
 ### 短的 SHA ###
 
-Git 很聪明，它能够通过你提供的前几个字符来识别你想要的那次提交，只要你提供的那部分 SHA-1 最少有四个字符长，并且没有歧义——也就是说，当前仓库中只有一次提交以这段 SHA-1 开头。
+Git 很聪明，它能够通过你提供的前几个字符来识别你想要的那次提交，只要你提供的那部分 SHA-1 最少有四个字符长，并且没有歧义——也就是说，当前仓库中只有一个对象以这段 SHA-1 开头。
 
 例如，想要查看一次指定的提交，假设你运行 `git log` 命令并找到你增加了功能的那次提交：
 
@@ -53,33 +53,33 @@ Git 会根据你提供的 SHA-1 值识别出短的、独一无二的缩写。如
 
 通常在一个项目中，使用八到十个字符来避免 SHA-1 歧义已经足够了。最大的 Git 项目之一，Linux 内核，也刚刚需要 12 个字符，而不是可能的 40 个字符来避免歧义。
 
-### A SHORT NOTE ABOUT SHA-1 ###
+### 关于 SHA-1 的简短说明 ###
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
+许多人可能会担心一个问题：在随机的偶然情况下，在他们的仓库里会出现两个具有相同 SHA-1 值的对象。那会怎么样呢？
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+如果你真的向仓库里提交了一个跟之前的某个对象具有相同 SHA-1 值的对象，Git 将会发现之前的那个对象已经存在在 Git 数据库中，并认为它已经被写入了。如果你什么时候想再次签出那个对象时，你会总是得到先前对象的数据。
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+不过，你应该了解到，这种情况发生的概率是多么渺小。SHA-1 摘要长度是 20 字节，也就是 160 位。为了保证有 50% 的概率出现一次冲突，需要 2^80 个随机哈希的对象（计算冲突机率的公式是 `p = (n(n-1)/2) * (1/2^160))`。2^80 是 1.2 x 10^24，也就是一亿亿亿，那是地球上沙粒总数的 1200 倍。
 
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+现在举例说一下怎样才能产生一次 SHA-1 冲突。如果地球上 65 亿的人类都在编程，每人每秒都在产生等价于整个 Linux 内核历史（一百万个 Git 对象）的代码，并将之提交到一个巨大的 Git 仓库里面，那将花费 5 年的时间才会产生足够的对象，使其拥有 50% 的概率产生一次 SHA-1 对象冲突。这要比你编程团队的成员同一个晚上在互不相干的意外中被狼袭击并杀死的机率还要小。
 
-### Branch References ###
+### 分支引用 ###
 
-The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
+最直接的指明一次提交的方法，需要有一个指向它的分支引用。这样，你就可以在任何需要一个提交对象或者 SHA-1 值的 Git 命令中使用该分支名称了。如果你想要显示一个分支的最后一次提交的对象，例如假设 `topic1` 分支指向 `ca82a6d`，那么下面的命令是等价的：
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
+如果你想知道某个分支指向哪个特定的 SHA，或者想看任何一个例子中被简写的 SHA-1，你可以使用一个叫做 `rev-parse` 的 Git 探测工具。在第 9 章你可以看到关于探测工具的更多信息；简单来说，`rev-parse` 是为了底层操作而不是日常操作设计的。不过，有时你想看 Git 现在到底处于什么状态时，它可能会很有用。这里你可以对你的分支运执行 `rev-parse`。
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### RefLog Shortnames ###
+### 引用日志里的简称 ###
 
-One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+在你工作的同时，Git 在后台的工作之一就是保存一份引用日志——一份记录最近几个月你的 HEAD 和分支引用的日志。
 
-You can see your reflog by using `git reflog`:
+你可以使用 `git reflog` 来查看引用日志：
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
@@ -90,17 +90,17 @@ You can see your reflog by using `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
+每次你的分支顶端因为某些原因被修改时，Git 就会为你将信息保存在这个临时历史记录里面。你也可以使用这份数据来指明更旧的分支。如果你想查看仓库中 HEAD 在五次前的值，你可以使用引用日志的输出中的 `@{n}` 引用：
 
 	$ git show HEAD@{5}
 
-You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
+你也可以使用这个语法来查看一定时间前分支指向哪里。例如，想看你的 `master` 分支昨天在哪，你可以输入
 
 	$ git show master@{yesterday}
 
-That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
+它就会显示昨天分支的顶端在哪。这项技术只对还在你引用日志里的数据有用，所以不能用来查看比几个月前还早的提交。
 
-To see reflog information formatted like the `git log` output, you can run `git log -g`:
+想要看类似于 `git log` 输出格式的引用日志信息，你可以运行 `git log -g`：
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -119,7 +119,7 @@ To see reflog information formatted like the `git log` output, you can run `git 
 
 	    Merge commit 'phedders/rdocs'
 
-It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
+需要注意的是，日志引用信息只存在于本地——这是一个你在仓库里做过什么的日志。其他人的仓库拷贝里的引用和你的相同；而你新克隆一个仓库的时候，引用日志是空的，因为你在仓库里还没有操作。只有你克隆了一个项目至少两个月，`git show HEAD@{2.months.ago}` 才会有用——如果你是五分钟前克隆的仓库，将不会有结果返回。
 
 ### Ancestry References ###
 

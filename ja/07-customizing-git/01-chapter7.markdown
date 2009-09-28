@@ -103,9 +103,9 @@ core.pager は、Git が `log` や `diff` などを出力するときに使う�
 
 `help.autocorrect` を 1 にしておくと、同じような場面でもし候補がひとつしかなければ自動的にそれを実行します。
 
-### Colors in Git ###
+### Git における色 ###
 
-Git can color its output to your terminal, which can help you visually parse the output quickly and easily. A number of options can help you set the coloring to your preference.
+Git では、ターミナルへの出力に色をつけることができます。ぱっと見て、すばやくお手軽に出力内容を把握できるようになるでしょう。さまざまなオプションで、お好みに合わせて色を設定しましょう。
 
 #### color.ui ####
 

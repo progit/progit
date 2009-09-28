@@ -9,7 +9,13 @@ zh:
   font: AR PL UMing CN
   fig: "图 "
 ja:
-  font: Kochi Mincho
-  fig: 図
+  font: Japan
+  fig: "図"
+  tab: "表"
 ru:
   fig: "рисунок "
+cs:
+  chap: "Kapitola "
+  sect: "Oddíl "
+  fig: "Obrázek "
+  tab: "Tabulka "

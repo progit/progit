@@ -10,12 +10,12 @@ Se você é um designer gráfico ou um web designer e quer manter todas as vers�
 
 ### Sistemas de Controle de Versão Locais ###
 
-O método mais escolhido por muitas pessoas de controlar versões é copiar arquivos e guardá-los em outro diretório (talvez um diretório com data/hora, se forem espertos). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+O método mais escolhido por muitas pessoas de controlar versões é copiar arquivos e guardá-los em outro diretório (talvez um diretório com data/hora, se forem espertos). Esta abordagem é muito comum por ser tão simples, mas é também muito suscetível a erros. É facíl esquecer em qual diretório você estava e gravar acidentalmente sobre o arquivo errado ou sobrescrever arquivos sem querer.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Para lidar com esse problema, alguns programadores desenvolveram há muito tempo VCS's locais que armazenavam todas as alterações dos arquivos sob controle de versão/revisão (ver Figura 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram
+Figura 1-1. Diagrama de controle de versão local
 
 One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like any point in time by adding up all the patches.
 

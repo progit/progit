@@ -117,66 +117,91 @@ Insert 18333fig0309.png
 Abbildung 3-9. Die Branch-Historie läuft auseinander.
 Figure 3-9. The branch histories have diverged.
 
+Eine Branch in Git ist eine einfache Datei, die nur die 40 Zeichen lange SHA-1 Prüfsumme des Commits enthält, auf das sie zeigt. Es kostet nicht viel, Branches zu erstellen und zu zerstören. Das Erstellen einer Branch ist der einfache und schnelle Weg, 41 Bytes in eine Datei zu schreiben (40 Zeichen für die Prüdsumme und ein Zeilenumbruch).
 Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
 
+Das steht im krassen Kontrast zum Weg den andere VCS Tools zum Thema Branch einschlagen. Vielfach ist ein Kopieren aller Projekt-Dateien in ein anderes Verzeichnis damit verbunden. Das kann einige Zeit in Anspruch nehmen und hängt von der Größe des Projektes ab. In Git geht das blitzschnell. Genauso, weil wir immer auch den Ursprung bem Commit mit aufzeichnen, haben wir automatisch eine gute Basis zum Zusammenführen verschiedner Zweige. Damit soll es Entwicklern erleichtert werden, Branches viel einzusetzen.
 This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
 
+Lass uns anschauen, wie du das machen kannst.
 Let’s see why you should do so.
 
 ## Basic Branching and Merging ##
 
+Lass uns das Ganze an einem Beispiel durchgehen, dessen Workflow zum Thema Branching und Zusammenführen du im echten Leben verwenden kannst. Folge einfach diesen Schritten:
 Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
 
+1.	Arbeite an einer Webseite.
+2.	Erstell eine Branch für eine neue Geschichte an der du arbeitest.
+3.	Arbeite an dieser Branch.
 1.	Do work on a web site.
 2.	Create a branch for a new story you’re working on.
 3.	Do some work in that branch.
 
+In diesem Augenblick kommt ein Anruf, dass ein anderes Problem sehr kritisch ist und sofort gelöst werden muss. Du machst folgendes:
 At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
 
+1.	Geh zurück auf deine produktive Branch.
+2.	Erstelle eine Branch für den Hotfix.
+3.	Nach dem Testen führst du die Hotfix-Branch mit der Produktion-Branch zusammen.
+4.	Schalte jetzt wieder auf deine Origialstory zurück und setze deine Arbeit fort.
 1.	Revert back to your production branch.
 2.	Create a branch to add the hotfix.
 3.	After it’s tested, merge the hotfix branch, and push to production.
 4.	Switch back to your original story and continue working.
 
+### Branching Grundlagen ###
 ### Basic Branching ###
 
+Sagen wir, du hast an deinem Projekt gearbeitet und einige Commits bereits durchgeführt (siehe Abbildung 3-10).
 First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
 
 Insert 18333fig0310.png 
+Abbildung 3-10. Eine kurze, einfache Commit-Historie
 Figure 3-10. A short and simple commit history
 
+Du hast dich entschiden, am Issue #53 des Issue-Tracking-Systems XYZ deiner Firma zuarbeiten. Um es klarzustellen: Git ist an kein spezifisches Issue-Tracking-Systems gebunden, aber weil Issue #53 ein wichtiges Thema ist, willst du daran arbeiten und erstellst eine neue Branch , um daran zu arbeiten. Um die Branch zu erstellen und gleichzeitig zu ihr umzuschalten, kannst du das Kommando 'git checkout' in Verbindung mitder Option '-b' verwenden:
 You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
+Das ist die Kurzform von
 This is shorthand for 
 
 	$ git branch iss53
 	$ git checkout iss53
 
+Abbildung 3-11 verdeutlicht das Ergebnis.
 Figure 3-11 illustrates the result.
 
 Insert 18333fig0311.png 
+Abbildung 3-11. Erstellung eines neuen Branch-Pointers
 Figure 3-11. Creating a new branch pointer
 
+Du arbeitest an deiner Web-Site und machst ein paar Commits. Dabei bewegt sich die 'iss53' Branch vorwärts, da sie gerade deine aktuelle Branch ist (der HEAD Pointer verweist darauf, siehe Abbildung 3-12):
 You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
+Abbildung 3-12. Die iss53 Branch hat sich mit deiner Arbeit weiterentwickelt.
 Figure 3-12. The iss53 branch has moved forward with your work.
 
+Jetzt bekommst du einen Anruf, dass es ein Problem mit der Website gibt, und du musst es umgehend beheben. Mit Git musst die Problembehebung nicht zusammen mit der Arbeit an 'iss53' einspielen, und du musst auch keinen Aufwand in das Zurücksetzen der Änderungen stecken, bevor du die Problembehebung in die Produktion einspielen kannst. Alles was du machen musst, ist zurück zur master Branch schalten.
 Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
 
+Wie auch immer, bevor du das machst, ein Hinweis, wenn du nicht committete Sachen in deinem Arbeits- oder Staging-Verzeichnis hast, die einen Konflikt mit der Branch, zu der du schalten willst, hat, lässt dich Git nicht dorthin schalten. Am besten man hat einen sauberen Arbeitsstand, wenn man die Branch wechseln will. Es gibt Wege, um das zu umgehen (stashing und commit amending). Aber dazu später mehr. Im Moment solltest du deine Änderungen committen und dann zur master Branch wechseln:
 However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
 
 	$ git checkout master
 	Switched to branch "master"
 
+An dieser Stelle befindet sich dein Prjekt Arbeitsverzeichnis an exakt der gleichen Stelle, wie vor der Arbeit an 'iss53', und du kannst dich auf den Hotfix konzentrieren. Das ist ein wichtiger Aspekt, den man im Kopf behalten sollte: Git setzt dein Arbeitsverzeichnis immer auf den Stand, der dem Snapshot der aktuellen Branch entspricht. Es werden automatisch die entsprechenden Dateien hinzugefügt, gelöscht und modifiziert, damit die Arbeitskopie, wie nach deinem letzten Commit in dieser Branch aussieht.
 At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
 
+Als nächstes hast du einen Hotfix zu machen. Lass uns eine 'Hotfix' Branch erstellen, an der du bis zur Fertigstellung arbeitest (siehe Abbildung 3-13):
 Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
 
 	$ git checkout -b 'hotfix'
@@ -187,8 +212,10 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
+Abbildung 3-13. Hotfix Branch verweist auf die master Branch zurück
 Figure 3-13. hotfix branch based back at your master branch point
 
+Mach deine Tests, stell sicher, dass der Hotfix das macht, was du willst und führe ihn mit der master Branch zusammen, um diese wieder in die Produktion zu bringen. Du machst das mit dem Kommando 'git merge':
 You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
 
 	$ git checkout master
@@ -198,6 +225,7 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
+Hast du die Nachricht "Fast forward" beim Zusammenführen gesehen? Da du auf die aktuelle Branch aufgesetzt hast und die Änderung eine direkte Weiterführung dieser war, hat Git den Pointer weitergestellt. Anders ausgedrückt, wenn zwischen zwei Branches kein Unterschied besteht oder nur eine davon eine Weiterentwicklung darstellt, bringt Git diese beiden wieder auf 'Linie' - das wird dann 'fast forward' genannt.
 You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
 
 Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
@@ -330,42 +358,42 @@ You can modify that message with details about how you resolved the merge if you
 
 ## Branch Management ##
 
-Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+Du weißt jetzt, wie du Branches erstellen, mergen und löschen kannst. Wir schauen uns jetzt noch ein paar recht nützliche Tools für die Arbeit mit Branches an.
 
-The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
+Das Kommando `git branch` kann mehr, als nur Branches zu erstellen oder zu löschen. Wenn du es ohne weitere Argumente ausführst, wird es dir eine Liste mit deinen aktuellen Branches anzeigen:
 
 	$ git branch
 	  iss53
 	* master
 	  testing
 
-Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch –v`:
+Das `*` vor dem `master`-Branch bedeutet, dass dies der gerade ausgecheckte Branch ist. Wenn du also jetzt einen Commit erzeugst, wird dieser in den `master`-Branch gehen. Du kannst dir mit `git branch -v` ganz schnell für jeden Branch den letzten Commit anzeigen lassen:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
+Mit einer weiteren nützlichen Option kannst du herausfinden, in welchem Zustand deine Branches sind: welche der Branches wurden bereits in den aktuellen Branch gemergt und welche wurden es nicht. Die Optionen heißen `--merged` und `--no-merged` und sind seit Version 1.5.6 in Git dabei. Um herauszufinden, welche Branches schon in den aktuell ausgecheckten gemergt wurden, kannst du einfach `git branch --merged` aufrufen:
 
 	$ git branch --merged
 	  iss53
 	* master
 
-Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+Da du den Branch `iss53` schon gemergt hast, siehst du ihn in dieser Liste. Alle Branches in dieser Liste, welchen kein `*` voransteht, können ohne Datenverlust mit `git branch -d` gelöscht werden, da sie ja bereits gemergt wurden.
 
-To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
+Um alle Branches zu sehen, welche noch nicht gemergte Änderungen enthalten, kannst du `git branch --no-merged` aufrufen:
 
 	$ git branch --no-merged
 	  testing
 
-This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
+Die Liste zeigt dir den anderen Branch. Er enthält Arbeit, die noch nicht gemergt wurde. Der Versuch, den Branch mit `git branch -d` zu löschen schlägt fehl:
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
+	If you are sure you want to delete it, run `git branch -D testing`.
 
-If you are sure you want to delete it, run `git branch -D testing`.
-If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
+Wenn du den Branch trotzdem löschen willst - und damit alle Änderungen dieses Branches verlieren - kannst du das mit `git branch -D testing` machen.
 
 ## Branching Workflows ##
 

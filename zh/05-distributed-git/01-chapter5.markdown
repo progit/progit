@@ -105,10 +105,9 @@ Insert 18333fig0503.png
 
 ### 私有的小型团队 ###
 
-The simplest setup you’re likely to encounter is a private project with one or two other developers. By private, I mean closed source — not read-accessible to the outside world. You and the other developers all have push access to the repository.
+我们从最简单的情况开始，一个私有项目，与你一起协作的还有另外一到两位开发者。这里说私有，是指源代码不公开，其他人无法访问项目仓库。而你和其他开发者则都具有推送数据到仓库的权限。
 
-In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.
-Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)
+这种情况下，你们可以用 Subversion 或其他集中式版本控制系统类似的工作流来协作。你仍然可以得到 Git 带来的其他好处：离线提交，快速分支与合并等等，但工作流程还是差不多的。主要区别在于，合并操作发生在客户端而非服务器上。让我们来看看，两个开发者一起使用同一个共享仓库，会发生些什么。第一个人，John，克隆了仓库，作了些更新，在本地提交。（下面的例子中省略了常规提示，用 `...` 代替以节约版面。）
 
 	# John's Machine
 	$ git clone john@githost:simplegit.git
@@ -120,7 +119,7 @@ Let’s see what it might look like when two developers start to work together w
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-The second developer, Jessica, does the same thing — clones the repository and commits a change:
+第二个开发者，Jessica，一样这么做：克隆仓库，提交更新：
 
 	# Jessica's Machine
 	$ git clone jessica@githost:simplegit.git
@@ -132,7 +131,7 @@ The second developer, Jessica, does the same thing — clones the repository and
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Now, Jessica pushes her work up to the server:
+现在，Jessica 将她的工作推送到服务器上：
 
 	# Jessica's Machine
 	$ git push origin master
@@ -140,7 +139,7 @@ Now, Jessica pushes her work up to the server:
 	To jessica@githost:simplegit.git
 	   1edee6b..fbff5bc  master -> master
 
-John tries to push his change up, too:
+John 也尝试推送自己的工作上去：
 
 	# John's Machine
 	$ git push origin master
@@ -148,48 +147,48 @@ John tries to push his change up, too:
 	 ! [rejected]        master -> master (non-fast forward)
 	error: failed to push some refs to 'john@githost:simplegit.git'
 
-John isn’t allowed to push because Jessica has pushed in the meantime. This is especially important to understand if you’re used to Subversion, because you’ll notice that the two developers didn’t edit the same file. Although Subversion automatically does such a merge on the server if different files are edited, in Git you must merge the commits locally. John has to fetch Jessica’s changes and merge them in before he will be allowed to push:
+John 的推送操作被驳回，因为 Jessica 已经推送了新的数据上去。请注意，特别是你用惯了 Subversion 的话，这里其实修改的是两个文件，而不是同一个文件的同一个地方。Subversion 会在服务器端自动合并提交上来的更新，而 Git 则必须先在本地合并后才能推送。于是，John 不得不先把 Jessica 的更新拉下来：
 
 	$ git fetch origin
 	...
 	From john@githost:simplegit
 	 + 049d078...fbff5bc master     -> origin/master
 
-At this point, John’s local repository looks something like Figure 5-4.
+此刻，John 的本地仓库如图 5-4 所示：
 
 Insert 18333fig0504.png 
-Figure 5-4. John’s initial repository
+图 5-4. John 的仓库历史
 
-John has a reference to the changes Jessica pushed up, but he has to merge them into his own work before he is allowed to push:
+虽然 John 下载了 Jessica 推送到服务器的最近更新（fbff5），但目前只是 `origin/master` 指针指向它，而当前的本地分支 `master` 仍然指向自己的更新（738ee），所以需要先把她的提交合并过来，才能继续推送数据：
 
 	$ git merge origin/master
 	Merge made by recursive.
 	 TODO |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-The merge goes smoothly — John’s commit history now looks like Figure 5-5.
+还好，合并过程非常顺利，没有冲突，现在 John 的提交历史如图 5-5 所示：
 
 Insert 18333fig0505.png 
-Figure 5-5. John’s repository after merging origin/master
+图 5-5. 合并 origin/master 后 John 的仓库历史
 
-Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
+现在，John 应该再测试一下代码是否仍然正常工作，然后将合并结果（72bbc）推送到服务器上：
 
 	$ git push origin master
 	...
 	To john@githost:simplegit.git
 	   fbff5bc..72bbc59  master -> master
 
-Finally, John’s commit history looks like Figure 5-6.
+最终，John 的提交历史变为图 5-6 所示：
 
 Insert 18333fig0506.png 
-Figure 5-6. John’s history after pushing to the origin server
+图 5-6. 推送后 John 的仓库历史
 
-In the meantime, Jessica has been working on a topic branch. She’s created a topic branch called `issue54` and done three commits on that branch. She hasn’t fetched John’s changes yet, so her commit history looks like Figure 5-7.
+而在这段时间，Jessica 已经开始在另一个特性分支工作了。她创建了 `issue54` 并提交了三次更新。她还没有下载 John 提交的合并结果，所以提交历史如图 5-7 所示：
 
 Insert 18333fig0507.png 
-Figure 5-7. Jessica’s initial commit history
+图 5-7. Jessica 的提交历史
 
-Jessica wants to sync up with John, so she fetches:
+Jessica 想要先和服务器上的数据同步，所以先下载数据：
 
 	# Jessica's Machine
 	$ git fetch origin
@@ -197,12 +196,12 @@ Jessica wants to sync up with John, so she fetches:
 	From jessica@githost:simplegit
 	   fbff5bc..72bbc59  master     -> origin/master
 
-That pulls down the work John has pushed up in the meantime. Jessica’s history now looks like Figure 5-8.
+于是 Jessica 的本地仓库历史多出了 John 的两次提交（738ee 和 72bbc），如图 5-8 所示：
 
 Insert 18333fig0508.png 
-Figure 5-8. Jessica’s history after fetching John’s changes
+图 5-8. 获取 John 的更新之后 Jessica 的提交历史
 
-Jessica thinks her topic branch is ready, but she wants to know what she has to merge her work into so that she can push. She runs `git log` to find out:
+此时，Jessica 在特性分支上的工作已经完成，但她想在推送数据之前，先确认下要并进来的数据究竟是什么，于是运行 `git log` 查看：
 
 	$ git log --no-merges origin/master ^issue54
 	commit 738ee872852dfaa9d6634e0dea7a324040193016
@@ -211,13 +210,13 @@ Jessica thinks her topic branch is ready, but she wants to know what she has to 
 
 	    removed invalid default value
 
-Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:
+现在，Jessica 可以将特性分支上的工作并到 `master` 分支，然后再并入 John 的工作（`origin/master`）到自己的 `master` 分支，最后再推送回服务器。当然，得先切回主分支才能集成所有数据：
 
 	$ git checkout master
 	Switched to branch "master"
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
 
-She can merge either `origin/master` or `issue54` first — they’re both upstream, so the order doesn’t matter. The end snapshot should be identical no matter which order she chooses; only the history will be slightly different. She chooses to merge in `issue54` first:
+要合并 `origin/master` 或 `issue54` 分支，谁先谁后都没有关系，因为它们都在上游（upstream）（译注：想像分叉的更新像是汇流成河的源头，所以上游 upstream 是指最新的提交），所以无所谓先后顺序，最终合并后的内容快照都是一样的，而仅是提交历史看起来会有些先后差别。Jessica 选择先合并 `issue54`：
 
 	$ git merge issue54
 	Updating fbff5bc..4af4298
@@ -226,7 +225,7 @@ She can merge either `origin/master` or `issue54` first — they’re both upstr
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-No problems occur; as you can see it, was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
+正如所见，没有冲突发生，仅是一次简单快进。现在 Jessica 开始合并 John 的工作（`origin/master`）：
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb
@@ -234,27 +233,27 @@ No problems occur; as you can see it, was a simple fast-forward. Now Jessica mer
 	 lib/simplegit.rb |    2 +-
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Everything merges cleanly, and Jessica’s history looks like Figure 5-9.
+所有的合并都非常干净。现在 Jessica 的提交历史如图 5-9 所示：
 
 Insert 18333fig0509.png 
-Figure 5-9. Jessica’s history after merging John’s changes
+图 5-9. 合并 John 的更新后 Jessica 的提交历史
 
-Now `origin/master` is reachable from Jessica’s `master` branch, so she should be able to successfully push (assuming John hasn’t pushed again in the meantime):
+现在 Jessica 已经可以在自己的 `master` 分支中访问 `origin/master` 的最新改动了，所以她应该可以成功推送最后的合并结果到服务器上（假设 John 此时没再推送新数据上来）：
 
 	$ git push origin master
 	...
 	To jessica@githost:simplegit.git
 	   72bbc59..8059c15  master -> master
 
-Each developer has committed a few times and merged each other’s work successfully; see Figure 5-10.
+至此，每个开发者都提交了若干次，且成功合并了对方的工作成果，最新的提交历史如图 5-10 所示：
 
 Insert 18333fig0510.png 
-Figure 5-10. Jessica’s history after pushing all changes back to the server
+图 5-10. Jessica 推送数据后的提交历史
 
-That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
+以上就是最简单的协作方式之一：先在自己的特性分支中工作一段时间，完成后合并到自己的 `master` 分支；然后下载合并 `origin/master` 上的更新（如果有的话），再推回远程服务器。一般的协作流程如图 5-11 所示：
 
 Insert 18333fig0511.png 
-Figure 5-11. General sequence of events for a simple multiple-developer Git workflow
+图 5-11. 多用户共享仓库协作方式的一般工作流程时序
 
 ### Private Managed Team ###
 

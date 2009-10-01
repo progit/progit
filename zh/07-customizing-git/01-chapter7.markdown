@@ -1,30 +1,35 @@
 # 自定义Git #
 
 到目前为止，我阐述了Git基本的运作机制和使用方式，介绍了Git提供的许多工具来帮助你简单且有效地使用它。
-在本章当中，我将会介绍Git的一些重要的配置方法和钩子机制以满足你自定义的要求，通过这些方法，它会和你、你的公司或团队配合的天衣无缝。
+在本章当中，我将会介绍Git的一些重要的配置方法和钩子机制以满足你自定义的要求，通过这些方法，它会和你、你的公司或团队配合得天衣无缝。
 
 ## 配置Git ##
 
-正如你在第一章见到的那样，你能用`git config`配置Git,要做的第一件事就是设置名字和邮箱地址：
+正如你在第一章见到的那样，你能用`git config`配置Git，要做的第一件事就是设置名字和邮箱地址：
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Now you’ll learn a few of the more interesting options that you can set in this manner to customize your Git usage.
+从现在开始，你会了解到一些更为有趣的设置选项，按照以上方式来自定义Git。
 
-You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically. 
+我会在这先过一遍第一章中提到的Git配置细节。Git使用一系列的配置文件来存储你定义的偏好，它首先会查找`/etc/gitconfig`文件，该文件含有
+对系统上所有用户及他们所拥有的仓库都生效的配置值（译注：gitconfig是全局配置文件），
+如果传递`--system`选项给`git config`命令，Git会读写这个文件。
 
-The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option. 
+接下来Git会查找每个用户的`~/.gitconfig`文件，你能传递`--global`选项让Git读写该文件。
 
-Finally, Git looks for configuration values in the config file in the Git directory (`.git/config`) of whatever repository you’re currently using. These values are specific to that single repository. Each level overwrites values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`, for instance. You can also set these values by manually editing the file and inserting the correct syntax, but it’s generally easier to run the `git config` command.
+最后Git会查找由用户定义的各个库中Git目录下的配置文件（`.git/config`），该文件中的值只对属主库有效。
+以上阐述的三层配置从一般到特殊层层推进，如果定义的值有冲突，以后面层中定义的为准，例如：在`.git/config`和`/etc/gitconfig`的较量中，
+`.git/config`取得了胜利。虽然你也可以直接手动编辑这些配置文件，但是运行`git config`命令将会来得简单些。
 
-### Basic Client Configuration ###
+### 客户端基本配置 ###
 
-The configuration options recognized by Git fall into two categories: client side and server side. The majority of the options are client side—configuring your personal working preferences. Although tons of options are available, I’ll only cover the few that either are commonly used or can significantly affect your workflow. Many options are useful only in edge cases that I won’t go over here. If you want to see a list of all the options your version of Git recognizes, you can run
+Git能够识别的配置项被分为了两大类：客户端和服务器端，其中大部分基于你个人工作偏好，属于客户端配置。尽管有数不尽的选项，但我只阐述
+其中经常使用或者会对你的工作流产生巨大影响的选项，如果你想观察你当前的Git能识别的选项列表，请运行
 
 	$ git config --help
 
-The manual page for `git config` lists all the available options in quite a bit of detail.
+`git config`的手册页（译注：以man命令的显示方式）非常细致地罗列了所有可用的配置项。
 
 #### core.editor ####
 

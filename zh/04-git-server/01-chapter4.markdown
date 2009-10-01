@@ -313,7 +313,7 @@ HTTP 协议的消极面在于，相对来说客户端效率更低。克隆或者
 
 这一招可以让你在几分钟内为相当数量的用户架设好基于 HTTP 的读取权限。另一个提供非授权访问的简单方法是开启一个 Git 守护进程，不过这将要求该进程的常驻——下一节将是想走这条路的人准备的。
 
-## Git 网页服务（GitWeb） ##
+## 网页界面 GitWeb ##
 
 如今我们的项目已经有了读写和只读的连接方式，也许应该再架设一个简单的网页界面使其更加可视化。为此，Git 自带了一个叫做 GitWeb 的 CGI 脚本。你可以在类似 `http://git.kernel.org` 这样的站点找到 GitWeb 的应用实例（见图 4-1）。
 
@@ -356,41 +356,41 @@ Figure 4-1. 基于网页的 GitWeb 用户界面
 不难想象，GitWeb 可以使用任何兼容 CGI 的网页服务来运行；如果偏向使用其他的（译注：这里指Apache 以外的服务），配置也不会很麻烦。现在，通过 `http://gitserver` 就可以在线访问仓库了，在 `http://git.server` 上还可以通过 HTTP 克隆和获取仓库的内容。
 Again, GitWeb can be served with any CGI capable web server; if you prefer to use something else, it shouldn’t be difficult to set up. At this point, you should be able to visit `http://gitserver/` to view your repositories online, and you can use `http://git.gitserver` to clone and fetch your repositories over HTTP.
 
-## Gitosis ##
+## 权限管理器 Gitosis ##
 
-Keeping all users’ public keys in the `authorized_keys` file for access works well only for a while. When you have hundreds of users, it’s much more of a pain to manage that process. You have to shell onto the server each time, and there is no access control — everyone in the file has read and write access to every project.
+把所有用户的公钥保存在 `authorized_keys` 文件的做法只能暂时奏效。当用户数量到了几百人的时候，它会变成一种痛苦。每一次都必须进入服务器的 shell，而且缺少对连接的限制——文件里的每个人都对所有项目拥有读写权限。
 
-At this point, you may want to turn to a widely used software project called Gitosis. Gitosis is basically a set of scripts that help you manage the `authorized_keys` file as well as implement some simple access controls. The really interesting part is that the UI for this tool for adding people and determining access isn’t a web interface but a special Git repository. You set up the information in that project; and when you push it, Gitosis reconfigures the server based on that, which is cool.
+现在，是时候向广泛使用的软件 Gitosis 求救了。Gitosis 简单的说就是一套用来管理 `authorized_keys` 文件和实现简单连接限制的脚本。最有意思的是，该软件用来添加用户和设定权限的界面不是网页，而是一个特殊的 Git 仓库。你只需要设定好某个项目；然后推送，Gitosis 就会随之改变服务器设定，酷吧？
 
-Installing Gitosis isn’t the simplest task ever, but it’s not too difficult. It’s easiest to use a Linux server for it — these examples use a stock Ubuntu 8.10 server.
+Gitosis 的安装算不上傻瓜化，不过也不算太难。用 Linux 服务器架设起来最简单——以下例子中的服务器使用 Ubuntu 8.10 系统。
 
-Gitosis requires some Python tools, so first you have to install the Python setuptools package, which Ubuntu provides as python-setuptools:
+Gitosis 需要使用部分 Python 工具，所以首先要安装 Python 的 setuptools 包，在 Ubuntu 中名为 python-setuptools：
 
 	$ apt-get install python-setuptools
 
-Next, you clone and install Gitosis from the project’s main site:
+接下来，从项目主页克隆和安装 Gitosis：
 
 	$ git clone git://eagain.net/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 
-That installs a couple of executables that Gitosis will use. Next, Gitosis wants to put its repositories under `/home/git`, which is fine. But you have already set up your repositories in `/opt/git`, so instead of reconfiguring everything, you create a symlink:
+这会安装几个 Gitosis 用的可执行文件。现在，Gitosis 想把它的仓库放在 `/home/git`，倒也可以。不过我们的仓库已经建立在 `/opt/git` 了，这时可以创建一个文件连接，而不用从头开始重新配置：
 
 	$ ln -s /opt/git /home/git/repositories
 
-Gitosis is going to manage your keys for you, so you need to remove the current file, re-add the keys later, and let Gitosis control the `authorized_keys` file automatically. For now, move the `authorized_keys` file out of the way:
+Gitosis 将为我们管理公钥，所以当前的文件需要删除，以后再重新添加公钥，并且让 Gitosis 自动控制 `authorized_keys` 文件。现在，把 `authorized_keys`文件移走：
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
 
-Next you need to turn your shell back on for the 'git' user, if you changed it to the `git-shell` command. People still won’t be able to log in, but Gitosis will control that for you. So, let’s change this line in your `/etc/passwd` file
+然后恢复 'git' 用户的 shell，假设之前把它改成了 `git-shell` 命令。其他人仍然不能通过它来登录系统，不过这次有 Gitosis 帮我们实现。所以现在把 `/etc/passwd` 文件的这一行
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-back to this:
+恢复成:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-Now it’s time to initialize Gitosis. You do this by running the `gitosis-init` command with your personal public key. If your public key isn’t on the server, you’ll have to copy it there:
+现在就可以初始化 Gitosis 了。需要通过自己的公钥来运行 `gitosis-init`。如果公钥不在服务器上，则必须复制一份：
 
 	$ sudo -H -u git gitosis-init < /tmp/id_dsa.pub
 	Initialized empty Git repository in /opt/git/gitosis-admin.git/

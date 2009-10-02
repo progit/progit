@@ -253,9 +253,9 @@ Git には、空白文字に関する問題を見つけて修正するための�
 
 これらの設定は、リベースのオプションにも適用されます。空白に関する問題を含むコミットをしたけれどまだそれを公開リポジトリにプッシュしていない場合は、`rebase` に `--whitespace=fix` オプションをつけて実行すれば、パッチを書き換えて空白問題を自動修正してくれます。
 
-### Server Configuration ###
+### サーバの設定 ###
 
-Not nearly as many configuration options are available for the server side of Git, but there are a few interesting ones you may want to take note of.
+Git のサーバ側の設定オプションはそれほど多くありませんが、いくつか興味深いものがあるので紹介します。
 
 #### receive.fsckObjects ####
 

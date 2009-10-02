@@ -33,15 +33,17 @@ Git能够识别的配置项被分为了两大类：客户端和服务器端，�
 
 #### core.editor ####
 
-By default, Git uses whatever you’ve set as your default text editor or else falls back to the Vi editor to create and edit your commit and tag messages. To change that default to something else, you can use the `core.editor` setting:
+Git默认会调用你的环境变量editor定义的值作为文本编辑器，如果没有定义的话，会调用Vi来创建和编辑提交以及标签信息，
+你可以使用`core.editor`改变默认编辑器：
 
 	$ git config --global core.editor emacs
 
-Now, no matter what is set as your default shell editor variable, Git will fire up Emacs to edit messages.
+现在无论你的环境变量editor被定义成什么，Git都会调用Emacs编辑信息。
 
 #### commit.template ####
 
-If you set this to the path of a file on your system, Git will use that file as the default message when you commit. For instance, suppose you create a template file at `$HOME/.gitmessage.txt` that looks like this:
+如果把此项指定为你系统上的一个文件，当你提交的时候，Git会默认使用该文件定义的内容。
+例如：你创建了一个模板文件`$HOME/.gitmessage.txt`，它看起来像这样：
 
 	subject line
 
@@ -49,12 +51,13 @@ If you set this to the path of a file on your system, Git will use that file as 
 
 	[ticket: X]
 
-To tell Git to use it as the default message that appears in your editor when you run `git commit`, set the `commit.template` configuration value:
+设置`commit.template`，当运行`git commit`时，Git会在你的编辑器中显示以上的内容，
+设置`commit.template`如下：
 
 	$ git config --global commit.template $HOME/.gitmessage.txt
 	$ git commit
 
-Then, your editor will open to something like this for your placeholder commit message when you commit:
+然后当你提交时，在编辑器中显示的提交信息如下：
 
 	subject line
 
@@ -73,33 +76,36 @@ Then, your editor will open to something like this for your placeholder commit m
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-If you have a commit-message policy in place, then putting a template for that policy on your system and configuring Git to use it by default can help increase the chance of that policy being followed regularly.
+如果你有特定的策略要运用在提交信息上，在系统上创建一个模板文件，设置Git默认使用它，这样当提交时，你的策略每次都会被运用。
 
 #### core.pager ####
 
-The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
+core.pager指定Git运行诸如`log`、`diff`等所使用的分页器，你能设置成用`more`或者任何你喜欢的分页器（默认用的是`less`），
+当然你也可以什么都不用，设置空字符串：
 
 	$ git config --global core.pager ''
 
-If you run that, Git will page the entire output of all commands, no matter how long they are.
+这样不管命令的输出量多少，都会在一页显示所有内容。
 
 #### user.signingkey ####
 
-If you’re making signed annotated tags (as discussed in Chapter 2), setting your GPG signing key as a configuration setting makes things easier. Set your key ID like so:
+如果你要创建经签署的含附注的标签（正如第二章所述），那么把你的GPG签署密钥设置为配置项会更好，设置密钥ID如下：
 
 	$ git config --global user.signingkey <gpg-key-id>
 
-Now, you can sign tags without having to specify your key every time with the `git tag` command:
+现在你能够签署标签，从而不必每次运行`git tag`命令时定义密钥：
 
 	$ git tag -s <tag-name>
 
 #### core.excludesfile ####
 
-You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have.
+正如第二章所述，你能在项目库的`.gitignore`文件里头用模式来定义那些无需纳入Git管理的文件，这样它们不会出现在未跟踪列表，
+也不会在你运行`git add`后被暂存。然而，如果你想用项目库之外的文件来定义那些需被忽略的文件的话，用`core.excludesfile`
+通知Git该文件所处的位置，文件内容和`.gitignore`类似。
 
 #### help.autocorrect ####
 
-This option is available only in Git 1.6.1 and later. If you mistype a command in Git 1.6, it shows you something like this:
+该配置项只在Git 1.6.1及以上版本有效，假如你在Git 1.6中错打了一条命令，会显示：
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -107,7 +113,7 @@ This option is available only in Git 1.6.1 and later. If you mistype a command i
 	Did you mean this?
 	     commit
 
-If you set `help.autocorrect` to 1, Git will automatically run the command if it has only one match under this scenario.
+如果你把`help.autocorrect`设置成1（译注：启动自动修正），那么在只有一个命令被模糊匹配到的情况下，Git会自动运行该命令。
 
 ### Colors in Git ###
 

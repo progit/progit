@@ -233,9 +233,9 @@ HTTP 协议的消极面在于，相对来说客户端效率更低。克隆或者
 	$ cd project.git
 	$ git --bare init
 
-这时，张三，李四或者王二就可以把它加为远程仓库，推送一个分支，从而把第一个版本的工程上传到仓库里了。值得注意的是，每次添加一个新项目都需要通过 shell 登入主机并创建一个纯仓库。我们不妨以 `gitserver` 作为 `git` 用户和仓库所在的主机名。如果你在网络内部运行该主机，并且在 DNS 中设定 `gitserver` 指向该主机，那么以下这些命令都是可用的：
+这时，Join，Josie 或者 Jessica 就可以把它加为远程仓库，推送一个分支，从而把第一个版本的工程上传到仓库里了。值得注意的是，每次添加一个新项目都需要通过 shell 登入主机并创建一个纯仓库。我们不妨以 `gitserver` 作为 `git` 用户和仓库所在的主机名。如果你在网络内部运行该主机，并且在 DNS 中设定 `gitserver` 指向该主机，那么以下这些命令都是可用的：
 
-	# on Johns computer
+	# 在 John 的电脑上
 	$ cd myproject
 	$ git init
 	$ git add .
@@ -396,23 +396,23 @@ Gitosis 将为我们管理公钥，所以当前的文件需要删除，以后再
 	Initialized empty Git repository in /opt/git/gitosis-admin.git/
 	Reinitialized existing Git repository in /opt/git/gitosis-admin.git/
 
-This lets the user with that key modify the main Git repository that controls the Gitosis setup. Next, you have to manually set the execute bit on the `post-update` script for your new control repository.
+这样该公钥的拥有者就能修改包含着 Gitosis 设置的那个 Git 仓库了。然后手动将这个新的控制仓库中的 	`post-update` 脚本加上执行权限。
 
 	$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 
-You’re ready to roll. If you’re set up correctly, you can try to SSH into your server as the user for which you added the public key to initialize Gitosis. You should see something like this:
+万事俱备了。如果设定过程没出什么差错，现在可以试一下用初始化 Gitosis 公钥的拥有者身份 SSH 进服务器。看到的结果应该和下面类似：
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
 	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
 	  Connection to gitserver closed.
 
-That means Gitosis recognized you but shut you out because you’re not trying to do any Git commands. So, let’s do an actual Git command — you’ll clone the Gitosis control repository:
+说明 Gitosis 认出了该用户的身份，但由于没有运行任何 Git 命令所以它切断了连接。所以，现在运行一个确切的 Git 命令——克隆 Gitosis 的控制仓库：
 
-	# on your local computer
+	# 在自己的电脑上
 	$ git clone git@gitserver:gitosis-admin.git
 
-Now you have a directory named `gitosis-admin`, which has two major parts:
+得到一个名为 `gitosis-admin` 的目录，主要由两部分组成：
 
 	$ cd gitosis-admin
 	$ find .
@@ -420,9 +420,9 @@ Now you have a directory named `gitosis-admin`, which has two major parts:
 	./keydir
 	./keydir/scott.pub
 
-The `gitosis.conf` file is the control file you use to specify users, repositories, and permissions. The `keydir` directory is where you store the public keys of all the users who have any sort of access to your repositories — one file per user. The name of the file in `keydir` (in the previous example, `scott.pub`) will be different for you — Gitosis takes that name from the description at the end of the public key that was imported with the `gitosis-init` script.
+`gitosis.conf` 文件是用来设置用户、仓库和权限的控制文件。`keydir` 目录则是保存所有具有访问权限用户公钥的地方——每人一个。你 `keydir` 中的文件名（前例中的 `scott.pub`）应该有所不同—— Gitosis 从使用 `gitosis-init` 脚本导入的公钥尾部的描述中获取该名。
 
-If you look at the `gitosis.conf` file, it should only specify information about the `gitosis-admin` project that you just cloned:
+看一下 `gitosis.conf` 的内容，它应该只包含与刚刚克隆的 `gitosis-admin` 相关的信息：
 
 	$ cat gitosis.conf 
 	[gitosis]
@@ -431,15 +431,15 @@ If you look at the `gitosis.conf` file, it should only specify information about
 	writable = gitosis-admin
 	members = scott
 
-It shows you that the 'scott' user — the user with whose public key you initialized Gitosis — is the only one who has access to the `gitosis-admin` project.
+它显示用户 `scott` ——初始化 Gitosis 公钥的拥有者——是唯一能访问 `gitosis-admin` 项目的人。
 
-Now, let’s add a new project for you. You’ll add a new section called `mobile` where you’ll list the developers on your mobile team and projects that those developers need access to. Because 'scott' is the only user in the system right now, you’ll add him as the only member, and you’ll create a new project called `iphone_project` to start on:
+现在我们添加一个新的项目。我们将添加一个名为 `mobile` 的新节段，在这里罗列手机开发团队的开发者以及他们需要访问权限的项目。由于 'scott' 是系统中的唯一用户，我们把它加成唯一的用户，从创建一个叫做 `iphone_project` 的新项目开始：
 
 	[group mobile]
 	writable = iphone_project
 	members = scott
 
-Whenever you make changes to the `gitosis-admin` project, you have to commit the changes and push them back up to the server in order for them to take effect:
+一旦修改了 `gitosis-admin` 项目的内容，只有提交并推送至服务器才能使之生效：
 
 	$ git commit -am 'add iphone_project and mobile group'
 	[master]: created 8962da8: "changed name"
@@ -452,7 +452,7 @@ Whenever you make changes to the `gitosis-admin` project, you have to commit the
 	To git@gitserver:/opt/git/gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
-You can make your first push to the new `iphone_project` project by adding your server as a remote to your local version of the project and pushing. You no longer have to manually create a bare repository for new projects on the server — Gitosis creates them automatically when it sees the first push:
+第一次向新工程 `iphone_project` 的推送需要在本地的版本中把服务器添加为一个 remote 然后推送。从此手动为新项目在服务器上创建纯仓库的麻烦就是历史了—— Gitosis 会在第一次遇到推送的时候自动创建它们：
 
 	$ git remote add origin git@gitserver:iphone_project.git
 	$ git push origin master
@@ -463,23 +463,23 @@ You can make your first push to the new `iphone_project` project by adding your 
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
 
-Notice that you don’t need to specify the path (in fact, doing so won’t work), just a colon and then the name of the project — Gitosis finds it for you.
+注意到路径被忽略了（加上它反而没用），只有一个冒号加项目的名字—— Gitosis 会为你找到项目的位置。
 
-You want to work on this project with your friends, so you’ll have to re-add their public keys. But instead of appending them manually to the `~/.ssh/authorized_keys` file on your server, you’ll add them, one key per file, into the `keydir` directory. How you name the keys determines how you refer to the users in the `gitosis.conf` file. Let’s re-add the public keys for John, Josie, and Jessica:
+要和朋友们共同在一个项目上共同工作，就得重新添加他们的公钥。不过这次不用在服务器上一个一个手动添加到 `~/.ssh/authorized_keys` 文件末端，而是在 `keydir` 目录为每一个公钥添加一个文件。文件的命名将决定在 `gitosis.conf` 文件中用户的称呼。现在我们为 John，Josie 和 Jessica 添加公钥：
 
 	$ cp /tmp/id_rsa.john.pub keydir/john.pub
 	$ cp /tmp/id_rsa.josie.pub keydir/josie.pub
 	$ cp /tmp/id_rsa.jessica.pub keydir/jessica.pub
 
-Now you can add them all to your 'mobile' team so they have read and write access to `iphone_project`:
+然后把他们都加进 'mobile' 团队，让他们对 `iphone_project` 具有读写权限：
 
 	[group mobile]
 	writable = iphone_project
 	members = scott john josie jessica
 
-After you commit and push that change, all four users will be able to read from and write to that project.
+如果你提交并推送这个修改，四个用户将同时具有该项目的读写权限。
 
-Gitosis has simple access controls as well. If you want John to have only read access to this project, you can do this instead:
+Gitosis 也具有简单的访问控制功能。如果想让 John 只有读权限，可以这样做：
 
 	[group mobile]
 	writable = iphone_project
@@ -489,9 +489,9 @@ Gitosis has simple access controls as well. If you want John to have only read a
 	readonly = iphone_project
 	members = john
 
-Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members, to inherit all of its members automatically.
+现在 John 可以克隆和获取更新，但 Gitosis 不会允许他向项目推送任何内容。这样的组可以有尽可能有随意多个，每一个包含不同的用户和项目。甚至可以指定某个组为成员，来继承它所有的成员。
 
-If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.
+如果出现了什么问题，把 `loglevel=DEBUG` 加入到 `[gitosis]` 部分或许有帮助（译注：把日志设置到调试级别，记录更详细的信息）。如果你一不小心搞错了配置，失去了推送权限，可以手动修改服务器上的 `/home/git/.gitosis` 文件—— Gitosis 从该文件读取信息。一次推送会把 `gitosis.conf` 保存在服务器上。如果你手动编辑该文件，它将在你下次向 `gitosis-admin` 推送之前它将保持原样。
 
 ## Git Daemon ##
 

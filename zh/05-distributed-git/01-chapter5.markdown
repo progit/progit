@@ -255,13 +255,13 @@ Insert 18333fig0510.png
 Insert 18333fig0511.png 
 图 5-11. 多用户共享仓库协作方式的一般工作流程时序
 
-### Private Managed Team ###
+### 私有团队间协作 ###
 
-In this next scenario, you’ll look at contributor roles in a larger private group. You’ll learn how to work in an environment where small groups collaborate on features and then those team-based contributions are integrated by another party.
+现在我们来看更大一点规模的私有团队协作。如果有几个小组分头负责若干特性的开发和集成，那他们之间的协作过程是怎样的。
 
-Let’s say that John and Jessica are working together on one feature, while Jessica and Josie are working on a second. In this case, the company is using a type of integration-manager workflow where the work of the individual groups is integrated only by certain engineers, and the `master` branch of the main repo can be updated only by those engineers. In this scenario, all work is done in team-based branches and pulled together by the integrators later.
+假设 John 和 Jessica 一起负责开发某项特性 A，而同时 Jessica 和 Josie 一起负责开发另一项功能 B。公司使用典型的集成管理员式工作流，每个组都有一名管理员负责集成本组代码，及更新项目主仓库的 `master` 分支。所有开发都在代表小组的分支上进行。
 
-Let’s follow Jessica’s workflow as she works on her two features, collaborating in parallel with two different developers in this environment. Assuming she already has her repository cloned, she decides to work on `featureA` first. She creates a new branch for the feature and does some work on it there:
+让我们跟随 Jessica 的视角看看她的工作流程。她参与开发两项特性，同时和不同小组的开发者一起协作。克隆生成本地仓库后，她打算先着手开发特性 A。于是创建了新的 `featureA` 分支，继而编写代码：
 
 	# Jessica's Machine
 	$ git checkout -b featureA
@@ -271,21 +271,21 @@ Let’s follow Jessica’s workflow as she works on her two features, collaborat
 	[featureA 3300904] add limit to log function
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-At this point, she needs to share her work with John, so she pushes her `featureA` branch commits up to the server. Jessica doesn’t have push access to the `master` branch — only the integrators do — so she has to push to another branch in order to collaborate with John:
+此刻，她需要分享目前的进展给 John，于是她将自己的 `featureA` 分支提交到服务器。由于 Jessica 没有权限推送数据到主仓库的 `master` 分支（只有集成管理员有此权限），所以只能将此分支推上去同 John 共享协作：
 
 	$ git push origin featureA
 	...
 	To jessica@githost:simplegit.git
 	 * [new branch]      featureA -> featureA
 
-Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch:
+Jessica 发邮件给 John 让他上来看看 `featureA` 分支上的进展。在等待他的反馈之前，Jessica 决定继续工作，和 Josie 一起开发 `featureB` 上的特性 B。当然，先创建此分支，分叉点以服务器上的 `master` 为起点：
 
 	# Jessica's Machine
 	$ git fetch origin
 	$ git checkout -b featureB origin/master
 	Switched to a new branch "featureB"
 
-Now, Jessica makes a couple of commits on the `featureB` branch:
+随后，Jessica 在 `featureB` 上提交了若干更新：
 
 	$ vim lib/simplegit.rb
 	$ git commit -am 'made the ls-tree function recursive'
@@ -296,19 +296,19 @@ Now, Jessica makes a couple of commits on the `featureB` branch:
 	[featureB 8512791] add ls-files
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Jessica’s repository looks like Figure 5-12.
+现在 Jessica 的更新历史如图 5-12 所示：
 
 Insert 18333fig0512.png 
-Figure 5-12. Jessica’s initial commit history
+图 5-12. Jessica 的更新历史
 
-She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`:
+Jessica 正准备推送自己的进展上去，却收到 Josie 的来信，说是她已经将自己的工作推到服务器上的 `featureBee` 分支了。这样，Jessica 就必须先将 Josie 的代码合并到自己本地分支中，才能再一起推送回服务器。她用 `git fetch` 下载 Josie 的最新代码：
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
 	 * [new branch]      featureBee -> origin/featureBee
 
-Jessica can now merge this into the work she did with `git merge`:
+然后 Jessica 使用 `git merge` 将此分支合并到自己分支中：
 
 	$ git merge origin/featureBee
 	Auto-merging lib/simplegit.rb
@@ -316,23 +316,23 @@ Jessica can now merge this into the work she did with `git merge`:
 	 lib/simplegit.rb |    4 ++++
 	 1 files changed, 4 insertions(+), 0 deletions(-)
 
-There is a bit of a problem — she needs to push the merged work in her `featureB` branch to the `featureBee` branch on the server. She can do so by specifying the local branch followed by a colon (:) followed by the remote branch to the `git push` command:
+合并很顺利，但另外有个小问题：她要推送自己的 `featureB` 分支到服务器上的 `featureBee` 分支上去。当然，她可以使用冒号（:）格式指定目标分支：
 
 	$ git push origin featureB:featureBee
 	...
 	To jessica@githost:simplegit.git
 	   fba9af8..cd685d1  featureB -> featureBee
 
-This is called a _refspec_. See Chapter 9 for a more detailed discussion of Git refspecs and different things you can do with them.
+我们称此为_refspec_。更多有关于 Git refspec 的讨论和使用方式会在第九章作详细阐述。
 
-Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` branch and ask her to verify them. She runs a `git fetch` to pull down those changes:
+接下来，John 发邮件给 Jessica 告诉她，他看了之后作了些修改，已经推回服务器 `featureA` 分支，请她过目下。于是 Jessica 运行 `git fetch` 下载最新数据：
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
 	   3300904..aad881d  featureA   -> origin/featureA
 
-Then, she can see what has been changed with `git log`:
+接下来便可以用 `git log` 查看更新了些什么：
 
 	$ git log origin/featureA ^featureA
 	commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
@@ -341,7 +341,7 @@ Then, she can see what has been changed with `git log`:
 
 	    changed log output to 30 from 25
 
-Finally, she merges John’s work into her own `featureA` branch:
+最后，她将 John 的工作合并到自己的 `featureA` 分支中：
 
 	$ git checkout featureA
 	Switched to branch "featureA"
@@ -351,7 +351,7 @@ Finally, she merges John’s work into her own `featureA` branch:
 	 lib/simplegit.rb |   10 +++++++++-
 	1 files changed, 9 insertions(+), 1 deletions(-)
 
-Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
+Jessica 稍做一番修整后同步到服务器：
 
 	$ git commit -am 'small tweak'
 	[featureA ed774b3] small tweak
@@ -361,20 +361,20 @@ Jessica wants to tweak something, so she commits again and then pushes this back
 	To jessica@githost:simplegit.git
 	   3300904..ed774b3  featureA -> featureA
 
-Jessica’s commit history now looks something like Figure 5-13.
+现在的 Jessica 提交历史如图 5-13 所示：
 
 Insert 18333fig0513.png 
-Figure 5-13. Jessica’s history after committing on a feature branch
+图 5-13. 在特性分支中提交更新后的提交历史
 
-Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14.
+现在，Jessica，Josie 和 John 通知集成管理员服务器上的 `featureA` 及 `featureBee` 分支已经准备好，可以并入主线了。在管理员完成集成工作后，主分支上便多出一个新的合并提交（5399e），用 fetch 命令更新到本地后，提交历史如图 5-14 所示：
 
 Insert 18333fig0514.png 
-Figure 5-14. Jessica’s history after merging both her topic branches
+图 5-14. 合并特性分支后的 Jessica 提交历史
 
-Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
+许多开发小组改用 Git 就是因为它允许多个小组间并行工作，而在稍后恰当时机再行合并。通过共享远程分支的方式，无需干扰整体项目代码便可以开展工作，因此使用 Git 的小型团队间协作可以变得非常灵活自由。以上工作流程的时序如图 5-15 所示：
 
 Insert 18333fig0515.png 
-Figure 5-15. Basic sequence of this managed-team workflow
+图 5-15. 团队间协作工作流程基本时序
 
 ### Public Small Project ###
 

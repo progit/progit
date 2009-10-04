@@ -116,11 +116,7 @@ Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho 
 stav svého projektu do Gitu, jednoduše si udělá obrázek, jak teď právě vypadají všechny soubory, a uloží to. Pro úsporu
 si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor. Git přemýšlí nad daty asi jako na obrázku 1-5.
 
-<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
 [^2]: Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
-=======
-[^2]Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
->>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
 
 Insert 18333fig0105.png 
 Obrázek 1-5. Git ukládá data jako snapshoty projektu.
@@ -178,20 +174,12 @@ Git má tři základní stavy, kterých můžou vaše soubory nabývat: "commite
 Commited znamená, že data jsou bezpečně uložena v místní databázi. Modified znamená, že soubor byl oproti poslednímu předání změněn.
 A staged je ten soubor, u kterého máte značku, že bude v této verzi zařazen do nejbližšího commitu.
 
-<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
 [^3]: Pozn. překl.: Vzhledem k neexistující lokalizaci Gitu do češtiny budu nadále používat tyto anglické výrazy,
-=======
-[^3] Pozn. překl.: Vzhledem k neexistující lokalizaci Gitu do češtiny budu nadále používat tyto anglické výrazy,
->>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
 se kterými se v Gitu setkáte de facto na každém rohu narozdíl od českých ekvivalentů.
 
 To nás vede ke třem hlavním sekcím projektu v Gitu: Git directory, working directory a staging area[^4].
 
-<<<<<<< HEAD:cs/01-introduction/01-chapter1.markdown
 [^4]: Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
-=======
-[^4] Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
->>>>>>> progit/master:cs/01-introduction/01-chapter1.markdown
 
 Insert 18333fig0106.png 
 Figure 1-6. Git directory, working directory a staging area
@@ -280,52 +268,55 @@ Druhá základní možnost je přes MacPorts (`http://www.macports.org`). Když 
 Nemusíte samozřejmě přidávat všechny extra balíčky, ale určitě si vyberete naapř. +svn, pokud musíte ještě
 používat Git s repoozitáři Subversion (více v kapitole 8).
 
-### Installing on Windows ###
+### Instalujeme na Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Nainstalovat Git na Windows je velmi jednoduché. Stáhněte si exe instalátor ze stránek Google Code a spusťte ho:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Po dokončení instalace máte jak verzi pro příkazový řádek (včetně SSH klienta, který se bude hodit později), tak standardní grafické rozhraní.
 
-## First-Time Git Setup ##
+## Počáteční nastavení ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Teď, když máte na svém systému Git, si v něm možná budete chtít nastavit pár věcí, přizpůsobit svým požadavkům. Budete to muset udělat pouze jednou -- uchovávají se při upgradech. Samozřejmě je kdykoli můžete změnit provedením obdobných příkazů jako teď.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git obsahuje nástroj zvaný git config, který umožňuje nastavovat konfigurační hodnoty, které ovládají, jak Git vypadá a jak se chová. Mohou být uloženy na třech různých místech:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	soubor `/etc/gitconfig`: Obsahuje hodnoty pro všechny uživatele a všechny repozitáře na tomto systému dohromady. Pokud připojíte volbu ` --system` za `git config`, bude pracovat výhradně s tímto souborem.
+*	soubot `~/.gitconfig`: Specifický pro uživatele. Tento soubor můžete upravovat také přidáním volby `--global`.
+*	konfigurační soubor v Git directory (tj. `.git/config`) každého repozitáře: specifický pro každý jednotlivý repozitář.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+Každá další vrstva překrývá tu předchozí, takže hodnoty v `.git/config` přebijí hodnoty z `/etc/gitconfig`.
 
-### Your Identity ###
+Na Windows hledá Git soubor `.gitconfig` v `$HOME` (obvykle `C:\Documents and Settings\$USER`). Samozřejmě pořád uvažuje /etc/gitconfig, přestože tato cesta je relativní ke kořenu MSys, což je místo, kam jste se rozhodli instalovat Git ve vašem systému Windows.
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+### Vaše identita ###
+
+První věc, kterou máte udělat po instalaci Gitu, je nastavení vašeho uživatelského jména a e-mailu. To je důležité, jelikož každý commit tyto informace obsahuje, a jsou nevratně "zataveny" do všech vašich commitů.
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Znovu -- toto musíte udělat jen jednou, pokud připojíte volbu ` --global`, protože pak tyto informace použije Git pro cokoli, co na vašem systému děláte. Pokud je chcete přepsat jiným jménem nebo e-mailem pro nějaký projekt, stačí spustit příslušný příkaz bez volby ` --global` v adresáři onoho projektu.
 
-### Your Editor ###
+### Váš editor ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Teď, když máte nastaveno, kdo jste, si můžete nastavit výchozí textový editor, který Git použije, když bude chtít, abyste napsali zprávu. Jinak Git použije výchozí editor podle nastavení systému, což je obvykle Vi nebo Vim. Pokud chcete použít jiný textový editor, třeba Emacs, nastavte si to:
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### Váš nástroj pro řešení kolizních situací ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+Další užitečnou volbou je nastavení výchozího nástroje pro řešení kolizí. Takto nastavíte, že chcete používat vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git umí pracovat s nástroji kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff. Můžete také nastavit i jiný nástroj; více v kapitole 7.
 
 ### Checking Your Settings ###
+### Kontrola vašeho nastavení ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Pokud chcete zkontrolovat vaše nastavení, použijte `git config --list` k zobrazení všech nastavení, která dokáže na tomto místě Git najít:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -336,28 +327,28 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Některé hodnoty můžete vidět vícekrát, protože je Git přečte z více různých souborů (např. `/etc/gitconfig` a `~/.gitconfig`). V takovém případě se Git řídí poslední načtenou hodnotou.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Také můžete zobrazit jednu konkrétní hodnotu napsáním `git config {key}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## První pomoc ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Pokud náhodou potřebujete pomoct s používáním Gitu, jsou tři možnosti, jak získat manuál (manpage) pro každý jeden příkaz Gitu:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+Například manpage pro příkaz config získáte spuštěním
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+Tyto příkazy jsou užitečné zejména proto, že je můžete spustit kdykoli -- i offline.
+Pokud by ani manuálové stránky, ani tato kniha neposkytly to, co potřebujete, zkuste IRC kanály `#git` nebo `#github` na Freenode IRC serveru (irc.freenode.net). Tyto kanály jsou pravidelně zaplněny stovkami lidí, kteří o Gitu ví opravdu mnoho a často vám rádi pomohou.
 
-## Summary ##
+## Shrnutí ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+Měli byste v základu vědět, co to je Git a v jakém směru je odlišný od CSSV, který možná zrovna používáte. Měli byste mít na svém systému funkční Git nastavený podle vás. Nyní je čas na naučení se základů Gitu.

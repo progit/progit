@@ -1,12 +1,12 @@
-# Iniciando-se no GIT. #
+# Primeiros passos #
 
-Esse capítulo tratará sobre como iniciar-se no GIT. Nós iremos começar explicando alguns conceitos de ferramentas de controle de versão,então continuaremos em como instalar o GIT no seu sistema e finalmente como conseguir configurá-lo. Ao final desse capítulo você entenderá porque o GIT está por aí, porque usá-lo e como usá-lo.
+Esse capítulo trata dos primeiros passos usando o Git. Inicialmente explicaremos alguns fundamentos sobre ferramentas de controle de versão, e passaremos ao tópico de como instalar o Git no seu sistema e finalmente em como configurá-lo para começar a trabalhar. Ao final do capítulo você entenderá porque o Git está por aí, porque usá-lo e como usá-lo.
 
 ## Sobre Controle de Versão ##
 
-O que é controle de versão? Por que você deve se importar? O controle de versão é um sistema que registra as mudanças feitas em um arquivo ou um grupo de arquivos com o passar do tempo de forma que você possa rever versões específicas. Nos exemplos desse livro você colocará arquivos de código fonte sob controle de versão, embora você pudesse fazê-lo com praticamente qualquer tipo de arquivo de um computador.
+O que é controle de versão, e por que você deve se importar? O controle de versão é um sistema que registra as mudanças feitas em um arquivo ou um conjunto de arquivos ao longo do tempo de forma que você possa recuperar versões específicas. Nos exemplos desse livro você colocará arquivos de código fonte sob controle de versão, embora você pudesse fazê-lo com praticamente qualquer tipo de arquivo de um computador.
 
-Se você é um designer gráfico ou um web designer e quer manter todas as versões de uma imagem ou layout (o que você deve querer, com certeza), É uma decisão sábia usar um Sistema de Controle de Versão ou Version Control System (VCS). Ele permitirá reverter arquivos ou um projeto inteiro a um estado anterior. Comparar mudanças que foram feitas ao decorrer do tempo, ver quem foi o último a modificar alguma coisa que pode estar causando problemas, quem introduziu um bug, e quando, e muito mais. Usar um VCS normalmente significa que se você estragou algo ou perdeu arquivos, poderá facilmente reavê-los. Além disso, você pode controlar tudo sem maiores esforços.
+Se você é um designer gráfico ou um web designer e quer manter todas as versões de uma imagem ou layout (o que você deve querer, com certeza), É uma sábia decisão usar um Sistema de Controle de Versão ou Version Control System (VCS). Ele permitirá reverter arquivos ou um projeto inteiro a um estado anterior. Comparar mudanças que foram feitas ao decorrer do tempo, ver quem foi o último a modificar alguma coisa que pode estar causando problemas, quem introduziu um bug, e quando, e muito mais. Usar um VCS normalmente significa que se você estragou algo ou perdeu arquivos, poderá facilmente reavê-los. Além disso, você pode controlar tudo sem maiores esforços.
 
 ### Sistemas de Controle de Versão Locais ###
 
@@ -17,41 +17,41 @@ Para lidar com esse problema, alguns programadores desenvolveram há muito tempo
 Insert 18333fig0101.png 
 Figura 1-1. Diagrama de controle de versão local
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like any point in time by adding up all the patches.
+Uma das ferramentas de VCS mais populars foi um sistema chamado RCS, que ainda é distribuído em muitos computadores até hoje. Até o o popular Mac OS X inclui o comando rcs quando se instala o kit de ferramentas para desenvolvedores. Basicamente, essa ferramenta mantém conjuntos de patches (ou seja, as diferenças entre os arquivos) entre cada mudança em um arquivo especial; a partir daí qualquer arquivo em qualquer ponto na linha do tempo pode ser recriado ao juntar-se todos os patches.
 
-### Centralized Version Control Systems ###
+### Sistemas de Controle de Versão Centralizado ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Outro grande problema que as pessoas encontram está na necessidade de trabalhar em conjunto com outros desenvolvedores, que usam outros sistemas. Para lidar com isso, foram desenvolvidos Sistemas de Controle de Versão Centralizado (Centralized Version Control Systems, ou CVCS). Esses sistemas - como por exemplo o CVS, Subversion e Perforce - possuem um único servidor central que contém todos os arquivos versionados, e vários clients que podem resgatar (check out) os arquivos do servidor. Por muitos anos, esse foi o modelo padrão para controle de versão.
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram
+Figura 1-2. Diagrama de Controle de Versão Centralizado
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Esse arranjo oferece muitas vantagens, especialmente sobre VCS locais. Por exemplo, todo mundo tem conhecimento razoável sobre o que todos os outros no projeto estão fazendo. Administradores têm controle especifíco sobre quem-faz-o-quê; sem falar que é bem mais fácil administrar um CVCS do que é lidar com bancos de dados locais em todo cliente.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Entretanto, esse arranjo também possui sérias desvantagens. O mais óbvio é que o servidor central é unm ponto único de falha. Se o servidor fica fora do ar por uma hora, então ninguém pode trabalhar em conjunto ou salvar novas versões dos arquivos durante esse período. Se o disco do servidor do banco de dados for corrompido e não existir um backup adequado, perde-se todo o histórico de mudanças no projeto exceto pelas cópias momentâneas que os desenvolvedores possuem em suas cópias locais. VCSs locais também sofrem desse problema - sempre que se tem o histórico em um único local, corre-se o risco de perder tudo.
 
-### Distributed Version Control Systems ###
+### Sistemas de Controle de Versão Distribuídos ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+É aqui que surgem os Sistemas de Controle de Versão Distribuídos (Distributed Version Control Systems, ou DVCSs). Em um DVCS (tais como Git, Mercurial, Bazaar or Darcs), os clientes não apenas fazem cópias momentâneas dos arquivos: eles são cópias completas do repositório. Assim, se um servidor falha, qualquer um dos repositórios dos clientes pode ser copiado de volta para o servidor para restaurá-lo. Cada checkout é na prática um backup completo de todos os dados (veja Figura 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+Figura 1-3. Diagrama de Controle de Versão Distribuído
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Além disso, muitos desses sistemas lidam muito bem com o aspecto de ter vários repositórios remotos com os quais eles podem colaborar, permitindo que vc trabalhe em conjunto com diferentes grupos de pessoas, de diversas maneiras, no mesmo projeto, simultaneamente. Isso permite que você estabeleça diferentes tipos de workflow que não são possíveis em sistemas centralizados, como exemplo direto o uso de modelos heiráquicos.
 
-## A Short History of Git ##
+## Uma Breve História do Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Assim como muitas coisas importantes na vida, o Git começou com um tanto de destruição criativa e acirrada controvérsia. O kernel do Linux é um projeto de software de código aberto de escopo razoavelmente grande. Durante a maior parte de sua existência (1991-2002), as mudanças no software eram repassadas como patches e arquivos compactados. Em 2002, o projeto do kernel do Linux começou a usar um sistema proprietário distribuído chamado BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+Em 2005, o relacionamento entre a comunidade que desenvolvia o kernel e a empresa que desenvolvia comercialmente o BitKeeper se desfez, e o status de isento-de-pagamento da ferramenta foi revogado. Isso levou a comunidade de desenvolvedores do Linux (em particular Linus Torvalds, o criador do Linux) a desenvolver sua própria ferramenta baseada nas lições que eles aprenderam ao usar o BitKeeper. Alguns dos objetivos do novo sistema eram:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Velocidade
+*	Design Simples
+*	Robusto Suporte a desenvolvimento não linear (milhares de branches paralelos)
+*	Totalmente distribuído
+*	Capaz de lidar eficientemente com grandes projetos como o kernel do Linux (velocidade e volume de dados)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Desde sua concepção em 2005, o Git evoluiu e amadureceu a ponto de ser um sistema fácil de ser usado e ainda mantém suas características iniciais. É incrivelmente rápido, bastante eficiente com grandes projetos e possui um sistema impressionante para desenvolvimento não-linear (Veja no Capítulo 3).
 
 ## Git Basics ##
 

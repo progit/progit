@@ -6,7 +6,7 @@
 
 如果你对架设自己的服务器没兴趣，可以跳到本章最后一节去看看如何创建一个代码托管账户然后继续下一章，我们会在那里讨论一个分布式源码控制环境的林林总总。
 
-远程仓库通常只是一个 _纯仓库(bare repository)_ ——一个没有当前工作目录的仓库。因为该仓库只是一个合作媒介，所以不需要从一个处于已从磁盘上签出状态的快照；仓库里仅仅是 Git 的数据。简单的说，纯仓库是你项目里 `.git` 目录的内容，别无他物。
+远程仓库通常只是一个 _纯仓库(bare repository)_ ——一个没有当前工作目录的仓库。因为该仓库只是一个合作媒介，所以不需要从一个处于已从硬盘上签出状态的快照；仓库里仅仅是 Git 的数据。简单的说，纯仓库是你项目里 `.git` 目录的内容，别无他物。
 
 ## 协议 ##
 
@@ -83,7 +83,7 @@ Git 协议可能也是最难架设的协议。它要求有单独的守护进程�
 ### HTTP/S 协议 ###
 
 最后还剩下 HTTP 协议。HTTP 或 HTTPS 协议的优美之处在于架设的简便性。基本上，
-只需要把 Git 的纯仓库文件放在 HTTP 的文件根目录下，配置一个特定的 `post-update` 挂钩（hook），就搞定了（Git 挂钩的细节见第七章）。从此，每个能访问 Git 仓库所在服务器上的网页服务的人都可以进行克隆操作。下面的操作可以允许通过 HTTP 对仓库进行读取：
+只需要把 Git 的纯仓库文件放在 HTTP 的文件根目录下，配置一个特定的 `post-update` 挂钩（hook），就搞定了（Git 挂钩的细节见第七章）。从此，每个能访问 Git 仓库所在服务器上的 web 服务的人都可以进行克隆操作。下面的操作可以允许通过 HTTP 对仓库进行读取：
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -95,7 +95,7 @@ Git 协议可能也是最难架设的协议。它要求有单独的守护进程�
 
 	$ git clone http://example.com/gitproject.git
 
-在本例中，我们使用了 Apache 设定中常用的 `/var/www/htdocs` 路径，不过你可以使用任何静态网页服务——把纯仓库放在它的目录里就行了。 Git 的数据是以最基本的静态文件的形式提供的（关于如何提供文件的详情见第9章）。
+在本例中，我们使用了 Apache 设定中常用的 `/var/www/htdocs` 路径，不过你可以使用任何静态 web 服务——把纯仓库放在它的目录里就行了。 Git 的数据是以最基本的静态文件的形式提供的（关于如何提供文件的详情见第9章）。
 
 通过HTTP进行推送操作也是可能的，不过这种做法不太常见并且牵扯到复杂的 WebDAV 架设。由于很少用到，本书将略过对该内容的讨论。如果你对 HTTP 推送协议感兴趣，不妨在这个地址看一下如何操作：`http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` 。通过 HTTP 推送的好处之一是你可以使用任何 WebDAV 服务器，不需要为 Git 设定特殊环境；所以如果主机提供商支持通过 WebDAV 更新网站内容，你也可以使用这项功能。
 
@@ -203,7 +203,7 @@ HTTP 协议的消极面在于，相对来说客户端效率更低。克隆或者
 
 ## 架设服务器 ##
 
-现在我们走一边服务器端架设 SSH 访问的过程。本例将使用 `authorized_keys` 方法来给用户授权。我们还将假定使用类似 Ubuntu 这样的标准 Linux 发行版。首先，创建一个 'git' 用户并为其创建一个 `.ssh` 目录（译注：在用户的主目录下）。
+现在我们过一边服务器端架设 SSH 访问的流程。本例将使用 `authorized_keys` 方法来给用户授权。我们还将假定使用类似 Ubuntu 这样的标准 Linux 发行版。首先，创建一个 'git' 用户并为其创建一个 `.ssh` 目录（译注：在用户的主目录下）。
 
 	$ sudo adduser git
 	$ su git
@@ -233,9 +233,9 @@ HTTP 协议的消极面在于，相对来说客户端效率更低。克隆或者
 	$ cd project.git
 	$ git --bare init
 
-这时，张三，李四或者王二就可以把它加为远程仓库，推送一个分支，从而把第一个版本的工程上传到仓库里了。值得注意的是，每次添加一个新项目都需要通过 shell 登入主机并创建一个纯仓库。我们不妨以 `gitserver` 作为 `git` 用户和仓库所在的主机名。如果你在网络内部运行该主机，并且在 DNS 中设定 `gitserver` 指向该主机，那么以下这些命令都是可用的：
+这时，Join，Josie 或者 Jessica 就可以把它加为远程仓库，推送一个分支，从而把第一个版本的工程上传到仓库里了。值得注意的是，每次添加一个新项目都需要通过 shell 登入主机并创建一个纯仓库。我们不妨以 `gitserver` 作为 `git` 用户和仓库所在的主机名。如果你在网络内部运行该主机，并且在 DNS 中设定 `gitserver` 指向该主机，那么以下这些命令都是可用的：
 
-	# on Johns computer
+	# 在 John 的电脑上
 	$ cd myproject
 	$ git init
 	$ git add .
@@ -270,29 +270,29 @@ HTTP 协议的消极面在于，相对来说客户端效率更低。克隆或者
 	fatal: What do you think I am? A shell? （你以为我是个啥？shell吗？)
 	Connection to gitserver closed. （gitserver 连接已断开。）
 
-## Public Access ##
+## 公共访问 ##
 
-What if you want anonymous read access to your project? Perhaps instead of hosting an internal private project, you want to host an open source project. Or maybe you have a bunch of automated build servers or continuous integration servers that change a lot, and you don’t want to have to generate SSH keys all the time — you just want to add simple anonymous read access.
+匿名的读取权限该怎么实现呢？也许除了内部私有的项目之外，你还需要托管一些开源项目。抑或你使用一些自动化的服务器来进行编译，或者一些经常变化的服务器群组，而又不想整天生成新的 SSH 密钥——总之，你需要简单的匿名读取权限。
 
-Probably the simplest way for smaller setups is to run a static web server with its document root where your Git repositories are, and then enable that `post-update` hook we mentioned in the first section of this chapter. Let’s work from the previous example. Say you have your repositories in the `/opt/git` directory, and an Apache server is running on your machine. Again, you can use any web server for this; but as an example, we’ll demonstrate some basic Apache configurations that should give you an idea of what you might need.
+或许对小型的配置来说最简单的办法就是运行一个静态 web 服务，把它的根目录设定为 Git 仓库所在的位置，然后开启本章第一节提到的 `post-update` 挂钩。这里继续使用之前的例子。假设仓库处于 `/opt/git` 目录，主机上运行着 Apache 服务。重申一下，任何 web 服务程序都可以达到相同效果；作为范例，我们将用一些基本的 Apache 设定来展示大体需要的步骤。
 
-First you need to enable the hook:
+首先，开启挂钩：
 
 	$ cd project.git
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-If you’re using a version of Git earlier than 1.6, the `mv` command isn’t necessary — Git started naming the hooks examples with the .sample postfix only recently. 
+假如使用的 Git 版本小于 1.6，那 `mv` 命令可以省略—— Git 是从较晚的版本才开始在挂钩实例的结尾添加 .sample 后缀名的。
 
-What does this `post-update` hook do? It looks basically like this:
+`post-update` 挂钩是做什么的呢？其内容大致如下：
 
 	$ cat .git/hooks/post-update 
 	#!/bin/sh
 	exec git-update-server-info
 
-This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.
+意思是当通过 SSH 向服务器推送时，Git 将运行这个命令来更新 HTTP 获取所需的文件。
 
-Next, you need to add a VirtualHost entry to your Apache configuration with the document root as the root directory of your Git projects. Here, we’re assuming that you have wildcard DNS set up to send `*.gitserver` to whatever box you’re using to run all this:
+其次，在 Apache 配置文件中添加一个 VirtualHost 条目，把根文件（译注： DocumentRoot 参数）设定为 Git 项目的根目录。假定 DNS 服务已经配置好，会把 `.gitserver` 发送到任何你所在的主机来运行这些：
 
 	<VirtualHost *:80>
 	    ServerName git.gitserver
@@ -303,34 +303,34 @@ Next, you need to add a VirtualHost entry to your Apache configuration with the 
 	    </Directory>
 	</VirtualHost>
 
-You’ll also need to set the Unix user group of the `/opt/git` directories to `www-data` so your web server can read-access the repositories, because the Apache instance running the CGI script will (by default) be running as that user:
+另外，需要把 `/opt/git` 目录的 Unix 用户组设定为 `www-data` ，这样 web 服务才可以读取仓库内容，因为 Apache 运行 CGI 脚本的模块（默认）使用的是该用户：
 
 	$ chgrp -R www-data /opt/git
 
-When you restart Apache, you should be able to clone your repositories under that directory by specifying the URL for your project:
+重启 Apache 之后，就可以通过项目的 URL 来克隆该目录下的仓库了。
 
 	$ git clone http://git.gitserver/project.git
 
-This way, you can set up HTTP-based read access to any of your projects for a fair number of users in a few minutes. Another simple option for public unauthenticated access is to start a Git daemon, although that requires you to daemonize the process - we’ll cover this option in the next section, if you prefer that route.
+这一招可以让你在几分钟内为相当数量的用户架设好基于 HTTP 的读取权限。另一个提供非授权访问的简单方法是开启一个 Git 守护进程，不过这将要求该进程的常驻——下一节将是想走这条路的人准备的。
 
-## GitWeb ##
+## 网页界面 GitWeb ##
 
-Now that you have basic read/write and read-only access to your project, you may want to set up a simple web-based visualizer. Git comes with a CGI script called GitWeb that is commonly used for this. You can see GitWeb in use at sites like `http://git.kernel.org` (see Figure 4-1).
+如今我们的项目已经有了读写和只读的连接方式，也许应该再架设一个简单的网页界面使其更加可视化。为此，Git 自带了一个叫做 GitWeb 的 CGI 脚本。你可以在类似 `http://git.kernel.org` 这样的站点找到 GitWeb 的应用实例（见图 4-1）。
 
 Insert 18333fig0401.png 
-Figure 4-1. The GitWeb web-based user interface
+Figure 4-1. 基于网页的 GitWeb 用户界面
 
-If you want to check out what GitWeb would look like for your project, Git comes with a command to fire up a temporary instance if you have a lightweight server on your system like `lighttpd` or `webrick`. On Linux machines, `lighttpd` is often installed, so you may be able to get it to run by typing `git instaweb` in your project directory. If you’re running a Mac, Leopard comes preinstalled with Ruby, so `webrick` may be your best bet. To start `instaweb` with a non-lighttpd handler, you can run it with the `--httpd` option.
+如果想知道项目的 GitWeb 长什么样，Git 自带了一个命令，可以在类似 `lighttp	 或 `webrick` 这样轻量级的服务器程序上打开一个临时的实例。在 Linux 主机上通常都安装了 `lighttpd` ，这时就可以在项目目录里输入 `git instaweb` 来运行它。如果使用的是 Mac ，Leopard 预装了 Ruby，所以 `webrick` 应该是最好的选择。使用 lighttpd 以外的程序来启用 `git instaweb`， 可以通过它的 `--httpd` 选项来实现。
 
 	$ git instaweb --httpd=webrick
 	[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
 	[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 
-That starts up an HTTPD server on port 1234 and then automatically starts a web browser that opens on that page. It’s pretty easy on your part. When you’re done and want to shut down the server, you can run the same command with the `--stop` option:
+这会在 1234 端口开启一个 HTTPD 服务，随之在浏览器中显示该页。简单的很。需要关闭服务的时候，只要使用相同命令的 `--stop` 选项就好了：
 
 	$ git instaweb --httpd=webrick --stop
 
-If you want to run the web interface on a server all the time for your team or for an open source project you’re hosting, you’ll need to set up the CGI script to be served by your normal web server. Some Linux distributions have a `gitweb` package that you may be able to install via `apt` or `yum`, so you may want to try that first. We’ll walk though installing GitWeb manually very quickly. First, you need to get the Git source code, which GitWeb comes with, and generate the custom CGI script:
+如果需要为团队或者某个开源项目长期的运行 web 界面，那么 CGI 脚本就要由正常的网页服务来运行。一些 Linux 发行版可以通过 `apt` 或 `yum` 安装一个叫做 `gitweb` 的软件包，不妨首先尝试一下。我们将快速的介绍一下手动安装 GitWeb 的流程。首先，你需要 Git 的源码，其中带有 GitWeb，并能生成 CGI 脚本：
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
@@ -338,7 +338,7 @@ If you want to run the web interface on a server all the time for your team or f
 	        prefix=/usr gitweb/gitweb.cgi
 	$ sudo cp -Rf gitweb /var/www/
 
-Notice that you have to tell the command where to find your Git repositories with the `GITWEB_PROJECTROOT` variable. Now, you need to make Apache use CGI for that script, for which you can add a VirtualHost:
+注意通过指定 `GITWEB_PROJECTROOT` 变量告诉编译命令 Git 仓库的位置。然后，让 Apache 来提供脚本的 CGI，为此添加一个 VirtualHost：
 
 	<VirtualHost *:80>
 	    ServerName gitserver
@@ -353,65 +353,66 @@ Notice that you have to tell the command where to find your Git repositories wit
 	    </Directory>
 	</VirtualHost>
 
+不难想象，GitWeb 可以使用任何兼容 CGI 的网页服务来运行；如果偏向使用其他的（译注：这里指Apache 以外的服务），配置也不会很麻烦。现在，通过 `http://gitserver` 就可以在线访问仓库了，在 `http://git.server` 上还可以通过 HTTP 克隆和获取仓库的内容。
 Again, GitWeb can be served with any CGI capable web server; if you prefer to use something else, it shouldn’t be difficult to set up. At this point, you should be able to visit `http://gitserver/` to view your repositories online, and you can use `http://git.gitserver` to clone and fetch your repositories over HTTP.
 
-## Gitosis ##
+## 权限管理器 Gitosis ##
 
-Keeping all users’ public keys in the `authorized_keys` file for access works well only for a while. When you have hundreds of users, it’s much more of a pain to manage that process. You have to shell onto the server each time, and there is no access control — everyone in the file has read and write access to every project.
+把所有用户的公钥保存在 `authorized_keys` 文件的做法只能暂时奏效。当用户数量到了几百人的时候，它会变成一种痛苦。每一次都必须进入服务器的 shell，而且缺少对连接的限制——文件里的每个人都对所有项目拥有读写权限。
 
-At this point, you may want to turn to a widely used software project called Gitosis. Gitosis is basically a set of scripts that help you manage the `authorized_keys` file as well as implement some simple access controls. The really interesting part is that the UI for this tool for adding people and determining access isn’t a web interface but a special Git repository. You set up the information in that project; and when you push it, Gitosis reconfigures the server based on that, which is cool.
+现在，是时候向广泛使用的软件 Gitosis 求救了。Gitosis 简单的说就是一套用来管理 `authorized_keys` 文件和实现简单连接限制的脚本。最有意思的是，该软件用来添加用户和设定权限的界面不是网页，而是一个特殊的 Git 仓库。你只需要设定好某个项目；然后推送，Gitosis 就会随之改变服务器设定，酷吧？
 
-Installing Gitosis isn’t the simplest task ever, but it’s not too difficult. It’s easiest to use a Linux server for it — these examples use a stock Ubuntu 8.10 server.
+Gitosis 的安装算不上傻瓜化，不过也不算太难。用 Linux 服务器架设起来最简单——以下例子中的服务器使用 Ubuntu 8.10 系统。
 
-Gitosis requires some Python tools, so first you have to install the Python setuptools package, which Ubuntu provides as python-setuptools:
+Gitosis 需要使用部分 Python 工具，所以首先要安装 Python 的 setuptools 包，在 Ubuntu 中名为 python-setuptools：
 
 	$ apt-get install python-setuptools
 
-Next, you clone and install Gitosis from the project’s main site:
+接下来，从项目主页克隆和安装 Gitosis：
 
 	$ git clone git://eagain.net/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 
-That installs a couple of executables that Gitosis will use. Next, Gitosis wants to put its repositories under `/home/git`, which is fine. But you have already set up your repositories in `/opt/git`, so instead of reconfiguring everything, you create a symlink:
+这会安装几个 Gitosis 用的可执行文件。现在，Gitosis 想把它的仓库放在 `/home/git`，倒也可以。不过我们的仓库已经建立在 `/opt/git` 了，这时可以创建一个文件连接，而不用从头开始重新配置：
 
 	$ ln -s /opt/git /home/git/repositories
 
-Gitosis is going to manage your keys for you, so you need to remove the current file, re-add the keys later, and let Gitosis control the `authorized_keys` file automatically. For now, move the `authorized_keys` file out of the way:
+Gitosis 将为我们管理公钥，所以当前的文件需要删除，以后再重新添加公钥，并且让 Gitosis 自动控制 `authorized_keys` 文件。现在，把 `authorized_keys`文件移走：
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
 
-Next you need to turn your shell back on for the 'git' user, if you changed it to the `git-shell` command. People still won’t be able to log in, but Gitosis will control that for you. So, let’s change this line in your `/etc/passwd` file
+然后恢复 'git' 用户的 shell，假设之前把它改成了 `git-shell` 命令。其他人仍然不能通过它来登录系统，不过这次有 Gitosis 帮我们实现。所以现在把 `/etc/passwd` 文件的这一行
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-back to this:
+恢复成:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-Now it’s time to initialize Gitosis. You do this by running the `gitosis-init` command with your personal public key. If your public key isn’t on the server, you’ll have to copy it there:
+现在就可以初始化 Gitosis 了。需要通过自己的公钥来运行 `gitosis-init`。如果公钥不在服务器上，则必须复制一份：
 
 	$ sudo -H -u git gitosis-init < /tmp/id_dsa.pub
 	Initialized empty Git repository in /opt/git/gitosis-admin.git/
 	Reinitialized existing Git repository in /opt/git/gitosis-admin.git/
 
-This lets the user with that key modify the main Git repository that controls the Gitosis setup. Next, you have to manually set the execute bit on the `post-update` script for your new control repository.
+这样该公钥的拥有者就能修改包含着 Gitosis 设置的那个 Git 仓库了。然后手动将这个新的控制仓库中的 	`post-update` 脚本加上执行权限。
 
 	$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 
-You’re ready to roll. If you’re set up correctly, you can try to SSH into your server as the user for which you added the public key to initialize Gitosis. You should see something like this:
+万事俱备了。如果设定过程没出什么差错，现在可以试一下用初始化 Gitosis 公钥的拥有者身份 SSH 进服务器。看到的结果应该和下面类似：
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
 	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
 	  Connection to gitserver closed.
 
-That means Gitosis recognized you but shut you out because you’re not trying to do any Git commands. So, let’s do an actual Git command — you’ll clone the Gitosis control repository:
+说明 Gitosis 认出了该用户的身份，但由于没有运行任何 Git 命令所以它切断了连接。所以，现在运行一个确切的 Git 命令——克隆 Gitosis 的控制仓库：
 
-	# on your local computer
+	# 在自己的电脑上
 	$ git clone git@gitserver:gitosis-admin.git
 
-Now you have a directory named `gitosis-admin`, which has two major parts:
+得到一个名为 `gitosis-admin` 的目录，主要由两部分组成：
 
 	$ cd gitosis-admin
 	$ find .
@@ -419,9 +420,9 @@ Now you have a directory named `gitosis-admin`, which has two major parts:
 	./keydir
 	./keydir/scott.pub
 
-The `gitosis.conf` file is the control file you use to specify users, repositories, and permissions. The `keydir` directory is where you store the public keys of all the users who have any sort of access to your repositories — one file per user. The name of the file in `keydir` (in the previous example, `scott.pub`) will be different for you — Gitosis takes that name from the description at the end of the public key that was imported with the `gitosis-init` script.
+`gitosis.conf` 文件是用来设置用户、仓库和权限的控制文件。`keydir` 目录则是保存所有具有访问权限用户公钥的地方——每人一个。你 `keydir` 中的文件名（前例中的 `scott.pub`）应该有所不同—— Gitosis 从使用 `gitosis-init` 脚本导入的公钥尾部的描述中获取该名。
 
-If you look at the `gitosis.conf` file, it should only specify information about the `gitosis-admin` project that you just cloned:
+看一下 `gitosis.conf` 的内容，它应该只包含与刚刚克隆的 `gitosis-admin` 相关的信息：
 
 	$ cat gitosis.conf 
 	[gitosis]
@@ -430,15 +431,15 @@ If you look at the `gitosis.conf` file, it should only specify information about
 	writable = gitosis-admin
 	members = scott
 
-It shows you that the 'scott' user — the user with whose public key you initialized Gitosis — is the only one who has access to the `gitosis-admin` project.
+它显示用户 `scott` ——初始化 Gitosis 公钥的拥有者——是唯一能访问 `gitosis-admin` 项目的人。
 
-Now, let’s add a new project for you. You’ll add a new section called `mobile` where you’ll list the developers on your mobile team and projects that those developers need access to. Because 'scott' is the only user in the system right now, you’ll add him as the only member, and you’ll create a new project called `iphone_project` to start on:
+现在我们添加一个新的项目。我们将添加一个名为 `mobile` 的新节段，在这里罗列手机开发团队的开发者以及他们需要访问权限的项目。由于 'scott' 是系统中的唯一用户，我们把它加成唯一的用户，从创建一个叫做 `iphone_project` 的新项目开始：
 
 	[group mobile]
 	writable = iphone_project
 	members = scott
 
-Whenever you make changes to the `gitosis-admin` project, you have to commit the changes and push them back up to the server in order for them to take effect:
+一旦修改了 `gitosis-admin` 项目的内容，只有提交并推送至服务器才能使之生效：
 
 	$ git commit -am 'add iphone_project and mobile group'
 	[master]: created 8962da8: "changed name"
@@ -451,7 +452,7 @@ Whenever you make changes to the `gitosis-admin` project, you have to commit the
 	To git@gitserver:/opt/git/gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
-You can make your first push to the new `iphone_project` project by adding your server as a remote to your local version of the project and pushing. You no longer have to manually create a bare repository for new projects on the server — Gitosis creates them automatically when it sees the first push:
+第一次向新工程 `iphone_project` 的推送需要在本地的版本中把服务器添加为一个 remote 然后推送。从此手动为新项目在服务器上创建纯仓库的麻烦就是历史了—— Gitosis 会在第一次遇到推送的时候自动创建它们：
 
 	$ git remote add origin git@gitserver:iphone_project.git
 	$ git push origin master
@@ -462,23 +463,23 @@ You can make your first push to the new `iphone_project` project by adding your 
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
 
-Notice that you don’t need to specify the path (in fact, doing so won’t work), just a colon and then the name of the project — Gitosis finds it for you.
+注意到路径被忽略了（加上它反而没用），只有一个冒号加项目的名字—— Gitosis 会为你找到项目的位置。
 
-You want to work on this project with your friends, so you’ll have to re-add their public keys. But instead of appending them manually to the `~/.ssh/authorized_keys` file on your server, you’ll add them, one key per file, into the `keydir` directory. How you name the keys determines how you refer to the users in the `gitosis.conf` file. Let’s re-add the public keys for John, Josie, and Jessica:
+要和朋友们共同在一个项目上共同工作，就得重新添加他们的公钥。不过这次不用在服务器上一个一个手动添加到 `~/.ssh/authorized_keys` 文件末端，而是在 `keydir` 目录为每一个公钥添加一个文件。文件的命名将决定在 `gitosis.conf` 文件中用户的称呼。现在我们为 John，Josie 和 Jessica 添加公钥：
 
 	$ cp /tmp/id_rsa.john.pub keydir/john.pub
 	$ cp /tmp/id_rsa.josie.pub keydir/josie.pub
 	$ cp /tmp/id_rsa.jessica.pub keydir/jessica.pub
 
-Now you can add them all to your 'mobile' team so they have read and write access to `iphone_project`:
+然后把他们都加进 'mobile' 团队，让他们对 `iphone_project` 具有读写权限：
 
 	[group mobile]
 	writable = iphone_project
 	members = scott john josie jessica
 
-After you commit and push that change, all four users will be able to read from and write to that project.
+如果你提交并推送这个修改，四个用户将同时具有该项目的读写权限。
 
-Gitosis has simple access controls as well. If you want John to have only read access to this project, you can do this instead:
+Gitosis 也具有简单的访问控制功能。如果想让 John 只有读权限，可以这样做：
 
 	[group mobile]
 	writable = iphone_project
@@ -488,9 +489,9 @@ Gitosis has simple access controls as well. If you want John to have only read a
 	readonly = iphone_project
 	members = john
 
-Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members, to inherit all of its members automatically.
+现在 John 可以克隆和获取更新，但 Gitosis 不会允许他向项目推送任何内容。这样的组可以有尽可能有随意多个，每一个包含不同的用户和项目。甚至可以指定某个组为成员，来继承它所有的成员。
 
-If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.
+如果出现了什么问题，把 `loglevel=DEBUG` 加入到 `[gitosis]` 部分或许有帮助（译注：把日志设置到调试级别，记录更详细的信息）。如果你一不小心搞错了配置，失去了推送权限，可以手动修改服务器上的 `/home/git/.gitosis` 文件—— Gitosis 从该文件读取信息。一次推送会把 `gitosis.conf` 保存在服务器上。如果你手动编辑该文件，它将在你下次向 `gitosis-admin` 推送之前它将保持原样。
 
 ## Git Daemon ##
 

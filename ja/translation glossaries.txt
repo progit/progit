@@ -18,6 +18,7 @@
 # http://www.microsoft.com/japan/presspass/detail.aspx?newsid=3491
 (n)browser	ブラウザー
 (n)computer	コンピューター
+(n)community	コミュニティ
 (n)data	データ
 (n)database	データベース
 (n)designer	デザイナー

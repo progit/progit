@@ -24,6 +24,7 @@
 (n)designer	デザイナー
 (n)directory	ディレクトリ
 (n)installer	インストーラー
+(n)interface	インターフェイス
 (n)member	メンバー
 (n)nonlinear	ノンリニア
 (n)programmer	プログラマ

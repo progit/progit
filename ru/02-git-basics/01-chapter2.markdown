@@ -71,7 +71,7 @@ Git has a number of different transfer protocols you can use. The previous examp
 
 You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
 
-Запомните, каждый файл в вашем рабочем каталоге может находится в одном из двух состояний: под версионным контролем (отслеживаемые) и нет (неотслеживаемые). Отслеживаемые файлы — это те файлы, которые были в последнем слепке состояния проекта (snapshot); они могут быть неизмененными, измененными или подготовленными к коммиту (staged). Неотслеживаемые файлы - это все остальное, любые файлы в вашем рабочем каталоге, которые не входили в ваш последний слепок состояния и не подготовлены к коммиту. Когда вы впервые клонируете репозиторий, все ваши файлы будут отслеживаемыми и неизмененные, потому что вы только (checked them out) и ничего пока не редактировали.
+Запомните, каждый файл в вашем рабочем каталоге может находится в одном из двух состояний: под версионным контролем (отслеживаемые) и нет (неотслеживаемые). Отслеживаемые файлы — это те файлы, которые были в последнем слепке состояния проекта (snapshot); они могут быть неизмененными, измененными или подготовленными к коммиту (staged). Неотслеживаемые файлы - это все остальное, любые файлы в вашем рабочем каталоге, которые не входили в ваш последний слепок состояния и не подготовлены к коммиту. Когда вы впервые клонируете репозиторий, все ваши файлы будут отслеживаемыми и неизмененные, потому что вы только взяли из из хранилища (checked them out) и ничего пока не редактировали.
 
 Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
 
@@ -307,7 +307,7 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 
 That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
 
-Если вы хотите посмотреть, что вы проиндексировали и что войдет в следующий коммит, вы можете выполнить `git diff –-cached`. (В Git версии 1.6.1 и выше, вы также можете использовать `git diff –-staged`, которая легче запоминается.) Зта команда сравнивает ваши индексированные изменения с последним коммитом:
+Если вы хотите посмотреть, что вы проиндексировали и что войдет в следующий коммит, вы можете выполнить `git diff –-cached`. (В Git версии 1.6.1 и выше, вы также можете использовать `git diff –-staged`, которая легче запоминается.) Эта команда сравнивает ваши индексированные изменения с последним коммитом:
 
 If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
 
@@ -438,7 +438,7 @@ Remember that the commit records the snapshot you set up in your staging area. A
 ### Игнорирование Индексации ###
 ### Skipping the Staging Area ###
 
-Несмотря на то, что индекс может быть удивительно полезным для создания коммитов точно как вам и хотелось, он временами несколько сложнее чем вам нужно в процессе работы. Если у вас есть желание пропустить явное индексирование, Git предоставляет простой способ. Добавление параметра `-a` в команду `git commit` заставляет Git автоматически индексировать каждый уже отслеживаемый на момент коммита файл, позволяя вам обойтись без `git add`:
+Несмотря на то, что индекс может быть удивительно полезным для создания коммитов точно как вам и хотелось, он временами несколько сложнее, чем вам нужно в процессе работы. Если у вас есть желание пропустить явное индексирование, Git предоставляет простой способ. Добавление параметра `-a` в команду `git commit` заставляет Git автоматически индексировать каждый уже отслеживаемый на момент коммита файл, позволяя вам обойтись без `git add`:
 
 Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
 

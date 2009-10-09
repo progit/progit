@@ -411,7 +411,7 @@ Je bent nu klaar om te gaan. Als je alles juist hebt ingesteld, kun je nu met SS
 
 Dat betekend dat Gitosis je herkend heeft, maar je buitensluit omdat je geen Git commando's aan het doen bent. Dus, laten we een echt Git commando doen – je gaat de Gitosis beheer repository clonen:
 
-	# on your local computer
+	# op je locale computer
 	$ git clone git@gitserver:gitosis-admin.git
 
 Nu heb je een map genaamd `gitosis-admin`, die twee gedeeltes heeft:
@@ -491,7 +491,7 @@ Gitosis heeft ook eenvoudige toegangscontrole. Als je wilt dat John alleen lees 
 	readonly = iphone_project
 	members = john
 
-Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members (using `@` as prefix), to inherit all of its members automatically:
+Nu kan John het project clonen en updates krijgen, maar Gitosis zal hem niet toestaan om terug naar het project te pushen. Je kunt zoveel van deze groepen maken als je wilt, waarbij ze allen verschillende gebruikers en projecten mogen bevatten. Je kunt ook een andere groep als een van de leden specificeren (waarbij je `@` als prefix gebruikt), om alle leden automatisch over te erven:
 
 	[group mobile_committers]
 	members = scott josie jessica
@@ -504,25 +504,25 @@ Now John can clone the project and get updates, but Gitosis won’t allow him to
 	writable  = another_iphone_project
 	members   = @mobile_committers john
 
-If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.
+Als je problemen hebt, kan het handig zijn om `loglevel=DEBUG` onder de `[gitosis] sectie te zetten. Als je je push-toegang bent verloren door een kapotte configuratie te pushen, kun je het handmatig repareren in het bestand `/home/git/.gitosis.conf` op de server – het bestand waar Gitosis zijn informatie vandaan haalt. Een push naar het project neemt het `gitosis.conf` bestand dat je zojuist gepushed hebt en stopt het daar. Als je het bestand handmatig aanpast, zal het zo blijven totdat de volgende succesvolle push gedaan wordt naar het `gitosis-admin` project. 
 
 ## Git Daemon ##
 
-For public, unauthenticated read access to your projects, you’ll want to move past the HTTP protocol and start using the Git protocol. The main reason is speed. The Git protocol is far more efficient and thus faster than the HTTP protocol, so using it will save your users time.
+Voor publieke ongeverifieerde leestoegang to je projecten zul je voorbij het HTTP protocol willen, en overstappen op het Git protocol. De hoofdreden is snelheid. Het Git protocol is veel efficienter en daarmee sneller dan het HTTP protocol, dus het zal je gebruikers tijd besparen.
 
-Again, this is for unauthenticated read-only access. If you’re running this on a server outside your firewall, it should only be used for projects that are publicly visible to the world. If the server you’re running it on is inside your firewall, you might use it for projects that a large number of people or computers (continuous integration or build servers) have read-only access to, when you don’t want to have to add an SSH key for each.
+Nogmaals, dit is voor ongeverifieerde alleen-lezen toegang. Als je dit op een server buiten je firewall draait, zul je het alleen moeten gebruiken voor projecten die voor de hele wereld toegankelijk moeten zijn. Als de server waarop je het draait binnen je firewall staat, zou je het kunnen gebruiken voor projecten waarbij een groot aantal mensen of computers (continue integratie of bouwservers) alleen-lezen toegang moeten hebben, waarbij je niet voor iedereen een SSH sleutel wilt toevoegen.
 
-In any case, the Git protocol is relatively easy to set up. Basically, you need to run this command in a daemonized manner:
+In ieder geval is het Git protocol relatief eenvoudig in te stellen. Eigenlijk is het enige dat je moet doen dit commando een daemon uitvoeren:
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` allows the server to restart without waiting for old connections to time out, the `--base-path` option allows people to clone projects without specifying the entire path, and the path at the end tells the Git daemon where to look for repositories to export. If you’re running a firewall, you’ll also need to punch a hole in it at port 9418 on the box you’re setting this up on.
+`--reuseaddr` staat de server toe om te herstarten zonder te wachten tot oude connecties een time out krijgen, de `--base-path` optie staat mensen toe om projecten te clonen zonder het volledige pad te specificeren, en het pad aan het einde verteld de Git daemon waar hij moet kijken voor de te exporteren repositories. Als je een firewall draait, zul je er ook een gat in moeten maken in poort 9418 op de doos waar je dit op insteld.
 
-You can daemonize this process a number of ways, depending on the operating system you’re running. On an Ubuntu machine, you use an Upstart script. So, in the following file
+Je kunt dit proces op een aantal manieren daemonisern, afhankelijk van het besturingssystem waarop je draait. Op een Ubuntu machine, zul je een Upstart script gebruiken. Dus in het volgende bestand
 
 	/etc/event.d/local-git-daemon
 
-you put this script:
+stop je dit script:
 
 	start on startup
 	stop on shutdown
@@ -533,181 +533,181 @@ you put this script:
 	    /opt/git/
 	respawn
 
-For security reasons, it is strongly encouraged to have this daemon run as a user with read-only permissions to the repositories – you can easily do this by creating a new user 'git-ro' and running the daemon as them.  For the sake of simplicity we’ll simply run it as the same 'git' user that Gitosis is running as.
+Omwille van veiligheidsredenen, wordt sterk aangeraden om deze daemon uit te voeren als gebruiker met alleen-lezen toegang op de repositories – je kunt dit makkelijk doen door een gebruiker 'git-ro' aan te maken en de daemon als deze uit te voeren. Om het eenvoudig te houden voeren we het als dezelfde 'git' gebruiker uit, als waarin Gitosis draait.
 
-When you restart your machine, your Git daemon will start automatically and respawn if it goes down. To get it running without having to reboot, you can run this:
+Als je je machine herstart, zal je Git daemon automatisch opstarten en herstarten als hij onderuit gaat. Om het te laten draaien zonder te herstarten, kun je dit uitvoeren:
 
 	initctl start local-git-daemon
 
-On other systems, you may want to use `xinetd`, a script in your `sysvinit` system, or something else — as long as you get that command daemonized and watched somehow.
+Op andere systemen zul je misschien `xinetd` willen gebruiken, een script in je `sysvinit` systeem, of iets anders – zolang je dat commando maar ge-daemoniseerd krijgt en op een of andere manier in de gaten gehouden wordt.
 
-Next, you have to tell your Gitosis server which repositories to allow unauthenticated Git server-based access to. If you add a section for each repository, you can specify the ones from which you want your Git daemon to allow reading. If you want to allow Git protocol access for your iphone project, you add this to the end of the `gitosis.conf` file:
+Vervolgens zul je je Gitosis server moeten vertellen welke repositories je toe wilt staan om ongeverifieerde Gitserver gebaseerde toegang op wil geven. Als je een sectie toevoegt voor iedere repository, dan kun je diegenen specificeren waarop je je Git daemon wil laten lezen. Als je Git protocol toegang tot je iphone project wilt toestaan, dan voeg je dit toe aan het eind van het `gitosis.conf` bestand:
 
 	[repo iphone_project]
 	daemon = yes
 
-When that is committed and pushed up, your running daemon should start serving requests for the project to anyone who has access to port 9418 on your server.
+Als dat gecommit en gepushed is, dan zou je draaiende daemon verzoeken moeten serveren aan iedereen die toegang heeft op poort 9418 van je server.
 
-If you decide not to use Gitosis, but you want to set up a Git daemon, you’ll have to run this on each project you want the Git daemon to serve:
+Als je besluit om Gitosis niet te gebruiken, maar je wilt toch een Git daemon instellen, dan moet je dit op ieder project uitvoeren waarvoor je de Git daemon wilt laten serveren:
 
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok
 
-The presence of that file tells Git that it’s OK to serve this project without authentication.
+De aanwezigheid van dat bestand verteld Git dat het OK is om dit project zonder verificatie te serveren.
 
-Gitosis can also control which projects GitWeb shows. First, you need to add something like the following to the `/etc/gitweb.conf` file:
+Gitosis kan ook de projecten die GitWeb toont beheren. Eerst moet je zoiets als het volgende aan het `/etc/gitweb.conf` bestand toevoegen:
 
 	$projects_list = "/home/git/gitosis/projects.list";
 	$projectroot = "/home/git/repositories";
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
-You can control which projects GitWeb lets users browse by adding or removing a `gitweb` setting in the Gitosis configuration file. For instance, if you want the iphone project to show up on GitWeb, you make the `repo` setting look like this:
+Je kunt instellen welke projecten GitWeb gebruikers laat bladeren door een `gitweb` instelling in het Gitosis configuratie bestand toe te voegen, of te verwijderen. Bijvoorbeeld, als je het iphone project op GitWeb wilt tonen, zorg je dat de `repo` instelling er zo uitziet:
 
 	[repo iphone_project]
 	daemon = yes
 	gitweb = yes
 
-Now, if you commit and push the project, GitWeb will automatically start showing your iphone project.
+Als je nu het project commmit en pushed, start GitWeb automatisch met het tonen van je iphone project.
 
 ## Hosted Git ##
 
-If you don’t want to go through all of the work involved in setting up your own Git server, you have several options for hosting your Git projects on an external dedicated hosting site. Doing so offers a number of advantages: a hosting site is generally quick to set up and easy to start projects on, and no server maintenance or monitoring is involved. Even if you set up and run your own server internally, you may still want to use a public hosting site for your open source code — it’s generally easier for the open source community to find and help you with.
+Als je niet door al het werk heen wilt om je eigen Git server op te zetten, heb je meerdere opties om je Git project op een externe speciale hosting pagina te laten beheren. Dit biedt een aantal voordelen: een ge-hoste pagina is over het algemeen snel in te stellen, en eenvoudig om projecten op te starten, en er komt geen server beheer en onderhoud bij kijken. Zelfs als je je eigen server intern ingesteld hebt, zul je misschien een publieke host pagina voor je open source broncode willen – dat is over het algemeen makkelijker voor de open source commune te vinden en je er mee te helpen.
 
-These days, you have a huge number of hosting options to choose from, each with different advantages and disadvantages. To see an up-to-date list, check out the GitHosting page on the main Git wiki:
+Vandaag de dag heb je een enorm aantal beheer opties om uit te kiezen, elk met verschillende voor- en nadelen. Om een bijgewerkte lijst te zien, ga dan kijken op de GitHosting pagina op de hoofd Git wiki:
 
 	http://git.or.cz/gitwiki/GitHosting
 
-Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved. 
+Omdat we ze niet allemaal kunnen behandelen, en ik toevalllig bij een ervan werk, zullen we deze sectie gebruiken om door het instellen van een account en het opzetten van een project op GitHub lopen. Dit geeft je een idee van het benodigde werk.
 
-GitHub is by far the largest open source Git hosting site and it’s also one of the very few that offers both public and private hosting options so you can keep your open source and private commercial code in the same place. In fact, we used GitHub to privately collaborate on this book.
+GitHub is veruit de grootste open source Git beheer pagina en het is ook een van de weinige die zowel publieke als privé beheer opties biedt, zodat je je open source en commerciele privé code in dezelfde plaats kunt bewaren. Sterker nog, we hebben GitHub gebruikt om privé samen te werken aan dit boek.
 
 ### GitHub ###
 
-GitHub is slightly different than most code-hosting sites in the way that it namespaces projects. Instead of being primarily based on the project, GitHub is user centric. That means when I host my `grit` project on GitHub, you won’t find it at `github.com/grit` but instead at `github.com/schacon/grit`. There is no canonical version of any project, which allows a project to move from one user to another seamlessly if the first author abandons the project.
+GitHub is een beetje verschillend van de meeste code-beheer pagina's in de manier waarop het de projecten een naamruimte geeft. In plaats van dat het primair gebaseerd is op het project, stelt GitHub gebruikers centraal. Dat betekend dat als ik mijn `grit` project op GitHub beheer, je het niet zult vinden op `github.com/grit` maar in plaats daarvan op `github.com/schacon/grit`. Er is geen generieke versie van een project, wat een project toestaat om naadloos van de ene op de andere gebruiker over te gaan als de eerste auteur het project verlaat.
 
-GitHub is also a commercial company that charges for accounts that maintain private repositories, but anyone can quickly get a free account to host as many open source projects as they want. We’ll quickly go over how that is done.
+GitHub is ook een commercieel bedrijf dat geld vraagt voor accounts die privé repositories beheren, maar iedereen kan snel een gratis account krijgen om zoveel open source projecten als ze willen te beheren. We zullen er snel doorheen lopen hoe je dat doet.
 
-### Setting Up a User Account ###
+### Een Gebruikers Account Instellen ###
 
-The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
+Het eerste dat je moet doen is een gratis gebruikers account instellen. Als je de Pricing and Signup pagina op `http://github.com/plans` bezoekt en de "Sign Up" knop aanklikt op het gratis account (zie figuur 4-2), dan wordt je naar de inteken pagina gebracht.
 
 Insert 18333fig0402.png
-Figure 4-2. The GitHub plan page.
+Figuur 4-2. De GitHub inteken pagina.
 
-Here you must choose a username that isn’t yet taken in the system and enter an e-mail address that will be associated with the account and a password (see Figure 4-3).
+Hier moet je een gebruikersnaam kiezen die nog niet bezet is in het systeem, en een e-mail adres invullen dat bij het account hoort, en een wachtwoord (zie Figuur 4-3).
 
 Insert 18333fig0403.png 
-Figure 4-3. The GitHub user signup form.
+Figuur 4-3. Het GitHub gebruikers inteken formulier.
 
-If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
-Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).
+Als je hem beschikbaar hebt, is dit een goed moment om je publieke SSH sleutel ook toe te voegen. We hebben je eerder laten zien hoe je een nieuwe sleutel kunt genereren, in de "Eenvoudige Instellingen" sectie. Neem de inhoud van de publieke sleutel van dat paar, en plak het in het SSH publieke sleutel tekstveld. Door op de "explain ssh keys" link te klikken wordt je naar gedetaileerde instructies gebracht die je vertellen hoe dit te doen op alle veelgebruikte besturingssystemen.
+Door op de "I agree, sign me up" knop te klikken wordt je naar je nieuwe gebruikers dashboard gebracht (zie Figuur 4-4).
 
 Insert 18333fig0404.png 
-Figure 4-4. The GitHub user dashboard.
+Figuur 4-4. Het GitHub gebruikers dashboard.
 
-Next you can create a new repository. 
+Vervolgens kun je een nieuw repository aanmaken.
 
-### Creating a New Repository ###
+### Een Nieuw Repository Aanmaken ###
 
-Start by clicking the "create a new one" link next to Your Repositories on the user dashboard. You’re taken to the Create a New Repository form (see Figure 4-5).
+Start door op de "create a new one" link te klikken naast Your Repositories op het gebruikers dashboard. Je wordt naar het Create a New Repository formulier gebracht (zie Figuur 4-5).
 
 Insert 18333fig0405.png 
-Figure 4-5. Creating a new repository on GitHub.
+Figuur 4-5. Een nieuw repository aanmaken op GitHub.
 
-All you really have to do is provide a project name, but you can also add a description. When that is done, click the "Create Repository" button. Now you have a new repository on GitHub (see Figure 4-6).
+Het enige dat je eigenlijk moet doen is een projectnaam opgeven, maar je kunt ook een beschrijving toevoegen. Wanneer je dat gedaan hebt, klik dan op de "Create Repository" knop. Nu heb je een nieuw repository op GitHub (zie Figuur 4-6).
 
 Insert 18333fig0406.png 
-Figure 4-6. GitHub project header information.
+Figuur 4-6. GitHub project hoofd informatie.
 
-Since you have no code there yet, GitHub will show you instructions for how create a brand-new project, push an existing Git project up, or import a project from a public Subversion repository (see Figure 4-7).
+Omdat je er nog geen code hebt, zal GitHub je de instructies tonen hoe je een splinternieuw project moet aanmaken, een bestaand Git project moet pushen, of een project van een publieke Subversion repository moet importeren (zie Figuur 4-7).
 
 Insert 18333fig0407.png 
-Figure 4-7. Instructions for a new repository.
+Figuur 4-7. Instructies voor een nieuwe repository.
 
-These instructions are similar to what we’ve already gone over. To initialize a project if it isn’t already a Git project, you use
+Deze instructies zijn vergelijkbaar met wat we al hebben laten zien. Om een project te initialiseren dat nog geen Git project is, gebruik je
 
 	$ git init
 	$ git add .
 	$ git commit -m 'initial commit'
 
-When you have a Git repository locally, add GitHub as a remote and push up your master branch:
+Als je een lokaal Git repository hebt, voeg dan GitHub als remote toe en push je master branch:
 
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
 
-Now your project is hosted on GitHub, and you can give the URL to anyone you want to share your project with. In this case, it’s `http://github.com/testinguser/iphone_project`. You can also see from the header on each of your project’s pages that you have two Git URLs (see Figure 4-8).
+Nu wordt je project beheerd op GitHub, en kun je de URL aan iedereen geven waarmee je je project wilt delen. In dit geval is het `http://githup.com/testinguser/iphone_project`. Je kunt aan het begin van ieder van je project pagina's zien dat je twee Git URLs hebt (zie Figuur 4-8).
 
 Insert 18333fig0408.png 
-Figure 4-8. Project header with a public URL and a private URL.
+Figuur 4-8. Project met een publieke URL en een privé URL.
 
-The Public Clone URL is a public, read-only Git URL over which anyone can clone the project. Feel free to give out that URL and post it on your web site or what have you.
+De publieke Clone URL is een publieke alleen-lezen Git URL, waarmee iedereen het project kan clonen. Deel deze URL maar gewoon uit en zet 'm op je website of wat je ook hebt.
 
-The Your Clone URL is a read/write SSH-based URL that you can read or write over only if you connect with the SSH private key associated with the public key you uploaded for your user. When other users visit this project page, they won’t see that URL—only the public one.
+De Your Clone URL is een lees/schrijf SSH-gebaseerde URL waar je alleen over kunt lezen of schrijven als je connectie maakt met de privé SSH sleutel die geassocieerd is met de publieke sleutel die je voor jouw gebruiker geupload hebt. Wanneer andere gebruikers deze project pagina bezoeken, zullen ze die URL niet zien – alleen de publieke.
 
-### Importing from Subversion ###
+### Importeren vanuit Subversion ###
 
-If you have an existing public Subversion project that you want to import into Git, GitHub can often do that for you. At the bottom of the instructions page is a link to a Subversion import. If you click it, you see a form with information about the import process and a text box where you can paste in the URL of your public Subversion project (see Figure 4-9).
+Als je een bestaande publiek Subversion project hebt dat je in Git wilt impoteren, kan GitHub dat vaak voor je doen. Aan de onderkant van de instructies pagina staat een link naar een Subversion import. Als je die aanklikt, zie je een formulier met informatie over het importeer proces een een tekstveld waar je de URL van je publieke Subversion project in kan plakken (zie Figuur 4-9).
 
 Insert 18333fig0409.png 
-Figure 4-9. Subversion importing interface.
+Figuur 4-9. Subversion importeer interface.
 
-If your project is very large, nonstandard, or private, this process probably won’t work for you. In Chapter 7, you’ll learn how to do more complicated manual project imports.
+Als je project erg groot is, niet standaard, of privé, dan zal dit process waarschijnlijk niet voor je werken. In Hoofdstuk 7 zul je leren om meer gecompliceerde handmatige project imports te doen.
 
-### Adding Collaborators ###
+### Medewerkers Toevoegen ###
 
-Let’s add the rest of the team. If John, Josie, and Jessica all sign up for accounts on GitHub, and you want to give them push access to your repository, you can add them to your project as collaborators. Doing so will allow pushes from their public keys to work.
+Laten we de rest van het team toevoegen. Als John, Josie en Jessica allemaal intekenen voor accounts op GitHub, en je wilt ze push toegang op je repository geven, kun je ze aan je project toevoegen als medewerkers. Door dat te doen zullen pushes vanaf hun publieke sleutels werken.
 
-Click the "edit" button in the project header or the Admin tab at the top of the project to reach the Admin page of your GitHub project (see Figure 4-10).
+Klik de "edit" knop aan de bovenkant van het project, of de Admin tab, om de Admin pagina te bereiken van je GitHub project (zie Figuur 4-10).
 
 Insert 18333fig0410.png 
-Figure 4-10. GitHub administration page.
+Figuur 4-10. GitHub administratie pagina.
 
-To give another user write access to your project, click the “Add another collaborator” link. A new text box appears, into which you can type a username. As you type, a helper pops up, showing you possible username matches. When you find the correct user, click the Add button to add that user as a collaborator on your project (see Figure 4-11).
+Om een andere gebruiker schrijftoegang tot je project te geven, klik dan de "Add another collaborator" link. Er verschijnt een nieuw tekstveld, waarin je een gebruikersnaam kunt invullen. Op het moment dat je typt, komt er een hulp omhoog, waarin alle mogelijke overeenkomende gebruikersnamen staan. Als je de juiste gebruiker vind, klik dan de Add knop om die gebruiker als een medewerker aan je project toe te voegen (zie Figuur 4-11). 
 
 Insert 18333fig0411.png 
-Figure 4-11. Adding a collaborator to your project.
+Figuur 4-11. Een medewerker aan je project toevoegen.
 
-When you’re finished adding collaborators, you should see a list of them in the Repository Collaborators box (see Figure 4-12).
+Als je klaar bent met medewerkers toevoegen, dan zou je een lijst met ze moeten zien in het Repository Collaborators veld (zie Figuur 4-12).
 
 Insert 18333fig0412.png 
-Figure 4-12. A list of collaborators on your project.
+Figuur 4-12. Een lijst met medewerkers aan je project.
 
-If you need to revoke access to individuals, you can click the "revoke" link, and their push access will be removed. For future projects, you can also copy collaborator groups by copying the permissions of an existing project.
+Als je toegang van individuen moet intrekken, dan kun je de "revoke" link klikken, en dan wordt hun push toegang ingetrokken. Voor toekomstige projecten, kun je ook de medewerker groepen kopieeren door de permissies van een bestaand project te kopieeren.
 
-### Your Project ###
+### Je Project ###
 
-After you push your project up or have it imported from Subversion, you have a main project page that looks something like Figure 4-13.
+Nadat je je project gepushed hebt, of geimporteerd vanuit Subversion, heb je een hoofd project pagina die er uitziet zoals Figuur 4-13.
 
 Insert 18333fig0413.png 
-Figure 4-13. A GitHub main project page.
+Figuur 4-13. Een GitHub project hoofpagina.
 
-When people visit your project, they see this page. It contains tabs to different aspects of your projects. The Commits tab shows a list of commits in reverse chronological order, similar to the output of the `git log` command. The Network tab shows all the people who have forked your project and contributed back. The Downloads tab allows you to upload project binaries and link to tarballs and zipped versions of any tagged points in your project. The Wiki tab provides a wiki where you can write documentation or other information about your project. The Graphs tab has some contribution visualizations and statistics about your project. The main Source tab that you land on shows your project’s main directory listing and automatically renders the README file below it if you have one. This tab also shows a box with the latest commit information.
+Als mensen je project bezoeken, zien ze deze pagina. Het bevat tabs naar de verschillende aspecten vna je projecten. De Commits tab laat een lijst van commits in omgekeerde chronologische volgorde zien, vergelijkbaar met de output van het `git log` commando. De Network tab toont alle mensen die je project hebben geforked en bijgedragen hebben. De Downloads tab staat je toe project binaries te uploaden en naar tarballs en gezipte versies van ieder getagged punt in je project te linken. De Wiki tab voorziet in een wiki waar je documentatie kunt schrijven of andere informatie over je project. De Graphs tab heeft wat contributie visualisaties en statistieken over je project. De hoofd Source tab waarop je binnen komt toont de inhoud van de hoofdmap van je project en toont automatisch het README bestand eronder als je er een hebt. Deze tab toont ook een veld met de laatste commit informatie.
 
-### Forking Projects ###
+### Projecten Forken ###
 
-If you want to contribute to an existing project to which you don’t have push access, GitHub encourages forking the project. When you land on a project page that looks interesting and you want to hack on it a bit, you can click the "fork" button in the project header to have GitHub copy that project to your user so you can push to it.
+Als je aan een bestaand project waarop je geen push toegang hebt wilt bijdragen, dan moedigt GitHub het forken van een project toe. Als je op een project pagina beland, die interessant lijkt en je wilt er een beetje op hacken, dan kun je de "fork" knop klikken aan de bovenkant van het project om GitHub dat project te laten kopieeren naar jouw gebruiker zodat je er naar kunt pushen.
 
-This way, projects don’t have to worry about adding users as collaborators to give them push access. People can fork a project and push to it, and the main project maintainer can pull in those changes by adding them as remotes and merging in their work.
+Op deze manier hoeven projecten zich geen zorgen te maken over het toevoegen van medewerkers om ze push toegang te geven. Mensen kunnen een project forken en ernaar pushen, en de hoofdeigenaar van het project kan die wijzigingen pullen door ze als remotes toe te voegen en hun werk te mergen.
 
-To fork a project, visit the project page (in this case, mojombo/chronic) and click the "fork" button in the header (see Figure 4-14).
+Om een project te forken, bezoek dan de project pagina (in dit geval, mojombo/chronic) en klik de "fork" knop aan de bovenkant (zie Figuur 4-14).
 
 Insert 18333fig0414.png 
-Figure 4-14. Get a writable copy of any repository by clicking the "fork" button.
+Figuur 4-14. Een schrijfbare kopie van een project krijgen door de "fork" knop te klikken.
 
-After a few seconds, you’re taken to your new project page, which indicates that this project is a fork of another one (see Figure 4-15).
+Na een paar seconden wordt je naar je nieuwe project pagina gebracht, wat aangeeft dat dit project een fork is van een ander (zie Figuur 4-15).
 
 Insert 18333fig0415.png 
-Figure 4-15. Your fork of a project.
+Figuur 4-15. Jouw fork van een project.
 
-### GitHub Summary ###
+### GitHub Samenvatting ###
 
-That’s all we’ll cover about GitHub, but it’s important to note how quickly you can do all this. You can create an account, add a new project, and push to it in a matter of minutes. If your project is open source, you also get a huge community of developers who now have visibility into your project and may well fork it and help contribute to it. At the very least, this may be a way to get up and running with Git and try it out quickly.
+Dat is alles wat we laten zien over GitHub, maar het is belangrijk om te zien hoe makkelijk je dit allemaal kunt doen. Je kunt een nieuw account aanmaken, een nieuw project toevoegen en ernaar pushen binnen een paar minuten. Als je project open source is, kun je ook een enorme ontwikkelaars gemeenschap krijgen die nu zicht hebben op je project en het misschien forken en eraan helpen bijdragen. Op z'n minst is dit een snelle manier om met Git aan de slag te gaan en het snel uit te proberen.
 
-## Summary ##
+## Samenvatting ##
 
-You have several options to get a remote Git repository up and running so that you can collaborate with others or share your work.
+Je hebt meerdere opties om een remote Git repository werkend te krijgen zodat je kunt samenwerken met anderen of je werk kunt delen.
 
-Running your own server gives you a lot of control and allows you to run the server within your own firewall, but such a server generally requires a fair amount of your time to set up and maintain. If you place your data on a hosted server, it’s easy to set up and maintain; however, you have to be able to keep your code on someone else’s servers, and some organizations don’t allow that.
+Je eigen server draaien geeft je veel controle en staat je toe om de server binnen je firewall te draaien, maar zo'n server vraagt over het algemeen een redelijke hoeveelheid tijd om in te stellen en te onderhouden. Als je je gegevens op een beheerde server plaatst, is het eenvoudig in te stellen en te onderhouden; maar je moet in staat zijn je code op iemand anders zijn servers te bewaren, en sommige organisaties staan dit niet toe.
 
-It should be fairly straightforward to determine which solution or combination of solutions is appropriate for you and your organization.
+Het zou redelijk rechttoe rechtaan moeten zijn om te bepalen welke oplossing of combinatie van oplossingen van toepassing is op jou en je organisatie.

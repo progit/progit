@@ -557,119 +557,120 @@ Gitosis 还能控制 GitWeb 显示哪些项目。首先，在 `/etc/gitweb.conf`
 
 如果现在提交和推送该项目，GitWeb 会自动开始展示我们的 iphone 项目。
 
-## Hosted Git ##
+## Git 托管服务 ##
 
-If you don’t want to go through all of the work involved in setting up your own Git server, you have several options for hosting your Git projects on an external dedicated hosting site. Doing so offers a number of advantages: a hosting site is generally quick to set up and easy to start projects on, and no server maintenance or monitoring is involved. Even if you set up and run your own server internally, you may still want to use a public hosting site for your open source code — it’s generally easier for the open source community to find and help you with.
+如果不想经历自己架设 Git 服务器的麻烦，网络上有几个专业的仓库托管服务可供选择。这样做有几大优点：托管账户的建立通常比较省时，方便项目的启动，而且不涉及服务其的维护和监控。即使内部创建并运行了自己的服务器，为开源的代码使用一个公共托管站点还是有好处——让开源社区更方便的找到该项目并给予帮助。
 
-These days, you have a huge number of hosting options to choose from, each with different advantages and disadvantages. To see an up-to-date list, check out the GitHosting page on the main Git wiki:
+目前，可供选择的托管服务数量繁多，各有利弊。在 Git 官方 wiki 上的 Githosting 页面有一个持续更新的托管服务列表：
 
 	http://git.or.cz/gitwiki/GitHosting
 
-Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved. 
+由于本书无法全部一一介绍它们，而本人（译注：指本书作者 Scott Chacon ）刚好在其中之一工作，我们将在这一节介绍一下在 GitHub 建立账户和开启新项目的过程。为你提供一个使用托管服务的大致印象。
 
-GitHub is by far the largest open source Git hosting site and it’s also one of the very few that offers both public and private hosting options so you can keep your open source and private commercial code in the same place. In fact, we used GitHub to privately collaborate on this book.
+GitHub 是到目前为止最大的开源 Git 托管服务，并且是少数同时提供公共托管和私人托管服务的站点之一，所以你可以在一个站点同时保存开源和商业代码。事实上，本书正是私下使用 GitHub 合写的。（译注：而本书的翻译也是在 GitHub 上进行公共合作的）。
 
 ### GitHub ###
 
-GitHub is slightly different than most code-hosting sites in the way that it namespaces projects. Instead of being primarily based on the project, GitHub is user centric. That means when I host my `grit` project on GitHub, you won’t find it at `github.com/grit` but instead at `github.com/schacon/grit`. There is no canonical version of any project, which allows a project to move from one user to another seamlessly if the first author abandons the project.
+GitHub 和大多数的代码托管站点在处理项目命名空间的方式上略有不同。GitHub 的设计更侧重于用户，而不是而不是全部基于项目。意谓本人在 GitHub 上托管一个 `grit` 项目的话，它将不会出现在 `github.com/grit`，而是在 `github.com/shacon/grit` （译注：作者在 GitHub 上的用户名是 shacon）。不存在所谓某个项目的官方版本，所以假如第一作者放弃了某个项目，它可以无缝转移到其它用户的旗下。
 
-GitHub is also a commercial company that charges for accounts that maintain private repositories, but anyone can quickly get a free account to host as many open source projects as they want. We’ll quickly go over how that is done.
+GitHub 同时也是一个向使用私有仓库的用户收取费用的商业公司，不过所有人都可以快捷的得到一个免费账户并且在上面托管任意多的开源项目。我们将快速介绍一下该过程。
 
-### Setting Up a User Account ###
+### 建立账户 ###
 
+第一个必要必要步骤是注册一个免费的账户。访问 Pricing and Signup （价格与注册）页面 `http://github.com/plans` 并点击 Free acount （免费账户）的 "Sign Up（注册）" 按钮（见图 4-2），进入注册页面。
 The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
 
 Insert 18333fig0402.png
-Figure 4-2. The GitHub plan page
+Figure 4-2. GitHub 服务简介页面
 
-Here you must choose a username that isn’t yet taken in the system and enter an e-mail address that will be associated with the account and a password (see Figure 4-3).
+这里要求选择一个系统中尚未存在的用户名，提供一个与之相连的电邮地址，以及一个密码（见图 4-3）。
 
 Insert 18333fig0403.png 
 Figure 4-3. The GitHub user signup form
 
-If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
-Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).
+如果事先有准备，可以顺便提供 SSH 公钥。我们在前文中的"小型安装" 一节介绍过生成新公钥的方法。把生成的钥匙对中的公钥粘贴到 SSH Public Key （SSH 公钥）文本框中。点击 "explain ssh keys" 链接可以获取在所有主流操作系统上完成该步骤的介绍。
+点击 "I agree，sign me up （同意条款，让我注册）" 按钮就能进入新用户的控制面板（见图 4-4）。
 
 Insert 18333fig0404.png 
-Figure 4-4. The GitHub user dashboard
+Figure 4-4. GitHub 用户面板
 
-Next you can create a new repository. 
+然后就可以建立新仓库了。
 
-### Creating a New Repository ###
+### 建立新仓库 ###
 
-Start by clicking the "create a new one" link next to Your Repositories on the user dashboard. You’re taken to the Create a New Repository form (see Figure 4-5).
+点击用户面板上仓库旁边的 "create a new one（新建）" 连接。进入 Create a New Repository （新建仓库）表格（见图 4-5）。
 
 Insert 18333fig0405.png 
-Figure 4-5. Creating a new repository on GitHub
+Figure 4-5. 在 GitHub 建立新仓库
 
-All you really have to do is provide a project name, but you can also add a description. When that is done, click the "Create Repository" button. Now you have a new repository on GitHub (see Figure 4-6).
+唯一必做的仅仅是提供一个项目名称，当然也可以添加一点描述。搞定这些以后，点 "Create Repository（建立仓库）" 按钮。新仓库就建立起来了（见图4-6）。
 
 Insert 18333fig0406.png 
-Figure 4-6. GitHub project header information
+Figure 4-6. GitHub 项目头信息
 
-Since you have no code there yet, GitHub will show you instructions for how create a brand-new project, push an existing Git project up, or import a project from a public Subversion repository (see Figure 4-7).
+由于还没有提交代码，GitHub 会展示如何创建一个新项目，如何推送一个现存项目，以及如何从一个公共的 Subversion 仓库导入项目（译注：这简直是公开挖 google code 和 sourceforge 的墙角）（见图 4-7）。
 
 Insert 18333fig0407.png 
-Figure 4-7. Instructions for a new repository
+Figure 4-7. 新仓库指南
 
-These instructions are similar to what we’ve already gone over. To initialize a project if it isn’t already a Git project, you use
+该指南和本书前文中的介绍类似。要把一个非 Git 项目变成 Git 项目，运行
 
 	$ git init
 	$ git add .
 	$ git commit -m 'initial commit'
 
-When you have a Git repository locally, add GitHub as a remote and push up your master branch:
+一旦拥有一个本地 Git 仓库，把 GitHub 添加为远程仓库并推送 master 分支：
 
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
 
-Now your project is hosted on GitHub, and you can give the URL to anyone you want to share your project with. In this case, it’s `http://github.com/testinguser/iphone_project`. You can also see from the header on each of your project’s pages that you have two Git URLs (see Figure 4-8).
+这时该项目就托管在 GitHub 上了。你可以把它的 URL 发给每个希望分享该工程的人。本例的 URL 是 `http://github.com/testinguser/iphone_project`。你将在项目页面的头部发现有两个 Git URL（见图 4-8）。
 
 Insert 18333fig0408.png 
-Figure 4-8. Project header with a public URL and a private URL
+Figure 4-8. 项目开头的公共 URL 和私有 URL 。
 
-The Public Clone URL is a public, read-only Git URL over which anyone can clone the project. Feel free to give out that URL and post it on your web site or what have you.
+Public Clone URL（公共克隆 URL）是一个公开的，只读的 Git URL，任何人都可以通过它克隆该项目。可以随意的散播这个 URL，发步到个人网站之类的地方。
 
-The Your Clone URL is a read/write SSH-based URL that you can read or write over only if you connect with the SSH private key associated with the public key you uploaded for your user. When other users visit this project page, they won’t see that URL—only the public one.
+Your Clone URL（私用克隆 URL）是一个给予 SSH 的读写 URL，只有使用与上传的 SSH 公钥对应的密钥来连接时，才能通过它进行读写操作。其他用户访问项目页面的时候看不到该URL——只有公共的那个。
 
-### Importing from Subversion ###
+### 从 Subversion 中导入项目 ###
 
-If you have an existing public Subversion project that you want to import into Git, GitHub can often do that for you. At the bottom of the instructions page is a link to a Subversion import. If you click it, you see a form with information about the import process and a text box where you can paste in the URL of your public Subversion project (see Figure 4-9).
+如果想把某个公共 Subversion 项目导入 Git，GitHub 可以帮忙。在指南的最后有一个指向导入 Subversion 页面的链接。点击它，可以得到一个表格，它包含着有关导入流程的信息以及一个用来粘贴公共 Subversion 项目连接的文本框（见图 4-9）。
 
 Insert 18333fig0409.png 
-Figure 4-9. Subversion importing interface
+Figure 4-9. Subversion 导入界面
 
-If your project is very large, nonstandard, or private, this process probably won’t work for you. In Chapter 7, you’ll learn how to do more complicated manual project imports.
+如果项目很大，采用非标准结构，或者是私有的，那么该流程将不适用。在第七章，你将了解到手动导入复杂工程的方法。
 
-### Adding Collaborators ###
+### 开始合作 ###
 
-Let’s add the rest of the team. If John, Josie, and Jessica all sign up for accounts on GitHub, and you want to give them push access to your repository, you can add them to your project as collaborators. Doing so will allow pushes from their public keys to work.
+现在把团队里其他的人也加进来。如果 John，Josie 和 Jessica 都在 GitHub 注册了账户，要给他们向仓库推送的访问权，可以把它们加为项目合作者。这样他们的公钥就能用来向仓库推送了。
 
-Click the "edit" button in the project header or the Admin tab at the top of the project to reach the Admin page of your GitHub project (see Figure 4-10).
+点击项目页面上方的 "edit（编辑）" 按钮或者顶部的 Admin （管理）标签进入项目管理页面（见图 4-10）。
 
 Insert 18333fig0410.png 
-Figure 4-10. GitHub administration page
+Figure 4-10. GitHub 管理页面
 
-To give another user write access to your project, click the “Add another collaborator” link. A new text box appears, into which you can type a username. As you type, a helper pops up, showing you possible username matches. When you find the correct user, click the Add button to add that user as a collaborator on your project (see Figure 4-11).
+为了给另一个用户添加项目的写权限，点击 "Add another collaborator（添加另一个合作者）" 链接。一个新文本框会出现，用来输入用户名。在输入用户名的同时将会跳出一个帮助提示，显示出可能匹配的用户名。找到正确的用户名以后，点 Add （添加）按钮，把它变成该项目的合作者（见图 4-11）。
 
 Insert 18333fig0411.png 
-Figure 4-11. Adding a collaborator to your project
+Figure 4-11. 为项目添加合作者
 
-When you’re finished adding collaborators, you should see a list of them in the Repository Collaborators box (see Figure 4-12).
+添加完合作者以后，就可以在 Repository Collaborators （仓库合作者）区域看到他们的列表（见图 4-12）。
 
 Insert 18333fig0412.png 
-Figure 4-12. A list of collaborators on your project
+Figure 4-12. 项目合作者列表
 
-If you need to revoke access to individuals, you can click the "revoke" link, and their push access will be removed. For future projects, you can also copy collaborator groups by copying the permissions of an existing project.
+如果需要取消某人的访问权，点击 "revoke （撤销）"，他的推送权限就被删除了。在未来的项目中，可以通过复制现存项目的权限设定来得到相同的合作者群组。
 
-### Your Project ###
+### 你的项目 ###
 
-After you push your project up or have it imported from Subversion, you have a main project page that looks something like Figure 4-13.
+在推送项目或从 Subversion 导入项目之后，你会得到一个类似图 4-13 的项目主页。
 
 Insert 18333fig0413.png 
-Figure 4-13. A GitHub main project page
+Figure 4-13. GitHub 项目主页
 
-When people visit your project, they see this page. It contains tabs to different aspects of your projects. The Commits tab shows a list of commits in reverse chronological order, similar to the output of the `git log` command. The Network tab shows all the people who have forked your project and contributed back. The Downloads tab allows you to upload project binaries and link to tarballs and zipped versions of any tagged points in your project. The Wiki tab provides a wiki where you can write documentation or other information about your project. The Graphs tab has some contribution visualizations and statistics about your project. The main Source tab that you land on shows your project’s main directory listing and automatically renders the README file below it if you have one. This tab also shows a box with the latest commit information.
+其他人访问你的项目时，他们会看到该页面。它包含了该项目不同方面的标签。Commits 标签将按时间展示逆序的 commit 列表，与 `git log` 命令的输出类似。Network 标签展示所有 fork 了该项目并做出贡献的用户的关系图。Downloads 标签允许你上传项目的二进制文件，并提供了指向该项目所有标记过的位置的 tar/zip 打包下载连接。Wiki 标签提供了一个用来撰写文档或其他项目相关信息的 wiki。Graphs 标签包含了一些可视化的项目信息与数据。刚开始进入的 Source 标签页面列出了项目的主目录；并且在下方自动展示 README 文件的内容（如果该文件存在的话）。该标签还包含了最近一次提交的相关信息。
 
 ### Forking Projects ###
 

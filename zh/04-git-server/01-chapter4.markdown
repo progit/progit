@@ -663,39 +663,39 @@ Figure 4-12. 项目合作者列表
 
 如果需要取消某人的访问权，点击 "revoke （撤销）"，他的推送权限就被删除了。在未来的项目中，可以通过复制现存项目的权限设定来得到相同的合作者群组。
 
-### 你的项目 ###
+### 项目页面 ###
 
-在推送项目或从 Subversion 导入项目之后，你会得到一个类似图 4-13 的项目主页。
+在推送或从 Subversion 导入项目之后，你会得到一个类似图 4-13 的项目主页。
 
 Insert 18333fig0413.png 
 Figure 4-13. GitHub 项目主页
 
 其他人访问你的项目时，他们会看到该页面。它包含了该项目不同方面的标签。Commits 标签将按时间展示逆序的 commit 列表，与 `git log` 命令的输出类似。Network 标签展示所有 fork 了该项目并做出贡献的用户的关系图。Downloads 标签允许你上传项目的二进制文件，并提供了指向该项目所有标记过的位置的 tar/zip 打包下载连接。Wiki 标签提供了一个用来撰写文档或其他项目相关信息的 wiki。Graphs 标签包含了一些可视化的项目信息与数据。刚开始进入的 Source 标签页面列出了项目的主目录；并且在下方自动展示 README 文件的内容（如果该文件存在的话）。该标签还包含了最近一次提交的相关信息。
 
-### Forking Projects ###
+### 派生（forking）项目 ###
 
-If you want to contribute to an existing project to which you don’t have push access, GitHub encourages forking the project. When you land on a project page that looks interesting and you want to hack on it a bit, you can click the "fork" button in the project header to have GitHub copy that project to your user so you can push to it.
+如果想向一个自己没有推送权限的项目贡献代码，GitHub 提倡使用派生（forking）。在你发现一个感兴趣的项目，打算在上面 Hack 一把的时候，可以点击页面上方的 "fork（派生）" 按钮，GitHub 会为你的用户复制一份该项目，这样你就可以向它推送内容了。
 
-This way, projects don’t have to worry about adding users as collaborators to give them push access. People can fork a project and push to it, and the main project maintainer can pull in those changes by adding them as remotes and merging in their work.
+使用这个办法，项目维护者不用操心为了推送权限把其他人加为合作者的麻烦。大家可以派生一个项目副本并进行推送，而后项目的主要维护者可以把这些副本添加为远程仓库，从中拉取更新的内容进行合并。
 
-To fork a project, visit the project page (in this case, mojombo/chronic) and click the "fork" button in the header (see Figure 4-14).
+要派生一个项目，到该项目的页面（本例中是 mojombo/chronic）点击上面的 "fork" 按钮（见图 4-14）。
 
 Insert 18333fig0414.png 
-Figure 4-14. Get a writable copy of any repository by clicking the "fork" button.
+Figure 4-14. 点击 "fork" 按钮来获得任意项目的可写副本
 
-After a few seconds, you’re taken to your new project page, which indicates that this project is a fork of another one (see Figure 4-15).
+几秒钟以后，你将进入新建的项目页面，显示出该项目是派生自另一个项目的副本（见图 4-15）。
 
 Insert 18333fig0415.png 
-Figure 4-15. Your fork of a project 
+Figure 4-15. 你派生的项目副本
 
-### GitHub Summary ###
+### GitHub 小节 ###
 
-That’s all we’ll cover about GitHub, but it’s important to note how quickly you can do all this. You can create an account, add a new project, and push to it in a matter of minutes. If your project is open source, you also get a huge community of developers who now have visibility into your project and may well fork it and help contribute to it. At the very least, this may be a way to get up and running with Git and try it out quickly.
+GitHub 就介绍这么多，不过意识到做到这些是多么快捷十分重要。不过几分钟的时间，你就能创建一个账户，添加一个新的项目并开始推送。如果你的项目是开源的，它还同时获得了对庞大的开发者社区的可视性，社区成员可能会派生它并做出贡献。退一万步讲，这至少是个快速开始尝试 Git 的好办法。
 
-## Summary ##
+## 小节 ##
 
-You have several options to get a remote Git repository up and running so that you can collaborate with others or share your work.
+几个不同的方案可以让你获得远程 Git 仓库来与其他人合作或分享你的成果。
 
-Running your own server gives you a lot of control and allows you to run the server within your own firewall, but such a server generally requires a fair amount of your time to set up and maintain. If you place your data on a hosted server, it’s easy to set up and maintain; however, you have to be able to keep your code on someone else’s servers, and some organizations don’t allow that.
+运行自己的服务器意味着更多的控制权以及在防火墙内部操作的可能性，然而这样的服务器通常需要投入一定的时间来架设和维护。如果把数据放在托管服务上，假设和维护变得十分简单；然而，你不得不把代码保存在别人的服务器上，很多公司不允许这种做法。
 
-It should be fairly straightforward to determine which solution or combination of solutions is appropriate for you and your organization.
+使用哪个方案或哪种方案的组合对你和你的团队更合适，应该不是一个太难的决定。

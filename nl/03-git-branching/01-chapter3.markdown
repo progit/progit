@@ -1,6 +1,6 @@
-# Git Branching #
+# Branchen in Git #
 
-Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
+Bijna elk versiebeheersysteem ondersteunt een bepaalde vorm van branchen. Branchen komt erop neer dat je een tak afsplitst van de grote lijn van de ontwikkeling en daar verder mee werkt zonder de hoofdlijn te vervuilen. Bij veel VCS'en gaat dat nogal moeizaam, en eisen vaak van je dat je een nieuwe kopie maakt van de map waar je bronbestanden in staan, wat lang kan duren voor grote projecten.
 
 Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
 

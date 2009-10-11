@@ -1,6 +1,6 @@
 # 服务器上的 Git #
 
-到目前为止，你应该已经学会了使用 Git 来完成日常的工作。然而，如果想与他人合作，你还需要一个远程的 Git 仓库。尽管技术上可以从个人的仓库里推送和获取修改，但是我们不鼓励这样做，因为你一不小心就很容易困惑其他人到底在干什么。另外，你也一定希望你的合作者们即使在你不开机的时候也能从仓库获取数据——拥有一个更稳定的公共仓库通常是很有必要的。因此，更好的合作方式是建立一个大家都可以访问的共享仓库，并向那里推送和获取数据。我们将把这个仓库称为“Git 服 务器”；你不过你会发现架设一个 Git 仓库只需要花费一点点的资源，所以很少需要整个服务器来支持运行它。
+到目前为止，你应该已经学会了使用 Git 来完成日常的工作。然而，如果想与他人合作，还需要一个远程的 Git 仓库。尽管技术上可以从个人的仓库里推送和拉取改变，但是我们不鼓励这样做，因为一不留心就很容易弄混其他人的进度。另外，你也一定希望合作者们即使在自己不开机的时候也能从仓库获取数据——拥有一个更稳定的公共仓库十分有用。因此，更好的合作方式是建立一个大家都可以访问的共享仓库，从那里推送和拉取数据。我们将把这个仓库称为 "Git 服务器"；代理一个 Git 仓库只需要花费很少的资源，几乎从不需要整个服务器来支持它的运行。
 
 架设一个 Git 服务器不难。第一步是选择与服务器通讯的协议。本章的第一节将介绍可用的协议以及他们各自的优缺点。下面一节将介绍一些针对各个协议典型的设置以及如何在服务器上运行它们。最后，如果你不介意在其他人的服务器上保存你的代码，又不想经历自己架设和维护服务器的麻烦，我们将介绍几个网络上的仓库托管服务。
 
@@ -49,11 +49,11 @@ Git 可以使用四种主要的协议来传输数据：本地传输，SSH 协议
 
 Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大多数环境已经支持通过 SSH 对服务器的访问——即使还没有，也很容易架设。SSH 也是唯一一个同时便于读和写操作的网络协议。另外两个网络协议（HTTP 和 Git）通常都是只读的，所以虽然二者对大多数人都可用，但执行写操作时还是需要 SSH。SSH 同时也是一个验证授权的网络协议；而因为其普遍性，通常也很容易架设和使用。
 
-通过 SSH 克隆一个Git仓库，你可以像下面这样给出 ssh:// 的 URL：
+通过 SSH 克隆一个 Git 仓库，你可以像下面这样给出 ssh:// 的 URL：
 
 	$ git clone ssh://user@server:project.git
 
-或者不指明某个协议——这时Git会默认使用 SSH ：
+或者不指明某个协议——这时 Git 会默认使用 SSH ：
 	
 	$ git clone user@server:project.git
 
@@ -61,7 +61,7 @@ Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大�
 
 #### 优点 ####
 
-使用 SSH 的好处有很多。首先，如果你想拥有对网络仓库的写权限，基本上不可能不使用SSH。其次，SSH 架设相对比较简单—— SSH 守护进程很常见，很多网络管理员都有一些使用经验，而且很多操作系统都自带了它或者相关的管理工具。再次，通过 SSH 进行访问是安全的——所有数据传输都是加密和授权的。最后，类似 Git 和 本地协议，SSH 很高效，会在传输之前尽可能的压缩数据。
+使用 SSH 的好处有很多。首先，如果你想拥有对网络仓库的写权限，基本上不可能不使用 SSH。其次，SSH 架设相对比较简单—— SSH 守护进程很常见，很多网络管理员都有一些使用经验，而且很多操作系统都自带了它或者相关的管理工具。再次，通过 SSH 进行访问是安全的——所有数据传输都是加密和授权的。最后，类似 Git 和 本地协议，SSH 很高效，会在传输之前尽可能的压缩数据。
 
 #### 缺点 ####
 
@@ -69,7 +69,7 @@ SSH 的限制在于你不能通过它实现仓库的匿名访问。即使仅为�
 
 ### Git 协议 ###
 
-接下来是 Git 协议。这是一个包含在 Git 软件包中的特殊守护进程； 它会监听一个提供类似于 SSH 服务的特定端口（9418），而无需任何授权。用 Git 协议运营仓库，你需要创建 `git-export-daemon-ok` 文件——它是协议进程提供仓库服务的必要条件——但除此之外该服务没有什么安全措施。要么所有人都能克隆Git 仓库，要么谁也不能。这也意味着该协议通常不能用来进行推送。你可以允许推送操作；然而由于没有授权机制，一旦允许该操作，网络上任何一个知道项目 URL 的人将都有推送权限。不用说，这是十分罕见的情况。
+接下来是 Git 协议。这是一个包含在 Git 软件包中的特殊守护进程； 它会监听一个提供类似于 SSH 服务的特定端口（9418），而无需任何授权。用 Git 协议运营仓库，你需要创建 `git-export-daemon-ok` 文件——它是协议进程提供仓库服务的必要条件——但除此之外该服务没有什么安全措施。要么所有人都能克隆 Git 仓库，要么谁也不能。这也意味着该协议通常不能用来进行推送。你可以允许推送操作；然而由于没有授权机制，一旦允许该操作，网络上任何一个知道项目 URL 的人将都有推送权限。不用说，这是十分罕见的情况。
 
 #### 优点 ####
 
@@ -82,7 +82,7 @@ Git 协议可能也是最难架设的协议。它要求有单独的守护进程�
 
 ### HTTP/S 协议 ###
 
-最后还剩下 HTTP 协议。HTTP 或 HTTPS 协议的优美之处在于架设的简便性。基本上，
+最后还有 HTTP 协议。HTTP 或 HTTPS 协议的优美之处在于架设的简便性。基本上，
 只需要把 Git 的纯仓库文件放在 HTTP 的文件根目录下，配置一个特定的 `post-update` 挂钩（hook），就搞定了（Git 挂钩的细节见第七章）。从此，每个能访问 Git 仓库所在服务器上的 web 服务的人都可以进行克隆操作。下面的操作可以允许通过 HTTP 对仓库进行读取：
 
 	$ cd /var/www/htdocs/
@@ -97,7 +97,7 @@ Git 协议可能也是最难架设的协议。它要求有单独的守护进程�
 
 在本例中，我们使用了 Apache 设定中常用的 `/var/www/htdocs` 路径，不过你可以使用任何静态 web 服务——把纯仓库放在它的目录里就行了。 Git 的数据是以最基本的静态文件的形式提供的（关于如何提供文件的详情见第9章）。
 
-通过HTTP进行推送操作也是可能的，不过这种做法不太常见并且牵扯到复杂的 WebDAV 架设。由于很少用到，本书将略过对该内容的讨论。如果你对 HTTP 推送协议感兴趣，不妨在这个地址看一下如何操作：`http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` 。通过 HTTP 推送的好处之一是你可以使用任何 WebDAV 服务器，不需要为 Git 设定特殊环境；所以如果主机提供商支持通过 WebDAV 更新网站内容，你也可以使用这项功能。
+通过HTTP进行推送操作也是可能的，不过这种做法不太常见并且牵扯到复杂的 WebDAV 设定。由于很少用到，本书将略过对该内容的讨论。如果对 HTTP 推送协议感兴趣，不妨在这个地址看一下操作方法：`http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` 。通过 HTTP 推送的好处之一是你可以使用任何 WebDAV 服务器，不需要为 Git 设定特殊环境；所以如果主机提供商支持通过 WebDAV 更新网站内容，你也可以使用这项功能。
 
 #### 优点 ####
 
@@ -105,7 +105,7 @@ Git 协议可能也是最难架设的协议。它要求有单独的守护进程�
 
 你也可以通过 HTTPS 提供只读的仓库，这意味着你可以加密传输内容；你甚至可以要求客户端使用特定签名的 SSL 证书。一般情况下，如果到了这一步，使用 SSH 公共密钥可能是更简单的方案；不过也存在一些特殊情况，这时通过 HTTPS 使用带签名的 SSL 证书或者其他基于 HTTP 的只读连接授权方式是更好的解决方案。
 
-HTTP 还有个额外的好处：HTTP 是一个如此常见的协议，以至于企业级防火墙通常都允许此端口的通信。
+HTTP 还有个额外的好处：HTTP 是一个如此常见的协议，以至于企业级防火墙通常都允许其端口的通信。
 
 #### 缺点 ####
 
@@ -493,23 +493,23 @@ Gitosis 也具有简单的访问控制功能。如果想让 John 只有读权限
 
 如果出现了什么问题，把 `loglevel=DEBUG` 加入到 `[gitosis]` 部分或许有帮助（译注：把日志设置到调试级别，记录更详细的信息）。如果你一不小心搞错了配置，失去了推送权限，可以手动修改服务器上的 `/home/git/.gitosis` 文件—— Gitosis 从该文件读取信息。一次推送会把 `gitosis.conf` 保存在服务器上。如果你手动编辑该文件，它将在你下次向 `gitosis-admin` 推送之前它将保持原样。
 
-## Git Daemon ##
+## Git 进程 ##
 
-For public, unauthenticated read access to your projects, you’ll want to move past the HTTP protocol and start using the Git protocol. The main reason is speed. The Git protocol is far more efficient and thus faster than the HTTP protocol, so using it will save your users time.
+公共，非授权的只读访问要求我们在 HTTP 协议的基础上使用 Git 协议。主因在于速度。Git 协议更为高效，进而比 HTTP 协议更迅速，所以它能节省很多时间。
 
-Again, this is for unauthenticated read-only access. If you’re running this on a server outside your firewall, it should only be used for projects that are publicly visible to the world. If the server you’re running it on is inside your firewall, you might use it for projects that a large number of people or computers (continuous integration or build servers) have read-only access to, when you don’t want to have to add an SSH key for each.
+重申一下，这一点只适用于非授权、只读的访问。如果在防火墙之外的服务器上，该服务的使用应该局限于公诸于世的项目。假如是在防火墙之内，它也可以用于具有大量参与人员或者主机（长期整合资源或编译的服务器）的只读访问的项目，可以省去为逐一添加 SSH 公钥的麻烦。
 
-In any case, the Git protocol is relatively easy to set up. Basically, you need to run this command in a daemonized manner:
+无论哪种情况，Git 协议的设定都相对简单。基本上，只要以长期守护进程的形式运行该命令：
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` allows the server to restart without waiting for old connections to time out, the `--base-path` option allows people to clone projects without specifying the entire path, and the path at the end tells the Git daemon where to look for repositories to export. If you’re running a firewall, you’ll also need to punch a hole in it at port 9418 on the box you’re setting this up on.
+`--reuseaddr` 使得服务无须等到旧的连接尝试过期以后再重启，`--base-path` 选项使得克隆项目的时候不用给出完整的路径，而最后面的路径告诉 Git 进程导出仓库的位置。假如有防火墙，则需要为该主机的 9418 端口打个允许通信的洞。
 
-You can daemonize this process a number of ways, depending on the operating system you’re running. On an Ubuntu machine, you use an Upstart script. So, in the following file
+有几个不同的办法可以让该进程长期驻留，取决于不同的操作系统。在 Ubuntu 主机上，可以用 Upstart 脚本来完成。于是，在下面这个文件
 
 	/etc/event.d/local-git-daemon
 
-you put this script:
+加入该脚本内容：
 
 	start on startup
 	stop on shutdown
@@ -520,181 +520,182 @@ you put this script:
 	    /opt/git/
 	respawn
 
-For security reasons, it is strongly encouraged to have this daemon run as a user with read-only permissions to the repositories – you can easily do this by creating a new user 'git-ro' and running the daemon as them.  For the sake of simplicity we’ll simply run it as the same 'git' user that Gitosis is running as.
+出于安全考虑，强烈建议用一个对仓库只有读取权限的用户身份来运行该进程——只需要简单的新创建一个 `git-ro` 用户（译注：并将它对仓库的权限设为只读），用它来运行进程。为了简化，下面我们将依旧使用运行了 Gitosis 的 'git' 用户。
 
-When you restart your machine, your Git daemon will start automatically and respawn if it goes down. To get it running without having to reboot, you can run this:
+重启主机的时候，Git 进程会自行启动，一旦关闭了也会自行重启。要不重启就开启它，可以运行这个命令：
 
 	initctl start local-git-daemon
 
-On other systems, you may want to use `xinetd`, a script in your `sysvinit` system, or something else — as long as you get that command daemonized and watched somehow.
+在其他系统上，或许应该使用 `xinetd`，`sysinit` 的一个脚本，或者其他的——只要能让那个命令进程化和可监控。
 
-Next, you have to tell your Gitosis server which repositories to allow unauthenticated Git server-based access to. If you add a section for each repository, you can specify the ones from which you want your Git daemon to allow reading. If you want to allow Git protocol access for your iphone project, you add this to the end of the `gitosis.conf` file:
+然后，必须告诉 Gitosis 服务那些仓库允许基于 Git 协议的非授权访问。如果为每一个仓库设立了自己的节段，就可以指定想让 Git 进程给予可读权限的仓库。假如要允许通过 Git 协议访问前面的 iphone 项目，可以把如下内容加到 `gitosis.conf` 文件的结尾：
 
 	[repo iphone_project]
 	daemon = yes
 
-When that is committed and pushed up, your running daemon should start serving requests for the project to anyone who has access to port 9418 on your server.
+在提交和推送完成以后，运行中的进程将开始相应所有能访问主机 9418 端口的人发来的项目请求。
 
-If you decide not to use Gitosis, but you want to set up a Git daemon, you’ll have to run this on each project you want the Git daemon to serve:
+假如不想使用 Gitosis，而又想架设一个 Git 协议进程，则必须为每一个想使用 Git 进程的项目运行如下命令：
 
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok
 
-The presence of that file tells Git that it’s OK to serve this project without authentication.
+该文件（译注：指空文件 git-deamon-export-ok）告诉 Git 允许对该项目的非授权访问。
 
-Gitosis can also control which projects GitWeb shows. First, you need to add something like the following to the `/etc/gitweb.conf` file:
+Gitosis 还能控制 GitWeb 显示哪些项目。首先，在 `/etc/gitweb.conf` 添加如下内容：
 
 	$projects_list = "/home/git/gitosis/projects.list";
 	$projectroot = "/home/git/repositories";
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
-You can control which projects GitWeb lets users browse by adding or removing a `gitweb` setting in the Gitosis configuration file. For instance, if you want the iphone project to show up on GitWeb, you make the `repo` setting look like this:
+通过在 Gitosis 的设置文件里添加或删除 `gitweb` 设定，就能控制 GitWeb 允许用户浏览哪些项目。比如，我们想让 iphone 项目在 GitWeb 里出现，把 `repo` 的设定改成下面的样子：
 
 	[repo iphone_project]
 	daemon = yes
 	gitweb = yes
 
-Now, if you commit and push the project, GitWeb will automatically start showing your iphone project.
+如果现在提交和推送该项目，GitWeb 会自动开始展示我们的 iphone 项目。
 
-## Hosted Git ##
+## Git 托管服务 ##
 
-If you don’t want to go through all of the work involved in setting up your own Git server, you have several options for hosting your Git projects on an external dedicated hosting site. Doing so offers a number of advantages: a hosting site is generally quick to set up and easy to start projects on, and no server maintenance or monitoring is involved. Even if you set up and run your own server internally, you may still want to use a public hosting site for your open source code — it’s generally easier for the open source community to find and help you with.
+如果不想经历自己架设 Git 服务器的麻烦，网络上有几个专业的仓库托管服务可供选择。这样做有几大优点：托管账户的建立通常比较省时，方便项目的启动，而且不涉及服务其的维护和监控。即使内部创建并运行了自己的服务器，为开源的代码使用一个公共托管站点还是有好处——让开源社区更方便的找到该项目并给予帮助。
 
-These days, you have a huge number of hosting options to choose from, each with different advantages and disadvantages. To see an up-to-date list, check out the GitHosting page on the main Git wiki:
+目前，可供选择的托管服务数量繁多，各有利弊。在 Git 官方 wiki 上的 Githosting 页面有一个持续更新的托管服务列表：
 
 	http://git.or.cz/gitwiki/GitHosting
 
-Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved. 
+由于本书无法全部一一介绍它们，而本人（译注：指本书作者 Scott Chacon ）刚好在其中之一工作，我们将在这一节介绍一下在 GitHub 建立账户和开启新项目的过程。为你提供一个使用托管服务的大致印象。
 
-GitHub is by far the largest open source Git hosting site and it’s also one of the very few that offers both public and private hosting options so you can keep your open source and private commercial code in the same place. In fact, we used GitHub to privately collaborate on this book.
+GitHub 是到目前为止最大的开源 Git 托管服务，并且是少数同时提供公共托管和私人托管服务的站点之一，所以你可以在一个站点同时保存开源和商业代码。事实上，本书正是私下使用 GitHub 合写的。（译注：而本书的翻译也是在 GitHub 上进行公共合作的）。
 
 ### GitHub ###
 
-GitHub is slightly different than most code-hosting sites in the way that it namespaces projects. Instead of being primarily based on the project, GitHub is user centric. That means when I host my `grit` project on GitHub, you won’t find it at `github.com/grit` but instead at `github.com/schacon/grit`. There is no canonical version of any project, which allows a project to move from one user to another seamlessly if the first author abandons the project.
+GitHub 和大多数的代码托管站点在处理项目命名空间的方式上略有不同。GitHub 的设计更侧重于用户，而不是而不是全部基于项目。意谓本人在 GitHub 上托管一个 `grit` 项目的话，它将不会出现在 `github.com/grit`，而是在 `github.com/shacon/grit` （译注：作者在 GitHub 上的用户名是 shacon）。不存在所谓某个项目的官方版本，所以假如第一作者放弃了某个项目，它可以无缝转移到其它用户的旗下。
 
-GitHub is also a commercial company that charges for accounts that maintain private repositories, but anyone can quickly get a free account to host as many open source projects as they want. We’ll quickly go over how that is done.
+GitHub 同时也是一个向使用私有仓库的用户收取费用的商业公司，不过所有人都可以快捷的得到一个免费账户并且在上面托管任意多的开源项目。我们将快速介绍一下该过程。
 
-### Setting Up a User Account ###
+### 建立账户 ###
 
+第一个必要必要步骤是注册一个免费的账户。访问 Pricing and Signup （价格与注册）页面 `http://github.com/plans` 并点击 Free acount （免费账户）的 "Sign Up（注册）" 按钮（见图 4-2），进入注册页面。
 The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
 
 Insert 18333fig0402.png
-Figure 4-2. The GitHub plan page
+Figure 4-2. GitHub 服务简介页面
 
-Here you must choose a username that isn’t yet taken in the system and enter an e-mail address that will be associated with the account and a password (see Figure 4-3).
+这里要求选择一个系统中尚未存在的用户名，提供一个与之相连的电邮地址，以及一个密码（见图 4-3）。
 
 Insert 18333fig0403.png 
 Figure 4-3. The GitHub user signup form
 
-If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
-Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).
+如果事先有准备，可以顺便提供 SSH 公钥。我们在前文中的"小型安装" 一节介绍过生成新公钥的方法。把生成的钥匙对中的公钥粘贴到 SSH Public Key （SSH 公钥）文本框中。点击 "explain ssh keys" 链接可以获取在所有主流操作系统上完成该步骤的介绍。
+点击 "I agree，sign me up （同意条款，让我注册）" 按钮就能进入新用户的控制面板（见图 4-4）。
 
 Insert 18333fig0404.png 
-Figure 4-4. The GitHub user dashboard
+Figure 4-4. GitHub 用户面板
 
-Next you can create a new repository. 
+然后就可以建立新仓库了。
 
-### Creating a New Repository ###
+### 建立新仓库 ###
 
-Start by clicking the "create a new one" link next to Your Repositories on the user dashboard. You’re taken to the Create a New Repository form (see Figure 4-5).
+点击用户面板上仓库旁边的 "create a new one（新建）" 连接。进入 Create a New Repository （新建仓库）表格（见图 4-5）。
 
 Insert 18333fig0405.png 
-Figure 4-5. Creating a new repository on GitHub
+Figure 4-5. 在 GitHub 建立新仓库
 
-All you really have to do is provide a project name, but you can also add a description. When that is done, click the "Create Repository" button. Now you have a new repository on GitHub (see Figure 4-6).
+唯一必做的仅仅是提供一个项目名称，当然也可以添加一点描述。搞定这些以后，点 "Create Repository（建立仓库）" 按钮。新仓库就建立起来了（见图4-6）。
 
 Insert 18333fig0406.png 
-Figure 4-6. GitHub project header information
+Figure 4-6. GitHub 项目头信息
 
-Since you have no code there yet, GitHub will show you instructions for how create a brand-new project, push an existing Git project up, or import a project from a public Subversion repository (see Figure 4-7).
+由于还没有提交代码，GitHub 会展示如何创建一个新项目，如何推送一个现存项目，以及如何从一个公共的 Subversion 仓库导入项目（译注：这简直是公开挖 google code 和 sourceforge 的墙角）（见图 4-7）。
 
 Insert 18333fig0407.png 
-Figure 4-7. Instructions for a new repository
+Figure 4-7. 新仓库指南
 
-These instructions are similar to what we’ve already gone over. To initialize a project if it isn’t already a Git project, you use
+该指南和本书前文中的介绍类似。要把一个非 Git 项目变成 Git 项目，运行
 
 	$ git init
 	$ git add .
 	$ git commit -m 'initial commit'
 
-When you have a Git repository locally, add GitHub as a remote and push up your master branch:
+一旦拥有一个本地 Git 仓库，把 GitHub 添加为远程仓库并推送 master 分支：
 
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
 
-Now your project is hosted on GitHub, and you can give the URL to anyone you want to share your project with. In this case, it’s `http://github.com/testinguser/iphone_project`. You can also see from the header on each of your project’s pages that you have two Git URLs (see Figure 4-8).
+这时该项目就托管在 GitHub 上了。你可以把它的 URL 发给每个希望分享该工程的人。本例的 URL 是 `http://github.com/testinguser/iphone_project`。你将在项目页面的头部发现有两个 Git URL（见图 4-8）。
 
 Insert 18333fig0408.png 
-Figure 4-8. Project header with a public URL and a private URL
+Figure 4-8. 项目开头的公共 URL 和私有 URL 。
 
-The Public Clone URL is a public, read-only Git URL over which anyone can clone the project. Feel free to give out that URL and post it on your web site or what have you.
+Public Clone URL（公共克隆 URL）是一个公开的，只读的 Git URL，任何人都可以通过它克隆该项目。可以随意的散播这个 URL，发步到个人网站之类的地方。
 
-The Your Clone URL is a read/write SSH-based URL that you can read or write over only if you connect with the SSH private key associated with the public key you uploaded for your user. When other users visit this project page, they won’t see that URL—only the public one.
+Your Clone URL（私用克隆 URL）是一个给予 SSH 的读写 URL，只有使用与上传的 SSH 公钥对应的密钥来连接时，才能通过它进行读写操作。其他用户访问项目页面的时候看不到该URL——只有公共的那个。
 
-### Importing from Subversion ###
+### 从 Subversion 中导入项目 ###
 
-If you have an existing public Subversion project that you want to import into Git, GitHub can often do that for you. At the bottom of the instructions page is a link to a Subversion import. If you click it, you see a form with information about the import process and a text box where you can paste in the URL of your public Subversion project (see Figure 4-9).
+如果想把某个公共 Subversion 项目导入 Git，GitHub 可以帮忙。在指南的最后有一个指向导入 Subversion 页面的链接。点击它，可以得到一个表格，它包含着有关导入流程的信息以及一个用来粘贴公共 Subversion 项目连接的文本框（见图 4-9）。
 
 Insert 18333fig0409.png 
-Figure 4-9. Subversion importing interface
+Figure 4-9. Subversion 导入界面
 
-If your project is very large, nonstandard, or private, this process probably won’t work for you. In Chapter 7, you’ll learn how to do more complicated manual project imports.
+如果项目很大，采用非标准结构，或者是私有的，那么该流程将不适用。在第七章，你将了解到手动导入复杂工程的方法。
 
-### Adding Collaborators ###
+### 开始合作 ###
 
-Let’s add the rest of the team. If John, Josie, and Jessica all sign up for accounts on GitHub, and you want to give them push access to your repository, you can add them to your project as collaborators. Doing so will allow pushes from their public keys to work.
+现在把团队里其他的人也加进来。如果 John，Josie 和 Jessica 都在 GitHub 注册了账户，要给他们向仓库推送的访问权，可以把它们加为项目合作者。这样他们的公钥就能用来向仓库推送了。
 
-Click the "edit" button in the project header or the Admin tab at the top of the project to reach the Admin page of your GitHub project (see Figure 4-10).
+点击项目页面上方的 "edit（编辑）" 按钮或者顶部的 Admin （管理）标签进入项目管理页面（见图 4-10）。
 
 Insert 18333fig0410.png 
-Figure 4-10. GitHub administration page
+Figure 4-10. GitHub 管理页面
 
-To give another user write access to your project, click the “Add another collaborator” link. A new text box appears, into which you can type a username. As you type, a helper pops up, showing you possible username matches. When you find the correct user, click the Add button to add that user as a collaborator on your project (see Figure 4-11).
+为了给另一个用户添加项目的写权限，点击 "Add another collaborator（添加另一个合作者）" 链接。一个新文本框会出现，用来输入用户名。在输入用户名的同时将会跳出一个帮助提示，显示出可能匹配的用户名。找到正确的用户名以后，点 Add （添加）按钮，把它变成该项目的合作者（见图 4-11）。
 
 Insert 18333fig0411.png 
-Figure 4-11. Adding a collaborator to your project
+Figure 4-11. 为项目添加合作者
 
-When you’re finished adding collaborators, you should see a list of them in the Repository Collaborators box (see Figure 4-12).
+添加完合作者以后，就可以在 Repository Collaborators （仓库合作者）区域看到他们的列表（见图 4-12）。
 
 Insert 18333fig0412.png 
-Figure 4-12. A list of collaborators on your project
+Figure 4-12. 项目合作者列表
 
-If you need to revoke access to individuals, you can click the "revoke" link, and their push access will be removed. For future projects, you can also copy collaborator groups by copying the permissions of an existing project.
+如果需要取消某人的访问权，点击 "revoke （撤销）"，他的推送权限就被删除了。在未来的项目中，可以通过复制现存项目的权限设定来得到相同的合作者群组。
 
-### Your Project ###
+### 项目页面 ###
 
-After you push your project up or have it imported from Subversion, you have a main project page that looks something like Figure 4-13.
+在推送或从 Subversion 导入项目之后，你会得到一个类似图 4-13 的项目主页。
 
 Insert 18333fig0413.png 
-Figure 4-13. A GitHub main project page
+Figure 4-13. GitHub 项目主页
 
-When people visit your project, they see this page. It contains tabs to different aspects of your projects. The Commits tab shows a list of commits in reverse chronological order, similar to the output of the `git log` command. The Network tab shows all the people who have forked your project and contributed back. The Downloads tab allows you to upload project binaries and link to tarballs and zipped versions of any tagged points in your project. The Wiki tab provides a wiki where you can write documentation or other information about your project. The Graphs tab has some contribution visualizations and statistics about your project. The main Source tab that you land on shows your project’s main directory listing and automatically renders the README file below it if you have one. This tab also shows a box with the latest commit information.
+其他人访问你的项目时，他们会看到该页面。它包含了该项目不同方面的标签。Commits 标签将按时间展示逆序的 commit 列表，与 `git log` 命令的输出类似。Network 标签展示所有 fork 了该项目并做出贡献的用户的关系图。Downloads 标签允许你上传项目的二进制文件，并提供了指向该项目所有标记过的位置的 tar/zip 打包下载连接。Wiki 标签提供了一个用来撰写文档或其他项目相关信息的 wiki。Graphs 标签包含了一些可视化的项目信息与数据。刚开始进入的 Source 标签页面列出了项目的主目录；并且在下方自动展示 README 文件的内容（如果该文件存在的话）。该标签还包含了最近一次提交的相关信息。
 
-### Forking Projects ###
+### 派生（forking）项目 ###
 
-If you want to contribute to an existing project to which you don’t have push access, GitHub encourages forking the project. When you land on a project page that looks interesting and you want to hack on it a bit, you can click the "fork" button in the project header to have GitHub copy that project to your user so you can push to it.
+如果想向一个自己没有推送权限的项目贡献代码，GitHub 提倡使用派生（forking）。在你发现一个感兴趣的项目，打算在上面 Hack 一把的时候，可以点击页面上方的 "fork（派生）" 按钮，GitHub 会为你的用户复制一份该项目，这样你就可以向它推送内容了。
 
-This way, projects don’t have to worry about adding users as collaborators to give them push access. People can fork a project and push to it, and the main project maintainer can pull in those changes by adding them as remotes and merging in their work.
+使用这个办法，项目维护者不用操心为了推送权限把其他人加为合作者的麻烦。大家可以派生一个项目副本并进行推送，而后项目的主要维护者可以把这些副本添加为远程仓库，从中拉取更新的内容进行合并。
 
-To fork a project, visit the project page (in this case, mojombo/chronic) and click the "fork" button in the header (see Figure 4-14).
+要派生一个项目，到该项目的页面（本例中是 mojombo/chronic）点击上面的 "fork" 按钮（见图 4-14）。
 
 Insert 18333fig0414.png 
-Figure 4-14. Get a writable copy of any repository by clicking the "fork" button.
+Figure 4-14. 点击 "fork" 按钮来获得任意项目的可写副本
 
-After a few seconds, you’re taken to your new project page, which indicates that this project is a fork of another one (see Figure 4-15).
+几秒钟以后，你将进入新建的项目页面，显示出该项目是派生自另一个项目的副本（见图 4-15）。
 
 Insert 18333fig0415.png 
-Figure 4-15. Your fork of a project 
+Figure 4-15. 你派生的项目副本
 
-### GitHub Summary ###
+### GitHub 小节 ###
 
-That’s all we’ll cover about GitHub, but it’s important to note how quickly you can do all this. You can create an account, add a new project, and push to it in a matter of minutes. If your project is open source, you also get a huge community of developers who now have visibility into your project and may well fork it and help contribute to it. At the very least, this may be a way to get up and running with Git and try it out quickly.
+GitHub 就介绍这么多，不过意识到做到这些是多么快捷十分重要。不过几分钟的时间，你就能创建一个账户，添加一个新的项目并开始推送。如果你的项目是开源的，它还同时获得了对庞大的开发者社区的可视性，社区成员可能会派生它并做出贡献。退一万步讲，这至少是个快速开始尝试 Git 的好办法。
 
-## Summary ##
+## 小节 ##
 
-You have several options to get a remote Git repository up and running so that you can collaborate with others or share your work.
+几个不同的方案可以让你获得远程 Git 仓库来与其他人合作或分享你的成果。
 
-Running your own server gives you a lot of control and allows you to run the server within your own firewall, but such a server generally requires a fair amount of your time to set up and maintain. If you place your data on a hosted server, it’s easy to set up and maintain; however, you have to be able to keep your code on someone else’s servers, and some organizations don’t allow that.
+运行自己的服务器意味着更多的控制权以及在防火墙内部操作的可能性，然而这样的服务器通常需要投入一定的时间来架设和维护。如果把数据放在托管服务上，假设和维护变得十分简单；然而，你不得不把代码保存在别人的服务器上，很多公司不允许这种做法。
 
-It should be fairly straightforward to determine which solution or combination of solutions is appropriate for you and your organization.
+使用哪个方案或哪种方案的组合对你和你的团队更合适，应该不是一个太难的决定。

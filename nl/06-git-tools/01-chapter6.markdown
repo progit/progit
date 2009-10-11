@@ -1,22 +1,22 @@
 # Git Tools #
 
-By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+Nu heb je de meeste commando's en werkwijzen geleerd die je dagelijks nodig hebt om een Git repository voor je brondcode te beheren en te onderhouden. Je hebt de basistaken van het tracken en committen van bestanden gedaan, en je hebt de kracht van het staging area en lichtgewicht onderwerp branching en mergen in handen.
 
-Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
+Nu ga je een aantal zeer krachtige dingen verkennen die Git kan, die je niet per se dagelijks nodig zult hebben, maar die je op een bepaald punt toch nodig kunt hebben.
 
-## Revision Selection ##
+## Revisie Selectie ##
 
-Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+Git staat je toe om specifieke commits of een serie commits op meerdere manieren te specificeren. Ze zijn niet per se voor de hand liggend, maar behulpzaam om te weten.
 
-### Single Revisions ###
+### Enkele Revisies ###
 
-You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
+Natuurlijk kun je naar een commit refereren door de SHA-1 hash die het gegeven is, maar er zijn ook meer mensvriendelijke manieren om naar een commit te refereren. Deze sectie laat de diverse manieren zien waarop je naar een enkele commit kunt refereren.
 
-### Short SHA ###
+### Korte SHA ###
 
-Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
+Git is slim genoeg om uit te vinden welke commit je bedoelde in te typen als je de eerste karakters opgeeft, zolang je gedeeltelijke SHA-1 minstens vier karakters lang en ondubbelzinnig is – dat wil zeggen dat slechts één object in de huidige repository begint met dat gedeeltelijke SHA-1.
 
-For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
+Bijvoorbeeld, stel dat je om een specifieke commit te zien een `git log` commando uitvoerd en de commit identificeerd waar een bepaalde functionaliteit hebt toegevoegd:
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,48 +38,48 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 	    added some blame and merge stuff
 
-In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
+In dit geval, kies `1c002dd....` Als je op die commit `git show` doet, dan zijn de volgende commando's equivalent (aangenomen dat de kortere versies ondubbelzinnig zijn):
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
+Git kan een korte unieke afkorting voor je SHA-1 waardes uitvinden. Als je `--abbrev-commit` meegeeft aan het `git log` commando, dan zal de output kortere waarden gebruiken maar ze uniek houden; het gebruikt standaard zeven karakters, maar maakt ze langer om de SHA-1 ondubbelzinnig te houden:
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+Over het algemeen zijn acht tot tien karakters meer dan voldoende om binnen een project uniek te zijn. Een van de grootste Git projecten, de Linux kernel, begint 12 karakters van de mogelijke 40 nodig te hebben om uniek te blijven.
 
-### A SHORT NOTE ABOUT SHA-1 ###
+### Een Korte Notitie Over SHA-1 ###
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
+Veel mensen zijn bezorgd geworden dat ze op een bepaald punt, door random toeval, twee objecten in hun repository hebben die naar dezelfde SHA-1 waarde hashen. Wat dan?
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+Mocht je een object committen dat hashed naar dezelfde SHA-1 waarde als een vorig object in je repository, dan zal Git het vorige reeds aanwezige object in je Git database zien en aannemen dat het al geschreven was. Als je dat object opnieuw probeert uit te checken op een bepaald punt, dan zul je altijd de gegevens van het eerste object krijgen.
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+Maar, je moet je bewust zijn hoe belachelijk onwaarschijnlijk dit scenario is. De SHA-1 waarde is 20 bytes of 160 bits. Het aantal benodigde random gehashte objecten om een 50% waarschijnlijkheid van een enkele botsing te garanderen is ongeveer 2^80 (de formule om botsing waarschijnlijkheid te bepalen is `p = (n(n-1)/2) * (1/2^160)`). 2^80 is 1.2 x 10^24 of 1 miljoen miljard miljad. Dat is 1.200 keer het aantal zandkorrels op de aarde.
 
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+Hier is een voorbeeld om je een idee te geven wat er voor nodig is om een SHA-1 botsing te krijgen. Als alle 6.5 miljard mensen op aarde zouden gaan programmeren, en iedere seconde zou iedereen code genereren die gelijk was aan de hele Linux kernel geschiedenis (1 miljoen Git objecten) en dat in één gigantische Git repository pushen, dan zou het vijf jaar duren voordat dat repository genoeg objecten zou bevatten om een 50% waarschijnlijkheid van een enkele SHA-1 object botsing te krijgen. Er bestaat een grotere kans dat ieder lid van je programmeer team zal worden aangevallen en worden gedood door wolven in ongerelateerde incidenten op dezelfde avond.
 
-### Branch References ###
+### Branch Referenties ###
 
-The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
+De meest eenvoudige manier om een commit te specificeren heeft als voorwaarde dat je er een brach referentie naar hebt wijzen. Dan kun je een branch naam in ieder Git commando gebruiken dat een commit object of SHA-1 waarde verwacht. Bijvoorbeeld, als je het laatste commit object op een branch wil tonen, dan zijn de volgende commando's gelijk, aangenomen dat de `topic1` branch naar `ca82a6d` wijst:
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
+Als je wil zien naar welke specifieke SHA een branch wijst, of als je wil zien wat ieder van deze voorbeelden in termen van SHA's voorstellen, dan kun je een Git onderwater tool genaamd `rev-parse` gebruiken. Je kunt in Hoofdstuk 9 kijken voor meer informatie over onderwater tools; eigenlijk bestaat `rev-parse` voor lage operaties en is niet ontworpen om in dagelijkse operaties gebruikt te worden. Maar, het kan behulpzaam zijn op momenten dat je moet zien wat er echt aan de hand is. Hier kun je `rev-parse` uitvoeren op je branch.
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### RefLog Shortnames ###
+### RefLog Afkortingen ###
 
-One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+Een van de dingen die Git in de achtergrond doet terwijl jij zit te werken is een reflog bijhouden – een log waar je HEAD en branch referenties zijn gebleven in de laatste paar maanden.
 
-You can see your reflog by using `git reflog`:
+Je kunt je reflog zien door `git reflog` te gebruiken:
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
@@ -90,17 +90,17 @@ You can see your reflog by using `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
+Iedere keer als de punt van je branch om een of andere reden is gewijzigd, dan bewaard Git die informatie voor je in deze tijdelijke geschiedenis. En je kunt ook oudere commits hiermee specificeren. Als je de vijfde voorgaande waarde van de HEAD van je repository wil zien, dan kun je de `@{n}` referentie gebruiken, die je in de reflog output kunt zien:
 
 	$ git show HEAD@{5}
 
-You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
+Je kunt deze syntax ook gebruiken om te zien waar een branch een bepaalde hoeveelheid tijd geleden was. Bijvoorbeeld, om te zien waar je `master` branch gisteren was, kun je dit typen
 
 	$ git show master@{yesterday}
 
-That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
+Dat laat je zien waar de punt van de branch gisteren was. Deze techniek werkt alleen voor gegevens die nog steeds in je reflog staan, dus je kunt het niet gebruiken om te kijken naar commits die ouder zijn dan een paar maanden.
 
-To see reflog information formatted like the `git log` output, you can run `git log -g`:
+Om reflog informatie te zien, die in hetzelfde formaat gezet is als de `git log` output, kun je `git log -g` uitvoeren:
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -119,12 +119,12 @@ To see reflog information formatted like the `git log` output, you can run `git 
 
 	    Merge commit 'phedders/rdocs'
 
-It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
+Het is belangrijk om te zien dat deze informatie strikt lokaal is – het is een log van wat jij hebt gedaan in jouw repository. De referenties zullen niet hetzelfde zijn in iemand anders zijn kopie vna het repository; en meteen nadat je een eerste clone van een repository hebt gemaakt, heb je een lege reflog, omdat er nog geen aktiviteit is geweest in je repository. `git show HEAD@{2.months.ago}` uitvoeren werkt alleen als je het project minstens twee maanden geleden gecloned hebt – als je het vijf minuten geleden gecloned hebt, krijg je geen resultaten.
 
-### Ancestry References ###
+### Voorouder Referenties ###
 
-The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
-Suppose you look at the history of your project:
+De andere veelgebruikte manier om een commit te specificeren is via zijn voorouder. Als je een `^` aan het einde van een referentie zet, zal Git hieruit herleiden dat het de ouder van de commit betekend.
+Stel dat je naar de geschiedenis van je project kijkt:
 
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
@@ -136,7 +136,7 @@ Suppose you look at the history of your project:
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD":
+Dan zie je de vorige commit door `HEAD^` te specificeren, wat "de ouder van HEAD" betekend:
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -146,7 +146,7 @@ Then, you can see the previous commit by specifying `HEAD^`, which means "the pa
 
 	    Merge commit 'phedders/rdocs'
 
-You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:
+Je kunt ook een nummer na de `^` zetten – bijvoorbeeld, `d921970^2` betekend "de tweede ouder van d921970." Deze syntax is alleen bruikbaar voor merge commits, die meer dan één ouder hebben. De eerste ouder is de branch waar jij op was toen je merge-te, en de andere is de commit op de branch die in ingemerged hebt:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b

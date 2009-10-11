@@ -1,10 +1,14 @@
-# Git Basics #
+# Základy Gitu #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+Pokud máte čas si přečíst jen jednu kapitolu, přečtěte si tuto. Pokrývá všechny základní příkazy,
+které potřebujete k naprosté většině činností, které kdy budete s Gitem dělat. Naučíte se konfigurovat a inicializovat repozitář,
+přidávat a odebírat sledované soubory a ukládat změny. Také donutíme Git ignorovat některé soubory; zjistíme, jak rychle a jednoduše opravovat chyby,
+prohlížet historii a změny mezi jednotlivými commity a synchronizovat se vzdálenými repozitáři.
 
-## Getting a Git Repository ##
+## Jak získat repozitář Gitu ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+Jsou dva základní způsoby, jak získat projekt v Gitu. První vezme existující projekt nebo adresář a importuje ho do Gitu.
+Druhý naklonuje existující repozitář z jiného serveru.
 
 ### Initializing a Repository in an Existing Directory ###
 

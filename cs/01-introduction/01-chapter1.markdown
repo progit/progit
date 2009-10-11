@@ -1,6 +1,6 @@
 # Úvod #
 
-V této kapitole si vysvětlíme, jak začít s Gitem: Jak fungují systémy kontroly verzí, ukážeme si, jak Git nainstalovat
+V této kapitole si vysvětlíme, jak začít s Gitem. Jak fungují systémy kontroly verzí, ukážeme si, jak Git nainstalovat
 a jak ho nastavit tak, abychom s ním mohli pohodlně pracovat. Objasníme si, proč Git používá tolik lidí
 a proč byste ho měli používat i vy.
 

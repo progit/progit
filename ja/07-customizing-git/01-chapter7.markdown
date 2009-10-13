@@ -1,41 +1,41 @@
-# Customizing Git #
+# Git のカスタマイズ #
 
-So far, I’ve covered the basics of how Git works and how to use it, and I’ve introduced a number of tools that Git provides to help you use it easily and efficiently. In this chapter, I’ll go through some operations that you can use to make Git operate in a more customized fashion by introducing several important configuration settings and the hooks system. With these tools, it’s easy to get Git to work exactly the way you, your company, or your group needs it to.
+ここまで本書では、Git の基本動作やその使用法について扱ってきました。また、Git をより簡単に効率よく使うためのさまざまなツールについても紹介しました。本章では、Git をよりカスタマイズするための操作方法を扱います。重要な設定項目やフックシステムについても説明します。これらを利用すれば、みなさん自身やその勤務先、所属グループのニーズにあわせた方法で Git を活用できるようになるでしょう。
 
-## Git Configuration ##
+## Git の設定 ##
 
-As you briefly saw in the Chapter 1, you can specify Git configuration settings with the `git config` command. One of the first things you did was set up your name and e-mail address:
+第 1 章で手短にごらんいただいたように、`git config` コマンドで Git の設定をすることができます。まず最初にすることと言えば、名前とメールアドレスの設定でしょう。
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Now you’ll learn a few of the more interesting options that you can set in this manner to customize your Git usage.
+ここでは、同じようにして設定できるより興味深い項目をいくつか身につけ、Git をカスタマイズしてみましょう。
 
-You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically. 
+Git の設定については最初の章でちらっと説明しましたが、ここでもう一度振り返っておきます。Git では、いくつかの設定ファイルを使ってデフォルト以外の挙動を定義します。まず最初に Git が見るのは `/etc/gitconfig` で、ここにはシステム上の全ユーザーの全リポジトリ向けの設定値を記述します。`git config` にオプション `--system` を指定すると、このファイルの読み書きを行います。
 
-The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option. 
+次に Git が見るのは `~/.gitconfig` で、これは各ユーザー専用のファイルです。Git でこのファイルの読み書きをするには、`--global` オプションを指定します。
 
-Finally, Git looks for configuration values in the config file in the Git directory (`.git/config`) of whatever repository you’re currently using. These values are specific to that single repository. Each level overwrites values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`, for instance. You can also set these values by manually editing the file and inserting the correct syntax, but it’s generally easier to run the `git config` command.
+最後に Git が設定値を探すのは、現在使用中のリポジトリの設定ファイル (`.git/config`) です。この値は、そのリポジトリだけで有効なものです。後から読んだ値がその前の値を上書きします。したがって、たとえば `.git/config` に書いた値は `/etc/gitconfig` での設定よりも優先されます。これらのファイルを手動で編集して正しい構文で値を追加することもできますが、通常は `git config` コマンドを使ったほうが簡単です。
 
-### Basic Client Configuration ###
+### 基本的なクライアントのオプション ###
 
-The configuration options recognized by Git fall into two categories: client side and server side. The majority of the options are client side—configuring your personal working preferences. Although tons of options are available, I’ll only cover the few that either are commonly used or can significantly affect your workflow. Many options are useful only in edge cases that I won’t go over here. If you want to see a list of all the options your version of Git recognizes, you can run
+Git の設定オプションは、おおきく二種類に分類できます。クライアント側のオプションとサーバー側のオプションです。大半のオプションは、クライアント側のもの、つまり個人的な作業環境を設定するためのものとなります。大量のオプションがありますが、ここでは一般的に使われているものやワークフローに大きな影響を及ぼすものに絞っていくつかを紹介します。その他のオプションの多くは特定の場合にのみ有用なものなので、ここでは扱いません。Git で使えるすべてのオプションを知りたい場合は、次のコマンドを実行しましょう。
 
 	$ git config --help
 
-The manual page for `git config` lists all the available options in quite a bit of detail.
+また、`git config` のマニュアルページには、利用できるすべてのオプションについて詳しい説明があります。
 
 #### core.editor ####
 
-By default, Git uses whatever you’ve set as your default text editor or else falls back to the Vi editor to create and edit your commit and tag messages. To change that default to something else, you can use the `core.editor` setting:
+コミットやタグのメッセージを編集するときに使うエディタは、ユーザーがデフォルトエディタとして設定したものとなります。デフォルトエディタが設定されていない場合は Vi エディタを使います。このデフォルト設定を別のものに変更するには `core.editor` を設定します。
 
 	$ git config --global core.editor emacs
 
-Now, no matter what is set as your default shell editor variable, Git will fire up Emacs to edit messages.
+これで、シェルのデフォルトエディタを設定していない場合に Git が起動するエディタが Emacs に変わりました。
 
 #### commit.template ####
 
-If you set this to the path of a file on your system, Git will use that file as the default message when you commit. For instance, suppose you create a template file at `$HOME/.gitmessage.txt` that looks like this:
+システム上のファイルへのパスをここに設定すると、Git はそのファイルをコミット時のデフォルトメッセージとして使います。たとえば、次のようなテンプレートファイルを作って `$HOME/.gitmessage.txt` においたとしましょう。
 
 	subject line
 
@@ -43,12 +43,12 @@ If you set this to the path of a file on your system, Git will use that file as 
 
 	[ticket: X]
 
-To tell Git to use it as the default message that appears in your editor when you run `git commit`, set the `commit.template` configuration value:
+`git commit` のときにエディタに表示されるデフォルトメッセージをこれにするには、`commit.template` の設定を変更します。
 
 	$ git config --global commit.template $HOME/.gitmessage.txt
 	$ git commit
 
-Then, your editor will open to something like this for your placeholder commit message when you commit:
+すると、コミットメッセージの雛形としてこのような内容がエディタに表示されます。
 
 	subject line
 
@@ -67,33 +67,33 @@ Then, your editor will open to something like this for your placeholder commit m
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-If you have a commit-message policy in place, then putting a template for that policy on your system and configuring Git to use it by default can help increase the chance of that policy being followed regularly.
+コミットメッセージについて所定の決まりがあるのなら、その決まりに従ったテンプレートをシステム上に作って Git にそれを使わせるようにするとよいでしょう。そうすれば、その決まりに従ってもらいやすくなります。
 
 #### core.pager ####
 
-The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
+core.pager は、Git が `log` や `diff` などを出力するときに使うページャを設定します。`more` などのお好みのページャを設定したり (デフォルトは `less` です)、空文字列を設定してページャを使わないようにしたりすることができます。
 
 	$ git config --global core.pager ''
 
-If you run that, Git will page the entire output of all commands, no matter how long they are.
+これを実行すると、すべてのコマンドの出力を、どんなに長くなったとしても全部 Git が出力するようになります。
 
 #### user.signingkey ####
 
-If you’re making signed annotated tags (as discussed in Chapter 2), setting your GPG signing key as a configuration setting makes things easier. Set your key ID like so:
+署名入りの注釈付きタグ (第 2 章で取り上げました) を作る場合は、GPG 署名用の鍵を登録しておくと便利です。鍵の ID を設定するには、このようにします。
 
 	$ git config --global user.signingkey <gpg-key-id>
 
-Now, you can sign tags without having to specify your key every time with the `git tag` command:
+これで、`git tag` コマンドでいちいち鍵を指定しなくてもタグに署名できるようになりました。
 
 	$ git tag -s <tag-name>
 
 #### core.excludesfile ####
 
-You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have.
+プロジェクトごとの `.gitignore` ファイルでパターンを指定すると、`git add` したときに Git がそのファイルを無視してステージしないようになります。これについては第 2 章で説明しました。しかし、これらの内容をプロジェクトの外部で管理したい場合は、そのファイルがどこにあるのかを `core.excludesfile` で設定します。ここに設定する内容はファイルのパスです。ファイルの中身は `.gitignore` と同じ形式になります。
 
 #### help.autocorrect ####
 
-This option is available only in Git 1.6.1 and later. If you mistype a command in Git 1.6, it shows you something like this:
+このオプションが使えるのは Git 1.6.1 以降だけです。Git 1.6 でコマンドを打ち間違えると、こんなふうに表示されます。
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -101,71 +101,71 @@ This option is available only in Git 1.6.1 and later. If you mistype a command i
 	Did you mean this?
 	     commit
 
-If you set `help.autocorrect` to 1, Git will automatically run the command if it has only one match under this scenario.
+`help.autocorrect` を 1 にしておくと、同じような場面でもし候補がひとつしかなければ自動的にそれを実行します。
 
-### Colors in Git ###
+### Git における色 ###
 
-Git can color its output to your terminal, which can help you visually parse the output quickly and easily. A number of options can help you set the coloring to your preference.
+Git では、ターミナルへの出力に色をつけることができます。ぱっと見て、すばやくお手軽に出力内容を把握できるようになるでしょう。さまざまなオプションで、お好みに合わせて色を設定しましょう。
 
 #### color.ui ####
 
-Git automatically colors most of its output if you ask it to. You can get very specific about what you want colored and how; but to turn on all the default terminal coloring, set `color.ui` to true:
+あらかじめ指定しておけば、Git は自動的に大半の出力に色づけをします。何にどのような色をつけるかをこと細かに指定することもできますが、すべてをターミナルのデフォルト色設定にまかせるなら `color.ui` を true にします。
 
 	$ git config --global color.ui true
 
-When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command. This setting was added in Git version 1.5.5; if you have an older version, you’ll have to specify all the color settings individually.
+これを設定すると、出力がターミナルに送られる場合に Git がその出力を色づけします。ほかに false という値を指定することもでき、これは出力に決して色をつけません。また always を指定すると、すべての場合に色をつけます。すべての場合とは、Git コマンドをファイルにリダイレクトしたり他のコマンドにパイプでつないだりする場合も含みます。この設定項目は Git バージョン 1.5.5 で追加されました。それより前のバージョンを使っている場合は、すべての色設定を個別に指定しなければなりません。
 
-You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `--color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use.
+`color.ui = always` を使うことは、まずないでしょう。たいていの場合は、カラーコードを含む結果をリダイレクトしたい場合は Git コマンドに `--color` フラグを渡してカラーコードの使用を強制します。ふだんは `color.ui = true` の設定で要望を満たせるでしょう。
 
 #### `color.*` ####
 
-If you want to be more specific about which commands are colored and how, or you have an older version, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:
+どのコマンドをどのように色づけするかをより細やかに指定したい場合、あるいはバージョンが古くて先ほどの設定が使えない場合は、コマンド単位の色づけ設定を使用します。これらの項目には `true`、`false` あるいは `always` を指定することができます。
 
 	color.branch
 	color.diff
 	color.interactive
 	color.status
 
-In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run
+さらに、これらの項目ではサブ設定が使え、出力の一部について特定の色を使うように指定することもできます。たとえば、diff の出力でのメタ情報を青の太字で出力させたい場合は次のようにします。
 
 	$ git config --global color.diff.meta “blue black bold”
 
-You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse.
+色として指定できる値は normal、black、red、green、yellow、blue、magenta、cyan あるいは white のいずれかです。先ほどの例の bold のように属性を指定することもできます。bold、dim、ul、blink および reverse のいずれかを指定できます。
 
-See the `git config` manpage for all the subsettings you can configure, if you want to do that.
+`git config` のマニュアルページに、すべてのサブ設定がまとめられていますので参照ください。
 
-### External Merge and Diff Tools ###
+### 外部のマージツールおよび Diff ツール ###
 
-Although Git has an internal implementation of diff, which is what you’ve been using, you can set up an external tool instead. You can also set up a graphical merge conflict–resolution tool instead of having to resolve conflicts manually. I’ll demonstrate setting up the Perforce Visual Merge Tool (P4Merge) to do your diffs and merge resolutions, because it’s a nice graphical tool and it’s free.
+Git には diff の実装が組み込まれておりそれを使うことができますが、外部のツールを使うよう設定することもできます。また、コンフリクトを手動で解決するのではなくグラフィカルなコンフリクト解消ツールを使うよう設定することもできます。ここでは Perforce Visual Merge Tool (P4Merge) を使って diff の表示とマージの処理を行えるようにする例を示します。これはすばらしいグラフィカルツールで、しかもフリーだからです。
 
-If you want to try this out, P4Merge works on all major platforms, so you should be able to do so. I’ll use path names in the examples that work on Mac and Linux systems; for Windows, you’ll have to change `/usr/local/bin` to an executable path in your environment.
+P4Merge はすべての主要プラットフォーム上で動作するので、実際に試してみたい人は試してみるとよいでしょう。この例では、Mac や Linux 形式のパス名を例に使います。Windows の場合は、`/usr/local/bin` のところを環境に合わせたパスに置き換えてください。
 
-You can download P4Merge here:
+まず、P4Merge をここからダウンロードします。
 
 	http://www.perforce.com/perforce/downloads/component.html
 
-To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided:
+最初に、コマンドを実行するための外部ラッパースクリプトを用意します。この例では、Mac 用の実行パスを使います。他のシステムで使う場合は、`p4merge` のバイナリがインストールされた場所に置き換えてください。次のようなマージ用ラッパースクリプト `extMerge` を用意しました。これは、すべての引数を受け取ってバイナリをコールします。
 
 	$ cat /usr/local/bin/extMerge
 	#!/bin/sh
 	/Applications/p4merge.app/Contents/MacOS/p4merge $*
 
-The diff wrapper checks to make sure seven arguments are provided and passes two of them to your merge script. By default, Git passes the following arguments to the diff program:
+diff のラッパーは、7 つの引数が渡されていることを確認したうえでそのうちのふたつをマージスクリプトに渡します。デフォルトでは、Git は次のような引数を diff プログラムに渡します。
 
 	path old-file old-hex old-mode new-file new-hex new-mode
 
-Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need.
+ここで必要な引数は `old-file` と `new-file` だけなので、ラッパースクリプトではこれらを渡すようにします。
 
 	$ cat /usr/local/bin/extDiff 
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
-You also need to make sure these tools are executable:
+また、これらのツールは実行可能にしておかなければなりません。
 
 	$ sudo chmod +x /usr/local/bin/extMerge 
 	$ sudo chmod +x /usr/local/bin/extDiff
 
-Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands
+これで、自前のマージツールや diff ツールを使えるように設定する準備が整いました。設定項目はひとつだけではありません。まず `merge.tool` でどんなツールを使うのかを Git に伝え、`mergetool.*.cmd` でそのコマンドを実行する方法を指定し、`mergetool.trustExitCode` では「そのコマンドの終了コードでマージが成功したかどうかを判断できるのか」を指定し、`diff.external` では diff の際に実行するコマンドを指定します。つまり、このような 4 つのコマンドを実行することになります。
 
 	$ git config --global merge.tool extMerge
 	$ git config --global mergetool.extMerge.cmd \
@@ -173,7 +173,7 @@ Now you can set up your config file to use your custom merge resolution and diff
 	$ git config --global mergetool.trustExitCode false
 	$ git config --global diff.external extDiff
 
-or you can edit your `~/.gitconfig` file to add these lines:
+あるいは、`~/.gitconfig` ファイルを編集してこのような行を追加します。
 
 	[merge]
 	  tool = extMerge
@@ -183,150 +183,150 @@ or you can edit your `~/.gitconfig` file to add these lines:
 	[diff]
 	  external = extDiff
 
-After all this is set, if you run diff commands such as this:
+すべて設定し終えたら、
 	
 	$ git diff 32d1776b1^ 32d1776b1
 
-Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.
+このような diff コマンドを実行すると、結果をコマンドラインに出力するかわりに P4Merge を立ち上げ、図 7-1 のようになります。
 
 Insert 18333fig0701.png 
-Figure 7-1. P4Merge.
+図 7-1. P4Merge
 
-If you try to merge two branches and subsequently have merge conflicts, you can run the command `git mergetool`; it starts P4Merge to let you resolve the conflicts through that GUI tool.
+ふたつのブランチをマージしてコンフリクトが発生した場合は `git mergetool` を実行します。すると P4Merge が立ち上がり、コンフリクトの解決を GUI ツールで行えるようになります。
 
-The nice thing about this wrapper setup is that you can change your diff and merge tools easily. For example, to change your `extDiff` and `extMerge` tools to run the KDiff3 tool instead, all you have to do is edit your `extMerge` file:
+このようなラッパーを設定しておくと、あとで diff ツールやマージツールを変更したくなったときにも簡単に変更することができます。たとえば `extDiff` や `extMerge` で KDiff3 を実行させるように変更するには `extMerge` ファイルをこのように変更するだけでよいのです。
 
 	$ cat /usr/local/bin/extMerge
 	#!/bin/sh	
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
-Now, Git will use the KDiff3 tool for diff viewing and merge conflict resolution.
+これで、Git での diff の閲覧やコンフリクトの解決の際に KDiff3 が立ち上がるようになりました。
 
-Git comes preset to use a number of other merge-resolution tools without your having to set up the cmd configuration. You can set your merge tool to kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, or gvimdiff. If you’re not interested in using KDiff3 for diff but rather want to use it just for merge resolution, and the kdiff3 command is in your path, then you can run
+Git にはさまざまなマージツール用の設定が事前に準備されており、特に設定しなくても利用することができます。事前に設定が準備されているツールは kdiff3、opendiff、tkdiff、meld、xxdiff、emerge、vimdiff そして gvimdiff です。KDiff3 を diff ツールとしてではなくマージのときにだけ使いたい場合は、kdiff3 コマンドにパスが通っている状態で次のコマンドを実行します。
 
 	$ git config --global merge.tool kdiff3
 
-If you run this instead of setting up the `extMerge` and `extDiff` files, Git will use KDiff3 for merge resolution and the normal Git diff tool for diffs.
+`extMerge` や `extDiff` を準備せずにこのコマンドを実行すると、マージの解決の際には KDiff3 を立ち上げて diff の際には通常の Git の diff ツールを使うようになります。
 
-### Formatting and Whitespace ###
+### 書式設定と空白文字 ###
 
-Formatting and whitespace issues are some of the more frustrating and subtle problems that many developers encounter when collaborating, especially cross-platform. It’s very easy for patches or other collaborated work to introduce subtle whitespace changes because editors silently introduce them or Windows programmers add carriage returns at the end of lines they touch in cross-platform projects. Git has a few configuration options to help with these issues.
+書式設定や空白文字の問題は微妙にうっとうしいもので、とくにさまざまなプラットフォームで開発している人たちと共同作業をするときに問題になりがちです。使っているエディタが知らぬ間に空白文字を埋め込んでしまっていたり Windows で開発している人が行末にキャリッジリターンを付け加えてしまったりなどしてパッチが面倒な状態になってしまうことも多々あります。Git では、こういった問題に対処するための設定項目も用意しています。
 
 #### core.autocrlf ####
 
-If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work. 
+自分が Windows で開発していたり、チームの中に Windows で開発している人がいたりといった場合に、改行コードの問題に巻き込まれることがありがちです。Windows ではキャリッジリターンとラインフィードでファイルの改行を表すのですが、Mac や Linux ではラインフィードだけで改行を表すという違いが原因です。ささいな違いではありますが、さまざまなプラットフォームにまたがる作業では非常に面倒なものです。
 
-Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code:
+Git はこの問題に対処するために、コミットする際には行末の CRLF を LF に自動変換し、ファイルシステム上にチェックアウトするときには逆の変換を行うようにすることができます。この機能を使うには `core.autocrlf` を設定します。Windows で作業をするときにこれを `true` に設定すると、コードをチェックアウトするときに行末の LF を CRLF に自動変換してくれます。
 
 	$ git config --global core.autocrlf true
 
-If you’re on a Linux or Mac system that uses LF line endings, then you don’t want Git to automatically convert them when you check out files; however, if a file with CRLF endings accidentally gets introduced, then you may want Git to fix it. You can tell Git to convert CRLF to LF on commit but not the other way around by setting `core.autocrlf` to input:
+Linux や Mac などの行末に LF を使うシステムで作業をしている場合は、Git にチェックアウト時の自動変換をされてしまうと困ります。しかし、行末が CRLF なファイルが紛れ込んでしまった場合には Git に自動修正してもらいたいものです。コミット時の CRLF から LF への変換はさせたいけれどもそれ以外の自動変換が不要な場合は、`core.autocrlf` を input に設定します。
 
 	$ git config --global core.autocrlf input
 
-This setup should leave you with CRLF endings in Windows checkouts but LF endings on Mac and Linux systems and in the repository.
+この設定は、Windows にチェックアウトしたときの CRLF への変換は行いますが、Mac や Linux へのチェックアウト時は LF のままにします。またリポジトリにコミットする際には LF への変換を行います。
 
-If you’re a Windows programmer doing a Windows-only project, then you can turn off this functionality, recording the carriage returns in the repository by setting the config value to `false`:
+Windows のみのプロジェクトで作業をしているのなら、この機能を無効にしてキャリッジリターンをそのままリポジトリに記録してもよいでしょう。その場合は、値 `false` を設定します。
 
 	$ git config --global core.autocrlf false
 
 #### core.whitespace ####
 
-Git comes preset to detect and fix some whitespace issues. It can look for four primary whitespace issues — two are enabled by default and can be turned off, and two aren’t enabled by default but can be activated.
+Git には、空白文字に関する問題を見つけて修正するための設定もあります。空白文字に関する主要な四つの問題に対応するもので、そのうち二つはデフォルトで有効になっています。残りの二つはデフォルトでは有効になっていませんが、有効化することができます。
 
-The two that are turned on by default are `trailing-space`, which looks for spaces at the end of a line, and `space-before-tab`, which looks for spaces before tabs at the beginning of a line.
+デフォルトで有効になっている設定は、行末の空白文字を見つける `trailing-space` と行頭のタブ文字より前にある空白文字を見つける `space-before-tab` です。
 
-The two that are disabled by default but can be turned on are `indent-with-non-tab`, which looks for lines that begin with eight or more spaces instead of tabs, and `cr-at-eol`, which tells Git that carriage returns at the end of lines are OK.
+デフォルトでは無効だけれども有効にすることもできる設定は、行頭にある八文字以上の空白文字を見つける `indent-with-non-tab` と行末のキャリッジリターンを許容する `cr-at-eol` です。
 
-You can tell Git which of these you want enabled by setting `core.whitespace` to the values you want on or off, separated by commas. You can disable settings by either leaving them out of the setting string or prepending a `-` in front of the value. For example, if you want all but `cr-at-eol` to be set, you can do this:
+これらのオン・オフを切り替えるには、`core.whitespace` にカンマ区切りで項目を指定します。無効にしたい場合は、設定文字列でその項目を省略するか、あるいは項目名の前に `-` をつけます。たとえば `cr-at-eol` 以外のすべてを設定したい場合は、このようにします。
 
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
-Git will detect these issues when you run a `git diff` command and try to color them so you can possibly fix them before you commit. It will also use these values to help you when you apply patches with `git apply`. When you’re applying patches, you can ask Git to warn you if it’s applying patches with the specified whitespace issues:
+`git diff` コマンドを実行したときに Git がこれらの問題を検出すると、その部分を色付けして表示します。修正してからコミットするようにしましょう。この設定は、`git apply` でパッチを適用する際にも助けとなります。空白に関する問題を含むパッチを適用するときに警告を発してほしい場合には、次のようにします。
 
 	$ git apply --whitespace=warn <patch>
 
-Or you can have Git try to automatically fix the issue before applying the patch:
+あるいは、問題を自動的に修正してからパッチを適用したい場合は、次のようにします。
 
 	$ git apply --whitespace=fix <patch>
 
-These options apply to the git rebase option as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
+これらの設定は、リベースのオプションにも適用されます。空白に関する問題を含むコミットをしたけれどまだそれを公開リポジトリにプッシュしていない場合は、`rebase` に `--whitespace=fix` オプションをつけて実行すれば、パッチを書き換えて空白問題を自動修正してくれます。
 
-### Server Configuration ###
+### サーバーの設定 ###
 
-Not nearly as many configuration options are available for the server side of Git, but there are a few interesting ones you may want to take note of.
+Git のサーバー側の設定オプションはそれほど多くありませんが、いくつか興味深いものがあるので紹介します。
 
 #### receive.fsckObjects ####
 
-By default, Git doesn’t check for consistency all the objects it receives during a push. Although Git can check to make sure each object still matches its SHA-1 checksum and points to valid objects, it doesn’t do that by default on every push. This is a relatively expensive operation and may add a lot of time to each push, depending on the size of the repository or the push. If you want Git to check object consistency on every push, you can force it to do so by setting `receive.fsckObjects` to true:
+デフォルトでは、Git はプッシュで受け取ったオブジェクトの一貫性をチェックしません。各オブジェクトの SHA-1 チェックサムが一致していて有効なオブジェクトを指しているということを Git にチェックさせることもできますが、デフォルトでは毎回のプッシュ時のチェックは行わないようになっています。このチェックは比較的重たい処理であり、リポジトリのサイズが大きかったりプッシュする量が多かったりすると、毎回チェックさせるのには時間がかかるでしょう。毎回のプッシュの際に Git にオブジェクトの一貫性をチェックさせたい場合は、`receive.fsckObjects` を true にして強制的にチェックさせるようにします。
 
 	$ git config --system receive.fsckObjects true
 
-Now, Git will check the integrity of your repository before each push is accepted to make sure faulty clients aren’t introducing corrupt data.
+これで、Git がリポジトリの整合性を確認してからでないとプッシュが認められないようになります。壊れたデータをまちがって受け入れてしまうことがなくなりました。
 
 #### receive.denyNonFastForwards ####
 
-If you rebase commits that you’ve already pushed and then try to push again, or otherwise try to push a commit to a remote branch that doesn’t contain the commit that the remote branch currently points to, you’ll be denied. This is generally good policy; but in the case of the rebase, you may determine that you know what you’re doing and can force-update the remote branch with a `-f` flag to your push command.
+すでにプッシュしたコミットをリベースしてもう一度プッシュした場合、あるいはリモートブランチが現在指しているコミットを含まないコミットをプッシュしようとした場合は、プッシュが拒否されます。これは悪くない方針でしょう。しかしリベースの場合は、自分が何をしているのかをきちんと把握していれば、プッシュの際に `-f` フラグを指定して強制的にリモートブランチを更新することができます。
 
-To disable the ability to force-update remote branches to non-fast-forward references, set `receive.denyNonFastForwards`:
+このような強制更新機能を無効にするには、`receive.denyNonFastForwards` を設定します。
 
 	$ git config --system receive.denyNonFastForwards true
 
-The other way you can do this is via server-side receive hooks, which I’ll cover in a bit. That approach lets you do more complex things like deny non-fast-forwards to a certain subset of users.
+もうひとつの方法として、サーバー側の receive フックを使うこともできます。こちらの方法については後ほど簡単に説明します。receive フックを使えば、特定のユーザーだけ強制更新を無効にするなどより細やかな制御ができるようになります。
 
 #### receive.denyDeletes ####
 
-One of the workarounds to the `denyNonFastForwards` policy is for the user to delete the branch and then push it back up with the new reference. In newer versions of Git (beginning with version 1.6.1), you can set `receive.denyDeletes` to true:
+`denyNonFastForwards` の制限を回避する方法として、いったんブランチを削除してから新しいコミットを参照するブランチをプッシュしなおすことができます。その対策として、新しいバージョン (バージョン 1.6.1 以降) の Git では `receive.denyDeletes` を true に設定することができます。
 
 	$ git config --system receive.denyDeletes true
 
-This denies branch and tag deletion over a push across the board — no user can do it. To remove remote branches, you must remove the ref files from the server manually. There are also more interesting ways to do this on a per-user basis via ACLs, as you’ll learn at the end of this chapter.
+これは、プッシュによるブランチやタグの削除を一切拒否し、誰も削除できないようにします。リモートブランチを削除するには、サーバー上の ref ファイルを手で削除しなければなりません。ACL を使って、ユーザー単位でこれを制限することもできますが、その方法は本章の最後で扱います。
 
-## Git Attributes ##
+## Git の属性 ##
 
-Some of these settings can also be specified for a path, so that Git applies those settings only for a subdirectory or subset of files. These path-specific settings are called Git attributes and are set either in a `.gitattributes` file in one of your directories (normally the root of your project) or in the `.git/info/attributes` file if you don’t want the attributes file committed with your project.
+設定項目の中には、パスにも指定できるものがあります。Git はその設定を、指定したパスのサブディレクトリやファイルにのみ適用するのです。これらのパス固有の設定は Git の属性と呼ばれ、あるディレクトリ (通常はプロジェクトのルートディレクトリ) の直下の `.gitattributes` か、あるいはそのファイルをプロジェクトとともにコミットしたくない場合は `.git/info/attributes` に設定します。
 
-Using attributes, you can do things like specify separate merge strategies for individual files or directories in your project, tell Git how to diff non-text files, or have Git filter content before you check it into or out of Git. In this section, you’ll learn about some of the attributes you can set on your paths in your Git project and see a few examples of using this feature in practice.
+属性を使うと、ファイルやディレクトリ単位で個別のマージ戦略を指定したりテキストファイル以外での diff の取得方法を指示したり、あるいはチェックインやチェックアウトの前に Git にフィルタリングさせたりすることができます。このセクションでは、Git プロジェクトでパスに設定できる属性のいくつかについて学び、実際にその機能を使う例を見ていきます。
 
-### Binary Files ###
+### バイナリファイル ###
 
-One cool trick for which you can use Git attributes is telling Git which files are binary (in cases it otherwise may not be able to figure out) and giving Git special instructions about how to handle those files. For instance, some text files may be machine generated and not diffable, whereas some binary files can be diffed — you’ll see how to tell Git which is which.
+Git の属性を使ってできるちょっとした技として、どのファイルがバイナリファイルなのかを (その他の方法で判別できない場合のために) 指定して Git に対してバイナリファイルの扱い方を指示するというものがあります。たとえば、機械で生成したテキストファイルの中には diff が取得できないものがありますし、バイナリファイルであっても diff が取得できるものもあります。それを Git に指示する方法を紹介します。
 
-#### Identifying Binary Files ####
+#### バイナリファイルの特定 ####
 
-Some files look like text files but for all intents and purposes are to be treated as binary data. For instance, Xcode projects on the Mac contain a file that ends in `.pbxproj`, which is basically a JSON (plain text javascript data format) dataset written out to disk by the IDE that records your build settings and so on. Although it’s technically a text file, because it’s all ASCII, you don’t want to treat it as such because it’s really a lightweight database — you can’t merge the contents if two people changed it, and diffs generally aren’t helpful. The file is meant to be consumed by a machine. In essence, you want to treat it like a binary file.
+テキストファイルのように見えるファイルであっても、何らかの目的のために意図的にバイナリデータとして扱いたいこともあります。たとえば、Mac の Xcode プロジェクトの中には `.pbxproj` で終わる名前のファイルがあります。これは JSON (プレーンテキスト形式の javascript のデータフォーマット) のデータセットで、IDE がビルド設定などをディスクに書き出したものです。すべて ASCII で構成されるので、理論上はこれはテキストファイルです。しかしこのファイルをテキストファイルとして扱いたくはありません。実際のところ、このファイルは軽量なデータベースとして使われているからです。他の人が変更した内容をマージすることはできませんし、diff をとってもあまり意味がありません。このファイルは、基本的に機械が処理するものなのです。要するに、バイナリファイルと同じように扱いたいということです。
 
-To tell Git to treat all `pbxproj` files as binary data, add the following line to your `.gitattributes` file:
+すべての `pbxproj` ファイルをバイナリデータとして扱うよう Git に指定するには、次の行を `.gitattributes` ファイルに追加します。
 
 	*.pbxproj -crlf -diff
 
-Now, Git won’t try to convert or fix CRLF issues; nor will it try to compute or print a diff for changes in this file when you run git show or git diff on your project. In the 1.6 series of Git, you can also use a macro that is provided that means `-crlf -diff`:
+これで、Git が CRLF 問題の対応をすることもなくなりますし、git show や git diff を実行したときにもこのファイルの diff を調べることはなくなります。Git 1.6 系では、次のようなマクロを使うこともできます。これは `-crlf -diff` と同じ意味です。
 
 	*.pbxproj binary
 
-#### Diffing Binary Files ####
+#### バイナリファイルの差分 ####
 
-In the 1.6 series of Git, you can use the Git attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff.
+Git 1.6系では、バイナリファイルの差分を効果的に扱うためにGitの属性機能を使うことができます。通常のdiff機能を使って比較を行うことができるように、バイナリデータをテキストデータに変換する方法をGitに教えればいいのです。
 
-Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:
+これは素晴らしい機能ですがほとんど知られていないので、少し例をあげてみたいと思います。あなたはまず最初に人類にとっても最も厄介な問題のひとつを解決するためにこのテクニックを使いたいと思うでしょう。そう、Wordで作成した文書のバージョン管理です。奇妙なことに、Wordは最も恐ろしいエディタだと全ての人が知ってるいるにも係わらず、全ての人がWordを使っています。Word文書をバージョン管理したいと思ったなら、Gitのリポジトリにそれらを追加して、まとめてcommitすればいいのです。しかし、それでいいのでしょうか？ あなたが'git diff'をいつも通りに実行すると、次のように表示されるだけです。
 
 	$ git diff 
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
 
-You can’t directly compare two versions unless you check them out and scan them manually, right? It turns out you can do this fairly well using Git attributes. Put the following line in your `.gitattributes` file:
+これでは2つのバージョンをcheckoutしてそれらを自分で見比べてみない限り、比較することは出来ませんよね？ Gitの属性を使えば、うまく解決できます。`.gitattributes`に次の行を追加して下さい。
 
 	*.doc diff=word
 
-This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:
+これは、指定したパターン(.doc)にマッチした全てのファイルに対して、差分を表示する時には"word"というフィルタを使うべきであるとGitに教えているのです。"word"フィルタとは何でしょうか？ それはあなたが用意しなければなりません。Word文書をテキストファイルに変換するプログラムとして `strings` を使うように次のようにGitを設定してみましょう。
 
 	$ git config diff.word.textconv strings
 
-Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
+これで、`.doc`という拡張子をもったファイルはそれぞれのファイルに`strings`というプログラムとして定義された"word"フィルタを通してからdiffを取るべきだということをGitは知っていることになります。こうすることで、Wordファイルに対して直接差分を取るのではなく、より効果的なテキストベースでの差分を取ることができるようになります。
 
-Here’s an example. I put Chapter 1 of this book into Git, added some text to a paragraph, and saved the document. Then, I ran `git diff` to see what changed:
+例を示しましょう。この本の第1章をGitリポジトリに登録した後、ある段落にいくつかの文章を追加して保存し、それから、変更箇所を確認するために`git diff`を実行しました。
 
 	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
@@ -341,14 +341,14 @@ Here’s an example. I put Chapter 1 of this book into Git, added some text to a
 	+s going on, modify stuff and contribute changes. If the book spontaneously 
 	+Let's see if this works.
 
-Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
+Gitは正しく、追加した"Let’s see if this works"という文字列を首尾よく、かつ、簡潔に知らせてくれました。予想外の差分が表示されているので、完璧といえません。しかし、正しく動作しているとはいえます。あなたがWord文書をテキストファイルに変換するもっと良いプログラムを見付けられれば、よりよい結果を得られるでしょう。とはいえ、`strings`はほとんどのMacとLinuxで動作するので、様々なバイナリフォーマットに試してみるのに、最初の選択肢としては良いと思います。
 
-Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
+その他の興味深い問題としては画像ファイルの差分があります。JPEGファイルに対するひとつの方法としては、EXFI情報(多くのファイルでメタデータとして使われています)を抽出するフィルタを使う方法です。`exiftool`をダウンロードしインストールすれば、画像データをメタデータの形でテキストデータとして扱うことができます。従って、次のように設定すれば、画像データの差分をメタデータの差分という形で表示することができます。
 
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
 
-If you replace an image in your project and run `git diff`, you see something like this:
+上記の設定をしてからプロジェクトで画像データを置き換えて`git diff`と実行すれば、次のように表示されることになるでしょう。
 
 	diff --git a/image.png b/image.png
 	index 88839c4..4afcb7c 100644
@@ -369,7 +369,7 @@ If you replace an image in your project and run `git diff`, you see something li
 	 Bit Depth                       : 8
 	 Color Type                      : RGB with Alpha
 
-You can easily see that the file size and image dimensions have both changed.
+ファイルのサイズと画像のサイズが変更されたことが簡単に見て取れるでしょう。
 
 ### Keyword Expansion ###
 

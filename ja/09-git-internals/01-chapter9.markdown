@@ -2,21 +2,12 @@
 
 以前の章を飛ばしてこの章に来るか、この本の他の部分を読んだ後にここに到達したかでしょう。どちらの場合であっても、この章は、Gitの内部動作と実装を辿るところになります。この情報を学習することは、Gitがどうして便利で効果的なのかを理解するのには根本的には重要重要ですが、他の人々は初心者には混乱を招き無駄に複雑だと主張してきました。このため、遅かれ早かれ学習の仕方にあわせて読めるように、この議論をこの本の最後の章におきました。いつ読むかは、読者の判断にお任せします。
 
-You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.
+今やあなたはこの章を読んでいるので、早速、この章の議論を始めましょう。まず、Gitは基本的に連想記憶ファイル・システム（content-addressable filesystem）であり、それの上に書かれたVCSユーザー・インターフェイスを備えています。これが意味することを、もうちょっと学習していきましょう。
 
-今や、あなたはこの章を読んでいるので、早速、この章の議論を始めましょう。
-まず、Gitは基本的に連想記憶ファイル・システム（content-addressable filesystem）であり、それの上に書かれたVCSユーザー・インターフェイスを備えています。これが意味することを、もうちょっと学習していきましょう。
+初期のGit（主として1.5以前）では、磨き上げられたVCSというより、むしろファイル・システムを（Gitの特徴として）強調したため、そのユーザー・インターフェイスは今よりも複雑なものでした。最近の数年間で、ユーザー・インターフェイスは、簡潔でそこら中のあらゆるシステムで簡単に扱えるまで改良されましたが、Gitに対する固定観念はたいてい、複雑で学習するのが難しい、初期のGitのユーザー・インターフェイスのあたりから変わっていません。
 
-Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.
 
-初期のGit（主として1.5以前）では、磨き上げられたVCSというより、むしろファイル・システムを（Gitの特徴として）強調したため、そのユーザー・インターフェイスは今よりも複雑なものでした。
-ここ最近の数年間は、ユーザー・インターフェスは、簡潔でそこら中のあらゆるシステムで簡単に扱えるまで、改良されました。
-
-しかし、Gitに対する固定観念は、複雑で学習するのが難しい、初期のGitのユーザー・インターフェイスのあたりでぐずぐずする。
-
-In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.
-
-The content-addressable filesystem layer is amazingly cool, so I’ll cover that first in this chapter; then, you’ll learn about the transport mechanisms and the repository maintenance tasks that you may eventually have to deal with.
+連想記憶ファイル・システム層は、驚くほど素晴らしいので、この章の最初でそれをカバーすることにします。そして、転送メカニズムと、結局は取り扱う事になるリポジトリの保守作業について学習することにします。
 
 ## Plumbing and Porcelain ##
 

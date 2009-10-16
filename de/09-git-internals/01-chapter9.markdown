@@ -12,7 +12,7 @@ Laß uns also loslegen. Zunächst will ich betonen, falls das bisher noch nicht 
 
 In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.
 
-In den frühen Tagen von Git (d.h. vor der Version 1.5.) war das Interface sehr viel komplexer, weil es diese Dateisystem Eigenschaften stark betonte - im Gegensatz zu einem ausgearbeiteten VCS. In den letzten Jahren wurde das Interface dann stückweise verbessert und verfeinert, so daß es heute so leicht verständlich und einfach zu verwenden ist, wie alle möglichen vergleichbaren Systeme, die es gibt. Allerdings besteht scheinbar weiterhin das Vorurteil, daß das Git Interface komplex und schwer zu erlernen sei.
+In den frühen Tagen von Git (d.h. vor der Version 1.5.) war das Interface sehr viel komplexer, weil es diese Dateisystem Eigenschaften stark betonte - im Gegensatz zu einem ausgearbeiteten VCS. In den letzten Jahren wurde das Interface dann stückweise verbessert und verfeinert, so daß es heute so einfach verständlich und einfach zu verwenden ist, wie alle möglichen vergleichbaren Systeme, die es gibt. Allerdings besteht scheinbar weiterhin das Vorurteil, daß das Git Interface komplex und schwer zu erlernen sei.
 
 The content-addressable filesystem layer is amazingly cool, so I’ll cover that first in this chapter; then, you’ll learn about the transport mechanisms and the repository maintenance tasks that you may eventually have to deal with.
 
@@ -515,13 +515,13 @@ Wir haben jetzt Gits drei Haupt Objekttypen besprochen, aber es gibt noch einen 
 
 As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:
 
-Wie wir schon in Kapitel 2 besprochen haben, gibt es zwei Typen von Tags: kommentierte und leichte. Du kannst einen leichten Tag wie folgt anlegen:
+Wie wir schon in Kapitel 2 besprochen haben, gibt es zwei Typen von Tags: "annotierte" und "einfache". Du kannst einen einfachen Tag wie folgt anlegen:
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
 That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
 
-Das ist alles, woraus ein leichter Tag besteht: einem Branch, der sich nie bewegt. Ein kommentierter Tag ist komplexer. Wenn du einen kommentierten Tag anlegst, erzeugt Git ein Tag Objekt und speichert eine Referenz, die darauf zeigt, statt direkt auf den Commit zu zeigen. Du kannst das sehen, wenn du einen kommentierten Tag anlegst (`-a` bewirkt, daß wir einen kommentierten Tag erhalten):
+Das ist alles, woraus ein einfacher Tag besteht: einem Branch, der sich nie bewegt. Ein annotierter Tag ist komplexer. Wenn du einen annotierten Tag anlegst, erzeugt Git ein Tag Objekt und speichert eine Referenz, die darauf zeigt, statt direkt auf den Commit zu zeigen. Du kannst das sehen, wenn du einen annotierten Tag anlegst (`-a` bewirkt, daß wir einen annotierten Tag erhalten):
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
 
@@ -746,8 +746,12 @@ Das fügt eine Sektion in deine `.git/config` Datei hinzu, die deinen lokalen Na
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
 The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.
+	
+Das Format der Refspec besteht aus einem optionalen `+` gefolgt von `<quelle>:<ziel>`, wobei `<quelle>` ein Pattern für Referenzen auf der Remote Seite ist, und `<ziel>` angibt, wohin diese Referenzen lokal geschrieben werden. Das `+` weist Git an, die Referenz zu mergen, wenn sie nicht mit einem fast-forward aktualisiert werden kann.
 
 In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via
+
+Der Standard, der von `git remote add` automatisch eingerichtet wird, besteht darin, daß Git austomatisch alle Referenzen unter `refs/heads/` vom Server holt und sie lokal nach `refs/remotes/origin` speichert. D.h., wenn es auf dem Server einen `master` Branch gibt, kannst du auf das Log dieses Branches wie folgt zugreifen:
 
 	$ git log origin/master
 	$ git log remotes/origin/master
@@ -755,15 +759,23 @@ In the default case that is automatically written by a `git remote add` command,
 
 They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.
 
+Diese Varianten sind allesamt äquivalent, weil Git sie jeweils zu `refs/remotes/origin/master` vervollständigt.
+
 If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to
+
+Wenn du statt dessen willst, daß Git jeweils nur den `master` Branch herunterlädt und andere Branches auf dem Server ignoriert, kannst du die `fetch` Zeile wie folgt ändern:
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
 This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run
 
+Dies ist allerdings lediglich der Default Refspec Wert und du kannst ihn auf der Kommandozeile jederzeit überschreiben. Z.B. um nur `master` branch vom Server lokal als `origin/mymaster` zu speichern, kannst du folgendes ausführen:
+
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
 You can also specify multiple refspecs. On the command line, you can pull down several branches like so:
+
+Du kannst auch mehrere Refspecs gleichzeitig spezifizieren. Z.B.:
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic
@@ -773,7 +785,11 @@ You can also specify multiple refspecs. On the command line, you can pull down s
 
 In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.
 
+I diesem Fall wurde ein Pull zurückgewiesen (xxx ist das nicht nur ein fetch? xxx), weil der Branch nicht mit einem simplen fast-forward aktualisiert werden konnte. Du kannst einen Merge erzwingen, indem du der Refspec ein `+` voranstellst.
+
 You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:
+
+Du kannst außerdem natürlich auch mehrere Refspecs in deiner Konfiguration spezifizieren. Wenn du z.B. immer die `master` und `experiment` Branches holen willst, fügst du die folgenden Zeilen hinzu:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
@@ -782,9 +798,13 @@ You can also specify multiple refspecs for fetching in your configuration file. 
 
 You can’t use partial globs in the pattern, so this would be invalid:
 
+Du kannst keine partiellen Glob Patterns verwenden, d.h. folgendes wäre ungültig:
+
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
 However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:
+
+Allerdings kannst du Namensräume verwenden, um etwas ähnliches zu erreichen. Nehmen wir an, du hast ein QA Team, das regelmäßig verschiedene Branches pusht, und du willst nun den master Branch und sämtliche Branches des QA Teams, aber keine anderen Branches haben. Dann kannst du eine Config Sektion wie die folgende verwenden:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
@@ -793,15 +813,25 @@ However, you can use namespacing to accomplish something like that. If you have 
 
 If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.
 
+In einem großen Team mit einem komplexen Workflow, in dem ein QA Team, Entwickler und ein Integrations Team jeweils eigene Branches pushen, kann man auf diese Weise Branches einfach in Namensräume einteilen.
+
 ### Pushing Refspecs ###
+
+### Refspecs pushen ###
 
 It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push.
 
+Wie aber legt das QA Team die Branches im `qa/` Namensraum ab? Das geht, indem man mit einer Refspec pusht.
+
 If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run
+
+Wenn das QA Team seinen `master` Branch in einem externen Repository als `qa/master` speichern will, kann es das wie folgt tun:
 
 	$ git push origin master:refs/heads/qa/master
 
 If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:
+
+Um Git so zu konfigurieren, daß diese Refspec jedes mal automatisch für `git push origin` verwendet wird, kann man den `push` Wert in der Config Datei setzen:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
@@ -810,41 +840,68 @@ If they want Git to do that automatically each time they run `git push origin`, 
 
 Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.
 
+Auf diese Weise wird `git push origin` den lokalen Branch `master` als `qa/master` auf dem `origin` Server speichern.
+
 ### Deleting References ###
 
+### Referenzen löschen ###
+
 You can also use the refspec to delete references from the remote server by running something like this:
+
+Man kann Refspecs außerdem verwenden, um Referenzen aus einem externen Repository zu löschen:
 
 	$ git push origin :topic
 
 Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. 
 
+Das Refspec Format ist `<quelle>:<ziel>`. Wenn man den `<ziel>` Teil wegläßt, dann heißt das im obigen Beispiel, daß man den `topic` Branch auf dem `origin` Server auf "nichts" setzt, d.h. also löscht.
+
 ## Transfer Protocols ##
+
+## Transfer Protokolle ##
 
 Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
 
+Git kann Daten zwischen zwei Repositories im wesentlichen auf zwei Arten transportieren: über HTTP und über sogenannte smarte Protokolle, die mit `file://`, `ssh://` und `git://` verwendet wreden. Die folgende Sektion gibt einen kurzen Überblick über diese Protokolle und wie sie funktionieren.
+
 ### The Dumb Protocol ###
 
+### Das dumme Protokoll ###
+
 Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:
+
+Git's HTTP Transfer Protokoll wird oft auch als "dummes" Protokoll bezeichnet, weil es auf der Server Seite keinen Git-spezifischen Code benötigt. Der `fetch` Prozeß besteht aus einer Reihe von GET Requests, für die der Client Vorannahmen über das Layout des Git Repositories auf dem Server machen kann. Schauen wir uns den `http-fetch` Prozeß der `simplegit` Bibliothek an:
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
 The first thing this command does is pull down the `info/refs` file. This file is written by the `update-server-info` command, which is why you need to enable that as a `post-receive` hook in order for the HTTP transport to work properly:
+
+Der Befehl lädt zunächst die `info/refs` Datei herunter. Diese Datei wird vom `update-server-info` Befehl geschrieben, den man als einen `post-receive` Hook einrichten muß, damit das HTTP Protokoll richtig funktionieren kann.
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 
 Now you have a list of the remote references and SHAs. Next, you look for what the HEAD reference is so you know what to check out when you’re finished:
 
+Jetzt hat man eine Liste aller Referenzen und SHAs in diesem Repository. Als nächstes schaut man die HEAD Referenz nach, um zu wissen, was ausgecheckt werden muß:
+
 	=> GET HEAD
 	ref: refs/heads/master
 
 You need to check out the `master` branch when you’ve completed the process. 
+
+D.h., wenn wir mit dem Prozeß fertig sind, wir müssen den `master` Branch auschecken.
+
 At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
+
+Wir können jetzt loslegen. Weil wir in der `info/refs` Datei der Commit `ca82a6` angegeben ist, fangen wir damit an, dieses Objekt herunter zu laden:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
 	(179 bytes of binary data)
 
 You get an object back — that object is in loose format on the server, and you fetched it over a static HTTP GET request. You can zlib-uncompress it, strip off the header, and look at the commit content:
+
+Wir erhalten also ein Objekt zurück. Dieses Objekt ist im losen Format auf dem Server gespeichert, und wir haben es über einen statischen HTTP GET Request herunter geladen. Jetzt können wir es mit zlib dekomprimieren, den Header entfernen und den Inhalt des Commits durchsehen:
 
 	$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -856,37 +913,62 @@ You get an object back — that object is in loose format on the server, and you
 
 Next, you have two more objects to retrieve — `cfda3b`, which is the tree of content that the commit we just retrieved points to; and `085bb3`, which is the parent commit:
 
+Als nächstes brauchen wir also zwei weitere Objekte: `cfda3b`, welches der Tree der Inhalte dieses Commits ist, und `085bb3`, den Commit Parent:
+
 	=> GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	(179 bytes of data)
 
 That gives you your next commit object. Grab the tree object:
+
+Das gibt uns das nächste Commit Objekt. Versuchen wir, das Tree Objekt zu holen:
 
 	=> GET objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
 	(404 - Not Found)
 
 Oops — it looks like that tree object isn’t in loose format on the server, so you get a 404 response back. There are a couple of reasons for this — the object could be in an alternate repository, or it could be in a packfile in this repository. Git checks for any listed alternates first:
 
+Huch. Es sieht so aus als ob der Tree nicht im losen Format auf dem Server gespeichert ist, weshalb wir einen 404 Response ("Not found") erhalten. Dafür kann es verschiedene Gründe geben. Das Objekt könnte in einem anderen, alternativen Repository liegen, oder es könnte sich in einem Packfile befinden. Git sucht deshalb zunächst nach alternativen Repositories:
+
 	=> GET objects/info/http-alternates
 	(empty file)
 
+	=> GET objects/info/http-alternates
+	(leere Datei)
+
 If this comes back with a list of alternate URLs, Git checks for loose files and packfiles there — this is a nice mechanism for projects that are forks of one another to share objects on disk. However, because no alternates are listed in this case, your object must be in a packfile. To see what packfiles are available on this server, you need to get the `objects/info/packs` file, which contains a listing of them (also generated by `update-server-info`):
+
+Wenn wir hier eine Liste alternativer URLs erhalten, schaut Git dort nach losen Dateien und Packfiles. Auf diese Weise können Repositories, die Forks von anderen Repositories sind, mit diesen Objekte im Dateisystem teilen. In unserem Fall sind allerdings keine Alternativen vorhanden, weshalb sich das gesuchte Objekt in einem Packfile befinden muß. Um die vorhandenen Packfiles nachzuschlagen, holt Git die `objects/info/packs` Datei, die eine entsprechende Auflistung enthält (und ebenfalls mit `update-server-info` erzeugt wird)
 
 	=> GET objects/info/packs
 	P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 
 There is only one packfile on the server, so your object is obviously in there, but you’ll check the index file to make sure. This is also useful if you have multiple packfiles on the server, so you can see which packfile contains the object you need:
 
+Es gibt nur ein einziges Packfile auf dem Server, weshalb sich unser Objekt darin befinden muß. Aber wir prüfen die Index Datei, um sicher zu sein. Gäbe es mehrere Packfiles auf dem Server, könnten wir auf diese Weise herausfinden, welches Packfile das gesuchte Objekt enthält:
+
 	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
 	(4k of binary data)
 
+	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
+	(4k binäre Daten)
+
 Now that you have the packfile index, you can see if your object is in it — because the index lists the SHAs of the objects contained in the packfile and the offsets to those objects. Your object is there, so go ahead and get the whole packfile:
+
+Nachdem wir jetzt den Packfile Index haben, können wir prüfen, ob sich unser Objekt darin befindet: der Index enthält eine Liste der SHA Hashes der Objekte, die sich im Packfile befinden und die jeweiligen Offsets dieser Objekte. Unser Objekt ist vorhanden, also laden wir das Packfile herunter:
 
 	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 	(13k of binary data)
 
+	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
+	(13k binäre Daten)
+
 You have your tree object, so you continue walking your commits. They’re all also within the packfile you just downloaded, so you don’t have to do any more requests to your server. Git checks out a working copy of the `master` branch that was pointed to by the HEAD reference you downloaded at the beginning.
 
+Du hast jetzt das Tree Objekt, also kannst du jetzt damit fortfahren, über die Commits zu iterieren. Sie sind in unserem Fall allesamt in dem Packfile enthalten, das du gerade heruntergeladen hast.
+
 The entire output of this process looks like this:
+
+Die Ausgabe des ganzen Vorgangs sieht dann in etwa so aus:
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 	Initialized empty Git repository in /private/tmp/simplegit-progit/.git/
@@ -903,13 +985,23 @@ The entire output of this process looks like this:
 
 ### The Smart Protocol ###
 
+### Das Smart Protokoll (xxx) ####
+
 The HTTP method is simple but a bit inefficient. Using smart protocols is a more common method of transferring data. These protocols have a process on the remote end that is intelligent about Git — it can read local data and figure out what the client has or needs and generate custom data for it. There are two sets of processes for transferring data: a pair for uploading data and a pair for downloading data.
+
+Die HTTP Methode ist simpel, aber sie ist auch ein bißchen ineffizient. Deshalb ist es üblicher, ein smartes Protokoll für den Datentransfer zu verwenden. Diese Protokolle umfassen serverseitige Prozesse, die Wissen über Git besitzen. Sie können lokale Daten lesen und herausfinden, was auf dem Client schon vorhanden ist oder fehlt und darauf zugeschnitten Daten generieren. Es gibt zwei Sets von Prozessen für den Datentransfer: ein Paar für den Upload und ein Paar für den Download von Daten.
 
 #### Uploading Data ####
 
+#### Daten hochladen ####
+
 To upload data to a remote process, Git uses the `send-pack` and `receive-pack` processes. The `send-pack` process runs on the client and connects to a `receive-pack` process on the remote side.
 
+Um Daten an einen serverseitigen Prozeß zu schicken, verwendet Git die `send-pack` und `receive-pack` Prozesse. Der `send-pack` Prozeß läuft auf dem Client und verbindet sich mit einem `receive-pack` Prozeß auf dem Server.
+
 For example, say you run `git push origin master` in your project, and `origin` is defined as a URL that uses the SSH protocol. Git fires up the `send-pack` process, which initiates a connection over SSH to your server. It tries to run a command on the remote server via an SSH call that looks something like this:
+
+Nehmen wir z.B. an du führst `git push origin master` in deinem Projekt aus und `origin` ist als eine URL mit SSH Protokoll definiert. Git startet dann einen `send-pack` Prozeß, der eine SSH Verbindung zum Server initiiert. Dieser versucht, via SSH auf dem Server einen Befehl wie den folgenden auszuführen:
 
 	$ ssh -x git@github.com "git-receive-pack 'schacon/simplegit-progit.git'"
 	005bca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status delete-refs
@@ -918,9 +1010,15 @@ For example, say you run `git push origin master` in your project, and `origin` 
 
 The `git-receive-pack` command immediately responds with one line for each reference it currently has — in this case, just the `master` branch and its SHA. The first line also has a list of the server’s capabilities (here, `report-status` and `delete-refs`).
 
+Der `git-receive-pack` Befehl antwortet dann mit jeweils einer Zeile pro Referenz, die er kennt - in diesem Fall sind das lediglich der `master` Branch und dessen SHA. Die erste Zeile listet außerdem Features, die der Server beherrscht (in unserem Fall `report-status` und `delete-refs`).
+
 Each line starts with a 4-byte hex value specifying how long the rest of the line is. Your first line starts with 005b, which is 91 in hex, meaning that 91 bytes remain on that line. The next line starts with 003e, which is 62, so you read the remaining 62 bytes. The next line is 0000, meaning the server is done with its references listing.
 
+Jede Zeile beginnt mit einem 4 Byte Hexadezimalzahl Wert, der angibt, wie lang der Rest der Zeile ist. Die erste Zeile beginnt mit 005b, d.h. dezimal 91. ALso ist der Rest der Zeile 91 Zeichen lang. Die nächste Zeile fängt mit 003e an, also dezimal 62. Die letzte Zeile ist 0000, was das Ende der Liste anzeigt.
+
 Now that it knows the server’s state, your `send-pack` process determines what commits it has that the server doesn’t. For each reference that this push will update, the `send-pack` process tells the `receive-pack` process that information. For instance, if you’re updating the `master` branch and adding an `experiment` branch, the `send-pack` response may look something like this:
+
+Nachdem dein `send-pack` Prozeß jetzt den Zustand des Servers kennt, kann er als nächstes evaluieren, welche Commits lokal, aber nicht auf dem Server vorhanden sind. der `send-pack` Prozeß schickt diese Information für jede Referenz, auf die sich der `push` Befehl bezieht, an den `receive-pack` Prozeß. Wenn du beispielsweise den `master` Branch aktualisierst und einen `experiment` Branch hinzufügst, dann könnte die Antwort auf `send-pack` so aussehen:
 
 	0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
 	00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
@@ -928,25 +1026,41 @@ Now that it knows the server’s state, your `send-pack` process determines what
 
 The SHA-1 value of all '0's means that nothing was there before — because you’re adding the experiment reference. If you were deleting a reference, you would see the opposite: all '0's on the right side.
 
+Der SHA-1 Wert, der nur aus Nullen besteht, heißt, daß dort zuvor nichts war: du fügst die `experiment` Referenz ja neu hinzu. Würdest du eine Referenz löschen, würdest du das Gegenteil sehen: nur Nullen auf der rechten Seite (xxx hu? wo ist die rechte seite? xxx)
+
 Git sends a line for each reference you’re updating with the old SHA, the new SHA, and the reference that is being updated. The first line also has the client’s capabilities. Next, the client uploads a packfile of all the objects the server doesn’t have yet. Finally, the server responds with a success (or failure) indication:
+
+Pro Referenz, die du aktualisierst, schickt Git eine Zeile mit dem alten SHA, dem neuen SHA und der jeweiligen Referenz, die aktualisiert wird. Die erste Zeile listet zudem die Server Features. Als nächstes lädt der Client ein Packfile aller Objekte hoch, die der Server noch nicht kennt. Abschließend antwortet der Server mit einer Erfolgs- oder Fehlermeldung:
 
 	000Aunpack ok
 
 #### Downloading Data ####
 
+#### Downloading Data ####
+
 When you download data, the `fetch-pack` and `upload-pack` processes are involved. The client initiates a `fetch-pack` process that connects to an `upload-pack` process on the remote side to negotiate what data will be transferred down.
 
+Wenn du Daten herunterlädst, sind daran die `fetch-pack` und `upload-pack` Prozesse beteiligt. Der Client startet einen `fetch-pack` Prozeß, der sich mit einem `upload-pack` Prozeß auf dem Server verbindet, um auszuhandeln, welche Daten heruntergeladen werden sollen.
+
 There are different ways to initiate the `upload-pack` process on the remote repository. You can run via SSH in the same manner as the `receive-pack` process. You can also initiate the process via the Git daemon, which listens on a server on port 9418 by default. The `fetch-pack` process sends data that looks like this to the daemon after connecting:
+
+Es gibt verschiedene Möglichkeiten, den `upload-pack` Prozeß auf dem Server zu starten: einerseits via SSH auf die gleiche Weise wie den `receive-pack` Prozeß. Und adnererseits über den Git Daemon, der standardmäßig auf dem Server auf dem Port 9418 läuft. Der `fetch-pack` Prozeß schickt etwa folgendes an den Daemon:
 
 	003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 
 It starts with the 4 bytes specifying how much data is following, then the command to run followed by a null byte, and then the server’s hostname followed by a final null byte. The Git daemon checks that the command can be run and that the repository exists and has public permissions. If everything is cool, it fires up the `upload-pack` process and hands off the request to it.
 
+Diese Zeile beginnt wiederum mit 4 Bytes, die angeben, wieviel Daten folgen. Dann kommt der auszuführende Befehl und ein Null Byte, und schließlich der Hostname des Servers und ein weiteres Null Byte. Der Git Daemon prüft, ob der Befehl ausgeführt werden kann, das Repository existiert und Schreibzugriff erlaubt. Wenn alles stimmt, startet er den `upload-pack` Prozeß und gibt den Request dorthin weiter.
+
 If you’re doing the fetch over SSH, `fetch-pack` instead runs something like this:
+
+Wenn du den `fetch` Befehl über SSH verwendest, führt `fetch-pack` statt dessen etwas aus wie:
 
 	$ ssh -x git@github.com "git-upload-pack 'schacon/simplegit-progit.git'"
 
 In either case, after `fetch-pack` connects, `upload-pack` sends back something like this:
+
+In beiden Fällen wird, nachdem `fetch-pack` verbunden ist, `upload-pack` eine Antwort wie die folgende zurück schicken:
 
 	0088ca82a6dff817ec66f44342007202690a93763949 HEAD\0multi_ack thin-pack \
 	  side-band side-band-64k ofs-delta shallow no-progress include-tag
@@ -956,7 +1070,11 @@ In either case, after `fetch-pack` connects, `upload-pack` sends back something 
 
 This is very similar to what `receive-pack` responds with, but the capabilities are different. In addition, it sends back the HEAD reference so the client knows what to check out if this is a clone.
 
+Die Antwort ähnelt der, mit der `receive-pack` antwortet, aber die aufgelisteten Features sind andere. Zusätzlich wird die HEAD Referenz mitgeschickt, so daß der Client weiß, was er auschecken muß, falls es sich um einen Clone handelt.
+
 At this point, the `fetch-pack` process looks at what objects it has and responds with the objects that it needs by sending "want" and then the SHA it wants. It sends all the objects it already has with "have" and then the SHA. At the end of this list, it writes "done" to initiate the `upload-pack` process to begin sending the packfile of the data it needs:
+
+Der `fetch-pack` Prozeß inspiziert jetzt die vorhandenen Objekte und antwortet mit einer Liste von Objekten, wobei er das Schlüsselwort "want" für Objekte verwendet, die benötigt werden, und "have" für Objekte, die bereits vorhanden sind. Am Ende der Liste folgt das Schlüsselwort "done". Der `upload-pack` Prozeß schickt dann ein Packfile mit allen benötigten Objekten:
 
 	0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
 	0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
@@ -965,21 +1083,37 @@ At this point, the `fetch-pack` process looks at what objects it has and respond
 
 That is a very basic case of the transfer protocols. In more complex cases, the client supports `multi_ack` or `side-band` capabilities; but this example shows you the basic back and forth used by the smart protocol processes.
 
+Das ist ein sehr einfaches Beispiel. In komplexeren Fällen unterstützt der Client die `multi_ack` oder `side-band` Features. Aber obiges Beispiel verdeutlicht den grundlegenden Request-Response Zyklus der Smart Protokoll Prozesse.
+
 ## Maintenance and Data Recovery ##
+
+## Wartung und Datenwiederherstellung ##
 
 Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.
 
+Gelegentlich will man ein bißchen aufräumen - ein Repository verdichten, ein importiertes Repository entfernen (xxx) oder verloren gegangene Daten wieder herstellen. Dieses Kapitel wird sich mit einigen derartigen Szenarien befassen.
+
 ### Maintenance ###
+
+### Wartung ###
 
 Occasionally, Git automatically runs a command called "auto gc". Most of the time, this command does nothing. However, if there are too many loose objects (objects not in a packfile) or too many packfiles, Git launches a full-fledged `git gc` command. The `gc` stands for garbage collect, and the command does a number of things: it gathers up all the loose objects and places them in packfiles, it consolidates packfiles into one big packfile, and it removes objects that aren’t reachable from any commit and are a few months old.
 
+Git führt den Befehl `auto gc` hin und wieder automatisch aus. In den meisten Fällen tut dieser Befehl nichts. Wenn allerdings zu viele lose Objekte (d.h. Objekte, die nicht in einem Packfile gepackt sind) oder zu viele einzelne Packfiles vorhanden sind, führt Git den Befehl `git gc` aus. `gc` steht für "Garbage Collection". Dieser Befehl führt eine Reihe von Aufgaben durch: er sammelt die losen Objekte und packt sie in ein Packfile, er führt einzelne Packfiles zu einem einzigen, großen Packfile zusammen, und er entfernt Objekte, die mit keinem Commit erreichbar und einige Monate alt sind.
+
 You can run auto gc manually as follows:
+
+Du kannst `auto gc` wie folgt manuell ausführen:
 
 	$ git gc --auto
 
 Again, this generally does nothing. You must have around 7,000 loose objects or more than 50 packfiles for Git to fire up a real gc command. You can modify these limits with the `gc.auto` and `gc.autopacklimit` config settings, respectively.
 
+Wie schon erwähnt tut dies normalerweise gar nichts. Es müssen sich etwa 7.000 lose Objekte oder mehr als 50 Packfiles angesammelt haben, bevor Git tatsächlich die Garbage Collection startet. Du kannst diese Werte mit Hilfe der `gc.auto` bzw. `gc.autopacklimit` Konfigurationsvariablen manuell setzen.
+
 The other thing `gc` will do is pack up your references into a single file. Suppose your repository contains the following branches and tags:
+
+`gc` packt außerdem Referenzen in eine einzige Datei zusammen. Nehmen wir an, dein Repository enthält die folgenden Branches und Tags:
 
 	$ find .git/refs -type f
 	.git/refs/heads/experiment
@@ -988,6 +1122,8 @@ The other thing `gc` will do is pack up your references into a single file. Supp
 	.git/refs/tags/v1.1
 
 If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:
+
+Nachdem du `git gc` ausgeführt hast, werden diese Dateien um der Effizienz willen aus dem `refs` Verzeichnis entfernt und in eine Datei `.git/packed-refs` verschoben, die dann wie folgt aussieht:
 
 	$ cat .git/packed-refs 
 	# pack-refs with: peeled 
@@ -999,7 +1135,11 @@ If you run `git gc`, you’ll no longer have these files in the `refs` directory
 
 If you update a reference, Git doesn’t edit this file but instead writes a new file to `refs/heads`. To get the appropriate SHA for a given reference, Git checks for that reference in the `refs` directory and then checks the `packed-refs` file as a fallback. However, if you can’t find a reference in the `refs` directory, it’s probably in your `packed-refs` file.
 
+Wenn du eine Referenz bearbeitest, läßt Git diese Datei unverändert und schreibt statt dessen eine neue Datei nach `refs/heads`. Um einen SHA für eine Referenz nachzuschlagen, schaut Git zunächst im `refs` Verzeichnis und danach erst in der `packed-refs` Datei nach, falls nötig. Wenn eine Referenz also nicht im `refs` Verzeichnis liegt, befindet sie sich wahrscheinlich in `packed-refs` Datei.
+
 Notice the last line of the file, which begins with a `^`. This means the tag directly above is an annotated tag and that line is the commit that the annotated tag points to.
+
+Beachte, daß die letzte Zeile der Datei mit `^` anfängt. Das bedeutet, daß der Tag darüber ein annotierter Tag ist und diese Zeile zeigt den Commit, auf den der annotierte Tag zeigt.
 
 ### Data Recovery ###
 

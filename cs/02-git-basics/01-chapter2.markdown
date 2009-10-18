@@ -10,37 +10,51 @@ prohlížet historii a změny mezi jednotlivými commity a synchronizovat se vzd
 Jsou dva základní způsoby, jak získat projekt v Gitu. První vezme existující projekt nebo adresář a importuje ho do Gitu.
 Druhý naklonuje existující repozitář z jiného serveru.
 
-### Initializing a Repository in an Existing Directory ###
+### Inicializace repozitáře z existujícího adresáře ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+Pokud chcete začít spravovat projekt Gitem, vstoupíte do jeho adresáře a spustíte
 
 	$ git init
 
-This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
+To vytvoří podadresář .git, který obsahuje všechno, co Git potřebuje pro tento projekt, jakousi kostru. Ovšem zatím je prázdný, nic nesleduje.
+(V kapitole 9 si podrobněji rozebereme, co tento příkaz vlastně vytvořil.)
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
+Pokud chcete spravovat již existující soubory (pokud zrovna nezačínáte od píky a nemáte úplně prázdný adresář), asi je budete chtít začít sledovat
+a provést první commit. To zařídíte spuštěním několika příkazů, kterými určíte, co sledovat, načež to shrnete do commitu:
 
 	$ git add *.c
 	$ git add README
 	$ git commit –m 'initial project version'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+Pozn. překl.: Bývá zvykem, že popisky commitů (initial project version aj.) jsou psány v angličtině, není-li explicitně řečeno jinak;
+české popisky mívají opodstatnění jen u ryze českých, resp. československých projektů, kde se nepočítá s tím, že by se na nich podílel
+někdo, pro koho je čeština nesrozumitelným jazykem.
 
-### Cloning an Existing Repository ###
+Za chvilku si projdeme, co tyto příkazy vlastně dělají. V tuto chvíli máte repozitář se sledovanými soubory a prvním commitem.
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
+### Klonování stávajícího repozitáře ###
 
-You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
+Pokud chcete mít kopii již existujícího repozitáře -- např. projektu, na kterém se chcete podílet -- příkaz, který potřebujete, je `git clone`.
+Když máte zkušenosti s jinými SSV jako Subversion, povšimnete si, že použitý příkaz je `clone` a nikoli `checkout`. To je důležitý rozdíl.
+Git totiž dostane téměř kompletní kopii toho, co server zrovna má. Každou verzi každého souboru z minulosti.
+Tedy, pokud se vám na serveru porouchá disk, stačí zpět naklonovat repozitář jakéhokoli klienta a máte přesně takový stav, jaký byl na serveru
+v době, kdy ho on naposledy aktualizoval. Možná ztratíte nějaká specifická serverová nastavení, ale každopádně to cenné -- spravovaná data -- máte
+v bezpečí.
+
+Repozitář naklonujete příkazem `git clone [url]`. Např. pro naklonování knihovny Gitu pro Ruby (Grit) provedete tento příkaz:
 
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
+Ten vytvoří adresář "grit", v něm adresář `.git`, stáhne všechna data repozitáře a rozbalí aktuální verzi. Pokud vstoupíte do tohoto nového
+adresáře, najdete v něm všechny soubory projektu připravené k práci nebo použití.
+Když chcete naklonovat repozitář někam jinam než do složky "grit", můžete mu to říct takto:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-That command does the same thing as the previous one, but the target directory is called mygrit.
+Tak provedete všechno, co udělal minulý příkaz, ale do adresáře `mygrit`.
 
-Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
+Git podporuje více různých přenosových protokolů. Předchozí příklad používá protokol `git://`, ale také můžete použít `http(s)://`
+nebo `uživatel@server:/cesta.git`, což použije SSH. Všechny možnosti včetně jejich pro a proti si ukážeme v kapitole 4.
 
 ## Recording Changes to the Repository ##
 

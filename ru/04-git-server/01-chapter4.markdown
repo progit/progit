@@ -165,9 +165,14 @@ Another nice thing is that HTTP is such a commonly used protocol that corporate 
 
 #### Недостатки ####
 
+Обратной стороной использования протокола HTTP является его относительно низкая эффективность для клиента. Обычно клонирование или скачивание изменений из репозитория при использовании HTTP гораздо продолжительнее, а объем данных и нагрузка на сеть намного больше, чем у любого другого имеющегося сетевого протокола. Поскольку он не заботится о том, чтобы передавались только необходимые вам данные ― никакой динамической обработке на стороне сервера в этом случае не происходит ― протокол HTTP часто называют _тупым_ (dumb) протоколом. Более подробно о разнице в эффективности протокола HTTP и других протоколов рассказывается в главе 9.
+
 The downside of serving your repository over HTTP is that it’s relatively inefficient for the client. It generally takes a lot longer to clone or fetch from the repository, and you often have a lot more network overhead and transfer volume over HTTP than with any of the other network protocols. Because it’s not as intelligent about transferring only the data you need — there is no dynamic work on the part of the server in these transactions — the HTTP protocol is often referred to as a _dumb_ protocol. For more information about the differences in efficiency between the HTTP protocol and the other protocols, see Chapter 9.
 
-## Getting Git on a Server ##
+## Установка Git на сервер ##
+
+Для того чтобы приступить к установке любого сервера Git, вы должны экспортировать существующий репозиторий в новый "голый" репозиторий, т.е. репозиторий без рабочего каталога. Обычно это не сложно сделать.
+Чтобы склонировать ваш репозиторий и создать новый "голый" репозиторий, запустите команду clone с параметром `--bare`. По существующему соглашению, каталоги с "голыми" репозиториями должны заканчиваться на `.git`, например:
 
 In order to initially set up any Git server, you have to export an existing repository into a new bare repository — a repository that doesn’t contain a working directory. This is generally straightforward to do.
 In order to clone your repository to create a new bare repository, you run the clone command with the `--bare` option. By convention, bare repository directories end in `.git`, like so:
@@ -175,11 +180,17 @@ In order to clone your repository to create a new bare repository, you run the c
 	$ git clone --bare my_project my_project.git
 	Initialized empty Git repository in /opt/projects/my_project.git/
 
+Вывод это команды слегка обескураживает. Поскольку `clone` по сути это `git init`, а затем `git fetch`, мы видим вывод от `git init`, который создает пустой каталог. Реальное перемещение объектов не имеет вывода, однако оно происходит. Теперь у вас должна быть копия данных из каталога Git в каталоге `my_project.git`.
+
 The output for this command is a little confusing. Since `clone` is basically a `git init` then a `git fetch`, we see some output from the `git init` part, which creates an empty directory. The actual object transfer gives no output, but it does happen. You should now have a copy of the Git directory data in your `my_project.git` directory.
+
+Грубо говоря, это что то наподобие этого:
 
 This is roughly equivalent to something like
 
 	$ cp -Rf my_project/.git my_project.git
+
+Тут есть пара небольших различий в файле конфигурации, но в вашем случае эту разницу можно считать несущественной. Можно считать, что в этом случае берется собственно репозиторий Git без рабочего каталога, и создается каталог только для него.
 
 There are a couple of minor differences in the configuration file; but for your purpose, this is close to the same thing. It takes the Git repository by itself, without a working directory, and creates a directory specifically for it alone.
 

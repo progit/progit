@@ -320,7 +320,7 @@ HTTP 协议的消极面在于，相对来说客户端效率更低。克隆或者
 Insert 18333fig0401.png 
 Figure 4-1. 基于网页的 GitWeb 用户界面
 
-如果想知道项目的 GitWeb 长什么样，Git 自带了一个命令，可以在类似 `lighttp	 或 `webrick` 这样轻量级的服务器程序上打开一个临时的实例。在 Linux 主机上通常都安装了 `lighttpd` ，这时就可以在项目目录里输入 `git instaweb` 来运行它。如果使用的是 Mac ，Leopard 预装了 Ruby，所以 `webrick` 应该是最好的选择。使用 lighttpd 以外的程序来启用 `git instaweb`， 可以通过它的 `--httpd` 选项来实现。
+如果想知道项目的 GitWeb 长什么样，Git 自带了一个命令，可以在类似 `lighttpd` 或 `webrick` 这样轻量级的服务器程序上打开一个临时的实例。在 Linux 主机上通常都安装了 `lighttpd` ，这时就可以在项目目录里输入 `git instaweb` 来运行它。如果使用的是 Mac ，Leopard 预装了 Ruby，所以 `webrick` 应该是最好的选择。使用 lighttpd 以外的程序来启用 `git instaweb`， 可以通过它的 `--httpd` 选项来实现。
 
 	$ git instaweb --httpd=webrick
 	[2009-02-21 10:02:21] INFO  WEBrick 1.3.1

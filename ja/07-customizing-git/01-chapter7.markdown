@@ -436,49 +436,49 @@ RCSスタイルの`$Date$`キーワード展開もまた別の興味深い例で
 
 アプリケーションをカスタマイズするためのこのテクニックがどれほど強力か、おわかりいただけたと思います。しかし、注意が必要です。`.gitattributes`ファイルはcommitされ、プロジェクト内で共有されますが、ドライバ(このケースで言えば、`dater`)はそうはいきません。そう、すべての環境で動くとは限らないのです。あなたがこうしたフィルタをデザインする時、たとえフィルタが正常に動作しなかったしても、プロジェクトは適切に動き続けられるようにすべきです。
 
-### Exporting Your Repository ###
+### リポジトリをエクスポートする ###
 
-Git attribute data also allows you to do some interesting things when exporting an archive of your project.
+あなたのプロジェクトのアーカイブをエクスポートする時には、Gitの属性データを使って興味深いことを行うことができます。
 
 #### export-ignore ####
 
-You can tell Git not to export certain files or directories when generating an archive. If there is a subdirectory or file that you don’t want to include in your archive file but that you do want checked into your project, you can determine those files via the `export-ignore` attribute.
+アーカイヴを生成するとき、あるファイルやディレクトリをエクスポートしないように設定することができます。プロジェクトにはcheckinしたいがアーカイブファイルには含めたくないディレクトリやファイルがあるなら、それらに`export-ignore`を設定してやることができます。
 
-For example, say you have some test files in a `test/` subdirectory, and it doesn’t make sense to include them in the tarball export of your project. You can add the following line to your Git attributes file:
+例えば、`test/`ディレクトリ以下にいくつかのテストファイルがあって、それらをプロジェクトをtarballには含めたくないとしましょう。その場合、次の1行をGitの属性ファイルに追加します。
 
 	test/ export-ignore
 
-Now, when you run git archive to create a tarball of your project, that directory won’t be included in the archive.
+これで、プロジェクトのtarballを作成ためにgitを実行した時、アーカイブには`test/`ディレクトリに含まれないようになります。
 
 #### export-subst ####
 
-Another thing you can do for your archives is some simple keyword substitution. Git lets you put the string `$Format:$` in any file with any of the `--pretty=format` formatting shortcodes, many of which you saw in Chapter 2. For instance, if you want to include a file named `LAST_COMMIT` in your project, and the last commit date was automatically injected into it when `git archive` ran, you can set up the file like this:
+アーカイブ作成時にできる別のこととして、いくつかの簡単なキーワード展開があります。第2章で紹介した`--pretty=format`で指定できるフォーマット指定子とともに`$Format:$`文字列をファイルに追加することができます。例えば、`LAST_COMMIT`という名前のファイルをプロジェクトに追加し、`git archive`を実行した時にそれを最新のcommitの日付に変換したい場合、次のように設定します。
 
 	$ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
 	$ echo "LAST_COMMIT export-subst" >> .gitattributes
 	$ git add LAST_COMMIT .gitattributes
 	$ git commit -am 'adding LAST_COMMIT file for archives'
 
-When you run `git archive`, the contents of that file when people open the archive file will look like this:
+`git archive`を実行したあと、アーカイブを展開すると、`LAST_COMMIT`は以下のような内容になっているでしょう。
 
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Merge Strategies ###
+### マージの戦略 ###
 
-You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
+Git属性を使えば、プロジェクトにある指定したファイルに対して異なるマージ戦略を使うようにすることができます。とても有効なオプションのひとつは、指定したファイルで競合が発生した場合に、マージを行わずにあなたの変更内容で他の誰かの変更を上書きするように設定するというものです。
 
-This is helpful if a branch in your project has diverged or is specialized, but you want to be able to merge changes back in from it, and you want to ignore certain files. Say you have a database settings file called database.xml that is different in two branches, and you want to merge in your other branch without messing up the database file. You can set up an attribute like this:
+これはブランチを分岐させ特別な作業をしている時、そのブランチでの変更をマージさせたいが、いくつかのファイルの変更はなかったことにしたいというような時に助けになります。例えば、database.xmlというデータベースの設定ファイルがあり、ふたつのブランチでその内容が異なっているとしましょう。そして、そのデータベースファイルを台無しすることなしに、一方のブランチへとマージしたいとします。これは、次のように属性を設定すれば実現できます。
 
 	database.xml merge=ours
 
-If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
+マージを実行すると、database.xmlに関する競合は発生せず、次のような結果になります。
 
 	$ git merge topic
 	Auto-merging database.xml
 	Merge made by recursive.
 
-In this case, database.xml stays at whatever version you originally had.
+この場合、database.xmlは元々のバージョンのまま、書き変わりません。
 
 ## Git Hooks ##
 

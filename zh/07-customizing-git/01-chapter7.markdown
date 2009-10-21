@@ -301,109 +301,112 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 #### receive.denyNonFastForwards ####
 
-If you rebase commits that you’ve already pushed and then try to push again, or otherwise try to push a commit to a remote branch that doesn’t contain the commit that the remote branch currently points to, you’ll be denied. This is generally good policy; but in the case of the rebase, you may determine that you know what you’re doing and can force-update the remote branch with a `-f` flag to your push command.
+如果对已经被推送的提交历史做衍合，继而再推送，又或者以其它方式推送一个提交历史至远程分支，且该提交历史没在这个远程分支中，这样的推送会被拒绝。这通常是个很好的禁止策略，但有时你在做衍合并确定要更新远程分支，可以在push命令后加`-f`标志来强制更新。
 
-To disable the ability to force-update remote branches to non-fast-forward references, set `receive.denyNonFastForwards`:
+要禁用这样的强制更新功能，可以设置`receive.denyNonFastForwards`：
 
-	$ git config --system receive.denyNonFastForwards true
+    $ git config --system receive.denyNonFastForwards true
 
-The other way you can do this is via server-side receive hooks, which I’ll cover in a bit. That approach lets you do more complex things like deny non-fast-forwards to a certain subset of users.
+稍后你会看到，用服务器端的接收钩子也能达到同样的目的。这个方法可以做更细致的控制，例如：禁用特定的用户做强制更新。
 
 #### receive.denyDeletes ####
 
-One of the workarounds to the `denyNonFastForwards` policy is for the user to delete the branch and then push it back up with the new reference. In newer versions of Git (beginning with version 1.6.1), you can set `receive.denyDeletes` to true:
+规避`denyNonFastForwards`策略的方法之一就是用户删除分支，然后推回新的引用。在更新的Git版本中（从1.6.1版本开始），把`receive.denyDeletes`设置为true：
 
-	$ git config --system receive.denyDeletes true
+    $ git config --system receive.denyDeletes true
 
-This denies branch and tag deletion over a push across the board — no user can do it. To remove remote branches, you must remove the ref files from the server manually. There are also more interesting ways to do this on a per-user basis via ACLs, as you’ll learn at the end of this chapter.
+这样会在推送过程中阻止删除分支和标签 — 没有用户能够这么做。要删除远程分支，必须从服务器手动删除引用文件。通过用户访问控制列表也能这么做，
+在本章结尾将会介绍这些有趣的方式。
 
-## Git Attributes ##
+## Git属性 ##
 
-Some of these settings can also be specified for a path, so that Git applies those settings only for a subdirectory or subset of files. These path-specific settings are called Git attributes and are set either in a `.gitattributes` file in one of your directories (normally the root of your project) or in the `.git/info/attributes` file if you don’t want the attributes file committed with your project.
+一些设置项也能被运用于特定的路径中，这样，Git可以对一个特定的子目录或子文件集运用那些设置项。这些设置项被称为Git属性，可以在你目录中的`.gitattributes`文件内进行设置
+（通常是你项目的根目录），也可以当你不想让这些属性文件和项目文件一同提交时，在`.git/info/attributes`进行设置。
 
-Using attributes, you can do things like specify separate merge strategies for individual files or directories in your project, tell Git how to diff non-text files, or have Git filter content before you check it into or out of Git. In this section, you’ll learn about some of the attributes you can set on your paths in your Git project and see a few examples of using this feature in practice.
+使用属性，你可以对个别文件或目录定义不同的合并策略，让Git知道怎样比较非文本文件，在你提交或签出前让Git过滤内容。你将在这部分了解到能在自己的项目中使用的属性，以及一些实例。
 
-### Binary Files ###
+### 二进制文件 ###
 
-One cool trick for which you can use Git attributes is telling Git which files are binary (in cases it otherwise may not be able to figure out) and giving Git special instructions about how to handle those files. For instance, some text files may be machine generated and not diffable, whereas some binary files can be diffed — you’ll see how to tell Git which is which.
+你可以用Git属性让其知道哪些是二进制文件（以防Git没有识别出来），以及指示怎样处理这些文件，这点很酷。例如，一些文本文件是由机器产生的，而且无法比较，而一些二进制文件可以比较 —
+你将会了解到怎样让Git识别这些文件。
 
-#### Identifying Binary Files ####
+#### 识别二进制文件 ####
 
-Some files look like text files but for all intents and purposes are to be treated as binary data. For instance, Xcode projects on the Mac contain a file that ends in `.pbxproj`, which is basically a JSON (plain text javascript data format) dataset written out to disk by the IDE that records your build settings and so on. Although it’s technically a text file, because it’s all ASCII, you don’t want to treat it as such because it’s really a lightweight database — you can’t merge the contents if two people changed it, and diffs generally aren’t helpful. The file is meant to be consumed by a machine. In essence, you want to treat it like a binary file.
+一些文件看起来像是文本文件，但其实是作为二进制数据被对待。例如，在Mac上的Xcode项目含有一个以`.pbxproj`结尾的文件，它是由记录设置项的IDE写到磁盘的JSON数据集（纯文本javascript数据类型）。虽然技术上看它是由ASCII字符组成的文本文件，但你并不认为如此，因为它确实是一个轻量级数据库 — 如果有2人改变了它，你通常无法合并和比较内容，只有机器才能进行识别和操作，于是，你想把它当成二进制文件。
 
-To tell Git to treat all `pbxproj` files as binary data, add the following line to your `.gitattributes` file:
+让Git把所有`pbxproj`文件当成二进制文件，在`.gitattributes`文件中设置如下：
 
-	*.pbxproj -crlf -diff
+    *.pbxproj -crlf -diff
 
-Now, Git won’t try to convert or fix CRLF issues; nor will it try to compute or print a diff for changes in this file when you run git show or git diff on your project. In the 1.6 series of Git, you can also use a macro that is provided that means `-crlf -diff`:
+现在，Git不会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行git show或git diff时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
 
-	*.pbxproj binary
+    *.pbxproj binary
 
-#### Diffing Binary Files ####
+#### 比较二进制文件 ####
 
-In the 1.6 series of Git, you can use the Git attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff.
+在Git 1.6及以上版本中，你能利用Git属性来有效地比较二进制文件。可以设置Git把二进制数据转换成文本格式，用通常的diff来比较。
 
-Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:
+这个特性很酷，而且鲜为人知，因此我会结合实例来讲解。首先，要解决的是最令人头疼的问题：对Word文档进行版本控制。很多人对Word文档又恨又爱，如果想对其进行版本控制，你可以把文件加入到Git库中，每次修改后提交即可。但这样做没有一点实际意义，因为运行`git diff`命令后，你只能得到如下的结果：
 
-	$ git diff 
-	diff --git a/chapter1.doc b/chapter1.doc
-	index 88839c4..4afcb7c 100644
-	Binary files a/chapter1.doc and b/chapter1.doc differ
+    $ git diff
+    diff --git a/chapter1.doc b/chapter1.doc
+    index 88839c4..4afcb7c 100644
+    Binary files a/chapter1.doc and b/chapter1.doc differ
 
-You can’t directly compare two versions unless you check them out and scan them manually, right? It turns out you can do this fairly well using Git attributes. Put the following line in your `.gitattributes` file:
+你不能直接比较两个不同版本的Word文件，除非进行手动扫描，不是吗？Git属性能很好地解决此问题，把下面的行加到`.gitattributes`文件：
 
-	*.doc diff=word
+    *.doc diff=word
 
-This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:
+当你要看比较结果时，如果文件扩展名是"doc"，Git会调用"word"过滤器。什么是"word"过滤器呢？其实就是Git使用`strings` 程序，把Word文档转换成可读的文本文件，之后再进行比较：
 
-	$ git config diff.word.textconv strings
+    $ git config diff.word.textconv strings
 
-Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
+现在如果在两个快照之间比较以`.doc`结尾的文件，Git会对这些文件运用"word"过滤器，在比较前把Word文件转换成文本文件。
 
-Here’s an example. I put Chapter 1 of this book into Git, added some text to a paragraph, and saved the document. Then, I ran `git diff` to see what changed:
+下面展示了一个实例，我把此书的第一章纳入Git管理，在一个段落中加入了一些文本后保存，之后运行`git diff`命令，得到结果如下：
 
-	$ git diff
-	diff --git a/chapter1.doc b/chapter1.doc
-	index c1c8a0a..b93c9e4 100644
-	--- a/chapter1.doc
-	+++ b/chapter1.doc
-	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-	 re going to cover how to get it and set it up for the first time if you don
-	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
-	-s going on, modify stuff and contribute changes. If the book spontaneously 
-	+s going on, modify stuff and contribute changes. If the book spontaneously 
-	+Let's see if this works.
+    $ git diff
+    diff --git a/chapter1.doc b/chapter1.doc
+    index c1c8a0a..b93c9e4 100644
+    --- a/chapter1.doc
+    +++ b/chapter1.doc
+    @@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
+     re going to cover how to get it and set it up for the first time if you don
+     t already have it on your system.
+     In Chapter Two we will go over basic Git usage - how to use Git for the 80%
+    -s going on, modify stuff and contribute changes. If the book spontaneously
+    +s going on, modify stuff and contribute changes. If the book spontaneously
+    +Let's see if this works.
 
-Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
+Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。虽然有些瑕疵，在末尾显示了一些随机的内容，但确实可以比较了。如果你能找到或自己写个Word到纯文本的转换器的话，效果可能会更好。 `strings`可以在大部分Mac和Linux系统上运行，所以它是处理二进制格式的第一选择。
 
-Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
+你还能用这个方法比较图像文件。当比较时，对JPEG文件运用一个过滤器，它能提炼出EXIF信息 — 大部分图像格式使用的元数据。如果你下载并安装了`exiftool`程序，可以用它参照元数据把图像转换成文本。比较的不同结果将会用文本向你展示：
 
-	$ echo '*.png diff=exif' >> .gitattributes
-	$ git config diff.exif.textconv exiftool
+    $ echo '*.png diff=exif' >> .gitattributes
+    $ git config diff.exif.textconv exiftool
 
-If you replace an image in your project and run `git diff`, you see something like this:
+如果在项目中替换了一个图像文件，运行`git diff`命令的结果如下：
 
-	diff --git a/image.png b/image.png
-	index 88839c4..4afcb7c 100644
-	--- a/image.png
-	+++ b/image.png
-	@@ -1,12 +1,12 @@
-	 ExifTool Version Number         : 7.74
-	-File Size                       : 70 kB
-	-File Modification Date/Time     : 2009:04:21 07:02:45-07:00
-	+File Size                       : 94 kB
-	+File Modification Date/Time     : 2009:04:21 07:02:43-07:00
-	 File Type                       : PNG
-	 MIME Type                       : image/png
-	-Image Width                     : 1058
-	-Image Height                    : 889
-	+Image Width                     : 1056
-	+Image Height                    : 827
-	 Bit Depth                       : 8
-	 Color Type                      : RGB with Alpha
+    diff --git a/image.png b/image.png
+    index 88839c4..4afcb7c 100644
+    --- a/image.png
+    +++ b/image.png
+    @@ -1,12 +1,12 @@
+     ExifTool Version Number         : 7.74
+    -File Size                       : 70 kB
+    -File Modification Date/Time     : 2009:04:21 07:02:45-07:00
+    +File Size                       : 94 kB
+    +File Modification Date/Time     : 2009:04:21 07:02:43-07:00
+     File Type                       : PNG
+     MIME Type                       : image/png
+    -Image Width                     : 1058
+    -Image Height                    : 889
+    +Image Width                     : 1056
+    +Image Height                    : 827
+     Bit Depth                       : 8
+     Color Type                      : RGB with Alpha
 
-You can easily see that the file size and image dimensions have both changed.
+你会发现文件的尺寸大小发生了改变。
 
 ### Keyword Expansion ###
 

@@ -2,7 +2,7 @@
 
 不管你是从前面的章节直接跳到了本章，还是读完了其余各章一直到这，你都将在本章见识 Git 的内部工作原理和实现方式。我个人发现学习这些内容对于理解 Git 的用处和强大是非常重要的，不过也有人认为这些内容对于初学者来说可能难以理解且过于复杂。正因如此我把这部分内容放在最后一章，你在学习过程中可以先阅读这部分，也可以晚点阅读这部分，这完全取决于你自己。
 
-既然已经读到这了，就让我们开始吧。首先要弄明白一点，从根本上来讲 Git 是一套内容寻址文件系统，在此之上提供了一个 VCS 用户界面。马上你就会学到这意味着什么。
+既然已经读到这了，就让我们开始吧。首先要弄明白一点，从根本上来讲 Git 是一套内容寻址 (content-addressable) 文件系统，在此之上提供了一个 VCS 用户界面。马上你就会学到这意味着什么。
 
 早期的 Git (主要是 1.5 之前版本) 的用户界面要比现在复杂得多，这是因为它更侧重于成为文件系统而不是一套更精致的 VCS 。最近几年改进了 UI 从而使它跟其他任何系统一样清晰易用。即便如此，还是经常会有一些陈腔滥调提到早期 Git 的 UI 复杂又难学。
 
@@ -31,10 +31,11 @@
 
 另外还有四个重要的文件或目录：`HEAD` 及 `index` 文件，`objects` 及 `refs` 目录。这些是 Git 的核心部分。`objects` 目录存储所有数据内容，`refs`  目录存储指向数据 (分支) 的提交对象的指针，`HEAD` 文件指向当前分支，`index` 文件保存了暂存区域信息。马上你将详细了解 Git 是如何操纵这些内容的。
 
-## Git Objects ##
+## Git 对象 ##
 
-Git is a content-addressable filesystem. Great. What does that mean?
-It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:
+Git 是一套内容寻址文件系统。很不错。不过这是什么意思呢？
+
+这种说法的意思是，从内部来看，Git 是简单的 key-value 数据存储。它允许插入任意类型的内容，并会返回一个键值，通过该键值可以在任何时候再取出该内容。可以通过底层命令 `hash-object` 来示范这点，传一些数据给该命令，它会将数据保存在 `.git` 目录并返回表示这些数据的键值。首先初使化一个 Git 仓库并确认 `objects` 目录是空的：
 
 	$ mkdir test
 	$ cd test
@@ -47,55 +48,55 @@ It means that at the core of Git is a simple key-value data store. You can inser
 	$ find .git/objects -type f
 	$
 
-Git has initialized the `objects` directory and created `pack` and `info` subdirectories in it, but there are no regular files. Now, store some text in your Git database:
+Git 初始化了 `objects` 目录，同时在该目录下创建了 `pack` 和 `info` 子目录，但是该目录下没有其他常规文件。我们往这个 Git 数据库里存储一些文本：
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
+参数 `-w` 指示 `hash-object` 命令存储 (数据) 对象，若不指定这个参数该命令仅仅返回键值。`--stdin` 指定从标准输入设备 (stdin) 来读取内容，若不指定这个参数则需指定一个要存储的文件的路径。该命令输出长度为 40 个字符的校验和。这是个 SHA-1 哈希值──其值为要存储的数据加上你马上会了解到的一种头信息的校验和。现在可以查看到 Git 已经存储了数据：
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-You can see a file in the `objects` directory. This is how Git stores the content initially — as a single file per piece of content, named with the SHA-1 checksum of the content and its header. The subdirectory is named with the first 2 characters of the SHA, and the filename is the remaining 38 characters.
+可以在 `objects` 目录下看到一个文件。这便是 Git 存储数据内容的方式──为每份内容生成一个文件，取得该内容与头信息的 SHA-1 校验和，创建以该校验和前两个字符为名称的子目录，并以 (校验和) 剩下 38 个字符为文件命名 (保存至子目录下)。
 
-You can pull the content back out of Git with the `cat-file` command. This command is sort of a Swiss army knife for inspecting Git objects. Passing `-p` to it instructs the `cat-file` command to figure out the type of content and display it nicely for you:
+通过 `cat-file` 命令可以将数据内容取回。该命令是查看 Git 对象的瑞士军刀。传入 `-p` 参数可以让该命令输出数据内容的类型：
 
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content
 
-Now, you can add content to Git and pull it back out again. You can also do this with content in files. For example, you can do some simple version control on a file. First, create a new file and save its contents in your database:
+可以往 Git 中添加更多内容并取回了。也可以直接添加文件。比方说可以对一个文件进行简单的版本控制。首先，创建一个新文件，并把文件内容存储到数据库中：
 
 	$ echo 'version 1' > test.txt
 	$ git hash-object -w test.txt 
 	83baae61804e65cc73a7201a7252750c76066a30
 
-Then, write some new content to the file, and save it again:
+接着往该文件中写入一些新内容并再次保存：
 
 	$ echo 'version 2' > test.txt
 	$ git hash-object -w test.txt 
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
-Your database contains the two new versions of the file as well as the first content you stored there:
+数据库中已经将文件的两个新版本连同一开始的内容保存下来了：
 
 	$ find .git/objects -type f 
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-Now you can revert the file back to the first version
+再将文件恢复到第一个版本：
 
 	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
 	$ cat test.txt 
 	version 1
 
-or the second version:
+或恢复到第二个版本：
 
 	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
 	$ cat test.txt 
 	version 2
 
-But remembering the SHA-1 key for each version of your file isn’t practical; plus, you aren’t storing the filename in your system — just the content. This object type is called a blob. You can have Git tell you the object type of any object in Git, given its SHA-1 key, with `cat-file -t`:
+需要记住的是几个版本的文件 SHA-1 值可能与实际的值不同，其次，存储的并不是文件名而仅仅是文件内容。这种对象类型称为 blob 。通过传递 SHA-1 值给 `cat-file -t` 命令可以让 Git 返回任何对象的类型：
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob

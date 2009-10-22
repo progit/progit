@@ -408,73 +408,72 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
 
 你会发现文件的尺寸大小发生了改变。
 
-### Keyword Expansion ###
+### 关键字扩展 ###
 
-SVN- or CVS-style keyword expansion is often requested by developers used to those systems. The main problem with this in Git is that you can’t modify a file with information about the commit after you’ve committed, because Git checksums the file first. However, you can inject text into a file when it’s checked out and remove it again before it’s added to a commit. Git attributes offers you two ways to do this.
+使用SVN或CVS的开发人员经常要求关键字扩展。在Git中，你无法在一个文件被提交后修改它，因为Git会先对该文件计算校验和。然而，你可以在签出时注入文本，在提交前删除它。Git属性提供了2种方式这么做。
 
-First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the file automatically. If you set this attribute on a file or set of files, then the next time you check out that branch, Git will replace that field with the SHA-1 of the blob. It’s important to notice that it isn’t the SHA of the commit, but of the blob itself:
+首先，你能够把blob的SHA-1校验和自动注入文件的`$Id$`字段。如果在一个或多个文件上设置了此字段，当下次你签出分支的时候，Git会用blob的SHA-1值替换那个字段。注意，这不是提交对象的SHA校验和，而是blob本身的校验和：
 
-	$ echo '*.txt ident' >> .gitattributes
-	$ echo '$Id$' > test.txt
+    $ echo '*.txt ident' >> .gitattributes
+    $ echo '$Id$' > test.txt
 
-The next time you check out this file, Git injects the SHA of the blob:
+下次签出文件时，Git注入了blob的SHA值：
 
-	$ rm text.txt
-	$ git checkout -- text.txt
-	$ cat test.txt 
-	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+    $ rm text.txt
+    $ git checkout -- text.txt
+    $ cat test.txt
+    $Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
+然而，这样的显示结果没有多大的实际意义。这个SHA的值相当地随机，无法区分日期的前后，所以，如果你在CVS或Subversion中用过关键字替换，一定会包含一个日期值。
 
-It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
+因此，你能写自己的过滤器，在提交文件到暂存区或签出文件时替换关键字。有2种过滤器，"clean"和"smudge"。在 `.gitattributes`文件中，你能对特定的路径设置一个过滤器，然后设置处理文件的脚本，这些脚本会在文件签出前（"smudge"，见图 7-2）和提交到暂存区前（"clean"，见图7-3）被调用。这些过滤器能够做各种有趣的事。
 
-Insert 18333fig0702.png 
-Figure 7-2. The “smudge” filter is run on checkout.
+Insert 18333fig0702.png
+图7-2. 签出时，“smudge”过滤器被触发。
 
-Insert 18333fig0703.png 
-Figure 7-3. The “clean” filter is run when files are staged.
+Insert 18333fig0703.png
+图7-3. 提交到暂存区时，“clean”过滤器被触发。
 
-The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
+这里举一个简单的例子：在暂存前，用`indent`（缩进）程序过滤所有C源代码。在`.gitattributes`文件中设置"indent"过滤器过滤`*.c`文件：
 
-	*.c     filter=indent
+    *.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+然后，通过以下配置，让Git知道"indent"过滤器在遇到"smudge"和"clean"时分别该做什么：
 
-	$ git config --global filter.indent.clean indent
-	$ git config --global filter.indent.smudge cat
+    $ git config --global filter.indent.clean indent
+    $ git config --global filter.indent.smudge cat
 
-In this case, when you commit files that match `*.c`, Git will run them through the indent program before it commits them and then run them through the `cat` program before it checks them back out onto disk. The `cat` program is basically a no-op: it spits out the same data that it gets in. This combination effectively filters all C source code files through `indent` before committing.
+于是，当你暂存`*.c`文件时，`indent`程序会被触发，在把它们签出之前，`cat`程序会被触发。但`cat`程序在这里没什么实际作用。这样的组合，使C源代码在暂存前被`indent`程序过滤，非常有效。
 
-Another interesting example gets `$Date$` keyword expansion, RCS style. To do this properly, you need a small script that takes a filename, figures out the last commit date for this project, and inserts the date into the file. Here is a small Ruby script that does that:
+另一个例子是类似RCS的`$Date$`关键字扩展。为了演示，需要一个小脚本，接受文件名参数，得到项目的最新提交日期，最后把日期写入该文件。下面用Ruby脚本来实现：
 
-	#! /usr/bin/env ruby
-	data = STDIN.read
-	last_date = `git log --pretty=format:"%ad" -1`
-	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
+    #! /usr/bin/env ruby
+    data = STDIN.read
+    last_date = `git log --pretty=format:"%ad" -1`
+    puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
-All the script does is get the latest commit date from the `git log` command, stick that into any `$Date$` strings it sees in stdin, and print the results — it should be simple to do in whatever language you’re most comfortable in. You can name this file `expand_date` and put it in your path. Now, you need to set up a filter in Git (call it `dater`) and tell it to use your `expand_date` filter to smudge the files on checkout. You’ll use a Perl expression to clean that up on commit:
+该脚本从`git log`命令中得到最新提交日期，找到文件中的所有`$Date$`字符串，最后把该日期填充到`$Date$`字符串中 — 此脚本很简单，你可以选择你喜欢的编程语言来实现。把该脚本命名为`expand_date`，放到正确的路径中，之后需要在Git中设置一个过滤器（`dater`），让它在签出文件时调用`expand_date`，在暂存文件时用Perl清除之：
 
-	$ git config filter.dater.smudge expand_date
-	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
+    $ git config filter.dater.smudge expand_date
+    $ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
-This Perl snippet strips out anything it sees in a `$Date$` string, to get back to where you started. Now that your filter is ready, you can test it by setting up a file with your `$Date$` keyword and then setting up a Git attribute for that file that engages the new filter:
+这个Perl小程序会删除`$Date$`字符串里多余的字符，恢复`$Date$`原貌。到目前为止，你的过滤器已经设置完毕，可以开始测试了。打开一个文件，在文件中输入`$Date$`关键字，然后设置Git属性：
 
-	$ echo '# $Date$' > date_test.txt
-	$ echo 'date*.txt filter=dater' >> .gitattributes
+    $ echo '# $Date$' > date_test.txt
+    $ echo 'date*.txt filter=dater' >> .gitattributes
 
-If you commit those changes and check out the file again, you see the keyword properly substituted:
+如果暂存该文件，之后再签出，你会发现关键字被替换了：
 
-	$ git add date_test.txt .gitattributes
-	$ git commit -m "Testing date expansion in Git"
-	$ rm date_test.txt
-	$ git checkout date_test.txt
-	$ cat date_test.txt
-	# $Date: Tue Apr 21 07:26:52 2009 -0700$
+    $ git add date_test.txt .gitattributes
+    $ git commit -m "Testing date expansion in Git"
+    $ rm date_test.txt
+    $ git checkout date_test.txt
+    $ cat date_test.txt
+    # $Date: Tue Apr 21 07:26:52 2009 -0700$
 
-You can see how powerful this technique can be for customized applications. You have to be careful, though, because the `.gitattributes` file is committed and passed around with the project but the driver (in this case, `dater`) isn’t; so, it won’t work everywhere. When you design these filters, they should be able to fail gracefully and have the project still work properly.
+虽说这项技术对自定义应用来说很有用，但还是要小心，因为`.gitattributes`文件会随着项目一起提交，而过滤器（例如：`dater`）不会，所以，过滤器不会在所有地方都生效。当你在设计这些过滤器时要注意，即使它们无法正常工作，也要让整个项目运作下去。
 
-### Exporting Your Repository ###
-
+### 导出仓库 ### 
 Git attribute data also allows you to do some interesting things when exporting an archive of your project.
 
 #### export-ignore ####

@@ -18,27 +18,27 @@ Git 中所有 Subversion 桥接命令的基本命令是 `git svn` 。所有的�
 
 避免修改历史再重新推送的做法，也不要同时推送并行的仓库来试图与其他使用 Git 的开发者合作。Subersion 只能保存单一的线性提交历史，一不小心就能把它搞糊涂。加入合作团队中同时有人用 SVN 和 Git，一定要确保所有人都使用 SVN 服务来合作——这会让你的生活轻松不少。
 
-### Setting Up ###
+### 初始设定 ###
 
-To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
+为了展示该功能，先要一个具有写权限的 SVN 仓库。如果想尝试这个范例，你必须复制一份例中的测试仓库。比较简单的做法是，使用一个名为 `svnsync` 的工具。较新的 Subversion 版本中都带有该工具，它将数据编码为用于网络传输的格式。
 
-To follow along, you first need to create a new local Subversion repository:
+要尝试本例，先得在本地新建一个 Subversion 仓库：
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:
+然后，允许所有用户修改 revprop —— 比较简单的做法是添加一个总是以 0 作为返回值的 pre-revprop-change 脚本：
 
 	$ cat /tmp/test-svn/hooks/pre-revprop-change 
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.
+现在可以调用 `svnsync init` 加目的仓库加源仓库来把该项目同步到本地了：
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
 
-This sets up the properties to run the sync. You can then clone the code by running
+这将建立进行同步所需的属性。通过运行以下命令来克隆代码：
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -48,7 +48,7 @@ This sets up the properties to run the sync. You can then clone the code by runn
 	Committed revision 3.
 	...
 
-Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.
+别看这个操作只花掉几分钟，要是你想把源仓库复制到另一个远程仓库，而不是本地仓库，那将花掉接近一个小时，尽管项目中只有不到 100 次的提交。 Subversion 每次只复制一次修改，把它推送到另一个仓库里，然后周而复始——惊人的低效，但是我们别无选择。
 
 ### Getting Started ###
 

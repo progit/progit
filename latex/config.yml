@@ -1,21 +1,50 @@
 default:
   font: DejaVu Serif
+  bold: "{* Bold}"
   mono: DejaVu Sans Mono
-  chap: "Chapter "
-  sect: "Section "
+  prechap: "Chapter "
+  postchap: ""
+  presect: "Section "
+  postsect: ""
+  con: "Contents"
   fig: "Figure "
   tab: "Table "
+  indent: "M"
 zh:
   font: AR PL UMing CN
+#  font: AR PL SungtiL GB
+  bold: AR PL UKai CN
+#  bold: AR PL KaitiM GB
+  mono: AR PL UKai CN
+#  mono: AR PL KaitiM GB
+  prechap: "第"
+  postchap: "章"
+  presect: ""
+  postsect: "节"
+  con: "目录"
   fig: "图 "
+  tab: "桌子 "
+  indent: "文"
 ja:
-  font: Japan
+#  font: Japan
+  font: Sazanami Mincho
+#  font: IPAPMincho
+  bold: VL PGothic
+#  bold: Sazanami Gothic
+#  bold: IPAPGothic
+  mono: VL Gothic
+  prechap: "第"
+  postchap: "章"
+  presect: ""
+  postsect: "節"
+  con: "目次"
   fig: "図"
   tab: "表"
+  indent: "あ"
 ru:
   fig: "рисунок "
 cs:
-  chap: "Kapitola "
-  sect: "Oddíl "
+  prechap: "Kapitola "
+  presect: "Oddíl "
   fig: "Obrázek "
   tab: "Tabulka "

@@ -194,15 +194,21 @@ This is roughly equivalent to something like
 
 There are a couple of minor differences in the configuration file; but for your purpose, this is close to the same thing. It takes the Git repository by itself, without a working directory, and creates a directory specifically for it alone.
 
-### Putting the Bare Repository on a Server ###
+### Размещение "голого" репозитория на сервере ###
+
+Теперь, когда у вас есть голая копия вашего репозитория, все что вам нужно сделать это поместить ее на сервер и настроить протоколы. Условимся, что вы уже установили сервер `git.example.com`, имеете к нему доступ по SSH и хотите развешать все ваши репозитории Git в каталоге `/opt/git`. Вы можете добавить ваш новый репозиторий копированием голого репозитория:
 
 Now that you have a bare copy of your repository, all you need to do is put it on a server and set up your protocols. Let’s say you’ve set up a server called `git.example.com` that you have SSH access to, and you want to store all your Git repositories under the `/opt/git` directory. You can set up your new repository by copying your bare repository over:
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
+Теперь другие пользователи, имеющие доступ к серверу по SSH и право но чтение к каталогу `/opt/git` могут клонировать ваш репозиторий запустив:
+
 At this point, other users who have SSH access to the same server which has read-access to the `/opt/git` directory can clone your repository by running
 
 	$ git clone user@git.example.com:/opt/git/my_project.git
+
+Если у пользователя сервера есть право на запись в каталог `/opt/git/my_project.git`, он автоматически получает возможность отгрузки изменений в репозиторий. Git автоматически добавляет правильные права на запись в репозиторий, если вы запустите команду `git init` с параметром `--shared`.
 
 If a user SSHs into a server and has write access to the `/opt/git/my_project.git` directory, they will also automatically have push access.  Git will automatically add group write permissions to a repository properly if you run the `git init` command with the `--shared` option.
 
@@ -210,9 +216,15 @@ If a user SSHs into a server and has write access to the `/opt/git/my_project.gi
 	$ cd /opt/git/my_project.git
 	$ git init --bare --shared
 
+Видите это просто взять репозиторий Git, создать "голую" версию и поместить ее на сервер, к которому вы и ваши коллеги имеете доступ по SSH. Теперь вы готовы работать вместе над одним проектом.
+
 You see how easy it is to take a Git repository, create a bare version, and place it on a server to which you and your collaborators have SSH access. Now you’re ready to collaborate on the same project.
 
+Важно отметить, что это практически все что вам нужно сделать чтобы получить рабочий сервер Git, к которому несколько человек имеют доступ ― просто добавьте учетные записи SSH на сервер, и положите голый репозиторий в место, к которому эти пользователи имеют доступ на чтение и запись. И все.
+
 It’s important to note that this is literally all you need to do to run a useful Git server to which several people have access — just add SSH-able accounts on a server, and stick a bare repository somewhere that all those users have read and write access to. You’re ready to go — nothing else needed.
+
+Из нескольких последующий разделов вы узнаете как получить более сложные конфигурации. В том числе как не создавать учетные записи для каждого пользователя, как сделать публичный доступ на чтение репозитория, как установить веб-интерфейс, как использовать Gitosis, и др. Однако, помните, что для совместной работы пары человек на закрытом проекте, все что вам _нужно_ ― это сервер SSH и "голый" репозиторий.
 
 In the next few sections, you’ll see how to expand to more sophisticated setups. This discussion will include not having to create user accounts for each user, adding public read access to repositories, setting up web UIs, using the Gitosis tool, and more. However, keep in mind that to collaborate with a couple of people on a private project, all you _need_ is an SSH server and a bare repository.
 

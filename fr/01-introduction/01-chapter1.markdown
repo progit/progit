@@ -8,16 +8,16 @@ Qu'est-ce que le suivi de version, et pourquoi devriez-vous vous en soucier ? Le
 
 Si vous êtes graphiste ou concepteur de sites Web et désirez conserver chacune des versions d'une image ou d'un gabarit (ce que vous voulez certainement), un système de suivi de version (SSV) offre une sage solution. Il permet de restaurer un fichier à sa version précédente, rétablir à une version antérieure l'ensemble d'un projet, comparer les modifications au fil du temps, repérer qui a effectué récemment un changement susceptible d'être à la source d'un problème, quand est apparue une problématique et qui l'a introduite, etc. Utiliser un SSV signifie également la possibilité de se remettre facilement d'une catastrophe ou d'une perte de fichier. Tout cela, presque sans effort supplémentaire.
 
-### Local Version Control Systems ###
+### Systèmes locaux de suivi de version ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+Pour de nombreuses personnes, la méthode de choix pour la sauvegarde consiste à copier des fichiers dans un autre répertoire (peut-être nommé après la date courante, dans le meilleur des cas). Cette approche est très populaire du fait de sa simplicité, mais aussi incroyablement susceptible d'erreur. Il est tellement simple d'oublier le répertoire courant et modifier accidentellement le mauvais fichier ou en écraser un autre sans le vouloir.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Afin d'éviter cet écueil, les programmeurs ont depuis longtemps développé des SSV dotés d'une base de données simple conservant les modifications apportées aux fichiers suivis (voir la figure 1-1).
 
 Insert 18333fig0101.png
-Figure 1-1. Local version control diagram.
+Figure 1-1. Diagramme du suivi local de version
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+RCS, l'un des SSV les plus populaires, est encore fourni avec la plupart des ordinateurs. Même le célèbre Mac OS X inclue la commande rcs lorsque vous installez la suite de développement. Schématiquement, cet outil fonctionne en conservant  dans un format spécial sur le disque des lots de corrections (c'est-à-dire les différences entre les fichiers) d'une sauvegarde à l'autre; il peut restituer l'état d'un fichier à un instant quelconque en appliquant l'ensemble des corrections jusqu'à cet instant.
 
 ### Centralized Version Control Systems ###
 

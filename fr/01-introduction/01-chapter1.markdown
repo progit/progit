@@ -19,16 +19,16 @@ Figure 1-1. Diagramme du suivi local de version
 
 RCS, l'un des SSV les plus populaires, est encore fourni avec la plupart des ordinateurs. Même le célèbre Mac OS X inclue la commande rcs lorsque vous installez la suite de développement. Schématiquement, cet outil fonctionne en conservant  dans un format spécial sur le disque des lots de corrections (c'est-à-dire les différences entre les fichiers) d'une sauvegarde à l'autre; il peut restituer l'état d'un fichier à un instant quelconque en appliquant l'ensemble des corrections jusqu'à cet instant.
 
-### Centralized Version Control Systems ###
+### Systèmes centralisés de suivi de version ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+La problématique majeure que rencontre ensuite la plupart des gens est la nécessité de collaborer avec des développeurs sur d'autres systèmes. Les systèmes centralisés de suivi de version (SCSV) ont été créé pour répondre à ce besoin. Ces systèmes, tels CVS, Subversion et Perforce, disposent d'un serveur unique maintenant l'ensemble des des versions des fichiers suivis, et des clients qui récupèrent leurs copies depuis ce serveur centrale. Depuis des années ce modèle s'établit comme le standard du suivi de versions (voir la figure 1-2).
 
 Insert 18333fig0102.png
-Figure 1-2. Centralized version control diagram.
+Figure 1-2. Diagramme des systèmes centralisés de suivi de version.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Ce modèle offre de nombreux avantages, surtout comparé aux SSV locaux. Par exemple, chacun sait jusqu'à un certain point, ce à quoi tout les autres sur le projet est occupé. Les administrateurs disposent d'une maîtrise fine des prérogatives de chacun; et il est bien plus facile de gérer un SCSV que d'avoir à maintenir des bases de données locales sur chaque machine cliente.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Cependant, ce modèle souffre de sérieux écueils. Le plus évident concerne le point unique de panne que représente le serveur central. Si ce serveur devient indisponible pendant une heure, durant tout ce temps personne ne pourra collaborer ni sauvegarder les modifications de ses propres travaux en cours. Si le disque dur de la base de données centrale  est corrompu, et que des sauvegardes suffisantes n'ont pas été prévues, c'est l'ensemble du projet que vous pouvez perdre-incluant son historique, à l'exception de quelque copie intégrale dont pourraient disposer certaines personnes sur leurs propres machines. Les SSV locaux souffrent du même problème-dès que vous entreposez l'intégralité de l'historique d'un projet dans un endroit unique, vous risquez de tout perdre.
 
 ### Distributed Version Control Systems ###
 

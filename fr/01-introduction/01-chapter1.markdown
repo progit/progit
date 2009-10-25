@@ -39,19 +39,19 @@ Figure 1-3. Diagramme des systèmes distribués de suivi de version.
 
 En outre, nombre de ces systèmes offre une bonne gestion de multiples dépôts distants avec lesquels travailler, de manière à collaborer avec différents groupes et procéder de différentes manières simultanément au sein d'un même projet. Cela permet la mise en oeuvre de plusieurs méthodes de travail impossible à mettre en place avec des systèmes centralisés, comme des modèles hiérarchiques.
 
-## A Short History of Git ##
+## Une brève histoire de Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Comme pour de nombreuses grandes choses de la vie, Git commença par un brin de destruction créatrice et une sauvage controverse. Le noyau Linux est un projet libre qu'on peut qualifier de grande envergure. Durant la majeure partie de la vie du maintien du noyau Linux (1991-2002), les modifications apportées au logiciel circulaient sous formes de corrections (_patches_) et d'archives de fichiers. En 2002, le projet du noyau Linux adopta un SDSV propriétaire nommé BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+En 2005, les relations entre la communauté qui développait le noyau Linux et l'entreprise commerciale qui développait BitKeeper furent brisées et la charte d'utilisation gratuite révoquée. Cela força la communauté qui développe Linux (et en particulier son créateur, Linux Torvalds) à développer son propre outil issu des leçons-apprises en utilisant BitKeeper. Voici résumés quelques-uns des objectifs du nouveau système :
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+* rapidité
+* architecture simple
+* support natif du développement non-linéaire (des milliers de branches parallèles)
+* entièrement distribué
+* capacité de gérer de gros projets tels le noyau Linux efficacement (vitesse et taille des données)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Depuis sa naissance en 2005, Git a évolué vers la mâturité en restant simple d'utilisation tout en conservant ces qualités initiales. Il est incroyablement rapide, très efficient avec les gros projets, et dispose d'un superbe système de gestion des branches pour le développement non-linéaire (voire chapitre 3).
 
 ## Git Basics ##
 

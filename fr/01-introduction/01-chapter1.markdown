@@ -53,23 +53,23 @@ En 2005, les relations entre la communauté qui développait le noyau Linux et l
 
 Depuis sa naissance en 2005, Git a évolué vers la mâturité en restant simple d'utilisation tout en conservant ces qualités initiales. Il est incroyablement rapide, très efficient avec les gros projets, et dispose d'un superbe système de gestion des branches pour le développement non-linéaire (voire chapitre 3).
 
-## Git Basics ##
+## Les fondements de Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Alors, qu'est-ce que Git en deux mots ? C'est une section importante à absorber, parce que si vous comprenez ce qu'est Git et les fondements de son fonctionnement, alors utiliser Git efficacement viendra bien plus aisément pour vous. Durant l'apprentissage de Git, tâchez d'évacuer de votre esprit ce que vous avez appris d'autres SSV, tels Subversion ou Perforce; ce faisant, vous éviterez de subtiles confusion lorsque vous utiliserez l'outil. Git enregistre et approche les données très différemment des autres systèmes, malgré la similarité des interfaces pour l'utilisateur; comprendre ces différences vous permettra d'éviter la confusion lorsque vous l'utiliserez.
 
-### Snapshots, Not Differences ###
+### Sauvegardes au lieu de différences ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Comment Git "pense" ses données : la différence majeure entre Git et les autres SSV (y compris Subversion et compagnie). Conceptuellement, la plupart des systèmes alternatifs enregistre l'information comme une liste de modifications-par-fichier. Ces systèmes (CVS, Subversion, Perforce, Bazaar, etc.) "pensent" que l'information qu'ils maintiennent s'applique à des lots de fichiers et aux changements effectués dans le temps pour chaque fichier, tel qu'illustré à la figure 1-4.
 
 Insert 18333fig0104.png
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Figure 1-4. Les autres systèmes tendent à enregistrer les données comme modifications à une version étalon de chaque fichier.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5.
+Git n'approche pas l'enregistrement des données ainsi. A la place, Git conçoit ses données plutôt comme des copies instantanées d'un mini-système-de-fichiers. Chaque fois que vous _committez_, que vous sauvegardez l'état de votre projet dans Git, il prend un instantané de l'état de vos fichiers à ce moment-là et enregistre la référence à cet instantané. Pour plus d'efficacité, si les fichiers n'ont pas changé, Git ne l'enregistre pas de nouveau mais conserve un lien vers la version identique qu'il a déjà enregistrée. La figure 1-5 ressemble à comment Git conçoit ses données.
 
 Insert 18333fig0105.png
-Figure 1-5. Git stores data as snapshots of the project over time.
+Figure 1-5. Git enregistre les données comme instantanés d'un projet dans le temps.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Il s'agit là d'une distinction importante entre Git et les autres SSV. Dans Git, presque tout les aspects du suivi de version que les autres systèmes ont hérité des générations précédentes sont reconsidérés. Cela fait de Git plus un mini-système-de-fichiers sur lequel s'appuient quelques outils d'une puissance incroyable, qu'un simple SSV. Nous reviendrons aux bénéfices de concevoir les données ainsi lorsque nous nous intéresserons aux branches dans le chapitre 3.
 
 ### Nearly Every Operation Is Local ###
 

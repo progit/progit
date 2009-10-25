@@ -30,14 +30,14 @@ Ce modèle offre de nombreux avantages, surtout comparé aux SSV locaux. Par exe
 
 Cependant, ce modèle souffre de sérieux écueils. Le plus évident concerne le point unique de panne que représente le serveur central. Si ce serveur devient indisponible pendant une heure, durant tout ce temps personne ne pourra collaborer ni sauvegarder les modifications de ses propres travaux en cours. Si le disque dur de la base de données centrale  est corrompu, et que des sauvegardes suffisantes n'ont pas été prévues, c'est l'ensemble du projet que vous pouvez perdre-incluant son historique, à l'exception de quelque copie intégrale dont pourraient disposer certaines personnes sur leurs propres machines. Les SSV locaux souffrent du même problème-dès que vous entreposez l'intégralité de l'historique d'un projet dans un endroit unique, vous risquez de tout perdre.
 
-### Distributed Version Control Systems ###
+### Les systèmes distribués de suivi de version ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+C'est là que les systèmes distribués de suivi de version apparaissent. Dans un SDSV (comme Git, Mercurial, Bazaar ou Darcs), les clients ne récupèrent pas seulement la dernière copie des fichiers : ils maintiennent localement un miroir fidèle du dépôt. Si l'un quelconque des serveurs disparait, et que ces systèmes collaboraient avec lui, chacun des clients saura fournir une copie identique à restaurer sur ce serveur. Chaque synchronisation génère en fait une sauvegarde complète de l'intégralité des données (voir la figure 1-3).
 
 Insert 18333fig0103.png
-Figure 1-3. Distributed version control diagram.
+Figure 1-3. Diagramme des systèmes distribués de suivi de version.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+En outre, nombre de ces systèmes offre une bonne gestion de multiples dépôts distants avec lesquels travailler, de manière à collaborer avec différents groupes et procéder de différentes manières simultanément au sein d'un même projet. Cela permet la mise en oeuvre de plusieurs méthodes de travail impossible à mettre en place avec des systèmes centralisés, comme des modèles hiérarchiques.
 
 ## A Short History of Git ##
 

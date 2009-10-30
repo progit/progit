@@ -122,7 +122,7 @@ Se uma versão particular de um arquivo está no diretório Git, é considerada 
 
 Vamos entender como utilizar o Git. Primeiramente você deve instalá-lo. Você pode obte-lo de diversas formas; as duas mais comuns são instalá-lo a partir do fonte e instalar um pacote existente para sua plataforma.
 
-### Instalando a partir do fonte ###
+### Instalando a Partir do Fonte ###
 
 Caso você possa, é geralmente mais util instalar o Git a partir do fonte, porque será obtida a versão mais recente. Cada versão do Git tende a incluir melhoras na UI, sendo assim, obter a última versão é, em geral, a melhor forma caso você sinta-se confortável em compilar o código a partir do fonte. É também o caso para diversas distribuições Linux que contêm pacotes muito antigos; sendo assim, a não ser que você tenha uma distro muito atualizada ou está utilizando backports, instalar a partir do fonte pode ser a melhor aposta.
 
@@ -149,77 +149,77 @@ Após a conclusão, você também pode obter o Git via o próprio Git para atual
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-_### Installing on Linux ###
+### Instalando no Linux ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Se você quiser instalar o Git no Linux via um instalador binário, você pode fazê-lo via o gerenciador de pacotes que está disponível na sua distribuição. Caso você esteja no Fedora, você pode usar o yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Ou se você estiver em uma distribuição baseada no Debian, tal qual o Ubuntu, use o apt-get:
 
 	$ apt-get instal git-core
 
-### Installing on Mac ###
+### Instalando no Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Existem duas formas fáceis de se instalar Git em um Mac. A mais fácil delas é usar o instalador gráfico do Git, que você pode baixar da página do Google Code (veja Figura 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer
+Figura 1-7. Instalador Git OS X
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+A outra forma mais comum é instalar o Git via MacPorts (`http://www.macports.org`). Se você tem o MacPOrts instalado, instale o Git via
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Você não precisa adicionar todos os extras, mas você provavelmente irá querer incluir o +svn caso você tenha que usar o Git com repositórios Subversion (veja Capítulo 8).
 
-### Installing on Windows ###
+### Instalando no Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Instalar o Git no Windows é muito fácil. O projeto msysGit tem um dos procedimentos mais simples de instalação. Simplesmente baixe o arquivos exe de instalação a partir da página Google Code e execute-o:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Após concluir a instalação, você terá tanto uma versão de linha-de-comando (incluindo um cliente SSH que será útil depois) e uma GUI padrão.
 
-## First-Time Git Setup ##
+## Configuração Inicial do Git ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Agora que você tem o Git em seu sistema, você pode querer fazer algumas coisas para customizar seu ambiente Git. Você deve ter que realizar isso apenas uma vez; elas se manterão entre atualizações. Você também poderá alterá-las a qualqer momento executando os comandos novamente.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git vem com uma ferramenta chamada git config que permite a você obter e definir variáveis de configuração que controlam todos os aspectos de como o Git parece e opera. Essas variáveis podem ser armazenadas em três lugares diferentes:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/sysconfig`.
+*	arquivo `/etc/gitconfig`: Contem valores para todos os usuários do sistema e todos os seus repositórios. Se você passar a opção `--system` para `git config`, ele lerá e escreverá a partir deste arquivo especificamente.
+*	arquivo `~/.gitconfig`: Específico para seu usuário. Você pode fazer o Git ler e escrever a partir deste arquivo especificamente passando a opção `--global`.
+*	arquivo de configuração no diretório git (ou seja, `.git/config`) de qualquer repositório que você esta utilizando atualmente: Específico para aquele único repositório. Cada nível sobrepõem o valor do nível anterior, sendo assim valores em `.git/config` sobrescrevem aqueles em `/etc/gitconfig`
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+Em sistemas Windows, Git procura pelo arquivo `.gitconfig` no diretório `$HOME` (`C:\Documents and Settins\$USER` para a maioria das pessoas). Também procura por /etc/gitconfig, apesar de que é relativo à raiz de MSys, que é o local onde você escolheu instalar o Git no seu sistema Windows quando executa o instalador.
 
-### Your Identity ###
+### Sua Identidade ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+A primiera coisa que você deve fazer quando instalar o Git é definir o seu nome de usuário e endereço de e-mail. Isso é importante porque todo o commit utiliza essas informações e, está imutavelmente anexado nos commits que você realiza:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Relembrando, você só precisará fazer isso uma vez caso passe a opção `--global`, pois o Git sempre usará essa informação para qualquer coisa que você faça nesse sistema. Caso você queira sobrepor estas com um nome ou endereço de e-mail diferentes para projetos específicos, você pode executar o comando sem a opção `--global` quando estiver no próprio projeto.
 
-### Your Editor ###
+### Seu Editor ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Agora que sua identidade está configurada, você pode configurar o editor de texto padrão que será utilizado quando o Git precisar que você digite uma mensagem. Por padrão, Git usa o editor padrão do sistema, que é geralmente Vi ou Vim. Caso você queira utilizar um editor diferente, tal como o Emacs, você pode executar o seguinte:
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### Sua Ferramenta de Diff ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+Outra opção útil que você pode querer configurar é a ferramente padrão de diferença utilizada para resolver conflitos de mesclas. Digamos que você queira utilizar o vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git aceita kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge e opendiff como ferramentas válidas de mescla. Você também pode configurar uma ferramenta customizada; veja o Capítulo 7 para maiores informações em como fazê-lo.
 
-### Checking Your Settings ###
+### Verificando Suas Configurações ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Caso você queira verificar suas configurações, você pode utilizar o comando `git config --list` para listar todas as configurações que o Git encontra naquele ponto:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -230,28 +230,28 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Você pode ver algumas chaves mais de uma vez, porque o Git lê as mesmas chaves em diferentes arquivos (`/etc/gitconfig` e `~/.gitconfig`, por exemplo). Neste caso, Git usa o último valor para cada chave única que é obtida.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Você também pode verificar qual o valor que uma determinada chave tem para o Git digitando `git config {key}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Obtendo Ajuda ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Caso você alguma vez precise de ajuda enquanto usando o Git, exitem três formas de se obter ajuda das páginas de manual (manpage) para quaisquer comandos do Git:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+Por exemplo, você pode obter a manpage para o comando config digitando:
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+Estes comandos são bons porque você pode acessá-los a qualquer momento, mesmo offline.
+Caso as manpages e este livro não sejam suficientes e você precise de ajuda pessoalmente, tente os canais `#git` ou `#github` no servidor Freenode IRC (irc.freenode.net). Esses canais estão regularmente repletos com centenas de pessoas que possuem grande conhecimento sobre Git e com grande disposição para ajudar.
 
-## Summary ##
+## Resumo ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+Você deve ter uma compreensão básica do que é Git e suas diferenças em relação ao CVCS que você tem utilizado. Além disso, você deve ter uma versão do Git funcionando em seu sistema que está configurada com sua identidade pessoal. Agora é hora de aprender as bases do Git.

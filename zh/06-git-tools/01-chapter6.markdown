@@ -186,9 +186,9 @@ Git 会根据你提供的 SHA-1 值识别出短的、独一无二的缩写。如
 
 现在你已经可以指明单次的提交，让我们来看看怎样指明一定范围的提交。这在你管理分支的时候尤显重要——如果你有很多分支，你可以指明范围来圈定一些问题的答案，比如：“这个分支上我有哪些工作还没合并到主分支的？”
 
-#### 两个点 ####
+#### 双点 ####
 
-最常用的指明范围的方法是两个点的语法。这种语法主要是让 Git 区分出可从一个分支中获得而不能从另一个分支中获得的提交。例如，假设你有类似于图 6-1 的提交历史。
+最常用的指明范围的方法是双点的语法。这种语法主要是让 Git 区分出可从一个分支中获得而不能从另一个分支中获得的提交。例如，假设你有类似于图 6-1 的提交历史。
 
 Insert 18333fig0601.png 
 图 6-1. 范围选择的提交历史实例
@@ -212,25 +212,25 @@ Insert 18333fig0601.png
 这条命令显示任何在你当前分支上而不在远程`origin` 上的提交。如果你运行 `git push` 并且的你的当前分支正在跟踪 `origin/master`，被`git log origin/master..HEAD` 列出的提交就是将被传输到服务器上的提交。
 你也可以留空语法中的一边来让 Git 来假定它是 HEAD。例如，输入 `git log origin/master..` 将得到和上面的例子一样的结果—— Git 使用 HEAD 来代替不存在的一边。
 
-#### Multiple Points ####
+#### 多重点 ####
 
-The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
+双点语法就像速记一样有用；但是你也许会想针对两个以上的分支来指明修订版本，比如查看哪些提交被包含在某些分支中的一个，但是不在你当前的分支上。Git允许你在引用前使用`^`字符或者`--not`指明你不希望提交被包含其中的分支。因此下面三个命令是等同的：
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For insance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+这样很好，因为它允许你在查询中指定多于两个的引用，而这是双点语法所做不到的。例如，如果你想查找所有从`refA`或`refB`包含的但是不被`refC`包含的提交，你可以输入下面中的一个
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-This makes for a very powerful revision query system that should help you figure out what is in your branches.
+这建立了一个非常强大的修订版本查询系统，应该可以帮助你解决分支里包含了什么这个问题。
 
-#### Triple Dot ####
+#### 三点 ####
 
-The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
-If you want to see what is in `master` or `experiment` but not any common references, you can run
+最后一种主要的范围选择语法是三点语法，这个可以指定被两个引用中的一个包含但又不被两者同时包含的分支。回过头来看一下图6-1里所列的提交历史的例子。
+如果你想查看`master`或者`experiment`中包含的但不是两者共有的引用，你可以运行
 
 	$ git log master...experiment
 	F
@@ -238,9 +238,9 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
-Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.
+这个再次给出你普通的`log`输出但是只显示那四次提交的信息，按照传统的提交日期排列。
 
-A common switch to use with the `log` command in this case is `--left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:
+这种情形下，`log`命令的一个常用参数是`--left-right`，它会显示每个提交到底处于哪一侧的分支。这使得数据更加有用。
 
 	$ git log --left-right master...experiment
 	< F
@@ -248,7 +248,8 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 	> D
 	> C
 
-With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
+有了以上工具，让Git知道你要察看哪些提交就容易得多了。
+
 
 ## 交互式暂存 ##
 

@@ -229,12 +229,13 @@ Git 中所有 Subversion 桥接命令的基本命令是 `git svn` 。所有的�
 
 在别人克隆该项目的时候，只能看到这个合并 commit 包含了所有发生过的修改；他们无法获知修改的作者和时间等提交信息。
 
-### Subversion Branching ###
+### Subversion 分支 ###
 
-Branching in Subversion isn’t the same as branching in Git; if you can avoid using it much, that’s probably best. However, you can create and commit to branches in Subversion using git svn.
+Subversion 的分支和 Git 中的不尽相同；避免过多的使用可能是最好方案。不过，用 git svn 创建和提交不同的 Subversion 分支仍是可行的。
 
-#### Creating a New SVN Branch ####
+#### 创建新的 SVN 分支 ####
 
+要在 Subversion 中建立一个新分支，需要运行 `git svn branch [分支名]`
 To create a new branch in Subversion, you run `git svn branch [branchname]`:
 
 	$ git svn branch opera
@@ -246,7 +247,7 @@ To create a new branch in Subversion, you run `git svn branch [branchname]`:
 	Successfully followed parent
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
-This does the equivalent of the `svn copy trunk branches/opera` command in Subversion and operates on the Subversion server. It’s important to note that it doesn’t check you out into that branch; if you commit at this point, that commit will go to `trunk` on the server, not `opera`.
+相当于在 Subversion 中的 `svn copy trunk branches/opera` 命令并且对 Subversion 服务器进行了相关操作。值得提醒的是它没有检出和转换到那个分支；如果现在进行提交，将提交到服务器上的 `trunk`， 而非 `opera`。
 
 ### Switching Active Branches ###
 

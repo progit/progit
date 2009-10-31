@@ -1,28 +1,38 @@
 # Git Basics #
+# Básico Git #
 
 If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+Se você só puder ler um capítulo para continuar a usar o Git, este é ele. Esse capítulo cobre todos os comandos básicos que você precisa para realizar a maioria das atividades que eventualmente você fará no Git. Ao final desse capítulo você deverá ser capaz de configurar e inicializar um repositório, começar e parar o monitoramento de arquivos, e selecionar e comitar alterações. Também vamos ostrar a você como configurar o Git para ignorar certos tipos de arquivos e padrões de arquivos, como desfazer enganos rápida e facilmente, como pesquisar o histórico do seu projeto e visualizar alterações entre commits e como enviar e obter a partir de repositórios remotos.
 
 ## Getting a Git Repository ##
+## Obtendo um Repositório Git ##
 
 You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+Você pode obter um projeto Git utilizando duas formas prinipais. O primeiro faz uso de um projeto ou diretório existente e o importa para o Git. O segundo clona um repositório Git existente a partir de outro servidor.
 
 ### Initializing a Repository in an Existing Directory ###
+### Inicializando um Repositório em um Diretórioo Existente ###
 
 If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+Caso você esteja iniciando o monitoramento de um projeto existente com Git, você precisa ir para o diretório do projeto e digitar
 
 	$ git init
 
 This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
+Isso cria um novo subdiretório chamado .git que contem todos os arquivos necessários de seu repositório — um esqueleto de repositório Git. Neste ponto, nada em seu projeto é monitorado. (Veja o Capítulo 9 para msiores informações sobre quais arquivos estão contidos no diretório `.git` que foi criado.)  
 
 If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
+Caso você queira começar a controlar o versionamento dos arquivos existentes (diferente de um diretório vazio), voce provavelmente deve começar a monitorar esses arquivos e fazer um commit inicial. Você pode realizar isso com poucos comandos git add que especificam quais arquivos você quer monitorar, seguido de um commit:
 
 	$ git add *.c
 	$ git add README
 	$ git commit –m 'initial project version'
 
 We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+Bem, nós iremos repassar esses comandos em um momento. Neste ponto, vovê tem um repositório Git com arquivos monitorados e um commit inicial.
 
 ### Cloning an Existing Repository ###
+### Clonando um Repositório Existente ###
 
 If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
 
@@ -1067,7 +1077,7 @@ Press the Tab key when you’re writing a Git command, and it should return a se
 	commit config
 
 In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
-	
+
 This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
 
 	$ git log --s<tab>
@@ -1100,7 +1110,7 @@ This seems a bit clearer. It’s also common to add a `last` command, like this:
 	$ git config --global alias.last 'log -1 HEAD'
 
 This way, you can see the last commit easily:
-	
+
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
 	Author: Josh Goebel <dreamer3@example.com>

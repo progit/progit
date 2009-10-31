@@ -253,8 +253,9 @@ Insert 18333fig0601.png
 
 ## 交互式暂存 ##
 
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+Git提供了很多脚本来辅助某些命令行任务。这里，你将看到一些交互式命令，它们帮助你容易地构建只包含特定组合和部分文件的提交。在你修改了一大批文件然后决定将这些变更放在几个各有侧重的提交而不是单个又大又乱的提交时，这些工具非常有用。用这种方法，你可以确保你的提交在逻辑上划分为相应的变更集，以便于被和你一起工作的开发者审阅。
+
+如果你运行`git add`时加上`-i`或者`--interactive`选项，Git就进入了一个交互式的shell模式，显示一些类似于下面的信息：
 
 	$ git add -i
 	           staged     unstaged path
@@ -267,13 +268,13 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
+你会看到这个命令以一个完全不同的视图显示了你的暂存区 —— 基本上是你通过`git status`得到的那些信息但是稍微简洁和丰富一些。它在左侧列出了你暂存的变更，在右侧列出了未被暂存的变更。
 
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+在这之后是一个命令区。这里你可以做很多事情，包括暂存文件，撤回文件，暂存部分文件，加入未被追踪的文件，查看暂存文件的差别。
 
-### Staging and Unstaging Files ###
+### 暂存和撤回文件 ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+如果你在`What now>`的提示后输入`2`或者`u`，这个脚本会提示你那些文件你想要暂存：
 
 	What now> 2
 	           staged     unstaged path
@@ -282,7 +283,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+如果想暂存TODO和index.html，你可以输入相应的编号：
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -291,7 +292,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+每个文件旁边的`*`表示选中的文件将被暂存。如果你在`update>>`提示后直接敲入回车，Git会替你把所有选中的内容暂存：
 
 	Update>> 
 	updated 2 paths
@@ -305,7 +306,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+现在你可以看到TODO和index.html文件被暂存了同时simplegit.rb文件仍然未被暂存。如果这时你想要撤回TODO文件，就使用`3`或者`r`（代表revert，恢复）选项：
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -323,7 +324,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+再次查看Git的状态，你会看到你已经撤回了TODO文件
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -334,7 +335,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+要查看你暂存内容的差异，你可以使用`6`或者`d`（表示diff）命令。它会显示你暂存文件的列表，你可以选择其中的几个，显示其被暂存的差异。这跟你在命令行下指定`git diff --cached`非常相似：
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -356,11 +357,11 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+通过这些基本命令，你可以使用交互式增加模式，处理暂存区就稍微容易些了。
 
-### Staging Patches ###
+### 暂存补丁 ###
 
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+只让Git暂存文件的某些部分而忽略其他也是有可能的。例如，你对simplegit.rb文件作了两处修改但是只想暂存其中一个而忽略另一个，在Git中实现这一点非常容易。在交互式的提示符下，输入`5`或者`p`（表示patch，补丁）。Git会询问哪些文件你希望部分暂存；然后对于被选中文件的每一节，他会逐个显示文件的差异区块并询问你是否希望暂存他们：
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -377,7 +378,7 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
+此处你有很多选择。输入`?`可以显示列表：
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 	y - stage this hunk
@@ -394,7 +395,7 @@ You have a lot of options at this point. Typing `?` shows a list of what you can
 	e - manually edit the current hunk
 	? - print help
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+通常你会输入`y`或者`n`，如果你想暂存各个区块，但是暂存特定文件里的全部区块或者暂时跳过对一个区块的处理同样也很有用。如果你暂存了文件的一个部分而保留另外一个部分不被暂存，你的状态输出看起来会是这样：
 
 	What now> 1
 	           staged     unstaged path
@@ -402,9 +403,9 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+simplegit.rb的状态非常有意思。它显示有几行被暂存了，有几行没有。你部分地暂存了这个文件。在这时，你可以退出交互式脚本然后运行`git commit`来提交部分暂存的文件。
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
+最后你也可以不通过交互式增加的模式来实现部分文件暂存 —— 你可以在命令行下通过`git add -p`或者`git add --patch`来启动同样的脚本。
 
 ## 隐藏（Stashing） ##
 

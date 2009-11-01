@@ -407,15 +407,15 @@ simplegit.rb的状态非常有意思。它显示有几行被暂存了，有几�
 
 最后你也可以不通过交互式增加的模式来实现部分文件暂存 —— 你可以在命令行下通过`git add -p`或者`git add --patch`来启动同样的脚本。
 
-## 隐藏（Stashing） ##
+## 储藏（Stashing） ##
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
+经常有这样的事情发生，当你正在进行项目中某一部分的工作，里面的东西处于一个比较杂乱的状态，而你想转到其他分支上进行一些工作。问题是，你不想提交进行了一半的工作，这样你才能稍后回到这个工作点。解决这个问题的办法就是`git stash`命令。
 
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+“‘储藏”“可以获取你工作目录的中间状态 —— 也就是你修改过的被记录文件和暂存的变更 —— 并将它保存到一个未完成变更的堆栈中，随时可以重新应用。
 
-### Stashing Your Work ###
+### 储藏你的工作 ###
 
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
+为了演示这一功能，你可以进入你的项目，进行一些文件上的工作，有可能还暂存其中一个变更。如果你运行`git status`，你可以看到你的中间状态：
 
 	$ git status
 	# On branch master
@@ -430,7 +430,7 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#      modified:   lib/simplegit.rb
 	#
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+现在你想切换分支，但是你还不想提交你正在进行中的工作；所以你储藏这些变更。为了往堆栈推送一个新的储藏，只要运行`git stash`：
 
 	$ git stash
 	Saved working directory and index state \
@@ -438,20 +438,20 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
-Your working directory is clean:
+你的工作目录就干净了：
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+这时，你可以轻易地切换到其他分支工作；你的变更都保存在栈上。要查看现有的储藏，你可以使用`git stash list`：
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+在这个案例中，之前已经进行了两次储藏，所以你可以访问到三个不同的储藏。你可以重新应用你刚刚实施的储藏，所采用的命令就是之前在原始的stash命令的帮助输出里提示的：`git stash apply`。如果你想应用更早的储藏，你可以通过名字指定它，像这样：`git stash apply stash@{2}`。如果你不指明，Git默认使用最近的储藏并尝试应用它：
 
 	$ git stash apply
 	# On branch master
@@ -462,9 +462,9 @@ In this case, two stashes were done previously, so you have access to three diff
 	#      modified:   lib/simplegit.rb
 	#
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+你可以看到Git重新修改了你所储藏的那些当时尚未提交的文件。在这个案例里，你尝试应用储藏的工作目录是干净的，并且属于同一分支；但是一个干净的工作目录和应用到相同的分支上并不是应用储藏的必要条件。你可以在其中一个分支上保留一份储藏，随后切换到另外一个分支，再重新应用这些变更。在工作目录里包含已修改和未提交的文件时，你也可以应用储藏 —— git会给出归并冲突如果有任何变更无法干净地被应用。
 
-The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+对文件的变更被重新应用，但是被暂存的文件没有重新被暂存。想做到那一点，你必须在运行`git stash apply`命令时带上一个`--index`的选项来告诉命令重新应用被暂存的变更。如果你是这么做的，你应该已经回到你原来的位置：
 
 	$ git stash apply --index
 	# On branch master
@@ -479,7 +479,7 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#      modified:   lib/simplegit.rb
 	#
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
+apply选项只尝试应用储藏的工作 —— 储藏的内容仍然在栈上。要移除它，你可以运行`git stash drop`，加上你希望移除的储藏的名字：
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
@@ -488,11 +488,11 @@ The apply option only tries to apply the stashed work — you continue to have i
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
+你也可以运行`git stash pop`来重新应用储藏，同时立刻将其从堆栈中移走。
 
-### Creating a Branch from a Stash ###
+### 从储藏中创建分支 ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+如果你储藏了一些工作，暂时不去理会，然后继续在你储藏工作的分支上工作，你在重新应用工作时可能会碰到一些问题。如果尝试应用的变更是针对一个你那之后修改过的文件，你会碰到一个归并冲突并且必须去化解它。如果你想用更方便的方法来重新检验你储藏的变更，你可以运行`git stash branch`，这会创建一个新的分支，检出你储藏工作时的所处的提交，重新应用你的工作，如果成功，将会丢弃储藏。
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -509,7 +509,7 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+这是一个很棒的捷径来恢复储藏的工作然后在新的分支上继续当时的工作。
 
 ## 重写历史 ##
 

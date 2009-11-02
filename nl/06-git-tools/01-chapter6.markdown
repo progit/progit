@@ -162,7 +162,7 @@ Je kunt ook een nummer na de `^` zetten – bijvoorbeeld, `d921970^2` betekend "
 
 	    Some rdoc changes
 
-The other main ancestry specification is the `~`. This also refers to the first parent, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means "the first parent of the first parent," or "the grandparent" — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
+De andere manier om ouders mee te specificeren is de `~`. Dit refereerd ook naar de eerste ouder, dus `HEAD~` en `HEAD^` zijn gelijk. Het verschil wordt duidelijk als je een nummer specificeerd. `HEAD~2` betekend "de eerste ouder van de eerste ouder", of "de grootouder" – het bewandeld de eerste ouders het aantal keren dat je specificeerd. Bijvoorbeeld, in de geschiedenis die eerder getoond werd, zou `HEAD~3` zijn
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -171,7 +171,7 @@ The other main ancestry specification is the `~`. This also refers to the first 
 
 	    ignore *.gem
 
-This can also be written `HEAD^^^`, which again is the first parent of the first parent of the first parent:
+Dit kan ook geschreven worden als `HEAD^^^`, wat nogmaals de eerste ouder van de eerste ouder van de eerste ouder is:
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -180,57 +180,57 @@ This can also be written `HEAD^^^`, which again is the first parent of the first
 
 	    ignore *.gem
 
-You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
+Je kunt deze syntaxen combineren – je kunt de tweede ouder van de vorige reference krijgen (aangenomen dat het een merge commit was) door `HEAD~3^2` te gebruiken, enzovoort.
 
-### Commit Ranges ###
+### Commit Reeksen ###
 
-Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
+Nu dat je individuele commits kunt specificeren, laten we zien hoe je reeksen van commits kunt specificeren. Dit is erg bruikbaar om je branches te beheren – als je veel branches hebt, kun je reeks specificaties gebruiken om vragen te beantwoorden zoals, "Wat voor werk zit er op deze branch dat ik nog niet in mijn hoofdbranch heb?"
 
-#### Double Dot ####
+#### Dubbele Punt ####
 
-The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
+De meest voorkomende reeks specificatie is de dubbele punt syntax. Dit vraagt Git eigenlijk om een reeks commits op te zoeken, die bereikbaar zijn van één commit maar niet vanuit een ander. Bijvoorbeeld, stel dat je een commit geschiedenis hebt die eruit ziet zoals Figuur 6-1.
 
 Insert 18333fig0601.png 
-Figure 6-1. Example history for range selection.
+Figuur 6-1. Voorbeeld geschiedenis voor reeksselectie.
 
-You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
+Je wilt zien wat er in je experimentele branch zit, dat nog niet in je hoofdbranch gemerged is. Je kunt Git vragen om je een log te tonen van alleen die commits met `master..experiment` – wat betekend "alle commits die bereikbaar zijn door experiment, die niet bereikbaar zijn door master". Om de voorbeelden kort en duidelijk te houden zal ik de letters van de commit objecten in het diagram gebruiken in plaats van de echte log output, in de volgorde waarin ze getoond zouden worden:
 
 	$ git log master..experiment
 	D
 	C
 
-If, on the other hand, you want to see the opposite — all commits in `master` that aren’t in `experiment` — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:
+Als je aan de andere kant het tegenovergestelde wilt zien – alle commits in `master` die niet bereikbaar zijn in `experiment` – dan kun je de branch namen omdraaien. `experiment..master` toont je alles in `master` wat niet bereikbaar is in `experiment`:
 
 	$ git log experiment..master
 	F
 	E
 
-This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge in. Another very frequent use of this syntax is to see what you’re about to push to a remote:
+Dit is handig als je de `experiment` branch up to date wilt houden en vast wilt zien wat je op het punt staat te mergen. Een ander veel voorkomend gebruik van deze syntax is zien wat je op het punt staat naar een remote de pushen:
 
 	$ git log origin/master..HEAD
 
-This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
-You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.
+Dit commando toont je alle commits in je huidige branch, die niet in de `master` branch op je `origin` remote zitten. Als je een `git push` uitvoerd, en je huidige branch volgt de `origin/master`, dan zijn de commits die getoond worden door `git log origin/master..HEAD` de commits die overgezet zullen worden naar de server.
+Je kunt ook één kant van de syntax weglaten en Git de HEAD laten aannemen. Bijvoorbeeld, je krijgt dezelfde resultaten als in het vorige voorbeeld door `git log origin/master..` in te typen – Git vult HEAD in als er een kant mist.
 
-#### Multiple Points ####
+#### Meerdere Punten ####
 
-The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
+De dubbele punt is makkelijk als een afkorting; maar misschien wil je meer dan twee branches specificeren om je revisie aan te geven, zoals zien welke commits in één van een serie branches zit, die nog niet in de branch zit waar je nu op zit. Git laat je dit doen door of het `^` karakter te gebruiken, of `--not` voor iedere referentie waarvan je de bereikbare commits niet wilt zien. Dus deze drie commando's zijn gelijk:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+Dit is fijn omdat met deze syntax je meer dan twee referenties in je vraag kunt specificeren, wat je niet met de dubbele put syntax kan. Bijvoorbeeld, als je alle commits wilt zien die bereikbaar zijn vanuit `refA` of `refB`, maar niet vanuit `refC`, dan kun je één van deze intypen:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-This makes for a very powerful revision query system that should help you figure out what is in your branches.
+Dit zorgt voor een erg krachtig revisie vraagsysteem dat je zou moeten helpen om uit te zoeken wat in je branches zit.
 
-#### Triple Dot ####
+#### Drievoudige Punt ####
 
-The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
-If you want to see what is in `master` or `experiment` but not any common references, you can run
+De laatste veelgebruikte reeks-selectie syntax is de drievoudige punt syntax, wat alle commits specificeerd die bereikbaar zijn door één van de twee referenties, maar niet door allebei. Kijk nog eens naar de voorbeeld commit geschiedenis in Figuur 6-1.
+Als je wilt zien wat in je `master` of in je `experiment` zit, maar geen gedeelde referenties, dan kun je dit uitvoeren
 
 	$ git log master...experiment
 	F
@@ -238,9 +238,9 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
-Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.
+Nogmaals, dit geeft je normale `log` output, maar toont je alleen de commit informatie voor die vier commits, getoond in de traditionele commit datum volgorde.
 
-A common switch to use with the `log` command in this case is `--left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:
+Een veelgebruikte optie bij het `log` command in dit geval is `--left-right`, wat je laat zien aan welke kant van de reeks elke commit zit. Dit helpt de data bruikbaarder te maken:
 
 	$ git log --left-right master...experiment
 	< F
@@ -248,12 +248,12 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 	> D
 	> C
 
-With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
+Met deze tools, kun je Git eenvoudiger laten weten welke commit of commits je wilt inspecteren.
 
-## Interactive Staging ##
+## Interactief Stagen ##
 
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+Bij Git zitten een aantal scripts, die sommige commando-regel taken makkelijker maken. Hier zul je een aantal interactieve commando's zien, die je kunnen helpen om je commits zo te maken dat ze alleen bepaalde combinaties en delen van bestanden bevatten. Deze tools zijn erg bruikbaar als je een serie bestanden aanpast en dan besluit dat je deze veranderingen in een aantal gefocuste commits wilt hebben in plaats van een rommelige commit. Op deze manier ben je er zeker van dat je commits logische aparte wijzigingensets zijn en makkelijk gereviewed kunnen worden door je mede-ontwikkelaars.
+Als je `git add` uitvoert met de `-i` of `--interactive` optie, dan gaat Git over in de interactieve shell modus, waarbij zoiets als dit getoond wordt:
 
 	$ git add -i
 	           staged     unstaged path
@@ -266,9 +266,9 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
+Je kunt zien dat dit commando je een heel andere view van je staging gebied geeft – eigenlijk dezelfde informatie die je krijgt met het `git status` commando, maar dan compacter en meer informatief. Het toont links de wijzigingen die je gestaged hebt, en de niet gestagede wijzigingen rechts.
 
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+Hierna komt een Commando sectie. Hier kun je een aantal dingen mee doen, inclusief bestanden stagen, bestanden unstagen, delen van bestanden stagen, ongevolgde bestanden toevoegen, en diffs zien van wat gestaged is.
 
 ### Staging and Unstaging Files ###
 

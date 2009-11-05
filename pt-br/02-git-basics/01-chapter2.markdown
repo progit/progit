@@ -36,30 +36,30 @@ Isso cria um diretório chamado grit, inicializa um diretório `.git`dentro dest
 
 Este comando faz exatamente a mesma coisa que o anterior, mas o diretório alvo será chamado mygrit.
 
-Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
+O Git possui diversos protocolos de transferência que você pode usar. O exemplo anterior utiliza o protocolo `git://`, mas você também pode ver `http(s)://` ou `user@server:/path.git`, que utiliza o protocolo de transferência SSH. No Capítulo 4 introduziremos todas as opções disponíveis nas quais o servidor pode ser configurado para acessar o seu repositório Git e os prós e contras de cada uma.
 
-## Recording Changes to the Repository ##
+## Gravando Alterações no Repositório ##
 
-You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+Você tem um `bona fide` repositório Git e um checkout ou cópia funcional dos arquivos para esse projeto. Você precisa fazer algumas mudanças e comitar partes destas mudanças em seu repositório cada vez que o projeto atinge um estado ao qual você queira gravar.
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
+Lembre-se que cada arquivo em seu diretório de trabalho pode estar em um de dois estados: monitorado ou não monitorado. Arquivos monitorados são arquivos que estavam no último snapshot; podendo estar inalterados, modificados ou selecionados. Arquivos não monitorados são todo o restante — qualquer arquivo em seu diretório de trabalho que não estava no último snapshot e também não estão em sua área de seleção. Quando um repositório é inicialmente clonado, todos os seus arquivos serão monitorados e inalterados porque você simplesmente os obteve e ainda não os editou.
 
-As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
+Conforme você editas esses arquivos, Git passa a vê-los como modificados, porque você os alterou desde seu último commit. Você seleciona esses arquivos modificados e então comita todas as alterações selecionadas e o ciclo se repete. Este ciclo é apresentado na Figura 2-1.
 
 Insert 18333fig0201.png 
-Figure 2-1. The lifecycle of the status of your files
+Figura 2-1. O ciclo de vida dos status de seus arquivos
 
-### Checking the Status of Your Files ###
+### Verificando o Status de Seus Arquivos ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+A principal ferramenta utilizada para determinar quais arquivos estão em quais estados é o comando git status. Se você executar este comando diretamente após uma clonagem, você deverá ver algo similar a isso:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+Isso significa que você tem um diretório de trabalho limpo — em outras palavras, não existem arquivos monitorados e modificados. Git também não encontrou qualquer arquivo não monitorado, caso contrário eles seria listados aqui. Por fim, o comando lhe mostra em qual branch você se encontra. Por enquanto, esse sempre é o master, que é o padrão; você não deve se preocupar sobre isso. No próximo capítulo nós vamos falar sobre branches e referências em detalhes.
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+Vamos dizer que você adicione um novo arquivo em seu projeto, um simples arquivo README. Caso o arquivo não existisse antes e você execute `git status`, você verá o arquivo não monitorado dessa forma:
 
 	$ vim README
 	$ git status
@@ -71,6 +71,7 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	nothing added to commit but untracked files present (use "git add" to track)
 
 You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+Você pode ver que nosso novo arquivo README não é monitorado, porque esta sob o cabeçalho “arquivos não monitorados” no resultado do status.
 
 ### Tracking New Files ###
 

@@ -13,6 +13,35 @@ Repository
   
   Dépôt
   
+Check in
+--------
+  
+  Dépôt
+  
+To check in
+-----------
+  
+  Déposer, mettre en dépôt, faire un dépôt.
+  
+  Ex.
+    To check a file in => Déposer un fichier
+    When checking a directory in [...] => Lorsqu'on met un repertoire en dépôt
+  
+Check out
+---------
+  
+  Retrait
+  
+To check out
+------------
+  
+  Retirer, récupérer (parfois rapatrier est une bonne alternative)
+  
+To commit
+---------
+  
+  Consigner
+  
 Stage area
 ----------
   
@@ -24,3 +53,75 @@ To stage
   Mettre en attente
   
   Eviter _mettre en zone d'attente_
+  
+To unstage
+----------
+  
+  
+  
+Change
+------
+  
+  Modification (à préférer à changement)
+  
+stash
+-----
+  
+  Remise
+  
+To stash
+--------
+  
+  Remiser
+  
+Checksum
+--------
+  
+  Somme de controle
+  
+Hash
+----
+  
+  Empreinte
+  
+  Alternatives: signature, hachage (correct mais à éviter)
+  
+Workflow
+--------
+  
+  Processus
+  
+  Alternative: scénario
+  
+Snapshot
+--------
+  
+  Image
+  
+  Alternative: parfois, le choix de la traduction litérale 'photographie' est supérieur (rare)
+  
+Diff
+----
+  
+  Diff
+  
+To track
+--------
+  
+  Suivre
+  
+untracked
+---------
+  
+  non-suivi
+  
+unmodified
+----------
+  
+  non-modifié
+  
+To update
+---------
+  
+  Mettre à jour
+  

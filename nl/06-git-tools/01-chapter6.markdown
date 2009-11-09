@@ -270,9 +270,9 @@ Je kunt zien dat dit commando je een heel andere view van je staging gebied geef
 
 Hierna komt een Commando sectie. Hier kun je een aantal dingen mee doen, inclusief bestanden stagen, bestanden unstagen, delen van bestanden stagen, ongevolgde bestanden toevoegen, en diffs zien van wat gestaged is.
 
-### Staging and Unstaging Files ###
+### Bestanden Stagen en Unstagen ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+Als je `2` of `u` op de `What now>` prompt typted, dan vraagt he script welke bestanden je wilt stagen:
 
 	What now> 2
 	           staged     unstaged path
@@ -281,7 +281,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+Om de TODO en index.html bestanden te stagen, kun je de nummers typen:
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -290,7 +290,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+Het `*` naast ieder bestand betekend dat het bestand geselecteerd staat om gestaged te worden. Als je Enter indrukt na niets getyped te hebben op de `Update>>` prompt, dan zal Git alles wat geselecteerd staat pakken en voor je stagen:
 
 	Update>> 
 	updated 2 paths
@@ -304,7 +304,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+Nu kun je zien dat de TODO en index.html bestanden gestaged zijn, en het simplegit.rb bestand nog unstaged is. Als je het TODO bestand wilt unstagen op dit punt, dan gebruik je de `3` of `r` (voor revert) optie:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -322,7 +322,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+Nogmaals kijkend naar je Git status, kun je zien dat je het TODO bestand unstaged hebt:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -333,7 +333,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+Om de diff te zien van wat je gestaged hebt, kun je het `6` of `d` (voor diff) commando gebruiken. Het toont je een lijst van je gestagede bestanden, en je kunt degenen selecteren waarvan je de gestagede diff wilt zien. Dit is vergelijkbaar met het specificeren van `git diff --cached` op de commando regel:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -355,11 +355,11 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+Met deze basis commando's, kun je de interactieve toevoeg modus gebruiken om een beetje makkelijker met je staging gebied om te gaan.
 
-### Staging Patches ###
+### Patches Stagen ###
 
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+Het is ook mogelijk met Git om bepaalde delen van bestanden te stagen en de rest niet. Bijvoorbeeld, als je twee wijzigingen maakt in je simplegit.rb bestand en één van die twee wilt stagen en de andere niet, dan is dat eenvoudig in Git. Vanaf de interactieve prompt, type `5` of `p` (voor patch). Git zal je vragen welke bestanden je deels wilt stagen; dan, voor iedere sectie van de geselecteerde bestanden, zal het stukken van de bestandsdiff tonen en je vragen of je ze wilt stagen, één voor één: 
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -376,7 +376,7 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
+Op dit punt heb je veel opties. Door `?` te typen krijg je een lijst met wat je kunt doen:
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 	y - stage this hunk
@@ -393,7 +393,7 @@ You have a lot of options at this point. Typing `?` shows a list of what you can
 	e - manually edit the current hunk
 	? - print help
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+Over het algemeen zul je `y` of `n` typen als je ieder stuk wilt stagen, maar ze allemaal ineens stagen voor bepaalde bestanden, of een beslissen een stuk over te slaan tot later kan ook behulpzaam zijn. Als je een gedeelte van het bestand wilt stagen en een ander gedeelte unstaged wilt laten, dan zal je status output er zo uitzien:
 
 	What now> 1
 	           staged     unstaged path
@@ -401,11 +401,12 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+De status van het simplegit.rb bestand is interessant. Het laat zien dat een paar regels gestaged zijn, en een paar niet. Je hebt dit bestand deels gestaged. Op dit punt kun je het interactieve toevoeg script verlaten en het `git commit` commando uitvoeren om de gedeeltelijk gestagede bestanden te committen.
 
 Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
+Tot slot hoef je niet in de interactieve toevoeg modus te zijn om het gedeeltelijke bestands-stagen te doen – je kunt hetzelfde script starten door `git add -p` of `git add --patch` op de commando regel te gebruiken.
 
-## Stashing ##
+## Stashen ##
 
 Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
 

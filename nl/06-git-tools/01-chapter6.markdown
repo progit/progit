@@ -408,13 +408,13 @@ Tot slot hoef je niet in de interactieve toevoeg modus te zijn om het gedeelteli
 
 ## Stashen ##
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
+Vaak, als je aan een deel van je project hebt zitten werken, zijn de dingen in een rommelige staat en wil je van branch veranderen om aan wat anders te werken. Het probleem is dat je geen halfklaar werk wilt committen, alleen maar om later verder te kunnen gaan op dit punt. Het antwoord op dit probleem is het `git stash` commando.
 
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+Stashen pakt de vervuilde status van je werkmap – dat wil zeggen, je gewijzigde gevolgde bestanden en gestagede wijzingen – en bewaard het op een stapel onafgemaakte wijzigingen, die je op ieder tijdstip opnieuw kunt toepassen.
 
-### Stashing Your Work ###
+### Je Werk Stashen ###
 
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
+Ter demonstratie, ga je in je project en begint met werken aan een paar bestanden en misschien stage je een van de wijzigingen. Als je `git status` uitvoerd, kun je je vervuilde status zien:
 
 	$ git status
 	# On branch master
@@ -429,7 +429,7 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#      modified:   lib/simplegit.rb
 	#
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+Nu wil je van branch veranderen, maar je wilt hetgeen je aan hebt zitten werken nog niet committen; dus ga je de wijzigingen stashen. Om een nieuwe stash op je stapel te duwen, voer dan `git stash` uit:
 
 	$ git stash
 	Saved working directory and index state \
@@ -437,20 +437,20 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
-Your working directory is clean:
+Je werkmap is schoon:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+Op dit punt kun je makkelijk van branch wisselen en ergens anders werken; je wijzigingen worden opgeslagen op je stapel. Om te zien welke stashes je opgeslagen hebt, kun je `git stash list` gebruiken:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+In dit geval waren er twee stashes al eerder opgeslagen, dus heb je toegang tot drie verschillende gestashete werken. Je kunt degene die je zojuist gestashed hebt opnieuw toepassen, door het commando uit te voeren dat in de help output van het originele stash commando stond: `git stash apply`. Als je een van de oudere stashes wilt toepassen, dan kun je die specificeren door hem te noemen, zoals hier: `git apply stash stash@{2}`. Als je geen stash specificeerd, gaat Git uit van de meest recente stash en probeert die toe te passen:
 
 	$ git stash apply
 	# On branch master
@@ -461,9 +461,9 @@ In this case, two stashes were done previously, so you have access to three diff
 	#      modified:   lib/simplegit.rb
 	#
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+Je kunt zien dat Git opnieuw de bestanden wijzigt, die je uncommitte toen je de stash opsloeg. In dit geval had je een schone werkmap toen je de stash probeerde toe te passen, en probeerde je hem op dezelfde branch toe te passen als waar je hem van opgeslagen hebt; maar het hebben van een schone werkmap en toepassen op dezelfde branch zijn niet noodzakelijk om een stash succesvol toe te kunnen passen. Je kunt een stash op één branch opslaan, later naar een andere branch wisselen, en daar opnieuw de wijzigingen toe proberen te passen. Je kunt ook gewijzigde en uncommitted bestanden in je werkmap hebben wanneer je een stash probeert toe te passen – Git geeft je merge conflicten als iets niet meer netjes toe te passen is.
 
-The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+De wijzigingen aan je bestanden zijn opnieuw toegepast, maar het bestand dat je eerder gestaged had, is niet opnieuw gestaged. Om dat te doen moet je het `git stash apply` commando met de `--index` optie uitvoeren om het commando te vertellen de gestagede wijzigingen opnieuw toe te passen. Als je dat had uitgevoerd, dan zou je weer op je originele vertrekpunt zijn uitgekomen:
 
 	$ git stash apply --index
 	# On branch master
@@ -478,7 +478,7 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#      modified:   lib/simplegit.rb
 	#
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
+De apply optie probeert alleen het gestashete werk toe te passen – je blijft het op je stapel behouden. Om het te verwijderen, kun je `git stash drop` uitvoeren, met de naam van de stash die je wilt verwijderen:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
@@ -487,11 +487,11 @@ The apply option only tries to apply the stashed work — you continue to have i
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
+Je kunt ook `git stash pop` uitvoeren om de stash toe te passen en hem onmiddelijk van je stapel te verwijderen.
 
-### Creating a Branch from a Stash ###
+### Een Branch Van Een Stash Maken ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+Als je wat werk stashet, het een poosje laat rusten, en dan doorwerkt op de branch waarvan je het werk gestashet hebt, dan kun je een probleem krijgen met het werk weer toe te passen. Als het toepassen een bestand probeert te wijzigen dat je sindsdien gewijzigd hebt, krijg je een merge conflict en zul je het moeten oplossen. Als je een eenvoudiger manier wilt hebben om je gestashete wijzigingen opnieuw te testen, kun je `git stash branch` uitvoeren, wat een nieuwe branch voor je zal aanmaken, de commit waar je op zat toen je het werk stashte weer uitchecken, je werk opnieuw toepassen en dan de stash droppen als het succesvol is toegepast:
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -508,39 +508,39 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+Dit is een fijne korte route om gestashed werk eenvoudig terug te halen en aan te werken in een nieuwe branch.
 
-## Rewriting History ##
+## Geschiedenis Herschrijven ##
 
-Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
+Vaak zul je, als je met Git werkt, je commit geschiedenis om een of andere reden willen aanpassen. Eén van de mooie dingen van Git is dat het je toelaat om beslissingen op het laatste moment te kunnen maken. Je kunt bepalen welke bestanden in welke commits gaan vlak voordat je commit op het staging gebied, je kunt beslissen dat je niet aan iets bedoelde te werken met het stash commando en je kunt commits herschrijven ook al zijn ze reeds gebeurd, zodat het lijkt alsof ze op een andere manier gebeurd zijn. Dit kan bijvoorbeeld de volgorde van de commits zijn, berichten of bestanden wijzigen, commits samenvoegen of opsplitsen, of complete commits weghalen – dat alles voordat je je werk met anderen deelt.
 
-In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.
+In deze sectie zul je leren hoe je deze handige taken doet, zodat je je commit geschiedenis er uit kunt laten zien zoals jij dat wilt, voordat je hem met anderen deelt.
 
-### Changing the Last Commit ###
+### De Laatste Commit Veranderen ###
 
-Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
+De laatste commit veranderen is waarschijnlijk de meest voorkomende geschiedenis wijziging die je wilt doen. Vaak wil je twee basale dingen aan je laatste commit wijzigen: het commit bericht, of het snapshot dat je zojuist opgeslagen hebt wijzigen door het toevoegen, wijzigen of weghalen van bestanden.
 
-If you only want to modify your last commit message, it’s very simple:
+Als je alleen je laatste commit bericht wilt wijzigen, dan is dat heel eenvoudig:
 
 	$ git commit --amend
 
-That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.
+Dat plaatst je in je teksteditor, met je laatste commit bericht erin, klaar voor jou om je bericht te wijzigen. Als je de editor opslaat en sluit, dan schrijft de editor een nieuwe commit met dat bericht en maakt dat je laatste commit.
 
-If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way. You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit.
+Als je hebt gecommit en je wilt het snapshot dat je gecommit hebt wijzigen, door het toevoegen of wijzigen van bestanden, misschien omdat je vergeten was een nieuw bestand toe te voegen toen je committe, werkt het proces ongeveer op dezelfde manier. Je staged de wijzigingen die je wilt door een bestand te wijzigen en `git add` er op uit te voeren, of `git rm` op een gevolgd bestand, en de daaropvolgende `git commit --amend` pakt je huidige staging gebied en maakt dat het snapshot voor de nieuwe commit.
 
-You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
+Je moet oppassen met deze techniek, omdat het amenden de SHA-1 van de commit wijzigt. Het is vergelijkbaar met een kleine rebase – niet je laatste commit wijzigen als je die al gepushed hebt.
 
-### Changing Multiple Commit Messages ###
+### Meerdere Commit Berichten Wijzigen ###
 
-To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
+Om een commit te wijzigen die verder terug in je geschiedenis zit, moet je naar complexere tools gaan. Git heeft geen geschiedenis-wijzig tool, maar je kunt het rebase tool gebruiken om een serie commits op de HEAD waarvan ze origineel gebaseerd waren te rebasen, in plaats van ze naar een andere te verhuizen. Met het interactieve rebase tool, kun je dan na iedere commit die je wilt wijzigen stoppen en het bericht wijzigen, bestanden toevoegen, of doen wat je ook maar wilt. Je kunt rebase interactief uitvoeren door de `-i` optie aan `git rebase` toe te voegen. Je moet aangeven hoe ver terug je commits wilt herschrijven door het commando te vertellen op welke commit het moet rebasen.
 
-For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
+Bijvoorbeeld, als je de laatste drie commit berichten wilt veranderen, of een van de commit berichten in die groep, dan geef je de ouder van de laatste commit die je wilt wijzigen mee als argument aan `git rebase -i`, wat `HEAD~2^` of `HEAD~3` is. Het kan makkelijker zijn om de `~3` te onthouden, omdat je de laatste drie commits probeert te wijzigen; maar houd in gedachten dat je eigenlijk vier commits terug aangeeft; de ouder van de laatste commit die je wilt veranderen:
 
 	$ git rebase -i HEAD~3
 
-Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
+Onthoud ook dat dit een rebase commando is – iedere commit in de serie `HEAD~3..HEAD` zal worden herschreven, of je het bericht wijzigt of niet. Voeg geen commit toe die je al naar een centrale server gepushed hebt – als je dit doet breng je andere gebruikers in de war door ze een alternatieve versie van dezelfde wijziging te geven.
 
-Running this command gives you a list of commits in your text editor that looks something like this:
+Dit commando uitvoeren geeft je een lijst met commits in je tekst editor die er ongeveer zo uit ziet:
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame

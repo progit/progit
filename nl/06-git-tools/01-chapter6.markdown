@@ -557,22 +557,22 @@ Dit commando uitvoeren geeft je een lijst met commits in je tekst editor die er 
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
+Het is belangrijk om te zien dat deze commits in de omgekeerde volgorde getoond worden dan wanneer je ze normaliter ziet als je het `log` commando gebruikt. Als je een `log` uitvoert, zie je zoiets als dit:
 
 	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
 	a5f4a0d added cat-file
 	310154e updated README formatting and added blame
 	f7f3f6d changed my name a bit
 
-Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
+Zie de omgekeerde volgorde. De interactieve rebase geeft je een script dat het gaat uitvoeren. Het zal beginnen met de commit die je specificeerd op de commando regel (`HEAD~3`), en de wijzigingen in ieder van deze commits opnieuw afspelen van bove naar beneden. Het toont de oudste aan de bovenkant, in plaats van de nieuwste, omdat dat de eerste is die het zal afspelen.
 
-You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:
+Je moet het script wijzigen zodat het stopt bij de commit die je wilt wijzigen. Om dat te doen moet je het woord pick veranderen in het woord edit voor ieder van de commits waarbij je het script wilt laten stoppen. Bijvoorbeeld, om alleen het derde commit bericht te wijzigen, verander je het bestand zodat het er zo uitziet:
 
 	edit f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
+Als je de editor opslaat en sluit, plaatst Git je terug in de laatste commit van die lijst en zet je op de commando regel met de volgende boodschap:
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -584,30 +584,30 @@ When you save and exit the editor, Git rewinds you back to the last commit in th
 
 	       git rebase --continue
 
-These instructions tell you exactly what to do. Type
+Deze instructies vertellen je precies wat je moet doen. Type
 
 	$ git commit --amend
 
-Change the commit message, and exit the editor. Then, run
+Wijzig het commit bericht, en verlaat de editor. Voer daarna dit uit
 
 	$ git rebase --continue
 
-This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.
+Dit commando zal de andere twee commits automatisch toepassen, en dan ben je klaar. Als je pick in edit veranderd op meerdere regels, dan kun je deze stappen herhalen voor iedere commit die je in edit veranderd hebt. Iedere keer zal Git stoppen, je de commit laten amenden, en verder gaan waar je gewijzigd bent.
 
-### Reordering Commits ###
+### Commits Rangschikken ###
 
-You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this
+Je kunt een interactieve rebase ook gebruiken om commits te rangschikken of volledig te verwijderen. Als je de "added cat-file" commit wilt verwijderen en de volgorde waarin de andere twee commits zijn geintroduceerd wilt veranderen, dan kun je het rebase script van dit
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-to this:
+veranderen in dit:
 
 	pick 310154e updated README formatting and added blame
 	pick f7f3f6d changed my name a bit
 
-When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.
+Als je de editor opslaat en sluit, zal Git je branch terugzetten naar de ouder van deze commits, eerst `310154e` en dan `f7f3f6d` toepassen, en dan stoppen. Effectief verander je de volgorde van die commits en verwijder je de "added cat-file" commit in zijn geheel.
 
 ### Squashing a Commit ###
 

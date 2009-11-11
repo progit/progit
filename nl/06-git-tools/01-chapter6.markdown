@@ -609,9 +609,9 @@ veranderen in dit:
 
 Als je de editor opslaat en sluit, zal Git je branch terugzetten naar de ouder van deze commits, eerst `310154e` en dan `f7f3f6d` toepassen, en dan stoppen. Effectief verander je de volgorde van die commits en verwijder je de "added cat-file" commit in zijn geheel.
 
-### Squashing a Commit ###
+### Een Commit Squashen ###
 
-It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:
+Het is ook mogelijk een serie commits te pakken en ze in één enkele commit te squashen met het interactieve rebase tool. Het script stopt behulpzame instructies in het rebase bericht:
 
 	#
 	# Commands:
@@ -623,13 +623,13 @@ It’s also possible to take a series of commits and squash them down into a sin
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:
+Als je, in plaats van "pick" of "edit", "squash" specificeert zal Git zowel die verandering als de verandering die er direct aan vooraf gaat toepassen, en je dwingen om de merge berichten samen te voegen. Dus als je een enkele commit van deze drie commits wil maken, laat je het script er zo uit zien:
 
 	pick f7f3f6d changed my name a bit
 	squash 310154e updated README formatting and added blame
 	squash a5f4a0d added cat-file
 
-When you save and exit the editor, Git applies all three changes and then puts you back into the editor to merge the three commit messages:
+Als je de editor opslaat en sluit, zal Git alledrie de veranderingen toepassen en je terug in de editor brengen om de drie commit berichten samen te voegen:
 
 	# This is a combination of 3 commits.
 	# The first commit's message is:
@@ -643,17 +643,17 @@ When you save and exit the editor, Git applies all three changes and then puts y
 
 	added cat-file
 
-When you save that, you have a single commit that introduces the changes of all three previous commits.
+Als je dat opslaat, heb je een enkele commit die de veranderingen van alledrie de vorige commits introduceerd.
 
-### Splitting a Commit ###
+### Een Commit Splitsen ###
 
-Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":
+Een commit opsplitsen zal een commit ongedaan maken, en dan zo vaak als het aantal commits waar je mee wilt eindigen gedeeltelijk stagen en committen. Bijvoorbeld, stel dat je de middelste van je drie commits wilt splitsen. In plaats van "updated README formatting and added blame", wil je het splitsen in twee commits: "updated README formatting" als eerste, en "added blame" als tweede. Je kunt dat doen in het `rebase -i` script door de instructie van de commit die je wilt splitsen te veranderen in "edit":
 
 	pick f7f3f6d changed my name a bit
 	edit 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-Then, when the script drops you to the command line, you reset that commit, take the changes that have been reset, and create multiple commits out of them. When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can stage and commit files until you have several commits, and run `git rebase --continue` when you’re done:
+Als het script je dan op de commando regel zet, reset je die commit, neemt de wijzigingen die zijn gereset, en maakt daar meerdere commits van.Als je de editor opslaat en sluit, zal Git teruggaan naar de ouder van de eerste commit in je lijst, de eerste commit toepassen (`f7f3f6d`), de tweede commit toepassen (`310154e`), en je op de console plaatsen. Dan kun je een gemengde reset van die commit doen met `git reset HEAD^`, wat effectief die commit ongedaan maakt en de gewijzigde bestanden unstaged laat. Nu kun je bestanden stagen en committen totdat je meerdere commits hebt, en `git rebase --continue` uitvoeren zodra je klaar bent:
 
 	$ git reset HEAD^
 	$ git add README
@@ -662,7 +662,7 @@ Then, when the script drops you to the command line, you reset that commit, take
 	$ git commit -m 'added blame'
 	$ git rebase --continue
 
-Git applies the last commit (`a5f4a0d`) in the script, and your history looks like this:
+Git zal de laatste commit (`a5f4a0d`) in het script toepassen, en je geschiedenis zal er zo uitzien:
 
 	$ git log -4 --pretty=format:"%h %s"
 	1c002dd added cat-file
@@ -670,7 +670,7 @@ Git applies the last commit (`a5f4a0d`) in the script, and your history looks li
 	35cfb2b updated README formatting
 	f3cc40e changed my name a bit
 
-Once again, this changes the SHAs of all the commits in your list, so make sure no commit shows up in that list that you’ve already pushed to a shared repository.
+Nogmaals, dit veranderd alle SHA's van alle commits in je lijst, dus zorg er voor dat er geen commit in die lijst zit die je al naar een gedeeld repository gepushed hebt.
 
 ### The Nuclear Option: filter-branch ###
 

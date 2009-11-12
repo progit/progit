@@ -672,35 +672,35 @@ Git zal de laatste commit (`a5f4a0d`) in het script toepassen, en je geschiedeni
 
 Nogmaals, dit veranderd alle SHA's van alle commits in je lijst, dus zorg er voor dat er geen commit in die lijst zit die je al naar een gedeeld repository gepushed hebt.
 
-### The Nuclear Option: filter-branch ###
+### De Nucleaire Optie: filter-branch ###
 
-There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit. The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite. However, it can be very useful. You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
+Er is nog een geschiedenis-herschrijvende optie, die je kunt gebruiken als je een groter aantal commits moet herschrijven in een scriptbare manier – bijvoorbeeld, het globaal veranderen van je e-mail adres of een bestand uit iedere commit verwijderen. Het commando heet `filter-branch`, en het kan grote gedeelten van je geschiedenis herschrijven, dus je moet het niet gebruiken tenzij je project nog niet publiekelijk is gemaakt en andere mensen nog geen werk hebben gebaseerd op jouw commits, die je op het punt staat te herschrijven. Maar het kan heel handig zijn. Je zult een paar gebruikelijke toepassingen leren zodat je een idee kunt krijgen van de mogelijkheden.
 
-#### Removing a File from Every Commit ####
+#### Een Bestand Uit Iedere Commit Verwijderen ####
 
-This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
+Dit gebeurd vrij vaak. Iemand voegt per ongeluk een enorm binair bestand toe met een gedachteloze `git add .`, en je wilt het overal weghalen. Misschien heb je per ongeluk een bestand toegevoegd dat een wachtwoord bevat, en wil je je project open source maken. `filter-branch` is het tool dat je waarschijnlijk wil gebruiken om je hele geschiedenis schoon te vegen. Om een bestand genaamd passwords.txt uit je hele geschiedenis weg te halen, kun je de `--tree-filter` optie toevoegen aan `filter-branch`:
 
 	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+De `--tree-filter` optie voert het gegeven commando uit na iedere checkout van het project, en commit de resultaten weer. In dit geval, verwijder je een bestand gnaamd passwords.txt van iedere snapshot, of het bestaat of niet. Als je alle per ongeluk toegevoegde editor backup bestanden wilt verwijderen, kun je zoiets als dit uitvoeren `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
-You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
+Je kunt Git bomen en commits zien herschrijven en de branch wijzer aan het einde zien verplaatsen. Het is over het algemeen een goed idee om dit in een test branch te doen, en dan je master branch te hard-resetten nadat je gecontroleerd hebt dat de uitkomst echt zo is als je wil. Om `filter-branch` op al je branches uit te voeren, kun je `--all` aan het commando meegeven.
 
-#### Making a Subdirectory the New Root ####
+#### Een Subdirectory Het Nieuwe Beginpunt Maken ####
 
-Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
+Stel dat je een import vanuit een ander versiebeheersysteem hebt gedaan, en subdirectories hebt die geen zin maken (trunk, tags enzovoort). Als je de `trunk` subdirectory het nieuwe beginpunt van het project wilt maken voor iedere commit, dan kan `filter-branch` je daar ook mee helpen:
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
-Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. 
+Nu is je nieuwe project wat het was in de `trunk` subdirectory. Git zal ook automatisch commits verwijderen, die geen effect hadden op de subdirectory.
 
-#### Changing E-Mail Addresses Globally ####
+#### E-Mail Adressen Globaal Veranderen ####
 
-Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
+Een ander veel voorkomend geval is dat je vergeten bent om `git config` uit te voeren om je naam en e-mail adres in te stellen voordat je bent begonnen met werken, of misschien wil je een project op het werk open source maken en al je werk e-mail adressen veranderen naar je privé adres. In ieder geval kun je e-mail adressen in meerdere commits ook ineens veranderen met `filter-branch`. Je moet wel oppassen om alleen de e-mail adressen aan te passen, die van jou zijn, dus gebruik je `--commit-filter`:
 
 	$ git filter-branch --commit-filter '
 	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
@@ -712,15 +712,15 @@ Another common case is that you forgot to run `git config` to set your name and 
 	                git commit-tree "$@";
 	        fi' HEAD
 
-This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
+Dit gaat door en herschrijft iedere commit zodat het jouw nieuwe adres bevat. Om dat commits de SHA-1 waarde van hun ouders bevatten, zal dit commando iedere commit SHA in jouw geschiedenis veranderen, niet alleen degenen die het passende e-mail adress bevatten.
 
-## Debugging with Git ##
+## Debuggen Met Git ##
 
-Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
+Git levert ook een paar tools om je problemen te helpen debuggen in je projecten. Omdat Git is ontworpen te werken met bijna ieder type project, zijn deze tools erg generiek, maar ze kunnen je vaak helpen op een bug of veroorzaker te jagen als de dingen verkeerd gaan.
 
-### File Annotation ###
+### Bestandsannotatie ###
 
-If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool. It shows you what commit was the last to modify each line of any file. So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom. This example uses the `-L` option to limit the output to lines 12 through 22:
+Als je een bug in je code traceert en wilt weten wanneer het was geintroduceerd en waarom, dan is bestandsannotatie vaak je beste tool. Het toont je welke commit de laatste was die iedere regel in een bestand wijzigde. Dus, als je ziet dat een functie in je code bugs bevat, dan kun je het bestand annoteren met `git blame` om te zien wanneer iedere regel van de functie voor het laatst aangepast was, en door wie. Dit voorbeeld gebruikt de `-L` optie om de output te limiteren van regel 12 tot 22:
 
 	$ git blame -L 12,22 simplegit.rb 
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
@@ -735,9 +735,9 @@ If you track down a bug in your code and want to know when it was introduced and
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
 
-Notice that the first field is the partial SHA-1 of the commit that last modified that line. The next two fields are values extracted from that commit—the author name and the authored date of that commit — so you can easily see who modified that line and when. After that come the line number and the content of the file. Also note the `^4832fe2` commit lines, which designate that those lines were in this file’s original commit. That commit is when this file was first added to this project, and those lines have been unchanged since. This is a tad confusing, because now you’ve seen at least three different ways that Git uses the `^` to modify a commit SHA, but that is what it means here.
+Zie dat het eerste veld de gedeeltelijke SHA-1 van de commit is, die als laatste die regel aangepast heeft. De volgende twee velden zijn waarden, die gehaald zijn uit die commit – de naam van de auteur en de datum van die commit – zodat je makkelijk kunt zien wie wanneer die regel aangepast heeft. Daarna komt het regelnummer en de inhoud van dat bestand. Let op de `^4832fe2` commit regels, die aangeven dat die regels in de eerste commit van dat bestand zaten. Die commit is gedaan toen dit bestand als eerste is toegevoegd aan dit project, en die regels zijn sindsdien ongewijzigd gebleven. Dat is een beetje verwarrend, want nu heb je minstens drie manieren gezien waarop Git het `^` symbool gebruikt om een SHA van een commit aan te passen, maar dat is wat het hier betekend.
 
-Another cool thing about Git is that it doesn’t track file renames explicitly. It records the snapshots and then tries to figure out what was renamed implicitly, after the fact. One of the interesting features of this is that you can ask it to figure out all sorts of code movement as well. If you pass `-C` to `git blame`, Git analyzes the file you’re annotating and tries to figure out where snippets of code within it originally came from if they were copied from elsewhere. Recently, I was refactoring a file named `GITServerHandler.m` into multiple files, one of which was `GITPackUpload.m`. By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of the code originally came from:
+Een ander stoer ding van Git is dat het geen naamswijzigingen van bestanden expliciet bijhoudt. Het neemt de snapshots op en probeert impliciet uit te vogelen wat er hernoemd was, nadat het gebeurd is. Een van de interessantste eigenschappen hiervan is dat je ook het kunt vragen om allerlei soorten code verplaatsingen uit te vogelen. Als je `-C` aan `git blame` meegeeft, zal Git het bestand dat je annoteerd analyseren en proberen uit te vinden waar stukjes code erin oorspronkelijk vandaan kwamen als ze ergens vandaan gekopieerd zijn. Recentelijk was ik een bestand genaamd `GITServerHandler.m` aan het refactoren naar meerdere bestanden, waarvan er een `GITPackUpload.m` heette. Door `GITPackUpload.m` te blamen met de `-C` optie, kon ik zien waar delen van de code oorspronkelijk vandaan kwamen:
 
 	$ git blame -C -L 141,153 GITPackUpload.m 
 	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
@@ -754,13 +754,13 @@ Another cool thing about Git is that it doesn’t track file renames explicitly.
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 
-This is really useful. Normally, you get as the original commit the commit where you copied the code over, because that is the first time you touched those lines in this file. Git tells you the original commit where you wrote those lines, even if it was in another file.
+Dit is heel handig. Normaal krijg je als de originele commit de commit waar je de code overheen gekopieerd hebt, omdat dat de eerste keer is dat je die regels aangeraakt hebt in dit bestand. Git verteld je de originele commit waarin je deze regels geschreven hebt, zelfs als dat in een ander bestand is.
 
-### Binary Search ###
+### Binair Zoeken ###
 
-Annotating a file helps if you know where the issue is to begin with. If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help. The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.
+Een bestand annoteren helpt als je eenmaal weet waar het probleem zit. Als je niet weet wat er kapot is, en er zijn vele dozijnen of honderden commits geweest sinds de laatste staat waarvan je weet dat de code werkte, dan zul je waarschijnlijk bij `git bisect` aankloppen voor hulp. Het `bisect` commando zoekt binair door je commitgeschiedenis om je zo snel als mogelijk te helpen identificeren welke commit het issue introduceerde.
 
-Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that. You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong. You can bisect the code to find out. First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken. Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:
+Stel dat je zojuist een release van je code naar een productie omgeving gepushed hebt, en je krijgt bug rapporten terug dat er iets gebeurd dat niet in je development omgeving gebeurde en je kunt je niet voorstellen waarom de code dat aan het doen is. Je gaat terug naar je code, en het blijkt dat je het probleem kunt reproduceren, maar je kunt niet zien wat er verkeerd gaat. Je kunt de code bisecten om het uit te vinden. Als eerste voer je `git bisect start` uit om aan de gang te gaan, en dan gebruik je `git bisect bad` om het systeem te vertellen dat de huidige commit kapot is. Dan moet je bisect vertellen wanneer de laatste goede status was, door `git bisect good [goede_commit]` te gebruiken:
 
 	$ git bisect start
 	$ git bisect bad
@@ -768,7 +768,7 @@ Let’s say you just pushed out a release of your code to a production environme
 	Bisecting: 6 revisions left to test after this
 	[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
 
-Git figured out that about 12 commits came between the commit you marked as the last good commit (v1.0) and the current bad version, and it checked out the middle one for you. At this point, you can run your test to see if the issue exists as of this commit. If it does, then it was introduced sometime before this middle commit; if it doesn’t, then the problem was introduced sometime after the middle commit. It turns out there is no issue here, and you tell Git that by typing `git bisect good` and continue your journey:
+Git heeft gezien dat er ongeveer 12 commits gekomen zijn tussen de commit die je als laatste goede commit gemarkeerd hebt (v1.0) en de huidige slechte versie, en het heeft de middelste uitgechecked voor je. Op dit punt kun je je test uitvoeren om te zien of het probleem op deze commit ook aanwezig is. Als dat zo is, dan was het probleem ergens voor deze middelste commit geintroduceerd; zo niet, dan is het probleem na deze commit geintroduceerd. Het blijkt dat hier geen probleem is, dus je kunt Git dat vertellen door `git bisect good` te typen en je reis te vervolgen:
 
 	$ git bisect good
 	Bisecting: 3 revisions left to test after this

@@ -774,13 +774,13 @@ Git heeft gezien dat er ongeveer 12 commits gekomen zijn tussen de commit die je
 	Bisecting: 3 revisions left to test after this
 	[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing
 
-Now you’re on another commit, halfway between the one you just tested and your bad commit. You run your test again and find that this commit is broken, so you tell Git that with `git bisect bad`:
+Nu zit je op een andere commit, halverwege degene die je zojuist getest hebt en je slechte commit. Je voert je test opnieuw uit, en stelt vast dat deze commit kapot is, dus vertel je dat Git met `git bisect bad`:
 
 	$ git bisect bad
 	Bisecting: 1 revisions left to test after this
 	[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
 
-This commit is fine, and now Git has all the information it needs to determine where the issue was introduced. It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:
+Deze commit is in orde, en nu heeft Git alle informatie die het nodig heeft om vast te stellen wanneer het probleem was geintroduceerd. Het verteld je de SHA-1 van de eerste slechte commit en toont een stukje commit informatie en welke bestanden aangepast waren in die commit, zodat je er achter kunt komen wat deze bug geintroduceerd kan hebben:
 
 	$ git bisect good
 	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
@@ -793,28 +793,28 @@ This commit is fine, and now Git has all the information it needs to determine w
 	:040000 040000 40ee3e7821b895e52c1695092db9bdc4c61d1730
 	f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config
 
-When you’re finished, you should run `git bisect reset` to reset your HEAD to where you were before you started, or you’ll end up in a weird state:
+Als je klaar bent, zou je `git bisect reset` moeten uitvoeren om je HEAD terug te zetten naar het punt waar je was toen je startte, of anders eindig je in een vreemde status:
 
 	$ git bisect reset
 
-This is a powerful tool that can help you check hundreds of commits for an introduced bug in minutes. In fact, if you have a script that will exit 0 if the project is good or non-0 if the project is bad, you can fully automate `git bisect`. First, you again tell it the scope of the bisect by providing the known bad and good commits. You can do this by listing them with the `bisect start` command if you want, listing the known bad commit first and the known good commit second:
+Dit is een krachtige tool, die je kan helpen om honderden commits te doorzoeken naar een fout in enkele minuten. In feite kun je `git bisect` volledig automatiseren als je een script hebt dat met 0 eindigt als het project in orde is, en niet-0 als het project slecht is. Eerst vertel je het de scope van de bisect door het de goede en slechte commits te geven, die je weet. Je kunt dit doen door ze te tonen met het `bisect start` commando als je dat wil, waarbij je de slechte commit eerst en de laatst bekende goede commit als tweede geeft:
 
 	$ git bisect start HEAD v1.0
 	$ git bisect run test-error.sh
 
-Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit. You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
+Door het zo te doen wordt `test-error.sh` uitgevoerd bij iedere commit die uitgechecked wordt, totdat Git de eerste kapotte commit vindt. Je kunt ook zoiets als `make` of `make tests` uitvoeren, of wat je ook hebt dat automatische tests voor je uitvoerd.
 
 ## Submodules ##
 
-It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
+Het gebeurd vaak dat terwijl je zit te werken aan het ene project, je een ander project er binnenin nodig hebt. Misschien is het een library die een derde partij ontwikkeld heeft, of die je apart aan het ontwikkelen bent en gebruikt in meerdere ouder projecten. Een veel voorkomend probleem komt in deze scenario's naar boven: je wilt de twee projecten apart behandelen, maar de ene binnen de andere kunnen gebruiken.
 
-Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
+Hier is een voorbeeld. Stel dat je een website aan het ontwikkelen bent en Atom feeds aan het maken bent. In plaats van je eigen Atom feedcode te schrijven, besluit je een library te gebruiken. Je zult deze code waarschijnlijk moeten includen van een gedeelde library zoals een CPAN installatie of een Ruby gem, of de brondcode kopieeren naar je eigen projectboom. Het probleem met de library includen is dat het lastig is om de library op enige manier aan te passen, en vaak is het lastiger om het uit te rollen, omdat je zeker moet zijn dat iedere klant die library beschikbaar heeft. Het probleem van de broncode in je project stoppen is dat alle aanpassingen die je maakt lastig te mergen zijn op het moment dat stroomopwaarts veranderingen beschikbaar komen.
 
-Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
+Git pakt dit probleem aan door submodules te gebruiken. Submodules geven je de mogelijkheid om een Git repository als een subdirectory van een ander Git repository te gebruiken. Dit staat je toe een ander repository in je project te clonen en je commits gescheiden te houden.
 
-### Starting with Submodules ###
+### Beginnen Met Submodules ###
 
-Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
+Stel dat je de Rack library (een Ruby web server gateway interface) wilt toevoegen aan je project, misschien je eigen veranderingen eraan wilt onderhouden, maar ook veranderingen van stroomopwaarts wilt mergen. Het eerste dat je zou moeten doen is het exteren repository clonen in jouw submap. Je voegt externe projecten als submodules toe door middel van het `git submodule add` commando:
 
 	$ git submodule add git://github.com/chneukirchen/rack.git rack
 	Initialized empty Git repository in /opt/subtest/rack/.git/
@@ -824,7 +824,7 @@ Suppose you want to add the Rack library (a Ruby web server gateway interface) t
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 
-Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things:
+Nu heb je het Rack project onder een submap genaamd `rack` binnen je project. Je kunt in die submap gaan, wijzigingen maken, je eigen schrijfbare remote repository waar je veranderingen in kunt pushen toevoegen, vanuit het originele repository fetchen en mergen, en meer. Als je `git status` uitvoerd vlak nadat je de submodule toevoegd, zou je twee dingen moeten zien:
 
 	$ git status
 	# On branch master
@@ -835,16 +835,16 @@ Now you have the Rack project under a subdirectory named `rack` within your proj
 	#      new file:   rack
 	#
 
-First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
+Eerst zie je het `.gitmodules` bestand. Dit is een configuratie bestand dat de mapping opslaat tussen de URL van het project en de locale submap waarin je het binnen gepulled hebt:
 
 	$ cat .gitmodules 
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
+Als je meerdere submodules hebt, zul je meerdere vermeldingen hebben in dit bestand. Het is belangrijk om te zien dat dit bestand net als je andere bestanden ook onder versiebeheer staat, zoals je `.gitignore` bestand. Het wordt gepushed en gepulled samen met de rest van je project. Op deze manier weten andere mensen die je project clonen waar ze de submodule projecten vandaan moeten halen.
 
-The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
+De andere vermelding in de `git status` output is de rack regel. Als je `git diff` daarop uitvoert zul je iets interessants zien:
 
 	$ git diff --cached rack
 	diff --git a/rack b/rack
@@ -855,11 +855,11 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
+Alhoewel `rack` een submap in je werkmap is, ziet Git het als een submodule en zal de inhoud niet volgen als je niet in die map staat. In plaats daarvan slaat Git het als een aparte commit op van dat repository. Als je wijzigingen maakt en in die submap een commit doet, zal het superproject zien dat de HEAD daarin is veranderd en de exacte commit opslaan waarvan je op dat moment zit te werken; op die manier zullen anderen die dit project clonen de omgeving exact kunnen reproduceren.
 
-This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
+Dit is een belangrijk punt met submodules: je slaat ze op als de exacte commit waar ze op staan. Je kunt een submodule niet opslaan als `master` of een andere symbolische referentie.
 
-When you commit, you see something like this:
+Als je commit, zou je zoiets als dit moeten zien:
 
 	$ git commit -m 'first commit with submodule rack'
 	[master 0550271] first commit with submodule rack
@@ -867,9 +867,9 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
-Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
+Zie de 160000 modus voor de rack vermelding. Dat is een speciale modus binnen Git, die in feite betekend dat je een commit als een map vermelding opslaat in plaats van als een submap of een bestand.
 
-You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
+Je kunt de `rack` map als een apart project behandelen en je superproject van tijd tot tijd vernieuwen met een pointer naar de laatste commit in dat subproject. Alle Git commando's werken onafhankelijk in de twee mappen:
 
 	$ git log -1
 	commit 0550271328a0038865aad6331e620cd7238601bb
@@ -885,9 +885,9 @@ You can treat the `rack` directory as a separate project and then update your su
 
 	    Document version change
 
-### Cloning a Project with Submodules ###
+### Een Project Met Submodules Clonen ###
 
-Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
+Hier zul je een project met een submodule erin clonen. Als je zo'n project ontvangt, krijg je de mappen die submodules bevatten, maar nog niet meteen de bestanden:
 
 	$ git clone git://github.com/schacon/myproject.git
 	Initialized empty Git repository in /opt/myproject/.git/
@@ -903,7 +903,7 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
-The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
+De `rack` map is er, maar hij is leeg. Je moet twee commando's uitvoeren: `git submodule init` om je locale configuratie bestand te initialiseren, en `git submodule update` om alle data van dat project te fetchen en de juiste commit die in je superproject staat uit te checken:
 
 	$ git submodule init
 	Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
@@ -916,7 +916,7 @@ The `rack` directory is there, but empty. You must run two commands: `git submod
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
+Nu is je `rack` submap in exact dezelfde status is als het was toen je het eerder gecommit had. Als een andere developer wijzigingen doet op de rack code en commit, en je pulled die referentie en merged de code, dan krijg je iets dat een beetje vreemd is:
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -932,7 +932,7 @@ Now your `rack` subdirectory is at the exact state it was in when you committed 
 	#      modified:   rack
 	#
 
-You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory:
+Je hebt iets ingemerged dat eigenlijk een wijziging is op de pointer naar je submodule; maar de code in de submodule map niet vernieuwd, dus het lijkt erop dat je een vieze status hebt in je werkmap:
 
 	$ git diff
 	diff --git a/rack b/rack
@@ -943,7 +943,7 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
+Dit is het geval omdat de pointer die je hebt voor de submodule niet is wat eigenlijk in de submodule map zit. Om dit te reparen moet je `git submodule update` opnieuw uitvoeren:
 
 	$ git submodule update
 	remote: Counting objects: 5, done.
@@ -954,15 +954,15 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
+Je moet dit iedere keer dat je een submodule wijziging pulled in het hoofdproject. Het is vreemd, maar het werkt.
 
-One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
+Er probleem doet zich voor als een developer een locale wijziging in en submodule doet en die niet naar een publieke server pushed. Dan, zullen ze een pointer naar de niet-publieke status committen en naar het superproject pushen. Als andere developers dan `git submodule update` proberen uit te voeren, dan zal het submodule systeem de commit die gerefereerd wordt niet kunnen vinden, omdat het alleen op het systeem van de eerste developer bestaat. Als dat gebeurd, zul je een foutmelding als deze zien:
 
 	$ git submodule update
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
 
-You have to see who last changed the submodule:
+Je moet dan zien wie als laatste de submodule veranderd heeft:
 
 	$ git log -1 rack
 	commit 85a3eee996800fcfa91e2119372dd4172bf76678
@@ -971,21 +971,21 @@ You have to see who last changed the submodule:
 
 	    added a submodule reference I will never make public. hahahahaha!
 
-Then, you e-mail that guy and yell at him.
+Dan stuur je een e-mail naar die man en schreeuwt tegen hem.
 
-### Superprojects ###
+### Superprojecten ###
 
-Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
+Soms willen developers een combinatie van de submappen van een groot project hebben, afhankelijk van het team waarin ze zitten. Dit komt vaak voor als je van CVS of Subversion af komt, waar je een module of verzameling submappen gedefinieerd hebt, en je wilt deze manier van werken behouden.
 
-A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
+Een goeie manier om dit in Git te doen is om ieder van de submappen een aparte Git repository te maken en dan superproject Git repositories te maken die meerdere submodules kunnen bevatten. Een voordeel van deze aanpak is dat je meer specifiek kunt definieeren wat de relaties tussen de projecten zijn met behulp van tags en branches in de superprojects.
 
-### Issues with Submodules ###
+### Problemen Met Submodules ###
 
-Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
+Submodules gebruiken is echter niet zonder gevaar. Ten eerste moet je relatief voorzichtig zijn met het werken in een submap. Als je `git submodule update` uitvoerd, zal het de specifieke versie van het project uitchecken, maar niet binnen een branch. Dit wordt een afgekoppelde HEAD genoemd – het betekend dat het HEAD bestand direct naar een commit wijst, en niet naar een symbolische referentie. Het probleem is dat je over het algemeen niet wilt werken in een afgekoppelde head omgeving, omdat het makkelijk is om veranderingen te verliezen. Als je een initiele `submodule update` doet, in die submodule map commit zonder een branch te maken om in te werken, an dan nogmaals `git submodule update` uitvoert in het superproject zonder in de tussentijd te committen, dan zal Git je veranderingen overschrijven zonder het je te vertellen. Technisch gezien ben je het werk niet kwijt, maar je zult geen branch hebben die er naar wijst, dus het zal lastig zijn om het terug te halen.
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+Om dit probleem te vermijden, creeer je een branch zodra je in een submodule map werkt met behulp van `git checkout -b work` of iets gelijkwaardigs. Als je de tweede keer de submodule update doet, zal het nog steeds je werk terugdraaien, maar je heb er tenminste een pointer van om naar terug te keren.
 
-Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
+Van branches wisselen die submodules bevatten kan ook lastig zijn. Als je een nieuwe branch aanmaakt, daar een submodule toevoegt, en dat terug wisselt naar een branch zonder die submodule, zul je nog steeds de submodule map als een ongevolgde submap hebben:
 
 	$ git checkout -b rack
 	Switched to a new branch "rack"
@@ -1008,15 +1008,15 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	#
 	#      rack/
 
-You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up.
+Je moet hem verplaatsen of verwijderen, waarna je hem opnieuw moet clonen als je terug wisselt – en je loopt kans om locale wijzigingen of branches te verliezen die je niet omhoog gepushed hebt.
 
-The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you:
+De laatste grote valkuil waar veel mensen in lopen heeft te maken met het wisselen van submappen naar submodules. Als je bestanden in je project aan het volgen bent, en je wilt ze in een submodule verplaatsen, dan moet je voorzichtig zijn of anders zal Git boos op je worden. Stel dat je de rack bestanden in een submap van je project hebt, en je wilt die naar een submodule wijzigen. Als je de submap weggooit en dan `submodule add` uitvoerd, begint Git naar je te schreeuwen:
 
 	$ rm -Rf rack/
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
 
-You have to unstage the `rack` directory first. Then you can add the submodule:
+Je moet de `rack` submap eerst unstagen. Dan kun je de submodule toevoegen:
 
 	$ git rm -r rack
 	$ git submodule add git@github.com:schacon/rack.git rack
@@ -1027,12 +1027,12 @@ You have to unstage the `rack` directory first. Then you can add the submodule:
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
 	Resolving deltas: 100% (1952/1952), done.
 
-Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
+Stel dat je dat in een branch gedaan had. Als je probeert terug te wisselen naar een branch waar die bestanden nog in de echte boom zitten in plaats van in een submodule – dan krijg je deze foutmelding:
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
 
-You have to move the `rack` submodule directory out of the way before you can switch to a branch that doesn’t have it:
+Je moet de `rack` submodule map verplaatsen voordat je naar een branch kunt wisselen die hem nog niet heeft:
 
 	$ mv rack /tmp/
 	$ git checkout master
@@ -1040,17 +1040,17 @@ You have to move the `rack` submodule directory out of the way before you can sw
 	$ ls
 	README	rack
 
-Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
+Als je dan terug wisselt krijg je een lege `rack` map. Je kunt dan nogmaals `git submodule update` uitvoeren om nog eens te clonen, of je kunt je `/tmp/rack` map terug zetten in de lege map.
 
-## Subtree Merging ##
+## Subboom Mergen ##
 
-Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
+Nu dat je de moeilijkheden van het submodule systeem hebt gezien, laten we eens kijken naar een alternatieve manier om hetzelfde probleem aan te pakken. Zodra Git merged, kijkt het naar wat het samen moet mergen en kiest dan een toepasselijke merge strategie om te gebruiken. Als je twee branches aan het mergen bent, zal Git een _recursive_ strategie gebruiken. Als je meer dan twee branches aan het mergen bent, zal Git de _octopus_ strategie kiezen. Deze strategieen worden automatisch voor je gekozen, omdat de recursieve strategie complexe drie-weg merge situaties kan behandelen – bijvoorbeeld, meer dan één gezamenlijke voorouder – maar het kan slechts twee branches behandelen. De octopus merge kan meerdere branches behandelen, maar is voorzichtiger om moeilijke conflicten te vermijden, dus is het gekozen als de standaard strategie als je meer dan twee branches probeert te mergen.
 
-However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
+Maar er zijn meerdere strategieen die je ook kunt kiezen. Eén ervan is de _subtree_ merge, en je kunt het gebruiken om met het subproject probleem om te gaan. Hier zul je zien hoe je dezelfde rack inbedding kunt doen als in de laatste sectie, maar in plaats daarvan subboom merges te gebruiken.
 
-The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
+Het idee van de subboom merge is dat je twee projecten hebt, en één van de projecten wijst naar de submap van de andere en vice versa. Als je een subboom merge specificeerd, dan is Git slim genoeg om uit te vogelen dat de ene een subboom van de andere is en toepasselijk te mergen – het is erg verbazingwekkend.
 
-You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
+Eerst voeg je de Rack applicatie toe aan je project. Dan voeg je het Rack project toe als een remote reference in je eigen project en checked het dan uit in zijn eigen branch:
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
@@ -1069,7 +1069,7 @@ You first add the Rack application to your project. You add the Rack project as 
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
-Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch. If you check out one and then the other, you can see that they have different project roots:
+Nu heb je de wortel van het Rack project in je `rack_branch` branch en je eigen project in de `master` branch. Als je één uitchecked en dan de andere, kun je zien dat ze verschillende project wortels hebben:
 
 	$ ls
 	AUTHORS	       KNOWN-ISSUES   Rakefile      contrib	       lib
@@ -1079,32 +1079,32 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	$ ls
 	README
 
-You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
+Je wilt het Rack project in je `master` project pullen als een submap. Je kunt dat in Git doen met `git read-tree`. Je zult meer over `read-tree` en zijn vrienden leren in Hoofdstuk 9, maar weet voor nu dat het de wortel boom van een branch in je huidige staging gebied en werkmap leest. Je hebt zojuist teruggewisseld naar je `master` branch, en je pulled de `rack` branch in de `rack` submap van je `master` branch in je hoofdproject:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
+Als je commit, ziet het eruit alsof je alle Rack bestanden in die submap hebt – alsof je ze uit een tarball gekopieerd hebt. Wat interessant is is dat je vrij makkelijk veranderingen van één branch in de andere kunt mergen. Dus als het Rack project vernieuwd kun je alle stroomopwaartse wijzigingen binnenhalen door naar die branch te wisselen en te pullen:
 
 	$ git checkout rack_branch
 	$ git pull
 
-Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
+Dan kun je die veranderingen in je master branch mergen. Je kunt `git merge -s subtree` gebruiken en het zal prima werken; maar Git zal ook de geschiedenissen samenvoegen, wat je waarschijnlijk niet wilt. Om de veranderingen binnen te halen en het commit bericht te vullen, gebruik dan de `--squash` en `--no-commit` opties samen met de `-s subtree` strategie optie:
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+Alle wijzigingen van je Rack project worden ingemerged en zijn klaar om lokaal gecommit te worden. Je kunt ook het tegenovergestelde doen – veranderingen doen in de `rack` submap van je master branch en dan die later in je `rack_branch` branch mergen om ze naar de eigenaren te sturen of ze stroomopwaarts te pushen.
 
-To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
+Om een diff te krijgen tussen wat je in je `rack` submap hebt en de code in je `rack_branch` branch – om te zien of je ze moet mergen – kun je niet het gebruikelijke `diff` commando toepassen. In plaats daarvan moet je `git diff-tree` uitvoeren met de branch waarmee je wilt vergelijken:
 
 	$ git diff-tree -p rack_branch
 
-Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
+Of, om te vergelijken met wat in je `rack` submap zit met wat in de `master` branch op de server zat de laatste keer dat je gefetched hebt, kun je dit uitvoeren:
 
 	$ git diff-tree -p rack_remote/master
 
-## Summary ##
+## Samenvatting ##
 
-You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.
+Je hebt een aantal geavanceerde tools gezien, die je toestaan je commits en je staging gebied meer exact te manipuleren. Als je problemen signaleert kun je vrij eenvoudig uitvinden welke commit deze geintroduceerd heeft, wanneer ze geintroduceerd zijn en door wie. Als je subprojecten in je project wilt gebruiken, heb je een paar manieren geleerd hoe je die kunt accomoderen. Op dit punt zou je in staat moeten zijn om het meeste van de dingen in Git te kunnen doen die je dagelijks op de commandline moet doen, en je er op je gemak bij moeten voelen.

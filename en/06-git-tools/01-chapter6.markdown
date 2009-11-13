@@ -488,6 +488,23 @@ The apply option only tries to apply the stashed work — you continue to have i
 
 You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
 
+### Un-applying a Stash ###
+
+In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came form the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+
+    $ git stash show -p stash@{0} | git apply -R
+
+Again, if you don’t specify a stash, Git assumes the most recent stash:
+
+    $ git stash show -p | git apply -R
+
+You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
+
+    $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
+    $ git stash
+    $ #... work work work
+    $ git stash-unapply
+
 ### Creating a Branch from a Stash ###
 
 If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:

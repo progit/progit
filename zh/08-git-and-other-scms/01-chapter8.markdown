@@ -325,7 +325,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 它与 `blame` 和 `log` 的相同点在于离线运行以及只更新到最后一次与 Subversion 服务器通信的状态。
 
-#### 忽略 Subversion 之所略 ####
+#### 略 Subversion 之所略 ####
 
 假如克隆了一个包含了 `svn:ignore` 属性的 Subversion 仓库，就有必要建立对应的 `.gitignore` 文件来防止意外提交一些不应该提交的文件。`git svn` 有两个有益于改善该问题的命令。第一个是 `git svn create-ignore`，它自动建立对应的 `.gitignore` 文件，以便下次提交的时候可以包含它。
 
@@ -350,7 +350,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 ### 导入 ###
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+你将学习到如何从专业重量级的版本控制系统中导入数据—— Subversion 和 Perforce —— 因为据我所知二者的用户是（向 Git）转换的主题，而且 Git 为此二者附带了高质量的转换工具。
 
 ### Subversion ###
 

@@ -1,44 +1,44 @@
-# Git and Other Systems #
+# Git en Andere Systemen #
 
-The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
+Het is geen perfecte wereld. Meestal kun je niet meteen ieder project waar je mee in aanraking komt omzetten naar Git. Soms zit je vast op een project dat een ander VCS gebruike, en vaak is dat systeem Subversion. In het eerste gedeelte van dit hoofdstuk zul je leren over `git svn`, het bidirectionele Subversion poort tool in Git.
 
-At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case. 
+Op een bepaald punt zul je je bestaande project willen omzetten naar Git. Het tweede gedeelte van dit hoofdstuk beschrijft hoe je je project naar Git kunt migreren: eerst uit Subversion, dan vanuit Perforce, en als laatste via een eigen import script voor een niet standaard import geval.
 
-## Git and Subversion ##
+## Git en Subversion ##
 
-Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.
+Op het moment maken het meerendeel van open source ontwikkelprojecten en een groot aantal bedrijfsprojecten gebruik van Subversion om hun broncode te beheren. Het is het meest populaire open source VCS en bestaat al bijna tien jaar. Het lijkt in veel manieren op CVS, wat daarvoor de grootste speler was in de code-beheer wereld.
 
-One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.
+Een van de beste eigenschappen van Git is een bidirectionele brug naar Subversion genaamd `git svn`. Dit tool staat je toe om Git als een volwaardige gebruiker van een Subversion server te gebruiken, zodat je alle lokale eigenschappen van Git kunt gebruiken en daarna naar een Subversion server kunt pushen alsof je Subversion lokaal gebruikt. Dit betekent dat je lokaal kunt branchen en mergen, het staging gebied gebruiken, kunt rebasen en cherry-picken enzovoorts, terwijl je medewerkers verder kunnen werken op hun duistere en ouderwetse manieren. Het is een goede manier om Git in de bedrijfsomgeving binnen te sluipen en je mede-ontwikkelaars te helpen efficienter te worden terwijl je lobbiet om de infrastructuur veranderd te krijgen zodat Git volledig gesupport wordt. De Subversion brug is de poort drug naar de DCVS wereld.
 
 ### git svn ###
 
-The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.
+Het basiscommando in Git voor alle Subversion brugcommando's is `git svn`. Je laat dit aan alles vooraf gaan. Je hebt best een aantal commando's nodig, dus je zult de meeste leren terwijl we door een aantal werkwijzen lopen.
 
-It’s important to note that when you’re using `git svn`, you’re interacting with Subversion, which is a system that is far less sophisticated than Git. Although you can easily do local branching and merging, it’s generally best to keep your history as linear as possible by rebasing your work and avoiding doing things like simultaneously interacting with a Git remote repository.
+Het is belangrijk om te zien dat terwijl je `git svn` gebruikt, je aan het commnuniceren bent met Subversion, wat een systeem is dat veel minder uitgekiend is dat Git. Alhoewel je eenvoudig lokaal kunt branchen en mergen, is het over het algemeen het beste om je geschiedenis zo lineair als mogelijk te houden door je werk te rebasen en te vermijden dingen te doen zoals simultaan communiceren met een Git remote repository.
 
-Don’t rewrite your history and try to push again, and don’t push to a parallel Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate — doing so will make your life easier.
+Herschrijf je geschiedenis niet om daarna nogmaals te pushen, en ga niet tegelijkertijd een parallel Git repository ernaast gebuiken om met mede Git ontwikkelaars samen te werken. Subversion kan slechts één lineaire geschiedenis hebben, en het in de war brengen is heel eenvoudig. Als je met een team aan het werk bent en sommigen maken gebruik van Subversion en anderen van Git, zorg dan dat iedereen de SVN server gebruikt om samen te werken – het maakt je leven een stuk eenvoudiger.
 
-### Setting Up ###
+### Instellen ###
 
-To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
+Om deze functionaliteit te demonstreren heb je een typisch SVN repository nodig waarop je schrijftoegang hebt. Als je deze voorbeelden wilt kopieeren, zul je een schrijfbare kopie moeten maken van mijn test repository. Om dat eenvoudig te kunnen doen, kun je een tool gebruiken genaamd `svnsync` dat bij de meer recente versies van Subversion geleverd wordt – het zou minstens bij versie 1.4 moeten zitten. Voor deze tests heb ik een nieuw Subversion repository op Google code gemaakt wat een gedeeltelijke kopie is van het `protobuf` project, wat een tool is dat gestructureerde data voor netwerk transmissie codeert.
 
-To follow along, you first need to create a new local Subversion repository:
+Om het te volgen zul je eerst een nieuw lokaal Subversion repository moeten maken:
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:
+Daarna sta je alle gebruikers toe om revprops te wijzigen – de makkelijke manier is om een pre-revprop-change script toe te voegen dat altijd met 0 afsluit:
 
 	$ cat /tmp/test-svn/hooks/pre-revprop-change 
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.
+Je kunt dit project nu syncen naar je lokale machine door `svnsync init` aan te roepen met de van en naar repositories.
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
 
-This sets up the properties to run the sync. You can then clone the code by running
+Dit stelt de eigenschappen in om de sync uit te voeren. Je kunt de code dan clonen door dit uit te voeren
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -48,11 +48,11 @@ This sets up the properties to run the sync. You can then clone the code by runn
 	Committed revision 3.
 	...
 
-Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.
+Alhoewel deze operatie maar een paar minuten in beslag neemt, zal het kopieeren van het originele repository naar een ander remote repository in plaat van een lokale meer dan een uur duren, terwijl er minder dan 100 commits in zitten. Subversion moet één revisie per keer clonen en dan terug pushen in een ander repository – het is belachelijk inefficient, maar het is de enige makkelijke manier om dit te doen.
 
-### Getting Started ###
+### Beginnen ###
 
-Now that you have a Subversion repository to which you have write access, you can go through a typical workflow. You’ll start with the `git svn clone` command, which imports an entire Subversion repository into a local Git repository. Remember that if you’re importing from a real hosted Subversion repository, you should replace the `file:///tmp/test-svn` here with the URL of your Subversion repository:
+Nu dat je een Subversion repository hebt met schrijftoegang, kun je door een typische werkwijze gaan. Je begint met het `git svn clone` commando, wat een volledig Subversion repository in een lokaal Git repository cloned. Onthoud dat als je van een echt beheerd Subversion repository importeerd, je de `file:///tmp/test-svn` hier moet vervangen door de URL van je Subversion repository:
 
 	$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
 	Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
@@ -70,13 +70,13 @@ Now that you have a Subversion repository to which you have write access, you ca
 	Checked out HEAD:
 	 file:///tmp/test-svn/branches/my-calc-branch r76
 
-This runs the equivalent of two commands — `git svn init` followed by `git svn fetch` — on the URL you provide. This can take a while. The test project has only about 75 commits and the codebase isn’t that big, so it takes just a few minutes. However, Git has to check out each version, one at a time, and commit it individually. For a project with hundreds or thousands of commits, this can literally take hours or even days to finish.
+Dit voert het equivalent uit van twee commando's – `git svn init` gevolgd door `git svn fetch` – op de URL die je aanleverd. Het kan een tijdje duren. Het testproject heeft slechts 75 commits en de hoeveelheid code is niet zo groot, dus het neemt maar een paar minuten in beslag. Maar, Git moet iedere versie uitchecken, één voor één, en ze individueel committen. Voor een project met honderdduizende commits kan dit letterlijk uren of zelfs dagen duren om af te ronden.
 
-The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:
+Het `-T trunk -b branches -t tags` gedeelte verteld Git dat dit Subversion repository de basale branch en tag conventie volgt. Als je je trunk, branches of tags anders noemt, kun je deze opties veranderen. Omdat dit zo gewoon is, kun je dit hele gedeelte vervangen door `-s`, wat standaard indeling betekend en al die opties impliceerd. Het volgende commando is gelijkwaardig:
 
 	$ git svn clone file:///tmp/test-svn -s
 
-At this point, you should have a valid Git repository that has imported your branches and tags:
+Op dit punt zou je een geldig Git repository moeten hebben, dat je branches en tags geimporteerd heeft:
 
 	$ git branch -a
 	* master
@@ -87,7 +87,7 @@ At this point, you should have a valid Git repository that has imported your bra
 	  tags/release-2.0.2rc1
 	  trunk
 
-It’s important to note how this tool namespaces your remote references differently. When you’re cloning a normal Git repository, you get all the branches on that remote server available locally as something like `origin/[branch]` - namespaced by the name of the remote. However, `git svn` assumes that you won’t have multiple remotes and saves all its references to points on the remote server with no namespacing. You can use the Git plumbing command `show-ref` to look at all your full reference names:
+Het is belangrijk om te zien hoe dit tool je remote references een andere naamruimte toebedeeld. Als je een normaal Git repository cloned, krijg je alle branches op die remote server lokaal beschikbaar in de vorm van `origin/[branch]` – volgens de naamruimte van de remote. Maar, `git svn` gaat er vanuit dan je niet meerdere remotes hebt en bewaard al zijn referentie punten om de remote server zonder naamruimte. Je kunt het Git loodgieters commando `show-ref` gebruiken om naar al je volledige referentie namen te kijken:
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -98,7 +98,7 @@ It’s important to note how this tool namespaces your remote references differe
 	1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk
 
-A normal Git repository looks more like this:
+Een normaal Git repository ziet er meer zo uit:
 
 	$ git show-ref
 	83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
@@ -106,19 +106,19 @@ A normal Git repository looks more like this:
 	0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
 	25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 
-You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`. 
+Je kunt twee remote servers hebben: een genaamd `gitserver` met een master branch; en een andere genaamd `origin` met twee branches, `master` en `testing`.
 
-Notice how in the example of remote references imported from `git svn`, tags are added as remote branches, not as real Git tags. Your Subversion import looks like it has a remote named tags with branches under it.
+Zie hoe in het voorbeeld van geimporteerde remote referenties van `git svn`, de tags toegevoegd zijn als remote branches, niet als echte Git tags. Je Subversion import ziet eruit alsof het een remote heeft dat tags heet waaronder branches zitten.
 
-### Committing Back to Subversion ###
+### Teug naar Subversion Committen ###
 
-Now that you have a working repository, you can do some work on the project and push your commits back upstream, using Git effectively as a SVN client. If you edit one of the files and commit it, you have a commit that exists in Git locally that doesn’t exist on the Subversion server:
+Nu dat je een werkend repository hebt, kun je wat werken aan het project en je commits stroomopwaarts pushen, waarbij je Git effectief als een SVN gebruiker toepast. Als je een van de bestanden aanpast en het commit, heb je een commit dat lokaal in Git bestaat, die niet op de Subversion server bestaat:
 
 	$ git commit -am 'Adding git-svn instructions to the README'
 	[master 97031e5] Adding git-svn instructions to the README
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Next, you need to push your change upstream. Notice how this changes the way you work with Subversion — you can do several commits offline and then push them all at once to the Subversion server. To push to a Subversion server, you run the `git svn dcommit` command:
+Vervolgens moet je je verandering stroomopwaarts pushen. Zie hoe dit de manier veranderd waarop je met Subversion werkt  – je kunt een paar commits offline doen en ze dan ineens naar de Subversion server pushen. Om naar een Subversion server te pushen, voer je het `git svn dcommit` commando uit:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -129,7 +129,7 @@ Next, you need to push your change upstream. Notice how this changes the way you
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-This takes all the commits you’ve made on top of the Subversion server code, does a Subversion commit for each, and then rewrites your local Git commit to include a unique identifier. This is important because it means that all the SHA-1 checksums for your commits change. Partly for this reason, working with Git-based remote versions of your projects concurrently with a Subversion server isn’t a good idea. If you look at the last commit, you can see the new `git-svn-id` that was added:
+Dit neemt alle commits die je gedaan hebt bovenop de Subversion server code, doet voor elk een Subversion commit, en herschrijft je lokale Git commit zodat het een unieke identificatie heeft. Dit is belangrijk omdat het betekend dan alle SHA-1 checksums voor je commits veranderen. Deels is het voor de reden dat het werken met Git-gebaseerde remote versies van je projecten tegelijk met een Subversion server geen goed idee is. Als je kijkt naar de laatste commit, kun je het nieuwe `git-svn-id` zien dat is toegevoegd:
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -140,11 +140,11 @@ This takes all the commits you’ve made on top of the Subversion server code, d
 
 	    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 
-Notice that the SHA checksum that originally started with `97031e5` when you committed now begins with `938b1a5`. If you want to push to both a Git server and a Subversion server, you have to push (`dcommit`) to the Subversion server first, because that action changes your commit data.
+Zie dat de SHA checksum die origineel begon met `97031e5` toen je committe, nu begint met `938b1a5`. Als je wilt pushen naar zowel een Git server als een Subversion server, moet je eerst naar de Subversion server pushen (`dcommit`), omdat die aktie je commit data veranderd.
 
-### Pulling in New Changes ###
+### Nieuwe Veranderingen Pullen ###
 
-If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
+Als je met andere developers samenwerkt, dan zal op een bepaald punt een van jullie willen pushen en de ander zal een conflicterende wijziging willen pushen. Die wijziging zal worden geweigerd totdat je hun werk merged. In `git svn` ziet het er zo uit:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -152,7 +152,7 @@ If you’re working with other developers, then at some point one of you will pu
 	out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
 	core/git-svn line 482
 
-To resolve this situation, you can run `git svn rebase`, which pulls down any changes on the server that you don’t have yet and rebases any work you have on top of what is on the server:
+Om deze situatie op te lossen, kun je `git svn rebase` uitvoeren, wat alle wijzigingen op de server die je nog niet hebt pulled, en al het werk dat je hebt bovenop wat op de server staat rebased:
 
 	$ git svn rebase
 	       M      README.txt
@@ -160,7 +160,7 @@ To resolve this situation, you can run `git svn rebase`, which pulls down any ch
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
 
-Now, all your work is on top of what is on the Subversion server, so you can successfully `dcommit`:
+Nu dat al jouw werk bovenop hetgeen wat op de Subversion server staat gebracht is, kun je succesvol `dcommit` doen:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -171,7 +171,7 @@ Now, all your work is on top of what is on the Subversion server, so you can suc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-It’s important to remember that unlike Git, which requires you to merge upstream work you don’t yet have locally before you can push, `git svn` makes you do that only if the changes conflict. If someone else pushes a change to one file and then you push a change to another file, your `dcommit` will work fine:
+Het is belangrijk te onthouden dat `git svn` je dit alleen laat doen als de wijzigingen conflicteren, in tegenstelling tot Git dat je vereist om eerst al het stroomopwaartse werk dat je nog niet lokaal hebt te mergen voordat je kunt pushen. Als iemand anders een verandering naar een bestand pushed en daarna push jij een verandering op een ander bestand, dan zal je `dcommit` prima werken:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -188,9 +188,9 @@ It’s important to remember that unlike Git, which requires you to merge upstre
 	First, rewinding head to replay your work on top of it...
 	Nothing to do.
 
-This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.
+Dit is belangrijk om te onthouden, want de uitkomst is een project status die niet bestond op een van jullie computers toen je pushte. Als de veranderingen incompatibel zijn, maar niet conflicteren, dan kun je problemen krijgen die lastig te diagnosticeren zijn. Het is anders dan een Git server gebruiken – in Git kun je de status volledig op je gebruikerssysteem testen voordat je het publiceert, waarbij in SVN je nooit zeker kunt zijn dat de statussen vlak voor je commit en na je commit gelijk zijn.
 
-You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits.
+Je zou dit commando ook moeten uitvoeren om wijzigingen te pullen van de Subversion server, zelfs als je niet klaar bent om te committen. Je kunt `git svn fetch` uitvoeren om de nieuwe data te pakken, maar `git svn rebase` doet de fetch en vernieuwd je lokale commits.
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh

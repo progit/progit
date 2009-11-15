@@ -77,7 +77,7 @@ To stash
 Checksum
 --------
   
-  Somme de controle
+  Somme de contrôle
   
 Hash
 ----
@@ -96,9 +96,9 @@ Workflow
 Snapshot
 --------
   
-  Image
+  Instantané
   
-  Alternative: parfois, le choix de la traduction litérale 'photographie' est supérieur (rare)
+  Alternative: image, parfois, le choix de la traduction litérale 'photographie' est supérieur (rare)
   
 Diff
 ----

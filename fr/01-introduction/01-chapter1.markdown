@@ -71,52 +71,52 @@ Figure 1-5. Git enregistre les données comme instantanés d'un projet dans le t
 
 Il s'agit là d'une distinction importante entre Git et les autres SSV. Dans Git, presque tout les aspects du suivi de version que les autres systèmes ont hérité des générations précédentes sont reconsidérés. Cela fait de Git plus un mini-système-de-fichiers sur lequel s'appuient quelques outils d'une puissance incroyable, qu'un simple SSV. Nous reviendrons aux bénéfices de concevoir les données ainsi lorsque nous nous intéresserons aux branches dans le chapitre 3.
 
-### Nearly Every Operation Is Local ###
+### Quasiment toutes les opérations sont locales ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+La plupart des opérations dans Git nécessite seulement des fichiers et ressources locales pour fonctionner--généralement, il n'y a besoin d'aucune information en provenance d'un autre ordinateur sur votre réseau. Si vous avez l'habitude d'un SCSV où la majorité des opérations souffrent de la latence du réseau, cet aspect de Git vous laissera penser que les dieux de la vitesse lui ont transmis ces pouvoirs. En raison de la présence de l'intégralité de l'historique du projet sur votre disque local, presque toutes les opérations semblent instantanées.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+Par exemple, pour accéder à l'historique du projet, Git n'a pas besoin d'interroger un serveur distant : il le lit directement depuis votre base de données locale. Cela signifie que vous visualisez l'historique du projet presque instantanément. Si vous voulez consulter les modifications introduites entre la version courante d'un fichier et sa création un mois auparavant, Git peut accéder à l'état du fichier le mois précédent et effectuer un calcul des différences localement, au lieu d'interroger un serveur distant ou récupérer une version précédente du fichier pour faire le calcul localement.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+Cela signifie également qu'il y a très peu de choses que vous ne puissiez faire hors-connexion, ou déconnecté(e) du réseau privé virtuel. Si vous prenez l'avion ou le train et désirez profiter du trajet pour travailler un peu, vous pouvez soumettre vos modifications avec bonheur jusqu'à ce que vous puissiez vous connecter pour synchroniser vos données. Une fois à la maison, si vous ne parvenez pas à restaurer la connexion vers votre réseau privé virtuel, vous pouvez tout de même travailler. Avec d'autres systèmes, ces situations s'avèrent impossibles ou très difficiles à mettre en oeuvre. Dans Perforce, par exemple, vous ne pouvez pas faire grand chose sans une connexion au serveur ; et dans Subversion ou CVS, vous pouvez modifier des fichiers, mais vous ne pouvez soumettre aucune modification (parce que votre base de données est déconnectée). Cela peut sembler anodin, mais vous pourriez être surpris(e) de la grande différence que cela peut constituer.
 
-### Git Has Integrity ###
+### Git possède l'intégrité ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Tout dans Git est soumis à une somme de contrôle, qui deviendra la référence, avant d'être enregistré. Cela veut dire qu'il est impossible de modifier le contenu d'aucun fichier ou répertoire sans que Git ne le sache. Cette fonctionnalité est intégrée dans Git au plus bas niveau aussi bien que dans sa philosophie. Vous ne pouvez perdre de l'information pendant les transferts, ni obtenir un fichier corrompu sans que Git ne puisse le détecter.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Git utilise une signature SHA-1 pour les sommes de contrôle. Il s'agit d'une chaîne de 40 caractères hexadécimaux (de 0 à 9 et de A à F), une empreinte unique issue du contenu du fichier ou de la structure des répertoires dans Git. Une empreinte SHA-1 ressemble à ceci :
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Vous verrez ce genre d'empreintes un peu partout dans Git car il les utilise partout. En fait, Git enregistre tout non par nom de fichier, mais dans une base de données addressable par la signature SHA-1 des contenus.
 
-### Git Generally Only Adds Data ###
+### Git ne fait (presque) qu'ajouter des données ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Lorsque vous effectuez des opérations dans Git, presque toutes ne font qu'ajouter des données dans la base de données de Git. Il est très difficile de forcer le système à faire quelque chose qu'on ne puisse défaire ou à effacer des données d'un quelconque manière. Comme dans tous les SSV, vous pouvez perdre ou casser des modifications que vous n'avez pas encore consignées ; mais une fois que vous avez consigné une image de vos changements dans Git, il devient très difficile de les perdre, d'autant plus si vous synchronisez régulièrement votre dépôt vers un autre dépôt.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Cela rend Git agréable à utiliser parce que nous savons que nous pouvons expérimenter sans danger de détruire le projet. Pour une vision plus approfondie de la manière dont Git enregistre ses données, et les moyens de récupérer des données qui semblent perdues, voir "Sous le couvercle" dans la chapitre 9.
 
-### The Three States ###
+### Les trois états ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+A présent, prêtez attention. Il s'agit de la chose principale à retenir concernant Git si vous voulez que le reste de votre apprentissage se passe sans encombre. Git possède trois états principaux dans lesquels vos fichiers peuvent se trouver : consigné, modifié ou en attente. Consigné signifie que les données sont enregistrées, à l'abri, dans votre base de données locale. Modifié veut dire que des changements ont eu lieu, mais qu'ils ne sont pas encore consignés. En attente implique que vous avez marqué un fichier modifié dans sa version courante pour qu'il intègre la prochaine image consignée.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+Cela nous amène aux trois principales sections d'un projet Git : le répertoire Git, le répertoire de travail et la zone d'attente.
 
 Insert 18333fig0106.png
-Figure 1-6. Working directory, staging area, and git directory.
+Figure 1-6. Le répertoire de travail, zone d'attente et le répertoire Git.
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Le répertoire Git est l'endroit ou Git enregistre les méta-données et la base de données d'objets pour votre projet. C'est la partie la plus importante de Git, et c'est ce qui est copié lors d'une opération de clonage du dépôt depuis une autre machine.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Le répertoire de travail est un retrait unique d'une version du projet. Ces fichiers sont retirés de la base de données compressée dans le répertoire Git et placés sur le disque pour être utilisés ou modifiés.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+La zone d'attente est un simple fichier, généralement placé dans le répertoire Git, qui contient l'information relative aux modifications qui intègreront la prochaine consignation. On l'appelle parfois l'index, mais l'appellation courante, qui devient le standard, est la zone d'attente.
 
-The basic Git workflow goes something like this:
+L'usage fondamental de Git peut se décrire ainsi :
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.  Vous modifiez des fichiers dans votre répertoire de travail.
+2.  Vous mettez les fichiers en attente, en ajoutant leur image à la zone d'attente.
+3.  Vous consignez les fichiers, ce qui prend un instantané des fichiers en attente et l'enregistre définitivement dans votre répertoire Git.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Si une version particulière d'un fichier est présente dans le répertoire Git, elle est considérée comme consignée. Si elle est modifiée mais présente dans la zone d'attente, elle est en attente. Et si elle a été modifiée depuis le dernier retrait, mais n'est pas encore en attente, alors elle est considérée comme modifiée. Dans le chapitre 2, vous en apprendrez plus sur ces états et comment vous pouvez en tirez avantage ou éviter la zone d'attente entièrement.
 
 ## Installing Git ##
 

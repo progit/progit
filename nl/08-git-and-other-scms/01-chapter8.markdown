@@ -343,35 +343,35 @@ De `git svn` tools zijn bruikbaar als je voorlopig vast zit aan een Subversion s
 
 Als je deze regels volgt, dan kan werken met een Subversion server meer dragelijk zijn. Maar, als het mogelijk is om over te gaan naar een echte Git server, dan kan dat je team een hoop meer toevoegen.
 
-## Migrating to Git ##
+## Naar Git Migreren ##
 
-If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.
+Als je een bestaande hoeveelheid brondcode in een ander VCS hebt, maar je hebt besloten om Git te gaan gebruiken dan moet je je project op een of andere manier migreren. Deze sectie behandelt een aantal importeerders voor veel voorkomende systemen, die bij Git zitten en demonstreert daarna hoe je je eigen importeerder kunt ontwikkelen.
 
-### Importing ###
+### Importeren ###
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+Je zult leren hoe je data uit twee van de grotere professioneel gebruikte SCM systemen kunt importeren – Subversion en Perforce –  omdat zij op dit moment de grootste hoeveelheid gebruikers hebben waarvan ik op dit moment hoor dat ze willen wisselen, en omdat er tools van hoge kwaliteit voor beide systemen meegeleverd worden met Git.
 
 ### Subversion ###
 
-If you read the previous section about using `git svn`, you can easily use those instructions to `git svn clone` a repository; then, stop using the Subversion server, push to a new Git server, and start using that. If you want the history, you can accomplish that as quickly as you can pull the data out of the Subversion server (which may take a while).
+Als je de vorige sectie over het gebruik van `git svn` leest, kun je die instructies eenvoudig gebruiken om een `git svn clone` te doen op een repository; daarna stop je met het gebruik van de Subversion server, pushed naar de nieuwe Git server, en ga die gebruiken. Als je de historie wil hebbeen, kun je dat zo snel als dat je van de server kunt pullen voor elkaar krijgen (wat een tijdje kan duren).
 
-However, the import isn’t perfect; and because it will take so long, you may as well do it right. The first problem is the author information. In Subversion, each person committing has a user on the system who is recorded in the commit information. The examples in the previous section show `schacon` in some places, such as the `blame` output and the `git svn log`. If you want to map this to better Git author data, you need a mapping from the Subversion users to the Git authors. Create a file called `users.txt` that has this mapping in a format like this:
+Maar, de import is niet perfect; en omdat het zo lang zal duren, kun je het maar beter goed doen. Het eerste probleem is informatie over de auteurs. In Subversion heeft iedere persoon die commit een gebruikersaccount op het systeem, wat wordt opgenomen in de commit informatie. De voorbeelden in de voorgaande sectie toen `schacon` op bepaalde plaatsen zoals de `blame` output en bij `git svn log`. Als je dit beter wil transleren naar Git auteur datan, dan heb je een translatie nodig van de Subversion gebruikers naar de Git auteurs. Maak een bestand genaamd `users.txt`, die deze translatie in dit formaat heeft:
 
 	schacon = Scott Chacon <schacon@geemail.com>
 	selse = Someo Nelse <selse@geemail.com>
 
-To get a list of the author names that SVN uses, you can run this:
+Om een lijst te krijgen van de auteurnamen, die SVN gebruikt kun je dit uitvoeren:
 
 	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
 
-That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.
+Daarmee krijg je de log output in XML formaat – je kunt hierin zoeken naar de auteurs, een lijst met unieke vermeldingen creëeren en dan de XML eruit halen. (Dit werkt natuurlijk alleen op een machine waarop `grep`, `sort` en `Perl` geinstalleerd is.) Daarna stuur je die output naar je users.txt bestand zodat je de gelijkwaardige Git gebruiker data naast iedere vermelding kunt zetten.
 
-You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `--no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:
+Je kunt dit bestand meegeven aan `git svn` om het te helpen de autuer data accurater te transleren. Je kunt `git svn` ook vertellen dat het niet de metadat moet toevoegen die Subversion normaal importeerd, door de `--no-metadata` optie mee te geven aan het `clone` of `init` commando. Dit laat je `import` commando er zo uit zien:
 
 	$ git-svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
-Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this
+Nu zou je een betere Subversion import moeten hebben in je `my_project` map. In plaats van commits die er zo uit zien
 
 	commit 37efa680e8473b615de980fa935944215428a35a
 	Author: schacon <schacon@4c93b258-373f-11de-be05-5f7a86268029>
@@ -381,7 +381,7 @@ Now you should have a nicer Subversion import in your `my_project` directory. In
 
 	    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
 	    be05-5f7a86268029
-they look like this:
+zien ze er zo uit:
 
 	commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
 	Author: Scott Chacon <schacon@geemail.com>
@@ -389,40 +389,40 @@ they look like this:
 
 	    fixed install - go to trunk
 
-Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.
+Niet alleen het auteur veld ziet er beter uit, maar het `git-svn-id` is ook niet meer aanwezig.
 
-You need to do a bit of `post-import` cleanup. For one thing, you should clean up the weird references that `git svn` set up. First you’ll move the tags so they’re actual tags rather than strange remote branches, and then you’ll move the rest of the branches so they’re local.
+Je moet nog een beetje `post-import` opruiming doen. Je moet nog de vreemde referenties die `git svn` ingesteld heeft opruimen, bijvoorbeeld. Als eerste verplaats je de tags zodat het echte tags worden, in plaats van vreemde remote branches, en dan verplaats je de rest van de branches zodat ze lokaal worden.
 
-To move the tags to be proper Git tags, run
+Om de tags goede Git tags te laten worden, voer dit uit
 
 	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
 	$ rm -Rf .git/refs/remotes/tags
 
-This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.
+Dit neemt de referenties die remote branches waren en met `tag/` begonnen, en maakt er echte (lichtgewicht) tags van.
 
-Next, move the rest of the references under `refs/remotes` to be local branches:
+Daarna verplaats je de rest van de referenties onder `refs/remotes` zodat het lokale branches worden:
 
 	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
 	$ rm -Rf .git/refs/remotes
 
-Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Because you want all your branches and tags to go up, you can run this:
+Nu zijn alle oude branches echte Git branches, en alle oude tags echte Git tags. Het laatste ding dan je moet doen is je nieuwe Git server als een remote toevoegen en er naar pushen. Omdat je al jouw branches en tags omhoog wil laten gaan, kun je dit uitvoeren:
 
 	$ git push origin --all
 
-All your branches and tags should be on your new Git server in a nice, clean import.
+Al je branches en tags zouden op je Git server moeten staan in een fijne schone import.
 
 ### Perforce ###
 
-The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git, but only in the `contrib` section of the source code — it isn’t available by default like `git svn`. To run it, you must get the Git source code, which you can download from git.kernel.org:
+Het volgende systeem waar je naar gaat kijken om vanuit te importeren is Perforce. Er zit een Perforce importeerder bij de Git distributie, maar alleen in het `contrib` gedeelte van de broncode – het is niet standaard beschikbaar zoals `git svn`. Om het uit te voeren, moet je de Git broncode pakken, die je van git.kernel.org kunt downloaden:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:
+In deze `fast-import` map, zou je een uitvoerbaar Python script genaamd `git-p4` moeten vinden. Je moet Python en het `p4` tool geinstalleerd hebben op je machine om deze import te laten werken. Als voorbeeld ga je het Jam project van de Perforce Public Depot importeren. Om je gebruiker in te stellen, moet je de P$PORT omgevingsvariabele laten wijzen naar het Perforce depot:
 
 	$ export P4PORT=public.perforce.com:1666
 
-Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:
+Voer het `git-p4-clone` commando uit om het Jam project van de Perforce server te importeren, waarbij je het pad naar het depot en het project en het pad waarnaar je wilt importeren mee geeft:
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
 	Importing from //public/jam/src@all into /opt/p4import
@@ -430,7 +430,7 @@ Run the `git-p4 clone` command to import the Jam project from the Perforce serve
 	Import destination: refs/remotes/p4/master
 	Importing revision 4409 (100%)
 
-If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:
+Als je naar de `/opt/p4import` map gaat en `git log` uitvoert, kun je je geimporteerde werk zien:
 
 	$ git log -2
 	commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
@@ -452,7 +452,7 @@ If you go to the `/opt/p4import` directory and run `git log`, you can see your i
 
 	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
 
-You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:
+Je kunt de `git-p4` identificator in iedere commit zien. Het is fijn om die identificator daar te bewaren, voor het geval je later naar het Perforce wijzigings nummer moet refereren. Maar, als je de identificator wilt verwijderen, is nu het geschikte moment om dat te doen – voordat je begint met werken op de nieuwe repository. Je kunt `git filter-branch` gebruiken om de identificatie tekst en masse te verwijderen:
 
 	$ git filter-branch --msg-filter '
 	        sed -e "/^\[git-p4:/d"
@@ -460,7 +460,7 @@ You can see the `git-p4` identifier in each commit. It’s fine to keep that ide
 	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
 	Ref 'refs/heads/master' was rewritten
 
-If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:
+Als je `git log` uitvoert, kun je zien dat alle SHA-1 checksums voor de commits gewijzigd zijn, maar de `git-p4` teksten staan niet langer in de commit berichten:
 
 	$ git log -2
 	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
@@ -478,13 +478,13 @@ If you run `git log`, you can see that all the SHA-1 checksums for the commits h
 
 	    Update derived jamgram.c
 
-Your import is ready to push up to your new Git server.
+Je import is nu klaar om naar je nieuwe Git server gepushed te worden.
 
-### A Custom Importer ###
+### Een Eigen Importeerder ###
 
-If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`.
+Als het door jou gebruikte systeem niet Subversion of Perforce is, zou je online voor een importeerder moeten zoeken – er zijn importeerders van goede kwaliteit beschikbaar voor CVS, Clear Case, Visual Source Safe, en zelfs een map met archieven. Als geen van deze tools voor jou geschikt is, je hebt een zeldzamer tool, of je hebt om een andere reden een eigen import proces nodig, dan zou je `git fast-import` moeten gebruiken. Dit commando leest eenvoudige instructies van stdin om specifieke Git data te schrijven. Het is veel eenvoudiger om op deze manier Git objecten te maken, dan de rauwe Git commando's uit te voeren, of om te proberen de rauwe objecten te schrijven (zie hoofdstuk 9 voor meer informatie). Op deze manier kun je een import script schrijven dat de noodzakelijke data uit het systeem leest dat je aan het importeren bent en rechttoe rechtaan instructies op stdout afdrukt. Je kunt dit programma dan uitvoeren en de output door `git fast-import` sluizen.
 
-To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:
+Voor een snelle demonstratie zul je een eenvoudige importeerde schrijven. Stel dan je in current werkt, waarbij je je project eens in de zoveel tijd backup'ed door de map te kopieeren naar een backup map die gelabeled is met de tijd `back_YYYY_MM_DD`, en je wil dit in Git importeren. Je mapstructuur ziet er zo uit:
 
 	$ ls /opt/import_from
 	back_2009_01_02
@@ -493,11 +493,11 @@ To quickly demonstrate, you’ll write a simple importer. Suppose you work in cu
 	back_2009_02_03
 	current
 
-In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one.
+Om naar een Git map te importeren, moet je bekijken hoe Git zijn data opslaat. Je kunt je misschien herinneren dat Git in fundament een gelinkte lijst is met commit objecten die naar een snapshot van inhoud wijzen. Het enige dat je hoeft te doen, is `fast-import` vertellen wat de inhoud snapshots zijn, welke commit data er naar wijst en de volgorde waarin ze moeten staan. Je strategie bestaat uit het doorlopen van de snapshots en commits te creëeren met de inhoud van iedere map, waarbij je iedere commit terug linked met de vorige.
 
-As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout. And, if you are running on Windows, this means you'll need to take special care to not introduce carriage returns at the end your lines — git fast-import is very particular about just wanting line feeds (LF) not the carriage return line feeds (CRLF) that Windows uses.
+Zoals je dat gedaan hebt in de "Een Voorbeeld van Git Afgedwongen Beleid" sectie van Hoofdstuk 7, gaan we dit in Ruby schrijven, omdat het is waar ik over het algemeen mee werk en het neigt eenvoudig te lezen te zijn. Je kunt dit voorbeeld vrij eenvoudig schrijven in alles waar je bekend mee bent – het hoeft alleen de juiste informatie naar stdout te schrijven. En dat betekent dat als je op Windows werkt, je erg voorzichtig moet zijn om geen carriage returns te introduceren aan het einde van je regels – git fast-import is erg kieskeurig in de manier waarop hij slechts line feeds (LF) wil hebben en niet de cariage return line feeds (CRLF), die Windows gebruikt.
 
-To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this:
+Om te beginnen ga je naar de doelmap en identificeer je iedere submap, waarvan elk een snapshot is dat je als commit wil importeren. Je zult in iedere submap gaan en de noodzakelijke commando's printen om ze te exporteren. Je basis hoofdlus ziet er zo uit:
 
 	last_mark = nil
 
@@ -513,11 +513,11 @@ To begin, you’ll change into the target directory and identify every subdirect
 	  end
 	end
 
-You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:
+Je voert `print_export` uit binnen iedere map, wat het manifest en het merk van de vorige snapshot neemt, en het manifest en merk van deze terug geeft; op die manier kun je ze goed linken. "Mark" is de `fast-import` term voor een identificator die je aan een commit geeft; terwijl je commits maakt, geef je ze een merk die je kunt gebruiken om vanuit andere commits naar te linken. Dus, het eerste wat je moet doen in je `print_export` functie is een merk genereren van de mapnaam:
 
 	mark = convert_dir_to_mark(dir)
 
-You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:
+Je zult dit doen door een lijst van mappen te creëeren en de index waarde als merk te gebruiken, omdat een merk een geheel getal moet zijn. Je functie ziet er zo uit:
 
 	$marks = []
 	def convert_dir_to_mark(dir)
@@ -527,11 +527,11 @@ You’ll do this by creating an array of directories and using the index value a
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is
+Nu dat je een geheel getal hebt als voorstelling van je commit, moet je een datum hebben voor de commit metadata. Omdat de datum is uitgedrukt in de naam van de map, zul je het daar uit moeten halen. De volgende regel in de `print_export` bestand is
 
 	date = convert_dir_to_date(dir)
 
-where `convert_dir_to_date` is defined as
+waarbij `convert_dir_to_date` als volgt gedefinieerd is
 
 	def convert_dir_to_date(dir)
 	  if dir == 'current'
@@ -543,11 +543,11 @@ where `convert_dir_to_date` is defined as
 	  end
 	end
 
-That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable:
+Dat geeft een geheel getal terug als waarde voor de datum van iedere map. Het laatste stukje meta-informatie dat je voor iedere commit nodig hebt is de committer data, wat je in een globale variabele stopt:
 
 	$author = 'Scott Chacon <schacon@example.com>'
 
-Now you’re ready to begin printing out the commit data for your importer. The initial information states that you’re defining a commit object and what branch it’s on, followed by the mark you’ve generated, the committer information and commit message, and then the previous commit, if any. The code looks like this:
+Nu ben je klaar om te beginnen met de commit data af te drukken voor je importeerder. De initiele informatie stelt dat je een commit object definieert en op welke branch het zit, gevolgd door het merk dat je gegenereerd hebt, de committer informatie en het commit bericht, en de vorige commit, als die er is. De code ziet er zo uit:
 
 	# print the import information
 	puts 'commit refs/heads/master'
@@ -556,18 +556,18 @@ Now you’re ready to begin printing out the commit data for your importer. The 
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset. 
-The commit message must be expressed in a special format:
+Je stelt de tijdzone (-0700) hardgecodeerd in omdat dat eenvoudig is. Als je vanuit een ander systeem importeert, moet je de tijdzone als een compensatiewaarde specificeren.
+Het commit bericht moet uitgedrukt worden in een speciaal formaat:
 
 	data (size)\n(contents)
 
-The format consists of the word data, the size of the data to be read, a newline, and finally the data. Because you need to use the same format to specify the file contents later, you create a helper method, `export_data`:
+Het formaat bestaat uit de woorddata, de grootte van de data die gelezen moet worden, een newline, en als laatste de data. Omdat je hetzelfde formaat nodig hebt om later de bestandsinhoud te specificeren, zul je een hulpfunctie creëeren, `export_data`:
 
 	def export_data(string)
 	  print "data #{string.size}\n#{string}"
 	end
 
-All that’s left is to specify the file contents for each snapshot. This is easy, because you have each one in a directory — you can print out the `deleteall` command followed by the contents of each file in the directory. Git will then record each snapshot appropriately:
+Het enige dat nog gespecificeerd moet worden is de bestandsinhoud voor ieder snapshot. Dit is makkelijk, omdat je ze allemaal in een map hebt – je kunt het `deleteall` commando afdruken, gevolgd door de inhoud van ieder bestand in de map. Git zal dan ieder snapshot op de juiste manier opslaan:
 
 	puts 'deleteall'
 	Dir.glob("**/*").each do |file|
@@ -575,15 +575,15 @@ All that’s left is to specify the file contents for each snapshot. This is eas
 	  inline_data(file)
 	end
 
-Note:	Because many systems think of their revisions as changes from one commit to another, fast-import can also take commands with each commit to specify which files have been added, removed, or modified and what the new contents are. You could calculate the differences between snapshots and provide only this data, but doing so is more complex — you may as well give Git all the data and let it figure it out. If this is better suited to your data, check the `fast-import` man page for details about how to provide your data in this manner.
+Let op: Omdat veel systemen over hun revisie als veranderingen van de ene naar de andere commit denken, kan fast-import ook commando's aan waarbij bij iedere commit is gespecificeerd welke bestanden zijn toegevoegd, verwijderd, of aangepast en wat de nieuwe inhouden zijn. Je kunt de verschillen tussen snapshots berekenen en alleen deze data geven, maar om het zo te doen is complexer – je kunt net zo goed Git alle data geven en hem het uit laten zoeken. Als dit beter geschikt is voor jouw data, bekijk dan de `fast-import` man pagina voor details over hoe je jouw data op deze manier kunt aanleveren.
 
-The format for listing the new file contents or specifying a modified file with the new contents is as follows:
+Het formaat om de nieuwe bestandsinhoud te tonen of een aangepast bestand met de nieuwe inhoud te specificeren is als volgt:
 
 	M 644 inline path/to/file
 	data (size)
 	(file contents)
 
-Here, 644 is the mode (if you have executable files, you need to detect and specify 755 instead), and inline says you’ll list the contents immediately after this line. Your `inline_data` method looks like this:
+Hierbij is 644 de modus (als je uitvoerbare bestanden hebt, moet je dit detecteren en in plaats daarvan 755 specificeren), en inline verteld dat je de inhoud onmiddelijk na deze regel toont. Je `inline_data` functie ziet er zo uit:
 
 	def inline_data(file, code = 'M', mode = '644')
 	  content = File.read(file)
@@ -591,17 +591,17 @@ Here, 644 is the mode (if you have executable files, you need to detect and spec
 	  export_data(content)
 	end
 
-You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data. 
+Je hergebruikt de `export_data` data functie, die je eerder gedefinieerd hebt, omdat het hetzelfde is als de manier waarop je je commit bericht data gespecificeerd hebt.
 
-The last thing you need to do is to return the current mark so it can be passed to the next iteration:
+Het laatste wat je moet doen is het huidige merk teruggeven, zodat het meegegeven kan worden aan de volgende iteratie:
 
 	return mark
 
-NOTE: If you are running on Windows you'll need to make sure that you add one extra step. As metioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF:
+Let op: Als je op Windows werkt, moet je er zeker van zijn dat je nog één extra stap toevoegt. Zoals voorheen gemeld is, gebruikt Windows CRLF als new line karakters, terwijl git fast-import alleen LF verwacht. Om om dit probleem heen te werken en git fast-import blij te maken, moet je ruby vertellen om LF in plaats van CRLF te gebruiken:
 
 	$stdout.binmode
 
-That’s it. If you run this script, you’ll get content that looks something like this:
+Dat is alles. Als je dit script uitvoert, zul je inhoud krijgen die er ongeveer zo uit ziet:
 
 	$ ruby import.rb /opt/import_from 
 	commit refs/heads/master
@@ -626,7 +626,7 @@ That’s it. If you run this script, you’ll get content that looks something l
 	new version one
 	(...)
 
-To run the importer, pipe this output through `git fast-import` while in the Git directory you want to import into. You can create a new directory and then run `git init` in it for a starting point, and then run your script:
+Om de importeerder uit te voeren, sluis je deze uitvoer door `git fast-import` terwijl je in de Git map staat waar je naar toe wilt importeren. Je kunt een nieuwe map aanmaken en er dan `git init` in uitvoeren als startpunt, en dan kun je je script uitvoeren:
 
 	$ git init
 	Initialized empty Git repository in /opt/import_to/.git/
@@ -655,7 +655,7 @@ To run the importer, pipe this output through `git fast-import` while in the Git
 	pack_report: pack_mapped              =       1356 /       1356
 	---------------------------------------------------------------------
 
-As you can see, when it completes successfully, it gives you a bunch of statistics about what it accomplished. In this case, you imported 18 objects total for 5 commits into 1 branch. Now, you can run `git log` to see your new history:
+Zoals je kunt zien geeft het je een berg statistieken over wat het heeft bereikt, als het succesvol heeft kunnen afronden. In dit geval heb je in totaal 18 objecten geimporteerd, voor 5 commits in 1 branch. Nu kun je `git log` uitvoeren en je nieuwe historie zien:
 
 	$ git log -2
 	commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
@@ -670,7 +670,7 @@ As you can see, when it completes successfully, it gives you a bunch of statisti
 
 	    imported from back_2009_02_03
 
-There you go — a nice, clean Git repository. It’s important to note that nothing is checked out — you don’t have any files in your working directory at first. To get them, you must reset your branch to where `master` is now:
+Hier heb je 't – een fijne, schone Git repository. Het is belangrijk om te zien dat nog niks uitgechecked is – je hebt om te beginnen geen bestanden in je werkmap. Om ze te krijgen moet je je branch resetten tot het punt waar `master` nu is:
 
 	$ ls
 	$ git reset --hard master
@@ -678,8 +678,8 @@ There you go — a nice, clean Git repository. It’s important to note that not
 	$ ls
 	file.rb  lib
 
-You can do a lot more with the `fast-import` tool — handle different modes, binary data, multiple branches and merging, tags, progress indicators, and more. A number of examples of more complex scenarios are available in the `contrib/fast-import` directory of the Git source code; one of the better ones is the `git-p4` script I just covered.
+Je kunt nog veel meer doen met het `fast-import` tool – verschillende bestandsmodi behandelen, binaire gegevens, meerdere branches en merges, tags, voortgangsindicatoren, en meer. Een aantal voorbeelden voor complexe scenario's zijn voorhanden in de `contrib/fast-import` map van de Git broncode; een van de betere is het `git-p4` script dat ik zojuist behandeld heb.
 
-## Summary ##
+## Samenvatting ##
 
-You should feel comfortable using Git with Subversion or importing nearly any existing repository into a new Git one without losing data. The next chapter will cover the raw internals of Git so you can craft every single byte, if need be.
+Je zou je op je gemak moeten voelen om Git met Subversion te gebruiken, of bijna ieder bestaand repository te importeren in een Git versie zonder gegevens te verliezen. Het volgende hoofdstuk zal het rauwe binnenwerk van Git behandelen, zodat je iedere byte in elkaar kunt zetten, als dat nodig is.

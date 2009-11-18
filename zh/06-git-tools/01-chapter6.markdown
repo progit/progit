@@ -1057,13 +1057,14 @@ Git通过子模块处理这个问题。子模块允许你将一个Git仓库当�
 
 ## 子树合并 ##
 
-Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
+现在你已经看到了子模块系统的困难之处，让我们来看一下解决相同问题的另一途径。当Git归并时，它会检查需要归并的内容然后选择一个合适的归并策略。如果你归并两个分支，Git使用一个_递归_策略。如果你归并超过两个分支，Git采用_章鱼_策略。这些策略是自动选择的淫威递归策略可以处理复杂的三路归并情况 —— 比如多于一个共同祖先的 —— 但是它只能处理两个分支的归并。章鱼归并可以处理多个分支但是但必须更加小心以避免麻烦的冲突，因此它被选中作为归并两个以上分支的默认策略。
 
-However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
+实际上，你也可以选择其他策略。其中的一个就是_子树_归并，你可以用它来处理子项目问题。这里你会看到如何实现前一节里所做的rack的嵌入，换用子树归并的方法。
 
-The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
+子树归并的思想是你拥有两个工程，其中一个项目映射到另外一个项目的子目录中，反过来也一样。当你指定一个子树归并，Git可以聪明地找出其中一个是另外一个的子树从而实现正确的归并 —— 这相当神奇。
 
-You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
+
+你首先将Rack应用加入到项目中。你将Rack项目当作你项目中的一个远程引用，然后将它签出到它自身的分支：
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
@@ -1082,7 +1083,7 @@ You first add the Rack application to your project. You add the Rack project as 
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
-Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch. If you check out one and then the other, you can see that they have different project roots:
+现在在你的`rack_branch`分支中就有了Rack项目的根目录，而你自己的项目在`master`分支中。如果你先签出其中一个然后另外一个，你会看到它们有不同的项目根目录：
 
 	$ ls
 	AUTHORS	       KNOWN-ISSUES   Rakefile      contrib	       lib
@@ -1093,31 +1094,33 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	README
 
 You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
+你想将Rack项目当作子目录拉取到你的`master`项目中。你可以在Git中用`git read-tree`来实现。你会在第9章学到更多与`read-tree`和它的朋友相关的东西，当前你会知道它读取一个分支的根目录树到当前的暂存区和工作目录。你只要切换回你的`master`分支，然后拉取`rack`分支到你主项目的`master`分支的`rack`子目录：
+
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
+当你提交的时候，看起来就像你在那个子目录下拥有Rack的文件 —— 就像你从一个tarball里拷贝的一样。有意思的是你可以比较容易地归并其中一个分支的变更到另外一个。因此，如果Rack项目更新了，你可以通过切换到那个分支并执行拉取来获得上游的变更：
 
 	$ git checkout rack_branch
 	$ git pull
 
-Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
+然后，你可以将那些变更归并回你的master分支。你可以使用`git merge -s subtree`，它会工作的很好；但是Git同时会把历史归并到一起，这可能不是你想要的。为了拉取变更并预迁移提交信息，需要在`-s subtree`策略选项的同时使用`--squash`和`--no-commit`选项。
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+所有Rack项目的变更都被归并可以进行本地提交。你也可以做相反的事情 —— 在你主分支的`rack`目录里进行变更然后归并回`rack_branch`分支，然后将它们提交给维护者或者推送到上游。
 
-To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
+为了得到`rack`子目录和你`rack_branch`分支的区别 —— 以决定你是否需要归并它们 —— 你不能使用一般的`diff`命令。而是对你想比较的分支运行`git diff-tree`：
 
 	$ git diff-tree -p rack_branch
 
-Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
+或者，为了比较你的`rack`子目录和服务器上你拉取时的`master`分支，你可以运行
 
 	$ git diff-tree -p rack_remote/master
 
 ## 总结 ##
 
-You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.
+你已经看到了很多高级的工具，允许你更加精确地操控你的提交和暂存区。当你碰到问题时，你应该可以很容易找出是哪个分支什么时候是谁引入了他们。如果你想在项目中使用子项目，你已经学会了一些方法来满足这些需求。到此，你应该可以完成日常你需要用命令行在Git里做的大部分事情并且感到比较顺手。

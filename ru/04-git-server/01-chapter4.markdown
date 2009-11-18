@@ -258,6 +258,8 @@ Another way to do it is to have your SSH server authenticate from an LDAP server
 
 ## Generating Your SSH Public Key ##
 
+Как было уже сказано, многие сервера Git используют аутентификацию по открытым SSH ключам. Для того чтобы предоставить открытый ключ, пользователь должен его сгенерировать, если это не было сделано ранее. Это процесс похож во всех операционных системах. Сначала, вам стоит убедиться, что у вас уже нет ключа. По умолчанию пользовательские ключи SSH хранятся в каталоге `~/.ssh` этого пользователя. Вы можете легко проверить, есть ли у вас ключ, зайдя в этот каталог и посмотрев его содержимое:
+
 That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
 First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:
 
@@ -265,6 +267,8 @@ First, you should check to make sure you don’t already have a key. By default,
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
+
+Ищите пару файлов с именами "что-нибудь" и "что-нибудь.pub", где "что-нибудь" обычно `id_dsa` или `id_rsq`. Файл с расширением `.pub` - это ваш открытый ключ, а второй файл - ваш закрытый ключ. Если у вас нет этих файлов (или даже нет каталога `.ssh`), вы можете создать их запустив программу `ssh-keygen`, которая входит в состав пакета SSH в системах Linux/Mac, а также поставляется в составе MSysGit для Windows:
 
 You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:
 
@@ -278,7 +282,11 @@ You’re looking for a pair of files named something and something.pub, where th
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
+Сначала необходимо ввести расположение, для сохранения ключа (`.ssh/id_rsa`), затем дважды ввести пароль, который вы можете оставить пустым, если не хотите его вводить каждый раз когда используете ключ.
+
 First it confirms where you want to save the key (`.ssh/id_rsa`), and then it asks twice for a passphrase, which you can leave empty if you don’t want to type a password when you use the key.
+
+Теперь, каждый пользователь должен послать свой открытый ключ вам, или тому кто администрирует сервер Git (предположим, что ваш сервер SSH уже настроен на работу с открытыми ключами). Для этого им нужно скопировать все содержимое файла с расширением `.pub` и отправить его по электронной почте. Открытый ключ выглядит как то так:
 
 Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:
 
@@ -289,6 +297,8 @@ Now, each user that does this has to send their public key to you or whoever is 
 	t3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/En
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
+
+Более подробное руководство по созданию ключей SSH на различных системах вы можете найти в руководстве GitHub по ключам SSH на `http://github.com/guides/providing-your-ssh-key`.
 
 For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
 

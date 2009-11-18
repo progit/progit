@@ -1,20 +1,20 @@
-# Git Internals #
+# Het Binnenwerk van Git #
 
-You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.
+Je zult misschien naar dit hoofdstuk gesprongen zijn vanuit een vorig hoofdstuk, of je zult hier gekomen zijn nadat je de rest van het boek gelezen hebt – in ieder geval, zal hier het binnenwerk en implementatie van Git behandeld worden. Ik heb gemerkt dat het leren van deze informatie van fundamenteel belang is om te begrijpen hoe bruikbaar en krachtig Git is, maar anderen hebben daar tegenin gebracht dat het erg verwarrend en onnodig complex kan zijn voor beginners. Daarom heb ik deze beschrijving het laatste hoofdstuk gemaakt in het boek, zodat je het vroeg of later kunt lezen in je leerproces. Ik laat het aan jou over om te beslissen.
 
-Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.
+Laten we beginnen, nu je hier bent. Als eerste, mocht het nog niet duidelijk zijn, is Git in basis een inhouds-toegankelijk bestandssyteem met een VCS gebruikersinterface er bovenop geschreven. Je zult over een poosje meer leren over wat dit betekend.
 
-In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.
+In de eerste dagen van Git (het meerendeel pre 1.5), wat de gebruikersinterface veel complexer, omdat het de nadruk legde op dit bestandssysteem in plaats van op een gepolijst VCS. De laatste paar jaren is de interface verfijnd totdat het zo netjes en eenvoudig te gebruikten is als ieder systeem dat er bestaat; maar vaak blijft het stereotype hangen over de vroegere Git interface, die complex was en moeilijk te leren.
 
 The content-addressable filesystem layer is amazingly cool, so I’ll cover that first in this chapter; then, you’ll learn about the transport mechanisms and the repository maintenance tasks that you may eventually have to deal with.
 
-## Plumbing and Porcelain ##
+## Sanitaire Inrichtingen en Porcelein ##
 
-This book covers how to use Git with 30 or so verbs such as `checkout`, `branch`, `remote`, and so on. But because Git was initially a toolkit for a VCS rather than a full user-friendly VCS, it has a bunch of verbs that do low-level work and were designed to be chained together UNIX style or called from scripts. These commands are generally referred to as "plumbing" commands, and the more user-friendly commands are called "porcelain" commands.
+Dit boek behandeld Git met ongeveer 30 werkwoorden zoals `checkout`, `branch`, `remote` enzovoorts. Maar omdat Git in eerste instantie een toolkit voor een VCS was, in plaats van een volledig gebruiksvriendelijk VCS, heeft het een berg werkwoorden die laagbijdegronds werk doen en ontworpen waren om samengevoegd te worken zoals in UNIX gebruikelijk is, of vanuit scripts aangeroepen te worden. Naar deze commando's wordt over het algemeen als "plumbing" (sanitaire voorzieningen) commando's verwezen, en de meer gebruiksvriendelijke commando's worden "porcelain" (porcelein) commando's genoemd.
 
-The book’s first eight chapters deal almost exclusively with porcelain commands. But in this chapter, you’ll be dealing mostly with the lower-level plumbing commands, because they give you access to the inner workings of Git and help demonstrate how and why Git does what it does. These commands aren’t meant to be used manually on the command line, but rather to be used as building blocks for new tools and custom scripts.
+De eerste acht hoofdstukken van het boek behandelen bijna alleen porcelein commando's. Maar in dit hoofdstuk zul je het meest met de lagere nivo sanitaire voorziening commando's omgaan, omdat zij je toegang tot de innerlijke werking van Git geven, en helpen te demonstreren hoe en waarom Git doet wat het doet. Deze commando's zijn niet bedoeld om handmatig op de commandoregel gebruikt te worden, maar meer om als bouwstenen voor nieuwe tools en scripts gebruikt te worden.
 
-When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:
+Als je `git init` uitvoerd in een nieuwe of bestaande map, zal Git de `.git` map aanmaken, wat de plek is waar Git bijna alles opslaat en manipuleert. Als je je repository wilt backup'en of clonen, dan geeft het elders kopieeren van deze map je bijna alles wat je nodig hebt. Dit hele hoofdstuk gaat in essentie over het spul in deze map. Hier zie je hoe het eruit ziet:
 
 	$ ls 
 	HEAD
@@ -27,14 +27,14 @@ When you run `git init` in a new or existing directory, Git creates the `.git` d
 	objects/
 	refs/
 
-You may see some other files in there, but this is a fresh `git init` repository — it’s what you see by default. The `branches` directory isn’t used by newer Git versions, and the `description` file is only used by the GitWeb program, so don’t worry about those. The `config` file contains your project-specific configuration options, and the `info` directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file. The `hooks` directory contains your client- or server-side hook scripts, which are discussed in detail in Chapter 6.
+Je kunt een paar andere bestanden zien, maar dit is een verse `git init` repository – dit is wat je standaard ziet. De `branches` map wordt niet gebruikt door nieuwere Git versies, en het `description` bestand wordt alleen gebruikt door het GitWeb programma, dus je hoeft je daar niet druk over te maken. Het `config` bestand bevat je project-specifieke configuratie opties, en de `info` map bevat een globaal exclude bestand voor genegeerde patronen, die je niet wilt volgen in een .gitignore bestand. De `hooks` map bevat je gebruiker- en server-kant haak scripts, die in detail beschreven zijn in Hoofdstuk 6.
 
-This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.
+Dit laat vier belangrijke vermeldingen over: de `HEAD` en `index` bestanden, en de `objects` en `refs` mappen. Dit zijn de kern bestandsdelen van Git. De `objects` map bewaard alle inhoud van je databank, de `refs` map bevat pointers naar commit objecten in die gegevens (branches), het `HEAD` bestand wijst naar de branch die je op dit moment uitgechecked hebt, en het `index` bestand is waar Git de informatie van je staging gebied opslaat. Je gaat nu in detail naar elk van deze secties kijken om te zien hoe Git werkt.
 
-## Git Objects ##
+## Git Objecten ##
 
-Git is a content-addressable filesystem. Great. What does that mean?
-It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:
+Git is een inhouds-adresseerbaar bestandssysteem. Mooi. Wat betekend dat?
+Het betekend dat in de kern van Git een eenvoudige sleutel-waarde gegevens opslag zit. Je kunt er ieder soort inhoud in stoppen, en het zal je een sleutel geven dije kunt gebruiken om de inhoud op ieder moment terug te krijgen. Om te demonstreren, kun je het sanitaire voorzieningen commando `hash-object` gebruiken, die wat gegevens aanneemt, het in je `.git` map opslaat, en je de sleutel teruggeeft waarmee de gegevens zijn opgelsagen. Als eerste initialiseer je een nieuw Git repository en verifieer je dat er niets in de `objects` map staat:
 
 	$ mkdir test
 	$ cd test
@@ -47,104 +47,104 @@ It means that at the core of Git is a simple key-value data store. You can inser
 	$ find .git/objects -type f
 	$
 
-Git has initialized the `objects` directory and created `pack` and `info` subdirectories in it, but there are no regular files. Now, store some text in your Git database:
+Git heeft de `objects` map geinitialiseerd en de `pack` en `info` submappen erin aangemaakt, maar er zijn geen reguliere bestanden. Nu sla je wat tekst in je Git databank op:
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
+De `-w` verteld `hash-object` dat het object opgeslagen moet worden; anders zal het commando je alleen vertellen wat de sleutel zou zijn. `--stdin` verteld het commando dat het moet lezen van stdin; als je dit niet specificeerd verwatch `hash-object` een pad naar een bestand. De uitvoer van het commando is een hash checksum van 40 karakters. Dit is de SHA-1 hash – een checksum van de inhoud die je opslaat plus een kop, waarover je zometeen meer zult leren. Nu kun je zien hoe Git je gegevens opgeslagen heeft:
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-You can see a file in the `objects` directory. This is how Git stores the content initially — as a single file per piece of content, named with the SHA-1 checksum of the content and its header. The subdirectory is named with the first 2 characters of the SHA, and the filename is the remaining 38 characters.
+Je kunt een bestand in de `objects` map zien. Dit is hoe Git de inhoud initieel opslaat – as een enkel bestand per stuk inhoud, vernoemd naar de SHA-1 checksum van de inhoud en z'n kop. De submap is vernoemd naar de eerste 2 karakters van de SHA, het het bestandsnaam zijn de overige 38 karakters.
 
-You can pull the content back out of Git with the `cat-file` command. This command is sort of a Swiss army knife for inspecting Git objects. Passing `-p` to it instructs the `cat-file` command to figure out the type of content and display it nicely for you:
+Je kunt de inhoud terug uit Git halen met het `cat-file` commando. Dit commando is een soort Zwitsers zakmes om Git objecten mee te inspecteren. Door de `-p` optie mee te geven, instrueer je het `cat-file` commando om uit te zoeken van het type van de inhoud is en om het netjes aan je te tonen:
 
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content
 
-Now, you can add content to Git and pull it back out again. You can also do this with content in files. For example, you can do some simple version control on a file. First, create a new file and save its contents in your database:
+Nu kun je inhoud aan Git toevoegen, en het er weer uit halen. Je kunt dit ook doen met inhoud in bestanden. Bijvoorbeeld, je kunt wat eenvoudig versie beheer op een bestand doen. Als eerste maak je een nieuw bestand en slaat de inhoud op in je databank:
 
 	$ echo 'version 1' > test.txt
 	$ git hash-object -w test.txt 
 	83baae61804e65cc73a7201a7252750c76066a30
 
-Then, write some new content to the file, and save it again:
+Daarna schrijf je wat nieuwe inhoud in het bestand en slaat het opnieuw op:
 
 	$ echo 'version 2' > test.txt
 	$ git hash-object -w test.txt 
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
-Your database contains the two new versions of the file as well as the first content you stored there:
+Je databank bevat de twee nieuwe versies van het bestand, samen met de eerste inhoud die je daar opgeslagen hebt:
 
 	$ find .git/objects -type f 
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-Now you can revert the file back to the first version
+Nu kun je het bestand terugbrengen naar de eerste versie
 
 	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
 	$ cat test.txt 
 	version 1
 
-or the second version:
+of de tweede versie:
 
 	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
 	$ cat test.txt 
 	version 2
 
-But remembering the SHA-1 key for each version of your file isn’t practical; plus, you aren’t storing the filename in your system — just the content. This object type is called a blob. You can have Git tell you the object type of any object in Git, given its SHA-1 key, with `cat-file -t`:
+Maar de SHA-1 sleutel voor iedere versie van je bestand onthouden is niet erg praktisch; plus, je bewaard de bestandsnaam niet in je systeem – alleen de inhoud. Dit objecttype heet een blob. Je kunt Git jou het objecttype van ieder object in Git laten vertellen, gegeven de SHA-1 sleutel, met `cat-file -t`:
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
 
-### Tree Objects ###
+### Boom Objecten ###
 
-The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:
+Het volgende type waar je naar gaat kijken is het boom object, wat het probleem van het opslaan van de bestandsnaam oplost en het je ook mogelijk maakt om een groep bestanden samen op te slaan. Git slaat inhoud op in dezelfde wijze als een UNIX bestandssysteem, maar dan wat vereenvoudigd. Alle inhoud wordt opgeslagen als boom- en blob-objecten, waarbij bomen corresponderen met UNIX map vermeldingen en blobs min of meer corresponderen aan inodes of bestandsinhoud. Een enkel boomobject bevat één of meer boom vermeldingen, waarvan ieder een SHA-1 point naar een blob of subboom bevat met zijn geassocieerde mode, type en bestandsnaam. Bijvoorbeeld, de meest recente boom in het simplegit project zou er zo uit kunnen zien:
 
 	$ git cat-file -p master^{tree}
 	100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
 	100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
 	040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib
 
-The `master^{tree}` syntax specifies the tree object that is pointed to by the last commit on your `master` branch. Notice that the `lib` subdirectory isn’t a blob but a pointer to another tree:
+De `master^{tree}` syntax specificeerd het boom object waarnaar gewezen wordt door de laatste commit op je `master` branch. Zie dat de `lib` submap geen blob is, maar een pointer naar een andere boom:
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
 
-Conceptually, the data that Git is storing is something like Figure 9-1.
+Conceptueel zijn de gegevens die Git opslaat zoiets als in Figuur 9-1.
 
 Insert 18333fig0901.png 
-Figure 9-1. Simple version of the Git data model.
+Figuur 9-1. Eenvoudige versie van het Git data model.
 
-You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your text.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `--add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `--cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:
+Je kunt je eigen boom maken. Normaal gesproken maakt Git een boom door de status van je staging gebied of index te pakken en daar een boom object mee te schrijven. Dus, om een boomobject te maken moet je eerst een index instellen door een paar bestanden te stagen. Om een index te maken met een enkele vermelding – de eerste versie van je test.txt bestand – kun je het sanitaire voorzieningen commando `update-index` gebruiken. Je gebruikt dit commando om kunstmatig de eerdere versie van het test.txt bestand toe te voegen aan een nieuw staging gebied. Je moet het de `--add` optie meegeven, omdat het bestand nog niet bestaat in je staging gebied (je hebt zelfs nog geen staging gebied ingesteld) en `--cacheinfo` omdat het bestand dat je toevoegd niet in je map staat, maar wel in je databank. Daarna specificeer je de mode, SHA-1 en bestandsnaam:
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
 
-In this case, you’re specifying a mode of `100644`, which means it’s a normal file. Other options are `100755`, which means it’s an executable file; and `120000`, which specifies a symbolic link. The mode is taken from normal UNIX modes but is much less flexible — these three modes are the only ones that are valid for files (blobs) in Git (although other modes are used for directories and submodules).
+In dit geval specificeer je een mode van `100644`, wat betekend dat het een normaal bestand is. Andere opties zijn `100755`, wat betekend dat het een uitvoerbaar bestand is; en `120000`, wat een symbolische link specificeerd. De mode is genomen van normale UNIX modes, maar is veel minder flexibel – deze drie modi zijn de enigen die geldig zijn voor bestanden (blobs) in Git (alhoewel andere modi worden gebruikt voor mappen en submodules).
 
-Now, you can use the `write-tree` command to write the staging area out to a tree object. No `-w` option is needed — calling `write-tree` automatically creates a tree object from the state of the index if that tree doesn’t yet exist:
+Nu kun je het `write-tree` commando gebruiken om het staging gebied naar een boomobject te schrijven. Er is geen `-w` optie nodig – `write-tree` aanroepen zorgt er automatisch voor dat een boomobject gecreëeerd wordt van de status van de index als die boom nog niet bestaat:
 
 	$ git write-tree
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt
 
-You can also verify that this is a tree object:
+Je kunt ook verifieren dat dit een boomobject is:
 
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
 
-You’ll now create a new tree with the second version of test.txt and a new file as well:
+Je zult nu een nieuwe boom aanmaken met de tweede versie van het test.txt bestand en ook een nieuw bestand:
 
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt 
 	$ git update-index --add new.txt 
 
-Your staging area now has the new version of test.txt as well as the new file new.txt. Write out that tree (recording the state of the staging area or index to a tree object) and see what it looks like:
+Je staging gebied heeft nu een nieuwe versie van test.txt, als ook het nieuwe new.txt bestand. Schrijf de boom (sla de status van het staging gebied of index op als boom object) en kijk hoe het er uit ziet:
 
 	$ git write-tree
 	0155eb4229851634a0f03eb265b69f5a2d56f341
@@ -152,7 +152,7 @@ Your staging area now has the new version of test.txt as well as the new file ne
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-Notice that this tree has both file entries and also that the test.txt SHA is the "version 2" SHA from earlier (`1f7a7a`). Just for fun, you’ll add the first tree as a subdirectory into this one. You can read trees into your staging area by calling `read-tree`. In this case, you can read an existing tree into your staging area as a subtree by using the `--prefix` option to `read-tree`:
+Zie dat deze boom beide bestandsvermeldingen bevat en ook dat de SHA van test.txt dezelfde "versie 2" SHA is als eerder (`1f7a7a`). Je zult nu voor de lol de eerste boom als een subboom toevoegen aan deze. Je kunt bomen in je staging gebied lezen door `read-tree` aan te roepen. In dit geval kun je een bestaande boom in je staging gebied lezen als een subboom met de `--prefix` optie aan `read-tree`:
 
 	$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git write-tree
@@ -163,9 +163,10 @@ Notice that this tree has both file entries and also that the test.txt SHA is th
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
 If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like Figure 9-2.
+Als je een werkmap zou maken van de nieuwe boom die je zojuist geschreven hebt, zou je de twee bestanden in het bovenste nivo van de werkmap krijgen en een submap genaamd `bak` die de eerste versie van het test.txt bestand bevatte. Je kunt over de gegevens die Git bevat voor deze structuren denken zoals getoond in Figuur 9-2.
 
 Insert 18333fig0902.png 
-Figure 9-2. The content structure of your current Git data.
+Figuur 9-2. De inhoud structuur van je huidige Git gegevens.
 
 ### Commit Objects ###
 

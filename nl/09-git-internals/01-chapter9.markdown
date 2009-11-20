@@ -168,16 +168,16 @@ Als je een werkmap zou maken van de nieuwe boom die je zojuist geschreven hebt, 
 Insert 18333fig0902.png 
 Figuur 9-2. De inhoud structuur van je huidige Git gegevens.
 
-### Commit Objects ###
+### Commit Objecten ###
 
-You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.
+Je hebt drie bomen die de verschillende snapshots specificeren die je wilt volgen, maar het eerdere probleem blijft: je moet alledrie de SHA-1 waarden onthouden om de snapshots weer op te halen. Je hebt ook geen informatie over wie de snapshots opgeslagen heeft, wanneer ze opgeslagen zijn, of waarom ze opgeslagen zijn. Dit is de basale informatie die het commit object voor je opslaat.
 
-To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:
+Om een commit object te creëeren moet je `commit-tree` aanroepen en één boom SHA-1 specificeren en welke commit objecten, als er die zijn, er direct aan vooraf gingen. Start met de eerste boom, die je geschreven hebt:
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
-Now you can look at your new commit object with `cat-file`:
+Nu kun je je nieuwe commit object bekijken met `cat-file`:
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -186,16 +186,16 @@ Now you can look at your new commit object with `cat-file`:
 
 	first commit
 
-The format for a commit object is simple: it specifies the top-level tree for the snapshot of the project at that point; the author/committer information pulled from your `user.name` and `user.email` configuration settings, with the current timestamp; a blank line, and then the commit message.
+Het formaat van een commit object is simpel: het specificeert de bovenste boom voor het snapshot van het project op dat punt; de auteur/committer informatie die uit je `user.name` en `user.email` configuratie instellingen gehaald is, met de huidige tijd; een lege regel, en dan de commit boodschap.
 
-Next, you’ll write the other two commit objects, each referencing the commit that came directly before it:
+Nu zul je de twee andere commit objecten schrijven, waarbij ze elk het commit object dat er direct voor komt refereren:
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
 	cac0cab538b970a37ea1e769cbbde608743bc96d
 	$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
 	1a410efbd13591db07496601ebc7a059dd55cfe9
 
-Each of the three commit objects points to one of the three snapshot trees you created. Oddly enough, you have a real Git history now that you can view with the `git log` command, if you run it on the last commit SHA-1:
+Ieder van de drie commit objecten wijst naar één van de drie snapshots die je gemaakt hebt. Vreemd genoeg heb je nu een echte Git historie, die je kunt bekijken met het `git log` commando, als je dat op de SHA-1 van de laatste commit uitvoert:
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -226,7 +226,7 @@ Each of the three commit objects points to one of the three snapshot trees you c
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Amazing. You’ve just done the low-level operations to build up a Git history without using any of the front ends. This is essentially what Git does when you run the `git add` and `git commit` commands — it stores blobs for the files that have changed, updates the index, writes out trees, and writes commit objects that reference the top-level trees and the commits that came immediately before them. These three main Git objects — the blob, the tree, and the commit — are initially stored as separate files in your `.git/objects` directory. Here are all the objects in the example directory now, commented with what they store:
+Verbazingwekkend. Je hebt zojuist de lagere operaties uitgevoerd om een Git history op te bouwen, zonder één van de front ends te gebruiken. Dit is in essentie van Git doet als je de `git add` en `git commit` commando's uitvoerd – het slaat de blobs voor de gewijzigde bestanden op, ververst de index, schrijft de bomen weg, en schrijft commit objecten die de bovenste bomen en commits refereren die vlak voor ze kwamen. Deze drie hoofd Git-objecten – de blob, de boom en de commit – worden in eerste instantie als aparte bestanden opgeslagen in je `.git/objects` map. Hier zijn alle objecten die nu in de voorbeeld map staan, voorzien van commentaar met wat ze bevatten:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -240,20 +240,20 @@ Amazing. You’ve just done the low-level operations to build up a Git history w
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-If you follow all the internal pointers, you get an object graph something like Figure 9-3.
+Als je alle interne verwijzingen volgt, krijg je een object-graaf die er uitzien zoals Figuur 9-3.
 
 Insert 18333fig0903.png 
-Figure 9-3. All the objects in your Git directory.
+Figuur 9-3. Alle objecten in je Git map.
 
-### Object Storage ###
+### Object Opslag ###
 
-I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:
+Ik vertelde eerder dat er een kop wordt opgeslagen bij de inhoud. Laten we eens een minuutje kijken naar hoe Git zijn objecten opslaat. Je zult zien hoe je interactief een blob object opslaat – in dit geval de tekst "what is up, doc?" – in de Ruby scripttaal. Je kunt de interactieve Ruby modus starten met het `irb` commando:
 
 	$ irb
 	>> content = "what is up, doc?"
 	=> "what is up, doc?"
 
-Git constructs a header that starts with the type of the object, in this case a blob. Then, it adds a space followed by the size of the content and finally a null byte:
+Git construeert een kop, die begint met het type van het object, in dit geval een blob. Daarna voegt het een spatie toe, gevolgd door de grootte van de inhoud en als laatste een null byte:
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"

@@ -511,7 +511,7 @@ Gitolite allows you to specify permissions not just by repository (like Gitosis 
 
 ### Installing ###
 
-Installing Gitolite is very easy, even if you don't read the extensive documentation that comes with it.  You need an account on a Unix server of some kind (various Linux flavours, and Solaris 10, have been tested), with git, perl, and an openssh compatible ssh server installed.
+Installing Gitolite is very easy, even if you don't read the extensive documentation that comes with it.  You need an account on a Unix server of some kind (various Linux flavours, and Solaris 10, have been tested), with git, perl, and an openssh compatible ssh server installed.  In the examples below, we will use the `gitolite` account on a host called `gitserver`.
 
 Curiously, Gitolite is installed by running a script *on the workstation*, so your workstation must have a bash shell available.  Even the bash that comes with msysgit will do, in case you're wondering.
 
@@ -524,7 +524,7 @@ This will ask you for the password to the gitolite account, and then set up publ
 	$ ssh gitolite@gitserver pwd
 	/home/gitolite
 
-Next, you clone Gitolite from the project's main site and run the "easy install" script:
+Next, you clone Gitolite from the project's main site and run the "easy install" script (the third argument is your name as you would like it to appear in the resulting gitolite-admin repository):
 
 	$ git clone git://github.com/sitaramc/gitolite
 	$ cd gitolite/src

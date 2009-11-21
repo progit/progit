@@ -1,44 +1,44 @@
 # Git 与其他系统 #
 
-世界是不完美的。大多数时候，将所有接触到的项目全部转向 Git 是不可能的。有时我们不得不为某个项目使用其他的版本控制系统（VCS, Version Control System ），其中比较常见的是 Subversion 。你将在本章的第一部分学习使用 `git svn` ，Git 为 Subversion 附带的双向桥接工具。
+世界不是完美的。大多数时候，将所有接触到的项目全部转向 Git 是不可能的。有时我们不得不为某个项目使用其他的版本控制系统（VCS, Version Control System ），其中比较常见的是 Subversion 。你将在本章的第一部分学习使用 `git svn` ，Git 为 Subversion 附带的双向桥接工具。
 
-或许现在你已经在考虑将先前的项目转向 Git 。本章的第二部分将介绍如何将项目迁移到 Git 的方法：先介绍从 Subversion 的迁移，然后是 Perforce，最后介绍如何使用自定义的脚本进行非标准的导入。
+或许现在你已经在考虑将先前的项目转向 Git 。本章的第二部分将介绍如何将项目迁移到 Git：先介绍从 Subversion 的迁移，然后是 Perforce，最后介绍如何使用自定义的脚本进行非标准的导入。
 
 ## Git 与 Subversion ##
 
-当前，开发中的开源项目大多数以及大量的商业项目都使用 Subversion 来管理源码。作为最流行的开源版本控制系统，它已经存在了接近十年的时间。它在许多方面与 CVS 十分类似，后者是前者出现之前代码控制世界的霸主。
+当前，大多数开发中的开源项目以及大量的商业项目都使用 Subversion 来管理源码。作为最流行的开源版本控制系统，Subversion 已经存在了接近十年的时间。它在许多方面与 CVS 十分类似，后者是前者出现之前代码控制世界的霸主。
 
-Git 最为重要的特性之一是名为 `git svn` 的 Subversion 双向桥接工具。该工具把 Git 变成了 Subversion 服务的客户端，从而让你在本地享受到 Git 所有的功能，而后直接向 Subversion 服务器推送内容，仿佛在本地使用了 Subversion 客户端。也就是说，在其他人忍受古董的同时，你可以在本地享受分支合并，使暂存区域，衍合以及 cherry-picking 等等。这是个让 Git 偷偷潜入合作开发环境的好东西，在帮助你的开发同伴们提高效率的同时，它还能帮你劝说团队让整个项目框架转向对 Git 的支持。这个 Subversion 之桥是通向分布式版本控制系统（DVCS, Distributed VCS ）世界的康庄大道。
+Git 最为重要的特性之一是名为 `git svn` 的 Subversion 双向桥接工具。该工具把 Git 变成了 Subversion 服务的客户端，从而让你在本地享受到 Git 所有的功能，而后直接向 Subversion 服务器推送内容，仿佛在本地使用了 Subversion 客户端。也就是说，在其他人忍受古董的同时，你可以在本地享受分支合并，使暂存区域，衍合以及 单项挑拣等等。这是个让 Git 偷偷潜入合作开发环境的好东西，在帮助你的开发同伴们提高效率的同时，它还能帮你劝说团队让整个项目框架转向对 Git 的支持。这个 Subversion 之桥是通向分布式版本控制系统（DVCS, Distributed VCS ）世界的神奇隧道。
 
 ### git svn ###
 
-Git 中所有 Subversion 桥接命令的基本命令是 `git svn` 。所有的命令都从它开始。相关的命令数目不少，而你通过几个简单的工作流程了解到常见的一些。
+Git 中所有 Subversion 桥接命令的基础是 `git svn` 。所有的命令都从它开始。相关的命令数目不少，你将通过几个简单的工作流程了解到其中常见的一些。
 
-需要提醒的一点是，当你在使用 `git svn` 的时候，实际是在与 Subversion 交互，Git 比它要高级复杂的多。尽管可以在本地随意的进行分支和合并，最好还是通过衍合保持线性的提交历史，尽量避免类似与远程 Git 仓库动态交互这样的操作。
+值得警戒的是，在使用 `git svn` 的时候，你实际是在与 Subversion 交互，Git 比它要高级复杂的多。尽管可以在本地随意的进行分支和合并，最好还是通过衍合保持线性的提交历史，尽量避免类似与远程 Git 仓库动态交互这样的操作。
 
-避免修改历史再重新推送的做法，也不要同时推送并行的仓库来试图与其他使用 Git 的开发者合作。Subersion 只能保存单一的线性提交历史，一不小心就能把它搞糊涂。加入合作团队中同时有人用 SVN 和 Git，一定要确保所有人都使用 SVN 服务来合作——这会让你的生活轻松不少。
+避免修改历史再重新推送的做法，也不要同时推送到并行的 Git 仓库来试图与其他 Git 用户合作。Subersion 只能保存单一的线性提交历史，一不小心就会被搞糊涂。合作团队中同时有人用 SVN 和 Git，一定要确保所有人都使用 SVN 服务来协作——这会让生活轻松很多。
 
 ### 初始设定 ###
 
-为了展示该功能，先要一个具有写权限的 SVN 仓库。如果想尝试这个范例，你必须复制一份例中的测试仓库。比较简单的做法是，使用一个名为 `svnsync` 的工具。较新的 Subversion 版本中都带有该工具，它将数据编码为用于网络传输的格式。
+为了展示功能，先要一个具有写权限的 SVN 仓库。如果想尝试这个范例，你必须复制一份其中的测试仓库。比较简单的做法是使用一个名为 `svnsync` 的工具。较新的 Subversion 版本中都带有该工具，它将数据编码为用于网络传输的格式。
 
-要尝试本例，先得在本地新建一个 Subversion 仓库：
+要尝试本例，先在本地新建一个 Subversion 仓库：
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-然后，允许所有用户修改 revprop —— 比较简单的做法是添加一个总是以 0 作为返回值的 pre-revprop-change 脚本：
+然后，允许所有用户修改 revprop —— 简单的做法是添加一个总是以 0 作为返回值的 pre-revprop-change 脚本：
 
 	$ cat /tmp/test-svn/hooks/pre-revprop-change 
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-现在可以调用 `svnsync init` 加目的仓库加源仓库来把该项目同步到本地了：
+现在可以调用 `svnsync init` 加目标仓库，再加源仓库的格式来把该项目同步到本地了：
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
 
-这将建立进行同步所需的属性。通过运行以下命令来克隆代码：
+这将建立进行同步所需的属性。可以通过运行以下命令来克隆代码：
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -70,7 +70,7 @@ Git 中所有 Subversion 桥接命令的基本命令是 `git svn` 。所有的�
 	Checked out HEAD:
 	 file:///tmp/test-svn/branches/my-calc-branch r76
 
-这相当于针对所提供的 URL 运行了两条命令—— `git svn init` 加上 `gitsvn fetch` 。可能会花上一阵子时间。我们所用的测试项目仅仅包含 75 次提交并且它的代码量不算大，所以它只花费几分钟而已。不过，Git 仍然需要提取每一个版本，每次一个，再逐个提交。对于一个包含成百上千次提交的项目，可能花掉的时间则是数小时甚至几天。
+这相当于针对所提供的 URL 运行了两条命令—— `git svn init` 加上 `gitsvn fetch` 。可能会花上一段时间。我们所用的测试项目仅仅包含 75 次提交并且它的代码量不算大，所以只有几分钟而已。不过，Git 仍然需要提取每一个版本，每次一个，再逐个提交。对于一个包含成百上千次提交的项目，花掉的时间则可能是几小时甚至数天。
 
 `-T trunk -b branches -t tags` 告诉 Git 该 Subversion 仓库遵循了基本的分支和标签命名法则。如果你的主干(译注：trunk，相当于非分布式版本控制里的master分支，代表开发的主线），分支或者标签以不同的方式命名，则应做出相应改变。由于该法则的常见性，可以使用 `-s` 来代替整条命令，它意味着标准布局（s 是 Standard layout 的首字母），也就是前面选项的内容。下面的命令有相同的效果：
 
@@ -129,7 +129,7 @@ Git 中所有 Subversion 桥接命令的基本命令是 `git svn` 。所有的�
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-所有在原 Subversion 数据基础上提交的 commit 会一一提交到 Subversion，然后你本地 Git 的 commit 将被重写，加入一个特别标识。这是至关重要的，因为它意味着所有 commit 的 SHA-1 指都会发生变化。这也是同时使用 Git 和 Subversion 两种服务作为远程服务不是个好主意的原因之一。检视以下最后一个 commit，你会找到新添加的 `git-svn-id` （译注：即本段开头所说的特别标识）：
+所有在原 Subversion 数据基础上提交的 commit 会一一提交到 Subversion，然后你本地 Git 的 commit 将被重写，加入一个特别标识。这一步很重要，因为它意味着所有 commit 的 SHA-1 指都会发生变化。这也是同时使用 Git 和 Subversion 两种服务作为远程服务不是个好主意的原因之一。检视以下最后一个 commit，你会找到新添加的 `git-svn-id` （译注：即本段开头所说的特别标识）：
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -329,7 +329,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 假如克隆了一个包含了 `svn:ignore` 属性的 Subversion 仓库，就有必要建立对应的 `.gitignore` 文件来防止意外提交一些不应该提交的文件。`git svn` 有两个有益于改善该问题的命令。第一个是 `git svn create-ignore`，它自动建立对应的 `.gitignore` 文件，以便下次提交的时候可以包含它。
 
-第二个命令是 `git svn show-ignore`，它把需要放进 `.gitignore` 文件中的内容打印到标准输出，方便我们把输出重定向到项目的排除文件：
+第二个命令是 `git svn show-ignore`，它把需要放进 `.gitignore` 文件中的内容打印到标准输出，方便我们把输出重定向到项目的黑名单文件：
 
 	$ git svn show-ignore > .git/info/exclude
 
@@ -337,12 +337,12 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 ### Git-Svn 总结 ###
 
-`git svn` 工具集在当前不得不使用 Subversion 服务器或者开发环境要求使用 Subversion 服务器的时候格外有用。不妨把它看成一个残疾的 Git，然而，你还是有可能在转换过程中碰到一些困惑你和合作者们的迷题。为了避免麻烦，试着遵守如下守则：
+`git svn` 工具集在当前不得不使用 Subversion 服务器或者开发环境要求使用 Subversion 服务器的时候格外有用。不妨把它看成一个跛脚的 Git，然而，你还是有可能在转换过程中碰到一些困惑你和合作者们的迷题。为了避免麻烦，试着遵守如下守则：
 
-* 保持一个不包含由 `git merge` 生成的 commit 的线性提交历史。将在主线分支外进行的开发通通衍合回主线；不要直接合并。
+* 保持一个不包含由 `git merge` 生成的 commit 的线性提交历史。将在主线分支外进行的开发通通衍合回主线；避免直接合并。
 * 不要单独建立和使用一个 Git 服务来搞合作。可以为了加速新开发者的克隆进程建立一个，但是不要向它提供任何不包含 `git-svn-id` 条目的内容。甚至可以添加一个 `pre-receive` 挂钩来在每一个提交信息中查找 `git-svn-id` 并拒绝提交那些不包含它的 commit。
 
-如果遵循这些守则，在 Subversion 上工作还可以接受。然而，如果可以迁徙到真正的 Git 服务器，则能为团队带来更多好处。
+如果遵循这些守则，在 Subversion 上工作还可以接受。然而，如果能迁徙到真正的 Git 服务器，则能为团队带来更多好处。
 
 ## 迁移到 Git ##
 
@@ -350,11 +350,11 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 ### 导入 ###
 
-你将学习到如何从专业重量级的版本控制系统中导入数据—— Subversion 和 Perforce —— 因为据我所知二者的用户是（向 Git）转换的主题，而且 Git 为此二者附带了高质量的转换工具。
+你将学习到如何从专业重量级的版本控制系统中导入数据—— Subversion 和 Perforce —— 因为据我所知这二者的用户是（向 Git）转换的主要群体，而且 Git 为此二者附带了高质量的转换工具。
 
 ### Subversion ###
 
-读过前一节有关 `git svn` 的内容以后，你应该能轻而易举的根据其中的指导来 `git svn clone` 一个仓库了；然后，停止 Subversion 的使用，向一个新 Git server 推送，并开始使用它。想保留历史记录，所画的时间应该就是从 Subversion 服务器拉取数据的时间（可能要等上好一会就是了）。
+读过前一节有关 `git svn` 的内容以后，你应该能轻而易举的根据其中的指导来 `git svn clone` 一个仓库了；然后，停止 Subversion 的使用，向一个新 Git server 推送，并开始使用它。想保留历史记录，所画的时间应该不过就是从 Subversion 服务器拉取数据的时间（可能要等上好一会就是了）。
 
 然而，这样的导入并不完美；而且还要花那么多时间，不如干脆一次把它做对！首当其冲的任务是作者信息。在 Subversion，每个提交者在都在主机上有一个用户名，记录在提交信息中。上节例子中多处显示了 `schacon` ，比如 `blame` 的输出以及 `git svn log`。如果想让这条信息更好的映射到 Git 作者数据里，则需要 从 Subversion 用户名到 Git 作者的一个映射关系。建立一个叫做 `user.txt` 的文件，用如下格式表示映射关系：
 
@@ -392,7 +392,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 不仅作者一项干净了不少，`git-svn-id` 也就此消失了。
 
-你还需要一点 `post-import（导入后）` 清理工作。最起码的，应该清理一下 `git svn` 创建的那些怪异的索引。首先要移动一下标签，把它们从奇怪的远程分支变成实际的标签，然后把剩下的分支移动到本地。
+你还需要一点 `post-import（导入后）` 清理工作。最起码的，应该清理一下 `git svn` 创建的那些怪异的索引结构。首先要移动标签，把它们从奇怪的远程分支变成实际的标签，然后把剩下的分支移动到本地。
 
 要把标签变成合适的 Git 标签，运行
 
@@ -485,7 +485,7 @@ Git 通过搜寻提交历史中 Subversion 分支的头部来决定 dcommit 的�
 
 如果先前的系统不是 Subversion 或 Perforce 之一，先上网找一下有没有与之对应的导入脚本——导入 CVS，Clear Case，Visual Source Safe，甚至存档目录的导入脚本已经存在。假如这些工具都不适用，或者使用的工具很少见，抑或你需要导入过程具有更多可制定性，则应该使用 `git fast-import`。该命令从标准输入读取简单的指令来写入具体的 Git 数据。这样创建 Git 对象比运行纯 Git 命令或者手动写对象要简单的多（更多相关内容见第九章）。通过它，你可以编写一个导入脚本来从导入源读取必要的信息，同时在标准输出直接输出相关指示。你可以运行该脚本并把它的输出管道连接到 `git fast-import`。
 
-下面演示一下如何编写一个简单的导入脚本。假设你在进行一项工作，并且不时通过把工作目录复制为以时间戳 `back_YY_MM_DD` 命名的目录来进行备份，现在你需要把它们导入 Git 。目录结构如下：
+下面演示一下如何编写一个简单的导入脚本。假设你在进行一项工作，并且按时通过把工作目录复制为以时间戳 `back_YY_MM_DD` 命名的目录来进行备份，现在你需要把它们导入 Git 。目录结构如下：
 
 	$ ls /opt/import_from
 	back_2009_01_02

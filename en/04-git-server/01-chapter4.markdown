@@ -623,7 +623,7 @@ Gitolite logs all successful accesses.  If you were somewhat relaxed about givin
 
 One extremely useful convenience feature in gitolite is support for git installed outside the normal `$PATH` (this is more common than you think; some corporate environments or even some hosting providers refuse to install things system-wide and you end up putting them in your own directories).  Normally, you are forced to make the *client-side* git aware of this non-standard location of the git binaries in some way.  With gitolite, just choose a verbose install and set `$GIT_PATH` in the "rc" files.  No client-side changes are required after that :-)
 
-Another convenient feature is what happens when you try and just ssh to the server.  Gitosis will merely complain that you have not supplied some needed environment variable (`SSH_ORIGINAL_COMMAND`; see the ssh documentation if interested).  Gitolite will come up with something like this:
+Another convenient feature is what happens when you try and just ssh to the server.  Older versions of gitolite used to complain about the `SSH_ORIGINAL_COMMAND` environment variable being empty (see the ssh documentation if interested).  Now Gitolite comes up with something like this:
 
 	hello sitaram, the gitolite version here is v0.90-9-g91e1e9f
 	you have the following permissions:

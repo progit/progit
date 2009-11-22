@@ -302,7 +302,9 @@ Now, each user that does this has to send their public key to you or whoever is 
 
 For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
 
-## Setting Up the Server ##
+## Настраиваем сервер ##
+
+Давайте рассмотрим настройку доступа по SSH на стороне сервера. В этом примере мы будем использовать метод `authorized_keys` для аутентификации пользователей. Мы подразумеваем, что вы используете стандартный дистрибутив Linux типа Ubuntu. Для начала, создадим пользователя 'git' и каталог `.ssh` для этого пользователя:
 
 Let’s walk through setting up SSH access on the server side. In this example, you’ll use the `authorized_keys` method for authenticating your users. We also assume you’re running a standard Linux distribution like Ubuntu. First, you create a 'git' user and a `.ssh` directory for that user.
 
@@ -310,6 +312,8 @@ Let’s walk through setting up SSH access on the server side. In this example, 
 	$ su git
 	$ cd
 	$ mkdir .ssh
+
+Затем, вам нужно добавить открытые ключи SSH нескольких разработчиков в файл `authorized_keys` этого пользователя. Предположим, вы уже получили несколько ключей по электронной почте и сохранили их во временные файлы. Напомню, открытый ключ выглядит как то так:
 
 Next, you need to add some developer SSH public keys to the `authorized_keys` file for that user. Let’s assume you’ve received a few keys by e-mail and saved them to temporary files. Again, the public keys look something like this:
 
@@ -321,11 +325,15 @@ Next, you need to add some developer SSH public keys to the `authorized_keys` fi
 	O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 	dAv8JggJICUvax2T9va5 gsg-keypair
 
+Вы просто добавляете их к вашему файлу `authorized_keys`:
+
 You just append them to your `authorized_keys` file:
 
 	$ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
+
+Теперь, вы можете создать пустой репозиторий для них, запустив `git init` с параметром `--bare`, которая инициализирует репозиторий без рабочего каталога:
 
 Now, you can set up an empty repository for them by running `git init` with the `--bare` option, which initializes the repository without a working directory:
 
@@ -334,15 +342,19 @@ Now, you can set up an empty repository for them by running `git init` with the 
 	$ cd project.git
 	$ git --bare init
 
+Затем Джон, Жоси или Джессика могут положить первую версию их проекта в этот репозиторий добавив его как удаленный и отправив бранч. Заметьте, что кто то всегда должен заходить на сервер и создавать голый репозиторий каждый раз, когда вы хотите добавить проект. Пусть `gitserver` ― имя хоста сервера, на котором вы создали пользователя 'git' и репозиторий. Если он находится в вашей внутренней сети, вы можете настроить запись DNS для `gitserver`, ссылающуюся на этот сервер, и использовать эти команды:
+
 Then, John, Josie, or Jessica can push the first version of their project into that repository by adding it as a remote and pushing up a branch. Note that someone must shell onto the machine and create a bare repository every time you want to add a project. Let’s use `gitserver` as the hostname of the server on which you’ve set up your 'git' user and repository. If you’re running it internally, and you set up DNS for `gitserver` to point to that server, then you can use the commands pretty much as is:
 
-	# on Johns computer
+	# на компьютере Джона 
 	$ cd myproject
 	$ git init
 	$ git add .
 	$ git commit -m 'initial commit'
 	$ git remote add origin git@gitserver:/opt/git/project.git
 	$ git push origin master
+
+Теперь остальные легко могут клонировать его и выкладывать изменения:
 
 At this point, the others can clone it down and push changes back up just as easily:
 
@@ -351,19 +363,29 @@ At this point, the others can clone it down and push changes back up just as eas
 	$ git commit -am 'fix for the README file'
 	$ git push origin master
 
+Этим способом вы можете быстро получить с сервер Git с доступом на чтение/запись для небольшой группы разработчиков.
+
 With this method, you can quickly get a read/write Git server up and running for a handful of developers.
+
+В качестве дополнительной меры предосторожности вы можете ограничить возможности пользователя 'git' только действиями связанными с Git с помощью ограниченной оболочки `git-shell` поставляемой вместе с Git. Если вы выставите ее в качестве командного интерпретатора пользователя 'git', то этот пользователь не сможет получить доступ к обычной командной оболочке на вашем сервере. Чтобы её использовать, укажите `git-shell`, вместо bash или csh в качестве командной оболочки пользователя. Для этого вы должны отредактировать файл `/etc/passwd`:
 
 As an extra precaution, you can easily restrict the 'git' user to only doing Git activities with a limited shell tool called `git-shell` that comes with Git. If you set this as your 'git' user’s login shell, then the 'git' user can’t have normal shell access to your server. To use this, specify `git-shell` instead of bash or csh for your user’s login shell. To do so, you’ll likely have to edit your `/etc/passwd` file:
 
 	$ sudo vim /etc/passwd
 
+В конце вы должны найти строку, похожую на эту:
+
 At the bottom, you should find a line that looks something like this:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
+Замените `/bin/sh` на `/usr/bin/git-shell` (или запустите `which git-shell`, чтобы проверить куда она инсталирована). Отредактированная строка должна выглядеть как то так:
+
 Change `/bin/sh` to `/usr/bin/git-shell` (or run `which git-shell` to see where it’s installed). The line should look something like this:
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
+
+Теперь, пользователь 'git' может использовать SSH соединение только для работы с репозиториями Git, и не может зайти на машину. Вы можете попробовать и увидите, что вход в систему отклонен:
 
 Now, the 'git' user can only use the SSH connection to push and pull Git repositories and can’t shell onto the machine. If you try, you’ll see a login rejection like this:
 

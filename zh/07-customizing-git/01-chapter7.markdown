@@ -408,132 +408,134 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
 
 你会发现文件的尺寸大小发生了改变。
 
-### Keyword Expansion ###
+### 关键字扩展 ###
 
-SVN- or CVS-style keyword expansion is often requested by developers used to those systems. The main problem with this in Git is that you can’t modify a file with information about the commit after you’ve committed, because Git checksums the file first. However, you can inject text into a file when it’s checked out and remove it again before it’s added to a commit. Git attributes offers you two ways to do this.
+使用SVN或CVS的开发人员经常要求关键字扩展。在Git中，你无法在一个文件被提交后修改它，因为Git会先对该文件计算校验和。然而，你可以在签出时注入文本，在提交前删除它。Git属性提供了2种方式这么做。
 
-First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the file automatically. If you set this attribute on a file or set of files, then the next time you check out that branch, Git will replace that field with the SHA-1 of the blob. It’s important to notice that it isn’t the SHA of the commit, but of the blob itself:
+首先，你能够把blob的SHA-1校验和自动注入文件的`$Id$`字段。如果在一个或多个文件上设置了此字段，当下次你签出分支的时候，Git会用blob的SHA-1值替换那个字段。注意，这不是提交对象的SHA校验和，而是blob本身的校验和：
 
-	$ echo '*.txt ident' >> .gitattributes
-	$ echo '$Id$' > test.txt
+    $ echo '*.txt ident' >> .gitattributes
+    $ echo '$Id$' > test.txt
 
-The next time you check out this file, Git injects the SHA of the blob:
+下次签出文件时，Git注入了blob的SHA值：
 
-	$ rm text.txt
-	$ git checkout -- text.txt
-	$ cat test.txt 
-	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+    $ rm text.txt
+    $ git checkout -- text.txt
+    $ cat test.txt
+    $Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
+然而，这样的显示结果没有多大的实际意义。这个SHA的值相当地随机，无法区分日期的前后，所以，如果你在CVS或Subversion中用过关键字替换，一定会包含一个日期值。
 
-It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
+因此，你能写自己的过滤器，在提交文件到暂存区或签出文件时替换关键字。有2种过滤器，"clean"和"smudge"。在 `.gitattributes`文件中，你能对特定的路径设置一个过滤器，然后设置处理文件的脚本，这些脚本会在文件签出前（"smudge"，见图 7-2）和提交到暂存区前（"clean"，见图7-3）被调用。这些过滤器能够做各种有趣的事。
 
-Insert 18333fig0702.png 
-Figure 7-2. The “smudge” filter is run on checkout.
+Insert 18333fig0702.png
+图7-2. 签出时，“smudge”过滤器被触发。
 
-Insert 18333fig0703.png 
-Figure 7-3. The “clean” filter is run when files are staged.
+Insert 18333fig0703.png
+图7-3. 提交到暂存区时，“clean”过滤器被触发。
 
-The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
+这里举一个简单的例子：在暂存前，用`indent`（缩进）程序过滤所有C源代码。在`.gitattributes`文件中设置"indent"过滤器过滤`*.c`文件：
 
-	*.c     filter=indent
+    *.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+然后，通过以下配置，让Git知道"indent"过滤器在遇到"smudge"和"clean"时分别该做什么：
 
-	$ git config --global filter.indent.clean indent
-	$ git config --global filter.indent.smudge cat
+    $ git config --global filter.indent.clean indent
+    $ git config --global filter.indent.smudge cat
 
-In this case, when you commit files that match `*.c`, Git will run them through the indent program before it commits them and then run them through the `cat` program before it checks them back out onto disk. The `cat` program is basically a no-op: it spits out the same data that it gets in. This combination effectively filters all C source code files through `indent` before committing.
+于是，当你暂存`*.c`文件时，`indent`程序会被触发，在把它们签出之前，`cat`程序会被触发。但`cat`程序在这里没什么实际作用。这样的组合，使C源代码在暂存前被`indent`程序过滤，非常有效。
 
-Another interesting example gets `$Date$` keyword expansion, RCS style. To do this properly, you need a small script that takes a filename, figures out the last commit date for this project, and inserts the date into the file. Here is a small Ruby script that does that:
+另一个例子是类似RCS的`$Date$`关键字扩展。为了演示，需要一个小脚本，接受文件名参数，得到项目的最新提交日期，最后把日期写入该文件。下面用Ruby脚本来实现：
 
-	#! /usr/bin/env ruby
-	data = STDIN.read
-	last_date = `git log --pretty=format:"%ad" -1`
-	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
+    #! /usr/bin/env ruby
+    data = STDIN.read
+    last_date = `git log --pretty=format:"%ad" -1`
+    puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
-All the script does is get the latest commit date from the `git log` command, stick that into any `$Date$` strings it sees in stdin, and print the results — it should be simple to do in whatever language you’re most comfortable in. You can name this file `expand_date` and put it in your path. Now, you need to set up a filter in Git (call it `dater`) and tell it to use your `expand_date` filter to smudge the files on checkout. You’ll use a Perl expression to clean that up on commit:
+该脚本从`git log`命令中得到最新提交日期，找到文件中的所有`$Date$`字符串，最后把该日期填充到`$Date$`字符串中 — 此脚本很简单，你可以选择你喜欢的编程语言来实现。把该脚本命名为`expand_date`，放到正确的路径中，之后需要在Git中设置一个过滤器（`dater`），让它在签出文件时调用`expand_date`，在暂存文件时用Perl清除之：
 
-	$ git config filter.dater.smudge expand_date
-	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
+    $ git config filter.dater.smudge expand_date
+    $ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
-This Perl snippet strips out anything it sees in a `$Date$` string, to get back to where you started. Now that your filter is ready, you can test it by setting up a file with your `$Date$` keyword and then setting up a Git attribute for that file that engages the new filter:
+这个Perl小程序会删除`$Date$`字符串里多余的字符，恢复`$Date$`原貌。到目前为止，你的过滤器已经设置完毕，可以开始测试了。打开一个文件，在文件中输入`$Date$`关键字，然后设置Git属性：
 
-	$ echo '# $Date$' > date_test.txt
-	$ echo 'date*.txt filter=dater' >> .gitattributes
+    $ echo '# $Date$' > date_test.txt
+    $ echo 'date*.txt filter=dater' >> .gitattributes
 
-If you commit those changes and check out the file again, you see the keyword properly substituted:
+如果暂存该文件，之后再签出，你会发现关键字被替换了：
 
-	$ git add date_test.txt .gitattributes
-	$ git commit -m "Testing date expansion in Git"
-	$ rm date_test.txt
-	$ git checkout date_test.txt
-	$ cat date_test.txt
-	# $Date: Tue Apr 21 07:26:52 2009 -0700$
+    $ git add date_test.txt .gitattributes
+    $ git commit -m "Testing date expansion in Git"
+    $ rm date_test.txt
+    $ git checkout date_test.txt
+    $ cat date_test.txt
+    # $Date: Tue Apr 21 07:26:52 2009 -0700$
 
-You can see how powerful this technique can be for customized applications. You have to be careful, though, because the `.gitattributes` file is committed and passed around with the project but the driver (in this case, `dater`) isn’t; so, it won’t work everywhere. When you design these filters, they should be able to fail gracefully and have the project still work properly.
+虽说这项技术对自定义应用来说很有用，但还是要小心，因为`.gitattributes`文件会随着项目一起提交，而过滤器（例如：`dater`）不会，所以，过滤器不会在所有地方都生效。当你在设计这些过滤器时要注意，即使它们无法正常工作，也要让整个项目运作下去。
 
-### Exporting Your Repository ###
+### 导出仓库 ###
 
-Git attribute data also allows you to do some interesting things when exporting an archive of your project.
+Git属性在导出项目归档时也能发挥作用。
 
 #### export-ignore ####
 
-You can tell Git not to export certain files or directories when generating an archive. If there is a subdirectory or file that you don’t want to include in your archive file but that you do want checked into your project, you can determine those files via the `export-ignore` attribute.
+当产生一个归档时，可以设置Git不导出某些文件和目录。如果你不想在归档中包含一个子目录或文件，但想他们纳入项目的版本管理中，你能对应地设置`export-ignore`属性。
 
-For example, say you have some test files in a `test/` subdirectory, and it doesn’t make sense to include them in the tarball export of your project. You can add the following line to your Git attributes file:
+例如，在`test/`子目录中有一些测试文件，在项目的压缩包中包含他们是没有意义的。因此，可以增加下面这行到Git属性文件中：
 
-	test/ export-ignore
+    test/ export-ignore
 
-Now, when you run git archive to create a tarball of your project, that directory won’t be included in the archive.
+现在，当运行git archive来创建项目的压缩包时，那个目录不会在归档中出现。
 
 #### export-subst ####
 
-Another thing you can do for your archives is some simple keyword substitution. Git lets you put the string `$Format:$` in any file with any of the `--pretty=format` formatting shortcodes, many of which you saw in Chapter 2. For instance, if you want to include a file named `LAST_COMMIT` in your project, and the last commit date was automatically injected into it when `git archive` ran, you can set up the file like this:
+还能对归档做一些简单的关键字替换。在第2章中已经可以看到，可以以`--pretty=format`形式的简码在任何文件中放入`$Format:$` 字符串。例如，如果想在项目中包含一个叫作`LAST_COMMIT`的文件，当运行`git archive`时，最后提交日期自动地注入进该文件，可以这样设置：
 
-	$ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
-	$ echo "LAST_COMMIT export-subst" >> .gitattributes
-	$ git add LAST_COMMIT .gitattributes
-	$ git commit -am 'adding LAST_COMMIT file for archives'
+    $ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
+    $ echo "LAST_COMMIT export-subst" >> .gitattributes
+    $ git add LAST_COMMIT .gitattributes
+    $ git commit -am 'adding LAST_COMMIT file for archives'
 
-When you run `git archive`, the contents of that file when people open the archive file will look like this:
+运行`git archive`后，打开该文件，会发现其内容如下：
 
-	$ cat LAST_COMMIT
-	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
+    $ cat LAST_COMMIT
+    Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Merge Strategies ###
+### 合并策略 ###
 
-You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
+通过Git属性，还能对项目中的特定文件使用不同的合并策略。一个非常有用的选项就是，当一些特定文件发生冲突，Git不会尝试合并他们，而使用你这边的合并。
 
-This is helpful if a branch in your project has diverged or is specialized, but you want to be able to merge changes back in from it, and you want to ignore certain files. Say you have a database settings file called database.xml that is different in two branches, and you want to merge in your other branch without messing up the database file. You can set up an attribute like this:
 
-	database.xml merge=ours
+如果项目的一个分支有歧义或比较特别，但你想从该分支合并，而且需要忽略其中某些文件，这样的合并策略是有用的。例如，你有一个数据库设置文件database.xml，在2个分支中他们是不同的，你想合并一个分支到另一个，而不弄乱该数据库文件，可以设置属性如下：
 
-If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
+    database.xml merge=ours
 
-	$ git merge topic
-	Auto-merging database.xml
-	Merge made by recursive.
+如果合并到另一个分支，database.xml文件不会有合并冲突，显示如下：
 
-In this case, database.xml stays at whatever version you originally had.
+    $ git merge topic
+    Auto-merging database.xml
+    Merge made by recursive.
 
-## Git Hooks ##
+这样，database.xml会保持原样。
 
-Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
+## Git挂钩 ##
 
-### Installing a Hook ###
+和其他版本控制系统一样，当某些重要事件发生时，Git可以调用自定义脚本。有两组挂钩：客户端和服务器端。客户端挂钩用于客户端的操作，如提交和合并。服务器端挂钩用于Git服务器端的操作，如接收被推送的提交。你可以随意地使用这些挂钩，下面会讲解其中一些。
 
-The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
+### 安装一个挂钩 ###
 
-To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
+挂钩都被存储在Git目录下的`hooks`子目录中，即大部分项目中的`.git/hooks`。Git默认会放置一些脚本样本在这个目录中，除了可以作为挂钩使用，这些样本本身是可以独立使用的。所有的样本都是shell脚本，其中一些还包含了Perl的脚本，不过，任何正确命名的可执行脚本都可以正常使用 — 可以用Ruby或Python，或其他。在Git 1.6版本之后，这些样本名都是以.sample结尾，因此，你必须重新命名。在Git 1.6版本之前，这些样本名都是正确的，但这些样本不是可执行文件。
 
-### Client-Side Hooks ###
 
-There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail–workflow scripts, and the rest of the client-side scripts.
+把一个正确命名且可执行的文件放入Git目录下的`hooks`子目录中，可以激活该挂钩脚本，因此，之后他一直会被Git调用。随后会讲解主要的挂钩脚本。
 
-#### Committing-Workflow Hooks ####
+### 客户端挂钩 ###
 
-The first four hooks have to do with the committing process. The `pre-commit` hook is run first, before you even type in a commit message. It’s used to inspect the snapshot that’s about to be committed, to see if you’ve forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Exiting non-zero from this hook aborts the commit, although you can bypass it with `git commit --no-verify`. You can do things like check for code style (run lint or something equivalent), check for trailing whitespace (the default hook does exactly that), or check for appropriate documentation on new methods.
+有许多客户端挂钩，以下把他们分为：提交工作流挂钩、电子邮件工作流挂钩及其他客户端挂钩。
+
+#### 提交工作流挂钩 ####
+
+有 4个挂钩被用来处理提交的过程。`pre-commit`挂钩在键入提交信息前运行，被用来检查即将提交的快照，例如，检查是否有东西被遗漏，确认测试是否运行，以及检查代码。当从该挂钩返回非零值时，Git会放弃此次提交，但可以用`git commit --no-verify`来忽略。该挂钩可以被用来检查代码错误（运行类似lint的程序），检查尾部空白（默认挂钩是这么做的），检查新方法（译注：程序的函数）的说明。
 
 The `prepare-commit-msg` hook is run before the commit message editor is fired up but after the default message is created. It lets you edit the default message before the commit author sees it. This hook takes a few options: the path to the file that holds the commit message so far, the type of commit, and the commit SHA-1 if this is an amended commit. This hook generally isn’t useful for normal commits; rather, it’s good for commits where the default message is auto-generated, such as templated commit messages, merge commits, squashed commits, and amended commits. You may use it in conjunction with a commit template to programmatically insert information.
 

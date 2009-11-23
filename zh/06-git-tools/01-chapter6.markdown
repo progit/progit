@@ -53,15 +53,15 @@ Git 会根据你提供的 SHA-1 值识别出短的、独一无二的缩写。如
 
 通常在一个项目中，使用八到十个字符来避免 SHA-1 歧义已经足够了。最大的 Git 项目之一，Linux 内核，也刚刚需要 12 个字符，而不是可能的 40 个字符来避免歧义。
 
-### A SHORT NOTE ABOUT SHA-1 ###
+### 关于SHA-1的简短说明 ###
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
+在某些偶然的情况下，有些人会发觉到：”在他们的库里有两个对象有同样的SHA-1散列，到底发生了什么事？“
+ 
+如果你凑巧提交的对象和你库中以前的对象有同样的SHA-1散列，Git会看到已经在你库中以前的对象并且假设他已经写入。同时如果你尝试签出这些对象的话，你得到的总是第一个对象的数据。
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+但是你应该知道这种可笑的情况发生是不太可能。SHA-1是一个20比特或者160位的摘要，所以50％的碰撞的概率是2的80方(测量碰撞概率的算法公式为:`p = (n(n-1)/2) * (1/2^160))`。2^80 等于 1.2 x 10^2或者一百万百亿.这可是地球上所有沙粒的1200倍。
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
-
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+下面是一个例子，让您了解怎样才能得到一次SHA-1的碰撞。假如地球上的65亿的人都在编程，那么每一秒钟所有人产生的代码等效于整个Linux内核历史的代码对象(1百万个Git对象)，同时把这些代码推送进一个巨大的Git库,按照这样子的进度这个库需要花费5年才能有足够的对象去发生一次碰撞。较高的概率存在的每一个编程小组成员将被狼袭击和杀害在当晚无关事件中(这一句实在不知道什么翻译）。
 
 ### Branch References ###
 

@@ -258,7 +258,7 @@ Git construeert een kop, die begint met het type van het object, in dit geval ee
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"
 
-Git concatenates the header and the original content and then calculates the SHA-1 checksum of that new content. You can calculate the SHA-1 value of a string in Ruby by including the SHA1 digest library with the `require` command and then calling `Digest::SHA1.hexdigest()` with the string:
+Git voegt de kop en de originele inhoud samen, en berekent vervolgens de SHA-1 checksum van die nieuwe inhoud. Je kunt de SHA-1 waarde van een regel tekst in Ruby berekenen door de SHA1 verwerkingsbibliotheek op te nemen met het `require` commando en dan `Digest::SHA1.hexdigest()` aan te roepen met de tekst:
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -267,14 +267,14 @@ Git concatenates the header and the original content and then calculates the SHA
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git compresses the new content with zlib, which you can do in Ruby with the zlib library. First, you need to require the library and then run `Zlib::Deflate.deflate()` on the content:
+Git comprimeert de nieuwe inhoud met zlib, wat je in Ruby kunt doen met de zlib bibliotheek. Als eerste moet je de bibliotheek opnemen, en dan `Zlib::Deflate.deflate()' op de inhoud uitvoeren:
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
-Finally, you’ll write your zlib-deflated content to an object on disk. You’ll determine the path of the object you want to write out (the first two characters of the SHA-1 value being the subdirectory name, and the last 38 characters being the filename within that directory). In Ruby, you can use the `FileUtils.mkdir_p()` function to create the subdirectory if it doesn’t exist. Then, open the file with `File.open()` and write out the previously zlib-compressed content to the file with a `write()` call on the resulting file handle:
+Als laatste schrijf je je zlib-gecomprimeerde inhoud naar een object op de schijf. Je zult het pad van het object dat je wilt wegschrijven moeten bepalen (de eerste twee karakters van de SHA-1 waarde zijn de submap naam, en de laatste 38 karakters zijn de bestandsnaam in die map). In Ruby kun je de `FileUtils.mkdir_p()` functie gebruiken om de submap aan te maken als hij nog niet bestaat. Daarna open je het bestand met `File.open()' en schrijft de eerder met zlib gecomprimeerde inhoud in het bestand met een aanroep van `write()` op het resulterende bestands-aangrijpingspunt.
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37"
@@ -285,13 +285,13 @@ Finally, you’ll write your zlib-deflated content to an object on disk. You’l
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-That’s it — you’ve created a valid Git blob object. All Git objects are stored the same way, just with different types — instead of the string blob, the header will begin with commit or tree. Also, although the blob content can be nearly anything, the commit and tree content are very specifically formatted.
+Dat is het – je hebt nu een geldig Git blob object aangemaakt. Alle Git objecten zijn op dezelfde manier opgeslagen, alleen de types verschillen – in plaats van de tekst blob, zal de kop beginnen met commit of tree. En alhoewel de blob inhoud vrijwel alles kan zijn, hebben de commit en boom inhoud een zeer specificiek formaat.
 
-## Git References ##
+## Git Referenties ##
 
-You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.
+Je kunt zoiets als `git log 1a410e` uitvoeren om door je hele geschiedenis te kijken, maar je moet nog steeds onthouden dat `1a410e` de laatste commit is om die geschiedenis te doorlopen en alle objecten te vinden. Je hebt een bestand nodig waarin je de SHA-1 waarde als een eenvoudige naam kunt opslaan, zodat je die als wijzer kunt gebruiken in plaats van de rauwe SHA-1 waarde.
 
-In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:
+In Git worden deze "referenties" of "refs" genoemd; je kunt de bestanden die de SHA-1 waarden bevatten vinden in de `.git/refs` map. In het huidige project bevat deze map geen bestanden, maar het bevat wel een eenvoudige structuur:
 
 	$ find .git/refs
 	.git/refs
@@ -300,37 +300,37 @@ In Git, these are called "references" or "refs"; you can find the files that con
 	$ find .git/refs -type f
 	$
 
-To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:
+Om een nieuwe referentie aan te maken, die je zal helpen herinneren waar je laatste commit is, kun je technisch zoiets eenvoudigs als dit doen:
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
-Now, you can use the head reference you just created instead of the SHA-1 value in your Git commands:
+Nu kun je de head referentie, die je zojuist hebt aangemaakt, gebruiken in je Git commando's, in plaats van de SHA-1 waarde:
 
 	$ git log --pretty=oneline  master
 	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-You aren’t encouraged to directly edit the reference files. Git provides a safer command to do this if you want to update a reference called `update-ref`:
+Je wordt niet aangemoedigd om de referentie bestanden direkt aan te passen. Git levert een veiliger commando mee om dit te doen als je een referentie wilt aanpassen, genaamd `update-ref`:
 
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
-That’s basically what a branch in Git is: a simple pointer or reference to the head of a line of work. To create a branch back at the second commit, you can do this:
+Dat is eigenlijk wat een branch in Git is: een eenvoudige wijzer of referentie naar de head van een stuk werk. Om een branch te maken terug bij de tweede commit, kun je dit doen:
 
 	$ git update-ref refs/heads/test cac0ca
 
-Your branch will contain only work from that commit down:
+Je branch zal alleen werk bevatten vanaf die commit en verder:
 
 	$ git log --pretty=oneline test
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Now, your Git database conceptually looks something like Figure 9-4.
+Nu ziet je Git gegevensbank er conceptueel ongeveer uit zoals in Figuur 9-4.
 
 Insert 18333fig0904.png 
-Figure 9-4. Git directory objects with branch head references included.
+Figuur 9-4. Git map objecten met branch head referenties erbij.
 
-When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
+Als je commando's zoals `git branch (branchnaam)` uitvoert, voert Git eigenlijk dat `update-ref` commando uit om de SHA-1 van de laatste commit van de branch waarop je zit, toe te voegen aan welke referentie je ook wil maken.
 
 ### The HEAD ###
 

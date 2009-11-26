@@ -4,7 +4,7 @@
 
 ## Об управлении версиями ##
 
-Что такое управление версиями, и какое вам до него дело? Управление версиями - это система, сохраняющая изменения в файл или несколько файлов, чтобы потом можно было видеть нужные старые версии. Для примеров в этой книге вы будете использовать  исходные коды программ, но на самом деле можно управлять версиями практически любых типов файлов.
+Что такое управление версиями, и какое вам до него дело? Управление версиями - это система, сохраняющая изменения в файле или нескольких файлах, чтобы потом можно было видеть нужные старые версии. Для примеров в этой книге вы будете использовать  исходные коды программ, но на самом деле можно управлять версиями практически любых типов файлов.
 
 Если вы графический или веб-дизайнер и хотите хранить каждую версию изображения или макета - вот это вам наверняка нужно -- то пользоваться системой управления версиями будет очень мудрым решением. Она позволяет вернуть файлы к прежнему виду, вернуть к прежнему состоянию весь проект, сравнить изменения с какого-то времени, увидеть, кто последним изменял модуль, который дал сбой, кто создал проблему, и так далее. Вообще, если, пользуясь СУВ, вы всё испортили или потеряли файлы, всё можно легко восстановить. Кроме того, издержки на всё это будут очень маленькими.
 
@@ -21,12 +21,12 @@ Insert 18333fig0101.png
 
 ### Централизованные системы управления версиями ###
 
-Следующей большой проблемой оказалась необходимость сотрудничать с разработчиками за другими компьютерами. Чтобы решить её, были созданы централизованные системы управления версиями (ЦСУВ). В таких системах, например CVS, Subversion и Perforce, есть центральный сервер, в котором хранятся все отслеживаемые файлы, и ряд клиентов, которые получают копии файлов из него. Много лет это был стандарт управления версиями (см. рис. 1-2). 
+Следующей большой проблемой оказалась необходимость сотрудничать с разработчиками за другими компьютерами. Чтобы решить её, были созданы централизованные системы управления версиями (ЦСУВ). В таких системах, например CVS, Subversion и Perforce, есть центральный сервер, на котором хранятся все отслеживаемые файлы, и ряд клиентов, которые получают копии файлов из него. Много лет это был стандарт управления версиями (см. рис. 1-2). 
 
 Insert 18333fig0102.png 
 Рисунок 1-2. Схема централизованного управления версиями
 
-Такой подход имеет множество преимуществ, особенно над локальными СУВ. К примеру, все знают кто и чем занимается на проекте. У администраторов есть чёткий контроль над тем, кто и что может делать, и, конечно, администрировать ЦСУВ гораздо легче чем локальные базы на каждом клиенте.
+Такой подход имеет множество преимуществ, особенно над локальными СУВ. К примеру, все знают кто и чем занимается в проекте. У администраторов есть чёткий контроль над тем, кто и что может делать, и, конечно, администрировать ЦСУВ гораздо легче чем локальные базы на каждом клиенте.
 
 Однако есть и несколько серьёзных недостатков при таком подходе. Наиболее очевидный - централизованый сервер является уязвимым местом всей системы. Если сервер выключается на час, то в течение часа разработчики не могут взаимодействовать, и никто не может сохранить новые версии. Если же повреждается диск с центральной базой данных, и нет резервной копии, вы теряете абсолютно всё - всю историю проекта,  разве что за исключением нескольких рабочих версий, сохранившихся на рабочих машинах пользователей. Локальные системы управления версиями подвержены той же проблеме - если вся история проекта хранится в одном месте, вы рискуете потерять всё.
 
@@ -122,13 +122,9 @@ Insert 18333fig0106.png
 
 Настало время немного ознакомиться с использованием Git. Первое, что вам необходимо сделать – установить его. Есть несколько способов сделать это; два основных ― установка из исходников и установка собранного пакета для вашей платформы.
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
-
 ### Установка из исходников ###
 
-Установка из исходного кода обычно лучше, поскольку вы получаете самую свежую версию. Каждая новая версия Git обычно включает полезные улучшения интерфейса, поэтому установка последней версии - часто лучший выбор, если конечно вас не затрудняет установка программ из исходников. Это также правильный выбор, поскольку многие дистрибутивы Linux содержат очень старые пакеты, поэтому если вы не используете очень свежий дистрибутив или , установка из исходников лучше.
-
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+При возможности обычнно полезно установить Git из исходных кодов, поскольку вы получаете самую свежую версию. Каждая новая версия Git обычно включает полезные улучшения пользовательского интерфейса, поэтому получение последней версии - часто лучший путь, если конечно вас не затрудняет установка программ из исходников. Это также правильный выбор, поскольку многие дистрибутивы Linux содержат очень старые пакеты, поэтому если вы не используете очень часто обновляемый дистрибутив или пакеты из экспериментальной ветки дистрибутива, установка из исходников может быть лучшим способом.
 
 Для установки Git вам понадобятся библиотеки, от которых Git зависит: curl, zlib, openssl, expat, and libiconv. Например, если в вашей системе менеджер пакетов - yum (Fedora), или apt-get (Debian, Ubuntu), можно воспользоваться следующими командами, чтобы разрешить все зависимости:
 
@@ -157,21 +153,15 @@ If you can, it’s generally useful to install Git from source, because you’ll
 
 Если вы хотите установить Git под Linux как бинарный пакет, вы можете это сделать, используя утилиту для управления пакетами, входящую в ваш дистрибутив. Если вы используете Fedora, вы можете воспользоваться yum:
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
-
 	$ yum install git-core
 
 Если же у вас дистрибутив основанный на Debian, например Ubuntu, попробуйте apt-get:
-
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 	$ apt-get install git-core
 
 ### Установка на Mac ###
 
-Есть два простых способа установить Git на Mac. Более простой ― использовать графический инсталлятор Git, который вы можете скачать со страницы Google Code (см. рисунок 1-7):
-
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Рисунок 1-7):
+Есть два простых способа установить Git на Mac. Самый простой ― использовать графический инсталлятор Git, который вы можете скачать со страницы Google Code (см. рисунок 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
@@ -180,60 +170,40 @@ Insert 18333fig0107.png
 
 Другой распространенный способ установка Git через MacPorts (`http://www.macports.org`). Если у вас установлены MacPorts, инсталлируйте Git так:
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
-
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
 Вы не обязаны включать все дополнения, но возможно вы захотите включить +svn в случае, если вам нужно использовать Git совместно с репозиториями Subversion (см. главу 8).
-
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
 
 ### Установка в Windows ###
 
 Установка Git в Windows очень проста. Проект msysGit предлагает очень простую процедуру установки. Просто скачайте exe файл инсталлятора со страницы Google Code и запустите его:
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
-
 	http://code.google.com/p/msysgit
 
 После установки у вас будет как консольная версия (включающая SSH-клиент, который пригодится позднее), так и стандартная графическая.
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
-
 ## Первоначальная настройка Git ##
 
-Теперь, когда Git установлен в вашей системе, вам нужно настроить некоторые параметры Git. Это нужно сделать только один раз ― при обновлении настройки сохраняются. Но вы можете их поменять в любой момент выполнив те же команды снова.
-
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Теперь, когда Git установлен в вашей системе, вы захотите сделать пару вещей чтобы настроить вашу среду Git. Это нужно сделать только один раз ― при обновлении настройки сохраняются. Но вы можете их поменять в любой момент выполнив команды снова.
 
 В состав Git входит утилита git config которая позволяет вам просматривать и устанавливать параметры, котролирующие все аспекты работы и внешнего вида Git. Эти параметры могут быть сохранены в трех местах:
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
-
-*	файл `/etc/gitconfig`. Содержит переменные общие для всех пользователей вашей системы и всех их репозиториев. Если вы указываете параметр `--system`, запуская `git config`, то параметры читаются и сохраняются в этот файл.
+*	файл `/etc/gitconfig`. Содержит значения общие для всех пользователей вашей системы и всех их репозиториев. Если вы указываете параметр `--system`, запуская `git config`, то параметры читаются и сохраняются в этот файл.
 *	файл `~/.gitconfig`. Хранит настройки конкретного пользователя. Этот файл использутеся при указании параметра `--global`.
 *	конфигурационный файл в каталоге Git (`.git/config`) используемого репозитория. Содержит параметры, используемые только при работе с данным репозиторием. Каждый более конкретный файл настроек имеет более высокий приоритет, чем файл предыдущего уровня, т.е. значения в `.git/config` перекрывают соответствующие значения в `/etc/gitconfig`.
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
-
-В системах семейства Windows, файл `.gitconfig` хранится в каталоге $HOME (`C:\Documents and Settings\$USER` для большенства пользователей). Кроме того Git ищет файл /etc/gitconfig относительно корневого каталога MSys, который вы указали в инсталляторе Git во время установки.
+В системах семейства Windows, файл `.gitconfig` хранится в каталоге $HOME (`C:\Documents and Settings\$USER` для большинства пользователей). Кроме того Git ищет файл /etc/gitconfig относительно корневого каталога MSys, который вы указали в инсталляторе Git во время установки.
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
 ### Имя пользователя ###
 
-Первое, что вам следует сделать после установки Git ― указать ваше имя и адрес электронной почты. Это важно, потому что каждый коммит в Git содержит эту информацию, и она включена в коммиты, отправляемые вами:
-
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Первое, что вам следует сделать после установки Git ― указать ваше имя и адрес электронной почты. Это важно, потому что каждый коммит в Git содержит эту информацию, и она включена в коммиты, передаваемые вами, и не может быть далее изменена:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
 Повторюсь, что эти настройки нужно сделать один раз, если вы указываете параметр `--global`, поскольку в этом случае Git будет использовать эти данные для всего, что вы делаете в этой системе. Если вы хотите указать другое имя или электронную почту для конкретных проектов, можно выполнить команду без параметра `--global` в папке с нужным проектом.
-
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
 
 ### Выбор редактора ###
 
@@ -273,9 +243,9 @@ Git умеет делать слияния при помощи kdiff3, tkdiff, m
 
 Если вам нужна помощь при использовании Git, есть три способа открыть страницу руководства по любой команде Git:
 
-	$ git help <verb>
-	$ git <verb> --help
-	$ man git-<verb>
+	$ git help <команда>
+	$ git <команда> --help
+	$ man git-<команда>
 
 Например, можно открыть руководство по команде config, выполнив команду:
 

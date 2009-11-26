@@ -232,295 +232,310 @@ kdiff3、opendiff、tkdiff、meld、xxdiff、emerge、vimdiff、gvimdiff。如�
 
 如果运行了以上命令，没有设置`extMerge`和`extDiff`文件，Git会用KDiff3做合并，让通常内设的比较工具来做比较。
 
-### Formatting and Whitespace ###
+### 格式化与空白 ###
 
-Formatting and whitespace issues are some of the more frustrating and subtle problems that many developers encounter when collaborating, especially cross-platform. It’s very easy for patches or other collaborated work to introduce subtle whitespace changes because editors silently introduce them or Windows programmers add carriage returns at the end of lines they touch in cross-platform projects. Git has a few configuration options to help with these issues.
+格式化与空白是许多开发人员在协作时，特别是在跨平台情况下，遇到的令人头疼的细小问题。
+由于编辑器的不同或者Windows程序员在跨平台项目中的文件行尾加入了回车换行符，
+一些细微的空格变化会不经意地进入大家合作的工作或提交的补丁中。不用怕，Git的一些配置选项会帮助你解决这些问题。
 
 #### core.autocrlf ####
 
-If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work. 
+假如你正在Windows上写程序，又或者你正在和其他人合作，他们在Windows上编程，而你却在其他系统上，在这些情况下，你可能会遇到行尾结束符问题。
+这是因为Windows使用回车和换行两个字符来结束一行，而Mac和Linux只使用换行一个字符（译注：Windows系统的回车换行符号为\r\n，而在Mac和Linux系统中则是\n）。
+虽然这是小问题，但它会极大地扰乱跨平台协作。 
 
-Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code:
+Git可以在你提交时自动地把行结束符CRLF转换成LF，而在签出代码时把LF转换成CRLF。用`core.autocrlf`来打开此项功能，
+如果是在Windows系统上，把它设置成`true`，这样当签出代码时，LF会被转换成CRLF：
 
 	$ git config --global core.autocrlf true
 
-If you’re on a Linux or Mac system that uses LF line endings, then you don’t want Git to automatically convert them when you check out files; however, if a file with CRLF endings accidentally gets introduced, then you may want Git to fix it. You can tell Git to convert CRLF to LF on commit but not the other way around by setting `core.autocrlf` to input:
+Linux或Mac系统使用LF作为行结束符，因此你不想Git在签出文件时进行自动的转换；当一个以CRLF为行结束符的文件不小心被引入时你肯定想进行修正，
+把`core.autocrlf`设置成input来告诉Git在提交时把CRLF转换成LF，签出时不转换：
 
 	$ git config --global core.autocrlf input
 
-This setup should leave you with CRLF endings in Windows checkouts but LF endings on Mac and Linux systems and in the repository.
+这样会在Windows系统上的签出文件中保留CRLF，会在Mac和Linux系统上，包括仓库中保留LF。
 
-If you’re a Windows programmer doing a Windows-only project, then you can turn off this functionality, recording the carriage returns in the repository by setting the config value to `false`:
+如果你是Windows程序员，且正在开发仅运行在Windows上的项目，可以设置`false`取消此功能，把回车符记录在库中：
 
 	$ git config --global core.autocrlf false
 
 #### core.whitespace ####
 
-Git comes preset to detect and fix some whitespace issues. It can look for four primary whitespace issues — two are enabled by default and can be turned off, and two aren’t enabled by default but can be activated.
+Git预先设置了一些选项来探测和修正空白问题，其4种主要选项中的2个默认被打开，另2个被关闭，你可以自由地打开或关闭它们。
 
-The two that are turned on by default are `trailing-space`, which looks for spaces at the end of a line, and `space-before-tab`, which looks for spaces before tabs at the beginning of a line.
+默认被打开的2个选项是`trailing-space`和`space-before-tab`，`trailing-space`会查找每行结尾的空格，`space-before-tab`会查找每行开头的制表符前的空格。
 
-The two that are disabled by default but can be turned on are `indent-with-non-tab`, which looks for lines that begin with eight or more spaces instead of tabs, and `cr-at-eol`, which tells Git that carriage returns at the end of lines are OK.
+默认被关闭的2个选项是`indent-with-non-tab`和`cr-at-eol`，`indent-with-non-tab`会查找8个以上空格（非制表符）开头的行，`cr-at-eol`让Git知道行尾回车符是合法的。
 
-You can tell Git which of these you want enabled by setting `core.whitespace` to the values you want on or off, separated by commas. You can disable settings by either leaving them out of the setting string or prepending a `-` in front of the value. For example, if you want all but `cr-at-eol` to be set, you can do this:
+设置`core.whitespace`，按照你的意图来打开或关闭选项，选项以逗号分割。通过逗号分割的链中去掉选项或在选项前加`-`来关闭，例如，如果你想要打开除了`cr-at-eol`之外的所有选项：
 
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
-Git will detect these issues when you run a `git diff` command and try to color them so you can possibly fix them before you commit. It will also use these values to help you when you apply patches with `git apply`. When you’re applying patches, you can ask Git to warn you if it’s applying patches with the specified whitespace issues:
+当你运行`git diff`命令且为输出着色时，Git会探测到这些问题，因此你也许在提交前能修复它们，当你用`git apply`打补丁时同样也会从中受益。
+如果正准备运用的补丁有特别的空白问题，你可以让Git发警告：
 
 	$ git apply --whitespace=warn <patch>
 
-Or you can have Git try to automatically fix the issue before applying the patch:
+或者让Git在打上补丁前自动修正此问题：
 
 	$ git apply --whitespace=fix <patch>
 
-These options apply to the git rebase option as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
+这些选项也能运用于衍合。如果提交了有空白问题的文件但还没推送到上流，你可以运行带有`--whitespace=fix`选项的`rebase`来让Git
+在重写补丁时自动修正它们。
 
-### Server Configuration ###
+### 服务器端配置 ###
 
-Not nearly as many configuration options are available for the server side of Git, but there are a few interesting ones you may want to take note of.
+Git服务器端的配置选项并不多，但仍有一些饶有生趣的选项值得你一看。
 
 #### receive.fsckObjects ####
 
-By default, Git doesn’t check for consistency all the objects it receives during a push. Although Git can check to make sure each object still matches its SHA-1 checksum and points to valid objects, it doesn’t do that by default on every push. This is a relatively expensive operation and may add a lot of time to each push, depending on the size of the repository or the push. If you want Git to check object consistency on every push, you can force it to do so by setting `receive.fsckObjects` to true:
+Git默认情况下不会在推送期间检查所有对象的一致性。虽然会确认每个对象的有效性以及是否仍然匹配SHA-1检验和，但Git不会在每次推送时都检查一致性。
+对于Git来说，库或推送的文件越大，这个操作代价就相对越高，每次推送会消耗更多时间，如果想在每次推送时Git都检查一致性，设置
+`receive.fsckObjects`为true来强迫它这么做：
 
 	$ git config --system receive.fsckObjects true
 
-Now, Git will check the integrity of your repository before each push is accepted to make sure faulty clients aren’t introducing corrupt data.
+现在Git会在每次推送生效前检查库的完整性，确保有问题的客户端没有引入破坏性的数据。
 
 #### receive.denyNonFastForwards ####
 
-If you rebase commits that you’ve already pushed and then try to push again, or otherwise try to push a commit to a remote branch that doesn’t contain the commit that the remote branch currently points to, you’ll be denied. This is generally good policy; but in the case of the rebase, you may determine that you know what you’re doing and can force-update the remote branch with a `-f` flag to your push command.
+如果对已经被推送的提交历史做衍合，继而再推送，又或者以其它方式推送一个提交历史至远程分支，且该提交历史没在这个远程分支中，这样的推送会被拒绝。这通常是个很好的禁止策略，但有时你在做衍合并确定要更新远程分支，可以在push命令后加`-f`标志来强制更新。
 
-To disable the ability to force-update remote branches to non-fast-forward references, set `receive.denyNonFastForwards`:
+要禁用这样的强制更新功能，可以设置`receive.denyNonFastForwards`：
 
-	$ git config --system receive.denyNonFastForwards true
+    $ git config --system receive.denyNonFastForwards true
 
-The other way you can do this is via server-side receive hooks, which I’ll cover in a bit. That approach lets you do more complex things like deny non-fast-forwards to a certain subset of users.
+稍后你会看到，用服务器端的接收钩子也能达到同样的目的。这个方法可以做更细致的控制，例如：禁用特定的用户做强制更新。
 
 #### receive.denyDeletes ####
 
-One of the workarounds to the `denyNonFastForwards` policy is for the user to delete the branch and then push it back up with the new reference. In newer versions of Git (beginning with version 1.6.1), you can set `receive.denyDeletes` to true:
+规避`denyNonFastForwards`策略的方法之一就是用户删除分支，然后推回新的引用。在更新的Git版本中（从1.6.1版本开始），把`receive.denyDeletes`设置为true：
 
-	$ git config --system receive.denyDeletes true
+    $ git config --system receive.denyDeletes true
 
-This denies branch and tag deletion over a push across the board — no user can do it. To remove remote branches, you must remove the ref files from the server manually. There are also more interesting ways to do this on a per-user basis via ACLs, as you’ll learn at the end of this chapter.
+这样会在推送过程中阻止删除分支和标签 — 没有用户能够这么做。要删除远程分支，必须从服务器手动删除引用文件。通过用户访问控制列表也能这么做，
+在本章结尾将会介绍这些有趣的方式。
 
-## Git Attributes ##
+## Git属性 ##
 
-Some of these settings can also be specified for a path, so that Git applies those settings only for a subdirectory or subset of files. These path-specific settings are called Git attributes and are set either in a `.gitattributes` file in one of your directories (normally the root of your project) or in the `.git/info/attributes` file if you don’t want the attributes file committed with your project.
+一些设置项也能被运用于特定的路径中，这样，Git可以对一个特定的子目录或子文件集运用那些设置项。这些设置项被称为Git属性，可以在你目录中的`.gitattributes`文件内进行设置
+（通常是你项目的根目录），也可以当你不想让这些属性文件和项目文件一同提交时，在`.git/info/attributes`进行设置。
 
-Using attributes, you can do things like specify separate merge strategies for individual files or directories in your project, tell Git how to diff non-text files, or have Git filter content before you check it into or out of Git. In this section, you’ll learn about some of the attributes you can set on your paths in your Git project and see a few examples of using this feature in practice.
+使用属性，你可以对个别文件或目录定义不同的合并策略，让Git知道怎样比较非文本文件，在你提交或签出前让Git过滤内容。你将在这部分了解到能在自己的项目中使用的属性，以及一些实例。
 
-### Binary Files ###
+### 二进制文件 ###
 
-One cool trick for which you can use Git attributes is telling Git which files are binary (in cases it otherwise may not be able to figure out) and giving Git special instructions about how to handle those files. For instance, some text files may be machine generated and not diffable, whereas some binary files can be diffed — you’ll see how to tell Git which is which.
+你可以用Git属性让其知道哪些是二进制文件（以防Git没有识别出来），以及指示怎样处理这些文件，这点很酷。例如，一些文本文件是由机器产生的，而且无法比较，而一些二进制文件可以比较 —
+你将会了解到怎样让Git识别这些文件。
 
-#### Identifying Binary Files ####
+#### 识别二进制文件 ####
 
-Some files look like text files but for all intents and purposes are to be treated as binary data. For instance, Xcode projects on the Mac contain a file that ends in `.pbxproj`, which is basically a JSON (plain text javascript data format) dataset written out to disk by the IDE that records your build settings and so on. Although it’s technically a text file, because it’s all ASCII, you don’t want to treat it as such because it’s really a lightweight database — you can’t merge the contents if two people changed it, and diffs generally aren’t helpful. The file is meant to be consumed by a machine. In essence, you want to treat it like a binary file.
+一些文件看起来像是文本文件，但其实是作为二进制数据被对待。例如，在Mac上的Xcode项目含有一个以`.pbxproj`结尾的文件，它是由记录设置项的IDE写到磁盘的JSON数据集（纯文本javascript数据类型）。虽然技术上看它是由ASCII字符组成的文本文件，但你并不认为如此，因为它确实是一个轻量级数据库 — 如果有2人改变了它，你通常无法合并和比较内容，只有机器才能进行识别和操作，于是，你想把它当成二进制文件。
 
-To tell Git to treat all `pbxproj` files as binary data, add the following line to your `.gitattributes` file:
+让Git把所有`pbxproj`文件当成二进制文件，在`.gitattributes`文件中设置如下：
 
-	*.pbxproj -crlf -diff
+    *.pbxproj -crlf -diff
 
-Now, Git won’t try to convert or fix CRLF issues; nor will it try to compute or print a diff for changes in this file when you run git show or git diff on your project. In the 1.6 series of Git, you can also use a macro that is provided that means `-crlf -diff`:
+现在，Git不会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行git show或git diff时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
 
-	*.pbxproj binary
+    *.pbxproj binary
 
-#### Diffing Binary Files ####
+#### 比较二进制文件 ####
 
-In the 1.6 series of Git, you can use the Git attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff.
+在Git 1.6及以上版本中，你能利用Git属性来有效地比较二进制文件。可以设置Git把二进制数据转换成文本格式，用通常的diff来比较。
 
-Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:
+这个特性很酷，而且鲜为人知，因此我会结合实例来讲解。首先，要解决的是最令人头疼的问题：对Word文档进行版本控制。很多人对Word文档又恨又爱，如果想对其进行版本控制，你可以把文件加入到Git库中，每次修改后提交即可。但这样做没有一点实际意义，因为运行`git diff`命令后，你只能得到如下的结果：
 
-	$ git diff 
-	diff --git a/chapter1.doc b/chapter1.doc
-	index 88839c4..4afcb7c 100644
-	Binary files a/chapter1.doc and b/chapter1.doc differ
+    $ git diff
+    diff --git a/chapter1.doc b/chapter1.doc
+    index 88839c4..4afcb7c 100644
+    Binary files a/chapter1.doc and b/chapter1.doc differ
 
-You can’t directly compare two versions unless you check them out and scan them manually, right? It turns out you can do this fairly well using Git attributes. Put the following line in your `.gitattributes` file:
+你不能直接比较两个不同版本的Word文件，除非进行手动扫描，不是吗？Git属性能很好地解决此问题，把下面的行加到`.gitattributes`文件：
 
-	*.doc diff=word
+    *.doc diff=word
 
-This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:
+当你要看比较结果时，如果文件扩展名是"doc"，Git会调用"word"过滤器。什么是"word"过滤器呢？其实就是Git使用`strings` 程序，把Word文档转换成可读的文本文件，之后再进行比较：
 
-	$ git config diff.word.textconv strings
+    $ git config diff.word.textconv strings
 
-Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
+现在如果在两个快照之间比较以`.doc`结尾的文件，Git会对这些文件运用"word"过滤器，在比较前把Word文件转换成文本文件。
 
-Here’s an example. I put Chapter 1 of this book into Git, added some text to a paragraph, and saved the document. Then, I ran `git diff` to see what changed:
+下面展示了一个实例，我把此书的第一章纳入Git管理，在一个段落中加入了一些文本后保存，之后运行`git diff`命令，得到结果如下：
 
-	$ git diff
-	diff --git a/chapter1.doc b/chapter1.doc
-	index c1c8a0a..b93c9e4 100644
-	--- a/chapter1.doc
-	+++ b/chapter1.doc
-	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
-	 re going to cover how to get it and set it up for the first time if you don
-	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
-	-s going on, modify stuff and contribute changes. If the book spontaneously 
-	+s going on, modify stuff and contribute changes. If the book spontaneously 
-	+Let's see if this works.
+    $ git diff
+    diff --git a/chapter1.doc b/chapter1.doc
+    index c1c8a0a..b93c9e4 100644
+    --- a/chapter1.doc
+    +++ b/chapter1.doc
+    @@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
+     re going to cover how to get it and set it up for the first time if you don
+     t already have it on your system.
+     In Chapter Two we will go over basic Git usage - how to use Git for the 80%
+    -s going on, modify stuff and contribute changes. If the book spontaneously
+    +s going on, modify stuff and contribute changes. If the book spontaneously
+    +Let's see if this works.
 
-Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
+Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。虽然有些瑕疵，在末尾显示了一些随机的内容，但确实可以比较了。如果你能找到或自己写个Word到纯文本的转换器的话，效果可能会更好。 `strings`可以在大部分Mac和Linux系统上运行，所以它是处理二进制格式的第一选择。
 
-Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
+你还能用这个方法比较图像文件。当比较时，对JPEG文件运用一个过滤器，它能提炼出EXIF信息 — 大部分图像格式使用的元数据。如果你下载并安装了`exiftool`程序，可以用它参照元数据把图像转换成文本。比较的不同结果将会用文本向你展示：
 
-	$ echo '*.png diff=exif' >> .gitattributes
-	$ git config diff.exif.textconv exiftool
+    $ echo '*.png diff=exif' >> .gitattributes
+    $ git config diff.exif.textconv exiftool
 
-If you replace an image in your project and run `git diff`, you see something like this:
+如果在项目中替换了一个图像文件，运行`git diff`命令的结果如下：
 
-	diff --git a/image.png b/image.png
-	index 88839c4..4afcb7c 100644
-	--- a/image.png
-	+++ b/image.png
-	@@ -1,12 +1,12 @@
-	 ExifTool Version Number         : 7.74
-	-File Size                       : 70 kB
-	-File Modification Date/Time     : 2009:04:21 07:02:45-07:00
-	+File Size                       : 94 kB
-	+File Modification Date/Time     : 2009:04:21 07:02:43-07:00
-	 File Type                       : PNG
-	 MIME Type                       : image/png
-	-Image Width                     : 1058
-	-Image Height                    : 889
-	+Image Width                     : 1056
-	+Image Height                    : 827
-	 Bit Depth                       : 8
-	 Color Type                      : RGB with Alpha
+    diff --git a/image.png b/image.png
+    index 88839c4..4afcb7c 100644
+    --- a/image.png
+    +++ b/image.png
+    @@ -1,12 +1,12 @@
+     ExifTool Version Number         : 7.74
+    -File Size                       : 70 kB
+    -File Modification Date/Time     : 2009:04:21 07:02:45-07:00
+    +File Size                       : 94 kB
+    +File Modification Date/Time     : 2009:04:21 07:02:43-07:00
+     File Type                       : PNG
+     MIME Type                       : image/png
+    -Image Width                     : 1058
+    -Image Height                    : 889
+    +Image Width                     : 1056
+    +Image Height                    : 827
+     Bit Depth                       : 8
+     Color Type                      : RGB with Alpha
 
-You can easily see that the file size and image dimensions have both changed.
+你会发现文件的尺寸大小发生了改变。
 
-### Keyword Expansion ###
+### 关键字扩展 ###
 
-SVN- or CVS-style keyword expansion is often requested by developers used to those systems. The main problem with this in Git is that you can’t modify a file with information about the commit after you’ve committed, because Git checksums the file first. However, you can inject text into a file when it’s checked out and remove it again before it’s added to a commit. Git attributes offers you two ways to do this.
+使用SVN或CVS的开发人员经常要求关键字扩展。在Git中，你无法在一个文件被提交后修改它，因为Git会先对该文件计算校验和。然而，你可以在签出时注入文本，在提交前删除它。Git属性提供了2种方式这么做。
 
-First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the file automatically. If you set this attribute on a file or set of files, then the next time you check out that branch, Git will replace that field with the SHA-1 of the blob. It’s important to notice that it isn’t the SHA of the commit, but of the blob itself:
+首先，你能够把blob的SHA-1校验和自动注入文件的`$Id$`字段。如果在一个或多个文件上设置了此字段，当下次你签出分支的时候，Git会用blob的SHA-1值替换那个字段。注意，这不是提交对象的SHA校验和，而是blob本身的校验和：
 
-	$ echo '*.txt ident' >> .gitattributes
-	$ echo '$Id$' > test.txt
+    $ echo '*.txt ident' >> .gitattributes
+    $ echo '$Id$' > test.txt
 
-The next time you check out this file, Git injects the SHA of the blob:
+下次签出文件时，Git注入了blob的SHA值：
 
-	$ rm text.txt
-	$ git checkout -- text.txt
-	$ cat test.txt 
-	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
+    $ rm text.txt
+    $ git checkout -- text.txt
+    $ cat test.txt
+    $Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
+然而，这样的显示结果没有多大的实际意义。这个SHA的值相当地随机，无法区分日期的前后，所以，如果你在CVS或Subversion中用过关键字替换，一定会包含一个日期值。
 
-It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
+因此，你能写自己的过滤器，在提交文件到暂存区或签出文件时替换关键字。有2种过滤器，"clean"和"smudge"。在 `.gitattributes`文件中，你能对特定的路径设置一个过滤器，然后设置处理文件的脚本，这些脚本会在文件签出前（"smudge"，见图 7-2）和提交到暂存区前（"clean"，见图7-3）被调用。这些过滤器能够做各种有趣的事。
 
-Insert 18333fig0702.png 
-Figure 7-2. The “smudge” filter is run on checkout.
+Insert 18333fig0702.png
+图7-2. 签出时，“smudge”过滤器被触发。
 
-Insert 18333fig0703.png 
-Figure 7-3. The “clean” filter is run when files are staged.
+Insert 18333fig0703.png
+图7-3. 提交到暂存区时，“clean”过滤器被触发。
 
-The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
+这里举一个简单的例子：在暂存前，用`indent`（缩进）程序过滤所有C源代码。在`.gitattributes`文件中设置"indent"过滤器过滤`*.c`文件：
 
-	*.c     filter=indent
+    *.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+然后，通过以下配置，让Git知道"indent"过滤器在遇到"smudge"和"clean"时分别该做什么：
 
-	$ git config --global filter.indent.clean indent
-	$ git config --global filter.indent.smudge cat
+    $ git config --global filter.indent.clean indent
+    $ git config --global filter.indent.smudge cat
 
-In this case, when you commit files that match `*.c`, Git will run them through the indent program before it commits them and then run them through the `cat` program before it checks them back out onto disk. The `cat` program is basically a no-op: it spits out the same data that it gets in. This combination effectively filters all C source code files through `indent` before committing.
+于是，当你暂存`*.c`文件时，`indent`程序会被触发，在把它们签出之前，`cat`程序会被触发。但`cat`程序在这里没什么实际作用。这样的组合，使C源代码在暂存前被`indent`程序过滤，非常有效。
 
-Another interesting example gets `$Date$` keyword expansion, RCS style. To do this properly, you need a small script that takes a filename, figures out the last commit date for this project, and inserts the date into the file. Here is a small Ruby script that does that:
+另一个例子是类似RCS的`$Date$`关键字扩展。为了演示，需要一个小脚本，接受文件名参数，得到项目的最新提交日期，最后把日期写入该文件。下面用Ruby脚本来实现：
 
-	#! /usr/bin/env ruby
-	data = STDIN.read
-	last_date = `git log --pretty=format:"%ad" -1`
-	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
+    #! /usr/bin/env ruby
+    data = STDIN.read
+    last_date = `git log --pretty=format:"%ad" -1`
+    puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
-All the script does is get the latest commit date from the `git log` command, stick that into any `$Date$` strings it sees in stdin, and print the results — it should be simple to do in whatever language you’re most comfortable in. You can name this file `expand_date` and put it in your path. Now, you need to set up a filter in Git (call it `dater`) and tell it to use your `expand_date` filter to smudge the files on checkout. You’ll use a Perl expression to clean that up on commit:
+该脚本从`git log`命令中得到最新提交日期，找到文件中的所有`$Date$`字符串，最后把该日期填充到`$Date$`字符串中 — 此脚本很简单，你可以选择你喜欢的编程语言来实现。把该脚本命名为`expand_date`，放到正确的路径中，之后需要在Git中设置一个过滤器（`dater`），让它在签出文件时调用`expand_date`，在暂存文件时用Perl清除之：
 
-	$ git config filter.dater.smudge expand_date
-	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
+    $ git config filter.dater.smudge expand_date
+    $ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
-This Perl snippet strips out anything it sees in a `$Date$` string, to get back to where you started. Now that your filter is ready, you can test it by setting up a file with your `$Date$` keyword and then setting up a Git attribute for that file that engages the new filter:
+这个Perl小程序会删除`$Date$`字符串里多余的字符，恢复`$Date$`原貌。到目前为止，你的过滤器已经设置完毕，可以开始测试了。打开一个文件，在文件中输入`$Date$`关键字，然后设置Git属性：
 
-	$ echo '# $Date$' > date_test.txt
-	$ echo 'date*.txt filter=dater' >> .gitattributes
+    $ echo '# $Date$' > date_test.txt
+    $ echo 'date*.txt filter=dater' >> .gitattributes
 
-If you commit those changes and check out the file again, you see the keyword properly substituted:
+如果暂存该文件，之后再签出，你会发现关键字被替换了：
 
-	$ git add date_test.txt .gitattributes
-	$ git commit -m "Testing date expansion in Git"
-	$ rm date_test.txt
-	$ git checkout date_test.txt
-	$ cat date_test.txt
-	# $Date: Tue Apr 21 07:26:52 2009 -0700$
+    $ git add date_test.txt .gitattributes
+    $ git commit -m "Testing date expansion in Git"
+    $ rm date_test.txt
+    $ git checkout date_test.txt
+    $ cat date_test.txt
+    # $Date: Tue Apr 21 07:26:52 2009 -0700$
 
-You can see how powerful this technique can be for customized applications. You have to be careful, though, because the `.gitattributes` file is committed and passed around with the project but the driver (in this case, `dater`) isn’t; so, it won’t work everywhere. When you design these filters, they should be able to fail gracefully and have the project still work properly.
+虽说这项技术对自定义应用来说很有用，但还是要小心，因为`.gitattributes`文件会随着项目一起提交，而过滤器（例如：`dater`）不会，所以，过滤器不会在所有地方都生效。当你在设计这些过滤器时要注意，即使它们无法正常工作，也要让整个项目运作下去。
 
-### Exporting Your Repository ###
+### 导出仓库 ###
 
-Git attribute data also allows you to do some interesting things when exporting an archive of your project.
+Git属性在导出项目归档时也能发挥作用。
 
 #### export-ignore ####
 
-You can tell Git not to export certain files or directories when generating an archive. If there is a subdirectory or file that you don’t want to include in your archive file but that you do want checked into your project, you can determine those files via the `export-ignore` attribute.
+当产生一个归档时，可以设置Git不导出某些文件和目录。如果你不想在归档中包含一个子目录或文件，但想他们纳入项目的版本管理中，你能对应地设置`export-ignore`属性。
 
-For example, say you have some test files in a `test/` subdirectory, and it doesn’t make sense to include them in the tarball export of your project. You can add the following line to your Git attributes file:
+例如，在`test/`子目录中有一些测试文件，在项目的压缩包中包含他们是没有意义的。因此，可以增加下面这行到Git属性文件中：
 
-	test/ export-ignore
+    test/ export-ignore
 
-Now, when you run git archive to create a tarball of your project, that directory won’t be included in the archive.
+现在，当运行git archive来创建项目的压缩包时，那个目录不会在归档中出现。
 
 #### export-subst ####
 
-Another thing you can do for your archives is some simple keyword substitution. Git lets you put the string `$Format:$` in any file with any of the `--pretty=format` formatting shortcodes, many of which you saw in Chapter 2. For instance, if you want to include a file named `LAST_COMMIT` in your project, and the last commit date was automatically injected into it when `git archive` ran, you can set up the file like this:
+还能对归档做一些简单的关键字替换。在第2章中已经可以看到，可以以`--pretty=format`形式的简码在任何文件中放入`$Format:$` 字符串。例如，如果想在项目中包含一个叫作`LAST_COMMIT`的文件，当运行`git archive`时，最后提交日期自动地注入进该文件，可以这样设置：
 
-	$ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
-	$ echo "LAST_COMMIT export-subst" >> .gitattributes
-	$ git add LAST_COMMIT .gitattributes
-	$ git commit -am 'adding LAST_COMMIT file for archives'
+    $ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
+    $ echo "LAST_COMMIT export-subst" >> .gitattributes
+    $ git add LAST_COMMIT .gitattributes
+    $ git commit -am 'adding LAST_COMMIT file for archives'
 
-When you run `git archive`, the contents of that file when people open the archive file will look like this:
+运行`git archive`后，打开该文件，会发现其内容如下：
 
-	$ cat LAST_COMMIT
-	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
+    $ cat LAST_COMMIT
+    Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Merge Strategies ###
+### 合并策略 ###
 
-You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
+通过Git属性，还能对项目中的特定文件使用不同的合并策略。一个非常有用的选项就是，当一些特定文件发生冲突，Git不会尝试合并他们，而使用你这边的合并。
 
-This is helpful if a branch in your project has diverged or is specialized, but you want to be able to merge changes back in from it, and you want to ignore certain files. Say you have a database settings file called database.xml that is different in two branches, and you want to merge in your other branch without messing up the database file. You can set up an attribute like this:
 
-	database.xml merge=ours
+如果项目的一个分支有歧义或比较特别，但你想从该分支合并，而且需要忽略其中某些文件，这样的合并策略是有用的。例如，你有一个数据库设置文件database.xml，在2个分支中他们是不同的，你想合并一个分支到另一个，而不弄乱该数据库文件，可以设置属性如下：
 
-If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
+    database.xml merge=ours
 
-	$ git merge topic
-	Auto-merging database.xml
-	Merge made by recursive.
+如果合并到另一个分支，database.xml文件不会有合并冲突，显示如下：
 
-In this case, database.xml stays at whatever version you originally had.
+    $ git merge topic
+    Auto-merging database.xml
+    Merge made by recursive.
 
-## Git Hooks ##
+这样，database.xml会保持原样。
 
-Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
+## Git挂钩 ##
 
-### Installing a Hook ###
+和其他版本控制系统一样，当某些重要事件发生时，Git可以调用自定义脚本。有两组挂钩：客户端和服务器端。客户端挂钩用于客户端的操作，如提交和合并。服务器端挂钩用于Git服务器端的操作，如接收被推送的提交。你可以随意地使用这些挂钩，下面会讲解其中一些。
 
-The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
+### 安装一个挂钩 ###
 
-To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
+挂钩都被存储在Git目录下的`hooks`子目录中，即大部分项目中的`.git/hooks`。Git默认会放置一些脚本样本在这个目录中，除了可以作为挂钩使用，这些样本本身是可以独立使用的。所有的样本都是shell脚本，其中一些还包含了Perl的脚本，不过，任何正确命名的可执行脚本都可以正常使用 — 可以用Ruby或Python，或其他。在Git 1.6版本之后，这些样本名都是以.sample结尾，因此，你必须重新命名。在Git 1.6版本之前，这些样本名都是正确的，但这些样本不是可执行文件。
 
-### Client-Side Hooks ###
 
-There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail–workflow scripts, and the rest of the client-side scripts.
+把一个正确命名且可执行的文件放入Git目录下的`hooks`子目录中，可以激活该挂钩脚本，因此，之后他一直会被Git调用。随后会讲解主要的挂钩脚本。
 
-#### Committing-Workflow Hooks ####
+### 客户端挂钩 ###
 
-The first four hooks have to do with the committing process. The `pre-commit` hook is run first, before you even type in a commit message. It’s used to inspect the snapshot that’s about to be committed, to see if you’ve forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Exiting non-zero from this hook aborts the commit, although you can bypass it with `git commit --no-verify`. You can do things like check for code style (run lint or something equivalent), check for trailing whitespace (the default hook does exactly that), or check for appropriate documentation on new methods.
+有许多客户端挂钩，以下把他们分为：提交工作流挂钩、电子邮件工作流挂钩及其他客户端挂钩。
+
+#### 提交工作流挂钩 ####
+
+有 4个挂钩被用来处理提交的过程。`pre-commit`挂钩在键入提交信息前运行，被用来检查即将提交的快照，例如，检查是否有东西被遗漏，确认测试是否运行，以及检查代码。当从该挂钩返回非零值时，Git会放弃此次提交，但可以用`git commit --no-verify`来忽略。该挂钩可以被用来检查代码错误（运行类似lint的程序），检查尾部空白（默认挂钩是这么做的），检查新方法（译注：程序的函数）的说明。
 
 The `prepare-commit-msg` hook is run before the commit message editor is fired up but after the default message is created. It lets you edit the default message before the commit author sees it. This hook takes a few options: the path to the file that holds the commit message so far, the type of commit, and the commit SHA-1 if this is an amended commit. This hook generally isn’t useful for normal commits; rather, it’s good for commits where the default message is auto-generated, such as templated commit messages, merge commits, squashed commits, and amended commits. You may use it in conjunction with a commit template to programmatically insert information.
 

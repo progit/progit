@@ -76,10 +76,7 @@ Generally, eight to ten characters are more than enough to be unique within a pr
 
 Generell kann man sagen das acht bis zehn Zeichen mehr als ausreichend in einem Projekt sind, um eindeutig zu bleiben. Eines der größten Git Projekte, der Linux kernel, fängt langsam an 12 von maximal 40 Zeichen zu nutzen um eindeutig zu bleiben.
 
-<<<<<<< HEAD
-=======
 ### A SHORT NOTE ABOUT SHA-1 ###
->>>>>>> svenfuchs/master
 ### EINE KURVE NOTIZ ÜBER SHA-1 ###
 
 A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
@@ -100,21 +97,33 @@ Hier ist ein Beispiel welches dir eine Vorstellung davon geben wird was nötig i
 
 ### Branch References ###
 
+### Branch Referenzen ###
+
 The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
+
+Am direktesten kannst du einen Commit spezifizieren, wenn eine Branch Referenz direkt auf ihn zeigt. In dem Fall kannst du in allen Git Befehlen, die ein Commit Objekt oder einen SHA-1 Wert erwarten, statt dessen den Branch Namen verwenden. Wenn du z.B. den letzten Commit in einem Branch sehen willst, sind die folgenden Befehle äquivalent (vorausgesetzt der `topic1` Branch zeigt auf den Commit `ca82a6d`):
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
 If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
 
+Wenn du sehen willst, auf welchen SHA-1 Wert ein Branch zeigt, oder wie unsere Beispiele intern in SHA-1 Werte übersetzt aussähen, kannst du den Git Plumbing Befehl `rev-parse` verwenden. In Kapitel 9 werden wir genauer auf Plumbing Befehle eingehen. Kurz gesagt ist `rev-parse` als eine Low-Level Operation gedacht und nicht dafür, im tagtäglichen Gebrauch eingesetzt zu werden. Aber es kann manchmal hilfreich sein, wenn man wissen muß, was unter der Haube vor sich geht:
+
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
 ### RefLog Shortnames ###
 
+### RefLog Kurznamen ###
+
 One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
 
+Eine andere Sache, die während deiner täglichen Arbeit im Hintergrund passiert ist, daß Git ein sogenanntes Reflog führt, d.h. ein Log darüber, wohin deine HEAD und Branch Referenzen in den letzten Monaten jeweils gezeigt haben.
+
 You can see your reflog by using `git reflog`:
+
+Du kannst das Reflog mit `git reflog` anzeigen:
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
@@ -127,15 +136,23 @@ You can see your reflog by using `git reflog`:
 
 Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
 
+Jedesmal wenn die Spitze deines Branches aus irggnedeinem Grund aktualisiert wird, sichert Git diese Informationen für dich in dieser vorläufigen Historie. Du kannst auch ältere Commits mit diesen Daten angeben. Wenn du die 5. kleinere Version des HEAD deines Repositories ansehen möchtest, kannst du '@{n}' verwenden was du in der Ausgabe von reflog siehst:
+
 	$ git show HEAD@{5}
 
 You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
+
+Du kannst diese Syntax auch verwenden um zu sehen wo ein Branch vor einer bestimmten Zeit lag. Um zum Beispiel zu sehen wo dein 'master' branch gestern war kannst du folgendes eingeben:
 
 	$ git show master@{yesterday}
 
 That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
 
+Dies zeigt dir wo die Branchspitze gestern war. Dies Technik funktioniert nur für Daten, die sich noch in deinem reflog befinden. Du kannst es also nicht für Commits verwenden die älter sind als ein paar Monate.
+
 To see reflog information formatted like the `git log` output, you can run `git log -g`:
+
+Um Reflog Informationen genauso formatiert zu sehen wie 'git log', kannst du 'git log -g' verwenden:
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -155,6 +172,8 @@ To see reflog information formatted like the `git log` output, you can run `git 
 	    Merge commit 'phedders/rdocs'
 
 It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
+
+Es ist wichtig zu erwähnen, das die reflog informationen einzig und allein lokal verfügbar sind - es ist Log deiner Arbeiten in deinem Repository. Die Referenz wird in der Version von einer anderen Person nicht gleich sein; und gleich nach dem clonen eines Repositories ist dein Reflog leer, da in deinem Repository noch keine Aktionen passiert sind. Wenn man 'git show HEAD@{2.months.ago}' wird nur funktionieren, falls du dein Projekt vor wenigstens 2 Monaten geclont hast - falls du es vor 5 Minuten geclont hast, wirdst du keine Ergebnisse bekommen.
 
 ### Ancestry References ###
 
@@ -444,7 +463,12 @@ Finally, you don’t need to be in interactive add mode to do the partial-file s
 
 Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
 
+Oft sind Sachen in einem unsauberen Zustand während du an einem bestimmten Teil eines Projektes arbeitst und du möchtest den Branch wechseln und an einem anderen Teil weiter arbeiten. Das Problem dabei ist, dass du nicht deine halbfertige Arbeit committen möchtest, um später daran weiter zu arbeiten. Die Lösung dieses Problems bietet der "git stash" Befehl.
+
 Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+
+Stashing nimmt den unsauberen Teil deines Arbeitsverzeichnis, das heisst deine veränderten und <gestagedten???> Dateien, und speichert sie auf einem Stack von unfertigen Änderungen welche du zu einem anderen Zeitpunkt anwendest.
+
 
 ### Stashing Your Work ###
 
@@ -463,7 +487,24 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#      modified:   lib/simplegit.rb
 	#
 
+
+Um dies zu demonstrieren, gehst du in dein Projekt und beginnst an ein paar Dateien zu arbeiten und <stagest> möglicherweise auch eine der Änderungen. Wenn du nun "git status" aufrufst siehst du deinen unsauberen Status: 
+
+	$ git status
+	# On branch master
+	# Changes to be committed:
+	#   (use "git reset HEAD <file>..." to unstage)
+	#
+	#      modified:   index.html
+	#
+	# Changed but not updated:
+	#   (use "git add <file>..." to update what will be committed)
+	#
+	#      modified:   lib/simplegit.rb
+	#
+
 Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+Jetzt möchtest du in einen anderen Branch wechseln, möchtest deine bisherigen Änderungen allerdings nicht committen. Also <stashest> du die Änderungen. Um einen neuen Stash auf den Stack zu legen , rufst du "git stash" auf:
 
 	$ git stash
 	Saved working directory and index state \
@@ -473,11 +514,15 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 
 Your working directory is clean:
 
+Dein Arbeitsverzeichnis ist nun leer:
+
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
 At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+
+Zu diesem Zeitpunkt, kannst du beliebig in andere Branches wechseln und an anderen Sachen arbeiten. Deine Änderungen sind auf deinem Stack gesichert. Um deine gesicherten <Stashes> anzusehen, kannst du "git stash list" aufrufen:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file

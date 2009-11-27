@@ -188,48 +188,34 @@ Insert 18333fig0107.png
 
 ## Первоначальная настройка Git ##
 
-Теперь, когда Git установлен в вашей системе, вам нужно настроить некоторые параметры Git. Это нужно сделать только один раз ― при обновлении настройки сохраняются. Но вы можете их поменять в любой момент выполнив те же команды снова.
+Теперь, когда Git установлен на вашей системе, нужно настроить Git для работы. Делать это нужно только один раз: при обновлении программы настройки сохраняются. В любой момент их можно поменять, запустив те же команды снова.
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Git включена утилита git config, позволяющая просматривать и менять все настройки, касающиеся работы и внешнего вида Git. Эти параметры могут храниться в трёх местах:
 
-В состав Git входит утилита git config которая позволяет вам просматривать и устанавливать параметры, котролирующие все аспекты работы и внешнего вида Git. Эти параметры могут быть сохранены в трех местах:
-
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
-
-*	файл `/etc/gitconfig`. Содержит переменные общие для всех пользователей вашей системы и всех их репозиториев. Если вы указываете параметр `--system`, запуская `git config`, то параметры читаются и сохраняются в этот файл.
+*	файл `/etc/gitconfig`. Содержит переменные общие для всех пользователей вашей системы и всех их репозиториев. Если вы указываете параметр `--system`, запуская `git config`, то он читает и пишет их именно отсюда.
 *	файл `~/.gitconfig`. Хранит настройки конкретного пользователя. Этот файл использутеся при указании параметра `--global`.
-*	конфигурационный файл в каталоге Git (`.git/config`) используемого репозитория. Содержит параметры, используемые только при работе с данным репозиторием. Каждый более конкретный файл настроек имеет более высокий приоритет, чем файл предыдущего уровня, т.е. значения в `.git/config` перекрывают соответствующие значения в `/etc/gitconfig`.
+*	конфигурационный файл в каталоге Git (`.git/config`) в том репозитории, где вы находитесь в данный момент. Эти параметры  ― только для данного конкретного репозитория. Настройки на каждом уровне перекрывают настройки из предыдущего, то есть значения в `.git/config` перекрывают соответствующие значения в `/etc/gitconfig`.
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
-
-В системах семейства Windows, файл `.gitconfig` хранится в каталоге $HOME (`C:\Documents and Settings\$USER` для большенства пользователей). Кроме того Git ищет файл /etc/gitconfig относительно корневого каталога MSys, который вы указали в инсталляторе Git во время установки.
-
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+В системах семейства Windows файл `.gitconfig` хранится в каталоге $HOME (`C:\Documents and Settings\$USER` для большинства пользователей). Кроме того, Git ищет файл /etc/gitconfig относительно корневого каталога MSys, который вы указали в инсталляторе Git во время установки.
 
 ### Имя пользователя ###
 
-Первое, что вам следует сделать после установки Git ― указать ваше имя и адрес электронной почты. Это важно, потому что каждый коммит в Git содержит эту информацию, и она включена в коммиты, отправляемые вами:
-
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Первое, что вам следует сделать после установки Git ― указать ваше имя и адрес электронной почты. Это важно, потому что каждый коммит в Git содержит эту информацию, и она включена в ваши коммиты, и потом её нельзя исправить:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
 Повторюсь, что эти настройки нужно сделать один раз, если вы указываете параметр `--global`, поскольку в этом случае Git будет использовать эти данные для всего, что вы делаете в этой системе. Если вы хотите указать другое имя или электронную почту для конкретных проектов, можно выполнить команду без параметра `--global` в папке с нужным проектом.
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
-
 ### Выбор редактора ###
 
-Теперь, когда вы указали свое имя, вы можете выбрать редактор по умолчанию, который будет использоваться, когда необходимо ввести сообщение в Git. По умолчанию Git использует стандартный редактор вашей системы, обычно это Vi или Vim. Если вы хотите использовать другой текстовый редактор, например Emacs, можно сделать следующее:
+Вы указали своё имя, и теперь можно выбрать редактор, который будет использоваться, когда нужно ввести сообщение в Git. По умолчанию Git использует стандартный редактор вашей системы, обычно это Vi или Vim. Если вы хотите использовать другой текстовый редактор, например Emacs, можно сделать следующее:
 
 	$ git config --global core.editor emacs
 	
 ### Утилита сравнения ###
 
-Другая полезная настройка, которая может вам понадобиться ― встроенная утилита сравнения, которая будет использоваться для разрешения конфликтов слияния. Например, если вы хотите использовать vimdiff:
+Другая полезная настройка, которая может понадобиться ― встроенная утилита сравнения, которая будет использоваться для разрешения конфликтов слияния. Например, если вы хотите использовать vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
@@ -259,16 +245,16 @@ Git умеет делать слияния при помощи kdiff3, tkdiff, m
 
 Если вам нужна помощь при использовании Git, есть три способа открыть страницу руководства по любой команде Git:
 
-	$ git help <verb>
-	$ git <verb> --help
-	$ man git-<verb>
+	$ git help <команда>
+	$ git <команда> --help
+	$ man git-<команда>
 
-Например, можно открыть руководство по команде config, выполнив команду:
+Например, так можно открыть руководство по команде config:
 
 	$ git help config
 
-Эти команды также хороши тем, что вы всегда можете ими воспользоваться, даже без подключения к сети.
-Если руководства и этой книги недостаточно, и вам нужна персональная помощь, вы можете попытаться поискать её на каналах `#git` и `#github` сервера Freenode IRC (irc.freenode.net). Обычно там сотни людей отлично знающих Git, которые могут помочь.
+Эти команды хороши тем, что ими можно пользоваться всегда, даже без подключения к сети.
+Если руководства и этой книги недостаточно, и вам нужна персональная помощь, вы можете попытаться поискать её на каналах `#git` и `#github` сервера Freenode IRC (irc.freenode.net). Обычно там сотни людей, отлично знающих Git, которые могут помочь.
 
 ## Резюме ##
 

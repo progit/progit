@@ -130,7 +130,7 @@ Let’s get into using some Git. First things first—you have to install it. Yo
 
 If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
 
-Для установки Git вам понадобятся библиотеки, от которых Git зависит: curl, zlib, openssl, expat, and libiconv. Например, если в вашей системе менеджер пакетов - yum (Fedora), или apt-get (Debian, Ubuntu), можно воспользоваться следующими командами, чтобы разрешить все зависимости:
+Для установки Git вам понадобятся библиотеки, от которых Git зависит: curl, zlib, openssl, expat, и libiconv. Например, если в вашей системе менеджер пакетов ― yum (Fedora), или apt-get (Debian, Ubuntu), можно воспользоваться следующими командами, чтобы разрешить все зависимости:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -138,7 +138,7 @@ If you can, it’s generally useful to install Git from source, because you’ll
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev 
 	
-Установив все требуемые библиотеки, можно идти дальше и скачать последнюю версию с сайта Git:
+Установив все необходимые библиотеки, можно идти дальше и скачать последнюю версию с сайта Git:
 
 	http://git-scm.com/download
 	
@@ -155,50 +155,36 @@ If you can, it’s generally useful to install Git from source, because you’ll
 	
 ### Установка в Linux ###
 
-Если вы хотите установить Git под Linux как бинарный пакет, вы можете это сделать, используя утилиту для управления пакетами, входящую в ваш дистрибутив. Если вы используете Fedora, вы можете воспользоваться yum:
-
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Если вы хотите установить Git под Linux как бинарный пакет, это можно сделать, используя обычный менеджер пакетов вашего дистрибутива. Если у вас Fedora, можно воспользоваться yum:
 
 	$ yum install git-core
 
-Если же у вас дистрибутив основанный на Debian, например Ubuntu, попробуйте apt-get:
-
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Если же у вас дистрибутив, основанный на Debian, например Ubuntu, попробуйте apt-get:
 
 	$ apt-get install git-core
 
 ### Установка на Mac ###
 
-Есть два простых способа установить Git на Mac. Более простой ― использовать графический инсталлятор Git, который вы можете скачать со страницы Google Code (см. рисунок 1-7):
-
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Рисунок 1-7):
+Есть два простых способа установить Git на Mac. Более простой ― использовать графический установщик Git, который можно скачать со страницы Google Code (см. рисунок 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
 Рисунок 1-7. Инсталлятор Git под OS X.
 
-Другой распространенный способ установка Git через MacPorts (`http://www.macports.org`). Если у вас установлены MacPorts, инсталлируйте Git так:
-
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+Другой распространенный способ установки Git ― через MacPorts (`http://www.macports.org`). Если у вас установлен MacPorts, установите Git так:
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-Вы не обязаны включать все дополнения, но возможно вы захотите включить +svn в случае, если вам нужно использовать Git совместно с репозиториями Subversion (см. главу 8).
-
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Вам не нужно устанавливать все дополнения, но, вероятно, вам понадобится +svn, если когда-нибудь захотите использовать Git вместе с репозиториями Subversion (см. главу 8).
 
 ### Установка в Windows ###
 
-Установка Git в Windows очень проста. Проект msysGit предлагает очень простую процедуру установки. Просто скачайте exe файл инсталлятора со страницы Google Code и запустите его:
-
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Установка Git в Windows очень проста. У проекта msysGit процедура установки ― одна из самых простых. Просто скачайте файл exe инсталлятора со страницы Google Code и запустите его:
 
 	http://code.google.com/p/msysgit
 
 После установки у вас будет как консольная версия (включающая SSH-клиент, который пригодится позднее), так и стандартная графическая.
-
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 
 ## Первоначальная настройка Git ##
 

@@ -1,132 +1,132 @@
-# Getting Started #
+# Démarrage rapide #
 
-This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
+Ce chapitre traite du démarrage rapide avec Git. Nous commencerons par expliquer les bases des gestions de version, puis nous parlerons de l'installation de Git sur votre système et finalement comment le paramétrer pour commencer à l'utiliser. A la fin de ce chapitre vous devriez en savoir assez pour comprendre pourquoi on parle beaucoup de Git, pourquoi vous devriez l'utiliser et vous devriez en avoir une installation prête à l'emploi.
 
-## About Version Control ##
+## À propos de la gestion de version ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+Qu'est-ce que la gestion de version et pourquoi devriez-vous vous en soucier ? La gestion de version est un système qui enregistre l'évolution d'un fichier ou d'un ensemble de fichiers au cours du temps de manière à ce qu'on puisse rappeler une version antérieure d'un fichier à tout moment. Pour les exemples de ce livre, nous utiliserons des fichiers sources de logiciel comme fichiers sous gestion de version, bien qu'en réalité on puisse l'utiliser avec pratiquement tous les types de fichiers d'un ordinateur.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+Si vous êtes un dessinateur ou un designer web et voulez conserver toutes les versions d'une image ou d'une mise en page (ce que vous voudriez surement faire), un système de gestion de version (VCS en anglais pour Version Control System) est un outil qu'il est très sage d'utiliser. Il vous permet de ramener un fichier à un état précédent, ramener le projet complet à un état précédent, comparer les changements au cours du temps, voir qui a modifié quelque chose qui pourrait causer un problème, qui a introduit un problème et quand, et plus encore. Utiliser un VCS signifie aussi généralement que si vous vous trompez ou vous perdez des fichiers, vous pouvez facilement revenir à un état stable. De plus, vous obtenez tous ces avantages pour peu de surcharge de travail.
 
-### Local Version Control Systems ###
+### Les systèmes de gestion de version locaux ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+La méthode commune pour la gestion de version est généralement de recopier les fichiers dans un autre répertoire (peut-être avec un nom incluant la date pour les plus malins). Cette méthode est la plus commune parce que c'est la plus simple, mais c'est aussi la plus grande source d'erreurs. Il est facile d'oublier le répertoire dans lequel vous êtes et d'écrire accidentellement dans le mauvais fichier ou d'écraser des fichiers que vous vouliez conserver.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Pour traiter ce problème, les programmeurs ont développé il y a longtemps des VCSs locaux qui utilisaient une base de données simple pour conserver les modifications d'un fichier (Cf. figure 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram.
+Figure 1-1. Diagramme des systèmes de gestion de version locaux.
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+Un des systèmes les plus populaires était rcs, qui est encore distribué avec de nombreux systèmes d'exploitation aujourd'hui. Même le système d'exploitation populaire Mac OS X inclut le programme rcs lorsqu'on installe les outils de développement logiciel. Cet outil fonctionne en conservant les patch sets (c'est-à-dire la différence entre les fichiers) d'une version à l'autre dans un format spécial sur disque ; il peut alors recréer ce qu'était n'importe quel fichier à n'importe quel instant en ajoutant toutes les différences.
 
-### Centralized Version Control Systems ###
+### Les systèmes de gestion de version centralisés ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Le problème majeur suivant que les gens rencontrent est qu'ils ont besoin de collaborer avec des développeurs sur d'autres ordinateurs. Pour traiter ce problème, les systèmes de gestion de version centralisés (CVCS en anglais pour Centralized Version Control Systems) furent développés. Ces systèmes tels que CVS, Subversion, et Perforce, mettent en place un serveur central qui contient tous les fichiers sous version, et des clients qui peuvent extraire les fichiers de ce dépot central. Pendant de nombreuses années, celà a été le standard pour la gestion de version (Cf. Figure 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram.
+Figure 1-2. Diagramme de la gestion de version centralisée.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Ce schéma offre de nombreux avantages par rapport à la gestion de version locale. Par exemple, chacun sait jusqu'à un certain point ce que tout les autres sont en train de faire sur le projet. Les administrateurs ont un contrôle fin des permissions et il est beaucoup plus facile d'administrer un CVCS qu'il l'est de devoir gérer des bases de données locales.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Cependant ce système a aussi de nombreux défauts. Le plus visible est le point unique de panne que le serveur centralisé représente. Si ce serveur est en panne pendant une heure, alors durant cette heure, aucun client ne peut collaborer ou enregistrer les modifications issues de son travail. Si le disque dur du serveur central se corrompt, et s'il n'y a pas eu de sauvegarde, vous perdez absolument tout de l'historique d'un projet en dehors des sauvegardes locales que les gens auraient pu réaliser sur leur machines locales. Les systèmes de gestion de version locaux souffrent du même problème - dès qu'on a tout l'historique d'un projet sauvegardé à un endroit unique, on prend le risque de tout perdre.
 
-### Distributed Version Control Systems ###
+### Les systèmes de gestion de version distribués ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+C'est à ce moment que les systèmes de gestion de version distribués entrent en jeu (DVCSs en anglais pour Distributed Version Control Systems). Dans un DVCS (tel que Git, Mercurial, Bazaar or Darcs), les clients n'extraient plus seulement la dernière version d'un fichier : il dupliquent complètement le dépot. Ainsi, si le serveur disparaît, et si les systèmes collaboraient via ce serveur, n'importe quel dépot d'un des clients peut être copié sur le serveur pour le restaurer. Chaque extraction devient une sauvegarde complète de toutes les données (Cf. Figure 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+Figure 1-3. Diagramme de gestion de version de contrôle centralisée.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+De plus, un grand nombre de ces systèmes gère particulièrement bien le fait d'avoir plusieurs dépots avec lesquels travailler, vous permettant de collaborer avec différents groupes de personnes de manière différentes simultanément dans le même projet. Celà permet la mise en place de différentes chaînes de traitement qui ne sont pas réalisables avec les systèmes centralisés, tels que les modèles hierarchiques.
 
-## A Short History of Git ##
+## Une rapide histoire de Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Comme de nombreuses choses extraordinaires de la vie, Git est né avec une dose de destruction créative et de controverse houleuse. Le kernel Linux est un projet libre de plutôt grande envergure. Pour la plus grande partie de sa vie (1991–2002), les modifications étaient transmises sous forme de patchs et d'archives de fichiers. En 2002, le projet du kernel Linux commença à utiliser un DVCS propriétaire appelé BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+En 2005, les relations entre la communinauté développant le kernel linux et la société en charge du développement de BitKeeper furent rompues, et le statut de gratuité de l'outil fut révoqué. Celà poussa la communauté du développement de Linux (et plus particulièrement Linus Torvalds, le créateur de Linux) à developper leur propre outil en se basant sur les leçons apprises lors de l'utilisation de BitKeeper. Certains des objectifs du nouveau système étaient les suivants :
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+* Vitesse
+* Conception simple
+* Support pour les développements non linéaires (milliers de branches parallèles)
+* Complètement distribué
+* Capacité à gérer efficacement des projets d'envergure tels que le kernel Linux (vitesse et compacité des données)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Depuis sa naissance en 2005, Git a évolué et mûri vers une utilisation plus simple, tout en retenant ses qualités initiales. Il est incroyablement rapide, il est très efficace pour de grands projets, et il a un système incroyable de gestion de branches pour le développement non linéaire (Cf. Chapitre 3).
 
-## Git Basics ##
+## Rudiments de Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Donc, qu'est-ce que Git en quelques concepts ? Il est important de bien comprendre cette section , parce que si on comprend ce que Git est et les principes sur lesquels il repose, alors utiliser efficacement Git devient simple. Au cours de l'apprentissage de Git, essayer de libérer votre esprit de ce que vous pourriez connaître d'autres VCSs, tels que Subversion et Perforce ; ce faisant, vous vous éviterez de petites confusions à l'utilisation de cet outil. Git sauve et gère l'information très différemment des autres systèmes, même si l'interface utilisateur paraît similaire ; comprendre ses différences vous évitera des confusions à l'utilisation.
 
-### Snapshots, Not Differences ###
+### Des instantanés, pas des différences ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+La différence majeure entre Git et les autres VCSs (Subversion et autres) réside dans la manière dont Git considère les données. Au niveau conceptuel, la plupart des autres VCSs gèrent l'information comme une liste de modifications de fichiers. Ces systèmes (CVS, Subversion, Perforce, Bazaar, et autres) considèrent l'information qu'il gèrent comme une liste de fichiers et les modifications effectuées sur chaque fichier dans le temps, comme illustré en Figure 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Figure 1-4. Les autres système tendent à sauvegarder l'information comme des modifications sur des fichiers d'origine.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git ne gère pas et ne stocke pas les informations de cette manière. A la place, Git pense ses données plus comme un instantané d'un mini système de fichiers. A chaque fois que vous commitez ou sauvez l'état du projet dan Git, il prend effectivement un instantané du contenu de votre espace de travail à ce moment et sauve une référence à cet instantané. Pour être efficace, si les fichiers n'ont pas changé, Git ne stocke pas le fichier à nouveau, juste une référence vers le fichier original qui n'a pas été modifié. Git pense ses données plus à la manière de la figure 1-5. 
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Figure 1-5. Git stocke les données comme des instantanés du projet au cours du temps
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+C'est une distinction importante entre Git et quasiment tous les autres VCSs. Celà permet à Git de reconsidérer quasiment tous les aspects de la gestion de version que la plupart des autres système ont copié des générations précédentes. Celà fait quasiment de Git un mini système de fichiers avec des outils incroyablement puissants construit par dessus, plutôt qu'un simple VCS. Nous explorerons les bénéfices qu'il y a à penser les données de cette manière quand nous aborderons la gestion de branches au Chapitre 3.
 
-### Nearly Every Operation Is Local ###
+### Presque toutes les opération sont locales ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+La plupart des opération sous Git ne nécessite que des fichiers et ressources locales - généralement aucune information venant d'un autre ordinateur du réseau n'est nécessaire. Si vous êtes habitué à un CVCS où toutes les opérations sont ralenties par la latence des échanges réseau, cet aspect de Git vous fera penser que les dieux de la vitesse ont octroyé à Git des pouvoirs divins de vitesse. Comme vous disposez de l'historique complet du projet localement sur votre disque dur, la plupart des opérations semblent instantanées.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+Par exemple, pour parcourir l'historique d'un projet, Git n'a pas besoin d'aller la chercher sur un serveur pour vous l'afficher - Il n'a qu'à simplement la lire directement dans votre base de donnée locale. Celà signifie que vous avez quasi-instantanément accès à l'historique du projet.Si vous souhaitez connaître les modifications introduites entre la version actuelle d'un fichier et son état un mois auparavant, Git peut rechercher l'état du fichier un mois auparavant et réaliser le calcul de différence, au lieu d'avoir à demander cette différence à un serveur ou à devoir récupérer l'ancienne version sur le serveur pour calculer la différence localement.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+Celà signifie aussi qu'il y a très peu de choses que vous ne puissiez réaliser si vous n'êtes pas connecté ou hors VPN. Si vous voyagez en train ou en avion et voulez avancer votre travail, vous pouvez continuer à gérer vos versions sans soucis en attendant de pouvoir de nouveau vous connecter pour partager votre travail. Si vous êtes chez vous et ne pouvez avoir une liaison VPN avec votre entreprise, vous pouvez tout de même travailler. Pour de nombreux autres systèmes, faire de même est au choix impossible ou vraiment très contraignant. Avec Perforce par éxemple, vous ne pouvez pas faire grand'chose tant que vous n'êtes pas connecté au serveur de version ; et avec Subversion ou CVS, vous pouvez éditer les fichiers, mais vous ne pourrez pas gérer de version dans votre base de données (car celle-ci est sur le serveur non accessible). Celà peut sembler peu important a priori, mais vous seriez étonné de découvrir quelle grande différence ça peut faire à l'usage. 
 
-### Git Has Integrity ###
+### Git gère l'intégrité ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Dans Git,tout est vérifié par somme de contrôle avant d'être stocké et par la suite la somme de contrôle, signature unique, sert de référence. Celà signifie qu'il est impossible de modifier le contenu d'un fichier ou d'un répertoire sans que Git ne s'en aperçoive. Cette fonctionnalité est ancrée dans les fondations de Git et fait partie intégrante de sa philosphie. Vous ne pouvez pas perdre des données en cours de transfert ou corrompre un fichier sans que Git ne le détecte immédiatement.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Le mécanisme que Git utilise pour réaliser les sommes de contrôle est appelé SHA-1. C'est une chaîne de caractères composée de 40 caractères héxadécimaux (de '0' à '9' et de 'a' à 'f') calculée en fonction du contenu du fichier ou de la structure du répertoire considéré. Une signature SHA-1 ressembe à ceci :
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Vous trouverez ces valeurs à peu près partout dans Git car il les utilise pour tout. En fait, Git stocke tout non pas avec des noms de fichier, mais dans la base de données Git indéxée par ces valeurs.
 
-### Git Generally Only Adds Data ###
+### Généralement, Git ne fait qu'ajouter des données ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Quand vous réalisez des actions dans Git, la quasi-totalité d'entre elles ne font qu'ajouter des données dans la base de données de Git. Il est très difficile de faire réaliser au système des actions qui ne soient pas réversibles ou de lui faire effacer des données d'une quelconque manière. Par contre, comme dans la plupart des systèmes de gestion de version, vous pouvez perdre ou corrompre des modifications qui n'ont pas encore été entrées en base ; mais dès que vous avez commité un instantané dans Git, il est très difficile de le perdre, spécialement si en plus vous synchronisez votre base de données locale avec un dépot distant.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Celà fait de l'usage de Git un vrai plaisir, car on peut expérimenter sans danger de casser définitivement notre projet. Pour une information plus approfondie de la manière dont Git stocke ses données et de comment récupérer des données qui pourraient sembler perdues, référez-vous au chapitre 9 "Sous le capot".
 
-### The Three States ###
+### Les trois états ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Ici, il faut être attentif. Il est primordial de se souvenir de ce qui suit si vous souhaitez que le reste de votre apprentissage s'effectue sans difficulté. Git gère trois états dans lequel les fichiers peuvent résider : commité, modifié et indexé. Commité signifie que les données sont stockées en sécurité dans votre base de données locale. Modifié signifie que vous avez modifié le fichier mais qu'il n'a pas encore été commité en base. Indéxé signifie que vous avez marqué un fichier modifié dans sa version actuelle pour qu'il fasse partie du prochain instantané du projet.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+Ceci nous mène aux trois sections principales d'un projet Git : le répertoire Git, le répertoire de travail et la zone d'index.
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+Figure 1-6. Répertoire de travail, zone d'index et répertoire Git.
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Le répertoire Git est l'endroit où Git stocke les métadonnées et la base de données des objets de votre projet. C'est la partie la plus importante de Git, et c'est ce qui est copié lorsque vous clonez une dépot depuis un autre ordinateur.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Le répertoire de travail est une extraction unique d'un version du projet. Ces fichiers sont extraits depuis la base de données compressée dans le répertoire Git et placés sur le disque pour pouvoir être utilisés ou modifiés.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+La zone d'index est un simple fichier, généralement situé sans le répertoire Git, qui stocke les informations concernant ce qui fera partie du prochain instantané. 
 
-The basic Git workflow goes something like this:
+L'utilisation standard de Git se passe comme suit :
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	Vous modifiez des fichiers dans votre répertoire de travail
+2.	Vous indéxez les fichiers modifiés, ce qui ajoute des instantanés de ces fichiers dans la zone d'index
+3.	Vous réalisez un commit, ce qui a pour effet de basculer les instantanés des fichiers de l'index dans la base de donnée du répertoire Git.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Si une version particulière d'un fichier est dans le répertoire Git, il est considéré comme commité. S'il est modifié mais a été ajouté dans la zone d'index, il est indéxé. S'il a été modifié depuis le dernier instantané mais n'a pas été indéxé, il est modifié. Dans le chapitre 2, vous en apprendrez plus sur ces états et commment vous pouvez en tirer parti ou complètement les occulter.
 
-## Installing Git ##
+## Installation de Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Commençons donc à utiliser Git. La première des choses est de l'installer. Vous pouvez l'obtenir par de nombreuses manières ; les deux principales sont de l'installer à partir des sources ou d'installer un paquetage éxistant sur votre plateforme.
 
-### Installing from Source ###
+### Installation depuis les sources ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Si vous le pouvez, il est généralement mieux d'installer Git à partir des sources, car vous obtiendrez la version la plus récente. Chaque nouvelle version de Git tend à inclure des améliorations utiles de l'interface utilisateur, donc récupérer la toute dernière version est souvent le mieux si vous savez compiler des logiciels à partir des sources. Comme la plupart du temps les distributions contiennent des version très anciennes de logiciels, à moins que vous ne travailliez sur une distribution très récente ou que vous n'utilisiez des backports, une installation à partir des sources est gage de meilleur fonctionnement.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+Pour installer Git, vous avez besoin des bibliothèques suivantes : curl, zlib, openssl, expat, libiconv. Par éxemple, si vous avez un système d'exploitation qui utilise yum (tel que Fedora) ou apt-get (tel qu'un système basé sur Debian), vous pouvez utiliser les commandes suivantes pour installer les dépendances :
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -134,92 +134,92 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
 	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Quand vous avez toutes les dépendances nécessaires, vous pouvez poursuivre et télécharger la dernière version de Git depuis le site :
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+Puis, compiler et installer
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Après ceci, vous pouvez obtenir Git par Git lui-même pour le mises à jour :
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### Installation sur Linux ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Si vous souhaitez installer Git sur Linux via un installeur d'application, vous pouvez généralement le faire via le système de gestion de paquetage de base fourni avec votre distribution. Si vous êtes sur Fedora, vous pouvez utiliser yum :
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Si vous êtes sur un système basé sur Debian, tel qu'Ubuntu, essayez apt-get :
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Installation sur Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Il y a deux moyens simples d'installer Git sur Mac. Le plus simple et d'utiliser l'installateur graphique de Git que vous pouvez télécharger depuis les pages Google Code (Cf. Figure 1-7) :
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer.
+Figure 1-7. Installateur OS X de Git.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+L'autre méthode consiste à installer Git par les MacPorts ((`http://www.macports.org`). Si vous avez installé MacPorts, installez Git par :
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Vous n'avez pas à ajouter tous les extras, mais vous souhaiterez surement inclure +svn dans le cas où vous chercheriez à utiliser Git avec des dépots Subversion (voir Chapitre 8).
 
-### Installing on Windows ###
+### Installation sur Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Installer Git sur Windows est très facile. Le projet msysGit fournit une des procédures d'installation les plus faciles. Téléchargez simplement le fichier exe d'installateur depuis la page Google Code, et lancez-le :
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Après son installation, vous avez à la fois la version en ligne de commande (avec un client SSH utile pour la suite) ou l'interface graphique standard.
 
-## First-Time Git Setup ##
+## Paramétrage à la première utilisation de Git ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Maintenant que vous avez Git installé sur votre système, vous voudrez personnaliser votre environnement Git. Vous ne devriez avoir à réaliser ces réglages qu'une seule fois ; elles persisteront lors des mises à jour. Vous pouvez aussi les changer à tout instant en relançant les mêmes commandes.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git contient un outil appelé git config pour vous permettre de voir et modifier les variables de configuration qui contrôlent tous les aspects de l'apparence et du comportement de Git. Ces variables peuvent être stockées dans trois endroits différents :
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	Fichier `/etc/gitconfig` : Contient les valeurs pour tous les utilisateurs et tous les dépots du système. Si vous passez l'option `--system` à `git config`, il lit et écrit ce fichier spécifiquement.
+*	Fichier `~/.gitconfig` : Spécifique à votre utilisateur. Vous pouvez forcer Git à lire et écrire ce fichier en passant l'option `--global`.
+*	Fichier `config` dans le répertoire Git (c'est à dire, `.git/config`) du dépot en cours d'utilisation : spécifique au seul dépot en cours. Chaque niveau surcharge le niveau précédent, donc les valeurs dans `.git/config` surchargent celles de `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+Sur les systèmes Windows, Git recherche le fichier `.gitconfig` dans le répertoire `$HOME` (`C:\Documents and Settings\$USER` la plupart du temps). Il recherche tout de même `/etc/gitconfig`, bien qu'il soit relatif à la racine MSys, qui se trouve où vous aurez décidé d'installer Git sur votre système Windows.
 
-### Your Identity ###
+### Votre identité ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+La première chose à faire après l'installation de Git est de renseigner votre nom et votre adress e-mail. C'est important car tous les commits Git utilisent cette information et elle est indélébile dans tous les commits que vous pourrez manipuler :
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Encore une fois, cette étape n'est nécessaire qu'une fois si vous passez l'option `--global`, parce que Git utilisera toujours cette information pour tout ce que votre utilisateur fera sur ce système. Si vous souhaitez surcharger ces valeurs avec un nom ou une adresse e-mail différents pour un projet spécifique, vous pouvez lancer ces commandes sans option `--global` lorsque vous êtes dans ce projet.
 
-### Your Editor ###
+### Votre éditeur de texte ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+À présent que votre identité est renseignée, vous pouvez configurer l'éditeur de texte qui sera utilisé par défaut quand Git vous enjoint à taper un message. Par défaut, Git utilise votre éditeur par défaut au niveau système, qui est généralement Vi ou Vim. Si vous souhaitez utiliser un éditeur de texte différent, comme Emacs, vous pouvez faire ce qui suit :
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### Votre outil de diff ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+Une autre option utile est le paramétrage de l'outil de diff à utiliser pour la résolution des conflits de fusion. Supposons que vous souhaitiez utiliser vimdiff :
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git accepte kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, et opendiff comme outils valides de fusion. Vous pouvez aussi paramétrer un outil personnalisé ; référez-vous au chapitre 7 pour plus d'information sur cette procédure.
 
-### Checking Your Settings ###
+### Vérifier vos paramètres ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Si vous souhaitez vérifier vos réglages, vous pouvez utiliser la commande `git config --list` pour lister tous les réglages que Git a pu trouver jusqu'ici :
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -230,28 +230,28 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Vous pourrez voir certains paramètres apparaître plusieurs fois, car Git lit les mêmes paramètres depuis plusieurs fichiers (`/etc/gitconfig` et `~/.gitconfig`, par exemple). Git utilise la dernière valeur pour chaque paramètre.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Vous pouvez aussi vérifier la valeur particulière utilisée d'un paramètre en tapant `git config {paramètre}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Obtenir de l'aide ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Si vous avez besoin d'aide pour utiliser Git, il y a trois moyens d'obtenir les pages de manuel (manpage) pour toutes les commandes de Git :
 
-	$ git help <verb>
+	$ git help <verbe>
 	$ git <verb> --help
-	$ man git-<verb>
+	$ man git-<verbe>
 
-For example, you can get the manpage help for the config command by running
+Par exemple, vous pouvez obtenir la page de manuel pour la commande config en lançant :
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+Ces commandes sont vraiment sympathiques car vous pouvez y accéder depuis partout, y compris hors connexion.
+Si les manpages et ce livre ne sont pas suffisants, vous pouvez essayer les canaux `#git` ou `#github` sur le serveur IRC Freenode (irc.freenode.net). Ces canaux sont régulièrement peuplés de centaines de personnes qui ont une bonne connaissance de Git et sont souvent prêtes à aider.
 
-## Summary ##
+## Résumé ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+Vous devriez avoir à présent une compréhension initiale de ce que Git est et en quoi il est différent des CVCS que vous pourriez déjà avoir utilisés. Vous devriez aussi avoir une version de Git en état de fonctionnement sur votre système, paramétrée avec votre identité. Il est temps d'apprendre les bases d'utilisation de Git.

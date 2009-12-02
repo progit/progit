@@ -1,44 +1,44 @@
-# Git and Other Systems #
+# Git en Andere Systemen #
 
-The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
+Het is geen perfecte wereld. Meestal kun je niet meteen ieder project waar je mee in aanraking komt omzetten naar Git. Soms zit je vast op een project dat een ander VCS gebruike, en vaak is dat systeem Subversion. In het eerste gedeelte van dit hoofdstuk zul je leren over `git svn`, het bidirectionele Subversion poort tool in Git.
 
-At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case. 
+Op een bepaald punt zul je je bestaande project willen omzetten naar Git. Het tweede gedeelte van dit hoofdstuk beschrijft hoe je je project naar Git kunt migreren: eerst uit Subversion, dan vanuit Perforce, en als laatste via een eigen import script voor een niet standaard import geval.
 
-## Git and Subversion ##
+## Git en Subversion ##
 
-Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.
+Op het moment maken het meerendeel van open source ontwikkelprojecten en een groot aantal bedrijfsprojecten gebruik van Subversion om hun broncode te beheren. Het is het meest populaire open source VCS en bestaat al bijna tien jaar. Het lijkt in veel manieren op CVS, wat daarvoor de grootste speler was in de code-beheer wereld.
 
-One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.
+Een van de beste eigenschappen van Git is een bidirectionele brug naar Subversion genaamd `git svn`. Dit tool staat je toe om Git als een volwaardige gebruiker van een Subversion server te gebruiken, zodat je alle lokale eigenschappen van Git kunt gebruiken en daarna naar een Subversion server kunt pushen alsof je Subversion lokaal gebruikt. Dit betekent dat je lokaal kunt branchen en mergen, het staging gebied gebruiken, kunt rebasen en cherry-picken enzovoorts, terwijl je medewerkers verder kunnen werken op hun duistere en ouderwetse manieren. Het is een goede manier om Git in de bedrijfsomgeving binnen te sluipen en je mede-ontwikkelaars te helpen efficienter te worden terwijl je lobbiet om de infrastructuur veranderd te krijgen zodat Git volledig gesupport wordt. De Subversion brug is de poort drug naar de DCVS wereld.
 
 ### git svn ###
 
-The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.
+Het basiscommando in Git voor alle Subversion brugcommando's is `git svn`. Je laat dit aan alles vooraf gaan. Je hebt best een aantal commando's nodig, dus je zult de meeste leren terwijl we door een aantal werkwijzen lopen.
 
-It’s important to note that when you’re using `git svn`, you’re interacting with Subversion, which is a system that is far less sophisticated than Git. Although you can easily do local branching and merging, it’s generally best to keep your history as linear as possible by rebasing your work and avoiding doing things like simultaneously interacting with a Git remote repository.
+Het is belangrijk om te zien dat terwijl je `git svn` gebruikt, je aan het commnuniceren bent met Subversion, wat een systeem is dat veel minder uitgekiend is dat Git. Alhoewel je eenvoudig lokaal kunt branchen en mergen, is het over het algemeen het beste om je geschiedenis zo lineair als mogelijk te houden door je werk te rebasen en te vermijden dingen te doen zoals simultaan communiceren met een Git remote repository.
 
-Don’t rewrite your history and try to push again, and don’t push to a parallel Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate — doing so will make your life easier.
+Herschrijf je geschiedenis niet om daarna nogmaals te pushen, en ga niet tegelijkertijd een parallel Git repository ernaast gebuiken om met mede Git ontwikkelaars samen te werken. Subversion kan slechts één lineaire geschiedenis hebben, en het in de war brengen is heel eenvoudig. Als je met een team aan het werk bent en sommigen maken gebruik van Subversion en anderen van Git, zorg dan dat iedereen de SVN server gebruikt om samen te werken – het maakt je leven een stuk eenvoudiger.
 
-### Setting Up ###
+### Instellen ###
 
-To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
+Om deze functionaliteit te demonstreren heb je een typisch SVN repository nodig waarop je schrijftoegang hebt. Als je deze voorbeelden wilt kopieeren, zul je een schrijfbare kopie moeten maken van mijn test repository. Om dat eenvoudig te kunnen doen, kun je een tool gebruiken genaamd `svnsync` dat bij de meer recente versies van Subversion geleverd wordt – het zou minstens bij versie 1.4 moeten zitten. Voor deze tests heb ik een nieuw Subversion repository op Google code gemaakt wat een gedeeltelijke kopie is van het `protobuf` project, wat een tool is dat gestructureerde data voor netwerk transmissie codeert.
 
-To follow along, you first need to create a new local Subversion repository:
+Om het te volgen zul je eerst een nieuw lokaal Subversion repository moeten maken:
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:
+Daarna sta je alle gebruikers toe om revprops te wijzigen – de makkelijke manier is om een pre-revprop-change script toe te voegen dat altijd met 0 afsluit:
 
 	$ cat /tmp/test-svn/hooks/pre-revprop-change 
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.
+Je kunt dit project nu syncen naar je lokale machine door `svnsync init` aan te roepen met de van en naar repositories.
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
 
-This sets up the properties to run the sync. You can then clone the code by running
+Dit stelt de eigenschappen in om de sync uit te voeren. Je kunt de code dan clonen door dit uit te voeren
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -48,11 +48,11 @@ This sets up the properties to run the sync. You can then clone the code by runn
 	Committed revision 3.
 	...
 
-Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.
+Alhoewel deze operatie maar een paar minuten in beslag neemt, zal het kopieeren van het originele repository naar een ander remote repository in plaat van een lokale meer dan een uur duren, terwijl er minder dan 100 commits in zitten. Subversion moet één revisie per keer clonen en dan terug pushen in een ander repository – het is belachelijk inefficient, maar het is de enige makkelijke manier om dit te doen.
 
-### Getting Started ###
+### Beginnen ###
 
-Now that you have a Subversion repository to which you have write access, you can go through a typical workflow. You’ll start with the `git svn clone` command, which imports an entire Subversion repository into a local Git repository. Remember that if you’re importing from a real hosted Subversion repository, you should replace the `file:///tmp/test-svn` here with the URL of your Subversion repository:
+Nu dat je een Subversion repository hebt met schrijftoegang, kun je door een typische werkwijze gaan. Je begint met het `git svn clone` commando, wat een volledig Subversion repository in een lokaal Git repository cloned. Onthoud dat als je van een echt beheerd Subversion repository importeerd, je de `file:///tmp/test-svn` hier moet vervangen door de URL van je Subversion repository:
 
 	$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
 	Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
@@ -70,13 +70,13 @@ Now that you have a Subversion repository to which you have write access, you ca
 	Checked out HEAD:
 	 file:///tmp/test-svn/branches/my-calc-branch r76
 
-This runs the equivalent of two commands — `git svn init` followed by `git svn fetch` — on the URL you provide. This can take a while. The test project has only about 75 commits and the codebase isn’t that big, so it takes just a few minutes. However, Git has to check out each version, one at a time, and commit it individually. For a project with hundreds or thousands of commits, this can literally take hours or even days to finish.
+Dit voert het equivalent uit van twee commando's – `git svn init` gevolgd door `git svn fetch` – op de URL die je aanleverd. Het kan een tijdje duren. Het testproject heeft slechts 75 commits en de hoeveelheid code is niet zo groot, dus het neemt maar een paar minuten in beslag. Maar, Git moet iedere versie uitchecken, één voor één, en ze individueel committen. Voor een project met honderdduizende commits kan dit letterlijk uren of zelfs dagen duren om af te ronden.
 
-The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:
+Het `-T trunk -b branches -t tags` gedeelte verteld Git dat dit Subversion repository de basale branch en tag conventie volgt. Als je je trunk, branches of tags anders noemt, kun je deze opties veranderen. Omdat dit zo gewoon is, kun je dit hele gedeelte vervangen door `-s`, wat standaard indeling betekend en al die opties impliceerd. Het volgende commando is gelijkwaardig:
 
 	$ git svn clone file:///tmp/test-svn -s
 
-At this point, you should have a valid Git repository that has imported your branches and tags:
+Op dit punt zou je een geldig Git repository moeten hebben, dat je branches en tags geimporteerd heeft:
 
 	$ git branch -a
 	* master
@@ -87,7 +87,7 @@ At this point, you should have a valid Git repository that has imported your bra
 	  tags/release-2.0.2rc1
 	  trunk
 
-It’s important to note how this tool namespaces your remote references differently. When you’re cloning a normal Git repository, you get all the branches on that remote server available locally as something like `origin/[branch]` - namespaced by the name of the remote. However, `git svn` assumes that you won’t have multiple remotes and saves all its references to points on the remote server with no namespacing. You can use the Git plumbing command `show-ref` to look at all your full reference names:
+Het is belangrijk om te zien hoe dit tool je remote references een andere naamruimte toebedeeld. Als je een normaal Git repository cloned, krijg je alle branches op die remote server lokaal beschikbaar in de vorm van `origin/[branch]` – volgens de naamruimte van de remote. Maar, `git svn` gaat er vanuit dan je niet meerdere remotes hebt en bewaard al zijn referentie punten om de remote server zonder naamruimte. Je kunt het Git loodgieters commando `show-ref` gebruiken om naar al je volledige referentie namen te kijken:
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -98,7 +98,7 @@ It’s important to note how this tool namespaces your remote references differe
 	1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk
 
-A normal Git repository looks more like this:
+Een normaal Git repository ziet er meer zo uit:
 
 	$ git show-ref
 	83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
@@ -106,19 +106,19 @@ A normal Git repository looks more like this:
 	0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
 	25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 
-You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`. 
+Je kunt twee remote servers hebben: een genaamd `gitserver` met een master branch; en een andere genaamd `origin` met twee branches, `master` en `testing`.
 
-Notice how in the example of remote references imported from `git svn`, tags are added as remote branches, not as real Git tags. Your Subversion import looks like it has a remote named tags with branches under it.
+Zie hoe in het voorbeeld van geimporteerde remote referenties van `git svn`, de tags toegevoegd zijn als remote branches, niet als echte Git tags. Je Subversion import ziet eruit alsof het een remote heeft dat tags heet waaronder branches zitten.
 
-### Committing Back to Subversion ###
+### Teug naar Subversion Committen ###
 
-Now that you have a working repository, you can do some work on the project and push your commits back upstream, using Git effectively as a SVN client. If you edit one of the files and commit it, you have a commit that exists in Git locally that doesn’t exist on the Subversion server:
+Nu dat je een werkend repository hebt, kun je wat werken aan het project en je commits stroomopwaarts pushen, waarbij je Git effectief als een SVN gebruiker toepast. Als je een van de bestanden aanpast en het commit, heb je een commit dat lokaal in Git bestaat, die niet op de Subversion server bestaat:
 
 	$ git commit -am 'Adding git-svn instructions to the README'
 	[master 97031e5] Adding git-svn instructions to the README
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Next, you need to push your change upstream. Notice how this changes the way you work with Subversion — you can do several commits offline and then push them all at once to the Subversion server. To push to a Subversion server, you run the `git svn dcommit` command:
+Vervolgens moet je je verandering stroomopwaarts pushen. Zie hoe dit de manier veranderd waarop je met Subversion werkt  – je kunt een paar commits offline doen en ze dan ineens naar de Subversion server pushen. Om naar een Subversion server te pushen, voer je het `git svn dcommit` commando uit:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -129,7 +129,7 @@ Next, you need to push your change upstream. Notice how this changes the way you
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-This takes all the commits you’ve made on top of the Subversion server code, does a Subversion commit for each, and then rewrites your local Git commit to include a unique identifier. This is important because it means that all the SHA-1 checksums for your commits change. Partly for this reason, working with Git-based remote versions of your projects concurrently with a Subversion server isn’t a good idea. If you look at the last commit, you can see the new `git-svn-id` that was added:
+Dit neemt alle commits die je gedaan hebt bovenop de Subversion server code, doet voor elk een Subversion commit, en herschrijft je lokale Git commit zodat het een unieke identificatie heeft. Dit is belangrijk omdat het betekend dan alle SHA-1 checksums voor je commits veranderen. Deels is het voor de reden dat het werken met Git-gebaseerde remote versies van je projecten tegelijk met een Subversion server geen goed idee is. Als je kijkt naar de laatste commit, kun je het nieuwe `git-svn-id` zien dat is toegevoegd:
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -140,11 +140,11 @@ This takes all the commits you’ve made on top of the Subversion server code, d
 
 	    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 
-Notice that the SHA checksum that originally started with `97031e5` when you committed now begins with `938b1a5`. If you want to push to both a Git server and a Subversion server, you have to push (`dcommit`) to the Subversion server first, because that action changes your commit data.
+Zie dat de SHA checksum die origineel begon met `97031e5` toen je committe, nu begint met `938b1a5`. Als je wilt pushen naar zowel een Git server als een Subversion server, moet je eerst naar de Subversion server pushen (`dcommit`), omdat die aktie je commit data veranderd.
 
-### Pulling in New Changes ###
+### Nieuwe Veranderingen Pullen ###
 
-If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
+Als je met andere developers samenwerkt, dan zal op een bepaald punt een van jullie willen pushen en de ander zal een conflicterende wijziging willen pushen. Die wijziging zal worden geweigerd totdat je hun werk merged. In `git svn` ziet het er zo uit:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -152,7 +152,7 @@ If you’re working with other developers, then at some point one of you will pu
 	out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
 	core/git-svn line 482
 
-To resolve this situation, you can run `git svn rebase`, which pulls down any changes on the server that you don’t have yet and rebases any work you have on top of what is on the server:
+Om deze situatie op te lossen, kun je `git svn rebase` uitvoeren, wat alle wijzigingen op de server die je nog niet hebt pulled, en al het werk dat je hebt bovenop wat op de server staat rebased:
 
 	$ git svn rebase
 	       M      README.txt
@@ -160,7 +160,7 @@ To resolve this situation, you can run `git svn rebase`, which pulls down any ch
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
 
-Now, all your work is on top of what is on the Subversion server, so you can successfully `dcommit`:
+Nu dat al jouw werk bovenop hetgeen wat op de Subversion server staat gebracht is, kun je succesvol `dcommit` doen:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -171,7 +171,7 @@ Now, all your work is on top of what is on the Subversion server, so you can suc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-It’s important to remember that unlike Git, which requires you to merge upstream work you don’t yet have locally before you can push, `git svn` makes you do that only if the changes conflict. If someone else pushes a change to one file and then you push a change to another file, your `dcommit` will work fine:
+Het is belangrijk te onthouden dat `git svn` je dit alleen laat doen als de wijzigingen conflicteren, in tegenstelling tot Git dat je vereist om eerst al het stroomopwaartse werk dat je nog niet lokaal hebt te mergen voordat je kunt pushen. Als iemand anders een verandering naar een bestand pushed en daarna push jij een verandering op een ander bestand, dan zal je `dcommit` prima werken:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -188,9 +188,9 @@ It’s important to remember that unlike Git, which requires you to merge upstre
 	First, rewinding head to replay your work on top of it...
 	Nothing to do.
 
-This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.
+Dit is belangrijk om te onthouden, want de uitkomst is een project status die niet bestond op een van jullie computers toen je pushte. Als de veranderingen incompatibel zijn, maar niet conflicteren, dan kun je problemen krijgen die lastig te diagnosticeren zijn. Het is anders dan een Git server gebruiken – in Git kun je de status volledig op je gebruikerssysteem testen voordat je het publiceert, waarbij in SVN je nooit zeker kunt zijn dat de statussen vlak voor je commit en na je commit gelijk zijn.
 
-You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits.
+Je zou dit commando ook moeten uitvoeren om wijzigingen te pullen van de Subversion server, zelfs als je niet klaar bent om te committen. Je kunt `git svn fetch` uitvoeren om de nieuwe data te pakken, maar `git svn rebase` doet de fetch en vernieuwd je lokale commits.
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh
@@ -198,13 +198,13 @@ You should also run this command to pull in changes from the Subversion server, 
 	First, rewinding head to replay your work on top of it...
 	Fast-forwarded master to refs/remotes/trunk.
 
-Running `git svn rebase` every once in a while makes sure your code is always up to date. You need to be sure your working directory is clean when you run this, though. If you have local changes, you must either stash your work or temporarily commit it before running `git svn rebase` — otherwise, the command will stop if it sees that the rebase will result in a merge conflict.
+Eens in de zoveel tijd `git svn rebase` uitvoeren zorgt er voor dat je code altijd up to date is. Je moet er wel zeker van zijn dat je werkmap schoon is als je dit uitvoert. Als je lokale wijzigingen hebt, moet je of eerst je werk stashen, of tijdelijk committen voordat je `git svn rebase` uitvoert – anders zal het commando stoppen als het ziet dat de rebase zal resulteren in een mergeconflict.
 
-### Git Branching Issues ###
+### Git Branch Problemen ###
 
-When you’ve become comfortable with a Git workflow, you’ll likely create topic branches, do work on them, and then merge them in. If you’re pushing to a Subversion server via git svn, you may want to rebase your work onto a single branch each time instead of merging branches together. The reason to prefer rebasing is that Subversion has a linear history and doesn’t deal with merges like Git does, so git svn follows only the first parent when converting the snapshots into Subversion commits.
+Als je je op je gemak voelt met een Git manier van werken, zul je waarschijnlijk onderwerp branches gaan maken, er werk op doen, en ze dan inmergen. Als je naar een Subversion server pushed via git svn, wil je misschien je werk iedere keer in een enkele branch rebasen in plaats van de branches samen mergen. De reden om rebasen te prefereren is dat Subversion een lineaire geschiedenis heeft, en niet omgaat met merges op de manier zoals Git dat doet, dus git svn volgt alleen de eerste ouder op het moment dat de snapshots naar Subversion commits omgezet worden.
 
-Suppose your history looks like the following: you created an `experiment` branch, did two commits, and then merged them back into `master`. When you `dcommit`, you see output like this:
+Stel dat je geschiedenis er zoals volgt uitziet: je hebt een `experiment` branch gemaakt, twee commits gedaan, en ze dan terug in `master` gemerged. Als je dan `dcommit` zie je output zoals dit:
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -225,17 +225,17 @@ Suppose your history looks like the following: you created an `experiment` branc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-Running `dcommit` on a branch with merged history works fine, except that when you look at your Git project history, it hasn’t rewritten either of the commits you made on the `experiment` branch — instead, all those changes appear in the SVN version of the single merge commit.
+Het uitvoeren van `dcommit` op een branch met gemergede historie werkt prima, behalve wanneer je naar je Git project historie kijkt, het geen van beide commits die je op de `experiment` branch gedaan hebt herschreven heeft – in plaats daarvan verschijnen al die wijzigingen in de SVN versie van de enkele merge commit.
 
-When someone else clones that work, all they see is the merge commit with all the work squashed into it; they don’t see the commit data about where it came from or when it was committed.
+Als iemand anders dat werk cloned, is alles wat ze zien de merge commit met al het werk erin gesquashed; ze zien niet de commit data met waar het vandaan kwam of wanneer het was gecommit.
 
-### Subversion Branching ###
+### Subversion Branchen ###
 
-Branching in Subversion isn’t the same as branching in Git; if you can avoid using it much, that’s probably best. However, you can create and commit to branches in Subversion using git svn.
+Branchen in Subversion is niet hetzelfde als branchen in Git; het is waarschijnlijk het beste om het zoveel mogelijk te vermijden. Maar, je kunt Subversion branches maken en naar committen door gebruik te maken van git svn.
 
-#### Creating a New SVN Branch ####
+#### Een Nieuwe SVN Branch Maken ####
 
-To create a new branch in Subversion, you run `git svn branch [branchname]`:
+Om een nieuwe branch te maken in Subversion, voer je `git svn branch [branchnaam]` uit:
 
 	$ git svn branch opera
 	Copying file:///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...
@@ -246,27 +246,27 @@ To create a new branch in Subversion, you run `git svn branch [branchname]`:
 	Successfully followed parent
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
-This does the equivalent of the `svn copy trunk branches/opera` command in Subversion and operates on the Subversion server. It’s important to note that it doesn’t check you out into that branch; if you commit at this point, that commit will go to `trunk` on the server, not `opera`.
+Dit doet het equivalent van het `svn copy trunk branches/opera` commando in Subversion en werkt op de Subversion server. Het is belangrijk om te zien dat het je niet uitchecked in die branch; als je op dit punt commit, dan zal die commit in de `trunk` op de server gaan, niet in `opera`.
 
-### Switching Active Branches ###
+### Actieve Branches Wisselen ###
 
-Git figures out what branch your dcommits go to by looking for the tip of any of your Subversion branches in your history — you should have only one, and it should be the last one with a `git-svn-id` in your current branch history. 
+Git zoekt uit naar welke branch je dcommits heen gaan door te kijken naar de punt van ieder van je Subversion branches in je geschiedenis – je zou er slechts één moeten hebben, en het zou de laatse moeten zijn met een `git-svn-id` in je huidige branch historie.
 
-If you want to work on more than one branch simultaneously, you can set up local branches to `dcommit` to specific Subversion branches by starting them at the imported Subversion commit for that branch. If you want an `opera` branch that you can work on separately, you can run
+Als je tegelijk wilt werken op meer dan één branch, dan kun je lokale branches instellen om de `dcommit` naar specifieke Subversion branches te doen door ze te starten bij de geimporteerde Subversion commit voor die branch. Als je een `opera` branch wilt hebben waar je apart op kunt werken, kun je dit uitvoeren
 
 	$ git branch opera remotes/opera
 
-Now, if you want to merge your `opera` branch into `trunk` (your `master` branch), you can do so with a normal `git merge`. But you need to provide a descriptive commit message (via `-m`), or the merge will say "Merge branch opera" instead of something useful.
+Als je je `opera` branch nu in `trunk` (jouw `master` branch) wilt mergen, kun je dit doen met een normale `git merge`. Maar je moet een beschrijvend commit bericht meegeven (via `-m`), of de merge zal "Merge branch opera" bevatten in plaats van iets bruikbaars.
 
-Remember that although you’re using `git merge` to do this operation, and the merge likely will be much easier than it would be in Subversion (because Git will automatically detect the appropriate merge base for you), this isn’t a normal Git merge commit. You have to push this data back to a Subversion server that can’t handle a commit that tracks more than one parent; so, after you push it up, it will look like a single commit that squashed in all the work of another branch under a single commit. After you merge one branch into another, you can’t easily go back and continue working on that branch, as you normally can in Git. The `dcommit` command that you run erases any information that says what branch was merged in, so subsequent merge-base calculations will be wrong — the dcommit makes your `git merge` result look like you ran `git merge --squash`. Unfortunately, there’s no good way to avoid this situation — Subversion can’t store this information, so you’ll always be crippled by its limitations while you’re using it as your server. To avoid issues, you should delete the local branch (in this case, `opera`) after you merge it into trunk.
+Onthoud dat, alhoewel je `git merge` gebruikt voor deze operatie, en de merge waarschijnlijk veel makkelijker gaat dan het in Subversion zou gaan (omdat Git automatisch de merge basis voor je zal detecteren), dit geen normale Git merge commit is. Je moet deze data terug pushen naar een Subversion server die geen commit aan kan die meer dan één ouder volgt; dus, nadat je het omhoog gepushed hebt, zal het eruit zien als een enkele commit waarbij al het werk van een andere branch erin gesquashed zit als een enkele commit. Nadat je een branch in een andere gemerged hebt, kun je niet eenvoudig terug gaan en op die branch verder werken, zoals je dat normaal kunt in Git. Het `dcommit` commando dat je uitvoert, wist alle informatie die kan vertellen welke branch erin gemerged was, dus opvolgende merge-basis berekeningen zullen fout gaan – de `dcommit` zal je `git merge` resultaat eruit laten zien alsof je `git merge --squash` uitgevoerd hebt. Helaas is er geen manier om deze situatie te vermijden – Subversion kan deze informatie niet opslaan, dus je zult altijd gelimiteerd zijn door zijn beperkingen zolang als je het als server gebruikt. Om problemen te vermijden, zou je de lokale branch moeten verwijderen (in dit geval `opera`), nadat je hem in trunk gemerged hebt.
 
-### Subversion Commands ###
+### Subversion Commando's ###
 
-The `git svn` toolset provides a number of commands to help ease the transition to Git by providing some functionality that’s similar to what you had in Subversion. Here are a few commands that give you what Subversion used to.
+De `git svn` toolset levert een aantal commando's mee om de overgang naar Git te vergemakkelijken, door sommige functionaliteit te leveren, die vergelijkbaar is met wat je in Subversion had. Hier zijn een paar commando's die je geven wat Subversion voorheen deed.
 
-#### SVN Style History ####
+#### SVN Achtige Historie ####
 
-If you’re used to Subversion and want to see your history in SVN output style, you can run `git svn log` to view your commit history in SVN formatting:
+Als je gewend bent aan Subversion en je wil je historie in SVN achtige output zien, kun je `git svn log` uitvoeren om je commit historie in SVN formattering te zien:
 
 	$ git svn log
 	------------------------------------------------------------------------
@@ -284,11 +284,11 @@ If you’re used to Subversion and want to see your history in SVN output style,
 	
 	updated the changelog
 
-You should know two important things about `git svn log`. First, it works offline, unlike the real `svn log` command, which asks the Subversion server for the data. Second, it only shows you commits that have been committed up to the Subversion server. Local Git commits that you haven’t dcommited don’t show up; neither do commits that people have made to the Subversion server in the meantime. It’s more like the last known state of the commits on the Subversion server.
+Je moet twee belangrijke zaken weten over `git svn log`. Ten eerste, het werkt offline en niet zoals het echte `svn log` commando wat de Subversion server vraagt om de data. Ten tweede, het toont je alleen commits die zijn gecommit naar de Subversion server. Lokale Git commits, die je nog niet ge-dcommit hebt worden niet getoond; een ook commits die mensen gedaan hebben in de tussentijd naar de Subversion server. Het is meer zoiets als de laatst bekende status van de commits op de Subversion server.
 
-#### SVN Annotation ####
+#### SVN Annotatie ####
 
-Much as the `git svn log` command simulates the `svn log` command offline, you can get the equivalent of `svn annotate` by running `git svn blame [FILE]`. The output looks like this:
+Zoals het `git svn log` commando het `svn log` commando offline simuleert, kun je het equivalent van `svn annotate` krijgen door `git svn blame [BESTAND]` uit te voeren. De output ziet er zo uit:
 
 	$ git svn blame README.txt 
 	 2   temporal Protocol Buffers - Google's data interchange format
@@ -304,11 +304,11 @@ Much as the `git svn log` command simulates the `svn log` command offline, you c
 	 2   temporal Buffer compiler (protoc) execute the following:
 	 2   temporal 
 
-Again, it doesn’t show commits that you did locally in Git or that have been pushed to Subversion in the meantime.
+Nogmaals, het toont geen commits die je lokaal in Git gedaan hebt, of die in de tussentijd naar Subversion gepushed zijn.
 
-#### SVN Server Information ####
+#### SVN Server Informatie ####
 
-You can also get the same sort of information that `svn info` gives you by running `git svn info`:
+Je kunt ook het soort informatie krijgen dat `svn info` je geeft door `git svn info` uit te voeren:
 
 	$ git svn info
 	Path: .
@@ -322,56 +322,56 @@ You can also get the same sort of information that `svn info` gives you by runni
 	Last Changed Rev: 87
 	Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)
 
-This is like `blame` and `log` in that it runs offline and is up to date only as of the last time you communicated with the Subversion server.
+Dit is vergelijkbaar met `blame` en `log` in dat het offline draait en alleen up to date is vanaf de laatste keer dat je met de Subversion server gecommuniceerd hebt.
 
-#### Ignoring What Subversion Ignores ####
+#### Negeren Wat Subversion Negeert ####
 
-If you clone a Subversion repository that has `svn:ignore` properties set anywhere, you’ll likely want to set corresponding `.gitignore` files so you don’t accidentally commit files that you shouldn’t. `git svn` has two commands to help with this issue. The first is `git svn create-ignore`, which automatically creates corresponding `.gitignore` files for you so your next commit can include them.
+Als je een Subversion repository cloned, die ergens `svn:ignore` eigenschappen gezet heeft, dan zul je waarschijnlijk overeenkomende `.gitignore` bestanden in willen stellen so dat je niet per ongeluk bestanden commit die je niet had moeten committen. `git svn` heeft twee commando's die met dit probleem helpen. De eerste is `git svn create-ignore`, wat automatisch `.gitignore` bestanden voor je genereerd zodat je volgende commit ze niet kan bevatten.
 
-The second command is `git svn show-ignore`, which prints to stdout the lines you need to put in a `.gitignore` file so you can redirect the output into your project exclude file:
+Het tweede commando is `git svn show-ignore`, want op stdout de regels afdrukt die je in een `.gitignore` bestand moet stoppen zodat je de output in het exclude bestand van je project kunt stoppen:
 
 	$ git svn show-ignore > .git/info/exclude
 
-That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.
+Op die manier vervuil je het project niet met `.gitignore` bestanden. Dit is een goeie optie als je de enige Git gebruiker in een Subversion team bent, en je teamgenoten geen `.gitignore` bestanden in het project willen hebben.
 
-### Git-Svn Summary ###
+### Git-Svn Samenvatting ###
 
-The `git svn` tools are useful if you’re stuck with a Subversion server for now or are otherwise in a development environment that necessitates running a Subversion server. You should consider it crippled Git, however, or you’ll hit issues in translation that may confuse you and your collaborators. To stay out of trouble, try to follow these guidelines:
+De `git svn` tools zijn bruikbaar als je voorlopig vast zit aan een Subversion server, of op een andere manier in een ontwikkelomgeving zit waar het draaien van een Subversion server noodzakelijk is. Je moet het echter beschouwen als een kreupele Git, of anders loop je tegen problemen in de vertaling aan, die jou en je medewerkers in verwarring kunnen brengen. Om uit de problemen te blijven moet je deze regels volgen:
 
-* Keep a linear Git history that doesn’t contain merge commits made by `git merge`. Rebase any work you do outside of your mainline branch back onto it; don’t merge it in.
-* Don’t set up and collaborate on a separate Git server. Possibly have one to speed up clones for new developers, but don’t push anything to it that doesn’t have a `git-svn-id` entry. You may even want to add a `pre-receive` hook that checks each commit message for a `git-svn-id` and rejects pushes that contain commits without it.
+* Houdt een lineaire Git historie aan, die geen merge commits bevat die gedaan zijn door `git merge`. Rebase al het werk dat je buiten je hoofd branch doet er terug in; niet erin mergen.
+* Geen aparte Git server instellen en daar op samenwerken. Je kunt er een hebben om clones voor nieuwe developers te versnellen, maar push er niets terug in dat geen `git-svn-id` vermelding heeft. Je zou zelfs een `pre-receive` haak kunnen toevoegen, die ieder commit bericht na kijkt op een `git-svn-id` en pushes weigert die commits zonder bevatten.
 
-If you follow those guidelines, working with a Subversion server can be more bearable. However, if it’s possible to move to a real Git server, doing so can gain your team a lot more.
+Als je deze regels volgt, dan kan werken met een Subversion server meer dragelijk zijn. Maar, als het mogelijk is om over te gaan naar een echte Git server, dan kan dat je team een hoop meer toevoegen.
 
-## Migrating to Git ##
+## Naar Git Migreren ##
 
-If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.
+Als je een bestaande hoeveelheid brondcode in een ander VCS hebt, maar je hebt besloten om Git te gaan gebruiken dan moet je je project op een of andere manier migreren. Deze sectie behandelt een aantal importeerders voor veel voorkomende systemen, die bij Git zitten en demonstreert daarna hoe je je eigen importeerder kunt ontwikkelen.
 
-### Importing ###
+### Importeren ###
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+Je zult leren hoe je data uit twee van de grotere professioneel gebruikte SCM systemen kunt importeren – Subversion en Perforce –  omdat zij op dit moment de grootste hoeveelheid gebruikers hebben waarvan ik op dit moment hoor dat ze willen wisselen, en omdat er tools van hoge kwaliteit voor beide systemen meegeleverd worden met Git.
 
 ### Subversion ###
 
-If you read the previous section about using `git svn`, you can easily use those instructions to `git svn clone` a repository; then, stop using the Subversion server, push to a new Git server, and start using that. If you want the history, you can accomplish that as quickly as you can pull the data out of the Subversion server (which may take a while).
+Als je de vorige sectie over het gebruik van `git svn` leest, kun je die instructies eenvoudig gebruiken om een `git svn clone` te doen op een repository; daarna stop je met het gebruik van de Subversion server, pushed naar de nieuwe Git server, en ga die gebruiken. Als je de historie wil hebbeen, kun je dat zo snel als dat je van de server kunt pullen voor elkaar krijgen (wat een tijdje kan duren).
 
-However, the import isn’t perfect; and because it will take so long, you may as well do it right. The first problem is the author information. In Subversion, each person committing has a user on the system who is recorded in the commit information. The examples in the previous section show `schacon` in some places, such as the `blame` output and the `git svn log`. If you want to map this to better Git author data, you need a mapping from the Subversion users to the Git authors. Create a file called `users.txt` that has this mapping in a format like this:
+Maar, de import is niet perfect; en omdat het zo lang zal duren, kun je het maar beter goed doen. Het eerste probleem is informatie over de auteurs. In Subversion heeft iedere persoon die commit een gebruikersaccount op het systeem, wat wordt opgenomen in de commit informatie. De voorbeelden in de voorgaande sectie toen `schacon` op bepaalde plaatsen zoals de `blame` output en bij `git svn log`. Als je dit beter wil transleren naar Git auteur datan, dan heb je een translatie nodig van de Subversion gebruikers naar de Git auteurs. Maak een bestand genaamd `users.txt`, die deze translatie in dit formaat heeft:
 
 	schacon = Scott Chacon <schacon@geemail.com>
 	selse = Someo Nelse <selse@geemail.com>
 
-To get a list of the author names that SVN uses, you can run this:
+Om een lijst te krijgen van de auteurnamen, die SVN gebruikt kun je dit uitvoeren:
 
 	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
 
-That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.
+Daarmee krijg je de log output in XML formaat – je kunt hierin zoeken naar de auteurs, een lijst met unieke vermeldingen creëeren en dan de XML eruit halen. (Dit werkt natuurlijk alleen op een machine waarop `grep`, `sort` en `Perl` geinstalleerd is.) Daarna stuur je die output naar je users.txt bestand zodat je de gelijkwaardige Git gebruiker data naast iedere vermelding kunt zetten.
 
-You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `--no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:
+Je kunt dit bestand meegeven aan `git svn` om het te helpen de autuer data accurater te transleren. Je kunt `git svn` ook vertellen dat het niet de metadat moet toevoegen die Subversion normaal importeerd, door de `--no-metadata` optie mee te geven aan het `clone` of `init` commando. Dit laat je `import` commando er zo uit zien:
 
 	$ git-svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
-Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this
+Nu zou je een betere Subversion import moeten hebben in je `my_project` map. In plaats van commits die er zo uit zien
 
 	commit 37efa680e8473b615de980fa935944215428a35a
 	Author: schacon <schacon@4c93b258-373f-11de-be05-5f7a86268029>
@@ -381,7 +381,7 @@ Now you should have a nicer Subversion import in your `my_project` directory. In
 
 	    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
 	    be05-5f7a86268029
-they look like this:
+zien ze er zo uit:
 
 	commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
 	Author: Scott Chacon <schacon@geemail.com>
@@ -389,40 +389,40 @@ they look like this:
 
 	    fixed install - go to trunk
 
-Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.
+Niet alleen het auteur veld ziet er beter uit, maar het `git-svn-id` is ook niet meer aanwezig.
 
-You need to do a bit of `post-import` cleanup. For one thing, you should clean up the weird references that `git svn` set up. First you’ll move the tags so they’re actual tags rather than strange remote branches, and then you’ll move the rest of the branches so they’re local.
+Je moet nog een beetje `post-import` opruiming doen. Je moet nog de vreemde referenties die `git svn` ingesteld heeft opruimen, bijvoorbeeld. Als eerste verplaats je de tags zodat het echte tags worden, in plaats van vreemde remote branches, en dan verplaats je de rest van de branches zodat ze lokaal worden.
 
-To move the tags to be proper Git tags, run
+Om de tags goede Git tags te laten worden, voer dit uit
 
 	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
 	$ rm -Rf .git/refs/remotes/tags
 
-This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.
+Dit neemt de referenties die remote branches waren en met `tag/` begonnen, en maakt er echte (lichtgewicht) tags van.
 
-Next, move the rest of the references under `refs/remotes` to be local branches:
+Daarna verplaats je de rest van de referenties onder `refs/remotes` zodat het lokale branches worden:
 
 	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
 	$ rm -Rf .git/refs/remotes
 
-Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Because you want all your branches and tags to go up, you can run this:
+Nu zijn alle oude branches echte Git branches, en alle oude tags echte Git tags. Het laatste ding dan je moet doen is je nieuwe Git server als een remote toevoegen en er naar pushen. Omdat je al jouw branches en tags omhoog wil laten gaan, kun je dit uitvoeren:
 
 	$ git push origin --all
 
-All your branches and tags should be on your new Git server in a nice, clean import.
+Al je branches en tags zouden op je Git server moeten staan in een fijne schone import.
 
 ### Perforce ###
 
-The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git, but only in the `contrib` section of the source code — it isn’t available by default like `git svn`. To run it, you must get the Git source code, which you can download from git.kernel.org:
+Het volgende systeem waar je naar gaat kijken om vanuit te importeren is Perforce. Er zit een Perforce importeerder bij de Git distributie, maar alleen in het `contrib` gedeelte van de broncode – het is niet standaard beschikbaar zoals `git svn`. Om het uit te voeren, moet je de Git broncode pakken, die je van git.kernel.org kunt downloaden:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:
+In deze `fast-import` map, zou je een uitvoerbaar Python script genaamd `git-p4` moeten vinden. Je moet Python en het `p4` tool geinstalleerd hebben op je machine om deze import te laten werken. Als voorbeeld ga je het Jam project van de Perforce Public Depot importeren. Om je gebruiker in te stellen, moet je de P$PORT omgevingsvariabele laten wijzen naar het Perforce depot:
 
 	$ export P4PORT=public.perforce.com:1666
 
-Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:
+Voer het `git-p4-clone` commando uit om het Jam project van de Perforce server te importeren, waarbij je het pad naar het depot en het project en het pad waarnaar je wilt importeren mee geeft:
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
 	Importing from //public/jam/src@all into /opt/p4import
@@ -430,7 +430,7 @@ Run the `git-p4 clone` command to import the Jam project from the Perforce serve
 	Import destination: refs/remotes/p4/master
 	Importing revision 4409 (100%)
 
-If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:
+Als je naar de `/opt/p4import` map gaat en `git log` uitvoert, kun je je geimporteerde werk zien:
 
 	$ git log -2
 	commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
@@ -452,7 +452,7 @@ If you go to the `/opt/p4import` directory and run `git log`, you can see your i
 
 	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
 
-You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:
+Je kunt de `git-p4` identificator in iedere commit zien. Het is fijn om die identificator daar te bewaren, voor het geval je later naar het Perforce wijzigings nummer moet refereren. Maar, als je de identificator wilt verwijderen, is nu het geschikte moment om dat te doen – voordat je begint met werken op de nieuwe repository. Je kunt `git filter-branch` gebruiken om de identificatie tekst en masse te verwijderen:
 
 	$ git filter-branch --msg-filter '
 	        sed -e "/^\[git-p4:/d"
@@ -460,7 +460,7 @@ You can see the `git-p4` identifier in each commit. It’s fine to keep that ide
 	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
 	Ref 'refs/heads/master' was rewritten
 
-If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:
+Als je `git log` uitvoert, kun je zien dat alle SHA-1 checksums voor de commits gewijzigd zijn, maar de `git-p4` teksten staan niet langer in de commit berichten:
 
 	$ git log -2
 	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
@@ -478,13 +478,13 @@ If you run `git log`, you can see that all the SHA-1 checksums for the commits h
 
 	    Update derived jamgram.c
 
-Your import is ready to push up to your new Git server.
+Je import is nu klaar om naar je nieuwe Git server gepushed te worden.
 
-### A Custom Importer ###
+### Een Eigen Importeerder ###
 
-If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`.
+Als het door jou gebruikte systeem niet Subversion of Perforce is, zou je online voor een importeerder moeten zoeken – er zijn importeerders van goede kwaliteit beschikbaar voor CVS, Clear Case, Visual Source Safe, en zelfs een map met archieven. Als geen van deze tools voor jou geschikt is, je hebt een zeldzamer tool, of je hebt om een andere reden een eigen import proces nodig, dan zou je `git fast-import` moeten gebruiken. Dit commando leest eenvoudige instructies van stdin om specifieke Git data te schrijven. Het is veel eenvoudiger om op deze manier Git objecten te maken, dan de rauwe Git commando's uit te voeren, of om te proberen de rauwe objecten te schrijven (zie hoofdstuk 9 voor meer informatie). Op deze manier kun je een import script schrijven dat de noodzakelijke data uit het systeem leest dat je aan het importeren bent en rechttoe rechtaan instructies op stdout afdrukt. Je kunt dit programma dan uitvoeren en de output door `git fast-import` sluizen.
 
-To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:
+Voor een snelle demonstratie zul je een eenvoudige importeerde schrijven. Stel dan je in current werkt, waarbij je je project eens in de zoveel tijd backup'ed door de map te kopieeren naar een backup map die gelabeled is met de tijd `back_YYYY_MM_DD`, en je wil dit in Git importeren. Je mapstructuur ziet er zo uit:
 
 	$ ls /opt/import_from
 	back_2009_01_02
@@ -493,11 +493,11 @@ To quickly demonstrate, you’ll write a simple importer. Suppose you work in cu
 	back_2009_02_03
 	current
 
-In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one.
+Om naar een Git map te importeren, moet je bekijken hoe Git zijn data opslaat. Je kunt je misschien herinneren dat Git in fundament een gelinkte lijst is met commit objecten die naar een snapshot van inhoud wijzen. Het enige dat je hoeft te doen, is `fast-import` vertellen wat de inhoud snapshots zijn, welke commit data er naar wijst en de volgorde waarin ze moeten staan. Je strategie bestaat uit het doorlopen van de snapshots en commits te creëeren met de inhoud van iedere map, waarbij je iedere commit terug linked met de vorige.
 
-As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout. And, if you are running on Windows, this means you'll need to take special care to not introduce carriage returns at the end your lines — git fast-import is very particular about just wanting line feeds (LF) not the carriage return line feeds (CRLF) that Windows uses.
+Zoals je dat gedaan hebt in de "Een Voorbeeld van Git Afgedwongen Beleid" sectie van Hoofdstuk 7, gaan we dit in Ruby schrijven, omdat het is waar ik over het algemeen mee werk en het neigt eenvoudig te lezen te zijn. Je kunt dit voorbeeld vrij eenvoudig schrijven in alles waar je bekend mee bent – het hoeft alleen de juiste informatie naar stdout te schrijven. En dat betekent dat als je op Windows werkt, je erg voorzichtig moet zijn om geen carriage returns te introduceren aan het einde van je regels – git fast-import is erg kieskeurig in de manier waarop hij slechts line feeds (LF) wil hebben en niet de cariage return line feeds (CRLF), die Windows gebruikt.
 
-To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this:
+Om te beginnen ga je naar de doelmap en identificeer je iedere submap, waarvan elk een snapshot is dat je als commit wil importeren. Je zult in iedere submap gaan en de noodzakelijke commando's printen om ze te exporteren. Je basis hoofdlus ziet er zo uit:
 
 	last_mark = nil
 
@@ -513,11 +513,11 @@ To begin, you’ll change into the target directory and identify every subdirect
 	  end
 	end
 
-You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:
+Je voert `print_export` uit binnen iedere map, wat het manifest en het merk van de vorige snapshot neemt, en het manifest en merk van deze terug geeft; op die manier kun je ze goed linken. "Mark" is de `fast-import` term voor een identificator die je aan een commit geeft; terwijl je commits maakt, geef je ze een merk die je kunt gebruiken om vanuit andere commits naar te linken. Dus, het eerste wat je moet doen in je `print_export` functie is een merk genereren van de mapnaam:
 
 	mark = convert_dir_to_mark(dir)
 
-You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:
+Je zult dit doen door een lijst van mappen te creëeren en de index waarde als merk te gebruiken, omdat een merk een geheel getal moet zijn. Je functie ziet er zo uit:
 
 	$marks = []
 	def convert_dir_to_mark(dir)
@@ -527,11 +527,11 @@ You’ll do this by creating an array of directories and using the index value a
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is
+Nu dat je een geheel getal hebt als voorstelling van je commit, moet je een datum hebben voor de commit metadata. Omdat de datum is uitgedrukt in de naam van de map, zul je het daar uit moeten halen. De volgende regel in de `print_export` bestand is
 
 	date = convert_dir_to_date(dir)
 
-where `convert_dir_to_date` is defined as
+waarbij `convert_dir_to_date` als volgt gedefinieerd is
 
 	def convert_dir_to_date(dir)
 	  if dir == 'current'
@@ -543,11 +543,11 @@ where `convert_dir_to_date` is defined as
 	  end
 	end
 
-That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable:
+Dat geeft een geheel getal terug als waarde voor de datum van iedere map. Het laatste stukje meta-informatie dat je voor iedere commit nodig hebt is de committer data, wat je in een globale variabele stopt:
 
 	$author = 'Scott Chacon <schacon@example.com>'
 
-Now you’re ready to begin printing out the commit data for your importer. The initial information states that you’re defining a commit object and what branch it’s on, followed by the mark you’ve generated, the committer information and commit message, and then the previous commit, if any. The code looks like this:
+Nu ben je klaar om te beginnen met de commit data af te drukken voor je importeerder. De initiele informatie stelt dat je een commit object definieert en op welke branch het zit, gevolgd door het merk dat je gegenereerd hebt, de committer informatie en het commit bericht, en de vorige commit, als die er is. De code ziet er zo uit:
 
 	# print the import information
 	puts 'commit refs/heads/master'
@@ -556,18 +556,18 @@ Now you’re ready to begin printing out the commit data for your importer. The 
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset. 
-The commit message must be expressed in a special format:
+Je stelt de tijdzone (-0700) hardgecodeerd in omdat dat eenvoudig is. Als je vanuit een ander systeem importeert, moet je de tijdzone als een compensatiewaarde specificeren.
+Het commit bericht moet uitgedrukt worden in een speciaal formaat:
 
 	data (size)\n(contents)
 
-The format consists of the word data, the size of the data to be read, a newline, and finally the data. Because you need to use the same format to specify the file contents later, you create a helper method, `export_data`:
+Het formaat bestaat uit de woorddata, de grootte van de data die gelezen moet worden, een newline, en als laatste de data. Omdat je hetzelfde formaat nodig hebt om later de bestandsinhoud te specificeren, zul je een hulpfunctie creëeren, `export_data`:
 
 	def export_data(string)
 	  print "data #{string.size}\n#{string}"
 	end
 
-All that’s left is to specify the file contents for each snapshot. This is easy, because you have each one in a directory — you can print out the `deleteall` command followed by the contents of each file in the directory. Git will then record each snapshot appropriately:
+Het enige dat nog gespecificeerd moet worden is de bestandsinhoud voor ieder snapshot. Dit is makkelijk, omdat je ze allemaal in een map hebt – je kunt het `deleteall` commando afdruken, gevolgd door de inhoud van ieder bestand in de map. Git zal dan ieder snapshot op de juiste manier opslaan:
 
 	puts 'deleteall'
 	Dir.glob("**/*").each do |file|
@@ -575,15 +575,15 @@ All that’s left is to specify the file contents for each snapshot. This is eas
 	  inline_data(file)
 	end
 
-Note:	Because many systems think of their revisions as changes from one commit to another, fast-import can also take commands with each commit to specify which files have been added, removed, or modified and what the new contents are. You could calculate the differences between snapshots and provide only this data, but doing so is more complex — you may as well give Git all the data and let it figure it out. If this is better suited to your data, check the `fast-import` man page for details about how to provide your data in this manner.
+Let op: Omdat veel systemen over hun revisie als veranderingen van de ene naar de andere commit denken, kan fast-import ook commando's aan waarbij bij iedere commit is gespecificeerd welke bestanden zijn toegevoegd, verwijderd, of aangepast en wat de nieuwe inhouden zijn. Je kunt de verschillen tussen snapshots berekenen en alleen deze data geven, maar om het zo te doen is complexer – je kunt net zo goed Git alle data geven en hem het uit laten zoeken. Als dit beter geschikt is voor jouw data, bekijk dan de `fast-import` man pagina voor details over hoe je jouw data op deze manier kunt aanleveren.
 
-The format for listing the new file contents or specifying a modified file with the new contents is as follows:
+Het formaat om de nieuwe bestandsinhoud te tonen of een aangepast bestand met de nieuwe inhoud te specificeren is als volgt:
 
 	M 644 inline path/to/file
 	data (size)
 	(file contents)
 
-Here, 644 is the mode (if you have executable files, you need to detect and specify 755 instead), and inline says you’ll list the contents immediately after this line. Your `inline_data` method looks like this:
+Hierbij is 644 de modus (als je uitvoerbare bestanden hebt, moet je dit detecteren en in plaats daarvan 755 specificeren), en inline verteld dat je de inhoud onmiddelijk na deze regel toont. Je `inline_data` functie ziet er zo uit:
 
 	def inline_data(file, code = 'M', mode = '644')
 	  content = File.read(file)
@@ -591,17 +591,17 @@ Here, 644 is the mode (if you have executable files, you need to detect and spec
 	  export_data(content)
 	end
 
-You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data. 
+Je hergebruikt de `export_data` data functie, die je eerder gedefinieerd hebt, omdat het hetzelfde is als de manier waarop je je commit bericht data gespecificeerd hebt.
 
-The last thing you need to do is to return the current mark so it can be passed to the next iteration:
+Het laatste wat je moet doen is het huidige merk teruggeven, zodat het meegegeven kan worden aan de volgende iteratie:
 
 	return mark
 
-NOTE: If you are running on Windows you'll need to make sure that you add one extra step. As metioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF:
+Let op: Als je op Windows werkt, moet je er zeker van zijn dat je nog één extra stap toevoegt. Zoals voorheen gemeld is, gebruikt Windows CRLF als new line karakters, terwijl git fast-import alleen LF verwacht. Om om dit probleem heen te werken en git fast-import blij te maken, moet je ruby vertellen om LF in plaats van CRLF te gebruiken:
 
 	$stdout.binmode
 
-That’s it. If you run this script, you’ll get content that looks something like this:
+Dat is alles. Als je dit script uitvoert, zul je inhoud krijgen die er ongeveer zo uit ziet:
 
 	$ ruby import.rb /opt/import_from 
 	commit refs/heads/master
@@ -626,7 +626,7 @@ That’s it. If you run this script, you’ll get content that looks something l
 	new version one
 	(...)
 
-To run the importer, pipe this output through `git fast-import` while in the Git directory you want to import into. You can create a new directory and then run `git init` in it for a starting point, and then run your script:
+Om de importeerder uit te voeren, sluis je deze uitvoer door `git fast-import` terwijl je in de Git map staat waar je naar toe wilt importeren. Je kunt een nieuwe map aanmaken en er dan `git init` in uitvoeren als startpunt, en dan kun je je script uitvoeren:
 
 	$ git init
 	Initialized empty Git repository in /opt/import_to/.git/
@@ -655,7 +655,7 @@ To run the importer, pipe this output through `git fast-import` while in the Git
 	pack_report: pack_mapped              =       1356 /       1356
 	---------------------------------------------------------------------
 
-As you can see, when it completes successfully, it gives you a bunch of statistics about what it accomplished. In this case, you imported 18 objects total for 5 commits into 1 branch. Now, you can run `git log` to see your new history:
+Zoals je kunt zien geeft het je een berg statistieken over wat het heeft bereikt, als het succesvol heeft kunnen afronden. In dit geval heb je in totaal 18 objecten geimporteerd, voor 5 commits in 1 branch. Nu kun je `git log` uitvoeren en je nieuwe historie zien:
 
 	$ git log -2
 	commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
@@ -670,7 +670,7 @@ As you can see, when it completes successfully, it gives you a bunch of statisti
 
 	    imported from back_2009_02_03
 
-There you go — a nice, clean Git repository. It’s important to note that nothing is checked out — you don’t have any files in your working directory at first. To get them, you must reset your branch to where `master` is now:
+Hier heb je 't – een fijne, schone Git repository. Het is belangrijk om te zien dat nog niks uitgechecked is – je hebt om te beginnen geen bestanden in je werkmap. Om ze te krijgen moet je je branch resetten tot het punt waar `master` nu is:
 
 	$ ls
 	$ git reset --hard master
@@ -678,8 +678,8 @@ There you go — a nice, clean Git repository. It’s important to note that not
 	$ ls
 	file.rb  lib
 
-You can do a lot more with the `fast-import` tool — handle different modes, binary data, multiple branches and merging, tags, progress indicators, and more. A number of examples of more complex scenarios are available in the `contrib/fast-import` directory of the Git source code; one of the better ones is the `git-p4` script I just covered.
+Je kunt nog veel meer doen met het `fast-import` tool – verschillende bestandsmodi behandelen, binaire gegevens, meerdere branches en merges, tags, voortgangsindicatoren, en meer. Een aantal voorbeelden voor complexe scenario's zijn voorhanden in de `contrib/fast-import` map van de Git broncode; een van de betere is het `git-p4` script dat ik zojuist behandeld heb.
 
-## Summary ##
+## Samenvatting ##
 
-You should feel comfortable using Git with Subversion or importing nearly any existing repository into a new Git one without losing data. The next chapter will cover the raw internals of Git so you can craft every single byte, if need be.
+Je zou je op je gemak moeten voelen om Git met Subversion te gebruiken, of bijna ieder bestaand repository te importeren in een Git versie zonder gegevens te verliezen. Het volgende hoofdstuk zal het rauwe binnenwerk van Git behandelen, zodat je iedere byte in elkaar kunt zetten, als dat nodig is.

@@ -194,15 +194,21 @@ This is roughly equivalent to something like
 
 There are a couple of minor differences in the configuration file; but for your purpose, this is close to the same thing. It takes the Git repository by itself, without a working directory, and creates a directory specifically for it alone.
 
-### Putting the Bare Repository on a Server ###
+### Размещение "голого" репозитория на сервере ###
+
+Теперь, когда у вас есть голая копия вашего репозитория, все что вам нужно сделать это поместить ее на сервер и настроить протоколы. Условимся, что вы уже установили сервер `git.example.com`, имеете к нему доступ по SSH и хотите развешать все ваши репозитории Git в каталоге `/opt/git`. Вы можете добавить ваш новый репозиторий копированием голого репозитория:
 
 Now that you have a bare copy of your repository, all you need to do is put it on a server and set up your protocols. Let’s say you’ve set up a server called `git.example.com` that you have SSH access to, and you want to store all your Git repositories under the `/opt/git` directory. You can set up your new repository by copying your bare repository over:
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
+Теперь другие пользователи, имеющие доступ к серверу по SSH и право но чтение к каталогу `/opt/git` могут клонировать ваш репозиторий запустив:
+
 At this point, other users who have SSH access to the same server which has read-access to the `/opt/git` directory can clone your repository by running
 
 	$ git clone user@git.example.com:/opt/git/my_project.git
+
+Если у пользователя сервера есть право на запись в каталог `/opt/git/my_project.git`, он автоматически получает возможность отгрузки изменений в репозиторий. Git автоматически добавляет правильные права на запись в репозиторий, если вы запустите команду `git init` с параметром `--shared`.
 
 If a user SSHs into a server and has write access to the `/opt/git/my_project.git` directory, they will also automatically have push access.  Git will automatically add group write permissions to a repository properly if you run the `git init` command with the `--shared` option.
 
@@ -210,29 +216,49 @@ If a user SSHs into a server and has write access to the `/opt/git/my_project.gi
 	$ cd /opt/git/my_project.git
 	$ git init --bare --shared
 
+Видите это просто взять репозиторий Git, создать "голую" версию и поместить ее на сервер, к которому вы и ваши коллеги имеете доступ по SSH. Теперь вы готовы работать вместе над одним проектом.
+
 You see how easy it is to take a Git repository, create a bare version, and place it on a server to which you and your collaborators have SSH access. Now you’re ready to collaborate on the same project.
 
+Важно отметить, что это практически все что вам нужно сделать чтобы получить рабочий сервер Git, к которому несколько человек имеют доступ ― просто добавьте учетные записи SSH на сервер, и положите голый репозиторий в место, к которому эти пользователи имеют доступ на чтение и запись. И все.
+
 It’s important to note that this is literally all you need to do to run a useful Git server to which several people have access — just add SSH-able accounts on a server, and stick a bare repository somewhere that all those users have read and write access to. You’re ready to go — nothing else needed.
+
+Из нескольких последующий разделов вы узнаете как получить более сложные конфигурации. В том числе как не создавать учетные записи для каждого пользователя, как сделать публичный доступ на чтение репозитория, как установить веб-интерфейс, как использовать Gitosis, и др. Однако, помните, что для совместной работы пары человек на закрытом проекте, все что вам _нужно_ ― это сервер SSH и "голый" репозиторий.
 
 In the next few sections, you’ll see how to expand to more sophisticated setups. This discussion will include not having to create user accounts for each user, adding public read access to repositories, setting up web UIs, using the Gitosis tool, and more. However, keep in mind that to collaborate with a couple of people on a private project, all you _need_ is an SSH server and a bare repository.
 
 ### Small Setups ###
 
+Если вы небольшая фирма, или вы только пробуете Git в вашей организации и у вас мало разработчиков, то все достаточно просто. Один из наиболее сложных аспектов настройки сервера Git ― управление пользователями. Если вы хотите чтобы некоторые репозитории было досутпны некоторым пользователям только на чтение, а другие и на чтение и на запись, вам может быть весьма непросто привести права доступа в порядок.
+
 If you’re a small outfit or are just trying out Git in your organization and have only a few developers, things can be simple for you. One of the most complicated aspects of setting up a Git server is user management. If you want some repositories to be read-only to certain users and read/write to others, access and permissions can be a bit difficult to arrange.
 
 #### SSH Access ####
 
+Если у вас уже есть сервер, к которому все ваши разработчики имеют доступ по SSH проще всего разместить ваш первый репозиторий там, поскольку вам не нужно практически ничего делать (как мы уже обсудили в предыдущем разделе). Если вы хотите более сложного управления правами доступа в ваши репозитории, вы можете сделать это обычными правами файловой системы, предоставляемыми операционной системой вашего сервера.
+
 If you already have a server to which all your developers have SSH access, it’s generally easiest to set up your first repository there, because you have to do almost no work (as we covered in the last section). If you want more complex access control type permissions on your repositories, you can handle them with the normal filesystem permissions of the operating system your server runs.
+
+Если вы хотите разместить ваши репозитории на сервер, на котором нет учетных записей для каждого в вашей команде кому нужен доступ на запись, вы должны настроить доступ по SSH для них. Будем считать что если у вас есть сервер, на котором вы хотите это сделать, то SSH сервер на нем уже установлен, и через него вы имеете доступ к серверу.
 
 If you want to place your repositories on a server that doesn’t have accounts for everyone on your team whom you want to have write access, then you must set up SSH access for them. We assume that if you have a server with which to do this, you already have an SSH server installed, and that’s how you’re accessing the server.
 
+Есть несколько путей, чтобы дать доступ всем в вашей команде. Первый - настроить учетные записи для каждого, это просто, но может быть весьма обременительно. Вероятно вы не захотите запускать `adduser` и задавать временные пароли для каждого пользователя.
+
 There are a few ways you can give access to everyone on your team. The first is to set up accounts for everybody, which is straightforward but can be cumbersome. You may not want to run `adduser` and set temporary passwords for every user.
 
+Второй способ ― создать на машине одного пользователя 'git', попросить каждого пользователя кому нужен доступ на запись прислать вам публичный ключ SSH, и добавить эти ключи в файл `~/.ssh/authorized_keys` вашего нового пользователя 'git'. Теперь все будут иметь доступ к этой машине через пользователя 'git'. Это не влияет на данные коммита, в любом случае имя пользователя SSH, под которым вы соединяетесь с сервером, не влияет на данные которые вы сохраняете.
+
 A second method is to create a single 'git' user on the machine, ask every user who is to have write access to send you an SSH public key, and add that key to the `~/.ssh/authorized_keys` file of your new 'git' user. At that point, everyone will be able to access that machine via the 'git' user. This doesn’t affect the commit data in any way — the SSH user you connect as doesn’t affect the commits you’ve recorded.
+
+Другой способ сделать это ― использовать сервер SSH, аутентифицирующий по серверу LDAP или любому другому централизованному источнику, который у вас может быть уже настроен. Пока пользователь может получить доступ к консоли, любой способ аутентификации по SSH, какой вы только сможете придумать, должен работать.
 
 Another way to do it is to have your SSH server authenticate from an LDAP server or some other centralized authentication source that you may already have set up. As long as each user can get shell access on the machine, any SSH authentication mechanism you can think of should work.
 
 ## Generating Your SSH Public Key ##
+
+Как было уже сказано, многие сервера Git используют аутентификацию по открытым SSH ключам. Для того чтобы предоставить открытый ключ, пользователь должен его сгенерировать, если это не было сделано ранее. Это процесс похож во всех операционных системах. Сначала, вам стоит убедиться, что у вас уже нет ключа. По умолчанию пользовательские ключи SSH хранятся в каталоге `~/.ssh` этого пользователя. Вы можете легко проверить, есть ли у вас ключ, зайдя в этот каталог и посмотрев его содержимое:
 
 That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
 First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:
@@ -241,6 +267,8 @@ First, you should check to make sure you don’t already have a key. By default,
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
+
+Ищите пару файлов с именами "что-нибудь" и "что-нибудь.pub", где "что-нибудь" обычно `id_dsa` или `id_rsq`. Файл с расширением `.pub` - это ваш открытый ключ, а второй файл - ваш закрытый ключ. Если у вас нет этих файлов (или даже нет каталога `.ssh`), вы можете создать их запустив программу `ssh-keygen`, которая входит в состав пакета SSH в системах Linux/Mac, а также поставляется в составе MSysGit для Windows:
 
 You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:
 
@@ -254,7 +282,11 @@ You’re looking for a pair of files named something and something.pub, where th
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
+Сначала необходимо ввести расположение, для сохранения ключа (`.ssh/id_rsa`), затем дважды ввести пароль, который вы можете оставить пустым, если не хотите его вводить каждый раз когда используете ключ.
+
 First it confirms where you want to save the key (`.ssh/id_rsa`), and then it asks twice for a passphrase, which you can leave empty if you don’t want to type a password when you use the key.
+
+Теперь, каждый пользователь должен послать свой открытый ключ вам, или тому кто администрирует сервер Git (предположим, что ваш сервер SSH уже настроен на работу с открытыми ключами). Для этого им нужно скопировать все содержимое файла с расширением `.pub` и отправить его по электронной почте. Открытый ключ выглядит как то так:
 
 Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:
 
@@ -266,9 +298,13 @@ Now, each user that does this has to send their public key to you or whoever is 
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
+Более подробное руководство по созданию ключей SSH на различных системах вы можете найти в руководстве GitHub по ключам SSH на `http://github.com/guides/providing-your-ssh-key`.
+
 For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
 
-## Setting Up the Server ##
+## Настраиваем сервер ##
+
+Давайте рассмотрим настройку доступа по SSH на стороне сервера. В этом примере мы будем использовать метод `authorized_keys` для аутентификации пользователей. Мы подразумеваем, что вы используете стандартный дистрибутив Linux типа Ubuntu. Для начала, создадим пользователя 'git' и каталог `.ssh` для этого пользователя:
 
 Let’s walk through setting up SSH access on the server side. In this example, you’ll use the `authorized_keys` method for authenticating your users. We also assume you’re running a standard Linux distribution like Ubuntu. First, you create a 'git' user and a `.ssh` directory for that user.
 
@@ -276,6 +312,8 @@ Let’s walk through setting up SSH access on the server side. In this example, 
 	$ su git
 	$ cd
 	$ mkdir .ssh
+
+Затем, вам нужно добавить открытые ключи SSH нескольких разработчиков в файл `authorized_keys` этого пользователя. Предположим, вы уже получили несколько ключей по электронной почте и сохранили их во временные файлы. Напомню, открытый ключ выглядит как то так:
 
 Next, you need to add some developer SSH public keys to the `authorized_keys` file for that user. Let’s assume you’ve received a few keys by e-mail and saved them to temporary files. Again, the public keys look something like this:
 
@@ -287,11 +325,15 @@ Next, you need to add some developer SSH public keys to the `authorized_keys` fi
 	O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 	dAv8JggJICUvax2T9va5 gsg-keypair
 
+Вы просто добавляете их к вашему файлу `authorized_keys`:
+
 You just append them to your `authorized_keys` file:
 
 	$ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
+
+Теперь, вы можете создать пустой репозиторий для них, запустив `git init` с параметром `--bare`, которая инициализирует репозиторий без рабочего каталога:
 
 Now, you can set up an empty repository for them by running `git init` with the `--bare` option, which initializes the repository without a working directory:
 
@@ -300,15 +342,19 @@ Now, you can set up an empty repository for them by running `git init` with the 
 	$ cd project.git
 	$ git --bare init
 
+Затем Джон, Жоси или Джессика могут положить первую версию их проекта в этот репозиторий добавив его как удаленный и отправив бранч. Заметьте, что кто то всегда должен заходить на сервер и создавать голый репозиторий каждый раз, когда вы хотите добавить проект. Пусть `gitserver` ― имя хоста сервера, на котором вы создали пользователя 'git' и репозиторий. Если он находится в вашей внутренней сети, вы можете настроить запись DNS для `gitserver`, ссылающуюся на этот сервер, и использовать эти команды:
+
 Then, John, Josie, or Jessica can push the first version of their project into that repository by adding it as a remote and pushing up a branch. Note that someone must shell onto the machine and create a bare repository every time you want to add a project. Let’s use `gitserver` as the hostname of the server on which you’ve set up your 'git' user and repository. If you’re running it internally, and you set up DNS for `gitserver` to point to that server, then you can use the commands pretty much as is:
 
-	# on Johns computer
+	# на компьютере Джона 
 	$ cd myproject
 	$ git init
 	$ git add .
 	$ git commit -m 'initial commit'
 	$ git remote add origin git@gitserver:/opt/git/project.git
 	$ git push origin master
+
+Теперь остальные легко могут клонировать его и выкладывать изменения:
 
 At this point, the others can clone it down and push changes back up just as easily:
 
@@ -317,19 +363,29 @@ At this point, the others can clone it down and push changes back up just as eas
 	$ git commit -am 'fix for the README file'
 	$ git push origin master
 
+Этим способом вы можете быстро получить с сервер Git с доступом на чтение/запись для небольшой группы разработчиков.
+
 With this method, you can quickly get a read/write Git server up and running for a handful of developers.
+
+В качестве дополнительной меры предосторожности вы можете ограничить возможности пользователя 'git' только действиями связанными с Git с помощью ограниченной оболочки `git-shell` поставляемой вместе с Git. Если вы выставите ее в качестве командного интерпретатора пользователя 'git', то этот пользователь не сможет получить доступ к обычной командной оболочке на вашем сервере. Чтобы её использовать, укажите `git-shell`, вместо bash или csh в качестве командной оболочки пользователя. Для этого вы должны отредактировать файл `/etc/passwd`:
 
 As an extra precaution, you can easily restrict the 'git' user to only doing Git activities with a limited shell tool called `git-shell` that comes with Git. If you set this as your 'git' user’s login shell, then the 'git' user can’t have normal shell access to your server. To use this, specify `git-shell` instead of bash or csh for your user’s login shell. To do so, you’ll likely have to edit your `/etc/passwd` file:
 
 	$ sudo vim /etc/passwd
 
+В конце вы должны найти строку, похожую на эту:
+
 At the bottom, you should find a line that looks something like this:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
+Замените `/bin/sh` на `/usr/bin/git-shell` (или запустите `which git-shell`, чтобы проверить куда она инсталирована). Отредактированная строка должна выглядеть как то так:
+
 Change `/bin/sh` to `/usr/bin/git-shell` (or run `which git-shell` to see where it’s installed). The line should look something like this:
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
+
+Теперь, пользователь 'git' может использовать SSH соединение только для работы с репозиториями Git, и не может зайти на машину. Вы можете попробовать и увидите, что вход в систему отклонен:
 
 Now, the 'git' user can only use the SSH connection to push and pull Git repositories and can’t shell onto the machine. If you try, you’ll see a login rejection like this:
 

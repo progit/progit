@@ -101,16 +101,16 @@ Git 初始化了 `objects` 目录，同时在该目录下创建了 `pack` 和 `i
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
 
-### 树 (tree) 对象 ###
+### tree (树) 对象 ###
 
-接下去来看树对象，树对象可以存储文件名，同时也允许存储一组文件。Git 以一种类似 UNIX 文件系统但更简单的方式来存储内容。所有内容以树或 blob 对象存储，其中树对象对应于 UNIX 中的目录，blob 对象则大致对应于 inodes 或文件内容。一个单独的树对象包含一条或多条树记录，每一条记录含有一个指向 blob 或子树对象的 SHA-1 指针，并附有该对象的权限模式 (mode)、类型和文件名信息。以 simplegit 项目为例，最新的树可能是这个样子：
+接下去来看 tree 对象，tree 对象可以存储文件名，同时也允许存储一组文件。Git 以一种类似 UNIX 文件系统但更简单的方式来存储内容。所有内容以 tree 或 blob 对象存储，其中 tree 对象对应于 UNIX 中的目录，blob 对象则大致对应于 inodes 或文件内容。一个单独的 tree 对象包含一条或多条 tree 记录，每一条记录含有一个指向 blob 或子 tree 对象的 SHA-1 指针，并附有该对象的权限模式 (mode)、类型和文件名信息。以 simplegit 项目为例，最新的 tree 可能是这个样子：
 
 	$ git cat-file -p master^{tree}
 	100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
 	100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
 	040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib
 
-`master^{tree}` 表示 `branch` 分支上最新提交指向的树象。请注意 `lib` 子目录并非一个 blob 对象，而是一个指向别一个树对象的指针：
+`master^{tree}` 表示 `branch` 分支上最新提交指向的 tree 对象。请注意 `lib` 子目录并非一个 blob 对象，而是一个指向别一个 tree 对象的指针：
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
@@ -120,32 +120,32 @@ Git 初始化了 `objects` 目录，同时在该目录下创建了 `pack` 和 `i
 Insert 18333fig0901.png 
 Figure 9-1. Git 对象模型的简化版
 
-你可以自己创建树对象。通常 Git 根据你的暂存区域或 index 来创建并写入一棵树。因此要创建一棵对象的话首先要通过将一些文件暂存从而创建一个 index 。可以使用 plumbing 命令 `update-index` 为一个单独文件 ── test.txt 文件的第一个版本 ──　创建一个 index　。通过该命令人为的将 test.txt 文件的首个版本加入到了一个新的暂存区域中。由于该文件原先并不在暂存区域中 (甚至就连暂存区域也还没被创建出来呢) ，必须传入 `--add` 参数;由于要添加的文件并不在当前目录下而是在数据库中，必须传入 `--cacheinfo` 参数。同时指定了文件模式，SHA-1 值和文件名：
+你可以自己创建 tree 。通常 Git 根据你的暂存区域或 index 来创建并写入一个 tree 。因此要创建一个 tree 对象的话首先要通过将一些文件暂存从而创建一个 index 。可以使用 plumbing 命令 `update-index` 为一个单独文件 ── test.txt 文件的第一个版本 ──　创建一个 index　。通过该命令人为的将 test.txt 文件的首个版本加入到了一个新的暂存区域中。由于该文件原先并不在暂存区域中 (甚至就连暂存区域也还没被创建出来呢) ，必须传入 `--add` 参数;由于要添加的文件并不在当前目录下而是在数据库中，必须传入 `--cacheinfo` 参数。同时指定了文件模式，SHA-1 值和文件名：
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
 
 在本例中，指定了文件模式为 `100644`，表明这是一个普通文件。其他可用的模式有：`100755` 表示可执行文件，`120000` 表示符号链接。文件模式是从常规的 UNIX 文件模式中参考来的，但是没有那么灵活 ── 上述三种模式仅对 Git 中的文件 (blobs) 有效 (虽然也有其他模式用于目录和子模块)。
 
-现在可以用 `write-tree` 命令将暂存区域的内容写到一个树对象了。无需 `-w` 参数 ── 如果目标树不存在，调用 `write-tree` 会自动根据 index 状态创建一个树对象。
+现在可以用 `write-tree` 命令将暂存区域的内容写到一个 tree 对象了。无需 `-w` 参数 ── 如果目标 tree 不存在，调用 `write-tree` 会自动根据 index 状态创建一个 tree 对象。
 
 	$ git write-tree
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt
 
-可以这样验证这确实是一个树对象：
+可以这样验证这确实是一个 tree 对象：
 
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
 
-再根据 test.txt 的第二个版本以及一个新文件创建一个新树对象：
+再根据 test.txt 的第二个版本以及一个新文件创建一个新 tree 对象：
 
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt 
 	$ git update-index --add new.txt 
 
-这时暂存区域中包含了 test.txt 的新版本及一个新文件 new.txt 。创建 (写) 该对象 (将暂存区域或 index 状态写入到一个树对象)，然后瞧瞧它的样子：
+这时暂存区域中包含了 test.txt 的新版本及一个新文件 new.txt 。创建 (写) 该 tree 对象 (将暂存区域或 index 状态写入到一个 tree 对象)，然后瞧瞧它的样子：
 
 	$ git write-tree
 	0155eb4229851634a0f03eb265b69f5a2d56f341
@@ -153,7 +153,7 @@ Figure 9-1. Git 对象模型的简化版
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-请注意该对象包含了两个文件记录，且 test.txt 的 SHA 值是早先值的 "第二版" (`1f7a7a`)。来点更有趣的，你将把第一个树对象作为一个子目录加进该树中。可以用 `read-tree` 命令将树对象读到暂存区域中去。在这时，通过传一个 `--prefix` 参数给 `read-tree`，将一个已有的树对象作为一个子树对象读到暂存区域中：
+请注意该 tree 对象包含了两个文件记录，且 test.txt 的 SHA 值是早先值的 "第二版" (`1f7a7a`)。来点更有趣的，你将把第一个 tree 对象作为一个子目录加进该 tree 中。可以用 `read-tree` 命令将 tree 对象读到暂存区域中去。在这时，通过传一个 `--prefix` 参数给 `read-tree`，将一个已有的 tree 对象作为一个子 tree 读到暂存区域中：
 
 	$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git write-tree
@@ -163,21 +163,21 @@ Figure 9-1. Git 对象模型的简化版
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-如果从刚写入的新树对象创建一个工作目录，将得到位于工作目录顶级的两个文件和一个名为 `bak` 的子目录，该子目录包含了 test.txt 文件的第一个版本。可以将 Git 用来包含这些内容的数据想象成如图 9-2 所示的样子。
+如果从刚写入的新 tree 对象创建一个工作目录，将得到位于工作目录顶级的两个文件和一个名为 `bak` 的子目录，该子目录包含了 test.txt 文件的第一个版本。可以将 Git 用来包含这些内容的数据想象成如图 9-2 所示的样子。
 
 Insert 18333fig0902.png 
 Figure 9-2. 当前 Git 数据的内容结构
 
-### 提交 (commit) 对象 ###
+###  commit (提交) 对象 ###
 
-你现在有三个树对象，它们指向了你要跟踪的项目的不同快照，可是先前的问题依然存在：必须记往三个 SHA-1 值以获得这些快照。你也没有关于谁、何时以及为何保存了这些快照的信息。提交对象为你保存了这些基本信息。
+你现在有三个 tree 对象，它们指向了你要跟踪的项目的不同快照，可是先前的问题依然存在：必须记往三个 SHA-1 值以获得这些快照。你也没有关于谁、何时以及为何保存了这些快照的信息。commit 对象为你保存了这些基本信息。
 
-要创建一个提交对象，使用 `commit-tree` 命令，指定一棵树的 SHA-1，如果有任何前继提交对象，也可以指定。从你写的第一棵树开始：
+要创建一个 commit 对象，使用 `commit-tree` 命令，指定一个 tree 的 SHA-1，如果有任何前继提交对象，也可以指定。从你写的第一个 tree 开始：
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
-通过 `cat-file` 查看这个新提交对象：
+通过 `cat-file` 查看这个新 commit 对象：
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -186,16 +186,16 @@ Figure 9-2. 当前 Git 数据的内容结构
 
 	first commit
 
-提交对象有格式很简单：指明了该时间点项目快照的顶层树对象、作者/提交者信息（从 Git 设理发店的 `user.name` 和 `user.email`中获得)以及当前时间戳、一个空行，以及提交注释信息。
+commit 对象有格式很简单：指明了该时间点项目快照的顶层树对象、作者/提交者信息（从 Git 设理发店的 `user.name` 和 `user.email`中获得)以及当前时间戳、一个空行，以及提交注释信息。
 
-接着再写入另外两个提交对象，每一个都指定其之前的那个提交对象：
+接着再写入另外两个 commit 对象，每一个都指定其之前的那个 commit 对象：
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
 	cac0cab538b970a37ea1e769cbbde608743bc96d
 	$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
 	1a410efbd13591db07496601ebc7a059dd55cfe9
 
-每一个提交对象都指向了你创建的树对象快照。出乎意料的是，现在已经有了真实的 Git 历史了，所以如果运行 `git log` 命令并指定最后那个提交对象的 SHA-1 便可以查看历史：
+每一个 commit 对象都指向了你创建的树对象快照。出乎意料的是，现在已经有了真实的 Git 历史了，所以如果运行 `git log` 命令并指定最后那个 commit 对象的 SHA-1 便可以查看历史：
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -226,7 +226,7 @@ Figure 9-2. 当前 Git 数据的内容结构
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-真棒。你刚刚通过使用低级操作而不是那些普通命令创建了一个 Git 历史。这基本上就是运行　`git add` 和 `git commit` 命令时 Git 进行的工作　──保存修改了的文件的 blob，更新索引，创建树对象，最后创建提交对象，这些提交对象指向了顶层树对象以及先前的提交对象。这三类 Git 对象 ── blob，树以及提交 ── 都各自以文件的方式保存在 `.git/objects` 目录下。以下所列是目前为止样例中的所有对象，每个对象后面的注释里标明了它们保存的内容：
+真棒。你刚刚通过使用低级操作而不是那些普通命令创建了一个 Git 历史。这基本上就是运行　`git add` 和 `git commit` 命令时 Git 进行的工作　──保存修改了的文件的 blob，更新索引，创建 tree 对象，最后创建 commit 对象，这些 commit 对象指向了顶层 tree 对象以及先前的 commit 对象。这三类 Git 对象 ── blob，tree 以及 tree ── 都各自以文件的方式保存在 `.git/objects` 目录下。以下所列是目前为止样例中的所有对象，每个对象后面的注释里标明了它们保存的内容：
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -245,20 +245,20 @@ Figure 9-2. 当前 Git 数据的内容结构
 Insert 18333fig0903.png 
 Figure 9-3. Git 目录下的所有对象
 
-### Object Storage ###
+### 对象存储 ###
 
-I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:
+之前我提到当存储数据内容时，同时会有一个文件头被存储起来。我们花些时间来看看 Git 是如何存储对象的。你将看来如何通过 Ruby 脚本语言存储一个 blob 对象 (这里以字符串 "what is up, doc?" 为例) 。使用 `irb` 命令进入 Ruby 交互式模式：
 
 	$ irb
 	>> content = "what is up, doc?"
 	=> "what is up, doc?"
 
-Git constructs a header that starts with the type of the object, in this case a blob. Then, it adds a space followed by the size of the content and finally a null byte:
+Git 以对象类型为起始内容构造一个文件头，本例中是一个 blob。然后添加一个空格，接着是数据内容的长度，最后是一个空字节 (null byte)：
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"
 
-Git concatenates the header and the original content and then calculates the SHA-1 checksum of that new content. You can calculate the SHA-1 value of a string in Ruby by including the SHA1 digest library with the `require` command and then calling `Digest::SHA1.hexdigest()` with the string:
+Git 将文件头与原始数据内容拼接起来，并计算拼接后的新内容的 SHA-1 校验和。可以在 Ruby 中使用 `require` 语句导入 SHA1 digest 库，然后调用 `Digest::SHA1.hexdigest()` 方法计算字符串的 SHA-1 值：
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -267,14 +267,14 @@ Git concatenates the header and the original content and then calculates the SHA
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git compresses the new content with zlib, which you can do in Ruby with the zlib library. First, you need to require the library and then run `Zlib::Deflate.deflate()` on the content:
+Git 用 zlib 对数据内容进行压缩，在 Ruby 中可以用 zlib 库来实现。首先需要导入该库，然后用 `Zlib::Deflate.deflate()` 对数据进行压缩：
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
-Finally, you’ll write your zlib-deflated content to an object on disk. You’ll determine the path of the object you want to write out (the first two characters of the SHA-1 value being the subdirectory name, and the last 38 characters being the filename within that directory). In Ruby, you can use the `FileUtils.mkdir_p()` function to create the subdirectory if it doesn’t exist. Then, open the file with `File.open()` and write out the previously zlib-compressed content to the file with a `write()` call on the resulting file handle:
+最后将用 zlib 压缩后的内容写入磁盘。需要指定保存对象的路径 (SHA-1 值的头两个字符作为子目录名称，剩余 38 个字符作为文件名保存至该子目录中)。在 Ruby 中，如果子目录不存在可以用 `FileUtils.mkdir_p()` 函数创建它。接着用 `File.open` 方法打开文件，并用 `write()` 方法将之前压缩的内容写入该文件：
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37"
@@ -285,7 +285,7 @@ Finally, you’ll write your zlib-deflated content to an object on disk. You’l
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-That’s it — you’ve created a valid Git blob object. All Git objects are stored the same way, just with different types — instead of the string blob, the header will begin with commit or tree. Also, although the blob content can be nearly anything, the commit and tree content are very specifically formatted.
+这就行了 ── 你已经创建了一个正确的 blob 对象。所有的 Git 对象都以这种方式存储，惟一的区别是类型不同 ── 除了字符串 blob，文件头起始内容还可以是 commit 或 tree 。不过虽然 blob 几乎可以是任意内容，commit 和 tree 的数据却是有固定格式的。
 
 ## Git References ##
 
@@ -971,8 +971,8 @@ Let’s see how much space you saved.
 
 The packed repository size is down to 7K, which is much better than 2MB. You can see from the size value that the big object is still in your loose objects, so it’s not gone; but it won’t be transferred on a push or subsequent clone, which is what is important. If you really wanted to, you could remove the object completely by running `git prune --expire`.
 
-## Summary ##
+## 总结 ##
 
-You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.
+现在你应该对 Git 可以作什么相当了解了，并且在一定程度上也知道了 Git 是如何实现的。本章覆盖了许多 plumbing 命令 ── 这些命令比较底层，且比你在本书其他部分学到的 porcelain 命令要来得简单。从底层了解 Git 的工作原理可以帮助你更好地理解为何 Git 实现了目前的这些功能，也使你能够针对你的工作流写出自己的工具和脚本。
 
-Git as a content-addressable filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.
+Git 作为一套 content-addressable 的文件系统，是一个非常强大的工具，而不仅仅只是一个 VCS 供人使用。希望借助于你新学到的 Git 内部原理的知识，你可以实现自己的有趣的应用，并以更高级便利的方式使用 Git。

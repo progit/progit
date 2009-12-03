@@ -207,7 +207,7 @@ Relembrando, você só precisará fazer isso uma vez caso passe a opção `--glo
 
 Agora que sua identidade está configurada, você pode configurar o editor de texto padrão que será utilizado quando o Git precisar que você digite uma mensagem. Por padrão, Git usa o editor padrão do sistema, que é geralmente Vi ou Vim. Caso você queira utilizar um editor diferente, tal como o Emacs, você pode executar o seguinte:
 
-	$ git config --global core.editor emacs
+	$ 
 	
 ### Sua Ferramenta de Diff ###
 

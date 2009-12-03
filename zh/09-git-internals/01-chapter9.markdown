@@ -16,7 +16,7 @@
 
 当你在一个新目录或已有目录内执行 `git init` 时，Git 会创建一个 `.git` 目录，几乎所有 Git 存储和操作的内容都位于该目录下。如果你要备份或复制一个库，基本上将这一目录拷贝至其他地方就可以了。本章基本上都讨论该目录下的内容。该目录结构如下：
 
-	$ ls 
+	$ ls
 	HEAD
 	branches/
 	config
@@ -55,7 +55,7 @@ Git 初始化了 `objects` 目录，同时在该目录下创建了 `pack` 和 `i
 
 参数 `-w` 指示 `hash-object` 命令存储 (数据) 对象，若不指定这个参数该命令仅仅返回键值。`--stdin` 指定从标准输入设备 (stdin) 来读取内容，若不指定这个参数则需指定一个要存储的文件的路径。该命令输出长度为 40 个字符的校验和。这是个 SHA-1 哈希值──其值为要存储的数据加上你马上会了解到的一种头信息的校验和。现在可以查看到 Git 已经存储了数据：
 
-	$ find .git/objects -type f 
+	$ find .git/objects -type f
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
 可以在 `objects` 目录下看到一个文件。这便是 Git 存储数据内容的方式──为每份内容生成一个文件，取得该内容与头信息的 SHA-1 校验和，创建以该校验和前两个字符为名称的子目录，并以 (校验和) 剩下 38 个字符为文件命名 (保存至子目录下)。
@@ -68,32 +68,32 @@ Git 初始化了 `objects` 目录，同时在该目录下创建了 `pack` 和 `i
 可以往 Git 中添加更多内容并取回了。也可以直接添加文件。比方说可以对一个文件进行简单的版本控制。首先，创建一个新文件，并把文件内容存储到数据库中：
 
 	$ echo 'version 1' > test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	83baae61804e65cc73a7201a7252750c76066a30
 
 接着往该文件中写入一些新内容并再次保存：
 
 	$ echo 'version 2' > test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
 数据库中已经将文件的两个新版本连同一开始的内容保存下来了：
 
-	$ find .git/objects -type f 
+	$ find .git/objects -type f
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
 再将文件恢复到第一个版本：
 
-	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
-	$ cat test.txt 
+	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt
+	$ cat test.txt
 	version 1
 
 或恢复到第二个版本：
 
-	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
-	$ cat test.txt 
+	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt
+	$ cat test.txt
 	version 2
 
 需要记住的是几个版本的文件 SHA-1 值可能与实际的值不同，其次，存储的并不是文件名而仅仅是文件内容。这种对象类型称为 blob 。通过传递 SHA-1 值给 `cat-file -t` 命令可以让 Git 返回任何对象的类型：
@@ -117,7 +117,7 @@ Git 初始化了 `objects` 目录，同时在该目录下创建了 `pack` 和 `i
 
 从概念上来讲，Git 保存的数据如图 9-1 所示。
 
-Insert 18333fig0901.png 
+Insert 18333fig0901.png
 Figure 9-1. Git 对象模型的简化版
 
 你可以自己创建 tree 。通常 Git 根据你的暂存区域或 index 来创建并写入一个 tree 。因此要创建一个 tree 对象的话首先要通过将一些文件暂存从而创建一个 index 。可以使用 plumbing 命令 `update-index` 为一个单独文件 ── test.txt 文件的第一个版本 ──　创建一个 index　。通过该命令人为的将 test.txt 文件的首个版本加入到了一个新的暂存区域中。由于该文件原先并不在暂存区域中 (甚至就连暂存区域也还没被创建出来呢) ，必须传入 `--add` 参数;由于要添加的文件并不在当前目录下而是在数据库中，必须传入 `--cacheinfo` 参数。同时指定了文件模式，SHA-1 值和文件名：
@@ -142,8 +142,8 @@ Figure 9-1. Git 对象模型的简化版
 再根据 test.txt 的第二个版本以及一个新文件创建一个新 tree 对象：
 
 	$ echo 'new file' > new.txt
-	$ git update-index test.txt 
-	$ git update-index --add new.txt 
+	$ git update-index test.txt
+	$ git update-index --add new.txt
 
 这时暂存区域中包含了 test.txt 的新版本及一个新文件 new.txt 。创建 (写) 该 tree 对象 (将暂存区域或 index 状态写入到一个 tree 对象)，然后瞧瞧它的样子：
 
@@ -165,7 +165,7 @@ Figure 9-1. Git 对象模型的简化版
 
 如果从刚写入的新 tree 对象创建一个工作目录，将得到位于工作目录顶级的两个文件和一个名为 `bak` 的子目录，该子目录包含了 test.txt 文件的第一个版本。可以将 Git 用来包含这些内容的数据想象成如图 9-2 所示的样子。
 
-Insert 18333fig0902.png 
+Insert 18333fig0902.png
 Figure 9-2. 当前 Git 数据的内容结构
 
 ###  commit (提交) 对象 ###
@@ -242,7 +242,7 @@ commit 对象有格式很简单：指明了该时间点项目快照的顶层树�
 
 如果你按照以上描述进行了操作，可以得到如图 9-3 所示的对象图。
 
-Insert 18333fig0903.png 
+Insert 18333fig0903.png
 Figure 9-3. Git 目录下的所有对象
 
 ### 对象存储 ###
@@ -327,7 +327,7 @@ Your branch will contain only work from that commit down:
 
 Now, your Git database conceptually looks something like Figure 9-4.
 
-Insert 18333fig0904.png 
+Insert 18333fig0904.png
 Figure 9-4. Git directory objects with branch head references included.
 
 When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
@@ -336,12 +336,12 @@ When you run commands like `git branch (branchname)`, Git basically runs that `u
 
 The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:
 
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/master
 
 If you run `git checkout test`, Git updates the file to look like this:
 
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/test
 
 When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.
@@ -354,7 +354,7 @@ You can also manually edit this file, but again a safer command exists to do so:
 You can also set the value of HEAD:
 
 	$ git symbolic-ref HEAD refs/heads/test
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/test
 
 You can’t set a symbolic reference outside of the refs style:
@@ -376,7 +376,7 @@ That is all a lightweight tag is — a branch that never moves. An annotated tag
 
 Here’s the object SHA-1 value it created:
 
-	$ cat .git/refs/tags/v1.1 
+	$ cat .git/refs/tags/v1.1
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
 Now, run the `cat-file` command on that SHA-1 value:
@@ -410,7 +410,7 @@ The third type of reference that you’ll see is a remote reference. If you add 
 
 Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:
 
-	$ cat .git/refs/remotes/origin/master 
+	$ cat .git/refs/remotes/origin/master
 	ca82a6dff817ec66f44342007202690a93763949
 
 Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers.
@@ -435,7 +435,7 @@ Let’s go back to the objects database for your test Git repository. At this po
 Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file:
 
 	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
-	$ git add repo.rb 
+	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb
 	 3 files changed, 459 insertions(+), 2 deletions(-)
@@ -457,7 +457,7 @@ You can then use `git cat-file` to see how big that object is:
 
 Now, modify that file a little, and see what happens:
 
-	$ echo '# testing' >> repo.rb 
+	$ echo '# testing' >> repo.rb
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -611,7 +611,7 @@ You can also use the refspec to delete references from the remote server by runn
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. 
+Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.
 
 ## Transfer Protocols ##
 
@@ -633,7 +633,7 @@ Now you have a list of the remote references and SHAs. Next, you look for what t
 	=> GET HEAD
 	ref: refs/heads/master
 
-You need to check out the `master` branch when you’ve completed the process. 
+You need to check out the `master` branch when you’ve completed the process.
 At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
@@ -784,8 +784,8 @@ The other thing `gc` will do is pack up your references into a single file. Supp
 
 If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:
 
-	$ cat .git/packed-refs 
-	# pack-refs with: peeled 
+	$ cat .git/packed-refs
+	# pack-refs with: peeled
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 	ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
@@ -855,7 +855,7 @@ It looks like the bottom commit is the one you lost, so you can recover it by cr
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again. 
+Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again.
 Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:
 
 	$ git branch –D recover-branch
@@ -890,7 +890,7 @@ To demonstrate, you’ll add a large file into your test repository, remove it i
 
 Oops — you didn’t want to add a huge tarball to your project. Better get rid of it:
 
-	$ git rm git.tbz2 
+	$ git rm git.tbz2
 	rm 'git.tbz2'
 	$ git commit -m 'oops - removed large tarball'
 	[master da3f30d] oops - removed large tarball

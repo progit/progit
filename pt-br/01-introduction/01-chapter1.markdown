@@ -81,7 +81,7 @@ Isso também significa que há pouca coisa que você não possa fazer caso estej
 
 ### Git Possui Integridade ###
 
-Tudo no Git tem seu checksum calculado antes que seja armazenado e é referenciado pelo checksum. Isso significada que é impossível mudar o conteúdo de qualquer arquivo ou diretório sem que o Git tenha conhecimento da ação tomada. Essa funcionalidade é parte fundamental do Git e é integral à sua filosofia. Você não pode perder informação em trânsito ou ter arquivos corrompidos sem que o Git seja capaz de detectar o ocorrido.
+Tudo no Git tem seu checksum calculado antes que seja armazenado e então passa a ser referenciado pelo checksum. Isso significa que é impossível mudar o conteúdo de qualquer arquivo ou diretório sem que o Git tenha conhecimento da ação tomada. Essa funcionalidade é parte fundamental do Git e é integral à sua filosofia. Você não pode perder informação em trânsito ou ter arquivos corrompidos sem que o Git seja capaz de detectar o ocorrido.
 
 O mecanismo que o Git usa para fazer o checksum é chamado de hash SHA-1, uma string de 40 caracteres composta de characteres hexadecimais que é calculado a partir do conteúdo de um arquivo ou estrutura de um diretório no Git. Um hash SHA-1 parece com algo mais ou menos assim:
 
@@ -93,20 +93,20 @@ Você vai encontrar esses hashes em todo canto, uma vez que Git os utiliza const
 
 Dentre as ações que você pode realizar no Git, quase todas apenas acabam por acrescentar dados à base do Git. É muito difícil fazer qualquer coisa no sistema que seja destrutiva, ou remover dados. Assim como em qualquer VCS, você pode perder ou detonar mudanças que ainda não fez commit; mas depois de fazer um commit de um snapshot no Git, é muito difícil que você o perca, especialmente se você frequentemente lança suas mudanças para outro repositório.
 
-Isso faz com que o uso do Git seja agradável no sentido de permitir que façamos experiências sem o perigo de causar danos sérios. Para uma análise mais detalhada de como o Git armazena seus dados e de como você recuperar dados que aparentemente foram perdidos, veja "Por baixo dos panos" no Capítulo 9.
+Isso faz com que o uso do Git seja agradável no sentido de permitir que façamos experiências sem o perigo de causar danos sérios. Para uma análise mais detalhada de como o Git armazena seus dados e de como você pode recuperar dados que aparentemente foram perdidos, veja "Por baixo dos panos" no Capítulo 9.
 
 ### Os Três Estados ###
 
-Preste muita atenção agora. Essa é a coisa mais importante pra se guardar sobre o Git se você quiser que o restante do seu processo de aprendizado seja tranquilo. Git faz com que seus arquivos sempre estejam em um dos três estados fundamentais: consolidado (committed), modificado (modified) e elencado (staged). Dados são ditos consolidados quando estão seguramente armazenadas em sua base de dados locais. Modificado trata de um arquivo que sofreu mudanças mas que ainda não foi consolidado na base de dados. Um arquivo é tido como elencado quando você marca um arquivo na sua versão corrente para que ele faça parte da sua próxima captura instântanea para consolidação.
+Preste muita atenção agora. Essa é a coisa mais importante pra se guardar sobre o Git se você quiser que o restante do seu processo de aprendizado seja tranquilo. Git faz com que seus arquivos sempre estejam em um dos três estados fundamentais: consolidado (committed), modificado (modified) e elencado (staged). Dados são ditos consolidados quando estão seguramente armazenadas em sua base de dados locais. Modificado trata de um arquivo que sofreu mudanças mas que ainda não foi consolidado na base de dados. Um arquivo é tido como elencado quando você marca a sua versão corrente para que ele faça parte da sua próxima captura instântanea para consolidação.
 
 Isso nos traz para as três seções principais de um projeto do Git: o diretório do Git, a área de trabalho, e a área de seleção.
 
 Insert 18333fig0106.png 
-Figura 1-6. Área de trabalho, Área de seleção, e o diretório do Git.
+Figura 1-6. Área de trabalho, área de seleção, e o diretório do Git.
 
 O diretório Git é o local onde o Git armazena os metadados e a base de dados de seu projeto. Esta é a parte mais importante do Git e, é a parte copiada quando você clona um repositório de outro computador.
 
-A área de trabalho é um único checkout de uma única versão do projeto. Estes arquivos são obtidos a partir da base de dados comprimida no diretório Git e colocadas em disco para que você possa utilizar ou modificar.
+A área de trabalho é um único checkout de uma versão do projeto. Estes arquivos são obtidos a partir da base de dados comprimida no diretório Git e colocados em disco para que você possa utilizar ou modificar.
 
 A área de seleção é um simples arquivo, geralmente contido no seu diretório Git, que armazena informações sobre o que irá em seu próximo commit. É algumas vezes referenciado como índice, mas está se tornando padrão chamá-lo de área de seleção.
 
@@ -120,11 +120,11 @@ Se uma versão particular de um arquivo está no diretório Git, é considerada 
 
 ## Instalando Git ##
 
-Vamos entender como utilizar o Git. Primeiramente você deve instalá-lo. Você pode obte-lo de diversas formas; as duas mais comuns são instalá-lo a partir do fonte e instalar um pacote existente para sua plataforma.
+Vamos entender como utilizar o Git. Primeiramente você deve instalá-lo. Você pode obtê-lo de diversas formas; as duas mais comuns são instalá-lo a partir do fonte ou instalar um pacote existente para sua plataforma.
 
 ### Instalando a Partir do Fonte ###
 
-Caso você possa, é geralmente mais util instalar o Git a partir do fonte, porque será obtida a versão mais recente. Cada versão do Git tende a incluir melhoras na UI, sendo assim, obter a última versão é, em geral, a melhor forma caso você sinta-se confortável em compilar o código a partir do fonte. É também o caso para diversas distribuições Linux que contêm pacotes muito antigos; sendo assim, a não ser que você tenha uma distro muito atualizada ou está utilizando backports, instalar a partir do fonte pode ser a melhor aposta.
+Caso você possa, é geralmente mais útil instalar o Git a partir do fonte, porque será obtida a versão mais recente. Cada versão do Git tende a incluir melhoras na UI, sendo assim, obter a última versão é, em geral, a melhor forma caso você sinta-se confortável em compilar o código a partir do fonte. É também o caso para diversas distribuições Linux que contêm pacotes muito antigos; sendo assim, a não ser que você tenha uma distro muito atualizada ou está utilizando backports, instalar a partir do fonte pode ser a melhor aposta.
 
 Para instalar o Git, você precisa ter as seguintes bibliotecas que o Git depende: curl, zlib, openssl, expat e libiconv. Por exemplo, se você um sistema que tem yum (tal como o Fedora) ou apt-get (tais como os sistemas baseados no Debian), você pode utlizar um desses comandos para instalar todas as dependências:
 
@@ -168,7 +168,7 @@ Existem duas formas fáceis de se instalar Git em um Mac. A mais fácil delas é
 Insert 18333fig0107.png 
 Figura 1-7. Instalador Git OS X
 
-A outra forma mais comum é instalar o Git via MacPorts (`http://www.macports.org`). Se você tem o MacPOrts instalado, instale o Git via
+A outra forma comum é instalar o Git via MacPorts (`http://www.macports.org`). Se você tem o MacPOrts instalado, instale o Git via
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
@@ -184,7 +184,7 @@ Após concluir a instalação, você terá tanto uma versão de linha-de-comando
 
 ## Configuração Inicial do Git ##
 
-Agora que você tem o Git em seu sistema, você pode querer fazer algumas coisas para customizar seu ambiente Git. Você deve ter que realizar isso apenas uma vez; elas se manterão entre atualizações. Você também poderá alterá-las a qualqer momento executando os comandos novamente.
+Agora que você tem o Git em seu sistema, você pode querer fazer algumas coisas para customizar seu ambiente Git. Você realizará isso apenas uma vez; as configurações se manterão entre atualizações. Você também poderá alterá-las a qualqer momento executando os comandos novamente.
 
 Git vem com uma ferramenta chamada git config que permite a você obter e definir variáveis de configuração que controlam todos os aspectos de como o Git parece e opera. Essas variáveis podem ser armazenadas em três lugares diferentes:
 
@@ -192,7 +192,7 @@ Git vem com uma ferramenta chamada git config que permite a você obter e defini
 *	arquivo `~/.gitconfig`: Específico para seu usuário. Você pode fazer o Git ler e escrever a partir deste arquivo especificamente passando a opção `--global`.
 *	arquivo de configuração no diretório git (ou seja, `.git/config`) de qualquer repositório que você esta utilizando atualmente: Específico para aquele único repositório. Cada nível sobrepõem o valor do nível anterior, sendo assim valores em `.git/config` sobrescrevem aqueles em `/etc/gitconfig`
 
-Em sistemas Windows, Git procura pelo arquivo `.gitconfig` no diretório `$HOME` (`C:\Documents and Settins\$USER` para a maioria das pessoas). Também procura por /etc/gitconfig, apesar de que é relativo à raiz de MSys, que é o local onde você escolheu instalar o Git no seu sistema Windows quando executa o instalador.
+Em sistemas Windows, Git procura pelo arquivo `.gitconfig` no diretório `$HOME` (`C:\Documents and Settins\$USER` para a maioria das pessoas). Também procura por /etc/gitconfig, apesar de que é relativo à raiz de MSys, que é o local onde você escolheu instalar o Git no seu sistema Windows quando executou o instalador.
 
 ### Sua Identidade ###
 
@@ -215,7 +215,7 @@ Outra opção útil que você pode querer configurar é a ferramente padrão de 
 
 	$ git config --global merge.tool vimdiff
 
-Git aceita kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge e opendiff como ferramentas válidas de mescla. Você também pode configurar uma ferramenta customizada; veja o Capítulo 7 para maiores informações em como fazê-lo.
+Git aceita kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge e opendiff como ferramentas válidas para merge. Você também pode configurar uma ferramenta customizada; veja o Capítulo 7 para maiores informações em como fazê-lo.
 
 ### Verificando Suas Configurações ###
 

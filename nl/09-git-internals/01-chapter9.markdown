@@ -332,54 +332,54 @@ Figuur 9-4. Git map objecten met branch head referenties erbij.
 
 Als je commando's zoals `git branch (branchnaam)` uitvoert, voert Git eigenlijk dat `update-ref` commando uit om de SHA-1 van de laatste commit van de branch waarop je zit, toe te voegen aan welke referentie je ook wil maken.
 
-### The HEAD ###
+### De HEAD ###
 
-The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:
+De vraag is nu, als je `git branch (branchnaam)` uitvoert, hoe weet Git de SHA-1 van de laatste commit? Het antwoord is het HEAD bestand. Het HEAD bestand is een symbolische referentie naar de branch waar je momenteel op zit. Met symbolische referentie bedoel ik dat, in tegenstelling tot een normale referentie, het over het algemeen geen SHA-1 waarde bevat maar een pointer naar een andere referentie. Als je naar het bestand kijkt, zul je normaal gesproken zoiets als dit zien:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/master
 
-If you run `git checkout test`, Git updates the file to look like this:
+Als je `git checkout test` uitvoert, zal Git het bestand vernieuwen zodat het er zo uit ziet:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.
+Als je `git commit` uitvoert, wordt het commit object gecreëerd, waarbij de ouder van dat commit object gezet wordt naar welke SHA-1 waarde de referentie in HEAD ook wijst.
 
-You can also manually edit this file, but again a safer command exists to do so: `symbolic-ref`. You can read the value of your HEAD via this command:
+Je kunt dit bestand ook handmatig aanpassen, maar ook daar bestaat weer een veiliger commando voor: `symbolic-ref`. Je kunt de waarde van je HEAD lezen via dit commando:
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
 
-You can also set the value of HEAD:
+Je kunt de waarde van HEAD ook instellen:
 
 	$ git symbolic-ref HEAD refs/heads/test
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-You can’t set a symbolic reference outside of the refs style:
+Je kunt geen symbolische referentie instellen die buiten de refs stijl valt:
 
 	$ git symbolic-ref HEAD test
 	fatal: Refusing to point HEAD outside of refs/
 
 ### Tags ###
 
-You’ve just gone over Git’s three main object types, but there is a fourth. The tag object is very much like a commit object — it contains a tagger, a date, a message, and a pointer. The main difference is that a tag object points to a commit rather than a tree. It’s like a branch reference, but it never moves — it always points to the same commit but gives it a friendlier name.
+Je bent zojuist door drie hoofdobject types van Git gegaan, maar er bestaat een vierde. Het tag object komt veel overeen met een commit object – het bevat een tagger, een datum, een bericht, en een pointer. Het grootste verschil is dat een tag object naar een commit wijst in plaats van een boom. Het is vergelijkbaar met een branch referentie, maar het beweegt nooit – het zal altijd naar dezelfde commit wijzen, maar geeft het een vriendlijker naam.
 
-As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:
+Zoals besproken in hoofdstuk 2, zijn er twee soorten tags: beschreven en lichtgewicht. Je kunt een lichtgewicht tag maken door zoiets als dit uit te voeren:
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
-That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
+Dat is wat een lichtgewicht tag is – een branch die nooit beweegt. Een beschreven tag is echter complexer. Als je een beschreven tag aanmaakt, creëert Git een tag object en schrijft een referentie die daar naar wijst, in plaats van direct naar de commit. Je kunt dit zien door een beschreven tag aan te maken (`-a` specificeert dat het een beschreven tag is):
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
 
-Here’s the object SHA-1 value it created:
+Hier is de object SHA-1 waarde die het creëerde:
 
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
-Now, run the `cat-file` command on that SHA-1 value:
+Voer nu het `cat-file` commando uit op die SHA-1 waarde:
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -389,15 +389,15 @@ Now, run the `cat-file` command on that SHA-1 value:
 
 	test tag
 
-Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running
+Zie dat de object regel wijst naar de SHA-1 waarde die je getagged hebt. Zie ook dat het niet naar een commit hoeft te wijzen: je kunt ieder Git object een tag geven. In de Git broncode bijvoorbeeld, heeft de maintainer zijn publieke GPG sleutel als een blob object toegevoegt en het een tag gegeven. Je kunt de publieke sleutel bekijken door dit uit te voeren
 
 	$ git cat-file blob junio-gpg-pub
 
-in the Git source code. The Linux kernel also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
+in de Git broncode. De Linux kernel heeft ook een non-commit-wijzend tag object – het eerste tag object wijst naar de eerste tree van de import van de broncode.
 
 ### Remotes ###
 
-The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:
+Het derde soort referentie dat je zult zien is een remote referentie. Als je een remote toevoegt en er naar pushed, slaat Git de laatste waarde van iedere branch op die je gepushed hebt naar die remote in de `refs/remotes` map. Bijvoorbeeld, je kunt een remote genaamd `origin` toevoegen en je master branch hier naar pushen:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master

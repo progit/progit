@@ -55,7 +55,7 @@ Desde sua concepção em 2005, o Git evoluiu e amadureceu a ponto de ser um sist
 
 ## Git Básico ##
 
-Enfim, como fazer uma descrição sucinta do Git? Essa é uma seção importante para assimiliar, já que usá-lo será muito mais fácil se você entender o que é o Git e os fundamentos de sua operação. À medida que você aprende a usar o Git, tente não pensar no que você já sabe sobre outros VCS como Subversion e Perforce; assim você consegue escapar de pequenas confusões que podem surgir usando a ferramenta. Git armazena e pensa sobre informação de uma forma totalmente diferente desses outros sistemas, apesar de possuir uma interface similar; entendendo essas diferenças lhe auxiliarão a ficar confuso.
+Enfim, rapidamente, o que é o Git? Essa é uma seção importante para assimiliar, pois se você entender o que é o Git e os fundamentos de como ele funciona, provavelmente será muito mais fácil utilizá-lo com eficiência. À medida que você aprende a usar o Git, tente não pensar no que você já sabe sobre outros VCS como Subversion e Perforce; assim você consegue escapar de pequenas confusões que podem surgir ao usar a ferramenta. Apesar de possuir uma interface parecida, o Git armazena e pensa sobre informação de uma forma totalmente diferente desses outros sistemas; entender essas diferenças te ajudará a não ficar confuso ao utilizar o Git.
 
 ### Capturas Instantâneas, ao invés de diferenças  ###
 

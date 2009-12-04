@@ -279,16 +279,16 @@ Agora pode utiliar o `git diff` para ver o que ainda não foi selecionado
 	          log = git.commits('master', 15)
 	          log.size
 
-### Committing Your Changes ###
+### Commitando Suas Mudanças ###
 
-Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
+Agora que a sua área de seleção está do jeito que você quer, você pode commitar suas mudanças. Lembre-se que tudo aquilo que ainda não foi selecionado - qualquer arquivo que você criou ou modificou que você não tenha rodado o comando `git add` desde que editou - não fará parte deste commit. Estes arquivos permanecerão como arquivos modificados em seu disco.
+Neste caso, a última vez que você rodou `git status`, viu que tudo estava selecionado, portanto você está pronto para commitar suas mudanças. O jeito mais simples de commitar é digitar `git commit`:
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+Ao fazer isso, seu editor de escolha é acionado. (Isto é configurado através da variavel de ambiente `$EDITOR` de seu shell - normalmente vim ou emais, apesar de poder ser configurado o que você quiser utilizando o comando `git config --global core.editor` como visto no Capítulo 1).
 
-The editor displays the following text (this example is a Vim screen):
+O editor mostra o seguinte texto (este é um exemplo da tela do Vim):
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -303,18 +303,18 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+Você pode ver que a mensagem default do commit contém a última saída do comando `git status` comentada e uma linha vazia no início. Você pode remover estes comentários e digitar sua mensagem de commit, ou pode deixá-los ai para ajudar a lembrar o que está commitando. (Para um lembrete ainda mais explícito do que foi modificado, você pode passar a opção `-v` para o `git commit`. Ao fazer isso, aparecerá a diferença (diff) da sua mudança no editor para que possa ver exatamente o que foi feito.) Quando você sair do editor, o Git criará o seu commit com a mensagem (com os comentários e o diff retirados).
 
-Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
+Alternativamente, você pode digitar sua mensagem de commit junto ao comanto `commit` ao especificá-la após a flag -m, assim:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+Agora você acabou de criar o seu primeiro commit! Você pode ver que o commit te mostrou uma saída sobre ele mesmo: qual o branch que recebeou o commit (master), qual o checksum SHA-1 que o commit teve (`463dc4f`), quantos arquivos foram alterados, e estatísticas a respeito das linhas adicionadas e removidas no commit.
 
-Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
+Lembre-se que o commit grava a captura da área de seleção. Qualquer coisa que não foi selecionada ainda permanece lá modificada; você pode fazer um outro commit para adicioná-la ao seu histórico. Toda vez que você faz um commit, está gravando a captura do seu projeto o qual poderá reverter ou comparar posteriormente.
 
 ### Skipping the Staging Area ###
 

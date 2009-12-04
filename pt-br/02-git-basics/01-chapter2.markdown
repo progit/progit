@@ -316,9 +316,9 @@ Agora você acabou de criar o seu primeiro commit! Você pode ver que o commit t
 
 Lembre-se que o commit grava a captura da área de seleção. Qualquer coisa que não foi selecionada ainda permanece lá modificada; você pode fazer um outro commit para adicioná-la ao seu histórico. Toda vez que você faz um commit, está gravando a captura do seu projeto o qual poderá reverter ou comparar posteriormente.
 
-### Skipping the Staging Area ###
+### Pulando a Área de Seleção ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+Embora possa ser extraordinariamente útil para a elaboração de commits exatamente como você deseja, a área de seleção às vezes é um pouco mais complexa do que você precisa no seu fluxo de trabalho. Se você quiser pular a área de seleção, o Git provê um atalho simples. Informar a opção `-a` ao comando `git commit` faz com que o Git selecione automaticamente cada arquivo que está sendo monitorado antes de realizar o commit, permitindo que você pule a parte do `git add`:
 
 	$ git status
 	# On branch master
@@ -331,7 +331,7 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+Note que, neste caso, você não precisa rodar o `git add` no arquivo benchmarks.rb antes de commitar.
 
 ### Removing Files ###
 
@@ -475,7 +475,7 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	 end
 	-
 	-if $0 == __FILE__
-	-  git = SimpleGit.new
+	-  git = SimpleGit.newEmbora possa ser extraordinariamente útil para a elaboração comete exatamente como você deseja
 	-  puts git.show
 	-end
 	\ No newline at end of file

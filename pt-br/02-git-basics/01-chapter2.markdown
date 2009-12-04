@@ -78,7 +78,7 @@ Para passar a monitorar um novo arquivo, use o comando `git add`. Para monitorar
 
 	$ git add README
 
-If você rodar o comando status novamente, você pode ver qeu o seu arquivo README agora está sendo monitorado e está selecionado:
+Se você rodar o comando status novamente, você pode ver que o seu arquivo README agora está sendo monitorado e está selecionado:
 
 	$ git status
 	# On branch master
@@ -148,26 +148,26 @@ Que diabos? Agora o arquivo benchmarks.rb aparece listado como selecionado e nã
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### Ignorando Arquivos ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+Muitas vezes, você terá uma classe de arquivos que não queira que o Git automaticamente adicione ou mostre como arquivos não monitorados. Normalmentes estes arquivos são gerados automaticamente como arquivos de log ou produzidos pelo seu sistema de build. Nestes casos, você pode criar um arquivo contendo uma lista de padrões a serem checados chamado .gitignore. Eis um exemplo de arquivo .gitignore:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+A primeira linha fala para o Git ignorar qualquer arquivo finalizado em .o ou .a - arquivos objetos e archive que devem ter produto da construção (build) de seu código. A segunda linha fala para o Git ignorar todos os arquivos que terminam com um til (`~`), os quais são utilizados por muitos editores de texto como o Emacs para marcar arquivos temporários. Você também pode incluir um diretório log, tmp ou pid; documentação gerada automaticamente; e assim por diante. Configurar um arquivo .gitignore antes de começar a trabalhar normalmente é uma boa ideia, evitando que você comite acidentalmente arquivos que não deveriam ir para o seu repositório Git.
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+As regras para os padrões que você pode por no arquivo .gitignore são as seguintes:
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+*	Linhas em branco ou iniciando com # são ignoradas.
+*	Padrões glob comuns funcionam.
+*	Você pode terminar os padrões com uma barra (`/`) para especificar diretórios.
+*	Você pode negar um padrão ao iniciá-lo com um ponto de exclamação (`!`).
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+Padrões glob são como expressões regulares simples que os shells usam. Um asterísco (`*`) significa zero ou mais caracteres; `[abc]` condiz com qualquer um dos caracteres de dentro dos colchetes (nesse caso a, b, ou c); um ponto de interrogação (`?`) condiz com um único caracter; e os caracteres separados por hífen dentro de colchetes (`[0-9]`) condizem à qualquer um dos caracteres entre eles (neste cado de 0 a 9).
 
-Here is another example .gitignore file:
+Segue um outro exemplo de arquivo .gitignore:
 
 	# a comment – this is ignored
 	*.a       # no .a files

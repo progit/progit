@@ -176,11 +176,11 @@ Segue um outro exemplo de arquivo .gitignore:
 	build/    # ignore all files in the build/ directory
 	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
 
-### Viewing Your Staged and Unstaged Changes ###
+### Visualizando Suas Mudanças Selecionadas e Não Selecionadas ###
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+Se o comando `git status` for muito vago - você quer saber exatamente o que você alterou, não apenas quais arquivos foram alterados - você pode utilizar o comando `git diff`. Nós trataremos o comando `git diff` em mais detalhes posteriormente; mas provavelmente você vai utilizá-lo com frequencia para responder estas duas perguntas: O que você alterou mas ainda não selecionou (stage)? E o que você selecionou que está para ser comitado? Apesar do comando `git status` responder essas duas perguntas de maneira geral, o `git diff` mostra as linhas exatas que foram adicionadas e removidas - o patch, por assim dizer.
 
-Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
+Vamos dizer que você edite e selecione o arquivo README denovo e então edite o arquivo benchmarks.rb sem selecioná-lo. Se você rodar o comando `status`, você novamente verá algo assim:
 
 	$ git status
 	# On branch master
@@ -195,7 +195,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#	modified:   benchmarks.rb
 	#
 
-To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
+Para ver o que você alterou mas ainda não selecionou, digite o comando `git diff` sem nenhum argumento:
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -214,9 +214,9 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+Este comando compara o que está no seu diretório de trabalho com o que está na sua área de seleção (staging). O resultado te mostra as mudanças que você fez que ainda não foram selecionadas.
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+Se você quer ver o que selecionou que irá no seu próximo commit, pode utilizar `git diff --cached`. (Nas versões do Git 1.6.1 e superiores, você também pode utilizar `git diff --staged`, o que deve ser mais fácil de lembrar.) Este comando compara as mudanças selecionadas com o seu último commit:
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -231,9 +231,9 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+É importante notar que o `git diff` por si só não mostra todas as mudanças desde o último commit - apenas as mudanças que ainda não foram selecionadas. Isso pode ser confuso, pois se você selecionou todas as suas mudanças, `git diff` não te dará nenhum resultado.
 
-For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
+Como um outro exemplo, se você selecionar o arquivo benchmarks.rb e então editá-lo, você pode utilizar o `git diff` para ver as mudanças no arquivo que estão selecionadas e as mudanças que não estão:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -249,7 +249,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
-Now you can use `git diff` to see what is still unstaged
+Agora pode utiliar o `git diff` para ver o que ainda não foi selecionado
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb

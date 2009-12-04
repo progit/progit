@@ -475,7 +475,7 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	 end
 	-
 	-if $0 == __FILE__
-	-  git = SimpleGit.newEmbora possa ser extraordinariamente útil para a elaboração comete exatamente como você deseja
+	-  git = SimpleGit.new
 	-  puts git.show
 	-end
 	\ No newline at end of file

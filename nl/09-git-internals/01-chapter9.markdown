@@ -527,38 +527,38 @@ Hier refereert de `9bc1d` blob, wat als je je dat herinnert de eerste versie is 
 
 Het fijnste van dit alles is, is dat het op ieder gewenst moment opnieuw ingepakt kan worden. Git zal op z'n tijd je databank automatisch opnieuw inpakken, waarmee het altijd meer ruimte wil besparen. Je kunt ook handmatig opnieuw inpakken op ieder tijdstip, door `git gc` met de hand uit te voeren.
 
-## The Refspec ##
+## De Refspec ##
 
-Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.
-Suppose you add a remote like this:
+Door dit boek heen heb je eenvoudige verwijzingen van remote branches naar lokale referenties gebruikt; maar ze kunnen complexer zijn.
+Stel dat je een remote zoals dit toevoegt:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
-It adds a section to your `.git/config` file, specifying the name of the remote (`origin`), the URL of the remote repository, and the refspec for fetching:
+Dit voegt een sectie aan je `.git/config` bestand toe, wat de naam van de remote (`origin`) specificeerd, de URL van de remote repository, en de refspec die nodig is om te fetchen:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
-The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.
+Het formaat van de refspec is een optionele `+`, gevolgd door `<src>:<dst>`, waarbij `<src>` het patroon voor referenties aan de remote kant is, en `<dst>` is de locatie waar die referenties lokaal geschreven worden. De `+` verteld Git om de referentie zelfs te vernieuwen als het geen fast-forward is.
 
-In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via
+In het standaard geval dat automatisch geschreven wordt door een `git remote add` commando, haalt Git alle referenties onder `refs/heads/` van de server en schrijft ze lokaal naar `refs/remotes/origin/`. Dus als er een `master` branch op de server bestaat, kun je de log van die branch lokaal benaderen via
 
 	$ git log origin/master
 	$ git log remotes/origin/master
 	$ git log refs/remotes/origin/master
 
-They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.
+Ze zijn allemaal gelijk, omdat Git elk expandeerd naar `refs/remotes/origin/master`.
 
-If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to
+Als je wilt dat Git alleen de `master` branch pulled, en niet alle andere branches op de remote server, kun je de fetch regel veranderen in
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
-This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run
+Dit is alleen de standaard refspec voor `git fetch` voor die remote. Als je iets alleen eenmalig wilt doen, kun je de refspec ook op de commandoregel specificeren. Om de `master` branch op de remote naar de lokale `origin/mymaster` te pullen, kun je dit uitvoeren
 
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
-You can also specify multiple refspecs. On the command line, you can pull down several branches like so:
+Je kunt ook meerdere refspecs specificeren. Met de commandoregel kun je meerdere branches op deze manier pullen:
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic

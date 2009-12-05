@@ -178,7 +178,7 @@ Hier is nog een voorbeeld van een .gitignore bestand:
 
 ### Je Staged En Unstaged Wijzigigen Zien ###
 
-Als het `git status` commando te vaag is voor je – je wilt precies weten wat je vernanderd hebt, niet alleen welke bestanden veranderd zijn – dan kun je het `git diff` commando gebruiken. We zullen `git diff` later in meer detail bespreken; maar je zult het het meest gebruiken om deze twee vragen te beantwoorden: Wat heb je veranderd maar nog niet gestaged? En wat heb je gestaged en sta je op het punt te committen? Alhoewel `git status` deze vragen heel generiek beantwoord, laat `git diff` je de exacte toegevoegde en verwijderde regels zien – de patch, als het ware.
+Als het `git status` commando te vaag is voor je – je wilt precies weten wat je veranderd hebt, niet alleen welke bestanden veranderd zijn – dan kun je het `git diff` commando gebruiken. We zullen `git diff` later in meer detail bespreken; maar je zult het het meest gebruiken om deze twee vragen te beantwoorden: Wat heb je veranderd maar nog niet gestaged? En wat heb je gestaged en sta je op het punt te committen? Alhoewel `git status` deze vragen heel generiek beantwoord, laat `git diff` je de exacte toegevoegde en verwijderde regels zien – de patch, als het ware.
 
 Stel dat je het README bestand opnieuw veranderd en staged, en dan het benchmarks.rb bestand veranderd zonder het te stagen. Als je je `status` commando uitvoert, dan zie je nogmaals zoiets als dit:
 

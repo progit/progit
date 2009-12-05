@@ -872,15 +872,15 @@ Git 会不定时地自动运行称为 "auto gc" 的命令。大部分情况下�
 
 本例中，可以从 dangling commit 找到丢失了的 commit。用相同的方法就可以恢复它，即创建一个指向该 SHA 的分支。
 
-### Removing Objects ###
+### 移除对象 ###
 
-There are a lot of great things about Git, but one feature that can cause issues is the fact that a `git clone` downloads the entire history of the project, including every version of every file. This is fine if the whole thing is source code, because Git is highly optimized to compress that data efficiently. However, if someone at any point in the history of your project added a single huge file, every clone for all time will be forced to download that large file, even if it was removed from the project in the very next commit. Because it’s reachable from the history, it will always be there.
+Git 有许多过人之处，不过有一个功能有时却会带来问题：`git clone` 会将包含每一个文件的所有历史版本的整个项目下载下来。如果项目包含的仅仅是源代码的话这并没有什么坏处，毕竟 Git 可以非常高效地压缩此类数据。不过如果有人在某个时刻往项目中添加了一个非常大的文件，那们即便他在后来的提交中将此文件删掉了，所有的签出都会下载这个大文件。因为历史记录中引用了这个文件，它会一直存在着。
 
-This can be a huge problem when you’re converting Subversion or Perforce repositories into Git. Because you don’t download the whole history in those systems, this type of addition carries few consequences. If you did an import from another system or otherwise find that your repository is much larger than it should be, here is how you can find and remove large objects.
+当你将 Subversion 或 Perforce 仓库转换导入至 Git 时这会成为一个很严重的问题。在此类系统中，(签出时) 不会下载整个仓库历史，所以这种情形不大会有不良后果。如果你从其他系统导入了一个仓库，或是发觉一个仓库的尺寸远超出预计，可以用下面的方法找到并移除大 (尺寸) 对象。
 
-Be warned: this technique is destructive to your commit history. It rewrites every commit object downstream from the earliest tree you have to modify to remove a large file reference. If you do this immediately after an import, before anyone has started to base work on the commit, you’re fine — otherwise, you have to notify all contributors that they must rebase their work onto your new commits.
+警告：此方法会破坏提交历史。为了移除对一个大文件的引用，从最早包含该引用的 tree 对象开始之后的所有 commit 对象都会被重写。如果在刚导入一个仓库并在其他人在此基础上开始工作之前这么做，那没有什么问题 ── 否则你不得不通知所有协作者 (贡献者) 去衍合你新修改的 commit 。
 
-To demonstrate, you’ll add a large file into your test repository, remove it in the next commit, find it, and remove it permanently from the repository. First, add a large object to your history:
+为了演示这点，往 test 仓库中加入一个大文件，然后在下次提交时将它删除，接着找到并将这个文件从仓库中永久删除。首先，加一个大文件进去：
 
 	$ curl http://kernel.org/pub/software/scm/git/git-1.6.3.1.tar.bz2 > git.tbz2
 	$ git add git.tbz2
@@ -889,7 +889,7 @@ To demonstrate, you’ll add a large file into your test repository, remove it i
 	 1 files changed, 0 insertions(+), 0 deletions(-)
 	 create mode 100644 git.tbz2
 
-Oops — you didn’t want to add a huge tarball to your project. Better get rid of it:
+喔，你并不想往项目中加进一个这么大的 tar 包。最后还是去掉它：
 
 	$ git rm git.tbz2 
 	rm 'git.tbz2'
@@ -898,7 +898,7 @@ Oops — you didn’t want to add a huge tarball to your project. Better get rid
 	 1 files changed, 0 insertions(+), 0 deletions(-)
 	 delete mode 100644 git.tbz2
 
-Now, `gc` your database and see how much space you’re using:
+对仓库进行 `gc` 操作，并查看占用了空间：
 
 	$ git gc
 	Counting objects: 21, done.
@@ -907,7 +907,7 @@ Now, `gc` your database and see how much space you’re using:
 	Writing objects: 100% (21/21), done.
 	Total 21 (delta 3), reused 15 (delta 1)
 
-You can run the `count-objects` command to quickly see how much space you’re using:
+可以运行 `count-objects` 以查看使用了多少空间：
 
 	$ git count-objects -v
 	count: 4
@@ -918,27 +918,27 @@ You can run the `count-objects` command to quickly see how much space you’re u
 	prune-packable: 0
 	garbage: 0
 
-The `size-pack` entry is the size of your packfiles in kilobytes, so you’re using 2MB. Before the last commit, you were using closer to 2K — clearly, removing the file from the previous commit didn’t remove it from your history. Every time anyone clones this repository, they will have to clone all 2MB just to get this tiny project, because you accidentally added a big file. Let’s get rid of it.
+`size-pack` 是以千字节为单位表示的 packfiles 的大小，因此已经使用了 2MB 。而在这次提交之前仅用了 2K 左右 ── 显然在这次提交时删除文件并没有真正将其从历史记录中删除。每当有人复制这个仓库去取得这个小项目时，都不得不复制所有 2MB 数据，而这仅仅因为你曾经不小心加了个大文件。当我们来解决这个问题。
 
-First you have to find it. In this case, you already know what file it is. But suppose you didn’t; how would you identify what file or files were taking up so much space? If you run `git gc`, all the objects are in a packfile; you can identify the big objects by running another plumbing command called `git verify-pack` and sorting on the third field in the output, which is file size. You can also pipe it through the `tail` command because you’re only interested in the last few largest files:
+首先要找出这个文件。在本例中，你知道是哪个文件。假设你并不知道这一点，要如何找出哪个 (些) 文件占用了这么多的空间？如果运行 `git gc`，所有对象会存入一个 packfile 文件；运行另一个底层命令 `git verify-pack` 以识别出大对象，对输出的第三列信息即文件大小进行排序，还可以将输出定向到 `tail` 命令，因为你只关心排在最后的那几个最大的文件：
 
 	$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
 	05408d195263d853f09dca71d55116663690c27c blob   12908 3478 1189
 	7a9eb2fba2b1811321254ac360970fc169ba2330 blob   2056716 2056872 5401
 
-The big object is at the bottom: 2MB. To find out what file it is, you’ll use the `rev-list` command, which you used briefly in Chapter 7. If you pass `--objects` to `rev-list`, it lists all the commit SHAs and also the blob SHAs with the file paths associated with them. You can use this to find your blob’s name:
+最底下那个就是那个大文件：2MB 。要查看这到底是哪个文件，可以使用第 7 章中已经简单使用过的 `rev-list` 命令。若给 `rev-list` 命令传入 `--objects` 选项，它会列出所有 commit SHA 值，blob SHA 值及相应的文件路径。可以这样查看 blob 的文件名：
 
 	$ git rev-list --objects --all | grep 7a9eb2fb
 	7a9eb2fba2b1811321254ac360970fc169ba2330 git.tbz2
 
-Now, you need to remove this file from all trees in your past. You can easily see what commits modified this file:
+接下来要将该文件从历史记录的所有 tree 中移除。很容易找出哪些 commit 修改了这个文件：
 
 	$ git log --pretty=oneline -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 
-You must rewrite all the commits downstream from `6df76` to fully remove this file from your Git history. To do so, you use `filter-branch`, which you used in Chapter 6:
+必须重写从 `6df76` 开始的所有 commit 才能将文件从 Git 历史中完全移除。这么做需要用到第 6 章中用过的 `filter-branch` 命令：
 
 	$ git filter-branch --index-filter \
 	   'git rm --cached --ignore-unmatch git.tbz2' -- 6df7640^..
@@ -946,9 +946,9 @@ You must rewrite all the commits downstream from `6df76` to fully remove this fi
 	Rewrite da3f30d019005479c99eb4c3406225613985a1db (2/2)
 	Ref 'refs/heads/master' was rewritten
 
-The `--index-filter` option is similar to the `--tree-filter` option used in Chapter 6, except that instead of passing a command that modifies files checked out on disk, you’re modifying your staging area or index each time. Rather than remove a specific file with something like `rm file`, you have to remove it with `git rm --cached` — you must remove it from the index, not from disk. The reason to do it this way is speed — because Git doesn’t have to check out each revision to disk before running your filter, the process can be much, much faster. You can accomplish the same task with `--tree-filter` if you want. The `--ignore-unmatch` option to `git rm` tells it not to error out if the pattern you’re trying to remove isn’t there. Finally, you ask `filter-branch` to rewrite your history only from the `6df7640` commit up, because you know that is where this problem started. Otherwise, it will start from the beginning and will unnecessarily take longer.
+`--index-filter` 选项类似于第 6 章中使用的 `--tree-filter` 选项，但这里不是传入一个命令去修改磁盘上签出的文件，而是修改暂存区域或索引。不能用 `rm file` 命令来删除一个特定文件，而是必须用 `git rm --cached` 来删除它 ── 即从索引而不是磁盘删除它。这样做是出于速度考虑 ── 由于 Git 在运行你的 filter 之前无需将所有版本签出到磁盘上，这个操作会快得多。也可以用 `--tree-filter` 来完成相同的操作。`git rm` 的 `--ignore-unmatch` 选项指定当你试图删除的内容并不存在时不显示错误。最后，因为你清楚问题是从哪个 commit 开始的，使用 `filter-branch` 重写自 `6df7640` 这个 commit 开始的所有历史记录。不这么做的话会重写所有历史记录，花费不必要的更多时间。
 
-Your history no longer contains a reference to that file. However, your reflog and a new set of refs that Git added when you did the `filter-branch` under `.git/refs/original` still do, so you have to remove them and then repack the database. You need to get rid of anything that has a pointer to those old commits before you repack:
+现在历史记录中已经不包含对那个文件的引用了。不过 reflog 以及运行 `filter-branch` 时 Git 往 `.git/refs/original` 添加的一些 refs 中仍有对它的引用，因此需要将这些引用删除并对仓库进行 repack 操作。在进行 repack 前需要将所有对这些 commits 的引用去除：
 
 	$ rm -Rf .git/refs/original
 	$ rm -Rf .git/logs/
@@ -959,7 +959,7 @@ Your history no longer contains a reference to that file. However, your reflog a
 	Writing objects: 100% (19/19), done.
 	Total 19 (delta 3), reused 16 (delta 1)
 
-Let’s see how much space you saved.
+看一下节省了多少空间。
 
 	$ git count-objects -v
 	count: 8
@@ -970,7 +970,7 @@ Let’s see how much space you saved.
 	prune-packable: 0
 	garbage: 0
 
-The packed repository size is down to 7K, which is much better than 2MB. You can see from the size value that the big object is still in your loose objects, so it’s not gone; but it won’t be transferred on a push or subsequent clone, which is what is important. If you really wanted to, you could remove the object completely by running `git prune --expire`.
+repack 后仓库的大小减小到了 7K ，远小于之前的 2MB 。从 size 值可以看出大文件对象还在松散对象中，其实并没有消失，不过这没有关系，重要的是在再进行推送或复制，这个对象不会再传送出去。如果真的要完全把这个对象删除，可以运行 `git prune --expire` 命令。
 
 ## 总结 ##
 

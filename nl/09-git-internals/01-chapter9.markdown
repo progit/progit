@@ -566,58 +566,58 @@ Je kunt ook meerdere refspecs specificeren. Met de commandoregel kun je meerdere
 	 ! [rejected]        master     -> origin/mymaster  (non fast forward)
 	 * [new branch]      topic      -> origin/topic
 
-In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.
+In dit geval wordt de pull van de master branch geweigerd, omdat het geen fast-forward referentie is. Je kunt dat teniet doen door de `+` voor de refspec te zetten.
 
-You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:
+Je kun ook meerdere refspecs voor het fetchen specificeren in je configuratie bestand. Als je altijd de master en experiment branches wilt fetchen, voeg dan twee regels toe:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 
-You can’t use partial globs in the pattern, so this would be invalid:
+Je kunt geen gedeeltelijke globs in het patroon gebruiken, dus het volgende zou ongeldig zijn:
 
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
-However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:
+Maar je kunt wel naamruimtes gebruiken om zoiets voor elkaar te krijgen. Als je een QA team hebt dat naar een serie branches pushed, en je wilt de master branch en alle QA team branches hebben, maar niets anders, kun je een configuratie sectie zoals dit gebruiken:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.
+Als je een ingewikkeld werkproces hebt waarbij het QA team branches pushed, ontwikkelaars branches pushen, en integratie teams pushen en samenwerken op remote branches, kun je ze op deze manier eenvoudig in naamruimten stoppen.
 
-### Pushing Refspecs ###
+### Refspecs Pushen ###
 
-It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push.
+Het is fijn dat je op die manier referenties in naamruimten kunt fetchen, maar hoe krijgt het QA team in de eerste plaats al hun branches in een `qa/` naamruimte? Je krijgt dat voor elkaar door refspecs te gebruiken om mee te pushen.
 
-If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run
+Als het QA team hun `master` branch naar `qa/master` op de remoter server wil pushen, kunnen ze dit uitvoeren
 
 	$ git push origin master:refs/heads/qa/master
 
-If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:
+Als ze willen dat Git dat automatisch doet iedere keer als ze `git push origin` uitvoeren, dan kunnen ze een push waarde aan hun configuratie bestand toevoegen:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 	       push = refs/heads/master:refs/heads/qa/master
 
-Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.
+Nogmaals, dit zal zorgen dat `git push origin` de lokale `master` branch standaard naar de remote `qa/master` branch zal pushen.
 
-### Deleting References ###
+### Referenties Verwijderen ###
 
-You can also use the refspec to delete references from the remote server by running something like this:
+Je kunt de refspec ook gebruiken om referenties te verwijderen van de remote server door zoiets als dit uit te voeren:
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. 
+Omdat de refspec `<src>:<dst>` is, verteld het weglaten van het `<src>` gedeelte in feite dat de onderwerp branch op de remote niks is, wat het verwijderd.
 
-## Transfer Protocols ##
+## Overdracht Protocollen ##
 
-Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
+Git kan gegevens tussen twee repositories hoofdzakelijk overdragen op twee manieren: via HTTP en via de zogenaamde slimme protocollen die in de `file://`, `ssh://` en `git://` overdrachten gebruikt worden. Deze sectie zal laten zien hoe deze hoofdprotocollen werken.
 
-### The Dumb Protocol ###
+### Het Domme Protocol ###
 
 Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:
 

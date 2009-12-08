@@ -538,7 +538,7 @@ That last command does produce a fair amount of output, which might be interesti
 
 ### Customising the Install ###
 
-While the default, quick, install works for most people, there are some ways to customise the install if you need to.  Firstly, there are two other branches that you may be interested in installing, instead of "master".  The "rebel" branch allows you to specify "deny" rules in the configuration file, and is explained in a little more detail below.  And if your server side git is older than 1.5.6 or so, you should use the "oldgits" branch.
+While the default, quick, install works for most people, there are some ways to customise the install if you need to.  Firstly, there are two other branches that you may be interested in installing, instead of "master".  The "wildrepos" branch allows you to specify repositories by wildcards (regular expressions) in the configuration file; an extremely powerful feature that we will not be covering in this article.  And if your server side git is older than 1.5.6 or so, you should use the "oldgits" branch.
 
 Finally, if you omit the `-q` argument, you get a "verbose" mode install -- detailed information on what the install is doing at each step.  The verbose mode also allows you to change certain server-side parameters, such as the location of the actual repositories, by editing an "rc" file that the server uses.  This "rc" file is liberally commented so you should be able to make any changes you need quite easily, save it, and continue.
 
@@ -601,19 +601,19 @@ There are two levels of access control in gitolite.  The first is at the reposit
 
 The second level, applicable only to "write" access, is by branch or tag within a repository.  The username, the access being attempted (`W` or `+`), and the refname being updated are known.  The access rules are checked in order of appearance in the config file, looking for a match for this combination (but remember that the refname is regex-matched, not merely string-matched).  If a match is found, the push succeeds.  A fallthrough results in access being denied.
 
-### Advanced Access Control and the "rebel" branch ###
+### Advanced Access Control -- "deny" rules ###
 
-As you can see, permissions have to be one or `R`, `RW`, or `RW+`.  The "rebel" branch, mentioned briefly above, adds another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
+As you can see, permissions can be one of `R`, `RW`, or `RW+`.  There is another permission available: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, and so the *order of the rules now matters*!
 
-Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  You cannot do this easily in the normal syntax, but here's how the "rebel" branch can do it:
+Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  Here's how:
 
 	    RW  master integ    = @engineers
 	    -   master integ    = @engineers
 	    RW+                 = @engineers
 
-Again, you simply follow the rules top down until you hit a match for your access mode, or a deny.  Non-rewind push to master or integ is allowed by the first rule.  A rewind push to those refs does not match the first rule, drops down to the second, and is therefore denied.  Any push (rewind or non-rewind) to refs other than master or integ won't match the first two rules anyway, and the third rule allows it.
+Again, you simply follow the rules top down until you hit a match for your access mode, *or* a deny.  Non-rewind push to master or integ is allowed by the first rule.  A rewind push to those refs does not match the first rule, drops down to the second, and is therefore denied.  Any push (rewind or non-rewind) to refs other than master or integ won't match the first two rules anyway, and the third rule allows it.
 
-If that sounds complicated, you know why the "deny" rules are in a separate branch that you have to explicitly choose :-)
+If that sounds complicated, you may want to play with it to increase your understanding.  Also, most of the time you don't need "deny" rules anyway, so you can choose to just avoid them if you prefer.
 
 ### Other Features ###
 

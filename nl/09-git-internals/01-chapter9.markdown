@@ -727,21 +727,21 @@ Git stuurt een regel voor iedere referentie die je vernieuwt, met de oude SHA, d
 
 	000Aunpack ok
 
-#### Downloading Data ####
+#### Gegevens Downloaden ####
 
-When you download data, the `fetch-pack` and `upload-pack` processes are involved. The client initiates a `fetch-pack` process that connects to an `upload-pack` process on the remote side to negotiate what data will be transferred down.
+Op het moment dat je gegevens download zijn de `fetch-pack` en `upload-pack` processen betrokken. De client start een `fetch-pack` proces dat verbinding maakt met een `upload-pack` proces aan de remote kant om te onderhandelen welke gegevens gestuurd moeten worden.
 
-There are different ways to initiate the `upload-pack` process on the remote repository. You can run via SSH in the same manner as the `receive-pack` process. You can also initiate the process via the Git daemon, which listens on a server on port 9418 by default. The `fetch-pack` process sends data that looks like this to the daemon after connecting:
+Er zijn verschillende manieren om het `upload-pack` proces op de remote repository te starten. Je kunt het uitvoeren via SSH, op dezelfde manier als het `receive-pack` proces. Je kunt het proces ook starten via de Git daemon, die standaard op poort 9418 luistert. Het `fetch-pack` proces stuurt gegevens, die er zo uitzien voor de daemon na het maken van de verbinding:
 
 	003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 
-It starts with the 4 bytes specifying how much data is following, then the command to run followed by a null byte, and then the server’s hostname followed by a final null byte. The Git daemon checks that the command can be run and that the repository exists and has public permissions. If everything is cool, it fires up the `upload-pack` process and hands off the request to it.
+Het begint met de 4 bytes die specificeren hoeveel gegevens er volgen, daarna het commando gevolgd door een null byte, en dan de hostname van de server gevolgd door een laatste null byte. De Git daemon bekijkt of dat commando uitgevoerd kan worden, dat het repository bestaat en dat het publieke permissies heeft. Als alles OK is, dan start het het `upload-pack` proces en geeft hier het verzoek aan door.
 
-If you’re doing the fetch over SSH, `fetch-pack` instead runs something like this:
+Als je de fetch via SSH dper, voert het `fetch-pack` in plaats daarvan zoiets als dit uit:
 
 	$ ssh -x git@github.com "git-upload-pack 'schacon/simplegit-progit.git'"
 
-In either case, after `fetch-pack` connects, `upload-pack` sends back something like this:
+In beide gevallen stuurt `upload-pack`, nadat `fetch-pack` verbinding gemaakt heeft, zoiets als dit:
 
 	0088ca82a6dff817ec66f44342007202690a93763949 HEAD\0multi_ack thin-pack \
 	  side-band side-band-64k ofs-delta shallow no-progress include-tag
@@ -749,32 +749,32 @@ In either case, after `fetch-pack` connects, `upload-pack` sends back something 
 	003e085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 refs/heads/topic
 	0000
 
-This is very similar to what `receive-pack` responds with, but the capabilities are different. In addition, it sends back the HEAD reference so the client knows what to check out if this is a clone.
+Dit komt erg overeen met waarmee `receive-pack` antwoord, maar de mogelijkheden zijn verschillend. Daarnaast stuurt het de HEAD referentie zodat de client weet wat er uitgechecked moet worden als dit een clone is.
 
-At this point, the `fetch-pack` process looks at what objects it has and responds with the objects that it needs by sending "want" and then the SHA it wants. It sends all the objects it already has with "have" and then the SHA. At the end of this list, it writes "done" to initiate the `upload-pack` process to begin sending the packfile of the data it needs:
+Op dit punt kijkt het `fetch-pack` process naar welk objecten dat het heeft en antwoord met de objecten die het nodig heeft door "want" te sturen, gevolgd door de SHA die het wil. Het stuurt al de objecten die het al heeft met "have" en dan de SHA. Aan het einde van deze lijst, schrijft het "done" om het `upload-pack` proces te starten met het sturen van de packfile van de gegevens die het nodig heeft:
 
 	0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
 	0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	0000
 	0009done
 
-That is a very basic case of the transfer protocols. In more complex cases, the client supports `multi_ack` or `side-band` capabilities; but this example shows you the basic back and forth used by the smart protocol processes.
+Dat is een basaal geval van de overdrachtsprotocollen. In meer complexe gevallen ondersteunt de client `multi_ack` of `side-band` mogelijkheden; maar dit voorbeeld toont je de basale heen en weer gang die gebruikt wordt door de slimme protocol processen.
 
-## Maintenance and Data Recovery ##
+## Onderhoud en het Terughalen van Gegevens ##
 
-Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.
+Soms moet je wat opruimen – een repository compacter maken, een geimporteerd repository opruimen, of verloren werk terughalen. Deze sectie zal deze scenario's doorlopen.
 
-### Maintenance ###
+### Onderhoud ###
 
-Occasionally, Git automatically runs a command called "auto gc". Most of the time, this command does nothing. However, if there are too many loose objects (objects not in a packfile) or too many packfiles, Git launches a full-fledged `git gc` command. The `gc` stands for garbage collect, and the command does a number of things: it gathers up all the loose objects and places them in packfiles, it consolidates packfiles into one big packfile, and it removes objects that aren’t reachable from any commit and are a few months old.
+Soms voert Git automatisch een commando genaamg "auto gc" uit. Het meerendeel van de tijd doet dit commando niets. Maar, als je teveel losse objecten (objecten die niet in een packfile zitten) of teveel packfiles hebt, dan lanceert Git een volledig `git gc` commando. Het `gc` staat voor garbage collect (afval ophalen), en het commando doet een aantal zaken: het haalt alle losse objecten op en stopt ze in packfiles, het voegt packfiles samen in één grote packfile, en het verwijderd objecten die niet bereikbaar zijn vanuit een commit en die een paar maanden oud zijn.
 
-You can run auto gc manually as follows:
+Je kunt auto gc als volgt handmatig uitvoeren:
 
 	$ git gc --auto
 
-Again, this generally does nothing. You must have around 7,000 loose objects or more than 50 packfiles for Git to fire up a real gc command. You can modify these limits with the `gc.auto` and `gc.autopacklimit` config settings, respectively.
+Nogmaals, over het algemeen doet dit commando niets. Je moet ongeveer 7.000 losse objecten of meer dan 50 packfiles hebben voordat Git een echt gc commando start. Je kunt deze grenzen respectievelijk met de `gc.auto` en `gc.autopacklimit` configuratie instellingen aanpassen.
 
-The other thing `gc` will do is pack up your references into a single file. Suppose your repository contains the following branches and tags:
+Het andere ding dat `gc` zal doen is je referenties in een enkel bestand inpakken. Stel dat je repository de volgende branches en tags bevat:
 
 	$ find .git/refs -type f
 	.git/refs/heads/experiment
@@ -782,7 +782,7 @@ The other thing `gc` will do is pack up your references into a single file. Supp
 	.git/refs/tags/v1.0
 	.git/refs/tags/v1.1
 
-If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:
+Als je `git gc` uitvoert, zul je deze bestanden niet langer in de `refs` map hebben. Git zal ze omwille van efficientie in een bestand genaamd `.git/packed-refs` stoppen, dat er zo uitziet:
 
 	$ cat .git/packed-refs 
 	# pack-refs with: peeled 

@@ -760,7 +760,7 @@ Op dit punt kijkt het `fetch-pack` process naar welk objecten dat het heeft en a
 
 Dat is een basaal geval van de overdrachtsprotocollen. In meer complexe gevallen ondersteunt de client `multi_ack` of `side-band` mogelijkheden; maar dit voorbeeld toont je de basale heen en weer gang die gebruikt wordt door de slimme protocol processen.
 
-## Onderhoud en het Terughalen van Gegevens ##
+## Onderhoud en het Herstellen van Gegevens ##
 
 Soms moet je wat opruimen – een repository compacter maken, een geimporteerd repository opruimen, of verloren werk terughalen. Deze sectie zal deze scenario's doorlopen.
 
@@ -792,15 +792,15 @@ Als je `git gc` uitvoert, zul je deze bestanden niet langer in de `refs` map heb
 	9585191f37f7b0fb9444f35a9bf50de191beadc2 refs/tags/v1.1
 	^1a410efbd13591db07496601ebc7a059dd55cfe9
 
-If you update a reference, Git doesn’t edit this file but instead writes a new file to `refs/heads`. To get the appropriate SHA for a given reference, Git checks for that reference in the `refs` directory and then checks the `packed-refs` file as a fallback. However, if you can’t find a reference in the `refs` directory, it’s probably in your `packed-refs` file.
+Als je een referentie vernieuwt, zal Git dit bestand niet aanpassen maar een nieuw bestand in `refs/heads` schrijven. Om de juiste SHA voor een gegeven referentie te krijgen, kijkt Git voor die referentie in de `refs` map en kijkt in het `packed-res` bestand als terugval optie. Hoe dan ook, als je een referentie niet in de `refs` map kunt vinden, zit het waarschijnlijk in je `packed-refs` bestand.
 
-Notice the last line of the file, which begins with a `^`. This means the tag directly above is an annotated tag and that line is the commit that the annotated tag points to.
+Let op de laatste regel van het bestand, die begint met een `^`. Dit betekent dat de tag die er direct boven staat een beschreven tag is, en dat die regel e commit is waar de beschreven tag naar wijst.
 
-### Data Recovery ###
+### Gegevens Herstellen ###
 
-At some point in your Git journey, you may accidentally lose a commit. Generally, this happens because you force-delete a branch that had work on it, and it turns out you wanted the branch after all; or you hard-reset a branch, thus abandoning commits that you wanted something from. Assuming this happens, how can you get your commits back?
+Op een bepaald punt in je reis met Git, kun je per ongeluk wel eens een commit verliezen. Over het algemeen gebeurd dit omdat je een branch force-delete, waar werk op zat, en het blijkt dat je de branch uit eindelijk toch wou hebben; of je hard-reset een branch, waarmee je commits achterlaat waar je iets van wou hebben. Stel dat dit gebeurd, hoe kun je dan je commits terug halen?
 
-Here’s an example that hard-resets the master branch in your test repository to an older commit and then recovers the lost commits. First, let’s review where your repository is at this point:
+Hier is een voorbeeld dat een hard-reset doet naar een oudere commit op de master branch in je test repository, en de verloren commits terug haalt. Laten we eerst eens bekijken waar je repository op dit punt staat:
 
 	$ git log --pretty=oneline
 	ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
@@ -809,7 +809,7 @@ Here’s an example that hard-resets the master branch in your test repository t
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Now, move the `master` branch back to the middle commit:
+Nu verplaats je de `master` branch terug naar de middelste commit:
 
 	$ git reset --hard 1a410efbd13591db07496601ebc7a059dd55cfe9
 	HEAD is now at 1a410ef third commit
@@ -818,15 +818,15 @@ Now, move the `master` branch back to the middle commit:
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-You’ve effectively lost the top two commits — you have no branch from which those commits are reachable. You need to find the latest commit SHA and then add a branch that points to it. The trick is finding that latest commit SHA — it’s not like you’ve memorized it, right?
+Je bent nu effectief de twee bovenste commits kwijt – je hebt geen branch vanwaar deze commits bereikbaar zijn. Je moet de laatste commit SHA vinden en dan een branch toevoegen die daar naar wijst. De truuk is om de laatste commit SHA te vinden – het is toch niet alsof je die onthouden hebt, toch?
 
-Often, the quickest way is to use a tool called `git reflog`. As you’re working, Git silently records what your HEAD is every time you change it. Each time you commit or change branches, the reflog is updated. The reflog is also updated by the `git update-ref` command, which is another reason to use it instead of just writing the SHA value to your ref files, as we covered in the "Git References" section of this chapter earlier.  You can see where you’ve been at any time by running `git reflog`:
+Vaak is de snelste manier een tool genaamd `git reflog` te gebruiken. Terwijl je werkt slaat Git stilletjes op wat je HEAD is, iedere keer als je die wijzigt. Iedere keer dat je commit, of van branch veranderd wordt de reflog vernieuwd. Het reflog wordt ook vernieuwd door het `git update-ref` commando, wat nog een reden is om het te gebruiken in plaats van gewoon de SHA's naar je ref bestanden te schrijven, zoals we beschreven hebben in de "Git References" sectie eerder in dit hoofdstuk. Je kunt op ieder moment zien waar je geweest bent, door `git reflog` uit te voeren.
 
 	$ git reflog
 	1a410ef HEAD@{0}: 1a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD
 	ab1afef HEAD@{1}: ab1afef80fac8e34258ff41fc1b867c702daa24b: updating HEAD
 
-Here we can see the two commits that we have had checked out, however there is not much information here.  To see the same information in a much more useful way, we can run `git log -g`, which will give you a normal log output for your reflog.
+Hier kunnen we de twee commits zien die we uitgechecked hadden, maar er is niet veel informatie aanwezig. Om dezelfde informatie op een veel bruikbaarder manier kunnen we `git log -g` uitvoeren, wat je een normale log uitvoer geeft voor je reflog.
 
 	$ git log -g
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -845,7 +845,7 @@ Here we can see the two commits that we have had checked out, however there is n
 
 	     modified repo a bit
 
-It looks like the bottom commit is the one you lost, so you can recover it by creating a new branch at that commit. For example, you can start a branch named `recover-branch` at that commit (ab1afef):
+Het ziet er naar uit dat de onderste commit degene is die je kwijt bent geraakt, dus je kunt hem herstellen door een nieuwe branch te maken op die commit. Bijvoorbeeld, je kunt een branch genaamd `recover-branch` beginnen op die commit (ab1afef):
 
 	$ git branch recover-branch ab1afef
 	$ git log --pretty=oneline recover-branch
@@ -855,13 +855,13 @@ It looks like the bottom commit is the one you lost, so you can recover it by cr
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again. 
-Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:
+Vet – nu heb je een branch genaamd `recover-branch` die staat op het punt waar je `master` branch was, waarmee de eerste twee commits weer bereikbaar zijn.
+Vervolgens, stel dat je verloren commit om een of andere reden niet in de reflog stond – je kunt dat simuleren door `recover-branch` te verwijderen en het reflog te wissen. Nu zijn de eerste twee commits niet meer bereikbaar door wat dan ook:
 
 	$ git branch –D recover-branch
 	$ rm -Rf .git/logs/
 
-Because the reflog data is kept in the `.git/logs/` directory, you effectively have no reflog. How can you recover that commit at this point? One way is to use the `git fsck` utility, which checks your database for integrity. If you run it with the `--full` option, it shows you all objects that aren’t pointed to by another object:
+Omdat de reflog gegevens bewaard worden in de `.git/logs/` map, heb je effectief geen reflog. Hoe kun je die commit op dat punt herstellen? Één manier is om gebruik te maken van het `git fsck` tool, wat de integriteit van je gegevensbank controleert. Als je het met de `--full` optie uitvoert, dan toont het je alle objecten waarnaar niet gewezen wordt door een ander object:
 
 	$ git fsck --full
 	dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
@@ -869,17 +869,17 @@ Because the reflog data is kept in the `.git/logs/` directory, you effectively h
 	dangling tree aea790b9a58f6cf6f2804eeac9f0abbe9631e4c9
 	dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293
 
-In this case, you can see your missing commit after the dangling commit. You can recover it the same way, by adding a branch that points to that SHA.
+In dit geval, kun je je vermiste commit zien na de hangende commit. Je kunt het op dezelfde manier herstellen, door een branch toe te voegen die naar die SHA wijst.
 
-### Removing Objects ###
+### Objecten Verwijderen ###
 
-There are a lot of great things about Git, but one feature that can cause issues is the fact that a `git clone` downloads the entire history of the project, including every version of every file. This is fine if the whole thing is source code, because Git is highly optimized to compress that data efficiently. However, if someone at any point in the history of your project added a single huge file, every clone for all time will be forced to download that large file, even if it was removed from the project in the very next commit. Because it’s reachable from the history, it will always be there.
+Er zijn een hoop geweldige dingen aan Git, maar één eigenschap die problemen kan geven is het feit dat `git clone` de hele historie van het project download, inclusief alle versies van alle bestanden. Dat is geen probleem als het hele ding broncode is, omdat Git zeer geoptimaliseerd is om die gegevens optimaal te comprimeren. Maar, als iemand op een bepaald punt in de geschiedenis een enkel enorm bestand heeft toegevoegd, zal iedere clone voor altijd gedwongen worden om dat grote bestand te downloaden, zelfs als het uit het project was verwijderd in de volgende commit. Omdat het bereikbaar is vanuit de geschiedenis, zal het er altijd zijn.
 
-This can be a huge problem when you’re converting Subversion or Perforce repositories into Git. Because you don’t download the whole history in those systems, this type of addition carries few consequences. If you did an import from another system or otherwise find that your repository is much larger than it should be, here is how you can find and remove large objects.
+Dit kan een groot probleem zijn als je Subversion of Perforce repositories omzet naar Git. Omdat je niet de hele geschiedenis download in die systemen, zal dit soort toevoeging een paar gevolgen met zich meebrengen. Als je een import vanuit een ander systeem deed, of om een andere reden vindt dat je repository veel groter is dan het zou moeten zijn, kun je hier zien hoe je grote objecten kunt vinden en verwijderen.
 
-Be warned: this technique is destructive to your commit history. It rewrites every commit object downstream from the earliest tree you have to modify to remove a large file reference. If you do this immediately after an import, before anyone has started to base work on the commit, you’re fine — otherwise, you have to notify all contributors that they must rebase their work onto your new commits.
+Let op: deze techniek is verwoestend voor je commit geschiedenis. Het herschrijft ieder commit object stroomafwaarts vanaf de eerste boom die je moet aanpassen om een referentie naar een groot bestand te verwijderen. Als je dit meteen na een import doet, voordat iemand werk is gaan baseren op de commit, dan is er niets aan de hand – anders moet je alle bijdragers waarschuwen dat ze hun werk op je nieuwe commits moeten rebasen.
 
-To demonstrate, you’ll add a large file into your test repository, remove it in the next commit, find it, and remove it permanently from the repository. First, add a large object to your history:
+Om het te demonstreren, voeg je een groot bestand in je test repository toe, verwijderd het in de volgende commit, vindt het, en verwijderd het permanent uit het repository. Als eerste, voeg je een groot object toe aan je geschiedenis:
 
 	$ curl http://kernel.org/pub/software/scm/git/git-1.6.3.1.tar.bz2 > git.tbz2
 	$ git add git.tbz2
@@ -888,7 +888,7 @@ To demonstrate, you’ll add a large file into your test repository, remove it i
 	 1 files changed, 0 insertions(+), 0 deletions(-)
 	 create mode 100644 git.tbz2
 
-Oops — you didn’t want to add a huge tarball to your project. Better get rid of it:
+Oops — je wou geen enorme tarball toevoegen aan je project. Laten we er snel vanaf zien te komen:
 
 	$ git rm git.tbz2 
 	rm 'git.tbz2'
@@ -897,7 +897,7 @@ Oops — you didn’t want to add a huge tarball to your project. Better get rid
 	 1 files changed, 0 insertions(+), 0 deletions(-)
 	 delete mode 100644 git.tbz2
 
-Now, `gc` your database and see how much space you’re using:
+Nu `gc` je je gegevensbank en zie hoeveel ruimte je gebruikt:
 
 	$ git gc
 	Counting objects: 21, done.
@@ -906,7 +906,7 @@ Now, `gc` your database and see how much space you’re using:
 	Writing objects: 100% (21/21), done.
 	Total 21 (delta 3), reused 15 (delta 1)
 
-You can run the `count-objects` command to quickly see how much space you’re using:
+Je kunt het `count-objects` commando gebruiken om snel te zien hoeveel ruimte je gebruikt:
 
 	$ git count-objects -v
 	count: 4

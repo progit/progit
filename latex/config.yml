@@ -48,3 +48,8 @@ cs:
   presect: "Oddíl "
   fig: "Obrázek "
   tab: "Tabulka "
+fr:
+  chap: "Chapitre "
+  sect: "Section "
+  fig: "Figure "
+  tab: "Tableau "

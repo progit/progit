@@ -559,13 +559,20 @@ Git неявно определяет, что было переименован�
 
 Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
 
+## Просмотр Истории Коммитов ##
 ## Viewing the Commit History ##
 
+После того, как вы создадите несколько коммитов, или же вы склонируете репозиторий с уже существующей историей коммитов, вы вероятно захотите оглянуться назад и узнать что же происходило с этим репозиторием. Наиболее простой и в то же время мощный инструмент для этого — команда `git log`.
+
 After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+
+Данные примеры используют очень простой проект названный simplegit, который я часто использую для демонстраций. Чтобы получить этот проект выполните:
 
 These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run 
 
 	git clone git://github.com/schacon/simplegit-progit.git
+
+В результате выполнения `git log` в данном проекте, вы должны получить что-то вроде этого:
 
 When you run `git log` in this project, you should get output that looks something like this:
 
@@ -588,9 +595,15 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
+По-умолчанию, без аргументов, `git log` выводит список коммитов созданных в данном репозитории в обратном хронологическом порядке. Т.е. самые последние коммиты показываются первыми. Как вы можете видеть, эта команда отображает каждый коммит вместе с его контрольной суммой SHA-1, именем и электронной почтой автора, датой создания и комментарием.
+
 By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
 
+Существует превеликое множество параметров команды `git log` и их комбинаций, для того чтобы показать вам именно то, что вы ищете. Здесь мы покажем вам несколько наиболее часто применяемых.
+
 A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+
+Один из наиболее полезных параметров — это `-p`, который показывает дельту(разницу/diff) привнесенную каждым коммитом. Вы также можете использовать `-2`, что ограничит вывод до 2-х последних записей:
 
 One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
 
@@ -632,6 +645,9 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
+Этот параметр показывает не только ту же самую информацию, но и привнесенные изменения, отображаемые непосредственно после каждого коммита. Это очень удобно для инспекций кода или для того чтобы быстро посмотреть что происходило в результате последовательности коммитов добавленных коллегой.
+С командой `git log` вы также можете использовать группы суммирующих параметров. Например, если выхотите получить некоторую краткую статистику по каждому коммиту, вы можете использовать параметр `--stat`:
+
 This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
 You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
 
@@ -665,6 +681,9 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
+Как видно из лога, параметр `--stat` выводит под каждым коммитом список измененных файлов, количество измененных файлов, а также количество добавленных и удаленных строк в этих файлах. Он также выводит сводную информацию в конце.
+Другой действительно полезный параметр — это `--pretty`. Он позволяет изменить формат вывода лога. Для вас доступны несколько предустановленных вариантов. Параметр `oneline` выводит каждый коммит в одну строку, что удобно если вы просматриваете большое количество коммитов. В дополнение к этому, параметры `short`, `full`, и `fuller` практически не меняя формат вывода позволяют выводить меньше или больше деталей соответственно:
+
 As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
 Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
 
@@ -673,12 +692,33 @@ Another really useful option is `--pretty`. This option changes the log output t
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
+Наиболее интересный параметр — это `format`, который позволяет вам полностью создать собственный формат вывода лога. Это особенно полезно, когда вы создаете отчеты для автоматического разбора(парсинга) — поскольку вы явно задаете формат и уверены в том, что он не будет изменяться при обновлениях Git:
+
 The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
+
+Таблица 2-1 содержит список наиболее полезных параметров формата.
+
+	Параметр	Описание выводимых данных
+	%H	Хэш коммита
+	%h	Сокращенный хэш коммита
+	%T	Хэш дерева
+	%t	Сокращенных хэш дерева
+	%P	Хэши родительских коммитов
+	%p	Сокращенные хэши родительских коммитов
+	%an	Имя автора
+	%ae	Электронная почта автора
+	%ad	Дата автора (формат соответствует параметру –date= )
+	%ar	Дата автора, относительная (пр. "2 мес. назад")
+	%cn	Имя коммиттера
+	%ce	Электронная почта коммиттера
+	%cd	Дата коммиттера
+	%cr	Дата коммиттера, относительная
+	%s	Комментарий
 
 Table 2-1 lists some of the more useful options that format takes.
 
@@ -699,7 +739,11 @@ Table 2-1 lists some of the more useful options that format takes.
 	%cr	Committer date, relative
 	%s	Subject
 
+Вы может быть интересно в чем же разница между _автором_ и _коммиттером_. Автор — это человек, изначально сделавший работу, тогда как коммиттер — это человек, который последним применил эту работу. Так что если вы послали патч(заплатку) в проект и один из основных разработчиков применил этот патч, вы оба не будете забыты — вы как автор а разработчик как коммиттер. Мы чуть подробнее рассмотрим это различие в Главе 5.
+
 You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+
+Параметры oneline и format также полезны с другим параметром команды `log` — `--graph`. Этот параметр добавляет миленький ASCII граф показывающий вашу ветку и историю слияний, **which we can see our copy of the Grit project repository**:
 
 The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
 
@@ -714,6 +758,19 @@ The oneline and format options are particularly useful with another `log` option
 	|/  
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
+
+Мы рассмотрели только самые простые параметры форматирования вывода для `git log` — их гораздо больше. Таблица 2-2 содержит как параметры уже рассмотренные нами так и другие могущие быть полезными параметры, вместе с описанием эффекта от их использования.
+
+	Параметр	Описание
+	-p	Выводит патч(заплатку/diff) внесенный каждым коммитом.
+	--stat	Выводит статистику по файлам измененным в каждом коммите.
+	--shortstat	Отображает только измененные/добавленные/удаленные строки вывода команды --stat.
+	--name-only	Выводит список измененных файлов после каждого коммита.
+	--name-status	Выводит список файлов вместе с информацией добавлен/изменен/удален.
+	--abbrev-commit	Выводит только первые несколько символов контрольной суммы SHA-1 вместо всех 40.
+	--relative-date	Выводит дату в относительном формате (например, “2 недели назад”) вместо использования полного формата даты.
+	--graph	Выводит ASCII граф ветвей и истории слияний рядом с выводом лога.
+	--pretty	Выводит коммиты в альтернативном формате. Параметры включают oneline, short, full, fuller, и format (где вы можете указать свой собственный формат).
 
 Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
 

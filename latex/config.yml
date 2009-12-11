@@ -49,7 +49,7 @@ cs:
   fig: "Obrázek "
   tab: "Tabulka "
 fr:
-  chap: "Chapitre "
-  sect: "Section "
+  prechap: "Chapitre "
+  presect: "Section "
   fig: "Figure "
   tab: "Tableau "

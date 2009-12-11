@@ -917,27 +917,27 @@ Je kunt het `count-objects` commando gebruiken om snel te zien hoeveel ruimte je
 	prune-packable: 0
 	garbage: 0
 
-The `size-pack` entry is the size of your packfiles in kilobytes, so you’re using 2MB. Before the last commit, you were using closer to 2K — clearly, removing the file from the previous commit didn’t remove it from your history. Every time anyone clones this repository, they will have to clone all 2MB just to get this tiny project, because you accidentally added a big file. Let’s get rid of it.
+Op de `size-pack` regel staat de grootte van je packfiles in kilobytes, dus je gebruikt 2Mb. Voor de laatste commit gebruikte je bijna 2K – dus het is duidelijk dat het verwijderen van het bestand uit de vorige commit, het niet uit je geschiedenis verwijderd heeft. Iedere keer als iemand dit repository cloned, zullen ze de volle 2Mb moeten clonen alleen maar om dit kleine project te krijgen, omdat jij per ongeluk een groot bestand toegevoegd hebt. Laten we het kwijtraken.
 
-First you have to find it. In this case, you already know what file it is. But suppose you didn’t; how would you identify what file or files were taking up so much space? If you run `git gc`, all the objects are in a packfile; you can identify the big objects by running another plumbing command called `git verify-pack` and sorting on the third field in the output, which is file size. You can also pipe it through the `tail` command because you’re only interested in the last few largest files:
+Eerst moet je het vinden. In dit geval weet je al welk bestand het is. Maar stel dat je het niet wist; hoe zou je kunnen vinden welk bestand of bestanden zoveel ruimte in beslag nemen? Als je `git gc` uitvoert zitten alle objecten in een packfile; je kunt de grote bestanden identificeren door een ander sanitaire voorzieningen commando genaamd `git verify-pack` uit te voeren en te sorteren op het derde veld in de uitvoer, wat de bestandsgrootte is. Je kunt het ook door het `tail` commando leiden omdat je alleen geinteresseerd bent in het laatste paar grote bestanden. 
 
 	$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
 	05408d195263d853f09dca71d55116663690c27c blob   12908 3478 1189
 	7a9eb2fba2b1811321254ac360970fc169ba2330 blob   2056716 2056872 5401
 
-The big object is at the bottom: 2MB. To find out what file it is, you’ll use the `rev-list` command, which you used briefly in Chapter 7. If you pass `--objects` to `rev-list`, it lists all the commit SHAs and also the blob SHAs with the file paths associated with them. You can use this to find your blob’s name:
+Het grote object staat aan het einde: 2 Mb. Om uit te vinden welk bestand het is, zul je het `rev-list` commando gebruiken, wat je kort gebruikt hebt in Hoofdstuk 7. Als je `--objects` meegeeft aan `ref-list`, toont het alle commit SHA's en ook de blob SHA's met de bestandspaden die er aan geassocieerd zijn. Je kunt dit gebruiken om de naam van je blob te vinden:
 
 	$ git rev-list --objects --all | grep 7a9eb2fb
 	7a9eb2fba2b1811321254ac360970fc169ba2330 git.tbz2
 
-Now, you need to remove this file from all trees in your past. You can easily see what commits modified this file:
+Nu moet je dit bestand verwijderen van alle bomen in je verleden. Je kunt eenvoudig zien welke commits dit bestand aangepast hebben:
 
 	$ git log --pretty=oneline -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 
-You must rewrite all the commits downstream from `6df76` to fully remove this file from your Git history. To do so, you use `filter-branch`, which you used in Chapter 6:
+Je moet alle commits die stroomafwaarts van `6df76` liggen om dit bestand volledig uit je Git geschiedenis te verwijderen. Omdat te doen gebuik je `filter-branch`, wat je in Hoofdstuk 6 gebruikt hebt:
 
 	$ git filter-branch --index-filter \
 	   'git rm --cached --ignore-unmatch git.tbz2' -- 6df7640^..
@@ -945,9 +945,9 @@ You must rewrite all the commits downstream from `6df76` to fully remove this fi
 	Rewrite da3f30d019005479c99eb4c3406225613985a1db (2/2)
 	Ref 'refs/heads/master' was rewritten
 
-The `--index-filter` option is similar to the `--tree-filter` option used in Chapter 6, except that instead of passing a command that modifies files checked out on disk, you’re modifying your staging area or index each time. Rather than remove a specific file with something like `rm file`, you have to remove it with `git rm --cached` — you must remove it from the index, not from disk. The reason to do it this way is speed — because Git doesn’t have to check out each revision to disk before running your filter, the process can be much, much faster. You can accomplish the same task with `--tree-filter` if you want. The `--ignore-unmatch` option to `git rm` tells it not to error out if the pattern you’re trying to remove isn’t there. Finally, you ask `filter-branch` to rewrite your history only from the `6df7640` commit up, because you know that is where this problem started. Otherwise, it will start from the beginning and will unnecessarily take longer.
+De `--index-filter` optie is vergelijkbaar met de `--tree-filter` optie, die gebruikt is in Hoofstuk 6, behalve dan dat in plaats van het doorgeven van een commando dat bestanden aanpast die uitgechecked staan op je schijf, pas je je staging gebied of index iedere keer aan. In plaats van een specifiek bestand steeds te verwijderen met zoiets als `rm file`, moet je het met `git rm --cached` verwijderen – je moet het uit de index verwijderen, niet van de schijf. Reden om het zo te doen is snelheid – omdat Git niet iedere versie hoeft uit te checken op je schijf voordat het je filter uitvoert, kan het proces vele, vele malen sneller gaan. Je kunt dezelfde taak uitvoeren met `--tree-filter` als je dat wil. De `--ignore-unmatch` optie op `git rm` verteld het niet te stoppen op een fout als het patroon dat je probeert te verwijderen niet aanwezig is. Als laatste zul je `filter-branch` vragen om je geschiedenis alleen vanaf de `6df7640` commit te herschrijven, omdat je weet dat dat de plaats is waar het probleem begon. Anders start het vanaf het begin en duurt het onnodig langer.
 
-Your history no longer contains a reference to that file. However, your reflog and a new set of refs that Git added when you did the `filter-branch` under `.git/refs/original` still do, so you have to remove them and then repack the database. You need to get rid of anything that has a pointer to those old commits before you repack:
+Je geschiedenis zal niet langer een referentie bevatten naar dat bestand. Maar, je reflog en een nieuwe set refs die Git toevoegde toen je de `filter-branch` deed onder `.git/refs/original` bevatten het nog steeds, dus je moet die ook verwijderen en je gegevensbank opnieuw inpakken. Je moet alles dat een pointer naar die oude commits bevat kwijtraken voordat je opnieuw inpakt:
 
 	$ rm -Rf .git/refs/original
 	$ rm -Rf .git/logs/
@@ -958,7 +958,7 @@ Your history no longer contains a reference to that file. However, your reflog a
 	Writing objects: 100% (19/19), done.
 	Total 19 (delta 3), reused 16 (delta 1)
 
-Let’s see how much space you saved.
+Laten we eens zien hoeveel ruimte je bespaard hebt.
 
 	$ git count-objects -v
 	count: 8
@@ -969,10 +969,10 @@ Let’s see how much space you saved.
 	prune-packable: 0
 	garbage: 0
 
-The packed repository size is down to 7K, which is much better than 2MB. You can see from the size value that the big object is still in your loose objects, so it’s not gone; but it won’t be transferred on a push or subsequent clone, which is what is important. If you really wanted to, you could remove the object completely by running `git prune --expire`.
+De grootte van je ingepakte repository is omlaag gegaan naar 7 K, wat veel beter is dan 2 Mb. Je kunt aan de waarde van size zien dat het grootte object nog steeds in je losse bestanden staat, dus het is niet weg; maar het zal niet meer overgedragen worden bij een push of opvolgende clone, wat het belangrijkste is. Als je het echt zou willen, kun je het object volledig verwijderen door `git prune --expire` uit te voeren.
 
-## Summary ##
+## Samenvatting ##
 
-You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.
+Je moet een goed begrip hebben van wat Git op de achtergrond doet en, tot een bepaalde hoogte, hoe het in elkaar gezet is. Dit hoofdstuk heeft een aantal sanitaire voorzieningen commado's beslagen – commando's die op een lager nivo zitten en eenvoudige zijn dan de porcelein commando's waarover je in de rest van het boek geleerd hebt. Begrijpen hoe Git op een lager nivo werkt zou het makkelijker moeten maken om te begrijpen waarom het doet wat het doet en ook om je eigen applicaties te schrijven en hulp scripts om jouw specifieke werkwijze voor je te laten werken.
 
-Git as a content-addressable filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.
+Git is als een inhouds-toegankelijk bestandssysteem een zeer krachtig tool dat je eenvoudig als meer dan alleen een VCS kunt gebruiken. Ik hoop dat je je nieuwe kennis van de werking van Git kunt gebruiken om je eigen coole applicatie te bouwen met deze technologie en je op je gemak voelt bij het gebruik van Git op meer geavanceerde manieren.

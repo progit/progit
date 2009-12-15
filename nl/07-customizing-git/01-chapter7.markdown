@@ -1,58 +1,58 @@
-# Customizing Git #
+# Git op Maat Maken #
 
-So far, I’ve covered the basics of how Git works and how to use it, and I’ve introduced a number of tools that Git provides to help you use it easily and efficiently. In this chapter, I’ll go through some operations that you can use to make Git operate in a more customized fashion by introducing several important configuration settings and the hooks system. With these tools, it’s easy to get Git to work exactly the way you, your company, or your group needs it to.
+Tot zover heb ik de basale werking van Git behandeld, en hoe het te gebruiken, en ik heb een aantal tools geintroduceerd die Git levert om je het makkelijk en efficient te laten gebruiken. In dit hoofdstuk zal ik wat operaties doorlopen die je kunt gebruiken om Git op een meer persoonlijke manier te laten werken door een aantal belangrijke configuratie instellingen te introduceren en het haken systeem. Met deze gereedschappen is het makkelijk om Git precies te laten werken op de manier zoals jij, je bedrijf, of je groep het graag wil.
 
-## Git Configuration ##
+## Git Configuratie ##
 
-As you briefly saw in the Chapter 1, you can specify Git configuration settings with the `git config` command. One of the first things you did was set up your name and e-mail address:
+Zoals je kort in Hoofdstuk 1 gezien hebt, kun je Git configuratie instellingen specificeren met het `git config` commando. Een van de eerste dingen die je deed wat je naam en e-mail adres instellen:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Now you’ll learn a few of the more interesting options that you can set in this manner to customize your Git usage.
+Nu zul je een paar van de meer interessante opties leren, die je op deze manier kunt instellen om je Git op maat te maken.
 
-You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically. 
+Je zag wat eenvoudige Git configuratie details in het eerste hoofdstuk, maar ik zal ze hier nog eens snel laten zien. Git gebruikt een aantal configuratie bestanden om het niet-standaard gedrag dat je wil te bepalen. De eerste plaats waar Git kijkt voor deze waarden is in een `/etc/gitconfig` bestand, wat de waarden bevat voor alle gebruikers op het systeem en al hun repositories. Als je de optie `--systeem` aan `git config` meegeeft, leest en schrijft het specifiek naar dit bestand.
 
-The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option. 
+De volgende plaats waar Git kijkt is het `~/.gitconfig` bestand, wat specifiek is voor iedere gebruiker. Je kunt er voor zorgen dat Git naar dit bestand leest en schrijft door de `--global` optie mee te geven.
 
-Finally, Git looks for configuration values in the config file in the Git directory (`.git/config`) of whatever repository you’re currently using. These values are specific to that single repository. Each level overwrites values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`, for instance. You can also set these values by manually editing the file and inserting the correct syntax, but it’s generally easier to run the `git config` command.
+Als laatste kijkt Git naar configuratie waarden in het config bestand in de Git map (`.git/config`) of welk repository dat je op dat moment gebruikt. Deze waarden zijn specifiek voor dat ene repository. Ieder nivo overschrijft de waarden in het vorige nivo, dus waarden in `.git/config` gaan boven die in `/etc/gitconfig`, bijvoorbeeld. Je kunt die waarden ook instellen door het bestand handmatig aan te passen en de correcte syntax in te voegen, maar het is over het algemeen makkelijk m het `git config` commando uit te voeren.
 
-### Basic Client Configuration ###
+### Basis Client Configuratie ###
 
-The configuration options recognized by Git fall into two categories: client side and server side. The majority of the options are client side—configuring your personal working preferences. Although tons of options are available, I’ll only cover the few that either are commonly used or can significantly affect your workflow. Many options are useful only in edge cases that I won’t go over here. If you want to see a list of all the options your version of Git recognizes, you can run
+De configuratie opties die herkent worden door Git vallen binnen twee categorien: de client kant en de server kant. De meerderheid van de opties zijn voor de client kant – de configuratie van je persoonlijke voorkeuren. Alhoewel er massa's opties beschikbaar zijn, zal ik alleen een paar behandelen die ofwel veelgebruikt zijn of je werkwijze significant kunnen beinvloeden. Veel opties zijn alleen bruikbaar in randgevallen waar ik hier niet naar kijk. Als je een lijst van alle opties wil zien, die jou versie van Git herkent kun je dit uitvoeren
 
 	$ git config --help
 
-The manual page for `git config` lists all the available options in quite a bit of detail.
+De gebruikershandleiding voor `git config` toont alle beschikbare opties in groot detail.
 
 #### core.editor ####
 
-By default, Git uses whatever you’ve set as your default text editor or else falls back to the Vi editor to create and edit your commit and tag messages. To change that default to something else, you can use the `core.editor` setting:
+Standaard zal Git de standaard tekst editor gebruiken, die je hebt ingesteld of anders terugvallen op de Vi editor om je commit en tag boodschappen te maken of te wijzigen. Om die instelling naar iets anders om te zetten, kun je de `core.editor` instelling gebruiken:
 
 	$ git config --global core.editor emacs
 
-Now, no matter what is set as your default shell editor variable, Git will fire up Emacs to edit messages.
+Zonder dat het uitmaakt wat je als je standaard shell editor waarde ingesteld hebt, zal Git Emacs starten om boodschappen aan te passen.
 
 #### commit.template ####
 
-If you set this to the path of a file on your system, Git will use that file as the default message when you commit. For instance, suppose you create a template file at `$HOME/.gitmessage.txt` that looks like this:
+Als je dit als een pad instelt dat naar een bestand op je systeem wijst, zal Git dat bestand als de standaard boodschap gebruiken als je commit. Bijvoorbeeld, stel dat je een sjabloon bestand aanmaakt als `$HOME/.gitmessage.txt` die er zo uitziet:
 
-	subject line
+	onderwerp regel
 
-	what happened
+	wat er gebeurd is
 
 	[ticket: X]
 
-To tell Git to use it as the default message that appears in your editor when you run `git commit`, set the `commit.template` configuration value:
+Om Git te vertellen dat het dit moet gebruiken als standaard boodschap dat in je editor moet verschijnen als je `git commit` uitvoert, stel je de `commit.template` configuratie waarde in:
 
 	$ git config --global commit.template $HOME/.gitmessage.txt
 	$ git commit
 
-Then, your editor will open to something like this for your placeholder commit message when you commit:
+Daarna zal je editor zoiets als dit openen als je standaard commit boodschap als je commit:
 
-	subject line
+	onderwerp regel
 
-	what happened
+	wat er gebeurd is
 
 	[ticket: X]
 	# Please enter the commit message for your changes. Lines starting
@@ -67,7 +67,7 @@ Then, your editor will open to something like this for your placeholder commit m
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-If you have a commit-message policy in place, then putting a template for that policy on your system and configuring Git to use it by default can help increase the chance of that policy being followed regularly.
+Als je een beleid hebt voor commit boodschappen, dan vergroot het plaatsen van een sjabloon voor dat beleid op je systeem en het configureren ervan voor Git om het als standaard te gebruiken de kans dat dat beleid met regelmaat gevolgd wordt.
 
 #### core.pager ####
 

@@ -12,9 +12,9 @@ Deze laag met het inhouds-toegankelijke bestandssysteem is ongelofelijk gaaf, du
 
 Dit boek behandeld Git met ongeveer 30 werkwoorden zoals `checkout`, `branch`, `remote` enzovoorts. Maar omdat Git in eerste instantie een toolkit voor een VCS was, in plaats van een volledig gebruiksvriendelijk VCS, heeft het een berg werkwoorden die laagbijdegronds werk doen en ontworpen waren om samengevoegd te worken zoals in UNIX gebruikelijk is, of vanuit scripts aangeroepen te worden. Naar deze commando's wordt over het algemeen als "plumbing" (sanitaire voorzieningen) commando's verwezen, en de meer gebruiksvriendelijke commando's worden "porcelain" (porcelein) commando's genoemd.
 
-De eerste acht hoofdstukken van het boek behandelen bijna alleen porceleincommando's. Maar in dit hoofdstuk zul je het meest met de lagere nivo sanitaire voorziening commando's omgaan, omdat zij je toegang tot de innerlijke werking van Git geven, en helpen te demonstreren hoe en waarom Git doet wat het doet. Deze commando's zijn niet bedoeld om handmatig op de commandoregel gebruikt te worden, maar meer om als bouwstenen voor nieuwe tools en scripts gebruikt te worden.
+De eerste acht hoofdstukken van het boek behandelen bijna alleen porceleincommando's. Maar in dit hoofdstuk zul je het meest op het laagste niveau van de sanitaire voorzieningen om te gaan. Zij geven je toegang tot de diepste delen van Git, en demonstreren hoe en waarom Git doet wat het doet. Deze commando's zijn niet bedoeld voor normaal gebruik op de commandoregel, maar meer om als bouwstenen voor nieuwe tools en scripts gebruikt te worden.
 
-Als je `git init` uitvoerd in een nieuwe of bestaande map, zal Git de `.git` map aanmaken, wat de plek is waar Git bijna alles opslaat en manipuleert. Als je je repository wilt backup'en of clonen, dan geeft het elders kopieeren van deze map je bijna alles wat je nodig hebt. Dit hele hoofdstuk gaat in essentie over het spul in deze map. Hier zie je hoe het eruit ziet:
+Als je `git init` uitvoert in een nieuwe of bestaande map, zal Git de `.git` map aanmaken, wat de plek is waar Git bijna alles opslaat en manipuleert. Als je je repository wilt backup'en of clonen, dan geeft het elders kopieeren van deze map je bijna alles wat je nodig hebt. Dit hele hoofdstuk gaat in essentie over het spul in deze map. Hier zie je hoe het eruit ziet:
 
 	$ ls 
 	HEAD

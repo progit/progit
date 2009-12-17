@@ -14,7 +14,7 @@ Dit boek behandeld Git met ongeveer 30 werkwoorden zoals `checkout`, `branch`, `
 
 De eerste acht hoofdstukken van het boek behandelen bijna alleen porceleincommando's. Maar in dit hoofdstuk zul je het meest op het laagste niveau van de sanitaire voorzieningen om te gaan. Zij geven je toegang tot de diepste delen van Git, en demonstreren hoe en waarom Git doet wat het doet. Deze commando's zijn niet bedoeld voor normaal gebruik op de commandoregel, maar meer om als bouwstenen voor nieuwe tools en scripts gebruikt te worden.
 
-Als je `git init` uitvoert in een nieuwe of bestaande map, zal Git de `.git` map aanmaken, wat de plek is waar Git bijna alles opslaat en manipuleert. Als je je repository wilt backup'en of clonen, dan geeft het elders kopieeren van deze map je bijna alles wat je nodig hebt. Dit hele hoofdstuk gaat in essentie over het spul in deze map. Hier zie je hoe het eruit ziet:
+Als je `git init` uitvoert in een nieuwe of bestaande map, zal Git de map `.git` aanmaken, wat de plek is waar Git bijna alles opslaat en manipuleert. Als je een backup of kopie van je repository wilt maken, dan hoef je alleen maar die map te kopiëren, en je hebt bijna alles wat je nodig hebt. Dit hele hoofdstuk gaat in essentie over de inhoud van deze map. Hier zie je hoe het eruit ziet:
 
 	$ ls 
 	HEAD
@@ -27,9 +27,9 @@ Als je `git init` uitvoert in een nieuwe of bestaande map, zal Git de `.git` map
 	objects/
 	refs/
 
-Je kunt een paar andere bestanden zien, maar dit is een verse `git init` repository – dit is wat je standaard ziet. De `branches` map wordt niet gebruikt door nieuwere Git versies, en het `description` bestand wordt alleen gebruikt door het GitWeb programma, dus je hoeft je daar niet druk over te maken. Het `config` bestand bevat je project-specifieke configuratie opties, en de `info` map bevat een globaal exclude bestand voor genegeerde patronen, die je niet wilt volgen in een .gitignore bestand. De `hooks` map bevat je gebruiker- en server-kant haak scripts, die in detail beschreven zijn in Hoofdstuk 6.
+Je kunt een paar andere bestanden zien, maar dit is een verse `git init` repository – dit is wat je standaard ziet. De `branches` map wordt niet gebruikt door nieuwere Git versies, en het `description` bestand wordt alleen gebruikt door het programma GitWeb, dus je hoeft je daar niet druk over te maken. Het bestand `config` bevat je project-specifieke configuratieopties, en de `info` map bevat een bestand met bestandsnaampatronen die je niet wilt volgen, maar ook niet wilt opnemen in een .gitignore bestand. De map `hooks` bevat scripts die aan bepaalde acties zijn “gehaakt” van gebruikers- en serverkant, die in detail beschreven zijn in Hoofdstuk 6.
 
-Dit laat vier belangrijke vermeldingen over: de `HEAD` en `index` bestanden, en de `objects` en `refs` mappen. Dit zijn de kern bestandsdelen van Git. De `objects` map bewaard alle inhoud van je databank, de `refs` map bevat pointers naar commit objecten in die gegevens (branches), het `HEAD` bestand wijst naar de branch die je op dit moment uitgechecked hebt, en het `index` bestand is waar Git de informatie van je staging gebied opslaat. Je gaat nu in detail naar elk van deze secties kijken om te zien hoe Git werkt.
+Dit laat vier belangrijke vermeldingen over: de bestanden `HEAD` en `index`, en de mappen `objects` en `refs`. Dit zijn de kernbestandsdelen van Git. De map `objects` bewaart alle inhoud van je databank, de map `refs` bevat verwijzingen (branches) naar commitobjecten in die databank, het bestand `HEAD` wijst naar de branch die je op dit moment uitgechecked hebt, en het bestand `index` is waar Git de informatie van je wachtrij opslaat. Je gaat nu in detail naar elk van deze secties kijken om te zien hoe Git werkt.
 
 ## Git Objecten ##
 

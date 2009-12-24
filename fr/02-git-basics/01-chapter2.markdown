@@ -20,17 +20,17 @@ Si vous souhaitez commencer à suivre en version des fichiers existant ( contrai
 	$ git add README
 	$ git commit –m 'version initiale du projet'
 
-Nous allons passer en revue ce que ces commandes font dans une petite minute. Pour l'instant, vous avez un dépôt git avec des fichiers en suivi et un commit initial. 
+Nous allons passer en revue ce que ces commandes font dans une petite minute. Pour l'instant, vous avez un dépôt git avec des fichiers en suivi et un commit initial.
 
 ### Cloner un dépôt existant ###
 
 Si vous souhaitez obtenir une copie d'un dépôt Git existant - par exemple, un projet auquel vous aimeriez contribuer - la commande dont vous avez besoin s'appelle `git clone`. Si vous êtes familier avec d'autres systèmes de gestion de version tels que Subversion, vous noterez que la commande est 'clone' et non 'checkout'. C'est une distinction importante - Git reçoit une copie de quasiment toutes les données dont le serveur dispose. Toutes les versions de tous les fichiers pour l'historique du projet sont téléchargées quand vous lancez `git clone`. En fait, si le disque du serveur se corrompt, vous pouvez utiliser n'importe quel clone pour remonter le serveur dans l'état où il était au moment du clonage (vous pourriez perdre quelques paramètres du serveur, mais toutes les données en gestion de version serait récupérées - Cf. chapitre 4 pour de plus amples détails).
 
-Vous clonez un dépôt avec `git clone [url]`. Par exemple, si vous voulez cloner la bibliothèque Git Ruby appelée Grit, vous pouvez le faire de manière suivante :
+Vous clonez un dépôt avec `git clone [url]`. Par exemple, si vous voulez cloner la bibliothèque Git Ruby appelée Grit, vous pouvez le faire de manière suivante :
 
 	$ git clone git://github.com/schacon/grit.git
 
-Ceci crée un répertoire nommé "grit", initialise un répertoire `.git` à l'intérieur, récupère toutes les données pour ce dépôt, et extrait une copie de travail de la dernière version. Si vous examinez le nouveau répertoire `grit`, vous y verrez les fichiers du projet, prêt à être modifiés ou utilisés. Si vous souhaitez cloner le dépôt dans un répertoire nommé différemment, vous pouvez spécifier le nom en option supplémentaire à la ligne de commande :
+Ceci crée un répertoire nommé "grit", initialise un répertoire `.git` à l'intérieur, récupère toutes les données pour ce dépôt, et extrait une copie de travail de la dernière version. Si vous examinez le nouveau répertoire `grit`, vous y verrez les fichiers du projet, prêt à être modifiés ou utilisés. Si vous souhaitez cloner le dépôt dans un répertoire nommé différemment, vous pouvez spécifier le nom en option supplémentaire à la ligne de commande :
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
@@ -42,7 +42,7 @@ Git dispose de différents protocoles de transfert que vous pouvez utiliser. L'e
 
 Vous avez à présent un dépôt Git valide et une extraction ou copie de travail du projet. Vous devez faire quelques modifications et valider des instantanés de ces modifications dans votre dépôt chaque fois que votre projet atteint un état que vous souhaitez enregistrer.
 
-Souvenez-vous que chaque fichier de votre copie de travail peut avoir deux états : suivi en version ou non-suivi. Les fichiers suivis sont les fichiers qui appartenait déjà au dernier instantané ; ils peuvent être inchangés, modifiés ou indexés. Tous les autres fichiers sont non suivis - tout fichier de votre copie de travail qui n'appartenait pas à votre dernier instantané et n'a pas été indexé. Quand vous clonez un dépôt pour la première fois, tous les fichiers seront suivis en version et inchangés car vous venez tout juste de les enregistrer sans les avoir encore édités.
+Souvenez-vous que chaque fichier de votre copie de travail peut avoir deux états : suivi en version ou non-suivi. Les fichiers suivis sont les fichiers qui appartenait déjà au dernier instantané ; ils peuvent être inchangés, modifiés ou indexés. Tous les autres fichiers sont non suivis - tout fichier de votre copie de travail qui n'appartenait pas à votre dernier instantané et n'a pas été indexé. Quand vous clonez un dépôt pour la première fois, tous les fichiers seront suivis en version et inchangés car vous venez tout juste de les enregistrer sans les avoir encore édités.
 
 Au fur et à mesure que vous éditez des fichiers, Git les considère comme modifiés, car vous les avez modifiés depuis le dernier instantané. Vous indexés ces fichiers modifiés et vous enregistrez toutes les modifications indexées, puis ce cycle se répète. Ce cycle de vie est illustré par la figure 2-1.
 
@@ -51,7 +51,7 @@ Figure 2-1. Le cycle de vie des états des fichiers.
 
 ### Vérifier l'état des fichiers ###
 
-L'outil principal pour déterminer quels fichiers sont dans quel état est la commande `git status`. Si vous lancez cette commande juste après un clonage, vous devriez voir ce qui suit :
+L'outil principal pour déterminer quels fichiers sont dans quel état est la commande `git status`. Si vous lancez cette commande juste après un clonage, vous devriez voir ce qui suit :
 
 	$ git status
 	# On branch master
@@ -59,7 +59,7 @@ L'outil principal pour déterminer quels fichiers sont dans quel état est la co
 
 Ce message signifie que votre copie de travail est propre - en d'autres mots, aucun fichier suivi n'a été modifié. Git ne voit pas non plus de fichiers non-suivis, sinon ils seraient listés ici. Enfin, la commande vous indique sur quelle branche vous êtes. Pour l'instant, c'est toujours master, qui correspond à la valeur par défaut ; nous ne nous en soucierons pas maintenant. Dans le chapitre suivant, nous parlerons plus en détail des branches et des références.
 
-Supposons que vous ajoutiez un nouveau fichier à votre projet, un simple fichier LISEZMOI. Si ce fichier n'existait pas auparavant, et vous lancez la commande `git status`, vous verrez votre fichier non suivi comme ceci :
+Supposons que vous ajoutiez un nouveau fichier à votre projet, un simple fichier LISEZMOI. Si ce fichier n'existait pas auparavant, et vous lancez la commande `git status`, vous verrez votre fichier non suivi comme ceci :
 
 	$ vim LISEZMOI
 	$ git status
@@ -74,11 +74,11 @@ Vous pouvez constater que votre nouveau fichier LISEZMOI n'est pas en suivi de v
 
 ### Suivre des nouveaux fichiers en version ###
 
-Pour commencer à suivre un nouveau fichier, vous utilisez la commande `git add`. Pour commencer à suivre le fichier LISEZMOI, vous pouvez entrer ceci :
+Pour commencer à suivre un nouveau fichier, vous utilisez la commande `git add`. Pour commencer à suivre le fichier LISEZMOI, vous pouvez entrer ceci :
 
 	$ git add LISEZMOI
 
-Si vous lancez à nouveau le commande status, vous pouvez constater que votre fichier LISEZMOI est maintenant suivi et indexé :
+Si vous lancez à nouveau le commande status, vous pouvez constater que votre fichier LISEZMOI est maintenant suivi et indexé :
 
 	$ git status
 	# On branch master
@@ -88,18 +88,18 @@ Si vous lancez à nouveau le commande status, vous pouvez constater que votre fi
 	#	new file:   LISEZMOI
 	#
 
-Vous pouvez dire qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à enregistrer).Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané. Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` - c'était bien sur pour commencer à suivre en version les fichiers de votre répertoire de travail. La commande git add accepte en paramètre un chemin qui correspond à un fichier ou un répertoire ; dans le cas d'un répertoire, la commande ajoute récursivement tous le fichiers de ce répertoire.
+Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à enregistrer).Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané. Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` - c'était bien sur pour commencer à suivre en version les fichiers de votre répertoire de travail. La commande git add accepte en paramètre un chemin qui correspond à un fichier ou un répertoire ; dans le cas d'un répertoire, la commande ajoute récursivement tous le fichiers de ce répertoire.
 
 ### Indexer des fichiers modifiés ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+Maintenant, modifions un fichiers qui a déjà été suivi en version.Si vous modifiez le fichier suivi en version appelé `benchmarks.rb` et lancez à nouveau votre command `status`, vous verrez ceci :
 
 	$ git status
 	# On branch master
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#	new file:   README
+	#	new file:   LISEZMOI
 	#
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -107,7 +107,7 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+Le fichier benchmarks.rb apparaît sous la section nommée « Changed but not updated » ce qui signifie que le fichier suivi en version a été modifié dans la copie de travail mais n'est pas encore indexé. Pour l'indexer, il faut lancer la commande `git add` (qui est une commande multi-usage - elle peut être utilisée pour commencer à suivre en version un fichier, pour indexer un fichier ou pour d'autres actions telles que marquer comme résolu des conflits de fusion de fichiers). Lançons maintenant `git add` pour indexer le fichier benchmarks.rb, et relançons la commande `git status` :
 
 	$ git add benchmarks.rb
 	$ git status
@@ -115,11 +115,11 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#	new file:   README
+	#	new file:   LISEZMOI
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+A présent, les deux fichiers sont indexés et feront partie de la prochaine validation. Mais supposons que vous souhaitiez apporter encore une petite modification au fichier benchmarks.rb avant de réellement valider la nouvelle version. Vous l'ouvrez à nouveau, réalisez la petite modification et vous voilà prêt à valider. Néanmoins, vous lancez `git status` une dernière fois :
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -127,7 +127,7 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#	new file:   README
+	#	new file:   LISEZMOI
 	#	modified:   benchmarks.rb
 	#
 	# Changed but not updated:
@@ -136,7 +136,7 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+Que s'est-il donc passé ? À présent, benchmarks.rb apparaît à la fois comme indexé et non indexé. En fait, Git indexe un fichier dans son état au moment où la commande `git add` est lancée. Si on valide les modifications maintenant, la version de benchmarks.rb qui fera partie de l'instantané est celle correspondant au moment où la commande `git add benchmarks.rb` a été lancée, et non la version actuellement présente dans la copie de travail au moment où la commande git commit est lancée. Si le fichier est modifié après un `git add`, il faut relancer `git add` pour prendre en compte l'état actuel dans la copie de travail :
 
 	$ git add benchmarks.rb
 	$ git status
@@ -144,50 +144,50 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#	new file:   README
+	#	new file:   LISEZMOI
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### Ignorer des fichiers ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+Il apparait souvent qu'un type de fichiers présent dans la copie de travail ne doit pas être ajouté automatiquement ou même apparaître comme fichier potentiel pour le suivi de version. Ce sont par exemple des fichiers générés automatiquement tels que les fichiers de journaux ou de sauvegardes produits par l'outil que vous utilisez. Dans un tel cas, on peut énumérer les patrons de noms de fichiers à ignorer dans un fichier .gitignore. Voici ci-dessous un exemple de fichier .gitignore :
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+La première ligne ordonne à Git d'ignorer tout fichier se terminant en .o ou .a - des fichiers objet ou archive qui sont généralement produits par la compilation d'un programme. La seconde ligne indique à Git d'ignorer tous les fichiers se terminant par un tilde (`~`), ce qui est le cas des noms des fichiers temporaires pour de nombreux éditeurs de texte tels qu'Emacs. On peut aussi inclure un répertoire log, tmp ou pid, ou le répertoire de documentation générée automatiquement, ou tout autre fichier. Renseigner un fichier .gitignore avant de commencer à travailler est généralement une bonne idée qui évitera de valider par inadvertance des fichiers qui ne doivent pas apparaître dans le dépot Git.
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+Les règles de construction des patrons à placer dans le fichier .gitignore sont les suivantes :
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+*	Les lignes vides ou commençant par # sont ignorée
+*	Les patrons standards de fichiers sont utilisables
+*       Si le patron se termine par un slash (`/`), le patron dénote un répertoire
+*	Un patron commençant par un point d'exclamantion (`!`) est inversé.
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+Les patrons standards de fichiers sont des expressions régulières simplifiées utilisées par les shells. Un asterisk (`*`) correspond à un ou plusieurs caractères ; `[abc]` correspond à un des trois caractères listés dans les crochets, donc a ou b ou c ; un point d'interrogation (`?`) correspond à un unique caractère ; des crochets entourant des caractères séparés par un signe moins (`[0-9]`) correspond à un caractère dans l'intervalle des deux caractères indiqués, donc ici de 0 à 9.
 
-Here is another example .gitignore file:
+Voici un autre exemple de fichier .gitignore :
 
-	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# un commentaire, cette ligne est ignorée
+	*.a       # pas de fichier .a
+	!lib.a    # mais suivre en version lib.a malgré la règle précédente
+	/TODO     # ignorer uniquement le fichier TODO à la racine du projet
+	build/    # ignorer tous le fichiers dans le répertoire build
+	doc/*.txt # ignorer doc/notes.txt, mais pas doc/server/arch.txt
 
-### Viewing Your Staged and Unstaged Changes ###
+### Inspecter les modifications indexées et non indexées ###
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+Si le résultat de la commande `git status` est encore trop vague - lorsqu'on désire savoir non seulement quels fichiers ont changé mais aussi ce qui a changé dans ces fichiers - on peut utiliser la commande `git diff`. Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblablement utilisée le plus souvent pour répondre aux questions suivantes : qu'est-ce qui a été modifié mais pas encore indexé ? Quelle modifications a été indexée et est prête pour la validation ? Là où `git status` répond de manière générale à ces questions, `git diff` montre les lignes exactes qui ont été ajoutées, modifiées ou effacées - le patch en somme.
 
-Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
+Supposons que vous éditez et indexez le fichier LISEZMOI et que vous éditez le fichier benchmarks.rb sans l'indexer. Si vous lancez la commande `status`, vous verrez ceci :
 
 	$ git status
 	# On branch master
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#	new file:   README
+	#	new file:   LISEZMOI
 	#
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -195,7 +195,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#	modified:   benchmarks.rb
 	#
 
-To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
+Pour visualiser ce qui a été modifié mais pas encore indexé, tapez `git diff` sans autre argument :
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -214,16 +214,16 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+Cette commande compare le contenu du répertoire de travail avec la zone d'index. Le résultat vous indique les modifications réalisées mais non indexées.
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+Si vous souhaitez visualiser les modifications indexées qui feront partie de la prochaine validation, vous pouvez utiliser `git diff --cached` (avec les versions 1.6.1 et supérieures de Git, vous pouvez aussi utiliser `git diff --staged`, qui est plus mnémotechnique). Cette commande compare les fichiers indéxés et le dernier instantané :
 
 	$ git diff --cached
-	diff --git a/README b/README
+	diff --git a/LISEZMOI b/LISEZMOI
 	new file mode 100644
 	index 0000000..03902a1
 	--- /dev/null
-	+++ b/README2
+	+++ b/LISEZMOI2
 	@@ -0,0 +1,5 @@
 	+grit
 	+ by Tom Preston-Werner, Chris Wanstrath
@@ -231,9 +231,9 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+Il est important de noter que `git diff` ne montre pas les modifications réalisées depuis la dernière validation - seulement les modifications qui sont non indexées. Cela peut introduire une confusion car si tous les fichiers modifiés ont été indexés, `git diff` n'indiquera aucun changement.
 
-For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
+Par exemple, si vous indexez le fichier benchmarks.rb et l'éditez en suite, vous pouvez utiliser `git diff` pour visualiser les modifications indexées et non indexées de ce fichier :
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -249,7 +249,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
-Now you can use `git diff` to see what is still unstaged
+A présent, vous pouvez utiliser `git diff` pour visualiser les modifications non indexées :
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -262,7 +262,7 @@ Now you can use `git diff` to see what is still unstaged
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
 
-and `git diff --cached` to see what you’ve staged so far:
+et `git diff --cached` pour visualiser ce qui a été indexé jusqu'à maintenant :
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -281,16 +281,17 @@ and `git diff --cached` to see what you’ve staged so far:
 	          log = git.commits('master', 15)
 	          log.size
 
-### Committing Your Changes ###
+### Valider vos modifications ###
 
-Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
+Votre zone d'index est dans l'état désiré, vous pouvez valider vos modifications. Souvenez-vous que tout ce qui encore non indexé - tous les fichiers qui ont été créés ou modifiés mais n'ont pas subi de `git add` depuis ne feront pas partie de la prochaine validation. Ils resteront en tant que fichiers modifiés sur votre disque.
+
+Dans notre cas, la dernière fois que vous avez lancé `git status`, vous avez vérifié que tout était indexé, et vous êtes donc prêt à valider vos modifications. La manière la plus simple de valider est de taper `git commit` :
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+Cette action lance votre éditeur par défaut (qui est paramétré par la variable d'environnement `$EDITOR` de votre shell - habituellement vim ou emacs, mais vous pouvez le paramétrer spécifiquement pour git en utilisant la commande `git config --global core.editor` comme nous l'avons vu au chapitre 1).
 
-The editor displays the following text (this example is a Vim screen):
+L'éditeur affiche le texte suivant :
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -298,7 +299,7 @@ The editor displays the following text (this example is a Vim screen):
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#       new file:   README
+	#       new file:   LISEZMOI
 	#       modified:   benchmarks.rb 
 	~
 	~
@@ -312,7 +313,7 @@ Alternatively, you can type your commit message inline with the `commit` command
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
-	 create mode 100644 README
+	 create mode 100644 LISEZMOI
 
 Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
 
@@ -390,7 +391,7 @@ Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a
 
 and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
 
-	$ git mv README.txt README
+	$ git mv LISEZMOI.txt LISEZMOI
 	$ git status
 	# On branch master
 	# Your branch is ahead of 'origin/master' by 1 commit.
@@ -398,14 +399,14 @@ and it works fine. In fact, if you run something like this and look at the statu
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#       renamed:    README.txt -> README
+	#       renamed:    LISEZMOI.txt -> LISEZMOI
 	#
 
 However, this is equivalent to running something like this:
 
-	$ mv README.txt README
-	$ git rm README.txt
-	$ git add README
+	$ mv LISEZMOI.txt LISEZMOI
+	$ git rm LISEZMOI.txt
+	$ git add LISEZMOI
 
 Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
 
@@ -510,7 +511,7 @@ You can also use a series of summarizing options with `git log`. For example, if
 
 	    first commit
 
-	 README           |    6 ++++++
+	 LISEZMOI           |    6 ++++++
 	 Rakefile         |   23 +++++++++++++++++++++++
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
@@ -525,10 +526,10 @@ Another really useful option is `--pretty`. This option changes the log output t
 
 The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
 
-	$ git log --pretty=format:"%h - %an, %ar : %s"
-	ca82a6d - Scott Chacon, 11 months ago : changed the version number
-	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
-	a11bef0 - Scott Chacon, 11 months ago : first commit
+	$ git log --pretty=format:"%h - %an, %ar : %s"
+	ca82a6d - Scott Chacon, 11 months ago : changed the version number
+	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
+	a11bef0 - Scott Chacon, 11 months ago : first commit
 
 Table 2-1 lists some of the more useful options that format takes.
 
@@ -655,7 +656,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#       modified:   README.txt
+	#       modified:   LISEZMOI.txt
 	#       modified:   benchmarks.rb
 	#
 
@@ -668,7 +669,7 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#       modified:   README.txt
+	#       modified:   LISEZMOI.txt
 	#
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -698,7 +699,7 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	# Changes to be committed:
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
-	#       modified:   README.txt
+	#       modified:   LISEZMOI
 	#
 
 You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go. 

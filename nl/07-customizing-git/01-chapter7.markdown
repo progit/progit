@@ -210,48 +210,48 @@ Als je dit uitvoert in plaats van de `extMerge` en `extDiff` bestanden in te ste
 
 ### Opmaak en Witruimten ###
 
-Formatting and whitespace issues are some of the more frustrating and subtle problems that many developers encounter when collaborating, especially cross-platform. It’s very easy for patches or other collaborated work to introduce subtle whitespace changes because editors silently introduce them or Windows programmers add carriage returns at the end of lines they touch in cross-platform projects. Git has a few configuration options to help with these issues.
+Problemen met opmaak en witruimten zijn één van de veelvoorkomende frustrerende en subtiele problemen die veel ontwikkelaars tegenkomen bij het samenwerken, in het bijzonder over verschillende platformen. Het is heel eenvoudig voor patches en ander werk om subtiele witruimte veranderingen te introduceren, omdat editors ze stil introduceren of omdat Windows programmeurs harde returns aan het eind van de regels toevoegen die ze aanraken in gekruiste platformprojecten. Git heeft een aantal configuratie opties om met deze problemen te helpen.
 
 #### core.autocrlf ####
 
-If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work. 
+Als je op Windows programmeert, of een ander systeem gebruikt maar samenwerkt met mensen die op Windows werken, zul je vroeg of laat waarschijnlijk tegen regeleinde problemen aanlopen. Dat komt omdat Windows zowel een harde return als ook een linefeed karakter gebruikt voor regeleindes in zijn bestanden, waar Mac en Linux systemen alleen het linefeed karakter gebruiken. Dit is een subtiel maar verschrikkelijk irritant feit van het werken met gekruiste platformen.
 
-Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code:
+Git kan hiermee omgaan door CRLF regeleinden automatisch om te zetten naar LF zodra je commit, en vice versa op het moment dat je code uitchecked op je systeem. Je kunt deze functionaliteit aanzetten met de `core.autocrlf` instelling. Als je op een Windows machine zit, stel het dan in op `true` – dit veranderd LF regeleinden in CRLF zodra je code uitchecked:
 
 	$ git config --global core.autocrlf true
 
-If you’re on a Linux or Mac system that uses LF line endings, then you don’t want Git to automatically convert them when you check out files; however, if a file with CRLF endings accidentally gets introduced, then you may want Git to fix it. You can tell Git to convert CRLF to LF on commit but not the other way around by setting `core.autocrlf` to input:
+Als je op een Linux of Mac systeem zit dat LF regeleinden gebruikt, dan wil je niet dat Git ze autoamisch veranderd op het moment dat Git bestanden uitchecked; maar als een bestand met CRLF regeleinden onverhoopt toch geintroduceerd wordt, dan wil je misschien dat Git dit repareert. Je kunt Git vertellen dat je wilt dat hij CRLF in LF veranderd tijdens het committen, maar niet de andere kant op door het instellen van `core.autocrlf` op input:
 
 	$ git config --global core.autocrlf input
 
-This setup should leave you with CRLF endings in Windows checkouts but LF endings on Mac and Linux systems and in the repository.
+Deze instelling zal CRLF regeleinden in Windows checkouts gebruiken, en LF einden in Mac en Linux systemen en in het repository moeten laten.
 
-If you’re a Windows programmer doing a Windows-only project, then you can turn off this functionality, recording the carriage returns in the repository by setting the config value to `false`:
+Als je een Windows programmeur bent, die een alleen-Windows project doet, dan kun je deze functionaliteit uitzetten, waarmee de harde returns in het repository opgeslagen worden door de configuratie waarde op `false` te zetten:
 
 	$ git config --global core.autocrlf false
 
 #### core.whitespace ####
 
-Git comes preset to detect and fix some whitespace issues. It can look for four primary whitespace issues — two are enabled by default and can be turned off, and two aren’t enabled by default but can be activated.
+Git is vooraf ingesteld om een aantal witruimte problemen te detecteren en te repareren. Het kan op vier veelvoorkomende witruimte problemen letten – twee stan er standaard aan en kunnen uitgezet worden, en twee staan er standaard niet aan, maar kunnen aangezet worden.
 
-The two that are turned on by default are `trailing-space`, which looks for spaces at the end of a line, and `space-before-tab`, which looks for spaces before tabs at the beginning of a line.
+De twee die standaard aan staan zijn `trailing-space`, wat kijkt of er spaties aan het eind van een regel staan, en `space-before-tab`, wat kijkt of er spaties voor tabs staan aan het begin van een regel.
 
-The two that are disabled by default but can be turned on are `indent-with-non-tab`, which looks for lines that begin with eight or more spaces instead of tabs, and `cr-at-eol`, which tells Git that carriage returns at the end of lines are OK.
+De twee die standaard uit staan, maar aangezet kunnen worden, zijn `indent-with-non-tab`, wat kijkt naar regels die met acht of meer spaties beginnen in plaats van tabs, en `cr-at-eol`, wat Git verteld dat harde returns aan het eind van een regel OK zijn.
 
-You can tell Git which of these you want enabled by setting `core.whitespace` to the values you want on or off, separated by commas. You can disable settings by either leaving them out of the setting string or prepending a `-` in front of the value. For example, if you want all but `cr-at-eol` to be set, you can do this:
+Je kunt Git vertellen welke van deze je aan wil zetten door `core.whitespace` naar de waardes in te stellen die je aan of uit wil, gescheiden door komma's. Je kunt waarden uitzetten door ze weg te laten uit de instelling tekst of door een `-` vooraf te laten gaan aan de waarde. Bijvoorbeeld, als je alles aan wil behalve `cr-ar-eol`, dan kun je dit doen:
 
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
-Git will detect these issues when you run a `git diff` command and try to color them so you can possibly fix them before you commit. It will also use these values to help you when you apply patches with `git apply`. When you’re applying patches, you can ask Git to warn you if it’s applying patches with the specified whitespace issues:
+Git zal deze problemen detecteren zodra je een `git diff` commando uitvoert en ze proberem te kleuren zodat je ze kunt repareren alvorens te committen. Het zal deze waarden ook gebruiken om je te helpen met patches toe te passen met `git apply`. Als je patches gaat toepassen, kun je Git vragen om je te waarschuwen als hij patches toepast waarin deze specifieke witruimte problemen zitten:
 
 	$ git apply --whitespace=warn <patch>
 
-Or you can have Git try to automatically fix the issue before applying the patch:
+Of je kunt Git vragen om automatisch deze problemen te repareren alvorens de patch toe te passen:
 
 	$ git apply --whitespace=fix <patch>
 
-These options apply to the git rebase option as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
+Deze opties zijn ook op de git rebase optie van toepassing. Als je witruimte problemen gecommit hebt maar ze nog niet stroomopwaarts gepushed hebt, kun je een `rebase` uitvoeren met de `--whitespace=fix` optie uitvoeren om Git automatisch witruimte problemen te laten repareren zodra het de patches herschrijft.
 
 ### Server Configuration ###
 

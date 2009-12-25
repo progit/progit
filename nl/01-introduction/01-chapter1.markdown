@@ -21,12 +21,12 @@ Een populair gereedschap voor VCS was een systeem genaamd rcs, wat vandaag de da
 
 ### Gecentraliseerde Versiebeheersystemen ###
 
-Het volgende grote probleem waar mensen tegenaan lopen is dat ze samen moeten werken met ontwikkelaars op andere computers. Om dit probleem op te lossen ontwikkelden ze Gecentraliseerde Versiebeheersystemen (CVCSen). Deze systemen, zoals CVS, Subversion en Perforce, hebben één centrale server waarop alle versies van de bestanden staan, en een aantal clients die de bestanden daarvandaan halen (‘check out’, in het Engels). Vele jaren was dit de standaard voor versiebeheer (zie Figuur 1-2).
+Het volgende grote probleem waar mensen tegenaan lopen is dat ze samen moeten werken met ontwikkelaars op andere computers. Om dit probleem op te lossen ontwikkelden ze geCentraliseerde Versiebeheersystemen (CVCSen). Deze systemen, zoals CVS, Subversion en Perforce, hebben één centrale server waarop alle versies van de bestanden staan, en een aantal clients die de bestanden daarvandaan halen (‘check out’, in het Engels). Vele jaren was dit de standaard voor versiebeheer (zie Figuur 1-2).
 
 Insert 18333fig0102.png 
 Figuur 1-2. Een diagram van een gecentraliseerd versiebeheersysteem.
 
-Deze manier van versiebeheer bied veel voordelen, vooral als je het vergelijkt met lokale VCSen. Bijvoorbeeld, iedereen weet tot op een bepaalde hoogte wat de rest die aan het project werken aan het doen zijn. Beheerders hebben precieze controle over wie wat kan doen; en het is veel eenvoudiger om een CVCS te beheren dan te moeten werken met lokale databases voor elke client.
+Deze manier van versiebeheer biedt veel voordelen, vooral als je het vergelijkt met lokale VCSen. Bijvoorbeeld, iedereen weet tot op een bepaalde hoogte wat de rest die aan het project werken aan het doen is. Beheerders hebben precieze controle over wie wat kan doen; en het is veel eenvoudiger om een CVCS te beheren dan te moeten werken met lokale databases voor elke client.
 
 Maar helaas, deze methode heeft ook behoorlijke nadelen. De duidelijkste is het ‘single point of failure’: als de centrale server neergaat en een uur later weer terug komt, kan niemand in dat uur samenwerken, of versies bewaren van de dingen waar ze aan werken. Als de harde schrijf waar de centrale database op staat corrupt raakt, en er geen backups van zijn, verlies je echt alles — de hele geschiedenis van het project, behalve het momentopname mensen op hun eigen computers hebben staan. Lokale VCSen hebben hetzelfde probleem — als je de hele geschiedenis van het project op één enkele plaats bewaard, loop je ook kans alles te verliezen.
 

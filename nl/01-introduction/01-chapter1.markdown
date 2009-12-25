@@ -81,9 +81,9 @@ Dit betekent dat er maar heel weinig is dat je niet kan doen als je offline bent
 
 ### Git Is Integer ###
 
-Git maakt een controlegetal (‘checksum’) van alles voordat het wordt opgeslaten, en er wordt later naar die data verwezen met dat controlegetal. Dat betekent dat het onmogelijk is om de inhoud van een bestand of map te veranderen zonder dat Git ervanaf weet. Deze functionaliteit is ingebouwd in de diepste diepten van Git en staat centraal in zijn filosofie. Je kan geen informatie kwijtraken als het wordt verstuurd en bestanden kunnen niet corrupt raken zonder dat Git het doorheeft.
+Git maakt een controlegetal (‘checksum’) van alles voordat het wordt opgeslagen, en er wordt later naar die data verwezen met dit controlegetal. Dat betekent dat het onmogelijk is om de inhoud van een bestand of map te veranderen zonder dat Git er vanaf weet. Deze functionaliteit is ingebouwd in de diepste diepten van Git en staat centraal in zijn filosofie. Je kan geen informatie kwijtraken als het wordt verstuurd en bestanden kunnen niet corrupt raken zonder dat Git het doorheeft.
 
-Het mechanisme dat Git gebruikt voor die controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en berekend met de inhoud van een bestand of mapstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
+Het mechanisme dat Git gebruikt voor deze controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en wordt berekend met de inhoud van een bestand of mapstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
@@ -91,13 +91,13 @@ Je zal deze hashtekenreeksen overal tegenkomen in Git, omdat het er zoveel gebru
 
 ### Git Voegt Normaal Gesproken Alleen Data Toe ###
 
-Wanneer je iets doet in Git, is de kans groot dat het alleen maar data aan de database van Git toevoegt. Het is erg moeilijk om het systeem iets te laten doen wat je niet ongedaan kan maken, of het data uit te laten wissen op wat voor manier dan ook. Zoals met elke VCS kan je veranderingen verliezen of verhaspelen waar je nog geen momentopname van hebt gemaakt; maar als je dat eenmaal hebt gedaan, is het erg moeilijk om die data te verliezen, zeker als je je lokale database regelmatig uploadt (‘push’) naar een ander repository.
+Wanneer je iets doet in Git, is de kans groot dat het alleen maar data aan de database van Git toevoegt. Het is erg moeilijk om het systeem iets te laten doen wat je niet ongedaan kan maken, of het data uit te laten wissen op wat voor manier dan ook. Zoals met elke VCS kan je veranderingen verliezen of verhaspelen waar je nog geen momentopname van hebt gemaakt; maar als je dat eenmaal hebt gedaan, is het erg moeilijk om die data te verliezen, zeker als je je lokale database regelmatig uploadt (‘push’) naar een andere repository.
 
-Je zult nog veel plezier van Git hebben, omdat je weet dat je kun experimenteren zonder het gevaar te lopen jezelf behoorlijk in de nesten te werken. Zie Hoofdstuk 9 voor een iets diepgaandere uitleg over hoe Git zijn data bewaart en hoe je de data die verloren lijkt kan terughalen.
+Je zult nog veel plezier van Git hebben, omdat je weet dat je kunt experimenteren zonder het gevaar te lopen jezelf behoorlijk in de nesten te werken. Zie Hoofdstuk 9 voor een iets diepgaandere uitleg over hoe Git zijn data bewaart en hoe je de data die verloren lijkt kan terughalen.
 
 ### De Drie Toestanden ###
 
-Let nu goed op. Dit is het belangrijkste wat je over Git moet weten als je wilt dat de rest van het leerproces goed verloopt. Git heeft drie hoofdtoestanden waarin je bestanden kunnen zijn: gecommit (‘commited’), aangepast (‘modified’) en voorbereid voor een commit (‘staged’). Gecommit betekent dat alle data al veilig opgeslagen is in je lokale database. Aangepast betekent dat je je bestand hebt veranderd maar dat je nog geen nieuwe momentopname in je database hebt. Voorbereid betekend dat je al hebt aangegeven dat de huidige versie van het aangepaste bestand in je volgende momentopname toevoegt.
+Let nu goed op. Dit is het belangrijkste wat je over Git moet weten als je wilt dat de rest van het leerproces goed verloopt. Git heeft drie hoofdtoestanden waarin je bestanden kunnen zijn: gecommit (‘commited’), aangepast (‘modified’) en voorbereid voor een commit (‘staged’). Gecommit betekent dat alle data al veilig opgeslagen is in je lokale database. Aangepast betekent dat je je bestand hebt veranderd maar dat je nog geen nieuwe momentopname in je database hebt. Voorbereid betekent dat je al hebt aangegeven dat de huidige versie van het aangepaste bestand in je volgende momentopname toevoegt.
 
 Dit brengt ons tot de drie hoofdonderdelen van een Gitproject: de Gitmap, de werkmap, en de wachtrij voor een commit (‘staging area’)
 
@@ -120,7 +120,7 @@ Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd 
 
 ## Git Installeren ##
 
-Laten we eens een beetje Git gebruiken. Je kan natuurlijk niet meteen beginnen — je moet het eerst installeren. Er zijn een aantal manieren om eraan te komen; te belangrijkste twee zijn installeren vanaf broncode, en een bestaand pakket voor jouw platform te gebruiken.
+Laten we eens een beetje Git gebruiken. Je kan natuurlijk niet meteen beginnen — je moet het eerst installeren. Er zijn een aantal manieren om eraan te komen; de belangrijkste twee zijn installeren vanaf broncode, en een bestaand pakket voor jouw platform te gebruiken.
 
 ### Installeren Vanaf de Bron ###
 

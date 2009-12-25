@@ -1,6 +1,6 @@
 # Aan de Slag #
 
-Dit hoofdstuk leg ik uit je hoe je aan de slag kunt gaan met Git.  We zullen aan het begin beginnen: je krijgt een beetje achtergrondinformatie over versiebeheersystemen, daarna een korte uitleg hoe je Git werkend kan krijgen op je computer en hoe je het kan instellen zodat je ermee aan het werk kunt.  Aan het einde van dit hoofdstuk zou je moeten kunnen begrijpen waarom Git er is, waarom je het nodig is en zal alles zo ingesteld staan dat dat ook kan.
+Dit hoofdstuk leg ik uit je hoe je aan de slag kunt gaan met Git.  We zullen aan het begin beginnen: je krijgt een beetje achtergrondinformatie over versiebeheersystemen, daarna een korte uitleg hoe je Git werkend kan krijgen op je computer en hoe je het kan instellen zodat je ermee aan het werk kunt.  Aan het einde van dit hoofdstuk zou je moeten kunnen begrijpen waarom Git er is, waarom je het nodig hebt en zal alles zo ingesteld staan dat dat ook kan.
 
 ## Het Wat en Waarom van Versiebeheer ##
 

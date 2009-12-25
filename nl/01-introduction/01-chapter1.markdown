@@ -73,7 +73,7 @@ Dat is een belangrijk verschil tussen Git en bijna alle VCSen. Hierdoor vindt Gi
 
 ### Bijna Alles Is Lokaal ###
 
-De meeste handelingen in Git hebben alleen lokale bestanden en bronnen nodig om te werken – normaal gesproken is geen informatie nodig van een andere computer in je netwerk. Als je gewent bent aan een CVCS, waar de meeste handelingen vertraagd worden door het netwerk, lijkt Git een geschenk van de snelheidsgoden. Omdat je de hele geschiedenis van het project op je lokale harde schijf hebt staan, lijken de meeste acties geen tijd in beslag te nemen.
+De meeste handelingen in Git hebben alleen lokale bestanden en bronnen nodig om te werken – normaal gesproken is geen informatie nodig van een andere computer in je netwerk. Als je gewend bent aan een CVCS, waar de meeste handelingen vertraagd worden door het netwerk, lijkt Git een geschenk van de snelheidsgoden. Omdat je de hele geschiedenis van het project op je lokale harde schijf hebt staan, lijken de meeste acties geen tijd in beslag te nemen.
 
 Een voorbeeld: Git hoeft niet aan een of andere server de geschiedenis van je project te vragen als je de die wilt doorbladeren – het leest simpelweg jou lokale database. Dat betekend dat je de geschiedenis bijna direct krijgt te zien. Als je de veranderingen wilt zien tussen de huidige versie van een bestand en de versie van een maand geleden, kan Git het bestand van een maand geleden opzoeken, en de lokale verschillen berekenen, in plaats van aan een niet-lokale server te moeten vragen om het te doen, of de oudere versie van het bestand ophalen om het lokaal te doen.
 

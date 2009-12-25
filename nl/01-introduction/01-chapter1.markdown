@@ -32,7 +32,7 @@ Maar helaas, deze methode heeft ook behoorlijke nadelen. De duidelijkste is het 
 
 ### Gedistribueerde Versiebeheersystemen ###
 
-En hier verschijnen Gedistribueerde Versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar of Darcs), downloaden clients niet alleen de laatste momentopnames van de bestanden: de hele geschiedenis (het ‘repository’) wordt gekopiërd. Dus als een server neergaat, en deze systemen werkten via die server samen, kan de kopie van elke willekeurige kopie client terug worden gekopiëerd naar de server om het te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
+En hier verschijnen Gedistribueerde Versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar en Darcs), downloaden clients niet alleen de laatste momentopnames van de bestanden: de hele geschiedenis (het ‘repository’) wordt gekopiërd. Dus als een server neergaat, en deze systemen werkten via die server samen, kan de kopie van elke willekeurige kopie client terug worden gekopiëerd naar de server om het te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
 
 Insert 18333fig0103.png 
 Figuur 1-3. Diagram van een gedistribueerd versiebeheersysteem

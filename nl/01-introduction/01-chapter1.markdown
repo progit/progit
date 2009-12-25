@@ -51,7 +51,7 @@ In 2005 viel de relatie tussen de gemeenschap die de Linuxkernel ontwikkelde en 
 *	Volledig gedistribueerd
 *	In staat om efficient om te gaan met grote projecten als Linux efficiënt (zowel in snelheid als geheugenruimte)
 
-Sinds zijn geboorte in 2005 is Git gegroeid tot zijn huidige vorm: het is gemakkelijk te gebruiken en heeft toch die oorspronkelijke eigenschappen behouden. Het is ongelofelijk snel, enorm efficiënt met grote projecten, en zijn systeem voor aparte takken (‘branches’) van niet-lineaire ontwikkeling is ongeëvenaard (zie Hoofdstuk 3).
+Sinds het ontstaan in 2005 is Git gegroeid tot zijn huidige vorm: het is eenvoudig te gebruiken en heeft toch die oorspronkelijke eigenschappen behouden. Het is ongelofelijk snel, enorm efficiënt met grote projecten, en zijn systeem voor aparte takken (‘branches’) van niet-lineaire ontwikkeling is ongeëvenaard (zie Hoofdstuk 3).
 
 ## De Basis van Git ##
 
@@ -64,7 +64,7 @@ Een groot verschil tussen Git en elke andere VCS (inclusief Subversion en consor
 Insert 18333fig0104.png 
 Figuur 1-4. Andere systemen bewaren data meestal als veranderingen aan een basisversie van elk bestand.
 
-Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandsysteem. Elke keer dat je ‘commit’, de status van van je project in Git opslaat, neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie Git ongewijzigde bestanden niet elke keer opnieuw op—alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
+Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandsysteem. Elke keer dat je ‘commit’, de status van van je project in Git opslaat, neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie slaat Git ongewijzigde bestanden niet elke keer opnieuw op — alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
 
 Insert 18333fig0105.png 
 Figuur 1-5. Git bewaart data als momentopnames van het project.

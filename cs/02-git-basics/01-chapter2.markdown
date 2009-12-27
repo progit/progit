@@ -76,17 +76,23 @@ jako na obrázku 2-1.
 Insert 18333fig0201.png 
 Obrázek 2-1. Cyklus stavů vašich souborů
 
-### Checking the Status of Your Files ###
+### Kontrola stavu vašich souborů ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+Základní nástroj, který se používá na určování, který soubor je v jakém stavu, je
+příkaz `git status`. Pokud ho pustíte hned po `git clone`, měli byste vidět něco jako:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+To znamená, že máte čistý pracovní adresář -- jinými slovy, nejsou v něm žádné soubory
+změněné (modified) a žádné nejsou v indexu (staged).
+Git také nevidí žádný přebývající (untracked) soubor, jinak by ho vypsal. A konečně vám
+příkaz sdělí, v jaké jste větvi. Protentokrát to bude vždy master, ten je výchozí; teď
+a tady se o to starat nemusíte. Větvení a reference probereme detailně v další kapitole.
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+Řekněme, že přidáte nový soubor do vašeho projektu, třeba jednoduché README. Pokud ten soubor
+dosud neexistoval a vy pustíte `git status`, uvidíte soubor ve stavu untracked:
 
 	$ vim README
 	$ git status
@@ -97,15 +103,22 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+Je vidět, že vaše README je untracked, protože je pod nadpisem "Untracked files"
+ve výpisu stavu. To jednoduše znamená, že tento soubor Git dosud nespravoval, a také ho
+spravovat nebude, dokud mu to explicitně neřeknete. Dělá to proto, aby nezačal náhodou
+zběsile spravovat vygenerované binární soubory nebo jiné, třeba dočasné soubory, které
+určitě do projektu zahrnout nechcete. Toto README však chcete spravovat, nuže pojďme si
+ukázat, jak na to.
 
-### Tracking New Files ###
+### Spravování nových souborů ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+K započetí spravování nových souborů použijeme příkaz `git add`. Konkrétně v tomto případě,
+abychom přidali soubor README, spustíme toto:
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+Pokud si nyní znovu zkontrolujeme stav příkazem `git status`, můžeme vidět,
+že naše README je nyní tracked a staged:
 
 	$ git status
 	# On branch master
@@ -115,7 +128,12 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+Staged je proto, že je pod nadpisem "Changes to be committed". Pokud uděláte commit v tuto
+chvíli, bude verze souboru ve chvíli, kdy jste udělali `git add`, vložena do snímku a uložena.
+Můžete si také vzpomenout, že když jste dříve pouštěli `git init`, museli jste pak pustit
+i `git add` -- to byl počátek správy souborů ve vašem adresáři. Příkaz `git add` přebírá cestu
+buďto k souboru nebo k adresáři; pokud je to adresář, uloží příkaz všechny soubory v onom adresáři.
+Rekurzivně.
 
 ### Staging Modified Files ###
 

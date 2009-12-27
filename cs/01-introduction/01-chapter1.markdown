@@ -313,7 +313,6 @@ Další užitečnou volbou je nastavení výchozího nástroje pro řešení kol
 
 Git umí pracovat s nástroji kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff. Můžete také nastavit i jiný nástroj; více v kapitole 7.
 
-### Checking Your Settings ###
 ### Kontrola vašeho nastavení ###
 
 Pokud chcete zkontrolovat vaše nastavení, použijte `git config --list` k zobrazení všech nastavení, která dokáže na tomto místě Git najít:

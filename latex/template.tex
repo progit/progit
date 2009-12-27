@@ -28,6 +28,8 @@
 \let\savedtitle=\@title
 \title{\textbf{\savedtitle}}
 \author{\textbf{\savedauthor}}
+\def\w3cdtfymd{\the\year-\ifnum\month<10 0\fi\the\month-\ifnum\day<10 0\fi\the\day}
+\date{\w3cdtfymd}
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
 \else\Gin@nat@width\fi}
 \makeatother

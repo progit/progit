@@ -28,8 +28,8 @@ zh:
 ja:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
 #  font: Japan
-  font: Sazanami Mincho
-#  font: IPAPMincho
+#  font: Sazanami Mincho
+  font: IPAPMincho
   bold: VL PGothic
 #  bold: Sazanami Gothic
 #  bold: IPAPGothic

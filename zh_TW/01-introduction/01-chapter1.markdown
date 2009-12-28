@@ -1,30 +1,37 @@
-# Getting Started #
+# 開始 #
 
-This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
 
-## About Version Control ##
+本章介紹Git的相關知識。 先從講解一些版本控制工具的背景知識開始，然後試著在讀者的系統將Git跑起來，最後則是設定它。 本在章結束，讀者應瞭解為什麼Git如 此流行、為什麼讀者應該利用它、以及完成使用它的準備工作。
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+## 關於版本控制 ##
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
 
-### Local Version Control Systems ###
+什麼是版本控制？ 以及為什麼讀者會在意它？ 版本控制是一個能夠記錄一個或一組檔案在某一段時間的變更，使得讀者以後能取回特定版本的系統。 在本書的範例中，讀者會學到如何對軟體的原始碼做版本控制。 即使實際上讀者幾乎可以針對電腦上任意型態的檔案做版本控制。
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+若讀者是繪圖或網頁設計師且想要記錄每一版影像或版面配置（這也通常是讀者想要做的），採用版本控制系統（VCS）做這件事是非常明智的。 它允許讀者將檔案復原到原本的狀態、將整個專案復原到先前的狀態、比對某一段時間的修改、查看最後是誰在哪個時間點做了錯誤的修改導致問題發生，等。 使用版本控制系統一般也意謂著若讀者做了一些傻事、或者遺失檔案，讀者能很容易的回復。 更進一步，僅需付出很小的代價即可得到這些優點。
+
+### 本地端版本控制 ###
+
+
+許多讀者採用複製檔案到其它目錄的方式來做版本控制（若他們夠聰明的話，或許會是有記錄時間戳記的目錄）。 因為它很簡單，這是個很常見的方法；但它也很容易出錯。 讀者很容易就忘記在哪個目錄，並不小心的把錯誤的檔案寫入、或者複製到不想要的檔案。
+
+
+為了解決這問題，設式設計師在很久以前開發了本地端的版本控制系統，具備簡單的資料庫，用來記載檔案的所有變更記錄（參考圖1-1）。
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram.
+圖1－1。 本地端版本控制流程圖。
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 
-### Centralized Version Control Systems ###
+這種版本控制工具中最流行的是RCS，目前仍存在於許多電腦。 即使是流行的Mac OS X作業系統，都會在讀者安裝開發工具時安裝rcs命令。 此工具基本上以特殊的格式記錄修補集合（即檔案從一個版本變更到另一個版本所需資訊），並儲存於磁碟上。 它就可以藉由套用各修補集合産生各時間點的檔案內容。
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+### 集中式版本控制系統 ###
+
+
+接下來人們遇到的主要問題是需要多位其它系統的開發協同作業。 為了解決此問題，集中式版本控制系統被發展出來。 此系統，如：CVS、Subversion及Perforce皆具備單一伺服器，記錄所有版本的檔案，且有多個客戶端從伺服器從伺服器取出檔案。 在多年後，這已經是版本控制系統的標準（參考圖1－2）。
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram.
+圖1－2. 集中式版本控制系統
 
 This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
 

@@ -12,9 +12,9 @@ Si vous commencer à suivre en version un projet existant dans Git, vous n'avez 
 
 	$ git init
 
-Cela crée un nous sous-répertoire nommé `.git` qui contient tous vos fichiers d'archive - un squelette de dépôt Git. À ce point, rien n'est encore suivi en version. (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
+Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous vos fichiers d'archive - un squelette de dépôt Git. À ce point, rien n'est encore suivi en version. (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
 
-Si vous souhaitez commencer à suivre en version des fichiers existant ( contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire un commit initial. Vous pouvez réaliser ceci avec un poignée de commandes Git qui spécifient les fichiers que vous souhaiter suivre, suivi d'un commit :
+Si vous souhaitez commencer à suivre en version des fichiers existant ( contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire un commit initial. Vous pouvez réaliser ceci avec un poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'un commit :
 
 	$ git add *.c
 	$ git add README
@@ -92,7 +92,7 @@ Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes
 
 ### Indexer des fichiers modifiés ###
 
-Maintenant, modifions un fichiers qui a déjà été suivi en version.Si vous modifiez le fichier suivi en version appelé `benchmarks.rb` et lancez à nouveau votre command `status`, vous verrez ceci :
+Maintenant, modifions un fichiers qui a déjà été suivi en version. Si vous modifiez le fichier suivi en version appelé `benchmarks.rb` et lancez à nouveau votre commande `status`, vous verrez ceci :
 
 	$ git status
 	# On branch master
@@ -150,22 +150,22 @@ Que s'est-il donc passé ? À présent, benchmarks.rb apparaît à la fois comme
 
 ### Ignorer des fichiers ###
 
-Il apparait souvent qu'un type de fichiers présent dans la copie de travail ne doit pas être ajouté automatiquement ou même apparaître comme fichier potentiel pour le suivi de version. Ce sont par exemple des fichiers générés automatiquement tels que les fichiers de journaux ou de sauvegardes produits par l'outil que vous utilisez. Dans un tel cas, on peut énumérer les patrons de noms de fichiers à ignorer dans un fichier .gitignore. Voici ci-dessous un exemple de fichier .gitignore :
+Il apparaît souvent qu'un type de fichiers présent dans la copie de travail ne doit pas être ajouté automatiquement ou même apparaître comme fichier potentiel pour le suivi de version. Ce sont par exemple des fichiers générés automatiquement tels que les fichiers de journaux ou de sauvegardes produits par l'outil que vous utilisez. Dans un tel cas, on peut énumérer les patrons de noms de fichiers à ignorer dans un fichier .gitignore. Voici ci-dessous un exemple de fichier .gitignore :
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-La première ligne ordonne à Git d'ignorer tout fichier se terminant en .o ou .a - des fichiers objet ou archive qui sont généralement produits par la compilation d'un programme. La seconde ligne indique à Git d'ignorer tous les fichiers se terminant par un tilde (`~`), ce qui est le cas des noms des fichiers temporaires pour de nombreux éditeurs de texte tels qu'Emacs. On peut aussi inclure un répertoire log, tmp ou pid, ou le répertoire de documentation générée automatiquement, ou tout autre fichier. Renseigner un fichier .gitignore avant de commencer à travailler est généralement une bonne idée qui évitera de valider par inadvertance des fichiers qui ne doivent pas apparaître dans le dépot Git.
+La première ligne ordonne à Git d'ignorer tout fichier se terminant en .o ou .a - des fichiers objet ou archive qui sont généralement produits par la compilation d'un programme. La seconde ligne indique à Git d'ignorer tous les fichiers se terminant par un tilde (`~`), ce qui est le cas des noms des fichiers temporaires pour de nombreux éditeurs de texte tels qu'Emacs. On peut aussi inclure un répertoire log, tmp ou pid, ou le répertoire de documentation générée automatiquement, ou tout autre fichier. Renseigner un fichier .gitignore avant de commencer à travailler est généralement une bonne idée qui évitera de valider par inadvertance des fichiers qui ne doivent pas apparaître dans le dépôt Git.
 
 Les règles de construction des patrons à placer dans le fichier .gitignore sont les suivantes :
 
 *	Les lignes vides ou commençant par # sont ignorée
 *	Les patrons standards de fichiers sont utilisables
 *       Si le patron se termine par un slash (`/`), le patron dénote un répertoire
-*	Un patron commençant par un point d'exclamantion (`!`) est inversé.
+*	Un patron commençant par un point d'exclamation (`!`) est inversé.
 
-Les patrons standards de fichiers sont des expressions régulières simplifiées utilisées par les shells. Un asterisk (`*`) correspond à un ou plusieurs caractères ; `[abc]` correspond à un des trois caractères listés dans les crochets, donc a ou b ou c ; un point d'interrogation (`?`) correspond à un unique caractère ; des crochets entourant des caractères séparés par un signe moins (`[0-9]`) correspond à un caractère dans l'intervalle des deux caractères indiqués, donc ici de 0 à 9.
+Les patrons standards de fichiers sont des expressions régulières simplifiées utilisées par les shells. Un astérisque (`*`) correspond à un ou plusieurs caractères ; `[abc]` correspond à un des trois caractères listés dans les crochets, donc a ou b ou c ; un point d'interrogation (`?`) correspond à un unique caractère ; des crochets entourant des caractères séparés par un signe moins (`[0-9]`) correspond à un caractère dans l'intervalle des deux caractères indiqués, donc ici de 0 à 9.
 
 Voici un autre exemple de fichier .gitignore :
 
@@ -216,7 +216,7 @@ Pour visualiser ce qui a été modifié mais pas encore indexé, tapez `git diff
 
 Cette commande compare le contenu du répertoire de travail avec la zone d'index. Le résultat vous indique les modifications réalisées mais non indexées.
 
-Si vous souhaitez visualiser les modifications indexées qui feront partie de la prochaine validation, vous pouvez utiliser `git diff --cached` (avec les versions 1.6.1 et supérieures de Git, vous pouvez aussi utiliser `git diff --staged`, qui est plus mnémotechnique). Cette commande compare les fichiers indéxés et le dernier instantané :
+Si vous souhaitez visualiser les modifications indexées qui feront partie de la prochaine validation, vous pouvez utiliser `git diff --cached` (avec les versions 1.6.1 et supérieures de Git, vous pouvez aussi utiliser `git diff --staged`, qui est plus mnémotechnique). Cette commande compare les fichiers indexés et le dernier instantané :
 
 	$ git diff --cached
 	diff --git a/LISEZMOI b/LISEZMOI
@@ -289,7 +289,7 @@ Dans notre cas, la dernière fois que vous avez lancé `git status`, vous avez v
 
 	$ git commit
 
-Cette action lance votre éditeur par défaut (qui est paramétré par la variable d'environnement `$EDITOR` de votre shell - habituellement vim ou emacs, mais vous pouvez le paramétrer spécifiquement pour git en utilisant la commande `git config --global core.editor` comme nous l'avons vu au chapitre 1).
+Cette action lance votre éditeur par défaut (qui est paramétré par la variable d'environnement `$EDITOR` de votre shell - habituellement vim ou Emacs, mais vous pouvez le paramétrer spécifiquement pour git en utilisant la commande `git config --global core.editor` comme nous l'avons vu au chapitre 1).
 
 L'éditeur affiche le texte suivant :
 
@@ -306,22 +306,23 @@ L'éditeur affiche le texte suivant :
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+Vous constatez que le message de validation par défaut contient une ligne vide suivie en commentaire le résultat de la commande `git status`. Vous pouvez effacer ces lignes de commentaire et saisir votre propre message de validation, ou vous pouvez les laisser en place vous aider à vous rappeler de ce que vous êtes en train de valider (pour un rappel plus explicite de ce que vous avez modifié, vous pouvez aussi passer l'option `-v` à la commande `git commit`. Cette option place le résultat du diff en commentaire dans l'éditeur pour vous permettre de visualiser exactement ce que vous avez modifié). Quand vous quittez l'éditeur (après avoir sauvegardé le message), Git crée votre validation avec ce message de validation (après avoir retiré les commentaires et le diff).
 
-Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
+D'une autre manière, vous pouvez spécifier votre message de validation en ligne avec la commande `commit` en le saisissant après l'option `-m`, de cette manière :
+
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 LISEZMOI
 
-Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+A présent, vous avez créé votre premier commit ! Vous pouvez constater que le commit vous fournit quelques information sur lui-même : sur quelle branche vous avez validé (master), quelle est sa somme de contrôle SHA-1 (`463dc4f`), combien de fichiers ont été modifiés, et quelques statistiques sur les lignes ajoutées et effacées dans ce commit.
 
-Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
+Souvenez-vous que la validation enregistre l'instantané que vous avez préparé dans la zone d'index. Tout ce que vous n'avez pas indexé est toujours en état modifié ; vous pouvez réaliser une nouvelle validation pour l'ajouter à l'historique. A chaque validation, vous enregistrez un instantané du projet en forme de jalon auquel vous pourrez revenir ou comparer votre travail ultérieur.
 
-### Skipping the Staging Area ###
+### Éliminer la phase d'indexation ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+Bien qu'il soit incroyablement utile de pouvoir organiser les commits exactement comme on l'entend, la gestion de la zone d'index est parfois plus complexe que nécessaire dans une utilisation normale. Si vous souhaitez éviter la phase de placement des fichiers dans la zone d'index, Git fournit un raccourcis très simple. L'ajout de l'option `-a` à la commande `git commit` ordonne à Git de placer automatiquement tout fichier déjà en suivi de version dans la zone d'index avant de réaliser la validation, évitant ainsi d'avoir à taper les commandes `git add` :
 
 	$ git status
 	# On branch master
@@ -334,13 +335,13 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+Notez bien que vous n'avez pas eu à lancer `git add` sur le fichier benchmarks.rb avant de valider.
 
-### Removing Files ###
+### Effacer des fichiers ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+Pour effacer un fichier de Git, vous devez l'éliminer des fichiers en suivi de version (plus précisément, l'éliminer dans la zone d'index) puis valider. La commande `git rm` réalise cette action mais efface aussi ce fichier de votre copie de travail de telle sorte que vous ne le verrez pas apparaître comme fichier non suivi en version à la prochaine validation.
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+Si vous effacez simplement le fichier dans votre copie de travail, il apparaît sous la section “Changed but not updated“ (C'est-à-dire, _non indexé_) dans le résultat de `git status` :
 
 	$ rm grit.gemspec
 	$ git status
@@ -352,7 +353,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+Ensuite, si vous lancez `git rm`, l'effacement du fichier est indexé :
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -365,31 +366,32 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+Lors de la prochaine validation, le fichier sera absent et non-suivi en version. Si vous avez auparavant modifié et indexé le fichier, son élimination doit être forcée avec l'option `-f`. C'est une mesure de sécurité pour empêcher un effacement accidentel de données qui n'ont pas encore été enregistrées dans un instantané et qui seraient définitivement perdues.
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+Un autre scénario serait de vouloir abandonner le suivi de version d'un fichier tout en le conservant dans la copie de travail. Ceci est particulièrement utile lorsqu'on a oublié de spécifier un patron dans le fichier `.gitignore` et on a accidentellement ajouté un fichier dans l'instantané, tel qu'un gros fichier de journal ou une série d'archives de compilation `.a`. Pour réaliser ce scénario, utilisez l'option `--cached` :
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+Vous pouvez spécifier des noms de fichiers ou de répertoires, ou des patrons de fichiers à la commande `git rm`. Cela signifie que vous pouvez lancer des commandes telles que
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+Notez bien l'antislash (`\`) devant `*`. Il est nécessaire d'échapper le caractère `*` car Git utilise sa propre expansion de nom de fichier en addition de l'expansion du shell. Cette commande efface tous le fichiers avec l'extension `.log` présents dans le répertoire `log/`. Vous pouvez aussi lancer une commande telle que :
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+Cette commande élimine tous les fichiers se terminant par `~`.
 
-### Moving Files ###
+### Déplacer des fichiers ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+À la différence des autres systèmes VCS, Git ne suit pas explicitement les mouvements des fichiers. Si vous renommez un fichier suivi par Git, aucune méta-donnée indiquant le renommage n'est stockée par Git. Néanmoins, Git est assez malin pour s'en apercevoir après coup - la détection de mouvement de fichier sera traitée après.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+De ce fait, que Git ait une commande `mv` peut paraître trompeur. Si vous souhaitez renommer un fichier dans Git, vous pouvez lancer quelque chose comme
+
 
 	$ git mv file_from file_to
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+et cela fonctionne. En fait, si vous lancez quelque chose comme ceci et inspectez le résultat d'une commande `status`, vous constaterez que Git gère le renommage de fichier :
 
 	$ git mv LISEZMOI.txt LISEZMOI
 	$ git status
@@ -402,23 +404,23 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    LISEZMOI.txt -> LISEZMOI
 	#
 
-However, this is equivalent to running something like this:
+Néanmoins, cela revient à lancer les commandes suivantes :
 
 	$ mv LISEZMOI.txt LISEZMOI
 	$ git rm LISEZMOI.txt
 	$ git add LISEZMOI
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git trouve implicitement que c'est un renommage, donc cela importe peu si vous renommez un fichier de cette manière ou avec la commande `mv`. La seule différence réelle est que `mv` ne fait qu'une commande à taper au lieu de trois - c'est une commande de convenance. Le point principal est que vous pouvez utiliser n'importe quel outil pour renommer un fichier, et traiter les commandes `add`/`rm` plus tard, avant de valider la modification.
 
-## Viewing the Commit History ##
+## Visualiser l'historique des validations ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+Après avoir créé plusieurs commits ou si vous avez cloné un dépôt ayant un historique de commits, vous souhaitez probablement revoir le fil des évènements. La commande `git log` est l'outil le plus basique et puissant pour cet objet.
 
-These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run 
+Les exemples qui suivent utilisent un projet très simple nommé simplegit utilisé pour les démonstrations. Pour récupérer le projet, lancez
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+Lorsque vous lancez `git log` dans le répertoire de ce projet, vous devriez obtenir un résultat qui ressemble à ceci :
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -439,11 +441,11 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+Par défaut, `git log` invoqué sans argument énumère en ordre chronologique inversé les commits réalisés. Cela signifie que les commits les plus récents apparaissent en premier. Comme vous le remarquez, cette commande indique chaque commit avec sa somme de contrôle SHA-1, le nom et l'e-mail de l'auteur, la date et le message du commit.
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+`git log` dispose d'un très grand nombre d'options permettant de paramétrer exactement ce que l'on cherche à voir. Nous allons détailler quelques unes des plus utilisées.
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+Une des options les plus utiles est `-p`, qui montre les différences introduites entre chaque validation. Vous pouvez aussi utiliser `-2` qui limite la sortie de la commande aux deux entrées les plus récentes :
 
 	$ git log –p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -483,8 +485,9 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+Cette option affiche la même information mais avec un diff suivant directement chaque entrée. C'est très utile pour des revues de code ou pour naviguer rapidement à travers l'historique des modifications qu'un collaborateur a apportées.
+
+Vous pouvez aussi utiliser une liste pour d'options de résumé avec `git log`. Par exemple, si vous souhaitez visualiser des statistiques résumées pour chaque commit, vous pouvez utiliser l'option `--stat` :
 
 	$ git log --stat 
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -516,22 +519,22 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+Comme vous pouvez le voir, l'option `--stat` affiche sous chaque entrée de validation une liste des fichiers modifiés, combien de fichiers ont été changés et combien de lignes ont été ajoutées ou retirées dans ces fichiers. Elle ajoute un résumé des information en fin de sortie.
+Une autre option utile est `--pretty`. Cette option modifie le journal vers un format différent. Quelques options incluses sont disponibles. L'option `oneline` affiche chaque commit sur une seule ligne, ce qui peut s'avérer utile lors de la revue d'un long journal. De plus, les options `short`, `full` et `fuller` montrent le résultat à peu de choses près dans le même format mais avec de plus en plus d'information :
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+L'option la plus intéressante est `format` qui permet de décrire précisément le format de sortie. C'est spécialement utile pour générer des sorties dans un format facile à analyser par une machine - lorsqu'on spécifie intégralement et explicitement le format, on s'assure qu'il ne changera pas au gré des mises à jour de Git :
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+Le tableau 2-1 liste les options de formattage les plus utiles.
 
 	Option	Description of Output
 	%H	Commit hash

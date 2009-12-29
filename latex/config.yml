@@ -14,17 +14,27 @@ default:
 zh:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
   font: AR PL UMing CN
-#  font: AR PL SungtiL GB
   bold: AR PL UKai CN
-#  bold: AR PL KaitiM GB
   mono: AR PL UKai CN
-#  mono: AR PL KaitiM GB
   prechap: "第"
   postchap: "章"
   presect: ""
   postsect: "节"
   con: "目录"
   fig: "图 "
+  tab: "桌子 "
+  indent: "文"
+zh-tw:
+  langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
+  font: AR PL UMing TW
+  bold: AR PL UKai TW
+  mono: AR PL UKai TW
+  prechap: "第"
+  postchap: "章"
+  presect: ""
+  postsect: "節"
+  con: "目錄"
+  fig: "圖 "
   tab: "桌子 "
   indent: "文"
 ja:

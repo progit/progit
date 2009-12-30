@@ -33,36 +33,37 @@ Insert 18333fig0101.png
 Insert 18333fig0102.png 
 圖1－2. 集中式版本控制系統
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+這樣的配置提供了很多優點，特別是相較於本地端的版本控制系統來說。 例如：每個人皆能得知其它人對此專案做了些什麼修改有一定程度的瞭解。 管理員可調整存取權限，限制各使用者能做的事。 而且維護集中式版本控制系統也比維護散落在各使用者端的資料庫來的容易。
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+然而，這樣的配置也有嚴重的缺點。 最明顯的就是無法連上伺服器時。 如果伺服器關閉一個小時，在這段時間中沒有人能進行協同開發的工作或者將變更的部份傳遞給其它使用者。 如果伺服器用來儲存資料庫的硬碟損毀，而且沒有相關的偏份資料。 除了使用者已取到自己的電腦的版本外，所有資訊，包含該專案開發的歷史都會遺失。 本地端版本控制系統也會有同樣的問題，只要使用者將整個專案的開發歷史都放在同一個地方，就有遺失所有資料的風險。
 
-### Distributed Version Control Systems ###
+### 分散式版本控制系統 ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+這就是分散式版本控制系統被引入的原因。 在分散式版本控制系統，諸如：Git、Mercurial、Bazaar、Darcs。 客戶端不只是取出最後一版的檔案，而是複製整個儲存庫。 即使是整個系統賴以運作的電腦損毀，皆可將任何一個客戶端先前複製的資料還原到伺服器。 每一次的取出動作實際上就是完整備份整個儲存庫。（參考圖1-3）
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+圖1-3. 分散式版本控制系統
 
 Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+更進一步來說，許多這樣子的系統皆能同時與數個遠端的機器同時運作。 因此讀者能同時與許多不同群組的人們協同開發同一個專案。 這允許讀者設定多種集中式系統做不到的工作流程，如：階層式模式。
 
-## A Short History of Git ##
+## Git 的簡史 ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+如同許多生命中美好的事物一樣，Git從有一點創意的破壞及激烈的討論中誕生。 Linux kernel 是開放原始碼中相當大的專案。 在 Linux kernel 大部份的維護時間內（1991～2002），修改該軟體的方式通常以多個修補檔及壓縮檔流通。 在2002年，Linux kernel 開始採用名為 BitKeeper 的商業分散式版本控制系統。
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+在 2005年，開發 Linux kernel 的社群與開發 BitKeeper 的商業公司的關係走向決裂，也無法再免費使用該工具。 這告訴了 Linux 社群及 Linux 之父 Linux Torvalds，該是基於使用 BitKeeper 得到的經驗，開發自有的工具的時候。 這個系統必須達成下列目標：
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	快速
+*	簡潔的設計
+*	完整支援非線性的開發（上千個同時進行的分支）
+*	完全的分散式系統
+*	能夠有效的處理像 Linux kernel 規模的專案（快速及資料大小）
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+自從 2005 年誕生後，Git已相當成熟，也能很容易使手，並保持著最一開始的要求的品質。 它不可思議的快速、處理大型專案非常有效率、也具備相當優秀足以應付非線性開發的分支系統。（參考第三章）
 
-## Git Basics ##
+## Git 基礎要點 ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+那麼，簡單的說，Git是一個什麼樣的系統？ 這一章節是非常的重要的。 若讀者瞭解什麼是Git以及它的基本工作原因，那麼使用垉來就會很輕鬆且有效率。 在學習之前，試著忘記以前所知道的其它版本控制系統，如：Subversion 及 Perforce。 這將會幫助讀者使用此工具時發生不必要的誤會。 Git儲存資料及運作它們的方式遠異於其它系統，即使它們的使用者介面是很相似的。 瞭解這些差異會幫助讀者更準確的使用此工具。
 
 ### Snapshots, Not Differences ###
 

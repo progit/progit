@@ -562,28 +562,27 @@ Insert 18333fig0518.png
 
 ## 项目的管理 ##
 
-In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
+既然是相互协作，在贡献代码的同时，也免不了要维护管理自己的项目。像是怎么处理别人用 `format-patch` 生成的补丁，或是集成远端仓库上某个分支上的变化等等。但无论是管理代码仓库，还是帮忙审核收到的补丁，都需要同贡献者明确一种长期可持续的工作方式。
 
-### Working in Topic Branches ###
+### 在特性分支上工作 ###
 
-When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
-As you’ll remember, you can create the branch based off your master branch like this:
+如果想要集成新的代码进来，最好局限在特性分支上做。临时的特性分支可以让你随意尝试，进退自如。比如碰上无法正常工作的补丁，可以先搁在那边，直到有时间仔细核查修复为止。创建的分支可以用相关的主题关键字命名，比如 `ruby_client` 或者其它类似简短的具有描述性的词，以帮助将来回忆。Git 项目本身还把分支名称分置于不同的 namespace 之下，比如 `sc/ruby_client` 就说明这是 `sc` 这个人贡献的。现在从当前主干分支为基础，新建临时分支：
 
 	$ git branch sc/ruby_client master
 
-Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
+如果原来就有，用 `checkout -b` 切换到该分支中：
 
 	$ git checkout -b sc/ruby_client master
 
-Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
+好了，现在准备妥当，可以将别人贡献的代码试着合并进来了。之后看看有没有问题，最后决定是不是要再并入主干。
 
-### Applying Patches from E-mail ###
+### 采纳来自邮件的补丁 ###
 
-If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
+通过电子邮件收到的补丁，需要先应用到特性分支，才能体验变化。有两种采纳补丁的方式：`git apply` 或者 `git am`。
 
-#### Applying a Patch with apply ####
+#### 使用 apply 命令应用补丁 ####
 
-If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
+如果收到的补丁文件是用 `git diff` 或者其它 Unix 的 `diff` 命令生成的，就该用 `git apply` 命令来应用。假设补丁文件存在 `/tmp/patch-ruby-client.patch`，可以这样运行：
 
 	$ git apply /tmp/patch-ruby-client.patch
 
@@ -597,7 +596,7 @@ You can also use git apply to see if a patch applies cleanly before you try actu
 
 If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
 
-#### Applying a Patch with am ####
+#### 使用 am 命令应用补丁 ####
 
 If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
 

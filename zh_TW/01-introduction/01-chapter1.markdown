@@ -65,76 +65,77 @@ Furthermore, many of these systems deal pretty well with having several remote r
 
 那麼，簡單的說，Git是一個什麼樣的系統？ 這一章節是非常的重要的。 若讀者瞭解什麼是Git以及它的基本工作原因，那麼使用垉來就會很輕鬆且有效率。 在學習之前，試著忘記以前所知道的其它版本控制系統，如：Subversion 及 Perforce。 這將會幫助讀者使用此工具時發生不必要的誤會。 Git儲存資料及運作它們的方式遠異於其它系統，即使它們的使用者介面是很相似的。 瞭解這些差異會幫助讀者更準確的使用此工具。
 
-### Snapshots, Not Differences ###
+### 記錄檔案快照，而不是差異的部份 ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Git與其它版本控制系統（包含Subversion以及與它相關的）的差別是如何處理資料的方式。 一般來說，大部份其它系統記錄資訊是一連串檔案更動的內容。 如圖1-4所示。 這些系統（CVS、Subversion、Perforce、Bazaar等等）儲存一組基本的檔案以及隨時間遞增而更動這些檔案的資料。
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+圖1-4. 其它系統傾向儲存每個檔案更動的資料。
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git並不以此種方式儲存資料。 而是將其視為小型檔案系統的一組快照。 每一次讀者提交更新時、或者儲存目前專案的狀態到Git時。 基本上它為當時的資料做一組快照並記錄參考到該快照的參考點。 為了講求效率，只要檔案沒有變更，Git不會再度儲存該檔案，而是記錄到前一次的相同檔案的連結。 Git的工作方式如圖1-5所示。
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+圖1-5. Git儲存每次專案更新時的快照。
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+這是Git與所有其它版本控制系統最重要的區別。 它完全顛覆傳統版本控制的作法。 這使用Git更像一個上層具備更強大工具的小型的檔案系統，而不只是版本控制系統。 我們將會在第三章介紹分支時，提到採用此種作法的優點。
 
-### Nearly Every Operation Is Local ###
+### 大部份的動作皆可在本地端完成 ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+大部份Git的動作皆只需要本地端的檔案及資源即可完成。 一般來說並需要到網路上其它電腦提取的資訊。 若讀者使用集中式版本控制系統，大部份的動作皆包含網路延遲的成本。 這項特點讓你覺得Git處理資料的速度飛快。 因為整個專案的歷史皆存在你的硬碟中，大部份的運作看起來幾乎都是馬上完成。
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+例如：瀏覽器專案的歷史，Git不需要到伺服器下載歷史，而是從本地端的磁碟機讀出來並顯示。 這意謂著讀者幾乎馬上就可以看到專案的歷史。 若讀者想瞭解某個檔案一個月前的版本及現在版本的差別，Git可在本地端找出一個月前的檔案並在比對兩者的差異，而不是要求遠端的伺服器執行這項工作，或者從伺服器取回舊版本的檔案並在本地端比對。
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+這意謂著即使讀者已離線，或者切斷VPN連線後，也很少有讀者無法執行的動作。 若讀者在飛機或火車上，並想要做一些工作，讀者在取得可上傳的網路前仍可很快樂的提交更新。 若讀者回到家且無法讓VPN連線程式正常運作，讀者仍然可繼續工作。 在許多其它系統幾乎是無法做這些事或者必須付出很大代價。 以Perforce為例，在無法連到伺服器時讀者做不了多少事。以Subversion及CVS為例，雖然讀者能編輯檔案，但因為資料庫此時是離線的，讀者無法提交更新到資料庫。 這看起來可能還不是什麼大問題，但讀者可能驚訝Git有這麼大的不同。
 
-### Git Has Integrity ###
+### Git能檢查完整性 ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+在Git中所有的物件在儲存前都會被計算查核碼並以查核碼檢索物件。 這意謂著Git不可能不清楚任何檔案或目錄的內容已被更動。 此功能內建在Git底層並整合到它的設計哲學。 Git不可能偵測不出讀者在傳輸或取得有問題的檔案。
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Git用來計算查核碼的機制稱為SHA1雜湊法。 它由40個十六進制的字母組成的字串組成，基於Git的檔案內容或者目錄結構計算。 查核碼看起來如下所示：
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+讀者會Git中到處都看到雜湊值，因為它到處被使用。 事實上Git以檔案內容的雜湊值定址出放置資料的地方，而不是檔案名稱。
 
-### Git Generally Only Adds Data ###
+### Git 通常只增加資料 ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+當讀者使用Git，幾乎所有的動作只是增加資料到Git的資料庫。 很難藉此讓做出讓系統無法復原或者清除資料的動作。 在任何版本控制系統，讀者有可能會遺失或者搞混尚未提交的更新。 但是在提交快照到Git後，很少會有遺失的情況，特別是讀者定期將資料庫更新到其它儲存庫。
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+這讓使用Git可輕鬆的像在玩一樣，因為我們知道我們可以進行任何實驗而不會破壞任何東西。 在第九章的“底層細節”中，我們會進一步討論Git如何儲存資料，以及讀者如何復原看似遺失的資料。
 
-### The Three States ###
+### 三種狀態 ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+現在，注意。 若讀者希望接下來的學習過程順利些，這是關於Git的重要且需記住的事項。 Git有三種表達檔案的狀態：已提交、已修改及已暫存。 已提交意謂著資料己安全地存在讀者的本地端資料庫。 己修改代表著讀者已修改檔案但尚未提交到資料庫。 已暫存意謂著讀者標記已修改檔案目前的版本到下一次提供的快照。
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+這帶領我們到Git專案的三個主要區域：Git目錄、工作目錄及暫存區域。
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+圖1－6. 工作目錄、暫存區域及git目錄。
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git目錄是Git用來儲存讀者的專案的元數據及物件資料庫。 這是Git最重要的部份而且它是當讀者從其它電腦複製儲存庫時會複製過來的。
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+工作目錄是專案被取出的某一個版本。 這些檔案從Git目錄內被壓縮過的資料庫中拉出來並放在磁碟機供讀者使用或修改。
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+暫存區域是一個單純的檔案，一般來說放在Git目錄，儲存關於下一個提交的資訊。 有時稱為索引，但現在將它稱為暫存區域已開始成為標準。
 
-The basic Git workflow goes something like this:
+基本Git工作流程大致如下：
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	讀者修改工作目錄內的檔案。
+2.	讀者將檔案的快照新增到暫存區域。
+3.	做提交的動作，這會讓存在暫存區域的檔案快照永久的儲存在Git目錄。
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+在Git目錄內特定版本的檔案被認定為已提交。 若檔案被修改且被增加到暫存區域，稱為被暫存。 若檔案被取出後有被修改，但未被暫存，稱為被修改。 在第二章讀者會學到更多關於這些狀態以及如何利用它們的優點或者整個略過暫存步驟。
 
-## Installing Git ##
+## 安裝Git ##
 
 Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+讓我們開始使用Git。 首先讀者要做的事是安裝Git。 讀者有很多取得它們的方法。 主要的兩種分別是從原始碼安裝或者從讀者使用平台現存的套件安裝。
 
-### Installing from Source ###
+### 從原始碼安裝 ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+若讀者有能力的話，從原始碼安裝是非常有用的。 因為讀者能取得最新版本。 每一版Git通常都會包含有用的UI改善。 因此取得最新版本通常是最好的，只要讀者覺得編譯軟體的原始碼是很容易的。 許多Linux發行套件通常都是附上非常舊的套件。 除非讀者使用的發行套件非常新或者使用向後相容的移植版本。 從原始碼安裝通常是最好的選擇。
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+要安裝Git，讀者需要先安裝它需要的程式庫：curl、zlib、openssl、expat及libiconv。 例如：若讀者的系統有yum（如：Fedpra）或apt-get（如：以Debian為基礎的系統），讀者可使用下列任一命令安裝所有需要的程式庫：
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -142,34 +143,34 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
 	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+當讀者安裝所有必要的程式庫，讀者可到Git的網站取得最新版本：
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+接著，編譯及安裝：
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+在這些工作完成後，讀者也可以使用Git取得Git的更新版：
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### 在Linux系統安裝 ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+若讀者想使用二進位安裝程式安裝Git到Linux，一般來說讀者可經由發行套件提供的套件管理工具完成此工作。 若讀者使用Fedora，可使用yum：
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+若讀者在以Debian為基礎的發行套件，如：Ubuntu。 試試apt-get：
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### 在Mac系統安裝 ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+有兩種很容易將Git安裝到Mac的方法。 最簡單的是使用圖形化界面的Git安裝程式，可從Google Code下載）圖1－7）：
 
 	http://code.google.com/p/git-osx-installer
 

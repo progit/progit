@@ -562,46 +562,47 @@ Insert 18333fig0518.png
 
 ## 项目的管理 ##
 
-In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
+除了贡献代码，你还需要知道如何管理维护一个项目。这包括处理别人用`format-patch`命令产生的补丁和集成远端代码库的更新等等。但无论你是维护代码库，还是帮助别人审核、改善收到的补丁，都需要了解如何accept work in a way that is clearest for other contributors and sustainable by you over the long run.
 
-### Working in Topic Branches ###
+### 使用特性分支进行工作 ###
 
-When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
-As you’ll remember, you can create the branch based off your master branch like this:
+通常在加入新的代码时，先在特性分支上做个试验是个好的主意——建立一个专门用来试验这些代码的临时分支。这样就能很容易的做出一个独立的补丁，如果它不工作你还可以先放下它，等到有时间的时候再重新捡起来。创建的分支可以用相关的主题关键字命名，比如 `ruby_client` 或者其它类似的具有描述性的词，以帮助将来有需要的时候回忆起来。Git本身也把分支名称分置于不同的命名空间之下，比如 `sc/ruby_client`，`sc` 就是贡献这些代码的人名的缩写。
 
-	$ git branch sc/ruby_client master
+还记得吧，可以在当前主分支的基础上新建一个临时分支：
 
-Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
+        $ git branch sc/ruby_client master
 
-	$ git checkout -b sc/ruby_client master
+另外，如果你希望立刻转到分支上，你可以使用`checkout -b`：
 
-Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
+        $ git checkout -b sc/ruby_client master
 
-### Applying Patches from E-mail ###
+好了，现在已经准备妥当，可以试着将别人贡献的代码合并进来了。之后看看有没有问题，最后决定是不是要真的并入主干。
 
-If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
+### 采纳来自邮件的补丁 ###
 
-#### Applying a Patch with apply ####
+如果你收到了一个通过E-mail发来的补丁，你需要将它应用到一个特性分支上进行评估。有两种应用补丁的方法：`git apply` 或者 `git am`。
 
-If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
+#### 使用 apply 命令应用补丁 ####
+
+如果你收到某人使用`git diff`或者Unix `diff`命令生成的补丁，可以使用`git apply`命令来应用它。假定你把补丁保存在`/tmp/patch-ruby-client.patch`，你可以像这样应用补丁：
 
 	$ git apply /tmp/patch-ruby-client.patch
 
-This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches then patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is over all much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
+这样将会修改你工作目录下的文件。他的效果基本与运行`patch -p1`命令打补丁一样，但是它更加严格并且较少失真。如果它是`git diff`格式描述的补丁，还会处理文件的添加，删除和重命名等操作,`patch`命令根本做不到这一点。最后，`git apply`是一个"apply all or abort all"模式,要么所有补丁都打上去，要么都没有，但是`patch`命令会部分的应用补丁文件，可能导致你的工作变得不完整且非常混乱。`git apply`比`patch`严格很多，但是它不会自动commit——运行它之后，你必须手动stage，然后commit。
 
-You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
+你还可以在真正打补丁之前检验一下——使用`git apply --check`来查看补丁是否能够干净的应用。
 
 	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
-If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
+如果没有任何输出，表示补丁被干净的应用了。如果检验失败，这个命令将返回一个非零的状态，需要的话你可以把它用在脚本里。
 
-#### Applying a Patch with am ####
+#### 使用 am 命令应用补丁 ####
 
-If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
+如果贡献者也使用Git，并且擅长于使用`format-patch`来制作他的补丁，那么你的工作将会更加轻松，因为这样的补丁里包含了作者信息和commit信息。请鼓励你的贡献者们使用`format-patch`代替`diff`。另外，`git apply`应该只用在老式补丁上。
 
-To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this:
+应用一个由`format-patch`制作的新式补丁,应该使用`git am`。技术上说，`git am`读取mbox文件——它是一个简单的，纯文本格式的文件。它保存着一或多个e-mail信息，就像这样：
 
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
@@ -610,14 +611,14 @@ To apply a patch generated by `format-patch`, you use `git am`. Technically, `gi
 
 	Limit log functionality to the first 20
 
-This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+这是`format-patch`命令输出的开头几行，也是一个有效的mbox电邮格式。如果有人用`git send-email`给你发了一个补丁，你可以将它下载到本地，然后运行`git am`命令来应用这个补丁。如果你的E-mail客户端能够将多个e-mail文件保存到一起，就可以这样做————把多个相关补丁保存到一个文件里，然后使用`git am`一次应用所有的补丁。
 
-However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
+同样的，如果某人上传了一个由`format-patch`制作的补丁文件让大家投票决定是否采纳时，你可以将该文件保存到本地并使用`git am`来评估它：
 
 	$ git am 0001-limit-log-function.patch 
 	Applying: add limit to log function
 
-You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
+你会看到它被干净的应用并自动建立了新的commit。作者信息取自e-mail头部的`From`和`Date`字段，commit的信息取自`Subject`字段和正文（补丁之前的内容）。举个例子，如果这个补丁来自我刚刚展示的那个mbox邮件，commit信息看起来就像这样：
 
 	$ git log --pretty=fuller -1
 	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
@@ -629,10 +630,9 @@ You can see that it applied cleanly and automatically created the new commit for
 	   add limit to log function
 
 	   Limit log functionality to the first 20
+`Commit`部分显示了提交者的信息和提交日期。`Author`部分显示了原作者信息和补丁的创建时间。
 
-The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
-
-But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
+有时,补丁不能被干净的应用。这可能是你的主干分支和补丁的基础分支相差太远了，也可能是这个补丁依赖于一些你还没加入的补丁。这种情况下，`git am`会报错并询问你该怎么做：
 
 	$ git am 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -643,14 +643,14 @@ But it’s possible that the patch won’t apply cleanly. Perhaps your main bran
 	If you would prefer to skip this patch, instead run "git am --skip".
 	To restore the original branch and stop patching run "git am --abort".
 
-This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
+Git 会在有冲突的文件里加入冲突解决标记，很像有冲突的合并或者衍合操作产生的结果。解决问题的方法也一样——编辑文件来解决争端，stage新文件，然后运行`git am --resolved`继续应用下一个补丁：
 
 	$ (fix the file)
 	$ git add ticgit.gemspec 
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
-If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
+如果你想要Git尝试用更智能的方法来解决冲突，可以使用`-3`选项进行一次三方合并。这个选项默认是不开启的，因为如果这个补丁的基础代码和你的代码库不同将会导致错误。如果你的代码库里确实有那次commit，也就是说这个补丁基于一次公开的提交，那么`-3`选项将会更加智能的应用这个有争议的补丁。
 
 	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -660,9 +660,9 @@ If you want Git to try a bit more intelligently to resolve the conflict, you can
 	Falling back to patching base and 3-way merge...
 	No changes -- Patch already applied.
 
-In this case, I was trying to apply a patch I had already applied. Without the `-3` option, it looks like a conflict.
+重复应用同一个补丁会产生冲突，加上`-3`选项就可以解决这样的问题。
 
-If you’re applying a number of patches from an mbox, you can also run the `am` command in interactive mode, which stops at each patch it finds and asks if you want to apply it:
+如果你一次应用多个mbox格式的补丁，可以使用`am`命令的交互模式，这样就会在每个补丁前停住然后询问你如何操作。
 
 	$ git am -3 -i mbox
 	Commit Body is:
@@ -671,9 +671,9 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 	--------------------------
 	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
 
-This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
+在一次应用多个补丁时侯，这是一个非常好的方法，如果你忘了补丁的内容，可以先浏览一下。或者，那些你已经应用过的补丁就不需要再次应用了。
 
-When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
+当所有这些针对新特性的补丁都被评估后，你就可以决定是否在长期分支中将他们集成进来。
 
 ### Checking Out Remote Branches ###
 
@@ -700,7 +700,7 @@ If you aren’t working with a person consistently but still want to pull from t
 
 ### Determining What Is Introduced ###
 
-Now you have a topic branch that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
+Now you have a 特性分支 that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
 
 It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `--not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this:
 
@@ -719,15 +719,15 @@ It’s often helpful to get a review of all the commits that are in this branch 
 
 To see what changes each commit introduces, remember that you can pass the `-p` option to `git log` and it will append the diff introduced to each commit.
 
-To see a full diff of what would happen if you were to merge this topic branch with another branch, you may have to use a weird trick to get the correct results. You may think to run this:
+To see a full diff of what would happen if you were to merge this 特性分支 with another branch, you may have to use a weird trick to get the correct results. You may think to run this:
 
 	$ git diff master
 
-This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.
+This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the 特性分支 from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the 特性分支 you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the 特性分支 is going to remove that line.
 
-If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch.
+If `master` is a direct ancestor of your 特性分支, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your 特性分支 and removing everything unique to the `master` branch.
 
-What you really want to see are the changes added to the topic branch — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your topic branch with the first common ancestor it has with the master branch.
+What you really want to see are the changes added to the 特性分支 — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your 特性分支 with the first common ancestor it has with the master branch.
 
 Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
 
@@ -739,57 +739,57 @@ However, that isn’t convenient, so Git provides another shorthand for doing th
 
 	$ git diff master...contrib
 
-This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.
+This command shows you only the work your current 特性分支 has introduced since its common ancestor with master. That is a very useful syntax to remember.
 
 ### Integrating Contributed Work ###
 
-When all the work in your topic branch is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
+When all the work in your 特性分支 is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
 
 #### Merging Workflows ####
 
-One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
+One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a 特性分支 that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the 特性分支, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
 
 Insert 18333fig0519.png 
-Figure 5-19. History with several topic branches
+Figure 5-19. History with several 特性分支es
 
 Insert 18333fig0520.png
-Figure 5-20. After a topic branch merge
+Figure 5-20. After a 特性分支 merge
 
 That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
 
-If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
+If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new 特性分支 to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
 
 Insert 18333fig0521.png 
-Figure 5-21. Before a topic branch merge
+Figure 5-21. Before a 特性分支 merge
 
 Insert 18333fig0522.png 
-Figure 5-22. After a topic branch merge
+Figure 5-22. After a 特性分支 merge
 
 Insert 18333fig0523.png 
-Figure 5-23. After a topic branch release
+Figure 5-23. After a 特性分支 release
 
 This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
 You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
 
 #### Large-Merging Workflows ####
 
-The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
+The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into 特性分支es in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
 
 Insert 18333fig0524.png 
-Figure 5-24. Managing a complex series of parallel contributed topic branches
+Figure 5-24. Managing a complex series of parallel contributed 特性分支es
 
 If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
 
 Insert 18333fig0525.png 
-Figure 5-25. Merging contributed topic branches into long-term integration branches
+Figure 5-25. Merging contributed 特性分支es into long-term integration branches
 
-When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
+When a 特性分支 has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
 
 #### Rebasing and Cherry Picking Workflows ####
 
-Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a topic branch and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
+Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a 特性分支 and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
 
-The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
+The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a 特性分支 and you want to integrate only one of them, or if you only have one commit on a 特性分支 and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
 
 Insert 18333fig0526.png 
 Figure 5-26. Example history before a cherry pick
@@ -804,9 +804,9 @@ If you want to pull commit `e43a6` into your master branch, you can run
 This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
 
 Insert 18333fig0527.png 
-Figure 5-27. History after cherry-picking a commit on a topic branch
+Figure 5-27. History after cherry-picking a commit on a 特性分支
 
-Now you can remove your topic branch and drop the commits you didn’t want to pull in.
+Now you can remove your 特性分支 and drop the commits you didn’t want to pull in.
 
 ### Tagging Your Releases ###
 

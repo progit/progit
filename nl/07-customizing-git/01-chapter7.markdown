@@ -320,13 +320,13 @@ Je kunt twee versies niet direct vergelijken, tenzij je ze uitchecked en ze hand
 
 	*.doc diff=word
 
-This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:
+Dit verteld Git dat ieder bestand dat dit patroon past (.doc) het "word" filter zou moeten gebruiken als je een diff probeert te bekijken, die veranderingen bevat. Wat is het "word" filter? Je zult het moeten instellen. Hier zul je Git configureren om het `strings` programma te gebruiken om Word documenten in leesbare tekstbestanden om te vormen, die het dan fatsoenlijk kan diff'en:
 
 	$ git config diff.word.textconv strings
 
-Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
+Nu weet Git dat als het een diff probeert te doen tussen twee snapshots, en een van de bestanden eindigt in `.doc`, dan zou het deze bestanden door het "word" filter moeten halen, wat is gedefinieerd als het `strings` programma. Dit maakt effectief twee tekst-gebaseerde versies van je Word bestanden, alvorens ze proberen te diff'en.
 
-Here’s an example. I put Chapter 1 of this book into Git, added some text to a paragraph, and saved the document. Then, I ran `git diff` to see what changed:
+Hier is een voorbeeld. Ik heb Hoofdstuk 1 van dit boek in Git gestopt, wat tekst aan een paragraaf toegevoegd, en het document bewaard. Daarna heb ik `git diff` uitgevoerd om te zien wat er gewijzigd is:
 
 	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
@@ -341,14 +341,14 @@ Here’s an example. I put Chapter 1 of this book into Git, added some text to a
 	+s going on, modify stuff and contribute changes. If the book spontaneously 
 	+Let's see if this works.
 
-Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
+Git verteld me succesvol en beknopt dat ik de tekst "Let's see if this works" heb toegevoegd, wat correct is. Het is niet perfect – het voegt een serie willekeurig spul aan het einde toe – maar het werkt wel. Als je een Word-naar-gewone-tekst omvormer kunt vinden of schrijven die goed genoeg werkt, dan zal die oplossing waarschijnlijk zeer effectief zijn. Maar, `strings` is op de meeste Mac en Linux machines beschikbaar, dus dit kan een goede eerste poging zijn om dit te gebruiken bij andere binaire formaten.
 
-Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
+Een ander interessant probleem dat je hiermee kunt oplossen in het diff'en van beeldbestanden. Een manier om dit te doen is JPEG bestanden door een filter te halen dat hun EXIF informatie eruit peutert – metadata die wordt opgeslagen met de meeste beeldbestanden. Als je het `exiftool` programma download en installeert, kun je het gebruiken om je plaatjes naar tekst over de metadata om te zetten, zodat de diff op z'n minst een tekstuele representatie van eventuele wijzigingen laat zien:
 
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
 
-If you replace an image in your project and run `git diff`, you see something like this:
+Als je een plaatje in je project veranderd en `git diff` uitvoert, dan zie je zoiets als dit:
 
 	diff --git a/image.png b/image.png
 	index 88839c4..4afcb7c 100644
@@ -369,46 +369,46 @@ If you replace an image in your project and run `git diff`, you see something li
 	 Bit Depth                       : 8
 	 Color Type                      : RGB with Alpha
 
-You can easily see that the file size and image dimensions have both changed.
+Je kunt eenvoudig zien dat zowel de bestandsgrootte als de beeld dimensies gewijzigd zijn.
 
-### Keyword Expansion ###
+### Keyword Expansie ###
 
-SVN- or CVS-style keyword expansion is often requested by developers used to those systems. The main problem with this in Git is that you can’t modify a file with information about the commit after you’ve committed, because Git checksums the file first. However, you can inject text into a file when it’s checked out and remove it again before it’s added to a commit. Git attributes offers you two ways to do this.
+Keyword expansie zoals in SVN of CVS wordt vaak gevraagd door ontwikkelaars, die gewend zijn aan die systemen. Het grote probleem in Git is dat je een bestand niet mag wijzigen met informatie over de commit, nadat je het gecommit hebt, omdat Git eerst de checksum van het bestand maakt. Maar, je kunt tekst in een bestand injecteren zodra het uitgechecked wordt en opnieuw verwijderen voordat het aan een commit toegevoegd wordt. Met Git attributen zijn er twee manieren om dit te doen.
 
-First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the file automatically. If you set this attribute on a file or set of files, then the next time you check out that branch, Git will replace that field with the SHA-1 of the blob. It’s important to notice that it isn’t the SHA of the commit, but of the blob itself:
+Als eerste kun je de SHA-1 checksum van een blob automatisch in een `$Id$` veld in het bestand stoppen. Als je dit attribuut op een bestand of serie bestanden insteld, dan zal Git de volgende keer dat je die branch uitchecked dat veld vervangen met de SHA-1 van de blob. Het is belangrijk om op te merken dat het niet de SHA van de commit is, maar van de blob zelf:
 
 	$ echo '*.txt ident' >> .gitattributes
 	$ echo '$Id$' > test.txt
 
-The next time you check out this file, Git injects the SHA of the blob:
+De volgende keer dat je dit bestand uitchecked, injecteerd Git de SHA van de blob:
 
 	$ rm text.txt
 	$ git checkout -- text.txt
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
+Maar, het resultaat is slechts beperkt bruikbaar. Als je keyword vervanging in CVS of Subversion gebruikt hebt, kun je een tijdsstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of een SHA ouder of nieuwer is dan een andere.
 
-It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
+Het blijkt dat je je eigen filters voor het doen van vervanging bij commit/checkout kunt schrijven. Dit zijn de "clean" en "smudge" filters. In het `.gitattributes` bestand, kun je een filter op bepaalde paden instellen en dan scripts instellen die bestanden bewerkt vlak voordat ze gecommit worden ("clea", zie Figuur 7-2) en vlak voordat ze uitgechecked worden ("smudge", zie Figuur 7-3). De filters kunnen ingesteld worden zodat ze allerlei leuke dingen doen.
 
 Insert 18333fig0702.png 
-Figure 7-2. The “smudge” filter is run on checkout.
+Figuur 7-2. Het “smudge” filter wordt bij checkout uitgevoerd.
 
 Insert 18333fig0703.png 
-Figure 7-3. The “clean” filter is run when files are staged.
+Figuur 7-3. Het “clean” filter wordt uitgevoerd zodra bestanden worden gestaged.
 
-The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
+De originele commit boodschap voor deze functionaliteit geeft een eenvoudig voorbeeld hoe je al je C broncode door het `indent` programma kunt halen alvorens te committen. Je kunt het instellen door het filter attribuut in je `.gitattributes` bestand te veranderen zodat `*.c` bestanden door het "inden" filter gehaald worden:
 
 	*.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+Vervolgens vertel je Git wat het "indent" filter doet bij smudge en clean:
 
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
 
-In this case, when you commit files that match `*.c`, Git will run them through the indent program before it commits them and then run them through the `cat` program before it checks them back out onto disk. The `cat` program is basically a no-op: it spits out the same data that it gets in. This combination effectively filters all C source code files through `indent` before committing.
+In dit geval zal Git, als je bestanden commit die op `*.c` passen, ze door het indent programma halen alvorens ze te committen, en ze door het `cat` programma halen alvorens ze op de schijf uit te checken. Het `cat` programma is eigenlijk een no-op: het spuugt dezelfde gegevens uit als dat het inneemt. Deze combinatie zal effectief alle C broncode bestanden door `indent` filteren alvorens te committen.
 
-Another interesting example gets `$Date$` keyword expansion, RCS style. To do this properly, you need a small script that takes a filename, figures out the last commit date for this project, and inserts the date into the file. Here is a small Ruby script that does that:
+Een ander interessant voorbeeld is `$Date$` keyword expansie, in RCS stijl. Om dit goed te doen, moet je een klein script hebben dat een bestandsnaam pakt, de laatste commit datum voor dit project uitvogelt, en de datum in een bestand toevoegt. Hier volgt een klein Ruby script dat dat doet:
 
 	#! /usr/bin/env ruby
 	data = STDIN.read

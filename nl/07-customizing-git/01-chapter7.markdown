@@ -287,7 +287,7 @@ Dit weigert branch en tag verwijdering door middel van een push over de hele bre
 
 Een aantal van deze instellingen kan ook gedaan worden voor een pad, zodat Git die instellingen alleen toepast om een submap of subset van bestanden. Deze pad-specifieke instellingen worden Git attributen genoemd en worden in een `.gitattribute` bestand in een van je mappen (normaliter in de hoofdmap van je project) of in het `.git/attributes` bestand als je niet wilt dat het attributes bestand gecommit wordt met je project.
 
-Door attributes te gebruiken kun je dingen doen als het specificeren van aparte samenvoeg strategiëen voor individuele bestanden of mappen in je project, Git vertellen hoe hij niet-tekst bestanden kan diff'en, of Git inhoud laten filteren voordat je het in- of uitchecked van Git. In deze sectie zul je iets leren over de attributen die je kun instellen op de paden in je Git project en een paar voorbeelden zien hoe je deze eigenschap in de praktijk gebruikt.
+Door attributes te gebruiken kun je dingen doen als het specificeren van aparte samenvoeg strategieën voor individuele bestanden of mappen in je project, Git vertellen hoe hij niet-tekst bestanden kan diff'en, of Git inhoud laten filteren voordat je het in- of uitchecked van Git. In deze sectie zul je iets leren over de attributen die je kun instellen op de paden in je Git project en een paar voorbeelden zien hoe je deze eigenschap in de praktijk gebruikt.
 
 ### Binaire Bestanden ###
 
@@ -387,7 +387,7 @@ De volgende keer dat je dit bestand uitchecked, injecteerd Git de SHA van de blo
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-Maar, het resultaat is slechts beperkt bruikbaar. Als je keyword vervanging in CVS of Subversion gebruikt hebt, kun je een tijdsstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of een SHA ouder of nieuwer is dan een andere.
+Maar, het resultaat is slechts beperkt bruikbaar. Als je sleutelwoord vervanging in CVS of Subversion gebruikt hebt, kun je een tijdsstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of een SHA ouder of nieuwer is dan een andere.
 
 Het blijkt dat je je eigen filters voor het doen van vervanging bij commit/checkout kunt schrijven. Dit zijn de "clean" en "smudge" filters. In het `.gitattributes` bestand, kun je een filter op bepaalde paden instellen en dan scripts instellen die bestanden bewerkt vlak voordat ze gecommit worden ("clea", zie Figuur 7-2) en vlak voordat ze uitgechecked worden ("smudge", zie Figuur 7-3). De filters kunnen ingesteld worden zodat ze allerlei leuke dingen doen.
 
@@ -408,24 +408,24 @@ Vervolgens vertel je Git wat het "indent" filter doet bij smudge en clean:
 
 In dit geval zal Git, als je bestanden commit die op `*.c` passen, ze door het indent programma halen alvorens ze te committen, en ze door het `cat` programma halen alvorens ze op de schijf uit te checken. Het `cat` programma is eigenlijk een no-op: het spuugt dezelfde gegevens uit als dat het inneemt. Deze combinatie zal effectief alle C broncode bestanden door `indent` filteren alvorens te committen.
 
-Een ander interessant voorbeeld is `$Date$` keyword expansie, in RCS stijl. Om dit goed te doen, moet je een klein script hebben dat een bestandsnaam pakt, de laatste commit datum voor dit project uitvogelt, en de datum in een bestand toevoegt. Hier volgt een klein Ruby script dat dat doet:
+Een ander interessant voorbeeld is `$Date$` sleutelwoord expansie, in RCS stijl. Om dit goed te doen, moet je een klein script hebben dat een bestandsnaam pakt, de laatste commit datum voor dit project uitvogelt, en de datum in een bestand toevoegt. Hier volgt een klein Ruby script dat dat doet:
 
 	#! /usr/bin/env ruby
 	data = STDIN.read
 	last_date = `git log --pretty=format:"%ad" -1`
 	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
-All the script does is get the latest commit date from the `git log` command, stick that into any `$Date$` strings it sees in stdin, and print the results — it should be simple to do in whatever language you’re most comfortable in. You can name this file `expand_date` and put it in your path. Now, you need to set up a filter in Git (call it `dater`) and tell it to use your `expand_date` filter to smudge the files on checkout. You’ll use a Perl expression to clean that up on commit:
+Het enige dat het script doet is de laatste commit datum uit het `git log` commando halen, het in iedere `$Date$` tekst stoppen die het in stdin ziet, en de resultaten afdrukken – het moet eenvoudig te doen zijn in welke taal je je ook thuisvoelt. Je kunt dit bestand `expand_date` noemen en het in je pad stoppen. Nu moet je een filter in Git instellen (noem het `dater`), en het vertellen je `expand_date` filter te gebruiken om de bestanden tijdens checkout te 'smudgen'. Je zult een Perl expressie gebruiken om dat op te ruimen tijdens een commit:
 
 	$ git config filter.dater.smudge expand_date
 	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
-This Perl snippet strips out anything it sees in a `$Date$` string, to get back to where you started. Now that your filter is ready, you can test it by setting up a file with your `$Date$` keyword and then setting up a Git attribute for that file that engages the new filter:
+Dit Perl stukje haalt alles weg dat het in en `$Date$` tekst ziet, om terug te komen vanwaar je gekomen bent. Nu je filter klaar is, kun je het testen door een bestand aan te maken met je `$Date$` sleutelwoord en dan een Git attribuut voor dat bestand in te stellen, die het nieuwe filter gebruikt.
 
 	$ echo '# $Date$' > date_test.txt
 	$ echo 'date*.txt filter=dater' >> .gitattributes
 
-If you commit those changes and check out the file again, you see the keyword properly substituted:
+Als je die veranderingen commit en het bestand opnieuw uitchecked, zul je zien dat het sleutelwoord vervangen is:
 
 	$ git add date_test.txt .gitattributes
 	$ git commit -m "Testing date expansion in Git"
@@ -434,51 +434,51 @@ If you commit those changes and check out the file again, you see the keyword pr
 	$ cat date_test.txt
 	# $Date: Tue Apr 21 07:26:52 2009 -0700$
 
-You can see how powerful this technique can be for customized applications. You have to be careful, though, because the `.gitattributes` file is committed and passed around with the project but the driver (in this case, `dater`) isn’t; so, it won’t work everywhere. When you design these filters, they should be able to fail gracefully and have the project still work properly.
+Je kunt wel zien hoe krachtig deze techniek is voor gebruik in eigengemaakte toepassingen. Je moet wel voorzichtig zijn, om dat het `.gitattributes` bestand ook gecommit wordt en meegestuurd wordt met het project, maar het filter (in dit geval `dater`) niet; dus het zal niet overal werken. Als je deze filters ontwerpt, zouden ze in staat moeten zijn om netjes te falen en het project nog steeds goed te laten werken.
 
-### Exporting Your Repository ###
+### Je Repository Exporteren ###
 
-Git attribute data also allows you to do some interesting things when exporting an archive of your project.
+De Git attribute gegevens staan je ook toe om interessante dingen te doen als je een archief van je project exporteerd.
 
 #### export-ignore ####
 
-You can tell Git not to export certain files or directories when generating an archive. If there is a subdirectory or file that you don’t want to include in your archive file but that you do want checked into your project, you can determine those files via the `export-ignore` attribute.
+Je kunt Git vertellen dat sommige bestanden of mappen niet geëxporteerd moeten worden als een archief gegenereerd wordt. Als er een submap of bestand is waarvan je niet wil dat het wordt meegenomen in je archief bestand, maar dat je wel in je project ingechecked wil hebben, dan kun je die bestanden bepalen met behulp van het `export-ignore` attribuut.
 
-For example, say you have some test files in a `test/` subdirectory, and it doesn’t make sense to include them in the tarball export of your project. You can add the following line to your Git attributes file:
+Bijvoorbeeld, stel dat je wat testbestanden in een `test/` submap hebt, en dat het geen zin heeft om die in de tarball export van je project mee te nemen. Je kunt dan de volgende regel in je Git attributes bestand toevoegen:
 
 	test/ export-ignore
 
-Now, when you run git archive to create a tarball of your project, that directory won’t be included in the archive.
+Als je nu git archive uitvoert om een tarball van je project te maken, zal die map niet meegenomen worden in het archief.
 
 #### export-subst ####
 
-Another thing you can do for your archives is some simple keyword substitution. Git lets you put the string `$Format:$` in any file with any of the `--pretty=format` formatting shortcodes, many of which you saw in Chapter 2. For instance, if you want to include a file named `LAST_COMMIT` in your project, and the last commit date was automatically injected into it when `git archive` ran, you can set up the file like this:
+Iets anders dat je kunt doen met je archieven is eenvoudige sleutelwoord vervanging. Git staat je toe om de tekst `$Format:$` in ieder bestand met ieder van de `--pretty=format` formaat afkortingen te zetten, waarvan je er al veel zag in Hoofdstuk 2. Bijvoorbeeld, als je een bestand genaamd `LAST_COMMIT` wilt meenemen in je project, en de laatste commit datum was hierin automatisch geinjecteerd toen `git archive` bezig was, kun je het bestand als volgt instellen:
 
 	$ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
 	$ echo "LAST_COMMIT export-subst" >> .gitattributes
 	$ git add LAST_COMMIT .gitattributes
 	$ git commit -am 'adding LAST_COMMIT file for archives'
 
-When you run `git archive`, the contents of that file when people open the archive file will look like this:
+Als je `git archive` uitvoert, zal de inhoud van dat bestand als mensen het archief bestand openen er zo uit zien:
 
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Merge Strategies ###
+### Samenvoeg Strategieën ###
 
-You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
+Je kunt Git attributen ook gebruiken om Git te vertellen dat het verschillende samenvoeg strategieën moet gebruiken voor specifieke bestanden in je project. Een erg handige optie is Git te vertellen dat het niet moet proberen bepaalde bestanden samen te voegen als ze conflicten hebben, maar jouw versie moeten gebruiken in plaats van andermans versie.
 
-This is helpful if a branch in your project has diverged or is specialized, but you want to be able to merge changes back in from it, and you want to ignore certain files. Say you have a database settings file called database.xml that is different in two branches, and you want to merge in your other branch without messing up the database file. You can set up an attribute like this:
+Dit is handig als een branch in je project af is geweken of gespecialiseerd is, maar je in staat wil zijn om veranderingen daarvan terug samen te voegen, en je wilt bepaalde bestanden negeren. Stel dat je een gegevensbank instellingen bestand hebt dat database.xml heet en dat in twee branches verschillend is, en je wilt in je andere branch samenvoegen zonder het gegevensbank bestand te verprutsen. Je kunt dan een attribuut als volgt instellen:
 
 	database.xml merge=ours
 
-If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
+Als je in de andere branch samenvoegt, dan zul je in plaats van samenvoeg conflicten met je database.xml bestand zoiets als dit zien:
 
 	$ git merge topic
 	Auto-merging database.xml
 	Merge made by recursive.
 
-In this case, database.xml stays at whatever version you originally had.
+In dit geval blijft database.xml staan op welke versie je origineel ook had.
 
 ## Git Hooks ##
 

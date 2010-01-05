@@ -135,9 +135,11 @@ i `git add` -- to byl počátek správy souborů ve vašem adresáři. Příkaz 
 buďto k souboru nebo k adresáři; pokud je to adresář, uloží příkaz všechny soubory v onom adresáři.
 Rekurzivně.
 
-### Staging Modified Files ###
+### Vkládání upravených souborů do indexu ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+Nyní změníme soubor, který už spravujeme. Když změníte spravovaný soubor, pro příklad nechť
+se jmenuje `benchmarks.rb`, a pak pustíte `git status` znovu, dostanete něco, co bude vypadat
+zhruba takto:
 
 	$ git status
 	# On branch master
@@ -152,7 +154,12 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+Soubor `benchmarks.rb` se objevil v sekci nazvané "Changed but not updated" -- to znamená, že
+soubor, který je spravován, byl upraven v pracovním adresáři, ale ještě nebyl vložen do indexu.
+K vložení do indexu použijeme příkaz `git add` (má mnoho funkcí -- je používán k započetí správy
+nových souborů, ke vkládání do indexu a i k jiným operacím, např. k označování souborů postižených
+merge-conflictem jako vyřešených). Vložme tedy `benchmarks.rb` do indexu a pak si znovu zobrazme
+status:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -164,7 +171,10 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+Oba soubory jsou v indexu a půjdou do nejbližšího commitu. V tuto chvíli jste si ale uvědomili,
+že v souboru `benchmarks.rb` je potřeba udělat ještě jednu malou změnu, než ho uložíte do commitu.
+Otevřete ho tedy znovu, uložíte a jste připraveni vytvořit commit. Tak se ještě jednou podíváme
+na status:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -181,7 +191,12 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+Co to má znamenat? Teď je soubor `benchmarks.rb` označen jako staged i jako unstaged.
+Jak je to možné? Git vloží soubor do indexu právě takový, jaký byl, když jste na něj
+naposled použil `git add`. Pokud vytvoříte commit teď, bude do něj uložena ta verze,
+která je v indexu, tedy ta, která byla v adresáři ve chvíli, kdy byl naposled použit
+příkaz `git add`. Takže pokud chcete uložit i následující změny, musíte pustit `git add`
+znovu:
 
 	$ git add benchmarks.rb
 	$ git status

@@ -677,41 +677,32 @@ Git 会在有冲突的文件里加入冲突解决标记，很像有冲突的合�
 
 ### 检出远程分支 ###
 
-如果你的贡献者也有自己的Git代码库，并且他也做了很多修改。当需要合并时，他可以将他代码库的URL连同修改的分支的名字一起发过来，然后你需要将这些分支加为远程分支并和本地代码合并。
-If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.
+如果你的贡献者建立了自己的Git代码库，并且他将自己的修改都推送到这个代码库里。当需要你合并代码时，他会将他代码库的URL连同分支的名字一起发过来，然后你就可以将这些分支加为远程分支后再进行本地合并。
 
-举个例子，比如Jessica给你发了个邮件，告诉你她代码库里的`ruby-client`分支上有一个非常棒的特性，你就可以引入这个远程分支，然后将代码检出到本地来进行测试。
-For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:
+比如Jessica给你发了个邮件，告诉你她代码库里的`ruby-client`分支上有一个非常棒的特性，你就可以引入这个远程分支，然后将代码检出到本地来进行测试。
 
 	$ git remote add jessica git://github.com/jessica/myproject.git
 	$ git fetch jessica
 	$ git checkout -b rubyclient jessica/ruby-client
 
-如果，过了一会她又发邮件给你，说她还有一个很棒的特性在另外一个分支上，你只需要fetch然后check out，因为你已经引入了那个远程分支。
-If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
+如果，过了一会她又发邮件给你，说她还有一个很棒的特性在另外一个分支上，你只需要fetch然后checkout，因为你已经引入了那个远程分支。
 
-这样做非常便于和别人保持长期的合作关系。但是，这要求贡献者都有自己的服务器，也需要你为每个人创建一个远程分支。有些贡献者提交代码补丁不是很频繁，这时通过邮件接收补丁效率会更高。因为，你自己也不希望创建几百个分支，而每个分支只接收一两个补丁。However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
+这样做非常便于和别人保持长期的合作关系。但是，这要求贡献者都有自己的服务器，也需要你为每个人创建一个远程分支。有些贡献者提交代码补丁不是很频繁，这时通过邮件接收补丁效率会更高。因为，你自己也不希望创建几百个分支，而每个分支只接收一两个补丁。不过，脚本和托管服务会简化这个过程——it depends largely on how you develop and how your contributors develop.
 
-This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
-
-利用远程分支的另外一个好处是：能够得到提交历史。
-The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
+利用远程分支的另外一个好处是：能够得到提交历史。Although you may have legitimate merge issues, you know where in your history their work is based;默认使用三方合并，不需要提供`-3`选项，同时也不用担心补丁和代码不匹配的问题了。
 
 如果你没有和某人长期合作，但还是希望以远程分支的方式从他那拉取代码的话，你可以使用`git pull`命令加上远程库的URL。这将执行一次拉取动作又不会把这个URL存为远程分支。
-If you aren’t working with a person consistently but still want to pull from them in this way, you can provide the URL of the remote repository to the `git pull` command. This does a one-time pull and doesn’t save the URL as a remote reference:
 
 	$ git pull git://github.com/onetimeguy/project.git
 	From git://github.com/onetimeguy/project
 	 * branch            HEAD       -> FETCH_HEAD
 	Merge made by recursive.
 
-### Determining What Is Introduced ###
+### 决定该引入的代码 ###
 
-现在，特性分支上已经合并了贡献代码，是时候决定如何处置它们了。本节将回顾一些以前学过的命令，以便你能够准确的找出执行merge操作时合并进主干的代码。
-Now you have a 特性分支 that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
+现在，特性分支上已经合并好了贡献代码，是时候决定如何处置它们了。本节将回顾一些以前学过的命令，以便你能够准确的找出执行merge操作时将被合并进主干的代码。
 
-查看特性分支上新增的commits信息是非常有用操作，在特性分支的名字后面加上`--not`将会显示出这些信息。比如，你建立了一个叫做`contrib`的特性分支并打上两个补丁，然后你可以运行：
-It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `--not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this:
+查看特性分支上新增的commits信息是非常有用操作。在特性分支的名字后面加上`--not`选项就会显示这些信息。比如，你建立了一个叫做`contrib`的特性分支并打上了两个补丁，然后你可以运行：
 
 	$ git log contrib --not master
 	commit 5b6235bd297351589efc4d73316f0a68d484f118
@@ -726,91 +717,91 @@ It’s often helpful to get a review of all the commits that are in this branch 
 
 	    updated the gemspec to hopefully work better
 
-也可以查看每次commit的具体修改。请牢记在`git log`后加上`-p`选项，将展示每次commit的diff。
-To see what changes each commit introduces, remember that you can pass the `-p` option to `git log` and it will append the diff introduced to each commit.
+还可以查看每次commit的具体修改。请牢记在`git log`后加上`-p`选项，将展示每次commit的diff。
 
-如果想看看特性分支和其他分支merge时完整的diff信息，需要一个高级的技巧。你可能会想到这样做：
-To see a full diff of what would happen if you were to merge this 特性分支 with another branch, you may have to use a weird trick to get the correct results. You may think to run this:
+如果想看看特性分支和其他分支merge时的完整diff信息，需要一个更高级的技巧。你可能会想到这样做：
 
 	$ git diff master
 
-这个命令的确会产生一个diff输出，但是它可能是错误的。如果在你建立特性分支之后`master`分支有过moved forward，你得到的输出将是不正确的。这是因为这个Git命令只会简单的比较特性分支和`master`分支最后一次快照的区别。举例来说，如果你在`master`分支中的某个文件中加了一行，简单的比较最新快照所得到的结论只能是：特性分支中删除了这一行。
-This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the 特性分支 from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the 特性分支 you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the 特性分支 is going to remove that line.
+这个命令的确会产生一个diff输出，但是它可能是错误的。如果在你建立特性分支之后`master`分支有过moved forward操作，你得到的输出将是不正确的。这是因为这个Git命令只会简单的比较特性分支和`master`分支最后一次快照的区别。举例来说，如果你在`master`分支中的某个文件中加了一行，简单的比较最新快照所得到的结论只能是：特性分支中删除了这一行。
 
-如果`master`分支是特性分支的直接祖先，不会产生任何问题；但是如果他们两个在不同的分叉上，产生的diff输出看起来就像是增加了特性分支上的所有新代码，而删除了`master`分支上的所有新代码。
-If `master` is a direct ancestor of your 特性分支, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your 特性分支 and removing everything unique to the `master` branch.
+如果`master`分支是特性分支的直接祖先，不会产生任何问题；但是如果他们两个在不同的分叉上，产生的diff输出看起来就像是增加了特性分支上的所有新增代码，而删除了`master`分支上的所有新增代码。
 
-其实，你真正想看到的是新加入特性分支的代码——也就是merge时将并入主干的代码。You do that by having Git compare the last commit on your 特性分支 with the first common ancestor it has with the master branch.
-What you really want to see are the changes added to the 特性分支 — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your 特性分支 with the first common ancestor it has with the master branch.
+其实，你真正想看到的是新加入到特性分支的代码——也就是merge时将并入主干的代码。你应该比较的是特性分支与和它和master分支共同祖先的差异。
 
 技术上说，你可以找出他们的共同祖先，然后与之比较：
-Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
 	$ git diff 36c7db 
 
-但是这样很不方便，所以Git提供了另外一种捷径：？三点式符号？。这样的情景下，可以把三点式符号加在after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
-However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
+但是这样很不方便，所以Git提供了另外一种捷径：？三点式符号？。这样的情景下，可以把？三点式符号？加在当前分支之前，被比较的拥有共同祖先的分支之后（有点拗口，看例程吧）：
 
 	$ git diff master...contrib
 
-
-This command shows you only the work your current 特性分支 has introduced since its common ancestor with master. That is a very useful syntax to remember.
+这个命令展示了当前特性分支和它与master分支共同祖先的差异。这是一个非常有用的命令，应该牢记。
 
 ### 集成贡献的代码 ###
 
 特性分支内的工作都完成了，只等待被加入到更主线一些的分支中。随之而来的问题是：该怎样做？还有，维护项目的总体步骤是什么？其实选择有很多，我们这里只介绍其中的一部分。
-When all the work in your 特性分支 is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
 
-#### 合并流程 ####
+#### 合并代码的流程 ####
 
-One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a 特性分支 that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the 特性分支, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
+首先介绍一个简单的合并代码流程：假设你的`master`分支包含稳定的代码，然后你在一个分支上开发新的特性直到完成（或者审核完别人贡献的代码），接着你把它并入主干分支，最后删除这个多余的分支，这时回到开头重复这个开发流程。如果代码库里有两个分支，分别叫`ruby_client` and `php_client`，见图5-19。然后你先把`ruby_client`合并进主干，再合并`php_client`，最后提交的历史类似于图5-20。
 
 Insert 18333fig0519.png 
-Figure 5-19. History with several 特性分支es
+Figure 5-19. 多个特性分支
 
 Insert 18333fig0520.png
-Figure 5-20. After a 特性分支 merge
+Figure 5-20. 合并特性分支之后
 
-That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
+这是最简单的流程，所以在处理大一些的项目时可能会有问题。
 
-If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new 特性分支 to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
+如果维护一个有很多开发者的大项目，至少需要将合并过程分为两步。假设你有两个长期分支`master`和`develop`，`develop`分支用户合并新的代码，`master`分支则只升级到稳定的发行版本。通常这两个分支都会被推送到公开的代码库。每次有新的特性需要合并的时候（图 5-21），首先将它并入`develop`（图 5-22）；之后，如果有了一个稳定的发行版，`master`会快进到稳定的`develop`分支处（图 5-23）。
 
 Insert 18333fig0521.png 
-Figure 5-21. Before a 特性分支 merge
+Figure 5-21. 合并特性分支之前
 
 Insert 18333fig0522.png 
-Figure 5-22. After a 特性分支 merge
+Figure 5-22. 合并特性分支之后
 
 Insert 18333fig0523.png 
-Figure 5-23. After a 特性分支 release
+Figure 5-23. 特性分支发布之后
 
-This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
-You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
+这样，人们在clone你的代码库时就会有两个选择：他们可以检出最新的稳定版本的代码，并且可以很方便的跟上更新。也可以检出开发分支，这样就能得到最前沿的特性。
+
+你也可以扩展这个概念。将所有的代码合并到一个单独的分支，等到这个分支上的代码稳定并通过测试后，再将它并入develop分支。然后，如果这些代码能够稳定的工作一段时间并有理由相信它足够稳定了，再将主干分支快进到这里。
 
 #### 大项目的合并流程 ####
 
-The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into 特性分支es in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
+Git项目有四个长期分支：`master`, `next`,和`pu`（建议继续修改）针对新代码的，还有`maint`用来维护除错的。维护者将贡献者的代码并入不同的进特性分支，方法类似于我上面提到的那样（见图5-24）。之后，测试特性看看他们是能够安全的工作，否则就需要继续修改。
 
 Insert 18333fig0524.png 
-Figure 5-24. Managing a complex series of parallel contributed 特性分支es
+Figure 5-24. 管理复杂的并行贡献
 
-If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
+如果这些代码可以安全的工作，可以把他们合并进`next`分支，并推送到公开库来让更多的人试试这个新加入的特性。
+
+如果这些代码还需要修改，就将他们合并进`pu`分支。当他们完全稳定时，这个特性就会重新合并进`master`，are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`。也就是说`master`始终是快进的，`next`偶尔需要rebased，`pu`经常需要rebased（见图 5-25）
 
 Insert 18333fig0525.png 
-Figure 5-25. Merging contributed 特性分支es into long-term integration branches
+Figure 5-25. 将特性并入长期分支
 
-When a 特性分支 has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
+当一个特性分支最终合并进`master`之后，它将被从代码库里删除。Git项目还有一个`maint`分支，它是以最近的发行版为基础派生（fork）出来的，用来维护一个稳定的发行版本。所以，当你clone Git的代码库时，实际上得到四个分支，你可以检出不同的分支来evaluate不同的开发阶段。这取决于你想得到多么前沿的特性或者做什么样的贡献；and the maintainer has a structured workflow to help them vet new contributions.
 
-#### Rebasing and Cherry Picking Workflows ####
+#### 衍合与挑拣（cherry-pick）的流程 ####
+
+一些维护者更喜欢衍合或者挑拣贡献者的代码，而不是简单的合并，因为这样更能够保持线性的提交历史。如果你完成了一个特性的开发，并决定将它引入到主干代码，你可以转到那个特性分支然后执行衍合命令，好在你的主分支上（也可能是`develop`分支之类的）重构这些修改。如果这些代码工作得很好，你就可以快进`master`分支，这时就能得到线性的提交历史。
 
 Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a 特性分支 and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
+
+另一个从其他分支引入代码的方法是挑拣。挑拣类似于针对某次提交的衍合。它会提取指定的那次提交的补丁并试着应用在当前分支上。这适合于一个特性分支上有多个commits，但你只想引入其中之一的情况。或者某个特性分支上只有一个commit，但你更喜欢用挑拣，而不是衍合。假设你有一个类似图 5-26的工程。
 
 The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a 特性分支 and you want to integrate only one of them, or if you only have one commit on a 特性分支 and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
 
 Insert 18333fig0526.png 
-Figure 5-26. Example history before a cherry pick
+Figure 5-26. 挑拣之前的历史 Example history before a cherry pick
+
+如果你希望拉取`e43a6`到你的主干分支，可以这样：
 
 If you want to pull commit `e43a6` into your master branch, you can run
 
@@ -819,14 +810,20 @@ If you want to pull commit `e43a6` into your master branch, you can run
 	[master]: created a0a41a9: "More friendly message when locking the index fails."
 	 3 files changed, 17 insertions(+), 3 deletions(-)
 
+这将会引入`e43a6`的代码，但是会得到不同的SHA-1值，因为应用日期不同。现在你的历史看起来像图 5-27.
+
 This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
 
 Insert 18333fig0527.png 
-Figure 5-27. History after cherry-picking a commit on a 特性分支
+Figure 5-27. 挑拣之后的历史 History after cherry-picking a commit on a 特性分支
+
+现在你可以删除这个特性分支并丢弃你不想引入的那些commits。
 
 Now you can remove your 特性分支 and drop the commits you didn’t want to pull in.
 
-### Tagging Your Releases ###
+### 标定你的发行版 Tagging Your Releases ###
+
+如果你决定删减掉某个发行版，可能会同时丢弃某个标签，所以你可以在之后的任何地方重新建立这个标签。也可以像第二章所说的那样建立一个新的标签。如果你是以维护者的沈飞标定标签，这个标定可能看起来像：
 
 When you’ve decided to cut a release, you’ll probably want to drop a tag so you can re-create that release at any point going forward. You can create a new tag as I discussed in Chapter 2. If you decide to sign the tag as the maintainer, the tagging may look something like this:
 
@@ -834,6 +831,8 @@ When you’ve decided to cut a release, you’ll probably want to drop a tag so 
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gmail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
+
+如果你向往签署一个属于你自己的标签，
 
 If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`:
 

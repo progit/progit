@@ -757,7 +757,7 @@ Figure 5-20. 合并特性分支之后
 
 这是最简单的流程，所以在处理大一些的项目时可能会有问题。
 
-如果维护一个有很多开发者的大项目，至少需要将合并过程分为两步。假设你有两个长期分支`master`和`develop`，`develop`分支用户合并新的代码，`master`分支则只升级到稳定的发行版本。通常这两个分支都会被推送到公开的代码库。每次有新的特性需要合并的时候（图 5-21），首先将它并入`develop`（图 5-22）；之后，如果有了一个稳定的发行版，`master`会快进到稳定的`develop`分支处（图 5-23）。
+如果维护一个有很多开发者的大项目，至少需要将合并过程分为两步。假设你有两个长期分支`master`和`develop`，`develop`分支用来合并新的代码，`master`分支则只升级到稳定的发行版本。通常这两个分支都会被推送到公开的代码库。每次有新的特性需要合并的时候（图 5-21），首先将它并入`develop`（图 5-22）；之后，如果有了一个稳定的发行版，`master`会快进到稳定的`develop`分支处（图 5-23）。
 
 Insert 18333fig0521.png 
 Figure 5-21. 合并特性分支之前
@@ -786,24 +786,18 @@ Figure 5-24. 管理复杂的并行贡献
 Insert 18333fig0525.png 
 Figure 5-25. 将特性并入长期分支
 
-当一个特性分支最终合并进`master`之后，它将被从代码库里删除。Git项目还有一个`maint`分支，它是以最近的发行版为基础派生（fork）出来的，用来维护一个稳定的发行版本。所以，当你clone Git的代码库时，实际上得到四个分支，你可以检出不同的分支来evaluate不同的开发阶段。这取决于你想得到多么前沿的特性或者做什么样的贡献；and the maintainer has a structured workflow to help them vet new contributions.
+当一个特性分支最终合并进`master`之后，它将被从代码库里删除。Git项目还有一个`maint`分支，它是以最近的发行版为基础派生（fork）出来的，用来提供除错补丁。所以，当你clone Git的代码库时，实际上得到四个分支，你可以检出不同的分支来evaluate不同的开发阶段。这取决于你想得到多么前沿的特性或者做什么样的贡献；and the maintainer has a structured workflow to help them vet new contributions.
 
 #### 衍合与挑拣（cherry-pick）的流程 ####
 
-一些维护者更喜欢衍合或者挑拣贡献者的代码，而不是简单的合并，因为这样更能够保持线性的提交历史。如果你完成了一个特性的开发，并决定将它引入到主干代码，你可以转到那个特性分支然后执行衍合命令，好在你的主分支上（也可能是`develop`分支之类的）重构这些修改。如果这些代码工作得很好，你就可以快进`master`分支，这时就能得到线性的提交历史。
+一些维护者更喜欢衍合或者挑拣贡献者的代码，而不是简单的合并，因为这样能够保持线性的提交历史。如果你完成了一个特性的开发，并决定将它引入到主干代码中，你可以转到那个特性分支然后执行衍合命令，好在你的主干分支上（也可能是`develop`分支之类的）重新提交这些修改。如果这些代码工作得很好，你就可以快进`master`分支，得到一个线性的提交历史。
 
-Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a 特性分支 and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
-
-另一个从其他分支引入代码的方法是挑拣。挑拣类似于针对某次提交的衍合。它会提取指定的那次提交的补丁并试着应用在当前分支上。这适合于一个特性分支上有多个commits，但你只想引入其中之一的情况。或者某个特性分支上只有一个commit，但你更喜欢用挑拣，而不是衍合。假设你有一个类似图 5-26的工程。
-
-The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a 特性分支 and you want to integrate only one of them, or if you only have one commit on a 特性分支 and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
+另一个引入代码的方法是挑拣。挑拣类似于针对某次特定提交的衍合。它首先提取某次提交的补丁，然后试着应用在当前分支上。如果某个特性分支上有多个commits，但你只想引入其中之一就可以使用这种方法。也可能仅仅是因为你喜欢用挑拣，讨厌衍合。假设你有一个类似图 5-26的工程。
 
 Insert 18333fig0526.png 
-Figure 5-26. 挑拣之前的历史 Example history before a cherry pick
+Figure 5-26. 挑拣之前的历史 
 
 如果你希望拉取`e43a6`到你的主干分支，可以这样：
-
-If you want to pull commit `e43a6` into your master branch, you can run
 
 	$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 	Finished one cherry-pick.
@@ -812,29 +806,21 @@ If you want to pull commit `e43a6` into your master branch, you can run
 
 这将会引入`e43a6`的代码，但是会得到不同的SHA-1值，因为应用日期不同。现在你的历史看起来像图 5-27.
 
-This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
-
 Insert 18333fig0527.png 
 Figure 5-27. 挑拣之后的历史 History after cherry-picking a commit on a 特性分支
 
-现在你可以删除这个特性分支并丢弃你不想引入的那些commits。
+现在，你可以删除这个特性分支并丢弃你不想引入的那些commits。
 
-Now you can remove your 特性分支 and drop the commits you didn’t want to pull in.
+### 给发行版签名  ###
 
-### 标定你的发行版 Tagging Your Releases ###
-
-如果你决定删减掉某个发行版，可能会同时丢弃某个标签，所以你可以在之后的任何地方重新建立这个标签。也可以像第二章所说的那样建立一个新的标签。如果你是以维护者的沈飞标定标签，这个标定可能看起来像：
-
-When you’ve decided to cut a release, you’ll probably want to drop a tag so you can re-create that release at any point going forward. You can create a new tag as I discussed in Chapter 2. If you decide to sign the tag as the maintainer, the tagging may look something like this:
+你可以删除上次发布的版本并重新打标签，也可以像第二章所说的那样建立一个新的标签。如果你决定以维护者的身份给发行版签名，应该这样做：
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gmail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-如果你向往签署一个属于你自己的标签，
-
-If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`:
+完成签名之后，如何分发PGP公钥（public key）是个问题。（译者注：分发公钥是为了验证标签）。还好，Git的设计者想到了解决办法：可以把key（既公钥）作为blob变量写入Git库，然后把它的内容直接写在标签里。`gpg --list-keys`命令可以显示出你所拥有的钥匙（key）：
 
 	$ gpg --list-keys
 	/Users/schacon/.gnupg/pubring.gpg
@@ -843,49 +829,49 @@ If you do sign your tags, you may have the problem of distributing the public PG
 	uid                  Scott Chacon <schacon@gmail.com>
 	sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 
-Then, you can directly import the key into the Git database by exporting it and piping that through `git hash-object`, which writes a new blob with those contents into Git and gives you back the SHA-1 of the blob:
+然后，导出key的内容并经由管道符传递给`git hash-object`，之后钥匙会以blob类型写入Git中，最后返回这个blob量的SHA-1值：
 
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-Now that you have the contents of your key in Git, you can create a tag that points directly to it by specifying the new SHA-1 value that the `hash-object` command gave you:
+现在你的Git就包含了这个key的内容了，可以通过不同的SHA-1值指定不同的key来创建标签。
 
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG:
+在运行`git push --tags`命令之后，`maintainer-pgp-pub`标签就会公布给所有人。如果有人想要校验标签，他可以使用如下命令导入你的key：
 
 	$ git show maintainer-pgp-pub | gpg --import
 
-They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.
+人们可以用这个key校验你签名的所有标签。另外，你可以在标签信息里写入一个操作向导，用户只需要运行`git show <tag>`然后按照你的向导就能完成校验。
 
-### Generating a Build Number ###
+### 生成内部版本号 ###
 
-Because Git doesn’t have monotonically increasing numbers like 'v123' or the equivalent to go with each commit, if you want to have a human-readable name to go with a commit, you can run `git describe` on that commit. Git gives you the name of the nearest tag with the number of commits on top of that tag and a partial SHA-1 value of the commit you’re describing:
+因为Git不会为每次提交自动附加类似'v123'的递增序列，所以如果你想要得到一个便于理解的提交号可以运行`git describe`命令。Git将会返回一个字符串，由三部分组成：最近一次标定的版本号，加上自那次标定之后的提交次数，再加上一段SHA-1值of the commit you’re describing：
 
 	$ git describe master
 	v1.6.2-rc1-20-g8c5b85c
 
-This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name.
+这个字符串可以作为快照的名字，方便人们理解。如果你的Git是通过源码编译的，你会发现`git --version`命令的输出和这个字符串差不多。如果在一个刚刚打完标签的提交上运行`describe`命令，只会得到这次标定的版本号，而没有后面两项信息。
 
-The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated.
+`git describe`命令只适用于有标注的标签（通过`-a`或者`-s`选项创建的标签），所以发行版的标签都应该是带有标注的，以保证`git describe`能够正确的执行。你也可以把这个字符串作为`checkout`或者`show`命令的目标，因为他们最终都依赖于简短的SHA-1值，当然如果SHA-1值失效他们也跟着失效。最近Linux内核为了保证SHA-1值的唯一性，将位数由8位扩展到10位，这就导致扩展之前的`git describe`输出完全失效了。
 
-### 准备发行版 ###
+### 准备发布 ###
 
-Now you want to release a build. One of the things you’ll want to do is create an archive of the latest snapshot of your code for those poor souls who don’t use Git. The command to do this is `git archive`:
+现在可以发布一个新的版本了。首先要将代码的压缩包归档，方便那些可怜的还没有使用Git的人们。可以使用`git archive`：
 
 	$ git archive master --prefix='project/' | gzip > `git describe master`.tar.gz
 	$ ls *.tar.gz
 	v1.6.2-rc1-20-g8c5b85c.tar.gz
 
-If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `--format=zip` option to `git archive`:
+这个压缩包解压出来的是一个文件夹，里面是你项目的最新代码快照。你也可以用类似的方法建立一个zip压缩包，在`git archive`加上`--format=zip`选项：
 
 	$ git archive master --prefix='project/' --format=zip > `git describe master`.zip
 
-You now have a nice tarball and a zip archive of your project release that you can upload to your website or e-mail to people.
+现在你有了一个tar.gz压缩包和一个zip压缩包，可以把他们上传到你网站上或者用e-mail发给别人。
 
-### The Shortlog ###
+### 制作简报 ###
 
-It’s time to e-mail your mailing list of people who want to know what’s happening in your project. A nice way of quickly getting a sort of changelog of what has been added to your project since your last release or e-mail is to use the `git shortlog` command. It summarizes all the commits in the range you give it; for example, the following gives you a summary of all the commits since your last release, if your last release was named v1.0.1:
+是时候通知邮件列表里的朋友们来检验你的成果了。使用`git shortlog`命令可以方便快捷的制作一份修改日志（changelog），告诉大家上次发布之后又增加了哪些特性和修复了哪些bug。实际上这个命令能够统计给定范围内的所有提交;假如你上一次发布的版本是v1.0.1，下面的命令将给出自从上次发布之后的所有提交的简介：
 
 	$ git shortlog --no-merges master --not v1.0.1
 	Chris Wanstrath (8):
@@ -902,8 +888,9 @@ It’s time to e-mail your mailing list of people who want to know what’s happ
 	      Version bump to 1.0.2
 	      Regenerated gemspec for version 1.0.2
 
-You get a clean summary of all the commits since v1.0.1, grouped by author, that you can e-mail to your list.
+这就是自从v1.0.1版本以来的所有提交的简介，内容按照作者分组，以便你能快送的发e-mail给他们。
+
 
 ## 小结 ##
 
-You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.
+你学会了如何使用Git为项目做贡献，也学会了如何使用Git维护你的项目。恭喜！你已经成为一名高效的开发者。在下一章你将学到更强大的工具来处理更加复杂的问题，之后你会变成一位Git大师。

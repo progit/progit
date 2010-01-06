@@ -506,15 +506,15 @@ Nadat het hele commit proces afgerond is, zal de `post-commit` haak uitgevoerd w
 
 De commit-werkwijze client-kant scripts kunnen gebruikt worden in vrijwel iedere werkwijze. Ze worden vaak gebruikt om een bepaald beleid af te dwingen, maar het is belangrijk om te weten dat deze scripts niet overgedragen worden tijdens een clone. Je kunt beleid afdwingen op de server kant om pushes of commits te weigeren, die niet voldoen aan een bepaald beleid, maar het is aan de ontwikkelaar om deze scripts aan de client kant te gebruiken. Dus, deze scripts zijn er om ontwikkelaars te helpen, en ze moeten door hen ingesteld en onderhouden worden, alhoewel ze aangepast of omzeilt kunnen worden op ieder tijdstip.
 
-#### E-mail Workflow Hooks ####
+#### E-mail Workwijze Haken ####
 
-You can set up three client-side hooks for an e-mail–based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
+Je kunt drie client kant haken instellen voor een e-mail gebaseerde werkwijze. Ze worden allemaal aangeroepen door het `git am` commando, dus als je dat commndo niet gebruikt in je werkwijze, dan kun je veilig doorgaan naar de volgende sectie. Als je patches aanneemt via e-mail, die door `git format-patch` geprepareerd zijn, dan zullen sommige van deze behulpzaam zijn voor je.
 
-The first hook that is run is `applypatch-msg`. It takes a single argument: the name of the temporary file that contains the proposed commit message. Git aborts the patch if this script exits non-zero. You can use this to make sure a commit message is properly formatted or to normalize the message by having the script edit it in place.
+De eerste haak die uitgevoerd wordt is `applypatch-msg`. Het accepteerd een enkel argument: de naam van het tijdelijke bestand dat de voorgestelde commit boodschap bevat. Git breekt de patch als dit script met een waarde ongelijk aan nul eindigt. Je kunt dit gebruiken om er zeker van te zijn dat een commit boodschap juist geformateerd is, of om de boodschap te normaliseren door het script de boodschap aan te laten passen.
 
-The next hook to run when applying patches via `git am` is `pre-applypatch`. It takes no arguments and is run after the patch is applied, so you can use it to inspect the snapshot before making the commit. You can run tests or otherwise inspect the working tree with this script. If something is missing or the tests don’t pass, exiting non-zero also aborts the `git am` script without committing the patch.
+De volgende haak die wordt uitgevoerd tijdens het toepassen van patches via `git am` is `pre-applypatch`. Dit neemt geen argumenten aan en wordt uitgevoerd nadat de patch is toegepast, zodat je het kunt gebruiken om het snapshot te inspecteren alvorens de commit te doen. Je kunt tests uitvoeren of de werkmap op een andere manier inspecteren met behulp van dit script. Als er iets mist of één van de tests faalt, dan zal eindigen met niet nul het `git am` script afbreken zonder de patch te committen.
 
-The last hook to run during a `git am` operation is `post-applypatch`. You can use it to notify a group or the author of the patch you pulled in that you’ve done so. You can’t stop the patching process with this script.
+De laatste haak die uitgevoerd wordt tijdens een `git am` operatie is de `post-applypatch`. Je kunt dat gebruiken om een groep te notificeren of de auteur van de patch die je zojuist gepulled hebt. Je kunt het patch proces niet stoppen met behulp van dit script. 
 
 #### Other Client Hooks ####
 

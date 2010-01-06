@@ -562,32 +562,33 @@ Insert 18333fig0518.png
 
 ## 项目的管理 ##
 
-In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
+除了贡献代码，你还需要知道如何维护一个项目。这包括处理别人用`format-patch`命令产生的补丁和集成远端代码库的更新等等。但无论你是维护代码库，还是帮助别人审核、改善收到的补丁，都需要了解如何以最简洁的方式搜集贡献者的工作并和他们保持长期的合作关系。
 
-### Working in Topic Branches ###
+### 在特性分支上工作 ###
 
-When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
-As you’ll remember, you can create the branch based off your master branch like this:
+通常在加入新的代码时，先在特性分支上做个试验是个好的主意——建立一个专门用来试验这些代码的临时分支。这样就能很容易的做出一个独立的补丁，如果它不工作你还可以先放下它，等到有时间的时候再重新捡起来。创建的分支可以用相关的主题关键字命名，比如 `ruby_client` 或者其它类似的描述性词语，以帮助将来有需要的时候回忆起来。Git本身也把分支名称分置于不同的命名空间之下，比如 `sc/ruby_client`，`sc` 就是贡献这些代码的人名的缩写。
 
-	$ git branch sc/ruby_client master
+现在，在当前主干分支的基础上新建一个临时分支：
 
-Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
+如果原来就有，用 `checkout -b` 切换到该分支中：
 
-	$ git checkout -b sc/ruby_client master
+另外，如果你希望立即转到分支上去工作，可以使用`checkout -b`：
 
-Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
+        $ git checkout -b sc/ruby_client master
 
-### Applying Patches from E-mail ###
+好了，现在已经准备妥当，可以试着将别人贡献的代码合并进来了。之后评估一下有没有问题，最后再决定是不是真的要并入主干。
 
-If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
+### 采纳来自邮件的补丁 ###
 
-#### Applying a Patch with apply ####
+如果你收到了一个通过E-mail发来的补丁，你应该先把它应用到一个特性分支上进行评估。有两种应用补丁的方法：`git apply` 或者 `git am`。
 
-If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
+#### 使用 apply 命令应用补丁 ####
+
+如果你收到某人使用`git diff`或者Unix的 `diff`命令生成的补丁，可以使用`git apply`命令来应用它们。假定你把补丁保存在`/tmp/patch-ruby-client.patch`，可以这样应用补丁：
 
 	$ git apply /tmp/patch-ruby-client.patch
 
-This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches then patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is over all much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
+它会修改你工作目录下的文件。效果基本与运行`patch -p1`命令打补丁一样，但是它更加严格并且不会出现混乱。如果它是`git diff`格式描述的补丁，还会处理文件的添加，删除和重命名等操作,`patch`命令根本做不到这一点。最后，`git apply`是一个"apply all or abort all"模式的命令,要么所有补丁都打上去，要么都没有，但是`patch`命令会部分的应用补丁文件，可能导致你的工作变得不完整且非常混乱。`git apply`比`patch`严格很多，但是它不会自动commit——运行它之后，你必须手动stage，然后commit。
 
 You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
 
@@ -597,7 +598,7 @@ You can also use git apply to see if a patch applies cleanly before you try actu
 
 If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
 
-#### Applying a Patch with am ####
+#### 使用 am 命令应用补丁 ####
 
 If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
 
@@ -610,9 +611,9 @@ To apply a patch generated by `format-patch`, you use `git am`. Technically, `gi
 
 	Limit log functionality to the first 20
 
-This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+这是`format-patch`命令输出的开头几行，也是一个有效的mbox电邮格式。如果有人用`git send-email`给你发了一个补丁，你可以将它下载到本地，然后运行`git am`命令来应用这个补丁。如果你的E-mail客户端能够将多个e-mail文件保存到一起，就可以这样做——把多个相关补丁保存到一个文件里，然后使用`git am`一次应用所有的补丁。
 
-However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
+同样的，如果某人上传了一个由`format-patch`制作的补丁文件让大家投票决定是否采纳时，你可以将该文件保存到本地并使用`git am`应用这个补丁，之后开始评估它：
 
 	$ git am 0001-limit-log-function.patch 
 	Applying: add limit to log function
@@ -643,14 +644,14 @@ But it’s possible that the patch won’t apply cleanly. Perhaps your main bran
 	If you would prefer to skip this patch, instead run "git am --skip".
 	To restore the original branch and stop patching run "git am --abort".
 
-This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
+Git 会在有冲突的文件里加入冲突解决标记，很像有冲突的合并（merge）或者衍合（rebase）操作产生的结果。解决问题的方法也一样——首先编辑文件消除冲突，然后暂存（stage）新文件，最后运行`git am --resolved`继续应用下一个补丁：
 
 	$ (fix the file)
 	$ git add ticgit.gemspec 
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
-If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
+如果你想要Git尝试用更智能的方法来解决冲突，可以使用`-3`选项进行一次三方合并。这个选项默认是不开启的，因为如果这个补丁的基础代码和你的代码库不同将会导致错误。如果你的代码库和补丁的基准代码有共同的祖先，那么`-3`选项将会更加智能的应用这个有争议的补丁。
 
 	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -662,7 +663,7 @@ If you want Git to try a bit more intelligently to resolve the conflict, you can
 
 In this case, I was trying to apply a patch I had already applied. Without the `-3` option, it looks like a conflict.
 
-If you’re applying a number of patches from an mbox, you can also run the `am` command in interactive mode, which stops at each patch it finds and asks if you want to apply it:
+如果你一次应用多个mbox格式的补丁，可以使用`am`命令的交互模式，这样就会在每个补丁前停住，然后询问你如何操作。
 
 	$ git am -3 -i mbox
 	Commit Body is:
@@ -671,38 +672,38 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 	--------------------------
 	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
 
-This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
+在一次应用多个补丁的情况下，这是一个非常好的方法，如果你忘了补丁的内容，可以先浏览一下。或者，那些你已经应用过的补丁就不需要再次应用了。
 
 When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
 
-### Checking Out Remote Branches ###
+### 检出远程分支 ###
 
-If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.
+如果你的贡献者建立了自己的Git代码库，并且他将自己的修改都推送到这个代码库里。需要合并代码时，他会将他代码库的URL连同分支的名字一起发过来，然后你应该把这些分支加为远程分支并且开始本地合并。
 
-For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:
+比如，Jessica给你发了个邮件，告诉你她代码库里的`ruby-client`分支上有一个非常棒的特性，你就可以引入这个远程分支，然后将代码检出到本地来进行测试。
 
 	$ git remote add jessica git://github.com/jessica/myproject.git
 	$ git fetch jessica
 	$ git checkout -b rubyclient jessica/ruby-client
 
-If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
+如果，过了一会她又发邮件给你，说她还有一个很棒的特性在另外一个分支上，你只需要获取（fetch）然后检出（checkout），因为前面已经引入了那个远程分支。
 
-This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
+这样做非常便于和别人保持长期的合作关系。但是，这要求贡献者都有自己的服务器，也需要你为每个人创建一个远程分支。有些贡献者提交代码补丁不是很频繁，这时通过邮件接收补丁效率会更高。因为，你自己也不希望创建几百个分支，并且每个分支只用来接收一两个补丁。不过，脚本和托管服务会简化这个过程——根据不同的开发模式会有不同的实现方式。
 
-The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
+利用远程分支的另外一个好处是：能够得到提交历史。尽管如何合理的合并代码还是个问题，但至少不用担心提交历史的差异；默认使用三方合并，不需要提供`-3`选项，可以很好的解决补丁和代码不匹配的问题。
 
-If you aren’t working with a person consistently but still want to pull from them in this way, you can provide the URL of the remote repository to the `git pull` command. This does a one-time pull and doesn’t save the URL as a remote reference:
+如果你没有和某人长期合作，但还是希望以远程分支的方式从他那拉取代码的话，你可以使用`git pull`命令加上远程库的URL。这将执行一次拉取动作又不会把这个URL存为远程分支。
 
 	$ git pull git://github.com/onetimeguy/project.git
 	From git://github.com/onetimeguy/project
 	 * branch            HEAD       -> FETCH_HEAD
 	Merge made by recursive.
 
-### Determining What Is Introduced ###
+### 决定该引入的代码 ###
 
-Now you have a topic branch that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
+现在，特性分支上已经合并好了贡献代码，是时候决定如何处置它们了。本节将回顾一些以前学过的命令，以便你能够准确的找出执行合并（merge）操作时将被合并进主干的代码。
 
-It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `--not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this:
+查看特性分支上新增的commit信息是非常有用的操作。在特性分支名字后面加上`--not`选项就会显示这些信息。比如，你建立了一个叫做`contrib`的特性分支并打上了两个补丁，你可以运行：
 
 	$ git log contrib --not master
 	commit 5b6235bd297351589efc4d73316f0a68d484f118
@@ -717,107 +718,110 @@ It’s often helpful to get a review of all the commits that are in this branch 
 
 	    updated the gemspec to hopefully work better
 
-To see what changes each commit introduces, remember that you can pass the `-p` option to `git log` and it will append the diff introduced to each commit.
+还可以查看每次commit的具体修改。请牢记在`git log`后加上`-p`选项，将展示每次commit的diff。
 
-To see a full diff of what would happen if you were to merge this topic branch with another branch, you may have to use a weird trick to get the correct results. You may think to run this:
+如果想看看特性分支和其他分支merge时的完整的diff信息，需要一个更高级的技巧。你可能会想到这样做：
 
 	$ git diff master
 
-This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.
+这个命令的确会产生一个diff输出，但是它可能是错误的。如果在你建立特性分支之后`master`分支有过快进（move forward）操作，你得到的输出将是不正确的。这是因为这个Git命令只会简单的比较特性分支和`master`分支最后一次快照之间的区别。举例来说，如果你在`master`分支中的某个文件中加了一行，简单的比较最新快照所得到的结论只能是：特性分支中删除了这一行。
 
-If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch.
+如果`master`分支是特性分支的直接祖先，不会产生任何问题；但是如果他们两个在不同的分叉上，产生的diff输出看起来就像是增加了特性分支上的所有新增代码，而删除了`master`分支上的所有新增代码。
 
-What you really want to see are the changes added to the topic branch — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your topic branch with the first common ancestor it has with the master branch.
+其实，你真正想看到的是新加入到特性分支的代码——也就是合并时会并入主干的代码。你应该比较的是特性分支与它和master分支共同祖先的差异。
 
-Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
+技术上说，你可以找出他们的共同祖先，然后与之比较：
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
 	$ git diff 36c7db 
 
-However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
+但是这样很不方便，所以Git提供了另外一种捷径：三点符号。这样的情景下，可以把三点符号加在当前分支之前，被比较的拥有共同祖先的分支之后（有点拗口，看例程吧）：
 
 	$ git diff master...contrib
 
-This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.
+这个命令展示了当前特性分支与它和master分支共同祖先的差异。这是一个非常有用的命令，应该牢记。
 
-### Integrating Contributed Work ###
+### 集成贡献的代码 ###
 
-When all the work in your topic branch is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
+特性分支内的工作都完成了，只等待被加入到更主线一些的分支中。随之而来的问题是：该怎样做？还有，维护项目的总体步骤是什么？其实选择有很多，我们这里只介绍其中的一部分。
 
-#### Merging Workflows ####
+#### 合并代码的流程 ####
 
-One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
+首先介绍一个简单的合并代码流程：假设你的`master`分支包含稳定的代码，然后你在一个分支上开发新的特性直到完成（或者审核完别人贡献的代码），接着你把它并入主干分支，最后删除这个多余的分支，再次开头重复这个开发流程。如果代码库里有两个分支，分别叫`ruby_client` and `php_client`，见图5-19。然后你先把`ruby_client`合并进主干，再合并`php_client`，最后的提交历史类似于图5-20。
 
 Insert 18333fig0519.png 
-Figure 5-19. History with several topic branches
+Figure 5-19. 多个特性分支
 
 Insert 18333fig0520.png
-Figure 5-20. After a topic branch merge
+Figure 5-20. 合并特性分支之后
 
-That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
+这是最简单的流程，所以在处理大一些的项目时可能会有问题。
 
-If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
+如果维护一个有很多开发者的大项目，至少需要将合并过程分为两步。假设你有两个长期分支`master`和`develop`，`develop`分支用来合并新的代码，`master`分支则只升级到稳定的发行版本。通常这两个分支都会被推送到公开的代码库。每次有新的特性需要合并的时候（图 5-21），首先将它并入`develop`（图 5-22）；之后，如果有了一个稳定的发行版，`master`会快进到稳定的`develop`分支处（图 5-23）。
 
 Insert 18333fig0521.png 
-Figure 5-21. Before a topic branch merge
+Figure 5-21. 合并特性分支之前
 
 Insert 18333fig0522.png 
-Figure 5-22. After a topic branch merge
+Figure 5-22. 合并特性分支之后
 
 Insert 18333fig0523.png 
-Figure 5-23. After a topic branch release
+Figure 5-23. 特性分支发布之后
 
-This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
-You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
+这样，人们在clone你的代码库时就会有两个选择：他们可以检出最新的稳定版本的代码，并且还能很方便的跟上更新。也可以检出开发分支，这样就能得到最前沿的特性。
 
-#### Large-Merging Workflows ####
+你也可以扩展这个概念。将所有的代码合并到一个单独的分支，等到这个分支上的代码稳定并通过测试后，再将它并入develop分支。然后，如果这些代码能够稳定的工作一段时间并有理由相信它足够稳定了，再将主干分支快进到这里。
 
-The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
+#### 大项目的合并流程 ####
+
+Git项目有四个长期分支：`master`, `next`,和`pu`（建议继续修改）针对新代码的，还有`maint`用来维护除错的。维护者将贡献者的代码并入不同的特性分支，方法类似于我上面提到的那样（见图5-24）。之后，测试特性看看他们是能够安全的工作，否则就需要继续修改。
 
 Insert 18333fig0524.png 
-Figure 5-24. Managing a complex series of parallel contributed topic branches
+Figure 5-24. 管理复杂的并行贡献
 
-If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
+如果这些代码可以安全的工作，可以把他们合并进`next`分支，并推送到公开库来让更多的人试试这个新加入的特性。
+
+如果这些代码还需要修改，就将他们合并进`pu`分支。当他们完全稳定时，这个特性就会重新并入`master`，同时也检查一下`next`分支，将足够稳定的特性并入`master`。也就是说`master`始终是快进的，`next`偶尔需要rebased，`pu`经常需要rebased（见图 5-25）
 
 Insert 18333fig0525.png 
-Figure 5-25. Merging contributed topic branches into long-term integration branches
+Figure 5-25. 将特性并入长期分支
 
-When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
+当一个特性分支最终合并进`master`之后，它将被从代码库里删除。Git项目还有一个`maint`分支，它是以最近的发行版为基础派生（fork）出来的，用来提供除错补丁。所以，当你克隆（clone）Git的代码库时，实际上得到四个分支，你可以检出不同的分支来了解不同的开发阶段。这取决于你想得到多么前沿的特性或者做什么样的贡献；维护者都有一个结构化的流程来帮助他们审查新的贡献。
 
-#### Rebasing and Cherry Picking Workflows ####
+#### 衍合与挑拣（cherry-pick）的流程 ####
 
-Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a topic branch and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
+一些维护者更喜欢衍合或者挑拣贡献者的代码，而不是简单的合并，因为这样能够保持线性的提交历史。如果你完成了一个特性的开发，并决定将它引入到主干代码中，你可以转到那个特性分支然后执行衍合命令，好在你的主干分支上（也可能是`develop`分支之类的）重新提交这些修改。如果这些代码工作得很好，你就可以快进`master`分支，得到一个线性的提交历史。
 
-The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
+另一个引入代码的方法是挑拣。挑拣类似于针对某次特定提交的衍合。它首先提取某次提交的补丁，然后试着应用在当前分支上。如果某个特性分支上有多个commits，但你只想引入其中之一就可以使用这种方法。也可能仅仅是因为你喜欢用挑拣，讨厌衍合。假设你有一个类似图 5-26的工程。
 
 Insert 18333fig0526.png 
-Figure 5-26. Example history before a cherry pick
+Figure 5-26. 挑拣（cherry-pick）之前的历史 
 
-If you want to pull commit `e43a6` into your master branch, you can run
+如果你希望拉取`e43a6`到你的主干分支，可以这样：
 
 	$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 	Finished one cherry-pick.
 	[master]: created a0a41a9: "More friendly message when locking the index fails."
 	 3 files changed, 17 insertions(+), 3 deletions(-)
 
-This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
+这将会引入`e43a6`的代码，但是会得到不同的SHA-1值，因为应用日期不同。现在你的历史看起来像图 5-27.
 
 Insert 18333fig0527.png 
-Figure 5-27. History after cherry-picking a commit on a topic branch
+Figure 5-27. 挑拣（cherry-pick）之后的历史
 
-Now you can remove your topic branch and drop the commits you didn’t want to pull in.
+现在，你可以删除这个特性分支并丢弃你不想引入的那些commit。
 
-### Tagging Your Releases ###
+### 给发行版签名  ###
 
-When you’ve decided to cut a release, you’ll probably want to drop a tag so you can re-create that release at any point going forward. You can create a new tag as I discussed in Chapter 2. If you decide to sign the tag as the maintainer, the tagging may look something like this:
+你可以删除上次发布的版本并重新打标签，也可以像第二章所说的那样建立一个新的标签。如果你决定以维护者的身份给发行版签名，应该这样做：
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gmail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`:
+完成签名之后，如何分发PGP公钥（public key）是个问题。（译者注：分发公钥是为了验证标签）。还好，Git的设计者想到了解决办法：可以把key（既公钥）作为blob变量写入Git库，然后把它的内容直接写在标签里。`gpg --list-keys`命令可以显示出你所拥有的key：
 
 	$ gpg --list-keys
 	/Users/schacon/.gnupg/pubring.gpg
@@ -826,49 +830,49 @@ If you do sign your tags, you may have the problem of distributing the public PG
 	uid                  Scott Chacon <schacon@gmail.com>
 	sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 
-Then, you can directly import the key into the Git database by exporting it and piping that through `git hash-object`, which writes a new blob with those contents into Git and gives you back the SHA-1 of the blob:
+然后，导出key的内容并经由管道符传递给`git hash-object`，之后钥匙会以blob类型写入Git中，最后返回这个blob量的SHA-1值：
 
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-Now that you have the contents of your key in Git, you can create a tag that points directly to it by specifying the new SHA-1 value that the `hash-object` command gave you:
+现在你的Git已经包含了这个key的内容了，可以通过不同的SHA-1值指定不同的key来创建标签。
 
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG:
+在运行`git push --tags`命令之后，`maintainer-pgp-pub`标签就会公布给所有人。如果有人想要校验标签，他可以使用如下命令导入你的key：
 
 	$ git show maintainer-pgp-pub | gpg --import
 
-They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.
+人们可以用这个key校验你签名的所有标签。另外，你也可以在标签信息里写入一个操作向导，用户只需要运行`git show <tag>`查看标签信息，然后按照你的向导就能完成校验。
 
-### Generating a Build Number ###
+### 生成内部版本号 ###
 
-Because Git doesn’t have monotonically increasing numbers like 'v123' or the equivalent to go with each commit, if you want to have a human-readable name to go with a commit, you can run `git describe` on that commit. Git gives you the name of the nearest tag with the number of commits on top of that tag and a partial SHA-1 value of the commit you’re describing:
+因为Git不会为每次提交自动附加类似'v123'的递增序列，所以如果你想要得到一个便于理解的提交号可以运行`git describe`命令。Git将会返回一个字符串，由三部分组成：最近一次标定的版本号，加上自那次标定之后的提交次数，再加上一段SHA-1值of the commit you’re describing：
 
 	$ git describe master
 	v1.6.2-rc1-20-g8c5b85c
 
-This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name.
+这个字符串可以作为快照的名字，方便人们理解。如果你的Git是你自己下载源码然后编译安装的，你会发现`git --version`命令的输出和这个字符串差不多。如果在一个刚刚打完标签的提交上运行`describe`命令，只会得到这次标定的版本号，而没有后面两项信息。
 
-The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated.
+`git describe`命令只适用于有标注的标签（通过`-a`或者`-s`选项创建的标签），所以发行版的标签都应该是带有标注的，以保证`git describe`能够正确的执行。你也可以把这个字符串作为`checkout`或者`show`命令的目标，因为他们最终都依赖于一个简短的SHA-1值，当然如果这个SHA-1值失效他们也跟着失效。最近Linux内核为了保证SHA-1值的唯一性，将位数由8位扩展到10位，这就导致扩展之前的`git describe`输出完全失效了。
 
-### Preparing a Release ###
+### 准备发布 ###
 
-Now you want to release a build. One of the things you’ll want to do is create an archive of the latest snapshot of your code for those poor souls who don’t use Git. The command to do this is `git archive`:
+现在可以发布一个新的版本了。首先要将代码的压缩包归档，方便那些可怜的还没有使用Git的人们。可以使用`git archive`：
 
 	$ git archive master --prefix='project/' | gzip > `git describe master`.tar.gz
 	$ ls *.tar.gz
 	v1.6.2-rc1-20-g8c5b85c.tar.gz
 
-If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `--format=zip` option to `git archive`:
+这个压缩包解压出来的是一个文件夹，里面是你项目的最新代码快照。你也可以用类似的方法建立一个zip压缩包，在`git archive`加上`--format=zip`选项：
 
 	$ git archive master --prefix='project/' --format=zip > `git describe master`.zip
 
-You now have a nice tarball and a zip archive of your project release that you can upload to your website or e-mail to people.
+现在你有了一个tar.gz压缩包和一个zip压缩包，可以把他们上传到你网站上或者用e-mail发给别人。
 
-### The Shortlog ###
+### 制作简报 ###
 
-It’s time to e-mail your mailing list of people who want to know what’s happening in your project. A nice way of quickly getting a sort of changelog of what has been added to your project since your last release or e-mail is to use the `git shortlog` command. It summarizes all the commits in the range you give it; for example, the following gives you a summary of all the commits since your last release, if your last release was named v1.0.1:
+是时候通知邮件列表里的朋友们来检验你的成果了。使用`git shortlog`命令可以方便快捷的制作一份修改日志（changelog），告诉大家上次发布之后又增加了哪些特性和修复了哪些bug。实际上这个命令能够统计给定范围内的所有提交;假如你上一次发布的版本是v1.0.1，下面的命令将给出自从上次发布之后的所有提交的简介：
 
 	$ git shortlog --no-merges master --not v1.0.1
 	Chris Wanstrath (8):
@@ -885,8 +889,9 @@ It’s time to e-mail your mailing list of people who want to know what’s happ
 	      Version bump to 1.0.2
 	      Regenerated gemspec for version 1.0.2
 
-You get a clean summary of all the commits since v1.0.1, grouped by author, that you can e-mail to your list.
+这就是自从v1.0.1版本以来的所有提交的简介，内容按照作者分组，以便你能快速的发e-mail给他们。
+
 
 ## 小结 ##
 
-You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.
+你学会了如何使用Git为项目做贡献，也学会了如何使用Git维护你的项目。恭喜！你已经成为一名高效的开发者。在下一章你将学到更强大的工具来处理更加复杂的问题，之后你会变成一位Git大师。

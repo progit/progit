@@ -91,6 +91,9 @@
 	\textbf{\caption{#1}}
 \end{figure}}
 
+\newcounter{tab}[chapter]
+\renewcommand{\thetab}{\thechapter.\arabic{tab}}
+
 \newcommand{\prechap}{<%= config['prechap'] %>}
 \newcommand{\postchap}{<%= config['postchap'] %>}
 \newcommand{\presect}{<%= config['presect'] %>}

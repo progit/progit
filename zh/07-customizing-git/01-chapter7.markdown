@@ -241,7 +241,7 @@ kdiff3、opendiff、tkdiff、meld、xxdiff、emerge、vimdiff、gvimdiff。如�
 #### core.autocrlf ####
 
 假如你正在Windows上写程序，又或者你正在和其他人合作，他们在Windows上编程，而你却在其他系统上，在这些情况下，你可能会遇到行尾结束符问题。
-这是因为Windows使用回车和换行两个字符来结束一行，而Mac和Linux只使用换行一个字符（译注：Windows系统的回车换行符号为\r\n，而在Mac和Linux系统中则是\n）。
+这是因为Windows使用回车和换行两个字符来结束一行，而Mac和Linux只使用换行一个字符。
 虽然这是小问题，但它会极大地扰乱跨平台协作。 
 
 Git可以在你提交时自动地把行结束符CRLF转换成LF，而在签出代码时把LF转换成CRLF。用`core.autocrlf`来打开此项功能，

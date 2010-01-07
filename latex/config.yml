@@ -66,3 +66,9 @@ fr:
   presect: "Section "
   fig: "Figure "
   tab: "Tableau "
+mk:
+  fig: "Слика"
+  con: "Содржина"
+  prechap: "Поглавје"
+  presect: "Секција"
+  tab: "Табела"

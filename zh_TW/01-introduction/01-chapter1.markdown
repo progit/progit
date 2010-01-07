@@ -44,7 +44,6 @@ Insert 18333fig0102.png
 Insert 18333fig0103.png 
 圖1-3. 分散式版本控制系統
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
 更進一步來說，許多這樣子的系統皆能同時與數個遠端的機器同時運作。 因此讀者能同時與許多不同群組的人們協同開發同一個專案。 這允許讀者設定多種集中式系統做不到的工作流程，如：階層式模式。
 
 ## Git 的簡史 ##
@@ -175,25 +174,25 @@ Let’s get into using some Git. First things first—you have to install it. Yo
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer.
+圖1-7. Git OS X 安裝程式。
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+藉由MacPorts安裝Git是另一種主要的方法。 若讀者已安裝MacPorts，使用下列命令安裝Git
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+讀者完全不需要安裝所有的額外套件，但讀者可能會想要加上+svn參數，以利於使用Git讀寫Subversion儲存庫（參考第8章）
 
-### Installing on Windows ###
+### 在Windows系統安裝 ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+在Windows系統安裝Git相當的容易。 msysGit專案已提供相當容易安裝的程序。 只要從Google Code網頁下載安裝程式並執行即可：
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+在安裝完畢後，讀者同時會有命令列版本（包含SSH客戶端程式）及標準的圖形界面版本。
 
-## First-Time Git Setup ##
+## 初次設定Git ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+現在讀者的系統已安裝了Git，讀者可能想要做一些客製化的動作。 讀者應只需要做這些工作一次。 這些設定在更新版本時會被保留下來。 讀者可藉由再度執行命令的方式再度修改這些設定。
 
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 

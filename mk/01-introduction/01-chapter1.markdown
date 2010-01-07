@@ -28,7 +28,7 @@ Insert 18333fig0102.png
 
 Ваквата поставка нуди многу предности, особено во однос на локалните VCS-и. На пример, секој во одредена мерка знае што работат другите на проектот. Администраторите фино може да подесат кој што може да работи, и далеку е поедноставно да се администрира CVCS отколку да се администрираат базите на секој клиент.
 
-Но, ваквата поставка исто така има и сериозни недостатоци. >>>The most obvious is the single point of failure that the centralized server represents.<<< Ако тој сервер биде исклучен еден час на пример, во тој час никој воопшто нема да може да колаборира, ниту пак да ги зачува верзионираните промени на она на кое работи. Доколку хард-дискот се корумпира, и доколку не постои соодветен бекап, тогаш апсолутно се е загубено - целосниот историјат на проектот, освен копиите кои што луѓето случајно би ги имале на локалните компјуери. Локалните VCS системи се подложни на истите проблеми - доколку целосната историја на проектот е на едно место, тогаш ризикувате да загубите се.
+Но, ваквата поставка исто така има и сериозни недостатоци. >>>The most obvious is the single point of failure that the centralized server represents.<<< Ако тој сервер биде исклучен еден час на пример, во тој час никој воопшто нема да може да колаборира, ниту пак да ги зачува верзионираните промени на она на што работи. Доколку хард-дискот се корумпира, и доколку не постои соодветен бекап, тогаш апсолутно се е загубено - целосниот историјат на проектот, освен копиите кои што луѓето случајно би ги имале на локалните компјутери. Локалните VCS системи се подложни на истите проблеми - доколку целосната историја на проектот е на едно место, тогаш ризикувате да загубите се.
 
 ### Дистрибуирани системи за контрола на верзиите ###
 
@@ -41,19 +41,19 @@ Insert 18333fig0103.png
 
 ## Кратка историја на Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Како и со многу големи работи во животот, Git настана со мала креативна деструкција и жестока расправија. Линукс кернелот е проект со отворен код и сосема широк делокруг. Одржувањето за поголемиот дел од животниот век на Линукс кернелот (1991-2002) се одвивалот на тој начин што измените во софтверот се предавале како закрпи и архиви. Во 2002 Линукс кернел проектот почнал да користи лиценциран DVCS систем наречен BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+Во 2005, врската помеѓу заедницата која што го развиваше Линукс кернелот и компанијата која што го разви BitKeeper се распадна, и алатката повеќе не можеше да се користи бесплатно. Тоа и наложи на Линукс развојната заедница (а посебно на Линус Торвалдс, авторот на Линукс) да развијат сопствена алатка базирана на некои лекции кои што ги научија додека го користеа BitKeeper. Некои од целите на новиот систем беа:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Брзина
+*	Едноставен дизајн
+*	Силна подршка за не-линеарен начин на развој (илјадници паралелни гранки на развој)
+*	Целосно дистрибуиран
+*	Ефикасно да може да подржи големи проекти како Линукс кернелот (брзина и количина на податоци)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Од неговото раѓање во 2005, Git еволуираше во систем кој што е лесен за користење и сеуште ги задржува иницијалните цели. Тој е извонредно брз, многу ефикасен со големи проекти, и има извонреден систем за гранање за не-линеарен начин на развој (Види поглавје 3).
 
-## Git Basics ##
+## Основи на Git ##
 
 So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
 

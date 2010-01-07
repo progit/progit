@@ -71,29 +71,29 @@ Als je een beleid hebt voor commit boodschappen, dan vergroot het plaatsen van e
 
 #### core.pager ####
 
-The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
+De instelling voor 'core.pager' bepaald welke pagineer applicatie gebruikt wordt door Git om de uitvoer van `log` en `diff` weer te geven. Je kunt het instellen als `more` of als je favoriete pagineerder (standaard is het `less`), of je kunt het uit zetten door het als een lege tekst in te stellen: 
 
 	$ git config --global core.pager ''
 
-If you run that, Git will page the entire output of all commands, no matter how long they are.
+Als je dat uitvoert, zal Git de gehele uitvoer van alle commando's pagineren, hoe lang het ook is.
 
 #### user.signingkey ####
 
-If you’re making signed annotated tags (as discussed in Chapter 2), setting your GPG signing key as a configuration setting makes things easier. Set your key ID like so:
+Als je gebruik maakt van ondertekende tags (zoals besproken in Hoofdstuk 2), dan maakt het instellen van je GPG signeer sleutel als configuratie instelling het leven eenvoudiger. Stel je sleutel ID zo in:
 
 	$ git config --global user.signingkey <gpg-key-id>
 
-Now, you can sign tags without having to specify your key every time with the `git tag` command:
+Nu kun je je tags signeren zonder steeds je sleutel op te hoeven geven bij het `git tag` commando:
 
 	$ git tag -s <tag-name>
 
 #### core.excludesfile ####
 
-You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have.
+Je kunt patronen in het `.gitignore` bestand van je project zetten zodat Git ze niet ziet als ongevolgde bestanden of ze niet zal proberen te stagen als je `git add` op ze uitvoert, zoals besproken in Hoofdstuk 2. Maar als je wilt dat een ander bestand buiten je project die waarden of extra waarden bevat, kun je Git vertellen met de `core.excludesfile` vertellen waar dat bestand is. Stel het eenvoudigweg in als een pad naar een bestand dat een inhoud heeft dat vergelijkbaar is met wat een `.gitignore` bestand zou hebben.
 
 #### help.autocorrect ####
 
-This option is available only in Git 1.6.1 and later. If you mistype a command in Git 1.6, it shows you something like this:
+Deze optie is alleen beschikbaar in Git 1.6.1. en later. Als je een commando in Git 1.6 verkeerd typed, toont het je zoiets als dit:
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -101,71 +101,71 @@ This option is available only in Git 1.6.1 and later. If you mistype a command i
 	Did you mean this?
 	     commit
 
-If you set `help.autocorrect` to 1, Git will automatically run the command if it has only one match under this scenario.
+Als je `het.autocorrect` op 1 instelt, zal Git autoamitsch het commando uitvoeren als het slechts één passend commando heeft in dit scenario.
 
-### Colors in Git ###
+### Kleuren in Git ###
 
-Git can color its output to your terminal, which can help you visually parse the output quickly and easily. A number of options can help you set the coloring to your preference.
+Git kan zijn uitvoer in je terminal kleuren, wat je kan helpen om de uitvoer snel en eenvoudig visueel te begrijpen. Een aantal opties kan je helpen om de kleuren naar je voorkeur in te stellen.
 
 #### color.ui ####
 
-Git automatically colors most of its output if you ask it to. You can get very specific about what you want colored and how; but to turn on all the default terminal coloring, set `color.ui` to true:
+Git zal automatisch het meeste van zijn uitvoer kleuren als je het vraagt. Je kunt erg specifiek zijn in wat je gekleurd wil en hoe; maar om alle standaard kleuren in de terminal aan te zetten, stel dan `color.ui` in op true:
 
 	$ git config --global color.ui true
 
-When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command. This setting was added in Git version 1.5.5; if you have an older version, you’ll have to specify all the color settings individually.
+Als deze waarde ingesteld is, zal Git zijn uitvoer kleuren zodra deze naar een terminal gaat. Andere mogelijke opties zijn false, wat de uitvoer nooit kleurt, en always, wat de kleuren altijd weergeeft, zelfs als je Git commando's omleidt naar een bestand of naar een ander commando doorsluist. Deze instelling is toegevoegd in Git 1.5; als je een oudere versie hebt, zul je alle kleuren instellingen individueel in moeten stellen.
 
-You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `--color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use.
+Je zult zelden `color.ui = always` willen. In de meeste scenario's, als je kleuren in je omgeleide uitvoer wil, kun je een `--color` vlag aan het Git commando meegeven om het te forceren kleuren te gebruiken. De `color.ui = true` instelling is vrijwel altijd hetgene je wil gebruiken.
 
 #### `color.*` ####
 
-If you want to be more specific about which commands are colored and how, or you have an older version, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:
+Als je meer specifiek wil zijn welke commando's gekleurd moeten zijn en hoe, of je hebt een oudere versie, dan voorziet Git in woord specifieke kleuren instellingen. Ieder van deze kan worden ingesteld op `true`, `false` of `always`:
 
 	color.branch
 	color.diff
 	color.interactive
 	color.status
 
-In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run
+Daarnaast heeft ieder van deze ook sub-instellingen die je kunt gebruiken om specifieke kleuren in te stellen voor delen van de uitvoer, als je iedere kleur wilt overschrijven. Bijvoorbeeld, om de meta informatie in je diff uitvoer in blauwe voorgrond, zwarte achtergrond en vetgedrukt in te stellen, kun je dit uitvoeren
 
 	$ git config --global color.diff.meta “blue black bold”
 
-You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse.
+Je kunt de kleur instellen op ieder van de volgende waarden: normal, black, red, green, yellow, blue, magenta, cyan, of white. Als je een attribuut wil hebben, zoals vetgerukt in het vorige voorbeeld, kun je kiezen uit bold, dim, ul, blink en reverse.
 
-See the `git config` manpage for all the subsettings you can configure, if you want to do that.
+Zie de manpage van `git config` voor alle sub-instellingen die je kunt instellen, als je dat wil.
 
-### External Merge and Diff Tools ###
+### Externe Merge en Diff Tools ###
 
-Although Git has an internal implementation of diff, which is what you’ve been using, you can set up an external tool instead. You can also set up a graphical merge conflict–resolution tool instead of having to resolve conflicts manually. I’ll demonstrate setting up the Perforce Visual Merge Tool (P4Merge) to do your diffs and merge resolutions, because it’s a nice graphical tool and it’s free.
+Alhoewel Git een interne implementatie van diff heeft, die je tot nog toe gebruikte, kun je in plaats daarvan een extern tool instellen. Je kunt ook een grafisch samenvoeg conflict-oplossings tool instellen, in plaats van handmatig de conflicten op te moeten lossen. Ik zal nu demonstreren hoe je het Perforce Visuele Samenvoeg Tool (P4Merge) in moet stellen, om je diff en samenvoeg oplossingen te doen, omdat het een fijn grafisch tool is en omdat het gratis is.
 
-If you want to try this out, P4Merge works on all major platforms, so you should be able to do so. I’ll use path names in the examples that work on Mac and Linux systems; for Windows, you’ll have to change `/usr/local/bin` to an executable path in your environment.
+P4Merge werkt op alle grote platformen als je dit wil proberen, dus je zou het moeten kunnen doen. Ik zal in de voorbeelden paden gebruiken die op Mac en Linux systemen werken; voor Windows moet je `/usr/local/bin` veranderen in een pad naar een uitvoerbaar bestand in je omgeving.
 
-You can download P4Merge here:
+Je kunt P4Merge hier downloaden:
 
 	http://www.perforce.com/perforce/downloads/component.html
 
-To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided:
+Om te beginnen zul je externe wrapper scripts instellen om je commando's uit te voeren. Ik zal het Mac pad gebruiken voor de applicatie; in andere systemen zal het moeten wijzen naar waar de `p4merge` binary geinstalleerd is. Stel een samenvoeg wrapper script in, genaamd `extMerge`, die je applicatie met alle meegegeven argumenten aanroept:
 
 	$ cat /usr/local/bin/extMerge
 	#!/bin/sh
 	/Applications/p4merge.app/Contents/MacOS/p4merge $*
 
-The diff wrapper checks to make sure seven arguments are provided and passes two of them to your merge script. By default, Git passes the following arguments to the diff program:
+De diff wrapper controleert dat er zeker zeven argumenten meegegeven zijn, en geeft twee ervan aan je samenvoeg script. Standaard geeft Git de volgende argumenten aan het diff programma mee:
 
 	path old-file old-hex old-mode new-file new-hex new-mode
 
-Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need.
+Omdat je alleen de `oude-bestand` en `nieuwe-bestand` argumenten wil, zul je het wrapper script gebruiken om degenen door te geven die je wil.
 
 	$ cat /usr/local/bin/extDiff 
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
-You also need to make sure these tools are executable:
+Je moet er ook zeker van zijn dat deze tools uitvoerbaar zijn:
 
 	$ sudo chmod +x /usr/local/bin/extMerge 
 	$ sudo chmod +x /usr/local/bin/extDiff
 
-Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands
+Nu kun je je config bestand instellen dat het je eigengemaakte samenvoeg en diff tools gebruikt. Dit wordt gedaan met een aantal eigen instellingen: `merge.tool` om Git te vertellen welke strategie hij moet gebruiken, `mergetool.*.cmd` om te specificeren hoe het het commando moet uitvoeren, `mergetool.trustExitCode` om Git te vertellen of de exit code van dat programma een succesvolle samenvoeging betekent of niet, en `diff.external` om Git te vertellen welk commando het moet uitvoeren voor diffs. Dus, je kunt of vier configuratie commando's uitvoeren
 
 	$ git config --global merge.tool extMerge
 	$ git config --global mergetool.extMerge.cmd \
@@ -173,7 +173,7 @@ Now you can set up your config file to use your custom merge resolution and diff
 	$ git config --global mergetool.trustExitCode false
 	$ git config --global diff.external extDiff
 
-or you can edit your `~/.gitconfig` file to add these lines:
+of je kunt je `~/.gitconfig` bestand aanpassen en deze regels toevoegen:
 
 	[merge]
 	  tool = extMerge
@@ -183,150 +183,150 @@ or you can edit your `~/.gitconfig` file to add these lines:
 	[diff]
 	  external = extDiff
 
-After all this is set, if you run diff commands such as this:
+Nadat dit alles ingesteld is, zul je als je diff commando's zoals deze uitvoert:
 	
 	$ git diff 32d1776b1^ 32d1776b1
 
-Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.
+in plaat van de uitvoer van diff op de commando regel, een instantie van P4Merge gestart door Git krijgen, wat er uitziet zoals in Figuur 7-1.
 
 Insert 18333fig0701.png 
-Figure 7-1. P4Merge.
+Figuur 7-1. P4Merge.
 
-If you try to merge two branches and subsequently have merge conflicts, you can run the command `git mergetool`; it starts P4Merge to let you resolve the conflicts through that GUI tool.
+Als je twee branches probeert samen te voegen en je krijgt conflicten, dan kun je het `git mergetool` commando uitvoeren; het start P4Merge op om je het conflict op te laten lossen met behulp van dat GUI tool.
 
-The nice thing about this wrapper setup is that you can change your diff and merge tools easily. For example, to change your `extDiff` and `extMerge` tools to run the KDiff3 tool instead, all you have to do is edit your `extMerge` file:
+Het aardige van deze wrapper opstelling is dat je je diff en merge tools eenvoudig aan kunt passen. Bijvoorbeeld, om je `extDiff` en `extMerge` tools in te stellen dat ze in plaats daarvan het KDiff3 tool uitvoeren, is het enige dat je moet doen je `extMerge` bestand aanpassen:
 
 	$ cat /usr/local/bin/extMerge
 	#!/bin/sh	
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
-Now, Git will use the KDiff3 tool for diff viewing and merge conflict resolution.
+Nu zal Git het KDiff3 tool gebruiken voor het tonen van diff en het oplossen van samenvoeg conflicten.
 
-Git comes preset to use a number of other merge-resolution tools without your having to set up the cmd configuration. You can set your merge tool to kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, or gvimdiff. If you’re not interested in using KDiff3 for diff but rather want to use it just for merge resolution, and the kdiff3 command is in your path, then you can run
+Git is al ingesteld om een aantal andere conflict-oplossings tools te gebruiken zonder dat je de cmd configuratie in hoeft te stellen. Je kunt je merge tool op kdiff3 instellen, of opendiff, tkdiff, meld, xxdiff, emerge, vimdiff of gvimdiff. Als je niet geinteresseerd bent in het gebruik van KDiff3 als diff, maar het liever alleen wilt gebruiken voor conflict oplossing, en het kdiff3 commando zit in je pad, dan kun je dit uitvoeren
 
 	$ git config --global merge.tool kdiff3
 
-If you run this instead of setting up the `extMerge` and `extDiff` files, Git will use KDiff3 for merge resolution and the normal Git diff tool for diffs.
+Als je dit uitvoert in plaats van de `extMerge` en `extDiff` bestanden in te stellen, zal Git KDiff3 gebruiken voor conflict oplossing en het normale Git diff tool voor diffs.
 
-### Formatting and Whitespace ###
+### Opmaak en Witruimten ###
 
-Formatting and whitespace issues are some of the more frustrating and subtle problems that many developers encounter when collaborating, especially cross-platform. It’s very easy for patches or other collaborated work to introduce subtle whitespace changes because editors silently introduce them or Windows programmers add carriage returns at the end of lines they touch in cross-platform projects. Git has a few configuration options to help with these issues.
+Problemen met opmaak en witruimten zijn één van de veelvoorkomende frustrerende en subtiele problemen die veel ontwikkelaars tegenkomen bij het samenwerken, in het bijzonder over verschillende platformen. Het is heel eenvoudig voor patches en ander werk om subtiele witruimte veranderingen te introduceren, omdat editors ze stil introduceren of omdat Windows programmeurs harde returns aan het eind van de regels toevoegen die ze aanraken in gekruiste platformprojecten. Git heeft een aantal configuratie opties om met deze problemen te helpen.
 
 #### core.autocrlf ####
 
-If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work. 
+Als je op Windows programmeert, of een ander systeem gebruikt maar samenwerkt met mensen die op Windows werken, zul je vroeg of laat waarschijnlijk tegen regeleinde problemen aanlopen. Dat komt omdat Windows zowel een harde return als ook een linefeed karakter gebruikt voor regeleindes in zijn bestanden, waar Mac en Linux systemen alleen het linefeed karakter gebruiken. Dit is een subtiel maar verschrikkelijk irritant feit van het werken met gekruiste platformen.
 
-Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code:
+Git kan hiermee omgaan door CRLF regeleinden automatisch om te zetten naar LF zodra je commit, en vice versa op het moment dat je code uitchecked op je systeem. Je kunt deze functionaliteit aanzetten met de `core.autocrlf` instelling. Als je op een Windows machine zit, stel het dan in op `true` – dit veranderd LF regeleinden in CRLF zodra je code uitchecked:
 
 	$ git config --global core.autocrlf true
 
-If you’re on a Linux or Mac system that uses LF line endings, then you don’t want Git to automatically convert them when you check out files; however, if a file with CRLF endings accidentally gets introduced, then you may want Git to fix it. You can tell Git to convert CRLF to LF on commit but not the other way around by setting `core.autocrlf` to input:
+Als je op een Linux of Mac systeem zit dat LF regeleinden gebruikt, dan wil je niet dat Git ze autoamisch veranderd op het moment dat Git bestanden uitchecked; maar als een bestand met CRLF regeleinden onverhoopt toch geintroduceerd wordt, dan wil je misschien dat Git dit repareert. Je kunt Git vertellen dat je wilt dat hij CRLF in LF veranderd tijdens het committen, maar niet de andere kant op door het instellen van `core.autocrlf` op input:
 
 	$ git config --global core.autocrlf input
 
-This setup should leave you with CRLF endings in Windows checkouts but LF endings on Mac and Linux systems and in the repository.
+Deze instelling zal CRLF regeleinden in Windows checkouts gebruiken, en LF einden in Mac en Linux systemen en in het repository moeten laten.
 
-If you’re a Windows programmer doing a Windows-only project, then you can turn off this functionality, recording the carriage returns in the repository by setting the config value to `false`:
+Als je een Windows programmeur bent, die een alleen-Windows project doet, dan kun je deze functionaliteit uitzetten, waarmee de harde returns in het repository opgeslagen worden door de configuratie waarde op `false` te zetten:
 
 	$ git config --global core.autocrlf false
 
 #### core.whitespace ####
 
-Git comes preset to detect and fix some whitespace issues. It can look for four primary whitespace issues — two are enabled by default and can be turned off, and two aren’t enabled by default but can be activated.
+Git is vooraf ingesteld om een aantal witruimte problemen te detecteren en te repareren. Het kan op vier veelvoorkomende witruimte problemen letten – twee stan er standaard aan en kunnen uitgezet worden, en twee staan er standaard niet aan, maar kunnen aangezet worden.
 
-The two that are turned on by default are `trailing-space`, which looks for spaces at the end of a line, and `space-before-tab`, which looks for spaces before tabs at the beginning of a line.
+De twee die standaard aan staan zijn `trailing-space`, wat kijkt of er spaties aan het eind van een regel staan, en `space-before-tab`, wat kijkt of er spaties voor tabs staan aan het begin van een regel.
 
-The two that are disabled by default but can be turned on are `indent-with-non-tab`, which looks for lines that begin with eight or more spaces instead of tabs, and `cr-at-eol`, which tells Git that carriage returns at the end of lines are OK.
+De twee die standaard uit staan, maar aangezet kunnen worden, zijn `indent-with-non-tab`, wat kijkt naar regels die met acht of meer spaties beginnen in plaats van tabs, en `cr-at-eol`, wat Git verteld dat harde returns aan het eind van een regel OK zijn.
 
-You can tell Git which of these you want enabled by setting `core.whitespace` to the values you want on or off, separated by commas. You can disable settings by either leaving them out of the setting string or prepending a `-` in front of the value. For example, if you want all but `cr-at-eol` to be set, you can do this:
+Je kunt Git vertellen welke van deze je aan wil zetten door `core.whitespace` naar de waardes in te stellen die je aan of uit wil, gescheiden door komma's. Je kunt waarden uitzetten door ze weg te laten uit de instelling tekst of door een `-` vooraf te laten gaan aan de waarde. Bijvoorbeeld, als je alles aan wil behalve `cr-ar-eol`, dan kun je dit doen:
 
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
-Git will detect these issues when you run a `git diff` command and try to color them so you can possibly fix them before you commit. It will also use these values to help you when you apply patches with `git apply`. When you’re applying patches, you can ask Git to warn you if it’s applying patches with the specified whitespace issues:
+Git zal deze problemen detecteren zodra je een `git diff` commando uitvoert en ze proberem te kleuren zodat je ze kunt repareren alvorens te committen. Het zal deze waarden ook gebruiken om je te helpen met patches toe te passen met `git apply`. Als je patches gaat toepassen, kun je Git vragen om je te waarschuwen als hij patches toepast waarin deze specifieke witruimte problemen zitten:
 
 	$ git apply --whitespace=warn <patch>
 
-Or you can have Git try to automatically fix the issue before applying the patch:
+Of je kunt Git vragen om automatisch deze problemen te repareren alvorens de patch toe te passen:
 
 	$ git apply --whitespace=fix <patch>
 
-These options apply to the git rebase option as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
+Deze opties zijn ook op de git rebase optie van toepassing. Als je witruimte problemen gecommit hebt maar ze nog niet stroomopwaarts gepushed hebt, kun je een `rebase` uitvoeren met de `--whitespace=fix` optie uitvoeren om Git automatisch witruimte problemen te laten repareren zodra het de patches herschrijft.
 
-### Server Configuration ###
+### Server Configuratie ###
 
-Not nearly as many configuration options are available for the server side of Git, but there are a few interesting ones you may want to take note of.
+Er zijn lang niet zoveel configuratie opties beschikbaar voor de server kant van Git, maar er zijn er een paar interessante bij waar je misschien notie van wil hebben.
 
 #### receive.fsckObjects ####
 
-By default, Git doesn’t check for consistency all the objects it receives during a push. Although Git can check to make sure each object still matches its SHA-1 checksum and points to valid objects, it doesn’t do that by default on every push. This is a relatively expensive operation and may add a lot of time to each push, depending on the size of the repository or the push. If you want Git to check object consistency on every push, you can force it to do so by setting `receive.fsckObjects` to true:
+Standaard zal Git niet alle objecten die hij ontvangt gedurende een push op consistentie controleren. Alhoewel Git kan controleren of ieder object nog steeds bij zijn SHA-1 checksum past en naar geldige objecten wijst, doet hij dat niet standaard bij iedere push. Dit is een relatief dure operatie en kan veel tijd kosten voor iedere push, afhankelijk van de grootte van het repository of de push. Als je wil dat Git ieder object op consistentie controleert bij iedere push, dan kun je hem dwingen door `receive.fsckObjects` op true te zetten:
 
 	$ git config --system receive.fsckObjects true
 
-Now, Git will check the integrity of your repository before each push is accepted to make sure faulty clients aren’t introducing corrupt data.
+Nu zal Git de integriteit van je repository controleren voor iedere push geaccepteerd wordt, om er zeker van te zijn dat kapotte clients geen corrupte gegevens introduceren.
 
 #### receive.denyNonFastForwards ####
 
-If you rebase commits that you’ve already pushed and then try to push again, or otherwise try to push a commit to a remote branch that doesn’t contain the commit that the remote branch currently points to, you’ll be denied. This is generally good policy; but in the case of the rebase, you may determine that you know what you’re doing and can force-update the remote branch with a `-f` flag to your push command.
+Als je commits rebased die je al gepushed hebt en dan nog eens pushed, of op een andere manier een commit probeert te pushen naar een remote branch die niet de commit bevat waarnaar de remote branch op het moment wijst, dan wordt dat afgewezen. Dit is over het algemeen een goed beleid; maar in het geval van de rebase, kun je besluiten dat je weet waar je mee bezig bent en kun je de remote branch geforceerd vernieuwen door een `-f` vlag met je push commando mee te geven.
 
-To disable the ability to force-update remote branches to non-fast-forward references, set `receive.denyNonFastForwards`:
+Om de mogelijkheid van het geforceerd vernieuwen van remote branches naar niet fast-forward referenties uit te schakelen, stel je `receive.denyNonFastForwards` in:
 
 	$ git config --system receive.denyNonFastForwards true
 
-The other way you can do this is via server-side receive hooks, which I’ll cover in a bit. That approach lets you do more complex things like deny non-fast-forwards to a certain subset of users.
+Een andere manier waarop je dit kunt doen is het instellen van ontvangst haken op de server, wat we zometeen gaan behandelen. Die aanpak staat je toe meer complexe dingen te doen, zoals het weigeren van niet fast-forwards aan een bepaalde set gebruikers.
 
 #### receive.denyDeletes ####
 
-One of the workarounds to the `denyNonFastForwards` policy is for the user to delete the branch and then push it back up with the new reference. In newer versions of Git (beginning with version 1.6.1), you can set `receive.denyDeletes` to true:
+Een van de wegen om een `denyNonFastForwards` beleid heen is dat de gebruiker de branch verwijderd en het dan opnieuw terug pushed met de nieuwe referentie. In nieuwere versies van Git (beginnend bij versie 1.6.1), kun je `receive.denyDeletes` op true zetten:
 
 	$ git config --system receive.denyDeletes true
 
-This denies branch and tag deletion over a push across the board — no user can do it. To remove remote branches, you must remove the ref files from the server manually. There are also more interesting ways to do this on a per-user basis via ACLs, as you’ll learn at the end of this chapter.
+Dit weigert branch en tag verwijdering door middel van een push over de hele breedte – geen enkele gebruiker mag het meer. Om remote branches te verwijderen, moet je de ref bestanden handmatig verwijderen van de server. Er zijn ook interessantere manieren om dit te doen op een per gebruiker basis door middel van ACL's, zoals je zult leren aan het eind van dit hoofdstuk.
 
-## Git Attributes ##
+## Git Attributen ##
 
-Some of these settings can also be specified for a path, so that Git applies those settings only for a subdirectory or subset of files. These path-specific settings are called Git attributes and are set either in a `.gitattribute` file in one of your directories (normally the root of your project) or in the `.git/info/attributes` file if you don’t want the attributes file committed with your project.
+Een aantal van deze instellingen kan ook gedaan worden voor een pad, zodat Git die instellingen alleen toepast om een submap of subset van bestanden. Deze pad-specifieke instellingen worden Git attributen genoemd en worden in een `.gitattribute` bestand in een van je mappen (normaliter in de hoofdmap van je project) of in het `.git/attributes` bestand als je niet wilt dat het attributes bestand gecommit wordt met je project.
 
-Using attributes, you can do things like specify separate merge strategies for individual files or directories in your project, tell Git how to diff non-text files, or have Git filter content before you check it into or out of Git. In this section, you’ll learn about some of the attributes you can set on your paths in your Git project and see a few examples of using this feature in practice.
+Door attributes te gebruiken kun je dingen doen als het specificeren van aparte samenvoeg strategieën voor individuele bestanden of mappen in je project, Git vertellen hoe hij niet-tekst bestanden kan diff'en, of Git inhoud laten filteren voordat je het in- of uitchecked van Git. In deze sectie zul je iets leren over de attributen die je kun instellen op de paden in je Git project en een paar voorbeelden zien hoe je deze eigenschap in de praktijk gebruikt.
 
-### Binary Files ###
+### Binaire Bestanden ###
 
-One cool trick for which you can use Git attributes is telling Git which files are binary (in cases it otherwise may not be able to figure out) and giving Git special instructions about how to handle those files. For instance, some text files may be machine generated and not diffable, whereas some binary files can be diffed — you’ll see how to tell Git which is which.
+Een stoere truc waarvoor je Git attributen kunt gebruiken is het vertellen aan Git welke bestanden binair zijn (in die gevallen waarin hij het niet zelf kan uitvinden) en Git dan speciale instructies geven hoe die bestanden te behandelen. Bijvoorbeeld, sommige tekstbestanden worden gegenereerd en zijn niet te diff'en, of sommige binaire bestanden kunnen wel gediff'ed worden – je zult zien hoe je Git verteld welke soort het is.
 
-#### Identifying Binary Files ####
+#### Binaire Bestanden Identificeren ####
 
-Some files look like text files but for all intents and purposes are to be treated as binary data. For instance, Xcode projects on the Mac contain a file that ends in `.pbxproj`, which is basically a JSON (plain text javascript data format) dataset written out to disk by the IDE that records your build settings and so on. Although it’s technically a text file, because it’s all ASCII, you don’t want to treat it as such because it’s really a lightweight database — you can’t merge the contents if two people changed it, and diffs generally aren’t helpful. The file is meant to be consumed by a machine. In essence, you want to treat it like a binary file.
+Sommige bestanden zien eruit als tekstbestanden, maar moeten toch behandeld worden als binaire gegevens. Bijvoorbeeld, Xcode projecten op de Mac bevatten een bestand dat eindigt in `.pbxproj`, wat eigenlijk een JSON (platte tekst javascript gegevens formaat) gegevensset is, dat geschreven wordt naar de schijf door de IDE, waarin je bouw instellingen opgeslagen zijn enzovoorts. Alhoewel het technisch een tekstbestand is, omdat het volledig ASCII is, zul je het niet als zodanig willen behandelen omdat het eigenlijk een lichtgewicht gegevensbank is – je kunt de inhoud niet samenvoegen als twee mensen het gewijzigd hebben, en diffs zijn over het algemeen niet behulpzaam. Het bestand is bedoeld om geconsumeerd te worden door een machine. In essentie wil je het behandelen als een binair bestand.
 
-To tell Git to treat all `pbxproj` files as binary data, add the following line to your `.gitattributes` file:
+Om Git te vertellen dat hij alle `pbxproj` bestanden als binaire gegevens moet behandelen, voeg je de volgende regel toe aan je `.gitattributes` bestand:
 
 	*.pbxproj -crlf -diff
 
-Now, Git won’t try to convert or fix CRLF issues; nor will it try to compute or print a diff for changes in this file when you run git show or git diff on your project. In the 1.6 series of Git, you can also use a macro that is provided that means `-crlf -diff`:
+Nu zal Git niet proberen om CRLF problemen te veranderen of te repareren; noch zal het proberen een diff te berekenen of te tonen voor de veranderingen in dit bestand als je git show of git diff uitvoert op je project. In de 1.6 serie van Git, kun je ook een macro gebruiken die meegeleverd wordt, en die `-crlf -diff` betekend:
 
 	*.pbxproj binary
 
-#### Diffing Binary Files ####
+#### Binaire Bestanden Diff'en ####
 
-In the 1.6 series of Git, you can use the Git attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff.
+In de 1.6 serie van Git, kun je de functionaliteit van Git attributen gebruiken om binaire bestanden effectief te diff'en. Je doet dit door Git te vertellen hoe het binaire gegevens naar tekst formaat moet omzetten, die dan via de normale diff vergeleken kan worden.
 
-Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:
+Omdat dit een erg stoer en weinig gebruikte eigenschap is, zal ik een paar voorbeelden laten zien. Eerst zul je deze techniek gebruiken om een van de meest irritante problemen van deze mensheid op te lossen: Word documenten versie beheren. Iedereen weet dat Word een van de meest erge editors is die er te vinden is; maar, vreemd genoeg, gebruikt iedereen het. Als je Word documenten wil beheren, kun je ze in een Git repository stoppen en eens in de zoveel tijd committen; maar waar is dat goed voor? Als je `git diff` op een normale manier uitvoert, zie je alleen zoiets als dit:
 
 	$ git diff 
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
 
-You can’t directly compare two versions unless you check them out and scan them manually, right? It turns out you can do this fairly well using Git attributes. Put the following line in your `.gitattributes` file:
+Je kunt twee versies niet direct vergelijken, tenzij je ze uitchecked en ze handmatig doorloopt, toch? Het blijkt dat je dit redelijk goed kunt doen door Git attributen te gebruiken. Stop de volgende regel in je `.gitattributes` bestand:
 
 	*.doc diff=word
 
-This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:
+Dit verteld Git dat ieder bestand dat dit patroon past (.doc) het "word" filter zou moeten gebruiken als je een diff probeert te bekijken, die veranderingen bevat. Wat is het "word" filter? Je zult het moeten instellen. Hier zul je Git configureren om het `strings` programma te gebruiken om Word documenten in leesbare tekstbestanden om te vormen, die het dan fatsoenlijk kan diff'en:
 
 	$ git config diff.word.textconv strings
 
-Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
+Nu weet Git dat als het een diff probeert te doen tussen twee snapshots, en een van de bestanden eindigt in `.doc`, dan zou het deze bestanden door het "word" filter moeten halen, wat is gedefinieerd als het `strings` programma. Dit maakt effectief twee tekst-gebaseerde versies van je Word bestanden, alvorens ze proberen te diff'en.
 
-Here’s an example. I put Chapter 1 of this book into Git, added some text to a paragraph, and saved the document. Then, I ran `git diff` to see what changed:
+Hier is een voorbeeld. Ik heb Hoofdstuk 1 van dit boek in Git gestopt, wat tekst aan een paragraaf toegevoegd, en het document bewaard. Daarna heb ik `git diff` uitgevoerd om te zien wat er gewijzigd is:
 
 	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
@@ -341,14 +341,14 @@ Here’s an example. I put Chapter 1 of this book into Git, added some text to a
 	+s going on, modify stuff and contribute changes. If the book spontaneously 
 	+Let's see if this works.
 
-Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
+Git verteld me succesvol en beknopt dat ik de tekst "Let's see if this works" heb toegevoegd, wat correct is. Het is niet perfect – het voegt een serie willekeurig spul aan het einde toe – maar het werkt wel. Als je een Word-naar-gewone-tekst omvormer kunt vinden of schrijven die goed genoeg werkt, dan zal die oplossing waarschijnlijk zeer effectief zijn. Maar, `strings` is op de meeste Mac en Linux machines beschikbaar, dus dit kan een goede eerste poging zijn om dit te gebruiken bij andere binaire formaten.
 
-Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
+Een ander interessant probleem dat je hiermee kunt oplossen in het diff'en van beeldbestanden. Een manier om dit te doen is JPEG bestanden door een filter te halen dat hun EXIF informatie eruit peutert – metadata die wordt opgeslagen met de meeste beeldbestanden. Als je het `exiftool` programma download en installeert, kun je het gebruiken om je plaatjes naar tekst over de metadata om te zetten, zodat de diff op z'n minst een tekstuele representatie van eventuele wijzigingen laat zien:
 
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
 
-If you replace an image in your project and run `git diff`, you see something like this:
+Als je een plaatje in je project veranderd en `git diff` uitvoert, dan zie je zoiets als dit:
 
 	diff --git a/image.png b/image.png
 	index 88839c4..4afcb7c 100644
@@ -369,63 +369,63 @@ If you replace an image in your project and run `git diff`, you see something li
 	 Bit Depth                       : 8
 	 Color Type                      : RGB with Alpha
 
-You can easily see that the file size and image dimensions have both changed.
+Je kunt eenvoudig zien dat zowel de bestandsgrootte als de beeld dimensies gewijzigd zijn.
 
-### Keyword Expansion ###
+### Keyword Expansie ###
 
-SVN- or CVS-style keyword expansion is often requested by developers used to those systems. The main problem with this in Git is that you can’t modify a file with information about the commit after you’ve committed, because Git checksums the file first. However, you can inject text into a file when it’s checked out and remove it again before it’s added to a commit. Git attributes offers you two ways to do this.
+Keyword expansie zoals in SVN of CVS wordt vaak gevraagd door ontwikkelaars, die gewend zijn aan die systemen. Het grote probleem in Git is dat je een bestand niet mag wijzigen met informatie over de commit, nadat je het gecommit hebt, omdat Git eerst de checksum van het bestand maakt. Maar, je kunt tekst in een bestand injecteren zodra het uitgechecked wordt en opnieuw verwijderen voordat het aan een commit toegevoegd wordt. Met Git attributen zijn er twee manieren om dit te doen.
 
-First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the file automatically. If you set this attribute on a file or set of files, then the next time you check out that branch, Git will replace that field with the SHA-1 of the blob. It’s important to notice that it isn’t the SHA of the commit, but of the blob itself:
+Als eerste kun je de SHA-1 checksum van een blob automatisch in een `$Id$` veld in het bestand stoppen. Als je dit attribuut op een bestand of serie bestanden insteld, dan zal Git de volgende keer dat je die branch uitchecked dat veld vervangen met de SHA-1 van de blob. Het is belangrijk om op te merken dat het niet de SHA van de commit is, maar van de blob zelf:
 
 	$ echo '*.txt ident' >> .gitattributes
 	$ echo '$Id$' > test.txt
 
-The next time you check out this file, Git injects the SHA of the blob:
+De volgende keer dat je dit bestand uitchecked, injecteerd Git de SHA van de blob:
 
 	$ rm text.txt
 	$ git checkout -- text.txt
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
+Maar, het resultaat is slechts beperkt bruikbaar. Als je sleutelwoord vervanging in CVS of Subversion gebruikt hebt, kun je een tijdsstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of een SHA ouder of nieuwer is dan een andere.
 
-It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
+Het blijkt dat je je eigen filters voor het doen van vervanging bij commit/checkout kunt schrijven. Dit zijn de "clean" en "smudge" filters. In het `.gitattributes` bestand, kun je een filter op bepaalde paden instellen en dan scripts instellen die bestanden bewerkt vlak voordat ze gecommit worden ("clea", zie Figuur 7-2) en vlak voordat ze uitgechecked worden ("smudge", zie Figuur 7-3). De filters kunnen ingesteld worden zodat ze allerlei leuke dingen doen.
 
 Insert 18333fig0702.png 
-Figure 7-2. The “smudge” filter is run on checkout.
+Figuur 7-2. Het “smudge” filter wordt bij checkout uitgevoerd.
 
 Insert 18333fig0703.png 
-Figure 7-3. The “clean” filter is run when files are staged.
+Figuur 7-3. Het “clean” filter wordt uitgevoerd zodra bestanden worden gestaged.
 
-The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
+De originele commit boodschap voor deze functionaliteit geeft een eenvoudig voorbeeld hoe je al je C broncode door het `indent` programma kunt halen alvorens te committen. Je kunt het instellen door het filter attribuut in je `.gitattributes` bestand te veranderen zodat `*.c` bestanden door het "inden" filter gehaald worden:
 
 	*.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+Vervolgens vertel je Git wat het "indent" filter doet bij smudge en clean:
 
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
 
-In this case, when you commit files that match `*.c`, Git will run them through the indent program before it commits them and then run them through the `cat` program before it checks them back out onto disk. The `cat` program is basically a no-op: it spits out the same data that it gets in. This combination effectively filters all C source code files through `indent` before committing.
+In dit geval zal Git, als je bestanden commit die op `*.c` passen, ze door het indent programma halen alvorens ze te committen, en ze door het `cat` programma halen alvorens ze op de schijf uit te checken. Het `cat` programma is eigenlijk een no-op: het spuugt dezelfde gegevens uit als dat het inneemt. Deze combinatie zal effectief alle C broncode bestanden door `indent` filteren alvorens te committen.
 
-Another interesting example gets `$Date$` keyword expansion, RCS style. To do this properly, you need a small script that takes a filename, figures out the last commit date for this project, and inserts the date into the file. Here is a small Ruby script that does that:
+Een ander interessant voorbeeld is `$Date$` sleutelwoord expansie, in RCS stijl. Om dit goed te doen, moet je een klein script hebben dat een bestandsnaam pakt, de laatste commit datum voor dit project uitvogelt, en de datum in een bestand toevoegt. Hier volgt een klein Ruby script dat dat doet:
 
 	#! /usr/bin/env ruby
 	data = STDIN.read
 	last_date = `git log --pretty=format:"%ad" -1`
 	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
-All the script does is get the latest commit date from the `git log` command, stick that into any `$Date$` strings it sees in stdin, and print the results — it should be simple to do in whatever language you’re most comfortable in. You can name this file `expand_date` and put it in your path. Now, you need to set up a filter in Git (call it `dater`) and tell it to use your `expand_date` filter to smudge the files on checkout. You’ll use a Perl expression to clean that up on commit:
+Het enige dat het script doet is de laatste commit datum uit het `git log` commando halen, het in iedere `$Date$` tekst stoppen die het in stdin ziet, en de resultaten afdrukken – het moet eenvoudig te doen zijn in welke taal je je ook thuisvoelt. Je kunt dit bestand `expand_date` noemen en het in je pad stoppen. Nu moet je een filter in Git instellen (noem het `dater`), en het vertellen je `expand_date` filter te gebruiken om de bestanden tijdens checkout te 'smudgen'. Je zult een Perl expressie gebruiken om dat op te ruimen tijdens een commit:
 
 	$ git config filter.dater.smudge expand_date
 	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
-This Perl snippet strips out anything it sees in a `$Date$` string, to get back to where you started. Now that your filter is ready, you can test it by setting up a file with your `$Date$` keyword and then setting up a Git attribute for that file that engages the new filter:
+Dit Perl stukje haalt alles weg dat het in en `$Date$` tekst ziet, om terug te komen vanwaar je gekomen bent. Nu je filter klaar is, kun je het testen door een bestand aan te maken met je `$Date$` sleutelwoord en dan een Git attribuut voor dat bestand in te stellen, die het nieuwe filter gebruikt.
 
 	$ echo '# $Date$' > date_test.txt
 	$ echo 'date*.txt filter=dater' >> .gitattributes
 
-If you commit those changes and check out the file again, you see the keyword properly substituted:
+Als je die veranderingen commit en het bestand opnieuw uitchecked, zul je zien dat het sleutelwoord vervangen is:
 
 	$ git add date_test.txt .gitattributes
 	$ git commit -m "Testing date expansion in Git"
@@ -434,87 +434,87 @@ If you commit those changes and check out the file again, you see the keyword pr
 	$ cat date_test.txt
 	# $Date: Tue Apr 21 07:26:52 2009 -0700$
 
-You can see how powerful this technique can be for customized applications. You have to be careful, though, because the `.gitattributes` file is committed and passed around with the project but the driver (in this case, `dater`) isn’t; so, it won’t work everywhere. When you design these filters, they should be able to fail gracefully and have the project still work properly.
+Je kunt wel zien hoe krachtig deze techniek is voor gebruik in eigengemaakte toepassingen. Je moet wel voorzichtig zijn, om dat het `.gitattributes` bestand ook gecommit wordt en meegestuurd wordt met het project, maar het filter (in dit geval `dater`) niet; dus het zal niet overal werken. Als je deze filters ontwerpt, zouden ze in staat moeten zijn om netjes te falen en het project nog steeds goed te laten werken.
 
-### Exporting Your Repository ###
+### Je Repository Exporteren ###
 
-Git attribute data also allows you to do some interesting things when exporting an archive of your project.
+De Git attribute gegevens staan je ook toe om interessante dingen te doen als je een archief van je project exporteerd.
 
 #### export-ignore ####
 
-You can tell Git not to export certain files or directories when generating an archive. If there is a subdirectory or file that you don’t want to include in your archive file but that you do want checked into your project, you can determine those files via the `export-ignore` attribute.
+Je kunt Git vertellen dat sommige bestanden of mappen niet geëxporteerd moeten worden als een archief gegenereerd wordt. Als er een submap of bestand is waarvan je niet wil dat het wordt meegenomen in je archief bestand, maar dat je wel in je project ingechecked wil hebben, dan kun je die bestanden bepalen met behulp van het `export-ignore` attribuut.
 
-For example, say you have some test files in a `test/` subdirectory, and it doesn’t make sense to include them in the tarball export of your project. You can add the following line to your Git attributes file:
+Bijvoorbeeld, stel dat je wat testbestanden in een `test/` submap hebt, en dat het geen zin heeft om die in de tarball export van je project mee te nemen. Je kunt dan de volgende regel in je Git attributes bestand toevoegen:
 
 	test/ export-ignore
 
-Now, when you run git archive to create a tarball of your project, that directory won’t be included in the archive.
+Als je nu git archive uitvoert om een tarball van je project te maken, zal die map niet meegenomen worden in het archief.
 
 #### export-subst ####
 
-Another thing you can do for your archives is some simple keyword substitution. Git lets you put the string `$Format:$` in any file with any of the `--pretty=format` formatting shortcodes, many of which you saw in Chapter 2. For instance, if you want to include a file named `LAST_COMMIT` in your project, and the last commit date was automatically injected into it when `git archive` ran, you can set up the file like this:
+Iets anders dat je kunt doen met je archieven is eenvoudige sleutelwoord vervanging. Git staat je toe om de tekst `$Format:$` in ieder bestand met ieder van de `--pretty=format` formaat afkortingen te zetten, waarvan je er al veel zag in Hoofdstuk 2. Bijvoorbeeld, als je een bestand genaamd `LAST_COMMIT` wilt meenemen in je project, en de laatste commit datum was hierin automatisch geinjecteerd toen `git archive` bezig was, kun je het bestand als volgt instellen:
 
 	$ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
 	$ echo "LAST_COMMIT export-subst" >> .gitattributes
 	$ git add LAST_COMMIT .gitattributes
 	$ git commit -am 'adding LAST_COMMIT file for archives'
 
-When you run `git archive`, the contents of that file when people open the archive file will look like this:
+Als je `git archive` uitvoert, zal de inhoud van dat bestand als mensen het archief bestand openen er zo uit zien:
 
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Merge Strategies ###
+### Samenvoeg Strategieën ###
 
-You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
+Je kunt Git attributen ook gebruiken om Git te vertellen dat het verschillende samenvoeg strategieën moet gebruiken voor specifieke bestanden in je project. Een erg handige optie is Git te vertellen dat het niet moet proberen bepaalde bestanden samen te voegen als ze conflicten hebben, maar jouw versie moeten gebruiken in plaats van andermans versie.
 
-This is helpful if a branch in your project has diverged or is specialized, but you want to be able to merge changes back in from it, and you want to ignore certain files. Say you have a database settings file called database.xml that is different in two branches, and you want to merge in your other branch without messing up the database file. You can set up an attribute like this:
+Dit is handig als een branch in je project af is geweken of gespecialiseerd is, maar je in staat wil zijn om veranderingen daarvan terug samen te voegen, en je wilt bepaalde bestanden negeren. Stel dat je een gegevensbank instellingen bestand hebt dat database.xml heet en dat in twee branches verschillend is, en je wilt in je andere branch samenvoegen zonder het gegevensbank bestand te verprutsen. Je kunt dan een attribuut als volgt instellen:
 
 	database.xml merge=ours
 
-If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
+Als je in de andere branch samenvoegt, dan zul je in plaats van samenvoeg conflicten met je database.xml bestand zoiets als dit zien:
 
 	$ git merge topic
 	Auto-merging database.xml
 	Merge made by recursive.
 
-In this case, database.xml stays at whatever version you originally had.
+In dit geval blijft database.xml staan op welke versie je origineel ook had.
 
-## Git Hooks ##
+## Git Haken ##
 
-Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
+Zoals vele andere Versie Beheer Systemen, heeft Git een manier om eigengemaakte scripts op te starten wanneer bepaalde belangrijke akties voorkomen. Er zijn twee groepen van dit soort haken: aan de client kant en aan de server kant. De haken aan de client kant zijn voor client operaties zoasl committen en samenvoegen. De haken voor de server kant zijn voor Git server operaties zoals het ontvangen van gepushte commits. Je kunt deze haken om allerlei redenen gebruiken, en je zult hier over een aantal ervan leren.
 
-### Installing a Hook ###
+### Een Haak Installeren ###
 
-The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
+De haken worden allemaal opgeslagen in de `hooks` submap van de Git map. In de meeste projecten is dat `.git/hooks`. Standaard voorziet Git deze map van een aantal voorbeeld scripts, waarvan de meeste al bruikbaar zijn; maar ze documenteren ook de invoer waarden van ieder script. Alle scripts zijn als shell script geschreven, met hier en daar wat Perl, maar iedere executable met de juiste naam zal prima werken – je kunt ze in Ruby of Python of wat je wil schrijven. Voor Git versies later dan 1.6, eindigen deze haak bestanden met .sample; je zult ze van naam moeten veranderen. Voor eerdere versies van Git, zijn de scripts al van de juiste naam voorzien, maar je moet ze nog uitvoerbaar maken.
 
-To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
+Om een haak script aan te zetten, stop je een bestand met de juiste naam en dat uitvoerbaar is in de `hooks` map van je Git map. Vanaf dat punt zou het aangeroepen moeten worden. Ik zal de meestgebruikte haak bestandsnamen hier behandelen.
 
-### Client-Side Hooks ###
+### Client-Kan Haken ###
 
-There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail–workflow scripts, and the rest of the client-side scripts.
+Er zijn veel client-kant haken. Deze sectie verdeeld ze in commit-werwijze haken, e-mail-werkwijze scripts, en de rest van de client-kant scripts
 
-#### Committing-Workflow Hooks ####
+#### Commit-Werkwijze Haken ####
 
-The first four hooks have to do with the committing process. The `pre-commit` hook is run first, before you even type in a commit message. It’s used to inspect the snapshot that’s about to be committed, to see if you’ve forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Exiting non-zero from this hook aborts the commit, although you can bypass it with `git commit --no-verify`. You can do things like check for code style (run lint or something equivalent), check for trailing whitespace (the default hook does exactly that), or check for appropriate documentation on new methods.
+De eerste vier haken hebben te maken met het commit proces. De `pre-commit` haak wordt eerst uitgevoerd, nog voor je een commit boodschap intyped. Het wordt gebruikt om het snapshot dat op het punt staat gecommit te worden te inspecteren, om te zien of je iets bent vergeten, om er zeker van te zijn dat tests uitgevoerd worden, of om te onderzoeken wat je wilt in de code. Deze haak met een waarde anders dan nul afsluiten breekt de commit af, alhoewel je 'm kunt omzeilen met `git commit --no-verify`. Je kunt dingen doen als op code stijl controleren (voer lint of iets dergelijks uit), op aanhangende spaties controleren (de standaard haak doet dat), of om de juiste documentatie op nieuwe functies te controleren.
 
-The `prepare-commit-msg` hook is run before the commit message editor is fired up but after the default message is created. It lets you edit the default message before the commit author sees it. This hook takes a few options: the path to the file that holds the commit message so far, the type of commit, and the commit SHA-1 if this is an amended commit. This hook generally isn’t useful for normal commits; rather, it’s good for commits where the default message is auto-generated, such as templated commit messages, merge commits, squashed commits, and amended commits. You may use it in conjunction with a commit template to programmatically insert information.
+De `prepare-commit-msg` haak wordt uitgevoerd voordat de commit boodschap editor gestart wordt, maar nadat de standaard boodschap aangemaakt is. Het stelt je in staat om de standaard boodschap aan te passen voordat de commit auteur het ziet. Deze haak accepteerd een aantal opties: het pad naar het bestand dat de huidige commit boodschap bevat, het type van de commit, en de SHA-1 van de commit als het een verbeterde commit betreft. Deze haak is voor normale commits niet zo bruikbaar; maar, het is goed voor commits waarbij de standaard boodschap automatisch gegenereerd wordt, zoals sjabloon commit boodschappen, samenvoeg commits, gesquashte commits en verbeterde commits. Je mag het samen met een commit sjabloon gebruiken om informatie in te voegen.
 
-The `commit-msg` hook takes one parameter, which again is the path to a temporary file that contains the current commit message. If this script exits non-zero, Git aborts the commit process, so you can use it to validate your project state or commit message before allowing a commit to go through. In the last section of this chapter, I’ll demonstrate using this hook to check that your commit message is conformant to a required pattern.
+De `commit-msg` hook accepteerd één parameter, wat weer het pad naar een tijdelijk bestand is dat de huidige commit boodschap bevat. Als dit script eindigt met een waarde anders dan nul, dan zal Git het commit proces afbreken, dus je kunt het gebruiken om je project-status of de commit boodschap te valideren alvorens een commit toe te staan. In het laatste gedeelte van dit hoofdstuk, zal ik deze haak demonstreren om te controleren of je commit boodschap aan een bepaald patroon voldoet.
 
-After the entire commit process is completed, the `post-commit` hook runs. It doesn’t take any parameters, but you can easily get the last commit by running `git log -1 HEAD`. Generally, this script is used for notification or something similar.
+Nadat het hele commit proces afgerond is, zal de `post-commit` haak uitgevoerd worden. Het accepteerd geen parameters, maar je kunt de laatste commit eenvoudig ophalen door `git log -1 HEAD` uit te voeren. Over het algemeen wordt dit script gebruikt om notificaties of iets dergelijks uit te sturen.
 
-The committing-workflow client-side scripts can be used in just about any workflow. They’re often used to enforce certain policies, although it’s important to note that these scripts aren’t transferred during a clone. You can enforce policy on the server side to reject pushes of commits that don’t conform to some policy, but it’s entirely up to the developer to use these scripts on the client side. So, these are scripts to help developers, and they must be set up and maintained by them, although they can be overridden or modified by them at any time.
+De commit-werkwijze client-kant scripts kunnen gebruikt worden in vrijwel iedere werkwijze. Ze worden vaak gebruikt om een bepaald beleid af te dwingen, maar het is belangrijk om te weten dat deze scripts niet overgedragen worden tijdens een clone. Je kunt beleid afdwingen op de server kant om pushes of commits te weigeren, die niet voldoen aan een bepaald beleid, maar het is aan de ontwikkelaar om deze scripts aan de client kant te gebruiken. Dus, deze scripts zijn er om ontwikkelaars te helpen, en ze moeten door hen ingesteld en onderhouden worden, alhoewel ze aangepast of omzeilt kunnen worden op ieder tijdstip.
 
-#### E-mail Workflow Hooks ####
+#### E-mail Workwijze Haken ####
 
-You can set up three client-side hooks for an e-mail–based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
+Je kunt drie client kant haken instellen voor een e-mail gebaseerde werkwijze. Ze worden allemaal aangeroepen door het `git am` commando, dus als je dat commndo niet gebruikt in je werkwijze, dan kun je veilig doorgaan naar de volgende sectie. Als je patches aanneemt via e-mail, die door `git format-patch` geprepareerd zijn, dan zullen sommige van deze behulpzaam zijn voor je.
 
-The first hook that is run is `applypatch-msg`. It takes a single argument: the name of the temporary file that contains the proposed commit message. Git aborts the patch if this script exits non-zero. You can use this to make sure a commit message is properly formatted or to normalize the message by having the script edit it in place.
+De eerste haak die uitgevoerd wordt is `applypatch-msg`. Het accepteerd een enkel argument: de naam van het tijdelijke bestand dat de voorgestelde commit boodschap bevat. Git breekt de patch als dit script met een waarde ongelijk aan nul eindigt. Je kunt dit gebruiken om er zeker van te zijn dat een commit boodschap juist geformateerd is, of om de boodschap te normaliseren door het script de boodschap aan te laten passen.
 
-The next hook to run when applying patches via `git am` is `pre-applypatch`. It takes no arguments and is run after the patch is applied, so you can use it to inspect the snapshot before making the commit. You can run tests or otherwise inspect the working tree with this script. If something is missing or the tests don’t pass, exiting non-zero also aborts the `git am` script without committing the patch.
+De volgende haak die wordt uitgevoerd tijdens het toepassen van patches via `git am` is `pre-applypatch`. Dit neemt geen argumenten aan en wordt uitgevoerd nadat de patch is toegepast, zodat je het kunt gebruiken om het snapshot te inspecteren alvorens de commit te doen. Je kunt tests uitvoeren of de werkmap op een andere manier inspecteren met behulp van dit script. Als er iets mist of één van de tests faalt, dan zal eindigen met niet nul het `git am` script afbreken zonder de patch te committen.
 
-The last hook to run during a `git am` operation is `post-applypatch`. You can use it to notify a group or the author of the patch you pulled in that you’ve done so. You can’t stop the patching process with this script.
+De laatste haak die uitgevoerd wordt tijdens een `git am` operatie is de `post-applypatch`. Je kunt dat gebruiken om een groep te notificeren of de auteur van de patch die je zojuist gepulled hebt. Je kunt het patch proces niet stoppen met behulp van dit script. 
 
 #### Other Client Hooks ####
 

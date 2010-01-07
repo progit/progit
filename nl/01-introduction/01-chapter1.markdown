@@ -1,6 +1,6 @@
 # Aan de Slag #
 
-Dit hoofdstuk leg ik uit je hoe je aan de slag kunt gaan met Git.  We zullen aan het begin beginnen: je krijgt een beetje achtergrondinformatie over versiebeheersystemen, daarna een korte uitleg hoe je Git werkend kan krijgen op je computer en hoe je het kan instellen zodat je ermee aan het werk kunt.  Aan het einde van dit hoofdstuk zou je moeten kunnen begrijpen waarom Git er is, waarom je het nodig is en zal alles zo ingesteld staan dat dat ook kan.
+Dit hoofdstuk leg ik uit je hoe je aan de slag kunt gaan met Git.  We zullen aan het begin beginnen: je krijgt een beetje achtergrondinformatie over versiebeheersystemen, daarna een korte uitleg hoe je Git werkend kan krijgen op je computer en hoe je het kan instellen zodat je ermee aan het werk kunt.  Aan het einde van dit hoofdstuk zou je moeten kunnen begrijpen waarom Git er is, waarom je het nodig hebt en zal alles zo ingesteld staan dat dat ook kan.
 
 ## Het Wat en Waarom van Versiebeheer ##
 
@@ -10,9 +10,9 @@ Als je een grafisch ontwerper bent of websites maakt, en elke versie van een afb
 
 ### Lokale Versiebeheersystemen ###
 
-Veel mensen hebben hun eigen versiebeheer methode: ze kopiëren bestanden naar een andere map (en als ze slim zijn, geven ze die map ook een datum). Deze methode wordt veel gebruikt omdat het zo simpel is, maar het is ook ongelovelijk foutgevoelig. Het is makkelijk te vergeten in welke map je zit, en naar het verkeerde bestand te schrijven, of over bestanden heen te kopiëren waar je dat niet wou.
+Veel mensen hebben hun eigen versiebeheer methode: ze kopiëren bestanden naar een andere map (en als ze slim zijn, geven ze die map ook een datum). Deze methode wordt veel gebruikt omdat het zo simpel is, maar het is ook ongelofelijk foutgevoelig. Het is makkelijk te vergeten in welke map je zit en naar het verkeerde bestand te schrijven, of over bestanden heen te kopiëren waar je dat niet wou.
 
-Om met dit probleem om te gaan, hebben programmeurs lang geleden lokale VCSen ontwikkeld die een simpele database hadden die alle veranderingen aan bestandend beheerden (zie Figuur 1-1).
+Om met dit probleem om te gaan, hebben programmeurs lang geleden lokale VCSen ontwikkeld die een simpele database hadden die alle veranderingen aan bestanden beheerden (zie Figuur 1-1).
 
 Insert 18333fig0101.png 
 Figuur 1-1. Een diagram van een lokaal versiebeheersysteem.
@@ -21,18 +21,18 @@ Een populair gereedschap voor VCS was een systeem genaamd rcs, wat vandaag de da
 
 ### Gecentraliseerde Versiebeheersystemen ###
 
-Het volgende grote probleem waar mensen tegenaan lopen is dat ze samen moeten werken met ontwikkelaars op andere computers. Om dit probleem op te lossen ontwikkelden ze Gecentraliseerde Versiebeheersystemen (CVCSen). Deze systemen, zoals CVS, Subversion en Perforce, hebben één centrale server waarop alle versies van de bestanden staan, en een aantal clients die de bestanden daarvandaan halen (‘check out’, in het Engels). Vele jaren was dit de standaard voor versiebeheer (zie Figuur 1-2).
+Het volgende grote probleem waar mensen tegenaan lopen is dat ze samen moeten werken met ontwikkelaars op andere computers. Om dit probleem op te lossen ontwikkelden ze geCentraliseerde Versiebeheersystemen (CVCSen). Deze systemen, zoals CVS, Subversion en Perforce, hebben één centrale server waarop alle versies van de bestanden staan, en een aantal clients die de bestanden daarvandaan halen (‘check out’, in het Engels). Vele jaren was dit de standaard voor versiebeheer (zie Figuur 1-2).
 
 Insert 18333fig0102.png 
 Figuur 1-2. Een diagram van een gecentraliseerd versiebeheersysteem.
 
-Deze manier van versiebeheer bied veel voordelen, vooral als je het vergelijkt met lokale VCSen. Bijvoorbeeld, iedereen weet tot op een bepaalde hoogte wat de rest die aan het project werken aan het doen zijn. Beheerders hebben precieze controle over wie wat kan doen; en het is veel eenvoudiger om een CVCS te beheren dan te moeten werken met lokale databases voor elke client.
+Deze manier van versiebeheer biedt veel voordelen, vooral als je het vergelijkt met lokale VCSen. Bijvoorbeeld, iedereen weet tot op een bepaalde hoogte wat de rest die aan het project werken aan het doen is. Beheerders hebben precieze controle over wie wat kan doen; en het is veel eenvoudiger om een CVCS te beheren dan te moeten werken met lokale databases voor elke client.
 
 Maar helaas, deze methode heeft ook behoorlijke nadelen. De duidelijkste is het ‘single point of failure’: als de centrale server neergaat en een uur later weer terug komt, kan niemand in dat uur samenwerken, of versies bewaren van de dingen waar ze aan werken. Als de harde schrijf waar de centrale database op staat corrupt raakt, en er geen backups van zijn, verlies je echt alles — de hele geschiedenis van het project, behalve het momentopname mensen op hun eigen computers hebben staan. Lokale VCSen hebben hetzelfde probleem — als je de hele geschiedenis van het project op één enkele plaats bewaard, loop je ook kans alles te verliezen.
 
 ### Gedistribueerde Versiebeheersystemen ###
 
-En hier verschijnen Gedistribueerde Versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar of Darcs), downloaden clients niet alleen de laatste momentopnames van de bestanden: de hele geschiedenis (het ‘repository’) wordt gekopiërd. Dus als een server neergaat, en deze systemen werkten via die server samen, kan de kopie van elke willekeurige kopie client terug worden gekopiëerd naar de server om het te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
+En hier verschijnen Gedistribueerde Versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar en Darcs), downloaden clients niet alleen de laatste momentopnames van de bestanden: de hele geschiedenis (het ‘repository’) wordt gekopiërd. Dus als een server neergaat, en deze systemen werkten via die server samen, kan de kopie van elke willekeurige kopie client terug worden gekopiëerd naar de server om het te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
 
 Insert 18333fig0103.png 
 Figuur 1-3. Diagram van een gedistribueerd versiebeheersysteem
@@ -51,7 +51,7 @@ In 2005 viel de relatie tussen de gemeenschap die de Linuxkernel ontwikkelde en 
 *	Volledig gedistribueerd
 *	In staat om efficient om te gaan met grote projecten als Linux efficiënt (zowel in snelheid als geheugenruimte)
 
-Sinds zijn geboorte in 2005 is Git gegroeid tot zijn huidige vorm: het is gemakkelijk te gebruiken en heeft toch die oorspronkelijke eigenschappen behouden. Het is ongelofelijk snel, enorm efficiënt met grote projecten, en zijn systeem voor aparte takken (‘branches’) van niet-lineaire ontwikkeling is ongeëvenaard (zie Hoofdstuk 3).
+Sinds het ontstaan in 2005 is Git gegroeid tot zijn huidige vorm: het is eenvoudig te gebruiken en heeft toch die oorspronkelijke eigenschappen behouden. Het is ongelofelijk snel, enorm efficiënt met grote projecten, en zijn systeem voor aparte takken (‘branches’) van niet-lineaire ontwikkeling is ongeëvenaard (zie Hoofdstuk 3).
 
 ## De Basis van Git ##
 
@@ -64,7 +64,7 @@ Een groot verschil tussen Git en elke andere VCS (inclusief Subversion en consor
 Insert 18333fig0104.png 
 Figuur 1-4. Andere systemen bewaren data meestal als veranderingen aan een basisversie van elk bestand.
 
-Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandsysteem. Elke keer dat je ‘commit’, de status van van je project in Git opslaat, neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie Git ongewijzigde bestanden niet elke keer opnieuw op—alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
+Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandsysteem. Elke keer dat je ‘commit’, de status van van je project in Git opslaat, neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie slaat Git ongewijzigde bestanden niet elke keer opnieuw op — alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
 
 Insert 18333fig0105.png 
 Figuur 1-5. Git bewaart data als momentopnames van het project.
@@ -73,17 +73,17 @@ Dat is een belangrijk verschil tussen Git en bijna alle VCSen. Hierdoor vindt Gi
 
 ### Bijna Alles Is Lokaal ###
 
-De meeste handelingen in Git hebben alleen lokale bestanden en bronnen nodig om te werken – normaal gesproken is geen informatie nodig van een andere computer in je netwerk. Als je gewent bent aan een CVCS, waar de meeste handelingen vertraagd worden door het netwerk, lijkt Git een geschenk van de snelheidsgoden. Omdat je de hele geschiedenis van het project op je lokale harde schijf hebt staan, lijken de meeste acties geen tijd in beslag te nemen.
+De meeste handelingen in Git hebben alleen lokale bestanden en bronnen nodig om te werken – normaal gesproken is geen informatie nodig van een andere computer in je netwerk. Als je gewend bent aan een CVCS, waar de meeste handelingen vertraagd worden door het netwerk, lijkt Git een geschenk van de snelheidsgoden. Omdat je de hele geschiedenis van het project op je lokale harde schijf hebt staan, lijken de meeste acties geen tijd in beslag te nemen.
 
-Een voorbeeld: Git hoeft niet aan een of andere server de geschiedenis van je project te vragen als je de die wilt doorbladeren – het leest simpelweg jou lokale database. Dat betekend dat je de geschiedenis bijna direct krijgt te zien. Als je de veranderingen wilt zien tussen de huidige versie van een bestand en de versie van een maand geleden, kan Git het bestand van een maand geleden opzoeken, en de lokale verschillen berekenen, in plaats van aan een niet-lokale server te moeten vragen om het te doen, of de oudere versie van het bestand ophalen om het lokaal te doen.
+Een voorbeeld: Git hoeft niet aan een of andere server de geschiedenis van je project te vragen als je de die wilt doorbladeren – het leest simpelweg jouw lokale database. Dat betekent dat je de geschiedenis bijna direct te zien krijgt. Als je de veranderingen wilt zien tussen de huidige versie van een bestand en de versie van een maand geleden, kan Git het bestand van een maand geleden opzoeken, en de lokale verschillen berekenen, in plaats van aan een niet-lokale server te moeten vragen om het te doen, of de oudere versie van het bestand ophalen om het lokaal te doen.
 
-Dat betekend dat er maar heel weinig is dat je niet kan doen als je offline bent of zonder VPN zit. Als je in een vliegtuig of trein zit, en je wilt nog even een beetje werken, kan je vrolijk doorgaan met commits maken tot je een netwerkverbinding krijgt, zodat je je werk kan uploaden. Als je naar huis gaat, en je VPN client niet aan de praat kan krijgen, kan je nog steeds doorwerken. Bij veel andere systemen is dat of onmogelijk, of anders zeer onaangenaam. Als je bijvoorbeeld Perforce gebruikt, kan je niet zo veel doen als je niet verbonden bent met de server; en met Subversion en CVS kan je bestanden bewerken, maar je kan geen commits maken voor je database (omdat die offline is). Dat lijkt misschien niet zo belangrijk, maar je zal nog versteld staan wat een verschil het kan maken.
+Dit betekent dat er maar heel weinig is dat je niet kan doen als je offline bent of zonder VPN zit. Als je in een vliegtuig of trein zit, en je wilt nog even een beetje werken, kan je vrolijk doorgaan met commits maken tot je een netwerkverbinding krijgt, zodat je je werk kan uploaden. Als je naar huis gaat, en je VPN client niet aan de praat kan krijgen, kan je nog steeds doorwerken. Bij veel andere systemen is dat of onmogelijk, of anders zeer onaangenaam. Als je bijvoorbeeld Perforce gebruikt, kan je niet zo veel doen als je niet verbonden bent met de server; en met Subversion en CVS kan je bestanden bewerken, maar je kan geen commits maken voor je database (omdat die offline is). Dat lijkt misschien niet zo belangrijk, maar je zal nog versteld staan wat een verschil het kan maken.
 
 ### Git Is Integer ###
 
-Git maakt een controlegetal (‘checksum’) van alles voordat het wordt opgeslaten, en er wordt later naar die data verwezen met dat controlegetal. Dat betekent dat het onmogelijk is om de inhoud van een bestand of map te veranderen zonder dat Git ervanaf weet. Deze functionaliteit is ingebouwd in de diepste diepten van Git en staat centraal in zijn filosofie. Je kan geen informatie kwijtraken als het wordt verstuurd en bestanden kunnen niet corrupt raken zonder dat Git het doorheeft.
+Git maakt een controlegetal (‘checksum’) van alles voordat het wordt opgeslagen, en er wordt later naar die data verwezen met dit controlegetal. Dat betekent dat het onmogelijk is om de inhoud van een bestand of map te veranderen zonder dat Git er vanaf weet. Deze functionaliteit is ingebouwd in de diepste diepten van Git en staat centraal in zijn filosofie. Je kan geen informatie kwijtraken als het wordt verstuurd en bestanden kunnen niet corrupt raken zonder dat Git het doorheeft.
 
-Het mechanisme dat Git gebruikt voor die controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en berekend met de inhoud van een bestand of mapstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
+Het mechanisme dat Git gebruikt voor deze controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en wordt berekend met de inhoud van een bestand of mapstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
@@ -91,13 +91,13 @@ Je zal deze hashtekenreeksen overal tegenkomen in Git, omdat het er zoveel gebru
 
 ### Git Voegt Normaal Gesproken Alleen Data Toe ###
 
-Wanneer je iets doet in Git, is de kans groot dat het alleen maar data aan de database van Git toevoegt. Het is erg moeilijk om het systeem iets te laten doen wat je niet ongedaan kan maken, of het data uit te laten wissen op wat voor manier dan ook. Zoals met elke VCS kan je veranderingen verliezen of verhaspelen waar je nog geen momentopname van hebt gemaakt; maar als je dat eenmaal hebt gedaan, is het erg moeilijk om die data te verliezen, zeker als je je lokale database regelmatig uploadt (‘push’) naar een ander repository.
+Wanneer je iets doet in Git, is de kans groot dat het alleen maar data aan de database van Git toevoegt. Het is erg moeilijk om het systeem iets te laten doen wat je niet ongedaan kan maken, of het data uit te laten wissen op wat voor manier dan ook. Zoals met elke VCS kan je veranderingen verliezen of verhaspelen waar je nog geen momentopname van hebt gemaakt; maar als je dat eenmaal hebt gedaan, is het erg moeilijk om die data te verliezen, zeker als je je lokale database regelmatig uploadt (‘push’) naar een andere repository.
 
-Je zult nog veel plezier van Git hebben, omdat je weet dat je kun experimenteren zonder het gevaar te lopen jezelf behoorlijk in de nesten te werken. Zie Hoofdstuk 9 voor een iets diepgaandere uitleg over hoe Git zijn data bewaart en hoe je de data die verloren lijkt kan terughalen.
+Je zult nog veel plezier van Git hebben, omdat je weet dat je kunt experimenteren zonder het gevaar te lopen jezelf behoorlijk in de nesten te werken. Zie Hoofdstuk 9 voor een iets diepgaandere uitleg over hoe Git zijn data bewaart en hoe je de data die verloren lijkt kan terughalen.
 
 ### De Drie Toestanden ###
 
-Let nu goed op. Dit is het belangrijkste wat je over Git moet weten als je wilt dat de rest van het leerproces goed verloopt. Git heeft drie hoofdtoestanden waarin je bestanden kunnen zijn: gecommit (‘commited’), aangepast (‘modified’) en voorbereid voor een commit (‘staged’). Gecommit betekent dat alle data al veilig opgeslagen is in je lokale database. Aangepast betekent dat je je bestand hebt veranderd maar dat je nog geen nieuwe momentopname in je database hebt. Voorbereid betekend dat je al hebt aangegeven dat de huidige versie van het aangepaste bestand in je volgende momentopname toevoegt.
+Let nu goed op. Dit is het belangrijkste wat je over Git moet weten als je wilt dat de rest van het leerproces goed verloopt. Git heeft drie hoofdtoestanden waarin je bestanden kunnen zijn: gecommit (‘commited’), aangepast (‘modified’) en voorbereid voor een commit (‘staged’). Gecommit betekent dat alle data al veilig opgeslagen is in je lokale database. Aangepast betekent dat je je bestand hebt veranderd maar dat je nog geen nieuwe momentopname in je database hebt. Voorbereid betekent dat je al hebt aangegeven dat de huidige versie van het aangepaste bestand in je volgende momentopname toevoegt.
 
 Dit brengt ons tot de drie hoofdonderdelen van een Gitproject: de Gitmap, de werkmap, en de wachtrij voor een commit (‘staging area’)
 
@@ -120,7 +120,7 @@ Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd 
 
 ## Git Installeren ##
 
-Laten we eens een beetje Git gebruiken. Je kan natuurlijk niet meteen beginnen — je moet het eerst installeren. Er zijn een aantal manieren om eraan te komen; te belangrijkste twee zijn installeren vanaf broncode, en een bestaand pakket voor jouw platform te gebruiken.
+Laten we eens een beetje Git gebruiken. Je kan natuurlijk niet meteen beginnen — je moet het eerst installeren. Er zijn een aantal manieren om eraan te komen; de belangrijkste twee zijn installeren vanaf broncode, en een bestaand pakket voor jouw platform te gebruiken.
 
 ### Installeren Vanaf de Bron ###
 

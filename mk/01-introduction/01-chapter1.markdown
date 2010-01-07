@@ -55,21 +55,22 @@ Insert 18333fig0103.png
 
 ## Основи на Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Во неколку збора, што е Git? Оваа секција е многу битно да ја разберете, бидејќи ако разберете што е Git и основите како работи, тогаш ефикасното користење на Git веројатно ќе биде многу едноставно за вас. Додека учите за Git, пробајте да ги изолирате работите што евентуално ги знаете за другите VCS, како што е Subversion и Perforce; на тој начин ќе ја избегнете забуната при користењето на алатката. Git ги складира и обработува информациите многу поразлично од другите системи, иако корисничкиот интерфејс е прилично сличен; доколку ги разберете тие разлики ќе ги избегнете забуните при неговото користење.
 
-### Snapshots, Not Differences ###
+### Целосни слики, наместо закрпи ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Најголемата разлика помеѓу Git и било кој друг VCS (Subversion и сл.) е во начинот на кој Git ги обработува податоците. Концептуално, повеќето други системи информациите ги складираат како листа од промени над поединечните датотеки. Тие системи (CVS, Subversion, Perforce, Bazaar итн) информациите ги чуваат како множества од датотеки и промените настанати над тие датотеки со текот на времето, како што е прикажано на Слика 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Слика 1-4. Другите системи чуваат закрпи за секоја датотека.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git не ги третира или чува податоците на тој начин. Наместо тоа, Git податоците ги третира како множества од целосни слики/копии од мини фајлсистем. Секогаш кога сакате да ја зачувате состојбата во која се наоѓа проектот во Git, тој едноставно прави слика од тоа како изгледаат сите датотеки во тој момент и зачувува референца до таа слика. За да биде ефикасен, доколку датотеките не се променети, Git не прави копија од датотеките туку само прави линк до претходно зачуваната идентична датотека.
+Git ги третира податоците како што е прикажано на сликата 1-5.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Слика 1-5. Git ги зачувува податоците како целосни копии од проектот.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Ова е битна разлика помеѓу Git и речиси сите други VCS. Со тоа Git ги преиспитува речиси сите аспекти од системите за контрола на верзиите, за разлика од другите системи кои што едноставно ги копирале од претходните генерации. Тоа го прави Git да личи помалку на мини фајлсистем со извонредно моќни алатки над него, отколку како едноставен VCS. Ќе ги истражиме придобивките од таквото третирање на податоците при обработка на гранањето во Git во Поглавје 3.
 
 ### Nearly Every Operation Is Local ###
 

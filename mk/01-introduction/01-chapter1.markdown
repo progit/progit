@@ -95,36 +95,36 @@ Insert 18333fig0105.png
 
 Тоа го прави користењето на Git вистинско задоволство бидејќи знаеме дека може да експериментираме без притоа да се плашиме дека може да ги уништиме работите. Поде-тално за тоа како Git ги складира податоците и како може да ги реставрирате податоците кои изгледаат дека се загубени погледнете во "Под хаубата" во поглавје 9.
 
-### The Three States ###
+### Трите нивоа ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Сега внимавајте. Ова е главната работа што треба да се запомни за Git доколку сакате понатамошниот процес на учење да ви оди лесно. Git има три нивоа во кои што може да се најдат датотеките: комитувани (committed), променети (modified) и поставени (staged). Комитувани значи дека податоците безбедно се зачувани во локалната база на податоци. Променети значи дека датотеките се променети, меѓутоа сеуште не се комитувани. Поставени (staged) значи дека сте ги маркирале променетите датотеки во нивната тековна состојба да бидат зачувани во следниот комит.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+Тоа не води до главните три секции од еден Git проект: Git папката, работна папка, и сцена (staging area).
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+Слика 1-6. Работна папка, сцена, и git папката.
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git папката е местото каде што Git ги складира мета-податоците и базата на податоци за вашиот проект. Тоа е најзначајниот дел од Git, и тоа е она што се копира кога клонирате репозитори од друг компјутер.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Работната папка е поглед (checkout) на една верзија/состојба од проектот. Датотеките се извлечени од компресираната база на податоци од Git папката и се поставени на хард дискот за да ги користите или менувате.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+Сцена (staging area) е едноставна датотека, обично е сместена во Git папката, и во неа се наоѓаат информации за тоа што ќе оди во следниот комит. Понекогаш за ова се користи терминот индекс (index), но се поприфатен термин е да се нарекува сцена (staging area).
 
-The basic Git workflow goes something like this:
+Вообичаениот начин на работа со Git отприлика изгледа вака:
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	Ги менувате датотеките од вашата локална папка.
+2.	Ги поставувате датотеките на сцена, т.е. се прават слики од нив и се додаваат на сцената (staging area).
+3.	Правите комит, кој што ги зема датотеките како што се поставени на сцената и таа слика перманентно ја зачувува во локалната Git папка.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Ако одредена верзија од датотеката се наоѓа во git папката, тогаш таа се смета за комитувана. Доколку датотеката е променета и ако е додадена на сцена (staging area) тогаш таа се наоѓа во нова состојба - staged. Доколку пак датотеката е променета во однос на тоа кога е направен нов поглед во Git (checkout), и доколку променетата состојба не е додадена на сцена, тогаш датотеката едноставно се наоѓа во состојба која се нарекува променета. Во поглавје 2, ќе научите повеќе за тие состојби и како истите да ги искористите, или пак комплетно да го прескокнете чекорот од додавање на датотеката на сцена.
 
 ## Installing Git ##
 
 Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
 
-### Installing from Source ###
+### Инсталација од изворен код ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Доколку сте во можност, генерално е покорисно да го инсталирате Git од изворен код, бидејќи на тој начин ја добивате најновата верзија. Секоја верзија од Git се труди да вклучи корисни подобрувања во корисничкиот интерфејс, па земајќи ја најновата верзија на Git од изворниот код вообичаено е најдобро доколку се чувствувате спремни да компајлирате софтвер од изворен код. Исто така чест случај е многу Линукс дистрибуции да содржат многу стари пакети; па освен ако ја немате најажурираната дистрибуција, инсталацијата на Git од изворен код е најсигурниот потег.
 
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
@@ -182,11 +182,11 @@ Installing Git on Windows is very easy. The msysGit project has one of the easie
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 
-## First-Time Git Setup ##
+## Прво поставување на Git ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Сега кога го имате Git на вашиот систем, ќе сакате да направите неколку работи за да ја подесите вашата Git околина. Овие работи треба да ги направите само еднаш, и тие ќе си останат такви и после надградбите. Исто така може да ги промените во било кое време извршувајќи соодветни наредби.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git доаѓа со алатка наречена git config која што ви овозможува да прегледате и да ги поставите конфигурациските променливи кои што ги контролираат сите аспекти за тоа како изгледа и како се однесува Git. Тие променливи може да бидат поставени на три различни места:
 
 *	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
@@ -194,14 +194,14 @@ Git comes with a tool called git config that lets you get and set configuration 
 
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
-### Your Identity ###
+### Вашиот идентитет ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Прва работа што треба да ја направите по инсталирањето на Git е да го подесите вашето име и e-mail адреса. Ова е важно затоа што секој Git комит ги користи тие информации, и истите се вградени во секој комит што ќе го направите:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Ова треба да го направите само еднаш доколку како аргумент во наредбата ја користите `--global` опцијата, бидејќи во тој случај Git секогаш ќе ги користи тие информации за сите активности што ги изведувате на тој систем. Доколку за одреден проект сакате да користите поинакво име и e-mail адреса, тогаш повикајте ги наредбите без `--global` опцијата кога се наоѓате во тој проект.
 
 ### Your Editor ###
 
@@ -237,15 +237,15 @@ You can also check what Git thinks a specific key’s value is by typing `git co
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Добивање помош ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Доколку ви затреба помош околу користењето на Git, постојат три начини да ги добиете страниците со кориснички упатства (manpage) за било која Git наредба:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+На пример, корисничкото упатство за config наредбата го добивате со извршување на наредбата
 
 	$ git help config
 

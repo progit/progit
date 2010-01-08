@@ -79,21 +79,21 @@ Insert 18333fig0105.png
 
 Тоа значи дека нема многу работи кои што нема да може да ги направите доколку сте офјалн или не сте на VPN. Доколку се качите на авион или воз, и сакате малку да поработите, можете да правите нови состојби од проектот (commit) се додека не добиете мрежна врска и тогаш ќе ги аплоадирате. Ако сте дома и не може да го натерате вашиот VPN клиент да проработи, сепак можете да си работите на проектот. Кај многу други системи, ваквиот начин на работа или е невозможен или многу тешко изводлив. Со Perforce, на пример, речиси ништо не можете да правите доколку немате конекција со серверот; кај Subversion и CVS, може да ги едитирате датотеките, меѓутоа не може да направите нова состојба од проектот (commit) бидејќи базата на податоци е на сервер. Можеби сето ова не изгледа како некоја голема работа, меѓутоа може да се изненадите колкава разлика може да ви направи.
 
-### Git Has Integrity ###
+### Git има интегритет ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Пред да се зачуваат работите во Git, им се пресметува контролна сума, а подоцна истите работи се референцираат преку таа сума. Тоа значи дека е невозможно да се промени содржината на некоја датотека без Git да дознае за тоа. Тоа функционалност е вградена во Git во најниските нивоа и е интегрален дел од неговата филозофија. Не може да изгубите информација при пренос или да имате корумпирана датотека без Git да го детектира тоа.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Механизмот кој што го користи Git за пресметување на контролната сума се вика SHA-1 хеш. Тоа е стринг од 40 знаци составен од хексадекадни знаци (0-9 и a-f) и се пресметува врз основа на содржината на датотеката или папката во Git. SHA-1 хешот изгледа отприлика вака:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Насекаде ќе ги гледате ваквите хеш вредности во Git затоа што тој насекаде ги користи. Всушност, Git сите работи ги зачувува не според името на датотеката, туку во база на податоци која е адресабилна според хеш вредноста на нивната содржина.
 
-### Git Generally Only Adds Data ###
+### Во основа Git само додава податоци ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Кога изведувате операции во Git, речиси сите тие само додаваат податоци во Git базата на податоци. Речиси е невозможно да го натерате системот да направи нешто што подоцна не може да се врати на претходната состојба, или пак да го натерате да избрише некои податоци. Како и со секој VCS, може да ги загубите податоците кои што не сте ги комитувале; но откако ќе ги комитувате и кога Git ќе направи слика од тоа, тогаш навистина е тешко да загубите нешто, особено доколку редовно вашата база ја синхронизирате (push) со друго репозитори.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Тоа го прави користењето на Git вистинско задоволство бидејќи знаеме дека може да експериментираме без притоа да се плашиме дека може да ги уништиме работите. Поде-тално за тоа како Git ги складира податоците и како може да ги реставрирате податоците кои изгледаат дека се загубени погледнете во "Под хаубата" во поглавје 9.
 
 ### The Three States ###
 

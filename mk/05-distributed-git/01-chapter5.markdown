@@ -1,40 +1,40 @@
-# Distributed Git #
+# Дистрибуиран Git #
 
-Now that you have a remote Git repository set up as a point for all the developers to share their code, and you’re familiar with basic Git commands in a local workflow, you’ll look at how to utilize some of the distributed workflows that Git affords you.
+Сега кога имате поставено оддалечено Git репозитори како точка преку која сите девелопери ќе го разменуваат нивниот код, и кога ги познавате основните Git наредби за локално работење, ќе погледнеме како да ги искористите некои од начините за дистрибуирана работа кои што ви ги нуди Git.
 
-In this chapter, you’ll see how to work with Git in a distributed environment as a contributor and an integrator. That is, you’ll learn how to contribute code successfully to a project and make it as easy on you and the project maintainer as possible, and also how to maintain a project successfully with a number of developers contributing.
+Во ова поглавје ќе погледнете како да работите со Git во дистрибуирана околина како контрибутор и како интегратор. Односно ќе научите како успешно да го приложите вашиот код во некој проект и како тоа да го изведете најлесно за вас и за оној кој што го одржува проектот, исто така ќе научите како успешно да одржувате проект со голем број на девелопери.
 
-## Distributed Workflows ##
+## Дистрибуирани начини на работа ##
 
-Unlike Centralized Version Control Systems (CVCSs), the distributed nature of Git allows you to be far more flexible in how developers collaborate on projects. In centralized systems, every developer is a node working more or less equally on a central hub. In Git, however, every developer is potentially both a node and a hub — that is, every developer can both contribute code to other repositories and maintain a public repository on which others can base their work and which they can contribute to. This opens a vast range of workflow possibilities for your project and/or your team, so I’ll cover a few common paradigms that take advantage of this flexibility. I’ll go over the strengths and possible weaknesses of each design; you can choose a single one to use, or you can mix and match features from each.
+За разлика од централизираните системи за контрола на верзиите (CVCSs), дистрибуираната природа на Git ви овозможува да бидете далеку по флексибилни во начинот на кој девелоперите колаборираат на проектите. Во централизираните системи, секој девелопер е јазол (node) кој што повеќе или помалку подеднакво работи на централна осовина (hub). Во Git, секој девелопер потенцијално е и јазол и осовина, односно секој девелопер може да контрибуира со код во други репозиторија а исто така може да одржува јавно репозитори врз основа на кое другите девелопери ќе ја базираат својата работа, или пак во истото да контрибуираат. Тоа отвора широк дијапазон на потенцијални начини на работа за вашите проекти и/или вашите тимови, па тука ќе покриеме неколку основни парадигми кои што ја користат таа флексибилност. Ќе ги покриеме силните и слабите страни на секој од нив, а вие може да изберете еден од нив да го користите, или пак да ги комбинирате особините од сите нив.
 
-### Centralized Workflow ###
+### Централизиран начин на работа ###
 
-In centralized systems, there is generally a single collaboration model—the centralized workflow. One central hub, or repository, can accept code, and everyone synchronizes their work to it. A number of developers are nodes — consumers of that hub — and synchronize to that one place (see Figure 5-1).
+Кај централизираните системи, генерално постои еден колаборациски модел - централизиран начин на работа. Една централна осовина (hub), или репозитори кое што може да прифаќа изворен код, и сите ја синхронизираат својата работа во однос на тоа репозитори. Девелоперите се јазли(nodes) - конзументи на таа осовина - и ја синхронизираат својата работа кон тоа едно место (види слика 5-1).
 
 Insert 18333fig0501.png 
-Figure 5-1. Centralized workflow.
+Слика 5-1. Централизиран начин на работа.
 
-This means that if two developers clone from the hub and both make changes, the first developer to push their changes back up can do so with no problems. The second developer must merge in the first one’s work before pushing changes up, so as not to overwrite the first developer’s changes. This concept is true in Git as it is in Subversion (or any CVCS), and this model works perfectly in Git.
+Тоа значи дека ако два девелопери клонираат од тој хаб и двајцата направат промена, првиот девелопер кој што ќе ги уфрли(push) неговите измени во хабот - тоа ќе го направи без проблем. Вториот девелопер мора да ги спои (merge) неговите измени со измените од првиот девелопер пред да ги уфрли во заедничкото репозитори, за да не бидат пребришани измените од првиот девелопер. Овој коцепт важи и кај Git како што важи и во Subversion (или било кој CVCS), и одлично работи во Git.
 
-If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge.
-This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.
+Доколку имате мал тим или веќе користите централизиран начин на работа во вашата компанија или тим, многу лесно може да продолжите со таквиот начин на работа и со Git. Едноставно креирајте репозитори, и дајте им на сите членови од тимот права да уфрлаат промени во него; Git нема да дозволи корисниците да си ги пребришуваат измените еден со друг. Доколку еден девелопер клонирал, направил измени, и проба да ги уфрли неговите измени додека некој друг девелопер веќе уфрлил некои измени во меѓувреме, серверот ќе го одбие барањето на тој девелопер. Ќе му биде кажано дека пробува да уфрли измени кои што се non-fast-forward, и тоа нема да може да го направи се додека не ги превземе(fetch) и спои(merge) измените.
+Овој начин на работа е атрактивен за многу луѓе затоа што е еден вид парадигма со која што многумина се запознаени и задоволни.
 
-### Integration-Manager Workflow ###
+### Начин на работа на Менаџер за Интеграција ###
 
-Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2):
+Бидејќи Git дозволува да има повеќе оддалечени репозиторија, може да постои начин на работа каде што секој девелопер ќе има права за запишување единствено во своето репозитори, и права за читање на сите други репозиторија. Ова сценарио најчесто пропишува кое репозитори ќе го претставува "официјалниот" проект. За да учествувате во таков проект, треба да направите јавно репозитори клон на проектот, и да уфрлате измени во него. Понатаму, може да пратите барање до оној што го одржува проектот да ги повлече(pull) вашите промени. Тие можат да го додадат вашето репозитори како оддалечено (remote repository), да ги тестираат вашите промени локално, да ги спојат во нивната гранка на развој, и сето тоа да го уфрлат во нивното репозитори. Процесот функционира вака (види слика 5-2):
 
-1.	The project maintainer pushes to their public repository.
-2.	A contributor clones that repository and makes changes.
-3.	The contributor pushes to their own public copy.
-4.	The contributor sends the maintainer an e-mail asking them to pull changes.
-5.	The maintainer adds the contributor’s repo as a remote and merges locally.
-6.	The maintainer pushes merged changes to the main repository.
+1.	Одржувачот на проектот уфрла во неговот јавно репозитори.
+2.	Учесниците го клонираат тоа репозитори и прават измени.
+3.	Учесникот уфрла во своето јавно репозитори.
+4.	Учесникот му испраќа e-mail на одржувачот со барање да ги земе/повлече(pull) измените.
+5.	Одржувачот го додава репозиторито на учесникот како оддалечено и ги спојува измените локално.
+6.	Одржувачот ги уфрла(push) споените измени во главното репозитори.
 
 Insert 18333fig0502.png 
-Figure 5-2. Integration-manager workflow.
+Слика 5-2. Начин на работа на Менаџер за Интеграција.
 
-This is a very common workflow with sites like GitHub, where it’s easy to fork a project and push your changes into your fork for everyone to see. One of the main advantages of this approach is that you can continue to work, and the maintainer of the main repository can pull in your changes at any time. Contributors don’t have to wait for the project to incorporate their changes — each party can work at their own pace.
+Ова е вообичаен начин на работа кај сајтовите како GitHub, каде што е многу лесно да направите нова гранка од проектот (fork), и да ги уфрлате вашите измени во вашата гранка за да може сите да ги видат. Една од главните предности на овој пристап е тоа што може да си продолжите со работа, а одржувачот на проектот може да ги повлече вашите измени во било кое време. Учесниците не мора да чекаат нивните измени да бидат вклучени во проектот - секој може да си работи според свое темпо.
 
 ### Dictator and Lieutenants Workflow ###
 

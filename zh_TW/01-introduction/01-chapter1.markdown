@@ -194,40 +194,40 @@ Insert 18333fig0107.png
 
 現在讀者的系統已安裝了Git，讀者可能想要做一些客製化的動作。 讀者應只需要做這些工作一次。 這些設定在更新版本時會被保留下來。 讀者可藉由再度執行命令的方式再度修改這些設定。
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git附帶名為git config的工具，允許讀者取得及設定組態參數，可用來決定Git外觀及運作。 這些參數可存放在以下三個地方：
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	檔案 /etc/gitconfig： 包含給該系統所有使用者的儲存庫使用的數值。 只要讀者傳遞 --system 參數給 git config，它就會讀取或者寫入參數到這個檔案
+*	檔案 ~/.gitconfig： 給讀者自己的帳號使用。 傳遞 --global 參數給 git config，它就會讀取或者寫入參數到這個檔案。
+*	儲存庫內的設定檔，也就是 .git/config： 僅給所在的儲存庫使用。 每個階級的設定會覆寫上一層的。 因此.git/config內的設定值的優先權高過/etc/config。
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+在Windows系統，Git在$HOME目錄(對大部份使用者來說是C:\Documents and Settings\$USER)內尋找.gitconfig。 它也會尋找/etc/gitconfig，只不過它是相對於Msys根目錄，取決於讀者當初在Windows系統執行Git的安裝程式時安裝的目的地。
 
-### Your Identity ###
+### 設定識別資料 ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+讀者安裝Git後首先應該做的事是指定使用者名稱及電子郵件帳號。 這一點非常重要，因為每次Git提交會使用這些資訊，而且提交後不能再被修改：
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+再說一次，若讀者有指定 --global 參數，只需要做這工作一次。 因為在此系統，不論Git做任何事都會採用此資訊。 若讀者想指定不同的名字或電子郵件給特定的專案， 只需要在該專案目錄內執行此命令，並確定未加上 --global 參數。
 
-### Your Editor ###
+### 指定編輯器 ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+現在讀者的識別資料已設定完畢，讀者可設定預設的文書編輯器，當Git需要讀者輸入訊息時會叫用它。 預設情況下，Git會使用系統預設的編輯器，一般來說是Vi或Vim。 若讀者想指定不同的編輯器，例如：Emacs。可執行下列指令：
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### 指定合併工具 ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+另外一個對讀者來說有用的選項是設定解決合併失敗時，讀者慣用的合併工具。 假設讀者想使用vimdiff：
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git能接受kdiff3、tkdiff、meld、xxdiff、emerge、vimdiff、gvimdiff、ecmerge及opendiff做為合併工具。 讀者可設定自訂的工具。 詳情參考第七章。
 
-### Checking Your Settings ###
+### 檢查讀者的設定 ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+若讀者想確認設定值，可使用 git config --list 命令列出所有Git能找到的設定值：
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -238,28 +238,28 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+讀者可能會看到同一個設定名稱出現多次，因為Git從不同的檔案讀到同一個設定名稱（例如：/etc/gitconfig及~/.gitconfig）。 在這情況下，Git會使用最後一個設定名稱的設定值。
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+使用者也可以下列命令 git config 設定名稱，檢視Git認為該設定名稱的設定值：
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## 取得說明文件 ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+若讀者在使用Git時需要幫助，有三種方法取得任何Git命令的手冊：
 
-	$ git help <verb>
-	$ git <verb> --help
-	$ man git-<verb>
+	$ git help 命令
+	$ git 命令 --help
+	$ man git-命令
 
-For example, you can get the manpage help for the config command by running
+例如：讀者可以下列命令取得config命令的手冊
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+這些命令對讀者是很有幫助的，因為讀者可在任意地方取得它們，即使已離線。
+若手冊及這本書不足以幫助讀者，且讀者需要更進一步的協助。 讀者可試著進入Freenode IRC伺服器（irc.freenode.net）的#git或#github頻道。 這些頻道平時都有上百位對Git非常瞭解的高手而且通常樂意協助。
 
-## Summary ##
+## 總結 ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+目前讀者應該對於Git有一些基本的瞭解，而且知道它與其它集中式版本控制系統的不同，其中有些可能是讀者正在使用的。 讀者的系統現在也應該有一套可動作的Git且已設定好讀者個人的識別資料。 現在正是學習一些Git的基本的操作的好時機。

@@ -118,15 +118,15 @@ Git папката е местото каде што Git ги складира �
 
 Ако одредена верзија од датотеката се наоѓа во git папката, тогаш таа се смета за комитувана. Доколку датотеката е променета и ако е додадена на сцена (staging area) тогаш таа се наоѓа во нова состојба - staged. Доколку пак датотеката е променета во однос на тоа кога е направен нов поглед во Git (checkout), и доколку променетата состојба не е додадена на сцена, тогаш датотеката едноставно се наоѓа во состојба која се нарекува променета. Во поглавје 2, ќе научите повеќе за тие состојби и како истите да ги искористите, или пак комплетно да го прескокнете чекорот од додавање на датотеката на сцена.
 
-## Installing Git ##
+## Инсталација на Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Да почнеме со користење на Git. Како прво треба да го инсталирате. Може да дојдете до него на повеќе начини, двата најчести начини се да го инсталирате од изворен код или да го инсталирате како постоечки пакет за вашата платформа.
 
 ### Инсталација од изворен код ###
 
 Доколку сте во можност, генерално е покорисно да го инсталирате Git од изворен код, бидејќи на тој начин ја добивате најновата верзија. Секоја верзија од Git се труди да вклучи корисни подобрувања во корисничкиот интерфејс, па земајќи ја најновата верзија на Git од изворниот код вообичаено е најдобро доколку се чувствувате спремни да компајлирате софтвер од изворен код. Исто така чест случај е многу Линукс дистрибуции да содржат многу стари пакети; па освен ако ја немате најажурираната дистрибуција, инсталацијата на Git од изворен код е најсигурниот потег.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+За да го инсталирате Git, треба да ги имате овие библиотеки од кои што зависи Git: curl, zlib, openssl, expat, и libiconv. На пример доколку користите систем кој што има yum (како што е Fedora) или пак apt-get (како што се Debian базираните дистрибуции), може да повикате една од овие наредби за да ги инсталирате сите овие зависности:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -134,53 +134,53 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
 	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Кога ќе ги имате сите овие зависности разрешено, може да ја симнете најновата верзија од Git сајтот:
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+Потоа, компајлирајте го и инсталирајте го:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Откако ќе го направите сетоа тоа, исто така ќе можете најновите измени во Git да ги земате преку самиот Git:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### Инсталирање на Линукс ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Доколку сакате да го инсталирате Git на Линукс преку бинарен инсталатер, тоа може да го направите преку алатките за менеџирање на пакети кои што доаѓаат со вашата дистрибуција. Доколку користите Fedora, може да користите yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Или пак доколку користите Debian-базирани дистрибуции како Ubuntu, пробајте со apt-get:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Инсталирање на Мекинтош ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Постојат два лесни начини како да го инсталирате Git на Мекинтош. Најлесниот е да го користите графичкиот Git инсталатор, кој што може да го симнете до Google Code страната (види слика 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer.
+Слика 1-7. Git OS X инсталатор.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+Другиот начин е да го инсталирате Git преку MacPorts (`http://www.macports.org`). Доколку веќе го имате инсталирано MacPorts, тогаш инсталирајте го Git преку
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Не мора да ги имате сите додатоци, но најверојатно би сакале да го вклучите +svn во случај да сакате да го користите Git со Subversion репозиторија (види поглавје 8).
 
-### Installing on Windows ###
+### Инсталирање на Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Инсталирањето на Git на Windows е многу едноставно. msysGit проектот има еден од најлесните инсталациски процедури. Едноставно симнете го инсталерот од Google Code страната, и стартувајте го:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+По инсталацијата, ги имате и верзијата од командна линија (вклучувајќи SSH клиент кој што ќе ви се најде подоцна) и верзија со стандарден графички интерфејс.
 
 ## Прво поставување на Git ##
 
@@ -188,11 +188,11 @@ After it’s installed, you have both a command-line version (including an SSH c
 
 Git доаѓа со алатка наречена git config која што ви овозможува да прегледате и да ги поставите конфигурациските променливи кои што ги контролираат сите аспекти за тоа како изгледа и како се однесува Git. Тие променливи може да бидат поставени на три различни места:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	`/etc/gitconfig` датотека: Содржи параметри за сите корисници на системот и сите нивни репозиторија. Ако го додадете аргументот` --system` на `git config`, тогаш тој чита и запишува од оваа датотека.
+*	`~/.gitconfig` датотека: Специфична за секој корисник. Git чита и запишува во оваа датотека со додавање на аргументот `--global`. 
+*	конфигурациска датотека во git папката (т.е., `.git/config`) од репозиторито кое момен-тално го користите: Се однесува единствено на тоа репозитори. Секое ниво ги засенува вредностите од претходното ниво, па така, вредностите во `.git/config` ги засенуваат вредностите во `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+На Windows системите, Git ја бара `.gitconfig` датотеката во `$HOME` папката (најчесто `C:\Documents and Settings\$USER`). Исто така ја бара и /etc/gitconfig, иако таа патека е релативна во однос на MSys коренот, кој се наоѓа онаму каде што сте одлучиле да го инсталирате Git на Windows.
 
 ### Вашиот идентитет ###
 

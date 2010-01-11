@@ -1,20 +1,56 @@
-# Git Internals #
+# Les trippes de Git #
 
-You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.
+Vous êtes peut-être arrivé à ce chapître en en sautant certains chapître ou
+après avoir parcouru tout le reste du livre. Dans tous les cas, c'est ici que
+l'on parle du fonctionnement interne et de la mise en oeuvre de Git. Pour moi, leur
+apprentissage a été fondamental pour comprendre à quel point Git est
+utile et puissant, mais d'autres soutiennent que cela peut être source de
+confusion et être trop complexe pour les débutants. J'en ai donc fait le dernier
+chapître de ce livre pour que vous puissiez le lire tôt ou plus tard lors de
+votre apprentissage. Je vous laisse le choix.
 
-Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.
+Maintenant que vous êtes ici, commençons. Tout d'abord, et même si ce n'est pas
+clair tout de suite, Git est fondamentalement un système de fichier adressable
+par le contenu (content-addressable filesystem<<<) avec l'interface utilisateur
+d'un VCS<<< au-dessus. Vous en apprendrez plus à ce sujet dans quelques
+instants.
 
-In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.
+Aux premiers jours de Git (surtout avant la version 1.5), l'interface
+utilisateur était beaucoup plus complexe, car elle était centré sur le système
+de fichier plutôt que sur l'aspect VCS<<<. Ces dernières années, l'IU<<< a été
+paufinée<<< jusqu'à devenir aussi lisse/propre/cohérente<<< et facile à utiliser
+que n'importe quel autre système. Souvent, l'image du Git des début avec son interface
+utilisateur complexe  et difficile à apprendre est restée.
 
-The content-addressable filesystem layer is amazingly cool, so I’ll cover that first in this chapter; then, you’ll learn about the transport mechanisms and the repository maintenance tasks that you may eventually have to deal with.
+La couche système de fichier addréssable par le contenu est vraiment géniale et
+j'en parlerai dans ce chapître. Ensuite, vous apprendrez les mécanismes de
+transport/transmission/communication ainsi que les tâches de maintenance d'un
+dépot auxquelles vous serez confronté.
 
-## Plumbing and Porcelain ##
+## Plomberie et porcelaine ##
 
-This book covers how to use Git with 30 or so verbs such as `checkout`, `branch`, `remote`, and so on. But because Git was initially a toolkit for a VCS rather than a full user-friendly VCS, it has a bunch of verbs that do low-level work and were designed to be chained together UNIX style or called from scripts. These commands are generally referred to as "plumbing" commands, and the more user-friendly commands are called "porcelain" commands.
+Ce livre couvre l'utilisation de Git en une trentaine d'actions<<< comme
+`checkout`<<<, `branch`<<<, `remote`<<< ... Mais, puisque Git était initialement
+une boîte à outils<<< (Toolkit<<<) pour VCS, plutôt d'un VCS<<< complet et
+conviviale, il dispose de tout un ensemble d'action pour les tâches bas niveau
+qui étaient conçues pour être liées à la UNIX ou appellées depuis de scritps.
+Ces commandes sont denommées<<< les commandes de "plomberies" (N.d.T
+"plumbing"), et les autres, plus conviales sont appellées "porcelain"
+("porcelain").
 
-The book’s first eight chapters deal almost exclusively with porcelain commands. But in this chapter, you’ll be dealing mostly with the lower-level plumbing commands, because they give you access to the inner workings of Git and help demonstrate how and why Git does what it does. These commands aren’t meant to be used manually on the command line, but rather to be used as building blocks for new tools and custom scripts.
+Les huits premiers chapîtres du livre concernent presque exclusivement les
+comandes porcelaine. Par contre, dans ce chapître, vous serez principalement
+confrontés aux commandes bas-niveau<<< de plomberie, car elles vous donnent
+accès au fonctionnement interne de Git et aident à montrer comment et pourquoi
+Git fonctionne comme il le fait. Ces commandes ne sont pas faites pour être
+utilisées à la main en ligne de commandes<<<, mais cont plutôt utilisées comme
+briques de bases pour écrire<<< de nouveaux outils et scritps personalisés.
 
-When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:
+Quand vous exécute `git init` dans un répertoire nouveau ou existant, Git crée
+un répertoire `.git` qui contient presque tout ce que Git stoque<<< et manipule.
+Si vous voulez sauvegarder ou cloner votre dépôt, copier ce seul répertoire
+suffira presque. Au final<<<, ce chapître traite principalement de ce que
+contient ce répertoire. Voici à quoi il ressemble :
 
 	$ ls 
 	HEAD

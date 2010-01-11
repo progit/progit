@@ -2,7 +2,7 @@
 
 The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
 
-Leider ist die Welt nicht perfekt. Normalerweise kannst Du nicht bei jedem Deiner Projekt sofort auf Git umsteigen. Manchmal musst Du in einem Deiner Projekte irgendeine andere Versionsverwaltung nutzen, ziemlich oft ist das Subversion. Im ersten Teil dieses Kapitels werden wir das bidirektionale Gateway zwischen Git und Subversion kennezulernen: `git svn`.
+Leider ist die Welt nicht perfekt. Normalerweise kannst Du nicht bei jedem Deiner Projekt sofort auf Git umsteigen. Manchmal musst Du in einem Deiner Projekte irgendeine andere Versionsverwaltung nutzen, ziemlich oft ist das Subversion. Im ersten Teil dieses Kapitels werden wir das bidirektionale Gateway zwischen Git und Subversion kennezulernen: `git svn`.—
 
 At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case.
 
@@ -245,10 +245,14 @@ Es ist wichtig, im Hinterkopf zu behalten, dass `git svn` sich an dieser Stelle 
 	  015e4c98c482f0fa71e4d5434338014530b37fa6 M   autogen.sh
 	First, rewinding head to replay your work on top of it...
 	Nothing to do.
-
+`git svn rebase`
 This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.
 
+Das ist darum wichtig, weil der daraus resultierende Projekt-Status auf keinem der Computer existierte als Du die Änderungen gepusht hast. Wenn die Änderungen nicht zueinander kompatibel sind aber keinen Konflikt ergeben, wirst Du Probleme bekommen, die schwer zu diagnostizieren sind. Das ist der Unterschied zu einem Git-Server — mit Git kannst Du den Zustand Deines Client-Systems komplett testen bevor Du ihn veröffentlichst, während Du bei Subversion nie sicher sein kannst, dass der Zustand direkt vor und direkt nach dem Commit identisch sind.
+
 You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits.
+
+Du solltest Dieses Kommando auch ausführen um Änderungen vom Subversion-Server zu ziehen, selbst wenn Du noch nicht so weit bist, einen Commit durchzuführen. Du kannst `git svn fetch` ausführen um die neuen Daten zu besorgen aber `git svn rebase` zieht die Daten ebenfalls und aktualisiert Deine lokalen Commits.
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh
@@ -257,6 +261,8 @@ You should also run this command to pull in changes from the Subversion server, 
 	Fast-forwarded master to refs/remotes/trunk.
 
 Running `git svn rebase` every once in a while makes sure your code is always up to date. You need to be sure your working directory is clean when you run this, though. If you have local changes, you must either stash your work or temporarily commit it before running `git svn rebase` — otherwise, the command will stop if it sees that the rebase will result in a merge conflict.
+
+Wenn Du `git svn rebase`ab und an ausführst, stellst Du sicher, dass Dein Code immer up-to-date ist. Du musst Dir aber sicher sein, dass Dein Arbeitsverzeichnis "sauber" ist, bevor Du den Befehl ausführst. Wenn Du lokale Änderungen hast, musst Du Deine Arbeit vor dem `git svn rebase` entweder stashen oder temporär commiten. Anderenfalls wird die Ausführung des Befehls angehalten, wenn das Rebase in einem Merge-Konflikt enden würde.
 
 ### Git Branching Issues ###
 

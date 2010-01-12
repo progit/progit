@@ -35,7 +35,7 @@ une boîte à outils<<< (Toolkit<<<) pour VCS, plutôt d'un VCS<<< complet et
 conviviale, il dispose de tout un ensemble d'action pour les tâches bas niveau
 qui étaient conçues pour être liées à la UNIX ou appellées depuis de scritps.
 Ces commandes sont denommées<<< les commandes de "plomberies" (N.d.T
-"plumbing"), et les autres, plus conviales sont appellées "porcelain"
+"plumbing"), et les autres, plus conviales sont appellées "porcelaine"<<<
 ("porcelain").
 
 Les huits premiers chapîtres du livre concernent presque exclusivement les
@@ -63,9 +63,26 @@ contient ce répertoire. Voici à quoi il ressemble :
 	objects/
 	refs/
 
-You may see some other files in there, but this is a fresh `git init` repository — it’s what you see by default. The `branches` directory isn’t used by newer Git versions, and the `description` file is only used by the GitWeb program, so don’t worry about those. The `config` file contains your project-specific configuration options, and the `info` directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file. The `hooks` directory contains your client- or server-side hook scripts, which are discussed in detail in Chapter 6.
+Vous y verez sans doute d'autres fichiers, mais ceci est un dépôt qui vient
+d'être crée avec `git init`, et c'est ce que vous verez par défaut. Le
+répertoire `branches` n'est pas utilisé par les versions récentes de Git, et le
+fichier `description` est utilisé uniquement par le programme GitWeb program, il
+ne faut donc pas s'en soucier. Le fichier `config` contient les options de
+configuration spécifiques à votre projet, et le répertoire `info` contient un
+fichier global listant<<< les motifs<<< que vous souhaité ignorer et que vous ne
+voulez pas mettre dans un fichier .gitignore. Le répertoire `hooks` contient les
+scripts hooks<<< (point d'ancrage/) côté client ou serveur, Ils sont décrits en détail dans le
+chapître 6.
 
-This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.
+Il reste quatre entrées<<</lignes/éléments importantes : les fichiers `HEAD` et
+`index`, ainsi que les répertoires `objects` et `refs`. Ce sont les parties
+centrales de Git. Le répertoire `objects` stoque<<< le contenu de votre base de
+données, le répertoire `refs` stoque les pointeurs vers les objects commit
+objects de ces données (branches), le fichier `HEAD` pointe sur la branche
+branch qui est checked out<<< et le fichier `index` est l'endroit où Git stoque
+les informations sur l'index<<<(staging area). Vous allez maintenant
+plonger<<<voir en
+détail dans chacune de ces sections et voir comment Git fonctionne.
 
 ## Git Objects ##
 

@@ -46,8 +46,8 @@ Git fonctionne comme il le fait. Ces commandes ne sont pas faites pour être
 utilisées à la main en ligne de commandes<<<, mais cont plutôt utilisées comme
 briques de bases pour écrire<<< de nouveaux outils et scritps personalisés.
 
-Quand vous exécute `git init` dans un répertoire nouveau ou existant, Git crée
-un répertoire `.git` qui contient presque tout ce que Git stoque<<< et manipule.
+Quand vous exécutez `git init` dans un répertoire nouveau ou existant, Git crée
+un répertoire `.git` qui contient presque tout ce que Git stocke<<< et manipule.
 Si vous voulez sauvegarder ou cloner votre dépôt, copier ce seul répertoire
 suffira presque. Au final<<<, ce chapître traite principalement de ce que
 contient ce répertoire. Voici à quoi il ressemble :
@@ -74,20 +74,27 @@ voulez pas mettre dans un fichier .gitignore. Le répertoire `hooks` contient le
 scripts hooks<<< (point d'ancrage/) côté client ou serveur, Ils sont décrits en détail dans le
 chapître 6.
 
-Il reste quatre entrées<<</lignes/éléments importantes : les fichiers `HEAD` et
+Il reste quatre éléments importants : les fichiers `HEAD` et
 `index`, ainsi que les répertoires `objects` et `refs`. Ce sont les parties
-centrales de Git. Le répertoire `objects` stoque<<< le contenu de votre base de
-données, le répertoire `refs` stoque les pointeurs vers les objects commit
+centrales de Git. Le répertoire `objects` toque<<< le contenu de votre base de
+données, le répertoire `refs` stockue les pointeurs vers les objects commit
 objects de ces données (branches), le fichier `HEAD` pointe sur la branche
-branch qui est checked out<<< et le fichier `index` est l'endroit où Git stoque
+branch qui est checked out<<< et le fichier `index` est l'endroit où Git stockue
 les informations sur l'index<<<(staging area). Vous allez maintenant
 plonger<<<voir en
 détail dans chacune de ces sections et voir comment Git fonctionne.
 
-## Git Objects ##
+## Git Objects ##<<<
 
-Git is a content-addressable filesystem. Great. What does that mean?
-It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:
+Git est un système de fichier adressable par le contenu. Super! Mais qu'est-ce
+que ça veut dire? Ça veut dire que le coeur<<< de Git est un simple key-value
+data store<<<. Vous pouvez y inserer n'importe qu'elle type de données<<< et il
+vous retournera une clé que vous pourrez utiliser à n'importe quel moment pour récupérer ces données à
+nouveau. Pour illustrer cela, vous pouvez utiliser la commande de plomberie
+`hash-object`, qui prend des données, les stocke das votre répertoire `.git`,
+puis retourne la clé sous laquelle les données sont stockées. Tout d'abord,
+créez un nouveau dépôt Git et vérifier que rien ne se trouve dans le répertoire
+`object` :
 
 	$ mkdir test
 	$ cd test
@@ -100,12 +107,14 @@ It means that at the core of Git is a simple key-value data store. You can inser
 	$ find .git/objects -type f
 	$
 
-Git has initialized the `objects` directory and created `pack` and `info` subdirectories in it, but there are no regular files. Now, store some text in your Git database:
+Git a initialisé le répertoire `objects` et y a crée les sous-répertoires `pack`
+et `info`, mais il ne contiennent pas de fichier régulier (regular files)<<<
+Maintenant, stockez du texte dans votre base donnée Git :
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
+L'option `-w` spécifie à `hash-object` de stocker l'objet. Sinon`--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4

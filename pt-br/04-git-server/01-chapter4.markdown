@@ -40,33 +40,33 @@ Os prós de repositórios baseados em arquivos é que eles são simples e usam p
 
 Esta é também uma boa opção para rapidamente pegar trabalhos do diretório em que outra pessoa estiver trabalhando. Se você e seu colega estiverem trabalhando no mesmo projeto e ele quiser que você olhe alguma coisa, rodar um comando como `git pull /home/john/project` é frequentemente mais fácil do que ele enviar para um servidor remoto e você pegar de lá.
 
-#### The Cons ####
+#### Os Contras ####
 
-The cons of this method are that shared access is generally more difficult to set up and reach from multiple locations than basic network access. If you want to push from your laptop when you’re at home, you have to mount the remote disk, which can be difficult and slow compared to network-based access.
+Os contras deste método são que o acesso compartilhado é geralmente mais difícil de configurar e acessar de multiplos lugares do que via conexão básica de rede. Se você quiser enviar do seu laptop quando você está em casa, você tem que montar um disco remoto, o que pode ser difícil e lento comparado com acesso via rede.
 
-It’s also important to mention that this isn’t necessarily the fastest option if you’re using a shared mount of some kind. A local repository is fast only if you have fast access to the data. A repository on NFS is often slower than the repository over SSH on the same server, allowing Git to run off local disks on each system.
+É também importante mencionar que isto não é necessariamente a opção mais rápida se você está usando uma montagem compartilhada de algum tipo. Um repositório local é rápido apenas se você tem acesso rápido aos dados. Um repositório em NFS é frequentemente mais lento do que o repositório sobre SSH no mesmo servidor, premitindo ao Git rodar dos discos locais de cada sistema.
 
-### The SSH Protocol ###
+### O Protocolo SSH ###
 
-Probably the most common transport protocol for Git is SSH. This is because SSH access to servers is already set up in most places — and if it isn’t, it’s easy to do. SSH is also the only network-based protocol that you can easily read from and write to. The other two network protocols (HTTP and Git) are generally read-only, so even if you have them available for the unwashed masses, you still need SSH for your own write commands. SSH is also an authenticated network protocol; and because it’s ubiquitous, it’s generally easy to set up and use.
+Provavelmente o protocolo mais comum de transporte para o Git é o SSH. Isto é porque o acesso SSH aos servidores já está configurado na maior parte dos lugares — e se não está, é fácil fazê-lo. O SSH é também o único protocolo para redes em que você pode facilmente ler (do servidor) e escrever (no servidor). Os outros dois protocolos de rede (HTTP e Git) são geralmente somente leitura, então mesmo se você os tiver disponíveis para as massas, você ainda precisa do SSH para seus próprios comandos de escrita. O SSH é também um protocolo de rede autenticado; e porque ele é onipresente, é geralmente fácil de configurar e usar.
 
-To clone a Git repository over SSH, you can specify ssh:// URL like this:
+Para clonar um repositório Git por SSH, você pode especificar uma URL ssh:// deste jeito:
 
 	$ git clone ssh://user@server:project.git
 
-Or you can not specify a protocol — Git assumes SSH if you aren’t explicit:
+Ou você pode deixar de especificar o protocolo — O Git assume SSH se você não for explicito:
 	
 	$ git clone user@server:project.git
 
-You can also not specify a user, and Git assumes the user you’re currently logged in as.
+Você também pode deixar de especificar um usuário, e o Git assume o usuário que você está atualmente logado.
 
-#### The Pros ####
+#### Os Prós ####
 
-The pros of using SSH are many. First, you basically have to use it if you want authenticated write access to your repository over a network. Second, SSH is relatively easy to set up — SSH daemons are commonplace, many network admins have experience with them, and many OS distributions are set up with them or have tools to manage them. Next, access over SSH is secure — all data transfer is encrypted and authenticated. Last, like the Git and Local protocols, SSH is efficient, making the data as compact as possible before transferring it.
+Os prós de usar SSH são muitos. Primeiro, você basicamente tem que usá-lo se você quer acesso de escrita autenticado através de uma rede. Segundo, o SSH é relativamente simples de configurar — Daemons SSH são lugar comum, muitos administradores de rede tem experiência com eles, e muitas distribuições de SO estão configuradas com eles ou tem ferramente para gerenciá-los. Em seguida, o acesso através de SSH é seguro — toda tranferência de dados é encriptada e autenticada. Por último, como os protocolos Git e Local, o SSH é eficiente, compactando os dados da melhor forma possível antes de transferi-los.
 
-#### The Cons ####
+#### Os Contras ###
 
-The negative aspect of SSH is that you can’t serve anonymous access of your repository over it. People must have access to your machine over SSH to access it, even in a read-only capacity, which doesn’t make SSH access conducive to open source projects. If you’re using it only within your corporate network, SSH may be the only protocol you need to deal with. If you want to allow anonymous read-only access to your projects, you’ll have to set up SSH for you to push over but something else for others to pull over.
+O aspecto negativo do SSH é que você não pode permitir acesso anônimo do seu repositório através dele. As pessoas tem que acessar o seu computador através de SSH para acessá-lo, mesmo que apenas para leitura, o que não faz com que o acesso por SSH seja encorajador para projetos de código aberto. Se você o está usando apenas dentro de sua rede corporativa, o SSH pode ser o único protocolo com o qual você terá que lidar. Se você quiser permitir acesso anônimo somente leitura para seus projetos, você terá que configurar o SSH para envio (push over) mas outra coisa para que as pessoas possam receber (pull over).
 
 ### The Git Protocol ###
 

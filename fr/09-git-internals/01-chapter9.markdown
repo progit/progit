@@ -87,7 +87,7 @@ détail dans chacune de ces sections et voir comment Git fonctionne.
 ## Git Objects ##<<<
 
 Git est un système de fichier adressable par le contenu. Super! Mais qu'est-ce
-que ça veut dire? Ça veut dire que le coeur<<< de Git est un simple key-value
+que ça veut dire? Ça veut dire que le coeur(ligature)<<< de Git est un simple key-value
 data store<<<. Vous pouvez y inserer n'importe qu'elle type de données<<< et il
 vous retournera une clé que vous pourrez utiliser à n'importe quel moment pour récupérer ces données à
 nouveau. Pour illustrer cela, vous pouvez utiliser la commande de plomberie
@@ -108,13 +108,19 @@ créez un nouveau dépôt Git et vérifier que rien ne se trouve dans le répert
 	$
 
 Git a initialisé le répertoire `objects` et y a crée les sous-répertoires `pack`
-et `info`, mais il ne contiennent pas de fichier régulier (regular files)<<<
+et `info`, mais ils ne contiennent pas de fichier régulier (regular files)<<<
 Maintenant, stockez du texte dans votre base donnée Git :
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-L'option `-w` spécifie à `hash-object` de stocker l'objet. Sinon`--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
+L'option `-w` spécifie à `hash-object` de stocker l'objet, sinon la commande
+dira seulement quelle serait la clé. `--stdin` spécifie à la commande de lire le
+contenu depuis stdin, sinon `hash-object` s'attends à un chemin vers un fichier.
+La sortie de la commande est une empreinte de 40 caractères. C'est l'empreinte
+SHA-1 : une somme de contrôle du contenu du fichier que vous stocké plus une
+en-tête, dont vous aurez bientôt des précision<<<. Voyez maintenant comment Git
+a stocké vos données :
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4

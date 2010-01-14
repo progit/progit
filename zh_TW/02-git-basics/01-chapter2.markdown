@@ -319,9 +319,9 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（*）匹�
 
 記得提交記錄讀者放在暫存區的快照。 任何讀者未暫存的仍然保持在已被修改狀態；讀者可進行其它的提交，將它增加到歷史。 每一次讀者執行提供，都是記錄專案的快照，而且以後可用來比對或者復原。
 
-### Skipping the Staging Area ###
+### 跳過暫存區域 ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+雖然優秀好用的暫存區域能很有技巧且精確的提交讀者想記錄的資訊，有時候暫存區域也比讀者實際需要的工作流程繁瑣。 若讀者想跳過暫存區域，Git提供了簡易的使用方式。 在git commit命令後方加上-a參數，Git自動將所有已被追蹤且被修改的檔案送到暫存區域並開始提交程序，讓讀者略過git add的步驟：
 
 	$ git status
 	# On branch master
@@ -334,13 +334,13 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+留意本次的提交之前，讀者並不需要執行git add將benchmarks.rb檔案加入。
 
-### Removing Files ###
+### 刪除檔案 ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+要從Git刪除檔案，讀者需要將它從已被追蹤檔案中移除（更精確的來說，是從暫存區域移除），並且提交。 git rm命令除了完成此工作外，也會將該檔案從工作目錄移除。 因此讀者以後不會在未被追蹤檔案列表看到它。
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+若讀者僅僅是將檔案從工作目錄移除，那麼在git status的輸出，可看見該檔案將會被視為已被變更且尚未被更新（也就是尚未存到暫存區域）：
 
 	$ rm grit.gemspec
 	$ git status
@@ -352,7 +352,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+接著，若執行git rm，則會將暫存區域內的該檔案移除：
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -365,31 +365,31 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+下一次提交時，該檔案將會消失而且不再被追蹤。 若已更動過該檔案且將它記錄到暫存區域。 必須使用-f參數才能將它強制移除。 這是為了避免已被記錄的快照意外被移除且再也無法使用Git復原。
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+其它有用的技巧的是保留工作目錄內的檔案，但從暫存區域移除。 換句話說，或許讀者想在磁碟機上的檔案且不希望Git繼續追蹤它。 這在讀者忘記將某些檔案記錄到.gitignore且不小心將它增加到暫存區域時特別有用。 比如說：巨大的記錄檔、或大量在編譯時期產生的.a檔案。 欲使用此功能，加上--cached參數：
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+除了檔名、目錄名以外，還可以指定簡化的正規運算式給git rm命令。 這意謂著可執行類似下列指令：
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+注意倒斜線（\）前方的星號（*）。 這是必須的，因為Git會在shell以上執行檔案的擴展。 此命令移除log目錄下所有檔名以.log結尾的檔案。 讀者也可以執行類似下列命令：
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+此命令移除所有檔名以~結尾的檔案。
 
-### Moving Files ###
+### 搬動檔案 ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Git並不像其它檔案控制系統一樣，很精確的追蹤檔案的移動。 若將被Git追蹤的檔名更名，Git並沒有任何元數據記錄此更名動作。 然而Git能很聰明的指出這一點。 稍後會介紹關於偵測檔案的搬動。
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+因此Git的mv指令會造成一點混淆。 若想要用Git更名某個檔案，可執行以下命令：
 
 	$ git mv file_from file_to
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+而且這命令可正常工作。 事實上，在執行完更名的動作後檢視一下狀態。 可看到Git認為該檔案被更名：
 
 	$ git mv README.txt README
 	$ git status
@@ -402,13 +402,13 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+不過，這就相當於執行下列命令：
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git會在背後判斷檔案是否被更名，因此不管是用上述方法還是mv命令都沒有差別。 實際上唯一不同的是mv是一個命令，而不是三個。 使用上較方便。 更重畏的是讀者可使用任何慣用的工具更名，再使用add/rm，接著才提交。
 
 ## Viewing the Commit History ##
 

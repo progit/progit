@@ -538,15 +538,15 @@ De `post-receive` haak wordt uitgevoerd nadat het hele proces afgerond is, en hi
 
 Het update script is vergelijkbaar met het `pre-receive` script, behalve dan dat het uitgevoerd wordt voor iedere branch die de pusher probeert te vernieuwen. Als de pusher naar meerdere branches probeert te pushen, wordt `pre-receive` slechts één keer uitgevoerd, maar `update` bij iedere branch waar ze naar pushen. In plaats van stdin te lezen, aanvaardt dit script drie argumenten: de naam van de referentie (branch), de SHA-1 waar die referentie naar wees voor de push, en de SHA-1 die de gebruiker probeert te pushen. Als het update script met een andere waarde dan nul eindigt, wordt alleen die referentie geweigerd; andere referenties kunnen nog steeds vernieuwd worden.
 
-## Een Voorbeeld van Git-Afgedwonen Beleid ##
+## Een Voorbeeld van Git-Afgedwongen Beleid ##
 
 In dit gedeelte zul je gebruiken wat je geleerd hebt om een Git werkwijze vast te leggen, die controleerd op een eigengemaakt commit boodschap formaat, afdwingt om alleen fast-forward pushes te accepteren, en alleen bepaalde gebruikers toestaat om bepaalde submappen te wijzigen in een project. Je zult client scripts maken die de ontwikkelaar helpen er achter te komen of hun push geweigerd zal worden, en server scripts die het beleid afdwingen.
 
 Ik heb Ruby gebruikt om ze te schrijven, zowel omdat het mijn voorkeur script taal is en omdat ik vind dat het de meest pseudo code uitziende taal is van de scripttalen; dus je zou in staat moeten zijn om de code redelijk te kunnen volgen zelfs als je geen Ruby gebruikt. Maar, iedere taal zal prima werken. Alle voorbeeld haak scripts die met Git meegeleverd worden zijn Perl of Bash scripts, dus je kunt ook genoeg voorbeelden van haken in die talen zijn door naar de voorbeelden te kijken.
 
-### Server-Side Hook ###
+### Server-Kant Haak ###
 
-All the server-side work will go into the update file in your hooks directory. The update file runs once per branch being pushed and takes the reference being pushed to, the old revision where that branch was, and the new revision being pushed. You also have access to the user doing the pushing if the push is being run over SSH. If you’ve allowed everyone to connect with a single user (like "git") via public-key authentication, you may have to give that user a shell wrapper that determines which user is connecting based on the public key, and set an environment variable specifying that user. Here I assume the connecting user is in the `$USER` environment variable, so your update script begins by gathering all the information you need:
+Al het werk aan de server kant zal in het update bestand in je haken map gaa. Het update bestand zal eens per gepushte branch uitgevoerd worden en aanvaardt de referentie waarnaar gepushed wordt, de oude revisie waar die branch was, en de nieuwe gepushte revisie. Je hebt ook toegang tot de gebruiker die de push doet, als de push via SSH gedaan wordt. Als je iedereen hebt toegestaan om connectie te maken als één gebruiker (zoals "git") via publieke sleutel authenticatie, dan moet je misschien die gebruiker een shell wrapper geven die bepaalt welke gebruiker er connectie maakt op basis van de publieke sleutel, en een omgevingsvariabele instelt met daarin die gebruiker. Hier ga ik er vanuit dat de gebruiker in de `$USER` omgevingsvariabele staat, dus begint je update script met het verzamelen van alle gegevens die het nodig heeft:
 
 	#!/usr/bin/env ruby
 
@@ -557,13 +557,13 @@ All the server-side work will go into the update file in your hooks directory. T
 
 	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
 
-Yes, I’m using global variables. Don’t judge me — it’s easier to demonstrate in this manner.
+Ja, ik gebruik een globale variabele. Veroordeel me niet – het is makkelijker om het op deze manier te laten zien.
 
-#### Enforcing a Specific Commit-Message Format ####
+#### Een Specifiec Commit-Bericht Formaat Afdwingen ####
 
-Your first challenge is to enforce that each commit message must adhere to a particular format. Just to have a target, assume that each message has to include a string that looks like "ref: 1234" because you want each commit to link to a work item in your ticketing system. You must look at each commit being pushed up, see if that string is in the commit message, and, if the string is absent from any of the commits, exit non-zero so the push is rejected.
+Je eerste uitdaging is afdwingen dat ieder commit bericht moet voldoen aan een specifiek formaat. Om maar een doel te hebben, gaan we er vanuit dat ieder bericht een stuk tekst bevat dat eruit ziet asl "ref: 1234", omdat je wil dat iedere commit gekoppeld is aan een werkonderdeel in je ticket systeem. Je moet kijken naar iedere commit die gepushed wordt, zien dat die tekst in de commit boodschap zit, en als de tekst niet in één van de commits zit, met niet nul eindigen zodat de push geweigerd wordt.
 
-You can get a list of the SHA-1 values of all the commits that are being pushed by taking the `$newrev` and `$oldrev` values and passing them to a Git plumbing command called `git rev-list`. This is basically the `git log` command, but by default it prints out only the SHA-1 values and no other information. So, to get a list of all the commit SHAs introduced between one commit SHA and another, you can run something like this:
+Je kunt de lijst met alle SHA-1 waarden van alle commits die gepushed worden verkrijgen door de `$newrev` en `$oldrev` waarden te pakken en ze aan een Git sanitaire voorzieningen commando genaamd `git rev-list` te geven. Dit is eigenlijk het `git log` commando, maar standaard voert het alleen de SHA-1 waarden uit en geen andere informatie. Dus, om een lijst te krijgen van alle commit SHA's die worden geintroduceerd tussen één commit SHA en een andere, kun je zoiets als dit uitvoeren:
 
 	$ git rev-list 538c33..d14fc7
 	d14fc7c847ab946ec39590d87783c69b031bdfb7
@@ -572,9 +572,9 @@ You can get a list of the SHA-1 values of all the commits that are being pushed 
 	dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
 	17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475
 
-You can take that output, loop through each of those commit SHAs, grab the message for it, and test that message against a regular expression that looks for a pattern.
+Je kunt die uitvoer pakken, door ieder van die commit SHA's heen lopen, de boodschap daarvan pakken, en die boodschap testen tegen een reguliere expressie die op een bepaald patroon zoekt.
 
-You have to figure out how to get the commit message from each of these commits to test. To get the raw commit data, you can use another plumbing command called `git cat-file`. I’ll go over all these plumbing commands in detail in Chapter 9; but for now, here’s what that command gives you:
+Je moet uit zien te vinden hoe je de commit boodschap kunt krijgen van alle te testen commits. Om de rauwe commit gegevens te krijgen, kun je een andere sanitaire voorzieningen commando genaamd `git cat-file` gebruiken. Ik zal al deze sanitaire voorzieningen commando's behandelen in detail in Hoofdstuk 9; maar voor nu is dit wat het commando je geeft:
 
 	$ git cat-file commit ca82a6
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -584,16 +584,16 @@ You have to figure out how to get the commit message from each of these commits 
 
 	changed the version number
 
-A simple way to get the commit message from a commit when you have the SHA-1 value is to go to the first blank line and take everything after that. You can do so with the `sed` command on Unix systems:
+Een simpele manier om de commit boodschap te krijgen van een commit waarvan je de SHA-1 waarde hebt, is naar de eerste lege regel gaan en alles wat daarna komt pakken. Je kunt dat doen met het `sed` commando op Unix systemen:
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
 	changed the version number
 
-You can use that incantation to grab the commit message from each commit that is trying to be pushed and exit if you see anything that doesn’t match. To exit the script and reject the push, exit non-zero. The whole method looks like this:
+Je kunt die spreuk gebruiken om de commit boodschap te pakken van iedere commit die probeert te worden gepushed en eindigen als je ziet dat er iets is wat niet past. Om het script te eindigen en de push te weigeren, eindig je met niet nul. De hele methode ziet er zo uit:
 
 	$regex = /\[ref: (\d+)\]/
 
-	# enforced custom commit message format
+	# afgedwongen eigen commit bericht formaat
 	def check_message_format
 	  missed_revs = `git rev-list #{$oldrev}..#{$newrev}`.split("\n")
 	  missed_revs.each do |rev|
@@ -606,25 +606,25 @@ You can use that incantation to grab the commit message from each commit that is
 	end
 	check_message_format
 
-Putting that in your `update` script will reject updates that contain commits that have messages that don’t adhere to your rule.
+Door dat in je `update` script te stoppen, zal het updates weigeren die commits bevatten die berichten hebben die niet aan je regel voldoen.
 
-#### Enforcing a User-Based ACL System ####
+#### Een Gebruiker-Gebaseerd ACL Systeem Afdwingen ####
 
-Suppose you want to add a mechanism that uses an access control list (ACL) that specifies which users are allowed to push changes to which parts of your projects. Some people have full access, and others only have access to push changes to certain subdirectories or specific files. To enforce this, you’ll write those rules to a file named `acl` that lives in your bare Git repository on the server. You’ll have the `update` hook look at those rules, see what files are being introduced for all the commits being pushed, and determine whether the user doing the push has access to update all those files.
+Stel dat je een mechanisme wil toevoegen dat gebruik maakt van een toegangs controle lijst (ACL) die specificeert welke gebruikers zijn toegestaan om wijzigingen te pushen naar welke delen van je project. Sommige mensen hebben volledige toegang, en andere hebben alleen toegang om wijzigingen te pushen naar bepaalde submappen of specifieke bestanden. Om dit af te dwingen zule je die regels schrijven in een bestand genaamd `acl` dat in je bare Git repository op de server leeft. Je zult de `update` haak naar die regels laten kijken, zien welke bestanden worden geintroduceerd voor alle commits die gepushed worden, en bepalen of de gebruiker die de push doet toegang heeft om al die bestanden te wijzigen.
 
-The first thing you’ll do is write your ACL. Here you’ll use a format very much like the CVS ACL mechanism: it uses a series of lines, where the first field is `avail` or `unavail`, the next field is a comma-delimited list of the users to which the rule applies, and the last field is the path to which the rule applies (blank meaning open access). All of these fields are delimited by a pipe (`|`) character.
+Het eerste dat je zult doen is je ACL schrijven. Hier zul je een formaat gebruiken dat erg lijkt op het CVS ACL mechanisme: het gebruikt een serie regels, waarbij het eerste veld `avail` of `unavail` is, het volgende veld een komma gescheiden lijst van de gebruikers is waarvoor de regel geldt, en het laatste veld het pad is waarvoor de regel geldt (leeg betekent open toegang). Alle velden worden gescheiden door een pipe (`|`) karakter.
 
-In this case, you have a couple of administrators, some documentation writers with access to the `doc` directory, and one developer who only has access to the `lib` and `tests` directories, and your ACL file looks like this:
+In dit geval heb je een aantal administrators, een aantal documentatie schrijvers met toegang tot de `doc` map, en één ontwikkelaar die alleen toegang heeft tot de `lib` en `test` mappen, en je ACL bestand ziet er zo uit:
 
 	avail|nickh,pjhyett,defunkt,tpw
 	avail|usinclair,cdickens,ebronte|doc
 	avail|schacon|lib
 	avail|schacon|tests
 
-You begin by reading this data into a structure that you can use. In this case, to keep the example simple, you’ll only enforce the `avail` directives. Here is a method that gives you an associative array where the key is the user name and the value is an array of paths to which the user has write access:
+Je begint met het lezen van deze gegevens in een structuur die je kunt gebruiken. In dit geval, om het voorbeeld eenvoudig te houden, zul je alleen de `avail` richtlijnen handhaven. Hier is een methode die je een associatieve array geeft, waarbij de sleutel de gebruikersnaam is en de waarde een array van paden waar die gebruiker toegang tot heeft:
 
 	def get_acl_access_data(acl_file)
-	  # read in ACL data
+	  # lees ACL gegevens
 	  acl_file = File.read(acl_file).split("\n").reject { |line| line == '' }
 	  access = {}
 	  acl_file.each do |line|
@@ -638,7 +638,7 @@ You begin by reading this data into a structure that you can use. In this case, 
 	  access
 	end
 
-On the ACL file you looked at earlier, this `get_acl_access_data` method returns a data structure that looks like this:
+Op het ACL bestand dat je eerder bekeken hebt, zal deze `get_acl_access_data` methode een gegevens structuur teruggeven die er zo uit ziet:
 
 	{"defunkt"=>[nil],
 	 "tpw"=>[nil],
@@ -649,22 +649,22 @@ On the ACL file you looked at earlier, this `get_acl_access_data` method returns
 	 "usinclair"=>["doc"],
 	 "ebronte"=>["doc"]}
 
-Now that you have the permissions sorted out, you need to determine what paths the commits being pushed have modified, so you can make sure the user who’s pushing has access to all of them.
+Nu dat je de rechten bepaald hebt, moet je bepalen welke paden de commits die gepushed worden hebben aangepast, zodat je er zeker van kunt zijn dat de gebruiker die de push doet daar ook toegang tot heeft.
 
-You can pretty easily see what files have been modified in a single commit with the `--name-only` option to the `git log` command (mentioned briefly in Chapter 2):
+Je kunt eenvoudig zien welke bestanden gewijzigd zijn in een enkele commit met de `--name-only` optie op het `git log` commando (dat kort genoemd wordt in Hoofdstuk 2):
 
 	$ git log -1 --name-only --pretty=format:'' 9f585d
 
 	README
 	lib/test.rb
 
-If you use the ACL structure returned from the `get_acl_access_data` method and check it against the listed files in each of the commits, you can determine whether the user has access to push all of their commits:
+Als je gebruik maakt van de ACL struktuur die wordt teruggegeven door de `get_acl_access_data` methode en dat controleerd met de bestanden in elk van de commits, dan kun je bepalen of de gebruiker toegang heeft om al hun commits te pushen:
 
-	# only allows certain users to modify certain subdirectories in a project
+	# staat alleen bepaalde gebruikers toe om bepaalde submappen in een project te wijzigen
 	def check_directory_perms
 	  access = get_acl_access_data('acl')
 
-	  # see if anyone is trying to push something they can't
+	  # zie of iemand iets probeert te pushen dat ze niet mogen
 	  new_commits = `git rev-list #{$oldrev}..#{$newrev}`.split("\n")
 	  new_commits.each do |rev|
 	    files_modified = `git log -1 --name-only --pretty=format:'' #{rev}`.split("\n")
@@ -672,8 +672,8 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 	      next if path.size == 0
 	      has_file_access = false
 	      access[$user].each do |access_path|
-	        if !access_path  # user has access to everything
-	          || (path.index(access_path) == 0) # access to this path
+	        if !access_path  # gebruiker heeft overal toegang tot
+	          || (path.index(access_path) == 0) # toegang tot dit pad
 	          has_file_access = true 
 	        end
 	      end
@@ -687,17 +687,17 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 
 	check_directory_perms
 
-Most of that should be easy to follow. You get a list of new commits being pushed to your server with `git rev-list`. Then, for each of those, you find which files are modified and make sure the user who’s pushing has access to all the paths being modified. One Rubyism that may not be clear is `path.index(access_path) == 0`, which is true if path begins with `access_path` — this ensures that `access_path` is not just in one of the allowed paths, but an allowed path begins with each accessed path. 
+Het meeste daarvan zou makkelijk te volgen moeten zijn. Je krijgt een lijst met commits die gepushed worden naar je server met `git rev-list`. Daarna vind je, voor iedere commit, de bestanden die aangepast worden en stelt vast of de gebruiker die pushed toegang heeft tot alle paden die worden aangepast. Een Ruby-isme dat wellicht niet duidelijk is is `path.index(access_path) == 0`, wat waar is als het pad begint met `access_path` – dit zorgt ervoor dat `access_path` niet slechts in één van de toegestane paden zit, maar dat een toegestaan pad begint met ieder aangeraakt pad.
 
-Now your users can’t push any commits with badly formed messages or with modified files outside of their designated paths.
+Nu kunnen je gebruikers geen commits pushen met slechte berichten of met aangepaste bestanden buiten hun toegewezen paden.
 
-#### Enforcing Fast-Forward-Only Pushes ####
+#### Fast-Forward-Only Pushes Afdwingen ####
 
-The only thing left is to enforce fast-forward-only pushes. In Git versions 1.6 or newer, you can set the `receive.denyDeletes` and `receive.denyNonFastForwards` settings. But enforcing this with a hook will work in older versions of Git, and you can modify it to do so only for certain users or whatever else you come up with later.
+Het enige overgebleven ding om af te dwingen is fast-forward-only pushes. In Git versie 1.6 of nieuwer, kun je de `receive.denyDeletes` en `receive.denyNonFastForwards` instellingen aanpassen. Maar dit afdwingen met behulp van een haak werkt ook in oudere versies van Git, en je kunt het aanpasen zodat het alleen gebeurd bij bepaalde gebruikers of wat je later ook verzint.
 
-The logic for checking this is to see if any commits are reachable from the older revision that aren’t reachable from the newer one. If there are none, then it was a fast-forward push; otherwise, you deny it:
+De logica om dit te controleren is zien of iedere commit die bereikbaar is vanuit de oudere revisie, niet bereikbaar is vanuit de nieuwere. Als er geen zijn, dan was het een fast-forward push; anders weiger je het:
 
-	# enforces fast-forward only pushes 
+	# dwingt fast-forward only pushes af
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split("\n").size
@@ -709,7 +709,8 @@ The logic for checking this is to see if any commits are reachable from the olde
 
 	check_fast_forward
 
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file you into which you should have put all this code, and then try to push a non-fast-forwarded reference, you get something like this:
+Alles is ingesteld. Als je `chmod u+x .git/hooks/update` uitvoert, wat het bestand is waarin je al deze code gestopt hebt, en dan probeert te pushen naar een non-fast-forwarded referentie, krijg je zoiets als dit:
+
 
 	$ git push -f origin master
 	Counting objects: 5, done.
@@ -726,44 +727,45 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	 ! [remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-There are a couple of interesting things here. First, you see this where the hook starts running.
+Er zijn hier een aantal interessante dingen. Ten eerste, zie je dit als de haak start met uitvoeren.
 
 	Enforcing Policies... 
 	(refs/heads/master) (fb8c72) (c56860)
 
-Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
+Zie dat je dat afgedrukt hebt naar stdout aan het begin van je update script. Het is belangrijk om te zien dat alles dat je script naar stdout uitvoert, naar de client overgebracht wordt.
 
-The next thing you’ll notice is the error message.
+Het volgende dat je op zal vallen is de foutmelding.
 
 	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 
-The first line was printed out by you, the other two were Git telling you that the update script exited non-zero and that is what is declining your push. Lastly, you have this:
+De eerste regel was door jou afgedrukt, de andere twee waren Git die je vertelde dat het update script met niet nul eindigde en dat dat hetgeen is dat je push weigerde. Als laatste heb je dit:
 
 	To git@gitserver:project.git
 	 ! [remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-You’ll see a remote rejected message for each reference that your hook declined, and it tells you that it was declined specifically because of a hook failure.
+Je zult een remote weiger bericht zien voor iedere referentie die je haak weigerde, en het verteld je dat het specifiek was geweigerd omdat het een haak fout was.
 
-Furthermore, if the ref marker isn’t there in any of your commits, you’ll see the error message you’re printing out for that.
+Daarnaast zul je een foutmelding zien dat je uitvoert als de ref marker niet in één van je commits zit.
 
 	[POLICY] Your message is not formatted correctly
 
-Or if someone tries to edit a file they don’t have access to and push a commit containing it, they will see something similar. For instance, if a documentation author tries to push a commit modifying something in the `lib` directory, they see
+Of als iemand een bestand probeert aan te passen waar ze geen toegang tot hebben en een commit probeert te pushen waar het in zit, dan zullen ze iets vergelijkbaars zien. Bijvoorbeeld, als een documentatie schrijver een commit probeert te pushen dat iets wijzigt dat in de `lib` map zit, dan zien ze
+
 
 	[POLICY] You do not have access to push to lib/test.rb
 
-That’s all. From now on, as long as that `update` script is there and executable, your repository will never be rewound and will never have a commit message without your pattern in it, and your users will be sandboxed.
+Dat is alles. Vanaf nu, zolang als het `update` script aanwezig en uitvoerbaar is, zal je repository nooit teruggedraaid worden en zal nooit een commit bericht zonder je patroon erin bevatten, en je gebruikers zullen ingeperkt zijn.
 
-### Client-Side Hooks ###
+### Client-Kant Haken ###
 
-The downside to this approach is the whining that will inevitably result when your users’ commit pushes are rejected. Having their carefully crafted work rejected at the last minute can be extremely frustrating and confusing; and furthermore, they will have to edit their history to correct it, which isn’t always for the faint of heart.
+Het nadeel hiervan is het zeuren dat geheid zal gebeuren zodra de commits van je gebruikers geweigerd worden. Het feit dat hun zorgzaam vervaardigde werk geweigerd wordt op het laatste moment kan enorm frustrerend en verwarrend zijn: daarnaast, zullen ze hun geschiedenis moeten aanpassen om het te corrigeren, wat niet altijd voor de mensen met een zwak hart is.
 
-The answer to this dilemma is to provide some client-side hooks that users can use to notify them when they’re doing something that the server is likely to reject. That way, they can correct any problems before committing and before those issues become more difficult to fix. Because hooks aren’t transferred with a clone of a project, you must distribute these scripts some other way and then have your users copy them to their `.git/hooks` directory and make them executable. You can distribute these hooks within the project or in a separate project, but there is no way to set them up automatically.
+Het antwoord op dit dilemma is een aantal client-kant haken te leveren, die gebruikers kunnen toepassen om hen te waarschuwen dat ze iets doen dat de server waarschijnlijk gaat weigeren. Op die manier kunnen ze alle problemen corrigeren voordat ze gaan committen en voordat die problemen moeilijk te herstellen zijn. Omdat haken niet overgebracht worden bij een clone van een project, moet je deze scripts op een andere manier distribueren en je gebruikers ze dan in hun `.git/hooks` map laten zetten en ze uitvoerbaar maken. Je kunt deze haken in je project of in een apart project distribueren, maar er is geen manier om ze automatisch in te laten stellen.
 
-To begin, you should check your commit message just before each commit is recorded, so you know the server won’t reject your changes due to badly formatted commit messages. To do this, you can add the `commit-msg` hook. If you have it read the message from the file passed as the first argument and compare that to the pattern, you can force Git to abort the commit if there is no match:
+Om te beginnen zou je je commit boodschap moeten controleren, vlak voordat iedere commit opgeslagen wordt, zodat je weet dat de server je wijzigingen niet gaat weigeren omdat de commit boodschap een verkeerd formaat heeft. Om dit te doen, kun je de `commit-msg` haak toevoegen. Als je dat de commit boodschap laat lezen uit het bestand dat als eerste argument opgegeven wordt, en dat vergelijkt met het patroon, dan kun je Git forceren om de commit af te breken als er geen overeenkomst is:
 
 	#!/usr/bin/env ruby
 	message_file = ARGV[0]
@@ -776,18 +778,18 @@ To begin, you should check your commit message just before each commit is record
 	  exit 1
 	end
 
-If that script is in place (in `.git/hooks/commit-msg`) and executable, and you commit with a message that isn’t properly formatted, you see this:
+Als dat script op z'n plaats staat (in `.git/hooks/commit-msg`) en uitvoerbaar is, en je commit met een verkeerd formaat bericht, dan zie je dit:
 
 	$ git commit -am 'test'
 	[POLICY] Your message is not formatted correctly
 
-No commit was completed in that instance. However, if your message contains the proper pattern, Git allows you to commit:
+In dat geval was er geen commit afgerond. Maar, als je bericht het juiste patroon bevat, dan staat Git je toe te committen:
 
 	$ git commit -am 'test [ref: 132]'
 	[master e05c914] test [ref: 132]
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Next, you want to make sure you aren’t modifying files that are outside your ACL scope. If your project’s `.git` directory contains a copy of the ACL file you used previously, then the following `pre-commit` script will enforce those constraints for you:
+Vervolgens wil je er zeker van zijn dat je geen bestanden buiten je ACL scope aanpast. Als de `.git` map van je project een copie van het ACL bestand bevat dat je eerder gebruikte, dan zal het volgende `pre-commit` script die beperkingen op je toepassen:
 
 	#!/usr/bin/env ruby
 
@@ -795,7 +797,7 @@ Next, you want to make sure you aren’t modifying files that are outside your A
 
 	# [ insert acl_access_data method from above ]
 
-	# only allows certain users to modify certain subdirectories in a project
+	# staat alleen bepaalde gebruikers toe bepaalde mappen aan te passen
 	def check_directory_perms
 	  access = get_acl_access_data('.git/acl')
 
@@ -816,29 +818,30 @@ Next, you want to make sure you aren’t modifying files that are outside your A
 
 	check_directory_perms
 
-This is roughly the same script as the server-side part, but with two important differences. First, the ACL file is in a different place, because this script runs from your working directory, not from your Git directory. You have to change the path to the ACL file from this
+Dit is ongeveer hetzelfde script als aan de server kant, maar met twee belangrijke verschillen. Als eerste staat het ACL bestand op een andere plek, omdat dit script vanuit je werkmap draait, niet vanuit je Git map. Je moet het pad naar het ACL bestand wijzigen van dit
 
 	access = get_acl_access_data('acl')
 
-to this:
+in dit:
 
 	access = get_acl_access_data('.git/acl')
 
-The other important difference is the way you get a listing of the files that have been changed. Because the server-side method looks at the log of commits, and, at this point, the commit hasn’t been recorded yet, you must get your file listing from the staging area instead. Instead of
+Het andere belangrijke verschil is de manier waarop je een lijst krijgt met bestanden die je gewijzigd hebt. Omdat de server kant methode naar de log van commits kijkt, en op dit punt je commit nog niet opgeslagen is, moet je je bestandslijst in plaats daarvan uit het stage gebied halen. In plaats van
 
 	files_modified = `git log -1 --name-only --pretty=format:'' #{ref}`
 
-you have to use
+moet je dit gebruiken
 
 	files_modified = `git diff-index --cached --name-only HEAD`
 
-But those are the only two differences — otherwise, the script works the same way. One caveat is that it expects you to be running locally as the same user you push as to the remote machine. If that is different, you must set the `$user` variable manually.
+Maar dat zijn de enige twee verschillen – voor de rest werkt het scipt op dezelde manier. Een instinker is dat het van je verwacht dat je lokaal werkt als dezelfde gebruiker die pushed naar de remote machine. Als dat verschillend is, moet je de `$user` variabele handmatig instellen.
 
-The last thing you have to do is check that you’re not trying to push non-fast-forwarded references, but that is a bit less common. To get a reference that isn’t a fast-forward, you either have to rebase past a commit you’ve already pushed up or try pushing a different local branch up to the same remote branch.
+Het laatste ding dat je moet doen is controleren dat je niet non-fast-forward referenties probeert te pushen, maar dat komt minder voor. Om een referentie te krijgen dat geen fast-forward is, moet je voorbij een commit rebasen die je al gepushed hebt, of een andere lokale branch naar dezelfde remote branch proberen te pushen.
 
-Because the server will tell you that you can’t push a non-fast-forward anyway, and the hook prevents forced pushes, the only accidental thing you can try to catch is rebasing commits that have already been pushed.
+Omdat de server je zal vertellen dat je geen non-fast-forward push kunt doen, en de haak de push tegenhoudt, is het enige ongelukkige ding dat je kunt proberen te vangen het rebasen van commits die je al gepushed hebt.
 
-Here is an example pre-rebase script that checks for that. It gets a list of all the commits you’re about to rewrite and checks whether they exist in any of your remote references. If it sees one that is reachable from one of your remote references, it aborts the rebase:
+
+Hier is een voorbeeld pre-rebase script dat daarop controleert. Het haalt een lijst met alle commits die je op het punt staat te herschrijven, en controleert of ze al op een bepaalde manier bestaan in één van je remote referenties. Als het er een ziet die bereikbaar is vanuit een van je remote referenties, dan stopt het de rebase:
 
 	#!/usr/bin/env ruby
 
@@ -862,14 +865,14 @@ Here is an example pre-rebase script that checks for that. It gets a list of all
 	  end
 	end
 
-This script uses a syntax that wasn’t covered in the Revision Selection section of Chapter 6. You get a list of commits that have already been pushed up by running this:
+Dit script gebruikt een syntax dat niet behandeld is in de Revisie Selectie sectie van Hoofdstuk 6. Je krijgt een lijst van commits die al gepushed zijn door dit uit te voeren:
 
 	git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 
-The `SHA^@` syntax resolves to all the parents of that commit. You’re looking for any commit that is reachable from the last commit on the remote and that isn’t reachable from any parent of any of the SHAs you’re trying to push up — meaning it’s a fast-forward.
+De `SHA^@` syntax wordt vervangen door alle ouders van die commit. Je bent aan het kijken naar iedere commit die bereikbaar is vanuit de laatste commit op de remote en die niet bereikbaar is vanuit elke ouder van de SHA's die je probeert te pushen – wat betekend dat het een fast-forward is.
 
-The main drawback to this approach is that it can be very slow and is often unnecessary — if you don’t try to force the push with `-f`, the server will warn you and not accept the push. However, it’s an interesting exercise and can in theory help you avoid a rebase that you might later have to go back and fix.
+Het grote nadeel van deze aanpak is dat het erg traag kan zijn en vaak onnodig is – als je de push niet probeert te forceren met de `-f` optie, dan zal de server je proberen te waarschuwen en de push niet accepteren. Maar, het is een aardige oefening en kan je in theorie helpen om een rebase te omzeilen die je later zult moeten herstellen.
 
-## Summary ##
+## Samenvatting ##
 
-You’ve covered most of the major ways that you can customize your Git client and server to best fit your workflow and projects. You’ve learned about all sorts of configuration settings, file-based attributes, and event hooks, and you’ve built an example policy-enforcing server. You should now be able to make Git fit nearly any workflow you can dream up.
+Je hebt nu de meeste manieren behandeld waarin je je Git client en server aan kunt passen om aan jouw werkwijze en projecten te voldoen. Je hebt over alle soorten configuratie instellingen geleerd, bestands-gebaseerde attributen, en gebeurtenis haken, en je hebt een voorbeeld server met een afgedwongen beleid gebouwd. Je zou nu in staat moeten zijn om Git bijna iedere werkwijze die je kunt verzinnen te laten doen.

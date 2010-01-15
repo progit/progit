@@ -1,6 +1,6 @@
 # Git op Maat Maken #
 
-Tot zover heb ik de basale werking van Git behandeld, en hoe het te gebruiken, en ik heb een aantal tools geintroduceerd die Git levert om je het makkelijk en efficient te laten gebruiken. In dit hoofdstuk zal ik wat operaties doorlopen die je kunt gebruiken om Git op een meer persoonlijke manier te laten werken door een aantal belangrijke configuratie instellingen te introduceren en het haken systeem. Met deze gereedschappen is het makkelijk om Git precies te laten werken op de manier zoals jij, je bedrijf, of je groep het graag wil.
+Tot zover heb ik de fundamentele werking van Git behandeld, en hoe het te gebruiken, en ik heb een aantal tools geïntroduceerd die Git levert om je het makkelijk en efficiënt te laten gebruiken. In dit hoofdstuk zal ik wat operaties doorlopen die je kunt gebruiken om Git op een persoonlijker manier te laten werken door een aantal belangrijke configuratieinstellingen te introduceren en het hakensysteem. Met deze gereedschappen is het makkelijk om Git precies te laten werken op de manier zoals jij, je bedrijf, of je groep het graag wil.
 
 ## Git Configuratie ##
 

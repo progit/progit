@@ -1,24 +1,24 @@
-# Distributed Git #
+# Gedistribueerd Git #
 
-Now that you have a remote Git repository set up as a point for all the developers to share their code, and you’re familiar with basic Git commands in a local workflow, you’ll look at how to utilize some of the distributed workflows that Git affords you.
+Nu dat je een remote Git repository hebt ingesteld als een punt waar alle ontwikkelaars hun code kunnen delen, en je bekend bent met fundamentele Git commando's in een lokale werkwijze, zul je kijken hoe je een paar gedistribueerde werkwijzen kunt gebruiken die Git je toestaat.
 
-In this chapter, you’ll see how to work with Git in a distributed environment as a contributor and an integrator. That is, you’ll learn how to contribute code successfully to a project and make it as easy on you and the project maintainer as possible, and also how to maintain a project successfully with a number of developers contributing.
+In dit hoofdstuk zul je zien hoe je met Git kunt werken in een gedistribueerde omgeving als een bijdrager en als een integrator. Dat wil zeggen, je zult leren hoe je succesvol code kunt bijdragen aan een project en hoe je het zo makkelijk mogelijk maakt voor jou en de onderhouder van het project, en ook hoe je een project succesvol kunt onderhouden waarbij een aantal ontwikkelaars bijdragen.
 
-## Distributed Workflows ##
+## Gedistribueerde Werkwijzen ##
 
-Unlike Centralized Version Control Systems (CVCSs), the distributed nature of Git allows you to be far more flexible in how developers collaborate on projects. In centralized systems, every developer is a node working more or less equally on a central hub. In Git, however, every developer is potentially both a node and a hub — that is, every developer can both contribute code to other repositories and maintain a public repository on which others can base their work and which they can contribute to. This opens a vast range of workflow possibilities for your project and/or your team, so I’ll cover a few common paradigms that take advantage of this flexibility. I’ll go over the strengths and possible weaknesses of each design; you can choose a single one to use, or you can mix and match features from each.
+In tegenstelling tot gecentraliseerde versie beheersystemen (CVCS), staat de gedistribueerde aard van Git je toe om veel flexibeler te zijn in de manier waarop ontwikkelaars bijdragen in projecten. Bij gecentraliseerde systemen is iedere ontwikkelaar een knooppunt dat meer of minder gelijkwaardig werkt op een centraal punt. In Git is iedere ontwikkelaar zowel een knoop als een centraal punt – dat wil zeggen, iedere ontwikkelaar kan zowel code bijdragen aan andere repositories, als ook een publiek repository onderhouden waarop andere ontwikkelaars hun werk baseren en waaraan zij kunnen bijdragen. Dit stelt je project en of je team in staat om een enorm aantal werkwijzen er op na te houden, dus ik zal een aantal veel voorkomende manieren behandelen die gebruik maken van deze flexibiliteit. Ik zal de sterke en mogelijke zwakke punten van ieder ontwerp behandelen; je kunt er een kiezen om te gebruiken, of je kunt van iedere wijze een paar eigenschappen pakken en mengen.
 
-### Centralized Workflow ###
+### Gecentraliseerde Werkwijze ###
 
-In centralized systems, there is generally a single collaboration model—the centralized workflow. One central hub, or repository, can accept code, and everyone synchronizes their work to it. A number of developers are nodes — consumers of that hub — and synchronize to that one place (see Figure 5-1).
+In gecentraliseerde systemen is er over het algemeen een enkel samenwerkingsmodel – de gecentraliseerde werkwijze. Eén centraal punt, of repository, kan code aanvaarden, en iedereen synchroniseerd hun werk daarmee. Een aantal ontwikkelaars zijn knopen – gebruikers van dat centrale punt – en synchroniseren met die plaats (zie Figuur 5-1). 
 
 Insert 18333fig0501.png 
-Figure 5-1. Centralized workflow.
+Figuur 5-1. Gecentraliseerde Werkwijze.
 
-This means that if two developers clone from the hub and both make changes, the first developer to push their changes back up can do so with no problems. The second developer must merge in the first one’s work before pushing changes up, so as not to overwrite the first developer’s changes. This concept is true in Git as it is in Subversion (or any CVCS), and this model works perfectly in Git.
+Dit betekend dat als twee ontwikkelaars clonen van het gecentraliseerde punt en beide wijzigingen doen, de eerste ontwikkelaar zijn wijzigingen terug kan zetten zonder problemen. De tweede ontwikkelaar zal het werk van de eerste in het zijne moeten samenvoegen voordat hij het zijne kan terugzetten, om zo niet het werk van de eerste te overschrijven. Dit concept werkt zo in Git zoals het ook werkt in Subversion (of ieder ander CVCS), en dit model werkt perfekt in Git.
 
-If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge.
-This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.
+Als je een klein team hebt, of al vertrouwd bent met een gecentraliseerde werkwijze in je bedrijf of team, dan kun je eenvoudig doorgaan met het gebruiken van die werkwijze met Git. Stel eenvoudigweg een enkel repository in, en geef iedereen in je team terugzet toegang; Git zal gebruikers niet toestaan om elkaar te overschrijven. Als een ontwikkelaar cloned, wijzigingen maakt, en dan probeert hun wijzigingen terug te zetten terwijl een andere ontwikkelaar de zijne in de tussentijd heeft teruggezet, dan zal de server de wijzigingen van die ontwikkelaar weigeren. Ze zullen worden gemeld dat ze non-fast-forward wijzigingen proberen terug te zetten en dat ze dat niet mogen totdat ze eerst fetchen en samenvoegen.
+Deze werkwijze is voor een hoop mensen aantrekkelijk omdat het een wijze is waarmee veel mensen bekend zijn en zich op hun gemak bij voelen.
 
 ### Integration-Manager Workflow ###
 

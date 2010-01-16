@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Git und andere Versionsverwaltungen #
 
 <!--The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.-->
@@ -18,33 +17,9 @@ Gegenwärtig verwenden die meisten Open Source Entwicklungsprojekte und eine gro
 <!--One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.-->
 
 Eines der großartigen Features von Git ist die bi-direktionale Brücke zu Subversion: `git svn`. Diese Tool ermöglicht es, Git als ganz normalen Client für einen Subversion-Server zu benutzen, so dass Du alle lokalen Features von Git nutzen kanns und Deine Änderungen dann auf einen Subversion-Server pushen kannst, so als ob Du Subversion lokal nutzen würdest. Das bedeutet, dass Du lokale Branches anlegen kannst, mergen, die staging area, rebasing, cherry-picking etc. verwenden, während Deine Kollegen weiterhin aus ihre angestaubte Art und Weise arbeiten. Das ist eine gute Gelegenheit, um Git in einem Unternehmen einzuführen und Deinen Entwickler-Kollegen dabei zu helfen, effizienter zu werden während Du an der Unterstützung arbeitest, die Infrastruktur so umzubauen, dass Git voll unterstützt wird. Die Subversion-Bridge von Git ist quasi die Einstiegsdroge in die Welt der verteilten Versionsverwaltungssysteme (distributed version control systems, DVCS).
-=======
-# Git and Other Systems #
-# Git und andere Versionsverwaltungen #
-
-The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
-
-Leider ist die Welt nicht perfekt. Normalerweise kannst Du nicht bei jedem Deiner Projekt sofort auf Git umsteigen. Manchmal musst Du in einem Deiner Projekte irgendeine andere Versionsverwaltung nutzen, ziemlich oft ist das Subversion. Im ersten Teil dieses Kapitels werden wir das bidirektionale Gateway zwischen Git und Subversion kennezulernen: `git svn`.
-
-At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case. 
-
-Manchmal kommst Du an den Zeitpunkt, zu dem Du ein bestehendes Projekt zu Git konvertieren willst. Der zweite Teil dieses Kapitels zeigt Dir, wie Du Dein Projekt zu Git migrieren kannst. Zunächst behandeln wir Subversion, dann Perforce und zum Schluss verwenden wir ein angepasstes Import-Skript, um einen nicht standard-mäßigen Import abzudecken.
-
-## Git and Subversion ##
-## Git und Subversion ##
-
-Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.
-
-Gegenwärtig verwenden die meisten Open Source Entwicklungsprojekte und eine große Anzahl von Projekten in Unternehmen Subversion, um ihren Quellcode zu verwalten. Es ist die populärste Open Source Versionsverwaltung und wird seit fast einem Jahrzehnt eingesetzt. In vielen Bereichen ähnelt es CVS, das vorher der König der Versionsverwaltungen war.
-
-One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.
->>>>>>> f588b6eee801731d944f7cd461c589e14c4f0be5
-
-Eines der großartigen Features von Git ist die bi-direktionale Brücke zu Subversion: `git svn`. Diese Tool ermöglicht es, Git als ganz normalen Client für einen Subversion-Server zu benutzen, so dass Du alle lokalen Features von Git nutzen kanns und Deine Änderungen dann auf einen Subversion-Server pushen kannst, so als ob Du Subversion lokal nutzen würdest. Das bedeutet, dass Du lokale Branches anlegen kannst, mergen, die staging area, rebasing, cherry-picking etc. verwenden, während Deine Kollegen weiterhin aus ihre angestaubte Art und Weise arbeiten. Das ist eine gute Gelegenheit, um Git in einem Unternehmen einzuführen und Deinen Entwickler-Kollegen dabei zu helfen, effizienter zu werden während Du an der Unterstützung arbeitest, die Infrastruktur so umzubauen, dass Git voll unterstützt wird. Die Subversion-Bridge von Git ist quasi die Einstiegsdroge in die Welt der verteilten Versionsverwaltungssysteme (distributed version control systems, DVCS).
 
 ### git svn ###
 
-<<<<<<< HEAD
 <!--The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.-->
 
 Das Haupt-Kommando in Git für alle Kommandos der Subversion Bridge ist `git svn`. Dieser Befehl wird allen anderen vorangestellt. Er kennt zahlreiche Optionen, daher werde wir jetzt die gebräuchlichsten zusammen anhand von ein paar Beispielen durchspielen.
@@ -66,52 +41,19 @@ Um dieses Feature zu demonstrieren, brauchst Du zunächst ein typisches SVN-Repo
 <!--To follow along, you first need to create a new local Subversion repository:-->
 
 Zunächst einmal musst Du ein neues lokales Subversion-Repository anlegen:
-=======
-The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.
-
-Das Haupt-Kommando in Git für alle Kommandos der Subversion Bridge ist `git svn`. Dieser Befehl wird allen anderen vorangestellt. Er kennt zahlreiche Optionen, daher werde wir jetzt die gebräuchlichsten zusammen anhand von ein paar Beispielen durchspielen.
-
-It’s important to note that when you’re using `git svn`, you’re interacting with Subversion, which is a system that is far less sophisticated than Git. Although you can easily do local branching and merging, it’s generally best to keep your history as linear as possible by rebasing your work and avoiding doing things like simultaneously interacting with a Git remote repository.
-
-Es ist wichtig, dass Du im Hinterkopf behältst, dass Du mit dem `git svn` Befehl mit Subversion interagierst, eine System, dass nicht ganz so fortschrittlich ist wie Git. Obwohl Du auch dort ganz einfach Branches erstellen und wieder zusammenführen kannst, ist es üblicherweise am einfachsten, wenn Du die History so geradlinig wie möglich gestaltest, indem Du ein rebase für Deine Arbeit durchfürst und es vermeidest, zum Beispiel mit einem entfernten Git-Repository zu interagieren.
-
-Don’t rewrite your history and try to push again, and don’t push to a parallel Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate — doing so will make your life easier.
-
-Du solltest auf keinen Fall Deine History neu schreiben und dann versuchen, die Änderungen zu publizieren. Bitte schick Deine Änderungen auch nicht zeitgleich dazu an ein anderes Git-Repository, in dem Du mit Deinen Kollegen zusammenarbeitest, die bereits Git nutzen. Subversion kennt nur eine einzige lineare History für das gesamte Repository und da kommt man schnell mal durcheinander. Wenn Du in einem Team arbeitest, in dem manche Deiner Kollegen SVN und andere schon Git nutzen, dann solltest Du sicherstellen, dass Ihr alle einen SVN-Server zur Zusammenarbeit nutzt, das macht Dein Leben deutlich einfacher.
-
-### Setting Up ###
-### Installation ###
-
-To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
-
-Um dieses Feature zu demonstrieren, brauchst Du zunächst ein typisches SVN-Repository, in dem Du Schreibzugriff hast. Wenn Du die folgenden Beispiele selbst ausprobieren willst, brauchst Du eine beschreibbare Kopie meines Test-Repositories. Das geht ganz einfach mit einem kleinen Tool namens `svnsync`, das mit den letzten Subversion-Versionen (ab Version 1.4) mitgeliefert wird. Für diese Test habe ich ein neues Subversion Repository auf Google Code angelegt, das einen Teil aus dem `protobuf`-Projekts kopiert, einem Tool, das Datenstrukturen für die Übertragung über ein Netzwerk umwandelt.
-
-To follow along, you first need to create a new local Subversion repository:
->>>>>>> f588b6eee801731d944f7cd461c589e14c4f0be5
-
-Zunächst einmal musst Du ein neues lokales Subversion-Repository anlegen:
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-<<<<<<< HEAD
 <!--Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:-->
 
 Anschließend gibst Du allen Usern die Möglichkeit, die revprops zu ändern. Am einfachsten geht das, indem wir ein pre-revprop-change Skript erstellen, das immer 0 zurückgibt:
 
 	$ cat /tmp/test-svn/hooks/pre-revprop-change
-=======
-Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:
-
-Anschließend gibst Du allen Usern die Möglichkeit, die revprops zu ändern. Am einfachsten geht das, indem wir ein pre-revprop-change Skript erstellen, das immer 0 zurückgibt:
-
-	$ cat /tmp/test-svn/hooks/pre-revprop-change 
->>>>>>> f588b6eee801731d944f7cd461c589e14c4f0be5
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-<<<<<<< HEAD
 <!--You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.-->
 
 Jetzt kannst Du dieses Projekt auf Deinen lokalen Rechner mit einem Aufruf von `svnsync init` synchronisieren. Als Optionen gibst Du das Ziel- und das Quell-Repository an.
@@ -119,17 +61,6 @@ Jetzt kannst Du dieses Projekt auf Deinen lokalen Rechner mit einem Aufruf von `
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
 <!--This sets up the properties to run the sync. You can then clone the code by running-->
-
-Das richtet die Properties ein, um die Synchronisierung laufen zu lassen. Nun kannst Du den Code klonen:
-=======
-You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.
-
-Jetzt kannst Du dieses Projekt auf Deinen lokalen Rechner mit einem Aufruf von `svnsync init` synchronisieren. Als Optionen gibst Du das Ziel- und das Quell-Repository an.
-
-	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
-
-This sets up the properties to run the sync. You can then clone the code by running
->>>>>>> f588b6eee801731d944f7cd461c589e14c4f0be5
 
 Das richtet die Properties ein, um die Synchronisierung laufen zu lassen. Nun kannst Du den Code klonen:
 
@@ -141,7 +72,6 @@ Das richtet die Properties ein, um die Synchronisierung laufen zu lassen. Nun ka
 	Committed revision 3.
 	...
 
-<<<<<<< HEAD
 <!--Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.-->
 
 Obwohl diese Operation möglicherweise nur ein paar wenige Minuten in Anspruch nimmt, wird das Kopieren des Quell-Repositories von einem entfernten Repository in ein lokales fast eine Stunde dauern, auch wenn weniger als 100 Commits getätigt wurden. Subversion muss jede Revision einzeln klonen und sie dann in ein anderes Repository schieben - das ist zwar ziemlich ineffizient, aber für uns der einfachste Weg.
@@ -149,16 +79,6 @@ Obwohl diese Operation möglicherweise nur ein paar wenige Minuten in Anspruch n
 ### Die ersten Schritte (Getting Started) ###
 
 <!--Now that you have a Subversion repository to which you have write access, you can go through a typical workflow. You’ll start with the `git svn clone` command, which imports an entire Subversion repository into a local Git repository. Remember that if you’re importing from a real hosted Subversion repository, you should replace the `file:///tmp/test-svn` here with the URL of your Subversion repository:-->
-=======
-Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.
-
-Obwohl diese Operation möglicherweise nur ein paar wenige Minuten in Anspruch nimmt, wird das Kopieren des Quell-Repositories von einem entfernten Repository in ein lokales fast eine Stunde dauern, auch wenn weniger als 100 Commits getätigt wurden. Subversion muss jede Revision einzeln klonen und sie dann in ein anderes Repository schieben - das ist zwar ziemlich ineffizient, aber für uns der einfachste Weg.
-
-### Getting Started ###
-### Die ersten Schritte ###
->>>>>>> f588b6eee801731d944f7cd461c589e14c4f0be5
-
-Jetzt, da wir ein beschreibbares Subversion Repository haben, können wir mit einem typischen Workflow loslegen. Du beginnst mit dem `git svn clone`Kommando, das ein komplettes Subversion-Repository in ein lokales Git-Repository importiert. Denk daran, dass Du `file:///tmp/test-svn` im folgenden Beispiel mit der URL Deines eigenen Subversion-Repositorys ersetzt, wenn Du den Import für ein real existierendes Subversion-Repository durchführen willst.
 
 Jetzt, da wir ein beschreibbares Subversion Repository haben, können wir mit einem typischen Workflow loslegen. Du beginnst mit dem `git svn clone`Kommando, das ein komplettes Subversion-Repository in ein lokales Git-Repository importiert. Denk daran, dass Du `file:///tmp/test-svn` im folgenden Beispiel mit der URL Deines eigenen Subversion-Repositorys ersetzt, wenn Du den Import für ein real existierendes Subversion-Repository durchführen willst.
 
@@ -182,15 +102,7 @@ Jetzt, da wir ein beschreibbares Subversion Repository haben, können wir mit ei
 
 Hier werden für die angegebene URL eigentlich zwei Befehle ausgeführt, `git svn init` und anschließend `git svn fetch`. Das kann auch eine Weile dauern. Das Testprojekt hat nur etwa 75 Commits und die Codebase ist nicht so groß, daher benötigen wir nur ein paar Minuten. Da Git aber jede Version einzeln auschecken muss, kann es unter Umständen Stunden oder gar Tage dauern, bis die Ausführung des Befehls fertig ist.
 
-<<<<<<< HEAD
 <!--The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:-->
-
-Die Parameter `-T trunk -b branches -t tags` teilen Git mit, dass das Subversion-Repository den normalen Konventionen bezüglich Branching und Tagging folgt. Wenn Du Deinen Trunk, Deine Branches oder Deine Tags anders benannt hast, kannst Du diese hier anpassen. Da die Angabe aus dem Beispiel für die meisten Repositories gängig ist, kannst Du das ganze auch mit `-s` abkürzen. Diese Option steht für das Standard-Repository-Layount und umfasst die oben genannten Parameter. Der folgende Befehl ist äquivalent zum zuvor genannten:
-=======
-Hier werden für die angegebene URL eigentlich zwei Befehle ausgeführt, `git svn init` und anschließend `git svn fetch`. Das kann auch eine Weile dauern. Das Testprojekt hat nur etwa 75 Commits und die Codebase ist nicht so groß, daher benötigen wir nur ein paar Minuten. Da Git aber jede Version einzeln auschecken muss, kann es unter Umständen Stunden oder gar Tage dauern, bis die Ausführung des Befehls fertig ist.
-
-The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:
->>>>>>> f588b6eee801731d944f7cd461c589e14c4f0be5
 
 Die Parameter `-T trunk -b branches -t tags` teilen Git mit, dass das Subversion-Repository den normalen Konventionen bezüglich Branching und Tagging folgt. Wenn Du Deinen Trunk, Deine Branches oder Deine Tags anders benannt hast, kannst Du diese hier anpassen. Da die Angabe aus dem Beispiel für die meisten Repositories gängig ist, kannst Du das ganze auch mit `-s` abkürzen. Diese Option steht für das Standard-Repository-Layount und umfasst die oben genannten Parameter. Der folgende Befehl ist äquivalent zum zuvor genannten:
 
@@ -199,8 +111,6 @@ Die Parameter `-T trunk -b branches -t tags` teilen Git mit, dass das Subversion
 <!--At this point, you should have a valid Git repository that has imported your branches and tags:-->
 
 Jetzt solltest Du ein Git-Repository erzeugt haben, in das Deine Branches und Tags übernommen wurden:
-
-Jetzt solltest Du ein Git-Repository erzeugt haben, in das Deine Branches und Tags übernommen wurden: 
 
 	$ git branch -a
 	* master
@@ -212,8 +122,6 @@ Jetzt solltest Du ein Git-Repository erzeugt haben, in das Deine Branches und Ta
 	  trunk
 
 <!--It’s important to note how this tool namespaces your remote references differently. When you’re cloning a normal Git repository, you get all the branches on that remote server available locally as something like `origin/[branch]` - namespaced by the name of the remote. However, `git svn` assumes that you won’t have multiple remotes and saves all its references to points on the remote server with no namespacing. You can use the Git plumbing command `show-ref` to look at all your full reference names:-->
-
-An dieser Stelle soll die wichtige Anmerkung nicht fehlen, dass dieses Tool die Namespaces Deiner entfernten Referenzen unterschiedlich behandelt. Wenn Du ein normales Git-Repository klonst, werden alle Branches auf jenem entfernten Server für Dich lokal verfügbar gemacht, zum Beispiel als `origin/[branch]`, der Namespace entspricht dem Namen des entfernten Branches. `git svn` get allerdings davon aus, dass es nicht mehrere entfernte Repositorys gibt und speichert daher seie Referenzen auf die Bereiche entfernter Server ohne Namespaces. Du kannst das Git-Kommando `show-ref` verwenden, um Dir die vollständigen Namen aller Referenzen anzeigen zu lassen:
 
 An dieser Stelle soll die wichtige Anmerkung nicht fehlen, dass dieses Tool die Namespaces Deiner entfernten Referenzen unterschiedlich behandelt. Wenn Du ein normales Git-Repository klonst, werden alle Branches auf jenem entfernten Server für Dich lokal verfügbar gemacht, zum Beispiel als `origin/[branch]`, der Namespace entspricht dem Namen des entfernten Branches. `git svn` get allerdings davon aus, dass es nicht mehrere entfernte Repositorys gibt und speichert daher seie Referenzen auf die Bereiche entfernter Server ohne Namespaces. Du kannst das Git-Kommando `show-ref` verwenden, um Dir die vollständigen Namen aller Referenzen anzeigen zu lassen:
 
@@ -230,37 +138,23 @@ An dieser Stelle soll die wichtige Anmerkung nicht fehlen, dass dieses Tool die 
 
 Ein normales Git-Repository sieht dagegen eher so aus:
 
-Ein normales Git-Repository sieht dagegen eher so aus:
-
 	$ git show-ref
 	83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
 	3e15e38c198baac84223acfc6224bb8b99ff2281 refs/remotes/gitserver/master
 	0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
 	25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 
-<<<<<<< HEAD
 <!--You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`.-->
 
 Du hast zwei entfernte Server: einen, der `gitserver` heißt und einen `master`-Branch beinhaltet, und einen weiteren, der `origin` heißt und zwei Branches (`master` und `testing`) enthält.
 
 <!--Notice how in the example of remote references imported from `git svn`, tags are added as remote branches, not as real Git tags. Your Subversion import looks like it has a remote named tags with branches under it.-->
-=======
-You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`.
-
-Du hast zwei entfernte Server: einen, der `gitserver` heißt und einen `master`-Branch beinhaltet, und einen weiteren, der `origin` heißt und zwei Branches (`master` und `testing`) enthält.
->>>>>>> f588b6eee801731d944f7cd461c589e14c4f0be5
 
 Hast Du bemerkt, dass die entfernten Referenzen, die von `git svn` im Beispiel importiert wurden, nicht als echte Git-Tags importiert wurden, sondern als entfernte Branches? Dein Subversion-Import sieht aus als besäße er einen eigenen Remote-Bereich namens `tags` und unterhalb davon einzelne Branches.
 
 ### Änderungen ins Subversion-Repository committen ###
 
-<<<<<<< HEAD
 <!--Now that you have a working repository, you can do some work on the project and push your commits back upstream, using Git effectively as a SVN client. If you edit one of the files and commit it, you have a commit that exists in Git locally that doesn’t exist on the Subversion server:-->
-=======
-Hast Du bemerkt, dass die entfernten Referenzen, die von `git svn` im Beispiel importiert wurden, nicht als echte Git-Tags importiert wurden, sondern als entfernte Branches? Dein Subversion-Import sieht aus als besäße er einen eigenen Remote-Bereich namens `tags` und unterhalb davon einzelne Branches.
-
-### Committing Back to Subversion ###
->>>>>>> f588b6eee801731d944f7cd461c589e14c4f0be5
 
 Mit unserem funktionierenden Repository können wir nun am Projekt arbeiten und unsere Änderungen commiten; dabei nutzen wir Git als SVN-Client. Wenn du eine der Dateien bearbeitest und sie commitest, hast Du lokal einen Commit in Git, der auf dem Subversion-Server (noch) nicht vorhanden ist:
 
@@ -486,9 +380,11 @@ Wenn Du an Subversion gewöhnt bist und Deine Historie so sehen möchtest, wie S
 
 Du solltest zwei wichtige Dinge über `git svn log`wissen. Erstens: es arbeitet offline, im Gegensatz zum echten `svn log`-Befehl, der den Subversion-Server nach den Daten fragt. Zweitens: es zeigt Dir nur Commits an, die auf den Subversion-Server committet wurden. Lokale Git-Commits die Du nicht mit `dcommit` bestätigt hast, werden nicht aufgeführt, genausowenig wie Commits, die andere in der Zwischenzeit auf dem Subversion-Server gemacht haben. Die Ausgabe zeigt Dir eher den letzten bekannten Zustand der Commits auf dem Subversion-Server.
 
-#### SVN Annotation ####
+#### SVN Vermerke (SVN Annotation) ####
 
-Much as the `git svn log` command simulates the `svn log` command offline, you can get the equivalent of `svn annotate` by running `git svn blame [FILE]`. The output looks like this:
+<!--Much as the `git svn log` command simulates the `svn log` command offline, you can get the equivalent of `svn annotate` by running `git svn blame [FILE]`. The output looks like this:-->
+
+Genauso wie das Kommando `git svn log` den `svn log`-Befehl offline simuliert kannst Du das Pendant zu `svn annotate` mit dem Befehl `git svn blame [FILE]` ausführen. Die Ausgabe sieht so aus: 
 
 	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
@@ -504,7 +400,9 @@ Much as the `git svn log` command simulates the `svn log` command offline, you c
 	 2   temporal Buffer compiler (protoc) execute the following:
 	 2   temporal
 
-Again, it doesn’t show commits that you did locally in Git or that have been pushed to Subversion in the meantime.
+<!--Again, it doesn’t show commits that you did locally in Git or that have been pushed to Subversion in the meantime.-->
+
+Auch dieser Befehl zeigt die Commits nicht an, die Du lokal getätigt hast, genauso wenig wie jene, die in der Zwischenzeit zum Subversion-Server übertragen wurden.
 
 #### SVN Server Information ####
 

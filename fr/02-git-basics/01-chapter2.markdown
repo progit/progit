@@ -160,10 +160,10 @@ La première ligne ordonne à Git d'ignorer tout fichier se terminant en .o ou .
 
 Les règles de construction des patrons à placer dans le fichier .gitignore sont les suivantes :
 
-*	Les lignes vides ou commençant par # sont ignorée
-*	Les patrons standards de fichiers sont utilisables
-*       Si le patron se termine par un slash (`/`), le patron dénote un répertoire
-*	Un patron commençant par un point d'exclamation (`!`) est inversé.
+* Les lignes vides ou commençant par # sont ignorée
+* Les patrons standards de fichiers sont utilisables
+* Si le patron se termine par un slash (`/`), le patron dénote un répertoire
+* Un patron commençant par un point d'exclamation (`!`) est inversé.
 
 Les patrons standards de fichiers sont des expressions régulières simplifiées utilisées par les shells. Un astérisque (`*`) correspond à un ou plusieurs caractères ; `[abc]` correspond à un des trois caractères listés dans les crochets, donc a ou b ou c ; un point d'interrogation (`?`) correspond à un unique caractère ; des crochets entourant des caractères séparés par un signe moins (`[0-9]`) correspond à un caractère dans l'intervalle des deux caractères indiqués, donc ici de 0 à 9.
 
@@ -487,7 +487,7 @@ Une des options les plus utiles est `-p`, qui montre les différences introduite
 
 Cette option affiche la même information mais avec un diff suivant directement chaque entrée. C'est très utile pour des revues de code ou pour naviguer rapidement à travers l'historique des modifications qu'un collaborateur a apportées.
 
-Vous pouvez aussi utiliser une liste pour d'options de résumé avec `git log`. Par exemple, si vous souhaitez visualiser des statistiques résumées pour chaque commit, vous pouvez utiliser l'option `--stat` :
+Vous pouvez aussi utiliser une liste d'options de résumé avec `git log`. Par exemple, si vous souhaitez visualiser des statistiques résumées pour chaque commit, vous pouvez utiliser l'option `--stat` :
 
 	$ git log --stat 
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -536,26 +536,26 @@ L'option la plus intéressante est `format` qui permet de décrire précisément
 
 Le tableau 2-1 liste les options de formattage les plus utiles.
 
-	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+	Option	Description du formattage
+	%H	Somme de contrôle du commit
+	%h	Somme de contrôle abrégée du commit
+	%T	Somme de contrôle de l'arborescence
+	%t	Somme de contrôle abrégée de l'aborescence
+	%P	Sommes de contrôle des parents
+	%p	Sommes de contrôle abrégées des parents
+	%an	Nom de l'auteur
+	%ae	e-mail de l'auteur
+	%ad	Date de l'auteur (au format de l'option -date=)
+	%ar	Date relative de l'auteur
+	%cn	Nom du validateur
+	%ce	e-mail du validateur
+	%cd	Date du validateur
+	%cr	Date relative du validateur
+	%s	Sujet
 
-You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+Vous pourriez vous demander quelle est la différence entre _auteur  et _validateur_. L'auteur est la personne qui a réalisé initialement le travail, alors que le validateur est la personne qui a effectivement validé ce travail en gestion de version. Donc, si quelqu'un envoie patch à un projet et un des membres du projet l'applique, les deux personnes reçoivent le crédit - l'écrivain en tant qu'auteur, et le membre du projet en tant que validateur. Nous traiterons plus avant de cette distinction au chapitre 5.
 
-The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
+Les options oneline et format sont encore plus utiles avec une autre option `log` appelée `--graph`. Cette option ajoute un joli graphe en caractères ASCII pour décrire l'historique des branches et fusions, ce que nous pouvons visualiser pour notre copie du dépot de Grit :
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -569,43 +569,43 @@ The oneline and format options are particularly useful with another `log` option
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
+Les options ci-dessus ne sont que des options simple de format de sortie de `git log` - il y en a de nombreux autres. Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'autres options communément utilisées accompagnées de la manière dont elles modifient le résultat de la commande log.
 
 	Option	Description
-	-p	Show the patch introduced with each commit.
-	--stat	Show statistics for files modified in each commit.
-	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
-	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+	-p	Affiche le patch appliqué par chaque commit
+	--stat	Affiche les statistiques de chaque fichier pour chaque commit
+	--shortstat	N'affiche que la ligne des modifiées/insérées/effacées le l'option --stat
+	--name-only	Affiche la liste des fichiers modifiés après les informations du commit
+	--name-status	Affiche la liste des fichiers affectés accompagnés des informations d'ajout/modification/suppression
+	--abbrev-commit	N'affiche que les premiers caractères de la somme de contrôle SHA-1
+	--relative-date	Affiche la date en format relatif (par exemple "2 weeks ago" : il y a deux semaines) au lieu du format de date complet
+	--graph	Affiche en caractère ASCII le graphe de branches et fusions en vis-à-vis de l'historique
+	--pretty=<format>	Affiche les commits dans un format alternatif. Les formats incluent oneline, short, full, fuller, et format (où on peut spécifier son propre format)
 
-### Limiting Log Output ###
+### Limiter la longueur de l'historique ###
 
-In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+En complément des options de formattage de sortie, git log est pourvu de certaines options de limitation utiles — des option qui permettre de restreindre la liste à un sous-ensemble de commits. Vous avez déjà vu une de ces option  — l'option `-2` qui ne montre que le deux derniers commits. En fait, on peut utiliser `-<n>`, ou `n` correspond au nombre de commit que l'on cherche à visualiser en partant des plus récents. En vérité, il est peu probable que vous utilisiez cette option, parce que Git injecte par défaut sa sortie dans un outil de pagination qui permet de la visualiser page à page.
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+Cependant, les option de limitation portant sur le temps, telles que `--since` (depuis) et `--until` (jusqu'à) sont très utiles. Par exemple, le commande suivante affiche la liste des commits des deux dernières semaines :
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+Cette commande fonctionne avec de nombreux formats — vous pouvez indiquer une date spécifique (2008-01-05) ou une date relative au présent telle que "2 years 1 day 3 minutes ago".
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+Vous pouvez aussi restreindre la liste aux commits vérifiant certain critères de recherche. L'option `--author` permet de filtrer sur un auteur spécifique, et l'option `--grep` permet de chercher des mots clés dans les messages de validation. Notez que si vous cherchez seulement des commits correspondant simultanément aux deux critères, vous devez ajouter l'option `--all-match`, car par défaut ces commandes retournent les commits vérifiant au moins un critère lors de recherche de chaînes de caractères.
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+La dernière option vraiment utile à `git log` est la spécification d'un chemin. Si un répertoire ou un nom de fichier est spécifié, le journal est limité aux commits qui ont introduit des modifications aux fichiers concernés. C'est toujours la dernière option de la commande, souvent précédée de deux tirets (`--`) pour séparer le chemin des options précédentes.
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+Le tableau 2-3 récapitule les options que nous venons de voir ainsi que quelques autres pour référence.
 
 	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+	-(n)	N'affiche que les n derniers commits
+	--since, --after	Limite l'affichage aux commits réalisés après la date spécifiée
+	--until, --before	Limite l'affichage aux commits réalisés avant la date spécifiée
+	--author	Ne montre que les commits dont le champ auteur correspond à la chaine passée en argument
+	--committer	Ne montre que les commits dont le champ validateur correspond à la chaîne passée en argument
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+Par exemple, si vous souhaitez visualiser quels commits modifiant les fichiers de test dans l'historique du source de Git ont été validés par Junio Hamano et n'étaient pas de fusions durant le mois d'octobre 2008, vous pouvez lancer ce qui suit :
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -616,42 +616,42 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+A partir des 20 000 commits constituant l'historique des sources de Git, cette commande extrait les 6 qui correspondent aux critères.
 
-### Using a GUI to Visualize History ###
+### Utiliser une interface graphique pour visualiser l'historique ###
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
+Si vous préférez utiliser un outil plus graphique pour visualiser l'historique d'un projet, vous pourriez jeter un œil à un programme distribué avec Git nommé gitk. Gitk est un outil graphique mimant les fonctionnalités de `git log`, et il donne accès à quasiment toutes les options de filtrage de `git log`. Si vous tapez gitk en ligne de commande, vous devriez voir une interface ressemblant à la figure 2-2.
 
 Insert 18333fig0202.png 
-Figure 2-2. The gitk history visualizer.
+Figure 2-2. Le visualiteur d'historique gitk
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+Vous pouvez voir l'historique de commits dans la partie supérieure de la fenêtre avec un graphique d'enchaînement. Le visualisateur de diff dans la partie inférieure de la fenêtre affiche les modifications introduites par le commit sélectionné.
 
-## Undoing Things ##
+## Annuler des actions ##
 
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always undo some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+À tout moment, vous pouvez désirer annuler une de vos dernières actions. Dans cette section, nous allons passer en revue quelque outils de base permettant d'annuler des modifications. Il faut être très attentifs car certaines de ces annulations sont définitives (elles ne peuvent pas être elle-même annulées). C'est donc un des rares cas d'utilisation de Git où des erreurs de manipulations peuvent entraîner des pertes définitives de données.
 
-### Changing Your Last Commit ###
+### Modifier le dernier commit ###
 
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+Une des annulations les plus communes apparaît lorqu'on valide une modification trop tôt en oubliant d'ajouter certains fichiers, ou si on se trompe dans le message de validation. Si vous souhaitez rectifier cette erreur, vous pouvez valider le complément de modification avec l'option `--amend` :
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+Cette commande prend en compte la zone d'index et l'utilise pour le commit. Si aucune modification n'a été réalisée depuis la dernière validation (par exemple en lançant cette commande immédiatement après la dernière validation), alors l'instantané sera identique et la seule modification à introduire sera le message de validation.
 
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+L'éditeur de message de validation démarre, mais il contient déjà le message de la validation précédente. Vous pouvez éditer ce message normalement, mais il écrasera le message de la validation précédente.
 
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+Par exemple, si vous validez un version puis réalisez que vous avez oublié de spécifier les modifications d'un fichier, vous pouvez taper les commandes suvantes :
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second commit replaces the results of the first.
+Les trois dernière commandes donnent lieu à la création d'un unique commit - la seconde validation remplace le résultat de la première.
 
-### Unstaging a Staged File ###
+### Désindexer un fichier déjà indexé ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+Les deux sections suivante demontrent comment bricoler les modifications dans votre zone d'index et votre zone de travail. Un point sympathique est que la commande permettant de connaître l'état des ces deux zones vous rappelle aussi comment annuler les modifications. Par exemple, supposons que vous avez modifié deux fichiers et voulez les valider comme deux modifications indépendantes, mais que vous ayez tapé accidentellement `git add *` et donc indexé les deux. Comment annuler l'indexation d'un des fichiers ? La commande `git status` vous rappelle :
 
 	$ git add .
 	$ git status
@@ -663,7 +663,8 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+Juste sous le texte "Changes to be committed", elle vous indique d'utiliser `git reset HEAD <fichier>...` pour désindexer un fichier. Utilisons donc ce conseil pour désindéxer le fichier benchmarks.rb :
+
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -681,11 +682,11 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
+La commande à taper peut sembler étrange mais elle fonctionne. Le fichier benchmark.rb est modifié mais de retour à l'état non indexé.
 
-### Unmodifying a Modified File ###
+### Réinitialiser un fichier modifié ###
 
-What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
+Que faire si vous réalisez que vous ne souhaitez pas conserver les modifications au fichier benchmark.rb ? Comment le réinitialiser facilement - le ramener à l'état qu'il avait dans le dernier instantané (ou lors clonage, ou dans l'état dans lequel vous l'avez obtenu dans votre copie de travail) ? Heureusement, `git status` est secourable. Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -694,7 +695,7 @@ What if you realize that you don’t want to keep your changes to the benchmarks
 	#       modified:   benchmarks.rb
 	#
 
-It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
+Cela vous indique assez explicitement comment annuler des modifications que vous avez faites (du moins, les nouvelles version de Git, 1.6.1 et supérieures le font  — si vous avez un version plus ancienne, nous vous recommandons de la mettre à jour pour bénéficier de ces fonctionnalité d'utilisabilité). Faisons comme indiqué :
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -705,18 +706,18 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   LISEZMOI
 	#
 
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go. 
+Vous pouvez constater que les modifications ont été annulées. Vous devriez aussi vous apercevoir que c'est une commande dangereuse : toute modification que vous auriez réalisée sur ce fichier ont disparu — vous venez tout juste de l'écraser avec un autre fichier. N'utilisez jamais cette commande à moins d'être vraiment sûr de ne pas vouloir de ces modifications. Si vous souhaitez seulement écarter momentanément cette modification, nous verrons comment mettre de côté et créer des branches dans le chapitre suivant ; ce sont de meilleures façons de procéder.
+Souvenez-vous, tout ce qui a été validé dans Git peut quasiment toujours être récupéré. Y compris des commits sur des branches qui ont été effacées our des commits qui ont été écrasés par une validation avec l'option `--amend` (se référer au chapitre 9 pour la récupération de données). Cependant, tout ce que vous perdez avant de l'avoir validé n'a aucune chance d'être récupérable via Git.
 
-Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see Chapter 9 for data recovery). However, anything you lose that was never committed is likely never to be seen again.
+## Travailler avec des dépots distants ##
 
-## Working with Remotes ##
+Pour pouvoir collaborer sur un projet Git, il est nécessaire de connaître comment gérer les dépots distants. Les dépots distants sont des versions de votre projet qui sont hébergés sur Internet ou le réseau. Vous pouvez en avoir plusieurs, pour lesquels vous pouvez avoir des droits soit en lecture seule, soit en lecture/écriture. Collaborer avec d'autres personnes consiste à gérer ces dépots distants, en poussant ou tirant des données depuis et vers ces dépots quand vous souhaitez partager votre travail.
 
-To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
+Gérer des dépots distant inclut savoir comment ajouter des dépots distants, effacer des dépots distants qui ne sont plus valides, gérer des branches distantes et les définir comme suivie ou non, et plus encore. Dans cette section, nous traiterons des commandes de gestion distante.
 
-### Showing Your Remotes ###
+### Afficher les dépots distants ###
 
-To see which remote servers you have configured, you can run the git remote command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
+Pour visualiser les serveur distants que vous avez enregistrés, vous pouvez lancer le commande git remote. Elle liste les noms des différente étiquettes distantes que vous avez spécifiées. Si vous avez cloné un dépot, vous devriez au moins voir l'origine origin — c'est-à-dire le nom par défaut que Git donne au serveur à partir duquel vous avez cloné :
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/

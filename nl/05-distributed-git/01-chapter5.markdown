@@ -20,51 +20,51 @@ Dit betekend dat als twee ontwikkelaars clonen van het gecentraliseerde punt en 
 Als je een klein team hebt, of al vertrouwd bent met een gecentraliseerde werkwijze in je bedrijf of team, dan kun je eenvoudig doorgaan met het gebruiken van die werkwijze met Git. Stel eenvoudigweg een enkel repository in, en geef iedereen in je team terugzet toegang; Git zal gebruikers niet toestaan om elkaar te overschrijven. Als een ontwikkelaar cloned, wijzigingen maakt, en dan probeert hun wijzigingen terug te zetten terwijl een andere ontwikkelaar de zijne in de tussentijd heeft teruggezet, dan zal de server de wijzigingen van die ontwikkelaar weigeren. Ze zullen worden gemeld dat ze non-fast-forward wijzigingen proberen terug te zetten en dat ze dat niet mogen totdat ze eerst fetchen en samenvoegen.
 Deze werkwijze is voor een hoop mensen aantrekkelijk omdat het een wijze is waarmee veel mensen bekend zijn en zich op hun gemak bij voelen.
 
-### Integration-Manager Workflow ###
+### Integratie-Manager Werkwijze ###
 
-Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2):
+Omdat Git je toestaat om meerdere remote repositories te hebben, is het mogelijk om een werkwijze te hebben waarbij iedere ontwikkelaar schrijftoegang heeft tot hun eigen publieke repository en leestoegang op de andere. Dit scenario heeft vaak een gezagdragend repository dat het "officiele" project voorsteld. Om bij te kunnen dragen op dat project, maak je je eigen publieke clone van het project en zet je wijzigingen daarin terug. Daarna stuur je een verzoek naar de eigenaar van het hoofdproject om jouw wijzigingen binnen te halen. Ze kunnen je repository toevoegen als een remote, je wijzigingen lokaal testen, ze in hun branch samenvoegen, en naar hun repository terugzetten. Het proces werkt als volgt (zie Figuur 5-2):
 
-1.	The project maintainer pushes to their public repository.
-2.	A contributor clones that repository and makes changes.
-3.	The contributor pushes to their own public copy.
-4.	The contributor sends the maintainer an e-mail asking them to pull changes.
-5.	The maintainer adds the contributor’s repo as a remote and merges locally.
-6.	The maintainer pushes merged changes to the main repository.
+1.	De project eigenaar zet terug naar zijn eigen repository.
+2.	Een bijdrager cloned dat repository en maakt wijzigingen.
+3.	De bijdrager zet terug naar zijn eigen publieke kopie.
+4.	De bijdrager stuurt de eigenaar een e-mail met de vraag om de wijzigingen binnen te halen.
+5.	De eigenaar voegt het repo van de bijdrager toe als een remote en voegt lokaal samen.
+6.	De eigenaar zet samengevoegde wijzigingen terug in het hoofd repository.
 
 Insert 18333fig0502.png 
-Figure 5-2. Integration-manager workflow.
+Figuur 5-2. Integratie-manager werkwijze.
 
-This is a very common workflow with sites like GitHub, where it’s easy to fork a project and push your changes into your fork for everyone to see. One of the main advantages of this approach is that you can continue to work, and the maintainer of the main repository can pull in your changes at any time. Contributors don’t have to wait for the project to incorporate their changes — each party can work at their own pace.
+Dit is een veel voorkomende werkwijze bij websites zoals GitHub, waarbij het eenvoudig is om een project af te splitsen en je wijzigingen terug te zetten in jouw afgesplitste project zodat iedereen ze kan zien. Een van de grote voordelen van deze aanpak is dat je door kunt gaan met werken, en de eigenaar van het hoofd repository jouw wijzigingen op ieder moment binnen kan halen. Bijdragers hoeven niet te wachten tot het project hun bijdragen invoegt – iedere partij kan op hun eigen tempo werken.
 
-### Dictator and Lieutenants Workflow ###
+### Dictator en Luitenanten Werkwijze ###
 
-This is a variant of a multiple-repository workflow. It’s generally used by huge projects with hundreds of collaborators; one famous example is the Linux kernel. Various integration managers are in charge of certain parts of the repository; they’re called lieutenants. All the lieutenants have one integration manager known as the benevolent dictator. The benevolent dictator’s repository serves as the reference repository from which all the collaborators need to pull. The process works like this (see Figure 5-3):
+Dit is een variant op de multi-repository werkwijze. Het wordt over het algemeen gebruikt bij enorme projecten met honderden bijdragers; een bekend voorbeeld is de Linux kernel. Een aantal integrators geven de leiding over bepaalde delen van het repository; zij worden luitenanten genoemd. Alle luitenanten hebben één integrator die bekend staat als de welwillende dictator. Het repository van de welwillende dictator dient als het referentie repository vanwaar alle bijdragers dienen binnen te halen. Het proces werkt als volgt (zie Figuur 5-3):
 
-1.	Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
-2.	Lieutenants merge the developers’ topic branches into their master branch.
-3.	The dictator merges the lieutenants’ master branches into the dictator’s master branch.
-4.	The dictator pushes their master to the reference repository so the other developers can rebase on it.
+1.	Reguliere ontwikkelaars werken op hun eigen onderwerp branch en rebasen hun werk op de hoofdbranch. De hoofdbranch is die van de dictator.
+2.	Luitenanten voegen de onderwerp branches van de ontwikkelaars in hun hoofdbranch.
+3.	De dictator voegt de hoofdbranches van de luitenanten in de dictator hoofdbranch.
+4.	De dictator zet zijn hoofdbranch terug naar het referentie repository zodat de andere ontwikkelaars kunnen rebasen.
 
 Insert 18333fig0503.png  
-Figure 5-3. Benevolent dictator workflow.
+Figuur 5-3. Welwillende dictator werkwijze.
 
-This kind of workflow isn’t common but can be useful in very big projects or in highly hierarchical environments, because as it allows the project leader (the dictator) to delegate much of the work and collect large subsets of code at multiple points before integrating them.
+Deze manier van werken komt niet vaak voor, maar kan handig zijn in hele grote projecten of in zeer hierarchische omgevingen, omdat het de projectleider (de dictator) toestaat om het meeste werk te delegeren en grote subsets van code te verzamelen p meerdere punten alvorens ze te integreren.
 
-These are some commonly used workflows that are possible with a distributed system like Git, but you can see that many variations are possible to suit your particular real-world workflow. Now that you can (I hope) determine which workflow combination may work for you, I’ll cover some more specific examples of how to accomplish the main roles that make up the different flows.
+Dit zijn veel voorkomende werkwijzen die mogelijk zijn met een gedistribueerd systeem als Git, maar je kunt zien dat er veel variaties mogelijk zijn die passen bij jouw specifieke werkwijze. Nu dat je (naar ik hoop) in staat bent om te bepalen welke werkwijze combinatie voor jou werkt, zal ik wat specifikere voorbeelden behandelen over hoe je de hoofd rollen kunt vervullen, die in de verschillende werkwijzen voorkomen.
 
-## Contributing to a Project ##
+## Bijdragen aan een Project ##
 
-You know what the different workflows are, and you should have a pretty good grasp of fundamental Git usage. In this section, you’ll learn about a few common patterns for contributing to a project.
+Je weet wat de verschillende werkwijzen zijn, en je zou een goed beeld moeten hebben van fundamenteel Git gebruik. In dit gedeelte zul je leren over een aantal voorkomende patronen voor het bijdragen aan een project.
 
-The main difficulty with describing this process is that there are a huge number of variations on how it’s done. Because Git is very flexible, people can and do work together many ways, and it’s problematic to describe how you should contribute to a project — every project is a bit different. Some of the variables involved are active contributor size, chosen workflow, your commit access, and possibly the external contribution method.
+De grote moeilijkheid bij het beschrijven van dit proces is dat er een enorm aantal variaties mogelijk zijn in hoe het gebeurd. Om dat Git erg flexibel is, kunnen en zullen mensen op vele manieren samenwerken, en het is lastig om te beschrijven hoe je zou moeten bijdragen aan een project – ieder project is een beetje anders. Een aantal van de betrokken variabelen zijn aktieve bijdrage grootte, gekozen werkwijze, je commit toegang, een mogelijk de externe bijdrage methode.
 
-The first variable is active contributor size. How many users are actively contributing code to this project, and how often? In many instances, you’ll have two or three developers with a few commits a day, or possibly less for somewhat dormant projects. For really large companies or projects, the number of developers could be in the thousands, with dozens or even hundreds of patches coming in each day. This is important because with more and more developers, you run into more issues with making sure your code applies cleanly or can be easily merged. Changes you submit may be rendered obsolete or severely broken by work that is merged in while you were working or while your changes were waiting to be approved or applied. How can you keep your code consistently up to date and your patches valid?
+De eerste variabele is de aktieve bijdrage grootte. Hoeveel gebruikers dragen aktief code bij aan dit project, en hoe vaak? In veel gevallen zul je twee of drie ontwikkelaars met een paar commits per dag hebben, of misschien minder voor wat slaperige projecten. Voor zeer grote bedrijven of projecten kan het aantal ontwikkelaars in de duizenden zijn, met tientallen of zelfs honderden patches die iedere dag binnenkomen. Dit is belangrijk omdat met meer en meer ontwikkelaars, je meer en meer problemen tegenkomt met het zeker zijn dat code netjes toegepast kan worden of eenvoudig samengevoegd kan worden. Wijzigingen die je toevoegd kunnen verouderd of zwaar beschadigd raken door werk dat samengevoegd is terwijl je er aan het werken was of terwijl je wijzigingen in de wacht stonden voor goedkeuring of toepassing. Hoe kun je je code consequent bij de tijd en je patches geldig houden?
 
-The next variable is the workflow in use for the project. Is it centralized, with each developer having equal write access to the main codeline? Does the project have a maintainer or integration manager who checks all the patches? Are all the patches peer-reviewed and approved? Are you involved in that process? Is a lieutenant system in place, and do you have to submit your work to them first?
+De volgende variabele is de gebruikte werkwijze in je project. Is het gecentraliseerd, waarbij iedere ontwikkelaar gelijkwaardige schrijftoegang heeft tot de hoofd codebasis? Heeft het project een eigenaar of integrator die alle patches nakijkt? Zijn alle patches gereviewed en goedgekeurd? Ben jij betrokken bij dat proces? Is er een luitenanten systeem in werking, en moet je je werk eerst bij hen inleveren?
 
-The next issue is your commit access. The workflow required in order to contribute to a project is much different if you have write access to the project than if you don’t. If you don’t have write access, how does the project prefer to accept contributed work? Does it even have a policy? How much work are you contributing at a time? How often do you contribute?
+Het volgende probleem is je commit toegang. De benodigde werkwijze om bij te dragen aan een project is heel verschillend als je wel schrijftoegang hebt tot het project dan als je dat niet hebt. Als je geen schrijftoegang hebt, wat heeft het project dan als voorkeur om bijdragen te ontvangen? Heeft het wel een beleid? Hoeveel werk draag je per keer bij? Hoe vaak draag je bij?
 
-All these questions can affect how you contribute effectively to a project and what workflows are preferred or available to you. I’ll cover aspects of each of these in a series of use cases, moving from simple to more complex; you should be able to construct the specific workflows you need in practice from these examples.
+Al deze vragen kunnen van invloed zijn op hoe je effectief bijdraagt aan een project en welke werkwijzen de voorkeur hebben of die beschikbaar zijn voor je. Ik zal van ieder van deze aspecten wat behandelen in een aantal gevallen, waarbij ik van eenvoudig tot complex zal gaan; je zou in staat moeten zijn om de specifieke werkwijzen die je in de praktijk hebt te kunnen construeren vanuit deze voorbeelden.
 
 ### Commit Guidelines ###
 

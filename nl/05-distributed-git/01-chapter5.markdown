@@ -66,11 +66,11 @@ Het volgende probleem is je commit toegang. De benodigde werkwijze om bij te dra
 
 Al deze vragen kunnen van invloed zijn op hoe je effectief bijdraagt aan een project en welke werkwijzen de voorkeur hebben of die beschikbaar zijn voor je. Ik zal van ieder van deze aspecten wat behandelen in een aantal gevallen, waarbij ik van eenvoudig tot complex zal gaan; je zou in staat moeten zijn om de specifieke werkwijzen die je in de praktijk hebt te kunnen construeren vanuit deze voorbeelden.
 
-### Commit Guidelines ###
+### Commit Richtlijnen ###
 
-Before you start looking at the specific use cases, here’s a quick note about commit messages. Having a good guideline for creating commits and sticking to it makes working with Git and collaborating with others a lot easier. The Git project provides a document that lays out a number of good tips for creating commits from which to submit patches — you can read it in the Git source code in the `Documentation/SubmittingPatches` file.
+Voordat je gaat kijken naar de specifieke gebruiksscenario's, volgt hier een kort stukje over commit berichten. Het hebben van een goede richtlijn voor het maken commits en je daar aan houden maakt het werken met Git en samenwerken met anderen een stuk makkelijker. Het Git project levert een document waarin een aantal tips staan voor het maken van commits van waar je patches uit kunt indienen – je kunt het lezen in de Git broncode in het `Documentation/SubmittingPatches` bestand.
 
-First, you don’t want to submit any whitespace errors. Git provides an easy way to check for this — before you commit, run `git diff --check`, which identifies possible whitespace errors and lists them for you. Here is an example, where I’ve replaced a red terminal color with `X`s:
+Als eerste wil je geen witruimte fouten indienen. Git geeft je een eenvoudige manier om hierop te controleren – voordat je commit, voer `git diff --check` uit, wat mogelijke witruimte fouten identificeert en ze voor je afdrukt. Hier is een voorbeeld, waarbij ik een rode terminal kleur hebt vervangen door `X`en:
 
 	$ git diff --check
 	lib/simplegit.rb:5: trailing whitespace.
@@ -80,32 +80,33 @@ First, you don’t want to submit any whitespace errors. Git provides an easy wa
 	lib/simplegit.rb:26: trailing whitespace.
 	+    def command(git_cmd)XXXX
 
-If you run that command before committing, you can tell if you’re about to commit whitespace issues that may annoy other developers.
+Als je dat commando uitvoert alvorens te committen, kun je al zien of je op het punt staat witruimte problemen te committen die andere ontwikkelaars boos kunnen maken.
 
-Next, try to make each commit a logically separate changeset. If you can, try to make your changes digestible — don’t code for a whole weekend on five different issues and then submit them all as one massive commit on Monday. Even if you don’t commit during the weekend, use the staging area on Monday to split your work into at least one commit per issue, with a useful message per commit. If some of the changes modify the same file, try to use `git add --patch` to partially stage files (covered in detail in Chapter 6). The project snapshot at the tip of the branch is identical whether you do one commit or five, as long as all the changes are added at some point, so try to make things easier on your fellow developers when they have to review your changes. This approach also makes it easier to pull out or revert one of the changesets if you need to later. Chapter 6 describes a number of useful Git tricks for rewriting history and interactively staging files — use these tools to help craft a clean and understandable history.
+Daarna, probeer om iedere van commit een logische set wijzigingen te maken. Probeer, als het je lukt, om je wijzigingen verteerbaar te maken – ga niet het hele weekend zitten coderen op vijf verschillende problemen om dat vervolgens op maandag als een gigantische commit in te dienen. Zels als je gedurende het weekend niet commit, gebruik dan het staging gebied op maandag om je werk in ten minste één commit per probleem op te splitsen, met een bruikbaar bericht per commit. Als een paar van de wijzigingen één bestand veranderen, probeer dan `git add --patch` te gebruiken om bestanden gedeeltelijk te stagen (wordt in detail behandeld in Hoofdstuk 6). Het snapshot van het project is gelijk of je nu één commit doet of vijf, zolang alle wijzigingen maar toegevoegd zijn op een bepaald punt, dus probeer om het je mede-ontwikkelaars makkelijk te maken als ze je wijzigingen moeten bekijken. Deze aanpak maakt het ook makkelijker om één wijziging op te halen of terug te draaien, mocht dat later nodig zijn. Hoofdstuk 6 beschrijft een aantal handige Git trucs om geschiedenis te herschrijven en bestanden interactief te stagen – gebruik deze applicaties om te helpen een schone en begrijpelijke historie op te bouwen.
 
-The last thing to keep in mind is the commit message. Getting in the habit of creating quality commit messages makes using and collaborating with Git a lot easier. As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely, followed by a blank line, followed by a more detailed explanation. The Git project requires that the more detailed explanation include your motivation for the change and contrast its implementation with previous behavior — this is a good guideline to follow. It’s also a good idea to use the imperative present tense in these messages. In other words, use commands. Instead of "I added tests for" or "Adding tests for," use "Add tests for."
-Here is a template originally written by Tim Pope at tpope.net:
+Het laatste ding om in gedachten te houden is het commit bericht. Als je er een gewoonte van maakt om een goede kwaliteit commit berichten aan te maken, dan maakt dat het gebruik van en samenwerken in Git een stuk eenvoudiger. Als een algemen regel, zouden je berichten moeten beginnen met een enkele regel, die niet langer is dan 50 karakters en die de set wijzigingen beknopt omschrijft, gevolgd door een lege regel, gevolgd door een meer gedetaileerde uitleg. Het Git project vereist dat de meer gedetaileerde omschrijving ook je motivatie voor de verandering bevat, en de nieuwe implementatie tegen het oude gedrag afzet – dit is een goede richtlijn om te volgen. Het is ook een goed idee om de gebiedende wijs te gebruiken in deze berichten. Met andere woorden, gebruik commando's. In plaats van "Ik heb testen toegevoegd voor" of "Testen toegevoegd voor" gebruik je "Voeg testen toe voor".
+Hier is een sjabloon dat origineel geschreven is door Tim Pope op tpope.net:
 
-	Short (50 chars or less) summary of changes
+	Kort (50 karakters of minder) samenvatting van wijzigingen
 
-	More detailed explanatory text, if necessary.  Wrap it to about 72
-	characters or so.  In some contexts, the first line is treated as the
-	subject of an email and the rest of the text as the body.  The blank
-	line separating the summary from the body is critical (unless you omit
-	the body entirely); tools like rebase can get confused if you run the
-	two together.
+	Gededailleerdere tekst uitleg, als nodig. Laat het in ongeveer 72
+	karakters afbreken. In sommige contexten, wordt de eerste regel
+	behandeld als het onderwerp van een email en de rest als inhoud.
+	De lege regel die de samenvatting scheidt van de inhoud is van
+	kritiek belang (tenzij je de inhoud helemaal weglaat); applicaties
+	zoals rebase kunnen in de war raken als je ze samenvoegt.
 
-	Further paragraphs come after blank lines.
+	Vervolg paragrafen komen na lege regels.
 
-	 - Bullet points are okay, too
+	 - Aandachtspunten zijn ook goed.
 
-	 - Typically a hyphen or asterisk is used for the bullet, preceded by a
-	   single space, with blank lines in between, but conventions vary here
+	 - Typisch wordt een streepje of sterretje gebruikt als punt, voorafgegaan
+	   door een enkele spatie, met ertussen lege regels, maar de conventies
+	   variëeren hierin.
 
-If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log --no-merges` there to see what a nicely formatted project-commit history looks like.
+Als al je commit berichten er zo uit zien, dan zullen de dingen een stuk eenvoudiger zijn voor jou en de ontwikkelaars waar je mee werkt. Het Git project heeft goed geformateerde commit berichten – ik raad je aan om `git log --no-merges` uit te voeren om te zien hoe een goed geformatteerde project-commit historie eruit ziet.
 
-In the following examples, and throughout most of this book, for the sake of brevity I don’t format messages nicely like this; instead, I use the `-m` option to `git commit`. Do as I say, not as I do.
+In de volgende voorbeelden, en verder door de rest van dit boek, zal ik omwille van bondigheid de berichten niet zo netjes als dit formatteren; in plaats daarvan gebruik ik de `-m` optie voor `git commit`. Doe wat ik zeg, niet wat ik doe.
 
 ### Private Small Team ###
 

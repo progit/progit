@@ -404,9 +404,11 @@ Genauso wie das Kommando `git svn log` den `svn log`-Befehl offline simuliert ka
 
 Auch dieser Befehl zeigt die Commits nicht an, die Du lokal getätigt hast, genauso wenig wie jene, die in der Zwischenzeit zum Subversion-Server übertragen wurden.
 
-#### SVN Server Information ####
+#### SVN-Server-Informationen ####
 
-You can also get the same sort of information that `svn info` gives you by running `git svn info`:
+<!--You can also get the same sort of information that `svn info` gives you by running `git svn info`:-->
+
+Die selben Informationen wie bei `svn info` bekommst Du, wenn Du `git svn info` ausführst:
 
 	$ git svn info
 	Path: .
@@ -420,34 +422,53 @@ You can also get the same sort of information that `svn info` gives you by runni
 	Last Changed Rev: 87
 	Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)
 
-This is like `blame` and `log` in that it runs offline and is up to date only as of the last time you communicated with the Subversion server.
+<!--This is like `blame` and `log` in that it runs offline and is up to date only as of the last time you communicated with the Subversion server.-->
 
-#### Ignoring What Subversion Ignores ####
+Genauso wie `blame` und `log` läuft die Ausführung dieses Befehls offline ab und ist nur so aktuell wie zu dem Zeitpunkt, zu dem Du das letzte Mal mit dem Subversion-Server verbunden warst.
 
-If you clone a Subversion repository that has `svn:ignore` properties set anywhere, you’ll likely want to set corresponding `.gitignore` files so you don’t accidentally commit files that you shouldn’t. `git svn` has two commands to help with this issue. The first is `git svn create-ignore`, which automatically creates corresponding `.gitignore` files for you so your next commit can include them.
+#### Ignorieren, was Subversion ignoriert ####
 
-The second command is `git svn show-ignore`, which prints to stdout the lines you need to put in a `.gitignore` file so you can redirect the output into your project exclude file:
+<!--If you clone a Subversion repository that has `svn:ignore` properties set anywhere, you’ll likely want to set corresponding `.gitignore` files so you don’t accidentally commit files that you shouldn’t. `git svn` has two commands to help with this issue. The first is `git svn create-ignore`, which automatically creates corresponding `.gitignore` files for you so your next commit can include them.-->
+
+Wenn Du ein Subversion-Repository klonst, das irgendwo `svn:ignore` Eigenschaften definiert hat, wirst Du die `.gitignore`-Dateien wahrscheinlich entsprechend setzen, damit Du nicht aus Versehen Dateien committest, bei denen Du das besser nicht tun solltest. `git svn` kennt zwei Befehle, um Dir bei diesem Problem zu helfen. Der erste ist `git svn create-ignore`, der automatisch entsprechende `.gitignore`-Dateien für Dich anlegt, so dass Dein nächster Commit diese beinhalten kann.
+
+<!--The second command is `git svn show-ignore`, which prints to stdout the lines you need to put in a `.gitignore` file so you can redirect the output into your project exclude file:-->
+
+Der zweite Befehl ist `git svn show-ignore`, der Dir diejenigen Zeilen auf stdout ausgibt, die Du in eine `.gitignore`-Datei einfügen musst. So kannst Du die Ausgabe des Befehls direkt in die Ausnahmedatei umleiten:
 
 	$ git svn show-ignore > .git/info/exclude
 
-That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.
+<!--That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.-->
 
-### Git-Svn Summary ###
+Auf diese Weise müllst Du Dein Projekt nicht mit `.gitignore`-Dateien zu. Das ist eine gute Wahl wenn Du der einzige Git-Benutzer in Deinem Team bist (alle anderen benutzen Subversion) und Deine Kollegen keine `.gitignore`-Dateien im Projekt haben wollen.
 
-The `git svn` tools are useful if you’re stuck with a Subversion server for now or are otherwise in a development environment that necessitates running a Subversion server. You should consider it crippled Git, however, or you’ll hit issues in translation that may confuse you and your collaborators. To stay out of trouble, try to follow these guidelines:
+### Zusammenfassung von Git-Svn ###
 
-* Keep a linear Git history that doesn’t contain merge commits made by `git merge`. Rebase any work you do outside of your mainline branch back onto it; don’t merge it in.
-* Don’t set up and collaborate on a separate Git server. Possibly have one to speed up clones for new developers, but don’t push anything to it that doesn’t have a `git-svn-id` entry. You may even want to add a `pre-receive` hook that checks each commit message for a `git-svn-id` and rejects pushes that contain commits without it.
+<!--The `git svn` tools are useful if you’re stuck with a Subversion server for now or are otherwise in a development environment that necessitates running a Subversion server. You should consider it crippled Git, however, or you’ll hit issues in translation that may confuse you and your collaborators. To stay out of trouble, try to follow these guidelines:-->
 
-If you follow those guidelines, working with a Subversion server can be more bearable. However, if it’s possible to move to a real Git server, doing so can gain your team a lot more.
+Die `git svn`-Werkzeuge sind sehr nützlich, wenn Du derzeit (noch) an einen Subversion-Server gebunden bist oder Dich anderweitig in einer Entwicklungsumgebung befindest, die nicht auf einen Subversion-Server verzichten kann. Wie auch immer: Du solltest es als eine Art gestutztes Git ansehen. Anderenfalls läufst Du Gefahr, Dich und Deine Kollegen durcheinander zu bringen. Um dieses Kliff zu umschiffen, solltest Du folgende Richtlinien befolgen:
 
-## Migrating to Git ##
+<!--* Keep a linear Git history that doesn’t contain merge commits made by `git merge`. Rebase any work you do outside of your mainline branch back onto it; don’t merge it in.
+* Don’t set up and collaborate on a separate Git server. Possibly have one to speed up clones for new developers, but don’t push anything to it that doesn’t have a `git-svn-id` entry. You may even want to add a `pre-receive` hook that checks each commit message for a `git-svn-id` and rejects pushes that contain commits without it.-->
 
-If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.
+* Versuch, eine "geradlinige" Git-Historie zu führen, die keine von `git merge` durchgeführten Merges enthält. Alle Arbeiten, die Du außerhalb des Hauptzweiges durchführst, solltest Du mit `rebase` in ihn aufnehmen anstatt sie zu mit `merge` zusammenzuführen.
+* Setz keinen zusätzlichen, externen Git-Server auf, mit dem Du arbeiten möchtest. Du kannst einen aufsetzen um die Klone für neue Entwickler zu beschleunigen, aber Du solltest keine Änderungen dorthin pushen, die keine `git-svn-id`-Einträge haben. Du solltest vielleicht sogar darüber nachdenken, einen `pre-receive`-Hook einzusetzen, der jede Commit-Nachricht auf eine `git-svn-id` prüft und bestimmte Pushes ablehnt, bei denen diese IDs fehlt.
 
-### Importing ###
+<!--If you follow those guidelines, working with a Subversion server can be more bearable. However, if it’s possible to move to a real Git server, doing so can gain your team a lot more.-->
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+Wenn Du diese Ratschläge befolgst, werden sie die Arbeit mit dem Subversion-Server erträglich machen. Wenn es Dir irgendwie möglich ist, solltest Du trotzdem zu einem echten Git-Server umziehen, denn davon profitiert Dein Team wesentlich deutlicher.
+
+## Zu Git umziehen ##
+
+<!--If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.-->
+
+Wenn Du bereits Quellcode in einer anderen Versionsverwaltung abgelegt hast, aber Dich nun entschieden hast, von nun an Git zu benutzen, musst Du Dein Projekt so oder so umziehen. Für geläufige Systeme bringt Git einige Importer mit. Anschließend lernen wir, wie Du Deinen eigenen, angepassten Importer entwickeln kann. All das wird im folgenden Abschnitt behandelt.
+
+### Import ###
+
+<!--You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.-->
+
+Jetzt ist es an der Zeit zu lernen, wie Du Daten aus zwei der am meisten benutzten (professionellen) SCM-Systeme importieren kannst: Subversion und Perforce. Ein Großteil der Benutzer, die gegenwärtig zu Git umziehen, arbeiten mit einem von diesen beiden Systemen. Außerdem liefert Git für beide jeweils hochprofessionelle Werkzeuge für den Import mit.
 
 ### Subversion ###
 

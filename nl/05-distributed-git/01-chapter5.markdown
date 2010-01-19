@@ -108,12 +108,12 @@ Als al je commit berichten er zo uit zien, dan zullen de dingen een stuk eenvoud
 
 In de volgende voorbeelden, en verder door de rest van dit boek, zal ik omwille van bondigheid de berichten niet zo netjes als dit formatteren; in plaats daarvan gebruik ik de `-m` optie voor `git commit`. Doe wat ik zeg, niet wat ik doe.
 
-### Private Small Team ###
+### Besloten Klein Team ###
 
-The simplest setup you’re likely to encounter is a private project with one or two other developers. By private, I mean closed source — not read-accessible to the outside world. You and the other developers all have push access to the repository.
+De eenvoudigste opzet die je waarschijnlijk zult tegenkomen is een besloten project met één of twee ondere ontwikkelaars. Met besloten bedoel ik gesloten broncode – zonder leestoegang voor de buitenwereld. Jij en de andere ontwikkelaars hebben allemaal terugzet toegang op het repository.
 
-In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.
-Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)
+In deze omgeving kun je een werkwijze aanhouden die vergelijkbaar is met wat je zou doen als je Subversion of een andere gecentraliseerd systeem zou gebruiken. Je hebt nog steeds de voordelen van zaken als offline committen en veel eenvoudiger branchen en samenvoegen, maar de werkwijze kan erg vergelijkbaar zijn; het grote verschil is dat het samenvoegen aan de client-kant gebeurt tijdens het committen in plaats van aan de server-kant.
+Laten we eens kijken hoe het er uit zou kunnen zien als twee ontwikkelaars samen beginnen te werken met een gedeeld repository. De eerste ontwikkelaar, John, cloned het repository, maakt een wijziging, en commit lokaal. (Ik vervang de protocol berichten met `...` in deze voorbeelden om ze iets in te korten.)
 
 	# John's Machine
 	$ git clone john@githost:simplegit.git
@@ -125,7 +125,7 @@ Let’s see what it might look like when two developers start to work together w
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-The second developer, Jessica, does the same thing — clones the repository and commits a change:
+De tweede ontwikkelaar, Jessica, doet hetzelfde – cloned het repository en commit een wijziging:
 
 	# Jessica's Machine
 	$ git clone jessica@githost:simplegit.git
@@ -137,7 +137,7 @@ The second developer, Jessica, does the same thing — clones the repository and
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Now, Jessica pushes her work up to the server:
+Nu zet Jessica haar werk terug op de server:
 
 	# Jessica's Machine
 	$ git push origin master
@@ -145,7 +145,7 @@ Now, Jessica pushes her work up to the server:
 	To jessica@githost:simplegit.git
 	   1edee6b..fbff5bc  master -> master
 
-John tries to push his change up, too:
+John probeert ook zijn werk terug te zetten:
 
 	# John's Machine
 	$ git push origin master

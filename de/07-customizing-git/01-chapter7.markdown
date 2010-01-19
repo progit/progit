@@ -165,11 +165,13 @@ Wenn dieser Wert gesetzt wurde benutzt Git fuer seine Ausgaben Farben, sofern di
 
 When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command. This setting was added in Git version 1.5.5; if you have an older version, you’ll have to specify all the color settings individually.
 
-Du wirst selten die Eintstellung  benötigen. In den meisten Situationen in denen Du Farben in Deiner umgeleiteten Ausgabe haben willst kannst Du stattdessen ein  auf der Kommandozeile benutzen, um Git anzuweisen, die Ausgabe eizufärben.
+Du wirst selten die Einstellung `color.ui = always` benötigen. In den meisten Situationen in denen Du Farben in Deiner umgeleiteten Ausgabe haben willst, kannst Du stattdessen die Option `--color` auf der Kommandozeile benutzen, um Git anzuweisen die Farbkodierung fuer die Ausgabe zu verwenden. Die Einstellung sollte fast immer das sein, was Du benutzen willst.
 
 You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `--color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use.
 
 #### `color.*` ####
+
+Falls Du im Detail kontrollieren willst welche Befehle wie gefärbt werden, oder wenn Du eine ältere Version benutzt, dann stellt Git Verb-spezifische Farbeinstellungen zur Verfuegung. Jede dieser Optionen kann auf `true`, `false`, oder `always` eingestellt werden:  
 
 If you want to be more specific about which commands are colored and how, or you have an older version, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:
 
@@ -178,23 +180,36 @@ If you want to be more specific about which commands are colored and how, or you
 	color.interactive
 	color.status
 
+Jede von diesen hat zusätzliche Unteroptionen, die Du benutzen kannst, um spezifische Farben fuer Telie der Ausgabe einzustellen, falls Du jede Farbe zu ueberschreiben. Um zum Beispiel die Meta Informationen in Deiner Diff Ausgabe mit blauem Text auf schwarzem Hintergrund in Fettschrift darstellen willst, kannst Du folgenden Befehl ausfuehren: 
+
 In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run
 
 	$ git config --global color.diff.meta “blue black bold”
 
+Du kannst als Farben jeden der folgenden Werte verwenden: `normal`, `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, oder `white`. Falls Du ein Attribute wie Fettschrift im vorigen Beispiel willst kannst Du aus `bold`, `dim`, `ul`, `blink`, und `reverse` auswählen.
+
 You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse.
 
+Auf der Manpage zu `git config` findest Du eine Liste aller Unteroptionen, die Du konfigurieren kannst, falls Du das tun möchtest. 
 See the `git config` manpage for all the subsettings you can configure, if you want to do that.
 
 ### External Merge and Diff Tools ###
 
+Git besitzt zwar eine interne Implementierung von diff, das Du bisher benutzt hast, aber Du kannst stattdessen auch eine externe Anwendung benutzen. Du kannst auch ein grafisches Merge Werkzeug zur Auflösung von Konflikten benutzen, statt diese manuell zu lösen. Ich werde demonstrieren, wie man das visuelle Merge Tool von Perforce (P4Merge) installiert, um Diffs und Merges zu bearbeiten. Ich habe P4Merge gewählt, da es ein freies und nettes grafisches Werkzeug ist.
+
 Although Git has an internal implementation of diff, which is what you’ve been using, you can set up an external tool instead. You can also set up a graphical merge conflict–resolution tool instead of having to resolve conflicts manually. I’ll demonstrate setting up the Perforce Visual Merge Tool (P4Merge) to do your diffs and merge resolutions, because it’s a nice graphical tool and it’s free.
 
+Falls Du dies testen willst, sollte es kein Problem sein, da P4Merge auf allen ueblichen Plattformen arbeitet. Ich werde Pfadnamen benutzen, die auf Mac und Linux Systemen funktionieren; fuer Windows musst Du `/usr/local/bin` durch einen Pfad ersetzen, der in der Umgebungsvariablen `PATH` gelistet ist. 
+
 If you want to try this out, P4Merge works on all major platforms, so you should be able to do so. I’ll use path names in the examples that work on Mac and Linux systems; for Windows, you’ll have to change `/usr/local/bin` to an executable path in your environment.
+
+Du kannst P4Merge hier herunterladen:
 
 You can download P4Merge here:
 
 	http://www.perforce.com/perforce/downloads/component.html
+
+Als erstes solltes Du einige Wrapper (????) Skripten erstellen, um Deine Befehle auszufuehren. Ich benutze den Mac Pfad fuer die ausfuehrbare Datei; auf anderen Systemen ist dies der Ort, an dem die `p4merge` Binärdatei installiert ist. Erstelle ein Skript namens `extMerge`, das die Binärdatei mit allen angegebenen Argumenten aufruft:
 
 To begin, you’ll set up external wrapper scripts to run your commands. I’ll use the Mac path for the executable; in other systems, it will be where your `p4merge` binary is installed. Set up a merge wrapper script named `extMerge` that calls your binary with all the arguments provided:
 
@@ -202,9 +217,13 @@ To begin, you’ll set up external wrapper scripts to run your commands. I’ll 
 	#!/bin/sh
 	/Applications/p4merge.app/Contents/MacOS/p4merge $*
 
+Der Diff Wrapper (????) stellt sicher, dass es mit sieben Parametern aufgerufen wird und gibt dann zwei davon an das Merge Skript weiter. Standardmässig uebergibt Git die folgenden Argumente an das diff Programm:
+
 The diff wrapper checks to make sure seven arguments are provided and passes two of them to your merge script. By default, Git passes the following arguments to the diff program:
 
 	path old-file old-hex old-mode new-file new-hex new-mode
+
+Da Du nur die Parameter `old-file` und `new-file` benötigst, wirst Du das Wrapper Skript benutzen, um nur die notwendigen weiterzugeben.
 
 Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need.
 
@@ -212,10 +231,14 @@ Because you only want the `old-file` and `new-file` arguments, you use the wrapp
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
+Du musst ausserdem sicherstellen, dass die Skripten ausfuehrbar sind:
+
 You also need to make sure these tools are executable:
 
 	$ sudo chmod +x /usr/local/bin/extMerge 
 	$ sudo chmod +x /usr/local/bin/extDiff
+
+Jetzt kannst Du Git so konfigurieren, dass es deine persönlichen Merge und Diff Werkzeuge benutzt. Dazu sind einige angepasste Einstellungen nötig: `merge.tool`, um Git zu sagen welche Merge Strategie es nutzen soll, `mergetool.*.cmd`, um festzulegen, wie der Befehl auszufuehren ist, `mergetool.trustExitCode`, damit Git weiss ob der Antwortcode des Programms eine erfolgreiche Merge Auflösung anzeigt oder nicht, und `diff.external`, um einzustellen welches Diff Kommando Git benutzen soll. Also kannst Du entweder vier Konfigrationsbefehle ausfuehren
 
 Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands
 
@@ -224,6 +247,8 @@ Now you can set up your config file to use your custom merge resolution and diff
 	    'extMerge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"'
 	$ git config --global mergetool.trustExitCode false
 	$ git config --global diff.external extDiff
+
+oder Du editierst Deine `~/.gitconfig` Datei und fuegst dort folgende Zeilen hinzu:
 
 or you can edit your `~/.gitconfig` file to add these lines:
 
@@ -235,16 +260,24 @@ or you can edit your `~/.gitconfig` file to add these lines:
 	[diff]
 	  external = extDiff
 
+Wenn all dies eingestellt ist und Du Diff Befehle wie diesen ausfuehrst:
+
 After all this is set, if you run diff commands such as this:
 	
 	$ git diff 32d1776b1^ 32d1776b1
+
+wird Git statt einer Diff Ausgabe auf der Kommandozeile P4Merge starten, was ähnlich aussehen wird wie Abbildung 7-1.
 
 Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.
 
 Insert 18333fig0701.png 
 Figure 7-1. P4Merge.
 
+Wenn Du versuchst zwei Branches zu Mergen und darauffolgende Merge Konflikte hast, kannst Du den Befehl `git mergetool` ausfuehren; das startet P4Merge und erlaubt Dir, die Konflikte mit dem GUI Werkzeug aufzulösen.
+
 If you try to merge two branches and subsequently have merge conflicts, you can run the command `git mergetool`; it starts P4Merge to let you resolve the conflicts through that GUI tool.
+
+Das Angenehme an diesem Wrapper Ansatz ist, dass Du Deine Diff und Merge Werkzeuge sehr leicht ändern kannst. Wenn Du zum Beispiel Deine `extDiff` und `extMerge` Programme ändern möchtest, um stattdessen KDiff3 zu benutzen, musst Du lediglich Dein `extMerge` Datei ändern:
 
 The nice thing about this wrapper setup is that you can change your diff and merge tools easily. For example, to change your `extDiff` and `extMerge` tools to run the KDiff3 tool instead, all you have to do is edit your `extMerge` file:
 
@@ -252,7 +285,11 @@ The nice thing about this wrapper setup is that you can change your diff and mer
 	#!/bin/sh	
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
+Nun wird Git KDiff3 zur Anzeige von Diffs und zur Auflösung von Merge Konflikten verwenden.
+
 Now, Git will use the KDiff3 tool for diff viewing and merge conflict resolution.
+
+Git hat Voreinstellungen, um einige andere Merge-Auflösungswerkzeuge zu verwenden, ohne dass Du die Kommando Konfiguration einstellen musst. Du kannst Dein Merge Werkzeug auf kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, oder gvimdiff einstellen. Wenn Du zum Beispiel nicht daran interessiert bist KDiff3 fuer Diffs zu verwenden, sondern nur zur Auflösung von Merge Konflikten, dann kannst Du den folgenden Befehl ausfuehren, wenn sich kdiff3 im Pfad befindet
 
 Git comes preset to use a number of other merge-resolution tools without your having to set up the cmd configuration. You can set your merge tool to kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, or gvimdiff. If you’re not interested in using KDiff3 for diff but rather want to use it just for merge resolution, and the kdiff3 command is in your path, then you can run
 

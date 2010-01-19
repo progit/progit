@@ -11,14 +11,14 @@ votre apprentissage. Je vous laisse le choix.
 
 Maintenant que vous êtes ici, commençons. Tout d'abord, et même si ce n'est pas
 clair tout de suite, Git est fondamentalement un système de fichier adressable
-par le contenu (content-addressable filesystem<<<) avec l'interface utilisateur
-d'un VCS<<< au-dessus. Vous en apprendrez plus à ce sujet dans quelques
+par le contenu (content-addressable filesystem???) avec l'interface utilisateur
+d'un VCS??? au-dessus. Vous en apprendrez plus à ce sujet dans quelques
 instants.
 
 Aux premiers jours de Git (surtout avant la version 1.5), l'interface
 utilisateur était beaucoup plus complexe, car elle était centré sur le système
-de fichier plutôt que sur l'aspect VCS<<<. Ces dernières années, l'IU<<< a été
-paufinée<<< jusqu'à devenir aussi lisse/propre/cohérente<<< et facile à utiliser
+de fichier plutôt que sur l'aspect VCS???. Ces dernières années, l'IU??? a été
+paufinée??? jusqu'à devenir aussi lisse/propre/cohérente??? et facile à utiliser
 que n'importe quel autre système. Souvent, l'image du Git des début avec son interface
 utilisateur complexe  et difficile à apprendre est restée.
 
@@ -29,27 +29,27 @@ dépot auxquelles vous serez confronté.
 
 ## Plomberie et porcelaine ##
 
-Ce livre couvre l'utilisation de Git en une trentaine d'actions<<< comme
-`checkout`<<<, `branch`<<<, `remote`<<< ... Mais, puisque Git était initialement
-une boîte à outils<<< (Toolkit<<<) pour VCS, plutôt d'un VCS<<< complet et
+Ce livre couvre l'utilisation de Git en une trentaine d'actions??? comme
+`checkout`???, `branch`???, `remote`??? ... Mais, puisque Git était initialement
+une boîte à outils??? (Toolkit???) pour VCS, plutôt d'un VCS??? complet et
 conviviale, il dispose de tout un ensemble d'action pour les tâches bas niveau
 qui étaient conçues pour être liées à la UNIX ou appellées depuis de scritps.
-Ces commandes sont denommées<<< les commandes de "plomberies" (N.d.T
-"plumbing"), et les autres, plus conviales sont appellées "porcelaine"<<<
+Ces commandes sont denommées??? les commandes de "plomberies" (N.d.T
+"plumbing"), et les autres, plus conviales sont appellées "porcelaine"???
 ("porcelain").
 
 Les huits premiers chapîtres du livre concernent presque exclusivement les
 comandes porcelaine. Par contre, dans ce chapître, vous serez principalement
-confrontés aux commandes bas-niveau<<< de plomberie, car elles vous donnent
+confrontés aux commandes bas-niveau??? de plomberie, car elles vous donnent
 accès au fonctionnement interne de Git et aident à montrer comment et pourquoi
 Git fonctionne comme il le fait. Ces commandes ne sont pas faites pour être
-utilisées à la main en ligne de commandes<<<, mais cont plutôt utilisées comme
-briques de bases pour écrire<<< de nouveaux outils et scritps personalisés.
+utilisées à la main en ligne de commandes???, mais cont plutôt utilisées comme
+briques de bases pour écrire??? de nouveaux outils et scritps personalisés.
 
 Quand vous exécutez `git init` dans un répertoire nouveau ou existant, Git crée
-un répertoire `.git` qui contient presque tout ce que Git stocke<<< et manipule.
+un répertoire `.git` qui contient presque tout ce que Git stocke??? et manipule.
 Si vous voulez sauvegarder ou cloner votre dépôt, copier ce seul répertoire
-suffira presque. Au final<<<, ce chapître traite principalement de ce que
+suffira presque. Au final???, ce chapître traite principalement de ce que
 contient ce répertoire. Voici à quoi il ressemble :
 
 	$ ls 
@@ -69,26 +69,26 @@ répertoire `branches` n'est pas utilisé par les versions récentes de Git, et 
 fichier `description` est utilisé uniquement par le programme GitWeb program, il
 ne faut donc pas s'en soucier. Le fichier `config` contient les options de
 configuration spécifiques à votre projet, et le répertoire `info` contient un
-fichier global listant<<< les motifs<<< que vous souhaité ignorer et que vous ne
+fichier global listant??? les motifs??? que vous souhaité ignorer et que vous ne
 voulez pas mettre dans un fichier .gitignore. Le répertoire `hooks` contient les
-scripts hooks<<< (point d'ancrage/) côté client ou serveur, Ils sont décrits en détail dans le
+scripts hooks??? (point d'ancrage/) côté client ou serveur, Ils sont décrits en détail dans le
 chapître 6.
 
 Il reste quatre éléments importants : les fichiers `HEAD` et
 `index`, ainsi que les répertoires `objects` et `refs`. Ce sont les parties
-centrales de Git. Le répertoire `objects` toque<<< le contenu de votre base de
+centrales de Git. Le répertoire `objects` toque??? le contenu de votre base de
 données, le répertoire `refs` stockue les pointeurs vers les objects commit
 objects de ces données (branches), le fichier `HEAD` pointe sur la branche
-branch qui est checked out<<< et le fichier `index` est l'endroit où Git stockue
-les informations sur l'index<<<(staging area). Vous allez maintenant
-plonger<<<voir en
+branch qui est checked out??? et le fichier `index` est l'endroit où Git stockue
+les informations sur l'index???(staging area). Vous allez maintenant
+plonger???voir en
 détail dans chacune de ces sections et voir comment Git fonctionne.
 
-## Git Objects ##<<<
+## Git Objects ##???
 
 Git est un système de fichier adressable par le contenu. Super! Mais qu'est-ce
-que ça veut dire? Ça veut dire que le coeur(ligature)<<< de Git est un simple key-value
-data store<<<. Vous pouvez y inserer n'importe qu'elle type de données<<< et il
+que ça veut dire? Ça veut dire que le coeur(ligature)??? de Git est un simple key-value
+data store???. Vous pouvez y inserer n'importe qu'elle type de données??? et il
 vous retournera une clé que vous pourrez utiliser à n'importe quel moment pour récupérer ces données à
 nouveau. Pour illustrer cela, vous pouvez utiliser la commande de plomberie
 `hash-object`, qui prend des données, les stocke das votre répertoire `.git`,
@@ -108,7 +108,7 @@ créez un nouveau dépôt Git et vérifier que rien ne se trouve dans le répert
 	$
 
 Git a initialisé le répertoire `objects` et y a crée les sous-répertoires `pack`
-et `info`, mais ils ne contiennent pas de fichier régulier (regular files)<<<
+et `info`, mais ils ne contiennent pas de fichier régulier (regular files)???
 Maintenant, stockez du texte dans votre base donnée Git :
 
 	$ echo 'test content' | git hash-object -w --stdin
@@ -118,16 +118,23 @@ L'option `-w` spécifie à `hash-object` de stocker l'objet, sinon la commande
 dira seulement quelle serait la clé. `--stdin` spécifie à la commande de lire le
 contenu depuis stdin, sinon `hash-object` s'attends à un chemin vers un fichier.
 La sortie de la commande est une empreinte de 40 caractères. C'est l'empreinte
-SHA-1 : une somme de contrôle du contenu du fichier que vous stocké plus une
-en-tête, dont vous aurez bientôt des précision<<<. Voyez maintenant comment Git
+SHA-1 : une somme de contrôle du contenu du fichier que vous stockez plus une
+en-tête, dont vous aurez bientôt des précision???. Voyez maintenant comment Git
 a stocké vos données :
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-You can see a file in the `objects` directory. This is how Git stores the content initially — as a single file per piece of content, named with the SHA-1 checksum of the content and its header. The subdirectory is named with the first 2 characters of the SHA, and the filename is the remaining 38 characters.
+Vous pouvez voir un fichier dans le répertoire `objects`. C'est comme cela que
+Git stocke initialement du contenu : un fichier par contenu, nommé d'après la
+somme de contrôle SHA-1 du contenu et de son en-tête. Le sous-répertoire est
+nommé d'après les 2 premiers caractères de l'empreinte et le ficheir d'après les
+38 caractères restants.
 
-You can pull the content back out of Git with the `cat-file` command. This command is sort of a Swiss army knife for inspecting Git objects. Passing `-p` to it instructs the `cat-file` command to figure out the type of content and display it nicely for you:
+Vous pouvez récupérer le contenu avec la commande `cat-file`. Cette commande est
+un peu le couteau suisse pour l'inspection des objets Git. Utiliser `-p` avec
+`cat-file` vous permet de connaître le type de contenu et de l'afficher
+clairement??? nicely :
 
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content

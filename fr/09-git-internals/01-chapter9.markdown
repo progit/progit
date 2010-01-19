@@ -139,43 +139,51 @@ clairement??? nicely :
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content
 
-Now, you can add content to Git and pull it back out again. You can also do this with content in files. For example, you can do some simple version control on a file. First, create a new file and save its contents in your database:
+Vous pouvez maintenant ajouter du contenu à Git et le récupérer. Vous pouvez
+aussi faire ceci avec des fichiers. Par exemple, vous pouvez mettre en oeuvre
+une gestion de version simple d'un fichier. D'abord, créez un nouveau fichier et
+enregistrez son contenu dans la base de données :
 
 	$ echo 'version 1' > test.txt
 	$ git hash-object -w test.txt 
 	83baae61804e65cc73a7201a7252750c76066a30
 
-Then, write some new content to the file, and save it again:
+Puis, modifiez le contenu du fichier, et enregistrez-le à nouveau :
 
 	$ echo 'version 2' > test.txt
 	$ git hash-object -w test.txt 
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
-Your database contains the two new versions of the file as well as the first content you stored there:
+Votre base de données contient les 2 versions du fichier, ainsi que le premier
+contenu que vous avez stocké ici :
 
 	$ find .git/objects -type f 
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-Now you can revert the file back to the first version
+Vous pouvez restaurer le fichier à??? sa première version :
 
 	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
 	$ cat test.txt 
 	version 1
 
-or the second version:
+ou à??? sa seconde version :
 
 	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
 	$ cat test.txt 
 	version 2
 
-But remembering the SHA-1 key for each version of your file isn’t practical; plus, you aren’t storing the filename in your system — just the content. This object type is called a blob. You can have Git tell you the object type of any object in Git, given its SHA-1 key, with `cat-file -t`:
+Ce souvenir de la clé SHA-1 de chaque version de votre fichier n'est pas
+pratique. En plus, vous ne stockez pas le fichier lui-même, mais seulement son
+contenu, dans votre base. Ce type d'objets est appellé un blob. Git peut vous
+donnez le type d'objet de n'importe quel objet Git, étant donné sa clé SHA-1,
+avec `cat-file -t` :
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
 
-### Tree Objects ###
+### Tree Objects ###???
 
 The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:
 

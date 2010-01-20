@@ -153,48 +153,48 @@ John probeert ook zijn werk terug te zetten:
 	 ! [rejected]        master -> master (non-fast forward)
 	error: failed to push some refs to 'john@githost:simplegit.git'
 
-John isn’t allowed to push because Jessica has pushed in the meantime. This is especially important to understand if you’re used to Subversion, because you’ll notice that the two developers didn’t edit the same file. Although Subversion automatically does such a merge on the server if different files are edited, in Git you must merge the commits locally. John has to fetch Jessica’s changes and merge them in before he will be allowed to push:
+John mag niet terugzetten omdat Jessica in de tussentijd teruggezet heeft. Dit is in het bijzonder belangrijk om te begrijpen als je gewent bent aan Subversion, omdat het je zal opvallen dat de twee ontwikkelaars niet hetzelfde bestand hebben aangepast. Alhoewel Subversion automatisch zo'n samenvoeging op de server doet, als verschillende bestanden zijn aangepast, in Git moet je de commits lokaal samenvoegen. John moet Jessica's wijzigingen ophalen en ze samenvoegen voor hij terug mag zetten:
 
 	$ git fetch origin
 	...
 	From john@githost:simplegit
 	 + 049d078...fbff5bc master     -> origin/master
 
-At this point, John’s local repository looks something like Figure 5-4.
+Op dit punt ziet John's lokale repository er ongeveer uit zoals Figuur 5-4.
 
 Insert 18333fig0504.png 
-Figure 5-4. John’s initial repository.
+Figuur 5-4. John’s initiele repository.
 
-John has a reference to the changes Jessica pushed up, but he has to merge them into his own work before he is allowed to push:
+John heeft een referentie naar de wijzigingen die Jessica teruggezet heeft, maar hij moet ze samenvoegen met zijn eigen werk voordat hij het terug mag zetten:
 
 	$ git merge origin/master
 	Merge made by recursive.
 	 TODO |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-The merge goes smoothly — John’s commit history now looks like Figure 5-5.
+Het samenvoegen gaat soepel – de commit historie van John ziet er nu uit als Figuur 5-5.
 
 Insert 18333fig0505.png 
-Figure 5-5. John’s repository after merging origin/master.
+Figuur 5-5. John’s repository na het samenvoegen van origin/master.
 
-Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
+Nu kan John zijn code testen om er zeker van te zijn dat het nog steeds goed werkt, en dan kan hij zijn nieuwe samengevoegde werk terugzetten op de server:
 
 	$ git push origin master
 	...
 	To john@githost:simplegit.git
 	   fbff5bc..72bbc59  master -> master
 
-Finally, John’s commit history looks like Figure 5-6.
+Tenslotte ziet John's commit historie eruit als Figuur 5-6.
 
 Insert 18333fig0506.png 
-Figure 5-6. John’s history after pushing to the origin server.
+Figuur 5-6. John’s history na teruggezet te hebben op de origin van de server.
 
-In the meantime, Jessica has been working on a topic branch. She’s created a topic branch called `issue54` and done three commits on that branch. She hasn’t fetched John’s changes yet, so her commit history looks like Figure 5-7.
+In de tussentijd heeft Jessica gewerkt op een onderwerp branch. Ze heeft een onderwerp branch genaamd `issue54` aangemaakt en daar drie commits op gedaan. Ze heeft John's wijzigingen nog niet opgehaald, dus haar commit historie ziet er uit als Figuur 5-7.
 
 Insert 18333fig0507.png 
-Figure 5-7. Jessica’s initial commit history.
+Figuur 5-7. Jessica’s initiele commit historie.
 
-Jessica wants to sync up with John, so she fetches:
+Jessica wil met John synchroniseren, dus ze haalt de wijzigingen op:
 
 	# Jessica's Machine
 	$ git fetch origin
@@ -202,12 +202,12 @@ Jessica wants to sync up with John, so she fetches:
 	From jessica@githost:simplegit
 	   fbff5bc..72bbc59  master     -> origin/master
 
-That pulls down the work John has pushed up in the meantime. Jessica’s history now looks like Figure 5-8.
+Dat haalt het werk op dat John in de tussentijd teruggezet heeft. Jessica's historie ziet er nu uit als Figuur 5-8.
 
 Insert 18333fig0508.png 
-Figure 5-8. Jessica’s history after fetching John’s changes.
+Figuur 5-8. Jessica’s historie na het ophalen van John's wijzigingen.
 
-Jessica thinks her topic branch is ready, but she wants to know what she has to merge her work into so that she can push. She runs `git log` to find out:
+Jessica denkt dat haar onderwerp branch nu klaar is, maar ze wil weten wat ze in haar werk moet samenvoegen zodat ze terug kan zetten. Ze voert `git log` uit om dat uit te zoeken:
 
 	$ git log --no-merges origin/master ^issue54
 	commit 738ee872852dfaa9d6634e0dea7a324040193016
@@ -216,13 +216,13 @@ Jessica thinks her topic branch is ready, but she wants to know what she has to 
 
 	    removed invalid default value
 
-Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:
+Nu kan Jessica het werk van haar onderwerp samenvoegen in haar master branch, John's werk (`origin/master`) in haar `master` branch samenvoegen, en dat naar de server terugzetten. Eerst schakelt ze terug naar haar master branch om al dit werk te integreren:
 
 	$ git checkout master
 	Switched to branch "master"
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
 
-She can merge either `origin/master` or `issue54` first — they’re both upstream, so the order doesn’t matter. The end snapshot should be identical no matter which order she chooses; only the history will be slightly different. She chooses to merge in `issue54` first:
+Ze kan of `origin/master` of `issue54` als eerste samenvoegen – ze zijn beide stroomopwaarts dus de volgorde maakt niet uit. Het snapshot aan het einde zou gelijk moeten zijn ongeacht welke volgorde ze kiest; allen de geschiedenis zal iets verschillen. Ze kiest ervoor om `issue54` eerst samen te voegen:
 
 	$ git merge issue54
 	Updating fbff5bc..4af4298
@@ -231,7 +231,7 @@ She can merge either `origin/master` or `issue54` first — they’re both upstr
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-No problems occur; as you can see it, was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
+Er doen zich geen problemen voor; zoals je kunt zien was het een eenvoudige fast-forware. Nu voegt Jessica John's werk in (`origin/master`):
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb
@@ -239,27 +239,27 @@ No problems occur; as you can see it, was a simple fast-forward. Now Jessica mer
 	 lib/simplegit.rb |    2 +-
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Everything merges cleanly, and Jessica’s history looks like Figure 5-9.
+Alles voegt netjes samen, en Jessica's historie ziet er uit als Figuur 5-9.
 
 Insert 18333fig0509.png 
-Figure 5-9. Jessica’s history after merging John’s changes.
+Figuur 5-9. Jessica’s historie na het samenvoegen van John’s wijzigingen.
 
-Now `origin/master` is reachable from Jessica’s `master` branch, so she should be able to successfully push (assuming John hasn’t pushed again in the meantime):
+Nu is `origin/master` bereikbaar vanuit Jessica's `master` branch, dus ze zou in staat moeten zijn om succesvol terug te kunnen zetten (er vanuit gegaan dat John in de tussentijd niets teruggezet heeft):
 
 	$ git push origin master
 	...
 	To jessica@githost:simplegit.git
 	   72bbc59..8059c15  master -> master
 
-Each developer has committed a few times and merged each other’s work successfully; see Figure 5-10.
+Iedere ontwikkelaar heeft een paar keer gecommit en elkaars werk succesvol samengevoegd; zie Figuur 5-10.
 
 Insert 18333fig0510.png 
-Figure 5-10. Jessica’s history after pushing all changes back to the server.
+Figuur 5-10. Jessica’s historie na alle wijzigingen teruggezet te hebben op de server.
 
-That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
+Dat is één van de eenvoudigste werkwijzen. Je werkt een tijdje, over het algemeen in een onderwerp branch, en voegt samen in je master branch als het klaar is om te worden geïntegreerd. Als je dat werk wilt delen, dan voeg je het samen in je eigen master branch, en vervolgens haal je `origin/master` op en voegt het samen als het gewijzigd is, en als laatste zet je terug op de `master` branch op de server. De algemene volgorde is zoiets als die getoond in Figuur 5-11.
 
 Insert 18333fig0511.png 
-Figure 5-11. General sequence of events for a simple multiple-developer Git workflow.
+Figuur 5-11. Algemene volgorde van gebeurtenissen voor een eenvoudige multi-ontwikkelaar Git werkwijze.
 
 ### Private Managed Team ###
 

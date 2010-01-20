@@ -472,25 +472,37 @@ Jetzt ist es an der Zeit zu lernen, wie Du Daten aus zwei der am meisten benutzt
 
 ### Subversion ###
 
-If you read the previous section about using `git svn`, you can easily use those instructions to `git svn clone` a repository; then, stop using the Subversion server, push to a new Git server, and start using that. If you want the history, you can accomplish that as quickly as you can pull the data out of the Subversion server (which may take a while).
+<!--If you read the previous section about using `git svn`, you can easily use those instructions to `git svn clone` a repository; then, stop using the Subversion server, push to a new Git server, and start using that. If you want the history, you can accomplish that as quickly as you can pull the data out of the Subversion server (which may take a while).-->
 
-However, the import isn’t perfect; and because it will take so long, you may as well do it right. The first problem is the author information. In Subversion, each person committing has a user on the system who is recorded in the commit information. The examples in the previous section show `schacon` in some places, such as the `blame` output and the `git svn log`. If you want to map this to better Git author data, you need a mapping from the Subversion users to the Git authors. Create a file called `users.txt` that has this mapping in a format like this:
+Wenn Du die letzten Abschnitte über `git svn` gelesen hast, kannst Du diese Anleitungen ganz einfach benutzen um mit `git svn clone` ein Repository zu klonen. Anschließend stoppst den Subversion-Server, führst einen Push auf den neuen Git-Server durch und beginnst ihn zu benutzen. Wenn Du an die Historie ran willst, kannst Du das genausoschnell erreichen als ob Du die Daten aus dem Subversion-Server beziehen würdest (was eine Weile dauern könnte).
+
+<!--However, the import isn’t perfect; and because it will take so long, you may as well do it right. The first problem is the author information. In Subversion, each person committing has a user on the system who is recorded in the commit information. The examples in the previous section show `schacon` in some places, such as the `blame` output and the `git svn log`. If you want to map this to better Git author data, you need a mapping from the Subversion users to the Git authors. Create a file called `users.txt` that has this mapping in a format like this:-->
+
+Trotzdem ist der Import nicht perfekt. Und weil das ziemlich lange dauern wird, kannst Du es auch gleich richtig machen. Das erste Problem sind die Informationen über die Autoren. In Subversion besitzt jede Person, die mit dem System arbeitet, einen eigenen User-Account, der in den Commit-Informationen aufgezeichnet wird. Die Beispiele in den vorherigen Abschnitten zeigten dafür manchmal `schacon` an, wie beispielsweise bei der Ausgabe von `blame` und bei `git svn log`. Wenn Du dies näher an die Autoren-Daten von Git binden willst, musst Du Mapping-Informationen für die Subversion-Benutzer und die Git-Autoren anlegen. Erstelle eine Datei mit dem Namen `users.txt`, die folgendes Mapping-Format verwendet:
 
 	schacon = Scott Chacon <schacon@geemail.com>
 	selse = Someo Nelse <selse@geemail.com>
 
-To get a list of the author names that SVN uses, you can run this:
+<!--To get a list of the author names that SVN uses, you can run this:-->
+
+Um eine Liste der Namen der Autoren bekommen, die SVN benutzen, kannst Du folgendes Kommando ausführen:
 
 	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
 
-That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.
+<!--That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.-->
 
-You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `--no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:
+Dies erzeugt Dir die Log-Ausgabe im XML-Format — Du suchst damit nach den Autoren, erzeugst eine Liste ohne doppelte Einträge und wirfst anschließend das überflüssige XML weg. Anschließend wird die Ausgabe in die Datei `users.txt` umgeleitet, so dass Du jedem Eintrag den entsprechenden Git-Benutzer zuordnen kannst.
+
+<!--You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `--no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:-->
+
+Du kannst diese Datei dann `git svn` zur Verfügung stellen um das Tool dabei zu unterstützen, die Autoreninformationen besser zu mappen. Du kannst `git svn` ebenfalls mitteilen, dass es die Metadaten nicht einbeziehen soll, die Subversion normalerweise importiert, indem Du dem `clone` oder `init` Kommando die `--no-metadata`-Option mitgibst.
 
 	$ git-svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
-Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this
+<!--Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this-->
+
+Jetzt solltest Du einen hübscheren Subversion-Import in Deinem `my_project`-Verzeichnis haben. Statt eines Commit, die so aussehen:
 
 	commit 37efa680e8473b615de980fa935944215428a35a
 	Author: schacon <schacon@4c93b258-373f-11de-be05-5f7a86268029>
@@ -500,48 +512,69 @@ Now you should have a nicer Subversion import in your `my_project` directory. In
 
 	    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
 	    be05-5f7a86268029
-they look like this:
-
+		
+sehen sie jetzt so aus:
+		
 	commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
 	Author: Scott Chacon <schacon@geemail.com>
 	Date:   Sun May 3 00:12:22 2009 +0000
 
 	    fixed install - go to trunk
 
-Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.
+<!--Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.-->
 
-You need to do a bit of `post-import` cleanup. For one thing, you should clean up the weird references that `git svn` set up. First you’ll move the tags so they’re actual tags rather than strange remote branches, and then you’ll move the rest of the branches so they’re local.
+Nicht nur das Autoren-Feld sieht jetzt wesentlich besser aus. Auch die `git-svn-id wird jetzt nicht mehr gebraucht.
 
-To move the tags to be proper Git tags, run
+<!--You need to do a bit of `post-import` cleanup. For one thing, you should clean up the weird references that `git svn` set up. First you’ll move the tags so they’re actual tags rather than strange remote branches, and then you’ll move the rest of the branches so they’re local.-->
+
+Nach dem Import musst Du noch ein wenig aufräumen. Dafür solltest Du all die merkwürdigen Referenzen säubern, die `git svn` angelegt hat. Zuerst verschiebst Du die Tags, damit sie tatsächliche Git-Tags sind statt merkwürdigen Remote-Zweigen. Anschließend verschieben wir den Rest der Zweige, so dass sie lokale Zweige werden.
+
+<!--To move the tags to be proper Git tags, run-->
+
+Um die Tags so zu verschieben, dass sie echte Git-Tags werden, führst Du folgenden Befehl aus:
 
 	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
 	$ rm -Rf .git/refs/remotes/tags
 
-This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.
+<!--This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.-->
 
-Next, move the rest of the references under `refs/remotes` to be local branches:
+Das nimmt die Referenzen, die vorher Remote-Zweige waren, die mit `tag/` begonnen haben und macht aus ihnen echte (leichtgewichtige) Tags.
+
+<!--Next, move the rest of the references under `refs/remotes` to be local branches:-->
+
+Als nächstes verschieben wir den Rest der Referenzen aus `refs/remotes` und machen lokale Zweige daraus:
 
 	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
 	$ rm -Rf .git/refs/remotes
 
-Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Because you want all your branches and tags to go up, you can run this:
+<!--Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Because you want all your branches and tags to go up, you can run this:-->
+
+Jetzt sind alle alten Zweige richtige Git-Zweige geworden und alle alten Tags sind echte Git-Tags. Als letztes müssen wir den neuen Git-Server noch als entfernten Server einrichten und unsere Änderungen zu ihm pushen. Da wir alle Zweige und Tags einbeziehen wollen, kannst Du diesen Befehl verwenden:
 
 	$ git push origin --all
 
-All your branches and tags should be on your new Git server in a nice, clean import.
+<!--All your branches and tags should be on your new Git server in a nice, clean import.-->
+
+All Deine Zweige und Tags sollten jetzt in Deinem neuen Git-Server in einem schicken, sauberen Import vorhanden sein.
 
 ### Perforce ###
 
-The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git, but only in the `contrib` section of the source code — it isn’t available by default like `git svn`. To run it, you must get the Git source code, which you can download from git.kernel.org:
+<!--The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git, but only in the `contrib` section of the source code — it isn’t available by default like `git svn`. To run it, you must get the Git source code, which you can download from git.kernel.org:-->
+
+Das nächste System, dass wir zum Importieren anschauen werden, ist Perforce. Ein Import-Werkzeug für Perforce wird ebenfalls mit Git mitgeliefert, allerdings nur im `contrib`-Bereich des Quellcodes — es ist nicht wie `git svn` standardmäßig verfügbar. Um es auszuführen, musst Du den Git-Quellcode von `git.kernel.org` herunterladen:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:
+<!--In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:-->
+
+In diesem `fast-import` Verzeichnis wirst Du ein ausführbares Python-Skript mit dem Namen `git-p4` finden. Du musst Python sowie das `p4`-Werkzeug auf Deiner Maschine installiert haben, damit der Import klappt. Als Beispiel werden wir das Jam-Projekt aus dem Perforce Public Depot verwenden. Um den Client einzurichten, musst Du die P4PORT-Umgebungsvariable exportieren und sie auf das Perforce-Depot einstellen:
 
 	$ export P4PORT=public.perforce.com:1666
 
-Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:
+<!--Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:-->
+
+Führe den `git-p4 clone`-Befehl aus, um das Jam-Projekt aus dem Perforce-Server zu importieren. Dazu gibst Du den Depot- und Projekt-Pfad sowie den Pfad an, in den Du das Projekt importieren willst:
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
 	Importing from //public/jam/src@all into /opt/p4import
@@ -549,7 +582,9 @@ Run the `git-p4 clone` command to import the Jam project from the Perforce serve
 	Import destination: refs/remotes/p4/master
 	Importing revision 4409 (100%)
 
-If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:
+<!--If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:-->
+
+Wenn Du zum `/opt/p4import`-Verzeichnis wechselst und dann `git log` ausführst, kannst Du sehen, dass Dein Import funktioniert hat:
 
 	$ git log -2
 	commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2

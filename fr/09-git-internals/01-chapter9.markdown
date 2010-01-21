@@ -185,22 +185,32 @@ avec `cat-file -t` :
 
 ### Tree Objects ###???
 
-The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:
+Le prochain type que vous allez étudier est l'objet arbre (N.d.t 'tree'), il est
+une solution au problème de stockage d'un groupe de fichier. Git stocke du
+contenu de la manière, mais plus simplement, qu'un système de fichier UNIX. Tout
+le contenu est stocké comme des objets de type arbre ou blob : un arbre
+correspondant à un répertoire UNIX et un blob correspond à peu près à un i-noeud
+ou au contenu d'un fichier.	Un unique arbre contient un ou plusieurs entrées de
+type arbre, chacune incluant un pointeur SHA-1 vers un blob, un sous-arbre
+(N.d.T sub-tree), ainsi que le mode???, le type et le nom de fichier. L'arbre le
+plus récent du projet simplegit pourrai ressembler, par exemple à ceci :
 
 	$ git cat-file -p master^{tree}
 	100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
 	100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
 	040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib
 
-The `master^{tree}` syntax specifies the tree object that is pointed to by the last commit on your `master` branch. Notice that the `lib` subdirectory isn’t a blob but a pointer to another tree:
+La syntaxe `master^{tree}` spécifie l'objet arbre qui est pointé par le dernier
+commit de la branche `master`. Remarquez que le sous-répertoire `lib` n'est pas
+un blob, mais un pointeur vers un autre arbre :
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
 
-Conceptually, the data that Git is storing is something like Figure 9-1.
+Conceptuellement, les données que Git stocke ressemblent à ceci Figure 9-1.
 
 Insert 18333fig0901.png 
-Figure 9-1. Simple version of the Git data model.
+Figure 9-1. Une version simple du modèle des données??? de Git.
 
 You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your text.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `--add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `--cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:
 

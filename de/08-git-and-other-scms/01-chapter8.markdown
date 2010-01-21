@@ -606,7 +606,9 @@ Wenn Du zum `/opt/p4import`-Verzeichnis wechselst und dann `git log` ausführst,
 
 	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
 
-You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:
+<!--You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:-->
+
+Du kannst die `git-p4`-ID bei jedem Commit sehen. Es ist OK, diese ID hier zu behalten, falls Du später noch mal einen Bezug zu der Perforce-Änderung herstellen musst. Falls Du die ID entfernen willst, ist jetzt Zeit dazu — bevor Du mit der Arbeit an dem neuen Repository beginnst. Du kannst `git filter-branch` benutzen um all die IDs zu entfernen:
 
 	$ git filter-branch --msg-filter '
 	        sed -e "/^\[git-p4:/d"
@@ -614,7 +616,9 @@ You can see the `git-p4` identifier in each commit. It’s fine to keep that ide
 	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
 	Ref 'refs/heads/master' was rewritten
 
-If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:
+<!--If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:-->
+
+Wenn Du `git log` ausführst, kannst Du alle SHA1-Prüfsummen für jene Commits sehen, die sich geändert haben, aber die `git-p4`-Zeichenketten sind nicht mehr in den Commit-Nachrichten vorhanden.
 
 	$ git log -2
 	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
@@ -631,14 +635,20 @@ If you run `git log`, you can see that all the SHA-1 checksums for the commits h
 	Date:   Tue Apr 22 20:51:34 2003 -0800
 
 	    Update derived jamgram.c
+		
+<!--Your import is ready to push up to your new Git server.-->
 
-Your import is ready to push up to your new Git server.
+Dein Import ist jetzt so weit, dass Du ihn auf den neuen Git-Server pushen kannst.
 
-### A Custom Importer ###
+### Ein Import-Tool im Eigenbau ###
 
-If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`.
+<!--If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`.-->
 
-To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:
+Wenn die Versionsverwaltung, die Du verwendest, nicht Subversion oder Perforce ist, solltest Du zunächst einmal online nach einem Import-Tool suchen — gute Import-Tools sind für CVS, Clear Case, Visual Source Sage und sogar für ein Verzeichnis mit Archiven verfügbar. Wenn für Deinen Anwendungsfall keines dieser Werkzeuge passt, Du eine fast schon ausgestorbene Versionsverwaltung verwendest oder Du aus irgendeinem anderen Grund ein angepassteres Vorgehen brauchst, dann solltest Du `git fast-import` verwenden. Dieser Befehl nimmt einfache Anweisungen von `stdin` entgegen um entsprechende Git-Daten zu schreiben. Es ist viel einfacher Git-Objekte auf diese Art zu erzeugen als die blanken Git-Kommandos zu verwenden oder zu versuchen, die Roh-Objekte zu schreiben (weitere Informationen findest Du in Kapitel 9).
+
+<!--To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:-->
+
+Um das kurz zu zeigen, schreiben wir einen einfachen Importer. Nehmen wir an, Du arbeitest im Verzeichnis `current` und führst ab und an ein Backup durch, indem Du dieses Verzeichnis in ein Backup-Verzeichnis kopierst und ihm einen anderen Namen mit einem Zeitstempel, z. B. `back_YYYY_MM_DD`, verpasst. Diese Struktur wollen wir jetzt in Git importieren. Dein Verzeichnis sieht also so aus:
 
 	$ ls /opt/import_from
 	back_2009_01_02
@@ -647,11 +657,17 @@ To quickly demonstrate, you’ll write a simple importer. Suppose you work in cu
 	back_2009_02_03
 	current
 
-In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one.
+<!--In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one.-->
 
-As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout.
+Damit wir ein Git-Verzeichnis importieren können, müssen wir uns zunächst noch einmal anschauen, wie Git seine Daten speichert. Wie Du Dich vielleicht erinnerst, ist Git im Grundsatz eine verlinkte Liste von Commit-Objekten die auf eine Momentaufnahme (Snapshots) des Inhalts zeigt. Jetzt musst Du nur noch `fast-import` mitteilen, was dieses Snapshots sind, welche Commit-Daten zu ihnen zeigen und die Reihenfolge, in die sie gehören. Deine Strategie wir es sein, einen nach dem anderen durch die Snapshots zu gehen und Commits mit dem Inhalt eines jeden Verzeichnisses zu erzeigen und jeden dieser Commits anschließend mit dem vorherigen zu verknüpfen.
 
-To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this:
+<!--As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout.-->
+
+Wie wir das schon im Abschnitt "(...)" in Kapitel 7 getan haben, programmieren wir diese Lösung in Ruby, weil es die Sprache ist, mit der ich normalerweise arbeite und weil es recht einfach zu lesen ist. Du kannst das Beispiel in so ziemlich jeder Sprache schreiben, mit der Du vertraut bist — es muss nur die passenden Informationen nach `stdout` schreiben.
+
+<!--To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this:-->
+
+Zu Beginn musst Du in das Zielverzeichnis wechseln und jedes Unterverzeichnis identifizieren, das ein Snapshot ist, den Du als Commit importieren willst. Du wirst in jedes dieser Unterverzeichnisse wechseln und den entsprechenden Befehl auszugeben um es zu exportieren. Deine Schleife wird etwa so aussehen:
 
 	last_mark = nil
 

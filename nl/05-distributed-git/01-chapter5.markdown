@@ -48,7 +48,7 @@ Dit is een variant op de multi-repository werkwijze. Het wordt over het algemeen
 Insert 18333fig0503.png  
 Figuur 5-3. Welwillende dictator werkwijze.
 
-Deze manier van werken komt niet vaak voor, maar kan handig zijn in hele grote projecten of in zeer hierarchische omgevingen, omdat het de projectleider (de dictator) toestaat om het meeste werk te delegeren en grote subsets van code te verzamelen p meerdere punten alvorens ze te integreren.
+Deze manier van werken komt niet vaak voor, maar kan handig zijn in hele grote projecten of in zeer hierarchische omgevingen, omdat het de projectleider (de dictator) toestaat om het meeste werk te delegeren en grote subsets van code te verzamelen op meerdere punten alvorens ze te integreren.
 
 Dit zijn veel voorkomende werkwijzen die mogelijk zijn met een gedistribueerd systeem als Git, maar je kunt zien dat er veel variaties mogelijk zijn die passen bij jouw specifieke werkwijze. Nu dat je (naar ik hoop) in staat bent om te bepalen welke werkwijze combinatie voor jou werkt, zal ik wat specifikere voorbeelden behandelen over hoe je de hoofd rollen kunt vervullen, die in de verschillende werkwijzen voorkomen.
 
@@ -261,13 +261,13 @@ Dat is één van de eenvoudigste werkwijzen. Je werkt een tijdje, over het algem
 Insert 18333fig0511.png 
 Figuur 5-11. Algemene volgorde van gebeurtenissen voor een eenvoudige multi-ontwikkelaar Git werkwijze.
 
-### Private Managed Team ###
+### Besloten Aangestuurd Team ###
 
-In this next scenario, you’ll look at contributor roles in a larger private group. You’ll learn how to work in an environment where small groups collaborate on features and then those team-based contributions are integrated by another party.
+In het volgende scenario zul je kijken naar de rol van de bijdragers in een grotere besloten groep. Je zult leren hoe te werken in een omgeving waar kleine groepen samenwerken aan functies, waarna die team-gebaseerde bijdragen worden geïntegreerd door een andere partij.
 
-Let’s say that John and Jessica are working together on one feature, while Jessica and Josie are working on a second. In this case, the company is using a type of integration-manager workflow where the work of the individual groups is integrated only by certain engineers, and the `master` branch of the main repo can be updated only by those engineers. In this scenario, all work is done in team-based branches and pulled together by the integrators later.
+Stel dat John en Jessica samen werken aan een functie, terwijl Jessica en Josie aan een tweede aan het werken zijn. In dit geval gebruikt het bedrijf een integratie-manager achtige werkwijze, waarbij het werk van de individuele groepen alleen wordt geïntegreerd door bepaalde ingenieurs, en de `master` branch van het hoofd repo alleen kan worden vernieuwd door die ingenieurs. In dit scenario, wordt al het werk gedaan in team-gebaseerde branches en later door de integrators samengevoegd.
 
-Let’s follow Jessica’s workflow as she works on her two features, collaborating in parallel with two different developers in this environment. Assuming she already has her repository cloned, she decides to work on `featureA` first. She creates a new branch for the feature and does some work on it there:
+Laten we Jessica's werkwijze volgen terwijl ze aan haar twee functies werkt, in parallel met twee verschillend ontwikkelaars in deze omgeving. Aangenomen dat ze haar repository al gecloned heeft, besluit ze als eerste te werken aan `featureA`. Ze maakt een nieuwe branch aan voor de functie en doet daar wat werk:
 
 	# Jessica's Machine
 	$ git checkout -b featureA
@@ -277,21 +277,21 @@ Let’s follow Jessica’s workflow as she works on her two features, collaborat
 	[featureA 3300904] add limit to log function
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-At this point, she needs to share her work with John, so she pushes her `featureA` branch commits up to the server. Jessica doesn’t have push access to the `master` branch — only the integrators do — so she has to push to another branch in order to collaborate with John:
+Op dit punt, moet ze haar werk delen met John, dus ze zet haar commits op de `featureA` branch terug naar de server. Jessica heeft geen terugzet toegang op de `master` branch – alleen de integratoren hebben dat – dus ze moet naar een andere branch terugzetten om samen te kunnen werken met John:
 
 	$ git push origin featureA
 	...
 	To jessica@githost:simplegit.git
 	 * [new branch]      featureA -> featureA
 
-Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch:
+Jessica e-mailed John om hem te zeggen dat ze wat werk teruggezet heeft in een branch genaamd `featureA` en dat hij er nu naar kan kijken. Terwijl ze op terugkoppeling van John wacht, besluit Jessica te beginnen met het werken aan `featureB` met Josie. Om te beginnen start ze een nieuwe functie branch, gebaseerd op de `master` branch van de server:
 
 	# Jessica's Machine
 	$ git fetch origin
 	$ git checkout -b featureB origin/master
 	Switched to a new branch "featureB"
 
-Now, Jessica makes a couple of commits on the `featureB` branch:
+Nu doet Jessica een paar commits op de `featureB` branch:
 
 	$ vim lib/simplegit.rb
 	$ git commit -am 'made the ls-tree function recursive'
@@ -302,19 +302,19 @@ Now, Jessica makes a couple of commits on the `featureB` branch:
 	[featureB 8512791] add ls-files
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Jessica’s repository looks like Figure 5-12.
+Jessica's repository ziet eruit als Figuur 5-12.
 
 Insert 18333fig0512.png 
-Figure 5-12. Jessica’s initial commit history.
+Figuur 5-12. Jessica’s initiele commit historie.
 
-She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`:
+Ze is klaar om haar werk terug te zetten, maar ze krijgt een e-mail van Josie dat een branch met wat initieel werk erin al teruggezet is naar de server als `featureBee`. Jessica moet die wijzigingen eerst samenvoegen met haar eigen voordat ze terug kan zetten naar de server. Ze kan dan Josie's wijzigingen ophalen met `git fetch`:
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
 	 * [new branch]      featureBee -> origin/featureBee
 
-Jessica can now merge this into the work she did with `git merge`:
+Jessica kan dit nu samenvoegen in haar werk met `git merge`:
 
 	$ git merge origin/featureBee
 	Auto-merging lib/simplegit.rb
@@ -322,23 +322,23 @@ Jessica can now merge this into the work she did with `git merge`:
 	 lib/simplegit.rb |    4 ++++
 	 1 files changed, 4 insertions(+), 0 deletions(-)
 
-There is a bit of a problem — she needs to push the merged work in her `featureB` branch to the `featureBee` branch on the server. She can do so by specifying the local branch followed by a colon (:) followed by the remote branch to the `git push` command:
+Er is wel een klein probleem – ze moet het samengevoegde werk in haar `featureB` branch naar de `featureBee` branch op de server zetten. Ze kan dat doen door de lokale branch te specificeren aan het `git push` commando, gevolgd door een dubbele punt (:), gevolgd door de remote branch:
 
 	$ git push origin featureB:featureBee
 	...
 	To jessica@githost:simplegit.git
 	   fba9af8..cd685d1  featureB -> featureBee
 
-This is called a _refspec_. See Chapter 9 for a more detailed discussion of Git refspecs and different things you can do with them.
+Dit wordt een _refspec_ genoemd. Zie Hoofdstuk 9 voor een gedaileerdere discussie van Git refspecs en de verschillende dingen die je met ze kan doen.
 
-Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` branch and ask her to verify them. She runs a `git fetch` to pull down those changes:
+Vervolgens e-mailed John naar Jessica om te zeggen dat hij wat wijzigingen naar de `featureA` branch teruggezet heeft, en om haar te vragen die te verifieren. Ze voert een `git fetch` uit om die wijzigingen op te halen:
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
 	   3300904..aad881d  featureA   -> origin/featureA
 
-Then, she can see what has been changed with `git log`:
+Daarna kan ze zien wat er veranderd is met `git log`:
 
 	$ git log origin/featureA ^featureA
 	commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
@@ -347,7 +347,7 @@ Then, she can see what has been changed with `git log`:
 
 	    changed log output to 30 from 25
 
-Finally, she merges John’s work into her own `featureA` branch:
+Uiteindelijk voegt ze John's werk in haar eigen `featureA` branch:
 
 	$ git checkout featureA
 	Switched to branch "featureA"
@@ -357,7 +357,7 @@ Finally, she merges John’s work into her own `featureA` branch:
 	 lib/simplegit.rb |   10 +++++++++-
 	1 files changed, 9 insertions(+), 1 deletions(-)
 
-Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
+Jessica wil iets fijnstellen, dus doet ze nog een commit en zet dit terug naar de server:
 
 	$ git commit -am 'small tweak'
 	[featureA ed774b3] small tweak
@@ -367,20 +367,21 @@ Jessica wants to tweak something, so she commits again and then pushes this back
 	To jessica@githost:simplegit.git
 	   3300904..ed774b3  featureA -> featureA
 
-Jessica’s commit history now looks something like Figure 5-13.
+Jessica's commit historie ziet er nu uit zoals Figuur 5-13.
 
 Insert 18333fig0513.png 
-Figure 5-13. Jessica’s history after committing on a feature branch.
+Figuur 5-13. Jessica’s historie na het committen op een functie branch.
 
-Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14.
+Jessica, Josie en John informeren de integrators nu dat de `featureA` en featureBee` branches op de server klaar zijn voor integratie in de hoofdlijn. Nadat ze die branches in de hoofdlijn geïntegreerd hebben, zal een fetch de nieuwe samenvoeg commits ophalen, waardoor de commit historie er uit ziet zoals Figuur 5-14.
+
 
 Insert 18333fig0514.png 
-Figure 5-14. Jessica’s history after merging both her topic branches.
+Figuur 5-14. Jessica’s historie na het samenvoegen van allebei haar onderwerp branches.
 
-Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
+Veel groepen schakelen om naar Git voor deze mogelijkheid om meerdere teams in paralleel te kunnen laten werken, waarbij de verschillende lijnen van werk laat in het proces samengevoegd worden. De mogelijkheid van kleinere subgroepen of een team om samen te werken via remote branches zonder het betrekken of dwarsliggen van het hele team is een enorm voordeel van Git. De volgorde van de werkwijze die je hier zag is ongeveer zoals Figuur 5-15.
 
 Insert 18333fig0515.png 
-Figure 5-15. Basic sequence of this managed-team workflow.
+Figuur 5-15. Basale volgorde van de werkwijze van dit aangestuurde team.
 
 ### Public Small Project ###
 

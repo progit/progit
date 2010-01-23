@@ -286,7 +286,7 @@ l'option `--prefix` de `read-tree` :
 Si vous avez créer un repertoire de travail à partir du nouvel arbre que vous
 venez d'enregistrer, vous aurez deux fichiers en haut??? du répertoire de
 tavail, ainsi qu'un sous-répertoire appellé `bak` qui contient la première
-version du fichier test.tx. Vous pouvez vous représenter les données que Git
+version du fichier test.txt. Vous pouvez vous représenter les données que Git
 utilise pour ces strucutres comme sur la Figure 9-2.
 
 Insert 18333fig0902.png 
@@ -294,14 +294,21 @@ Figure 9-2. Structure des données actuelles de Git???.
 
 ### Commit Objects ###
 
-You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.
+Vous avez trois arbres qui représentent??? différentes instannés du
+projet que vous suivez, mais certains problèmes persiste : vous devez vous
+souvenir des valeurs des trois empreintes SHA-1 pour accéder instannés. VOus
+n'avez pas non plus d'information sur qui a enregistré les instannés, quand et
+pourquoi. Ce sont les informations élémentaires qu'un objet commit stocke pour
+vous.
 
-To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:
+Pour créer un objet commit, il suffit d'exécuter `commit-tree`, de préciser
+l'empreinte SHA-1 et quel objet commit, s'il y a en, le précède directement.
+Commencez avec le premier arbre que vous avez créé :
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
-Now you can look at your new commit object with `cat-file`:
+Vous pouvez voir votre nouvel objet commit avec `cat-file`:
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -310,9 +317,13 @@ Now you can look at your new commit object with `cat-file`:
 
 	first commit
 
-The format for a commit object is simple: it specifies the top-level tree for the snapshot of the project at that point; the author/committer information pulled from your `user.name` and `user.email` configuration settings, with the current timestamp; a blank line, and then the commit message.
+Le format d'un commit est simple : il contient le top-level??? arbre de
+l'instantanné du projet à ce moment, les infromations sur l'auteur et le
+commiteur qui sont extraite des variables de configuration `user.name` et
+`user.email`accompagné d'un horodatage, une ligne vide et le message de commit.
 
-Next, you’ll write the other two commit objects, each referencing the commit that came directly before it:
+Ensuite, vous enregistrez le deux autres objets commit chacun référençant le
+commit dont il est issu :
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
 	cac0cab538b970a37ea1e769cbbde608743bc96d

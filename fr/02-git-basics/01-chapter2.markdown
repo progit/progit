@@ -553,9 +553,9 @@ Le tableau 2-1 liste les options de formattage les plus utiles.
 	%cr	Date relative du validateur
 	%s	Sujet
 
-Vous pourriez vous demander quelle est la différence entre _auteur  et _validateur_. L'auteur est la personne qui a réalisé initialement le travail, alors que le validateur est la personne qui a effectivement validé ce travail en gestion de version. Donc, si quelqu'un envoie patch à un projet et un des membres du projet l'applique, les deux personnes reçoivent le crédit - l'écrivain en tant qu'auteur, et le membre du projet en tant que validateur. Nous traiterons plus avant de cette distinction au chapitre 5.
+Vous pourriez vous demander quelle est la différence entre _auteur_  et _validateur_. L'auteur est la personne qui a réalisé initialement le travail, alors que le validateur est la personne qui a effectivement validé ce travail en gestion de version. Donc, si quelqu'un envoie patch à un projet et un des membres du projet l'applique, les deux personnes reçoivent le crédit - l'écrivain en tant qu'auteur, et le membre du projet en tant que validateur. Nous traiterons plus avant de cette distinction au chapitre 5.
 
-Les options oneline et format sont encore plus utiles avec une autre option `log` appelée `--graph`. Cette option ajoute un joli graphe en caractères ASCII pour décrire l'historique des branches et fusions, ce que nous pouvons visualiser pour notre copie du dépot de Grit :
+Les options oneline et format sont encore plus utiles avec une autre option `log` appelée `--graph`. Cette option ajoute un joli graphe en caractères ASCII pour décrire l'historique des branches et fusions, ce que nous pouvons visualiser pour notre copie du dépôt de Grit :
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -602,7 +602,7 @@ Le tableau 2-3 récapitule les options que nous venons de voir ainsi que quelque
 	-(n)	N'affiche que les n derniers commits
 	--since, --after	Limite l'affichage aux commits réalisés après la date spécifiée
 	--until, --before	Limite l'affichage aux commits réalisés avant la date spécifiée
-	--author	Ne montre que les commits dont le champ auteur correspond à la chaine passée en argument
+	--author	Ne montre que les commits dont le champ auteur correspond à la chaîne passée en argument
 	--committer	Ne montre que les commits dont le champ validateur correspond à la chaîne passée en argument
 
 Par exemple, si vous souhaitez visualiser quels commits modifiant les fichiers de test dans l'historique du source de Git ont été validés par Junio Hamano et n'étaient pas de fusions durant le mois d'octobre 2008, vous pouvez lancer ce qui suit :
@@ -623,7 +623,7 @@ A partir des 20 000 commits constituant l'historique des sources de Git, cette c
 Si vous préférez utiliser un outil plus graphique pour visualiser l'historique d'un projet, vous pourriez jeter un œil à un programme distribué avec Git nommé gitk. Gitk est un outil graphique mimant les fonctionnalités de `git log`, et il donne accès à quasiment toutes les options de filtrage de `git log`. Si vous tapez gitk en ligne de commande, vous devriez voir une interface ressemblant à la figure 2-2.
 
 Insert 18333fig0202.png 
-Figure 2-2. Le visualiteur d'historique gitk
+Figure 2-2. Le visualiseur d'historique gitk
 
 Vous pouvez voir l'historique de commits dans la partie supérieure de la fenêtre avec un graphique d'enchaînement. Le visualisateur de diff dans la partie inférieure de la fenêtre affiche les modifications introduites par le commit sélectionné.
 
@@ -633,7 +633,7 @@ Vous pouvez voir l'historique de commits dans la partie supérieure de la fenêt
 
 ### Modifier le dernier commit ###
 
-Une des annulations les plus communes apparaît lorqu'on valide une modification trop tôt en oubliant d'ajouter certains fichiers, ou si on se trompe dans le message de validation. Si vous souhaitez rectifier cette erreur, vous pouvez valider le complément de modification avec l'option `--amend` :
+Une des annulations les plus communes apparaît lorsqu'on valide une modification trop tôt en oubliant d'ajouter certains fichiers, ou si on se trompe dans le message de validation. Si vous souhaitez rectifier cette erreur, vous pouvez valider le complément de modification avec l'option `--amend` :
 
 	$ git commit --amend
 
@@ -641,7 +641,7 @@ Cette commande prend en compte la zone d'index et l'utilise pour le commit. Si a
 
 L'éditeur de message de validation démarre, mais il contient déjà le message de la validation précédente. Vous pouvez éditer ce message normalement, mais il écrasera le message de la validation précédente.
 
-Par exemple, si vous validez un version puis réalisez que vous avez oublié de spécifier les modifications d'un fichier, vous pouvez taper les commandes suvantes :
+Par exemple, si vous validez un version puis réalisez que vous avez oublié de spécifier les modifications d'un fichier, vous pouvez taper les commandes suivantes :
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
@@ -651,7 +651,7 @@ Les trois dernière commandes donnent lieu à la création d'un unique commit - 
 
 ### Désindexer un fichier déjà indexé ###
 
-Les deux sections suivante demontrent comment bricoler les modifications dans votre zone d'index et votre zone de travail. Un point sympathique est que la commande permettant de connaître l'état des ces deux zones vous rappelle aussi comment annuler les modifications. Par exemple, supposons que vous avez modifié deux fichiers et voulez les valider comme deux modifications indépendantes, mais que vous ayez tapé accidentellement `git add *` et donc indexé les deux. Comment annuler l'indexation d'un des fichiers ? La commande `git status` vous rappelle :
+Les deux sections suivante démontrent comment bricoler les modifications dans votre zone d'index et votre zone de travail. Un point sympathique est que la commande permettant de connaître l'état des ces deux zones vous rappelle aussi comment annuler les modifications. Par exemple, supposons que vous avez modifié deux fichiers et voulez les valider comme deux modifications indépendantes, mais que vous ayez tapé accidentellement `git add *` et donc indexé les deux. Comment annuler l'indexation d'un des fichiers ? La commande `git status` vous rappelle :
 
 	$ git add .
 	$ git status
@@ -663,7 +663,7 @@ Les deux sections suivante demontrent comment bricoler les modifications dans vo
 	#       modified:   benchmarks.rb
 	#
 
-Juste sous le texte "Changes to be committed", elle vous indique d'utiliser `git reset HEAD <fichier>...` pour désindexer un fichier. Utilisons donc ce conseil pour désindéxer le fichier benchmarks.rb :
+Juste sous le texte "Changes to be committed", elle vous indique d'utiliser `git reset HEAD <fichier>...` pour désindexer un fichier. Utilisons donc ce conseil pour désindexer le fichier benchmarks.rb :
 
 
 	$ git reset HEAD benchmarks.rb 
@@ -707,17 +707,17 @@ Cela vous indique assez explicitement comment annuler des modifications que vous
 	#
 
 Vous pouvez constater que les modifications ont été annulées. Vous devriez aussi vous apercevoir que c'est une commande dangereuse : toute modification que vous auriez réalisée sur ce fichier ont disparu — vous venez tout juste de l'écraser avec un autre fichier. N'utilisez jamais cette commande à moins d'être vraiment sûr de ne pas vouloir de ces modifications. Si vous souhaitez seulement écarter momentanément cette modification, nous verrons comment mettre de côté et créer des branches dans le chapitre suivant ; ce sont de meilleures façons de procéder.
-Souvenez-vous, tout ce qui a été validé dans Git peut quasiment toujours être récupéré. Y compris des commits sur des branches qui ont été effacées our des commits qui ont été écrasés par une validation avec l'option `--amend` (se référer au chapitre 9 pour la récupération de données). Cependant, tout ce que vous perdez avant de l'avoir validé n'a aucune chance d'être récupérable via Git.
+Souvenez-vous, tout ce qui a été validé dans Git peut quasiment toujours être récupéré. Y compris des commits sur des branches qui ont été effacées ou des commits qui ont été écrasés par une validation avec l'option `--amend` (se référer au chapitre 9 pour la récupération de données). Cependant, tout ce que vous perdez avant de l'avoir validé n'a aucune chance d'être récupérable via Git.
 
-## Travailler avec des dépots distants ##
+## Travailler avec des dépôts distants ##
 
-Pour pouvoir collaborer sur un projet Git, il est nécessaire de connaître comment gérer les dépots distants. Les dépots distants sont des versions de votre projet qui sont hébergés sur Internet ou le réseau. Vous pouvez en avoir plusieurs, pour lesquels vous pouvez avoir des droits soit en lecture seule, soit en lecture/écriture. Collaborer avec d'autres personnes consiste à gérer ces dépots distants, en poussant ou tirant des données depuis et vers ces dépots quand vous souhaitez partager votre travail.
+Pour pouvoir collaborer sur un projet Git, il est nécessaire de connaître comment gérer les dépôts distants. Les dépôts distants sont des versions de votre projet qui sont hébergés sur Internet ou le réseau. Vous pouvez en avoir plusieurs, pour lesquels vous pouvez avoir des droits soit en lecture seule, soit en lecture/écriture. Collaborer avec d'autres personnes consiste à gérer ces dépôts distants, en poussant ou tirant des données depuis et vers ces dépôts quand vous souhaitez partager votre travail.
 
-Gérer des dépots distant inclut savoir comment ajouter des dépots distants, effacer des dépots distants qui ne sont plus valides, gérer des branches distantes et les définir comme suivie ou non, et plus encore. Dans cette section, nous traiterons des commandes de gestion distante.
+Gérer des dépôts distant inclut savoir comment ajouter des dépôts distants, effacer des dépôts distants qui ne sont plus valides, gérer des branches distantes et les définir comme suivie ou non, et plus encore. Dans cette section, nous traiterons des commandes de gestion distante.
 
-### Afficher les dépots distants ###
+### Afficher les dépôts distants ###
 
-Pour visualiser les serveur distants que vous avez enregistrés, vous pouvez lancer le commande git remote. Elle liste les noms des différente étiquettes distantes que vous avez spécifiées. Si vous avez cloné un dépot, vous devriez au moins voir l'origine origin — c'est-à-dire le nom par défaut que Git donne au serveur à partir duquel vous avez cloné :
+Pour visualiser les serveur distants que vous avez enregistrés, vous pouvez lancer le commande git remote. Elle liste les noms des différente étiquettes distantes que vous avez spécifiées. Si vous avez cloné un dépôt, vous devriez au moins voir l'origine origin — c'est-à-dire le nom par défaut que Git donne au serveur à partir duquel vous avez cloné :
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -730,12 +730,12 @@ Pour visualiser les serveur distants que vous avez enregistrés, vous pouvez lan
 	$ git remote 
 	origin
 
-You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+Vous pouvez aussi spécifier `-v`, qui vous montre l'URL que Git a stocké pour nom court à étendre :
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
-If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
+Si vous avez plus d'un dépôt distant, la commande précédente les liste tous. Par exemple, mon dépôt Grit ressemble à ceci.
 
 	$ cd grit
 	$ git remote -v
@@ -745,11 +745,11 @@ If you have more than one remote, the command lists them all. For example, my Gr
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in Chapter 4).
+Cela signifie que nous pouvons tirer très facilement des contributions depuis certains utilisateurs. Mais il est à noter que seul le dépot distant origin utilise une URL SSH, ce qui signifie que c'est le seul sur lequel je peux pousser (nous traiterons de ceci  au chapitre 4).
 
-### Adding Remote Repositories ###
+### Ajouter des dépôts distants ###
 
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+J'ai expliqué et donné des exemples d'ajout de dépôts distants dans les chapitres précédents, mais voici spécifiquement comment faire. Pour ajouter un nouveau dépot distant Git comme nom court auquel il est facile de faire référence, lancez `git remote add [nomcourt] [url]` :
 
 	$ git remote
 	origin
@@ -758,7 +758,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+Maintenant, vous pouvez utiliser le mot-clé pb sur la ligne de commande au lieu de l'URL complète. Par exemple, si vous voulez récupérer toute l'information que Paul a mais ne souhaitez pas l'avoir encore dans votre dépot, vous pouvez lancer git fetch pb :
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -769,21 +769,21 @@ Now you can use the string pb on the command line in lieu of the whole URL. For 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+La branche master de Paul est accessible localement en tant que `pb/master` — vous pouvez la fusionner dans une de vos propres branches, ou vous pouvez extraire une branche localement si vous souhaitez l'inspecter.
 
-### Fetching and Pulling from Your Remotes ###
+### Récupérer et tirer depuis des dépôts distants ###
 
-As you just saw, to get data from your remote projects, you can run:
+Comme vous venez tout juste de le voir, pour obtenir les données des dépôts distants, vous pouvez lancer :
 
 	$ git fetch [remote-name]
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
+Cette commande s'adresse au dépôt distant et récupère toutes les données de ce projet que vous ne possédez pas déjà. Après cette action, vous possédez toutes les références à toutes les branches contenues dans ce dépôt, que vous pouvez fusionner ou inspecter à tout moment (nous reviendrons plus précisément sur les branches et leur utilisation au chapitre 3).
 
-If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+Si vous clonez un dépôt, le dépôt distant est automatiquement ajouté sous le nom origin. Donc, `git fetch origin` récupère tout ajout qui a été poussé vers ce dépôt depuis que vous l'avez cloné ou la dernière fois que vous avez récupéré les ajouts. Il faut noter que la commande fetch tire les données dans votre dépôt local mais sous sa propre branche — elle ne les fusionne pas automatiquement avec aucun de vos travaux ni ne modifie votre copie de travail. Vous devez volontairement fusionner ses modifications distante dans votre travail lorsque vous le souhaitez.
 
-If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+Si vous avez créé une branche pour suivre l'évolution d'une branche distante (Cf. la section suivante et le chapitre 3 pour plus d'information), vous pouvez utiliser la commande `git pull` qui récupère et fusionne automatiquement une branche distante dans votre branche locale. Ce comportement peut correspondre à une méthode de travail plus confortable, sachant que par défaut la commande `git clone` paramètre votre branche locale pour qu'elle suive la branche master du dépôt que vous avez cloné (en supposant que le dépôt distant ait une branche master). Lancer `git pull` récupère généralement les données depuis le serveur qui a été initialement cloné et essaie de la fusionner dans votre branche de travail actuel.
 
-### Pushing to Your Remotes ###
+### Pousser son travail sur un dépôt distant ###
 
 When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
 
@@ -1124,3 +1124,6 @@ As you can tell, Git simply replaces the new command with whatever you alias it 
 ## Summary ##
 
 At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+
+<!--  LocalWords:  Junio
+ -->

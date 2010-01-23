@@ -383,11 +383,11 @@ Veel groepen schakelen om naar Git voor deze mogelijkheid om meerdere teams in p
 Insert 18333fig0515.png 
 Figuur 5-15. Basale volgorde van de werkwijze van dit aangestuurde team.
 
-### Public Small Project ###
+### Klein Publiek Project ###
 
-Contributing to public projects is a bit different. Because you don’t have the permissions to directly update branches on the project, you have to get the work to the maintainers some other way. This first example describes contributing via forking on Git hosts that support easy forking. The repo.or.cz and GitHub hosting sites both support this, and many project maintainers expect this style of contribution. The next section deals with projects that prefer to accept contributed patches via e-mail.
+Het bijdragen aan publieke projecten gaat wat anders. Omdat je niet de toestemming hebt om de branches van het project te vernieuwen, moet je het werk op een andere manier naar de beheerders krijgen. Dit eerste voorbeeld beschrijft het bijdragen via afsplitsen op Git hosts die eenvoudig afsplitsen ondersteunen. De repo.or.cz en GitHub hosting sites ondersteunen dit allebei, en veel project beheerders verwachten deze soort bijdrage. Het volgende deel behandelt projecten die de voorkeur hebben aan bijgedragen patches via e-mail.
 
-First, you’ll probably want to clone the main repository, create a topic branch for the patch or patch series you’re planning to contribute, and do your work there. The sequence looks basically like this:
+Eerst wil je waarschijnlijk het hoofdrepository clonen, een onderwerp branch maken voor de patch of patch serie die je van plan bent bij te dragen, en je werk daarop doen. De volgorde ziet er in basis zo uit:
 
 	$ git clone (url)
 	$ cd project
@@ -397,19 +397,19 @@ First, you’ll probably want to clone the main repository, create a topic branc
 	$ (work)
 	$ git commit
 
-You may want to use `rebase -i` to squash your work down to a single commit, or rearrange the work in the commits to make the patch easier for the maintainer to review — see Chapter 6 for more information about interactive rebasing.
+Je wil misschien de `rebase -i` optie gebruiken om je werk in één enkele commit samen te persen, of het werk in de commits herschikken om de patch eenvoudiger te kunnen laten reviewen door de beheerders – zie Hoofdstuk 6 voor meer informatie over het interactief rebasen.
 
-When your branch work is finished and you’re ready to contribute it back to the maintainers, go to the original project page and click the "Fork" button, creating your own writable fork of the project. You then need to add in this new repository URL as a second remote, in this case named `myfork`:
+Als je werk op de branch af is, en je klaar bent om het bij te dragen aan de beheerders, ga dan naar de originele project pagina en klik op de "Fork" knop, waarmee je een eigen schrijfbare fork van het project maakt. Je moet dit dan in een nieuwe repository URL toevoegen als een tweede remote, in dit geval `myfork` genaamd:
 
 	$ git remote add myfork (url)
 
-You need to push your work up to it. It’s easiest to push the remote branch you’re working on up to your repository, rather than merging into your master branch and pushing that up. The reason is that if the work isn’t accepted or is cherry picked, you don’t have to rewind your master branch. If the maintainers merge, rebase, or cherry-pick your work, you’ll eventually get it back via pulling from their repository anyhow:
+Je moet je werk hier naar terugzetten. Het is het makkelijkts om de remote branch waar je op zit te werken terug te zetten naar je repository, in plaats van het samenvoegen in je master branch en die terug te zetten. De reden is dat als het werk niet wordt geaccepteerd of ge-cherry picked, je je master branch niet hoeft terug te draaien. Als de beheerders je werk samenvoegen, rebasen of cherry picken, dan krijg je het uiteindelijk toch terug door hun repository binnen te halen:
 
 	$ git push myfork featureA
 
-When your work has been pushed up to your fork, you need to notify the maintainer. This is often called a pull request, and you can either generate it via the website — GitHub has a "pull request" button that automatically messages the maintainer — or run the `git request-pull` command and e-mail the output to the project maintainer manually.
+Als jouw werk teruggezet is naar je fork, dan moet je de beheerder waarschuwen. Dit wordt vaak een pull request (haal binnen verzoek) genoemd, en je kunt het of via de website genereren – GitHub heeft een "pull request" knop die de beheerder automatisch een bericht stuurt – of het `git request-pull` commando uitvoeren en de uitvoer handmatig naar de beheerder e-mailen.
 
-The `request-pull` command takes the base branch into which you want your topic branch pulled and the Git repository URL you want them to pull from, and outputs a summary of all the changes you’re asking to be pulled in. For instance, if Jessica wants to send John a pull request, and she’s done two commits on the topic branch she just pushed up, she can run this:
+Het `request-pull` commando accepteerd de basis branch waarin je je onderwerp branch binnen gehaald wil hebben, en de URL van het Git repository waarvan je ze will laten halen, en voert een samenvatting uit van alle wijzigingen die je binnengehaald wenst te hebben. Bijvoorbeeld, als Jessica John een pull request wil sturen, en ze heeft twee commits gedaan op de onderwerp branch die ze zojuist teruggezet heeft, dan kan ze dit uitvoeren:
 
 	$ git request-pull origin/master myfork
 	The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
@@ -427,9 +427,9 @@ The `request-pull` command takes the base branch into which you want your topic 
 	 lib/simplegit.rb |   10 +++++++++-
 	 1 files changed, 9 insertions(+), 1 deletions(-)
 
-The output can be sent to the maintainer—it tells them where the work was branched from, summarizes the commits, and tells where to pull this work from.
+De uitvoer kan naar de beheerder gestuurd worden – het verteld ze waar het werk vanaf gebranched is, vat de commits samen, en verteld waar ze dit werk vandaan kunnen halen.
 
-On a project for which you’re not the maintainer, it’s generally easier to have a branch like `master` always track `origin/master` and to do your work in topic branches that you can easily discard if they’re rejected.  Having work themes isolated into topic branches also makes it easier for you to rebase your work if the tip of the main repository has moved in the meantime and your commits no longer apply cleanly. For example, if you want to submit a second topic of work to the project, don’t continue working on the topic branch you just pushed up — start over from the main repository’s `master` branch:
+Bij een project waarvan je niet de beheerder bent, is het over het algemeen eenvoudiger om een branch zoals `master` altijd de `origin/master` te laten volgen, en je werk te doen in onderwerp branches die je eenvoudig weg kunt gooien als ze geweigerd worden. Als je je werk thema's gescheiden hebt in onderwerp branches maakt dat het ook eenvoudiger voor jou om je werk te rebasen als de punt van het hoof repository in de tussentijd verschoven is en je commits niet langer netjes toegepast kunnen worden. Bijvoorbeeld, als je een tweede onderwerp wil bijdragen aan een project, ga dan niet verder werken op de onderwerp branch die je zojuist teruggezet hebt – begin opnieuw vanaf de `master` branch van het hoofd repository:
 
 	$ git checkout -b featureB origin/master
 	$ (work)
@@ -438,25 +438,25 @@ On a project for which you’re not the maintainer, it’s generally easier to h
 	$ (email maintainer)
 	$ git fetch origin
 
-Now, each of your topics is contained within a silo — similar to a patch queue — that you can rewrite, rebase, and modify without the topics interfering or interdepending on each other as in Figure 5-16.
+Nu zijn al je onderwerpen opgeslagen in een silo – vergelijkbaar met een patch rij – die je kunt herschrijven, rebasen en wijzigen zonder dat de onderwerpen elkaar in de weg zitten of afhankelijk zijn zoals in Figuur 5-16.
 
 Insert 18333fig0516.png 
-Figure 5-16. Initial commit history with featureB work.
+Figuur 5-16. Initiele commit historie met werk van featureB.
 
-Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes:
+Stel dat de project beheerder een berg andere patches binnengehaald heeft en je eerste branch geprobeerd heeft, maar dat die niet langer netjes samenvoegt. In dit geval kun je proberen die branch te rebasen op de punt van `origin/master`, de conflicten proberen op te lossen voor de beheerder, en dan je wijzigingen opnieuw aanbieden:
 
 	$ git checkout featureA
 	$ git rebase origin/master
 	$ git push –f myfork featureA
 
-This rewrites your history to now look like Figure 5-17.
+Dit herschrijft je geschiedenis zodat die eruit ziet als in Figuur 5-17.
 
 Insert 18333fig0517.png 
-Figure 5-17. Commit history after featureA work.
+Figuur 5-17. Commit historie na werk van featureA.
 
-Because you rebased the branch, you have to specify the `–f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
+Omdat je de branch gerebased hebt, moet je de `-f` specificeren met je push commando om in staat te zijn de `featureA` branch op de server te vervangen met een commit die er geen afstammeling van is. Een alternatief zou zijn dit nieuwe werk naar een andere branch op de server terug te zetten (misschien `featureAv2` genaamd).
 
-Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
+Laten we eens kijken naar nog een mogelijk scenario: de beheerder heeft je werk bekeken in je tweede branch en vind het concept goed, maar zou willen dat je een implementatie detail veranderd. Je zult deze kans ook gebruiken om het werk dat gebaseerd is van de huidige `master` branch van het project af te halen. Je begint een nieuwe branch gebaseerd op de huidige `origin/master` branch, perst de `featureB` wijzigingen hier samen, lost conflicten op, doet de implementatie wijziging, en zet dat terug als een nieuwe branch:
 
 	$ git checkout -b featureBv2 origin/master
 	$ git merge --no-commit --squash featureB
@@ -464,18 +464,18 @@ Let’s look at one more possible scenario: the maintainer has looked at work in
 	$ git commit
 	$ git push myfork featureBv2
 
-The `--squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `--no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit.
+De `--squash` optie pakt al het werk op de samengevoegde branch en perst dat samen in één non-merge commit bovenop de branch waar je op zit. De `--no-commit` optie verteld Git dat hij niet automatisch een commit moet vastleggen. Dit staat je toe om alle wijzigingen van een andere branch te introduceren en dan meer wijzigingen te doen, alvorens de commit vast te leggen.
 
-Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `featureBv2` branch (see Figure 5-18).
+Nu kun je de beheerder een bericht sturen dat je de gevraagde wijzigingen gemaakt hebt en dat ze die wijzigingen kunnen vinden in je `featureBv2` branch (zie Figuur 5-18).
 
 Insert 18333fig0518.png 
-Figure 5-18. Commit history after featureBv2 work.
+Figuur 5-18. Commit historie na het featureBv2 werk.
 
-### Public Large Project ###
+### Publiek Groot Project ###
 
-Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now.
+Veel grote projecten hebben procedures voor het accepteren van patches vastgelegd – je zult de specifieke regels voor ieder project moeten bekijken, omdat ze zullen verschillen. Maar, veel grote projecten accepteren patches via ontwikkelaar maillijsten, dus ik zal zo'n voorbeeld nu laten zien.
 
-The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list:
+De werkwijze is vergelijkbaar met het vorige geval – je maakt onderwerp branches voor iedere patch waar je aan werkt. Het verschil is hoe je die indient bij het project. In plaats van het project te forken en naar je eigen schrijfbare versie terug te zetten, genereer je e-mail versies van iedere commit serie en e-mailed die naar de ontwikkelaar maillijst:
 
 	$ git checkout -b topicA
 	$ (work)
@@ -483,13 +483,13 @@ The workflow is similar to the previous use case — you create topic branches f
 	$ (work)
 	$ git commit
 
-Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these commits:
+Nu heb je twee commits die je wil sturen naar de maillijst. Je gebruikt `git format-patch` om de mbox-geformatteerde bestanden te genereren, die je kunt e-mailen naar de lijst – het vormt ieder commit om naar een e-mail bericht met de eerste regel van het commit bericht als de onderwerp regel, en de rest van het bericht plus de patch die de commit introduceert als de inhoud. Het fijne hieraan is dat het toepassen van een patch uit een e-mail die gegenereerd is met `format-patch` alle commit informatie goed behoudt, zoals je in het volgende gedeelte meer zult zien als je deze commits toepast:
 
 	$ git format-patch -M origin/master
 	0001-add-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
 
-The `format-patch` command prints out the names of the patch files it creates. The `-M` switch tells Git to look for renames. The files end up looking like this:
+Het `format-patch` commando voert de namen uit van de patch bestanden die het maakt. De `-M` optie verteld Git te kijken naar hernoemingen. De bestanden komen er uiteindelijk zo uit te zien:
 
 	$ cat 0001-add-limit-to-log-function.patch 
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
@@ -519,11 +519,11 @@ The `format-patch` command prints out the names of the patch files it creates. T
 	-- 
 	1.6.2.rc1.20.g8c5b.dirty
 
-You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.
+Je kunt deze patch bestanden ook aanpassen om meer informatie voor de maillijst toe te voegen, die je niet in het commit bericht wil laten zien. Als je tekst toevoegt tussen de `--` regel en het begin van de patch (de `lib/simplegit.rb` regel), dan kunnen ontwikkelaars dit lezen; maar tijdens het toepassen van de patch wordt dit weggelaten.
 
-To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.
+Om dit te e-mailen naar een maillijst, kun je het bestand in je e-mail applicatie plakken of het sturen via een commandoregel programma. Het plakken van de tekst veroorzaakt vaak formaat problemen, in het bijzonder bij "slimmere" clients die geen harde returns en andere witruimte juist behouden. Gelukkig levert Git een applicatie die je helpt om juist geformatteerde patches via IMAP te versturen, wat makkelijker voor je kan zijn. Ik zal demonstreren hoe je een patch via Gmail stuurt, wat de e-mail applicatie is die ik gebruik; je kunt gedetaileerde instrukties voor een aantal mail programma's vinden aan het eind van het voornoemde `Documentation/SubmittingPatches` bestand in de Git broncode.
 
-First, you need to set up the imap section in your `~/.gitconfig` file. You can set each value separately with a series of `git config` commands, or you can add them manually; but in the end, your config file should look something like this:
+Eerst moet je de imap sectie in je `~/.gitconfig` bestand instellen. Je kunt iedere waarde apart instellen met een serie `git config` commando's, of je kunt ze handmatig toevoegen; maar aan het einde moet je config bestand er ongeveer zo uitzien:
 
 	[imap]
 	  folder = "[Gmail]/Drafts"
@@ -533,8 +533,8 @@ First, you need to set up the imap section in your `~/.gitconfig` file. You can 
 	  port = 993
 	  sslverify = false
 
-If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
-When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:
+Als je IMAP server geen SSL gebruikt, zijn de laatste twee regels waarschijnlijk niet nodig, en de waarde voor host zal `imap://` zijn in plaats van `imaps://`.
+Als dat ingesteld is, kun je `git send-email` gebruiken om de patch serie in de Drafts map van de gespecificeerde IMAP server te zetten:
 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
@@ -544,7 +544,7 @@ When that is set up, you can use `git send-email` to place the patch series in t
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
 
-Then, Git spits out a bunch of log information looking something like this for each patch you’re sending:
+Dan spuugt Git een berg log informatie uit, die er zoiets als dit uitziet, voor iedere patch die je stuurt:
 
 	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
 	  \line 'From: Jessica Smith <jessica@example.com>'
@@ -561,54 +561,54 @@ Then, Git spits out a bunch of log information looking something like this for e
 
 	Result: OK
 
-At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
+Op dit punt zou je in staat moeten zijn om naar je Drafts map te gaan, het To veld te wijzigen in de maillijst waarnaar je de patch stuurt, misschien de beheerder of verantwoordelijke persoon voor dat gebied op de CC te zetten, en het weg te sturen.
 
-### Summary ###
+### Samenvatting ###
 
-This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process. Next, you’ll see how to work the other side of the coin: maintaining a Git project. You’ll learn how to be a benevolent dictator or integration manager.
+Dit gedeelte heeft een aantal vaak voorkomende werkwijzen behandeld, om om te gaan met een aantal zeer verschillende typen Git projecten die je waarschijnlijk zult tegen komen en een aantal nieuwe programma's geïntroduceerd, die je helpen om dit proces te beheren. Vervolgens zul je zien hoe je aan de andere kant van de medaille werkt: een Git project beheren. Je zult leren hoe een welwillende dictator of integratie manager te zijn.
 
 ## Maintaining a Project ##
 
 In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
 
-### Working in Topic Branches ###
+### Werken in Onderwerp Branches ###
 
-When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
-As you’ll remember, you can create the branch based off your master branch like this:
+Als je denkt om nieuw werk te integreren, is het normaliter een goed idee om het uit te proberen in een onderwerp branch – een tijdelijke branch, speciaal gemaakt om dat nieuwe werk te proberen. Op deze manier is het handig om een patch individueel af te stemmen en het weg te laten als het niet werkt, totdat je tijd hebt om er op terug te komen. Als je een eenvoudige branchnaam maakt, gebaseerd op het thema van het werk dat je gaat proberen, bijvoorbeeld `ruby_client` of zoiets beschrijvends, dan kun je het makkelijk onthouden als je het voor een tijdje moet achterlaten en later terug moet komen. De beheerder van het Git project heeft de neiging om deze branches ook van een naamruimte te voorzien – zoals `sc/ruby_client`, waarbij `sc` een afkorting is van de persoon die het werk heeft bijgedragen.
+Zoals je je zult herinneren, kun je de branch gebaseerd op je master branch zo maken:
 
 	$ git branch sc/ruby_client master
 
-Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
+Of, als je er ook meteen naar wilt omschakelen, kun je de `checkout -b` optie gebruiken:
 
 	$ git checkout -b sc/ruby_client master
 
-Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
+Nu ben je klaar om je bijgedragen werk in deze onderwerp branch toe te voegen, en te bepalen of je het wilt samenvoegen in je lange termijn branches.
 
-### Applying Patches from E-mail ###
+### Patches uit E-mail Toepassen ###
 
-If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
+Als je een patch per e-mail ontvangt, die je moet integreren in je project, moet je de patch in je onderwerp branch toepassen om het te evalueren. Er zijn twee manieren om een ge-emailde patch toe te passen: met `git apply` of met `git am`.
 
-#### Applying a Patch with apply ####
+#### Een Patch Toepassen met apply ####
 
-If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
+Als je de patch ontvangen hebt van iemand die het gegenereerd heeft met de `git diff` of een Unix `diff` commando, kun je het toepassen met het `git apply` commando. Aangenomen dat je de patch als `/tmp/patch-ruby-client.patch` opgeslagen hebt, kun je de patch als volgt toepassen:
 
 	$ git apply /tmp/patch-ruby-client.patch
 
-This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches then patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is overall much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
+Dit wijzigt de bestanden in je werkmap. Het is vrijwel gelijk aan het uitvoeren van een `patch -p1` commando om de patch toe te passen, alhoewel het meer paranoïde is en minder wazige paren dan patch. Het handelt ook bestandstoevoegingen af, verwijderingen, en hernoemingen als ze beschreven staan in het `git diff` formaat, wat `patch` niet doet. Als laatste is `git apply` een "pas alles toe of laat alles weg" model, waarbij alles of niets wordt toegepast, waarbij `patch` gedeeltelijke patches kan toepassen, zodat je werkmap in een vreemde status achterblijft. `git apply` is over het algemeen meer paranoïde dan `patch`. Het zal geen commit voor je aanmaken – na het uitgevoerd te hebben, moet je de geïntroduceerde wijzigingen handmatig stagen en committen.
 
-You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
+Je kunt ook git apply gebruiken om te zien of een patch netjes toepast, voordat je het echt toepast – je kunt `git apply --check` uitvoeren met de patch:
 
 	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
-If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
+Als er geen uitvoer is, dan zou de patch netjes toe moeten passen. Dit commando eindigt ook met een status niet gelijk aan nul als de controle faalt, zodat je het kunt gebruiken in scripts als je dat wilt.
 
-#### Applying a Patch with am ####
+#### Een Patch met am Toepassen ####
 
-If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
+Als de bijdrager een Git gebruiker is en zo goed was om het `format-patch` commando te gebruiken om hun patch te genereren, dan is je werk eenvoudiger omdade de patch auteur informatie en een commit bericht voor je bevat. Als je kunt, moedig je bijdragers aan om `format-patch` te gebruiken in plaats van `diff` om patches te genereren voor je. Je zou alleen `git apply` hoeven te gebruiken voor oude patches en dat soort dingen.
 
-To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this:
+Om een patch gegenereerd met `format-patch` toe te passen, gebruik je `git am`. Technisch is `git am` gemaakt om een mbox bestand te lezen, dat een eenvoudig gewone tekst formaat of is om één of meer e-mail berichten in een tekst bestand op te slaan. Het ziet er zoiets als dit uit:
 
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
@@ -617,14 +617,14 @@ To apply a patch generated by `format-patch`, you use `git am`. Technically, `gi
 
 	Limit log functionality to the first 20
 
-This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+Dit is het begin van de uitvoer van het format-patch commando dat je gezien hebt in het vorige gedeelte. Dit is ook een geldig mbox e-mail formaat. Als iemand jou de patch goed gemailed heeft door gebruik te maken van git send-email, en je download dat in een mbox formaat, dan kun je git am naar dat mbox bestand wijzen, en het zal beginnen met alle patches die het ziet toe te passen. Als je een mail client uitvoert die meerdere e-mails kan opslaan in mbox formaat, dan kun je hele patch series in een bestand opslaan en dan git am gebruiken om ze stuk voor stuk toe te passen.
 
-However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
+Maar, als iemand een patch bestand heeft ge-upload die gegenereerd is met `format-patch` naar een ticket systeem of zoiets, kun je het bestand lokaal opslaan en dan dat bestand dat bewaard is op je schijf aan `git am` geven om het toe te passen:
 
 	$ git am 0001-limit-log-function.patch 
 	Applying: add limit to log function
 
-You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
+Je kunt zien dat het netjes is toegepast, en automatisch een nieuwe commit voor je heeft aangemaakt. De auteur informatie wordt gehaald uit het `From` en `Date` veld in de kop, en het bericht van de commit wordt gehaald uit de `Subject` en inhoud (voor de patch` van de e-mail. Bijvoorbeeld, als deze patch was toegepast van het mbox voorbeeld dat ik zojuist getoond heb, dan zou de gegenereerde commit er ongeveer zo uit zien:
 
 	$ git log --pretty=fuller -1
 	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
@@ -637,9 +637,9 @@ You can see that it applied cleanly and automatically created the new commit for
 
 	   Limit log functionality to the first 20
 
-The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
+De `Commit` informatie laat de persoon die de patch toepaste en de tijd waarop het was toegepast zien. De `Author` informatie is het individueel die de patch origineel gemaakt heeft en wanneer het origineel gemaakt is.
 
-But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
+Maar, het is mogelijk dat de patch niet netjes toepast. Misschien is je hoofdbranch te ver afgeweken van de branch waarop de patch gebouwd is, of hangt de patch van een andere patch af, die je nog niet hebt toegepast. In dat geval zal het `git am` proces falen en je vragen wat je wilt doen:
 
 	$ git am 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -650,14 +650,14 @@ But it’s possible that the patch won’t apply cleanly. Perhaps your main bran
 	If you would prefer to skip this patch, instead run "git am --skip".
 	To restore the original branch and stop patching run "git am --abort".
 
-This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
+Dit commando stopt conflict markeringen in alle bestanden waar het problemen mee heeft, net zoals een conflicterende samenvoeging of rebase operatie. Je lost dit probleem in een vergelijkbare manier op – wijzig het bestand om het conflict op te lossen, stage het bestand, en voer dan `git am --resolved` uit om door te gaan met de volgende patch:
 
 	$ (fix the file)
 	$ git add ticgit.gemspec 
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
-If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
+Als je wil dat Git een beetje meer intelligent probeert om het conflict op te lossen, kun je een `-3` optie eraan meegeven, wat zorgt dat Git een drieweg samenvoeging probeert. Deze optie staat standaard niet aan, omdat het niet werkt als de commit waarvan de patch zegt dat het op gebaseerd is niet in je repository zit. Als je die commit wel hebt – als de patch gebaseerd was op een publieke commit – dan is de `-3` over het algemeen veel slimmer in het toepassen van een conflicterende patch:
 
 	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -667,9 +667,9 @@ If you want Git to try a bit more intelligently to resolve the conflict, you can
 	Falling back to patching base and 3-way merge...
 	No changes -- Patch already applied.
 
-In this case, I was trying to apply a patch I had already applied. Without the `-3` option, it looks like a conflict.
+In dit geval, probeerde ik een patch toe te passen die ik reeds toegepast had. Zonder de `-3` optie ziet het eruit als een conflict.
 
-If you’re applying a number of patches from an mbox, you can also run the `am` command in interactive mode, which stops at each patch it finds and asks if you want to apply it:
+Als je een aantal patches van een mbox toepast, kun je ook het `am` commando in een interactieve modus uitvoeren, wat bij iedere patch die het vind stopt en je vraagt of je het wilt toepassen:
 
 	$ git am -3 -i mbox
 	Commit Body is:
@@ -678,38 +678,38 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 	--------------------------
 	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
 
-This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
+Dit is fijn als je een aantal patches bewaard hebt, omdat je de patch eerst kunt zien als je je niet kunt herinneren wat het is, of de patch niet wilt toepassen als je het al gedaan hebt.
 
-When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
+Als alle patches voor je onderwerp branch zijn toegepast en gecommit zijn op je branch, kun je kiezen of en hoe ze te integreren in een langer lopende branch.
 
-### Checking Out Remote Branches ###
+### Remote Branches Bekijken ###
 
-If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.
+Als je bijdrage van een Git gebruiker komt, die hun eigen repository ingesteeld heeft, een aantal patches daarin teruggezet heeft, en jou de URL naar de repository gestuurd heeft en de naam van de remote branch waarin de wijzigingen zitten, dan kun je ze toevoegen als een remote en de samenvoegingen lokaal doen.
 
-For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:
+Bijvoorbeeld, als Jessica je een e-mail stuurt waarin staat dat ze een mooie nieuw eigenschap in de `ruby-client` branch van haar repository heeft, kun je het testen door de remote toe te voegen en die branch lokaal te bekijken:
 
 	$ git remote add jessica git://github.com/jessica/myproject.git
 	$ git fetch jessica
 	$ git checkout -b rubyclient jessica/ruby-client
 
-If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
+Als ze je later opnieuw e-mailed met een andere branch die een andere mooie eigenschap bevat, dan kun je die ophalen en bekijken omdat je de remote al ingesteld hebt.
 
-This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
+Dit is erg handig als je consitent met een persoon werkt. Als iemand een enkele patch eens in de zoveel tijd bij te dragen heeft, dan is het accepteren per e-mail miscchien minder tijdrovend dan eisen dat iedereen hun eigen server moet draaien en doorlopend remotes toevoegen en verwijderen om een paar patches te krijgen. Je zult waarschijnlijk ook honderden remotes hebben, elk voor iemand die maar een patch of twee bijdraagt. Maar, scripts en gehoste diensten maken dit misschien makkelijker – het hangt veel af van hoe jij ontwikkeld en hoe je bijdragers ontwikkelen.
 
-The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
+Het andere voordeel van deze aanpak is dat je de historie van de commits ook krijgt. Alhoewel je misschien geldige samenvoeg problemen hebt, weet je waar in je historie hun werk is gebaseerd; een goede drieweg samenvoeging is de standaard in plaats van een `-3` te moeten meegeven en hopen dat de patch gegenereerd was van een publieke commit waar je toegang toe hebt.
 
-If you aren’t working with a person consistently but still want to pull from them in this way, you can provide the URL of the remote repository to the `git pull` command. This does a one-time pull and doesn’t save the URL as a remote reference:
+Als je niet consitent met een persoon werkt, maar toch op deze manier van hen wilt ophalen, dan kun je de URL van het remote repository geven aan het `git pull` commando. Dit haalt eenmalig  op en bewaart de URL niet als een remote referentie:
 
 	$ git pull git://github.com/onetimeguy/project.git
 	From git://github.com/onetimeguy/project
 	 * branch            HEAD       -> FETCH_HEAD
 	Merge made by recursive.
 
-### Determining What Is Introduced ###
+### Bepalen wat Geïntroduceerd wordt ###
 
-Now you have a topic branch that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
+Nu heb je een onderwerp branch dat bijgedragen werk bevat. Op dit punt kun je bepalen wat je er mee wilt doen. Deze sectie bezoekt een paar commando's opnieuw zodat je kunt zien hoe je ze kunt gebruiken om precies te reviewen wat je zult indroduceren als je dit samenvoegt in je hoofd branch.
 
-It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `--not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this:
+Het is vaak behulpzaam om een review te krijgen van alle commits die in deze branch zitten, maar die niet in je master branch zitten. Je kunt commits weglaten in de master branch door de `--not` optie mee te geven voor de branch naam. Bijvoorbeeld, als je bijdrager je twee patches stuurt en je wil een branch genaamd `contrib` maken en die patches daar toepassen, dan kun je dit uitvoeren:
 
 	$ git log contrib --not master
 	commit 5b6235bd297351589efc4d73316f0a68d484f118
@@ -724,15 +724,15 @@ It’s often helpful to get a review of all the commits that are in this branch 
 
 	    updated the gemspec to hopefully work better
 
-To see what changes each commit introduces, remember that you can pass the `-p` option to `git log` and it will append the diff introduced to each commit.
+Om te zien welke wijzigingen iedere commit introduceert, onthoud dan dat je de `-p` optie kunt meegeven aan `git log` en dan zal het de diff geïntroduceerd bij iedere commit weergeven.
 
-To see a full diff of what would happen if you were to merge this topic branch with another branch, you may have to use a weird trick to get the correct results. You may think to run this:
+Om een volledige diff te zien van wat zou gebeuren als je deze onderwerp branch samenvoegt met een andere branch, zul je misschien een vreemde truc moeten toepassen om de juiste resultaten te krijgen. Je zult misschien denken om dit uit te voeren:
 
 	$ git diff master
 
-This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.
+Dit commando geeft je een diff, maar het zou misleidend kunnen zijn. Als je `master` branch vooruit geschoven is sinds je de onderwerp branch er vanaf hebt gebaseerd, dan zul je ogenschijnlijk vreemde resultaten krijgen. Bijvoorbeeld, als je een regel in een bestand hebt toegevoegd op de `master` branch, dan zal een directe vergelijking van de snapshots eruit zien alsof de onderwerp branch die regel gaat verwijderen.
 
-If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch.
+Als `master` een directe afstammeling is van je onderwerp branch, is dit geen probleem; maar als de twee histories uit elkaar zijn gegaan, zal de diff eruit zien alsof je alle nieuwe spullen in je onderwerp branch toevoegt en al het unieke weghaalt in de `master` branch.
 
 What you really want to see are the changes added to the topic branch — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your topic branch with the first common ancestor it has with the master branch.
 

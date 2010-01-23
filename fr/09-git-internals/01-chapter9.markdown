@@ -212,32 +212,54 @@ Conceptuellement, les données que Git stocke ressemblent à ceci Figure 9-1.
 Insert 18333fig0901.png 
 Figure 9-1. Une version simple du modèle des données??? de Git.
 
-You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your text.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `--add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `--cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:
+Vous pouvez créer votre propre arbre. Git crée habituellement un arbre à partir
+de l'état de la staging aren??? ou de l'index???. Pour créer un objet arbre,
+vous devez donc d'abord mettre en place un index en staging??? quelques
+fichiers. Pour créer un index contenant une entrée — la première version de
+vontre fichier text.txt — vous pouvez utilisez la commande de plomberie
+`update-index`. Vous pouvez utiliser cette commande pour ajouter
+artificiellement une version plus ancienne à une nouvelle staging area. Vous
+devez utliser les options `--add` car le fichier n'existe pas encore dans votre
+staging area (vous n'avez même pas encore mise en place une staging area) et
+`--cacheinfo` car le fichier que vous ajoutez n'est pas dans votre répertoire,
+mais est dans la base de données. Vous pouvez ensuite préciser le mode, SHA-1,
+et le nom de fichier :
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
 
-In this case, you’re specifying a mode of `100644`, which means it’s a normal file. Other options are `100755`, which means it’s an executable file; and `120000`, which specifies a symbolic link. The mode is taken from normal UNIX modes but is much less flexible — these three modes are the only ones that are valid for files (blobs) in Git (although other modes are used for directories and submodules).
+Dans ce cas, vous précisez le mode `100644`, qui signifie que c'est un fichier
+normale. Les alternatives sont `100755`, qui signifie que c'est un exécutable et
+`120000`, qui précise que c'est un lien symbolique. Le concept de « mode » a été
+repris des mode UNIX, mais est beaucoup moins fléxible : ces trois modes sont
+les seuls valides pour Git, pour les fichiers (blobs) (bien que d'autres modes
+soient utilisés pour les répertoires et sous-modules).
 
-Now, you can use the `write-tree` command to write the staging area out to a tree object. No `-w` option is needed — calling `write-tree` automatically creates a tree object from the state of the index if that tree doesn’t yet exist:
+Vous pouvez utiliser maintenant la commande `write-tree` pour écrire la staging
+area dans un objet arbre. L'option' `-w` n'est inutile ( appeler `write-tree`
+crée automatiquement un objet arbre à partir de l'état de l'index si cet arbre
+n'existe pas :
 
 	$ git write-tree
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt
 
-You can also verify that this is a tree object:
+Vous pouvez aussi vérifier que c'est un objet arbre :
 
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
 
-You’ll now create a new tree with the second version of test.txt and a new file as well:
+Vous allez créer maintenant un nouvel arbre avec la seconde version de test.txt
+et un nouvau fichier :
 
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt 
 	$ git update-index --add new.txt 
 
-Your staging area now has the new version of test.txt as well as the new file new.txt. Write out that tree (recording the state of the staging area or index to a tree object) and see what it looks like:
+Votre staging area??? contient maintenant la nouvelle version de test.txt ainsi
+qu'un nouveau fichier new.txt. Écrivez??? cet arbre (i.e. enregistrez l'état de
+la staging area??? ou de l'index dans un objet arbre) :
 
 	$ git write-tree
 	0155eb4229851634a0f03eb265b69f5a2d56f341
@@ -245,7 +267,13 @@ Your staging area now has the new version of test.txt as well as the new file ne
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-Notice that this tree has both file entries and also that the test.txt SHA is the "version 2" SHA from earlier (`1f7a7a`). Just for fun, you’ll add the first tree as a subdirectory into this one. You can read trees into your staging area by calling `read-tree`. In this case, you can read an existing tree into your staging area as a subtree by using the `--prefix` option to `read-tree`:
+Remarquez que cet arbre contains des entrées pour les deux fichiers et que
+l'empreinte SHA de test.txt est l'empreinte de la « version 2 » de tout à
+l'heure (`1f7a7a`). Pour le plaisir, ajoutez le premier arbre à celui-ci, en
+tant que sous-répertoire. Vous pouvez maintenant lire???observer un arbre de
+votre staging area en exécutant `read-tree`. Dans ce cas, vous pouvez lire un
+arbre existant dans votre staging area comme??? un sous-arbre en utilisant
+l'option `--prefix` de `read-tree` :
 
 	$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git write-tree
@@ -255,10 +283,14 @@ Notice that this tree has both file entries and also that the test.txt SHA is th
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like Figure 9-2.
+Si vous avez créer un repertoire de travail à partir du nouvel arbre que vous
+venez d'enregistrer, vous aurez deux fichiers en haut??? du répertoire de
+tavail, ainsi qu'un sous-répertoire appellé `bak` qui contient la première
+version du fichier test.tx. Vous pouvez vous représenter les données que Git
+utilise pour ces strucutres comme sur la Figure 9-2.
 
 Insert 18333fig0902.png 
-Figure 9-2. The content structure of your current Git data.
+Figure 9-2. Structure des données actuelles de Git???.
 
 ### Commit Objects ###
 

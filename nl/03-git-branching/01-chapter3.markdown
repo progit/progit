@@ -2,44 +2,44 @@
 
 Bijna elk versiebeheersysteem ondersteunt een bepaalde vorm van branchen. Branchen komt erop neer dat je een tak afsplitst van de grote lijn van de ontwikkeling en daar verder mee werkt zonder de hoofdlijn te vervuilen. Bij veel VCS'en gaat dat nogal moeizaam, en eisen vaak van je dat je een nieuwe kopie maakt van de map waar je bronbestanden in staan, wat lang kan duren voor grote projecten.
 
-Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
+Sommige mensen verwijzen naar het branch model in Git als de "killer eigenschap", en het maakt Git zeker apart in de VCS gemeenschap. Waarom is het zo bijzonder? De manier waarop Git branched is ongelooflijk lichtgewicht, waardoor branch operaties vrijwel instant zijn en het wisselen tussen de branches over het algemeen net zo snel. In tegenstelling to vele andere VCS's, moedigt Git een werkwijze aan die vaak branched en merged, zelfs meerdere keren per dag. Deze eigenschap begrijpen en beheersen geeft je een krachtig en uniek gereedschap en kan letterlijk de manier waarop je ontwikkeld veranderen.
 
-## What a Branch Is ##
+## Wat Een Branch Is ##
 
-To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
+Om de manier waarop Git branched echt te begrijpen, moeten we een stap terug doen en onderzoeken hoe Git zijn gegevens opslaat. Zoals je je kunt herinneren van Hoofdstuk 1, slaat Git zijn gegevens niet op als een reeks van verandersets of delta's, maar in plaats daarvan als een serie snapshots.
 
-When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+Als je in Git commit, dan slaat Git een commit object op dat een verwijzing bevat naar het snapshot van de inhoud die je gestaged hebt, de auteur en bericht metagegevens, en nul of meer verwijzingen naar de commit of commits die de directe ouders van deze commit waren: nul ouders voor de eerste commit, één ouder voor een normale commit, en meerdere ouders voor een commit die resulteert uit een samenvoeging of twee of meer branches.
 
-To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
+Om dit te visualiseren, laten we aannemen dat je een map hebt die drie bestanden bevat, en je staged ze allemaal en commit. Door de bestanden te stagen krijgen ze allen een checksum (de SHA-1 hash die we in Hoofdstuk 1 noemden), bewaart die versie van het bestand in het Git repository (Git verwijst ernaar als blobs), en voegt die checksum toe aan het stage gebied:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
+Als je de commit aanmaakt door `git commit` uit te voeren, zal Git iedere submap van een checksum voorzien (in dit geval, alleen de hoofdmap). en die drie objecten in het Git repository opslaan. Daarna crëeert Git een commit object dat de metagegevens bevat en een verwijzing naar de hoofd project boom zodat het het snapshot kan namaken als dat nodig is.
 
-Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
+Je Git repository bevat nu vijf objecten: een blob voor de inhoud van ieder van je drie bestanden, een boom dat de inhoud van de map weergeeft en specificeert welke bestandsnamen opgeslagen zijn als welke blobs, en een commit met de verwijzing naar die hoofd boom en alle commit metagegevens. Conceptueel zien de gegevens in je Git repository eruit zoals in Figuur 3-1.
 
 Insert 18333fig0301.png 
-Figure 3-1. Single commit repository data.
+Figuur 3-1. Enkele commit repository gegevens.
 
-If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
+Als je wat wijzigingen doet en nogmaals commit, dan slaat de volgende commit een verwijzing op naar de commit die er direct aan vooraf ging. Na nog eens twee commits, zal je historie er misschien uit zien als Figuur 3-2.
 
 Insert 18333fig0302.png 
-Figure 3-2. Git object data for multiple commits.
+Figuur 3-2. Git object gegevens voor meerdere commits.
 
-A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
+Een branch in Git is simpelweg een lichtgewicht beweegbare verwijzing naar een van deze commits. De standaard branch naam in Git is master. Als je initieel commits maakt, dan wordt je een master branch gegeven die wijst naar de laatste commit die je gemaakt hebt. Iedere keer als je commit, beweegt het automatisch vooruit.
 
 Insert 18333fig0303.png 
-Figure 3-3. Branch pointing into the commit data’s history.
+Figuur 3-3. Branch wijzend in de commit gegevens historie.
 
-What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
+Wat gebeurt er als je een nieuwe branch maakt? Wel, door dat te doen wordt een nieuwe verwijzing aangemaakt voor jou om voort de duwen. Laten we zeggen dat je een nieuwe branch genaamd testing maakt. Je doet dit met het `git branch` commando:
 
 	$ git branch testing
 
-This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
+Dit maakt een nieuwe verwijzing naar dezelfde commit waar je nu op zit (zie Figuur 3-4).
 
 Insert 18333fig0304.png 
-Figure 3-4. Multiple branches pointing into the commit’s data history.
+Figuur 3-4. Meerdere branches wijzend naar de commit gegevens historie.
 
 How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
 

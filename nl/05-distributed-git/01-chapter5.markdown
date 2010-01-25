@@ -734,97 +734,97 @@ Dit commando geeft je een diff, maar het zou misleidend kunnen zijn. Als je `mas
 
 Als `master` een directe afstammeling is van je onderwerp branch, is dit geen probleem; maar als de twee histories uit elkaar zijn gegaan, zal de diff eruit zien alsof je alle nieuwe spullen in je onderwerp branch toevoegt en al het unieke weghaalt in de `master` branch.
 
-What you really want to see are the changes added to the topic branch — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your topic branch with the first common ancestor it has with the master branch.
+Wat je echt wil zien zijn de wijzigingen die in de onderwerp branch zijn toegevoegd – het werk dat je zult introduceren als je deze branch met master samenvoegt. Je doet dat door Git de laatste commit op je onderwerp branch te laten vergelijken met de eerste gezamenlijke voorouder die het heeft met de master branch.
 
-Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
+Technisch, kun je dat doen door de gezamenlijke voorouder expliciet uit te zoeken en dan daar je diff op uit te voeren:
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
 	$ git diff 36c7db 
 
-However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
+Maar, dat is niet handig, dus levert Git een andere korte manier om hetzelfde te doen: de driedubbele punt syntax. In de context van het `diff` commando, kun je drie punten achter een andere branch zetten, om een `diff` te doen tussen de laatste commit van de branch waar je op zit en zijn gezamenlijke voorouder met een andere branch:
 
 	$ git diff master...contrib
 
-This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.
+Dit commando toont je alleen het werk dat je huidige onderwerp branch heeft geïntroduceerd sinds zijn gezamenlijke voorouder met master. Dat is een erg handige syntax om te onthouden.
 
-### Integrating Contributed Work ###
+### Bijgedragen Werk Integreren ###
 
-When all the work in your topic branch is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
+Als al het werk in je onderwerp branch klaar is om te worden geïntegreerd in een meer hoofdlijn branch, dan is de vraag hoe het te doen. En daarna, welke algemene werkwijze wil je gebruiken om je project te onderhouden? Je hebt een aantal keuzes, dus ik zal er een paar behandelen.
 
-#### Merging Workflows ####
+#### Samenvoeg Werkwijzen ####
 
-One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
+Een eenvoudige werkwijze voegt je werk in je `master` branch. In dit scenario, heb je een `master` branch die in feite stabiele code bevat. Als je werk in een onderwerp branch hebt dat jij gedaan hebt, of dat iemand anders heeft bijgedragen en jij hebt nagekeken, dan voeg je het in je master branch, verwijderd de onderwerp branch en vervolgt het proces. Als we een repository hebben met werk in twee branches genaamd `ruby_client` en `php_client`, dat eruit ziet zoals Figuur 5-19 en voegen `ruby_client` eerst in en vervolgense `php_client`, dan zal je historie er uit gaan zien zoals in Figuur 5-20.
 
 Insert 18333fig0519.png 
-Figure 5-19. History with several topic branches.
+Figuur 5-19. Historie met een aantal onderwerp branches.
 
 Insert 18333fig0520.png
-Figure 5-20. After a topic branch merge.
+Figuur 5-20. Na het samenvoegen van een onderwerp branch.
 
-That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
+Dat is waarschijnlijk de eenvoudigste werkwijze, maar het is problematisch als je werkt met grotere repositories of projecten.
 
-If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
+Als je meer ontwikkelaars hebt, of een groter project, dan zul je waarschijnlijk een minstens twee fasen samenvoeg cyclus willen gebruiken. In dit scenario, heb je twee langlopende branches, `master` en `develop`, waarin je bepaald dat `master` alleen vernieuwd wordt als een zeer stabiele vrijgave gedaan wordt en alle nieuwe code geïntegreerd is in de `develop` branch. Je zet beide branches regelmatig terug naar het publieke repository. Iedere keer als je een nieuw onderwerp branch hebt om samen te voegen (Figuur 5-21), voeg je het in `develop` (Figuur 5-22); daarna, als je een tag maakt van een vrijgave, dan doe je een fast-forward van `master` naar waar de nu stabiele `develop` branch is (Figuur 5-23).
 
 Insert 18333fig0521.png 
-Figure 5-21. Before a topic branch merge.
+Figuur 5-21. Voor een samenvoeging van een onderwerp branch.
 
 Insert 18333fig0522.png 
-Figure 5-22. After a topic branch merge.
+Figuur 5-22. Na een samenvoeging van een onderwerp branch.
 
 Insert 18333fig0523.png 
-Figure 5-23. After a topic branch release.
+Figuur 5-23. Na een vrijgave van een onderwerp branch.
 
-This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
-You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
+Als mensen het repository van je project op deze manier clonen, dan kunnen ze of master uit checken om de laatste stabiele versie te bouwen en die eenvoudig te kunnen bijhouden of ze kunnen develop uit checken, wat het nieuwere spul bevat.
+Je kunt dit concept ook doortrekken, waarbij je een integratie branch hebt waar al het werk samengevoegd wordt. Als de codebasis op die branch stabiel is en voor de testen slaagt, dan voeg je het in een develop branch; en als dat zichzelf een poosje stabiel heeft bewezen, dan fast-forward je je master branch.
 
-#### Large-Merging Workflows ####
+#### Werkwijzen met Grote Samenvoegingen ####
 
-The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
+Het Git project heeft vier langlopende branches: `master`, `next`, en `pu` (proposed updates, voorgestelde vernieuwingen), en `maint` voor onderhoudswerk. Als nieuw werk wordt geïntroduceerd door bijdragers, wordt het samengeraapt in onderwerp branches in het repository van de beheerder op een manier gelijk aan wat ik omschreven heb (zie Figuur 5-24). Op dit punt, worden de onderwerpen geëvalueerd om te bepalen of ze veilig zijn en klaar voor consumptie of dat ze nog wat werk nodig hebben. Als ze veilig zijn, worden ze in `next` samengevoegd, en wordt die branch teruggezet zodat iedereen de onderwerpen geïntegreerd kan proberen.
 
 Insert 18333fig0524.png 
-Figure 5-24. Managing a complex series of parallel contributed topic branches.
+Figuur 5-24. Een complexe serie van parallelle bijgedragen onderwerp branches beheren.
 
-If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
+Als de onderwerpen nog werk nodig hebben, dan worden ze in plaats daarvan samengevoegd in `pu`. Als bepaald wordt dat ze helemaal stabiel zijn, dan worden de onderwerpen opnieuw samengevoegd in `master` en worden dan herbouwd van de onderwerpen die in `next` waren, maar nog niet geslaagd waren voor `master`. Dit betekend dat `master` vrijwel altijd vooruit beweegt, `next` eens in de zoveel tijd gerebased wordt, en `pu` nog vaker gerebased wordt (zie Figuur 5-25).
 
 Insert 18333fig0525.png 
-Figure 5-25. Merging contributed topic branches into long-term integration branches.
+Figuur 5-25. Bijgedragen onderwerp branches samenvoegen in langlopende integratie branches.
 
-When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
+Als een onderwerp branch uiteindelijk is samengevoegd in `master`, dan wordt het verwijderd van het repository. Het Git project heeft ook een `main` branch, die geforked is van de laatste vrijgave om teruggewerkte patches te leveren in het geval een onderhouds vrijgave benodigd is. Dus, als je het Git repository cloned, dan heb je vier branches die je kunt uitchecken om het project in verschillende stadia van ontwikkeling te evalueren, afhankelijk van hoe nieuw je alles wilt hebben of hoe je wil bijdragen; en de beheerder heeft een gestructureerde werkwijze om ze te helpen nieuwe bijdragen aan de tand te voelen.
 
-#### Rebasing and Cherry Picking Workflows ####
+#### Rebasen en Cherry Pick Werkwijzen ####
 
-Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a topic branch and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
+Andere beheerders geven de voorkeur aan rebasen of bijgedragen werk te cherry picken bovenop hun master branch, in plaats van het er in samen te voegen, om een lineaire historie te behouden. Als je werk in een onderwerp branch hebt en hebt besloten dat je het wil intgreren, dan ga je naar die branch en voert het rebase commando uit om de wijzigingen bovenop je huidige master branch te bouwen (of `develop`, enzovoorts). Als dat goed werkt, dan kun je je `master` branch fast-forwarden, en dan eindig je met een lineaire project historie.
 
-The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
+De andere manier om geïntroduceerd werk van de ene naar de andere branch te verplaatsen is om het te cherry picken. Een cherry-pick in Git is een soort rebase voor een enkele commit. Het pakt de patch die was geïntroduceerd in een commit en probeert die opnieuw toe te passen op de branch waar je nu op zit. Dit is handig als je een aantal commits op een onderwerp branch hebt en je er slechts één van wilt integreren, of als je alleen één commit op een onderwerp branch hebt en er de voorkeur aan geeft om het te cherry-picken in plaats van rebase uit te voeren. Bijvoorbeeld, stel dat je een project hebt dat eruit ziet als Figuur 5-26.
 
 Insert 18333fig0526.png 
-Figure 5-26. Example history before a cherry pick.
+Figuur 5-26. Voorbeeld historie voor een cherry pick.
 
-If you want to pull commit `e43a6` into your master branch, you can run
+Als je commit `e43a6` in je master branch wil halen, dan kun je dit uitvoeren
 
 	$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 	Finished one cherry-pick.
 	[master]: created a0a41a9: "More friendly message when locking the index fails."
 	 3 files changed, 17 insertions(+), 3 deletions(-)
 
-This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
+Dit haalt dezelfde wijziging binnen als geïntroduceerd in `e43a6`, maar je krijgt een nieuwe SHA-1 waarde, omdat de gegevens op een andere manier toegepast zijn. Nu ziet je historie eruit als Figuur 5-27.
 
 Insert 18333fig0527.png 
-Figure 5-27. History after cherry-picking a commit on a topic branch.
+Figuur 5-27. Historie na het cherry-picken van een commit op een onderwerp branch.
 
-Now you can remove your topic branch and drop the commits you didn’t want to pull in.
+Nu kun je je onderwerp branch verwijderen en de commits die je niet wou binnenhalen weggooien.
 
-### Tagging Your Releases ###
+### Je Vrijgaven Taggen ###
 
-When you’ve decided to cut a release, you’ll probably want to drop a tag so you can re-create that release at any point going forward. You can create a new tag as I discussed in Chapter 2. If you decide to sign the tag as the maintainer, the tagging may look something like this:
+Als je hebt besloten om een vrijgave te doen, zul je waarschijnlijk een tag willen aanmaken zodat je die vrijgave op ieder punt in de toekomst kunt namaken. Je kunt een nieuwe tag maken zoals ik heb beschreven in Hoofdstuk 2. Als je besluit om de tag als de beheerder te signeren, dan ziet het taggen er mischien zo uit:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gmail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`:
+Als je je tags signeert, dan heb je misschien een problem om de publieke PGP sleutel te distribueren, die gebruikt is om de tags te signeren. De beheerder van het Git project heeft dit probleem opgelost door hun publieke sleutel als een blob in het repository mee te nemen en dan een tag toe te voegen die direct naar die inhoud wijst. Om dit te doen kun je uitvinden welke sleutel je wilt door `gpg --list-keys` uit te voeren:
 
 	$ gpg --list-keys
 	/Users/schacon/.gnupg/pubring.gpg
@@ -833,49 +833,49 @@ If you do sign your tags, you may have the problem of distributing the public PG
 	uid                  Scott Chacon <schacon@gmail.com>
 	sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 
-Then, you can directly import the key into the Git database by exporting it and piping that through `git hash-object`, which writes a new blob with those contents into Git and gives you back the SHA-1 of the blob:
+Daarna kun je de sleutel direct in de Git gegevensbank importeren, door het te exporting en om te leiden door `git hash-object`, wat een nieuwe blob schrijft in Git met die inhoud en je de SHA-1 van de blob teruggeeft:
 
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-Now that you have the contents of your key in Git, you can create a tag that points directly to it by specifying the new SHA-1 value that the `hash-object` command gave you:
+Nu dat je de inhoud van je sleutel in Git hebt, kun je een tag aanmaken die direct daar naar wijst door de nieuw SHA-1 waarde die het `hash-object` commando je gaf te specificeren:
 
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG:
+Als je `git push --tags` uitvoert, zal de `maintainer-pgp-pub` tag met iedereen gedeeld worden. Als iemand een tag wil verifieren, dan kunnen ze je PGP sleutel direct importeren door de blob direct uit de gegevensbank te halen en het in GPG te importeren:
 
 	$ git show maintainer-pgp-pub | gpg --import
 
-They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.
+Ze kunnen die sleutel gebruiken om als je gesigneerde tags te verifieren. Als je de instructies in het tag bericht zet, dan zal `git show <tag>` je eindgebruikers meer specifieke instructies geven over tag verificatie.
 
-### Generating a Build Number ###
+### Een Bouw Nummer Genereren ###
 
-Because Git doesn’t have monotonically increasing numbers like 'v123' or the equivalent to go with each commit, if you want to have a human-readable name to go with a commit, you can run `git describe` on that commit. Git gives you the name of the nearest tag with the number of commits on top of that tag and a partial SHA-1 value of the commit you’re describing:
+Omdat Git geen monotone oplopende nummers heeft zoals 'v123' of iets gelijkwaardigs om bij iedere commit mee te gaan, zul je als je een voor mensen leesbare naam wilt hebben bij een commit, `git describe` kunnen uitvoeren op die commit. Git geeft je de naam van de dichtstbijzijnde tag met het aantal commits bovenop die dag en een gedeeltelijke SHA-1 waarde van de commit die je omschrijft:
 
 	$ git describe master
 	v1.6.2-rc1-20-g8c5b85c
 
-This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name.
+Op deze manier kun je een snapshot of bouw exportren en het vernoemen naar iets dat begrijpelijk is voor mensen. In feite, als je Git vanaf broncode bouwt, gecloned van het Git repository, geeft `git --version` je iets dat er zo uitziet. Als je een commit omschrijft die je direct getagged wil hebben, dat geeft het je de tag naam.
 
-The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated.
+Het `git describe` commando heeft de voorkeur voor beschreven tags (tags gecreëerd met de `-a` of `-s` vlag), dus vrijgave tags zouden op deze manier aangemaakt moeten worden als je `git describe` gebruikt, om er zeker van te zijn dat de commit juist benoemd wordt als het omschreven wordt. Je kunt deze tekst gebruiken als het doel van een checkout of show commando, alhoewel het afhangt van de verkorte SHA-1 waarde aan het einde, dus het zou niet voor altijd geldig kunnen zijn. Bijvoorbeeld, de Linux kernel sprong recentelijk van 8 naar 10 karakters om er zeker van de zijn dat de SHA-1 uniek zijn, zodat oudere `git describe` commando's ongeldig werden.
 
-### Preparing a Release ###
+### Een Vrijgave Voorbereiden ###
 
-Now you want to release a build. One of the things you’ll want to do is create an archive of the latest snapshot of your code for those poor souls who don’t use Git. The command to do this is `git archive`:
+Nu wil je een bouw vrijgeven. Een van de dingen die je wilt doen is een archief maken van het laatste snapshot van je code voor die arme zielen die geen Git gebruiken. Het commando om dit te doen is `git archive`:
 
 	$ git archive master --prefix='project/' | gzip > `git describe master`.tar.gz
 	$ ls *.tar.gz
 	v1.6.2-rc1-20-g8c5b85c.tar.gz
 
-If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `--format=zip` option to `git archive`:
+Als iemand die tarball opent, dan krijgen ze ze laatste snapshot van je project onder een project map. Je kunt op vrijwel dezelfde manier ook een zip archief maken, maar dan door de `format=zip` optie mee te geven aan `git archive`:
 
 	$ git archive master --prefix='project/' --format=zip > `git describe master`.zip
 
-You now have a nice tarball and a zip archive of your project release that you can upload to your website or e-mail to people.
+Je hebt nu een fijne tarball en een zip archief van je project vrijgave, die je kunt uploaden naar je website of naar mensen kunt e-mailen.
 
-### The Shortlog ###
+### Het Shortlog ###
 
-It’s time to e-mail your mailing list of people who want to know what’s happening in your project. A nice way of quickly getting a sort of changelog of what has been added to your project since your last release or e-mail is to use the `git shortlog` command. It summarizes all the commits in the range you give it; for example, the following gives you a summary of all the commits since your last release, if your last release was named v1.0.1:
+Het is tijd geworden om je maillijst van mensen die willen weten wat er gebeurt in je project te e-mailen. Een fijne manier om een soort van veranderingslog te krijgen van wat er is toegevoegd in je project sinds je laatste vrijgave of e-mail is om het `git shortlog` commando te gebruiken. Het vat alle commits samen in de reeks die je het geeft; bijvoorbeeld, het volgende geeft je een samenvatting van alle commits sinds je vorige vrijgave, als je laatste vrijgave v1.0.1 heette:
 
 	$ git shortlog --no-merges master --not v1.0.1
 	Chris Wanstrath (8):
@@ -892,8 +892,8 @@ It’s time to e-mail your mailing list of people who want to know what’s happ
 	      Version bump to 1.0.2
 	      Regenerated gemspec for version 1.0.2
 
-You get a clean summary of all the commits since v1.0.1, grouped by author, that you can e-mail to your list.
+Je krijgt een schone samenvatting van alle commits sinds v1.0.1, gegroepeerd op auteur, die je naar je lijst kunt e-mailen.
 
-## Summary ##
+## Samenvatting ##
 
-You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.
+Je moet je vrij gemakkelijk voelen om aan een project bij te kunnen dragen in Git, als ook om je eigen project te beheren of de bijdragen van andere gebruikers te integreren. Gefeliciteerd met het worden van een effectieve Git ontwikkelaar! In het volgende hoofdstuk zul je krachtigere applicaties en trucs leren voor het omgaan met complexe situaties, die je een echte Git meester zullen maken.

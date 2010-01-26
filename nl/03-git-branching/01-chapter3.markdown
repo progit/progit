@@ -65,88 +65,88 @@ Figuur 3-7 toont het resultaat.
 Insert 18333fig0307.png 
 Figuur 3-7. De branch waar HEAD naar wijst gaat vooruit met iedere commit.
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+Dit is interessant, omdat je testing branch nu vooruit is gegaan, maar je master branch nog steeds wijst naar de commit waar je op was toen je `git checkout` uitvoerde om om te schakelen. Laten we eens terugschakelen naar de master branch:
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+Figuur 3-8 toont het resultaat.
 
 Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+Figuur 3-8. HEAD verschuift naar een andere branch bij een checkout.
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+Dat commando deed twee dingen. Het verplaatste de HEAD verwijzing terug naar de master branch, en het draaide de bestanden in je werkmap terug naar het snapshot waar master naar wijst. Dit betekend ook dat de wijzigingen die je vanaf dit punt maakt zullen afwijken van een oudere versie van het project. Het betekent in essentie dat het het werk dat je in je testing branch hebt gedaan tijdelijk terugdraait zodat je in een andere richting kunt gaan.
 
-Let’s make a few changes and commit again:
+Laten we een paar wijzigingen doen en nog eens committen:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+Nu is je project historie afgeweken (zie Figuur 3-9). Je hebt een branch gemaakt en bent er naartoe omgeschakeld, hebt er wat werk op gedaan, en bent toen teruggeschakeld naar je hoofd branch en hebt nog ander werk gedaan. Beide van die veranderingen zijn geïsoleerd van elkaar in aparte branches: je kunt heen en weer schakelen tussen de branches en ze samenvoegen als je klaar bent. En je hebt dat alles gedaan met eenvoudige `branch` en `checkout` commando's.
 
 Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+Figuur 3-9. De branch histories zijn uiteen gegaan.
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+Omdat een branch in Git in feite een eenvoudig bestand is dat de 40 karakter lange SHA-1 checksum van de commit bevat waar het naar wijst, zijn branches goedkoop om te maken en weg te gooien. Een nieuwe branch aanmaken is zo makkelijk en eenvoudig als 41 bytes naar een bestand schrijven (40 karakters en een harde return).
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+Dit is in scherp contrast met de manier waarop de meeste VCS applicaties branchen, wat inhoud dat alle project bestanden naar een tweede map gekopieerd worden. Dit kan enkele seconden of zelfs minuten duren, afhankelijk van de grootte van het project, en daarentegen is het in Git altijd meteen klaar is. En omdat we de ouders opslaan terwijl we comitten, wordt het vinden van een goede samenvoeg basis automatisch voor ons gedaan en is over het algemeen eenvoudig om te doen. Deze eigenschappen helpen ontwikkelaars aan te moedigen om branches vaak aan te maken en te gebruiken.
 
-Let’s see why you should do so.
+Laten we eens kijken waarom je dat zou moeten doen.
 
-## Basic Branching and Merging ##
+## Eenvoudig Branchen en Mergen ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+Laten we eens door een eenvoudig voorbeeld van branchen en mergen stappen met een werkwijze die je zou kunnen gebruiken in de echte wereld. Je zult deze stappen volgen:
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.	Werken aan een web site.
+2.	Een branch aanmaken voor een nieuw verhaal waar je aan werkt.
+3.	Wat werk doen in die branch.
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+Op dit punt, zul je een telefoontje ontvangen dat een ander probleem kritiek is, en dat je een snelle reparatie moet doen. Je zult het volgende doen:
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.	Terugdraaien naar je productie branch.
+2.	Een branch aanmaken om de snelle reparatie toe te voegen.
+3.	Nadat het getest is, de snelle reparatie branch samenvoegen, en dat naar productie terugzetten.
+4.	Terugschakelen naar je originele verhaal en doorgaan met werken.
 
-### Basic Branching ###
+### Eenvoudig Branchen ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+Als eerste, laten we zeggen dat je aan je project werkt en al een paar commits hebt (zie Figuur 3-10).
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history.
+Figuur 3-10. Een korte en eenvoudige commit historie.
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+Je hebt besloten dan je gaat werken aan probleem #53 in wat voor probleem beheersysteem je bedrijf ook gebruikt. Om duidelijk te zijn, Git is niet verbonden een een probleem beheersysteem in het bijzonder; maar omdat probleem #53 een beperkt onderwerp is waar je aan werkt, zul je een nieuwe branch aanmaken waarin je gaat werken. Om een branch aan te maken en er meteen naartoe te schakelen, kun je het `git checkout` commando uitvoeren met de `-b` optie:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
-This is shorthand for:
+Dit is een afkorting voor:
 
 	$ git branch iss53
 	$ git checkout iss53
 
-Figure 3-11 illustrates the result.
+Figuur 3-11 toont het resultaat.
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer.
+Figuur 3-11. Een nieuwe branch verwijzing maken.
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+Je doet wat werk aan je web site en doet wat commits. Door dat te doen beweegt de `iss53` branch vooruit, omdat je het uitgechecked hebt (dat wil zeggen, je HEAD wijst ernaar; zie Figuur 3-12):
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+Figuur 3-12. De iss53 branch is vooruit gegaan met je werk.
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+Nu krijg je het telefoontje dan er een probleem is met de web site, en je moet het meteen repareren. Met Git hoef je je reparatie niet meteen uit te leveren samen met de `iss53` wijzigingen die je gedaan hebt, en je hoeft ook niet veel moeite te stoppen in het terugdraaien van die wijzigingen voordat je kunt werken aan het toepassen van je reparatie in productie. Het enige dat je moet doen in terugschakelen naar je master branch.
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+Maar, voordat je dat doet, let dan op dat als je werkmap of staging gebied wijzigingen bevat die nog niet gecommit zijn en conflicteren met de branch die je gaat uitchecken, dan laat Git je niet omschakelen. Het is het beste om een schone werk status te hebben als je tussen branches gaat schakelen. Er zijn altijd manieren om hier omheen te gaan (te weten, stashen en commit ammending). die we later gaan behandelen. Voor nu, heb je al je wijzigingen gecommit, zodat je terug kunt schakelen naar je master branch:
 
 	$ git checkout master
 	Switched to branch "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+Op dit punt, is je project werkmap precies zoals het was voordat je begon te werken aan probleem #53, en je kunt je concentreren op je snelle reparatie. Dit is een belangrijk punt om te onthouden: Git hersteld je werkmap zodat die eruit ziet als het snapshot van de commit waar de branch die je uitchecked naar wijst. Het voegt toe, verwijderd en wijzigt bestanden automatisch om er zeker van te zijn dat je werkkopie eruit ziet zoals de branch eruit zag toen je er voor het laatst op committe.
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+Vervolgens heb je een snelle reparatie te doen. Laten we een reparatie branch maken om op te werken totdat het af is (zie Figuur 3-13):
 
 	$ git checkout -b 'hotfix'
 	Switched to a new branch "hotfix"
@@ -156,9 +156,9 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point.
+Figuur 3-13. snelle reparatie branch gebaseerd op de tip van je master branch.
 
-You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
+Je kunt je tests draaien, er zeker van zijn dat de reparatie is wat je wil, en het samenvoegen met je master branch om het naar productie uit te rollen. Je doet dit met het `git merge` commando:
 
 	$ git checkout master
 	$ git merge hotfix
@@ -167,19 +167,19 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
+Je zult de uitdrukking "Fast forward" zien in die samenvoeging. Omdat de commit waar de branch waar je mee samenvoegde naar wees direct stroomopwaarts was van de commit waar je op zit, zal Git de verwijzing vooruit zetten. Om dat op een andere manier te zeggen, als je een commit probeert samen te voegen met een commit die bereikt kan worden door de historie van eerste commit te volgen, zal Git de dingen vereenvoudigen door de verwijzing vooruit te verplaatsen omdat er geen afwijkend werk is om samen te voegen – dit wordt een "Fast forward" genoemd.
 
-Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
+Je wijziging is nu in het snapshot van de commit waar de `master` branch naar wijst, en je kunt je wijziging uitrollen (zie Figuur 3-14).
 
 Insert 18333fig0314.png 
-Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+Figuur 3-14. Je master branch wijst naar dezelfde plek als de snelle reparatie branch na de wijziging.
 
-After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+Nadat je super-belangrijke reparatie uitgerold is, ben je klaar om terug te schakelen naar het werk dat je deed voordat je onderbroken werd. Maar, eerst zul je de snelle reparatie branch verwijderen, omdat je die niet langer nodig hebt – de `master` branch wijst naar dezelfde plek. Je kunt het verwijderen met de `-d` optie op `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
+Nu kun je terugschakelen naar je werk in uitvoering branch voor probleem #53 en doorgaan met daar aan te werken (zie Figuur 3-15):
 
 	$ git checkout iss53
 	Switched to branch "iss53"
@@ -189,13 +189,13 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-Figure 3-15. Your iss53 branch can move forward independently.
+Figure 3-15. Je iss53 branch kan onafhankelijk vooruit bewegen.
 
-It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+Het is interessant om hier op te merken dan het werk dat je in je snelle reparatie branch gedaan hebt, niet zit in de bestanden van je `iss53` branch. Als je dat binnen moet halen, dan kun je je `master` branch in je `iss53` branch samenvoegen door `git merge master` uit te voeren, of je kunt wachten met die wijzgingen te integreren totdat je beslist om je `iss53` branch later in je `master` binnen te halen.
 
-### Basic Merging ###
+### Eenvoudig Samenvoegen ###
 
-Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
+Stel dat je besloten hebt dat je probleem #53 werk compleet is en klaar bent om samen ta gaan voegen in je `master` branch. Om dat te doen, zul je je `iss53` branch samenvoegen zoals je je snelle reparatie branch eerder hebt samengevoegd. Het enige dat je hoeft te doen is de branch uit te checken waar je in wenst samen te voegen en dan het `git merge` commando uit te voeren:
 
 	$ git checkout master
 	$ git merge iss53
@@ -203,12 +203,12 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
+Dit ziet er iets anders uit dan de snelle reparatie samenvoeging die je eerder deed. In dit geval is je ontwikkelings historie afgeweken van een ouder punt. Omdat de commit op de branch waar je op zit geen directe voorouder is van de branch waar je in samenvoegt, moet Git wat werk doen. In dit geval, doet Git een eenvoudige drieweg samenvoeging, gebruikmakend van de twee snapshots waarnaar gewezen wordt door de branch punten en de gezamenlijke voorouder van die twee. Figuur 3-16 markeert de drie snapshots die Git gebruikt om zijn samenvoeging in dit geval te doen.
 
 Insert 18333fig0316.png 
-Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
+Figuur 3-16. Git identificeert automatisch de beste gezamenlijke voorouder samenvoegings basis voor het samenvoegen van de branches.
 
-Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
+In plaats van de branch verwijzing vooruit te bewegen, maakt Git een nieuw snapshot dat resulteert uit deze drieweg samenvoeging en maakt automatisch een nieuwe commit die daar naar wijst (zie Figuur 3-17). Dit wordt een samenvoegings commit genoemd, en is bijzonder in dat het meer dan één ouder heeft.
 
 It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
 

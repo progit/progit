@@ -41,29 +41,29 @@ Dit maakt een nieuwe verwijzing naar dezelfde commit waar je nu op zit (zie Figu
 Insert 18333fig0304.png 
 Figuur 3-4. Meerdere branches wijzend naar de commit gegevens historie.
 
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+Hoe weet Git op welke branch je nu zit? Het houdt een speciale verwijzing bij genaamd HEAD. Let op dat dit heel anders is dan het concept van HEAD in andere VCS's waar je misschien gewend aan bent, zoals bijvoorbeeld Subversion of CVS. In Git, is dit een verwijzing naar de lokale branch waar je nu op zit. In dit geval, zit je nog steeds op master. Het git branch commando heeft alleen een nieuwe branch aangemaakt – het is nog niet omgeschakeld naar die branch (zie Figuur 3-5).
 
 Insert 18333fig0305.png 
-Figure 3-5. HEAD file pointing to the branch you’re on.
+Figuur 3-5. HEAD bestand wijzend naar de branch waar je op zit.
 
-To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
+Om te schakelen naar een bestaande branch, voer je het `git checkout` commando uit. Laten we eens omschakelen naar de nieuwe testing branch:
 
 	$ git checkout testing
 
-This moves HEAD to point to the testing branch (see Figure 3-6).
+Dit verplaatst HEAD zodat het wijst naar de testing branch (zie Figuur 3-6).
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD points to another branch when you switch branches.
+Figuur 3-6. HEAD wijst naar een andere branch als je omschakelt.
 
-What is the significance of that? Well, let’s do another commit:
+Wat is hier het belang van? Wel, laten we eens een andere commit doen:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
-Figure 3-7 illustrates the result.
+Figuur 3-7 toont het resultaat.
 
 Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+Figuur 3-7. De branch waar HEAD naar wijst gaat vooruit met iedere commit.
 
 This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
 

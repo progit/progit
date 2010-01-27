@@ -1,6 +1,6 @@
 # Démarrage rapide #
 
-Ce chapitre traite du démarrage rapide avec Git. Nous commencerons par expliquer les bases des gestions de version, puis nous parlerons de l'installation de Git sur votre système et finalement comment le paramétrer pour commencer à l'utiliser. A la fin de ce chapitre vous devriez en savoir assez pour comprendre pourquoi on parle beaucoup de Git, pourquoi vous devriez l'utiliser et vous devriez en avoir une installation prête à l'emploi.
+Ce chapitre traite du démarrage rapide avec Git. Nous commencerons par expliquer les bases des gestions de version, puis nous parlerons de l'installation de Git sur votre système et finalement comment le paramétrer pour commencer à l'utiliser. À la fin de ce chapitre vous devriez en savoir assez pour comprendre pourquoi on parle beaucoup de Git, pourquoi vous devriez l'utiliser et vous devriez en avoir une installation prête à l'emploi.
 
 ## À propos de la gestion de version ##
 
@@ -17,11 +17,11 @@ Pour traiter ce problème, les programmeurs ont développé il y a longtemps des
 Insert 18333fig0101.png 
 Figure 1-1. Diagramme des systèmes de gestion de version locaux.
 
-Un des systèmes les plus populaires était rcs, qui est encore distribué avec de nombreux systèmes d'exploitation aujourd'hui. Même le système d'exploitation populaire Mac OS X inclut le programme rcs lorsqu'on installe les outils de développement logiciel. Cet outil fonctionne en conservant les patch sets (c'est-à-dire la différence entre les fichiers) d'une version à l'autre dans un format spécial sur disque ; il peut alors recréer ce qu'était n'importe quel fichier à n'importe quel instant en ajoutant toutes les différences.
+Un des systèmes les plus populaires était RCS, qui est encore distribué avec de nombreux systèmes d'exploitation aujourd'hui. Même le système d'exploitation populaire Mac OS X inclut le programme RCS lorsqu'on installe les outils de développement logiciel. Cet outil fonctionne en conservant les patch sets (c'est-à-dire la différence entre les fichiers) d'une version à l'autre dans un format spécial sur disque ; il peut alors recréer ce qu'était n'importe quel fichier à n'importe quel instant en ajoutant toutes les différences.
 
 ### Les systèmes de gestion de version centralisés ###
 
-Le problème majeur suivant que les gens rencontrent est qu'ils ont besoin de collaborer avec des développeurs sur d'autres ordinateurs. Pour traiter ce problème, les systèmes de gestion de version centralisés (CVCS en anglais pour Centralized Version Control Systems) furent développés. Ces systèmes tels que CVS, Subversion, et Perforce, mettent en place un serveur central qui contient tous les fichiers sous version, et des clients qui peuvent extraire les fichiers de ce dépot central. Pendant de nombreuses années, celà a été le standard pour la gestion de version (Cf. Figure 1-2).
+Le problème majeur suivant que les gens rencontrent est qu'ils ont besoin de collaborer avec des développeurs sur d'autres ordinateurs. Pour traiter ce problème, les systèmes de gestion de version centralisés (CVCS en anglais pour *Centralized Version Control Systems*) furent développés. Ces systèmes tels que CVS, Subversion, et Perforce, mettent en place un serveur central qui contient tous les fichiers sous version, et des clients qui peuvent extraire les fichiers de ce dépot central. Pendant de nombreuses années, celà a été le standard pour la gestion de version (Cf. Figure 1-2).
 
 Insert 18333fig0102.png 
 Figure 1-2. Diagramme de la gestion de version centralisée.
@@ -32,7 +32,7 @@ Cependant ce système a aussi de nombreux défauts. Le plus visible est le point
 
 ### Les systèmes de gestion de version distribués ###
 
-C'est à ce moment que les systèmes de gestion de version distribués entrent en jeu (DVCSs en anglais pour Distributed Version Control Systems). Dans un DVCS (tel que Git, Mercurial, Bazaar or Darcs), les clients n'extraient plus seulement la dernière version d'un fichier : il dupliquent complètement le dépot. Ainsi, si le serveur disparaît, et si les systèmes collaboraient via ce serveur, n'importe quel dépot d'un des clients peut être copié sur le serveur pour le restaurer. Chaque extraction devient une sauvegarde complète de toutes les données (Cf. Figure 1-3).
+C'est à ce moment que les systèmes de gestion de version distribués entrent en jeu (DVCSs en anglais pour *Distributed Version Control Systems*). Dans un DVCS (tel que Git, Mercurial, Bazaar or Darcs), les clients n'extraient plus seulement la dernière version d'un fichier : il dupliquent complètement le dépot. Ainsi, si le serveur disparaît, et si les systèmes collaboraient via ce serveur, n'importe quel dépot d'un des clients peut être copié sur le serveur pour le restaurer. Chaque extraction devient une sauvegarde complète de toutes les données (cf. Figure 1-3).
 
 Insert 18333fig0103.png 
 Figure 1-3. Diagramme de gestion de version de contrôle centralisée.
@@ -41,21 +41,21 @@ De plus, un grand nombre de ces systèmes gère particulièrement bien le fait d
 
 ## Une rapide histoire de Git ##
 
-Comme de nombreuses choses extraordinaires de la vie, Git est né avec une dose de destruction créative et de controverse houleuse. Le kernel Linux est un projet libre de plutôt grande envergure. Pour la plus grande partie de sa vie (1991–2002), les modifications étaient transmises sous forme de patchs et d'archives de fichiers. En 2002, le projet du kernel Linux commença à utiliser un DVCS propriétaire appelé BitKeeper.
+Comme de nombreuses choses extraordinaires de la vie, Git est né avec une dose de destruction créative et de controverse houleuse. Le noyau Linux est un projet libre de grande envergure. Pour la plus grande partie de sa vie (1991–2002), les modifications étaient transmises sous forme de patchs et d'archives de fichiers. En 2002, le projet du kernel Linux commença à utiliser un DVCS propriétaire appelé BitKeeper.
 
-En 2005, les relations entre la communinauté développant le kernel linux et la société en charge du développement de BitKeeper furent rompues, et le statut de gratuité de l'outil fut révoqué. Celà poussa la communauté du développement de Linux (et plus particulièrement Linus Torvalds, le créateur de Linux) à developper leur propre outil en se basant sur les leçons apprises lors de l'utilisation de BitKeeper. Certains des objectifs du nouveau système étaient les suivants :
+En 2005, les relations entre la communinauté développant le noyau linux et la société en charge du développement de BitKeeper furent rompues, et le statut de gratuité de l'outil fut révoqué. Celà poussa la communauté du développement de Linux (et plus particulièrement Linus Torvalds, le créateur de Linux) à developper leur propre outil en se basant sur les leçons apprises lors de l'utilisation de BitKeeper. Certains des objectifs du nouveau système étaient les suivants :
 
 * Vitesse
 * Conception simple
 * Support pour les développements non linéaires (milliers de branches parallèles)
 * Complètement distribué
-* Capacité à gérer efficacement des projets d'envergure tels que le kernel Linux (vitesse et compacité des données)
+* Capacité à gérer efficacement des projets d'envergure tels que le noyau Linux (vitesse et compacité des données)
 
-Depuis sa naissance en 2005, Git a évolué et mûri vers une utilisation plus simple, tout en retenant ses qualités initiales. Il est incroyablement rapide, il est très efficace pour de grands projets, et il a un système incroyable de gestion de branches pour le développement non linéaire (Cf. Chapitre 3).
+Depuis sa naissance en 2005, Git a évolé et mûri pour être facile à utiliser mais en conservant cepandant ces qualités initiales. Il est incroyablement rapide, il est très efficace avec de grands projets et il a un incroyable système de branches pour des développements non-linéaires (voir chapitre 3).
 
 ## Rudiments de Git ##
 
-Donc, qu'est-ce que Git en quelques concepts ? Il est important de bien comprendre cette section , parce que si on comprend ce que Git est et les principes sur lesquels il repose, alors utiliser efficacement Git devient simple. Au cours de l'apprentissage de Git, essayer de libérer votre esprit de ce que vous pourriez connaître d'autres VCSs, tels que Subversion et Perforce ; ce faisant, vous vous éviterez de petites confusions à l'utilisation de cet outil. Git sauve et gère l'information très différemment des autres systèmes, même si l'interface utilisateur paraît similaire ; comprendre ses différences vous évitera des confusions à l'utilisation.
+Donc, qu'est-ce que Git en quelques concepts ? Il est important de bien comprendre cette section, parce que si on comprend ce que Git est et les principes sur lesquels il repose, alors utiliser efficacement Git devient simple. Au cours de l'apprentissage de Git, essayez de libérer votre esprit de ce que vous pourriez connaître d'autres VCSs, tels que Subversion et Perforce ; ce faisant, vous vous éviterez de petites confusions à l'utilisation de cet outil. Git sauve et gère l'information très différemment des autres systèmes, même si l'interface utilisateur paraît similaire ; comprendre ses différences vous évitera des confusions à l'utilisation.
 
 ### Des instantanés, pas des différences ###
 
@@ -138,7 +138,7 @@ Quand vous avez toutes les dépendances nécessaires, vous pouvez poursuivre et 
 
 	http://git-scm.com/download
 	
-Puis, compiler et installer
+Puis, compiler et installer :
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5

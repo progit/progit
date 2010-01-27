@@ -295,25 +295,40 @@ Git comes preset to use a number of other merge-resolution tools without your ha
 
 	$ git config --global merge.tool kdiff3
 
+Wenn Du diesen Befehl ausfuehrst statt die `extMerge` und `extDiff` Dateien zu erstellen, dann wird Git KDiff3 fuer Merge Auflösungen verwenden, und das normale Git Diff Werkzeug fuer Diffs.
+
 If you run this instead of setting up the `extMerge` and `extDiff` files, Git will use KDiff3 for merge resolution and the normal Git diff tool for diffs.
 
 ### Formatting and Whitespace ###
+### Formatierung und Fuellzeichen ###
+
+Formatierungen und Fuellzeichen -- also Tabulatorzeichen, Leerzeichen und Steuerzeichen fuer Zeilenwechsel (LF) und Zeilen- oder Wagenruecklauf (CR) -- fuehren zu einigen der frustrierendsten und subtilsten Probleme denen viele Entwickler begegnen, wenn sie mit anderen zusammenarbeiten, speziell ueber Plattformgrenzen hinweg. Es kann sehr leicht passieren, dass bei Patches oder anderer gemeinsamer Arbeit kaum merklich Fuellzeichen hinzugefuegt werden, sei es weil ein Entwickler sie unnwissentlich einfuegt, oder weil ein Windows Programmierer bei plattformuebergreifenden Projekten einen Zeilenruecklauf am Zeilenende von Dateien anfuegt. Git hat einige Konfigurationseinstellungen die bei diesen Problemen helfen.
 
 Formatting and whitespace issues are some of the more frustrating and subtle problems that many developers encounter when collaborating, especially cross-platform. It’s very easy for patches or other collaborated work to introduce subtle whitespace changes because editors silently introduce them or Windows programmers add carriage returns at the end of lines they touch in cross-platform projects. Git has a few configuration options to help with these issues.
 
 #### core.autocrlf ####
 
+Falls Du unter Windows programmierst oder ein anderes System benutzt und mit anderen zusammenarbeitest, die unter Windows programmieren, wirst Du sehr wahrscheinlich irgendwann dem Problem der Zeilenenden begegnen. Dies liegt daran, dass Windows sowohl ein CR-Zeichen als auch ein LF-Zeichen zum Signalisieren einer neuen Zeile in einer Datei benutzt, während Mac und Linux nur ein LF-Zeichen benutzen. Dies ist eine kleine aber extrem störende Tatsache beim Arbeiten ueber Plattformgrenzen hinweg.
+
 If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work. 
+
+Git kann dies vermeiden, indem es CR-LF Zeichen am Zeilenende automatisch zu LF konvertiert, wenn Du ein Commit machst, und umgekehrt wenn es bei einem Checkout Code mit Deinem lokalen Dateisystem synchronisiert. Du kannst diese Funktionalität mittels der Option `core.autocrlf` aktivieren. Falls Du auf einem Windows System arbeitest, setze sie auf `true` — dies konvertiert LF Zeichen zu CRLF Zeichen, wenn Du Code mit einem Checkout synchronisierst:
 
 Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code:
 
 	$ git config --global core.autocrlf true
 
+Falls Du auf einem Linux oder Mac System arbeitest, das LF Zeilenenden benutzt, dann soll Git keine Dateien automatisch konvertieren, wenn sie per Checkout vom Server kommen; wenn allerdings versehentlich eine Datei mit CR-LF Zeichen auf Dein System gelangt, dann möchtest Du vielleicht, dass Git es fuer Dich repariert. Du kannst Git anweisen CR-LF automatisch in LF Zeichen umzuwandeln, wenn Du ein Commit machst, aber nicht in der anderen Richtung, indem Du `core.autocrlf` auf input setzt: 
+
 If you’re on a Linux or Mac system that uses LF line endings, then you don’t want Git to automatically convert them when you check out files; however, if a file with CRLF endings accidentally gets introduced, then you may want Git to fix it. You can tell Git to convert CRLF to LF on commit but not the other way around by setting `core.autocrlf` to input:
 
 	$ git config --global core.autocrlf input
 
+Mit dieser Einstellung solltest Du CR-LF Zeilenenden bei Dateien haben, die auf Windows synchronisiert wurden, und mit LF Zeilenenden auf Mac und Linux Sytemen und im Repository.
+
 This setup should leave you with CRLF endings in Windows checkouts but LF endings on Mac and Linux systems and in the repository.
+
+Falls Du ein Windows Programmierer bist, mit einem Projekt, dass nur unter Windows entwickelt wird, dann kannst Du diese Funktionalität deaktivieren, so dass die CR Zeilenenden im Repository gespeichert werden. Dazu setzt Du diese Option auf `false`:
 
 If you’re a Windows programmer doing a Windows-only project, then you can turn off this functionality, recording the carriage returns in the repository by setting the config value to `false`:
 
@@ -321,20 +336,32 @@ If you’re a Windows programmer doing a Windows-only project, then you can turn
 
 #### core.whitespace ####
 
+Git ist so voreingestellt, dass es einige Leerzeichen Probleme erkennen und beheben kann. Es kann nach vier vorrangigen Problemen mit Leerzeichen suchen — Zwei davon sind standardmässig aktiviert und kann deaktiviert werden, und zwei sind inaktiv, können aber aktiviert werden.
+
 Git comes preset to detect and fix some whitespace issues. It can look for four primary whitespace issues — two are enabled by default and can be turned off, and two aren’t enabled by default but can be activated.
+
+Die zwei standardmässig aktiven Optionen sind `trailing-space`, das nach Leerzeichen am Ende einer Zeile sucht, und `space-before-tab`, das nach Leerzeichen vor Tabulatoren am Anfang einer Zeile sucht.
 
 The two that are turned on by default are `trailing-space`, which looks for spaces at the end of a line, and `space-before-tab`, which looks for spaces before tabs at the beginning of a line.
 
+Die beiden aktivierbaren, aber normalerweise deaktivierten Optionen sind `indent-with-non-tab`, dass nach Zeilen sucht, die mit acht oder mehr Leerzeichen anstelle von Tabulatoren beginnt, und `cr-at-eol`, wodurch Git angewiesen wird, dass CR Zeichen am Zeilenende in Ordnung sind.
+
 The two that are disabled by default but can be turned on are `indent-with-non-tab`, which looks for lines that begin with eight or more spaces instead of tabs, and `cr-at-eol`, which tells Git that carriage returns at the end of lines are OK.
+
+Du kannst Git mitteilen welche dieser Optionen es aktivieren soll, indem Du `core.whitespace` auf die Werte setzt, durch Kommas getrennt, die Du an- oder abgeschaltet haben möchtest. Du kannst Optionen deaktivieren, indem Du sie entweder aus der Parameterliste weglässt, oder ihnen ein `-` Zeichen voranstellst. Wenn Du zum Beispiel alle Optionen ausser `cr-at-eol` aktivieren willst, kannst Du folgendes ausfuehren:
 
 You can tell Git which of these you want enabled by setting `core.whitespace` to the values you want on or off, separated by commas. You can disable settings by either leaving them out of the setting string or prepending a `-` in front of the value. For example, if you want all but `cr-at-eol` to be set, you can do this:
 
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
+Git wird diese möglichen Problemstellen erkennen, wenn Du einen `git diff` Befehl ausfuehrst, und wird versuchen sie farblich hervorzuheben, damit Du sie vor einem Commit beheben kannst. Git wird diese Einstellungen auch benutzen, um Dir zu helfen, wenn Du mit `git apply` Patches anwendest. Wenn Du Patches ausfuehrst kannst Du Git anweisen eine Warnung auszugeben, falls es beim Patchen die spezifizierten Leerzeichenprobleme erkennt:
+
 Git will detect these issues when you run a `git diff` command and try to color them so you can possibly fix them before you commit. It will also use these values to help you when you apply patches with `git apply`. When you’re applying patches, you can ask Git to warn you if it’s applying patches with the specified whitespace issues:
 
 	$ git apply --whitespace=warn <patch>
+
+Oder Du kannst Git versuchen lassen, diese Probleme automatisch zu beheben, bevor es den Patch anwendet:
 
 Or you can have Git try to automatically fix the issue before applying the patch:
 

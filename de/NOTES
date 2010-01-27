@@ -1,3 +1,7 @@
+[mhh] = Markus Holtmanns, mholtmanns
+
+[mhh - 2010-01-14] Generelle Frage: Soll der Text in der "Du" Form sein/bleiben, oder soll es einen etwas seriöseren Charakter bekommen, als "Sie" oder "Wir"/neutrale Form ("Wie wir gesehen haben ..." und "Der Benutzer kann dann ...")?
+
 "unter Versionskontrolle" » "versioniert"
 "für einen Commit markiert" » "für einen Commit vorgemerkt" / "vorgesehen"
 
@@ -40,32 +44,39 @@ commit, to commit - Commit, committen
 committer - Comitter
 merge - Merge
 history - Historie
-to push - (auf den Server) hochladen, pushen?
-to pull - Änderungen (vom Server) herunterladen/ziehen, pullen?
-checksum, to checksum - Checksumme, Checksumme berechnen
+to push - (auf den Server) hochladen, pushen? - besser Deutsch benutzen [mhh]
+to pull - Änderungen (vom Server) herunterladen/ziehen, pullen? - besser Deutsch [mhh]
+checksum, to checksum - Checksumme, Checksumme berechnen - Pruefsumme [mhh]
 hash - Hash
 SHA-1 hash - SHA-1 Hash
 to stage - stagen, für einen Commit vormerken, zur Staging Area hinzufügen
 to unstage - aus der Staging Area entfernen/nehmen
 to clone - klonen
 checkout, to check in/out - Checkout, ein/auschecken (??)
+    [mhh] es gibt kein checkin; und auschecken ist irrefuehrend, da es ja ein
+          "Entfernen" aus irgendetwas ist (z.B. Hotel). Ich wuerde hier eher die
+	  wirkliche Bedeutung der Aktion benutzen, nämlich ein "synchronisieren".
+	  Evtl. muss das dann mehr umschrieben werden.
 snapshot - Snapshot 
 	Schnappschuß klingt blöd 
 	Speicherauszug sagt Leo http://dict.leo.org/ende?search=Snapshot
+	Abbild des aktuellen Zustands ... klingt zu lang? [mhh]
 online/offline - online/offline
-hooks ("you may lose some server-side hooks") - ???
+hooks ("you may lose some server-side hooks") - "... könntest Du den Zugriff auf einige Server Schnittstellen verlieren"
 to track a file - Änderungen an einer Datei nachverfolgen, eine Datei versionieren
 a tracked file - eine versionierte Datei, eine Datei unter Versionskontrolle, eine Datei deren Änderungen nachverfolgt werden
 a tracking branch - Tracking Branch, ein Branch, der einem externen Branch folgt ???
 tracking branch information - Tracking Branch Information
-lightweight Tag - leichter Tag (???), schlanker Tag (???)
+
+Tag - Markierung oder Marke
+lightweight Tag - leichter Tag (???), schlanker Tag (???), schwache Markierung, einfache Markierung
 annotated Tag - kommentierter Tag (???), annotierter Tag (???)
-tagged - getagged (???)
+tagged - getagged (???), markiert
 home directory - Home Verzeichnis (???)
 killer feature - "Killer Feature" (???)
 to fork - forken
 workflow - Workflow
-whitespace errors - Whitespace Fehler
+whitespace errors - Whitespace Fehler - Fehler durch Leerzeichen [mhh]
 to maintain a projekt, projekt maintainer - ein Projekt betreiben, Betreiber des Projektes (???)
 apply a patch - einen Patch anwenden (???)
 contribute to a projekt - zu einem Projekt Änderungen beitragen

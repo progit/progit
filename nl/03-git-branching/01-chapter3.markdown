@@ -96,7 +96,7 @@ Laten we eens kijken waarom je dat zou moeten doen.
 
 Laten we eens door een eenvoudig voorbeeld van branchen en mergen stappen met een werkwijze die je zou kunnen gebruiken in de echte wereld. Je zult deze stappen volgen:
 
-1.	Werken aan een web site.
+1.	Werken aan een website.
 2.	Een branch aanmaken voor een nieuw verhaal waar je aan werkt.
 3.	Wat werk doen in die branch.
 

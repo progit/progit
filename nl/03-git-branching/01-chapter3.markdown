@@ -512,88 +512,88 @@ Nu is het snapshot waar C3 naar wijst precies hetzelfde als degene waar C5 naar 
 
 Vaak zul je dit doen om er zeker van te zijn dat je commits netjes toepassen op een remote branch – misschien in een project waar je op probeert bij te drangen, maar dat je niet onderhoudt. In dit geval zou je je werk in een branch doen en dan je werk rebasen op `origin/master` als je klaar ben om je patches in te sturen naar het hoofd project. Op die manier hoeft de beheerder geen integratie werk te doen – gewoon een fast-forward of een schone toepassing.
 
-Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.
+Let op het snapshot waar de laatste commit naar wijst waar je mee eindigt, of het de laatste van de gerebasete commits voor een rebase is, of de laatste samenvoeg commit na een samenvoeging, het is hetzelfde snapshot – alleen de historie is verschillend. Rebasen speelt veranderingen van een werklijn opnieuw af op een andere in de volgorde waarin ze geïntroduceerd waren, en samenvoegen pakt de eindpunten en voegt die samen.
 
-### More Interesting Rebases ###
+### Meer Interessante Rebases ###
 
-You can also have your rebase replay on something other than the rebase branch. Take a history like Figuur 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+Je kunt je rebase ook opnieuw laten afspelen op iets anders dan de rebase branch. Pak een historie zoals in Figuur 3-31, bijvoorbeeld. Je hebt een onderwerp branch afgesplitst (`server`) om wat server-kant functionaliteit toe te voegen aan je project, en toen een commit gedaan. Daarna, heb je daar vanaf gebranched om de client-kant wijzigingen te doen (`client`) en een paar keer gecommit. Als laatste, ben je teruggegaan naar je server branch en hebt nog een paar commits gedaan.
 
 Insert 18333fig0331.png 
-Figuur 3-31. A history with a topic branch off another topic branch.
+Figuur 3-31. Een historie met een onderwerp branch vanaf een andere onderwerp branch.
 
-Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
+Stel dat je beslist dat je je client-kant wijzigingen wilt samenvoegen in je hoofdlijn voor een vrijgave, maar je wilt de server-kant wijzigingen nog laten wachten totdat het verder getest is. Je kunt de wijzigingen van client pakken, die nog niet op server zitten (C8 en C9) en die opnieuw afspelen op je master branch door de `--onto` optie te gebruiken van `git rebase`:
 
 	$ git rebase --onto master server client
 
-This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figuur 3-32, is pretty cool.
+Dit zegt in feite, "Check de client branch uit, vogel de patches van de gezamenlijke voorouder van de `client` en de `server` branches uit, en speel die opnieuw af op `master`." Het is een beetje complex; maar het resultaat, getoond in Figuur 3-32, is erg vet.
 
 Insert 18333fig0332.png 
-Figuur 3-32. Rebasing a topic branch off another topic branch.
+Figuur 3-32. Een onderwerp branch rebasen vanaf een andere onderwerp branch.
 
-Now you can fast-forward your master branch (see Figuur 3-33):
+Nu kun je een fast-forward doen van je master branch (zie Figuur 3-33):
 
 	$ git checkout master
 	$ git merge client
 
 Insert 18333fig0333.png 
-Figuur 3-33. Fast-forwarding your master branch to include the client branch changes.
+Figuur 3-33. Je master branch fast-forwarden om de client branch wijzigingen mee te nemen.
 
-Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
+Stel dat je beslist om je server branch ook binnen te halen. Je kunt de server branch rebasen op de master branch zonder het eerst te moeten uitchecken door `git rebase [basisbranch] [onderwerpbranch]` uit te voeren – wat de onderwerp branch uitchecked (in dit geval, `server`) voor je en het opnieuw afspeelt om de basis branch (`master`):
 
 	$ git rebase master server
 
-This replays your `server` work on top of your `master` work, as shown in Figuur 3-34.
+Dit speelt je `server` werk opnieuw af bovenop je `master` werk, zoals getoond in Figuur 3-34.
 
 Insert 18333fig0334.png 
-Figuur 3-34. Rebasing your server branch on top of your master branch.
+Figuur 3-34. Je server branch bovenop je master branch rebasen.
 
-Then, you can fast-forward the base branch (`master`):
+Daarna, kun je de basis branch (`master`) fast-forwarden:
 
 	$ git checkout master
 	$ git merge server
 
-You can remove the `client` and `server` branches because all the work is integrated and you don’t need them anymore, leaving your history for this entire process looking like Figuur 3-35:
+Je kunt de `client` en `server` branches verwijderen, omdat al het werk geïntegreerd is en je ze niet meer nodig hebt, waarbij je historie voor het hele proces er uit ziet zoals Figuur 3-35:
 
 	$ git branch -d client
 	$ git branch -d server
 
 Insert 18333fig0335.png 
-Figuur 3-35. Final commit history.
+Figuur 3-35. Uiteindelijke commit historie.
 
-### The Perils of Rebasing ###
+### De Gevaren van Rebasen ###
 
-Ahh, but the bliss of rebasing isn’t without its drawbacks, which can be summed up in a single line:
+Ahh, maar de zegen van rebasen is niet zonder nadelen, wat samengevat kant worden in een enkele regel:
 
-**Do not rebase commits that you have pushed to a public repository.**
+**Rebase geen commits die je teruggezet hebt naar een publiek repository.**
 
-If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.
+Als je die richtlijn volgt, dan gebeurt je niets. Als je dat niet doet, zullen mensen je haten, en je zult door vrienden en familie uitgehoond worden.
 
-When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.
+Als je spullen rebaset, laat je bestaande commits achter en maak je nieuwe aan die vergelijkbaar zijn maar anders. Als je commits ergens naartoe zet en andere hallen ze binnen en baseren daar werk op, en vervolgens herschrijf je die commits met `git rebase` en zet ze opnieuw terug, dan zullen je medewerkers hun werk opnieuw moeten samenvoegen en zullen de dingen vervelend worden als je hun werk probeert binnen te halen in het jouwe.
 
-Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figuur 3-36.
+Laten we eens kijken naar een voorbeeld of hoe werk rebasen dat je publiekelijk gemaakt hebt problemen kan veroorzaken. Stel dat je van een centrale server cloned en dan daar wat werk vanaf doet. Je commit historie ziet er uit als Figuur 3-36.
 
 Insert 18333fig0336.png 
-Figuur 3-36. Clone a repository, and base some work on it.
+Figuur 3-36. Clone een repository, en baseer wat werk daarop.
 
-Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figuur 3-37.
+Nu, doet iemand anders wat meer werk dat een samenvoeging bevat, en zet dat werk terug naar de centrale server. Je pakt dat en voegt de nieuwe remote branch in jouw werk, zodat je historie er uit ziet zoals Figuur 3-37.
 
 Insert 18333fig0337.png 
-Figuur 3-37. Fetch more commits, and merge them into your work.
+Figuur 3-37. Haal meer commits op, en voeg ze samen in je werk.
 
-Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
+Daarna, beslist de persoon die het werk teruggezet heeft om terug te gaan en hun werk in plaats daarvan te rebasen; ze voeren een `git push --force` uit om de historie op de server te herschrijven. Je haalt dan van die server op, waarbij je de nieuwe commits omlaag haalt.
 
 Insert 18333fig0338.png 
-Figuur 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+Figuur 3-38. Iemand zet gerebasete commits terug, daarbij commits achterlatend waar jij werk op gebaseerd hebt.
 
-At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (see Figuur 3-39).
+Op dit punt, moet je dit werk opnieuw samenvoegen, alhoewel je dat al gedaan hebt. Rebasen veranderd de SHA-1 hashes van deze commits, dus voor Git zien ze er uit als nieuwe commits, terwijl je in feite als het C4 werk in je historie hebt (zie Figuur 3-39).
 
 Insert 18333fig0339.png 
-Figuur 3-39. You merge in the same work again into a new merge commit.
+Figuur 3-39. Je voegt hetzelfde werk opnieuw samen in een nieuwe samenvoegingscommit.
 
-You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
+Je moet dat werk op een bepaald punt samenvoegen, zodat je bij kunt blijven met de andere ontwikkelaar in de toekomst. Nadat je dat doet, zal je history zowel de C4 als de C4' commits bevatten, die verschillende SHA-1 hashes hebben, maar hetzelfde werk introduceren en hetzelfde commit bericht hebben. Als je een `git log` uitvoert als je historie er zo uitziet, dan zul je twee commits zien die dezelfde auteur en bericht hebben, wat verwarrend zal zijn. Daarnaast, als je deze historie terugzet naar de server, dan zul je al die gerebasete commits opnieuw introduceren op de centrale server, wat mensen nog meer kan verwarren.
 
-If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
+Als je rebasen behandeld als een manier om op te ruimen en met commits werkt voordat je ze terugzet, en als je alleen commits rebaset die nog nooit publiekelijk beschikbaar zijn geweest, dan zal alles in orde zijn. Als je commits rebaset die al publiekelijk teruggezet zijn, en mensen kunnen werk gebaseerd hebben op die commits, dan bereid je maar voor op wat frustrerende problemen.
 
-## Summary ##
+## Samenvatting ##
 
-We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.
+We hebben basis branchen en samenvoegen behandeld in Git. Je moet je op je gemak voelen met het maken en omschakelen naar nieuwe branches, schakelen tussen branches, en lokale branches samen te voegen. Je zou in staat moeten zijn om je branches te delen door ze naar een gedeelde server terug te zetten, met anderen op gedeelde branches samen te werken en je branches te rebasen voordat ze gedeeld zijn.

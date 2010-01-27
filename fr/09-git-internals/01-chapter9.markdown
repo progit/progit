@@ -322,7 +322,7 @@ l'instantanné du projet à ce moment, les infromations sur l'auteur et le
 commiteur qui sont extraite des variables de configuration `user.name` et
 `user.email`accompagné d'un horodatage, une ligne vide et le message de commit.
 
-Ensuite, vous enregistrez le deux autres objets commit chacun référençant le
+Ensuite, vous enregistrez les deux autres objets commit, chacun référençant le
 commit dont il est issu :
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3

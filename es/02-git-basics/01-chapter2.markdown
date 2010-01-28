@@ -122,7 +122,7 @@ Puedes ver que tu nuevo archivo README aparece bajo la cabecera “Archivos sin 
 
 > You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
 
-### Siguiendo nuevos archivos ###
+### Seguimiento de nuevos archivos ###
 
 > Tracking New Files
 
@@ -1189,21 +1189,31 @@ Si por algún motivo quieres eliminar una referencia - has movido el servidor o 
 	$ git remote
 	origin
 
-## Tagging ##
+## Etiquetando ##
+> ## Tagging ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+Como muchos VCSs, Git tiene la capacidad de etiquetar (tag) puntos específicos en la historia. Generalmente, la gente utiliza esta funcionalidad para marcar puntos donde se ha lanzado alguna versión (v1.0, y así sucesivamente). En esta sección, aprenderás cómo listar las etiquetas disponibles, crear nuevas etiquetas y qué tipos diferentes de etiquetas hay.
 
-### Listing Your Tags ###
+> Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+### Listando las etiquetas ###
+> ### Listing Your Tags ###
+
+Listar las etiquetas en Git es inmediato. Simplemente teclea `git tag`:
+
+> Listing the available tags in Git is straightforward. Just type `git tag`:
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+Este comando lista las etiquetas en orden alfabético; el orden en el que aparecen no es realmente importante.
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+> This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+
+También puedes buscar etiquetas de acuerdo a un patrón en particular. El repositorio fuente de Git, por ejemplo, contiene más de 240 etiquetas. Si sólo estás interesado en la serie 1.4.2, puedes hacer esto:
+
+> You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -1211,13 +1221,19 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### Creando etiquetas ###
+> ### Creating Tags ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git usa dos tipos principales de etiquetas: ligeras y anotadas. Una etiqueta "ligera" es prácticamente una rama que no cambia - un puntero a un commit específico. Sin embargo, las etiquetas anotadas se almacenan como objetos completos en la base de datos de Git. Se realiza el 'checksum"; contiene el nombre del etiquetador, e-mail y la fecha; tiene un mensaje de etiquetado; y puede estar firmados y verificados con GNU Privacy Guard (GPG). Generalmente se recomienda crear etiquetas anotadas para poder disponer de toda esta información. En el caso de querer una etiqueta temporal y por alguna razón no quieres conservar más información, las etiquetas ligeras están disponibles también.
 
-### Annotated Tags ###
+> Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+### Etiquetas anotadas ###
+> ### Annotated Tags ###
+
+Crear una etiqueta anotada en Git es simple. La forma más fácil es especificar `-a` al ejecutar el comando `tag`:
+
+> Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -1225,9 +1241,13 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+El argumento `-m` especifica el mensaje, el cual se almacena con la etiqueta. Si no se especifica un mensaje con la etiqueta anotada, Git lanza un editor para poder escribirlo.
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+> The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+
+Puedes ver la información de la etiqueta junto con el commit que fue etiquetado con el comando `git show`:
+
+> You can see the tag data along with the commit that was tagged by using the `git show` command:
 
 	$ git show v1.4
 	tag v1.4
@@ -1242,18 +1262,26 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+Esto muestra la información del etiquetador, la fecha en el que el commit fue etiquetado y el mensaje de anotación antes de mostrar la información del commit.
 
-### Signed Tags ###
+> That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+
+### Etiquetas firmadas ###
+> ### Signed Tags ###
+
+También puedes firmar tus etiquetas con GPG, siempre que tengas una clave privada. Lo único que debes hacer es usar `-s` en vez de `-a`:
+
+> You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+Si ejecutas `git show` en esa etiqueta, puedes ver la firma GPG adjunta a ella:
+
+> If you run `git show` on that tag, you can see your GPG signature attached to it:
 
 	$ git show v1.5
 	tag v1.5
@@ -1275,11 +1303,17 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+Un poco después aprenderás como verificar etiquetas firmadas.
 
-### Lightweight Tags ###
+> A bit later, you’ll learn how to verify signed tags.
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+### Etiquetas ligeras ###
+
+>### Lightweight Tags ###
+
+Otra forma de etiquetar commits es con etiquetas ligeras. Esto es básicamente el checksum del commit almacenado en un fichero - no se guarda ninguna otra información. Para crear una etiqueta ligera, no hay que añadir ninguna de las opciones `-a`, `-s`, or `-m`:
+
+> Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1289,7 +1323,9 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+Ahora, si ejecutas `git show` en la etiqueta, no verás ninguna información extra. El comando muestra tan solo el commit:
+
+> This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -1299,9 +1335,13 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### Verificando etiquetas ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+>### Verifying Tags ###
+
+Para verificar una etiqueta firmada, hay que usar `git tag -v [nombre-de-etiqueta]`. Este comando utiliza GPG para verificar la firma. Se necesita la clave pública del autor de la firma para que funcione correctamente.
+
+> To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1317,7 +1357,9 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-If you don’t have the signer’s public key, you get something like this instead:
+Si no tienes la clave pública del firmante, se obtiene algo así:
+
+> If you don’t have the signer’s public key, you get something like this instead:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found

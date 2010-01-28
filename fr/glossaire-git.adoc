@@ -101,3 +101,4 @@ référence à l'action, on peut traduire.
 * namespace  -> espace de noms
 * Content-addressable filesystem  -> système de fichier adressable par le contenu
 * DAG(Direct Acyclic Graph) -> Graphe orienté acyclique
+* pattern -> motif

@@ -11,14 +11,14 @@ votre apprentissage. Je vous laisse le choix.
 
 Maintenant que vous êtes ici, commençons. Tout d'abord, et même si ce n'est pas
 clair tout de suite, Git est fondamentalement un système de fichier adressable
-par le contenu (content-addressable filesystem???) avec l'interface utilisateur
-d'un VCS??? au-dessus. Vous en apprendrez plus à ce sujet dans quelques
+par le contenu (content-addressable filesystem) avec l'interface utilisateur
+d'un VCS au-dessus. Vous en apprendrez plus à ce sujet dans quelques
 instants.
 
 Aux premiers jours de Git (surtout avant la version 1.5), l'interface
 utilisateur était beaucoup plus complexe, car elle était centré sur le système
-de fichier plutôt que sur l'aspect VCS???. Ces dernières années, l'IU??? a été
-paufinée??? jusqu'à devenir aussi lisse/propre/cohérente??? et facile à utiliser
+de fichier plutôt que sur l'aspect VCS. Ces dernières années, l'IU a été
+peaufinée jusqu'à devenir aussi cohérente et facile à utiliser
 que n'importe quel autre système. Souvent, l'image du Git des début avec son interface
 utilisateur complexe  et difficile à apprendre est restée.
 
@@ -29,27 +29,27 @@ dépot auxquelles vous serez confronté.
 
 ## Plomberie et porcelaine ##
 
-Ce livre couvre l'utilisation de Git en une trentaine d'actions??? comme
-`checkout`???, `branch`???, `remote`??? ... Mais, puisque Git était initialement
-une boîte à outils??? (Toolkit???) pour VCS, plutôt d'un VCS??? complet et
+Ce livre couvre l'utilisation de Git avec une trentaine de verbes comme
+`checkout`, `branch`, `remote` ... Mais, puisque Git était initialement
+une boîte à outils (N.d.T : Toolkit) pour VCS, plutôt d'un VCS complet et
 conviviale, il dispose de tout un ensemble d'action pour les tâches bas niveau
 qui étaient conçues pour être liées à la UNIX ou appellées depuis de scritps.
-Ces commandes sont denommées??? les commandes de "plomberies" (N.d.T
-"plumbing"), et les autres, plus conviales sont appellées "porcelaine"???
-("porcelain").
+Ces commandes sont dites commandes de "plomberies" (N.d.T
+"plumbing"), et les autres, plus conviales sont appellées "porcelaines"
+(N.d.T : "porcelain").
 
 Les huits premiers chapîtres du livre concernent presque exclusivement les
 comandes porcelaine. Par contre, dans ce chapître, vous serez principalement
-confrontés aux commandes bas-niveau??? de plomberie, car elles vous donnent
+confrontés aux commandes de plomberie bas-niveau, car elles vous donnent
 accès au fonctionnement interne de Git et aident à montrer comment et pourquoi
 Git fonctionne comme il le fait. Ces commandes ne sont pas faites pour être
-utilisées à la main en ligne de commandes???, mais cont plutôt utilisées comme
-briques de bases pour écrire??? de nouveaux outils et scritps personalisés.
+utilisées à la main sur ligne de commandes, mais sont plutôt utilisées comme
+briques de bases pour écrire de nouveaux outils et scritps personalisés.
 
 Quand vous exécutez `git init` dans un répertoire nouveau ou existant, Git crée
-un répertoire `.git` qui contient presque tout ce que Git stocke??? et manipule.
+un répertoire `.git` qui contient presque tout ce que Git stocke et manipule.
 Si vous voulez sauvegarder ou cloner votre dépôt, copier ce seul répertoire
-suffira presque. Au final???, ce chapître traite principalement de ce que
+suffira presque. Ce chapître traite principalement de ce que
 contient ce répertoire. Voici à quoi il ressemble :
 
 	$ ls 
@@ -69,25 +69,25 @@ répertoire `branches` n'est pas utilisé par les versions récentes de Git, et 
 fichier `description` est utilisé uniquement par le programme GitWeb program, il
 ne faut donc pas s'en soucier. Le fichier `config` contient les options de
 configuration spécifiques à votre projet, et le répertoire `info` contient un
-fichier global listant??? les motifs??? que vous souhaité ignorer et que vous ne
+fichier listant les motifs que vous souhaitez ignorer et que vous ne
 voulez pas mettre dans un fichier .gitignore. Le répertoire `hooks` contient les
 scripts hooks??? (point d'ancrage/) côté client ou serveur, Ils sont décrits en détail dans le
 chapître 6.
 
 Il reste quatre éléments importants : les fichiers `HEAD` et
 `index`, ainsi que les répertoires `objects` et `refs`. Ce sont les parties
-centrales de Git. Le répertoire `objects` toque??? le contenu de votre base de
+centrales de Git. Le répertoire `objects` stocke le contenu de votre base de
 données, le répertoire `refs` stockue les pointeurs vers les objects commit
 objects de ces données (branches), le fichier `HEAD` pointe sur la branche
 branch qui est checked out??? et le fichier `index` est l'endroit où Git stockue
 les informations sur l'index???(staging area). Vous allez maintenant
-plonger???voir en
+plonger en
 détail dans chacune de ces sections et voir comment Git fonctionne.
 
 ## Git Objects ##???
 
 Git est un système de fichier adressable par le contenu. Super! Mais qu'est-ce
-que ça veut dire? Ça veut dire que le coeur(ligature)??? de Git est un simple key-value
+que ça veut dire? Ça veut dire que le coeur de Git est un simple key-value
 data store???. Vous pouvez y inserer n'importe qu'elle type de données??? et il
 vous retournera une clé que vous pourrez utiliser à n'importe quel moment pour récupérer ces données à
 nouveau. Pour illustrer cela, vous pouvez utiliser la commande de plomberie

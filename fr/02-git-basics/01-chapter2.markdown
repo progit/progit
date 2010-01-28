@@ -339,9 +339,9 @@ Notez bien que vous n'avez pas eu à lancer `git add` sur le fichier benchmarks.
 
 ### Effacer des fichiers ###
 
-Pour effacer un fichier de Git, vous devez l'éliminer des fichiers en suivi de version (plus précisément, l'éliminer dans la zone d'index) puis valider. La commande `git rm` réalise cette action mais efface aussi ce fichier de votre copie de travail de telle sorte que vous ne le verrez pas apparaître comme fichier non suivi en version à la prochaine validation.
+Pour effacer un fichier de Git, vous devez l'éliminer des fichiers en suivi de version (plus précisément, l'effacer dans la zone d'index) puis valider. La commande `git rm` réalise cette action mais efface aussi ce fichier de votre copie de travail de telle sorte que vous ne le verrez pas réapparaître comme fichier non suivi en version à la prochaine validation.
 
-Si vous effacez simplement le fichier dans votre copie de travail, il apparaît sous la section “Changed but not updated“ (C'est-à-dire, _non indexé_) dans le résultat de `git status` :
+Si vous effacez simplement le fichier dans votre copie de travail, il apparaît sous la section “Changed but not updated“ (c'est-à-dire, _non indexé_) dans le résultat de `git status` :
 
 	$ rm grit.gemspec
 	$ git status
@@ -384,12 +384,12 @@ Cette commande élimine tous les fichiers se terminant par `~`.
 
 ### Déplacer des fichiers ###
 
-À la différence des autres systèmes VCS, Git ne suit pas explicitement les mouvements des fichiers. Si vous renommez un fichier suivi par Git, aucune méta-donnée indiquant le renommage n'est stockée par Git. Néanmoins, Git est assez malin pour s'en apercevoir après coup — la détection de mouvement de fichier sera traitée après.
+À la différence des autres VCS, Git ne suit pas explicitement les mouvements des fichiers. Si vous renommez un fichier suivi par Git, aucune méta-donnée indiquant le renommage n'est stockée par Git. Néanmoins, Git est assez malin pour s'en apercevoir après coup — la détection de mouvement de fichier sera traitée plus loin.
 
 De ce fait, que Git ait une commande `mv` peut paraître trompeur. Si vous souhaitez renommer un fichier dans Git, vous pouvez lancer quelque chose comme
 
 
-	$ git mv file_from file_to
+	$ git mv nom_origine nom_cible
 
 et cela fonctionne. En fait, si vous lancez quelque chose comme ceci et inspectez le résultat d'une commande `status`, vous constaterez que Git gère le renommage de fichier :
 
@@ -569,7 +569,7 @@ Les options oneline et format sont encore plus utiles avec une autre option `log
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Les options ci-dessus ne sont que des options simple de format de sortie de `git log` — il y en a de nombreux autres. Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'autres options communément utilisées accompagnées de la manière dont elles modifient le résultat de la commande log.
+Les options ci-dessus ne sont que des options simples de format de sortie de `git log` — il y en a de nombreuses autres. Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'autres options communément utilisées accompagnées de la manière dont elles modifient le résultat de la commande log.
 
 	Option	Description
 	-p	Affiche le patch appliqué par chaque commit
@@ -584,15 +584,15 @@ Les options ci-dessus ne sont que des options simple de format de sortie de `git
 
 ### Limiter la longueur de l'historique ###
 
-En complément des options de formattage de sortie, git log est pourvu de certaines options de limitation utiles — des option qui permettre de restreindre la liste à un sous-ensemble de commits. Vous avez déjà vu une de ces option — l'option `-2` qui ne montre que le deux derniers commits. En fait, on peut utiliser `-<n>`, ou `n` correspond au nombre de commit que l'on cherche à visualiser en partant des plus récents. En vérité, il est peu probable que vous utilisiez cette option, parce que Git injecte par défaut sa sortie dans un outil de pagination qui permet de la visualiser page à page.
+En complément des options de formattage de sortie, git log est pourvu de certaines options de limitation utiles — des options qui permettent de restreindre la liste à un sous-ensemble de commits. Vous avez déjà vu une de ces options — l'option `-2` qui ne montre que le deux derniers commits. En fait, on peut utiliser `-<n>`, ou `n` correspond au nombre de commits que l'on cherche à visualiser en partant des plus récents. En vérité, il est peu probable que vous utilisiez cette option, parce que Git injecte par défaut sa sortie dans un outil de pagination qui permet de la visualiser page à page.
 
-Cependant, les option de limitation portant sur le temps, telles que `--since` (depuis) et `--until` (jusqu'à) sont très utiles. Par exemple, le commande suivante affiche la liste des commits des deux dernières semaines :
+Cependant, les options de limitation portant sur le temps, telles que `--since` (depuis) et `--until` (jusqu'à) sont très utiles. Par exemple, le commande suivante affiche la liste des commits des deux dernières semaines :
 
 	$ git log --since=2.weeks
 
 Cette commande fonctionne avec de nombreux formats — vous pouvez indiquer une date spécifique (2008-01-05) ou une date relative au présent telle que "2 years 1 day 3 minutes ago".
 
-Vous pouvez aussi restreindre la liste aux commits vérifiant certain critères de recherche. L'option `--author` permet de filtrer sur un auteur spécifique, et l'option `--grep` permet de chercher des mots clés dans les messages de validation. Notez que si vous cherchez seulement des commits correspondant simultanément aux deux critères, vous devez ajouter l'option `--all-match`, car par défaut ces commandes retournent les commits vérifiant au moins un critère lors de recherche de chaînes de caractères.
+Vous pouvez aussi restreindre la liste aux commits vérifiant certains critères de recherche. L'option `--author` permet de filtrer sur un auteur spécifique, et l'option `--grep` permet de chercher des mots clés dans les messages de validation. Notez que si vous cherchez seulement des commits correspondant simultanément aux deux critères, vous devez ajouter l'option `--all-match`, car par défaut ces commandes retournent les commits vérifiant au moins un critère lors de recherche de chaînes de caractères.
 
 La dernière option vraiment utile à `git log` est la spécification d'un chemin. Si un répertoire ou un nom de fichier est spécifié, le journal est limité aux commits qui ont introduit des modifications aux fichiers concernés. C'est toujours la dernière option de la commande, souvent précédée de deux tirets (`--`) pour séparer le chemin des options précédentes.
 
@@ -605,7 +605,7 @@ Le tableau 2-3 récapitule les options que nous venons de voir ainsi que quelque
 	--author	Ne montre que les commits dont le champ auteur correspond à la chaîne passée en argument
 	--committer	Ne montre que les commits dont le champ validateur correspond à la chaîne passée en argument
 
-Par exemple, si vous souhaitez visualiser quels commits modifiant les fichiers de test dans l'historique du source de Git ont été validés par Junio Hamano et n'étaient pas de fusions durant le mois d'octobre 2008, vous pouvez lancer ce qui suit :
+Par exemple, si vous souhaitez visualiser quels commits modifiant les fichiers de test dans l'historique du source de Git ont été validés par Junio Hamano et n'étaient pas des fusions durant le mois d'octobre 2008, vous pouvez lancer ce qui suit :
 
 	$ git log --pretty="%h — %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -625,11 +625,11 @@ Si vous préférez utiliser un outil plus graphique pour visualiser l'historique
 Insert 18333fig0202.png 
 Figure 2-2. Le visualiseur d'historique gitk
 
-Vous pouvez voir l'historique de commits dans la partie supérieure de la fenêtre avec un graphique d'enchaînement. Le visualisateur de diff dans la partie inférieure de la fenêtre affiche les modifications introduites par le commit sélectionné.
+Vous pouvez voir l'historique des commits dans la partie supérieure de la fenêtre avec un graphique d'enchaînement. Le visualisateur de diff dans la partie inférieure de la fenêtre affiche les modifications introduites par le commit sélectionné.
 
 ## Annuler des actions ##
 
-À tout moment, vous pouvez désirer annuler une de vos dernières actions. Dans cette section, nous allons passer en revue quelque outils de base permettant d'annuler des modifications. Il faut être très attentifs car certaines de ces annulations sont définitives (elles ne peuvent pas être elle-même annulées). C'est donc un des rares cas d'utilisation de Git où des erreurs de manipulations peuvent entraîner des pertes définitives de données.
+À tout moment, vous pouvez désirer annuler une de vos dernières actions. Dans cette section, nous allons passer en revue quelques outils de base permettant d'annuler des modifications. Il faut être très attentif car certaines de ces annulations sont définitives (elles ne peuvent pas être elle-même annulées). C'est donc un des rares cas d'utilisation de Git où des erreurs de manipulation peuvent entraîner des pertes définitives de données.
 
 ### Modifier le dernier commit ###
 
@@ -641,17 +641,17 @@ Cette commande prend en compte la zone d'index et l'utilise pour le commit. Si a
 
 L'éditeur de message de validation démarre, mais il contient déjà le message de la validation précédente. Vous pouvez éditer ce message normalement, mais il écrasera le message de la validation précédente.
 
-Par exemple, si vous validez un version puis réalisez que vous avez oublié de spécifier les modifications d'un fichier, vous pouvez taper les commandes suivantes :
+Par exemple, si vous validez une version puis réalisez que vous avez oublié de spécifier les modifications d'un fichier, vous pouvez taper les commandes suivantes :
 
-	$ git commit -m 'initial commit'
-	$ git add forgotten_file
+	$ git commit -m 'validation initiale'
+	$ git add fichier_oublie
 	$ git commit --amend 
 
-Les trois dernière commandes donnent lieu à la création d'un unique commit — la seconde validation remplace le résultat de la première.
+Les trois dernières commandes donnent lieu à la création d'un unique commit — la seconde validation remplace le résultat de la première.
 
 ### Désindexer un fichier déjà indexé ###
 
-Les deux sections suivante démontrent comment bricoler les modifications dans votre zone d'index et votre zone de travail. Un point sympathique est que la commande permettant de connaître l'état des ces deux zones vous rappelle aussi comment annuler les modifications. Par exemple, supposons que vous avez modifié deux fichiers et voulez les valider comme deux modifications indépendantes, mais que vous ayez tapé accidentellement `git add *` et donc indexé les deux. Comment annuler l'indexation d'un des fichiers ? La commande `git status` vous rappelle :
+Les deux sections suivantes démontrent comment bricoler les modifications dans votre zone d'index et votre zone de travail. Un point sympathique est que la commande permettant de connaître l'état de ces deux zones vous rappelle aussi comment annuler les modifications. Par exemple, supposons que vous avez modifié deux fichiers et voulez les valider comme deux modifications indépendantes, mais que vous ayez tapé accidentellement `git add *` et donc indexé les deux. Comment annuler l'indexation d'un des fichiers ? La commande `git status` vous rappelle :
 
 	$ git add .
 	$ git status
@@ -717,7 +717,7 @@ Gérer des dépôts distants inclut savoir comment ajouter des dépôts distants
 
 ### Afficher les dépôts distants ###
 
-Pour visualiser les serveur distants que vous avez enregistrés, vous pouvez lancer le commande git remote. Elle liste les noms des différente étiquettes distantes que vous avez spécifiées. Si vous avez cloné un dépôt, vous devriez au moins voir l'origine origin — c'est-à-dire le nom par défaut que Git donne au serveur à partir duquel vous avez cloné :
+Pour visualiser les serveur distants que vous avez enregistrés, vous pouvez lancer le commande git remote. Elle liste les noms des différentes étiquettes distantes que vous avez spécifiées. Si vous avez cloné un dépôt, vous devriez au moins voir l'origine origin — c'est-à-dire le nom par défaut que Git donne au serveur à partir duquel vous avez cloné :
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -745,7 +745,7 @@ Si vous avez plus d'un dépôt distant, la commande précédente les liste tous.
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-Cela signifie que nous pouvons tirer très facilement des contributions depuis certains utilisateurs. Mais il est à noter que seul le dépot distant origin utilise une URL SSH, ce qui signifie que c'est le seul sur lequel je peux pousser (nous traiterons de ceci  au chapitre 4).
+Cela signifie que nous pouvons tirer très facilement des contributions depuis certains utilisateurs. Mais il est à noter que seul le dépot distant origin utilise une URL SSH, ce qui signifie que c'est le seul sur lequel je peux pousser (nous traiterons de ceci au chapitre 4).
 
 ### Ajouter des dépôts distants ###
 
@@ -758,7 +758,7 @@ J'ai expliqué et donné des exemples d'ajout de dépôts distants dans les chap
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Maintenant, vous pouvez utiliser le mot-clé pb sur la ligne de commande au lieu de l'URL complète. Par exemple, si vous voulez récupérer toute l'information que Paul a mais ne souhaitez pas l'avoir encore dans votre dépot, vous pouvez lancer git fetch pb :
+Maintenant, vous pouvez utiliser le mot-clé pb sur la ligne de commande au lieu de l'URL complète. Par exemple, si vous voulez récupérer toute l'information que Paul a mais ne souhaitez pas l'avoir encore dans votre branche, vous pouvez lancer git fetch pb :
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -775,25 +775,25 @@ La branche master de Paul est accessible localement en tant que `pb/master` —
 
 Comme vous venez tout juste de le voir, pour obtenir les données des dépôts distants, vous pouvez lancer :
 
-	$ git fetch [remote-name]
+	$ git fetch [nom-distant]
 
 Cette commande s'adresse au dépôt distant et récupère toutes les données de ce projet que vous ne possédez pas déjà. Après cette action, vous possédez toutes les références à toutes les branches contenues dans ce dépôt, que vous pouvez fusionner ou inspecter à tout moment (nous reviendrons plus précisément sur les branches et leur utilisation au chapitre 3).
 
-Si vous clonez un dépôt, le dépôt distant est automatiquement ajouté sous le nom origin. Donc, `git fetch origin` récupère tout ajout qui a été poussé vers ce dépôt depuis que vous l'avez cloné ou la dernière fois que vous avez récupéré les ajouts. Il faut noter que la commande fetch tire les données dans votre dépôt local mais sous sa propre branche — elle ne les fusionne pas automatiquement avec aucun de vos travaux ni ne modifie votre copie de travail. Vous devez volontairement fusionner ses modifications distante dans votre travail lorsque vous le souhaitez.
+Si vous clonez un dépôt, le dépôt distant est automatiquement ajouté sous le nom origin. Donc, `git fetch origin` récupère tout ajout qui a été poussé vers ce dépôt depuis que vous l'avez cloné ou la dernière fois que vous avez récupéré les ajouts. Il faut noter que la commande fetch tire les données dans votre dépôt local mais sous sa propre branche — elle ne les fusionne pas automatiquement avec aucun de vos travaux ni ne modifie votre copie de travail. Vous devez volontairement fusionner ses modifications distantes dans votre travail lorsque vous le souhaitez.
 
 Si vous avez créé une branche pour suivre l'évolution d'une branche distante (Cf. la section suivante et le chapitre 3 pour plus d'information), vous pouvez utiliser la commande `git pull` qui récupère et fusionne automatiquement une branche distante dans votre branche locale. Ce comportement peut correspondre à une méthode de travail plus confortable, sachant que par défaut la commande `git clone` paramètre votre branche locale pour qu'elle suive la branche master du dépôt que vous avez cloné (en supposant que le dépôt distant ait une branche master). Lancer `git pull` récupère généralement les données depuis le serveur qui a été initialement cloné et essaie de la fusionner dans votre branche de travail actuel.
 
 ### Pousser son travail sur un dépôt distant ###
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+Lorsque votre dépôt vous semble prêt à être partagé, il faut le pousser en amont. La commande pour le faire est simple : `git push [nom-distant] [nom-de-branche]`. Si vous souhaitez pousser votre branche master vers le serveur `origin` (pour rappel, cloner un dépot définit automatiquement ces noms pour vous), alors vous pouvez lancez ceci pour pousser votre travail vers le serveur amont :
 
 	$ git push origin master
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
+Cette commande ne fonctionne que si vous avez cloné depuis un serveur sur lequel vous avez des droits d'accès en écriture et si personne n'a poussé dans l'intervalle. Si vous et quelqu'un d'autre clonez un dépot au même moment et que cette autre personne pousse ses modifications et qu'après vous tentez de pousser les votres, votre poussée sera rejetée à juste titre. Vous devrez tout d'abord tirer les modifications de l'autre personne et les fusionner avec les votres avant de pouvoir pousser. Référez-vous au chapitre 3 pour de plus amples informations sur les techniques pour pousser vers un serveur distant.
 
-### Inspecting a Remote ###
+### Inspecter un dépôt distant ###
 
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+Si vous souhaitez visualiser plus d'information à propos d'un dépôt distant particulier, vous pouvez utiliser le commande `git remote show [nom-distant]`. Si vous lancez cette commande avec un nom court particulier, tel que `origin`, vous obtenez quelque chose comme :
 
 	$ git remote show origin
 	* remote origin
@@ -804,9 +804,9 @@ If you want to see more information about a particular remote, you can use the `
 	    master
 	    ticgit
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+Cela donne le liste des URL pour le dépot distant ainsi que l'information de suivi de branches. Cette commande vous informe que si vous êtes sur la branch master et si vous lancez `git pull`, il va automatiquement fusionner la branche master du dépot distant après avoir récupéré toutes les références sur le serveur distant. Cela donne aussi la liste des autres références qu'il aura tirées.
 
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+Le résutat ci-dessus est un exemple simple mais réaliste de dépot distant. Lors d'une utilisation plus intense de Git, la commande `git remote show` fournira beaucoup d'information :
 
 	$ git remote show origin
 	* remote origin
@@ -830,40 +830,40 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+Cette commande affiche les branches poussées automatiquement lorsqu'on lance `git push` dessus. Elle montre aussi les branches distantes qui n'ont pas encore été rapatriées, les branches distantes présentes localement mais effacées sur le serveur, et toutes le branches qui seront fusionnées quand on lancera `git pull`.
 
-### Removing and Renaming Remotes ###
+### Retirer et déplacer des branches distantes ###
 
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+Si vous souhaitez renommer une référence, dans les versions récentes de Git, vous pouvez lancer `git remote rename` pour modifier le nom court d'un dépot distant. Par exemple, si vous souhaitez renommer `pb` en `paul`, vous pouvez le faire avec `git remote rename` :
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+Il faut mentionner que ceci modifie aussi les noms de branches distantes. Celle qui était référencée sous `pb/master` l'est maintenant sous `paul/master`.
 
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+Si vous souhaitez retirer une référence pour certaines raisons — vous avez changé de serveur ou vous n'utilisez plus ce serveur particulier, ou peut-être un contributeur a cessé de contribuer — vous pouvez utiliser `git remote rm` :
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
-## Tagging ##
+## Balisage ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+À l'instar de la plupart des VCSs, Git donne la possibilité de baliser un certain état dans l'historique comme important. Généralement, les gens utilisent cette fonctionnalité pour marquer les états de publication (v1.0 et ainsi de suite). Dans cette section, nous apprendrons comment lister les différentes balises, comment créer de nouvelles balises et les différents types de balises.
 
-### Listing Your Tags ###
+### Lister vos balises ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+Lister les balises existantes dans Git est très simple. Tapez juste `git tag` :
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+Cette commande liste les balises dans l'ordre alphabetique. L'ordre dans lequel elles apparaissent n'a aucun rapport avec l'historique.
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+Vous pouvez aussi rechercher les balises correspondant à un motif particulier. Par exemple, le dépôt des sources de Git contient plus de 240 balises. Si vous souhaitez ne visualiser que les série 1.4.2, vous pouvez lancer ceci :
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -871,13 +871,13 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### Créer des balises ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git utilise deux types principaux de balises : légères et annotées. Une balise légère ressemble beaucoup à une branche qui ne change pas — c'est juste un pointeur sur un commit spécifique. Les balises annotées, par contre sont stockées en tant qu'objets à part entière dans la base de données de Git. Elles ont une somme de contrôle, contiennent le nom et l'adresse e-mail du créateur, la date, un message de balisage et peuvent être signées et vérifiées avec GNU Privacy Guard (GPG). Il est généralement recommandé de créer des balises annotées pour générer toute cette information mais si la balise doit rester temporaire ou l'information supplémentaire n'est pas désirée, il reste toujours les balises légères.
 
-### Annotated Tags ###
+### Les balises annotées ###
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+Créer des balises annotées est simple avec Git. Le plus simple est de spécifier l'option `-a` à la commande `tag` :
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -885,9 +885,9 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+L'option `-m` permet de spécifier le message de balisage qui sera stocké avec la balise. Si vous ne spécifiez pas de message en ligne pour une balise annotée, Git lance votre éditeur pour pouvoir le saisir.
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+Vous pouvez visualiser les données de la balise au côté du commit qui a été marqué en utilisant la commande `git show` :
 
 	$ git show v1.4
 	tag v1.4
@@ -902,18 +902,18 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+Cette commande affiche le nom du créateur, la date de création de la balise et le message d'annotation avant de montrer effectivement l'information de validation.
 
-### Signed Tags ###
+### Les balises signées ###
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+Vous pouvez aussi signer vos balises avec GPG, à condition d'avoir une clé privée. Il suffit de spécifier l'option `-s` au lieu de `-a` :
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+En lançant `git show` sur cette balise, on peut visualiser la signature GPG attachée :
 
 	$ git show v1.5
 	tag v1.5
@@ -935,11 +935,11 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+Plus loin, nous verrons comment vérifier une balise signée.
 
-### Lightweight Tags ###
+### Les balises légères ###
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+Une autre manière de baliser les commits est d'utiliser les balises légères. Celles-ci se réduisent à stocker la somme de contrôle d'un commit dans un fichier — aucune autre information n'est conservée. Pour créer une balise légère, il suffit de n'utiliser aucune des option `-a`, `-s` ou `-m` :
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -949,7 +949,7 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+Cette fois-ci, en lançant `git show` sur la balise, on ne voit plus aucune information complémentaire. La commande ne montre que l'information de commit :
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -959,9 +959,9 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### Vérifier des balises ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+Pour vérifier une balise signée, il faut utiliser `git tag -v [nom-de-balise]`. Cette commande utilise GPG pour vérifier la signature. La clé publique du signataire doit être présente dans votre trousseau :
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -977,33 +977,33 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-If you don’t have the signer’s public key, you get something like this instead:
+Si la clé publique du signataire n'est pas présente dans le trousseau, la commande donne le résultat suivant :
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Tagging Later ###
+### Baliser après coup ###
 
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+Vous pouvez aussi baliser des commits plus anciens. Supposons que l'historique des commits ressemble à ceci :
 
 	$ git log --pretty=oneline
-	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
-	a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
-	0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
-	6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch 'experiment'
-	0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit function
-	4682c3261057305bdd616e23b64b0857d832627b added a todo file
-	166ae0c4d3f420721acbb115cc33848dfcc2121a started write support
-	9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile
-	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
-	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
+	15027957951b64cf874c3557a0f3547bd83b3ff6 Fusion branche 'experimental'
+	a6b4c97498bd301d84096da251c98a07c7723e65 Début de l'écriture support
+	0d52aaab4479697da7686c15f77a3d64d9165190 Un truc de plus
+	6d52a271eda8725415634dd79daabbc4d9b6008e Fusion branche 'experimental'
+	0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc ajout d'une fonction de validatn
+	4682c3261057305bdd616e23b64b0857d832627b ajout fichier afaire
+	166ae0c4d3f420721acbb115cc33848dfcc2121a début de l'ecriture support
+	9fceb02d0ae598e95dc970b74767f19372d61af8 mise à jour rakefile
+	964f16d36dfccde844893cac5b347e7b3d44abbc validation afaire
+	8a5cbc430f1a9c3d00faaeffd07798508422908a mise à jour lisezmoi
 
-Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+Maintenant, supposons que vous avez oublié de baliser le projet à la version v1.2 qui correspondait au commit "mise à jour rakefile". Vous pouvez toujours le faire après l'évènement. Pour baliser ce commit, vous spécifiez la somme de contrôle du commit (ou une partie) en fin de commande :
 
 	$ git tag -a v1.2 9fceb02
 
-You can see that you’ve tagged the commit:
+Le commit a été balisé :
 
 	$ git tag 
 	v0.1
@@ -1023,12 +1023,12 @@ You can see that you’ve tagged the commit:
 	Author: Magnus Chacon <mchacon@gee-mail.com>
 	Date:   Sun Apr 27 20:43:35 2008 -0700
 
-	    updated rakefile
+	    mise à jour rakefile
 	...
 
-### Sharing Tags ###
+### Partager les balises ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
+Par défaut, la commande `git push` ne transfère pas les balises vers les serveurs distants. Il faut explicitement pousser les balises après les avoir créées localement. Ce processus s'apparente à pousser des branches distantes – vous pouvez lancer `git push origin [nom-du-tag]`.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1038,7 +1038,7 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+Si vous avez de nombreuses balises que vous souhaitez pousser en une fois, vous pouvez aussi utiliser l'option `--tags` avec la commande `git push`. Ceci transferera tous les nouveaux tags vers le serveur distant.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1052,61 +1052,62 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+A présent, lorsqu'une autre personne clone ou tire depuis votre dépôt, elle obtient aussi les balises.
 
-## Tips and Tricks ##
+## Trucs et astuces ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+Avant de clore ce chapitre sur les bases de Git, voici quelques trucs et astuces qui peuvent rendre votre apprentissage de Git plus simple, facile ou famillier. De nombreuses personnes utilisent parfaitement Git sans connaître aucun de ces trucs, et nous n'y ferons pas référence, ni ne considérerons leur connaissance comme des prérequis pour la suite de ce livre, mais il est préférable de les connaître.
 
-### Auto-Completion ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+### Auto-Complétion ###
+
+Si vous utilisez le shell Bash, Git est livré avec un script d'auto-complétion utile. Téléchargez le code source de Git, et jetez un œil dans le répertoire `contrib/completion`. Il devrait y avoir un fichier nommé `git-completion.bash`. Copiez ce fichier dans votre répertoire personnel et ajoutez cette ligne à votre fichier `.bashrc` :
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+Si vous souhaitez paramétrer Bash pour activer la complétion automatique de Git pour tous les utilisateur, copiez le script dans le répertoire `/opt/local/etc/bash_completion.d` sur les systèmes Mac ou dans le répertoire `/etc/bash_completion.d` sur les systèmes Linux. C'est le répertoire dans lequel Bash lit pour fournir automatiquement la complétion en ligne de commande.
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+Si vous utilisez Windows avec le Bash Git, qui est installé par défaut avec Git en msysGit, l'auto-complétion est préconfigurée.
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+Pressez la touche Tab lorsque vous écrivez une commande Git, et le shell devrait vous indiquer une liste de suggestions pour continuer la commande :
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
-	
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+Dans ce cas, taper git co et appuyer sur la touche Tab deux fois suggère commit et config. Ajouter `m<tab>` complète `git commit` automatiquement.
+
+Cela fonctionne aussi avec les options, ce qui est probablement plus utile. Par exemple, si vous tapez la commande `git log` et ne vous souvenez plus d'une des options, vous pouvez commencer à la taper, et appuyer sur la touche Tab pour voir ce qui peut correspondre :
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+C'est une astuce qui peut clairement vous éviter de perdre du temps ou de lire de la documentation.
 
-### Git Aliases ###
+### Les alias Git ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+Git n'infère pas votre commande si vous ne la tapez que partiellement. Si vous ne voulez pas avoir à taper l'intégralité du texte de chaque commande, vous pouvez facilement définir un alias pour chaque commande en utilisant `git config`. Voici quelques exemples qui pourraient vous intéresser :
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+Ceci signifie que, par exemple, au lieu de taper `git commit`, vous n'avez plus qu'à taper `git ci`. Au fur et à mesure de votre utilisation de git, vous utiliserez probablement d'autres commandes plus fréquemment. Dans ce cas, n'hésitez pas à créer de nouveaux alias.
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+Cette technique peut aussi être utile pour créer des commandes qui vous manquent. Par exemple, pour corriger le problème d'ergonomie que vous avez rencontré lors de la désindexation d'un fichier, vous pourriez créer un alias pour desindexer :
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+Cela rend les deux commandes suivantes équivalentes :
 
-	$ git unstage fileA
-	$ git reset HEAD fileA
+	$ git unstage fichierA
+	$ git reset HEAD fichierA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Cela rend les choses plus claires. Il est aussi commun d'ajouter un alias `last`, de la manière suivante :
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+Ainsi, vous pouvez visualiser plus facilement le dernier commit :
 	
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1117,13 +1118,13 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Pour explication, Git remplace simplement la nouvelle commande par tout ce que vous lui aurez demandé d'aliaser. Si par contre vous souhaitez lancer une commande externe plutôt qu'une sous-commande Git, vous pouvez commencer votre commande par un caractère `!`. C'est utile si vous écrivez vos propres outils pour travailler dans un dépôt Git. On peut par exemple aliaser `git visual` pour lancer `gitk` :
 
 	$ git config --global alias.visual "!gitk"
 
-## Summary ##
+## Résumé ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+A présent, vous pouvez réaliser toutes les opérations locales de base de Git — créer et cloner un dépôt, faire des modifications, les indéxer et les valider, visualiser l'historique de ces modifications. Au prochain chapitre, nous traiterons de la fonctionnalité unique de Git : son modèle de branches.
 
 <!--  LocalWords:  Junio
  -->

@@ -392,7 +392,7 @@ celui de la Figure 9-3.
 Insert 18333fig0903.png 
 Figure 9-3. Tous les objets de votre répertoire Git.
 
-### Object Storage ###
+### Stockage des objets ###
 
 I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:
 

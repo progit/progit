@@ -79,7 +79,7 @@ référence à l'action, on peut traduire.
 * reset ->
  - hard reset ->
  - soft reset ->
- - mixed rese t->
+ - mixed reset ->
 * bisect -> disséquer
 * archive -> archiver		
 * cherry-pick -> ceuillir

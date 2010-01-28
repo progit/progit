@@ -7,85 +7,97 @@ Glossaire de Git
 :Revision: 1
 
 Glossaire de l'outil de gestion de version Git créé à partir des traductions de
+
 * git-gui, http://repo.or.cz/w/git-gui.git[Sources]
 * gitk, http://git.kernel.org/?p=gitk/gitk.git;a=summary[Sources]
 * du « Git Community Book » http://book.git-scm.com/[en], http://alx.github.com/gitbook/[fr] et 
 * du livre « Progit » http://progit.org/book/[en]
-* Utilise la gitglossary(7)
+
+Autre doc utile
+
+* gitglossary(7)
+
+Convention du glossaire
+un « ? » à côté d'un mot signifie que la traduction proposée est discutable
+« ctx » sert à indiquer un contexte
+
+.Objets Git
+* object  objet ->
+  - loose object ->
+* Tree (Object) -> Arbre
+* Commit (Objet) -> Commit
+* Tag (Object) -> Tag
+  - annotated -> tag annoté
+  - ligthweigt tag -> tag léger
+* Blob (Object) -> Blob
+* refs -> references
+
+.Spécifique à Git
+* HEAD  HEAD ->
+* detached (head)->
+* refspec -> 
+* Plumbing ->
+* Porcelain ->
+* index ->
+* staging area ->
+
+.VCS
+* version 			->révision
+* working directory ->
+* working tree ->
+* snapshot -> instantanné
+* history -> historique/journal
+* fast-forward (ctx merge) ->
+* repository -> dépôt
+* diff -> diff
+* patch -> patch
+
+.SHA-1
+* hash -> empreinte
+* checksum -> somme de contrôle
+* digest -> empreinte
+* key -> clé
+* SHA-1 -> SHA-1
 
 
-Plumbing
-Porcelain
-SCM
-VCS
+.Actions/Commandes
+Si le mot fait référence à la commande, on ne traduit pas. Par si on fait
+référence à l'action, on peut traduire.
 
-object				objet
-  loose object
-Tree (Object)		Arbre
-Commit (Objet)		Commit
-Tag (Object)		Tag
-  annotated
-  ligthweigt		tag léger
-Blob (Object)		Blob
-refs - references
-version				révision
-working directory
-working tree
-snapshot			instantanné
-history				historique/journal
-HEAD	
-packfile
-to pack
-fast-forward
-refspec
-repository			dépôt
-diff				diff
-patch				patch
-DAG
-detached (hed)
+* checkout ->
+* branch(es) -> branches
+  - remote branches -> branche distante
+* remote ->
+* pull ->
+* fetch ->
+* push ->
+* stash ->
+* add ->
+* log ->
+* gc ->
+ - garbage collector ->
+* reset ->
+ - hard reset ->
+ - soft reset ->
+ - mixed rese t->
+* bisect -> disséquer
+* archive -> archiver		
+* cherry-pick -> ceuillir
+* cherry-picking -> ceuillette
+* clean ->
+* clone -> clôner
+* To merge (a branch) -> fusionner
+* To merge (a change) -> incorporer
+ - a merge -> une fusion
+* to diff -> 
+* rebase ->
+* revert  -> annuler?
+* packfile ->
+* to pack ->
 
-
-hash					empreinte
-checksum				somme de contrôle
-digest					
-key						clé
-SHA-1					SHA-1
-
-index
-staging area
-
-Actions
-------
-
-checkout
-branch(es)				branches
-  remote branches		branche distante
-remote			
-pull
-fetch
-push
-stash
-add
-log
-gc
-  garbage collector
-reset
-  hard reset
-  soft reset
-  mixed reset
-bisect
-archive					archiver		
-cherry-pick				ceuillir
-clean
-clone
-To merge				fusionner/incorporer
-  a merge				fusion
-to diff				
-rebase
-revert
-
-hex						hexa
-hook
-namespace
-Content-addressable filesystem
-
+.Divers
+* hex -> hexa
+* hook ->
+* namespace  -> espace de noms
+* Content-addressable filesystem  -> système de fichier adressable par le contenu
+* DAG(Direct Acyclic Graph) -> Graphe orienté acyclique

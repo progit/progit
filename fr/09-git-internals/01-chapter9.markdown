@@ -88,7 +88,7 @@ détail dans chacune de ces sections et voir comment Git fonctionne.
 
 Git est un système de fichier adressable par le contenu. Super! Mais qu'est-ce
 que ça veut dire? Ça veut dire que le coeur de Git est un simple key-value
-data store???. Vous pouvez y inserer n'importe qu'elle type de données??? et il
+data store???. Vous pouvez y inserer n'importe quel type de données??? et il
 vous retournera une clé que vous pourrez utiliser à n'importe quel moment pour récupérer ces données à
 nouveau. Pour illustrer cela, vous pouvez utiliser la commande de plomberie
 `hash-object`, qui prend des données, les stocke das votre répertoire `.git`,
@@ -330,7 +330,10 @@ commit dont il est issu :
 	$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
 	1a410efbd13591db07496601ebc7a059dd55cfe9
 
-Each of the three commit objects points to one of the three snapshot trees you created. Oddly enough, you have a real Git history now that you can view with the `git log` command, if you run it on the last commit SHA-1:
+Chacun des trois objets commit pointe sur un arbre instantanné que vous avez
+créez. Curieusement, vous disposez maintenant d'un historique Git complet??? que
+vous pouvez visualiser avec la commande `git log`, si vous la lancez la lancez
+sur le SHA-1 du dernier commit :
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -361,7 +364,15 @@ Each of the three commit objects points to one of the three snapshot trees you c
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Amazing. You’ve just done the low-level operations to build up a Git history without using any of the front ends. This is essentially what Git does when you run the `git add` and `git commit` commands — it stores blobs for the files that have changed, updates the index, writes out trees, and writes commit objects that reference the top-level trees and the commits that came immediately before them. These three main Git objects — the blob, the tree, and the commit — are initially stored as separate files in your `.git/objects` directory. Here are all the objects in the example directory now, commented with what they store:
+Fantastique. Vous venez d'effectuer les opérations bas-niveaux pour construire
+un historique Git sans avoir utilisé aucune des commandes haut-niveau. C'est
+l'essence de ce que fait Git quand vous exécutez les commandes `git add` et `git
+commit`. Il stocke les blobs correspondant aux fichiers modifiés, met à jour
+l'index, écrit les arbres??? et ajoute les objets commit qui référence les
+top-level??? arbres venant juste avant eux. Ces trois objets principaux(le blob,
+l'arbre et le commit) sont initialement stockés dans des fichiers séparés du
+répertoirer `.git/objects`. Voici tous les objets contenu dans le répertoire
+exemple, commenté avec ce qu'il contiennent :
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -375,10 +386,11 @@ Amazing. You’ve just done the low-level operations to build up a Git history w
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-If you follow all the internal pointers, you get an object graph something like Figure 9-3.
+Si vous suivez les pointeurs interne à ces objets, vous obtenez un graphe comme
+celui de la Figure 9-3.
 
 Insert 18333fig0903.png 
-Figure 9-3. All the objects in your Git directory.
+Figure 9-3. Tous les objets de votre répertoire Git.
 
 ### Object Storage ###
 

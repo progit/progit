@@ -10,6 +10,7 @@ alias :pipe :popen3
 
 $here = File.expand_path(File.dirname(__FILE__))
 $root = File.join($here, '..')
+$outDir = File.join($root, 'pdf')
 
 def figures(&block)
 	begin
@@ -188,7 +189,7 @@ figures do
 
 		unless abort
 			print "\tCopying output to progit.#{lang}.pdf... "
-			cp("#{dir}/main.pdf", "#$root/progit.#{lang}.pdf")
+			cp("#{dir}/main.pdf", "#$outDir/progit.#{lang}.pdf")
 			puts "done"
 		end
 	end

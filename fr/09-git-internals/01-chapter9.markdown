@@ -244,18 +244,18 @@ Figure 9-3. Tous les objets de votre répertoire Git.
 
 ### Stockage des objets ###
 
-I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:
+On a parlé plutôt de l'en-tête présent avec le contenu. Prenons un moment pour étudier la façon dont Git stocke les objets. On vera comment stocker interactivement un objet Blob (ici, la chaîne "what is up, doc?") avec le langage Ruby. Vous pouvez démarer Ruby en mode interactif avec la commande `irb`:
 
 	$ irb
 	>> content = "what is up, doc?"
 	=> "what is up, doc?"
 
-Git constructs a header that starts with the type of the object, in this case a blob. Then, it adds a space followed by the size of the content and finally a null byte:
+Git construit un en-tête qui commence avec le type de l'objet, ici un blob. Ensuite, il ajoute un espace suivi de taille du contenu, et enfin un octet nul :
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"
 
-Git concatenates the header and the original content and then calculates the SHA-1 checksum of that new content. You can calculate the SHA-1 value of a string in Ruby by including the SHA1 digest library with the `require` command and then calling `Digest::SHA1.hexdigest()` with the string:
+Git concatène l'en-tête avec le contenu original et calcule l'empreinte SHA-1 su nouveau contenu. En Ruby, vous pouvez calculer l'empreinte SHA-1 d'une chaîne, en incluant la bibliotèque « digest/SHA-1 » via la commande `require`, puis en appelant `Digest::SHA1.hexdigest()` sur la chaîne :
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -264,7 +264,7 @@ Git concatenates the header and the original content and then calculates the SHA
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git compresses the new content with zlib, which you can do in Ruby with the zlib library. First, you need to require the library and then run `Zlib::Deflate.deflate()` on the content:
+Git commpresse le nouveau contenu avec zlib, ce que vous pouvez faire avec la bibliotèque zlib. Vous devez inclure la bibliotèque et exécuter `Zlib::Deflate.deflate()` sur le contenu :
 
 	>> require 'zlib'
 	=> true

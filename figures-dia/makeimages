@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Process all dia images to OUTFORMAT images.
+# Usage: makeimages [lang]
+# If localized image is available - uses it, else uses default one.
+
+OUTFORMAT=png
+
+path="."
+outpath="."
+
+for img in `find $path -name "*.dia"`
+do
+	infile=$img
+	if [[ -n $1 ]]
+	then
+		tst=../$1/figures-dia/${img#$path/}
+		if [[ -f $tst ]]
+		then
+			infile=$tst
+		fi
+	fi
+	outfile=$outpath/${img%.dia}.$OUTFORMAT
+	dia $infile -e $outfile
+done

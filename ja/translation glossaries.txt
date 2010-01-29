@@ -1,0 +1,33 @@
+# UTF-8でっせ
+(vt)store	格納
+(n)change	変更
+(n)modify	修正
+(vt)stage	ステージする
+(n)staging area	ステージング・エリア
+(n)GIT directory	Gitディレクトリ
+(n)working directory	作業ディレクトリ
+(n)workflow	ワークフロー
+(a)comitted	コミット済
+(a)modified	修正済
+(a)staged	ステージ済
+(n)non-linear development	ノンリニア開発
+(n)chapter	章
+# カタカナ用語末尾の長音関連
+# 参考: マイクロソフト日本語スタイルガイド
+# http://www.microsoft.com/language/ja/jp/download.mspx
+# http://www.microsoft.com/japan/presspass/detail.aspx?newsid=3491
+(n)browser	ブラウザー
+(n)computer	コンピューター
+(n)community	コミュニティ
+(n)data	データ
+(n)database	データベース
+(n)designer	デザイナー
+(n)directory	ディレクトリ
+(n)installer	インストーラー
+(n)interface	インターフェイス
+(n)member	メンバー
+(n)nonlinear	ノンリニア
+(n)programmer	プログラマ
+(n)repository	リポジトリ
+(n)server	サーバー
+(n)user	ユーザー

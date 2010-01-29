@@ -1,6 +1,6 @@
 # Úvod #
 
-V této kapitole si vysvětlíme, jak začít s Gitem: Jak fungují systémy kontroly verzí, ukážeme si, jak Git nainstalovat
+V této kapitole si vysvětlíme, jak začít s Gitem. Jak fungují systémy kontroly verzí, ukážeme si, jak Git nainstalovat
 a jak ho nastavit tak, abychom s ním mohli pohodlně pracovat. Objasníme si, proč Git používá tolik lidí
 a proč byste ho měli používat i vy.
 
@@ -69,100 +69,156 @@ server v těchto podmínkách odejde do počítačového nebe, nic se vlastně n
 je možno nahrát zpět na server a jede se dál. Každý checkout je v podstatě kompletní záloha všech dat (obr. 1-3)
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+Obrázek 1-3. Distribuovaný SSV
 
 Navíc mnoho těchto systémů umí slušně pracovat s více vzdálenými repositáři najednou, takže můžete spolupracovat
 s různými skupinami lidí na různých částech téhož projektu. To umožňuje mít různé způsoby organizace práce,
 které v centralizovaných systémech vůbec nejsou možné, jako je hierarchický model.
 
-## A Short History of Git ##
+## Stručná historie Gitu ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Stejně jako mnoho velkých událostí i historie Gitu začíná trochou tvořivé destrukce a prudké kontroverze.
+Linuxové jádro je dosti rozsáhlý open-source softwarový projekt. Nejprve docela dlouho (1991-2002) byly
+změny kódu prováděny jako patche a archivované soubory. V roce 2002 pak projekt přešel na proprietární DSSV
+BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+Po třech letech (2005) ochladly vztahy mezi vývojáři jádra a firmou, která BitKepper vyvinula, už neměl být zdarma,
+a tak se komunita vývojářů jádra (zvláště Linus Torvalds, tvůrce Linuxu) rozhodla vytvořit vlastní DSSV
+postavený na získaných zkušenostech z BitKeeperu. Požadované vlastnosti nového systému byly:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Rychlost
+*	Jednoduchý návrh
+*	Propracovaná podpora pro nelineární vývoj (tisíce paralelních větví)
+*	Plná distribuovanost
+*	Schopnost udržet tak velký projekt jako jádro Linuxu úsporně z hlediska rychlosti i množství dat
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Od jeho zrodu v roce 2005 se Git vyvinul a dospěl do jednoduše použitelného systému a stále splňuje tyto původní
+předpoklady. Je neuvěřitelně rychlý, bez velkých režijních nákladů i u obrovských projektů a má nevídaný systém větvení (kap. 3)
+pro nelineární vývoj.
 
-## Git Basics ##
+## Základy Gitu ##
+Takže v kostce, co je to Git? Tohle je důležité vědět, protože pokud budete rozumět, co to Git je a jak zhruba funguje,
+bude pro vás pravděpodobně výrazně jednodušší ho používat efektivně. Až se Git naůčíte, zkuste zapomenout všechno,
+co jste věděli o ostatních SSV jako Subversion nebo Perforce. Git ukládá informace a přemýšlí o nich naprosto
+odlišným způsobem i přesto, že uživatelské rozhraní je dosti podobné. Porozumět těmto drobným rozdílům pomůže
+překonat možnou prvotní zmatenost z přechodu na Git.
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+### Snapshoty, ne rozdíly ###
 
-### Snapshots, Not Differences ###
+Hlavní rozdíl mezi Gitem a ostatními SSV (Subversion a jeho přátelé) je způsob, jakým Git přemýšlí nad svými daty.
+Koncepcí většiny ostatních systémů je ukládat informace jako seznam změn v jednotlivých souborech. Udržují si sadu souborů
+a změny v nich provedené (obr. 1-4).
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Insert 18333fig0104.png
+Obrázek 1-4. Ostatní systémy ukládají data jako změny každého souboru.
 
-Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho snapshotů malého filesystému. Pokaždé, když commitnete[^2]
+stav svého projektu do Gitu, jednoduše si udělá obrázek, jak teď právě vypadají všechny soubory, a uloží to. Pro úsporu
+si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor. Git přemýšlí nad daty asi jako na obrázku 1-5.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+[^2]: Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Obrázek 1-5. Git ukládá data jako snapshoty projektu.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+To je důležitý rozdíl mezi Gitem a skoro všemi ostatními SSV. Nutí to Git znovu uvážit téměř každý aspekt správy verzí, které většina
+ostatních systémů převzala z předchozí generace. To dělá z Gitu spíše malý filesystém s několika neuvěřitelně mocnými nástroji
+nad sebou než prostě SSV. K některým výhodám tohoto přístupu dojdeme v kapitole 3, kde se budeme zabývat větvením vývojového stromu.
 
-### Nearly Every Operation Is Local ###
+### Většině operací stačí váš stroj ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Drtivá většina operací v Gitu nepotřebuje víc než místní soubory a zdroje. Obecně nepotřebuje žádnou informawci z jiného než vašeho stroje.
+Pokud jste zvyklí na CSSV, kde téměř všechny operace mají režijní náklady zvýšené o zpoždění na síti, pak si budete myslet, že božstvo rychlosti
+požehnalo Gitu a udělilo mu nadzemskou moc. Protože máte celou historii projektu právě u sebe na místním disku, vypadá většina operací,
+že jsou vykonány okamžitě.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+Například pokud si chcete prohlédnout historii projektu, Git nepotřebuje jít na server, aby získal historii a zobrazil ji pro vás -- jednoduše
+ji přečte přímo z vaší místní databáze. To znamená, že historii projektu vidíte téměř hned. Pokud chcete vidět změny mezi současnou verzí souboru
+a verzí měsíc starou, Git najde soubor v místní databázi a spočítá rozdíly lokálně místo toho, aby o to buďto požádal vzdálený server, nebo alespoň
+stáhl starou verzi.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+To také znamená, že je velmi málo toho, co nemůžete dělat, pokud jste offline. Sedíte-li na palubě letadla nebo ve vlaku a chcete udělat trochu práce,
+můžete vesele commitovat, i když zrovna nemáte připojení k síti. Pokud jste doma a nemůžete se připojit k repositáři,
+můžete stále pracovat. U mnoha jiných systému je to dosti bolestivý proces, ne-li zhola nemožný.
+V Perforce např. nemůžete dělat skoro nic; v Subversion nebo CVS můžete upravovat soubory, ale
+předat je nejde (logicky -- databáze je offline). To nemusí vypadat jako velká změna, ale může vás příjemně překvapit, jak výrazný rozdíl to může být.
 
-### Git Has Integrity ###
+### Git drží integritu ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Než je cokoli v Gitu uloženo, je tomu spočítán kontrolní součet. Ten se potom používá i k identifikaci celého commitu.
+To znamená, že je zhola nemožné změnit obsah jakéhokoli souboru nebo adresáře bez toho, aby o tom Git věděl. Tato vlastnost
+je do Gitu zabudována na těch nejnižších úrovních a je nedílnou součástí jeho filosofie. Nemůžete ztratit informace při přenosu
+nebo přijít k poškození dat bez toho, aby to byl Git schopen odhalit.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Git k tomu používá mechanismus zvaný SHA-1 hash. To je 40 znaků dlouhý řetězec sestávající z hexadecimálních znaků (0-9 a a-f)
+a spočítaný na základě obsahu souboru nebo adresářové struktury v Gitu. SHA-1 hash vypadá nějak takto:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+S těmito hashi se v Gitu setkáte úplně všude. V podstatě Git všechno ukládá nikoli na základě jména souboru, ale právě na základě
+hashe jeho obsahu.
 
-### Git Generally Only Adds Data ###
+### Git obecně jen přidává data ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Pokud něco v Gitu děláte, téměř cokoli z toho jen přidá data do jeho databáze. Je opravdu obtížné donutit systém udělat něco, co by se nedalo vrátit,
+nebo donutit ho nějakým způsobem smazat svoje data. Jako v každém SSV můžete samozřejmě ztratit změny provedené od posledního commitu,
+ale jakmile jsou commitnuty, je velmi obtížné o ně přijít, zvláště pak pokud pravidelně zálohujete databázi do jiného repositáře.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Je pak radost používat Git, protože víme, že můžeme experimentovat bez nebezpečí, že bychom si něco vážně poškodili. Pro hlubší náhled do problematiky,
+jak Git ukládá data a jak se můžete vrátit k datům, která vypadají, že jsou ztracena, si přečtěte kapitolu 9.
 
-### The Three States ###
+### Tři stavy ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Teď dávejte pozor. Tohle je hlavní věc, kterou si u Gitu musíte pamatovat, pokud chcete, aby vaše další studium Gitu šlo hladce.
+Git má tři základní stavy, kterých můžou vaše soubory nabývat: "commited", "modified" a "staged"[^3].
+Commited znamená, že data jsou bezpečně uložena v místní databázi. Modified znamená, že soubor byl oproti poslednímu předání změněn.
+A staged je ten soubor, u kterého máte značku, že bude v této verzi zařazen do nejbližšího commitu.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+[^3]: Pozn. překl.: Vzhledem k neexistující lokalizaci Gitu do češtiny budu nadále používat tyto anglické výrazy,
+se kterými se v Gitu setkáte de facto na každém rohu narozdíl od českých ekvivalentů.
+
+To nás vede ke třem hlavním sekcím projektu v Gitu: Git directory, working directory a staging area[^4].
+
+[^4]: Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory
+Figure 1-6. Git directory, working directory a staging area
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git directory je místo, kde Git skladuje svoje vnitřní data a databázi objektů vašeho projektu. To je ta nejdůležitější část Gitu,
+která se kopíruje, pokud si stahujete repositář z jiného počítače.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Working directory je samotný obraz jedné verze spravovaného projektu. Jsou to soubory vytažené z databáze v Git directory
+a umístěné na disk, abyste je použili nebo měnili.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+Staging area je jednoduchý soubor, obvykle uložený ve vašem Git directory, který ukládá informace o tom, co bude součástí nejbližšího commitu.
+Občas je též nazýván index, ale v angličtině se postupně stává standardem označovat ho jako "staging area".
 
-The basic Git workflow goes something like this:
+Základní pracovní postup Gitu je pak zhruba takovýto:
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	Změníte soubory ve svém working directory.
+2.	Vložíte soubory do staging area.
+3.	Vytvoříte commit, který vezme všechny soubory tak, jak jsou ve staging area, a uloží tento snímek permanentně do Git directory.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Pokud je nějaká verze souboru v Git directory, je označována jako commited, pokud je upravena a vložena do staging area, je staged. A konečně
+pokud byla změněna a není staged, pak je modified. V kapitole 2 se dozvíte více o těchto stavech a jak můžete využít jejich výhod, nebo
+naopak úplně přeskočit staging area.
 
-## Installing Git ##
+## Instalujeme Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Ponořme se nyní do používání Gitu. Ale od začátku -- nejprve ho musíte nainstalovat; dá se získat mnoha způsoby -- dva hlavní jsou
+instalace ze zdrojových souborů a instalace už existujícího balíčku pro váš systém. 
 
-### Installing from Source ###
+### Instalujeme ze zdroje ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Pokud to umíte, je obecně možné instalovat Git ze zdrojových kódů, protože získáte nejnovější verzi.
+Vývojáři se stále snaží vylepšovat uživatelské rozhraní, takže stažení poslední verze je obvykle nejlepší cesta k cíli, 
+pokud se tedy cítíte na překládání zdrojových souborů. To je také řešení případu, kdy je ve mnoha dostribucích Linuxu dostupný
+jen nějaký starý balík; takže pokud zrovna nemáte nějakou aktuální distribuci nebo nepoužíváte "backports", bude instalace
+ze zdroje asi nejlepší možností.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+Git závisí na několika knihovnách, bez kterých ho nenainstalujete: curl, zlib, openssl, expat a libiconv. Např. pokud máte distribuci
+užívající balíčkovací systém Yum (Fedora) nebo Apt (Debian a distribuce na něm založené), můžete použít jeden z těchto příkazů k instalaci
+těchto závislostí.
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -170,92 +226,96 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
 	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Když jste už všechno nainstalovali, můžete pokročit dále a stáhnout si poslední verzi z webových stránek Gitu:
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+Rozbalíme, přeložíme a nainstalujeme:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Když jsme hotovi, můžeme také získat Git prostřednictvím jeho samotného (možnost další aktualizace):
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### Instalujeme na Linuxu ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Pokud chcete instalovat Git na Linuxu z binárního balíčku, měli byste použít váš balíčkovací program podle vaší distribuce,
+který udělá vše za vás. Pokud máte Fedoru, můžete použít Yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Nebo pokud jste na distribuci založené na Debianu (např. Ubuntu), použijte Apt:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Instalujeme na Macu ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Existují dva jednoduché způsoby, jak nainstalovat Git na Mac. Nejjednodušší je použít grafický instalátor, který si můžete stáhnout ze stránek Google Code (viz obr. 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer
+Obrázek 1-7. Git OS X installer
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+Druhá základní možnost je přes MacPorts (`http://www.macports.org`). Když už je máte, instalujete Git pomocí
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Nemusíte samozřejmě přidávat všechny extra balíčky, ale určitě si vyberete naapř. +svn, pokud musíte ještě
+používat Git s repoozitáři Subversion (více v kapitole 8).
 
-### Installing on Windows ###
+### Instalujeme na Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Nainstalovat Git na Windows je velmi jednoduché. Stáhněte si exe instalátor ze stránek Google Code a spusťte ho:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+Po dokončení instalace máte jak verzi pro příkazový řádek (včetně SSH klienta, který se bude hodit později), tak standardní grafické rozhraní.
 
-## First-Time Git Setup ##
+## Počáteční nastavení ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Teď, když máte na svém systému Git, si v něm možná budete chtít nastavit pár věcí, přizpůsobit svým požadavkům. Budete to muset udělat pouze jednou -- uchovávají se při upgradech. Samozřejmě je kdykoli můžete změnit provedením obdobných příkazů jako teď.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git obsahuje nástroj zvaný git config, který umožňuje nastavovat konfigurační hodnoty, které ovládají, jak Git vypadá a jak se chová. Mohou být uloženy na třech různých místech:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	soubor `/etc/gitconfig`: Obsahuje hodnoty pro všechny uživatele a všechny repozitáře na tomto systému dohromady. Pokud připojíte volbu ` --system` za `git config`, bude pracovat výhradně s tímto souborem.
+*	soubot `~/.gitconfig`: Specifický pro uživatele. Tento soubor můžete upravovat také přidáním volby `--global`.
+*	konfigurační soubor v Git directory (tj. `.git/config`) každého repozitáře: specifický pro každý jednotlivý repozitář.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+Každá další vrstva překrývá tu předchozí, takže hodnoty v `.git/config` přebijí hodnoty z `/etc/gitconfig`.
 
-### Your Identity ###
+Na Windows hledá Git soubor `.gitconfig` v `$HOME` (obvykle `C:\Documents and Settings\$USER`). Samozřejmě pořád uvažuje /etc/gitconfig, přestože tato cesta je relativní ke kořenu MSys, což je místo, kam jste se rozhodli instalovat Git ve vašem systému Windows.
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+### Vaše identita ###
+
+První věc, kterou máte udělat po instalaci Gitu, je nastavení vašeho uživatelského jména a e-mailu. To je důležité, jelikož každý commit tyto informace obsahuje, a jsou nevratně "zataveny" do všech vašich commitů.
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Znovu -- toto musíte udělat jen jednou, pokud připojíte volbu ` --global`, protože pak tyto informace použije Git pro cokoli, co na vašem systému děláte. Pokud je chcete přepsat jiným jménem nebo e-mailem pro nějaký projekt, stačí spustit příslušný příkaz bez volby ` --global` v adresáři onoho projektu.
 
-### Your Editor ###
+### Váš editor ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Teď, když máte nastaveno, kdo jste, si můžete nastavit výchozí textový editor, který Git použije, když bude chtít, abyste napsali zprávu. Jinak Git použije výchozí editor podle nastavení systému, což je obvykle Vi nebo Vim. Pokud chcete použít jiný textový editor, třeba Emacs, nastavte si to:
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### Váš nástroj pro řešení kolizních situací ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+Další užitečnou volbou je nastavení výchozího nástroje pro řešení kolizí. Takto nastavíte, že chcete používat vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git umí pracovat s nástroji kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff. Můžete také nastavit i jiný nástroj; více v kapitole 7.
 
-### Checking Your Settings ###
+### Kontrola vašeho nastavení ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Pokud chcete zkontrolovat vaše nastavení, použijte `git config --list` k zobrazení všech nastavení, která dokáže na tomto místě Git najít:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -266,28 +326,28 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Některé hodnoty můžete vidět vícekrát, protože je Git přečte z více různých souborů (např. `/etc/gitconfig` a `~/.gitconfig`). V takovém případě se Git řídí poslední načtenou hodnotou.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Také můžete zobrazit jednu konkrétní hodnotu napsáním `git config {key}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## První pomoc ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Pokud náhodou potřebujete pomoct s používáním Gitu, jsou tři možnosti, jak získat manuál (manpage) pro každý jeden příkaz Gitu:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+Například manpage pro příkaz config získáte spuštěním
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+Tyto příkazy jsou užitečné zejména proto, že je můžete spustit kdykoli -- i offline.
+Pokud by ani manuálové stránky, ani tato kniha neposkytly to, co potřebujete, zkuste IRC kanály `#git` nebo `#github` na Freenode IRC serveru (irc.freenode.net). Tyto kanály jsou pravidelně zaplněny stovkami lidí, kteří o Gitu ví opravdu mnoho a často vám rádi pomohou.
 
-## Summary ##
+## Shrnutí ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+Měli byste v základu vědět, co to je Git a v jakém směru je odlišný od CSSV, který možná zrovna používáte. Měli byste mít na svém systému funkční Git nastavený podle vás. Nyní je čas na naučení se základů Gitu.

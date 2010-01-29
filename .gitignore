@@ -6,3 +6,4 @@ latex/*
 !latex/template.tex
 !latex/config.yml
 *~
+.#*

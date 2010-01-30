@@ -683,11 +683,15 @@ Zu Beginn musst Du in das Zielverzeichnis wechseln und jedes Unterverzeichnis id
 	  end
 	end
 
-You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:
+<!--You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:-->
+
+Du führst `print_export` für jedes Verzeichnis aus. Das nimmt das Manifest und die Markierung des letzten Snapshots entgegen und gibt das Manifest und die Markierung des aktuellen zurück; auf diese Weise kannst Du sie passend verlinken. "Mark" ist der `fast-import`-Begriff für eine ID, die Du einem Commit gibst. Während Du Commits anlegst, verpasst Du jedem einzelnen eine Markierung, die benutzen kannst, um von anderen Commits zu ihm zu linken. Daher ist das erste, was Deine `print_export`-Methode macht, eine Markierung aus dem Verzeichnisnamen zu erstellen:
 
 	mark = convert_dir_to_mark(dir)
 
-You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:
+<!--You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:-->
+
+Das erreichst Du indem Du ein Array von Verzeichnissen anlegst und den Index-Wert als Markierung verwendest (eine Markierung muss vom Typ `integer` sein). Deine Methode sieht so aus:
 
 	$marks = []
 	def convert_dir_to_mark(dir)
@@ -697,11 +701,15 @@ You’ll do this by creating an array of directories and using the index value a
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is
+<!--Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is-->
+
+Jetzt hast Du eine `integer`-Repräsentation Deines Commits und brauchst nur noch ein Datum für die Commit-Metadaten. Da das Datum im Verzeichnisnamen enthalten ist, parsen wir es einfach daraus. Die nächste Zeile in Deiner `print_export`-Datei lautet
 
 	date = convert_dir_to_date(dir)
 
-where `convert_dir_to_date` is defined as
+<!--where `convert_dir_to_date` is defined as-->
+
+wobei `convert_dir_to_date` so definiert ist:
 
 	def convert_dir_to_date(dir)
 	  if dir == 'current'

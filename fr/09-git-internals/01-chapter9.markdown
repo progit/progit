@@ -243,18 +243,26 @@ Figure 9-3. Tous les objets de votre répertoire Git.
 
 ### Stockage des objets ###
 
-On a parlé plutôt de l'en-tête présent avec le contenu. Prenons un moment pour étudier la façon dont Git stocke les objets. On verra comment stocker interactivement un objet Blob (ici, la chaîne "what is up, doc?") avec le langage Ruby. Vous pouvez démarrer Ruby en mode interactif avec la commande `irb`:
+On a parlé plutôt de l'en-tête présent avec le contenu.
+Prenons un moment pour étudier la façon dont Git stocke les objets.
+On verra comment stocker interactivement un objet Blob (ici, la chaîne "what is
+up, doc?") avec le langage Ruby.
+Vous pouvez démarrer Ruby en mode interactif avec la commande `irb`:
 
 	$ irb
 	>> content = "what is up, doc?"
 	=> "what is up, doc?"
 
-Git construit un en-tête qui commence avec le type de l'objet, ici un blob. Ensuite, il ajoute un espace suivi de taille du contenu, et enfin un octet nul :
+Git construit un en-tête qui commence avec le type de l'objet, ici un blob.
+Ensuite, il ajoute un espace suivi de taille du contenu, et enfin un octet nul :
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"
 
-Git concatène l'en-tête avec le contenu original et calcule l'empreinte SHA-1 su nouveau contenu. En Ruby, vous pouvez calculer l'empreinte SHA-1 d'une chaîne, en incluant la bibliothèque « digest/SHA-1 » via la commande `require`, puis en appelant `Digest::SHA1.hexdigest()` sur la chaîne :
+Git concatène l'en-tête avec le contenu original et calcule l'empreinte SHA-1 du nouveau contenu.
+En Ruby, vous pouvez calculer l'empreinte SHA-1 d'une chaîne, en incluant la
+bibliothèque « digest/SHA-1 » via la commande `require`, puis en appelant
+`Digest::SHA1.hexdigest()` sur la chaîne :
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -263,14 +271,22 @@ Git concatène l'en-tête avec le contenu original et calcule l'empreinte SHA-1 
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git compresse le nouveau contenu avec zlib, ce que vous pouvez faire avec la bibliothèque zlib. Vous devez inclure la bibliothèque et exécuter `Zlib::Deflate.deflate()` sur le contenu :
+Git compresse le nouveau contenu avec zlib, ce que vous pouvez faire avec la bibliothèque zlib.
+Vous devez inclure la bibliothèque et exécuter `Zlib::Deflate.deflate()` sur le contenu :
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
-Finally, you’ll write your zlib-deflated content to an object on disk. You’ll determine the path of the object you want to write out (the first two characters of the SHA-1 value being the subdirectory name, and the last 38 characters being the filename within that directory). In Ruby, you can use the `FileUtils.mkdir_p()` function to create the subdirectory if it doesn’t exist. Then, open the file with `File.open()` and write out the previously zlib-compressed content to the file with a `write()` call on the resulting file handle:
+Enfin, vous enregistrerez le contenu compressé dans un objet sur le disque.
+Vous déterminerez le chemin de l'objet que vous voulez enregistrer (les deux premiers
+caractères de l'empreinte SHA-1 formeront le nom du sous-répertoires, et les 38
+derniers formeront le nom du fichier dans ce répertoire).
+En Ruby, on peut utiliser la fonction `FileUtils.mkdir_p()` pour créer un sous-répertoire s'il
+n'existe pas.
+Ensuite, ouvrez le fichier avec `File.open()` et enregistrez le contenu
+compressé en appelant la fonction `write()` sur le fichier handle??? :
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37"
@@ -281,13 +297,25 @@ Finally, you’ll write your zlib-deflated content to an object on disk. You’l
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-That’s it — you’ve created a valid Git blob object. All Git objects are stored the same way, just with different types — instead of the string blob, the header will begin with commit or tree. Also, although the blob content can be nearly anything, the commit and tree content are very specifically formatted.
+C'est tout ! Vous venez juste de créer un objet Blob valide.
+Tout les objets Git sont stockés de la même façon, mais avec des types différents : l'en-tête
+commencera par « commit » ou « arbre » au lieu de la chaîne « blob ».
+Bien que le contenu d'un blob puisse être presque n'importe quoi, le contenu  d'un commit ou
+d'un arbre est formaté d'une façon particulière.
 
-## Git References ##
+## Références  Git ##
 
-You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.
+On peut exécuter quelque chose comme `git log 1a410e` pour visualiser tout
+l'historique, mais il faut se souvenir que `1a410e` est le dernier commit afin
+de parcourir l'historique et trouver tout ces objets.
+Vous avez besoin d'un fichier ayant un nom simple qui contienne l'empreinte
+SHA-1 afin d'utiliser ce pointeur plutôt que l'empreinte SHA-1 elle-même.
 
-In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:
+Git les appelle ces pointeur des « références », ou « refs ».
+On trouve ces fichiers contenant des empreintes SHA-1 dans le répertoire
+`git/refs`.
+Dans le projet actuel, ce répertoire ne contient aucun fichier, mais possède une
+structure simple :
 
 	$ find .git/refs
 	.git/refs
@@ -296,37 +324,46 @@ In Git, these are called "references" or "refs"; you can find the files that con
 	$ find .git/refs -type f
 	$
 
-To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:
+Pour créer une nouvelle référence servant à ce souvenir du dernier commit, vous
+pouvez simplement faire ceci :
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
-Now, you can use the head reference you just created instead of the SHA-1 value in your Git commands:
+Vous pouvez maintenant utiliser la head??? référence que vous venez de créer à
+la place de l'empreinte SHA-1 dans vos commandes Git :
 
 	$ git log --pretty=oneline  master
 	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-You aren’t encouraged to directly edit the reference files. Git provides a safer command to do this if you want to update a reference called `update-ref`:
+Il n'est pas conseillé d'éditer directement les fichiers des références. Git
+propose une manière sûre de mettre à jour une référence, c'est la commande
+`update-ref` :
 
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
-That’s basically what a branch in Git is: a simple pointer or reference to the head of a line of work. To create a branch back at the second commit, you can do this:
+Dans Git, une branche est simplement ceci : a pointer ou référence sur le
+dernier état (N.d.T « head ») d'un travail en cours???. Pour créer une branche à
+partir du deuxième commit, vous pouvez faire ceci :
 
 	$ git update-ref refs/heads/test cac0ca
 
-Your branch will contain only work from that commit down:
+Cette branche contiendra seulement le travail effectué jusqu'à ce commit :
 
 	$ git log --pretty=oneline test
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Now, your Git database conceptually looks something like Figure 9-4.
+La base de donnée Git ressemble maintenant à quelque chose comme Figure 9-4.
 
 Insert 18333fig0904.png 
-Figure 9-4. Git directory objects with branch head references included.
+Figure 9-4. Le répertoire d'objet de Git y compris la référence au dernier état
+de la branche.
 
-When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
+Quand on exécute un commande comme  `git branch (nomdebranche)`, Git exécute
+basiquement??? la commande `update-ref` pour ajouter l'empreinte SHA-1 du
+dernier commit dans la référence que l'on veut créer.
 
 ### The HEAD ###
 

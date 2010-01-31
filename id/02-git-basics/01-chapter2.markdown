@@ -765,31 +765,31 @@ Sekarang Anda apat menggunakan `pb` dalam baris perintah daripada menggunakan UR
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Cabang master milik Paul sekarang dapat diakses di komputer Anda sebagai `pb/master` - Anda dapat melakukan merge cabang Paul ke dalam salah satu cabang Anda, atau Anda dapat mengaksesnya langsung sebagai cabang lokal pada saat itu jika Anda ingin menelitinya.
+Cabang master milik Paul sekarang dapat diakses di komputer Anda sebagai `pb/master` - Anda dapat menggabungkan cabang Paul ke dalam salah satu cabang Anda, atau Anda dapat melakukan `checkout` untuk mengaksesnya langsung sebagai cabang lokal jika Anda ingin menelitinya.
 
-### Fetching and Pulling from Your Remotes ###
+### Mengambil dan Menarik dari Repositori Berjarak ###
 
-As you just saw, to get data from your remote projects, you can run:
+Sebagaimana yang telah Anda ketahui, untuk mengambil data dari proyek berjarak Anda, Anda dapat menjalankan:
 
 	$ git fetch [remote-name]
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
+Perintah tersebut akan diteruskan ke repositori berjarak dan menarik semua data yang belum Anda miliki dari sana. Setelah Anda melakukan ini, Anda akan memiliki referensi terhadap semua cabang yang ada di repositori berjarak tadi, yang kemudian dapat Anda gabungkan atau periksa kapanpun. (Kita akan bahas apa itu cabang dan bagaimana menggunakannya dengan lebih detil di Bab 3.)
 
-If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+Jika Anda menduplikasi sebuah repositori, perintah tersebut akan secara otomatis menambahkan repositori berjarak dengan nama `origin`. Jadi, `git fetch origin` akan mengambil semua hasil kerja baru yang sudah didorong ke server sejak Anda melakukan duplikasi (atau terakhir Anda mengambil). Penting untuk dicatat bahwa perintah `fetch` menarik semua data ke repositori lokal - perintah tersebut tidak secara otomatis menggabungkan hasil kerja baru dengan hasil kerja Anda atau mengubah apa yang sekarang sedang Anda kerjakan. Anda harus menggabungkannya secara manual ke dalam kerja Anda ketika Anda sudah siap.
 
-If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+Jika Anda memiliki cabang yang sudah tertata untuk memantau cabang berjarak (lihat bagian berikutnya dan bab3 untuk informasi lebih lanjut), Anda dapat menggunakan perintah `git pull` untuk secara otomatis mengambil dan menggabungkan cabang berjarak ke dalam cabang yang sekarang sedang aktif. Alur kerja ini mungkin lebih mudah atau lebih nyaman bagi Anda; dan secara standar, perintah `git clone` secara otomatis menata cabang master di lokal Anda untuk memantau cabang master di server berjarak tempat asal Anda menduplikasi (diasumsikan bahwa repositori berjarak memiliki cabang master). Menjalankan `git pull` secara umum mengambil data dari server tempat asal kita menduplikasi dan secara otomatis mencoba untuk menggabungkannya dengan kode yang sedang kita kerjakan saat ini.
 
-### Pushing to Your Remotes ###
+### Mendorong ke Repositori Berjarak ###
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+Ketika proyek Anda sampai pada satu titik dimana Anda ingin membaginya, Anda harus mendorongnya ke server. Perintah untuk melakukan ini mudah: `git push [nama-berjarak] [nama-cabang]`. Jika Anda ingin mendorong cabang master ke server `origin` Anda (lagi, duplikasi secara umum menata nama-nama ini secara otomatis), maka Anda dapat menjalankan berikut ini untuk mendorong hasil kerja Anda kembali ke server:
 
 	$ git push origin master
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
+Perintah ini hanya bekerja jika Anda menduplikasi dari server dengan akses tulis terbuka bagi Anda dan jika belum ada orang yang mendorong sebelumnya. Jika Anda dan seorang lainnya menduplikasi secara bersamaan dan mereka mendorong ke server baru kemudian Anda, hasil kerja Anda akan segera ditolak. Anda perlu menarik hasil kerja mereka dahulu dan menggabungkannya dengan hasil kerja Anda sebelum Anda diperbolehkan untuk mendorong. Lihat Bab 3 untuk informasi lebih detil tentang bagaimana untuk mendorong ke server berjarak.
 
-### Inspecting a Remote ###
+### Memeriksa Repositori Berjarak ###
 
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+Jika Anda ingin melihat informasi tertentu lebih lanjut tentang repositori berjarak, Anda dapat menggunakan perintah `git remote show [nama-remote]`. Jika Anda menjalankan perintah ini dengan nama pendek tertentu, sepertin `origin`, Anda akan mendapatkan seperti ini:
 
 	$ git remote show origin
 	* remote origin
@@ -800,9 +800,9 @@ If you want to see more information about a particular remote, you can use the `
 	    master
 	    ticgit
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+Perintah ini akan memperlihatkan daftar URL dari repositori berjarak dan juga informasi cabang berjarak terpantau. Perintah tersebut juga membantu Anda melihat bahwa Anda berada di cabang master dan jika Anda menjalankan `git pull`, perintah tersebut akan secara otomatis menggabungkan dari cabang master berjarak setelah mengambil semua referensi dari sana. Perintah ini juga memperlihatkan daftar semua referensi yang sudah ditarik.
 
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+Ini adalah contoh sederhana yang paling mungkin Anda temui. Ketika Anda menggunakan Git lebih sering lagi, Anda makin dapat membaca lebih banyak lagi informasi yang keluar dari `git remote show`:
 
 	$ git remote show origin
 	* remote origin
@@ -826,40 +826,40 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+Perintah ini menunjukkan cabang mana yang secara otomatis terdorong ketika Anda menjalankan `git push` di cabang-cabang tertentu. Yang juga ditunjukkan adalah cabang berjarak di server yang belum Anda miliki, cabang berjarak yang Anda miliki namun telah terhapus di server, dan beberapa cabang yang secara otomatis akan digabungkan ketika Anda menjalankan `git pull`.
 
-### Removing and Renaming Remotes ###
+### Menghapus dan Mengganti Nama Repositori Berjarak ###
 
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+Jika Anda ingin mengganti nama sebuah referensi, pada Git versi baru Anda dapat menjalankan `git remote rename` untuk mengganti nama pendek dari repositori berjarak. Sebagai contoh, jika Anda ingin mengganti nama `pb` menjadi `paul`, Anda dapat melakukannya dengan perintah `git remote rename`:
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+Patut disinggung juga bahwa hal ini merubah nama cabang berjarak Anda juga. Apa yang biasanya dapat direferensikan sebagai `pb/master` saat ini berada di `paul/master`.
 
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+Jika Anda ingin untuk menghapus sebuah referensi untuk alasan tertentu - Anda memindahkan servernya atau tidak lagi menggunakan mirror tertentu, atau mungkin seorang kontributor tidak lagi berkontribusi - Anda dapat menggunakan `git remote rm`:
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
-## Tagging ##
+## Menandai ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+Seperti kebanyakan VCS, Git memiliki kemampuan untuk menandai titik tertentu dalam sejarah sebagai sesuatu yang penting. Biasanya, orang menggunakan fungsi ini untuk menandai titik-titik pelepasan (v1.0, dan seterusnya). Pada bagian ini, Anda akan belajar untuk melihat tanda-tanda yang telah ada, bagaimana membuat tanda baru, dan perbedaan dari beberapa tipe tanda.
 
-### Listing Your Tags ###
+### Melihat Daftar Tanda Anda ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+Melihat daftar tanda yang sudah ada di GIT tidak berbelit-belit. Ketikkan `git tag`:
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+Perintah ini memperlihatkan tanda-tanda yang diurutkan secara alfabetis; urutan yang terlihat ini tidak memiliki kepentingan nyata tertentu.
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+Anda dapat juga mencari tanda dengan pola tertentu. Pada repositori kode Git, sebagai contoh, mengandung lebih dari 240 tanda. Jika Anda hanya tertarik untuk melihat seri dari 1.4.2, Anda dapat menjalankan:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 require 'fileutils'
 require 'open3'
 require 'erb'
@@ -80,7 +81,7 @@ def post_pandoc(string, config)
 		# Enable proper cross-reference
 		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
 		s /#{config['tab'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
-		s /#{config['chap'].gsub(space, '\s')}\s*(\d+)/, '\chapref{\1}'
+		s /#{config['prechap'].gsub(space, '\s')}\s*(\d+)\s*#{config['postchap'].gsub(space, '\s')}/, '\chapref{\1}'
 
 		# Miscellaneous fixes
 		s /FIG: (.*)/, '\img{\1}'
@@ -119,6 +120,9 @@ def post_pandoc(string, config)
 				\\end{tabular}
 			\\end{table}")
 		end
+
+		# Shaded verbatim block
+		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'
 	end
 end
 

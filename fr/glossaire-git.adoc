@@ -22,7 +22,7 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 « ctx » sert à indiquer un contexte
 
 .Objets Git
-* object  objet ->
+* object -> objet
   - loose object ->
 * Tree (Object) -> Arbre
 * Commit (Objet) -> Commit
@@ -30,24 +30,24 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
   - annotated -> tag annoté
   - ligthweigt tag -> tag léger
 * Blob (Object) -> Blob
-* refs -> references
+* refs -> références
 
 .Spécifique à Git
-* HEAD  HEAD ->
+* HEAD -> fichier HEAD, HEAD
 * detached (head)->
 * refspec -> 
-* Plumbing ->
-* Porcelain ->
+* Plumbing -> plomberie
+* Porcelain -> porcelaine
 * index ->
 * staging area ->
 
 .VCS
-* version 			->révision
-* working directory ->
-* working tree ->
-* snapshot -> instantanné
+* version -> révision
+* working directory -> répertoire de travail
+* working tree -> arbre de travail
+* snapshot -> instantané
 * history -> historique/journal
-* fast-forward (ctx merge) ->
+* fast-forward (ctx merge) -> avance rapide
 * repository -> dépôt
 * diff -> diff
 * patch -> patch
@@ -57,7 +57,7 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 * checksum -> somme de contrôle
 * digest -> empreinte
 * key -> clé
-* SHA-1 -> SHA-1
+* SHA-1 -> empreinte SHA-1
 
 
 .Actions/Commandes
@@ -67,38 +67,39 @@ référence à l'action, on peut traduire.
 * checkout ->
 * branch(es) -> branches
   - remote branches -> branche distante
-* remote ->
+* remote -> distant
+  a remate -> un dépôt distant
 * pull ->
-* fetch ->
+* fetch -> récupérer
 * push ->
 * stash ->
-* add ->
+* add -> ajouter
 * log ->
 * gc ->
- - garbage collector ->
-* reset ->
+ - garbage collector -> ramasse-miète
+* reset -> réinitialiser
  - hard reset ->
  - soft reset ->
  - mixed reset ->
-* bisect -> disséquer
+* bisect -> bissecter
 * archive -> archiver		
 * cherry-pick -> ceuillir
 * cherry-picking -> ceuillette
-* clean ->
+* clean -> nettoyer
 * clone -> clôner
 * To merge (a branch) -> fusionner
 * To merge (a change) -> incorporer
  - a merge -> une fusion
 * to diff -> 
 * rebase ->
-* revert  -> annuler?
+* revert  -> défaire
 * packfile ->
-* to pack ->
+* to pack -> compacter
 
 .Divers
 * hex -> hexa
 * hook ->
-* namespace  -> espace de noms
-* Content-addressable filesystem  -> système de fichier adressable par le contenu
+* namespace -> espace de noms
+* Content-addressable filesystem -> système de fichier adressable par le contenu
 * DAG(Direct Acyclic Graph) -> Graphe orienté acyclique
 * pattern -> motif

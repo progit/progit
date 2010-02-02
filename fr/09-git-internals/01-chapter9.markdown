@@ -1,10 +1,11 @@
 # Les trippes de Git #
 
-Vous êtes peut-être arrivé à ce chapitre en en sautant certains chapitre ou après avoir parcouru tout le reste du livre. Dans tous les cas, c'est ici que l'on parle du fonctionnement interne et de la mise en œuvre de Git. Pour moi, leur apprentissage a été fondamental pour comprendre à quel point Git est utile et puissant, mais d'autres soutiennent que cela peut être source de confusion et être trop complexe pour les débutants. J'en ai donc fait le dernier chapitre de ce livre pour que vous puissiez le lire tôt ou plus tard lors de votre apprentissage. Je vous laisse le choix.
+Vous êtes peut-être arrivé à ce chapitre en en sautant certains chapitres ou après avoir parcouru tout le reste du livre. Dans tous les cas, c'est ici que l'on parle du fonctionnement interne et de la mise en œuvre de Git. Pour moi, leur apprentissage a été fondamental pour comprendre à quel point Git est utile et puissant, mais d'autres soutiennent que cela peut être source de confusion et être trop complexe pour les débutants. J'en ai donc fait le dernier chapitre de ce livre pour que vous puissiez le lire tôt ou plus tard lors de votre apprentissage. Je vous laisse le choix.
 
-Maintenant que vous êtes ici, commençons. Tout d'abord, et même si ce n'est pas clair tout de suite, Git est fondamentalement un système de fichier adressable par le contenu (content-addressable filesystem) avec l'interface utilisateur d'un VCS au-dessus. Vous en apprendrez plus à ce sujet dans quelques instants.
+Maintenant que vous êtes ici, commençons. Tout d'abord, et même si ce n'est pas clair tout de suite, Git est fondamentalement un système de fichiers adressable par le contenu (content-addressable filesystem) avec l'interface utilisateur d'un VCS au-dessus. Vous en apprendrez plus à ce sujet dans quelques instants.
 
-Aux premiers jours de Git (surtout avant la version 1.5), l'interface utilisateur était beaucoup plus complexe, car elle était centré sur le système de fichier plutôt que sur l'aspect VCS. Ces dernières années, l'IU a été peaufinée jusqu'à devenir aussi cohérente et facile à utiliser que n'importe quel autre système. Souvent, l'image du Git des début avec son interface utilisateur complexe  et difficile à apprendre est restée. La couche système de fichier adressable par le contenu est vraiment géniale et j'en parlerai dans ce chapitre. Ensuite, vous apprendrez les mécanismes de transport/transmission/communication ainsi que les tâches de maintenance d'un dépôt auxquelles vous serez confronté.
+Aux premiers jours de Git (surtout avant la version 1.5), l'interface utilisateur était beaucoup plus complexe, car elle était centré sur le système de fichier plutôt que sur l'aspect VCS. Ces dernières années, l'interface
+utilisateur a été peaufinée jusqu'à devenir aussi cohérente et facile à utiliser que n'importe quel autre système. Pour beaucoup, l'image du Git des début avec son interface utilisateur complexe et difficile à apprendre est toujours présente. La couche système de fichier adressable par le contenu est vraiment géniale et j'en parlerai dans ce chapitre. Ensuite, vous apprendrez les mécanismes de transport/transmission/communication ainsi que les tâches de maintenance d'un dépôt auxquelles vous serez confronté.
 
 ## Plomberie et porcelaine ##
 
@@ -355,10 +356,11 @@ Cette branche contiendra seulement le travail effectué jusqu'à ce commit :
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-La base de donnée Git ressemble maintenant à quelque chose comme Figure 9-4.
+La base de donnée Git ressemble maintenant à quelque chose comme la Figure 9-4.
 
 Insert 18333fig0904.png 
-Figure 9-4. Le répertoire d'objet de Git y compris la référence au dernier état
+Figure 9-4. Le répertoire d'objet de Git y compris la référence au dernier
+état???
 de la branche.
 
 Quand on exécute un commande comme  `git branch (nomdebranche)`, Git exécute
@@ -367,30 +369,42 @@ dernier commit dans la référence que l'on veut créer.
 
 ### The HEAD ###
 
-The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:
+On peut se poser la question, quand on exécute `git branch (branchname)`,
+comment Git peut avoir connaissance de l'empreinte SHA-1 du dernier commit ?
+La réponse est dans le fichier HEAD.
+Le fichier HEAD est une référence symbolique à la branche courante. Par
+référence symbolique, j'entends que contrairement à une référence normal, elle
+contient contient pas une empreinte SHA-1, mais plutôt un pointeur vers une
+autre référence.
+Si vous regardez ce fichier, vous devriez voir quelque chose comme ceci :
 
 	$ cat .git/HEAD 
 	ref: refs/heads/master
 
-If you run `git checkout test`, Git updates the file to look like this:
+Si vous exécutez `git checkout test`, Git met à jour ce fichier, qui ressemblera
+à ceci :
 
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.
+Quand vous exécutez `git commit`, il crée l'objet commit en spécifiant le parent
+du commit comme étant l'empreinte SHA-1 pointé par la référence du fichier HEAD :
 
-You can also manually edit this file, but again a safer command exists to do so: `symbolic-ref`. You can read the value of your HEAD via this command:
+On peut éditer manuellement ce fichier, mais encore un fois, il existe une
+commande plus pour le faire : `symbolic-ref`. Vous pouvez lire le contenu de
+votre fichier HEAD avec cette commande :
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
 
-You can also set the value of HEAD:
+Vous pouvez aussi initialiser la valeur de HEAD :
 
 	$ git symbolic-ref HEAD refs/heads/test
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-You can’t set a symbolic reference outside of the refs style:
+Vous ne pouvez pas initialiser une référence symbolique à une valeur non contenu
+dans refs :
 
 	$ git symbolic-ref HEAD test
 	fatal: Refusing to point HEAD outside of refs/

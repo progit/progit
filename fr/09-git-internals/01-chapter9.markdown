@@ -391,8 +391,8 @@ Quand vous exécutez `git commit`, il crée l'objet commit en spécifiant le par
 du commit comme étant l'empreinte SHA-1 pointé par la référence du fichier HEAD :
 
 On peut éditer manuellement ce fichier, mais encore un fois, il existe une
-commande plus pour le faire : `symbolic-ref`. Vous pouvez lire le contenu de
-votre fichier HEAD avec cette commande :
+commande plus pour le faire : `symbolic-ref`.
+Vous pouvez lire le contenu de votre fichier HEAD avec cette commande :
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
@@ -411,22 +411,35 @@ dans refs :
 
 ### Tags ###
 
-You’ve just gone over Git’s three main object types, but there is a fourth. The tag object is very much like a commit object — it contains a tagger, a date, a message, and a pointer. The main difference is that a tag object points to a commit rather than a tree. It’s like a branch reference, but it never moves — it always points to the same commit but gives it a friendlier name.
+Nous venons de parcourir les trois types d'objet utilisé par Git, mais il existe
+un quatrième objet.
+L'objet tag ressemble beaucoup à un objet commit. Il contient un taggeur???, une
+date, un message, et un pointeur.
+La principale différence est que le tag pointe vers un commit plutôt qu'un
+arbre.
+Il est comme un référence à une branche, mais il ne bouge jamais : il pointe
+toujours vers le même commit, lui donnant un nom plus sympathique.
 
-As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:
+Comme discuté??? au chapitre 2, il existe deux types de tags : annoté et léger.
+Vous pouvez créer un tag léger comme ceci :
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
-That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
+Un tag léger est simplement léger ceci : une branche qui ne bouge??? jamais. Un
+tag annoté est plus complexe.
+Quand on crée un tag annoté, Git crée un objet tag, puis enregistre une
+référence qui pointe vers lui plutôt que directement vers le commit.
+Vous pouvez voir ceci en créant un tag annoté (`-a` spécifie que c'est un tag
+annoté) :
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
 
-Here’s the object SHA-1 value it created:
+Voici l'empreinte SHA-1 de l'objet créé :
 
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
-Now, run the `cat-file` command on that SHA-1 value:
+Exécutez ensuite, la commande `cat-file` sur l'empreinte SHA-1 :
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -436,11 +449,17 @@ Now, run the `cat-file` command on that SHA-1 value:
 
 	test tag
 
-Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running
+Remarquez que le contenu??? de l'objet pointe vers l'empreinte SHA-1 du commit
+que vous avez taggué. Remarquez qu'il n'est pas nécessaire qu'il pointe vers un
+commit. On peut tagger n'importe quel objet. Par exemple, dans le code source de
+Git, le mainteneur a ajouté ses clé GPG dans un blob et l'a taggé. Vous pouvez
+voir la clé publique en exécutant
 
 	$ git cat-file blob junio-gpg-pub
 
-in the Git source code. The Linux kernel also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
+dans le code source de Git. Le noyau linux contient aussi un tag ne pointant pas
+vers un commit : le premier tag crée pointe vers l'arbre initial crée lors de
+l'importation du code source.
 
 ### Remotes ###
 

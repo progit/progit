@@ -1,31 +1,31 @@
-# 自定义Git #
+# 自定义 Git #
 
-到目前为止，我阐述了Git基本的运作机制和使用方式，介绍了Git提供的许多工具来帮助你简单且有效地使用它。
-在本章当中，我将会介绍Git的一些重要的配置方法和钩子机制以满足你自定义的要求，通过这些方法，它会和你、你的公司或团队配合得天衣无缝。
+到目前为止，我阐述了 Git 基本的运作机制和使用方式，介绍了 Git 提供的许多工具来帮助你简单且有效地使用它。
+在本章当中，我将会介绍 Git 的一些重要的配置方法和钩子机制以满足你自定义的要求，通过这些方法，它会和你、你的公司或团队配合得天衣无缝。
 
-## 配置Git ##
+## 配置 Git ##
 
-正如你在第一章见到的那样，你能用`git config`配置Git，要做的第一件事就是设置名字和邮箱地址：
+正如你在第一章见到的那样，你能用`git config`配置 Git，要做的第一件事就是设置名字和邮箱地址：
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-从现在开始，你会了解到一些更为有趣的设置选项，按照以上方式来自定义Git。
+从现在开始，你会了解到一些更为有趣的设置选项，按照以上方式来自定义 Git。
 
-我会在这先过一遍第一章中提到的Git配置细节。Git使用一系列的配置文件来存储你定义的偏好，它首先会查找`/etc/gitconfig`文件，该文件含有
+我会在这先过一遍第一章中提到的 Git 配置细节。Git 使用一系列的配置文件来存储你定义的偏好，它首先会查找`/etc/gitconfig`文件，该文件含有
 对系统上所有用户及他们所拥有的仓库都生效的配置值（译注：gitconfig是全局配置文件），
-如果传递`--system`选项给`git config`命令，Git会读写这个文件。
+如果传递`--system`选项给`git config`命令， Git 会读写这个文件。
 
-接下来Git会查找每个用户的`~/.gitconfig`文件，你能传递`--global`选项让Git读写该文件。
+接下来 Git 会查找每个用户的`~/.gitconfig`文件，你能传递`--global`选项让 Git读写该文件。
 
-最后Git会查找由用户定义的各个库中Git目录下的配置文件（`.git/config`），该文件中的值只对属主库有效。
+最后 Git 会查找由用户定义的各个库中 Git 目录下的配置文件（`.git/config`），该文件中的值只对属主库有效。
 以上阐述的三层配置从一般到特殊层层推进，如果定义的值有冲突，以后面层中定义的为准，例如：在`.git/config`和`/etc/gitconfig`的较量中，
 `.git/config`取得了胜利。虽然你也可以直接手动编辑这些配置文件，但是运行`git config`命令将会来得简单些。
 
 ### 客户端基本配置 ###
 
-Git能够识别的配置项被分为了两大类：客户端和服务器端，其中大部分基于你个人工作偏好，属于客户端配置。尽管有数不尽的选项，但我只阐述
-其中经常使用或者会对你的工作流产生巨大影响的选项，如果你想观察你当前的Git能识别的选项列表，请运行
+Git 能够识别的配置项被分为了两大类：客户端和服务器端，其中大部分基于你个人工作偏好，属于客户端配置。尽管有数不尽的选项，但我只阐述
+其中经常使用或者会对你的工作流产生巨大影响的选项，如果你想观察你当前的 Git 能识别的选项列表，请运行
 
 	$ git config --help
 
@@ -38,11 +38,11 @@ Git默认会调用你的环境变量editor定义的值作为文本编辑器，�
 
 	$ git config --global core.editor emacs
 
-现在无论你的环境变量editor被定义成什么，Git都会调用Emacs编辑信息。
+现在无论你的环境变量editor被定义成什么，Git 都会调用Emacs编辑信息。
 
 #### commit.template ####
 
-如果把此项指定为你系统上的一个文件，当你提交的时候，Git会默认使用该文件定义的内容。
+如果把此项指定为你系统上的一个文件，当你提交的时候， Git 会默认使用该文件定义的内容。
 例如：你创建了一个模板文件`$HOME/.gitmessage.txt`，它看起来像这样：
 
 	subject line
@@ -51,7 +51,7 @@ Git默认会调用你的环境变量editor定义的值作为文本编辑器，�
 
 	[ticket: X]
 
-设置`commit.template`，当运行`git commit`时，Git会在你的编辑器中显示以上的内容，
+设置`commit.template`，当运行`git commit`时， Git 会在你的编辑器中显示以上的内容，
 设置`commit.template`如下：
 
 	$ git config --global commit.template $HOME/.gitmessage.txt
@@ -76,11 +76,11 @@ Git默认会调用你的环境变量editor定义的值作为文本编辑器，�
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-如果你有特定的策略要运用在提交信息上，在系统上创建一个模板文件，设置Git默认使用它，这样当提交时，你的策略每次都会被运用。
+如果你有特定的策略要运用在提交信息上，在系统上创建一个模板文件，设置 Git 默认使用它，这样当提交时，你的策略每次都会被运用。
 
 #### core.pager ####
 
-core.pager指定Git运行诸如`log`、`diff`等所使用的分页器，你能设置成用`more`或者任何你喜欢的分页器（默认用的是`less`），
+core.pager指定 Git 运行诸如`log`、`diff`等所使用的分页器，你能设置成用`more`或者任何你喜欢的分页器（默认用的是`less`），
 当然你也可以什么都不用，设置空字符串：
 
 	$ git config --global core.pager ''
@@ -99,13 +99,13 @@ core.pager指定Git运行诸如`log`、`diff`等所使用的分页器，你能�
 
 #### core.excludesfile ####
 
-正如第二章所述，你能在项目库的`.gitignore`文件里头用模式来定义那些无需纳入Git管理的文件，这样它们不会出现在未跟踪列表，
+正如第二章所述，你能在项目库的`.gitignore`文件里头用模式来定义那些无需纳入 Git 管理的文件，这样它们不会出现在未跟踪列表，
 也不会在你运行`git add`后被暂存。然而，如果你想用项目库之外的文件来定义那些需被忽略的文件的话，用`core.excludesfile`
-通知Git该文件所处的位置，文件内容和`.gitignore`类似。
+通知 Git 该文件所处的位置，文件内容和`.gitignore`类似。
 
 #### help.autocorrect ####
 
-该配置项只在Git 1.6.1及以上版本有效，假如你在Git 1.6中错打了一条命令，会显示：
+该配置项只在 Git 1.6.1及以上版本有效，假如你在Git 1.6中错打了一条命令，会显示：
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -113,7 +113,7 @@ core.pager指定Git运行诸如`log`、`diff`等所使用的分页器，你能�
 	Did you mean this?
 	     commit
 
-如果你把`help.autocorrect`设置成1（译注：启动自动修正），那么在只有一个命令被模糊匹配到的情况下，Git会自动运行该命令。
+如果你把`help.autocorrect`设置成1（译注：启动自动修正），那么在只有一个命令被模糊匹配到的情况下，Git 会自动运行该命令。
 
 ### Git中的着色 ###
 
@@ -125,15 +125,15 @@ Git会按照你需要自动为大部分的输出加上颜色，你能明确地�
 
 	$ git config --global color.ui true
 
-设置好以后，当输出到终端时，Git会为之加上颜色。其他的参数还有false和always，false意味着不为输出着色，而always则表明在任何情况下
-都要着色，即使Git命令被重定向到文件或管道。Git 1.5.5版本引进了此项配置，如果你拥有的版本更老，你必须对颜色有关选项各自进行详细地设置。
+设置好以后，当输出到终端时，Git 会为之加上颜色。其他的参数还有false和always，false意味着不为输出着色，而always则表明在任何情况下
+都要着色，即使 Git 命令被重定向到文件或管道。Git 1.5.5版本引进了此项配置，如果你拥有的版本更老，你必须对颜色有关选项各自进行详细地设置。
 
-你会很少用到`color.ui = always`，在大多数情况下，如果你想在被重定向的输出中插入颜色码，你能传递`--color`标志给Git命令来迫使
+你会很少用到`color.ui = always`，在大多数情况下，如果你想在被重定向的输出中插入颜色码，你能传递`--color`标志给 Git 命令来迫使
 它这么做，`color.ui = true`应该是你的首选。
 
 #### `color.*` ####
 
-想要具体到哪些命令输出需要被着色以及怎样着色或者Git的版本很老，你就要用到和具体命令有关的颜色配置选项，
+想要具体到哪些命令输出需要被着色以及怎样着色或者 Git 的版本很老，你就要用到和具体命令有关的颜色配置选项，
 它们都能被置为`true`、`false`或`always`：
 
 	color.branch
@@ -153,7 +153,7 @@ Git会按照你需要自动为大部分的输出加上颜色，你能明确地�
 
 ### 外部的合并与比较工具 ###
 
-虽然Git自己实现了diff,而且到目前为止你一直在使用它，但你能够用一个外部的工具替代它，除此以外，你还能用一个图形化的工具来合并和解决冲突
+虽然 Git 自己实现了diff,而且到目前为止你一直在使用它，但你能够用一个外部的工具替代它，除此以外，你还能用一个图形化的工具来合并和解决冲突
 从而不必自己手动解决。有一个不错且免费的工具可以被用来做比较和合并工作，它就是P4Merge（译注：Perforce图形化合并工具），我会展示它的安装过程。
 
 P4Merge可以在所有主流平台上运行，现在开始大胆尝试吧。对于向你展示的例子，在Mac和Linux系统上，我会使用路径名，
@@ -170,7 +170,7 @@ P4Merge可以在所有主流平台上运行，现在开始大胆尝试吧。对�
 	#!/bin/sh
 	/Applications/p4merge.app/Contents/MacOS/p4merge $*
 
-diff包装脚本首先确定传递过来7个参数，随后把其中2个传递给merge包装脚本，默认情况下，Git传递以下参数给diff：
+diff包装脚本首先确定传递过来7个参数，随后把其中2个传递给merge包装脚本，默认情况下， Git 传递以下参数给diff：
 
 	path old-file old-hex old-mode new-file new-hex new-mode
 
@@ -185,9 +185,9 @@ diff包装脚本首先确定传递过来7个参数，随后把其中2个传递�
 	$ sudo chmod +x /usr/local/bin/extMerge 
 	$ sudo chmod +x /usr/local/bin/extDiff
 
-现在来配置使用你自定义的比较和合并工具吧。这需要许多自定义设置：`merge.tool`通知Git使用哪个合并工具；
-`mergetool.*.cmd`规定命令运行的方式；`mergetool.trustExitCode`会通知Git程序的退出是否指示合并操作成功；
-`diff.external`通知Git用什么命令做比较。因此，你能运行以下4条配置命令：
+现在来配置使用你自定义的比较和合并工具吧。这需要许多自定义设置：`merge.tool`通知 Git 使用哪个合并工具；
+`mergetool.*.cmd`规定命令运行的方式；`mergetool.trustExitCode`会通知 Git 程序的退出是否指示合并操作成功；
+`diff.external`通知 Git 用什么命令做比较。因此，你能运行以下4条配置命令：
 
 	$ git config --global merge.tool extMerge
 	$ git config --global mergetool.extMerge.cmd \
@@ -209,12 +209,12 @@ diff包装脚本首先确定传递过来7个参数，随后把其中2个传递�
 	
 	$ git diff 32d1776b1^ 32d1776b1
 
-命令行居然没有发现diff命令的输出，其实，Git调用了刚刚设置的P4Merge，它看起来像图7-1这样：
+命令行居然没有发现diff命令的输出，其实，Git 调用了刚刚设置的P4Merge，它看起来像图7-1这样：
 
 Insert 18333fig0701.png 
 Figure 7-1. P4Merge.
 
-当你设法合并两个分支，结果却有冲突时，运行`git mergetool`，Git会调用P4Merge让你通过图形界面来解决冲突。
+当你设法合并两个分支，结果却有冲突时，运行`git mergetool`，Git 会调用P4Merge让你通过图形界面来解决冲突。
 
 设置包装脚本的好处是你能简单地改变diff和merge工具，例如把`extDiff`和`extMerge`改成KDiff3，要做的仅仅是编辑`extMerge`脚本文件：
 
@@ -222,7 +222,7 @@ Figure 7-1. P4Merge.
 	#!/bin/sh	
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
-现在Git会使用KDiff3来做比较、合并和解决冲突。
+现在 Git 会使用KDiff3来做比较、合并和解决冲突。
 
 Git预先设置了许多其他的合并和解决冲突的工具，而你不必设置cmd。可以把合并工具设置为：
 kdiff3、opendiff、tkdiff、meld、xxdiff、emerge、vimdiff、gvimdiff。如果你不想用到KDiff3的所有功能，只是想用它来合并，
@@ -230,18 +230,18 @@ kdiff3、opendiff、tkdiff、meld、xxdiff、emerge、vimdiff、gvimdiff。如�
 
 	$ git config --global merge.tool kdiff3
 
-如果运行了以上命令，没有设置`extMerge`和`extDiff`文件，Git会用KDiff3做合并，让通常内设的比较工具来做比较。
+如果运行了以上命令，没有设置`extMerge`和`extDiff`文件，Git 会用KDiff3做合并，让通常内设的比较工具来做比较。
 
 ### 格式化与空白 ###
 
 格式化与空白是许多开发人员在协作时，特别是在跨平台情况下，遇到的令人头疼的细小问题。
 由于编辑器的不同或者Windows程序员在跨平台项目中的文件行尾加入了回车换行符，
-一些细微的空格变化会不经意地进入大家合作的工作或提交的补丁中。不用怕，Git的一些配置选项会帮助你解决这些问题。
+一些细微的空格变化会不经意地进入大家合作的工作或提交的补丁中。不用怕，Git 的一些配置选项会帮助你解决这些问题。
 
 #### core.autocrlf ####
 
 假如你正在Windows上写程序，又或者你正在和其他人合作，他们在Windows上编程，而你却在其他系统上，在这些情况下，你可能会遇到行尾结束符问题。
-这是因为Windows使用回车和换行两个字符来结束一行，而Mac和Linux只使用换行一个字符（译注：Windows系统的回车换行符号为\r\n，而在Mac和Linux系统中则是\n）。
+这是因为Windows使用回车和换行两个字符来结束一行，而Mac和Linux只使用换行一个字符。
 虽然这是小问题，但它会极大地扰乱跨平台协作。 
 
 Git可以在你提交时自动地把行结束符CRLF转换成LF，而在签出代码时把LF转换成CRLF。用`core.autocrlf`来打开此项功能，
@@ -249,8 +249,8 @@ Git可以在你提交时自动地把行结束符CRLF转换成LF，而在签出�
 
 	$ git config --global core.autocrlf true
 
-Linux或Mac系统使用LF作为行结束符，因此你不想Git在签出文件时进行自动的转换；当一个以CRLF为行结束符的文件不小心被引入时你肯定想进行修正，
-把`core.autocrlf`设置成input来告诉Git在提交时把CRLF转换成LF，签出时不转换：
+Linux或Mac系统使用LF作为行结束符，因此你不想 Git 在签出文件时进行自动的转换；当一个以CRLF为行结束符的文件不小心被引入时你肯定想进行修正，
+把`core.autocrlf`设置成input来告诉 Git 在提交时把CRLF转换成LF，签出时不转换：
 
 	$ git config --global core.autocrlf input
 
@@ -266,19 +266,19 @@ Git预先设置了一些选项来探测和修正空白问题，其4种主要选�
 
 默认被打开的2个选项是`trailing-space`和`space-before-tab`，`trailing-space`会查找每行结尾的空格，`space-before-tab`会查找每行开头的制表符前的空格。
 
-默认被关闭的2个选项是`indent-with-non-tab`和`cr-at-eol`，`indent-with-non-tab`会查找8个以上空格（非制表符）开头的行，`cr-at-eol`让Git知道行尾回车符是合法的。
+默认被关闭的2个选项是`indent-with-non-tab`和`cr-at-eol`，`indent-with-non-tab`会查找8个以上空格（非制表符）开头的行，`cr-at-eol`让 Git 知道行尾回车符是合法的。
 
 设置`core.whitespace`，按照你的意图来打开或关闭选项，选项以逗号分割。通过逗号分割的链中去掉选项或在选项前加`-`来关闭，例如，如果你想要打开除了`cr-at-eol`之外的所有选项：
 
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
-当你运行`git diff`命令且为输出着色时，Git会探测到这些问题，因此你也许在提交前能修复它们，当你用`git apply`打补丁时同样也会从中受益。
-如果正准备运用的补丁有特别的空白问题，你可以让Git发警告：
+当你运行`git diff`命令且为输出着色时，Git 探测到这些问题，因此你也许在提交前能修复它们，当你用`git apply`打补丁时同样也会从中受益。
+如果正准备运用的补丁有特别的空白问题，你可以让 Git 发警告：
 
 	$ git apply --whitespace=warn <patch>
 
-或者让Git在打上补丁前自动修正此问题：
+或者让 Git 在打上补丁前自动修正此问题：
 
 	$ git apply --whitespace=fix <patch>
 
@@ -291,13 +291,13 @@ Git服务器端的配置选项并不多，但仍有一些饶有生趣的选项�
 
 #### receive.fsckObjects ####
 
-Git默认情况下不会在推送期间检查所有对象的一致性。虽然会确认每个对象的有效性以及是否仍然匹配SHA-1检验和，但Git不会在每次推送时都检查一致性。
-对于Git来说，库或推送的文件越大，这个操作代价就相对越高，每次推送会消耗更多时间，如果想在每次推送时Git都检查一致性，设置
+Git默认情况下不会在推送期间检查所有对象的一致性。虽然会确认每个对象的有效性以及是否仍然匹配SHA-1检验和，但 Git 不会在每次推送时都检查一致性。
+对于 Git 来说，库或推送的文件越大，这个操作代价就相对越高，每次推送会消耗更多时间，如果想在每次推送时 Git 都检查一致性，设置
 `receive.fsckObjects`为true来强迫它这么做：
 
 	$ git config --system receive.fsckObjects true
 
-现在Git会在每次推送生效前检查库的完整性，确保有问题的客户端没有引入破坏性的数据。
+现在 Git 会在每次推送生效前检查库的完整性，确保有问题的客户端没有引入破坏性的数据。
 
 #### receive.denyNonFastForwards ####
 
@@ -311,7 +311,7 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 #### receive.denyDeletes ####
 
-规避`denyNonFastForwards`策略的方法之一就是用户删除分支，然后推回新的引用。在更新的Git版本中（从1.6.1版本开始），把`receive.denyDeletes`设置为true：
+规避`denyNonFastForwards`策略的方法之一就是用户删除分支，然后推回新的引用。在更新的 Git 版本中（从1.6.1版本开始），把`receive.denyDeletes`设置为true：
 
     $ git config --system receive.denyDeletes true
 
@@ -320,50 +320,50 @@ Git默认情况下不会在推送期间检查所有对象的一致性。虽然�
 
 ## Git属性 ##
 
-一些设置项也能被运用于特定的路径中，这样，Git可以对一个特定的子目录或子文件集运用那些设置项。这些设置项被称为Git属性，可以在你目录中的`.gitattributes`文件内进行设置
+一些设置项也能被运用于特定的路径中，这样，Git 以对一个特定的子目录或子文件集运用那些设置项。这些设置项被称为 Git 属性，可以在你目录中的`.gitattributes`文件内进行设置
 （通常是你项目的根目录），也可以当你不想让这些属性文件和项目文件一同提交时，在`.git/info/attributes`进行设置。
 
-使用属性，你可以对个别文件或目录定义不同的合并策略，让Git知道怎样比较非文本文件，在你提交或签出前让Git过滤内容。你将在这部分了解到能在自己的项目中使用的属性，以及一些实例。
+使用属性，你可以对个别文件或目录定义不同的合并策略，让 Git 知道怎样比较非文本文件，在你提交或签出前让 Git 过滤内容。你将在这部分了解到能在自己的项目中使用的属性，以及一些实例。
 
 ### 二进制文件 ###
 
-你可以用Git属性让其知道哪些是二进制文件（以防Git没有识别出来），以及指示怎样处理这些文件，这点很酷。例如，一些文本文件是由机器产生的，而且无法比较，而一些二进制文件可以比较 —
-你将会了解到怎样让Git识别这些文件。
+你可以用 Git 属性让其知道哪些是二进制文件（以防 Git 没有识别出来），以及指示怎样处理这些文件，这点很酷。例如，一些文本文件是由机器产生的，而且无法比较，而一些二进制文件可以比较 —
+你将会了解到怎样让 Git 识别这些文件。
 
 #### 识别二进制文件 ####
 
 一些文件看起来像是文本文件，但其实是作为二进制数据被对待。例如，在Mac上的Xcode项目含有一个以`.pbxproj`结尾的文件，它是由记录设置项的IDE写到磁盘的JSON数据集（纯文本javascript数据类型）。虽然技术上看它是由ASCII字符组成的文本文件，但你并不认为如此，因为它确实是一个轻量级数据库 — 如果有2人改变了它，你通常无法合并和比较内容，只有机器才能进行识别和操作，于是，你想把它当成二进制文件。
 
-让Git把所有`pbxproj`文件当成二进制文件，在`.gitattributes`文件中设置如下：
+让 Git 把所有`pbxproj`文件当成二进制文件，在`.gitattributes`文件中设置如下：
 
     *.pbxproj -crlf -diff
 
-现在，Git不会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行git show或git diff时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
+现在，Git 会尝试转换和修正CRLF（回车换行）问题，也不会当你在项目中运行git show或git diff时，比较不同的内容。在Git 1.6及之后的版本中，可以用一个宏代替`-crlf -diff`：
 
     *.pbxproj binary
 
 #### 比较二进制文件 ####
 
-在Git 1.6及以上版本中，你能利用Git属性来有效地比较二进制文件。可以设置Git把二进制数据转换成文本格式，用通常的diff来比较。
+在Git 1.6及以上版本中，你能利用 Git 属性来有效地比较二进制文件。可以设置 Git 把二进制数据转换成文本格式，用通常的diff来比较。
 
-这个特性很酷，而且鲜为人知，因此我会结合实例来讲解。首先，要解决的是最令人头疼的问题：对Word文档进行版本控制。很多人对Word文档又恨又爱，如果想对其进行版本控制，你可以把文件加入到Git库中，每次修改后提交即可。但这样做没有一点实际意义，因为运行`git diff`命令后，你只能得到如下的结果：
+这个特性很酷，而且鲜为人知，因此我会结合实例来讲解。首先，要解决的是最令人头疼的问题：对Word文档进行版本控制。很多人对Word文档又恨又爱，如果想对其进行版本控制，你可以把文件加入到 Git 库中，每次修改后提交即可。但这样做没有一点实际意义，因为运行`git diff`命令后，你只能得到如下的结果：
 
     $ git diff
     diff --git a/chapter1.doc b/chapter1.doc
     index 88839c4..4afcb7c 100644
     Binary files a/chapter1.doc and b/chapter1.doc differ
 
-你不能直接比较两个不同版本的Word文件，除非进行手动扫描，不是吗？Git属性能很好地解决此问题，把下面的行加到`.gitattributes`文件：
+你不能直接比较两个不同版本的Word文件，除非进行手动扫描，不是吗？ Git 属性能很好地解决此问题，把下面的行加到`.gitattributes`文件：
 
     *.doc diff=word
 
-当你要看比较结果时，如果文件扩展名是"doc"，Git会调用"word"过滤器。什么是"word"过滤器呢？其实就是Git使用`strings` 程序，把Word文档转换成可读的文本文件，之后再进行比较：
+当你要看比较结果时，如果文件扩展名是"doc"，Git 调用"word"过滤器。什么是"word"过滤器呢？其实就是 Git 使用`strings` 程序，把Word文档转换成可读的文本文件，之后再进行比较：
 
     $ git config diff.word.textconv strings
 
-现在如果在两个快照之间比较以`.doc`结尾的文件，Git会对这些文件运用"word"过滤器，在比较前把Word文件转换成文本文件。
+现在如果在两个快照之间比较以`.doc`结尾的文件，Git 对这些文件运用"word"过滤器，在比较前把Word文件转换成文本文件。
 
-下面展示了一个实例，我把此书的第一章纳入Git管理，在一个段落中加入了一些文本后保存，之后运行`git diff`命令，得到结果如下：
+下面展示了一个实例，我把此书的第一章纳入 Git 管理，在一个段落中加入了一些文本后保存，之后运行`git diff`命令，得到结果如下：
 
     $ git diff
     diff --git a/chapter1.doc b/chapter1.doc
@@ -410,14 +410,14 @@ Git 成功且简洁地显示出我增加的文本"Let’s see if this works"。�
 
 ### 关键字扩展 ###
 
-使用SVN或CVS的开发人员经常要求关键字扩展。在Git中，你无法在一个文件被提交后修改它，因为Git会先对该文件计算校验和。然而，你可以在签出时注入文本，在提交前删除它。Git属性提供了2种方式这么做。
+使用SVN或CVS的开发人员经常要求关键字扩展。在 Git 中，你无法在一个文件被提交后修改它，因为 Git 会先对该文件计算校验和。然而，你可以在签出时注入文本，在提交前删除它。 Git 属性提供了2种方式这么做。
 
-首先，你能够把blob的SHA-1校验和自动注入文件的`$Id$`字段。如果在一个或多个文件上设置了此字段，当下次你签出分支的时候，Git会用blob的SHA-1值替换那个字段。注意，这不是提交对象的SHA校验和，而是blob本身的校验和：
+首先，你能够把blob的SHA-1校验和自动注入文件的`$Id$`字段。如果在一个或多个文件上设置了此字段，当下次你签出分支的时候，Git 用blob的SHA-1值替换那个字段。注意，这不是提交对象的SHA校验和，而是blob本身的校验和：
 
     $ echo '*.txt ident' >> .gitattributes
     $ echo '$Id$' > test.txt
 
-下次签出文件时，Git注入了blob的SHA值：
+下次签出文件时，Git 入了blob的SHA值：
 
     $ rm text.txt
     $ git checkout -- text.txt
@@ -438,7 +438,7 @@ Insert 18333fig0703.png
 
     *.c     filter=indent
 
-然后，通过以下配置，让Git知道"indent"过滤器在遇到"smudge"和"clean"时分别该做什么：
+然后，通过以下配置，让 Git 知道"indent"过滤器在遇到"smudge"和"clean"时分别该做什么：
 
     $ git config --global filter.indent.clean indent
     $ git config --global filter.indent.smudge cat
@@ -452,12 +452,12 @@ Insert 18333fig0703.png
     last_date = `git log --pretty=format:"%ad" -1`
     puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
-该脚本从`git log`命令中得到最新提交日期，找到文件中的所有`$Date$`字符串，最后把该日期填充到`$Date$`字符串中 — 此脚本很简单，你可以选择你喜欢的编程语言来实现。把该脚本命名为`expand_date`，放到正确的路径中，之后需要在Git中设置一个过滤器（`dater`），让它在签出文件时调用`expand_date`，在暂存文件时用Perl清除之：
+该脚本从`git log`命令中得到最新提交日期，找到文件中的所有`$Date$`字符串，最后把该日期填充到`$Date$`字符串中 — 此脚本很简单，你可以选择你喜欢的编程语言来实现。把该脚本命名为`expand_date`，放到正确的路径中，之后需要在 Git 中设置一个过滤器（`dater`），让它在签出文件时调用`expand_date`，在暂存文件时用Perl清除之：
 
     $ git config filter.dater.smudge expand_date
     $ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
-这个Perl小程序会删除`$Date$`字符串里多余的字符，恢复`$Date$`原貌。到目前为止，你的过滤器已经设置完毕，可以开始测试了。打开一个文件，在文件中输入`$Date$`关键字，然后设置Git属性：
+这个Perl小程序会删除`$Date$`字符串里多余的字符，恢复`$Date$`原貌。到目前为止，你的过滤器已经设置完毕，可以开始测试了。打开一个文件，在文件中输入`$Date$`关键字，然后设置 Git 属性：
 
     $ echo '# $Date$' > date_test.txt
     $ echo 'date*.txt filter=dater' >> .gitattributes
@@ -479,9 +479,9 @@ Git属性在导出项目归档时也能发挥作用。
 
 #### export-ignore ####
 
-当产生一个归档时，可以设置Git不导出某些文件和目录。如果你不想在归档中包含一个子目录或文件，但想他们纳入项目的版本管理中，你能对应地设置`export-ignore`属性。
+当产生一个归档时，可以设置 Git 不导出某些文件和目录。如果你不想在归档中包含一个子目录或文件，但想他们纳入项目的版本管理中，你能对应地设置`export-ignore`属性。
 
-例如，在`test/`子目录中有一些测试文件，在项目的压缩包中包含他们是没有意义的。因此，可以增加下面这行到Git属性文件中：
+例如，在`test/`子目录中有一些测试文件，在项目的压缩包中包含他们是没有意义的。因此，可以增加下面这行到 Git 属性文件中：
 
     test/ export-ignore
 
@@ -503,7 +503,7 @@ Git属性在导出项目归档时也能发挥作用。
 
 ### 合并策略 ###
 
-通过Git属性，还能对项目中的特定文件使用不同的合并策略。一个非常有用的选项就是，当一些特定文件发生冲突，Git不会尝试合并他们，而使用你这边的合并。
+通过 Git 属性，还能对项目中的特定文件使用不同的合并策略。一个非常有用的选项就是，当一些特定文件发生冲突，Git 会尝试合并他们，而使用你这边的合并。
 
 
 如果项目的一个分支有歧义或比较特别，但你想从该分支合并，而且需要忽略其中某些文件，这样的合并策略是有用的。例如，你有一个数据库设置文件database.xml，在2个分支中他们是不同的，你想合并一个分支到另一个，而不弄乱该数据库文件，可以设置属性如下：
@@ -520,14 +520,14 @@ Git属性在导出项目归档时也能发挥作用。
 
 ## Git挂钩 ##
 
-和其他版本控制系统一样，当某些重要事件发生时，Git可以调用自定义脚本。有两组挂钩：客户端和服务器端。客户端挂钩用于客户端的操作，如提交和合并。服务器端挂钩用于Git服务器端的操作，如接收被推送的提交。你可以随意地使用这些挂钩，下面会讲解其中一些。
+和其他版本控制系统一样，当某些重要事件发生时，Git 以调用自定义脚本。有两组挂钩：客户端和服务器端。客户端挂钩用于客户端的操作，如提交和合并。服务器端挂钩用于 Git 服务器端的操作，如接收被推送的提交。你可以随意地使用这些挂钩，下面会讲解其中一些。
 
 ### 安装一个挂钩 ###
 
-挂钩都被存储在Git目录下的`hooks`子目录中，即大部分项目中的`.git/hooks`。Git默认会放置一些脚本样本在这个目录中，除了可以作为挂钩使用，这些样本本身是可以独立使用的。所有的样本都是shell脚本，其中一些还包含了Perl的脚本，不过，任何正确命名的可执行脚本都可以正常使用 — 可以用Ruby或Python，或其他。在Git 1.6版本之后，这些样本名都是以.sample结尾，因此，你必须重新命名。在Git 1.6版本之前，这些样本名都是正确的，但这些样本不是可执行文件。
+挂钩都被存储在 Git 目录下的`hooks`子目录中，即大部分项目中的`.git/hooks`。 Git 默认会放置一些脚本样本在这个目录中，除了可以作为挂钩使用，这些样本本身是可以独立使用的。所有的样本都是shell脚本，其中一些还包含了Perl的脚本，不过，任何正确命名的可执行脚本都可以正常使用 — 可以用Ruby或Python，或其他。在Git 1.6版本之后，这些样本名都是以.sample结尾，因此，你必须重新命名。在Git 1.6版本之前，这些样本名都是正确的，但这些样本不是可执行文件。
 
 
-把一个正确命名且可执行的文件放入Git目录下的`hooks`子目录中，可以激活该挂钩脚本，因此，之后他一直会被Git调用。随后会讲解主要的挂钩脚本。
+把一个正确命名且可执行的文件放入 Git 目录下的`hooks`子目录中，可以激活该挂钩脚本，因此，之后他一直会被 Git 调用。随后会讲解主要的挂钩脚本。
 
 ### 客户端挂钩 ###
 
@@ -535,39 +535,39 @@ Git属性在导出项目归档时也能发挥作用。
 
 #### 提交工作流挂钩 ####
 
-有 4个挂钩被用来处理提交的过程。`pre-commit`挂钩在键入提交信息前运行，被用来检查即将提交的快照，例如，检查是否有东西被遗漏，确认测试是否运行，以及检查代码。当从该挂钩返回非零值时，Git会放弃此次提交，但可以用`git commit --no-verify`来忽略。该挂钩可以被用来检查代码错误（运行类似lint的程序），检查尾部空白（默认挂钩是这么做的），检查新方法（译注：程序的函数）的说明。
+有 4个挂钩被用来处理提交的过程。`pre-commit`挂钩在键入提交信息前运行，被用来检查即将提交的快照，例如，检查是否有东西被遗漏，确认测试是否运行，以及检查代码。当从该挂钩返回非零值时，Git 放弃此次提交，但可以用`git commit --no-verify`来忽略。该挂钩可以被用来检查代码错误（运行类似lint的程序），检查尾部空白（默认挂钩是这么做的），检查新方法（译注：程序的函数）的说明。
 
-The `prepare-commit-msg` hook is run before the commit message editor is fired up but after the default message is created. It lets you edit the default message before the commit author sees it. This hook takes a few options: the path to the file that holds the commit message so far, the type of commit, and the commit SHA-1 if this is an amended commit. This hook generally isn’t useful for normal commits; rather, it’s good for commits where the default message is auto-generated, such as templated commit messages, merge commits, squashed commits, and amended commits. You may use it in conjunction with a commit template to programmatically insert information.
+`prepare-commit-msg`挂钩在提交信息编辑器显示之前，默认信息被创建之后运行。因此，可以有机会在提交作者看到默认信息前进行编辑。该挂钩接收一些选项：拥有提交信息的文件路径，提交类型，如果是一次修订的话，提交的SHA-1校验和。该挂钩对通常的提交来说不是很有用，只在自动产生的默认提交信息的情况下有作用，如提交信息模板、合并、压缩和修订提交等。可以和提交模板配合使用，以编程的方式插入信息。
 
-The `commit-msg` hook takes one parameter, which again is the path to a temporary file that contains the current commit message. If this script exits non-zero, Git aborts the commit process, so you can use it to validate your project state or commit message before allowing a commit to go through. In the last section of this chapter, I’ll demonstrate using this hook to check that your commit message is conformant to a required pattern.
+`commit-msg`挂钩接收一个参数，此参数是包含最近提交信息的临时文件的路径。如果该挂钩脚本以非零退出，Git 放弃提交，因此，可以用来在提交通过前验证项目状态或提交信息。本章上一小节已经展示了使用该挂钩核对提交信息是否符合特定的模式。
 
-After the entire commit process is completed, the `post-commit` hook runs. It doesn’t take any parameters, but you can easily get the last commit by running `git log -1 HEAD`. Generally, this script is used for notification or something similar.
+`post-commit`挂钩在整个提交过程完成后运行，他不会接收任何参数，但可以运行`git log -1 HEAD`来获得最后的提交信息。总之，该挂钩是作为通知之类使用的。
 
-The committing-workflow client-side scripts can be used in just about any workflow. They’re often used to enforce certain policies, although it’s important to note that these scripts aren’t transferred during a clone. You can enforce policy on the server side to reject pushes of commits that don’t conform to some policy, but it’s entirely up to the developer to use these scripts on the client side. So, these are scripts to help developers, and they must be set up and maintained by them, although they can be overridden or modified by them at any time.
+提交工作流的客户端挂钩脚本可以在任何工作流中使用，他们经常被用来实施某些策略，但值得注意的是，这些脚本在clone期间不会被传送。可以在服务器端实施策略来拒绝不符合某些策略的推送，但这完全取决于开发者在客户端使用这些脚本的情况。所以，这些脚本对开发者是有用的，由他们自己设置和维护，而且在任何时候都可以覆盖或修改这些脚本。
 
-#### E-mail Workflow Hooks ####
+#### E-mail工作流挂钩 ####
 
-You can set up three client-side hooks for an e-mail–based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
+有3个可用的客户端挂钩用于e-mail工作流。当运行`git am`命令时，会调用他们，因此，如果你没有在工作流中用到此命令，可以跳过本节。如果你通过e-mail接收由`git format-patch`产生的补丁，这些挂钩也许对你有用。
 
-The first hook that is run is `applypatch-msg`. It takes a single argument: the name of the temporary file that contains the proposed commit message. Git aborts the patch if this script exits non-zero. You can use this to make sure a commit message is properly formatted or to normalize the message by having the script edit it in place.
+首先运行的是`applypatch-msg`挂钩，他接收一个参数：包含被建议提交信息的临时文件名。如果该脚本非零退出，Git 放弃此补丁。可以使用这个脚本确认提交信息是否被正确格式化，或让脚本编辑信息以达到标准化。
 
-The next hook to run when applying patches via `git am` is `pre-applypatch`. It takes no arguments and is run after the patch is applied, so you can use it to inspect the snapshot before making the commit. You can run tests or otherwise inspect the working tree with this script. If something is missing or the tests don’t pass, exiting non-zero also aborts the `git am` script without committing the patch.
+下一个在`git am`运行期间调用是`pre-applypatch`挂钩。该挂钩不接收参数，在补丁被运用之后运行，因此，可以被用来在提交前检查快照。你能用此脚本运行测试，检查工作树。如果有些什么遗漏，或测试没通过，脚本会以非零退出，放弃此次`git am`的运行，补丁不会被提交。
 
-The last hook to run during a `git am` operation is `post-applypatch`. You can use it to notify a group or the author of the patch you pulled in that you’ve done so. You can’t stop the patching process with this script.
+最后在`git am`运行期间调用的是`post-applypatch`挂钩。你可以用他来通知一个小组或获取的补丁的作者，但无法阻止打补丁的过程。
 
-#### Other Client Hooks ####
+#### 其他客户端挂钩 ####
 
-The `pre-rebase` hook runs before you rebase anything and can halt the process by exiting non-zero. You can use this hook to disallow rebasing any commits that have already been pushed. The example `pre-rebase` hook that Git installs does this, although it assumes that next is the name of the branch you publish. You’ll likely need to change that to whatever your stable, published branch is.
+`pre- rebase`挂钩在衍合前运行，脚本以非零退出可以中止衍合的过程。你可以使用这个挂钩来禁止衍合已经推送的提交对象，Git `pre- rebase`挂钩样本就是这么做的。该样本假定next是你定义的分支名，因此，你可能要修改样本，把next改成你定义过且稳定的分支名。
 
-After you run a successful `git checkout`, the `post-checkout` hook runs; you can use it to set up your working directory properly for your project environment. This may mean moving in large binary files that you don’t want source controlled, auto-generating documentation, or something along those lines.
+在`git checkout`成功运行后，`post-checkout`挂钩会被调用。他可以用来为你的项目环境设置合适的工作目录。例如：放入大的二进制文件、自动产生的文档或其他一切你不想纳入版本控制的文件。
 
-Finally, the `post-merge` hook runs after a successful `merge` command. You can use it to restore data in the working tree that Git can’t track, such as permissions data. This hook can likewise validate the presence of files external to Git control that you may want copied in when the working tree changes.
+最后，在`merge`命令成功执行后，`post-merge`挂钩会被调用。他可以用来在 Git 无法跟踪的工作树中恢复数据，诸如权限数据。该挂钩同样能够验证在 Git 控制之外的文件是否存在，因此，当工作树改变时，你想这些文件可以被复制。
 
-### Server-Side Hooks ###
+### 服务器端挂钩 ###
 
-In addition to the client-side hooks, you can use a couple of important server-side hooks as a system administrator to enforce nearly any kind of policy for your project. These scripts run before and after pushes to the server. The pre hooks can exit non-zero at any time to reject the push as well as print an error message back to the client; you can set up a push policy that’s as complex as you wish.
+除了客户端挂钩，作为系统管理员，你还可以使用两个服务器端的挂钩对项目实施各种类型的策略。这些挂钩脚本可以在提交对象推送到服务器前被调用，也可以在推送到服务器后被调用。推送到服务器前调用的挂钩可以在任何时候以非零退出，拒绝推送，返回错误消息给客户端，还可以如你所愿设置足够复杂的推送策略。
 
-#### pre-receive and post-receive ####
+#### pre-receive 和 post-receive #### 
 
 The first script to run when handling a push from a client is `pre-receive`. It takes a list of references that are being pushed from stdin; if it exits non-zero, none of them are accepted. You can use this hook to do things like make sure none of the updated references are non-fast-forwards; or to check that the user doing the pushing has create, delete, or push access or access to push updates to all the files they’re modifying with the push.
 

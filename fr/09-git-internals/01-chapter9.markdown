@@ -345,8 +345,8 @@ propose une manière sûre de mettre à jour une référence, c'est la commande
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
 Dans Git, une branche est simplement ceci : a pointer ou référence sur le
-dernier état (N.d.T « head ») d'un travail en cours???. Pour créer une branche à
-partir du deuxième commit, vous pouvez faire ceci :
+dernier état (N.d.T « head ») d'un travail en cours???.
+Pour créer une branche à partir du deuxième commit, vous pouvez faire ceci :
 
 	$ git update-ref refs/heads/test cac0ca
 
@@ -463,7 +463,8 @@ l'importation du code source.
 
 ### Remotes??? ###
 
-Le troisième type de références que l'on étudiera sont les références distantes.
+Le troisième type de références que l'on étudiera sont les références distantes
+(N.d.T remotes).
 Si l'on ajoute une référence distante et que l'on pousse des objets vers elle,
 Git stocke la valeur que vous avez poussé en dernière vers cette référence pour
 chaque branche dans le répertoire `refs/remotes`.
@@ -487,27 +488,34 @@ regardant le fichier `refs/remotes/origin/master` :
 	ca82a6dff817ec66f44342007202690a93763949
 
 Les références distantes diffèrent des branches (références `refs/heads`)
-principalement parcequ'on ne peut pas les checked out???. Git les modifie comme
-des marque-pages du dernier état de ces branches sur le serveur.
+principalement parcequ'on ne peut pas les checked out???.
+Git les modifie comme des marque-pages du dernier état de ces branches sur le
+serveur.
 
 ## Packfiles ##
 
-Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag:
+Revenons à la base de donnée d'objet de notre dépôt Git de test. Pour l'instant,
+il contient 11 objets : 4 blobs, 3 arbres, 3 commits, et 1 tag :
 
 	$ find .git/objects -type f
-	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
+	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # arbre 2
 	.git/objects/1a/410efbd13591db07496601ebc7a059dd55cfe9 # commit 3
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a # test.txt v2
-	.git/objects/3c/4e9cd789d88d8d89c1073707c3585e41b0e614 # tree 3
+	.git/objects/3c/4e9cd789d88d8d89c1073707c3585e41b0e614 # arbre 3
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30 # test.txt v1
 	.git/objects/95/85191f37f7b0fb9444f35a9bf50de191beadc2 # tag
 	.git/objects/ca/c0cab538b970a37ea1e769cbbde608743bc96d # commit 2
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4 # 'test content'
-	.git/objects/d8/329fc1cc938780ffdd9f94e0d364e0ea74f579 # tree 1
+	.git/objects/d8/329fc1cc938780ffdd9f94e0d364e0ea74f579 # arbre 1
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file:
+Git compresse le contenu de ces fichiers avec zlib, et on ne stocke pas grand
+chose, et au final, tous ces fichiers occupent seulement 925 octets.
+Ajoutons de plus gros contenu au dépôt pour montrer une foncitonnalité
+intéressante de Git.
+Ajoutez le fichier repo.rb de la bibliothèque Grit que vous avez manipuler plus
+tôt. Il représente environ 12Ko de code source :
 
 	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb 
@@ -518,26 +526,28 @@ Git compresses the contents of these files with zlib, and you’re not storing m
 	 create mode 100644 repo.rb
 	 rewrite test.txt (100%)
 
-If you look at the resulting tree, you can see the SHA-1 value your repo.rb file got for the blob object:
+Si vous observez l'arbre qui en résulte, vous verrez l'empreinte SHA-1 du blob
+contenant le fichier repo.rb :
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-You can then use `git cat-file` to see how big that object is:
+Vous pouvez utlisez `git cat-file` pour connaitre la taille de l'objet :
 
 	$ git cat-file -s 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 	12898
 
-Now, modify that file a little, and see what happens:
+Maintenant, modifiez le fichier un peu, et voyez ce qui arrive :
 
 	$ echo '# testing' >> repo.rb 
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Check the tree created by that commit, and you see something interesting:
+Regardez l'arbre créer par ce commit, et vous verrez quelquechose
+d'interressant :
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt

@@ -1,12 +1,12 @@
 # Почетак #
 
-Ово поглавље прича о почетку рада са Гитом. We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
+Ово поглавље прича о почетку рада са Гитом. Започећемо појашњавањем позадине алата за контролу верзије, затим ћемо прећи на то како покренути Гит на свом систему и коначно како га подесити и кренути са радом. На крају овог поглавља разумећеш зашто постоји Гит, зашто га треба користити и како га подесити.
 
 ## О контроли верзије ##
 
-Шта је контрола верзије и зашто би требало да бринеш? Контрола верзије је систем који снима промене над фајлом или скупом фајлова у времену да би се после могла вратити поједина верзија по потреби. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+Шта је контрола верзије и зашто би требало да бринеш? Контрола верзије је систем који снима промене над фајлом или скупом фајлова у времену да би се после могла вратити поједина верзија по потреби. За примере у овој књизи користићеш изворни код програма као фајлове чије верзије ћемо контролисати, иако реално ово се може радити са било којим типм фајла на компјутеру.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+Ако си графички или веб дизајнер, а желиш чувати сваку верзију слике или распореда елемената (layout?), добар одабит јесте систем за контролу верзије (VCS - Version Control System). Он дозвољава да се фајл врати на претходну верзију, да се цео пројекат врати на претходно стање, да се пореде промене кроз време, да се види ко је последњи мењао и можда узроковао проблем, ко је допринео конфликту и када, као и много више. Коришћење овог система углавном значи да, ако  поквариш ствари или изгубиш фајлове, врло лако можеш да их вратиш на исправно стање. Додатно, ово се добија са врло мало посла више него што већ радиш.
 
 ### Локални системи контроле верзије ###
 

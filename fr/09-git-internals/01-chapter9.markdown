@@ -461,9 +461,14 @@ dans le code source de Git. Le noyau linux contient aussi un tag ne pointant pas
 vers un commit : le premier tag crée pointe vers l'arbre initial crée lors de
 l'importation du code source.
 
-### Remotes ###
+### Remotes??? ###
 
-The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:
+Le troisième type de références que l'on étudiera sont les références distantes.
+Si l'on ajoute une référence distante et que l'on pousse des objets vers elle,
+Git stocke la valeur que vous avez poussé en dernière vers cette référence pour
+chaque branche dans le répertoire `refs/remotes`.
+Vous pouvez par exemple, ajouter une référence distante nommée `origin` et y
+pousser votre branche `master` :
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -474,12 +479,16 @@ The third type of reference that you’ll see is a remote reference. If you add 
 	To git@github.com:schacon/simplegit-progit.git
 	   a11bef0..ca82a6d  master -> master
 
-Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:
+Ensuite, vous pouvez voir l'état de la branche `master` dans la référence
+distante `origin` la dernière fois que vous avez communiqué avec le serveur en
+regardant le fichier `refs/remotes/origin/master` :
 
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
 
-Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers.
+Les références distantes diffèrent des branches (références `refs/heads`)
+principalement parcequ'on ne peut pas les checked out???. Git les modifie comme
+des marque-pages du dernier état de ces branches sur le serveur.
 
 ## Packfiles ##
 

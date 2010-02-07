@@ -51,7 +51,7 @@ En 2005, les relations entre la communauté développant le noyau linux et la so
 * Complètement distribué
 * Capacité à gérer efficacement des projets d'envergure tels que le noyau Linux (vitesse et compacité des données)
 
-Depuis sa naissance en 2005, Git a évolé et mûri pour être facile à utiliser mais en conservant cepandant ces qualités initiales. Il est incroyablement rapide, il est très efficace avec de grands projets et il a un incroyable système de branches pour des développements non-linéaires (voir chapitre 3).
+Depuis sa naissance en 2005, Git a évolué et mûri vers une utilisation plus simple, tout en retenant ses qualités initiales. Il est incroyablement rapide, il est très efficace pour de grands projets, et il a un système incroyable de gestion de branches pour le développement non linéaire (Cf. chapitre 3).
 
 ## Rudiments de Git ##
 

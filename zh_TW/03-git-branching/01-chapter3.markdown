@@ -1,98 +1,96 @@
-# Ramificação (Branching) no Git #
+# Git Branching #
 
-Quase todos os VCS tem alguma forma de suporte a ramificação (branching). Criar um ramo significa dizer que você vai divergir da linha principal de desenvolvimento e continuar a trabalhar sem bagunçar essa linha principal. Em muitas ferramentas VCS, este é um processo um pouco caro, muitas vezes exigindo que você crie uma nova cópia do seu diretório de código-fonte, que pode levar um longo tempo para grandes projetos.
+Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
 
-Algumas pessoas se referem ao modelo de ramificação em Git como sua característica "matadora", e que certamente o destaca na comunidade de VCS. Por que ele é tão especial? A forma como o Git cria ramos é inacreditavelmente leve, fazendo com que as operações de ramificação sejam praticamente instantâneas e a alternância entre os ramos seja tão rápida quanto. Ao contrário de muitos outros VCSs, o Git incentiva um fluxo de trabalho no qual se façam ramos e mesclagens com frequência, até mesmo várias vezes ao dia. Compreender e dominar esta característica lhe dará uma ferramenta poderosa e única e poderá literalmente mudar a maneira como você desenvolve.
+Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
 
-## O que é um Ramo (Branch) ##
+## What a Branch Is ##
 
-Para compreender realmente a forma como o Git cria ramos, precisamos dar um passo atrás e examinar como o Git armazena seus dados. Como você pode se lembrar do capítulo 1, o Git não armazena dados como uma série de mudanças ou deltas, mas sim como uma série de snapshots.
+To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 
-Quando você faz uma submissão (commit) no Git, o Git submete um objeto que contém um ponteiro para o snapshot do conteúdo que você elencou, o autor e os metadados da mensagen, zero ou mais ponteiros para os commits ou commits que são pais deste commit: nenhum pai para o commit inicial, um pai para um commit normal e múltiplos pais para commits que resultem de uma mescla (merge) de dois ou mais ramos.
+When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
 
-Para visualizar isso, vamos supor que você tenha um diretório contendo três arquivos, e elencou e submeteu todos eles. Elencar os checksums de cada um (o hash SHA-1 que nos referimos no capítulo 1), vai armazenar esta versão do arquivo no repositório Git (o Git se refere a eles como blobs), e acrescenta este checksum à área de seleção (staging area):
+To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
 
-	$ git add README test.rb LICENSE2
+	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-Quando você cria um commit executando `git commit`, o Git calcula o checksum de cada subdiretório (neste caso, apenas o diretório raiz do projeto) e armazena os objetos de árvore no repositório Git. O Git em seguida, cria um objeto commit que tem os metadados e um ponteiro para a raiz projeto, então ele pode recriar este snapshot quando noecessário.
+When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
 
-Seu repositório Git já contém cinco objetos: um blob para o conteúdo de cada um dos três arquivos, uma árvore que lista o conteúdo do diretório e especifica quais nomes de arquivos são armazenados em quais blobs, e um commit com o ponteiro para a raiz dessa árvore com todos os metadados do commit. Conceitualmente, os dados em seu repositório Git se parecem como na Figura 3-1.
+Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
 
 Insert 18333fig0301.png 
-Figure 3-1. Dados de um repositório com um único commit.
+Figure 3-1. Single commit repository data.
 
-Se você fizer algumas mudanças e submeter novamente, o próximo commit armazenará um ponteiro para commit imediatamente anterior. Depois de mais dois commits, seu histórico poderia ser algo como a Figura 3-2.
+If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
 
 Insert 18333fig0302.png 
-Dados dos objetos Git para múltiplos commits.
+Figure 3-2. Git object data for multiple commits.
 
-Um ramo no Git é simplesmente um leve ponteiro móvel um desses commits. O nome do ramo padrão no Git é master. Como você inicialmente fez commits, você tem um ramo principal (master branch) que aponta para o último commit que você fez. Cada vez que você submete (faz um commit) ele avança automaticamente.
+A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
 
 Insert 18333fig0303.png 
-Figure 3-3. Branch apontando para o histórico de commits
+Figure 3-3. Branch pointing into the commit data’s history.
 
-O que acontece se você criar um novo ramo? Bem, isso cria um novo ponteiro para que você possa se mover. Vamos dizer que você crie um novo ramo chamado teste. Você faz isso com o comando `git branch`:
+What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
 
 	$ git branch testing
 
-Isso cria um novo ponteiro para o mesmo commit em que você está no momento (ver a Figura 3-4).
+This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
 
 Insert 18333fig0304.png 
-Figura 3-4. Múltiplos ramos apontando para o histórico de commits
+Figure 3-4. Multiple branches pointing into the commit’s data history.
 
-Como o Git sabe o ramo em que você está atualmente? Ele mantém um ponteiro especial chamado HEAD. Observe que isso é muito diferente do conceito de cabeça em outros VCSs que você possa ter usado, como Subversion e CVS. No Git, este é um ponteiro para o ramo local em que está no momento. Neste caso, você ainda está no master. O comando git branch só criou um novo ramo — ele não mudou para esse ramo (veja Figura 3-5).
+How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
 
 Insert 18333fig0305.png 
-Figura 3-5. HEAD apontando para o ramo em que você está
+Figure 3-5. HEAD file pointing to the branch you’re on.
 
-Para mudar para um ramo existente, você executa o comando `git checkout`. Vamos mudar para o novo ramo de testes:
+To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
 
 	$ git checkout testing
 
-Isto move o HEAD para apontar para o ramo de testes (ver Figura 3-6).
+This moves HEAD to point to the testing branch (see Figure 3-6).
 
 Insert 18333fig0306.png
-Figura 3-6. O HEAD aponta para outro ramo quando você troca de ramos.
+Figure 3-6. HEAD points to another branch when you switch branches.
 
-Qual é o significado disso? Bem, vamos fazer um outro commit:
+What is the significance of that? Well, let’s do another commit:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
-A figura 3-7 ilustra o resultado.
+Figure 3-7 illustrates the result.
 
 Insert 18333fig0307.png 
-Figura 3-7. O ramo para o qual HEAD aponta se move à frente em cada commit.
+Figure 3-7. The branch that HEAD points to moves forward with each commit.
 
-Isso é interessante, porque agora o seu ramo de testes, avançou, mas o seu ramo mestre ainda aponta para o commit em que estava quando você executou `git checkout` para trocar de ramo. Vamos voltar para o ramo mestre (master branch):
+This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
 
 	$ git checkout master
 
-A figura 3-8 nostra o resultado.
+Figure 3-8 shows the result.
 
 Insert 18333fig0308.png 
-Figura 3-8. O HEAD se move para outro ramo com um checkout.
+Figure 3-8. HEAD moves to another branch on a checkout.
 
-Esse comando fez duas coisas. Ele alterou o ponteiro HEAD para apontar novamente para o ramo principal, e reverteu os arquivos em seu diretório de trabalho para o estado em que estavam no snapshot para o qual o master apontava. Isto significa também que as mudanças feitas a partir deste ponto em diante, irão divergir de uma versão anterior do projeto. Ele essencialmente "volta" o trabalho que você fez no seu ramo de testes, temporariamente, de modo que você possa ir em uma direção diferente a partir do master.
+That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
 
-Vamos fazer algumas mudanças e submeter novamente:
+Let’s make a few changes and commit again:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Agora o histórico do seu projeto diverge (ver Figura 3-9). Você criou e trocou para um ramo, fez alguns trabalhos nele, e então voltou para o seu ramo principal e fez outros trabalhos. Ambas as mudanças são isoladas em ramos distintos: você pode alternar entre os ramos e fundi-los quando estiver pronto. E você fez tudo isso simplesmente com os comandos `branch` e `checkout`.
+Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
 
 Insert 18333fig0309.png 
-Figura 3-9. O histórico dos ramos diverge.
+Figure 3-9. The branch histories have diverged.
 
-Por causa de um ramo em Git ser na verdade um arquivo simples que contém os 40 caracteres do checksum SHA-1 do commit para o qual ele aponta, os ramos são baratos para criar e destruir. Criar um novo ramo é tão rápido e simples como escrever 41 bytes em um arquivo (40 caracteres e uma nova linha).
+Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
 
-Isto está em nítido contraste com a forma coma a qual a maioria das ferramentas VCS ramificam, que envolve a cópia de todos os arquivos do projeto para um segundo diretório. Isso pode demorar vários segundos ou até minutos, dependendo do tamanho do projeto, enquanto que no Git o processo é sempre instantâneo. Também, porque nós estamos gravando os pais dos objetos quando fazemos commits, encontrar uma boa base para mesclar (merge) é uma tarefa feita automaticamente para nós e geralmente é muito fácil de fazer. Esses recursos ajudam a estimular os desenvolvedores a criar e utilizar ramos com freqüência.
+This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
 
-Vamos ver por que você deve fazê-lo.
-
-__BLABOS__PAUSED__HERE__
+Let’s see why you should do so.
 
 ## Basic Branching and Merging ##
 
@@ -114,14 +112,14 @@ At this stage, you’ll receive a call that another issue is critical and you ne
 First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history
+Figure 3-10. A short and simple commit history.
 
 You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
-This is shorthand for 
+This is shorthand for:
 
 	$ git branch iss53
 	$ git checkout iss53
@@ -129,7 +127,7 @@ This is shorthand for
 Figure 3-11 illustrates the result.
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer
+Figure 3-11. Creating a new branch pointer.
 
 You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
 
@@ -158,7 +156,7 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point
+Figure 3-13. hotfix branch based back at your master branch point.
 
 You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
 
@@ -176,7 +174,7 @@ Your change is now in the snapshot of the commit pointed to by the `master` bran
 Insert 18333fig0314.png 
 Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
 
-After that your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
@@ -334,8 +332,8 @@ This shows your other branch. Because it contains work that isn’t merged in ye
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
+	If you are sure you want to delete it, run 'git branch -D testing'.
 
-If you are sure you want to delete it, run `git branch -D testing`.
 If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
 
 ## Branching Workflows ##
@@ -370,12 +368,12 @@ You saw this in the last section with the `iss53` and `hotfix` branches you crea
 Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
 
 Insert 18333fig0320.png 
-Figure 3-20. Your commit history with multiple topic branches
+Figure 3-20. Your commit history with multiple topic branches.
 
 Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
 
 Insert 18333fig0321.png 
-Figure 3-21. Your history after merging in dumbidea and iss91v2
+Figure 3-21. Your history after merging in dumbidea and iss91v2.
 
 It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
 
@@ -403,7 +401,7 @@ Figure 3-24. The git fetch command updates your remote references.
 To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
 
 Insert 18333fig0325.png 
-Figure 3-25. Adding another server as a remote
+Figure 3-25. Adding another server as a remote.
 
 Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
 
@@ -412,7 +410,7 @@ Figure 3-26. You get a reference to teamone’s master branch position locally.
 
 ### Pushing ###
 
-When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches do work you don’t want to share, and push up only the topic branches you want to collaborate on.
+When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
 
 If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
 
@@ -483,12 +481,12 @@ In Git, there are two main ways to integrate changes from one branch into anothe
 If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
 
 Insert 18333fig0327.png 
-Figure 3-27. Your initial diverged commit history
+Figure 3-27. Your initial diverged commit history.
 
 The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
 
 Insert 18333fig0328.png 
-Figure 3-28. Merging a branch to integrate the diverged work history
+Figure 3-28. Merging a branch to integrate the diverged work history.
 
 However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
 
@@ -502,12 +500,12 @@ In this example, you’d run the following:
 It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
 
 Insert 18333fig0329.png 
-Figure 3-29. Rebasing the change introduced in C3 onto C4
+Figure 3-29. Rebasing the change introduced in C3 onto C4.
 
 At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
 
 Insert 18333fig0330.png 
-Figure 3-30. Fast-forwarding the master branch
+Figure 3-30. Fast-forwarding the master branch.
 
 Now, the snapshot pointed to by C3 is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
 
@@ -520,7 +518,7 @@ Note that the snapshot pointed to by the final commit you end up with, whether i
 You can also have your rebase replay on something other than the rebase branch. Take a history like Figure 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
 
 Insert 18333fig0331.png 
-Figure 3-31. A history with a topic branch off another topic branch
+Figure 3-31. A history with a topic branch off another topic branch.
 
 Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
 
@@ -529,7 +527,7 @@ Suppose you decide that you want to merge your client-side changes into your mai
 This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
 
 Insert 18333fig0332.png 
-Figure 3-32. Rebasing a topic branch off another topic branch
+Figure 3-32. Rebasing a topic branch off another topic branch.
 
 Now you can fast-forward your master branch (see Figure 3-33):
 
@@ -537,7 +535,7 @@ Now you can fast-forward your master branch (see Figure 3-33):
 	$ git merge client
 
 Insert 18333fig0333.png 
-Figure 3-33. Fast-forwarding your master branch to include the client branch changes
+Figure 3-33. Fast-forwarding your master branch to include the client branch changes.
 
 Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
 
@@ -546,7 +544,7 @@ Let’s say you decide to pull in your server branch as well. You can rebase the
 This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
 
 Insert 18333fig0334.png 
-Figure 3-34. Rebasing your server branch on top of your master branch
+Figure 3-34. Rebasing your server branch on top of your master branch.
 
 Then, you can fast-forward the base branch (`master`):
 
@@ -559,7 +557,7 @@ You can remove the `client` and `server` branches because all the work is integr
 	$ git branch -d server
 
 Insert 18333fig0335.png 
-Figure 3-35. Final commit history
+Figure 3-35. Final commit history.
 
 ### The Perils of Rebasing ###
 

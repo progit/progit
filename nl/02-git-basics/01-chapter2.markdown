@@ -88,7 +88,7 @@ Als je je status commando nogmaals uitvoert, zie je dat je README bestand nu gev
 	#	new file:   README
 	#
 
-Je kunt zien dat het ge-staged is, omdat het onder de kop “Changes to be committed” staat. Als je op dit punt een commit doet, zal de versie van het bestand zoals het wat ten tijde van je git add commando in de historische snapshot toegevoegd worden. Je zult je misschien herinneren dat, toen je git init eerder uitvoerde, je daarna git add (bestanden) uitvooerde — dat was om bestanden in je map te beginnen te volgden. Het git add commando neemt een padnaam voor een bestand of een map; als het een map is, dan voegt het commando alle bestanden in die map recursief toe.
+Je kunt zien dat het ge-staged is, omdat het onder de kop “Changes to be committed” staat. Als je op dit punt een commit doet, zal de versie van het bestand zoals het wat ten tijde van je git add commando in de historische snapshot toegevoegd worden. Je zult je misschien herinneren dat, toen je git init eerder uitvoerde, je daarna git add (bestanden) uitvoerde — dat was om bestanden in je map te beginnen te volgden. Het git add commando neemt een padnaam voor een bestand of een map; als het een map is, dan voegt het commando alle bestanden in die map recursief toe.
 
 ### Gewijzigde Bestanden Stagen ###
 
@@ -178,7 +178,7 @@ Hier is nog een voorbeeld van een .gitignore bestand:
 
 ### Je Staged En Unstaged Wijzigigen Zien ###
 
-Als het `git status` commando te vaag is voor je – je wilt precies weten wat je veranderd hebt, niet alleen welke bestanden veranderd zijn – dan kun je het `git diff` commando gebruiken. We zullen `git diff` later in meer detail bespreken; maar je zult het het meest gebruiken om deze twee vragen te beantwoorden: Wat heb je veranderd maar nog niet gestaged? En wat heb je gestaged en sta je op het punt te committen? Alhoewel `git status` deze vragen heel generiek beantwoord, laat `git diff` je de exacte toegevoegde en verwijderde regels zien – de patch, als het ware.
+Als het `git status` commando te vaag is voor je – je wilt precies weten wat je veranderd hebt, niet alleen welke bestanden veranderd zijn – dan kun je het `git diff` commando gebruiken. We zullen `git diff` later in meer detail bespreken; maar je zult het het meest gebruiken om deze twee vragen te beantwoorden: Wat heb je veranderd maar nog niet gestaged? En wat heb je gestaged en sta je op het punt te committen? Alhoewel `git status` deze vragen heel algemeen beantwoordt, laat `git diff` je de exacte toegevoegde en verwijderde regels zien – de patch, als het ware.
 
 Stel dat je het README bestand opnieuw veranderd en staged, en dan het benchmarks.rb bestand veranderd zonder het te stagen. Als je je `status` commando uitvoert, dan zie je nogmaals zoiets als dit:
 

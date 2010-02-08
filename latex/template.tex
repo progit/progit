@@ -12,11 +12,15 @@
 \usepackage{fancyhdr}
 \usepackage{booktabs}
 \usepackage{indentfirst}
+\usepackage{framed,color}
+
+\definecolor{shadecolor}{gray}{0.90}
 
 \setromanfont[Mapping=tex-text,Bold=<%= config['bold'] %>]{<%= config['font'] %>}
 \setmonofont{<%= config['mono'] %>}
 
 \XeTeXlinebreaklocale{<%= lang %>}
+<%= config['langrule'] %>
 
 \settowidth{\parindent}{<%= config['indent'] %>}
 
@@ -29,6 +33,12 @@
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
 \else\Gin@nat@width\fi}
 \makeatother
+
+\title{\textbf{\savedtitle}}
+\author{\textbf{\savedauthor}\thanks{<%= config['thanks'] %>}}
+\def\w3cdtfymd{\the\year-\ifnum\month<10 0\fi\the\month-\ifnum\day<10 0\fi\the\day}
+\date{\w3cdtfymd}
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
 \makeatletter
   \setlength\headheight{12\p@}

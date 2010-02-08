@@ -1,98 +1,65 @@
-# Základy Gitu #
+# Git 基礎 #
 
-Pokud máte čas si přečíst jen jednu kapitolu, přečtěte si tuto. Pokrývá všechny základní příkazy,
-které potřebujete k naprosté většině činností, které kdy budete s Gitem dělat. Naučíte se konfigurovat a inicializovat repozitář,
-přidávat a odebírat sledované soubory a ukládat změny. Také donutíme Git ignorovat některé soubory; zjistíme, jak rychle a jednoduše opravovat chyby,
-prohlížet historii a změny mezi jednotlivými commity a synchronizovat se vzdálenými repozitáři.
+若讀者只需要讀取一個章節即可開始使用Git，這就是了。 本章節涵蓋讀者大部份用到Git時需要使用的所有基本命令。 在讀完本章節後，讀者應該有能力組態及初始化一個儲存庫、開始及停止追蹤檔案、暫存及提供更新。 還會提到如何讓Git忽略某些檔案、如何輕鬆且很快的救回失誤、如何瀏覽讀者的專案的歷史及觀看各個已提交的更新之間的變更、以及如何上傳到遠端儲存庫或取得。
 
-## Jak získat repozitář Gitu ##
+## 取得Git儲存庫 ##
 
-Jsou dva základní způsoby, jak získat projekt v Gitu. První vezme existující projekt nebo adresář a importuje ho do Gitu.
-Druhý naklonuje existující repozitář z jiného serveru.
+讀者可使用兩種主要的方法取得一個Git儲存庫。 第一種是將現有的專案或者目錄匯入Git。 第二種從其它伺服器複製一份已存在的Git儲存庫。
 
-### Inicializace repozitáře z existujícího adresáře ###
+### 在現有目錄初始化儲存庫 ###
 
-Pokud chcete začít spravovat projekt Gitem, vstoupíte do jeho adresáře a spustíte
+若讀者要開始使用 Git 追蹤現有的專案，只需要進入該專案的目錄並執行：
 
 	$ git init
 
-To vytvoří podadresář .git, který obsahuje všechno, co Git potřebuje pro tento projekt, jakousi kostru. Ovšem zatím je prázdný, nic nesleduje.
-(V kapitole 9 si podrobněji rozebereme, co tento příkaz vlastně vytvořil.)
+這個命令會建立名為 .git 的子目錄，該目錄包含一個Git儲存庫架構必要的所有檔案。 目前來說，專案內任何檔案都還沒有被追蹤。（關於.git目錄內有些什麼檔案，可參考第九章）
 
-Pokud chcete spravovat již existující soubory (pokud zrovna nezačínáte od píky a nemáte úplně prázdný adresář), asi je budete chtít začít sledovat
-a provést první commit. To zařídíte spuštěním několika příkazů, kterými určíte, co sledovat, načež to shrnete do commitu:
+若讀者想要開始對現有的檔案開始做版本控制（除了空的目錄以外），讀者也許應該開始追蹤這些檔案並做第一次的提交。 讀者能以少數的git add命令指定要追蹤的檔案，並將它們提交：
 
 	$ git add *.c
 	$ git add README
-	$ git commit –m 'initial project version'
+	$ git commit -m 'initial project version'
 
-Pozn. překl.: Bývá zvykem, že popisky commitů (initial project version aj.) jsou psány v angličtině, není-li explicitně řečeno jinak;
-české popisky mívají opodstatnění jen u ryze českých, resp. československých projektů, kde se nepočítá s tím, že by se na nich podílel
-někdo, pro koho je čeština nesrozumitelným jazykem.
+這些命令執行完畢大約只需要一分鐘。 現在，讀者已經有個追蹤部份檔案及第一次提交內容的Git儲存庫。
 
-Za chvilku si projdeme, co tyto příkazy vlastně dělají. V tuto chvíli máte repozitář se sledovanými soubory a prvním commitem.
+### 複製現有的儲存庫 ###
 
-### Klonování stávajícího repozitáře ###
+若讀者想要取得現有的Git儲存庫的複本（例如：讀者想要散佈的），那需要使用的命令是 git clone。 若讀者熟悉其它版本控制系統，例如：Subversion，讀者應該注意這個命令是複製，而不是取出特定版本。 這一點非常重要，Git取得的是大部份伺服器端所有的資料複本。 該專案歷史中所有檔案的所有版本都在讀者執行過 git clone 後拉回來。 事實上，若伺服器的磁碟機損毀，讀者可使用任何一個客戶端的複本還原伺服器為當初取得該複本的狀態（讀者可能會遺失一些僅存於伺服器的攔截程式，不過所有版本的資料都健在），參考第四章取得更多資訊。
 
-Pokud chcete mít kopii již existujícího repozitáře -- např. projektu, na kterém se chcete podílet -- příkaz, který potřebujete, je `git clone`.
-Když máte zkušenosti s jinými SSV jako Subversion, povšimnete si, že použitý příkaz je `clone` a nikoli `checkout`. To je důležitý rozdíl.
-Git totiž dostane téměř kompletní kopii toho, co server zrovna má. Každou verzi každého souboru z minulosti.
-Tedy, pokud se vám na serveru porouchá disk, stačí zpět naklonovat repozitář jakéhokoli klienta a máte přesně takový stav, jaký byl na serveru
-v době, kdy ho on naposledy aktualizoval. Možná ztratíte nějaká specifická serverová nastavení, ale každopádně to cenné -- spravovaná data -- máte
-v bezpečí.
-
-Repozitář naklonujete příkazem `git clone [url]`. Např. pro naklonování knihovny Gitu pro Ruby (Grit) provedete tento příkaz:
+讀者可以 git clone 超連結，複製一個儲存庫。 例如：若讀者想複製名為Grit的Ruby Git程式庫，可以執行下列命令：
 
 	$ git clone git://github.com/schacon/grit.git
 
-Ten vytvoří adresář "grit", v něm adresář `.git`, stáhne všechna data repozitáře a rozbalí aktuální verzi. Pokud vstoupíte do tohoto nového
-adresáře, najdete v něm všechny soubory projektu připravené k práci nebo použití.
-Když chcete naklonovat repozitář někam jinam než do složky "grit", můžete mu to říct takto:
+接下來會有個名為grit的目錄被建立，並在其下初始化名為.git的目錄。 拉下所有存在該儲存庫的所有資料，並取出最新版本為工作複本。 若讀者進入新建立的 grit 目錄，會看到專案的檔案都在這兒，且可使用。 若讀者想畏複製儲存庫到grit以外其它名字的目錄，只需要在下一個參數指定即可：
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-Tak provedete všechno, co udělal minulý příkaz, ale do adresáře `mygrit`.
+這個命令做的事大致如同上一個命令，只不過目的目錄名為mygrit。
 
-Git podporuje více různých přenosových protokolů. Předchozí příklad používá protokol `git://`, ale také můžete použít `http(s)://`
-nebo `uživatel@server:/cesta.git`, což použije SSH. Všechny možnosti včetně jejich pro a proti si ukážeme v kapitole 4.
+Git提供很多種協定給讀者使用。 上一個範例採用 git:// 協定，讀者可能會看過 http(s):// 或者 user@server:/path.git 等使用 SSH 傳輸的協定。 在第四章會介紹設定存取伺服器上的 Git 儲存庫的所有可用的選項，以及它們的優點及缺點。
 
-## Zaznamenávání změn do repozitáře ##
+## 提交更新到儲存庫 ##
 
-Nyní máte připravený repozitář Gitu a checkout neboli pracovní kopii souborů projektu.
-Potřebujete udělat nějaké změny a ukládat commity těchto změn do repozitáře pokaždé, když
-projekt dospěje do stavu, který chcete zaznamenat.
+讀者現在有一個貨真價實的Git儲存庫，而且有一份已放到工作複本的該專案的檔案。 讀者需要做一些修改並提交這些更動的快照到儲存庫，當這些修改到達讀者想要記錄狀態的情況。
 
-Pamatujte, že každý soubor ve vašem pracovním adresáři může být v jednom ze dvou stavů:
-tracked nebo untracked. První z nich jsou ty, které byly v posledním snímku. Mohou být
-nezměněny, změněny, nebo staged. Untracked je všechno ostatní. V posledním snímku nebyly,
-nejsou ve staging area a Git se o ně nestará. Když poprvé naklonujete repozitář, všechny
-vaše souboru budou tracked a unmodified, protože jste je právě zkopírovali z repozitáře
-a nic ještě neupravili.
+記住工作目錄內的每個檔案可能為兩種狀態的任一種：追蹤或者尚未被追蹤。 被追蹤的檔案是最近的快照；它們可被復原、修改，或者暫存。 未被追蹤的檔案則是其它未在最近快照也未被暫存的任何檔案。 當讀者第一次複製儲存器時，讀者所有檔案都是被追蹤且未被修改的。 因為讀者剛取出它們而且尚未更改做任何修改。
 
-Když upravujete soubory, Git je prohlásí za změněné, protože se změnily vzhledem k poslednímu
-commitu. Vy je vložíte do staging area, vyrobíte commit ze všech těchto změn a cyklus se opakuje
-jako na obrázku 2-1.
+只要讀者編輯任何已被追蹤的檔案。 Git將它們視為被更動的，因為讀者將它們改成與最後一次提交不同。 讀者暫存這些已更動檔案並提供所有被暫存的更新， 並重複此週期。 此生命週期如圖2-1所示。
 
 Insert 18333fig0201.png 
-Obrázek 2-1. Cyklus stavů vašich souborů
+圖2-1. 檔案狀態的生命週期。
 
-### Kontrola stavu vašich souborů ###
+### 檢視檔案的狀態 ###
 
-Základní nástroj, který se používá na určování, který soubor je v jakém stavu, je
-příkaz `git status`. Pokud ho pustíte hned po `git clone`, měli byste vidět něco jako:
+主要給讀者用來檢視檔案的狀態是 git status 命令。 若讀者在複製完複本後馬上執行此命令，會看到如下的文字：
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-To znamená, že máte čistý pracovní adresář -- jinými slovy, nejsou v něm žádné soubory
-změněné (modified) a žádné nejsou v indexu (staged).
-Git také nevidí žádný přebývající (untracked) soubor, jinak by ho vypsal. A konečně vám
-příkaz sdělí, v jaké jste větvi. Protentokrát to bude vždy master, ten je výchozí; teď
-a tady se o to starat nemusíte. Větvení a reference probereme detailně v další kapitole.
+這意謂著讀者有一份乾淨的工作目錄（換句話說，沒有未被追蹤或已被修改的檔案）。 Git未看到任何未被追蹤的檔案，否則會將它們列出。 最後，這個命令告訴讀者目前在哪一個分支。 到目前為止，一直都是master，這是預設的。 目前讀者不用考慮它。 下一個章節會詳細介紹分支。
 
-Řekněme, že přidáte nový soubor do vašeho projektu, třeba jednoduché README. Pokud ten soubor
-dosud neexistoval a vy pustíte `git status`, uvidíte soubor ve stavu untracked:
+假設讀者新增一些檔案到專案，如README。 若該檔案先前並不存在，執行 git status 命令後，讀者會看到未被追蹤的檔案，如下：
 
 	$ vim README
 	$ git status
@@ -103,22 +70,15 @@ dosud neexistoval a vy pustíte `git status`, uvidíte soubor ve stavu untracked
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-Je vidět, že vaše README je untracked, protože je pod nadpisem "Untracked files"
-ve výpisu stavu. To jednoduše znamená, že tento soubor Git dosud nespravoval, a také ho
-spravovat nebude, dokud mu to explicitně neřeknete. Dělá to proto, aby nezačal náhodou
-zběsile spravovat vygenerované binární soubory nebo jiné, třeba dočasné soubory, které
-určitě do projektu zahrnout nechcete. Toto README však chcete spravovat, nuže pojďme si
-ukázat, jak na to.
+讀者可看到新增的README尚未被追蹤，因為它被列在輸出訊息的 Untracked files 下方。 除非讀者明確指定要將該檔案加入提交的快照，Git不會主動將它加入。 這樣就不會突然地將一些二進位格式的檔案或其它讀者並不想加入的檔案含入。 讀者的確是要新增 README 檔案，因此讓我們開始追蹤該檔案。
 
-### Spravování nových souborů ###
+### 追蹤新檔案 ###
 
-K započetí spravování nových souborů použijeme příkaz `git add`. Konkrétně v tomto případě,
-abychom přidali soubor README, spustíme toto:
+要追蹤新增的檔案，讀者可使用git add命令。 欲追蹤README檔案，讀者可執行：
 
 	$ git add README
 
-Pokud si nyní znovu zkontrolujeme stav příkazem `git status`, můžeme vidět,
-že naše README je nyní tracked a staged:
+若讀者再度檢查目前狀態，可看到README檔案已被列入追蹤並且已被暫存：
 
 	$ git status
 	# On branch master
@@ -128,18 +88,11 @@ Pokud si nyní znovu zkontrolujeme stav příkazem `git status`, můžeme vidět
 	#	new file:   README
 	#
 
-Staged je proto, že je pod nadpisem "Changes to be committed". Pokud uděláte commit v tuto
-chvíli, bude verze souboru ve chvíli, kdy jste udělali `git add`, vložena do snímku a uložena.
-Můžete si také vzpomenout, že když jste dříve pouštěli `git init`, museli jste pak pustit
-i `git add` -- to byl počátek správy souborů ve vašem adresáři. Příkaz `git add` přebírá cestu
-buďto k souboru nebo k adresáři; pokud je to adresář, uloží příkaz všechny soubory v onom adresáři.
-Rekurzivně.
+因為它被放在Changes to be commited文字下方，讀者可得知它已被暫存起來。 若讀者此時提交更新，剛才執行git add加進來的檔案就會被記錄在歷史的快照。 讀者可能可回想一下先前執行git init後也有執行過git add，開始追蹤目錄內的檔案。 git add命令可接受檔名或者目錄名。 若是目錄名，會遞迴將整個目錄下所有檔案及子目錄都加進來。
 
-### Vkládání upravených souborů do indexu ###
+### 暫存已修改檔案 ###
 
-Nyní změníme soubor, který už spravujeme. Když změníte spravovaný soubor, pro příklad nechť
-se jmenuje `benchmarks.rb`, a pak pustíte `git status` znovu, dostanete něco, co bude vypadat
-zhruba takto:
+讓我們修改已被追蹤的檔案。 若讀者修改先前已被追蹤的檔案，名為benchmarks.rb，並檢查目前儲存庫的狀態。 讀者會看到類似以下文字：
 
 	$ git status
 	# On branch master
@@ -154,12 +107,7 @@ zhruba takto:
 	#	modified:   benchmarks.rb
 	#
 
-Soubor `benchmarks.rb` se objevil v sekci nazvané "Changed but not updated" -- to znamená, že
-soubor, který je spravován, byl upraven v pracovním adresáři, ale ještě nebyl vložen do indexu.
-K vložení do indexu použijeme příkaz `git add` (má mnoho funkcí -- je používán k započetí správy
-nových souborů, ke vkládání do indexu a i k jiným operacím, např. k označování souborů postižených
-merge-conflictem jako vyřešených). Vložme tedy `benchmarks.rb` do indexu a pak si znovu zobrazme
-status:
+benchmarks.rb檔案出現在Changed but not updated下方，代表著這個檔案已被追蹤，而且位於工作目錄的該檔案已被修改，但尚未暫存。 要暫存該檔案，可執行git add命令（這是一個多重用途的檔案）。現在，讀者使用 git add將benchmarks.rb檔案暫存起來，並再度執行git status：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -171,10 +119,7 @@ status:
 	#	modified:   benchmarks.rb
 	#
 
-Oba soubory jsou v indexu a půjdou do nejbližšího commitu. V tuto chvíli jste si ale uvědomili,
-že v souboru `benchmarks.rb` je potřeba udělat ještě jednu malou změnu, než ho uložíte do commitu.
-Otevřete ho tedy znovu, uložíte a jste připraveni vytvořit commit. Tak se ještě jednou podíváme
-na status:
+這兩個檔案目前都被暫存起來，而且會進入下一次的提交。 假設讀者記得仍需要對benchmarks.rb做一點修改後才要提交，可再度開啟並編輯該檔案。 然而，當我們再度執行git status：
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -191,12 +136,7 @@ na status:
 	#	modified:   benchmarks.rb
 	#
 
-Co to má znamenat? Teď je soubor `benchmarks.rb` označen jako staged i jako unstaged.
-Jak je to možné? Git vloží soubor do indexu právě takový, jaký byl, když jste na něj
-naposled použil `git add`. Pokud vytvoříte commit teď, bude do něj uložena ta verze,
-která je v indexu, tedy ta, která byla v adresáři ve chvíli, kdy byl naposled použit
-příkaz `git add`. Takže pokud chcete uložit i následující změny, musíte pustit `git add`
-znovu:
+到底發生了什麼事？ 現在benchmarks.rb同時被列在已被暫存及未被暫存。 這怎麼可能？ 這表示Git的確在讀者執行git add命令後，將檔案暫存起來。 若讀者現在提交更新，最近一次執行git add命令時暫存的benchmarks.rb會被提交。 若讀者在git add後修改檔案，需要再度執行git add將最新版的檔案暫存起來：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -208,39 +148,40 @@ znovu:
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### 忽略某些檔案 ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+通常讀者會有一類不想讓Git自動新增，也不希望它們被列入未被追蹤的檔案。 這些通常是自動產生的檔案，例如：記錄檔或者編譯系統產生的檔案。 在這情況下，讀者可建立一個名為.gitignore檔案，列出符合這些檔案檔名的特徵。 以下是一個範例：
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+第一列告訴Git忽略任何檔名為.o或.a結尾的檔案，它們是可能是編譯系統建置讀者的程式碼時產生的目的檔及程式庫。 第二列告訴Git忽略所有檔名為~結尾的檔案，通常被很多文書編輯器，如：Emacs，使用的暫存檔案。 讀者可能會想一併將log、tmp、pid目錄及自動產生的文件等也一併加進來。 依據類推。 在讀者要開始開發之前將.gitignore設定好，通常是一個不錯的點子。 這樣子讀者不會意外的將真的不想追蹤的檔案提交到Git儲存庫。
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+編寫.gitignore檔案的規則如下：
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+*	空白列或者以#開頭的列會被忽略。
+*	可使用標準的Glob pattern。
+*	可以/結尾，代表是目錄。
+*	可使用!符號將特徵反過來使用。
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+Glob pattern就像是shell使用的簡化版正規運算式。 星號（*）匹配零個或多個字元；[abc]匹配中括弧內的任一字元（此例為a、b、c）；問號（?）匹配單一個字元；中括孤內的字以連字符連接（如：[0-9]），用來匹配任何符合該範圍的字（此例為0到9）。
 
-Here is another example .gitignore file:
 
-	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+以下是其它的範例：
 
-### Viewing Your Staged and Unstaged Changes ###
+	# 註解，會被忽略。
+	*.a       # 不要追蹤檔名為 .a 結尾的檔案
+	!lib.a    # 但是要追蹤 lib.a，即使上方已指定忽略所有的 .a 檔案
+	/TODO     # 只忽略根目錄下的 TODO 檔案。 不包含子目錄下的 TODO
+	build/    # 忽略build/目錄下所有檔案
+	doc/*.txt # 忽略doc/notes.txt但不包含doc/server/arch.txt
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+### 檢視已暫存及尚未暫存的更動 ###
 
-Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
+若git status命令仍無法清楚告訴讀者想要的資訊（讀者想知道的是更動了哪些內容，而不是哪些檔案）。 可使用git diff命令。 稍後我們會更詳盡講解該命令。 讀者使用它時通常會是為了瞭解兩個問題： 目前已做的修改但尚未暫存的內容是哪些？ 以及將被提交的暫存資料有哪些？ 雖然git status一般來說即可回答這些問題。 git diff可精確的顯示哪些列被加入或刪除，以修補檔方式表達。
+
+假設讀者編輯並暫存README，接者修改benchmarks.rb檔案，卻未暫存。 若讀者檢視目前的狀況，會看到類似下方文字：
 
 	$ git status
 	# On branch master
@@ -255,7 +196,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#	modified:   benchmarks.rb
 	#
 
-To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
+想瞭解尚未暫存的修改，執行git diff，不用帶任何參數：
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -274,9 +215,9 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+這命令比對目前工作目錄及暫存區域後告訴讀者哪些變更尚未被暫存。
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+若讀者想知道將被提交的暫存資料，使用git diff --cached（在Git 1.6.1及更新版本，也可以使用較易記憶的git diff --staged命令）。 這命令比對暫存區域及最後一個提交。
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -291,9 +232,9 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+很重要的一點是git diff不會顯示最後一次commit後的所有變更；只會顯示尚未暫存的變更。 這一點可能會混淆，若讀者已暫存所有的變更，git diff不會顯示任何資訊。
 
-For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
+舉其它例子，若讀者暫存benchmarks.rb檔案後又編輯，可使用git diff看已暫存的版本與工作目錄內版本尚未暫存的變更：
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -309,7 +250,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
-Now you can use `git diff` to see what is still unstaged
+現在讀者可使用git diff檢視哪些部份尚未被暫存：
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -322,7 +263,7 @@ Now you can use `git diff` to see what is still unstaged
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
 
-and `git diff --cached` to see what you’ve staged so far:
+以及使用git diff --cached檢視目前已暫存的變更：
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -341,16 +282,16 @@ and `git diff --cached` to see what you’ve staged so far:
 	          log = git.commits('master', 15)
 	          log.size
 
-### Committing Your Changes ###
+### 提交修改 ###
 
-Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
+現在讀者的暫存區域已被更新為讀者想畏的，可開始提交變更的部份。 要記得任何尚未被暫存的新建檔案或已被修改但尚未使用git add暫存的檔案將不會被記錄在本次的提交中。 它們仍會以被修改的檔案的身份存在磁碟中。
+在這情況下，最後一次執行git status，讀者會看到所有已被暫存的檔案，讀者也準備好要提交修改。 最簡單的提交是執行git commit：
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+執行此命令會叫出讀者指定的編輯器。（由讀者shell的$EDITOR環境變數指定，通常是vim或emacs。讀者也可以如同第1章介紹的，使用git config --global core.editor命令指定）
 
-The editor displays the following text (this example is a Vim screen):
+編輯器會顯示如下文字（此範例為Vim的畫面）：
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -365,22 +306,22 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+讀者可看到預設的提交訊息包含最近一次git status的輸出以註解方式呈現，以及螢幕最上方有一列空白列。 讀者可移除這些註解後再輸入提交的訊息，或者保留它們，提醒你現在正在進行提交。（若想知道更動的內容，可傳遞-v參數給git commit。如此一來連比對的結果也會一併顯示在編輯器內，方便讀者明確看到有什麼變更。） 當讀者離開編輯器，Git會利用這些提交訊息產生新的提交（註解及比對的結果會先被濾除）。
 
-Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
+另一種方式則是在commit命令後方以-m參數指定提交訊息，如下：
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+現在讀者已建立第一個提交！ 讀者可從輸出的訊息看到此提交、放到哪個分支（master）、SHA-1查核碼（463dc4f）、有多少檔案被更動，以及統計此提交有多少列被新增及移除。
 
-Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
+記得提交記錄讀者放在暫存區的快照。 任何讀者未暫存的仍然保持在已被修改狀態；讀者可進行其它的提交，將它增加到歷史。 每一次讀者執行提供，都是記錄專案的快照，而且以後可用來比對或者復原。
 
-### Skipping the Staging Area ###
+### 跳過暫存區域 ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+雖然優秀好用的暫存區域能很有技巧且精確的提交讀者想記錄的資訊，有時候暫存區域也比讀者實際需要的工作流程繁瑣。 若讀者想跳過暫存區域，Git提供了簡易的使用方式。 在git commit命令後方加上-a參數，Git自動將所有已被追蹤且被修改的檔案送到暫存區域並開始提交程序，讓讀者略過git add的步驟：
 
 	$ git status
 	# On branch master
@@ -393,13 +334,13 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+留意本次的提交之前，讀者並不需要執行git add將benchmarks.rb檔案加入。
 
-### Removing Files ###
+### 刪除檔案 ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+要從Git刪除檔案，讀者需要將它從已被追蹤檔案中移除（更精確的來說，是從暫存區域移除），並且提交。 git rm命令除了完成此工作外，也會將該檔案從工作目錄移除。 因此讀者以後不會在未被追蹤檔案列表看到它。
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+若讀者僅僅是將檔案從工作目錄移除，那麼在git status的輸出，可看見該檔案將會被視為已被變更且尚未被更新（也就是尚未存到暫存區域）：
 
 	$ rm grit.gemspec
 	$ git status
@@ -411,7 +352,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+接著，若執行git rm，則會將暫存區域內的該檔案移除：
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -424,31 +365,31 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+下一次提交時，該檔案將會消失而且不再被追蹤。 若已更動過該檔案且將它記錄到暫存區域。 必須使用-f參數才能將它強制移除。 這是為了避免已被記錄的快照意外被移除且再也無法使用Git復原。
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+其它有用的技巧的是保留工作目錄內的檔案，但從暫存區域移除。 換句話說，或許讀者想在磁碟機上的檔案且不希望Git繼續追蹤它。 這在讀者忘記將某些檔案記錄到.gitignore且不小心將它增加到暫存區域時特別有用。 比如說：巨大的記錄檔、或大量在編譯時期產生的.a檔案。 欲使用此功能，加上--cached參數：
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+除了檔名、目錄名以外，還可以指定簡化的正規運算式給git rm命令。 這意謂著可執行類似下列指令：
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+注意倒斜線（\）前方的星號（*）。 這是必須的，因為Git會在shell以上執行檔案的擴展。 此命令移除log目錄下所有檔名以.log結尾的檔案。 讀者也可以執行類似下列命令：
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+此命令移除所有檔名以~結尾的檔案。
 
-### Moving Files ###
+### 搬動檔案 ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Git並不像其它檔案控制系統一樣，很精確的追蹤檔案的移動。 若將被Git追蹤的檔名更名，Git並沒有任何元數據記錄此更名動作。 然而Git能很聰明的指出這一點。 稍後會介紹關於偵測檔案的搬動。
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+因此Git的mv指令會造成一點混淆。 若想要用Git更名某個檔案，可執行以下命令：
 
 	$ git mv file_from file_to
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+而且這命令可正常工作。 事實上，在執行完更名的動作後檢視一下狀態。 可看到Git認為該檔案被更名：
 
 	$ git mv README.txt README
 	$ git status
@@ -461,13 +402,13 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+不過，這就相當於執行下列命令：
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git會在背後判斷檔案是否被更名，因此不管是用上述方法還是mv命令都沒有差別。 實際上唯一不同的是mv是一個命令，而不是三個。 使用上較方便。 更重畏的是讀者可使用任何慣用的工具更名，再使用add/rm，接著才提交。
 
 ## Viewing the Commit History ##
 
@@ -679,7 +620,7 @@ Of the nearly 20,000 commits in the Git source code history, this command shows 
 If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
 
 Insert 18333fig0202.png 
-Figure 2-2. The gitk history visualizer
+Figure 2-2. The gitk history visualizer.
 
 You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
 
@@ -703,7 +644,7 @@ As an example, if you commit and then realize you forgot to stage the changes in
 	$ git add forgotten_file
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second command replaces the results of the first.
+All three of these commands end up with a single commit — the second commit replaces the results of the first.
 
 ### Unstaging a Staged File ###
 
@@ -828,13 +769,13 @@ Paul’s master branch is accessible locally as `pb/master` — you can merge it
 
 ### Fetching and Pulling from Your Remotes ###
 
-As you just saw, to get data from your remote projects, you can run
+As you just saw, to get data from your remote projects, you can run:
 
 	$ git fetch [remote-name]
 
 The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
 
-If you cloned a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
 
 If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 

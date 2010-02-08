@@ -1,98 +1,65 @@
-# Základy Gitu #
+# Dasar-dasar Git #
 
-Pokud máte čas si přečíst jen jednu kapitolu, přečtěte si tuto. Pokrývá všechny základní příkazy,
-které potřebujete k naprosté většině činností, které kdy budete s Gitem dělat. Naučíte se konfigurovat a inicializovat repozitář,
-přidávat a odebírat sledované soubory a ukládat změny. Také donutíme Git ignorovat některé soubory; zjistíme, jak rychle a jednoduše opravovat chyby,
-prohlížet historii a změny mezi jednotlivými commity a synchronizovat se vzdálenými repozitáři.
+Jika Anda hanya sempat membaca satu bab untuk dapat bekerja dengan Git, bab inilah yang tepat. Bab ini menjelaskan setiap perintah dasar yang Anda butuhkan untuk menyelesaikan sebagian besar permasalahan yang akan Anda hadapi dalam penggunaan Git. Pada akhir bab, Anda akan dapat mengkonfigurasi dan memulai sebuah repositori, memulai dan mengakhiri pemantauan berkas, dan melakukan staging dan committing perubahannya. Kami juga akan menunjukkan kepada Anda cara menata Git untuk mengabaikan berkas-berkas ataupun pola berkas tertentu, cara untuk membatalkan kesalahan secara cepat dan mudah, cara untuk melihat sejarah perubahan dari proyek dan melihat perubahan-perubahan yang telah terjadi diantara commit, dan cara untuk mendorong dan menarik perubahan dari repositori lain.
 
-## Jak získat repozitář Gitu ##
+## Mengambil Repositori Git ##
 
-Jsou dva základní způsoby, jak získat projekt v Gitu. První vezme existující projekt nebo adresář a importuje ho do Gitu.
-Druhý naklonuje existující repozitář z jiného serveru.
+Anda dapat mengambil sebuah proyek Git melalui 2 pendekatan utama. Cara pertama adalah dengan mengambil proyek atau direktori tersedia untuk dimasukkan ke dalam Git. Cara kedua adalah dengan melakukan kloning/duplikasi dari repositori Git yang sudah ada dari server. 
 
-### Inicializace repozitáře z existujícího adresáře ###
+### Memulai Repository di Direktori Tersedia ###
 
-Pokud chcete začít spravovat projekt Gitem, vstoupíte do jeho adresáře a spustíte
+Jika Anda mulai memantau proyek yang sudah ada menggunakan Git, Anda perlu masuk ke direktori dari proyek tersebut dan mengetikkan
 
 	$ git init
 
-To vytvoří podadresář .git, který obsahuje všechno, co Git potřebuje pro tento projekt, jakousi kostru. Ovšem zatím je prázdný, nic nesleduje.
-(V kapitole 9 si podrobněji rozebereme, co tento příkaz vlastně vytvořil.)
+Git akan membuat sebuah subdirektori baru bernama .git yang akan berisi semua berkas penting dari repositori Anda, yaitu kerangka repositori dari Git. Pada titik ini, belum ada apapun dari proyek Anda yang dipantau. (Lihat Bab 9 untuk informasi lebih lanjut mengenai berkas apa saja yang terdapat di dalam direktori `.git` yang baru saja kita buat.)
 
-Pokud chcete spravovat již existující soubory (pokud zrovna nezačínáte od píky a nemáte úplně prázdný adresář), asi je budete chtít začít sledovat
-a provést první commit. To zařídíte spuštěním několika příkazů, kterými určíte, co sledovat, načež to shrnete do commitu:
+Jika Anda ingin mulai mengendalikan versi dari berkas tersedia (bukan direktori kosong), Anda lebih baik mulai memantau berkas tersebut dengan melakukan commit awal. Caranya adalah dengan beberapa perintah `git add` untuk merumuskan berkas yang ingin anda pantau, diikuti dengan sebuah commit:
 
 	$ git add *.c
 	$ git add README
-	$ git commit –m 'initial project version'
+	$ git commit –m 'versi awal proyek'
 
-Pozn. překl.: Bývá zvykem, že popisky commitů (initial project version aj.) jsou psány v angličtině, není-li explicitně řečeno jinak;
-české popisky mívají opodstatnění jen u ryze českých, resp. československých projektů, kde se nepočítá s tím, že by se na nich podílel
-někdo, pro koho je čeština nesrozumitelným jazykem.
+Kita akan membahas apa yang dilakukan perintah-perintah di atas sebentar lagi. Pada saat ini, Anda sudah memiliki sebuah repositori Git berisi file-file terpantau dan sebuah commit awal.
 
-Za chvilku si projdeme, co tyto příkazy vlastně dělají. V tuto chvíli máte repozitář se sledovanými soubory a prvním commitem.
+### Duplikasi Repositori Tersedia ###
 
-### Klonování stávajícího repozitáře ###
+Jika Anda ingin membuat salinan dari repositori Git yang sudah tersedia — misalnya, dari sebuah proyek yang Anda ingin ikut berkontribusi di dalamnya — perintah yang Anda butuhkan adalah `git clone`. Jika Anda sudah terbiasa dengan sistem VCS lainnya seperti Subversion, Anda akan tersadar bahwa perintahnya adalah clone dan bukan checkout. Ini adalah pembedaan yang penting — Git menerima salinan dari hampir semua data yang server miliki. Setiap versi dari setiap berkas yang tercatat dalam sejarah dari proyek tersebut akan ditarik ketika Anda menjalankan `git clone`. Bahkan, ketika cakram di server Anda rusak, Anda masih dapat menggunakan hasil duplikasi di klien untuk mengembalikan server Anda ke keadaan tepat pada saat duplikasi dibuat (Anda mungkin kehilangan beberapa hooks atau sejenisnya yang sebelumnya telah ditata di sisi server, namun semua versi data sudah kembali seperti sediakala-lihat Bab 4 untuk lebih detil).
 
-Pokud chcete mít kopii již existujícího repozitáře -- např. projektu, na kterém se chcete podílet -- příkaz, který potřebujete, je `git clone`.
-Když máte zkušenosti s jinými SSV jako Subversion, povšimnete si, že použitý příkaz je `clone` a nikoli `checkout`. To je důležitý rozdíl.
-Git totiž dostane téměř kompletní kopii toho, co server zrovna má. Každou verzi každého souboru z minulosti.
-Tedy, pokud se vám na serveru porouchá disk, stačí zpět naklonovat repozitář jakéhokoli klienta a máte přesně takový stav, jaký byl na serveru
-v době, kdy ho on naposledy aktualizoval. Možná ztratíte nějaká specifická serverová nastavení, ale každopádně to cenné -- spravovaná data -- máte
-v bezpečí.
-
-Repozitář naklonujete příkazem `git clone [url]`. Např. pro naklonování knihovny Gitu pro Ruby (Grit) provedete tento příkaz:
+Anda menduplikasi sebuah repositori menggunakan perintah `git clone [url]`. Sebagai contoh, jika Anda ingin menduplikasi pustaka Git Ruby yang disebut Grit, Anda dapat melakukannya sebagai berikut:
 
 	$ git clone git://github.com/schacon/grit.git
 
-Ten vytvoří adresář "grit", v něm adresář `.git`, stáhne všechna data repozitáře a rozbalí aktuální verzi. Pokud vstoupíte do tohoto nového
-adresáře, najdete v něm všechny soubory projektu připravené k práci nebo použití.
-Když chcete naklonovat repozitář někam jinam než do složky "grit", můžete mu to říct takto:
+Perintah ini akan membuat sebuah direktori yang dinamakan "grit", menata awal sebuah direktori `.git` di dalamnya, menarik semua data dari repositori, dan `checkout` versi mutakhir dari salinan kerja. Jika Anda masuk ke dalam direktori `grit` tersebut, Anda akan melihat berkas-berkas proyek sudah ada di sana, siap untuk digunakan. Jika Anda ingin membuat duplikasi dari repositori tersebut ke direktori yang tidak dinamakan grit, Anda harus merumuskan namanya sebagai opsi di perintah di atas:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-Tak provedete všechno, co udělal minulý příkaz, ale do adresáře `mygrit`.
+Perintah ini bekerja seperti perintah sebelumnya, namun direktori tujuannya akan diberi nama mygrit.
 
-Git podporuje více různých přenosových protokolů. Předchozí příklad používá protokol `git://`, ale také můžete použít `http(s)://`
-nebo `uživatel@server:/cesta.git`, což použije SSH. Všechny možnosti včetně jejich pro a proti si ukážeme v kapitole 4.
+Git memiliki beberapa protokol transfer yang berbeda yang dapat digunakan. Pada contoh sebelumnya, kita menggunakan protokol `git://`, tetapi Anda juga dapat menggunakan `http(s)://` atau `user@server:/path.git`, yang akan menggunakan SSH sebagai protokol transfer. Bab 4 akan memperkenalkan Anda kepada semua opsi yang tersedia yang dapat ditata di sisi server untuk mengakses repositori Git Anda dan keuntungan dan kelebihan dari masing-masing protokol.
 
-## Zaznamenávání změn do repozitáře ##
+## Merekam Perubahan ke dalam Repositori ##
 
-Nyní máte připravený repozitář Gitu a checkout neboli pracovní kopii souborů projektu.
-Potřebujete udělat nějaké změny a ukládat commity těchto změn do repozitáře pokaždé, když
-projekt dospěje do stavu, který chcete zaznamenat.
+Anda sudah memiliki repositori Git yang bonafide dan sebuah salinan kerja dari semua berkas untuk proyek tersebut. Anda harus membuat beberapa perubahan dan commit perubahan tersebut ke dalam repositori setiap saat proyek mencapai sebuah keadaan yang ingin Anda rekam.
 
-Pamatujte, že každý soubor ve vašem pracovním adresáři může být v jednom ze dvou stavů:
-tracked nebo untracked. První z nich jsou ty, které byly v posledním snímku. Mohou být
-nezměněny, změněny, nebo staged. Untracked je všechno ostatní. V posledním snímku nebyly,
-nejsou ve staging area a Git se o ně nestará. Když poprvé naklonujete repozitář, všechny
-vaše souboru budou tracked a unmodified, protože jste je právě zkopírovali z repozitáře
-a nic ještě neupravili.
+Ingat bahwa setiap berkas di dalam direktori kerja Anda dapat berada di 2 keadaan: terpantau atau tak-terpantau. Berkas terpantau adalah berkas yang sebelumnya berada di snapshot terakhir; mereka dapat berada dalam kondisi belum terubah, terubah, ataupun staged (berada di area stage). Berkas tak-terpantau adalah kebalikannya - merupakan berkas-berkas di dalam direktori kerja yang tidak berada di dalam snapshot terakhir dan juga tidak berada di area staging. Ketika Anda pertama kali menduplikasi sebuah repositori, semua berkas Anda akan terpantau dan belum terubah karena Anda baru saja melakukan checkout dan belum mengubah apapun.
 
-Když upravujete soubory, Git je prohlásí za změněné, protože se změnily vzhledem k poslednímu
-commitu. Vy je vložíte do staging area, vyrobíte commit ze všech těchto změn a cyklus se opakuje
-jako na obrázku 2-1.
+Sejalan dengan proses edit yang Anda lakukan terhadap berkas-berkas tersebut, Git mencatatnya sebagai terubah, karena Anda telah mengubahnya sejak terakhir commit. Anda kemudian memasukkan berkas-berkas terubah ini ke dalam area stage untuk kemudian dilakukan commit, dan terus siklus ini berulang. Siklus perubahan ini diilustrasikan di Figure-2.1 
 
 Insert 18333fig0201.png 
-Obrázek 2-1. Cyklus stavů vašich souborů
+Figure 2-1. The lifecycle of the status of your files.
 
-### Kontrola stavu vašich souborů ###
+### Cek Status dari Berkas Anda ###
 
-Základní nástroj, který se používá na určování, který soubor je v jakém stavu, je
-příkaz `git status`. Pokud ho pustíte hned po `git clone`, měli byste vidět něco jako:
+Alat utama yang Anda gunakan untuk menentukan berkas-berkas mana yang berada dalam keadaan tertentu adalah melalui perintah `git status`. Jika Anda menggunakan alat ini langsung setelah sebuah `clone`, Anda akan melihat serupa seperti di bawah ini:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-To znamená, že máte čistý pracovní adresář -- jinými slovy, nejsou v něm žádné soubory
-změněné (modified) a žádné nejsou v indexu (staged).
-Git také nevidí žádný přebývající (untracked) soubor, jinak by ho vypsal. A konečně vám
-příkaz sdělí, v jaké jste větvi. Protentokrát to bude vždy master, ten je výchozí; teď
-a tady se o to starat nemusíte. Větvení a reference probereme detailně v další kapitole.
+Ini berarti Anda memiliki direktori kerja yang bersih-dengan kata lain, tidak ada berkas terpantau yang terubah. Git juga tidak melihat berkas-berkas yang tak terpantau, karena pasti akan dilaporkan oleh alat ini. Juga, perintah ini memberitahu Anda tentang cabang tempat Anda berada. Pada saat ini, cabang akan selalu berada di master, karena sudah menjadi default-nya; Anda tidak perlu khawatir tentang cabang dulu. Bab berikutnya akan membahas tentang percabangan dan referensi secara lebih detil.
 
-Řekněme, že přidáte nový soubor do vašeho projektu, třeba jednoduché README. Pokud ten soubor
-dosud neexistoval a vy pustíte `git status`, uvidíte soubor ve stavu untracked:
+Mari kita umpamakan Anda menambah sebuah berkas baru ke dalam proyek Anda, misalnya sesederhana berkas README. Jika file tersebut belum ada sebelumnya, dan Anda melakukan `git status`, Anda akan melihatnya sebagai berkas tak-terpantau seperti berikut ini:
 
 	$ vim README
 	$ git status
@@ -103,22 +70,15 @@ dosud neexistoval a vy pustíte `git status`, uvidíte soubor ve stavu untracked
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-Je vidět, že vaše README je untracked, protože je pod nadpisem "Untracked files"
-ve výpisu stavu. To jednoduše znamená, že tento soubor Git dosud nespravoval, a také ho
-spravovat nebude, dokud mu to explicitně neřeknete. Dělá to proto, aby nezačal náhodou
-zběsile spravovat vygenerované binární soubory nebo jiné, třeba dočasné soubory, které
-určitě do projektu zahrnout nechcete. Toto README však chcete spravovat, nuže pojďme si
-ukázat, jak na to.
+Anda akan melihat bahwa berkas baru Anda README belum terpantau, karena berada di bawah judul "Untracked files" di keluaran status Anda. Untracked pada dasarnya berarti bahwa Git melihat sebuah berkas yang sebelumnya tidak Anda miliki di snapshot (commit) sebelumnya; Git tidak akan mulai memasukkannya ke dalam snapshot commit hingga Anda secara eksplisit memerintahkan Git. Git berlaku seperti ini agar Anda tidak secara tak-sengaja mulai menyertakan berkas biner hasil kompilasi atau berkas lain yang tidak Anda inginkan untuk disertakan. Anda hanya ingin mulai menyertakan README, mari kita mulai memantau berkas tersebut.
 
-### Spravování nových souborů ###
+### Memantau Berkas Baru ###
 
-K započetí spravování nových souborů použijeme příkaz `git add`. Konkrétně v tomto případě,
-abychom přidali soubor README, spustíme toto:
+Untuk mulai memantau berkas baru, Anda menggunakan perintah `git add`. Untuk mulai memantau berkas README tadi, Anda menjalankannya seperti berikut:
 
 	$ git add README
 
-Pokud si nyní znovu zkontrolujeme stav příkazem `git status`, můžeme vidět,
-že naše README je nyní tracked a staged:
+Jika Anda menjalankan perintah `status` lagi, Anda akan melihat bahwa berkas README Anda sekarang sudah terpantau dan sudah masuk ke dalam area stage:
 
 	$ git status
 	# On branch master
@@ -128,18 +88,11 @@ Pokud si nyní znovu zkontrolujeme stav příkazem `git status`, můžeme vidět
 	#	new file:   README
 	#
 
-Staged je proto, že je pod nadpisem "Changes to be committed". Pokud uděláte commit v tuto
-chvíli, bude verze souboru ve chvíli, kdy jste udělali `git add`, vložena do snímku a uložena.
-Můžete si také vzpomenout, že když jste dříve pouštěli `git init`, museli jste pak pustit
-i `git add` -- to byl počátek správy souborů ve vašem adresáři. Příkaz `git add` přebírá cestu
-buďto k souboru nebo k adresáři; pokud je to adresář, uloží příkaz všechny soubory v onom adresáři.
-Rekurzivně.
+Anda dapat mengatakan bahwa berkas tersebut berada di dalam area stage karena tertulis di bawah judul "Changes to be committed". Jika Anda melakukan commit pada saat ini, versi berkas pada saat Anda menjalankan `git add` inilah yang akan dimasukkan ke dalam sejarah snapshot. Anda mungkin ingat bahwa ketika Anda menjalankan `git init` sebelumnya, Anda melanjutkannya dengan `git add (nama berkas)` - yang akan mulai dipantau di direktori Anda. Perintah `git add` ini mengambil alamat dari berkas ataupun direktori; jika sebuah direktori, perintah tersebut akan menambahkan seluruh berkas yang berada di dalam direktori secara rekursif.
 
-### Vkládání upravených souborů do indexu ###
+### Memasukkan Berkas Terubah ke Dalam Area Stage ###
 
-Nyní změníme soubor, který už spravujeme. Když změníte spravovaný soubor, pro příklad nechť
-se jmenuje `benchmarks.rb`, a pak pustíte `git status` znovu, dostanete něco, co bude vypadat
-zhruba takto:
+Mari kita ubah sebuah berkas yang sudah terpantau. Jika Anda mengubah berkas yang sebelumnya terpantau bernama `benchmarks.rb` dan kemudian menjalankan perintah `status` lagi, Anda akan mendapatkan keluaran kurang lebih seperti ini:
 
 	$ git status
 	# On branch master
@@ -154,12 +107,7 @@ zhruba takto:
 	#	modified:   benchmarks.rb
 	#
 
-Soubor `benchmarks.rb` se objevil v sekci nazvané "Changed but not updated" -- to znamená, že
-soubor, který je spravován, byl upraven v pracovním adresáři, ale ještě nebyl vložen do indexu.
-K vložení do indexu použijeme příkaz `git add` (má mnoho funkcí -- je používán k započetí správy
-nových souborů, ke vkládání do indexu a i k jiným operacím, např. k označování souborů postižených
-merge-conflictem jako vyřešených). Vložme tedy `benchmarks.rb` do indexu a pak si znovu zobrazme
-status:
+Berkas benchmarks.rb terlihat di bawah bagian yang bernama "Changed but not updated" - yang berarti bahwa sebuah berkas terpantau telah berubah di dalam direktori kerja namun belum masuk ke area stage. Untuk memasukkannya ke area stage, Anda menjalankan perintah `git add` (perintah ini adalah perintah multiguna - Anda menggunakannya untuk mulai memantau berkas baru, untuk memasukkannya ke area stage, dan untuk melakukan hal lain seperti menandai berkas terkonflik menjadi terpecahkan). Mari kita sekarang jalankan `git add` untuk memasukkan berkas benchmarks.rb ke dalam area stage, dan jalankan `git status` lagi:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -171,10 +119,7 @@ status:
 	#	modified:   benchmarks.rb
 	#
 
-Oba soubory jsou v indexu a půjdou do nejbližšího commitu. V tuto chvíli jste si ale uvědomili,
-že v souboru `benchmarks.rb` je potřeba udělat ještě jednu malou změnu, než ho uložíte do commitu.
-Otevřete ho tedy znovu, uložíte a jste připraveni vytvořit commit. Tak se ještě jednou podíváme
-na status:
+Kedua file sekarang berada di area stage dan akan masuk ke dalam commit Anda berikutnya. Pada saat ini, semisal Anda teringat satu perubahan yang Anda ingin buat di benchmarks.rb sebelum Anda lakukan commit. Anda buka berkas tersebut kembali dan melakukan perubahan tersebut, dan Anda siap untuk melakukan commit. Namun, mari kita coba jalankan `git status` kembali:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -191,12 +136,7 @@ na status:
 	#	modified:   benchmarks.rb
 	#
 
-Co to má znamenat? Teď je soubor `benchmarks.rb` označen jako staged i jako unstaged.
-Jak je to možné? Git vloží soubor do indexu právě takový, jaký byl, když jste na něj
-naposled použil `git add`. Pokud vytvoříte commit teď, bude do něj uložena ta verze,
-která je v indexu, tedy ta, která byla v adresáři ve chvíli, kdy byl naposled použit
-příkaz `git add`. Takže pokud chcete uložit i následující změny, musíte pustit `git add`
-znovu:
+Apa? Sekarang benchmarks.rb terdaftar di dua tempat: area stage dan area terubah. Bagaimana hal ini bisa terjadi? Ternyata Git memasukkan berkas ke area stage tepat seperti ketika Anda menjalankan perintah `git add`. Jika Anda commit sekarang, versi benchmarks.rb pada saat Anda terakhir lakukan perintah `git add`-lah yang akan masuk ke dalam commit, bukan versi berkas yang saat ini terlihat di direktori kerja Anda ketika Anda menjalankan `git commit`. Jika Anda mengubah sebuah berkas setelah Anda menjalankan `git add`, Anda harus menjalankan `git add` kembali untuk memasukkan versi berkas terakhir ke dalam area stage:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -208,39 +148,39 @@ znovu:
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### Mengabaikan Berkas ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+Terkadang, Anda memiliki sekumpulan berkas yang Anda tidak ingin Git tambahkan secara otomatis atau bahkan terlihat sebagai tak-terpantau. Biasanya berkas hasil keluaran seperti berkas log atau berkas yang dihasilkan oleh sistem build Anda. Dalam kasus ini, Anda dapat membuat sebuah berkas bernama .gitignore yang berisi pola dari berkas terabaikan. Berikut adalah sebuah contoh isi dari berkas .gitignore:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+Baris pertama memberitahu Git untuk mengabaikan semua file yang berakhiran .o atau .a - berkas object dan arsip yang mungkin dihasilkan dari kompilasi kode Anda. Baris kedua memberitahu Git untuk mengabaikan semua file yang berakhiran dengan sebuah tilde (`~`), yang biasanya digunakan oleh banyak aplikasi olah-kata seperti Emacs untuk menandai berkas sementara. Anda juga dapat memasukkan direktori log, tmp ataupun pid; dokumentasi otomatis; dan lainnya. Menata berkas .gitignore sebelum Anda mulai bekerja secara umum merupakan ide yang baik sehingga Anda tidak secara tak-sengaja melakukan commit terhadap berkas yang sangat tidak Anda inginkan berada di dalam repositori Git.
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+Aturan untuk pola yang dapat Anda gunakan di dalam berkas .gitignore adalah sebagai berikut:
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+*	Baris kosong atau baris dimulai dengan # akan diabaikan.
+*	Pola glob standar dapat digunakan.
+*	Anda dapat mengakhir pola dengan sebuah slash (`/`) untuk menandai sebuah direktori.
+*	Anda dapat menegasikan sebuah pola dengan memulainya menggunakan karakter tanda seru (`!`).
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+Pola Glob adalah seperti regular expression yang disederhanakan yang biasanya digunakan di shell. Sebuah asterisk (`*`) berarti 0 atau lebih karakter; `[abc]` terpasangkan dengan karakter apapun yang ditulis dalam kurung siku (dalam hal ini a, b, atau c); sebuah tanda tanya (`?`) terpasangkan dengan sebuah karakter; dan kurung siku yang melingkupi karakter yang terpisahkan dengan sebuah tanda hubung(`[0-9]`) terpasangkan dengan karakter apapun yang berada diantaranya (dalam hal ini 0 hingga 9).
 
-Here is another example .gitignore file:
+Berikut adalah contoh lain dari isi berkas .gitignore:
 
-	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# sebuah komentar – akan diabaikan
+	*.a       # abaikan berkas .a
+	!lib.a    # tapi pantau lib.a, walaupun Anda abaikan berkas .a di atas
+	/TODO     # hanya abaikan berkas TODO yang berada di rooto, bukan di subdir/TODO
+	build/    # abaikan semua berkas di dalam direktori build/
+	doc/*.txt # abaikan doc/notes.txt, tapi bukan doc/server/arch.txt
 
-### Viewing Your Staged and Unstaged Changes ###
+### Melihat Perubahan di Area Stage dan di luar Area Stage ###
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+Jika perintah `git status` terlalu kabur untuk Anda - Anda ingin mengetahui secara pasti apa yang telah berubah, bukan hanya berkas mana yang berubah - Anda dapat menggunakan perintah `git diff`. Kita akan bahas `git diff` secara lebih detil nanti; namun Anda mungkin menggunakannya paling sering untuk menjawab 2 pertanyaan berikut: Apa yang Anda ubah tapi belum dimasukkan ke area stage? Dan apa yang telah Anda ubah yang akan segera Anda commit? Walaupun `git status` menjawab pertanyaan tersebut secara umum, `git diff` menunjukkan kepada Anda dengan tepat baris yang ditambahkan dan dibuang - dalam bentuk patch-nya.
 
-Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
+Mari kita anggap Anda mengubah dan memasukkan berkas README ke area stage lagi dan kemudian mengubah berkas benchmarks.rb tanpa memasukkannya ke area stage. Jika Anda jalankan perintah `status` Anda, Anda akan sekali lagi melihat keluaran seperti berikut:
 
 	$ git status
 	# On branch master
@@ -255,7 +195,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#	modified:   benchmarks.rb
 	#
 
-To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
+Untuk melihat apa yang Anda telah ubah namun belum masuk ke area stage, ketikkan `git diff` tanpa argumen lainnya.
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -274,9 +214,9 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+Perintah di atas membandingkan apa yang ada di direktori kerja Anda dengan apa yang ada di area stage. Hasilnya memberitahu Anda bahwa perubahan yang Anda ubah namun belum masuk ke area stage.
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+Jika Anda ingin melihat apa yang telah Anda masukkan ke area stage yang nantinya akan masuk ke commit Anda berikutnya, Anda dapat menggunakan `git diff --cached`. (Di Git versi 1.6.1 atau yang lebih tinggi, Anda dapat juga menggunakan `git diff --staged`, yang mungkin lebih mudah untuk diingat). Perintah ini membandingkan area stage Anda dengan commit Anda terakhir:
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -291,9 +231,9 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+Satu hal penting yang harus dicatat adalah bahwa `git diff` saja tidak memperlihatkan semua perubahan yang telah Anda lakukan sejak terakhir Anda commit - hanya perubahan yang belum masuk ke area stage saja. Mungkin agak sedikit membingungkan, karena jika Anda telah memasukkan semua perubahan ke area stage, `git diff` akan memberikan keluaran kosong.
 
-For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
+Sebagai contoh lain, jika Anda memasukkan berkas benchmarks.rb ke area stage dan kemudian meng-editnya, Anda dapat menggunakan `git diff` untuk melihat perubahan di berkas tersebut yang telah masuk ke area stage dan perubahan yang masih di luar area stage:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -309,7 +249,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
-Now you can use `git diff` to see what is still unstaged
+Sekarang Anda dapat menggunakan `git diff` untuk melihat apa saja yang masih belum dimasukkan ke area stage:
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -322,7 +262,7 @@ Now you can use `git diff` to see what is still unstaged
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
 
-and `git diff --cached` to see what you’ve staged so far:
+dan `git diff --cached` untuk melihat apa yang telah Anda masukkan ke area stage sejauh ini:
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -341,16 +281,16 @@ and `git diff --cached` to see what you’ve staged so far:
 	          log = git.commits('master', 15)
 	          log.size
 
-### Committing Your Changes ###
+### Commit Perubahan Anda ###
 
-Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
+Sekarang setelah area stage Anda tertata sebagaimana yang Anda inginkan, Anda dapat melakukan commit terhadap perubahan Anda. Ingat bahwa apapun yang masih di luar area stage - berkas apapun yang Anda telah buat atau ubah yang belum Anda jalankan `git add` terhadapnya sejak terakhir Anda edit - tidak akan masuk ke dalam commit ini. Perubahan tersebut akan tetap sebagai berkas terubah di cakram Anda. 
+Dalam hal ini, saat terakhir Anda jalankan `git status`, Anda telah melihat bahwa semuanya telah masuk ke stage, sehingga Anda siap untuk melakukan commit dari perubahan Anda. Cara termudah untuk melakukan commit adalah dengan mengetikkan `git commit`:
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+Dengan melakukan ini, aplikasi olahkata pilihan Anda akan terjalankan (Ini ditata oleh variabel lingkungan `$EDITOR` di shell Anda - biasanya vim atau emacs, walaupun Anda dapat mengkonfigurasinya dengan apapun yang Anda inginkan menggunakan perintah `git config -- global core.editor` yang telah Anda lihat di Bab 1).
 
-The editor displays the following text (this example is a Vim screen):
+Aplikasi olahkata akan menampilakn teks berikut (contoh berikut adalah dari layar Vim):
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -365,22 +305,22 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+Anda dapat melihat bahwa pesan commit standar berisi keluaran terakhir dari perintah `git status` yang terkomentari dan sebuah baris kosong di bagian atas. Anda dapat membuang komentar-komentar ini dan mengetikkan pesan commit Anda, atau Anda dapat membiarkannya untuk membantu Anda mengingat apa yang akan Anda commit. (Untuk pengingat yang lebih eksplisit dari apa yang Anda ubah, Anda dapat menggunakan opsi `-v` di perintah `git commit`. Melakukan hal ini akan membuat diff dari perubahan Anda di dalam olahkata sehingga Anda dapat melihat secara tepat apa yang telah Anda lakukan). Ketika Anda keluar dari olahkata, Git akan membuat commit Anda dengan pesan yang Anda buat (dengan bagian terkomentari dibuang).
 
-Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
+Cara lainnya, Anda dapat mengetikkan pesan commit Anda sebaris denegan perintah `commit` dengan mencantumkannya setelah tanda -m seperti berikut:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+Sekarang Anda telah membuat commit pertama Anda~ Anda dapat lihat bahwa commit tersebut telah memberi Anda beberapa keluaran tentang dirinya sendiri: cabang apa yang Anda jadikan target commit (master), ceksum SHA-1 apa yang commit tersebut miliki (`463dc4f`), berapa banyak berkas yang diubah, dan statistik tentang jumlah baris yang ditambah dan dibuang dalam commit tersebut.
 
-Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
+Ingat bahwa commit merekam snapshot yang Anda telah tata di area stage. Apapun yang tidak Anda masukkan ke area stage akan tetap berada di tempatnya, tetap dalam keadaan terubah; Anda dapat melakukan commit lagi untuk memasukkannya ke dalam sejarah Anda. Setiap saat Anda melakukan sebuah commit, Anda merekamkan sebuah snapshot dari proyek Anda yang bisa Anda kembalikan atau Anda bandingkan nantinya.
 
-### Skipping the Staging Area ###
+### Melewatkan Area Stage ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+Walaupun dapat menjadi sangat berguna untuk menata commit tepat sebagaimana Anda inginkan, area stage terkadang sedikit lebih kompleks dibandingkan apa yang Anda butuhkan di dalam alurkerja Anda. Jika Anda ingin melewatkan area stage, Git menyediakan sebuah jalan pintas sederhana. Dengan memberikan opsi `-a` ke perintah `git commit` akan membuat Git secara otomatis menempatkan setiap berkas yang telah terpantau ke area stage sebelum melakukan commit, membuat Anda dapat melewatkan bagian `git add`:
 
 	$ git status
 	# On branch master
@@ -393,13 +333,13 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+Perhatikan bagaimana Anda tidak perlu menjalankan `git add` terhadap berkas benchmarks.rb dalam hal ini sebelum Anda commit.
 
-### Removing Files ###
+### Menghapus Berkas ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+Untuk menghapus sebuah berkas dari Git, Anda harus menghapusnya dari berkas terpantau (lebih tepatnya, mengpus dari area stage) dan kemudian commit. Perintah `git rm` melakukan hal tadi dan juga menghapus berkas tersebut dari direktori kerja Anda sehingga Anda tidak melihatnya sebagai berkas yang tak terpantau nantinya.
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+Jika Anda hanya menghapus berkas dari direktori kerja Anda, berkas tersebut akan muncul di bagian "Changed but not updated" (yaitu, di luar area stage) dari keluaran `git status` Anda:
 
 	$ rm grit.gemspec
 	$ git status
@@ -411,7 +351,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+Kemudian, jika Anda jalankan `git rm`, Git akan memasukkan penghapusan berkas tersebut ke area stage:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -424,20 +364,21 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+Pada saat Anda commit nantinya, berkas tersebut akan hilang dan tidak lagi terpantau. Jika Anda mengubah berkas tersebut dan menambahkannya lagi ke index, Anda harus memaksa penghapusannya dengan menggunakan opsi `-f`. Ini adalah fitur keamanan (safety) untuk mencegah ketidaksengajaan penghapusan terhadap data yang belum terekam di dalam snapshot dan tak dapat dikembalikan oleh Git.
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+Hal berguna lain yang Anda dapat lakukan adalah untuk tetap menyimpan berkas di direktori kerja tetapi menghapusnya dari area kerja. Dengan kata lain, Anda mungkin ingin tetap menyimpan berkas tersebut di dalam cakram keras tetapi tidak ingin Git untuk memantaunya lagi. Hal ini khususnya berguna jika Anda lupa untuk menambahkan sesuaitu ke berkas `.gitignore` Anda dan secara tak-sengaja menambahkannya, seperti sebuah berkas log yang besar, atau sekumpulan berkas hasil kompilasi `.a`. Untuk melakukan ini, gunakan opsi `--cached`:
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+Anda dapat menambahkan nama berkas, direktori, dan pola glob ke perintah `git rm`. Ini berarti Anda dapat melakukan hal seperti
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+Perhatikan karakter backslash (`\`) di depan tanda `*`. Ini dibutuhkan agar Git juga meng-ekspansi nama berkas sebagai tambahan dari ekspansi nama berkas oleh shell Anda. Perintah ini mengapus semua berkas yang memiliki ekstensi `.log` di dalam direktori `log/`. Atau, Anda dapat melakukannya seperti ini:
 
 	$ git rm \*~
 
+Perintah ini akan membuang semua berkas yang berakhiran dengan `~`.
 This command removes all files that end with `~`.
 
 ### Moving Files ###
@@ -679,7 +620,7 @@ Of the nearly 20,000 commits in the Git source code history, this command shows 
 If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
 
 Insert 18333fig0202.png 
-Figure 2-2. The gitk history visualizer
+Figure 2-2. The gitk history visualizer.
 
 You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
 
@@ -703,7 +644,7 @@ As an example, if you commit and then realize you forgot to stage the changes in
 	$ git add forgotten_file
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second command replaces the results of the first.
+All three of these commands end up with a single commit — the second commit replaces the results of the first.
 
 ### Unstaging a Staged File ###
 
@@ -828,13 +769,13 @@ Paul’s master branch is accessible locally as `pb/master` — you can merge it
 
 ### Fetching and Pulling from Your Remotes ###
 
-As you just saw, to get data from your remote projects, you can run
+As you just saw, to get data from your remote projects, you can run:
 
 	$ git fetch [remote-name]
 
 The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
 
-If you cloned a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
 
 If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 

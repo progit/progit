@@ -1,7 +1,7 @@
 # Основы Git #
 # Git Basics #
 
-Если вы хотите начать работать с Git прочитав всего одну главу, то эта глава — то что вам нужно. Здесь рассмотрены все базовые команды, необходимые вам для решения подавляющего большинства задач возникающих при работе с Git. После прочтения этой главы вы сможете настроить и инициализировать репозиторий, добавлять и удалять файлы под версионный контроль, а также stage и фиксировать (commit) изменения. Мы также продемонстрируем вам как настроить игнорирование отдельных файлов или их групп в Git, как быстро и просто отменить ошибочные изменения, как просмотреть историю вашего проекта и изменения между отдельными коммитами (commit), а также как выкладывать (push) и забирать (pull) изменения в/из удаленного (remote) репозитория.
+Если Вы хотите начать работать с Git прочитав всего одну главу, то эта глава — то что вам нужно. Здесь рассмотрены все базовые команды, необходимые вам для решения подавляющего большинства задач возникающих при работе с Git. После прочтения этой главы вы сможете настроить и инициализировать репозиторий, добавлять и удалять файлы под версионный контроль, а также stage и фиксировать (commit) изменения. Мы также продемонстрируем вам как настроить игнорирование отдельных файлов или их групп в Git, как быстро и просто отменить ошибочные изменения, как просмотреть историю вашего проекта и изменения между отдельными коммитами (commit), а также как выкладывать (push) и забирать (pull) изменения в/из удаленного (remote) репозитория.
 
 If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
 
@@ -44,7 +44,7 @@ We’ll go over what these commands do in just a minute. At this point, you have
 
 If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
 
-Клонирование репозитория осуществляется командой `git clone [url]`. Например, если вы хотите клонировать библиотеку для использования Git из Ruby известную как Grit, вы можете сделать это следующим образом:
+Клонирование репозитория осуществляется командой `git clone [url]`. Например, если вы хотите клонировать библиотеку Ruby Git известную как Grit, вы можете сделать это следующим образом:
 
 You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
 
@@ -118,7 +118,7 @@ You can see that your new README file is untracked, because it’s under the “
 ### Отслеживание Новых Файлов ###
 ### Tracking New Files ###
 
-Для того, чтобы начать отслеживать (добавить под версионный контроль) новый файл, используйте команду `git add`. Чтобы начать отслеживание файла README, следует выполнить:
+Для того чтобы начать отслеживать (добавить под версионный контроль) новый файл, вы используете команду `git add`. Чтобы начать отслеживание файла README, вы можете выполнить:
 
 In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
 
@@ -136,7 +136,7 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-То что файл проиндексирован можно понять по тому, что он находится в секции “Changes to be committed”. Если выполнить коммит в этот момент, то версия файла, существовавшая на момент выполнения вами команды git add, будет добавлена в историю снимков состояния. Вы помните, что когда вы ранее выполнили git init, вы затем выполнили git add (files) -- это было сделано для того, чтобы добавить файлы в вашем каталоге под версионный контроль. Команда git add принимает в качестве параметра путь к файлу или каталогу, если это каталог, команда рекурсивно добавляет (индексирует) все файлы в данном каталоге.
+Вы можете видеть что файл проиндексирован по тому, что он находится в секции “Changes to be committed”. Если вы выполните коммит в этот момент, то версия файла, существовавшая на момент выполнения вами команды git add, будет добавлена в историю снимков состояния. Вы помните, что когда вы ранее выполнили git init, вы затем выполнили git add (files) - это было сделано для того, чтобы добавить файлы в вашем каталоге под версионный контроль. Команда git add принимает параметром путь к файлу или каталогу, если это каталог, команда рекурсивно добавляет (индексирует) все файлы в данном каталоге.
 
 You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
 
@@ -222,7 +222,7 @@ Often, you’ll have a class of files that you don’t want Git to automatically
 
 The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
 
-в файле .gitignore к шаблонам применяются следующие правила:
+в файле .gitignore к шаблонам применяются следующие привила:
 
 The rules for the patterns you can put in the .gitignore file are as follows:
 
@@ -236,7 +236,7 @@ The rules for the patterns you can put in the .gitignore file are as follows:
 *	You can end patterns with a forward slash (`/`) to specify a directory.
 *	You can negate a pattern by starting it with an exclamation point (`!`).
 
-Glob шаблоны представляют собой упрощенные регулярные выражения используемые командными интерпретаторами. Символ `*` соответствует нулю или более символов; `[abc]` -- одному из символов указанных в скобках (в данном примере a, b или c); знак вопроса (`?`) соответствует одному символу; `[0-9]` -- соответствует одному символу из интервала (в данном случае от 0 до 9).
+Glob шаблоны представляют собой упрощенные регулярные выражения используемые командными интерпретаторами. Символ `*` соответствует 0 или более любых символов; последовательность `[abc]` - любому символу из указанных в скобка (в данном примере a, b или c); знак вопроса (`?`) соответствует любому одному символу; `[0-9]` - соответствует любому символу из интервала (в данном случае от 0 до 9).
 
 Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
 
@@ -246,7 +246,7 @@ Here is another example .gitignore file:
 
 	# комментарий – эта строка игнорируется
 	*.a       # не обрабатывать файлы имя которых заканчивается на .a
-	!lib.a    # отслеживать файл lib.a, несмотря на то, что предыдущее правило игнорирует все .a файлы
+	!lib.a    # НО отслеживать файл lib.a, несмотря на то, что мы игнорируем все .a файлы с помощью предыдущего правила
 	/TODO     # игнорировать только файл TODO находящийся в корневом каталоге, не относится к файлам вида subdir/TODO
 	build/    # игнорировать все файлы в каталоге build/
 	doc/*.txt # игнорировать doc/notes.txt, но не doc/server/arch.txt
@@ -258,7 +258,7 @@ Here is another example .gitignore file:
 	build/    # ignore all files in the build/ directory
 	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
 
-### Просмотр Индексированных и Неиндексированных Изменений ###
+### Просмотр Ваших Индексированных и Неиндексированных Изменений ###
 ### Viewing Your Staged and Unstaged Changes ###
 
 Если результат работы команды `git status` недостаточно информативен для вас — вам хочется знать, что конкретно поменялось, а не только какие файлы были изменены — вы можете использовать команду `git diff`. Позже мы рассмотрим команду `git diff` подробнее; вы скорее всего будете использовать эту команду для получения ответов на два вопроса: что вы изменили но еще не проиндексировали, и что вы проиндексировали и собираетесь фиксировать. Если `git status` отвечает на эти вопросы слишком обобщенно, то `git diff` показывает вам непосредственно добавленные и удаленные строки - собственно заплатку (patch).
@@ -303,11 +303,11 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-Эта команда сравнивает содержимое рабочего каталога с содержимым индекса. Результат показывает еще не проиндексированные изменения.
+Эта команда сравнивает содержимое вашего рабочего каталога с содержимым индекса. Результат показывает ваши еще не проиндексированные изменения.
 
 That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
 
-Если вы хотите посмотреть, что проиндексировано и войдет в следующий коммит, вы можете выполнить `git diff –-cached`. (В Git версии 1.6.1 и выше, вы также можете использовать `git diff –-staged`, которая легче запоминается.) Эта команда сравнивает ваши индексированные изменения с последним коммитом:
+Если вы хотите посмотреть, что вы проиндексировали и что войдет в следующий коммит, вы можете выполнить `git diff –-cached`. (В Git версии 1.6.1 и выше, вы также можете использовать `git diff –-staged`, которая легче запоминается.) Эта команда сравнивает ваши индексированные изменения с последним коммитом:
 
 If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
 
@@ -382,7 +382,7 @@ and `git diff --cached` to see what you’ve staged so far:
 	          log = git.commits('master', 15)
 	          log.size
 
-### Фиксация Изменений ###
+### Фиксация Ваших Изменений ###
 ### Committing Your Changes ###
 
 Теперь, когда ваш индекс настроен так как вам и хотелось, вы можете зафиксировать ваши изменения. Запомните, все что до сих пор не проиндексировано — любые файлы, созданные или измененные вами, и для которых вы не выполнили `git add` после момента редактирования — не войдут в этот коммит. Они останутся измененными файлами на вашем диске.
@@ -414,7 +414,7 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-Вы можете видеть, что комментарий по умолчанию для коммита содержит закомментированный результат работы ("выхлоп") команды `git status` и сверху одну пустую строку. Вы можете удалить эти комментарии и набрать ваше сообщение или же оставить их, чтобы впоследствии помочь вам вспомнить — что же вы фиксировали. (Для еще более подробного напоминания, что же вы именно меняли, вы можете передать аргумент `-v` в команду `git commit`. Это приведет к тому, что в комментарий будет помещена также разница/diff ваших изменений, таким образом вы сможете точно увидеть что же вы сделали.) Когда вы выходите из редактора, Git создает ваш коммит с этим сообщением (с комментариями и выводом diff-а).
+Вы можете видеть, что комментарий по-умолчанию для коммита содержит закомментированный результат работы ("выхлоп") команды `git status` и сверху одну пустую строку. Вы можете удалить эти комментарии и набрать ваше сообщение или же оставить их, чтобы впоследствии помочь вам вспомнить — что же вы фиксировали. (Для еще более подробного напоминания, что же вы именно меняли, вы можете передать аргумент `-v` в команду `git commit`. Это приведет к тому, что в комментарий будет помещена также разница/diff ваших изменений, таким образом вы сможете точно увидеть что же вы сделали.) Когда вы выходите из редактора, Git создает ваш коммит с этим сообщением (с комментариями и выводом diff-а).
 
 You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
 
@@ -497,7 +497,7 @@ Then, if you run `git rm`, it stages the file’s removal:
 
 The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
 
-Другая полезная штука, которую вы можете захотеть сделать — это удалить файл из индекса, оставив его при этом в вашем рабочем каталоге. Другими словами, вы можете захотеть оставить файл на вашем винчестере, и убрать его из под бдительного ока Git-а. Это особенно полезно, если вы забыли добавить что-то в ваш файл `.gitignore` и по ошибке проиндексировали, например большой файл с логами, или кучу промежуточных файлов компиляции. Чтобы это сделать, используйте параметр `--cached`:
+Другая полезная штука, которую вы можете захотеть сделать — это удалить файл из индекса, оставив его при этом в вашем рабочем каталоге. Другими словами, вы можете захотеть оставить файл на вашем винчестере, и убрать его из под бдительного ока Git-а. Это особенно полезно, если вы забыли добавить что-то в ваш файл `.gitignore` и по-ошибке проиндексировали, например большой файл с логами, или куча промежуточных файлов компилляции. Чтобы это сделать, используйте параметр `--cached`:
 
 Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
 
@@ -532,7 +532,7 @@ Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a
 
 	$ git mv file_from file_to
 
-и это отлично сработает. На самом деле, если вы выполните что-то вроде этого и посмотрите на статус, вы увидите что Git считает файл переименованным :
+и это отлично сработает. На самом деле, если вы выполните что-то вроде этого и посмотрите на статус, вы увидите что Git считает это переименованным файлом:
 
 and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
 
@@ -555,14 +555,14 @@ However, this is equivalent to running something like this:
 	$ git rm README.txt
 	$ git add README
 
-Git неявно определяет, что было переименование, поэтому неважно переименуете вы файл так или используя команду `mv`. Единственное отличие состоит лишь в том, что `mv` это одна команда вместо трех — это <convenience function>. Важнее другое — вы можете использовать любой способ/программу чтобы переименовать файл, и затем перед коммитом выполнить add/rm.
+Git неявно определяет, что было переименование, поэтому не важно переименуете вы файл так или используя команду `mv`. Единственное отличие состоит лишь в том, что `mv` это одна команда вместо трех — это <convenience function>. Важнее другое — вы можете использовать любой способ/программу чтобы переименовать файл, и затем перед коммитом выполнить add/rm.
 
 Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
 
 ## Просмотр Истории Коммитов ##
 ## Viewing the Commit History ##
 
-После того, как вы создадите несколько коммитов, или склонируете репозиторий с уже существующей историей коммитов, вы вероятно захотите оглянуться назад и узнать что же происходило с этим репозиторием. Наиболее простой и в то же время мощный инструмент для этого — команда `git log`.
+После того, как вы создадите несколько коммитов, или же вы склонируете репозиторий с уже существующей историей коммитов, вы вероятно захотите оглянуться назад и узнать что же происходило с этим репозиторием. Наиболее простой и в то же время мощный инструмент для этого — команда `git log`.
 
 After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
 
@@ -595,7 +595,7 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-По-умолчанию, без аргументов, `git log` выводит список коммитов созданных в данном репозитории в обратном хронологическом порядке, т.е. самые последние коммиты показываются первыми. Как вы можете видеть, эта команда отображает каждый коммит вместе с его контрольной суммой SHA-1, именем и электронной почтой автора, датой создания и комментарием.
+По-умолчанию, без аргументов, `git log` выводит список коммитов созданных в данном репозитории в обратном хронологическом порядке. Т.е. самые последние коммиты показываются первыми. Как вы можете видеть, эта команда отображает каждый коммит вместе с его контрольной суммой SHA-1, именем и электронной почтой автора, датой создания и комментарием.
 
 By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
 
@@ -646,7 +646,7 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	\ No newline at end of file
 
 Этот параметр показывает не только ту же самую информацию, но и привнесенные изменения, отображаемые непосредственно после каждого коммита. Это очень удобно для инспекций кода или для того чтобы быстро посмотреть что происходило в результате последовательности коммитов добавленных коллегой.
-С командой `git log` вы также можете использовать группы суммирующих параметров. Например, если вы хотите получить некоторую краткую статистику по каждому коммиту, вы можете использовать параметр `--stat`:
+С командой `git log` вы также можете использовать группы суммирующих параметров. Например, если выхотите получить некоторую краткую статистику по каждому коммиту, вы можете использовать параметр `--stat`:
 
 This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
 You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
@@ -739,7 +739,7 @@ Table 2-1 lists some of the more useful options that format takes.
 	%cr	Committer date, relative
 	%s	Subject
 
-Вы может быть заинтересуетесь в чем же разница между _автором_ и _коммиттером_. Автор — это человек, изначально сделавший работу, тогда как коммиттер — это человек, который последним применил эту работу. Так что если вы послали патч(заплатку) в проект и один из основных разработчиков применил этот патч, вы оба не будете забыты — вы как автор а разработчик как коммиттер. Мы чуть подробнее рассмотрим это различие в Главе 5.
+Вы может быть интересно в чем же разница между _автором_ и _коммиттером_. Автор — это человек, изначально сделавший работу, тогда как коммиттер — это человек, который последним применил эту работу. Так что если вы послали патч(заплатку) в проект и один из основных разработчиков применил этот патч, вы оба не будете забыты — вы как автор а разработчик как коммиттер. Мы чуть подробнее рассмотрим это различие в Главе 5.
 
 You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
 
@@ -785,9 +785,14 @@ Those are only some simple output-formatting options to `git log` — there are 
 	--graph	Display an ASCII graph of the branch and merge history beside the log output.
 	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
 
+### Ограничение вывода команды log ###
 ### Limiting Log Output ###
 
+Кроме опций для форматирования вывода, git log имеет ряд полезных ограничительных параметров, то есть параметров, которые дают возможность отобразить часть коммитов. Вы уже видели один из таких параметров — параметр `-2`, который отображает только два последних коммита. На самом деле, вы  можете задать `-<n>`, где `n` это количество отображаемых коммитов. На практике вам врядли придётся часто этим пользоваться потому, что по умолчанию Git через канал (pipe) отправляет весь вывод на pager, так что вы всегда будете видеть только одну страницу.
+
 In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+
+А вот, параметры ограничивающие по времени такие как `--since` и `--until` весьма полезны. Например, следующая команда выдаёт список коммитов сделаных за последние две недели.
 
 However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
 

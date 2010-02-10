@@ -492,7 +492,7 @@ principalement parcequ'on ne peut pas les checked out???.
 Git les modifie comme des marque-pages du dernier état de ces branches sur le
 serveur.
 
-## Packfiles ##
+## Packfiles ##/* fichier compact???*/
 
 Revenons à la base de donnée d'objet de notre dépôt Git de test. Pour l'instant,
 il contient 11 objets : 4 blobs, 3 arbres, 3 commits, et 1 tag :
@@ -583,7 +583,7 @@ les objets en exécutant la commande `git gc` :
 	Writing objects: 100% (17/17), done.
 	Total 17 (delta 1), reused 10 (delta 0)
 
-SI l'on jette un oeil dans le répertoire des objets, on constatera que la
+Si l'on jette un oeil dans le répertoire des objets, on constatera que la
 plupart des objets ne sont plus là et qu'un couple de fichier est apparu :
 
 	$ find .git/objects -type f
@@ -593,11 +593,27 @@ plupart des objets ne sont plus là et qu'un couple de fichier est apparu :
 	.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
 	.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack
 
-The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile.
+Les objets restant sont des blobs qui ne sont pointés par aucun commit. Dans
+notre cas, il s'agit des blobs "what is up, doc?" et "test content" créer plutôt
+comme exemple.
+Puisqu'il n'ont été ajouté à aucun commit, ils sont considérés
+en suspend et ne sont pas compacter dans le nouveau packfile????.
 
-The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 12K in size, the new packfile is only 6K. You’ve halved your disk usage by packing your objects.
+Les autres fichiers sont le nouveau packfile??? et un index.
+Le packfile est un fichier unique contenant le contenu de tous les objets venant
+d'être supprimés du système de fichier.
+L'index est un fichier contenant les addresses relatives???/*(mieux que "décalage"*/) du
+packfile, pour que l'on puisse accéder rapidement à un objet particulier.
+Ce qui est vraiment bien est que les objets occupaient environ 12Ko d'espace
+disque avant `gc`, et que le nouveau fichier compact en occupe seulement 6Ko.
+On a divisé par deux l'occupation du disque en compactant les objets.
 
-How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
+Comment Git réalise-t-il cela ? Quand Git compacte des objets, il recherche les
+fichiers qui ont des noms et des tailles similaires, puis enregistre seulement
+les deltas (différences) entre une version du fichier et la suivante.
+On peut voir à l'intérieur du fichier compact??? et voir l'espace économisé par
+Git. La commande de plomberie `git verify-pack` vous permet de voir ce qui a été
+compacté :
 
 	$ git verify-pack -v \
 	  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
@@ -622,9 +638,20 @@ How does Git do this? When Git packs objects, it looks for files that are named 
 	chain length = 1: 1 object
 	pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack: ok
 
-Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object in the pack, so you can see that `05408` takes up 12K of the file but that `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file.
+Si on se souvient bien, le blob `9bc1d`, qui est la première version de fichier
+repo.rb file, référence le blob `05408`, qui est la seconde version du fichier.
+La troisième colone de l'affichage est la taille de l'objet dans le fichier
+compact, et on peut voir que `05408` occupe 12Ko dans le fichier, mais que
+`9bc1d` occupe seulement 7 octets. Ce qui est aussi intéresant est que la
+seconde version du fichier est celle qui enregistrée tel quelle, tandis que la
+version original est enregistrée sous forme d'un delta.
+La raison en est que vous aurez sans doute besoin d'accéder rapidement au
+version les plus récentes du fichier.
 
-The really nice thing about this is that it can be repacked at any time. Git will occasionally repack your database automatically, always trying to save more space. You can also manually repack at any time by running `git gc` by hand.
+Une chose intéressant à propos de ceci est que l'on peut recompacter à tous
+moment. Git recompacte votre base de donnée occasionnelement, en essayant
+d'économiser de la place. Vous pouvez aussi recompcter à la main, en exécutant
+la commande `git gc` vous-même.
 
 ## The Refspec ##
 

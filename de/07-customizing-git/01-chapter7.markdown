@@ -355,7 +355,7 @@ You can tell Git which of these you want enabled by setting `core.whitespace` to
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
-Git wird diese möglichen Problemstellen erkennen, wenn Du einen `git diff` Befehl ausfuehrst, und wird versuchen sie farblich hervorzuheben, damit Du sie vor einem Commit beheben kannst. Git wird diese Einstellungen auch benutzen, um Dir zu helfen, wenn Du mit `git apply` Patches anwendest. Wenn Du Patches ausfuehrst kannst Du Git anweisen eine Warnung auszugeben, falls es beim Patchen die spezifizierten Leerzeichenprobleme erkennt:
+Git wird diese möglichen Problemstellen erkennen, wenn Du einen `git diff` Befehl ausfuehrst, und es wird versuchen, sie farblich hervorzuheben, damit Du sie vor einem Commit beheben kannst. Git wird diese Einstellungen auch benutzen, um Dir zu helfen, wenn Du mit `git apply` Patches anwendest. Wenn Du Patches ausfuehrst kannst Du Git anweisen eine Warnung auszugeben, falls es beim Patchen die spezifizierten Leerzeichenprobleme erkennt:
 
 Git will detect these issues when you run a `git diff` command and try to color them so you can possibly fix them before you commit. It will also use these values to help you when you apply patches with `git apply`. When you’re applying patches, you can ask Git to warn you if it’s applying patches with the specified whitespace issues:
 
@@ -367,52 +367,82 @@ Or you can have Git try to automatically fix the issue before applying the patch
 
 	$ git apply --whitespace=fix <patch>
 
+Diese Optionen sind auch fuer den Rebase Befehl gueltig. Falls Du einen Commit gemacht hast, der problematische Leerzeichen enthält, aber Du die Änderungen noch nicht auf den Server gepusht hast, kannst Du ein `rebase` mit dem Parameter `--whitespace=fix` ausfuehren, damit Git automatisch die Leerzeichenfehler behebt, wenn es dir Patches aktualisiert.
+
 These options apply to the git rebase option as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
 
 ### Server Configuration ###
+
+Es gibt nicht annähernd so viele Konfigurationsmöglichkeiten fuer die Server Seite von Git, aber es gibt dabei einige interessante, die Du in Betracht ziehen solltest. 
 
 Not nearly as many configuration options are available for the server side of Git, but there are a few interesting ones you may want to take note of.
 
 #### receive.fsckObjects ####
 
+Standardmässig prueft Git nicht alle Objekte auf Konsistenz, die es durch einen Push erhält. Auch wenn Git sicherstellen kann, dass jedes Objekt dessen SHA-1 Checksumme entspricht und auf gueltige Objekte verweist, so wird dies nicht als Standard bei jedem Push ausgefuehrt. Dies ist eine sehr kostspielige Operation und kann bei jedem Push eine Menge Zeit kosten, abhängig von der Grösse des Repositories oder des Pushes. Wenn Du die Objektkonsistenz bei jedem Push durch Git pruefen lassen willst, so kannst Du das erzwingen, indem Du `receive.fsckObjects` auf 'true' setzt:
+
 By default, Git doesn’t check for consistency all the objects it receives during a push. Although Git can check to make sure each object still matches its SHA-1 checksum and points to valid objects, it doesn’t do that by default on every push. This is a relatively expensive operation and may add a lot of time to each push, depending on the size of the repository or the push. If you want Git to check object consistency on every push, you can force it to do so by setting `receive.fsckObjects` to true:
 
 	$ git config --system receive.fsckObjects true
+
+Jetzt wird Git die Integrität Deines Repositories jedesmal pruefen, bevor ein Push akzeptiert wird, um sicherzustellen, dass kein Client korrupte Daten einspeist.
 
 Now, Git will check the integrity of your repository before each push is accepted to make sure faulty clients aren’t introducing corrupt data.
 
 #### receive.denyNonFastForwards ####
 
+Falls Du auf Commits, die Du bereits hochgeladen hast, ein Rebase anwendest, und dann erneut einen Push mit ihnen versuchst, wird Dir dies verwehrt. Genauso verhält es sich, wenn Du versuchst ein Commit auf einen entfernten Server zu pushen, wenn der Commit nicht mit dem uebereinstimmt, auf den der entfernte Server momentan verweist. Ueblicherweise ist das eine gute Richtlinie; aber im Falle des Rebase könnte es sein, dass Du weisst, was Du tust. Dann kannst Du die Aktualisierung des entfernten Branches erzwingen, indem Du einen `-f` Parameter zu dem Push Kommando hinzufuegst.
+
 If you rebase commits that you’ve already pushed and then try to push again, or otherwise try to push a commit to a remote branch that doesn’t contain the commit that the remote branch currently points to, you’ll be denied. This is generally good policy; but in the case of the rebase, you may determine that you know what you’re doing and can force-update the remote branch with a `-f` flag to your push command.
+
+Um die Möglichkeit des erzwungenen Updates von entfernten Branches auf Referenzen, die nicht `fast-forward` Status haben, zu deaktivieren, setze `receive.denyNonFastForwards` auf 'true':
 
 To disable the ability to force-update remote branches to non-fast-forward references, set `receive.denyNonFastForwards`:
 
 	$ git config --system receive.denyNonFastForwards true
 
+Eine andere Möglichkeit ist die Einrichtung von Serverseitigen Empfangsschnittstellen, die ich etwas später beschreiben werde. Dieser Ansatz erlaubt noch komplexere Dinge wie zum Beispiel Nicht-`fast-forward` Referenzen nur bestimmten Benutzergruppen zu verweigern.
+
 The other way you can do this is via server-side receive hooks, which I’ll cover in a bit. That approach lets you do more complex things like deny non-fast-forwards to a certain subset of users.
 
 #### receive.denyDeletes ####
+
+Eine Möglichkeit fuer den Benutzer `denyNonFastForwards` zu umgehen, ist es den Branch zu löschen und dann mit der neuen Referenz erneut zu pushen. In neueren Versionsn von Git (ab Version 1.6.1) kannst Du `receive.denyDeletes` auf 'true' setzen:
 
 One of the workarounds to the `denyNonFastForwards` policy is for the user to delete the branch and then push it back up with the new reference. In newer versions of Git (beginning with version 1.6.1), you can set `receive.denyDeletes` to true:
 
 	$ git config --system receive.denyDeletes true
 
+Dies verbietet grundsätzlich das Löschen eines Branches oder einer Marke (Tag) — kein Benutzer hat dann dazu die Erlaubnis. Um einen entfernten Branch zu löschen musst Du die ref Dateien manuell vom Server entfernen. Es gibt aber auch noch ein paar interessantere Möglichkeiten dies auf Benutzerbasis ueber ACLs zu tun, wie Du am Ende dieses Kapitels lernen wirst.
+
 This denies branch and tag deletion over a push across the board — no user can do it. To remove remote branches, you must remove the ref files from the server manually. There are also more interesting ways to do this on a per-user basis via ACLs, as you’ll learn at the end of this chapter.
 
 ## Git Attributes ##
+## Git Attribute ###
+
+Einige dieser Einstellungen können auch auf bestimmte Pfade eingeschränkt werden, so dass sie nur fuer bestimmte Unterverzeichnisse oder Untergruppen von Dateien gueltig sind. Diese Einstellungen werden Git Attribute genannt und werden entweder in `.gitattributes` in einem der Projektverzeichnisse eingerichtet (ueblicherweise im Rootverzeichnis Deines Projektes), oder in der `.git/info/attributes` Datei, wenn Du nicht möchtest, dass die Attribute mit Deinem Projekt comitted werden.
 
 Some of these settings can also be specified for a path, so that Git applies those settings only for a subdirectory or subset of files. These path-specific settings are called Git attributes and are set either in a `.gitattributes` file in one of your directories (normally the root of your project) or in the `.git/info/attributes` file if you don’t want the attributes file committed with your project.
+
+Mit Hilfe von Attributen kannst Du Einstellungen vornehmen wie zum Beispiel verschiedene Merge Strategien fuer einzelne Dateien oder Verzeichnisse in Deinem Projekt spezifizieren, Git anweisen wie es ein Diff mit Nicht-Textdateien ausfuehren soll, oder wie Git Inhalte filtern soll bevor Du sie ein- oder auscheckst. In diesem Abschnitt wirst Du einige der Attribute kennenlernen, die Du in Deinen Git Projektpfaden einstellen kannst, sowie einige Beispiele wie diese Eigenschaften in der Praxis angewandt werden können.
 
 Using attributes, you can do things like specify separate merge strategies for individual files or directories in your project, tell Git how to diff non-text files, or have Git filter content before you check it into or out of Git. In this section, you’ll learn about some of the attributes you can set on your paths in your Git project and see a few examples of using this feature in practice.
 
 ### Binary Files ###
+### Binärdateien ###
+
+Ein nuetzlicher Trick den die Git Attribute erlauben ist Git mitzuteilen, welche Dateien Binär sind (fuer den Fall dass Git nicht in der Lag ist, das selbst festzustellen), und Git spezielle Anweisungen zu geben, wie diese Dateien behandelt werden sollen. Zum Beispiel können gewisse Textdateien Computergeneriert und damit nicht diff-bar sein, und umgekehrt können manche Binärdateien diff-bar sein — Du wirst sehen wie Du Git sagst welche Datei welche ist.
 
 One cool trick for which you can use Git attributes is telling Git which files are binary (in cases it otherwise may not be able to figure out) and giving Git special instructions about how to handle those files. For instance, some text files may be machine generated and not diffable, whereas some binary files can be diffed — you’ll see how to tell Git which is which.
 
 #### Identifying Binary Files ####
+#### Binärdateien erkennen ####
+
+Einige Dateien sehen aus wie Textdateien, aber streng genommen als Binärdateien behandelt werden sollten. So enthalten zum Beispiel Xcode Projekte auf dem Mac eine Datei mit der Endung `.pbxproj`, die eigentlich nur ein JSON (ein Klartext Javascript Dateiformat) Datensatz ist, der von der IDE gespeichert wird und Deine Build Einstellungen und ähnliches enthält. Selbst wenn es technisch gesehen eine Textdatei ist, da sie komplett ASCII ist, willst Du sie nicht wirklich als solche behandeln, denn es ist eigentlich eine minimalistische Datenbank — man kann mit den Inhalten kein Merge ausfuehren, wenn zwei Leute die Datei geändert haben, und ein Diff ist selten hilfreich. Die Datei ist fuer die Verarbeitung durch den Computer gedacht. Kurz gesagt, Du willst sie als Binärdatei behandeln.
 
 Some files look like text files but for all intents and purposes are to be treated as binary data. For instance, Xcode projects on the Mac contain a file that ends in `.pbxproj`, which is basically a JSON (plain text javascript data format) dataset written out to disk by the IDE that records your build settings and so on. Although it’s technically a text file, because it’s all ASCII, you don’t want to treat it as such because it’s really a lightweight database — you can’t merge the contents if two people changed it, and diffs generally aren’t helpful. The file is meant to be consumed by a machine. In essence, you want to treat it like a binary file.
 
+Um Git anzuweisen alle `pbxproj` Dateien als Binärdateien zu behandeln, fuege die folgende Zeile zu Deiner `.gitattributes` Datei hinzu:
 To tell Git to treat all `pbxproj` files as binary data, add the following line to your `.gitattributes` file:
 
 	*.pbxproj -crlf -diff

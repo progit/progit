@@ -546,7 +546,7 @@ Maintenant, modifiez le fichier un peu, et voyez ce qui arrive :
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Regardez l'arbre créer par ce commit, et vous verrez quelquechose
+Regardez l'arbre créé par ce commit, et vous verrez quelque chose
 d'interressant :
 
 	$ git cat-file -p master^{tree}
@@ -554,14 +554,27 @@ d'interressant :
 	100644 blob 05408d195263d853f09dca71d55116663690c27c      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-The blob is now a different blob, which means that although you added only a single line to the end of a 400-line file, Git stored that new content as a completely new object:
+Ce blob est un blob différent. Bien que l'on ait ajouté une seule ligne à la fin
+d'un fichier en faisant 400, Git enregistre ce nouveau contenu dans un objet
+totalement différent :
 
 	$ git cat-file -s 05408d195263d853f09dca71d55116663690c27c
 	12908
 
-You have two nearly identical 12K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first?
+Il y a donc deux objets de 12Ko quasiment identique sur le disque.
+Ça ne serai pas bien si Git pouvait enregistrer un objet en entier, et le
+deuxième n'étant qu'un delta (N.d.T différence) avec le premier ?
 
-It turns out that it can. The initial format in which Git saves objects on disk is called a loose object format. However, occasionally Git packs up several of these objects into a single binary file called a packfile in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server. To see what happens, you can manually ask Git to pack up the objects by calling the `git gc` command:
+Il se trouve que c'est possible. Le format initial dans lequel Git enregistre
+les objets sur le disque est appellé le format loose objet???.
+De temps en temps, Git compacte plusieurs de ces objets en un seul fichier
+binaire appelé packfile???, afin d'économiser de l'espace et d'être plus
+efficace.
+Git effectue cette opération quand il y a trop d'objets loose???, ou si l'on
+exécute manuellement la commande `git gc`, ou encore quand on pousse???vers un serveur
+distant.
+Pour voir cela en action, vous pouvez demander manuellement à Git de compacter
+les objets en exécutant la commande `git gc` :
 
 	$ git gc
 	Counting objects: 17, done.
@@ -570,7 +583,8 @@ It turns out that it can. The initial format in which Git saves objects on disk 
 	Writing objects: 100% (17/17), done.
 	Total 17 (delta 1), reused 10 (delta 0)
 
-If you look in your objects directory, you’ll find that most of your objects are gone, and a new pair of files has appeared:
+SI l'on jette un oeil dans le répertoire des objets, on constatera que la
+plupart des objets ne sont plus là et qu'un couple de fichier est apparu :
 
 	$ find .git/objects -type f
 	.git/objects/71/08f7ecb345ee9d0084193f147cdad4d2998293

@@ -373,7 +373,7 @@ These options apply to the git rebase option as well. If you’ve committed whit
 
 ### Server Configuration ###
 
-Es gibt nicht annähernd so viele Konfigurationsmöglichkeiten fuer die Server Seite von Git, aber es gibt dabei einige interessante, die Du in Betracht ziehen solltest. 
+Es gibt nicht annähernd so viele Konfigurationsmöglichkeiten fuer die Server Seite von Git, aber es gibt dabei einige interessante, die Du in Betracht ziehen solltest.
 
 Not nearly as many configuration options are available for the server side of Git, but there are a few interesting ones you may want to take note of.
 

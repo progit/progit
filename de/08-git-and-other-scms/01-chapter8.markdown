@@ -798,7 +798,7 @@ In diesem Beispiel ist 644 der Datei-Modus (wenn Du ausführbare Dateien hast, w
 <!--You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data.-->
 
 Du kannst die `export_data`-Methode, die Du vorher definiert hast, wiederverwenden, da wir das auf die gleiche Weise lösen, wie wir die Daten für die Commit-Nachrichten aufbereitet haben.
-`git fast-import`
+
 <!--The last thing you need to do is to return the current mark so it can be passed to the next iteration:-->
 
 Das letzte, das wir jetzt noch machen müssen, ist, die gegenwärtige Marke zurückzugeben, damit sie an den nächsten Durchlauf übergeben werden kann.

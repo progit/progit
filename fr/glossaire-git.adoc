@@ -3,8 +3,8 @@ Glossaire de Git
 
 :Auteur: Emmanuel Trillaud 
 :Email: <etrillaud (at) gmail (dot) com>
-:Date: 23/01/10 13:27 
-:Revision: 1
+:Date: 11/02/10 15:04 
+:Revision: 2
 
 Glossaire de l'outil de gestion de version Git créé à partir des traductions de
 
@@ -35,7 +35,7 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 .Spécifique à Git
 * HEAD -> fichier HEAD, HEAD
 * detached (head)->
-* refspec -> 
+* refspec -> spécification de références
 * Plumbing -> plomberie
 * Porcelain -> porcelaine
 * index ->
@@ -48,6 +48,7 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 * snapshot -> instantané
 * history -> historique/journal
 * fast-forward (ctx merge) -> avance rapide
+  - fast-forward reference -> avance rapide
 * repository -> dépôt
 * diff -> diff
 * patch -> patch
@@ -59,7 +60,6 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 * key -> clé
 * SHA-1 -> empreinte SHA-1
 
-
 .Actions/Commandes
 Si le mot fait référence à la commande, on ne traduit pas. Par si on fait
 référence à l'action, on peut traduire.
@@ -68,11 +68,11 @@ référence à l'action, on peut traduire.
 * branch(es) -> branches
   - remote branches -> branche distante
 * remote -> distant
-  a remate -> un dépôt distant
-* pull ->
+  a remote -> un dépôt distant
+* pull -> tirer ("retirer" est peut-être mieux)
 * fetch -> récupérer
-* push ->
-* stash ->
+* push -> pousser (pourquoi pas "publier")
+* stash -> (gitbook propose "remiser")
 * add -> ajouter
 * log ->
 * gc ->
@@ -82,15 +82,15 @@ référence à l'action, on peut traduire.
  - soft reset ->
  - mixed reset ->
 * bisect -> bissecter
-* archive -> archiver		
-* cherry-pick -> ceuillir
-* cherry-picking -> ceuillette
+* archive -> archiver
+* cherry-pick -> séléctionner (a été préféré à "ceuillir")
+* cherry-picking -> séléction (préféré à "ceuillette")
 * clean -> nettoyer
 * clone -> clôner
 * To merge (a branch) -> fusionner
 * To merge (a change) -> incorporer
  - a merge -> une fusion
-* to diff -> 
+* to diff ->
 * rebase ->
 * revert  -> défaire
 * packfile ->

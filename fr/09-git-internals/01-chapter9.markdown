@@ -488,8 +488,8 @@ regardant le fichier `refs/remotes/origin/master` :
 	ca82a6dff817ec66f44342007202690a93763949
 
 Les références distantes diffèrent des branches (références `refs/heads`)
-principalement parcequ'on ne peut pas les checked out???.
-Git les modifie comme des marque-pages du dernier état de ces branches sur le
+principalement parce qu'on ne peut pas les checked out???.
+Git les modifie comme des marque pages du dernier état de ces branches sur le
 serveur.
 
 ## Packfiles ##/* fichier compact???*/
@@ -512,7 +512,7 @@ il contient 11 objets : 4 blobs, 3 arbres, 3 commits, et 1 tag :
 
 Git compresse le contenu de ces fichiers avec zlib, et on ne stocke pas grand
 chose, et au final, tous ces fichiers occupent seulement 925 octets.
-Ajoutons de plus gros contenu au dépôt pour montrer une foncitonnalité
+Ajoutons de plus gros contenu au dépôt pour montrer une fonctionnalité
 intéressante de Git.
 Ajoutez le fichier repo.rb de la bibliothèque Grit que vous avez manipuler plus
 tôt. Il représente environ 12Ko de code source :
@@ -534,7 +534,7 @@ contenant le fichier repo.rb :
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-Vous pouvez utlisez `git cat-file` pour connaitre la taille de l'objet :
+Vous pouvez utilisez `git cat-file` pour connaitre la taille de l'objet :
 
 	$ git cat-file -s 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 	12898
@@ -547,7 +547,7 @@ Maintenant, modifiez le fichier un peu, et voyez ce qui arrive :
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Regardez l'arbre créé par ce commit, et vous verrez quelque chose
-d'interressant :
+d'intéressant :
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
@@ -566,7 +566,7 @@ Il y a donc deux objets de 12Ko quasiment identique sur le disque.
 deuxième n'étant qu'un delta (N.d.T différence) avec le premier ?
 
 Il se trouve que c'est possible. Le format initial dans lequel Git enregistre
-les objets sur le disque est appellé le format loose objet???.
+les objets sur le disque est appelé le format loose objet???.
 De temps en temps, Git compacte plusieurs de ces objets en un seul fichier
 binaire appelé packfile???, afin d'économiser de l'espace et d'être plus
 efficace.
@@ -583,7 +583,7 @@ les objets en exécutant la commande `git gc` :
 	Writing objects: 100% (17/17), done.
 	Total 17 (delta 1), reused 10 (delta 0)
 
-Si l'on jette un oeil dans le répertoire des objets, on constatera que la
+Si l'on jette un œil dans le répertoire des objets, on constatera que la
 plupart des objets ne sont plus là et qu'un couple de fichier est apparu :
 
 	$ find .git/objects -type f
@@ -602,7 +602,7 @@ en suspend et ne sont pas compacter dans le nouveau packfile????.
 Les autres fichiers sont le nouveau packfile??? et un index.
 Le packfile est un fichier unique contenant le contenu de tous les objets venant
 d'être supprimés du système de fichier.
-L'index est un fichier contenant les addresses relatives???/*(mieux que "décalage"*/) du
+L'index est un fichier contenant les adresses relatives???/*(mieux que "décalage"*/) du
 packfile, pour que l'on puisse accéder rapidement à un objet particulier.
 Ce qui est vraiment bien est que les objets occupaient environ 12Ko d'espace
 disque avant `gc`, et que le nouveau fichier compact en occupe seulement 6Ko.
@@ -640,17 +640,17 @@ compacté :
 
 Si on se souvient bien, le blob `9bc1d`, qui est la première version de fichier
 repo.rb file, référence le blob `05408`, qui est la seconde version du fichier.
-La troisième colone de l'affichage est la taille de l'objet dans le fichier
+La troisième colonne de l'affichage est la taille de l'objet dans le fichier
 compact, et on peut voir que `05408` occupe 12Ko dans le fichier, mais que
-`9bc1d` occupe seulement 7 octets. Ce qui est aussi intéresant est que la
+`9bc1d` occupe seulement 7 octets. Ce qui est aussi intéressant est que la
 seconde version du fichier est celle qui enregistrée tel quelle, tandis que la
 version original est enregistrée sous forme d'un delta.
 La raison en est que vous aurez sans doute besoin d'accéder rapidement au
 version les plus récentes du fichier.
 
 Une chose intéressant à propos de ceci est que l'on peut recompacter à tous
-moment. Git recompacte votre base de donnée occasionnelement, en essayant
-d'économiser de la place. Vous pouvez aussi recompcter à la main, en exécutant
+moment. Git recompacte votre base de donnée occasionnellement, en essayant
+d'économiser de la place. Vous pouvez aussi recompacter à la main, en exécutant
 la commande `git gc` vous-même.
 
 ## The Refspec ##
@@ -693,11 +693,17 @@ par
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
-This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run
+C'est la spécification des références de `git fetch` pour ce dépôt distant. Si
+l'on veut effectuer une action particulière un seule fois, la spécification des
+références peut aussi être préciser en ligne de commande.
+Pour retirer la branche `master` du dépôt distant vers la branche locale
+`origin/mymaster`, vous pouvez exécutez
 
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
-You can also specify multiple refspecs. On the command line, you can pull down several branches like so:
+Vous pouvez indiquer des spécification de références multiples.
+En ligne de commande, vous pouvez retirer plusieurs branches de cette
+façon :
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic
@@ -705,56 +711,81 @@ You can also specify multiple refspecs. On the command line, you can pull down s
 	 ! [rejected]        master     -> origin/mymaster  (non fast forward)
 	 * [new branch]      topic      -> origin/topic
 
-In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.
+Dans ce cas, la récupération /* pull */ de la branche de la branche `master` a
+été refusé car ce n'était pas une avance rapide. On peut surchargé ce
+comportement en précisant un `+` devant la spécification de la référence.
 
-You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:
+On peut aussi indiquer plusieurs spécifications de référence pour la
+récupération, dans le fichier de configuration.
+Si vous voulez toujours récupérer les branches `master` /*manque les
+backquotes dans la version en*/ et `experiment` /* idem*/, ajoutez ces deux
+lignes :
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 
-You can’t use partial globs in the pattern, so this would be invalid:
+Vous ne pouvez pas utiliser des globs /*trouver une trad. "motif" (cf regexp)?*/
+partiels, ce qui suit est donc invalide :
 
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
-However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:
+On peut toutefois utiliser des espaces de noms pour accomplir cela.
+S'il existe une équipe qualité (QA) qui publie une série de branches, et que
+l'on veut la branche `master`, les branches de l'équipe qualité et rien d'autre,
+on peut utiliser la configuration suivante :
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.
+Si vous utilisez des processus complexes impliquant un équipe qualité, des
+développeurs, et des intégrateurs qui publient des branches et qui collaborent
+sur des branches distantes, vous pouvez facilement utiliser des espaces des noms
+de cette façon.
 
-### Pushing Refspecs ###
+### Publier une Refspecs ###
 
-It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push.
+Il est pratique de pouvoir récupérer des références issue d'espace de nom de
+cette façon, mais comment l'équipe qualité insère t'elle ces branches dans
+l'espace de nom `qa/` en premier lieu ? On peut accomplir cela en utilisant les
+spécification de références pour la publication.
 
-If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run
+Si l'équipe qualité veut publier sa branche `master` vers `qa/master` sur le
+serveur distant, elle peut exécuter
 
 	$ git push origin master:refs/heads/qa/master
 
-If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:
+Si elle veut que Git le fasse automatiquement à chaque exécution de `git push
+origin`, elle peut ajouter une entrée `push` au fichier de configuration :
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 	       push = refs/heads/master:refs/heads/qa/master
 
-Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.
+De même, cela fera que par défaut, `git push origin` publiera la branche locale `master`
+sur la branche distante `qa/master`.
 
-### Deleting References ###
+### Supprimer des références ###
 
-You can also use the refspec to delete references from the remote server by running something like this:
+Vous pouvez aussi utiliser les spécifications de références pour supprimer des
+références sur le serveur distant en exécutant une commande comme :
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. 
+La spécification de référence ressemble à `<src>:<dst>`, donc en laissant vide
+la partie `<src>`, cela dit de faire la branche /* meilleur formulation?*/ à
+partir de rien, et ceci la supprime.
 
-## Transfer Protocols ##
+## Protocoles de transfert ##
 
-Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
+Git peut transférer des données entre deux dépôts, de deux façons principale :
+via HTTP et via un protocole dit "intélligent" utiliser par les transports
+/*trouver mieux*/ `file://`, `ssh://`, et `git://`. Cette section fait un tour
+d'horizon du fonctionnement de ces deux protocoles.
 
 ### The Dumb Protocol ###
 

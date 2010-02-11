@@ -655,28 +655,41 @@ la commande `git gc` vous-même.
 
 ## The Refspec ##
 
-Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.
-Suppose you add a remote like this:
+Dans tout le livre, nous avons utilisé des associations simples entre les branches
+distantes et les références locales. Elles peuvent être plus complexes.
+Supposons que vous ajoutiez un dépôt distant comme ceci :
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
-It adds a section to your `.git/config` file, specifying the name of the remote (`origin`), the URL of the remote repository, and the refspec for fetching:
+Cela ajoute une section au fichier `.git/config`, contenant le nom du dépôt
+distant (`origin`), l'URL de ce dépôt, et la spécification des références pour la
+récupération :
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
-The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.
+Le format d'une spécification de référence est un `+` facultatif, suivi de
+`<src>:<dst>`, où `<src>` est le motif des références du côté distant, et
+`<dst>` est l'emplacement local où les références seront enregistrées.
+Le `+` précise à Git de mettre à jour la référence même si ce n'est pas un
+avance rapide.
 
-In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via
+Dans le cas par défaut, qui est celui d'un enregistrement automatique par la
+commande `git remote add`, Git récupère toutes les références de `refs/heads/`
+sur le serveur et les enregistre localement dans `refs/remotes/origin/`. Ainsi,
+s'il y a une branche `master` sur le serveur, vous pouvez accéder localement à
+l'historique de cette branche via
 
 	$ git log origin/master
 	$ git log remotes/origin/master
 	$ git log refs/remotes/origin/master
 
-They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.
+Ces syntaxes sont toutes équivalentes, car Git les développe en `refs/remotes/origin/master`.
 
-If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to
+Si vous préférez que Git retire??? seulement la branche `master`, et non chacune
+des branches du serveur distant, vous pouvez remplacer la ligne fetch
+par
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 

@@ -787,9 +787,13 @@ via HTTP et via un protocole dit "intélligent" utiliser par les transports
 /*trouver mieux*/ `file://`, `ssh://`, et `git://`. Cette section fait un tour
 d'horizon du fonctionnement de ces deux protocoles.
 
-### The Dumb Protocol ###
+### The Dumb Protocol ###/*a traduire */
 
-Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:
+Git transport over HTTP is often referred to as the dumb protocol because it
+requires no Git-specific code on the server side during the transport process.
+Le processus de récupération est une série de requête GET, où le client devine
+la structure du dépôt Git présent sur le serveur.
+Suivons le prosessus `http-fetch` pour la bibliothèque simplegit :
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 

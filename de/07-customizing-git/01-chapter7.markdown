@@ -447,13 +447,20 @@ To tell Git to treat all `pbxproj` files as binary data, add the following line 
 
 	*.pbxproj -crlf -diff
 
+Jetzt wird Git nicht mehr versuchen CRLF Probleme zu ändern oder zu reparieren; es wird auch keine Dateiunterschiede ermitteln oder ausgeben, wenn Du ein 'git show' oder 'git diff' fuer Dein Projekt ausfuehrst. In den 1.6er Versionen von Git steht auch ein Makro zur Verfuegung, das dem `-crlf -diff` entspricht:
+
 Now, Git won’t try to convert or fix CRLF issues; nor will it try to compute or print a diff for changes in this file when you run git show or git diff on your project. In the 1.6 series of Git, you can also use a macro that is provided that means `-crlf -diff`:
 
 	*.pbxproj binary
 
 #### Diffing Binary Files ####
+#### Diff bei Binärdateien ####
+
+Bei 1.6er Versionen von Git ist es möglich, die Funktionalität von Git Attributen zu benutzen, um mit Diff effektiv Unterschiede zwischen Binärdateien zu inspizieren. Du kannst das erreichen, indem Du Git anweist, wie Deine Binärdaten in ein Textformat konvertiert werden können, das dann mittels normalem Diff verglichen werden kann.
 
 In the 1.6 series of Git, you can use the Git attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff.
+
+Da das eine ziemlich praktische und nicht sehr bekannte Funktionalität ist, werde ich einige Beispiele besprechen. Als erstes wirst Du diese Technik benutzen, um eines der lästigsten Probleme der Menschheit zu lösen: Versionskontrolle von Word Dokumenten. Jeder weiss, dass Word der schrecklichste Editor ist, den es gibt; aber komischerweise benutzt ihn jeder. Wenn Du eine Versionskontrolle fuer Word Dokumente willst, kannst Du sie einfach in ein Git Repository packen und ab und zu ein Commit machen; aber wozu ist das nuetzlich? Wenn Du ein normales `git diff` ausfuehrst, wirst Du eine ähnliche Ausgabe wie diese sehen:
 
 Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:
 
@@ -462,15 +469,23 @@ Because this is a pretty cool and not widely known feature, I’ll go over a few
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
 
+Du kannst zwei Versionen nicht direkt vergleichen, ausser Du checkst sie aus und pruefst sie manuell, richtig? Es stellt sich heraus, dass dies recht gut mittels Git Attributen möglich ist. Fuege diese Zeile in Deine `.gitattributes` Datei ein:
+
 You can’t directly compare two versions unless you check them out and scan them manually, right? It turns out you can do this fairly well using Git attributes. Put the following line in your `.gitattributes` file:
 
 	*.doc diff=word
+
+Dies weist Git an, dass auf jede Datei, die diesem Dateimuster (.doc) entspricht, ein "word" filter angewandt werden soll, wenn Du versuchst, ein Diff mit Dateiunterschieden anzusehen. Was ist nun der "word" Filter? Den musst Du nun einstellen. Hier wirst Du Git so konfigurieren, dass es das `strings` Programm zur Konvertierung von Word Dokumenten benutzt, um sie in lesbare Textdateien umzuwandeln, die Diff vernuenftig behandeln kann:
 
 This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:
 
 	$ git config diff.word.textconv strings
 
+Jetzt weiss Git, dass es Dateien mit der Endung `.doc`, wenn es ein Diff zwischen zwei Schnappschuessen versucht, durch den "word" Filter schicken soll, welcher durch das `strings` Programm definiert ist. Das erzeugt praktisch gut lesbare Textversionen Deiner Word Dateien bevor ein Diff mit ihnen versucht wird.
+
 Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
+
+Hier ist ein Beispiel. Ich habe Kapitel 1 des Buches in Git eingefuegt, dann etwas Text zu einem Absatz hinzugefuegt und das Dokument gespeichert. Dann fuehre ich `git diff` aus, um zu sehen, was geändert wurde:
 
 Here’s an example. I put Chapter 1 of this book into Git, added some text to a paragraph, and saved the document. Then, I ran `git diff` to see what changed:
 
@@ -487,12 +502,18 @@ Here’s an example. I put Chapter 1 of this book into Git, added some text to a
 	+s going on, modify stuff and contribute changes. If the book spontaneously 
 	+Let's see if this works.
 
+Git war erfolgrweich und zeigt nun kurz und buendig an, dass Ich den Text "Let's see if this works" hinzugefuegt habe, was korrekt ist. Es ist nicht perfekt, es wird etwas zufälliger Kram am Ende angefuegt — aber es funktioniert auf jeden Fall. Falls Du einen guten Word-nach-Text Konverter findest oder schreibst, dann ist diese Lösung wahrscheinlich aeusserst effektiv. Fuer den Anfang sollte allerdings `strings` fuer die meisten Binärformate ausreichend sein, vor allem da es auf den meisten Mac und Linux Systemen läuft. 
+
 Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
+
+Ein weiteres interessantes Problem, dass man auf diese Weise lösen kann sind Dateiunterschiede bei Bilddaten. Eine Möglichkeit dies zu tun  ist es, JPEG Dateien durch einen Filter zu schicken, der ihre EXIF Informationen extrahiert — Metainformationen die bei den meisten Bildformaten mitgefuehrt wird. Wenn Du das Programm `exiftool` herunterlädst und installierst, dann kannst Du es benutzen, um Deine Bilder in einen Text mit diesen Metainformationen umzuwandeln, so dass ein Diff Dir zumindest eine textuelle Repräsentation aller Veränderungen an der Datei anzeigt:
 
 Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
 
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
+
+Wenn Du nun ein Bild in Deinem Projekt ersetzt und `git diff` ausfuehrst, wirst Du etwas wie dies hier sehen:
 
 If you replace an image in your project and run `git diff`, you see something like this:
 
@@ -515,16 +536,25 @@ If you replace an image in your project and run `git diff`, you see something li
 	 Bit Depth                       : 8
 	 Color Type                      : RGB with Alpha
 
+Man sieht direkt, dass sowohl Dateigrösse als auch die Bilddimensionen verändert wurden.
+
 You can easily see that the file size and image dimensions have both changed.
 
 ### Keyword Expansion ###
+### Schluesselworte Erweitern ###
+
+Entwickler, die an SVN- oder CVS-ähnliche Systeme gewoehnt sind, fragen oft nach der Möglichkeit Schluesselwoerter zu erweitern oder zu ersetzen. Das grösste Problem hierbei ist bei Git, dass eine Datei nach einem Commit nicht mehr mit Informationen ueber den Commit verändert werden kann, da Git bereits vorher die Pruefsumme berechnet. Allerdings kann man Text in eine Datei einfuegen, wenn sie ausgecheckt wird, und diesen Text wieder entfernen, bevor sie zu einem Commit hinzugefuegt wird. Git Attribute bieten hierfuer zwei Möglichkeiten an. 
 
 SVN- or CVS-style keyword expansion is often requested by developers used to those systems. The main problem with this in Git is that you can’t modify a file with information about the commit after you’ve committed, because Git checksums the file first. However, you can inject text into a file when it’s checked out and remove it again before it’s added to a commit. Git attributes offers you two ways to do this.
+
+Zunächst kannst Du die SHA-1 Pruefsumme eines Blobs automatisch in ein `$Id$` Feld einer Datei einfuegen. Wenn Du dieses Attribute fuer eine Datei oder eine Gruppe von Dateien einstellst, wird Git dieses Feld beim nächsten Checkout dieses Branches mit dem SHA-1 Wert dieses Blobs ersetzen. Hierbei ist es wichtig zu beachten, dass es der SHA des Blobs selbst ist, und nicht der des Commits:
 
 First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the file automatically. If you set this attribute on a file or set of files, then the next time you check out that branch, Git will replace that field with the SHA-1 of the blob. It’s important to notice that it isn’t the SHA of the commit, but of the blob itself:
 
 	$ echo '*.txt ident' >> .gitattributes
 	$ echo '$Id$' > test.txt
+
+Wenn Du diese Datei das nächste Mal auscheckst wird Git den SHA Wert des Blobs einfuegen:
 
 The next time you check out this file, Git injects the SHA of the blob:
 
@@ -533,26 +563,40 @@ The next time you check out this file, Git injects the SHA of the blob:
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
+Allerdings ist das Ergebnis nur mässig nuetzlich. Falls Du schon mal Schluesselwort-Ersetzen in CVS oder Subversion benutzt hast weisst Du, dass man dort auch Zeit und Datum einfuegen kann — der SHA Wert ist nicht sehr hilfreich, da er recht zufällig ist, und man nicht feststellen kann, ob er neuer oder älter ist als ein anderer.
+
 However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
+
+Wie sich herausstellt kann man aber seine eigenen Filter schreiben, um bei Commits oder Checkouts Schluesselworter in Dateien bei zu ersetzen. In der `.gitattributes` Datei kann man einen Filter fuer bestimmte Pfade angeben und dann Skripte einrichten, die Dateien kurz vor einem Checkout ("smudge", siehe Abbildung 7-2) und kurz vor einem Commit ("clean", siehe Abbildung 7-3) modifizieren. Diese Filter können eingerichtet werden, um alle möglichen witzigen Dinge zu machen.
 
 It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
 
 Insert 18333fig0702.png 
+Abbildung 7-2. Der "smudge" Filter wird beim Checkout ausgefuehrt.
 Figure 7-2. The “smudge” filter is run on checkout.
 
 Insert 18333fig0703.png 
+Abbildung 7-3. Der "clean" Filter wird beim Transfer in den Stage Bereich ausgefuehrt.
 Figure 7-3. The “clean” filter is run when files are staged.
+
+Die Beschreibung des ersten Commits dieser Funktionalität enthält ein einfaches Beispiel, wie man all seinen C Quellcode vom `indent` Programm pruefen lassen kann, bevor ein Commit gemacht wird. Du kannst dies einrichten, indem Du das entsprechende Filterattribut in der `.gitattributes` Datei auflistest, damit `*.c` Detaien mit dem "indent" Programm gefiltert werden:
 
 The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
 
 	*.c     filter=indent
+
+Dann muss Git noch gesagt werden, was der "indent" Filter bei "smudge" und "clean" zu tun hat:
 
 Then, tell Git what the "indent"" filter does on smudge and clean:
 
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
 
+In diesem Fall wird Git, wenn ein Commit Dateien umfasst, die dem Muster `*.c` entsprechen, diese Dateien durch das "indent" Programm schicken, bevor es den Commit ausfuehrst. Werden sie wieder auf die lokale Platte ausgecheckt, so schickt Git sie durch das `cat` Programm. `cat` ist im Grunde genommen eine Null-Operation: es gibt genau die Daten wieder aus, die hereinkommen. Was diese Kombination also tatsächlich bewirkt, ist alle C Quellcode Dateien vor einem Commit durch den `indent` Filter schicken.
+
 In this case, when you commit files that match `*.c`, Git will run them through the indent program before it commits them and then run them through the `cat` program before it checks them back out onto disk. The `cat` program is basically a no-op: it spits out the same data that it gets in. This combination effectively filters all C source code files through `indent` before committing.
+
+Ein weiteres interessantes Beispiel ermöglicht `$Date` Schluesselwort Erweiterung im Stile von RCS. Damit das vernuenftig klappt brauchst Du ein kleines Skript, das einen Dateinamen akzeptiert, das Datum des letzten Commit dieses Projektes ermittelt, und dann dieses Datum in die Datei einfuegt. Hier ist ein kleines Ruby Skript, das ddas macht:
 
 Another interesting example gets `$Date$` keyword expansion, RCS style. To do this properly, you need a small script that takes a filename, figures out the last commit date for this project, and inserts the date into the file. Here is a small Ruby script that does that:
 
@@ -560,6 +604,8 @@ Another interesting example gets `$Date$` keyword expansion, RCS style. To do th
 	data = STDIN.read
 	last_date = `git log --pretty=format:"%ad" -1`
 	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
+
+Alles was das Skript macht ist das letzte Commit Datum mittels des `git log` Befehls zu ermitteln, jede `$Date` Zeichenfolge die es per stdin erhält durch diese Information ersetzen und das Ergebnis ausgeben — es sollte 
 
 All the script does is get the latest commit date from the `git log` command, stick that into any `$Date$` strings it sees in stdin, and print the results — it should be simple to do in whatever language you’re most comfortable in. You can name this file `expand_date` and put it in your path. Now, you need to set up a filter in Git (call it `dater`) and tell it to use your `expand_date` filter to smudge the files on checkout. You’ll use a Perl expression to clean that up on commit:
 

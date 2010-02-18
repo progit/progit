@@ -200,18 +200,19 @@ Dans le chapitre 2, vous en apprendrez plus sur ces états et comment vous pouve
 ## Installation de Git ##
 
 Commençons donc à utiliser Git.
-La première des choses est de l'installer.
+La première chose à faire est de l'installer.
 Vous pouvez l'obtenir par de nombreuses manières ;
-les deux principales sont de l'installer à partir des sources ou d'installer un paquetage existant sur votre plate-forme.
+les deux principales sont de l'installer à partir des sources ou d'installer un paquet existant sur votre plate-forme.
 
 ### Installation depuis les sources ###
 
 Si vous le pouvez, il est généralement conseillé d'installer Git à partir des sources, car vous obtiendrez la version la plus récente.
 Chaque nouvelle version de Git tend à inclure des améliorations utiles de l'interface utilisateur, donc récupérer la toute dernière version est souvent la meilleure option si vous savez compiler des logiciels à partir des sources.
-Comme la plupart du temps les distributions contiennent des version très anciennes de logiciels, à moins que vous ne travailliez sur une distribution très récente ou que vous n'utilisiez des backports, une installation à partir des sources est gage de meilleur fonctionnement.
+Comme la plupart du temps les distributions contiennent des version très anciennes de logiciels, à moins que vous ne travailliez sur une distribution
+très récente ou que vous n'utilisiez des backports, une installation à partir des sources peut être le meilleur choix.
 
 Pour installer Git, vous avez besoin des bibliothèques suivantes : curl, zlib, openssl, expat, libiconv.
-Par exemple, si vous avez un système d'exploitation qui utilise yum (tel que Fedora) ou apt-get (tel qu'un système basé sur Debian), vous pouvez utiliser les commandes suivantes pour installer les dépendances :
+Par exemple, si vous avez un système d'exploitation qui utilise yum (tel que Fedora) ou apt-get (tel qu'un système basé sur Debian), vous pouvez utiliser l'une des commandes suivantes pour installer les dépendances :
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -236,7 +237,7 @@ Après ceci, vous pouvez obtenir Git par Git lui-même pour les mises à jour :
 	
 ### Installation sur Linux ###
 
-Si vous souhaitez installer Git sur Linux via un installateur d'application, vous pouvez généralement le faire via le système de gestion de paquetage de base fourni avec votre distribution.
+Si vous souhaitez installer Git sur Linux via un installateur d'application, vous pouvez généralement le faire via le système de gestion de paquet de base fourni avec votre distribution.
 Si vous êtes sur Fedora, vous pouvez utiliser yum :
 
 	$ yum install git-core
@@ -260,12 +261,12 @@ Si vous avez installé MacPorts, installez Git par :
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-Vous n'avez pas à ajouter tous les extras, mais vous souhaiterez sûrement inclure +svn dans le cas où vous chercheriez à utiliser Git avec des dépôts Subversion (voir chapitre 8).
+Vous n'avez pas à ajouter tous les extras, mais vous souhaiterez sûrement inclure +svn si vous êtes amené à utiliser Git avec des dépôts Subversion (voir chapitre 8).
 
 ### Installation sur Windows ###
 
 Installer Git sur Windows est très facile.
-Le projet msysGit fournit une des procédures d'installation les plus faciles.
+Le projet msysGit fournit une des procédures d'installation les plus simples.
 Téléchargez simplement le fichier exe d'installateur depuis la page Google Code, et lancez-le :
 
 	http://code.google.com/p/msysgit
@@ -274,7 +275,7 @@ Après son installation, vous avez à la fois la version en ligne de commande (a
 
 ## Paramétrage à la première utilisation de Git ##
 
-Maintenant que vous avez Git installé sur votre système, vous voudrez personnaliser votre environnement Git.
+Maintenant que vous avez installé Git sur votre système, vous voudrez personnaliser votre environnement Git.
 Vous ne devriez avoir à réaliser ces réglages qu'une seule fois ;
 ils persisteront lors des mises à jour.
 Vous pouvez aussi les changer à tout instant en relançant les mêmes commandes.
@@ -305,8 +306,8 @@ Si vous souhaitez surcharger ces valeurs avec un nom ou une adresse e-mail diff�
 
 ### Votre éditeur de texte ###
 
-À présent que votre identité est renseignée, vous pouvez configurer l'éditeur de texte qui sera utilisé par défaut quand Git vous enjoint de saisir un message.
-Par défaut, Git utilise votre éditeur par défaut au niveau système, qui est généralement Vi ou Vim.
+À présent que votre identité est renseignée, vous pouvez configurer l'éditeur de texte qui sera utilisé par défaut quand Git vous demande de saisir un message.
+Par défaut, Git utilise l'éditeur par défaut au niveau système, qui est généralement Vi ou Vim.
 Si vous souhaitez utiliser un éditeur de texte différent, comme Emacs, vous pouvez entrer ce qui suit :
 
 	$ git config --global core.editor emacs
@@ -338,14 +339,14 @@ Si vous souhaitez vérifier vos réglages, vous pouvez utiliser la commande `git
 Vous pourrez voir certains paramètres apparaître plusieurs fois, car Git lit les mêmes paramètres depuis plusieurs fichiers (`/etc/gitconfig` et `~/.gitconfig`, par exemple).
 Git utilise la dernière valeur pour chaque paramètre.
 
-Vous pouvez aussi vérifier la valeur effective d'un paramètre particullier en tapant `git config <paramètre>` :
+Vous pouvez aussi vérifier la valeur effective d'un paramètre particulier en tapant `git config <paramètre>` :
 
 	$ git config user.name
 	Scott Chacon
 
 ## Obtenir de l'aide ##
 
-Si vous avez besoin d'aide pour utiliser Git, il y a trois moyens d'obtenir les pages de manuel (manpage) pour toutes les commandes de Git :
+Si vous avez besoin d'aide pour utiliser Git, il y a trois moyens d'obtenir les pages de manuel pour toutes les commandes de Git :
 
 	$ git help <verbe>
 	$ git <verbe> --help
@@ -356,7 +357,7 @@ Par exemple, vous pouvez obtenir la page de manuel pour la commande config en la
 	$ git help config
 
 Ces commandes sont vraiment sympathiques car vous pouvez y accéder depuis partout, y compris hors connexion.
-Si les manpages et ce livre ne sont pas suffisant, vous pouvez essayer les canaux `#git` ou `#github` sur le serveur IRC Freenode (irc.freenode.net).
+Si les pages de manuel et ce livre ne sont pas suffisant, vous pouvez essayer les canaux `#git` ou `#github` sur le serveur IRC Freenode (irc.freenode.net).
 Ces canaux sont régulièrement peuplés de centaines de personnes qui ont une bonne connaissance de Git et sont souvent prêtes à aider.
 
 ## Résumé ##

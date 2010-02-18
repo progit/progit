@@ -1,38 +1,58 @@
 # Les branches avec Git #
 
-Quasiment tous les VCSs ont une forme ou une autre de gestion de branche. Faire une branche signifie diverger de la ligne principale de développement et continuer à travailler sans se préoccuper de cette ligne principale. Dans de nombreux outils de gestion de version, cette fonctionnalité est souvent chère en ressources, et nécessite souvent de créer une nouvelle copie du répertoire de travail, ce qui peut prendre longtemps dans le cas de grands projets.
+Quasiment tous les VCSs ont une forme ou une autre de gestion de branche.
+Faire une branche signifie diverger de la ligne principale de développement et continuer à travailler sans se préoccuper de cette ligne principale.
+Dans de nombreux outils de gestion de version, cette fonctionnalité est souvent chère en ressources, et nécessite souvent de créer une nouvelle copie du répertoire de travail, ce qui peut prendre longtemps dans le cas de grands projets.
 
-De nombreuses personnes font référence au modèle de gestion de branche de Git comme LA fonctionnalité et c'est surement la spécificité de Git par rapport à la communauté des gestionnaires de version. Pourquoi est-elle si spéciale ? La méthode de Git pour gérer les branches est particulièrement légère, permettant de réaliser des embranchements quasi-instantanément et de basculer de branche généralement aussi rapidement. À la différence de nombreux autres gestionnaires de version, Git encourage à travailler avec des méthodes qui privilègient la creation et la fusion de branches, jusqu'à plusieurs fois par jour. Bien comprendre et maîtriser cette fonctionnalité est un atout pour faire de Git un outil unique qui peut littéralement changer la manière de développer.
+De nombreuses personnes font référence au modèle de gestion de branche de Git comme LA fonctionnalité et c'est surement la spécificité de Git par rapport à la communauté des gestionnaires de version.
+Pourquoi est-elle si spéciale ?
+La méthode de Git pour gérer les branches est particulièrement légère, permettant de réaliser des embranchements quasi-instantanément et de basculer de branche généralement aussi rapidement.
+À la différence de nombreux autres gestionnaires de version, Git encourage à travailler avec des méthodes qui privilègient la creation et la fusion de branches, jusqu'à plusieurs fois par jour.
+Bien comprendre et maîtriser cette fonctionnalité est un atout pour faire de Git un outil unique qui peut littéralement changer la manière de développer.
 
 ## Ce qu'est une branche ##
 
-Pour réellement comprendre comment Git gère les branches, nous devons revenir en arrière et examiner de plus près comment Git stocke ses données. Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données comme une série de changesets ou deltas, mais comme une série d'instantanés.
+Pour réellement comprendre comment Git gère les branches, nous devons revenir en arrière et examiner de plus près comment Git stocke ses données.
+Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données comme une série de changesets ou deltas, mais comme une série d'instantanés.
 
-Lors qu'on valide dans Git, Git stock un objet commit qui contient un pointeur vers l'instantané du contenu qui a été indexé, les métadonnées d'auteur et de message, et zéro ou plusieurs pointeurs vers le ou les commits qui sont les parents directs de ce commit : zéro parent pour la première validation, un parent pour un commit normal, et des parents multiples pour des commits qui sont le résultat de la fusion d'une ou plusieurs branches.
+Lors qu'on valide dans Git, Git stock un objet commit qui contient un pointeur vers l'instantané du contenu qui a été indexé, les métadonnées d'auteur et de message, et zéro ou plusieurs pointeurs vers le ou les commits qui sont les parents directs de ce commit :
+zéro parent pour la première validation, un parent pour un commit normal, et des parents multiples pour des commits qui sont le résultat de la fusion d'une ou plusieurs branches.
 
-Pour visualiser ce concept, supposons un répertoire contenant trois fichiers, ces trois fichiers étant indexés puis validés. Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépot Git (Git les nomme blobs), et ajouter la somme de contrôle à la zone d'index :
+Pour visualiser ce concept, supposons un répertoire contenant trois fichiers, ces trois fichiers étant indexés puis validés.
+Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépot Git (Git les nomme blobs), et ajouter la somme de contrôle à la zone d'index :
 
 	$ git add LISEZMOI test.rb LICENSE
 	$ git commit -m 'commit initial de mon projet'
 
-Lorsque vous créez le commit en lançant la commande `git commit`, Git calcule la somme de contrôle de chaque répertoire (ici, seulement pour le répertoire racine) et stocke ces objets arbres dans le dépot Git. Git crée alors un objet commit qui contient les méta-données et un pointeur vers l'arbre projet d'origine de manière à pouvoir recréer l'instantané si besoin.
+Lorsque vous créez le commit en lançant la commande `git commit`, Git calcule la somme de contrôle de chaque répertoire (ici, seulement pour le répertoire racine) et stocke ces objets arbres dans le dépot Git.
+Git crée alors un objet commit qui contient les méta-données et un pointeur vers l'arbre projet d'origine de manière à pouvoir recréer l'instantané si besoin.
 
-Votre dépot Git contient à présent cinq objets : un blob pour le contenu de chacun des trois fichiers, un arbre qui liste les contenus des répertoires et spécifie quels noms de fichier sont attachés à quels blobs, et un objet commit avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au commit. Conceptuellement, les données contenues dans votre dépôt git ressemblent à la Figure 3-1.
+Votre dépot Git contient à présent cinq objets :
+un blob pour le contenu de chacun des trois fichiers, un arbre qui liste les contenus des répertoires et spécifie quels noms de fichier sont attachés à quels blobs, et un objet commit avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au commit.
+Conceptuellement, les données contenues dans votre dépôt git ressemblent à la Figure 3-1.
 
 Insert 18333fig0301.png 
 Figure 3-1. Données d'un unique commit.
 
-Si vous réalisez des modifications et validez à nouveau, le prochain commit stocke un pointeur vers le commit immédiatement précédent. Après deux autres validations, l'historique pourrait ressembler à la figure 3-2.
+Si vous réalisez des modifications et validez à nouveau, le prochain commit stocke un pointeur vers le commit immédiatement précédent.
+Après deux autres validations, l'historique pourrait ressembler à la figure 3-2.
 
 Insert 18333fig0302.png 
 Figure 3-2. Données et objets Git pour des validations multiples.
 
-Une branche dans Git est tout simplement un pointeur mobile léger vers un de ces objets commit. La branche par défaut dans Git s'appelle master. Au fur et à mesure des validations, la branche master pointe vers le dernier des commits réalisés. À chaque validation, le pointeur de la branche master avance automatiquement.
+Une branche dans Git est tout simplement un pointeur mobile léger vers un de ces objets commit.
+La branche par défaut dans Git s'appelle master.
+Au fur et à mesure des validations, la branche master pointe vers le dernier des commits réalisés.
+À chaque validation, le pointeur de la branche master avance automatiquement.
 
 Insert 18333fig0303.png 
-Figure 3-3. Branche pointant dans l'historique des données de commit.
+Figure 3-3.
+Branche pointant dans l'historique des données de commit.
 
-Que se passe-t-il si vous créez une nouvelle branche ? Et bien, cela crée un nouveau pointeur à déplacer. Supposons que vous créez une nouvelle branche nommée testing. Vous utilisez la commande `git branch` :
+Que se passe-t-il si vous créez une nouvelle branche ?
+Et bien, cela crée un nouveau pointeur à déplacer.
+Supposons que vous créez une nouvelle branche nommée testing.
+Vous utilisez la commande `git branch` :
 
 	$ git branch testing
 
@@ -41,21 +61,28 @@ Cela crée un nouveau pointeur vers le commit actuel (Cf. figure 3-4).
 Insert 18333fig0304.png 
 Figure 3-4. Branches multiples pointant dans l'historique des données de commit.
 
-Comment Git connaît-il la branche sur laquelle vous vous trouvez ? Il conserve un pointeur spécial appelé HEAD. Remarquez que sous cette appellation se cache un concept très différent de celui utilisé dans les autres VCSs tels que Subversion ou CVS. Dans Git, c'est un pointeur sur la branche locale où vous vous trouvez. Dans notre cas, vous vous trouvez toujours sur master. La commande git branch n'a fait que créer une nouvelle branche — elle n'a pas fait basculer la copie de travail vers cette branche (Cf. figure 3-5).
+Comment Git connaît-il la branche sur laquelle vous vous trouvez ?
+Il conserve un pointeur spécial appelé HEAD.
+Remarquez que sous cette appellation se cache un concept très différent de celui utilisé dans les autres VCSs tels que Subversion ou CVS.
+Dans Git, c'est un pointeur sur la branche locale où vous vous trouvez.
+Dans notre cas, vous vous trouvez toujours sur master.
+La commande git branch n'a fait que créer une nouvelle branche — elle n'a pas fait basculer la copie de travail vers cette branche (Cf. figure 3-5).
 
 Insert 18333fig0305.png 
 Figure 3-5. fichier HEAD pointant sur la branche active
 
-Pour basculer vers une branche existant, il suffit de lancer la commande `git checkout`. Basculons vers la nouvelle branche testing :
+Pour basculer vers une branche existant, il suffit de lancer la commande `git checkout`.
+Basculons vers la nouvelle branche testing :
 
 	$ git checkout testing
 
-This moves HEAD to point to the testing branch (see Figure 3-6).
+Cela déplace HEAD pour le faire pointer vers la branche testing (voir figure 3-6)
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD points to another branch when you switch branches.
+Figure 3-6. HEAD pointe vers une autre branche quand on bascule de branche
 
-What is the significance of that? Well, let’s do another commit:
+Qu'est-ce que cela signifie ?
+Et bien, faisons une autre validation :
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'

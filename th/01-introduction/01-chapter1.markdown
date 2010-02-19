@@ -1,77 +1,77 @@
-# Getting Started #
+# เริ่มต้นใช้งาน #
 
-This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
+ในบทนี้เราจะเริ่มเรียนรู้เกี่ยวกับการใช้งาน Git โดยจะเริ่มตั้งแต่จุดแรกสุดตั้งแต่อะไรคือเครื่องมือจัดการ version control จากนั้นจึงจะเริ่มอธิบายวิธีการติดตั้ง Git และสุดท้ายคือวิธีการตั้งค่าและเริ่มใช้งาน Git  ในช่วงท้ายบทคุณจะเข้าใจว่าทำไม Git ถึงถูกสร้างขึ้นมาและคุณจะได้ประโยชน์อะไรจากมันบ้าง
 
-## About Version Control ##
+## เกี่ยวกับ Version Control ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+Version control คืออะไร และทำไมคุณถึงต้องแคร์? Version control คือ ระบบที่จัดเก็บการเปลี่ยนแปลงที่เกิดขึ้นกับไฟล์หนึ่งหรือหลายไฟล์เพื่อที่คุณสามารถเรียกเวอร์ชั่นใดเวอร์ชั่นหนึ่งกลับมาดูเมื่อไรก็ได้  หนังสือเล่มนี้จะยกตัวอย่างจากไฟล์ที่เป็นซอร์สโค้ดของซอฟต์แวร์ แต่ขอให้เข้าใจว่าจริง ๆ แล้วคุณสามารถใช้ version control กับไฟล์ชนิดใดก็ได้
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+ถ้าคุณเป็นนักออกแบบกราฟฟิคหรือเว็บดีไซเนอร์และต้องการเก็บทุกเวอร์ชั่นของรูปภาพหรือเลย์เอาต์ (ซึ่งคุณน่าจะอยากเก็บอยู่) การใช้ Version Control System (VCS) เป็นสิ่งที่ชาญฉลาดมาก เพราะมันช่วยให้คุณสามารถย้อนไฟล์บางไฟล์หรือแม้กระทั่งทั้งโปรเจคกลับไปเป็นเวอร์ชั่นเก่าได้ นอกจากนั้นระบบ VCS ยังจะช่วยให้คุณเปรียบเทียบการแก้ไขที่เกิดขึ้นในอดีต ดูว่าใครเป็นคนแก้ไขคนสุดท้ายที่อาจทำให้เกิดปัญหา แก้ไขเมื่อไร ฯลฯ และยังช่วยให้คุณสามารถกู้คืนไฟล์ที่คุณลบหรือทำเสียโดยไม่ตั้งใจได้อย่างง่ายดาย
 
-### Local Version Control Systems ###
+### Version Control Systems แบบ Local ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+หลาย ๆ คนจัดเก็บประวัติการแก้ไขต่าง ๆ ด้วยมือโดยการคัดลอกไฟล์ไปไว้ในไดเร็คทอรี่ใหม่ (อาจจะเป็นไดเร็คทอรี่ที่มีชื่อเป็นวันเดือนปีและเวลาก็ได้) วิธีนี้เป็นวิธีที่ใช้กันโดยแพร่หลายเพราะว่าทำได้ง่ายแต่ในขณะเดียวกันก็เป็นวิธีที่เกิดข้อผิดพลาดได้ง่ายเช่นกัน ยกตัวอย่างเช่น คุณอาจไม่ทันดูว่าตอนนี้คุณอยู่ในไดเร็คทอรี่ไหนและเผลอเขียนทับไฟล์ที่คุณไม่น่าจะเขียนทับหรือทำการคัดลอกไฟล์ที่คุณไม่น่าจะคัดลอก
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+เพื่อที่จะลดปัญหาเหล่านี้ เมื่อนานมาแล้วโปรแกรมเมอร์ได้พัฒนาระบบ VCS ที่ใช้ในเครื่องของตัวเองโดยใช้ฐานข้อมูลง่าย ๆ เพื่อเก็บการแก้ไขทั้งหมดที่เกิดขึ้นกับไฟล์ที่อยู่ภายใต้ revision control (ดูรูป 1-1)
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram.
+รูป 1-1. ระบบ version control แบบ local
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+หนึ่งในเครื่องมือ VCS ที่ใช้กันมากทั้งในอดีตและปัจจุบันคือระบบที่เรียกว่า rcs  แม้แต่ระบบปฏิบัติการ Mac OS X ก็ยังติดตั้ง rcs ให้เมื่อคุณติดตั้ง Developer Tools  เครื่องมือนี้ทำงานโดยเก็บสิ่งที่เรียกว่า patch set (ซึ่งก็คือผลต่างของไฟล์แต่ละไฟล์) สำหรับการแก้ไขแต่ละครั้งในรูปแบบพิเศษในเครื่อง ทำให้มันสามารถเรียกคืนไฟล์ ณ ช่วงเวลาใดขึ้นมาดูก็ได้โดยการไล่เรียงไปตาม patch ที่มี
 
-### Centralized Version Control Systems ###
+### ระบบ Version Control Systems แบบรวมศูนย์ ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+ปัญหาถัดไปที่คนใช้พบก็คือการร่วมมือกันกับนักพัฒนาคนอื่น ๆ เพื่อที่จะแก้ปัญหานี้เครื่องมือใหม่จีงได้ถูกพัฒนาขึ้นมา เรียกว่าระบบ Centralized Version Control Systems (CVCSs) หรือระบบ Version Control Systems แบบรวมศูนย์  ระบบเหล่านี้ เช่น CVS, Subversion และ Perforce มีเซิร์ฟเวอร์กลางที่เก็บไฟล์ทั้งหมดไว้ในที่เดียวและผู้ใช้หลาย ๆ คนสามารถต่อเข้ามาเพื่อดึงไฟล์จากศูนย์กลางนี้ไปแก้ไขได้ ระบบการทำงานแบบรวมศูนย์นี้ได้ถูกนำมาใช้เป็นเวลานานหลายปี (ดูรูป 1-2)
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram.
+รูป 1-2. ระบบ version control แบบรวมศูนย์
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+การทำงานแบบนี้มีประโยชน์เหนือ local VCS ในหลายด้าน เช่น ทุกคนสามารถรู้ได้ว่าคนอื่นในโปรเจคกำลังทำอะไร ผู้ควบคุมระบบสามารถควบคุมได้อย่างละเอียดว่าใครสามารถแก้ไขอะไรได้บ้าง การจัดการแบบรวมศูนย์ในที่เดียวทำได้ง่ายกว่าการจัดการฐานข้อมูลใน client แต่ละเครื่องเยอะ
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+แต่ระบบแบบนี้ก็มีจุดอ่อนเหมือนกัน ตรงที่การรวมศูนย์ทำให้มันเป็นจุดอ่อนจุดเดียวที่จะล่มได้เหมือนกันเพราะทุกอย่างรวมกันอยู่ที่เซิร์ฟเวอร์ที่เดียว ถ้าเซิร์ฟเวอร์นั้นล่มซักชั่วโมงนึง หมายความว่าในชั่วโมงนั้นไม่มีใครสามารถทำงานร่วมกันหรือบันทึกการเปลี่ยนแปลงงานที่กำลังทำอยู่ไปที่เซิร์ฟเวอร์ได้เลย หรือถ้าฮาร์ดดิสก์ของเซิร์ฟเวอร์เกิดเสียขึ้นมาและไม่มีการสำรองข้อมูลเอาไว้ คุณก็จะสูญเสียข้อมูลประวัติและทุกอย่างที่มี จะเหลือก็แค่ก๊อปปี้ของงานบนเครื่องแต่ละเครื่องเท่านั้นเอง
 
-### Distributed Version Control Systems ###
+### ระบบ Version Control Systems แบบกระจายศูนย์ ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+นี่คือที่มาของ Distributed Version Control Systems (DVCSs) หรือระบบ VCS แบบกระจายศูนย์  ในระบบแบบนี้ (เช่น Git, Mercurial, Bazaar หรือ Darcs) แต่ละคนไม่เพียงได้ก๊อปปี้ล่าสุดของไฟล์เท่านั้น แต่ได้ทั้งก๊อปปี้ของ repository เลย หมายความว่าถึงแม้ว่าเซิร์ฟเวอร์จะเสีย client ก็ยังสามารถทำงานร่วมกันได้ต่อไป และ repository เหล่านี้ของ client ยังสามารถถูกก๊อปปี้กลับไปที่เซิร์ฟเวอร์เพื่อกูข้อมูลกลับคืนก็ได้ การ checkout แต่ละครั้งคือการทำสำรองข้อมูลทั้งหมดแบบเต็ม ๆ นั่นเอง (ดูรูป 1-3)
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+รูป 1-3. ระบบ version control แบบกระจายศูนย์
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+นอกจากนั้นระบบเหล่านี้ยังทำงานกับหลาย ๆ repository ได้อย่างดี ทำให้คุณสามารถทำงานกับคนหลายกลุ่มซึ่งทำงานในรูปแบบต่างกันในโปรเจคเดียวกันได้อย่างง่ายดาย เนื่องจากระบบเหล่านี้สนับสนุนการทำงานได้หลากหลายรูปแบบ ซึ่งอาจทำได้ยากในระบบแบบรวมศูนย์
 
-## A Short History of Git ##
+## ประวัติย่อของ Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+เช่นเดียวกันกับหลายสิ่งในชีวิตที่ยิ่งใหญ่ Git เริ่มต้นจากส่วนผสมของความคิดริเริ่มที่สั่นคลอนสถานะปัจจุบันเล็กน้อยแต่ทำให้เกิดผลกระทบในวงกว้าง  โปรเจคลีนุกซ์เคอร์เนล (Linux kernel) ถือเป็นซอฟต์แวร์แบบโอเพนซอร์สที่มีขนาดค่อนข้างใหญ่ ในช่วงปี 1991-2002 การพัฒนาเคอร์เนลถูกแชร์กันไปมาผ่าน patch และไฟล์ซอร์สโค้ดที่ถูกบีบอัด จากนั้นในปี 2002 ก็มีการเริ่มนำเครื่องมือ DVCS ที่ไม่ใช่โอเพนซอร์สชื่อ BitKeeper มาใช้งาน
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+ในปี 2005 ความสัมพันธ์ระหว่าง community ที่พัฒนาลีนุกซ์เคอร์เนลและบริษัทที่พัฒนา BitKeeper มีอันต้องจบลง และการใช้งานเครื่องมือนี้แบบฟรีก็ถูกยกเลิกไป ทำให้นักพัฒนาทั้งหลาย (โดยเฉพาะอย่างยิ่งไลนัส ทอร์วอลด์ ผู้สร้างลีนุกซ์) ต้องพัฒนาเครื่องมือของตัวเองขึ้นมาจากประสบการณ์ที่่มีอยู่ระหว่างการใช้งาน BitKeeper โดยมีวัตถุประสงค์ดังนี้:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	ความเร็ว
+*	ดีไซน์ที่เรียบง่าย
+*	สนับสนุนการทำงานหลายทางพร้อม ๆ กัน (เช่นมี branch การพัฒนาเป็นพัน)
+*	แยกศูนย์
+*	สามารถรองรับโปรเจคขนาดใหญ่อย่างลีนุกซ์เคอร์เนลได้เป็นอย่างดี (ทั้งในแง่ความเร็วและขนาดของข้อมูล)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+ตั้งแต่เริ่มต้นเมื่อปี 2005 Git ได้ถูกทำให้ใช้งานง่ายขึ้นแต่ก็ยังคงความสามารถตามวัตถุประสงค์เดิมเอาไว้ โดยสามารถทำงานได้เร็วเหลือเชื่อ ใช้พื้นที่น้อยสำหรับโปรเจคใหญ่ ๆ และก็มีระบบการ branch ที่สนับสนุนการทำงานหลายทางพร้อม ๆ กัน (ดูบทที่ 3)
 
-## Git Basics ##
+## Git ขั้นพื้นฐาน ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+แล้วสรุปสั้น ๆ ได้ว่า Git คืออะไรล่ะ? ส่วนนี้เป็นส่วนสำคัญที่คุณต้องพยายามทำความเข้าใจเพราะถ้าคุณเข้าใจว่า Git คืออะไรและทำงานอย่างไร คุณจะสามารถใช้งาน Git ได้อย่างมีประสิทธิภาพและง่ายดายมาก เวลาคุณเรียนรู้ Git ให้พยายามลืมสิ่งต่าง ๆ ที่คุณอาจจะรู้อยู่แล้วจาก VCS อื่น ๆ เช่น Subversion หรือ Perforce เพราะคุณอาจสับสนคอนเซ็ปต์จากเครื่องมือเหล่านั้นได้ เหตุผลก็เพราะ Git เก็บและมองข้อมูล่างจากระบบอื่น ๆ เป็นอย่างมากถึงแม้ว่าจะทำงานคล้ายกันก็ตาม
 
-### Snapshots, Not Differences ###
+### เก็บ Snapshot แทนผลต่าง ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+ความแตกต่างมากที่สุดระหว่าง Git และ VCS อื่น ๆ (เช่น Subversion และผองเพื่อน) คือ วิธีที่ Git มองข้อมูลต่าง ๆ  โดยทั่วไประบบอื่นมักจะเก็บข้อมูลในรูปแบบของการแก้ไขที่เกิดขึ้นกับไฟล์ต่าง ๆ  ระบบเหล่านี้ (เช่น CVS, Subversion, Perforce, Bazaar, ฯลฯ) จะมองข้อมูลในรูปแบบของไฟล์และการแก้ไขต่าง ๆ ที่เกิดขึ้นกับไฟล์แต่ละไฟล์ ดังเช่นในรูปที่ 1-4
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+รูปที่ 1-4. ระบบอื่น ๆ มักจะเก็บข้อมูลโดยอิงกับการแก้ไขที่เกิดขึ้นกับไฟล์
 
 Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+รูปที่ 1-5. Git เก็บข้อมูลเป็น snapshot ของโปรเจค
 
 This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
 
-### Nearly Every Operation Is Local ###
+### การทำงานเกือบทุกอย่างเป็นการทำงานในเครื่องตัวเอง ###
 
 Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
 
@@ -118,48 +118,48 @@ The basic Git workflow goes something like this:
 
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
-## Installing Git ##
+## การติดตั้ง Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+ก่อนที่จะใช้งานคุณคงต้องติดตั้ง Git ก่อน โดยคุณสามารถทำได้หลายวิธี วิธีหลักสองวิธีคือติดตั้งจากซอร์สโค้ดหรือติดตั้งจากแพคเกจที่มีอยู่แล้วสำหรับระบบปฏิบัติการของคุณ
 
-### Installing from Source ###
+### ติดตั้งจากซอร์สโค้ด ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+ถ้าเป็นไปได้เราขอแนะนำให้คุณติดตั้ง Git โดยการคอมไพล์โปรแกรมจากซอร์สโค้ด เพราะคุณจะได้ใช้เวอร์ชั่นล่าสุดซึ่งมักจะมาพร้อมกับการปรับปรุงอยู่เสมอ อีกเหตุผลหนึ่งก็คือแพคเกจที่มากับลีนุกซ์หลายรุ่นเป็นแพคเกจเวอร์ชั่นเก่ามาก ถ้าคุณไม่ได้ใช้ลีนุกซ์รุ่นล่าสุดหรือใช้ backport การติดตั้งจากซอร์สโค้ดน่าจะเป็นทางเลือกที่ดีที่สุด
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+ก่อนอื่นคุณต้องเตรียม library ที่จำเป็นเสียก่อน คือ curl, zlib, openssl, expat และ libiconv โดยคุณสามารถใช้ yum (ถ้าคุณใช้ Fedora) หรือ apt-get (ถ้าคุณใช้ระบบแบบ Debian) เพื่อติดตั้ง:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
-	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+
+หลังจากที่ติดตั้งโปรแกรมที่จำเป็นแล้วก็ถึงเวลาดาวน์โหลดเวอร์ชั่นล่าสุดของ Git โดยใช้คำสั่ง:	
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+จากนั้นก็คอมไพล์และติดตั้ง:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+หลังจากติดตั้งเรียบร้อยคุณสามารถดึงซอร์สโค้ดของ Git มาเพื่ออัดเกรดได้โดยใช้ตัวโปรแกรม Git เอง:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### การติดตั้งบนลีนุกซ์ ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+ถ้าคุณต้องการติดตั้ง Git บนลีนุกซ์โดยใช้แพคเกจสำเร็จรูป คุณสามารถใช้ระบบจัดการแพคเกจที่มากับระบบปฏิบัติการของคุณได้เลย เช่น ถ้าคุณใช้ Fedora คุณสามารถติดตั้งผ่าน yum โดยใช้คำสั่ง:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+หรือถ้าคุณใช้ระบบแบบ Debian อย่าง Ubuntu คุณสามารถติดตั้งผ่าน apt-get ได้:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### การติดตั้งบนแมค ###
 
 There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
 
@@ -252,6 +252,6 @@ For example, you can get the manpage help for the config command by running
 These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
-## Summary ##
+## สรุป ##
 
 You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.

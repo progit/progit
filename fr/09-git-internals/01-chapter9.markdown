@@ -783,32 +783,38 @@ partir de rien, et ceci la supprime.
 ## Protocoles de transfert ##
 
 Git peut transférer des données entre deux dépôts, de deux façons principale :
-via HTTP et via un protocole dit "intélligent" utiliser par les transports
-/*trouver mieux*/ `file://`, `ssh://`, et `git://`. Cette section fait un tour
+via HTTP et via un protocole dit "intelligent" utiliser par les transports
+/*trouver mieux*/ `file://`, `ssh://` et `git://`. Cette section fait un tour
 d'horizon du fonctionnement de ces deux protocoles.
 
-### The Dumb Protocol ###/*a traduire */
+### Le protocole stupide ###
 
-Git transport over HTTP is often referred to as the dumb protocol because it
-requires no Git-specific code on the server side during the transport process.
+On parle souvent du transfert Git sur HTTP comme étant un protocole stupide, car
+il ne nécessite aucun code spécifique à Git côté serveur durant le transfert.
 Le processus de récupération est une série de requête GET, où le client devine
 la structure du dépôt Git présent sur le serveur.
-Suivons le prosessus `http-fetch` pour la bibliothèque simplegit :
+Suivons le processus `http-fetch` pour la bibliothèque simplegit :
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
-The first thing this command does is pull down the `info/refs` file. This file is written by the `update-server-info` command, which is why you need to enable that as a `post-receive` hook in order for the HTTP transport to work properly:
+La première chose que fait cette commande est de récupérer le fichier
+`info/refs`. Ce fichier est écrit par la commande `update-server-info`, et c'est
+pour cela qu'il faut activer le hook `post-receive`, sinon le transfert HTTP ne
+fonctionnera pas correctement :
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 
-Now you have a list of the remote references and SHAs. Next, you look for what the HEAD reference is so you know what to check out when you’re finished:
+On possède maintenant une liste des références distante et empreinte SHA1.
+Ensuite, on regarde vers quoi pointe HEAD, pour savoir sur quel branche se
+placer quand on aura fini :
 
 	=> GET HEAD
 	ref: refs/heads/master
 
-You need to check out the `master` branch when you’ve completed the process. 
-At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
+On aura besoin de se placer sur la branche `master`, quand le processus sera
+terminé.
+On est maintenant prêt à démarrer le processus de parcours. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
 	(179 bytes of binary data)

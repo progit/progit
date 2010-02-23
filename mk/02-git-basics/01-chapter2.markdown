@@ -1,26 +1,26 @@
-# Git Basics #
+# Основи на Git #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+Доколку треба да прочитате само едно поглавје за да почнете со Git, тогаш ова е тоа поглавје. Ова поглавје ги покрива сите основни наредби кои што ви требаат за да ги изведете најголемиот дел од работите со Git. На крајот од ова поглавје, би требало да можете да конфигурирате и иницијализирате репозитори, да почнете и да престанете да следите (track) датотеки, промените да ги поставите на сцена (stage) и да ги комитирате. Исто така ќе ви покажеме како да го подесите Git да игнорира одредени датотеки и патерни од датотеки, како лено и брзо да поправите случајна грешка, како да го прелистувате историјатот на вашиот проект и како да гледате измени помеѓу состојбите, и како да уфрлите и повлечете измени од оддалечени репозиторија.
 
-## Getting a Git Repository ##
+## Добивање Git Репозитори ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+Git проект може да добиете на два начини. Првиот начин е постоечки проект или директориум да го импортирате во Git. Вторниот начин е клонирате постоечко Git репозитори од друг сервер.
 
-### Initializing a Repository in an Existing Directory ###
+### Иницијализирање на Репозитори во Постоечки Директориум ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+Доколку сакате постоечки проект да почнете да го следите и верзионирате во Git, треба да отидете во директориумот на проектот и да напишете
 
 	$ git init
 
-This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
+Тоа креира нов под-директориуми со име .git кој што ги содржи сите потребни датотеки - Gir репозитори скелет. Во тој момент, сеуште ништо од вашиот проект не се верзионира. (Во поглавје 9 може подетално да видите точно кои датотеки се наоѓаат во `.git` директориумот.)
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
+Доколку сакате да почнете да верзионирате постоечки датотеки (наспроти празен директориум), тогаш треба да почнете да ги верзионирате тие датотеки и да направите иницијален комит. Тоа може да го постигнете со неколку git add наредби кои што специфицираат кои датотеки ќе бидат верзионирани, и на крај да направите комит:
 
 	$ git add *.c
 	$ git add README
 	$ git commit –m 'initial project version'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+Во текстот што следи ќе го објасниме значењето на овие наредби. Во овој момент, имате Git репозитори со верзионирани датотеки и иницијален комит.
 
 ### Cloning an Existing Repository ###
 

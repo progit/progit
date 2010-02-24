@@ -1,45 +1,47 @@
-# Getting Started #
+# الإستعداد للبدء! #
 
-This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
+يحتوي هذا الفصل على معلومات تعدك للبدء بإستخدام Git. سنبدأ بشرح بعض المعلومات الأساسية عن نظم إدارة الإصدارات (Version Control System)، ثم سننتقل إلى كيفية تنصيب وتشغيل Git على نظامك ومن ثم كيف يمكنك استخدامها في عملك. في نهاية الفصل ستكون قد تعرفت على أهمية وجود Git، لماذا عليك إستخدامها وكيف تستعد لذلك.
 
-## About Version Control ##
+## إدارة الإصدارات (Version Control) ##
 
-What is version control, and why should you care? Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later. For the examples in this book you will use software source code as the files being version controlled, though in reality you can do this with nearly any type of file on a computer.
+ما هو نظام إدارة الإصدارات، ولماذا عليك أن تهتم به؟ تمكنك هذه الأنظمة من تسحيل التغيرات التي تحدث على ملف أو مجموعة ملفات خلال الزمن بحيث يمكنك الرجوع الى مرحلة معينة (إصدار) لاحقاً. فعلى سبيل المثال، ستستخدم في هذا الكتاب الكود المصدري للملفات في حين أنه تتم إدارتها من قبل نظام إدارة الإصدارات، ولكن في الحقيقة يمكنك استخدام هذه الأنظمة مع أي نوع من الملفات على حاسوبك.
 
-If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+إذا كنت تعمل كمصمم غرافيك أو ويب وتريد طريقة لمتابعة جميع الإصدارت والتعديلات التي تجريها على صورة أو قالب ما (الأمر الذي سيعجبك بالتأكيد)، فإن نظام إدارة الإصدارات (VCS) هو الحل الأمثل. حيث يمكنك من إرجاع الملفات الى حالة كانت عليها سابقاً، أو ارجاع المشروع بأكمله لحالة سابقة، يمكنك أيضاً مقارنة التغيرات الحاصلة مع مرور الزمن، أو معرفة من قام بتعديل معين أدى الى خطأ ما، من قام بتقديم إقتراح ومتى قام بذلك، والمزيد. إستخدامك لنظام إدارة الإصدارات يعني أيضاً أنه اذا قمت بخطأ ما في مرحلة من المراحل أو خسرت ملفات المشروع لسبب ما، يمكنك استرجاعها الى حالها بسهولة. كل هذه الميزات مقابل تعب خفيف منك.
 
-### Local Version Control Systems ###
+### نظم إدارة الإصدارات المحلية ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+تقوم الطريقة التي يقوم بها معظم المستخدمين لإدارة إصداراة مشاريعهم على "نسخ الملفات" الى مكان آخر. يقوم المعظم بهذه الطريقة لأنها تبدوا وكأنها الحل الأسهل، ولكنها تجلب المشاكل والأخطاء بشكل لا يحتمل أيضاً. من السهل جداً أن تنسى بأي مجلد وضعت نسخة معينة أو أن تقوم بالتغيير أو الحذف عن طريق الخطا لملف ما.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+لعلاج هذه المشكلة، قام المبرمجون بتطوير أنظمة إدارة إصدارات المحلية، حيث تستخدم قاعدة بيانات بسيطة تحفظ فيها التغيرات على الملفات في نظام إصدارات معين (إنظر الشكل 1-1).
+
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram.
+Figure 1-1. مخطط أنظمة إدارة الإصدارات المحلية.
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+أحد أشهر أنظمة إدارة الإصدارات هو نظام يدعى rcs، والذي مازال يتم توزيعه مع العديد من الحواسيب في يومنا هذا. حتى أن أنظمة Mac OS X الشهيرة تحوي نظام rcs مضمنة في حزمة برامج التطوير Developer Tools. يقوم عمل هذه الأداة ببساطة على حفظ مجموعات من الإصلاحات (Patch sets) (أي فروقات بين الملفات بمعنى آخر) من تغيير الى آخر بطريقة خاصة; يمكنها بعد ذلك اعادة تشكيل أي ملف بالطريقة التي كان عليها في أي مرحلة خلال حياة الملف عن طريق اضافة جميع هذه التغيرات.
 
-### Centralized Version Control Systems ###
+### أنظمة إدارة الإصدارات المركزية ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+المشكلة التالية التي ظهرت هي الرغبة في التعاون والتشارك بين المطورين الذين يعملون على أنظمة أخرى. لحل هذه المشكلة تم إنشاء أنظمة إدارة الإصدارات المركزية Centralized Version Control Systems. تقوم هذه الأنظمة، مثل CVS, Subversion و Perforce على مخدم Server واحد يحتوي على جميع الملفات، وعدد من المستخدمين Clients تقوم بطلب هذه الملفات من مكان وجودها المركزي. للعديد من السنوات، كانت هذه الأنظمة هي المسيطرة على عالم إدارة الإصدارات (انظر الشكل 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram.
+Figure 1-2. مخطط أنظمة إدارة الإصدارات المركزية.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+تقدم هذه الطرقة العديد من الأفضليات على أنظمة ادارة الإصدارات المحلية. فعلى سبيل المثال، جميع المشاركين في المشروع يعرف مالذي يقوم به المشارك الآخر الى حد معين. مدراء المشروع يستطيعون التحكم بمن يستطيع فعل ماذا في النظام العام; وبالطبع فإنه من الأسهل التعامل مع أنظمة إدارة الإصدارات المركزية على التعامل مع الأنظمة المحلية وقاعدات بياناتها من قبل كل مستخدم.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+ولكن، ومن جهة ثانية، فإن لهذه الطريقة جانباً سيئاً أيضاً. أهم هذه النقاط السيئة هي أنه هذه الأنظمة المركزية تقوم على مركز واحد للكود، أي إنه اذا حصل وتوقف المخدم لساعة، فلن يتمكن أحد من خفظ التغييرات أو القيام بأي تعديل على أي شيء يعمل عليه. إذا حصل وأن تعطل القرص الأساسي والذي يحوي على قاعدة البيانات المركزية، ولم تعمل النسخ الإحتياطية المخبأة، فإنك ستخسر كل شي عن تاريخ عملك في المشروع. تعاني أنظمة إدارة الإصدارات المحلية من هذه المشكلة أيضاً، وهي أنه عندما تكون جميع ملفات المشروع في مكان واحد فإنك على خطر من خساراة كل شيء!
 
-### Distributed Version Control Systems ###
+### أنظمة إدارة الإصدارات الموزعة ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+وهنا تأتي أنظمة إدارة الإصدارات الموزعة لحل المشكلة. في هذه الأنظمة (مثل Git, Mercurial, Bazaar أو Darcs) يحصل المستخدمون ليس فقط على آخر نسخة من الملفات الموجود على المخدم، بل على كامل تاريخ النظام. في هذه الحال، إن تعطل النظام، فإنه يمكن الحصول على نسخة من المشروع من أي مستخدم الى المخدم مرة أخرى. أي أن كل عملية طلب للكود هي في الحقيقة عملية حفظ كاملة وشاملة لتاريخ المشروع (إنظ الشكل 1-3).
+
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+Figure 1-3. مخطط أنظمة إدارة الإصدارات الموزعة.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+وفوق هذا فإن معظم هذه الأنظمة يتعامل بشكل جيد جداً مع أكثر من نسخة خارجية للمشروع، أي يمكنك التعاون مع أكثر من مجموعة مختلفة من الأشخاص في طرقة مختلفة وفي وقت واحد وعلى مشروع واحد. يمكنك هذا من تطوير أكثر من طريقة عمل واحدة مناسبة لك، الأمر الذي لم يكن متاحاً مع أنظمة إدارة الإصدارات المركزية.
 
-## A Short History of Git ##
+## لمخة تاريخية عن Git ##
 
 As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 

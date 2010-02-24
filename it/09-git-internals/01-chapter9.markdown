@@ -64,10 +64,14 @@ la directory `refs` conserva i puntatori agli oggetti commit (branches), il file
 fatto il checkout e il file `index` è dove Git conserva la informazioni sulla vostra area di staging
 Vedremo in dettaglio ognuna di queste sezioni per capire in che modo opera Git.
 
-## Git Objects ##
+## Gli oggetti di Git ##
 
-Git is a content-addressable filesystem. Great. What does that mean?
-It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:
+Git è un filesystem content-addressable. Magnifico. Ma che cosa significa? 
+Significa che il cuore di Git è un semplice data store chiave-valore. Potete inserire qualsiasi tipo di contenuto
+al suo interno, e vi verrà restituita una chiave che potrete usare per recuperare quel contenuto quando vorrete. 
+Come dimostrazione potete usare il comando plumbing `hash-object`, che accetta dei dati, li salva nella vostra directory
+`.git` e restituisce la chiave associata ai dati salvati. Per prima cosa inizializzate un nuovo repository Git e verificate
+che la directory `objects` non contiene nulla:
 
 	$ mkdir test
 	$ cd test
@@ -80,60 +84,76 @@ It means that at the core of Git is a simple key-value data store. You can inser
 	$ find .git/objects -type f
 	$
 
-Git has initialized the `objects` directory and created `pack` and `info` subdirectories in it, but there are no regular files. Now, store some text in your Git database:
+Git ha inizializzato la directory `objects` e creato le sottodirectory `pack` e `info` al suo interno, ma non ci sono file.
+Ora inseriamo del testo nel vostro database di Git:
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
+Il `-w` dice a `hash-object` di salvare l'oggetto; in caso contrario il comando restituirà semplicemente la chiave
+associata che verrebbe associata al soggetto. `--stdin` dice al comando di leggere il contenuto da stdin; se non lo specificate
+`hash-object` si aspetta il percorso di un file. L'output del comando è un checksum di 40 caratteri. La funzione di hashing
+è SHA-1 - un checksum del contenuto che viene salvato più un header, del quale imparerete di più tra poco.
+Ora potete vedere come Git ha salvato i vostri dati:
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-You can see a file in the `objects` directory. This is how Git stores the content initially — as a single file per piece of content, named with the SHA-1 checksum of the content and its header. The subdirectory is named with the first 2 characters of the SHA, and the filename is the remaining 38 characters.
+Nella directory `objects` ora è presente un file. Questo è come Git salva inizialmente il contenuto -
+ossia come un singolo file per ogni parte di contenuto, con nome uguale al checksum SHA-1 del contenuto stesso
+e del suo header.
+La subdirectory ha come nome i primi 2 caratteri dello SHA  mentre il nome del file è costituito dai 38 caratteri rimanenti
 
-You can pull the content back out of Git with the `cat-file` command. This command is sort of a Swiss army knife for inspecting Git objects. Passing `-p` to it instructs the `cat-file` command to figure out the type of content and display it nicely for you:
+Potete estrarre un contenuto da Git con il comando `cat-file`. Questo comando è una specie di coltellino svizzero
+per ispezionare gli oggetti Git. Passandogli `-p` è possibile istruire il comando `cat-file` a interpretare il tipo
+di contenuto e mostrarlvelo in modo leggibile: 
 
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content
 
-Now, you can add content to Git and pull it back out again. You can also do this with content in files. For example, you can do some simple version control on a file. First, create a new file and save its contents in your database:
+Ora potete aggiungere altro contenuto a Git ed estrarlo nuovamente. E' possibile farlo anche con il contenuto dei file. 
+E' possibile, ad esempio, implementare un semplice controllo di versione su un file. 
+
+Come prima cosa create un nuovo file e salvate il suo contenuto nel database:
 
 	$ echo 'version 1' > test.txt
 	$ git hash-object -w test.txt 
 	83baae61804e65cc73a7201a7252750c76066a30
 
-Then, write some new content to the file, and save it again:
+Poi scrivete un nuovo contenuto nel file e salvatelo nuovamente:
 
 	$ echo 'version 2' > test.txt
 	$ git hash-object -w test.txt 
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
-Your database contains the two new versions of the file as well as the first content you stored there:
+Il vostro database ora contiente le due nuove versioni del file così come il primo contenuto che avete salvato:
 
 	$ find .git/objects -type f 
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-Now you can revert the file back to the first version
+Ora potete riportare il file alla prima versione:
 
 	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
 	$ cat test.txt 
 	version 1
 
-or the second version:
+o alla seconda:
 
 	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
 	$ cat test.txt 
 	version 2
 
-But remembering the SHA-1 key for each version of your file isn’t practical; plus, you aren’t storing the filename in your system — just the content. This object type is called a blob. You can have Git tell you the object type of any object in Git, given its SHA-1 key, with `cat-file -t`:
+Ricordare la chiave SHA-1 per ogni versione del vostro file non è pratico; inoltre non state salvando 
+il nome del file nel vostro sistema - solamente il contenuto. Questo tipo di oggetto a chiamato blob.
+Potete fare in modo che Git vi restituisca il tipo di un oggetto al suo interno, data la sua chiave SHA-1
+con `cat-file -t`:
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
 
-### Tree Objects ###
+### L'albero degli Oggetti ###
 
 The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:
 

@@ -16,7 +16,7 @@
 
 
 Insert 18333fig0101.png 
-Figure 1-1. مخطط أنظمة إدارة الإصدارات المحلية.
+الشكل 1-1. مخطط أنظمة إدارة الإصدارات المحلية.
 
 أحد أشهر أنظمة إدارة الإصدارات هو نظام يدعى rcs، والذي مازال يتم توزيعه مع العديد من الحواسيب في يومنا هذا. حتى أن أنظمة Mac OS X الشهيرة تحوي نظام rcs مضمنة في حزمة برامج التطوير Developer Tools. يقوم عمل هذه الأداة ببساطة على حفظ مجموعات من الإصلاحات (Patch sets) (أي فروقات بين الملفات بمعنى آخر) من تغيير الى آخر بطريقة خاصة; يمكنها بعد ذلك اعادة تشكيل أي ملف بالطريقة التي كان عليها في أي مرحلة خلال حياة الملف عن طريق اضافة جميع هذه التغيرات.
 
@@ -25,7 +25,7 @@ Figure 1-1. مخطط أنظمة إدارة الإصدارات المحلية.
 المشكلة التالية التي ظهرت هي الرغبة في التعاون والتشارك بين المطورين الذين يعملون على أنظمة أخرى. لحل هذه المشكلة تم إنشاء أنظمة إدارة الإصدارات المركزية Centralized Version Control Systems. تقوم هذه الأنظمة، مثل CVS, Subversion و Perforce على مخدم Server واحد يحتوي على جميع الملفات، وعدد من المستخدمين Clients تقوم بطلب هذه الملفات من مكان وجودها المركزي. للعديد من السنوات، كانت هذه الأنظمة هي المسيطرة على عالم إدارة الإصدارات (انظر الشكل 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. مخطط أنظمة إدارة الإصدارات المركزية.
+الشكل 1-2. مخطط أنظمة إدارة الإصدارات المركزية.
 
 تقدم هذه الطرقة العديد من الأفضليات على أنظمة ادارة الإصدارات المحلية. فعلى سبيل المثال، جميع المشاركين في المشروع يعرف مالذي يقوم به المشارك الآخر الى حد معين. مدراء المشروع يستطيعون التحكم بمن يستطيع فعل ماذا في النظام العام; وبالطبع فإنه من الأسهل التعامل مع أنظمة إدارة الإصدارات المركزية على التعامل مع الأنظمة المحلية وقاعدات بياناتها من قبل كل مستخدم.
 
@@ -37,35 +37,36 @@ Figure 1-2. مخطط أنظمة إدارة الإصدارات المركزية.
 
 
 Insert 18333fig0103.png 
-Figure 1-3. مخطط أنظمة إدارة الإصدارات الموزعة.
+الشكل 1-3. مخطط أنظمة إدارة الإصدارات الموزعة.
 
 وفوق هذا فإن معظم هذه الأنظمة يتعامل بشكل جيد جداً مع أكثر من نسخة خارجية للمشروع، أي يمكنك التعاون مع أكثر من مجموعة مختلفة من الأشخاص في طرقة مختلفة وفي وقت واحد وعلى مشروع واحد. يمكنك هذا من تطوير أكثر من طريقة عمل واحدة مناسبة لك، الأمر الذي لم يكن متاحاً مع أنظمة إدارة الإصدارات المركزية.
 
 ## لمخة تاريخية عن Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+كما تبدأ العديد من الأشياء الجميلة في الحياة، بدأت Git كنوع من التدمير المبدع المثير للجدل. الـ Linux Kernel المعروف هو برنامج مفتوح المصدر ذو إطار واسع نوعاً ما. طوال حياة هذا المشروع (من 1991-2002)، كان يتم تناقل التعديلات على شكل ملفات إصلاح و ملفات مؤرشفة (مضغوطة). في 2002، في 2002 بدأ المشروع باستخدام نظام إدارة إصارات موزعة DVCS يدعى BitKeepter.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+في 2005، بدأت العلاقة بالإنهيار بين المجتمع المطور للـ Linux Kernel والمجتمع التجاري المطور لـ BitKeeper، وتم العدول عن توفير البنامج بشكل مجاني. أثار هذا التغيير الرغبة في المجتمع المطور لـ Linux (وبالتحديد لينوس تورفالدوس، منشيء Linux) الى تطوير نظامهم الخاص بناء على الدروس التي تعلموها عند استخدامهم لـ BitKee[per. وتم وضع أهداف لكي يحققها النظام الجديد مشمولة بـ:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	السرعة
+*	التصميم البسيط
+*	الدعم القوي للبرمجة الغير خطية (الكثير من أشجار التطوير الفرعي)
+*	التوزيع بشكل كامل
+*	القدرة على تحمل مشروعات ضمة مثل الـ Linux Kernel بشكل فعال (السرعة وحجم المعلومات)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+منذ ولادة Git في 2005، تطورت لكي تصبح ناضجة مع المحافظة على السهولة والمبادئ الأساسية التي وضعت عليها. حيث أنها سريعة بشكل لايصدق، و فعالة مع المشاريع الكبيرة، وتحوي على نظام تشجير ممتاز لدعم التطوير الغير خطي (انظر الفصل 3).
 
-## Git Basics ##
+## أوليات Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+لنتحدث الآن عن Git بشكل سريع. هذا القسم هام جداً لك، لأنك إذا عرفت ماهي Git وماهيا أوليات عملها، سيكون من السهل عليك استخدام Git بشكل أسهل وأفضل. وخلال تعلمك لـ Git حاول أن تفرغ ذهنك من المعلومات السابقة عن أنظمة إدارة الإصدارات الأخرى، مثل Subversion أو Perforce; سيجنبك هذا من الخلط بين المعلومات عند استخدام هذه الأداة. تقوم Git بالتعامل وتخزين المعلومات بشكل مختلف تماماً عن الأنظمة الأخرى، وبالرغم من أن واجهة الإستخدام بسيطة نسبياً; سيكون فهمك لهذه الإختلافات سيبعد عنك الحيرة عند الإستخدام.
 
-### Snapshots, Not Differences ###
+### لمحات، وليست تغيرات ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+الفرق الرئيسي بين Git وأي نظام إدارة إصدارات آخر (Subversion وأصدقاءه) هو الطريقة التي تتعامل بها Git مع المعلومات. تقوم معظم هذه الأنظمة بتخزين المعلومات كقائمة من التغيرات القائمة على الملفات. هذه الأنظمة (مثل CVS، Subversion، Perforce، Bazaar وغيرها) تتعامل مع المعلومات التي تحفظها كمجموعة ملفات والتغيرات القائمة عليها مع مرور الوقت، كما هو موضح في الشكل 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+الشكل 1-4. الأنظمة الاخرى تقوم بحفظ معلومات التغيرات الحاصلة على كل ملف وكنها الإصدار الأول.
 
+تتعامل Git مع المعلومات المخزنة بطريقة مختلفة. ف
 Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
 
 Insert 18333fig0105.png 

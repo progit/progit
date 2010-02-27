@@ -1,32 +1,32 @@
-# Git Basics #
+# Git ขั้นพื้นฐาน #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+ถ้าคุณมีเวลาอ่านแค่บทเดียวเพื่อจะเริ่มใช้งาน Git ก็ให้อ่านบทนี้ล่ะ  เพราะบทนี้ครอบคลุมเนื้อหาเกี่ยวกับคำสั่งขั้นพื้นฐานของ Git ที่คุณต้องใช้ในการทำงานประจำวันบ่อย ๆ  เมื่ออ่านถึงท้ายบทคุณจะได้เรียนรู้วิธีการตั้งค่าและสร้าง repository ใหม่ เริ่มเก็บประวัติของไฟล์ stage และ commit การแก้ไข รวมไปถึงการตั้งค่าให้ Git เพิกเฉยต่อไฟล์ที่คุณไม่ต้องการเก็บประวัติ การยกเลิก commit ที่ผิดพลาด การดูประวัติของโปรเจคของคุณ การแสดงความต่างระหว่างสอง commit และการ push และ pull จาก remote repository
 
-## Getting a Git Repository ##
+## เริ่มต้นใช้งาน Git Repository ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+คุณสามารถสร้างโปรเจคใน Git โดยใช้สองวิธีหลัก วิธีแรกคือการนำเข้าโปรเจคหรือแฟ้มข้อมูลที่มีอยู่แล้วเข้าไปใน Git ส่วนวิธีที่สองคือการ clone จาก repository ที่อยู่ในเซิร์ฟเวอร์อื่น
 
-### Initializing a Repository in an Existing Directory ###
+### การสร้าง Repository จากแฟ้มข้อมูลที่มีอยู่แล้ว ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+สำหรับวิธีนี้ ให้ไปที่แฟ้มข้อมูลที่คุณต้องการเริ่มใช้งาน Git และพิมพ์คำสั่ง
 
 	$ git init
 
-This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
+คำสั่งนี้จะสร้างแฟ้มข้อมูลย่อยชื่อ .git ซึ่งเก็บไฟล์โครงสร้างของ Git repository เปล่า ๆ ที่ยังไม่มีเนื้อหาใด   ในขั้นตอนนี้ไฟล์ที่อยู่ในโปรเจคของคุณจะยังไม่ถูก track โดย Git (กรุณาอ่านบทที่ 9 ถ้าคุณต้องการรู้ว่าไฟล์ที่อยู่ใน .git ที่คุณเพิ่งสร้างขึ้นมานั้นเก็บข้อมูลอะไรบ้าง)
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
+เพื่อที่จะเริ่มเก็บประวัติการแก้ไขของไฟล์ที่มีอยู่ คุณจะต้องเพิ่มไฟล์เข้าไปใน repository เสียก่อน โดยใช้คำสั่ง git add กับไฟล์ที่คุณต้องการเก็บประวัติ ตามด้วยการ commit:
 
 	$ git add *.c
 	$ git add README
-	$ git commit –m 'initial project version'
+	$ git commit –m 'เริ่มเก็บประวัติ'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+หลังจาก commit คุณก็จะได้ repository ที่เริ่มเก็บประวัติของไฟล์ต่าง ๆ ในโปรเจคของคุณแล้ว
 
-### Cloning an Existing Repository ###
+### การ clone จาก repository ที่มีอยู่แล้ว ###
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
+ถ้าคุณต้องการคัดลอก repository ที่มีอยู่แล้ว - ยกตัวอย่างเช่น จากโปรเจคที่คุณอยากมีส่วนร่วม - คำสั่งที่คุณต้องใช้คือ git clone  ถ้าคุณเคยใช้ระบบ VCS อื่นอย่าง Subversion คุณจะสังเกตเห็นว่าคำสั่งคือ clone ไม่ใช่ checkout ซึ่งความแตกต่างนี้เป็นความแตกต่างที่สำคัญมาก เพราะมันหมายความว่า Git ทำการคัดลอกข้อมูลเกือบทุกอย่างที่อยู่ในเซิร์ฟเวอร์ ทุกเวอร์ชั่นของทุกไฟล์มีมีในประวัติของโปรเจคจะถูกคัดลอกมายังเครื่องของคุณเมื่อคุณใช้คำสั่ง `git clone`  ในความเป็นจริงถ้าเกิดดิสก์ของเซิร์ฟเวอร์เกิดเสียขึ้นมา คุณสามารถใช้ clone ตัวใดก็ได้เพื่อกู้ข้อมูลกลับไป ณ ตอนที่คุณทำการสร้าง clone นั้น (แต่คุณก็อาจเสีย server-side hooks ฯลฯ ที่มีอยู่ในเซิร์ฟเวอร์ไป - อ่านข้อมูลเพิ่มเติมที่บทที่ 4)
 
-You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
+คุณจะต้องใช้คำสั่ง `git clone [url]` เพื่อทำการ clone repository  ยกตัวอย่างเช่น ถ้าคุณต้องการ clone ไลบรารี่ Ruby ที่ชื่อ Grit คุณสามารถทำได้โดยใช้คำสั่งดังนี้:
 
 	$ git clone git://github.com/schacon/grit.git
 

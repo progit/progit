@@ -1,0 +1,132 @@
+# Git Tools #
+
+Fin'ora sono stati imparati la maggior parte dei comandi giornalieri a i
+workflow che potrebbero essere necessari a gestire e mantenere un repository Git
+per il controllo del codice sorgente.
+Sono state compiute le attività di base per il tracciamento e il commit dei
+file, ed è stato sfruttato il potere della *staging area* e argomenti leggeri il
+*branching* (ramificazione) e il *merge*.
+
+Ora verrà esplorato un numero di cose veramente potenti che Git può fare che non
+vengono necessariamente usate di base quotidianamente ma che potrebbero servire
+ad un certo punto.
+
+## Selezione della revisione ##
+
+Git permette di specificare determinati *commit* o una serie di *commit* in
+diversi modi.
+Non sono necessariamente evidenti ma può essere d'aiuto conoscerli.
+
+### Singola revisione ###
+
+E' possibile ovviamente riferirsi a un *commit* tramite l'hash SHA-1 che viene
+dato, ma ci sono modi più alla portata degli umani per riferirsi ai *commit*.
+Questa sezione delinea i diversi modi con cui ci si può riferire ad un singolo
+commit.
+
+### SHA breve ###
+
+Git è abbastanza intelligente da capire a quale *commit* ci si riferisce se si
+fornisce i primi caratteri, purché il codice SHA-1 sia di almeno quattro
+caratteri e univoco - solo un oggetto nel *repository* corrente inizia con quel
+SHA-1 parziale.
+
+Per esempio, per vedere uno specifico *commit*, supponiamo che venga eseguito un
+comando 'git log' e venga identificato un *commit* dove sono state aggiunte
+certe funzionalità:
+
+	$ git log
+	commit 734713bc047d87bf7eac9674765ae793478c50d3
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Fri Jan 2 18:32:33 2009 -0800
+
+	    fixed refs handling, added gc auto, updated tests
+
+	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+	Merge: 1c002dd... 35cfb2b...
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Thu Dec 11 15:08:43 2008 -0800
+
+	    Merge commit 'phedders/rdocs'
+
+	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Thu Dec 11 14:58:32 2008 -0800
+
+	    added some blame and merge stuff
+
+In questo caso, scegliamo '1c002dd....' Se viene eseguito 'git show' su quel
+*commit*, i seguenti comandi sono equivalenti (assumendo che le versioni più
+corte siano univoche):            
+
+	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+	$ git show 1c002dd4b536e7479f
+	$ git show 1c002d
+
+Git riesce a capire una corta, univoca abbreviazione del valore SHA-1. Se viene
+passato '--abbrev-commit' al comando 'git-log', l'*output* userà valori più
+corti ma li manterrà unici; in maniera predefinita utilizza sette caratteri ma
+se necessario ne userà di più per mantenere il codice SHA-1 univoco:
+
+	$ git log --abbrev-commit --pretty=oneline
+	ca82a6d changed the version number
+	085bb3b removed unnecessary test code
+	a11bef0 first commit
+
+Generalmente, da otto a dieci caratteri sono più che sufficienti per essere
+univoci all'interno di un progetto.
+Uno dei progetti Git più grandi, il kernel Linux, inizia a necessitare 12
+caratteri, dei 40 possibili, per rimanere univoco.
+
+### Una breve nota su SHA-1 ###
+
+Un sacco di gente si preoccupa ad un certo punto che, per una qualche casualità,
+potrebbe avere due oggetti nel proprio *repository* che abbiano lo stesso hash
+SHA-1. Cosa accadrebbe a quel punto?
+
+Se capita di fare il *commit* di un oggetto che ha lo stesso SHA-1 di un oggetto
+precedente nel proprio *repository*, Git noterà il precedente oggetto già
+presente nel database Git e lo riterrà già scritto.
+Provando ad ottenere informazioni su quell'oggetto nuovamente ad un certo punto,
+verranno sempre restituiti i dati del primo oggetto.
+
+Ad ogni modo, è necessario essere consapevoli di quanto ridicolmente improbabile
+sia questo scenario. Il codice SHA-1 riassunto è di 20 bytes o 160 bits. Il
+numero casuale di oggetti necessari per assicurare un 50% di una singola
+collisione è di circa 2^80 (la formula per determinare la probabilità di
+collisione è `p = (n(n-1)/2) * (1/2^160))`. 2^80 è 1.2 x 10^24 o un milione di
+miliardi di miliardi. E' 1,200 volte il numero di granelli di sabbia sulla
+terra.
+
+Ecco un esempio per dare un'idea di cosa ci vorrebbe per ottenere una collisione
+SHA-1. Se tutti i 6.5 miliardi di esseri umani sulla Terra stessero
+programmando, e ogni secondo, ognuno stesse producendo codice che fosse
+equivalente all'intera storia del kernel Linux (1 milione di oggetti Git) e se
+lo stesse caricando su un enorme *repository* Git, ci vorrebbero 5 anni per
+contenere abbastanza oggetti in quel *repository* da avere il 50% di possibilità
+di una singola collisione di oggetti SHA-1. Esiste una probabilità più alta che
+ogni membro del team venga attaccato e ucciso dai lupi in situazioni
+indipendenti durante la stessa notte.
+
+### Riferimenti al *branch* ###
+
+La strada più diretta per specificare un *commit* richiede che punti ad un
+riferimento di un *branch*. A quel punto potrebbe essere usato il nome del
+*branch* in qualsiasi comando Git che richiede un oggetto *commit* o un valore
+SHA-1. Per esempio, se si vuole mostrare l'ultimo oggetto *commit* di un
+*branch*, i seguenti comandi sono equivalenti, ammesso che il *branch* 'topic1'
+punti a 'ca82a6d':
+
+	$ git show ca82a6dff817ec66f44342007202690a93763949
+	$ git show topic1
+
+Se si vuole vedere a quale specifico SHA un *branch* punta, o se si vuole vedere
+a cosa si riduce ognuno di questi esempi in termini di SHA, si può usare un
+*plumbing tool* di Git chiamato 'rev-parse'. Nel Capitolo 9 ci sono più informazioni
+sui *plumbing tool*; sostanzialmente, 'rev-parse' esiste per operazioni di basso
+livello e non è concepito per essere usato in operazioni quotidiane. Comunque,
+può essere d'aiuto a volte quanto c'è bisogno di vedere cosa succede realmente.
+A quel punto si può lanciare 'rev-parse' sul proprio *branch*.
+
+	$ git rev-parse topic1
+	ca82a6dff817ec66f44342007202690a93763949

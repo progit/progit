@@ -130,3 +130,63 @@ A quel punto si può lanciare 'rev-parse' sul proprio *branch*.
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
+
+### RefLog ###
+
+Una delle cose che Git fa mentre si lavora è tenere un reflog - un log sui
+riferimenti di *HEAD* e *branch* degli ultimi mesi.
+
+E' possibile vedere il reflog usando il comando 'git reflog':
+
+	$ git reflog
+	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
+	d921970... HEAD@{1}: merge phedders/rdocs: Merge made by recursive.
+	1c002dd... HEAD@{2}: commit: added some blame and merge stuff
+	1c36188... HEAD@{3}: rebase -i (squash): updating HEAD
+	95df984... HEAD@{4}: commit: # This is a combination of two commits.
+	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
+	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
+
+Ogni volta che il *branch* è aggiornato, Git registra l'informazione in questa
+lista temporanea. Si possono specificare anche *commit* più vecchi. Se si vuole
+vedere il quinto valore precedente della *HEAD* del proprio *repository*, si può
+usare il riferimento '@{n}' che si vede nel *output* di reflog:
+
+	$ git show HEAD@{5}
+
+Si può anche usare questa sintassi per vedere dove era un *branch* una certa
+quantità di tempo fa. Per esempio, per vedere dov'era il 'master' *branch* ieri,
+si può scrivere:
+
+	$ git show master@{yesterday}
+
+Questo mostra dove era il *branch* ieri. Questa tecnica funziona solo per i dati
+che sono ancora nel *reflog*, non è possibile usarla per vedere *commit* più
+vecchi di qualche mese.
+
+Per vedere le informazioni del *reflog* formattate come il '*git log*', si può
+lanciare il comando 'git log -g':
+
+	$ git log -g master
+	commit 734713bc047d87bf7eac9674765ae793478c50d3
+	Reflog: master@{0} (Scott Chacon <schacon@gmail.com>)
+	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Fri Jan 2 18:32:33 2009 -0800
+
+	    fixed refs handling, added gc auto, updated tests
+
+	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+	Reflog: master@{1} (Scott Chacon <schacon@gmail.com>)
+	Reflog message: merge phedders/rdocs: Merge made by recursive.
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Thu Dec 11 15:08:43 2008 -0800
+
+	    Merge commit 'phedders/rdocs'
+
+E' importante notare che l'informazione del *reflog* è strettamente locale - è
+un log di cosa è stato fatto nel proprio *repository*. I riferimenti non saranno
+uguali nella copia del *repository* tenuta da qualcun altro.
+Lanciare 'git show HEAD@{2.months-ago}' funzionerà solo se il progetto è stato
+clonato almeno due mesi fa - se è stato clonato cinque minuti prima non verrà
+restituito alcun risultato.

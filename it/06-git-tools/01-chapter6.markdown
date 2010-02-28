@@ -190,3 +190,79 @@ uguali nella copia del *repository* tenuta da qualcun altro.
 Lanciare 'git show HEAD@{2.months-ago}' funzionerà solo se il progetto è stato
 clonato almeno due mesi fa - se è stato clonato cinque minuti prima non verrà
 restituito alcun risultato.
+
+### Riferimenti di discendenza ###
+
+L'altro modo per specificare un *commit* è attraverso la sua discendenza. Se
+viene posizionato un `^` alla fine di un riferimento, Git lo interpreta come il
+genitore di quel determinato *commit*.
+Supponiamo che si guardi la lista delle modifiche effettuate nel progetto:
+
+	$ git log --pretty=format:'%h %s' --graph
+	* 734713b fixed refs handling, added gc auto, updated tests
+	*   d921970 Merge commit 'phedders/rdocs'
+	|\  
+	| * 35cfb2b Some rdoc changes
+	* | 1c002dd added some blame and merge stuff
+	|/  
+	* 1c36188 ignore *.gem
+	* 9b29157 add open3_detach to gemspec file list
+
+E' possibile vedere il precedente *commit* specificando `HEAD^`, che significa
+"il genitore di HEAD":
+
+	$ git show HEAD^
+	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
+	Merge: 1c002dd... 35cfb2b...
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Thu Dec 11 15:08:43 2008 -0800
+
+	    Merge commit 'phedders/rdocs'
+
+Si può anche specificare un numero dopo `^` - per esempio, `d921970^2` significa
+"il secondo genitore di d921870." Questa sintassi è utile per fare il *merge* di
+*commit* che hanno più di un genitore.
+Il primo genitore è il *branch* dove ci si trova al momento del *merge*, e il
+secondo è il *commit* sul *branch* di cui è stato fatto il *merge*:
+
+	$ git show d921970^
+	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
+	Author: Scott Chacon <schacon@gmail.com>
+	Date:   Thu Dec 11 14:58:32 2008 -0800
+
+	    added some blame and merge stuff
+
+	$ git show d921970^2
+	commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
+	Author: Paul Hedderly <paul+git@mjr.org>
+	Date:   Wed Dec 10 22:22:03 2008 +0000
+
+	    Some rdoc changes
+
+Un altro modo per specificare la discendenza è `~`. Anche questo si riferisce al
+primo genitore, quindi `HEAD~` e `HEAD^` sono equivalenti. La differenza si nota
+quando viene specificato un numero.
+`HEAD~2` significa "il primo genitore del primo genitore", o "il nonno" -
+attraversa i primi genitori il numero di volte specificato. Per esempio, nella
+lista mostrata precedentemente, `HEAD~3` sarebbe
+
+	$ git show HEAD~3
+	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+	Author: Tom Preston-Werner <tom@mojombo.com>
+	Date:   Fri Nov 7 13:47:59 2008 -0500
+
+	    ignore *.gem
+
+Potrebbe essere anche scritto come `HEAD^^^`, che è sempre il primo genitore del
+primo genitore del primo genitore:
+
+	$ git show HEAD^^^
+	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
+	Author: Tom Preston-Werner <tom@mojombo.com>
+	Date:   Fri Nov 7 13:47:59 2008 -0500
+
+	    ignore *.gem
+
+E' possibile anche combinare queste sintassi - si può prendere il secondo
+genitore del precedente riferimento (assumendo che si tratti di un *merge
+commit*) usando `HEAD~3^2`, e così via.            

@@ -85,105 +85,131 @@ Qu'est-ce que cela signifie ?
 Et bien, faisons une autre validation :
 
 	$ vim test.rb
-	$ git commit -a -m 'made a change'
+	$ git commit -a -m 'petite modification'
 
-Figure 3-7 illustrates the result.
+La figure 3-7 illustre le resultat.
 
 Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+Figure 3-7. La branche sur laquelle HEAD pointe avance avec chaque nouveau commit.
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+C'est interessant parce qu'à present, votre branche testing a avancé, tandis que la branche master pointe toujours sur le commit sur lequel vous étiez lorsque vous avez lancé `git checkout` pour basculer de branche.
+Retournons sur la branche master :
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+La figure 3-8 montre le résultat.
 
 Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+Figure 3-8. HEAD se déplace sur une autre branche lors d'un checkout.
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+Cette commande a réalisé deux actions.
+Elle a remis le pointeur HEAD sur la branche master et elle a replacé les fichiers de la copie de travail dans l'état pointé par master.
+Cela signifie aussi que les modifications que vous réalisez à partir de maintenant divergeront de l'ancienne version du projet.
+Cette commande retire les modifications réalisées dans la branche testing pour vous permettre de repartir dans une autre direction de développement.
 
-Let’s make a few changes and commit again:
+Réalisons quelques autres modifications et validons à nouveau :
 
 	$ vim test.rb
-	$ git commit -a -m 'made other changes'
+	$ git commit -a -m 'autres modifications'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+Maintenant, l'historique du projet a divergé (voir figure 3-9).
+Vous avez créé une branche et basculé dessus, avez réalisé des modifications, puis avez rebasculé sur la branche principale et réalisé d'autre modifications.
+Ces deux modifications sont isolées dans des branches séparées.
+Vous pouvez basculer d'une branche à l'autre et les fusionner quand vous êtes prêt.
+Vous avez fait tout ceci avec de simples commandes `branch` et `checkout`.
 
 Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+Figure 3-9. Les historiques de branche ont divergé.
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+Parce que dans Git, une branche n'est en fait qu'un simple fichier contenant les 40 caractères de la somme de contrôle SHA-1 du commit sur lequel elle pointe, les branches ne coûtent rien à créer et détruire.
+Créer une branche est aussi rapide qu'écrire un fichier de 41 caractères (40 caractères plus un retour chariot).
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+C'est une différence de taille avec la manière dont la plupart des VCSs gèrent les branches, qui implique de copier tous les fichiers du projet dans un second répertoire.
+Cela peut durer plusieurs secondes ou même quelques minutes selon la taille du projet, alors que pour Git, le processus est toujours instantané.
+De plus, comme nous enregistrons les parents quand nous validons les modifications, la détermination de l'ancêtre commun pour la fusion est réalisée automatiquement, et de manière très facile.
+Ces fonctionnalités encouragent naturellement les développeurs à créer et utiliser souvent des branches. 
 
-Let’s see why you should do so.
+Voyons pourquoi vous devriez en faire autant.
 
-## Basic Branching and Merging ##
+## Brancher et fusionner : les bases ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+Suivons un exemple simple de branche et fusion dans une utilisation que vous feriez dans le monde réel.
+Vous feriez les étapes suivantes :
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.	Travailler sur un site web
+2.	Créer une branche pour une nouvelle Story sur laquelle vous souhaiteriez travailler
+3.	Réaliser quelques tâches sur cette branche
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+À cette étape, vous recevez un appel pour vous dire qu'un problème critique a été découvert et qu'il faut le régler au plus tôt.
+Vous feriez ce qui suit :
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.	Revenir à la branche de production
+2.	Créer un branche et y développer le correctif
+3.	Après qu'il a été testé, fusionner la branche de correctif et pousser le résultat à la production
+4.	Rebasculer à la branche initiale et continuer le travail
 
-### Basic Branching ###
+### Le branchement de base ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+Premièrement, supposons que vous êtes à travailler sur votre projet et avez déjà quelques commits (voir figure 3-10).
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history.
+Figure 3-10. Un historique simple et court.
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+Vous avez décidé de travailler sur le problème numéroté #53 dans le suivi de faits techniques que votre entreprise utilise.
+Pour clarifier, Git n'est pas lié à un gestionnaire particulier de faits techniques.
+Mais comme le problème #53 est un problème ciblé sur lequel vous voulez travailler, vous allez créer une nouvelle branche dédiée à sa résolution.
+Pour créer une branche et y basculer tout de suite, vous pouvez lancer la commande `git checkout` avec l'option `-b` :
 
-	$ git checkout -b iss53
-	Switched to a new branch "iss53"
+	$ git checkout -b prob53
+	Switched to a new branch "prob53"
 
-This is shorthand for:
+C'est un raccourci pour :
 
-	$ git branch iss53
-	$ git checkout iss53
+	$ git branch prob53
+	$ git checkout prob53
 
-Figure 3-11 illustrates the result.
+La figure 3-11 illustre le résultat.
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer.
+Figure 3-11. Creation d'un nouveau pointeur de branche.
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+Vous travaillez sur votre site web et validez des modifications.
+Ce faisant, la branche `prob53` avance, parce que vous l'avez extraite (c'est-à-dire que votre pointeur HEAD pointe dessus, voir figure 3-12) :
 
 	$ vim index.html
-	$ git commit -a -m 'added a new footer [issue 53]'
+	$ git commit -a -m 'ajout d'un pied de page [problème 53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+Figure 3-12. La branche prob53 a avancé avec votre travail.
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+Maintenant vous recevez un appel qui vous apprend qu'il y a un problème sur le site web, un problème qu'il faut résoudre immédiatement.
+Avec Git, vous n'avez pas besoin de déployer les modifications dèja validée pour `prob53` avec les correctifs du problème et vous n'avez pas non plus à suer pour éliminer ces modifications avant de pouvoir appliquer les correctifs du problème en production.
+Tout ce que vous avez à faire, c'est simplement rebasculer sur la branche `master`.
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+Cependant, avant de le faire, notez que si votre copie de travail ou votre zone de préparation contient des modifications non validées qui sont en conflit avec la branche que vous extrayez, Git ne vous laissera pas basculer de branche.
+Le mieux est d'avoir votre copie de travail dans un état propre au moment de basculer de branche.
+Il y a des moyens de contourner ceci (précisément par la planque et l'amendement de commit) dont nous parlerons plus loin.
+Pour l'instant, vous avez validé tous vos changements dans la branche `prob53` et vous pouvez donc rebasculer vers la branche `master` : 
 
 	$ git checkout master
 	Switched to branch "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+À présent, votre répertoire de copie de travail est exactement dans l'état précédent les modifications pour le problème #53 et vous pouvez vous consacrer à votre correctif.
+C'est un point important : Git réinitialise le répertoire de travail pour qu'il ressemble à l'instantané de la validation sur laquel la branche que vous extrayez pointe.
+Il ajoute, retire et modifie les fichiers automatiquement pour assurer que la copie de travail soit identique à ce qu'elle était lors de votre dernière validation sur la branche.
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+Ensuite, vous avez un correctif à faire.
+Créons une branche de correctif sur laquelle travailler jusqu'à ce que ce soit terminé (voir figure 3-13) :
 
-	$ git checkout -b 'hotfix'
-	Switched to a new branch "hotfix"
+	$ git checkout -b 'correctif'
+	Switched to a new branch "correctif"
 	$ vim index.html
-	$ git commit -a -m 'fixed the broken email address'
-	[hotfix]: created 3a0874c: "fixed the broken email address"
+	$ git commit -a -m "correction d'une adresse mail incorrecte"
+	[hotfix]: created 3a0874c: "correction d'une adresse mail incorrecte"
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point.
+Figure 3-13. Branche de correctif basée à partir de la branche master.
 
 You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
 

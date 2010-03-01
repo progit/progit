@@ -420,7 +420,7 @@ Insert 18333fig0326.png
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-これは、ちょっとしたショートカットです。Git はまずブランチ名 `serverfix` を `refs/heads/serverfix:refs/heads/serverfix` に展開します。これは「手元のローカルブランチ serverfix をプッシュして、リモートの serverfix ブランチを更新しろ」という意味です。`refs/heads/` の部分の意味については第 9 章で詳しく説明しますが、これは一般的に省略可能です。`git push origin serverfix:serverfix` とすることもできます。これも同じことで、「こっちの serverfix で、リモートの serverfix を更新しろ」という意味になります。この方式を使えば、ローカルブランチの内容をリモートにある別の名前のブランチにプッシュすることができます。リモートの `serverfix` を呼び出したくない場合は、`git push origin serverfix:awesomebranch` とすればローカルの `serverfix` ブランチをリモートの `awesomebranch` ブランチにプッシュすることができます。
+これは、ちょっとしたショートカットです。Git はまずブランチ名 `serverfix` を `refs/heads/serverfix:refs/heads/serverfix` に展開します。これは「手元のローカルブランチ serverfix をプッシュして、リモートの serverfix ブランチを更新しろ」という意味です。`refs/heads/` の部分の意味については第 9 章で詳しく説明しますが、これは一般的に省略可能です。`git push origin serverfix:serverfix` とすることもできます。これも同じことで、「こっちの serverfix で、リモートの serverfix を更新しろ」という意味になります。この方式を使えば、ローカルブランチの内容をリモートにある別の名前のブランチにプッシュすることができます。リモートのブランチ名を `serverfix` という名前にしたくない場合は、`git push origin serverfix:awesomebranch` とすればローカルの `serverfix` ブランチをリモートの `awesomebranch` という名前のブランチ名でプッシュすることができます。
 
 次に誰かがサーバーからフェッチしたときには、その人が取得するサーバー上の `serverfix` はリモートブランチ `origin/serverfix` となります。
 

@@ -246,16 +246,20 @@ Potete pensare che i dati contenuti da Git per questa strutture siano simili a q
 Insert 18333fig0902.png 
 Figura 9-2. La struttura dei contenuti per i vostri dati di Git correnti.
 
-### Commit Objects ###
+### Oggetti Commit ###
 
-You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.
+A questo punto avere tre alberi che specificano i diversi snapshot del vostro progetto del quale volete tenere traccia, 
+ma il problema iniziale rimane: dovete ricordare tutti e tre i valori SHA-1 per poter recuperare gli snapshot. Non avete inoltre nessuna 
+informazione su chi ha salvato gli snapshot, quando li ha salvati o perchè li ha salvati. Queste sono le informazioni di base che gli oggetti
+commit salvati per voi.
 
-To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:
+Per creare un oggetto commit, lanciate `commit-tree` e specificate un singolo albero SHA-1 e quale oggetto commit, 
+se esiste, lo precede direttamente. Cominciate con il primo albero che avete scritto:
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
-Now you can look at your new commit object with `cat-file`:
+Ora potete analizzare il vostro nuovo oggetto commit con `cat-file`:
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -264,16 +268,19 @@ Now you can look at your new commit object with `cat-file`:
 
 	first commit
 
-The format for a commit object is simple: it specifies the top-level tree for the snapshot of the project at that point; the author/committer information pulled from your `user.name` and `user.email` configuration settings, with the current timestamp; a blank line, and then the commit message.
+Il formato di un oggetto commit è semplice: specifica l'albero di primo livello per lo snapshot del progetto a quel punto;
+le informazioni sull'autore/colui che ha fatto la commit estratte dalle vostre impostazioni `user.name` and `user.email`,
+con il timestamp corrente; una linea vuota ed infine il messaggio di commit.
 
-Next, you’ll write the other two commit objects, each referencing the commit that came directly before it:
+Di seguito, scrivete gli altri due oggetti commit, ognuno dei quali fa riferimento alla commit che le hanno preceduti:
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
 	cac0cab538b970a37ea1e769cbbde608743bc96d
 	$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
 	1a410efbd13591db07496601ebc7a059dd55cfe9
 
-Each of the three commit objects points to one of the three snapshot trees you created. Oddly enough, you have a real Git history now that you can view with the `git log` command, if you run it on the last commit SHA-1:
+Ognuno dei tre oggetti commit punta ad uno dei tre alberi snapshot che avete creato.
+Ora avete una vera Git history che potete vedere con il comando `git log`, se lo lanciate sull'ultima commit SHA-1:
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -304,7 +311,12 @@ Each of the three commit objects points to one of the three snapshot trees you c
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Amazing. You’ve just done the low-level operations to build up a Git history without using any of the front ends. This is essentially what Git does when you run the `git add` and `git commit` commands — it stores blobs for the files that have changed, updates the index, writes out trees, and writes commit objects that reference the top-level trees and the commits that came immediately before them. These three main Git objects — the blob, the tree, and the commit — are initially stored as separate files in your `.git/objects` directory. Here are all the objects in the example directory now, commented with what they store:
+Fantastico. Avete appena eseguito le operazioni di basso livello per costruire una Git history senza utilizzare 
+nessuno dei comandi del front end. Questo è essenzialmente quello che Git fà quando lanciate i comandi `git add` e `git commit`
+- salva i blob per i file che sono cambiati, aggiorna l'indice, scrive gli alberi e scrive gli oggetti commit che 
+fanno riferimento agli alberi di primo livello e le commit fatte immediatamente prima di questi. Questi tre oggetti Git principali
+- il blob, l'albero, e la commit - sono inizialmente slavati come file separati nella vostra directory `.git/objects`. Di seguito
+potete vedere tutti gli oggetti nella directory di esempio, commentati con quello che contengono:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -318,10 +330,10 @@ Amazing. You’ve just done the low-level operations to build up a Git history w
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-If you follow all the internal pointers, you get an object graph something like Figure 9-3.
+Se seguite tutti i puntatori interni otterrete un grafo degli oggetti simile a quelli in Figura 9-3.
 
 Insert 18333fig0903.png 
-Figure 9-3. All the objects in your Git directory.
+Figura 9-3. Tutti gli oggetti nella vostra directory Git.
 
 ### Object Storage ###
 

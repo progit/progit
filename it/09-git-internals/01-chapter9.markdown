@@ -99,6 +99,7 @@ Ora potete vedere come Git ha salvato i vostri dati:
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
+
 Nella directory `objects` ora è presente un file. Questo è come Git salva inizialmente il contenuto -
 ossia come un singolo file per ogni parte di contenuto, con nome uguale al checksum SHA-1 del contenuto stesso
 e del suo header.
@@ -173,10 +174,10 @@ Notate che la directory `lib` non è un blob ma un puntatore ad un'altro albero:
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
 
-Concettualmente, i dati che vengono salvati da Git sono simili a quelli Figure 9-1.
+Concettualmente, i dati che vengono salvati da Git sono simili a quelli in Figura 9-1.
 
 Insert 18333fig0901.png 
-Figure 9-1. Versione semplice del modello dei dati di Git.
+Figura 9-1. Versione semplice del modello dei dati di Git.
 
 Potete creare il vostro albero. Git normalmente crea un albero prendendo lo stato della vostra area di staging o indice e scrivendo l'oggetto 
 albero a partire da questo. Quindi, per creare un oggetto albero dovete per prima cosa creare un indice mettendo in staging alcuni file. Per creare 
@@ -185,13 +186,6 @@ comando aggiungete artificialmente la precedente versione el file text.txt ad un
 Dovete passare l'opzione `--add` perchè il file non esiste ancora nella vostra area di staging (in effetti non avete ancora un'area di staging)
 a l'opzione `--cacheinfo` perchè il file che state aggiungendo non è nella vostra directory ma è nel vostro database.
 
-
-You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. 
-So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — 
-the first version of your text.txt file — you can use the plumbing command `update-index`. 
-You use this command to artificially add the earlier version of the test.txt file to a new staging area. 
-You must pass it the `--add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) 
-and `--cacheinfo` because the file you’re adding isn’t in your directory but is in your database.
 Per finire, specificate modo, SHA-1 ed il nome del file:
 
 	$ git update-index --add --cacheinfo 100644 \
@@ -221,6 +215,7 @@ Ora creerete un nuovo albero con la seconda versione di test.txt e un nuovo file
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt 
 	$ git update-index --add new.txt 
+
 
 La vostra area di staging ora contiene la nuova versione di test.txt così come il nuovo file new.txt
 Scrivete l'albero (registrando lo stato dell'area di staging o indice in un oggetto albero) e osservate a cosa assomiglia

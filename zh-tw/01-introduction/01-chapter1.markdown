@@ -200,7 +200,7 @@ Git附帶名為git config的工具，允許讀者取得及設定組態參數，�
 *	檔案 ~/.gitconfig： 給讀者自己的帳號使用。 傳遞 --global 參數給 git config，它就會讀取或者寫入參數到這個檔案。
 *	儲存庫內的設定檔，也就是 .git/config： 僅給所在的儲存庫使用。 每個階級的設定會覆寫上一層的。 因此.git/config內的設定值的優先權高過/etc/config。
 
-在Windows系統，Git在$HOME目錄(對大部份使用者來說是C:\Documents and Settings\$USER)內尋找.gitconfig。 它也會尋找/etc/gitconfig，只不過它是相對於Msys根目錄，取決於讀者當初在Windows系統執行Git的安裝程式時安裝的目的地。
+在Windows系統，Git在$HOME目錄(對大部份使用者來說是`C:\Documents and Settings\$USER`)內尋找.gitconfig。 它也會尋找/etc/gitconfig，只不過它是相對於Msys根目錄，取決於讀者當初在Windows系統執行Git的安裝程式時安裝的目的地。
 
 ### 設定識別資料 ###
 

@@ -41,13 +41,12 @@ Cela crée un nouveau pointeur vers le commit actuel (Cf. figure 3-4).
 Insert 18333fig0304.png 
 Figure 3-4. Branches multiples pointant dans l'historique des données de commit.
 
-
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+Comment Git connaît-il la branche sur laquelle vous vous trouvez ? Il conserve un pointeur spécial appelé HEAD. Remarquez que sous cette appellation se cache un concept très différent de celui utilisé dans les autres VCSs tels que Subversion ou CVS. Dans Git, c'est un pointeur sur la branche locale où vous vous trouvez. Dans notre cas, vous vous trouvez toujours sur master. La commande git branch n'a fait que créer une nouvelle branche — elle n'a pas fait basculer la copie de travail vers cette branche (Cf. figure 3-5).
 
 Insert 18333fig0305.png 
-Figure 3-5. HEAD file pointing to the branch you’re on.
+Figure 3-5. fichier HEAD pointant sur la branche active
 
-To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
+Pour basculer vers une branche existant, il suffit de lancer la commande `git checkout`. Basculons vers la nouvelle branche testing :
 
 	$ git checkout testing
 

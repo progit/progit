@@ -410,15 +410,15 @@ Git並不像其它檔案控制系統一樣，很精確的追蹤檔案的移動�
 
 Git會在背後判斷檔案是否被更名，因此不管是用上述方法還是mv命令都沒有差別。 實際上唯一不同的是mv是一個命令，而不是三個。 使用上較方便。 更重畏的是讀者可使用任何慣用的工具更名，再使用add/rm，接著才提交。
 
-## Viewing the Commit History ##
+## 檢視提交的歷史記錄 ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+在提交數個更新，或者複製已有一些歷史記錄的儲存庫後。 或許會想希望檢視之前發生過什麼事。 最基本也最具威力的工具就是 git log 命令。
 
-These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run 
+以下採用非常簡單，名為 simplegit 的專案做展示。 欲取得此專案，執行以下命令：
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+在此專案目錄內執行 git log，應該會看到類似以下訊息：
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -439,11 +439,11 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+在未加任何參數情況下，git log以新到舊的順序列出儲存庫的提交的歷史記錄。 也就是說最新的更新會先被列出來。 同時也會列出每個更新的 SHA1 查核值、作者大名及電子郵件地址、及提交時輸入的訊息。
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+git log命令有很多樣化的選項，供讀者精確指出想搜尋的結果。 接下來會介紹一些常用的選項。
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+最常用的選項之一為 -p，用來顯示每個更新之間差別的內容。 另外還可以加上 -2 參數，限制為只輸出最後兩個更新。
 
 	$ git log –p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -483,8 +483,8 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+這個選項除了顯示相同的資訊外，還另外附上每個更新的差異。 這對於重新檢視或者快速的瀏覽協同工作伙伴新增的更新非常有幫助。
+另外也可以使用git log提供的一系統摘要選項。 例如：若想檢視每個更新的簡略統計資訊，可使用 --stat 選項：
 
 	$ git log --stat 
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -516,43 +516,43 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+如以上所示，--stat選項在每個更新項目的下方列出被更動的檔案、有多少檔案被更動，以及有多行列被加入或移出該檔案。 也會在最後印出摘要的訊息。
+其它實用的選項是 --pretty。 這個選項改變原本預設輸出的格式。 有數個內建的選項供讀者選用。 其中 oneline 選項將每一個更新印到單獨一行，對於檢視很多更新時很有用。 更進一步，short、full、fuller 選項輸出的格式大致相同，但會少一些或者多一些資訊。
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+最有趣的選項是 format，允許讀者指定自訂的輸出格式1。 當需要輸出給機器分析時特別有用。 因為明確的指定了格式，即可確定它不會因為更新 Git 而被更動：
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+表格2-1列出一些 format 支援的選項。
 
-	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+	選項	選項的說明
+	%H	該更新的SHA1雜湊值
+	%h	該更新的簡短SHA1雜湊值
+	%T	存放該更新的根目錄的Tree物件的SHA1雜湊值
+	%t	存放該更新的根目錄的Tree物件的簡短SHA1雜湊值
+	%P	該更新的父更新的SHA1雜湊值
+	%p	該更新的父更新的簡短SHA1雜湊值
+	%an	作者名字
+	%ae	作者電子郵件
+	%ad	作者的日期 (格式依據 date 選項而不同)
+	%ar	相對於目前時間的作者的日期
+	%cn	提交者的名字
+	%ce	提交者的電子郵件
+	%cd	提交的日期
+	%cr	相對於目前時間的提交的日期
+	%s	標題
 
-You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+讀者可能會好奇作者與提交者之間的差別。 作者是完成該工作的人，而提交者則是最後將該工作提交出來的人。 因此，若讀者將某個專案的修補檔送出，而且該專案的核心成員中一員套用該更新，則讀者與該成員皆會被列入該更新。 讀者即作者，而該成員則是提交者。 在第五章會提到較多之間的差別。
 
-The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
+oneline 及 format 選項對於另一個名為 --graph 的選項特別有用。 該選項以 ASCII 畫出分支的分歧及合併的歷史。 可參考我們的 Grit 的儲存庫：
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -566,43 +566,43 @@ The oneline and format options are particularly useful with another `log` option
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
+這些只是一些簡單的 git log 的選項，還有許多其它的。 表格2-2列出目前我們涵蓋的及一些可能有用的格式選項，以及它們如何更動 git log 命令的輸出格式。
 
-	Option	Description
-	-p	Show the patch introduced with each commit.
-	--stat	Show statistics for files modified in each commit.
-	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
-	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+	選項	選項的說明
+	-p	顯示每個更新與上一個的差異。
+	--stat	顯示每個更新更動的檔案的統計及摘要資訊。
+	--shortstat	僅顯示--stat提供的的訊息中關於更動、插入、刪除的文字。
+	--name-only	在更新的訊息後方顯示更動的檔案列表。
+	--name-status	顯示新增、更動、刪除的檔案列表。
+	--abbrev-commit	僅顯示SHA1查核值的前幾位數，而不是顯示全部的40位數。
+	--relative-date	以相對於目前時間方式顯示日期（例如：“2 weeks ago”），而不是完整的日期格式。
+	--graph	以 ASCII 在 log 輸出旁邊畫出分支的分歧及合併。
+	--pretty	以其它格式顯示更新。 可用的選項包含oneline、short、full、fuller及可自訂格式的format。
 
-### Limiting Log Output ###
+### 限制 log 的輸出範圍 ###
 
-In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+除了輸出格式的選項，git log也接受一些好用的選項。 也就是指定只顯示某一個子集合的更新。 先前已介紹過僅顯示最後兩筆更新的 -2 選項。 實際上可指定 -n，而 n 是任何整數，用來顯示最後的 n 個更新。 不過讀者可能不太會常用此選項，因為 Git 預設將所有的輸出導到分頁程式，故一次只會看到一頁。
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+然而，像 --since 及 --until 限制時間的選項就很有用。 例如，以下命令列出最近兩週的更新：
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+此命令支援多種格式。 可指定特定日期（如：2008-01-15）或相對的日期，如：2 years 1day 3minutes ago。
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+使用者也可以過濾出符合某些搜尋條件的更新。 --author 選項允許使用者過濾出特定作者，而 --grep 選項允許以關鍵字搜尋提交的訊息。（注意：若希望同時符合作者名字及字串比對，需要再加上 --all-match；否則預設為列出符合任一條件的更新）
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+最後一個有用的選項是過濾路徑。 若指定目錄或檔案名稱，可僅印出更動到這些檔案的更新。 這選項永遠放在最後，而且一般來說會在前方加上 -- 以資區別。
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+在表格2-3，我們列出這些選項以及少數其它常見選項以供參考。
 
-	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+	選項	選項的說明文字
+	-(n)	僅顯示最後 n 個更新
+	--since, --after	列出特定日期後的更新。
+	--until, --before	列出特定日期前的更新。
+	--author	列出作者名稱符合指定字串的更新。
+	--committer	列出提交者名稱符合指定字串的更新。
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+例如：若想檢視 Git 的原始碼中，Junio Hamano 在 2008 年十月份提交且不是合併用的更新。 可執行以下命令：
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -613,42 +613,42 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+Git 原始碼的更新歷史接近二萬筆更新，本命令顯示符合條件的六筆更新。
 
-### Using a GUI to Visualize History ###
+### 使用圖形界面檢視歷史 ###
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
+若讀者較偏向使用圖形界面檢視歷史，或與會想看一下隨著 Git 發怖的，名為 gitk 的 Tcl/Tk 程式。 Gitk 基本上就是 git log 的圖形界面版本，而且幾乎接受所有 git log 支援的過濾用選項。 若在專案所在目錄下執行 gitk 命令，將會看到如圖2-2的畫面。
 
 Insert 18333fig0202.png 
-Figure 2-2. The gitk history visualizer.
+圖2-2。 gitk檢視歷史程式。
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+在上圖中可看到視窗的上半部顯示相當棒的更新歷史圖。 視窗下半部則顯示當時被點選的更新引入的變更。
 
-## Undoing Things ##
+## 復原 ##
 
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always undo some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+在任何時間點，或許讀者會想要復原一些事情。 接下來我們會介紹一些基本的復原方式。 但要注意，由於有些復原動作所做的變更無法再被還原。 這是少數在使用 Git 時，執行錯誤的動作會遺失資料的情況。
 
-### Changing Your Last Commit ###
+### 更動最後一筆更新 ###
 
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+最常見的復原發生在太早提交更新，也許忘了加入某些檔案、或者搞砸了提交的訊息。 若想要試著重新提交，可試著加上 --amend 選項：
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+此命令取出暫存區資料並用來做本次的提交。 只要在最後一次提交後沒有做過任何修改（例如：在上一次提交後，馬上執行此命令），那麼整個快照看起來會與上次提交的一模一樣，唯一有更動的是提交時的訊息。
 
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+同一個文書編輯器被帶出來，並且已包含先前提交的更新內的訊息。 讀者可像往常一樣編輯這些訊息，差別在於它們會覆蓋上一次提交。
 
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+如下例，若提交了更新後發現忘了一併提交某些檔案，可執行最後一個命令：
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second commit replaces the results of the first.
+這些命令的僅僅會提交一個更新，第二個被提交的更新會取代第一個。
 
-### Unstaging a Staged File ###
+### 取消已被暫存的檔案 ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+接下來兩節展示如何應付暫存區及工作目錄的復原。 用來判斷這兩個區域狀態的命令也以相當好的方式提示如何復原。 比如說已經修改兩個檔案，並想要以兩個不同的更新提交它們，不過不小心執行 git add * 將它們同時都加入暫存區。 應該如何將其中一個移出暫存區？ git status 命令已附上相關的提示：
 
 	$ git add .
 	$ git status
@@ -660,7 +660,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+在 "Changes to be commited" 文字下方，註明著使用 "git reset HEAD <file>..."，將 file 移出暫存區。 因此，讓我們依循該建議將 benchmarks.rb 檔案移出暫存區：
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -678,11 +678,11 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
+這個命令看起來有點奇怪，不過它的確可用。 benchmarks.rb 檔案被移出暫存區了。
 
-### Unmodifying a Modified File ###
+### 復原已被更動的檔案 ###
 
-What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
+若讀者發現其者並不需要保留 benchmarks.rb 檔案被更動部份，應該如何做才能很容易的復原為最後一次提交的狀態（或者最被複製儲存庫時、或放到工作目錄時的版本）？ 很幸運的，git status 同樣也告訴讀者如何做。 在最近一次檢視狀態時，暫存區看起來應如下所示：
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -691,7 +691,7 @@ What if you realize that you don’t want to keep your changes to the benchmarks
 	#       modified:   benchmarks.rb
 	#
 
-It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
+在這訊息中已很明確的說明如何拋棄所做的修改（至少需升級為 Git 1.6.1或更新版本。 若讀者使用的是舊版，強烈建議升級，以取得更好用的功能。） 讓我們依據命令執行：
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -702,18 +702,18 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   README.txt
 	#
 
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go. 
+在上述文字可看到該變更已被復原。 讀者應該瞭解這是危險的命令，任何對該檔案做的修改將不復存在，就好像複製別的檔案將它覆蓋。 除非很清楚真的不需要該檔案，絕不要使用此檔案。 若需要將這些修改排除，我們在下一章節會介紹備份及分支。 一般來說會比此方法來的好。
 
-Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see Chapter 9 for data recovery). However, anything you lose that was never committed is likely never to be seen again.
+切記，任何在 Git 提交的更新幾乎都是可復原的。 即使是分支中的更新被刪除或被 --amend 覆寫，皆能被覆原。（參考第九章關於資料的復原） 然而，未被提交的則幾乎無法救回。
 
-## Working with Remotes ##
+## 與遠端協同工作 ##
 
-To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
+欲在任何Git控管的專案協同作業，需要瞭解如何管理遠端的儲存庫。 遠端儲存庫讀者是置放在網際網路或網路其它地方的複本。 讀者可設定多個遠端儲存庫，唯讀或者可讀寫。 與他人協同作業時，需要管理這些遠端儲存庫，並在需要分享工作時上傳或下載資料。
+管理遠端儲存庫包含瞭解如何新增遠端儲存庫、移除已失效的儲存庫、管理許多分支及定義是否要追蹤它們等等。 本節包含如何遠端管理的技巧。
 
-### Showing Your Remotes ###
+### 顯示所有的遠端儲存庫 ###
 
-To see which remote servers you have configured, you can run the git remote command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
+欲瞭解目前已加進來的遠端儲存庫，可執行 git remote 命令。 它會列出當初加入遠端儲存庫時指定的名稱。 若目前所在儲存庫是從其它儲存庫複製過來的，至少應該看到 origin，也就是 Git 複製儲存庫時預設取的名字：
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -726,12 +726,12 @@ To see which remote servers you have configured, you can run the git remote comm
 	$ git remote 
 	origin
 
-You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+也可以再加上 -v 參數，將會在名稱後方顯示其URL：
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
-If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
+若有一個以上遠端儲存庫，此命令會列出全部。 例如：我的 Grit 儲存庫包含以下遠端儲存庫。
 
 	$ cd grit
 	$ git remote -v
@@ -741,11 +741,11 @@ If you have more than one remote, the command lists them all. For example, my Gr
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in Chapter 4).
+這意謂著我們可很容易從這些伙伴的儲存庫取得最新的更新。 要留意的是只有 origin 遠端的 URL 是 SSH。 因此它是唯一我們能上傳的遠端的儲存庫。（關於這部份將在第四章介紹） 
 
-### Adding Remote Repositories ###
+### 新增遠端儲存庫 ###
 
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+在先前章節已提到並示範如何新增遠端儲存庫，這邊會很明確的說明如何做這項工作。 欲新增遠端儲存庫並取一個簡短的名字，執行 git remote add名字 URL： 
 
 	$ git remote
 	origin
@@ -754,7 +754,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+現在可看到命令列中的 pb 字串取代了整個 URL。 例如，若想取得 Paul 上傳的且本地端儲存庫沒有的更新，可執行 git fetch pb：
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -765,31 +765,31 @@ Now you can use the string pb on the command line in lieu of the whole URL. For 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+現在可在本地端使用 pb/master 存取 Paul 的 master 分支。 讀者可將它合併到本地端任一分支、或者建立一個本地端的分支指向它，如果讀者想監看它。
 
-### Fetching and Pulling from Your Remotes ###
+### 從遠端儲存庫擷取或合併 ###
 
-As you just saw, to get data from your remote projects, you can run:
+如剛才所示，欲從遠端擷取資料，可執行：
 
 	$ git fetch [remote-name]
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
+此命令到該遠端專案將所有本地端沒有的資料拉下來。 在執行此動作後，讀者應該有參考到該遠端專案所有分支的參考點，可在任何時間點用來合併或監看。（在第三章將會提及更多關於如何使用分支的細節）
 
-If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+若複製了一個儲存庫，會自動將該遠端儲存庫命令為 origin。 因此 git fetch origin 取出所有在複製或最後一下擷取後被上傳到該儲存庫的更新。 需留意的是 fetch 命令僅僅將資料拉到本地端的儲存庫，並未自動將它合併進來，也沒有修改任何目前工作的項目。 讀者得在必要時將它們手動合併進來。
 
-If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+若讀者設定一個會追蹤遠端分支的分支（參考下一節及第三章，取得更多資料），可使用 git pull 命令自動擷取及合併遠端分支到目錄的分支。 這對讀者來說或許是較合適的工作流程。 而且 git clone 命令預設情況下會自動設定本地端的 master 分支追蹤被複製的遠端儲存庫的 master 分支。（假設該儲存庫有 master 分支） 執行 git pull 一般來說會從當初複製時的來源儲存庫擷取資料並自動試著合併到目前工作的版本。
 
-### Pushing to Your Remotes ###
+### 上傳到遠端儲存庫 ###
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+當讀者有想分享出去的專案，可將更新上傳到上游。 執行此動作的命令很簡單：git push 遠端儲存庫名字 分支名。 若想要上傳 master 分支到 origin 伺服器（再說一次，複製時通常自動設定此名字），接著執行以下命令即可上傳到伺服器：
 
 	$ git push origin master
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
+此命令只有在被複製的伺服器開放寫入權限給使用者，而且同一時間內沒有其它人在上傳。 若讀者在其它同樣複製該伺服器的使用者上傳一些更新後上傳到上游，該上傳動作將會被拒絕。 讀者必須先將其它使用者上傳的資料拉下來並整合進來後才能上傳。 參考第三章瞭解如何上傳到遠端儲存庫的細節。
 
-### Inspecting a Remote ###
+### 監看遠端儲存庫 ###
 
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+若讀者想取得遠端儲存庫某部份更詳盡的資料，可執行 git remote show 遠端儲存庫名字。 若執行此命令時加上特定的遠端名字，比如說： origin。 會看到類似以下輸出：
 
 	$ git remote show origin
 	* remote origin

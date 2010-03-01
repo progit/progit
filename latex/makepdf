@@ -104,11 +104,12 @@ def post_pandoc(string, config)
 		end
 
 		# Make Tables 2-1..2-3 actual tables
-		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)\\end\{verbatim\}/ do
+		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)(([^\t\n]*)\n)?\\end\{verbatim\}/ do
+			$cap = $4
 			"\\begin{table}[h!]
-				\\refstepcounter{table}
+				\\refstepcounter{tab}
 				\\centering
-				\\label{tab:\\thetable}
+				\\label{tab:\\thetab}
 				\\begin{tabular}{p{2.75cm}p{8.25cm}}
 					\\toprule\n" <<
 					verbatim_sanitize($1).
@@ -118,6 +119,7 @@ def post_pandoc(string, config)
 						concat("
 					\\bottomrule
 				\\end{tabular}
+				\\textbf{\\caption{#{$cap}}}
 			\\end{table}")
 		end
 

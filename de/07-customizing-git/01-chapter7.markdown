@@ -111,7 +111,7 @@ Wenn Du dies ausfuehrst wird Git immer die komplette Ausgabe aller Befehle anzei
 
 If you run that, Git will page the entire output of all commands, no matter how long they are.
 
-#### user.signingkey ####
+#### user.signingkey #### 
 
 Falls Du signierte annotierte Tags erstellst (wie in Kapitel 2 diskutiert) so macht es die Arbeit leichter, wenn Du Deinen GPG Signier-Schluessel als Konfiguration einstellst. Du kannst Deine Schluessel ID wie folgt festlegen:
 
@@ -401,7 +401,7 @@ To disable the ability to force-update remote branches to non-fast-forward refer
 
 	$ git config --system receive.denyNonFastForwards true
 
-Eine andere Möglichkeit ist die Einrichtung von Serverseitigen Empfangsschnittstellen, die ich etwas später beschreiben werde. Dieser Ansatz erlaubt noch komplexere Dinge wie zum Beispiel Nicht-`fast-forward` Referenzen nur bestimmten Benutzergruppen zu verweigern.
+Eine andere Möglichkeit ist die Einrichtung von serverseitigen Empfangsschnittstellen, die ich etwas später beschreiben werde. Dieser Ansatz erlaubt noch komplexere Dinge wie zum Beispiel Nicht-`fast-forward` Referenzen nur bestimmten Benutzergruppen zu verweigern.
 
 The other way you can do this is via server-side receive hooks, which I’ll cover in a bit. That approach lets you do more complex things like deny non-fast-forwards to a certain subset of users.
 
@@ -605,17 +605,21 @@ Another interesting example gets `$Date$` keyword expansion, RCS style. To do th
 	last_date = `git log --pretty=format:"%ad" -1`
 	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
-Alles was das Skript macht ist das letzte Commit Datum mittels des `git log` Befehls zu ermitteln, jede `$Date` Zeichenfolge die es per stdin erhält durch diese Information ersetzen und das Ergebnis ausgeben — es sollte 
+Alles was das Skript macht ist das letzte Commit Datum mittels des `git log` Befehls zu ermitteln, jede `$Date` Zeichenfolge die es per stdin erhält durch diese Information ersetzen und das Ergebnis ausgeben — es sollte einfach zu implementieren sein, welche Programmiersprache Du auch immer bevorzugst. Du kannst diese Datei `expand_date` nennen und in Deinem Suchpfad ablegen. Jetzt musst Du noch einen Filter in Git einrichten (nennen wir ihn `dater`) und so einstellen, dass Dein `expand_date` Filterskript benutzt wird, um Dateien beim Checkout zu modifizieren. Zum Säubern der Dateien wird ein Perl Ausdruck beim Commit benutzt:
 
 All the script does is get the latest commit date from the `git log` command, stick that into any `$Date$` strings it sees in stdin, and print the results — it should be simple to do in whatever language you’re most comfortable in. You can name this file `expand_date` and put it in your path. Now, you need to set up a filter in Git (call it `dater`) and tell it to use your `expand_date` filter to smudge the files on checkout. You’ll use a Perl expression to clean that up on commit:
 
 	$ git config filter.dater.smudge expand_date
 	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
+Dieser Perl Schnipsel entfernt alles, was er in einer `$Date$` Zeichenfolge findet, um wieder zum Ursprungszustand zurueckzukehren. Jetz wo der Filter fertig ist kannst Du ihn testen, indem Du eine Datei mit Deinem `$Date$` Schluesselwort erstellst und ein Git Attribut fuer diese Datei einrichtest, das den neuen Filter ausfuehrt:
+
 This Perl snippet strips out anything it sees in a `$Date$` string, to get back to where you started. Now that your filter is ready, you can test it by setting up a file with your `$Date$` keyword and then setting up a Git attribute for that file that engages the new filter:
 
 	$ echo '# $Date$' > date_test.txt
 	$ echo 'date*.txt filter=dater' >> .gitattributes
+
+Wenn Du nun ein Commit mit diesen Änderungen machst und dann die Datei wieder auscheckst, wirst Du sehen, dass das Schluesselwort korrekt ersetzt wurde:
 
 If you commit those changes and check out the file again, you see the keyword properly substituted:
 
@@ -626,23 +630,36 @@ If you commit those changes and check out the file again, you see the keyword pr
 	$ cat date_test.txt
 	# $Date: Tue Apr 21 07:26:52 2009 -0700$
 
+Du siehst wie mächtig diese Technik fuer personalisierte Anwendungen sein kann. Du solltest allerdings vorsichtig sein, da die `.gitattributes` Datei ebenfalls in Git abgelegt ist und an alle Benutzer weitergegeben wird, aber Dein Filterskript (in diesem Fall `dater`) ist es nicht; also wird er nicht ueberall funktionieren. Wenn Du diese Filter entwickelst, sollte es möglich sein, dass sie ohne Fehler fehlschlagen, so dass das Projekt weiterhin korrekt funktioniert.
+
 You can see how powerful this technique can be for customized applications. You have to be careful, though, because the `.gitattributes` file is committed and passed around with the project but the driver (in this case, `dater`) isn’t; so, it won’t work everywhere. When you design these filters, they should be able to fail gracefully and have the project still work properly.
 
 ### Exporting Your Repository ###
+### Exportieren Deines Repositories ###
+
+Git Attribute erlauben auch einige interessante Dinge, wenn Du Dein Projekt in ein Archiv exportierst.
 
 Git attribute data also allows you to do some interesting things when exporting an archive of your project.
 
 #### export-ignore ####
 
+Du kannst Git anweisen gewisse Dateien oder Verzeichnisse nicht zu exportieren, wenn es ein Archiv erzeugt. Falls es Unterverzeichnisse oder Dateien gibt, die Du nicht in Deiner Archivdatei haben willst, aber in Deinem Projektrepository, so kannst Du diese Datein mit Hilfe des `export-ignore` Attributes bestimmen.
+
 You can tell Git not to export certain files or directories when generating an archive. If there is a subdirectory or file that you don’t want to include in your archive file but that you do want checked into your project, you can determine those files via the `export-ignore` attribute.
+
+Nehmen wir zum Beispiel an, Du hast einige Testdateien in einem `test/` Unterverzeichnis und es macht keinen Sinn, dass sie in einen exportierten Tarball Deines Projektes aufgenommen werden. Du kannst die folgende Zeile in Deine Git Attributdatei einfuegen:
 
 For example, say you have some test files in a `test/` subdirectory, and it doesn’t make sense to include them in the tarball export of your project. You can add the following line to your Git attributes file:
 
 	test/ export-ignore
 
+Wenn Du jetzt "git archive" ausfuehrst, um einen Tarball Deines Projektes zu erstellen, wird das Verzeichnis nicht mit in das Archiv aufgenommen.
+
 Now, when you run git archive to create a tarball of your project, that directory won’t be included in the archive.
 
 #### export-subst ####
+
+Eine weitere Möglichkeit Archive zu modifizieren ist einfaches Ersetzen von Schluesselwörtern. Git erlaubt die Zeichenfolge `$Format:$` in jeder Datei mit allen Formatierungskuerzeln des Parameters `--pretty=format`, von denen Du bereits in Kapitel 2 einige kennengelernt hast. Wenn Du zum Beispiel eine Datei namens `LAST_COMMIT` zu Deinem Projekt hinzufuegen willst, und das Datum des Commis bei einem it archive`in die Datei eingefuegt werden soll, so kannst Du die Datei wie folgt einrichten:
 
 Another thing you can do for your archives is some simple keyword substitution. Git lets you put the string `$Format:$` in any file with any of the `--pretty=format` formatting shortcodes, many of which you saw in Chapter 2. For instance, if you want to include a file named `LAST_COMMIT` in your project, and the last commit date was automatically injected into it when `git archive` ran, you can set up the file like this:
 
@@ -651,18 +668,27 @@ Another thing you can do for your archives is some simple keyword substitution. 
 	$ git add LAST_COMMIT .gitattributes
 	$ git commit -am 'adding LAST_COMMIT file for archives'
 
+Wenn Du ein `git archive` ausfuehrst, dann wird die Datei ungefähr so aussehen, wenn jemand das Archiv öffnet:
+
 When you run `git archive`, the contents of that file when people open the archive file will look like this:
 
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
 ### Merge Strategies ###
+### Merge Strategien ###
+
+Du kannst Git auch anweisen verschiedene Regeln fuer das Zusammenfuehren bestimmter Dateien in Deinem Projekt zu verwenden. Eine besonders nuetzliche Option ist es, Git so einzustellen, dass es bei bestimmten Dateien kein Zusammenfuehren von Konfliktstellen versucht, sondern Deine Seite des Merge der anderen Seite vorzieht.
 
 You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
+
+Dies ist hilfreich, falls ein Zweig Deines Projektes abgewichen oder spezialisiert ist, aber Du weiterhin in der Lage sein willst, Änderungen daran zurueckzufuehren, und dabei gewisse Dateien zu ignorieren. Nehmen wir an Du hast eine Konfigurationsdatei einer Datenbank namens database.xml, das sich in zwei Zweigen unterschiedlich ist, und Du möchtest ein Merge von dem anderen Zweig machen, ohne die Datenbankdatei unbrauchbar zu machen. Dann kannst Du etwa folgendes Attribut einrichten:
 
 This is helpful if a branch in your project has diverged or is specialized, but you want to be able to merge changes back in from it, and you want to ignore certain files. Say you have a database settings file called database.xml that is different in two branches, and you want to merge in your other branch without messing up the database file. You can set up an attribute like this:
 
 	database.xml merge=ours
+
+Wenn Du ein Merge des anderen Zweiges machst, wirst Du statt Merge-Konflikten der Datei database.xml eher folgendes sehen:
 
 If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
 
@@ -670,23 +696,39 @@ If you merge in the other branch, instead of having merge conflicts with the dat
 	Auto-merging database.xml
 	Merge made by recursive.
 
+In diesem Fall bleibt database.xml in der Version, die Du urspruenglich hattest.
+
 In this case, database.xml stays at whatever version you originally had.
 
 ## Git Hooks ##
+## Git Hooks ##
+
+Genau wie viele andere Versionskontrollsysteme gibt es auch bei Git die Möglichkeit eigene Skripte zu starten, wenn bestimmte wichtige Ereignisse eintreten. Es gibt zwei Gruppen dieser Schnittstellen, allgemein "Hook" genannt: auf Seiten des Clients und des Servers. Die Client-seitigen Hooks dienen Operationen bei einem Client, zum Beispiel bei Commits oder Merges. Die Server-seitigen Hooks dienen Git Server Operationen wie den Empfang von hochgeladenen Commits. Ma kann diese Schnittstellen aus diversen Gruenden benutzen, und einige davon wirst Du hier kennenlernen.
 
 Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
 
 ### Installing a Hook ###
+### Installieren eines Hooks ###
+
+Sämtliche Hooks werden im `hooks` Unterverzeichnis des Git Verzeichnisses gespeichert. In den meisten Projekten wird das `.git/hooks` sein. Git fuellt dieses Verzeichnis standardmässig mit Beispielskripten, von denen einige unverändert bereits nuetzlich sind; aber sie dokumentieren ausserdem die Eingabewerte jedes Skriptes. Alle Beispiele sind als Shellskripte mit etwas Perl hier und da geschrieben, aber jedes passend benannte Skript wird funktionieren — Du kannst sie in Ruby der Python schreiben, oder was auch immer. Bei Git Versionen nach 1.6 haben diese Beispieldateien die Endung .sample; sie muessen umbenannt werden. Bei Versionen vor 1.6 sind die Beispieldateien korrekt benannt, aber nicht ausfuehrbar.
 
 The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
+
+Um ein Hook-Skript zu aktivieren, speichere eine entsprechend benannte und ausfuehrbare Datei im `hooks` Unterverzeichnis Deines Git Verzeichnisses. Von diesem Augenblick an sollte es ausgefuehrt werden. Ich werde hier die meisten der wichtigen Hook Dateinamen besprechen.
 
 To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
 
 ### Client-Side Hooks ###
+### Client-seitige Hooks ###
+
+Es gibt eine Menge Hooks auf Seiten des Clients. Dieser Abschnitt teilt sie in Hooks fuer einen Commit-Arbeitsablauf, Skripte bezogen auf e-Mail und den Rest der Client-seitigen Skripte.
 
 There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail–workflow scripts, and the rest of the client-side scripts.
 
 #### Committing-Workflow Hooks ####
+#### Hooks fuer einen Commit Arbeitsablauf ####
+
+Die ersten vier Hooks hängen mit dem Commit Prozess zusammen. Der `pre-commit` hook wird zuerst ausgefuehrt, schon bevor Du die Commit Nachricht eingegeben hast. Es wird benutzt, um den Snapshot zu pruefen, der den Commit ausmacht, um festzustellen ob Du etwas vergessen hast, um sicherzustellen das Tests ausgefuehrt wurden, oder um den Code zu inspizieren, aus welchem Grunde Du ihn auch untersuchen willst. Wenn das entsprechende Skript einen Wert ungleich Null zurueckgibt, wird der Commit abgebrochen, aber es kann mit `git commit --no-verify` umgangen werden. Du kannst Dinge machen wie den Code Stil untersuchen (lint ausfuehren oder etwas entsprechendes), auf Leerzeichen am Zeilenende pruefen (der Standard-Hook macht genau das), oder bei neuen Methoden nach entsprechender Dokumentation suchen.
 
 The first four hooks have to do with the committing process. The `pre-commit` hook is run first, before you even type in a commit message. It’s used to inspect the snapshot that’s about to be committed, to see if you’ve forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Exiting non-zero from this hook aborts the commit, although you can bypass it with `git commit --no-verify`. You can do things like check for code style (run lint or something equivalent), check for trailing whitespace (the default hook does exactly that), or check for appropriate documentation on new methods.
 

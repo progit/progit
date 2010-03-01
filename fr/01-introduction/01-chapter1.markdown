@@ -208,8 +208,7 @@ les deux principales sont de l'installer à partir des sources ou d'installer un
 
 Si vous le pouvez, il est généralement conseillé d'installer Git à partir des sources, car vous obtiendrez la version la plus récente.
 Chaque nouvelle version de Git tend à inclure des améliorations utiles de l'interface utilisateur, donc récupérer la toute dernière version est souvent la meilleure option si vous savez compiler des logiciels à partir des sources.
-Comme la plupart du temps les distributions contiennent des version très
-anciennes de logiciels, à moins que vous ne travailliez sur une distribution
+Comme la plupart du temps les distributions contiennent des version très anciennes de logiciels, à moins que vous ne travailliez sur une distribution
 très récente ou que vous n'utilisiez des backports, une installation à partir des sources peut être le meilleur choix.
 
 Pour installer Git, vous avez besoin des bibliothèques suivantes : curl, zlib, openssl, expat, libiconv.
@@ -267,7 +266,7 @@ Vous n'avez pas à ajouter tous les extras, mais vous souhaiterez sûrement incl
 ### Installation sur Windows ###
 
 Installer Git sur Windows est très facile.
-Le projet msysGit fournit une des procédures d'installation les plus simple.
+Le projet msysGit fournit une des procédures d'installation les plus simples.
 Téléchargez simplement le fichier exe d'installateur depuis la page Google Code, et lancez-le :
 
 	http://code.google.com/p/msysgit

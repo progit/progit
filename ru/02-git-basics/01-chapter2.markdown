@@ -836,14 +836,14 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Из примерно 20 000 коммитов в истории Git, данная комманда выбрала всего 6 коммитов соответствующих заданным критериям.
+Из примерно 20 000 коммитов в истории Git, данная команда выбрала всего 6 коммитов соответствующих заданным критериям.
 
 Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
 
 ### Использование графического интерфейса для визуализации истории ###
 ### Using a GUI to Visualize History ###
 
-Если у вас есть желание использовать какой-нибудь графический инструмент для визуализации истории коммитов, можно попробовать распространяемую вместе с git программу gitk, написанную на Tcl/Tk. В сущности gitk — это наглядный вариант `git log`, к тому же он принимает почти те же фильтрующие опции, что и `git log`. Если набрать в коммандной строй gitk находясь в проекте, вы увидете что-то наподобие Рис. 2-2.
+Если у вас есть желание использовать какой-нибудь графический инструмент для визуализации истории коммитов, можно попробовать распространяемую вместе с git программу gitk, написанную на Tcl/Tk. В сущности gitk — это наглядный вариант `git log`, к тому же он принимает почти те же фильтрующие опции, что и `git log`. Если набрать в командной строй gitk находясь в проекте, вы увидете что-то наподобие Рис. 2-2.
 
 If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
 
@@ -855,19 +855,31 @@ Figure 2-2. The gitk history visualizer.
 
 You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
 
+## Отмена изменений ##
 ## Undoing Things ##
+
+На любой стадии может возникнуть необходимость что-либо отменить. Здесь мы рассмотрим несколько основных инструментов для отмены произведённых изменений. Будьте осторожны, ибо не всегда можно отменить сами отмены. Это одно из мест в Git, где вы можете потерять свою работу если сделаете что-то неправильно. 
 
 At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always undo some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
 
+### Изменение последнего коммита ###
 ### Changing Your Last Commit ###
+
+Одна из обычных отмен происходит, когда вы делаете коммит слишком рано забыв добавить какие-то файлы, или напутали с комментарием к коммиту. Если вам хотелось бы сделать этот коммит ещё раз, вы можете выполнить commit с опцией `--amend`.
 
 One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
 
 	$ git commit --amend
 
+Эта команда берёт индекс и использует его для коммита. Если после последнего коммита не было никаких изменений (например, вы запустили приведённую команду сразу после предыдущего коммита), то состояние проекта будет абсолютно таким же и всё, что вы измените это комментарий к коммиту.
+
 This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
 
+Появится всё тот же редактор для комментариев к коммитам, но уже с введённым комментарем к предыдущему коммиту. Вы можете отредактировать это сообщение так же как обычно, и оно перепишет предыдущее.
+
 The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+
+Для примера, если после совершения коммита вы осознали, что забыли проиндексировать изменения в файле, которые хотели добавить в этот коммит, вы можете сделать что-то подобное:
 
 As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
 
@@ -875,9 +887,14 @@ As an example, if you commit and then realize you forgot to stage the changes in
 	$ git add forgotten_file
 	$ git commit --amend 
 
+Все три команды вместе дают один коммит — второй коммит заменяет результат первого.
+
 All three of these commands end up with a single commit — the second commit replaces the results of the first.
 
+### Отмена индексации файла ###
 ### Unstaging a Staged File ###
+
+В следующих двух разделах мы продемонстрируем как переделать проиндексированные изменения и изменения в рабочей директории. Приятно то, что команда используемая для определения состояния этих двух вещей дополнительно напоминает о том как отменить изменения в них. Приведём пример. Допустим вы внесли изменения в два файла и хотите записать их как два отдельных коммита, но случайно набрали `git add *` и проиндексировали оба файла. Как теперь отменить индексацию одного из двух файлов? Комманда `git status` напомнит вам об этом:
 
 The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
 
@@ -890,6 +907,8 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   README.txt
 	#       modified:   benchmarks.rb
 	#
+
+Сразу после надписи “Changes to be committed”, сказано использовать `git reset HEAD <file>...` для исключения из индекса. Так что давайте последуем совету и отменим индексацию файла benchmarks.rb:
 
 Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
 
@@ -908,6 +927,8 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#
 	#       modified:   benchmarks.rb
 	#
+
+Эта команда немного странновата, но она сработала. Файл benchmarks.rb изменён, но уже не в индексе.
 
 The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
 

@@ -96,11 +96,11 @@ Laten we eens kijken waarom je dat zou moeten doen.
 
 Laten we eens door een eenvoudig voorbeeld van branchen en mergen stappen met een werkwijze die je zou kunnen gebruiken in de echte wereld. Je zult deze stappen volgen:
 
-1.	Werken aan een web site.
+1.	Werken aan een website.
 2.	Een branch aanmaken voor een nieuw verhaal waar je aan werkt.
 3.	Wat werk doen in die branch.
 
-Op dit punt, zul je een telefoontje ontvangen dat een ander probleem kritiek is, en dat je een snelle reparatie moet doen. Je zult het volgende doen:
+Dan ontvang je een telefoontje dat je een ander probleem direct moet repareren. Je zult het volgende doen:
 
 1.	Terugdraaien naar je productie branch.
 2.	Een branch aanmaken om de snelle reparatie toe te voegen.
@@ -250,7 +250,7 @@ Alles dat samenvoeg conflicten heeft en dat nog niet is opgelost wordt getoond a
 	</div>
 	>>>>>>> iss53:index.html
 
-Dit betekend dat de versie in HEAD (jouw master branch, omdat dat hetgene was dat je uitgechecked had toen je je samenvoeg commando uitvoerdr) is het bovenste gedeelte van dat blok (alles boven de `======`), terwijl de versie in je `iss53` branch eruit ziet zoals alles in het onderste gedeelte. Om het conflict op te lossen, moet je één van de twee gedeeltes kiezen of de inhoud zelf samenvoegen. Bijvoorbeeld, je zou dit conflict op kunnen lossten door het hele blok met dit te vervangen:
+Dit betekend dat de versie in HEAD (jouw master branch, omdat dat hetgene was dat je uitgechecked had toen je je samenvoeg commando uitvoerde) is het bovenste gedeelte van dat blok (alles boven de `======`), terwijl de versie in je `iss53` branch eruit ziet zoals alles in het onderste gedeelte. Om het conflict op te lossen, moet je één van de twee gedeeltes kiezen of de inhoud zelf samenvoegen. Bijvoorbeeld, je zou dit conflict op kunnen lossten door het hele blok met dit te vervangen:
 
 	<div id="footer">
 	please contact us at email.support@github.com

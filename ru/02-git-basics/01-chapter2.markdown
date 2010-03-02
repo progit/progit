@@ -798,13 +798,28 @@ However, the time-limiting options such as `--since` and `--until` are very usef
 
 	$ git log --since=2.weeks
 
+Эта команда может работать с множеством форматов — вы можете указать точную дату (“2008-01-15”) или относительную дату такую как “2 years 1 day 3 minutes ago”.
+
 This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+
+Вы также можете отфильтровать список коммитов так, чтобы получить те, которые удовлетворяют какому-то критерию поиска. Опция `--author` позволяет фильтровать по автору, опцию `--grep` позволяет искать по ключевым словам в сообщении. (Заметим, что, если вы укажете и опцию author, и опцию grep, то будут найдены все коммиты, которые удовлетворяют первому ИЛИ второму критерию. Чтобы найти коммиты, которые удовлетворяют первому И второму критерию, следует добавить опцию `--all-match`.)
 
 You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
 
+Последняя действительно полезная опция-фильтр для `git log` это путь. Указав имя директории или файла, вы ограничите вывод log теми коммитами, которые вносят изменения в указанные файлы. Эта опция всегда указывается последней и обычно предваряется двумя минусами (`--`), чтобы отделить пути от остальных опций.
+
 The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
 
+В таблице 2-3 для справки приведён список частоупоребляемых опций.
+
 In Table 2-3 we’ll list these and a few other common options for your reference.
+
+	Опция	Описание
+	-(n)	Показать последние n коммитов
+	--since, --after	Ограничить коммиты теми, которые сделаны после указанной даты.
+	--until, --before	Ограничить коммиты теми, которые сделаны до указанной даты.
+	--author	Показать только те коммиты, автор которых соответствует указанной строке.
+	--committer	Показать только те коммиты, коммитер которых соответствует указанной строке.
 
 	Option	Description
 	-(n)	Show only the last n commits
@@ -812,6 +827,8 @@ In Table 2-3 we’ll list these and a few other common options for your referenc
 	--until, --before	Limit the commits to those made before the specified date.
 	--author	Only show commits in which the author entry matches the specified string.
 	--committer	Only show commits in which the committer entry matches the specified string.
+
+Например, если вы хотите посмотреть из истории Git такие коммиты, которые вносят изменения в тестовые файлы, были сделаны Junio Hamano, не являются слияниями, которые были сделаны в октябре 2008го, вы можете выполнить что-то вроде такого:
 
 For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
 
@@ -824,14 +841,22 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
+Из примерно 20 000 коммитов в истории Git, данная комманда выбрала всего 6 коммитов соответствующих заданным критериям.
+
 Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
 
+### Использование графического интерфейса для визуализации истории ###
 ### Using a GUI to Visualize History ###
+
+Если у вас есть желание использовать какой-нибудь графический инструмент для визуализации истории коммитов, можно попробовать распространяемую вместе с git программу gitk, написанную на Tcl/Tk. В сущности gitk — это наглядный вариант `git log`, к тому же он принимает почти те же фильтрующие опции, что и `git log`. Если набрать в коммандной строй gitk находясь в проекте, вы увидете что-то наподобие Рис. 2-2.
 
 If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
 
 Insert 18333fig0202.png 
+Рисунок 2-2. Визуализация история с помощью gitk.
 Figure 2-2. The gitk history visualizer.
+
+В верхней части окна располагается история коммитов вместе с подробным графом наследников. Просмотрщик дельт в нижней половине окна отображает изменения сделанные выбранным коммитом. Указать коммит можно с помощью щелчка мышью.
 
 You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
 

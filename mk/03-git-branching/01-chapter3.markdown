@@ -1,31 +1,31 @@
 ﻿# Гранење со Git #
 
-Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
+Во скоро секој VCS постои подршка за гранење. Гранење значи одделување од главната линија за развој и се продолжува со работа без интерференција во основната содржина. Во многу VCS алатки овој процес може да биде доста скап. Често има потреба од креирање на нова копија од изворниот код, што може да одземе многу време, посебно за поголеми проекти.
 
-Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
+Една од најдобрите изведени функционалности во Git е токму гранењето и ова е тоа што го издвојува Git од останатите VCS. Што е тоа што го издвојува? Начинот на кој Git го врши гранењето е доста оптимизиран, креирањето на гранки и преминување од гранка на гранка завзема многу малку време. За разлика од останатите VCS, Git ви наметнува начин на работа со кој се врши гранење и спојување (merge) доста често, дури и неколку пати дневно. Разбирањето и учењето на оваа особина ви дава моќна и уникатна алатка и може буквално да ви го промени начинот на развој на вашиот проект.
 
-## What a Branch Is ##
+## Што е гранење ##
 
-To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
+За да може да го разбереме начинот на кој Git врши гранење мора да направиме еден чекор наназад и да разгледаме како Git ги зачувува податоците. Во Погавје 1 беше наведено дека Git не ги зачувува податоците како серија од промени, туку зачувува целосни слики од вашиот проект.
 
-When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+Секогаш кога сакате да зачувате податоци во Git, Git запишува објект во кој се состои покажувач до целосната слика која сте ја поставиле на сцена (stage), авторот и мета-податоци, нула или повеќе покажувачи до зачуваните податоци кои се директни родители на овој запис (commit): ниеден родител за првиот запис, еден родител за нормален запис, и повеќе родители за запис кој произлегува од спојување на две или повеќе гранки.
 
-To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
+Да претпоставиме дека имате папка во која се содржат три датотеки и ги поставувате сите три на сцена, а потоа ги комитувате (зачувувате). Со поставување на сцена се креира контролна сума на секоја од датотеките (SHA-1 хеш спомнат во Поглавје 1), се зачувува верзијата на датотеката во базата на податоци (Git ги именува како blobs) и ја поставува контролната сума на сцена:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
+Кога правете комит со командата `git commit`, Git пресметува контролна сума за сите папки (во овој случај само главната папка на проектот) и ги запишува овие три објекти во базата на податоци. Потоа Git креира комит објект во кој се содржат мета-податоците и покажувач кон коренот (root) на дрвото на проектот за потоа кога ке има потреба да може да крира слика од проектот.
 
-Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
+Во овој момент вашата база на податоци содржи 5 објекти: еден blob за зодржината на секој од трите директориуми, едно дрво со кое е прикажана содржината на папката и во кое се наведени имињата на директориумите за секој blob и еден комит со покажувач до дрвото и комитираните мета-податоци. Концептуално податоците во базата на податоци изгледаат како на Слика 3-1.
 
 Insert 18333fig0301.png 
-Figure 3-1. Single commit repository data.
+Слика 3-1. Приказ на базата на податоци после еден комит.
 
-If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
+Ако направите некоја промена и извршите повторно комит, овој комит зачувува покажувач кон записот кој дошол непосредно пред него. После две нови комитувања, вашата историја би можела да изгледа како на Слика 3-2.
 
 Insert 18333fig0302.png 
-Figure 3-2. Git object data for multiple commits.
+Слика 3-2. Git објекти после повеќе запишувања.
 
 A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
 

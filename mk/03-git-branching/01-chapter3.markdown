@@ -27,107 +27,107 @@ Insert 18333fig0301.png
 Insert 18333fig0302.png 
 Слика 3-2. Git објекти после повеќе запишувања.
 
-A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
+Гранка во Git преставува едноставен покажувач кон еден од овие записи. Основната гранка се нарекува главна гранка или master. При првиот запис ви се доделува master гранка која покажува до последниот запис што сте го направиле. Секогаш кога запишувате (комитирате) покажувачот автоматски се поместува нанапред.
 
 Insert 18333fig0303.png 
-Figure 3-3. Branch pointing into the commit data’s history.
+Слика 3-3. Гранка која покажува кон историјата на записите.
 
-What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
+Што се случува кога креирате нова гранка? Со креирање на нова гранка се креира нов покажувач со кој може да се поместувате помеѓу записите. Да претпоставиме дека имаме креирано нова гранка со име testing. Ова се прави со командата `git branch`.
 
 	$ git branch testing
 
-This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
+Со ова се креира нов покажувач кој покажува на истиот запис кој го користете во моментот на креирањето на гранката (Слика 3-4).
 
 Insert 18333fig0304.png 
-Figure 3-4. Multiple branches pointing into the commit’s data history.
+Слика 3-4. Повеќе гранки кои покажуваат кон историјата на записите.
 
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+Како Git препознава на која гранка моментално се наоѓате? Се чува посебен покажувач кој се нарекува HEAD. Овој покажувач е различен од концептот за HEAD во останатите VSC кои ви се познати, како што се Subversion или CVS. Во Git HEAD е покажувач до локалната гранка на која моментално се наоѓате. Во овој случај тој е поставен на главната гранка - master гранка. Командата git branch само креира нова гранка но не го поместува HEAD покажувачот кон ново креираната гранка (Слика 3-5).
 
 Insert 18333fig0305.png 
-Figure 3-5. HEAD file pointing to the branch you’re on.
+Слика 3-5. HEAD датотека која покажува кон гранката на која се наоѓате.
 
-To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
+За да се префрлите кон веќе постоечка гранка се користи командата `git checkout`:
 
 	$ git checkout testing
 
-This moves HEAD to point to the testing branch (see Figure 3-6).
+Ова го поместува HEAD да покажува кон гранката testing (Слика 3-6).
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD points to another branch when you switch branches.
+Слика 3-6. HEAD покажува кон друга гранка кога се поместуваме на друга гранка.
 
-What is the significance of that? Well, let’s do another commit:
+Кое е значењето на ова? Да направиме уште еден комит:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
-Figure 3-7 illustrates the result.
+Слика 3-7 го прикажува резултатот.
 
 Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+Слика 3-7. Гранката кон која покажува HEAD се поместува нанапред со секој комит.
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+Ова е доста интересно бидејќи сега вашата гранка testing се придвижува нанапред, но вашата master гранка сеуште покажува кон записот на кој се наоѓавте кога е повикана командата `git checkout`. Да се придвижиме назад кон master гранката:
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+Слика 3-8 го прикажува резултатот.
 
 Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+Слика 3-8. HEAD се поместува кон друга гранка со командата checkout.
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+Оваа команда направи две работи. Го помести HEAD да покажува кон master гранката и ги врати директориумите во работната папка кон целосната слика кон која покажува master гранката. Ова значи дека промените кои ќе настанат од овој момент ќе потекнуваат од постара верзија на проектот. Генерално означува дека се враќаме назад и привремено ги одфрламе промените кои се направени на гранката testing со цел да продолжиме во различна насока.
 
-Let’s make a few changes and commit again:
+Да направиме уште некои измени и повторно да комитираме:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+Сега историјата на вашиот проект се разграни (Слика 3-9). Креиравме нова гранка и се префрливме на неа, направивме некои измени, а потоа се префрливме на main гранката и исто така направивме измени. Двете измени се изолирани во посебни гранки: може во секој момент да се префрлиме на некоја од гранките и да ги споиме кога ќе завршеме со сите потребни измени. Целата оваа работа е извршена со едноставни `branch` и `checkout` команди.
 
 Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+Слика 3-9. Разгранување на гранката.
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+Бидејќи гранка во Git е всушност едноставен директориум кој содржи SHA-1 контролна сума на записот кон кој покажува со големина од 40 карактери, гранките завземаат малку ресурси при креирање и бришење на истите. Креирање на нова гранка е едноставен процес на запишување на 41 бајт во директориум (40 карактери и 1 карактер за нов ред).
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+Овој принцип на креирање на гранки е доста различен од начинот на кој останатите VCS алатки вршат гранење, најчесто со копирање на целиот проект во нова папка. Ова одзема неколку секунди па дури и минути, во зависност од големината на проектот, додека во Git овој процес е секогаш моментален. Исто така бидејќи се запишува и родителот кога комитираме, наоѓањето на стартната точка при спојувањето на гранките се врши автоматски и генерално е многу лесно да се изведе. Овие карактеристики ги охрабруваат програмерите почесто да креираат и да користат гранки.
 
-Let’s see why you should do so.
+Да видиме зошто ова е корисно.
 
-## Basic Branching and Merging ##
+## Основно Гранење и Спојување ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+Да разгледаме еден едноставен пример на гранење и спојување на гранки преку едноставен модел на работа кој реално би можел да се користи. Да го следиме следново сценарио:
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.  Работете на некоја веб страна.
+2.  Креирате гранка за нов натпис на кој работете.
+3.  Работете на оваа гранка.
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+Во овој момент добивате повик дека друг настан е со поголем преоритет и треба брза реакција. Го правите следново:
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.  Се враќате назад кон вашата гранка која ја користите за продукција.
+2.  Креирајте гранка за да ги додадете потребните итни измени.
+3.  Откако се е истестирано, ја спојувате новата гранка со гранката за продукција.
+4.  Вратете се назад кон почетниот натпис на кој работевте.
 
-### Basic Branching ###
+### Основно гранење ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+Да претпоставиме дека работите на вашиот проект и веќе имате направено неколку комитирања (Слика 3-10).
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history.
+Слика 3-10. Кратка и едноставна историја на записи.
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+Сте одлучиле дека сакате да работите на изданието #53, во кој и да било систем за водење на евиденција кој го користи вашата компанија. Да разјасниме Git не е поврзан со никој специфичен систем за евиденција на изданијата, но бидејќи сакате да работите на изданието #53, креирате нова гранка на која ќе работите. За да креираме гранка и да се префрлиме на неа може да ја користеме командата `git checkout` со опцијата `-b`:
 
 	$ git checkout -b iss53
-	Switched to a new branch "iss53"
+	Се префрламе на нова гранка "iss53"
 
-This is shorthand for:
+Ова е скратеница за:
 
 	$ git branch iss53
 	$ git checkout iss53
 
-Figure 3-11 illustrates the result.
+Слика 3-11 го прикажува резултатот.
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer.
+Слика 3-11. Креирање на нов покажувач кон гранка.
 
 You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
 

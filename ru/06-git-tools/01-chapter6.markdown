@@ -735,14 +735,17 @@ The `--tree-filter` option runs the specified command after each checkout of the
 
 You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
 
+#### Создание новой корневой поддириктории ####
 #### Making a Subdirectory the New Root ####
 
+Предположим, вы импортировали репозиторий из другой системы контроля версий и в нем есть бессмысленные каталоги (trunk, tags, и др.). Если вы захотите сделать `trunk` новым корнем проекта, команда `filter-branch` тоже может помочь вам это сделать:
 Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
+Теперь корневая директория будет в папке `trunk`. Git также автоматом удалит все коммиты, которые не затронули эту папку.
 Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. 
 
 #### Changing E-Mail Addresses Globally ####

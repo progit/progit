@@ -132,6 +132,7 @@ Every time your branch tip is updated for any reason, Git stores that informatio
 
 	$ git show HEAD@{5}
 
+Вы также можете использовать эту команду, чтобы увидетль ветку, которая была в прошлом. Например, чтобы увидеть состояние вашей `master`-ветки вчера, наберите команду
 You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
 
 	$ git show master@{yesterday}
@@ -224,6 +225,7 @@ You can also combine these syntaxes — you can get the second parent of the pre
 
 Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
 
+#### Две точки ####
 #### Double Dot ####
 
 The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
@@ -250,6 +252,7 @@ This is useful if you want to keep the `experiment` branch up to date and previe
 This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
 You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.
 
+#### Множество точек ####
 #### Multiple Points ####
 
 The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
@@ -265,6 +268,7 @@ This is nice because with this syntax you can specify more than two references i
 
 This makes for a very powerful revision query system that should help you figure out what is in your branches.
 
+#### Три точки ####
 #### Triple Dot ####
 
 The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
@@ -547,16 +551,21 @@ If you stash some work, leave it there for a while, and continue on the branch f
 
 This is a nice shortcut to recover stashed work easily and work on it in a new branch.
 
+## Изменение истории ##
 ## Rewriting History ##
 
+Очень часто, во время работы с Git, вы по разным причинам можете захотеть исправить историю. Одн из чудесных возможностей Git - это то, что он дает возможность принять решение в последний момент. Вы можете решить, что файлы...
 Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
 
+В этом разделе вы узнаете как выполнить эти полезные функции, чтобы ваша история коммитов выглядела так как нужно до того, как вы ее опубликуете.
 In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.
 
+### Изменение последнего коммита ###
 ### Changing the Last Commit ###
 
 Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
 
+Если вы только хотите изменить ваше последнее сообщение коммита - это очень просто:
 If you only want to modify your last commit message, it’s very simple:
 
 	$ git commit --amend
@@ -567,6 +576,7 @@ If you’ve committed and then you want to change the snapshot you committed by 
 
 You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
 
+### Изменение нескольких сообщений коммита ###
 ### Changing Multiple Commit Messages ###
 
 To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.

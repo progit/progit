@@ -335,20 +335,26 @@ Se seguite tutti i puntatori interni otterrete un grafo degli oggetti simile a q
 Insert 18333fig0903.png 
 Figura 9-3. Tutti gli oggetti nella vostra directory Git.
 
-### Object Storage ###
+### Il salvataggio degli oggetti ###
 
-I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:
+In precendeza ho menzionato il fatto che insieme ad un contenuto viene salvato anche un header. Prendiamoci 
+un minuto per capire come Git salva i propri oggetti. Vedrete come salvare un oggetto blob - in questo caso, la stringa
+"what is up, doc?" - intrerattivamente con il linguaggio di scripting Ruby. Potete lanciare Ruby in modalità interattiva
+con il comando `irb`:
 
 	$ irb
 	>> content = "what is up, doc?"
 	=> "what is up, doc?"
 
-Git constructs a header that starts with the type of the object, in this case a blob. Then, it adds a space followed by the size of the content and finally a null byte:
+Git costruisce un header che comincia con il tipo dell'oggetto, in questo caso un blob. Poi aggiunge uno spazio 
+seguito dalla dimensione del contenuto ed infine da un null byte:
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"
 
-Git concatenates the header and the original content and then calculates the SHA-1 checksum of that new content. You can calculate the SHA-1 value of a string in Ruby by including the SHA1 digest library with the `require` command and then calling `Digest::SHA1.hexdigest()` with the string:
+Git concatena header e contenuto originle e calcola il checksum SHA-1 del nuovo contenuto. Potete calcolare 
+lo SHA-1 di una stringa in Ruby includendo la libreria SHA1 digest con il comando `require` e invocando 
+`Digest::SHA1.hexdigest()`:
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -357,14 +363,20 @@ Git concatenates the header and the original content and then calculates the SHA
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git compresses the new content with zlib, which you can do in Ruby with the zlib library. First, you need to require the library and then run `Zlib::Deflate.deflate()` on the content:
+Git comprime il nouvo contenuto con zlib, cosa che potete fare in Ruby con la libreria zlib.
+Prima avrete bisogno di includere la libreria ed invocare `Zlib::Deflate.deflate()` sul contenuto:
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
-Finally, you’ll write your zlib-deflated content to an object on disk. You’ll determine the path of the object you want to write out (the first two characters of the SHA-1 value being the subdirectory name, and the last 38 characters being the filename within that directory). In Ruby, you can use the `FileUtils.mkdir_p()` function to create the subdirectory if it doesn’t exist. Then, open the file with `File.open()` and write out the previously zlib-compressed content to the file with a `write()` call on the resulting file handle:
+Infine, scriverete il vostro contenuto zlib-deflated in un oggetto sul disco.
+Determinerete il percorso dell'oggetto che volete scrivere (i primi due caratteri dello SHA-1 sono il nome 
+della sottodirectory e gli ultimi 38 caratteri sono il nome del file contenuto in quella directory).
+I Ruby, potete usare la funzione `FileUtils.mkdir_p()` per creare la sottodirectory se questa non esiste.
+Di seguito aprite il file con `File.open()` e scrivete il contenuto ottenuto in precedenza nel file chiamando
+`write()` sul file handler risultante:
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37"
@@ -375,7 +387,10 @@ Finally, you’ll write your zlib-deflated content to an object on disk. You’l
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-That’s it — you’ve created a valid Git blob object. All Git objects are stored the same way, just with different types — instead of the string blob, the header will begin with commit or tree. Also, although the blob content can be nearly anything, the commit and tree content are very specifically formatted.
+Questoè tutto - avete creato un oggetto Git di tipo blob valido. Tutti gli oggetti Git sono salvati nello
+stesso modo, solo con tipi differenti - invece della stringa "blob" l'header comincierà con "commit" o "tree".
+Inoltre, seppure il contenuto blob può essere praticamente qualsiasi cosa, i contenuti commit e tree sono formttati 
+in modo molto specifico.
 
 ## Git References ##
 

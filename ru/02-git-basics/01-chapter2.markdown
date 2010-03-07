@@ -932,7 +932,10 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 
 The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
 
+### Отмена изменения файла ###
 ### Unmodifying a Modified File ###
+
+Что если вы поняли, что не хотите оставлять изменения внесённые в файл benchmarks.rb? Как быстро отменить изменения, вернуть то состояние, в котором он находился во время последнего коммита (или первоначального клонирования, или какого-то другого действия, после которого файл попал в рабочую директорию)? К счастью, `git status` говорит как добиться и этого. В выводе для последнего примера, неиндексированная область выглядит следующим образом:
 
 What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
 
@@ -942,6 +945,8 @@ What if you realize that you don’t want to keep your changes to the benchmarks
 	#
 	#       modified:   benchmarks.rb
 	#
+
+Здесь довольно ясно сказано как отменить сделанные изменения (по крайней мере новые версии Git'а, 1.6.1 и дальше, делают это; если у вас более старая версии, мы настоятельно рекомендуем обновиться, чтобы получить некоторые приятные удобные возможности). Давайте сделаем, то что написано:
 
 It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
 
@@ -954,7 +959,11 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   README.txt
 	#
 
+Как вы видите, изменения отменены. Вы должны понимать, что это опасная команда: все сделанные вами изменения в этом файле пропали — вы просто скопировали поверх него другой файл. Никогда не используйте эти команду если вы не полностью уверены, что этот файл вам не нужен. Если вам нужно просто сделать, чтобы он не мешался, мы рассмотрим прятание(??) и ветвление в следующей главе; это обычно более предпочтительный способ.
+
 You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go. 
+
+Помните, что всё, что является частью коммита в Git, почти всегда может быть восстановлено. Даже коммиты, которые находятся на ветках, которые были удалены, и коммиты переписанные с помощью `--amend` могут быть восстановлены (см. Главу 9 для восстановления данных). Несмотря на это, всё, что никогда не попадало в коммит, вы скорее всего уже не увидете снова.
 
 Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see Chapter 9 for data recovery). However, anything you lose that was never committed is likely never to be seen again.
 

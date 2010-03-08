@@ -392,11 +392,15 @@ stesso modo, solo con tipi differenti - invece della stringa "blob" l'header com
 Inoltre, seppure il contenuto blob può essere praticamente qualsiasi cosa, i contenuti commit e tree sono formttati 
 in modo molto specifico.
 
-## Git References ##
+## I riferimenti di Git ##
 
-You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.
+Potete lanciare qualcosa tipo `git log 1a410e` per vedere tutta la vostra intera history, ma dovete 
+comunque ricordare che quel `1a410e` è l'ultima commit per poter essere in grado di percorrere la history stessa
+per trovare tutti quegli oggetti. Avete bisogno di un file nel quale potete salvare il valore dello SHA-1
+attribuendogli un semplice nome in modo da poter usare quel nome al posto del valore SHA-1 grezzo.
 
-In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:
+In Git, questi sono chiamati "riferimenti" o "refs"; potete trovare i file che contengono i valori SHA-1
+nella directory `.git/refs`. Nel progetto corrente, questa directory non contiene files ma una semplice struttura:
 
 	$ find .git/refs
 	.git/refs
@@ -405,37 +409,41 @@ In Git, these are called "references" or "refs"; you can find the files that con
 	$ find .git/refs -type f
 	$
 
-To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:
+Per creare un nuovo riferimento che vi aiuterà a ricordare dov'è la vostra ultima commit, potete tecnicamente 
+fare qualcosa di semplice come questo:
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
-Now, you can use the head reference you just created instead of the SHA-1 value in your Git commands:
+Ora potete usare il riferimento appena creato al posto del valore SHA-1 nei vostri comandi Git:
 
 	$ git log --pretty=oneline  master
 	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-You aren’t encouraged to directly edit the reference files. Git provides a safer command to do this if you want to update a reference called `update-ref`:
+Non siete incoraggiati ad editare direttamente i file riferimento.
+Git fornisce un comando sicuro per fare questo se volete agiornare un riferimento, chiamato `update-ref`:
 
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
-That’s basically what a branch in Git is: a simple pointer or reference to the head of a line of work. To create a branch back at the second commit, you can do this:
+Questo è di base cos'è un branch in Git: un semplice puntetore o riferimento alla head di una linea di lavoro.
+Per creare un branch indietro alla seconda commit, potete fare questo:
 
 	$ git update-ref refs/heads/test cac0ca
 
-Your branch will contain only work from that commit down:
+Il vostro branch conterrà solo il lavoro da quella commit in poi:
 
 	$ git log --pretty=oneline test
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Now, your Git database conceptually looks something like Figure 9-4.
+Ora, il vostro database Git assomiglia concettualmente all Figura 9-4.
 
 Insert 18333fig0904.png 
-Figure 9-4. Git directory objects with branch head references included.
+Figura 9-4. La direcotyr degli oggetti Git directory con incluse i riferimenti branch e head.
 
-When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
+Quando lanciate comandi come `git branch (branchname)`, Git in pratic lancia il comando `update-ref` per
+aggiungere lo SHA-1 dell'ultima commit del branch nel quale siete in qualsiasi nuovo riferimento vogliate creare.
 
 ### The HEAD ###
 

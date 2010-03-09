@@ -87,6 +87,7 @@ indexFile.withWriter { writer ->
     def fileName = file.getName()
     file.eachLine {
       writer << it
+      writer << '\n'
     }
   }
   writer << """</body></html>"""

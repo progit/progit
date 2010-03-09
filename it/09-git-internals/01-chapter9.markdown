@@ -445,32 +445,37 @@ Figura 9-4. La direcotyr degli oggetti Git directory con incluse i riferimenti b
 Quando lanciate comandi come `git branch (branchname)`, Git in pratic lancia il comando `update-ref` per
 aggiungere lo SHA-1 dell'ultima commit del branch nel quale siete in qualsiasi nuovo riferimento vogliate creare.
 
-### The HEAD ###
+### HEAD ###
 
-The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:
+La domanda ora è, quando lanciate `git branch (branchname)`, come fà Git a conoscere lo SHA-1 dell'ultima commit? 
+La risposta è il file HEAD. Il file HEAD è un riferimento simbolico al branch corrente.
+Con riferimento simbolico intendo che, a differenze di un normale riferimento, non contiente in generale un 
+valore SHA-1 ma piuttosto un puntatore ad unl'altro riferimento. Se esaminate il file, vedrete qualcosa come:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/master
 
-If you run `git checkout test`, Git updates the file to look like this:
+Se lanciate `git checkout test`, Git aggiorna il file in questo modo:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.
+Quando lanciate `git commit`, crea l'oggetto commit, specificando che il padre dell'oggetto commit
+stesso sia il valore SHA-1 al quale punta il riferimento in HEAD.
 
-You can also manually edit this file, but again a safer command exists to do so: `symbolic-ref`. You can read the value of your HEAD via this command:
+Potete anche editare manualmente questo file, ma ancora una volta esiste un comando più sicuro per farlo: `symbolic-ref`.
+Potete anche leggere il valore della vostra HEAD tramite questo comando:
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
 
-You can also set the value of HEAD:
+Potet anche impostare il valore di HEAD:
 
 	$ git symbolic-ref HEAD refs/heads/test
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-You can’t set a symbolic reference outside of the refs style:
+Non potete impostare un riferimento simbolico al di fuori di refs:
 
 	$ git symbolic-ref HEAD test
 	fatal: Refusing to point HEAD outside of refs/

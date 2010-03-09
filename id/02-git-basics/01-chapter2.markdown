@@ -859,7 +859,7 @@ Melihat daftar tanda yang sudah ada di GIT tidak berbelit-belit. Ketikkan `git t
 
 Perintah ini memperlihatkan tanda-tanda yang diurutkan secara alfabetis; urutan yang terlihat ini tidak memiliki kepentingan nyata tertentu.
 
-Anda dapat juga mencari tanda dengan pola tertentu. Pada repositori kode Git, sebagai contoh, mengandung lebih dari 240 tanda. Jika Anda hanya tertarik untuk melihat seri dari 1.4.2, Anda dapat menjalankan:
+Anda dapat juga mencari tanda dengan pola tertentu. Repositori kode Git, sebagai contoh, mengandung lebih dari 240 tanda. Jika Anda hanya tertarik untuk melihat seri dari 1.4.2, Anda dapat menjalankan:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -867,13 +867,13 @@ Anda dapat juga mencari tanda dengan pola tertentu. Pada repositori kode Git, se
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### Membuat Tetanda ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git membagi tetanda dalam 2 tipe utama: ringan dan bercatatan. Tipe tetanda ringan sangat mirip dengan sebuah cabang yang tidak pernah berubah - tetanda hanya sebagai penunjuk ke commit tertentu. Di lain pihak, tipe tetanda bercatatan disimpan sebagai obyek penuh di dalam basis data Git. Tetanda ini di-checksum; mengandung nama penanda, email dan tanggal; memiliki pesan penandaan; dan dapat ditandatangani dan diverifikasi menggunakan GNU Privacy Guard (GPG). Anda pada umumnya direkomendasikan untuk membuat tetanda bercatatan sehingga Anda dapat memiliki semua informasi ini; tetapi jika Anda hanya menginginkan tetanda sementara atau untuk alasan tertentu tidak ingin menyimpan informasi lain yang lebih detil, tetanda ringan juga tersedia.
 
-### Annotated Tags ###
+### Tetanda Bercatatan ###
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+Membuat sebuah tetanda bercatatan dalam Git adalah mudah. Cara termudah adalah dengan menggunakan parameter `-a` ketika Anda menjalankan perintah `tag`:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -881,9 +881,9 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+Parameter `-m` untuk mendefinikasn pesan penandaan, yang disimpan bersamaan dengan tanda. Jika Anda tidak mencantumkan pesan untuk tanda bercatatan, Git akan menjalankan editor Anda sehingga Anda dapat mengetikkannya di sana.
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+Anda dapat melihat data dari tanda tadi beserta commit yang ditandainya dengan menggunakan perintah `git show`:
 
 	$ git show v1.4
 	tag v1.4
@@ -898,18 +898,18 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+Terlihat informasi penanda, tanggal dilakukan penandaan terhadap commit, dan catatan sebelum Git menampilkan informasi commitnya.
 
-### Signed Tags ###
+### Tetanda Tertandatangani ###
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+Anda dapat juga menandatangani tetanda Anda menggunakan GPG, diasumsikan bahwa Anda telah memiliki kunci pribadi (private key). Yang perlu Anda lakukan adalah mengganti `a` dengan `-s`:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+Jika Anda menjalankan `git show` terhadap tag tadi, Anda akan melihat tanda tangan GPG Anda terlampir di sana:
 
 	$ git show v1.5
 	tag v1.5
@@ -931,11 +931,11 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+Sebentar lagi, Anda akan belajar untuk memverifikasi tanda tertandatangani.
 
-### Lightweight Tags ###
+### Tetanda Ringan ###
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+Cara lain untuk menandai sebuah commit adalah dengan sebuah tanda ringan. Pada dasarnya tetanda ini adalah checksum dari commit yang disimpan di dalam berkas - tanpa informasi lain. Untuk membuat tetanda ringan ini, jangan cantumkan parameter `-a`, `-s` ataupun `-m`.
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -945,7 +945,7 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+Pada saat ini, jika Anda menjalankan `git show` pada tag tersebut, Anda tidak akan melihat informasi lebih. Perinta tersebut hanya akan menampilkan commitnya.
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -955,9 +955,9 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### Memverifikasi Tetanda ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+Untuk memverifikasi sebuah tag bertandatangan, Anda menggunakan `git tag -v [nama-tag]`. Perintah ini akan menggunakan GPG untuk memverifikasi tanda tangannya. Anda membutuhkan kunci umum dari penandatangan di dalam keyring Anda agar dapat bekerja dengan benar:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -973,15 +973,15 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-If you don’t have the signer’s public key, you get something like this instead:
+Jika Anda tidak memiliki kunci umum dari penandatangan, Anda akan melihat serupa ini:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Tagging Later ###
+### Mengakhirkan Penandaan ###
 
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+Anda dapat juga menandai commit walaupun Anda telah pindah melewatinya. Misalnya catatan sejarah commit Anda tampak seperti berikut:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -995,11 +995,11 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+Sekarang, misalnya Anda lupa untuk menandai proyek di v1.2, yang sebetulnya terletak di commit "update rakefile". Anda dapat menambahkannya. Untuk menandai commit tersebut, Anda mencantumkan checksum dari commit tersebut (atau bagian darinya) di bagian akhir dari perintah:
 
 	$ git tag -a v1.2 9fceb02
 
-You can see that you’ve tagged the commit:
+Anda dapat melihat bahwa commit tersebut telah ditandai.
 
 	$ git tag 
 	v0.1
@@ -1022,9 +1022,9 @@ You can see that you’ve tagged the commit:
 	    updated rakefile
 	...
 
-### Sharing Tags ###
+### Membagi Tetanda ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
+Secara default, perintah `git push` tidak memindahkan tetanda ke server berjarak. Anda harus secara eksplisit mendorong tetanda ke server bersama setelah Anda membuatnya. Proses ini sama seperti membagi cabang berjarak - Anda dapat menjalankan `git push origin [nama-tag]`.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1034,7 +1034,7 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+Jika Anda memiliki banyak tanda yang ingin Anda dorong sekaligus, Anda dapat juga menggunakan opsi `--tags` terhadap perintah `git push`. Hal ini akan memindahkan semua tetanda Anda yang belum terpindahkan ke server berjarak.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1048,61 +1048,61 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+Saat ini, ketika orang lain menduplikasi atau menarik dari repositori Anda, Mereka akan mendapatkan semua tetanda Anda juga.
 
-## Tips and Tricks ##
+## Tips dan Tricks ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+Sebelum kita menyelesaikan bab tentang dasar-dasar Git ini, beberapa tips dan triks dapat membuat pengalaman Git Anda lebih sederhana, mudah, atau bahkan akrab. Banyak orang menggunakan Git tanpa menggunakan tip-tip berikut ini, dan kami tidak akan merujuk kepada mereka atau mengasumsikan bahwa Anda telah menggunakannya nanti dalam buku ini; tetapi Anda mungkin sebaiknya mengetahui bagaimana menggunakannya.
 
 ### Auto-Completion ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+Jika Anda menggunakan Bash shell, Git tersedia dengan sebuah script auto-completion yang dapat Anda hidupkan. Unduh source-code Git, dan cari direktori `contrib/completion`; di sana Anda akan menemukan berkas bernama `git-completion.bash`. Salin berkas ini ke direktori home Anda, dan tambahakn ini ke dalam berkas `.bashrc`:
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+Jika Anda ingin memasang Git agar secara otomatis menggunakan fitur ini bagi semua pengguna, salin script tadi ke direktori `/opt/local/etc/bash_completion.d` di sistem Mac atau ke direktori `/etc/bash_completion.d/` di sistem Linux. Ini adalah direktori tempat script yang akan secara otomatis dibaca oleh Bash untuk menyediakan fitur auto-complete nya.
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+Jika Anda menggunakan Windows dengan Git Bash, yang sebetulnya adalah setting default ketika instalasi Git di Windows menggunakan msysGit, fitur ini seharusnya sudah terkonfigurasi.
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+Pencet huruf Tab ketika Anda menuliskan perintah Git, dan Bash akan menampilkan beberapa kemungkinan yang Anda dapat pilih:
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+Dalam hal ini, mengetikkan `git co` dan memencet kunci Tab 2x akan menampilkan pilihan commit dan config. Dengan menambahkan `m<tab>` akan melengkapi `git commit` secara otomatis.
 	
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+Hal ini juga bekerja terhadap opsi, yang mungkin lebih berguna. Sebagai contoh, jika Anda menjalankan perintah `git log` dan tidak ingat salah satu dari opsi yang tersedia, Anda dapat mulai mengetikkannya dan memencet Tab untuk melihat apa yang cocok:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+Ini adalah trick yang cukup menarik dan dapat menghemat waktu Anda dan waktu membaca dokumentasi.
 
-### Git Aliases ###
+### Git Alias ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+Git tidak mengasumsikan perintah Anda jika Anda mengetikkannya sebagian. Jika Anda tidak ingin mengetikkan seluruh text dari setiap perintah Git, Anda dapat dengan mudah memasang alias dari setiap perintah menggunakan perintah `git config`. Berikut adalah beberapa contoh yang Anda mungkin ingin tata:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+Ini berarti bahwa, sebagai contoh, daripada mengetikkan `git commit`, Anda hanya butuh untuk mengetikkan `git ci`. Sejalan dengan Anda menggunakan Git, Anda akan mungkin menggunakan perintah lain sama seringnya; dalam hal ini, jangan ragu untuk membuat alias-alias baru.
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+Teknik ini juga akan berguna dalam pembuatan perintah yang Anda pikir harus ada. Sebagai contoh, untuk mengkoreksi masalah kemudahan penggunaan (usability) yang Anda temukan dalam pengeluaran berkas dari area stage, Anda dapat menambahkan alias ini ke dalam Git:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+Hal ini akan membuat kedua perintah berikut sama:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Tampak lebih terbaca. Biasa juga untuk menambahkan perintah `last` sebagai berikut:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+Dengan demikian, Anda dapat melihat commit terakhir dengan lebih mudah:
 	
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1113,10 +1113,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Sebagaimana yang dapat Anda katakan, Git secara sederhana menggantikan perintah-perintah baru dengan apapun yang Anda alias kan. Namun demikian, mungkin Anda ingin menjalankan perintah eksternal, dan bukannya Git subcommand. Dalam kasus ini, Anda dapat mulai perintahnya dengan karakter `!`. Hal ini berguna jika Anda ingin membuat alat Anda sendiri yang bekerja terhadap repositori Git. Kita dapat mendemokannya dengan membuat alias `git visual` untuk menjalankan `gitk`:
 
 	$ git config --global alias.visual "!gitk"
 
-## Summary ##
+## Simpulan ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+Pada saat ini, Anda dapat melakukan semua hal dasar terhadap Git di lokal - membuat atau menduplikasi sebuah repositori, melakukan perubahan, memasukkan ke area stage dan melakukan commit terhadap perubahan tersebut, dan melihat sejarah dari semua perubahan yang pernah terjadi di sebuah repositori. Selanjutnya, kita akan membahas fitur pembunuh dari Git: cara Git melakukan percabangan.

@@ -482,22 +482,27 @@ Non potete impostare un riferimento simbolico al di fuori di refs:
 
 ### Tags ###
 
-You’ve just gone over Git’s three main object types, but there is a fourth. The tag object is very much like a commit object — it contains a tagger, a date, a message, and a pointer. The main difference is that a tag object points to a commit rather than a tree. It’s like a branch reference, but it never moves — it always points to the same commit but gives it a friendlier name.
+Avete appena visto i tre principali tipi di oggetti di Git, ma ce n'è un quarto. L'oggetto tag è molto simile 
+ad un oggetto commit - contiene un tag. una data, un messaggio ed un puntatore. La differenza principale sta 
+nel fatto che un oggetto tag punta ad un oggetto commit piuttosto che ad un albero. E' come un riferimento 
+ad un branch, ma non si muove - punta sempre alla stessa commit ma gli da un nome più amichevole.
 
-As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:
+Come discusso nel Capitolo 2, ci sono due tipi di tag: annotated e lightweight. Potete creare un tag lightweight lanciando un comando tipo questo:
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
-That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
+Questo è tutto quello che è un tag lightweight - un branch che non si muove mai. Un tag annotated però è più complesso.
+Se create un tag annotated, Git crea un oggetto tag e scrive un riferimento al quale puntare, invece di puntare direttamente alla commit.
+Potete vedere tutto questo creando un tag annotated (`-a` specifica che si tratta di un tag annotated):
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
 
-Here’s the object SHA-1 value it created:
+Questo è il valore SHA-1 dell'oggetto creato:
 
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
-Now, run the `cat-file` command on that SHA-1 value:
+Ora, lanciando il comando `cat-file` su questo SHA-1:
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -507,15 +512,21 @@ Now, run the `cat-file` command on that SHA-1 value:
 
 	test tag
 
-Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running
+Notate che l'oggetto punta al valore SHA-1 della commit che avete taggato. Notate anche che non è 
+importante che punti ad un oggetto commit; potete taggare ogni oggetto di Git. Nel codice sorgente di 
+Git, ad esempio, il mantainer ha aggiunto la sua chiave pubblica GPG come oggetto blob e lo ha taggato.
+Potete vedere la chiave pubblica lanciando
 
 	$ git cat-file blob junio-gpg-pub
 
-in the Git source code. The Linux kernel also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
+nel codice sorgente di Git. Anche il kernel di Linux ha un oggetto tag che non punta ad una commit - 
+il primo tag creato punta all'albero iniziale dell'import del codice sorgente.
 
 ### Remotes ###
 
-The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:
+Il terzo tipo di riferimento che vedrete è il riferimento remoto. Se aggiungete un remote e poi fate un
+push, Git salva il valore del quale avete fatto la push per ogni branch nella directory `refs/remotes`.
+Ad esempio potete aggiungere un remote di nome `origin`e fare push del vostro branch `master` in esso:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -526,12 +537,15 @@ The third type of reference that you’ll see is a remote reference. If you add 
 	To git@github.com:schacon/simplegit-progit.git
 	   a11bef0..ca82a6d  master -> master
 
-Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:
+Poi, potete vedere quale era il branch `master` del remote `origin` l'ultima volta che avete comunicato con il server,
+esaminando il file `refs/remotes/origin/master`:
 
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
 
-Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers.
+I riferimenti remoti differiscono dai branch (riferimenti in `refs/heads`) principalmente per il fatto
+che non è possibile fare il checkout di quest'ultimi. Git li sposta come segnalibri fino all'ultimo stato conosciuto
+di quei branch avevano sul server.
 
 ## Packfiles ##
 

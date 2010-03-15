@@ -22,57 +22,43 @@ Git проект може да добиете на два начини. Први
 
 Во текстот што следи ќе го објасниме значењето на овие наредби. Во овој момент, имате Git репозитори со верзионирани датотеки и иницијален комит.
 
-### Колонирање на постоечки Репозитори ###
+### Колонирање на постоечки репозитори ###
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
-Ако сакате да напревите копија од постоечки Git Репозитори - на пример, сакате да се вклучите во некој постоечки проект - командата која ви треба е clone. Ako веќе имате познавања од други VCS системи како Subversion, ќе забележите дека наместо командата  e clone  а не checkout. Ова е важна разлика - Git прима копија од скоро целата дата сто ја има на серверот. Кога ќе ја извршите командата 'git clone' се симнува историјата на проектот за секоја верзија на секој фајл. Доколку податоците на вашиот диск се корумпираат можете да go искористите било кој клон од било кој клиент за да ја вратите состојбата на васиот сервер во моментот пред клонирањето (некои податоци ќе бидат изгубени, но верзионираните податоци ќе можат да се гледаат на дрвото. Поглавје 4 за повеќе детали)
+Ако сакате да напревите копија од постоечки Git репозитори - на пример, сакате да се вклучите во некој постоечки проект - командата која ви треба е clone. Ako веќе имате познавања од други VCS системи како Subversion, ќе забележите дека наместо командата  e clone  а не checkout. Ова е важна разлика - Git зема копија од скоро сите податоци што ги има на серверот. Кога ќе ја извршите командата 'git clone' се симнува историјата на проектот за секоја верзија на секој фајл. Доколку податоците на вашиот диск се корумпираат можете да гo искористите било кој клон од било кој клиент за да ја вратите состојбата на вашиот сервер во моментот пред клонирањето (некои податоци ќе бидат изгубени, но верзионираните податоци ќе можат да се гледаат на дрвото. Поглавје 4 за повеќе детали)
 
-You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
-Репозитори клонирате со 'git clone [url]'.  На пример, ако сакате да ја клонирате Git библиотеката на Igor која се вика Grit, може да направите вака:
+Репозитори клонирате со 'git clone [url]'. На пример, ако сакате да ја клонирате Git библиотеката на Igor која се вика Grit, може да направите вака:
  
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
-Со ова се креира директориум со име "grit", се иницијализира `.git` директориум во првиот, се снимаат сите податоци за тој репозитори и се check out-ува работна копија од последната верзија. Ако влезете во новиот `grit` директориум ќе видите дека таму се сите фајлови од проектот на кои може да се работи или да се употребуваат. Ако сакате да клонирате репозитори во директориум чие име е некое различно од grit, можете да го направие со следната команда:
+Со ова се креира директориум со име "grit", се иницијализира `.git` директориум во него, се земаат сите податоци за тој репозитори и се check out-ува работна копија од последната верзија. Ако влезете во новиот `grit` директориум ќе видите дека таму се сите фајлови од проектот на кои може да се работи или да се употребуваат. Ако сакате да клонирате репозитори во директориум чие име е некое различно од grit, можете да го направие со следната команда:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-That command does the same thing as the previous one, but the target directory is called mygrit.
 Оваа команда го прави истото како и претходната само што работниот директориум е со име mygrit.
 
-Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
-Git има неколку различни протоколи за пренос кои може да ги користите. Претходниот пример го користи `git://`, но исто така може да се забележи дека се користат и `http(s)://` и `user@server:/path.git`, кои го користат SSH протоколот за пренос. Поглавјето 4 ќе ве запознае со сите достапни опции на серверот кои може да се сетираат за да пристапи до вашето Git репозитори.
+Git има неколку различни протоколи за пренос кои може да ги користите. Претходниот пример го користи `git://`протоколот, но исто така може да забележите дека се користат и `http(s)://` и `user@server:/path.git`, кои го користат SSH протоколот за пренос. Поглавјето 4 ќе ве запознае со сите достапни опции на серверот кои може да се сетираат за да пристапи до вашето Git репозитори.
 
-## Зачувување на промени во вашето Репозитори ##
+## Зачувување на промени во вашето репозитори ##
 
-You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
-Во еден проект имате доверлив Git репозитори и checkout-увана работна копија од сите фајлови во проектот. Во моментот кога ќе сметате дека проектот на кој што работите достигнал некое ниво кое сакате да го зачувате треба да направите 'commit' на прмените во вашето репозитори. 
+Во еден проект имате доверлив Git репозитори и checkout-увана работна копија од сите фајлови во проектот. Секогаш кога ќе сметате дека проектот на кој што работите достигнал некое ниво кое сакате да го зачувате треба да направите 'commit' на промените во вашето репозитори. 
+ 
+Запомнете дека секој фајл од вашиот работен директориум може да биде: да биде следен ('tracked') или да не биде следен('untracked'). Следени фајлови се сите оние кои биле во последната слика; Тие можат да бидат непроменети, променети или на сцена. Неследени фајлови се сите останати - било кои фајлови во вашиот работен директорим кои не биле во последната слика и не се на сцена. Кога за прв пат ќе клонирате некое репозитори сите ваши фајлови ќе бидат следени и непроменети бидејќи само сте ги checkout-увале и не сте направиле никаква промена во нив.
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
-Запомнете дека секој фајл од вашиот работен директориум може да биде: 'tracked' или 'untracked'. НЕ ЗНАМ КАКО ДА ГО ПРЕВВЕДАМ ОВА(Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area). Кога за прв пат ќе клонирате некое репозитори сите ваши фајлови ќе бидат 'tracked' и непроменети бидејќи само сте ги checkout-увале и не сте направиле никаква промена во нив.
-
-As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
-Како што ќе правите промени во фајловите Git ќе ги препознава како фајлови со променета содржина бидејќи тоа се промени после вашиот последен 'commit'.НЕ ЗНАМ КАКО ДА ГО ПРЕВВЕДАМ ОВА (You stage these modified files and then commit all your staged changes, and the cycle repeats). Животниот циклус е прикажан на слика 2-1.
+Како што ќе правите промени во фајловите Git ќе ги препознава како фајлови со променета содржина бидејќи тоа се промени после вашиот последен 'commit'.Ваквите фајлови ги ставате на сцена и им правите комит, се така во круг. Животниот циклус е прикажан на слика 2-1.
 
 Insert 18333fig0201.png 
-Вметни 18333fig0201.png
-Figure 2-1. The lifecycle of the status of your files.
 Слика 2-1. Животен циклус на статусот на фајловите.
 
-### Checking the Status of Your Files ###
 ### Проверка на статусот на фајловите ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
-Главната алатка која ја користите за да дознаете кој фајл во која фаза се наоѓа е Гит статус командата. Ако ја извршите оваа комнада веднаш по клонирањето треба да забележите нешто вака:
+Главната алатка која ја користите за да дознаете кој фајл во која фаза се наоѓа е Git статус командата. Ако ја извршите оваа комнада веднаш по клонирањето треба да забележите нешто вака:
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
-Ова значи дека имате чист работен директориѕм, т.е. не постојат 'tracked' и променети фајлови. Гит не може да препознава untracked фајлови, во спротивно ќе бидат прикажани овде. Како последна информација што ви ја дава оваа команда е тоа на кој бранч се наоѓате. За сега тоа секогаш е главниот бранч кој е предодреден; не треба да ве засега тоа во овој момент. Во следното поглавје ќе бидат детално разгледани бранчовите и референците.  
+Ова значи дека имате чист работен директориѕм, т.е. не постојат следени и променети фајлови. Git не нашол неследени фајлови, во спротивно ќе бидат прикажани овде. Како последна информација што ви ја дава оваа команда е тоа на кој бранч се наоѓате. За сега тоа секогаш е главниот бранч кој е предодреден; не треба да ве засега тоа во овој момент. Во следното поглавје ќе бидат детално разгледани бранчовите и референците.  
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
-Еве на пример да речеме дека сте додале нов фајл во вашиот проект, некој едноставен README фајл Ако фајлот не постоел претходно и ако ја извршите командата `git status`, ќе го забележите следното:
+Да речеме дека сте додале нов фајл во вашиот проект, некој едноставен README фајл. Ако фајлот не постоел претходно и ако ја извршите командата `git status`, ќе го забележите следното:
 
 	$ vim README
 	$ git status
@@ -83,15 +69,15 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
-Можете да забележите дека вашиот нов README фајл е untracked и се наоѓа во “Untracked files” 
-### Tracking New Files ###
+Од статусот можеда забележите дека вашиот нов README фајл не е следен и се наоѓа во “Untracked files”. Untracked во основа значи дека Git гледа фајл кој не сте го имале во последната слика (последниот комит); Git нема да го додаде новиот фајл во вашите слики кои ги комитирате се додека не му го кажете тоа експлицитно. Ова е така за да не почнете да додавате ненамерно генерирани бин фајлови или други фајлови кои не сте мислеле да ги додавате. Сакате да го додадете README, па ајде да почнеме да го следиме фајлот.
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+### Следење на нови фајлови ###
+
+За да почнете да следите некој нов фајл морате да ја користите командата `git add`. За да започнете да го следите фајлот README можете да го извршите ова:
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+Ако ја извршите статус командата повторно ќе забележите дека фајлот README сега е фајл кој се следи и е на сцена:
 
 	$ git status
 	# On branch master

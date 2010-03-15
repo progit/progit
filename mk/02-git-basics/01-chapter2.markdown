@@ -69,9 +69,10 @@ The main tool you use to determine which files are in which state is the git sta
 	nothing to commit (working directory clean)
 
 This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
-Ова значи дека имате чист работен директориѕм, т.е. не постојат 'tracked' и променете фајлови. Гит исто така не може да открие untracked фајлови, во спротивно ќе бидат прикажани овде. Како последна информација што ви ја дава оваа команда е тоа на кој бранч се наоѓате. За сега тоа секогаш е главниот бранч кој е предодреден; не треба да ве засега тоа во овој момент. Во следното поглавје ќе бидат детално разгледани бранчовите и референците.  
+Ова значи дека имате чист работен директориѕм, т.е. не постојат 'tracked' и променети фајлови. Гит не може да препознава untracked фајлови, во спротивно ќе бидат прикажани овде. Како последна информација што ви ја дава оваа команда е тоа на кој бранч се наоѓате. За сега тоа секогаш е главниот бранч кој е предодреден; не треба да ве засега тоа во овој момент. Во следното поглавје ќе бидат детално разгледани бранчовите и референците.  
 
 Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+Еве на пример да речеме дека сте додале нов фајл во вашиот проект, некој едноставен README фајл Ако фајлот не постоел претходно и ако ја извршите командата `git status`, ќе го забележите следното:
 
 	$ vim README
 	$ git status
@@ -83,7 +84,7 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	nothing added to commit but untracked files present (use "git add" to track)
 
 You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
-
+Можете да забележите дека вашиот нов README фајл е untracked и се наоѓа во “Untracked files” 
 ### Tracking New Files ###
 
 In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:

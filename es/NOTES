@@ -20,3 +20,10 @@
 - Stage/Staged: Lo traduzco como *preparar*/*preparado*, pero pongo entre () el término original.
 - Staging area: Parece ser un término militar. Se refiere a una localización temporal donde se reúnen recursos antes de un ataque o invasión. Lo traduzco como *área de preparación*, pero pongo entre () el término original.
 - Track/Tracking: Lo traduzco como *seguir*/*seguimiento*.
+
+
+# Anotaciones sobre las anotaciones [afgomez]
+
+- No creo que sea necesario poner entre parentesis los términos originales de "rama" y "unión". Es una traduccion lo suficientemente clara como para no necesitarlos.
+- A lo largo del texto se utilizan guiones '-' para indicar aclaraciones en el texto. En Español el signo correcto es la raya ('—', &mdash; en HTML), y debe ir siempre cerrado, por lo que se han modificado en el texto.
+  Más información: http://es.wikipedia.org/wiki/Raya_%28puntuaci%C3%B3n%29

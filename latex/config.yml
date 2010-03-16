@@ -35,7 +35,7 @@ zh-tw:
   postsect: "節"
   con: "目錄"
   fig: "圖 "
-  tab: "桌子 "
+  tab: "表 "
   indent: "文"
 ja:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
@@ -66,3 +66,9 @@ fr:
   presect: "Section "
   fig: "Figure "
   tab: "Tableau "
+mk:
+  fig: "Слика"
+  con: "Содржина"
+  prechap: "Поглавје"
+  presect: "Секција"
+  tab: "Табела"

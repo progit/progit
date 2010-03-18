@@ -1,6 +1,6 @@
 # Основы Git #
 
-Если Вы хотите начать работать с Git прочитав всего одну главу, то эта глава — то что вам нужно. Здесь рассмотрены все базовые команды, необходимые вам для решения подавляющего большинства задач возникающих при работе с Git. После прочтения этой главы вы научитесь настраивать и инициализировать репозиторий, начинать и прекращать версионный контроль файлов, а также подготавливать и фиксировать изменения. Мы также продемонстрируем вам как настроить игнорирование отдельных файлов или их групп в Git, как быстро и просто отменить ошибочные изменения, как просмотреть историю вашего проекта и изменения между отдельными коммитами (commit), а также как выкладывать (push) и забирать (pull) изменения в/из удаленного (remote) репозитория.
+Если вы хотите начать работать с Git прочитав всего одну главу, то эта глава — то что вам нужно. Здесь рассмотрены все базовые команды, необходимые вам для решения подавляющего большинства задач возникающих при работе с Git. После прочтения этой главы вы научитесь настраивать и инициализировать репозиторий, начинать и прекращать версионный контроль файлов, а также подготавливать и фиксировать изменения. Мы также продемонстрируем вам как настроить игнорирование отдельных файлов или их групп в Git, как быстро и просто отменить ошибочные изменения, как просмотреть историю вашего проекта и изменения между отдельными коммитами (commit), а также как выкладывать (push) и забирать (pull) изменения в/из удаленного (remote) репозитория.
 
 If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
 
@@ -89,7 +89,7 @@ The main tool you use to determine which files are in which state is the git sta
 	# On branch master
 	nothing to commit (working directory clean)
 
-Это означает, что у вас чистый рабочий каталог, другими словами — в нем нет отслеживаемых и измененный файлов. Git также не обнаружил неотслеживаемых файлов, в противном случае они бы были перечислены здесь. И наконец команда сообщает вам на какой ветке (branch) вы сейчас находитесь. Пока вы всегда на ветке master, это ветка по-умолчанию, в этой главе это не важно. В следующей главе подробно рассказывается про ветки и ссылки.
+Это означает, что у вас чистый рабочий каталог, другими словами — в нем нет отслеживаемых и измененный файлов. Git также не обнаружил неотслеживаемых файлов, в противном случае они бы были перечислены здесь. И наконец команда сообщает вам на какой ветке (branch) вы сейчас находитесь. Пока вы всегда на ветке master, это ветка по умолчанию, в этой главе это не важно. В следующей главе подробно рассказывается про ветки и ссылки.
 
 This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
 
@@ -205,7 +205,7 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 ### Игнорирование файлов ###
 ### Ignoring Files ###
 
-Зачастую, у вас имеется группа файлов, которые вы не только не хотите автоматически добавлять в репозиторий, но и видеть в списках неотслеживаемых. К таким файлам обычно относятся автоматически генерируемые файлы (различные логи, результаты построения программ и т.п.). В таком случае, вы можете создать файл, перечисляющий шаблоны для поиска таких файлов, и назвающийся .gitignore. Вот пример файла .gitignore:
+Зачастую, у вас имеется группа файлов, которые вы не только не хотите автоматически добавлять в репозиторий, но и видеть в списках неотслеживаемых. К таким файлам обычно относятся автоматически генерируемые файлы (различные логи, результаты построения программ и т.п.). В таком случае, вы можете создать файл, перечисляющий шаблоны для поиска таких файлов, и называющийся .gitignore. Вот пример файла .gitignore:
 
 Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
 
@@ -213,11 +213,11 @@ Often, you’ll have a class of files that you don’t want Git to automatically
 	*.[oa]
 	*~
 
-Первая строка предписывает Git-у игнорировать любые файлы заканчивающиеся на .o или .a — объектные и архивные файлы, которые могут быть результатами построения вашего кода. Вторая строка предписывает игнорировать все файлы заканчивающиеся на тильду (`~`), которая используется во многих текстовых редакторах, например Emacs, для обозначения временных файлов. Вы можете также включить каталоги log, tmp или pid; автоматически создаваемую документацию; и т.д. и т.п. Хорошая практика заключается в настройке файла .gitignore до того, как начать серьезно работать, это защитит вас от случайного добавления в репозиторий файлов, которых вы там видеть не хотите.
+Первая строка предписывает Git-у игнорировать любые файлы заканчивающиеся на .o или .a — объектные и архивные файлы, которые могут появиться во время сборки кода. Вторая строка предписывает игнорировать все файлы заканчивающиеся на тильду (`~`), которая используется во многих текстовых редакторах, например Emacs, для обозначения временных файлов. Вы можете также включить каталоги log, tmp или pid; автоматически создаваемую документацию; и т.д. и т.п. Хорошая практика заключается в настройке файла .gitignore до того, как начать серьезно работать, это защитит вас от случайного добавления в репозиторий файлов, которых вы там видеть не хотите.
 
 The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
 
-в файле .gitignore к шаблонам применяются следующие привила:
+в файле .gitignore к шаблонам применяются следующие правила:
 
 The rules for the patterns you can put in the .gitignore file are as follows:
 
@@ -231,7 +231,7 @@ The rules for the patterns you can put in the .gitignore file are as follows:
 *	You can end patterns with a forward slash (`/`) to specify a directory.
 *	You can negate a pattern by starting it with an exclamation point (`!`).
 
-Glob шаблоны представляют собой упрощенные регулярные выражения используемые командными интерпретаторами. Символ `*` соответствует 0 или более любых символов; последовательность `[abc]` - любому символу из указанных в скобка (в данном примере a, b или c); знак вопроса (`?`) соответствует любому одному символу; `[0-9]` - соответствует любому символу из интервала (в данном случае от 0 до 9).
+Glob шаблоны представляют собой упрощенные регулярные выражения используемые командными интерпретаторами. Символ `*` соответствует 0 или более любых символов; последовательность `[abc]` - любому символу из указанных в скобках (в данном примере a, b или c); знак вопроса (`?`) соответствует любому одному символу; `[0-9]` - соответствует любому символу из интервала (в данном случае от 0 до 9).
 
 Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
 
@@ -260,7 +260,7 @@ Here is another example .gitignore file:
 
 If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
 
-Допустим вы снова изменили и проиндексировали файл README а затем изменили файл benchmarks.rb без индексирования. Если вы выполните команду `status`, вы опять увидите что-то вроде:
+Допустим вы снова изменили и проиндексировали файл README, а затем изменили файл benchmarks.rb без индексирования. Если вы выполните команду `status`, вы опять увидите что-то вроде:
 
 Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
 
@@ -298,7 +298,7 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-Эта команда сравнивает содержимое вашего рабочего каталога с содержимым индекса. Результат показывает ваши еще не проиндексированные изменения.
+Эта команда сравнивает содержимое вашего рабочего каталога с содержимым индекса. Результат показывает еще не проиндексированные изменения.
 
 That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
 
@@ -409,7 +409,7 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-Вы можете видеть, что комментарий по-умолчанию для коммита содержит закомментированный результат работы ("выхлоп") команды `git status` и сверху одну пустую строку. Вы можете удалить эти комментарии и набрать ваше сообщение или же оставить их, чтобы впоследствии помочь вам вспомнить — что же вы фиксировали. (Для еще более подробного напоминания, что же вы именно меняли, вы можете передать аргумент `-v` в команду `git commit`. Это приведет к тому, что в комментарий будет помещена также разница/diff ваших изменений, таким образом вы сможете точно увидеть что же вы сделали.) Когда вы выходите из редактора, Git создает ваш коммит с этим сообщением (с комментариями и выводом diff-а).
+Вы можете видеть, что комментарий по умолчанию для коммита содержит закомментированный результат работы ("выхлоп") команды `git status` и сверху одну пустую строку. Вы можете удалить эти комментарии и набрать ваше сообщение или же оставить их, чтобы впоследствии помочь вам вспомнить — что же вы фиксировали. (Для еще более подробного напоминания, что же вы именно меняли, вы можете передать аргумент `-v` в команду `git commit`. Это приведет к тому, что в комментарий будет помещена также разница/diff ваших изменений, таким образом вы сможете точно увидеть что же вы сделали.) Когда вы выходите из редактора, Git создает ваш коммит с этим сообщением (с комментариями и выводом diff-а).
 
 You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
 
@@ -455,7 +455,7 @@ Notice how you don’t have to run `git add` on the benchmarks.rb file in this c
 ### Удаление Файлов ###
 ### Removing Files ###
 
-Для того чтобы удалить файл из Git, вам необходимо удалить его из отслеживаемых файлов (точнее, удалить его из вашего индекса) а затем выполнить коммит. Это позволяет сделать команда `git rm`, которая также удаляет файл из вашего рабочего каталога, так что вы в следующий раз не видите его как "неотслеживаемый".
+Для того чтобы удалить файл из Git, вам необходимо удалить его из отслеживаемых файлов (точнее, удалить его из вашего индекса) а затем выполнить коммит. Это позволяет сделать команда `git rm`, которая также удаляет файл из вашего рабочего каталога, так что вы в следующий раз не увидите его как "неотслеживаемый".
 
 To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
 
@@ -590,7 +590,7 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-По-умолчанию, без аргументов, `git log` выводит список коммитов созданных в данном репозитории в обратном хронологическом порядке. Т.е. самые последние коммиты показываются первыми. Как вы можете видеть, эта команда отображает каждый коммит вместе с его контрольной суммой SHA-1, именем и электронной почтой автора, датой создания и комментарием.
+По умолчанию, без аргументов, `git log` выводит список коммитов созданных в данном репозитории в обратном хронологическом порядке. Т.е. самые последние коммиты показываются первыми. Как вы можете видеть, эта команда отображает каждый коммит вместе с его контрольной суммой SHA-1, именем и электронной почтой автора, датой создания и комментарием.
 
 By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
 
@@ -1069,15 +1069,23 @@ If you clone a repository, the command automatically adds that remote repository
 
 If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 
+### Push ### 
 ### Pushing to Your Remotes ###
+
+Когда ваш проект достигает момента, когда вы хотите поделиться наработками, вам необходимо отправить (push) их в главный репозиторий. Команда для этого действия простая: `git push [удал. сервер] [ветка]`. Чтобы отправить вашу ветку master на сервер `origin` (повторимся, что клонирование как правило настраивает оба этих имени автоматически), вы можете выполнить следующую команду для отправки наработок обратно на сервер:
 
 When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
 
 	$ git push origin master
 
+Эта команда срабатывает только в случае, если вы клонировали с сервера, на котором у вас есть права на запись, и если никто другой с тех пор не выполнял команду push. Если вы и кто-то ещё одновременно клонируете, затем они выполняют команду push, а затем команду push выполняете вы, то ваш push точно будет отклонён. Вам придётся сначала вытянуть (pull) их изменения и объединить с вашими. Только после этого вам будет позволено выполнить push. Смотри Главу 3 для более подробного описания как отправлять (push) данные на удалённый сервер.
+
 This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
 
+### Проверка удалённого репозитория ###
 ### Inspecting a Remote ###
+
+Если хотите получить побольше информации об одном из удалённых репозиториев, вы можете использовать команду `git remote show [удал. сервер]`. Если вы выполните эту команду с некоторым именем, например, `origin`, вы получите что-то подобное:
 
 If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
 
@@ -1090,7 +1098,11 @@ If you want to see more information about a particular remote, you can use the `
 	    master
 	    ticgit
 
+Она выдаёт URL удалённого репозитория, а также информацию об отслеживаемых ветках. Эта команда любезно сообщает вам, что, если вы находясь на ветке master, выполните `git pull`, ветка master с удалённого сервера будет автоматически влита в вашу сразу после получения всех необходимых данных. Она также выдаёт список всех полученных ею ссылок.
+
 It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+
+Это был пример для простой ситуации, и наверняка вы встретились с чем-то подобным. Однако, если вы используете Git более интенсивно, вы можете увидеть гораздо большее количество информации от `git remote show`:
 
 That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
 
@@ -1116,9 +1128,14 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
+Данная команда показывает какая именно локальная ветка будет отправлена на удалённый сервер по умолчанию при выполнении `git push`. Она также показывает каких веток с удалённого сервера у вас ещё нет, какие ветки всё ещё есть у вас, но уже удалены на сервере. И для нескольких веток показано какие удалённые ветки будут в них влиты при выполнении `git pull`.
+
 This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
 
+### Удаление и переименование удалённых репозиториев ###
 ### Removing and Renaming Remotes ###
+
+Для переименования ссылок в новых версиях Git можно вылолнить `git remote rename`, это изменит сокращённое имя, используемое для удалённого репозитория. Например, если вы хотите переименовать `pb` в `paul`, вы можете сделать это следующим образом:
 
 If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
 
@@ -1127,7 +1144,11 @@ If you want to rename a reference, in newer versions of Git you can run `git rem
 	origin
 	paul
 
+Стоит упомянуть, что это также изменяет для вас имена удалённых веток. То, к чему вы обращались как `pb/master`, стало `paul/master`.
+
 It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+
+Если по какой-то причине вы хотите удалить ссылку (вы сменили сервер или больше не используете определённое зеркало, или, возможно, контрибьютор перестал быть активным), вы можете использовать `git remote rm`:
 
 If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
 

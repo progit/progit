@@ -87,11 +87,11 @@ Insert 18333fig0201.png
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+Можете да кажете дека фајлот е на сцена затоа што се наоѓа во “Changes to be committed”. Ако направите комит во оваа точка, историска слика ќе биде верзијата на фајлот пред да ја извршите командата git add. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
 
-### Staging Modified Files ###
+### Поставуванје на сцена променети фајлови ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+Ајде да промениме еден фајл кој е веќе следен. Ако внесете промени во фајлот `benchmarks.rb`, кој веќе е следен и потоа повторно ја извршите командата `status`, ќе добиете нешто вака:
 
 	$ git status
 	# On branch master
@@ -106,7 +106,7 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+Фајлот benchmarks.rb се појавува по делот именуван како “Changed but not updated” - што значи дека се внесени промени во фајл (од вашиот работен директориум) кој е веќе следен но сеуште не е поставен на сцена. За да го поставите на сцена ја извршувате командата `git add` (ова е повеќе наменска команда - се користи за да почнете да следите некој фајл, за да поставите на сцена некој фајл и за други работи, како на пример означување на фајлови кај кои има merge конфликт како разрешени т.е. без merge конфликт). Ајде сега да ја извршиме командата `git add` за да го поставиме на сцена фајлот benchmarks.rb и потоа повторно ќе ја извршиме `git status` командата:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -118,7 +118,7 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+И двата фајла се на сцена и ќе бидат вклучени ва вашиот следен комит. Да претпоставиме дека имате усте некоја мала промена која сакате да ја направите во benchmarks.rb пред да направите комит. Го отворате попвторно фајлот, ја правите промената и спремни сте да направие комит. Коко и да е ајде сега уште еднаш да ја извршиме `git status` командатa:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -135,7 +135,7 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+Што? Сега benchmarks.rb е прикажан и под фајлови поставени на сцена и под фајлови кои не се поставени на сцена. Како е можно? Излегува дека Git го поставува фајлот на сцена ист онаков каков што бил пред да ја извршите git add командата. Ако направите комит во овој момент, верзијата на benchmarks.rb фајлот која ќе биде комитирана ќе биде иста како онаа кога последен пат сте ја извршиле git add командата а не како онаа што е во вашиот работен директориум во моментот кога правите комит. Ако внесете промени во некој фајл откако ќе ја извршите `git add` командата морате да ја извршите истата команда уште еднаш за да ја поставите на сцена последната верзија на фајлот:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -147,9 +147,9 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### Игнорирање на фајлови ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+Често ќе имате класа на фајлови кои не сакате Git втоматски да ги додава или да ги покажува како фајлови кои не се следени. Овие фајлови често се автоматски генерирани фајлови како што се log фајлови или фајлови генерирани од вашиот систем за билдање. Во такви случаи можете да креирате правило за листање именувано како .gitignore. Еве еден пример на .gitignore фајл:
 
 	$ cat .gitignore
 	*.[oa]

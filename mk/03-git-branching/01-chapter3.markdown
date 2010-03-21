@@ -129,36 +129,36 @@ Insert 18333fig0310.png
 Insert 18333fig0311.png 
 Слика 3-11. Креирање на нов покажувач кон гранка.
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+Додека работите на вашата веб страна правите комит т.е ги зачувувате измените. Со ова гранката `iss53` се поместува нанапред, бидејќи сте направиле checked out (HEAD покажува кон неа; Слика 3-12):
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+Слика 3-12. Гранката iss53 се поместува нанапред.
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+Во овој момент добивате известување дека има проблем со вашата веб страна и морате итно да го поравете проблемот. Со Git немора решението на проблемот да го направите заедно со промените на гранката `iss53`. Се што треба да направите е да се вратите назад кон вашата главна гранка (master branch).
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+Мора да се запази фактот дека Git нема да ви дозволи да ја смените гранката доколку во вашиот работен директориум или на сцена имате некомитирани промени кои се во конфликт со грнаката од која сакате да направите нова гранка. Најдобро е да имате чиста работна состојба пред да правите промена на гранки. Постојат начини да се заобиколи ова, кои ќе бидат објаснети подоцна. Засега вршиме комитирање на сите измени, за да се префрлиме на главната гранка:
 
 	$ git checkout master
-	Switched to branch "master"
+	Се префрламе на гранката "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+Во овој момент, вашиот работен директориум за проектот е ист како пред почнување со работа на изданието #53 и можете да се концентрирате на решавање на настанатиот проблем. Ова е важна особина која треба да се запамети: Git го ресетира вашиот работен директориум да изгледа како целосната слика на записот од кој креирате нова гранка. Тој автоматски ги додава, бриши и модифицира датотеките се со цел вашата работна копија да биде иста со гранката во моментот кога последен пат сте комитирале на истата.
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+Потоа треба да го внесете решението на проблемот кој го имате. Да креираме нова гранка hotfix на која ќе работиме на проблемот (Слика 3-13):
 
 	$ git checkout -b 'hotfix'
-	Switched to a new branch "hotfix"
+	Се префрламе на нова гранка "hotfix"
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
 	[hotfix]: created 3a0874c: "fixed the broken email address"
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point.
+Слика 3-13. Гранка hotfix базирана на вашата главна гранка.
 
-You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
+Можете да направите одредени тестови за да бидете сигурни дека проблемот е решен, а потоа ја соединувате гранката со вашата главна гранка. Ова се прави со командата `git merge`:
 
 	$ git checkout master
 	$ git merge hotfix
@@ -167,19 +167,19 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
+Во ова соединување се појавува фразата "Fast forward". Бидејќи записот кон кој што покажува гранката која ја споивте е наследник на записот на кој моментално се наоѓаме, Git го поместува покажувачот нанапред. Со други зборови кога спојуваме еден запис со запис кон кој може да се пристапи следејќи ја историјата на првиот запис, Git ги поедноставува работите со поместување на покажувачот нанапред бидејќи нема неконзистентни измени за спојување. Ова се нарекува "fast forward".
 
-Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
+Вашите измени сега се наоѓаат во целосниот запис кон кој покажува `master` гранката (Слика 3-14).
 
 Insert 18333fig0314.png 
-Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+Слика 3-14. По спојувањето главна гранка покажува кон истото место кон кое покажува hotfix гранката.
 
-After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+Откако решенитео на ненадејниот проблем е зачувано, подготвени сме да се вратиме назад на работата која ја работевме пред да бидеме прекинати. Меѓутоа прво ја бришеме `hotfix` гранката бидејќи повеќе не ни е потребна - `master` гранката покажува на исто место. Ова се прави со додавање на опцијата `-d` на командата `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
+Сега можете да се вратите кон гранката за изданието #53 и да продолжите со работа (Слика 3-15):
 
 	$ git checkout iss53
 	Switched to branch "iss53"
@@ -189,13 +189,13 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-Figure 3-15. Your iss53 branch can move forward independently.
+Слика 3-15. Сега гранката iss53 може независно да се придвижува нанапред.
 
-It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+Овде е важно да се напомене дека промените кои се направени во `hotfix` гранката не се вклучени во гранката `iss53`. Ако сакате да ги повлечете овие промени, може да ја споите вашата `master` гранка со гранката `iss53` со извршување на командата `git merge master` или пак може подоцна ги повечете измените од `iss53` назад кон `master` гранката.
 
-### Basic Merging ###
+### Основно спојување ###
 
-Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
+Да претпоставиме дека сте завршиле со работа на изданието #53 и сте подготвени да ги споите измените во `master` гранката. За да го направиме ова ќе ја споиме `iss53` гранката слично како што направивме претходно со `hotfix` гранката. Се што треба да направиме е да ја одвоиме гранката која сакаме да ја надградиме и да ја повикаме командата `git merge`:
 
 	$ git checkout master
 	$ git merge iss53
@@ -203,32 +203,32 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
+Ова изгледа малку поинаку отколку претходниот случај со спојувањето на `hotfix` гранката. Во овој случај вашата историја на развој започнува од некоја постара точка. Поради тоа што записот на гранката на која се наоѓате не е директен наследник на гранката на која што сакате да запишете, Git мора да изврши дополнителни работи. Во овој случај Git врши едноставено тристрано спојување, користејќи ги целосните записи кон кои покажуваат двете гранки и нивниот заеднички предок. На Слика 3-16 се прикажани трите целосни записи кои Git ги користи при ова спојување.
 
 Insert 18333fig0316.png 
-Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
+Слика 3-16. Git автоматски го пронаоѓа најдобриот заеднички предок, кој го користи како основа за спојување.
 
-Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
+Наместо да го помести покажувачот нанапред, Git креира нов целосен запис кој произлегува од ова тристрано спојување и креира нов комит кој покажува кон него (Слика 3-17). Овој запис при спојување е карактеристичен по тоа што има повеќе од еден родител.
 
-It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
+Важно е да се напомене дека Git го одредува најдобриот предок кој го користи како основа при спојувањето; ова е различно од CVS или од Subversion(пред верзијата 1.5), каде програмерот кој го врши спојувањето мора сам да одреди кој е најдобар предок. Ова го прави спојувањето со Git доста полесно во споредба со овие системи.
 
 Insert 18333fig0317.png 
-Figure 3-17. Git automatically creates a new commit object that contains the merged work.
+Слика 3-17. Git автоматски креира нов комит објект кој ги содржи споените измени.
 
-Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
+Сега откако вашите измени се споени со главната гранака немате потреба од гранката `iss53`. Може слободно да ја избришиме:
 
 	$ git branch -d iss53
 
-### Basic Merge Conflicts ###
+### Основни конфликти при спојување ###
 
-Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
+Повремено овој процес не се одвива толку едноставно. Git нема да може да ги спои гранките доколку имате промени во ист дел од иста датотека во двете гранки кои сакате да ги споите. Доколку вашите измени во изданието #53 афектираат ист дел од датотека на која сте работеле на `hotfix` гранката, ќе добиете конфликт кој изгледа вака:
 
 	$ git merge iss53
 	Auto-merging index.html
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
+Git автоматски нема да креира нов комит објект. Тој го паузира процесот се додека не го разрешите конфликтот. Доколку сакате да видете кои датотеки не се споени после конфликтот може да ја повикате командата `git status`:
 
 	[master*]$ git status
 	index.html: needs merge
@@ -240,7 +240,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
-Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
+Секој директориум во кој има конфликти кои не се разрешени се пикажани како unmerged. Git додава стандардни маркери за разрешување на конфликти на директориумите кои имаат конфликти. Конфликтните датотеки имаат секции кои изгледаат вака:
 
 	<<<<<<< HEAD:index.html
 	<div id="footer">contact : email.support@github.com</div>
@@ -250,7 +250,7 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
-This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
+Ова означува дека везијата во HEAD (вашата master гранка, бидејќи таа е гранката која ја одвоивте при повикување на командата merge) е горниот дел од сегментот (се што е над `=======`), додека верзијата во `iss53` гранката изгледа како долниот дел од сегментот. Со цел да се разреши конфликтот треба да одберете една од можностите и да ја споете содржината мануелно. На пример овој конфликт може да се разреши со промена на целиот блок со:
 
 	<div id="footer">
 	please contact us at email.support@github.com

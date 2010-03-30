@@ -1,0 +1,105 @@
+Glossaire de Git
+================
+
+:Auteur: Emmanuel Trillaud 
+:Email: <etrillaud (at) gmail (dot) com>
+:Date: 11/02/10 15:04 
+:Revision: 2
+
+Glossaire de l'outil de gestion de version Git créé à partir des traductions de
+
+* git-gui, http://repo.or.cz/w/git-gui.git[Sources]
+* gitk, http://git.kernel.org/?p=gitk/gitk.git;a=summary[Sources]
+* du « Git Community Book » http://book.git-scm.com/[en], http://alx.github.com/gitbook/[fr] et 
+* du livre « Progit » http://progit.org/book/[en]
+
+Autre doc utile
+
+* gitglossary(7)
+
+Convention du glossaire
+un « ? » à côté d'un mot signifie que la traduction proposée est discutable
+« ctx » sert à indiquer un contexte
+
+.Objets Git
+* object -> objet
+  - loose object ->
+* Tree (Object) -> Arbre
+* Commit (Objet) -> Commit
+* Tag (Object) -> Tag
+  - annotated -> tag annoté
+  - ligthweigt tag -> tag léger
+* Blob (Object) -> Blob
+* refs -> références
+
+.Spécifique à Git
+* HEAD -> fichier HEAD, HEAD
+* detached (head)->
+* refspec -> spécification de références
+* Plumbing -> plomberie
+* Porcelain -> porcelaine
+* index ->
+* staging area ->
+
+.VCS
+* version -> révision
+* working directory -> répertoire de travail
+* working tree -> arbre de travail
+* snapshot -> instantané
+* history -> historique/journal
+* fast-forward (ctx merge) -> avance rapide
+  - fast-forward reference -> avance rapide
+* repository -> dépôt
+* diff -> diff
+* patch -> patch
+
+.SHA-1
+* hash -> empreinte
+* checksum -> somme de contrôle
+* digest -> empreinte
+* key -> clé
+* SHA-1 -> empreinte SHA-1
+
+.Actions/Commandes
+Si le mot fait référence à la commande, on ne traduit pas. Par si on fait
+référence à l'action, on peut traduire.
+
+* checkout ->
+* branch(es) -> branches
+  - remote branches -> branche distante
+* remote -> distant
+  a remote -> un dépôt distant
+* pull -> tirer ("retirer" est peut-être mieux)
+* fetch -> récupérer
+* push -> pousser (pourquoi pas "publier")
+* stash -> (gitbook propose "remiser")
+* add -> ajouter
+* log ->
+* gc ->
+ - garbage collector -> ramasse-miète
+* reset -> réinitialiser
+ - hard reset ->
+ - soft reset ->
+ - mixed reset ->
+* bisect -> bissecter
+* archive -> archiver
+* cherry-pick -> séléctionner (a été préféré à "ceuillir")
+* cherry-picking -> séléction (préféré à "ceuillette")
+* clean -> nettoyer
+* clone -> clôner
+* To merge (a branch) -> fusionner
+* To merge (a change) -> incorporer
+ - a merge -> une fusion
+* to diff ->
+* rebase ->
+* revert  -> défaire
+* packfile ->
+* to pack -> compacter
+
+.Divers
+* hex -> hexa
+* hook ->
+* namespace -> espace de noms
+* Content-addressable filesystem -> système de fichier adressable par le contenu
+* DAG(Direct Acyclic Graph) -> Graphe orienté acyclique
+* pattern -> motif

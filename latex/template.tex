@@ -1,8 +1,8 @@
 \documentclass[a4paper,twoside]{book}
 \usepackage[
-	urlbordercolor = {1 1 1},
-	linkbordercolor = {1 1 1},
-	citebordercolor = {1 1 1},
+	%urlbordercolor = {1 1 1},
+	%linkbordercolor = {1 1 1},
+	%citebordercolor = {1 1 1},
 	urlcolor = blue,
 	colorlinks = true,
 	citecolor = black,
@@ -90,6 +90,9 @@
 	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}
 	\textbf{\caption{#1}}
 \end{figure}}
+
+\newcounter{tab}[chapter]
+\renewcommand{\thetab}{\thechapter.\arabic{tab}}
 
 \newcommand{\prechap}{<%= config['prechap'] %>}
 \newcommand{\postchap}{<%= config['postchap'] %>}

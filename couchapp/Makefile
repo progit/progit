@@ -10,4 +10,5 @@ figures:
 	mkdir -p _attachments/figures/
 	cp ../figures/* _attachments/figures/
 
-clean: 
+clean:
+	git clean -fdx

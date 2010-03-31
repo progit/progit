@@ -204,14 +204,24 @@ Now you get the call that there is an issue with the web site, and you need to f
 <!--
     TODO    progress-end: 2010-03-25 - florianb
 -->
+<!--
+    TODO    progress-end: 2010-03-31 - florianb
+-->
+
+Beachte jedoch, dass dich Git den Branch nur wechseln lässt wenn bisherige Änderungen in deinem Arbeitsverzeichnis oder deiner Staging Area nicht in Konflikt mit dem Zweig stehen zu dem du nun wechseln möchtest. Am besten es liegt ein sauberer Status vor wenn man den Branch wechselt. Wir werden uns später mit Wegen befassen, dieses Verhalten zu umgehen (namentlich Stashing und Commit Ammending). Vorerst hast du deine Änderungen bereits comitted, sodass du zu deinem MASTER-Branch zurückwechseln kannst.
+
 Wie auch immer, bevor du das machst, ein Hinweis, wenn du nicht committete Sachen in deinem Arbeits- oder Staging-Verzeichnis hast, die einen Konflikt mit der Branch, zu der du schalten willst, hat, lässt dich Git nicht dorthin schalten. Am besten man hat einen sauberen Arbeitsstand, wenn man die Branch wechseln will. Es gibt Wege, um das zu umgehen (stashing und commit amending). Aber dazu später mehr. Im Moment solltest du deine Änderungen committen und dann zur master Branch wechseln:
 However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
 
 	$ git checkout master
 	Switched to branch "master"
 
+Zu diesem Zeitpunkt befindet sich das Arbeitsverzeichnis des Projektes in exakt dem gleichen Zustand, in dem es sich befand als du mit der Arbeit an Issue #53 begonnen hast und du kannst dich direkt auf deinen Hotfix konzentrieren. Dies ist ein wichtiger Moment um sich vor Augen zu halten, dass Git dein Arbeitsverzeichnis auf den Zustand des Commits, auf den dieser Branch zeigt, zurücksetzt. Es erstellt, entfernt und verändert Dateien automatisch, um sicherzustellen das deine Arbeitskopie haargenau so aussieht wie der Zweig nach deinem letzten Commit.
+
 An dieser Stelle befindet sich dein Projekt Arbeitsverzeichnis an exakt der gleichen Stelle, wie vor der Arbeit an `iss53`, und du kannst dich auf den Hotfix konzentrieren. Das ist ein wichtiger Aspekt, den man im Kopf behalten sollte: Git setzt dein Arbeitsverzeichnis immer auf den Stand, der dem Snapshot der aktuellen Branch entspricht. Es werden automatisch die entsprechenden Dateien hinzugefügt, gelöscht und modifiziert, damit die Arbeitskopie, wie nach deinem letzten Commit in dieser Branch aussieht.
 At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+
+Nun hast du einen Hotfix zu erstellen. Kass uns dazu einen Hotfix-Branch erstellen an dem du bis zu seiner Fertigstellung arbeitest (siehe Abbildung 3-13):
 
 Als nächstes hast du einen Hotfix zu machen. Lass uns eine 'Hotfix' Branch erstellen, an der du bis zur Fertigstellung arbeitest (siehe Abbildung 3-13):
 Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
@@ -223,9 +233,13 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	[hotfix]: created 3a0874c: "fixed the broken email address"
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Insert 18333fig0313.png 
+Insert 18333fig0313.png
+Abbildung 3-13. Der Hotfix-Branch basiert auf dem zurückliegenden Master-Branch.
+
 Abbildung 3-13. Hotfix Branch verweist auf die master Branch zurück
 Figure 3-13. hotfix branch based back at your master branch point
+
+Mach deine Tests, stell sicher das sich der Hotfix verhält wie gewünscht, und führe ihn mit dem Master-Branch zusammen um ihn in die Produktionsumgebung zu integrieren. Das machst du mit dem `git merge`-Kommando:
 
 Mach deine Tests, stell sicher, dass der Hotfix das macht, was du willst und führe ihn mit der master Branch zusammen, um diese wieder in die Produktion zu bringen. Du machst das mit dem Kommando `git merge`:
 You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
@@ -236,6 +250,10 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	Fast forward
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
+
+<!--
+    TODO    progress-end:   2010-03-31 - florianb
+-->
 
 Hast du die Nachricht "Fast forward" beim Zusammenführen gesehen? Da du auf die aktuelle Branch aufgesetzt hast und die Änderung eine direkte Weiterführung dieser war, hat Git den Pointer weitergestellt. Anders ausgedrückt, wenn zwischen zwei Branches kein Unterschied besteht oder nur eine davon eine Weiterentwicklung darstellt, bringt Git diese beiden wieder auf 'Linie' - das wird dann "fast forward" genannt.
 You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
@@ -484,42 +502,72 @@ You saw this in the last section with the `iss53` and `hotfix` branches you crea
 
 Stell dir du arbeitest ein bisschen (in `master`), erstellst mal eben einen Branch für einen Fehler (`iss91`), arbeitest an dem für eine Weile, erstellst einen zweiten Branch um eine andere Problemlösung für den selben Fehler auszuprobieren (`iss91v2`), wechselst zurück zu deinem MASTER-Branch, arbeitest dort ein bisschen und machst dann einen neuen Branch für etwas, wovon du nicht weißt ob's eine gute Idee ist (`dumbidea`-Branch). Dein Commit-Verlauf wird wie in Abbildung 3-20 aussehen.
 
+Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
 <!--
     TODO    progress-end: 2010-03-25 - florianb
 -->
-
-Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
+<!--
+    TODO    progress-begin: 2010-03-31 - florianb
+-->
 
 Insert 18333fig0320.png 
+Abbildung 3-20. Dein Commit-Verlauf mit verschiedenen Themen-Branches.
+
 Figure 3-20. Your commit history with multiple topic branches
+
+Nun, sagen wir du hast dich entschieden die zweite Lösung des Fehlers (`iss91v2`) zu bevorzugen, außerdem hast den `dumbidea`-Branch deinen Mitarbeitern gezeigt und es hat sich herausgestellt das er genial ist. Du kannst also den ursprünglichen `iss91`-Branch (unter Verlust der Commits C5 und C6) wegschmeißen und die anderen Beiden vereinen. Dein Verlauf sieht dann aus wie in Abbildung 3-21.
 
 Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
 
-Insert 18333fig0321.png 
+Insert 18333fig0321.png
+Abbildung 3-21. Dein Verlauf nach Zusammenführung von `dumbidea` und `iss91v2`.
 Figure 3-21. Your history after merging in dumbidea and iss91v2
+
+Es ist wichtig sich daran zu erinnern, dass all diese Branches komplett lokal sind. Wenn du verzweigst (branchst) und zusammenführst (mergest), findet dies nur in deinem Git-Repository statt - es findet keine Server-Kommunikation statt.
 
 It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
 
+## Externe Branches ##
 ## Remote Branches ##
+
+Externe Branches sind Referenzen auf den Zustand der Branches in deinen externen Repositorys. Es sind lokale Branches die du nicht verändern kannst, sie werden automatisch verändert wann immer du eine Netzwerkoperation durchführst. Externe Branches verhalten sich wie Lesezeichen, um dich daran zu erinnern an welcher Position sich die Branches in deinen externen Repositories befanden, als du dich zuletzt mit ihnen verbunden hattest.
 
 Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
 
+Externe Branches besitzen die Schreibweise `(Repository)/(Branch)`. Wenn du beispielsweise wissen möchtest wie der `master`-Branch in deinem `origin`-Repository ausgesehen hat, als du zuletzt Kontakt mit ihm hattest, dann würdest du den `origin/master`-Branch überprüfen. Wenn du mit einem Mitarbeiter an einer Fehlerbehebung gearbeitet hast, und dieser bereits einen `iss53`-Branch hochgeladen hat, besitzt du möglicherweise deinen eigenen lokalen `iss53`-Branch. Der Branch auf dem Server würde allerdings auf den Commit von `origin/iss53` zeigen.
+
 They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+
+Das kann ein wenig verwirrend sein, lass uns also ein Besipiel betrachten. Nehmen wir an du hättest in deinem Netzwerk einen Git-Server mit der Adresse `git.ourcompany.com`. Wenn du von ihm klonst, nennt Git ihn automatisch `origin` für dich, lädt all seine Daten herunter, erstellt einen Zeiger an die Stelle wo sein `master`-Branch ist und benennt es lokal `origin/master`; und er ist unveränderbar für dich. Git gibt dir auch einen eigenen `master`-Branch mit der gleichen Ausgangsposition wie origins `master`-Branch, damit du einen Punkt für den Beginn deiner Arbeiten hast (siehe Abbildung 3-22).
 
 This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
 
-Insert 18333fig0322.png 
+Insert 18333fig0322.png
+Abbildung 3-22. Ein 'git clone' gibt dir deinen eigenen `master`-Branch und `origin/master`, welcher auf origins 'master'-Branch zeigt.
+
 Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+
+Wenn du ein wenig an deinem lokalen `master`-Branch arbeitest und unterdessen jemand etwas zu `git.ourcompany.com` herauflädt, verändert er damit dessen `master`-Branch und eure Arbeitsverläufe entwickeln sich unterschiedlich. Indess bewegt sich dein `origin/master`-Zeiger nicht, solange du keinen Kontakt mit deinem `origin`-Server aufnimmst (siehe Abbildung 3-23).
 
 If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
 
 Insert 18333fig0323.png 
+Abbildung 3-23. Lokales Arbeiten, während jemand auf deinen externen Server hochlädt, lässt jeden Änderungsverlauf unterschiedlich weiterentwickeln.
+
 Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+
+Um deine Arbeit abzugleichen, führe ein `git fetch origin`-Kommando aus. Das Kommando schlägt nach welcher Server `orgin` ist (in diesem Fall `git.ourcompany.com`), holt alle Daten die dir bisher fehlen und aktualisiert deine lokale Datenbank, indem es deinen `orgin/master`-Zeiger auf seine neue aktuellere Position bewegt (siehe Abbildung 3-24).
 
 To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
 
 Insert 18333fig0324.png 
+Abbildung 3-24. Das `git fetch`-Kommando aktualisiert deine externen Referenzen.
+
 Figure 3-24. The git fetch command updates your remote references.
+
+<!--
+    TODO    process-end: 2010-03-31 - florianb
+-->
 
 To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
 

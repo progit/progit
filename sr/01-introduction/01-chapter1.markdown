@@ -1,6 +1,6 @@
 # Почетак #
 
-Ово поглавље прича о почетку рада са Гитом. На почетку, почећемо објашњавајући позадину алата за контролу верзије, затим ћемо прећи на то како покренути Гит на свом систему и коначно на то како га подесити и започети рад са њиме. На крају овог поглавља требало би да разумете зашто постоји Гит, зашто га требате користити и како га подесити за рад.
+Ово поглавље прича о почетку рада са Гитом. Започећемо појашњавањем позадине алата за контролу верзије, затим ћемо прећи на то како покренути Гит на свом систему и коначно како га подесити и кренути са радом. На крају овог поглавља разумећеш зашто постоји Гит, зашто га треба користити и како га подесити.
 
 ## О контроли верзије ##
 
@@ -252,6 +252,6 @@ For example, you can get the manpage help for the config command by running
 These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
-## Summary ##
+## Закључак ##
 
 You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.

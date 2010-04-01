@@ -22,7 +22,7 @@ Questo metodo è utilizzato da tanti dato che è il paradigma che molti conoscon
 
 ### Workflow con manager d'integrazione ###
 
-Dato che Git ti consente di avere multipli repositories, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio pubblico respository, e accesso il lettura a quello degli altri. Questo scenario spesso un repository "standard" che rappresenta il progetto "ufficiale". Per contribuire a quel progetto, devi creare il tuo clone pubblico del progetto stesso e fare un push delle modifiche verso esso. In seguito, si invia una richiesta al manager del progetto di eseguire un pull dei vostri cambiamenti. Possono aggiungere il vostro repository come remoto, testarlo localmente, unirlo al proprio branch e fare un push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
+Dato che Git ti consente di avere multipli repositories, è possibile avere un workflow dove ogni sviluppatore ha accesso in scrittura al proprio pubblico respository, e accesso il lettura a quello degli altri. Questo scenario spesso un repository "standard" che rappresenta il progetto "ufficiale". Per contribuire a quel progetto, devi creare il tuo clone pubblico del progetto stesso e fare un push delle modifiche verso esso. In seguito, si invia una richiesta al manager del progetto di eseguire un pull dei vostri cambiamenti. Possono aggiungere il vostro repository come remoto, testarlo localmente, unirlo al proprio ramo e fare un push verso il proprio repository. Il processo funziona così (vedi Figura 5-2):
 
 1.  Il mantenitore del progetto fa un push del proprio repository pubblico.
 2.  Un contributore clona il reposiory ed esegue dei cambiamenti.
@@ -40,10 +40,10 @@ Questo è un workflow comune con siti come GitHub, dove è facile eseguire un fo
 
 Questa è una variante del workflow con multipli repository. E' generalmente usata da grandi progetti con centinaia di collaboratori; un esempio famoso è il Kernel Linux. Molti manager d'integrazione sono in carica di certe parti del repository; sono chiamati tenenti. Tutti i tenenti hanno un manager d'integrazione conosciuto come "dittatore benevolo". Il repository del dittatore benevolo funziona come repository di riferimento dal quale tutti i collaboratori eseguono un pull. Il flusso di lavoro è il seguente (vedi Figura 5-3):
 
-1.  Normali sviluppatori lavorano nel loro branch ed eseguono un rebase del proprio lavoro sul master. Il branch master è quello del dittatore.
-2.  I tenenti eseguono il merge del lavoro degli sviluppatori nel branch master.
-3.  Il dittatore esegue il merge dei branch master dei tenenti nel proprio branch master.
-4.  Il dittatore esegue un push del proprio branch master nel repository di riferimento, cosicché gli sviluppatori possano accedervi.
+1.  Normali sviluppatori lavorano nel loro ramo ed eseguono un rebase del proprio lavoro sul master. Il ramo master è quello del dittatore.
+2.  I tenenti eseguono l'unione del lavoro degli sviluppatori nel ramo master.
+3.  Il dittatore esegue l'unione dei rami master dei tenenti nel proprio ramo master.
+4.  Il dittatore esegue un push del proprio ramo master nel repository di riferimento, cosicché gli sviluppatori possano accedervi.
 
 Insert 18333fig0503.png  
 Figura 5.3. Workflow con dittatore benevolo.
@@ -113,7 +113,7 @@ Fa come dico, non come faccio.
 
 La configurazione più semplice e facile da incontrare è il progetto privato con uno o due sviluppatori. Con privato, intendo codice a sorgente chiuso - non accessibile dal resto del mondo. Tu gli altri sviluppatori avete tutti accesso per il push verso il repository.
 
-In questo ambiente, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion od un altro sistema centralizzato. Hai ancora i vantaggi (ad esempio) di poter eseguire commit da offline e branching/merging molto più semplici, ma il workflow può restare simile; la differenza principale è che il merge avviene nel tuo repository piuttosto che in quello sul server nel momento del commit.
+In questo ambiente, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion od un altro sistema centralizzato. Hai ancora i vantaggi (ad esempio) di poter eseguire commit da offline e la creazione di rami (ed unione delli stessi) molto più semplici, ma il workflow può restare simile; la differenza principale è che l'unione avviene nel tuo repository piuttosto che in quello sul server nel momento del commit.
 Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a lavorare insieme con un repository condiviso. Il primo sviluppatore, John, clona in repository, fa dei cambiamenti, ed esegue il commit localmente. (Sostituisco il messaggio di protocollo con `...` in questi esempi per brevità.)
 
 	# Computer di John
@@ -190,7 +190,7 @@ Infine, la cronologia dei commit di John somiglierà a quella di figura 5-6.
 Insert 18333fig0506.png 
 Figura 5-6. La cronologia di John dopo avere eseguito il push verso il server.
 
-Nel frattempo, Jessica sta lavorando su un altro branch. Ha creato un branch chiamato `problema54` ed ha eseguito tre commit su quel branch. Non ha ancora recuperato i cambiamenti di John, per cui la sua cronologia di commit è quella di Figura 5-7.
+Nel frattempo, Jessica sta lavorando su un altro ramo. Ha creato un ramo chiamato `problema54` ed ha eseguito tre commit su quel ramo. Non ha ancora recuperato i cambiamenti di John, per cui la sua cronologia di commit è quella di Figura 5-7.
 
 Insert 18333fig0507.png 
 Figura 5-7. La cronologia iniziale di Jessica.
@@ -208,7 +208,7 @@ Questo recupera il lavoro che John ha eseguito nel frattempo. La cronologia di J
 Insert 18333fig0508.png 
 Figura 5-8. La cronologia di Jessica dopo aver recuperato i cambiamenti di John.
 
-Jessica pensa che il suo branch sia pronto, però vuole sapere con cosa deve unire il suo lavoro prima di eseguire il push. Esegue `git log` per scoprirlo:
+Jessica pensa che il suo ramo sia pronto, però vuole sapere con cosa deve unire il suo lavoro prima di eseguire il push. Esegue `git log` per scoprirlo:
 
 	$ git log --no-merges origin/master ^problema54
 	commit 738ee872852dfaa9d6634e0dea7a324040193016
@@ -217,7 +217,7 @@ Jessica pensa che il suo branch sia pronto, però vuole sapere con cosa deve uni
 
 	    rimosso valore di default non valido
 
-Ora, Jessica può unire il suo lavoro al branch master, unire il lavoro di John (`origin/master`) nel suo branch `master`, e poi eseguire il push verso il server di nuovo. Per prima cosa, torna nel suo branch master per integrare il suo lavoro:
+Ora, Jessica può unire il suo lavoro al ramo master, unire il lavoro di John (`origin/master`) nel suo ramo `master`, e poi eseguire il push verso il server di nuovo. Per prima cosa, torna nel suo ramo master per integrare il suo lavoro:
 
 	$ git checkout master
 	Switched to branch "master"
@@ -245,7 +245,7 @@ Tutto viene unito correttamente, e la cronologia di Jessica è come quella di Fi
 Insert 18333fig0509.png 
 Figura 5-9. La cronologia di Jessica dopo aver unito i cambiamenti di John.
 
-Ora `origin/master` è raggiungibile dal branch `master` di Jessica, cosicché lei sia capace di eseguire dei push successivamente (assumento che John non abbia fatto lo stesso nel frattempo):
+Ora `origin/master` è raggiungibile dal ramo `master` di Jessica, cosicché lei sia capace di eseguire dei push successivamente (assumento che John non abbia fatto lo stesso nel frattempo):
 
 	$ git push origin master
 	...
@@ -257,65 +257,66 @@ Ogni sviluppatore ha eseguito alcuni commit ed unito il proprio lavoro con quell
 Insert 18333fig0510.png
 Figura 5-10. La cronologia di Jessica dopo aver eseguito il push dei cambiamenti verso il server.
 
-Questo è uno dei workflow più semplici. Lavori per un pò, generalemtne in un branch, ed unisci il tutto al branch master questo è pronto ad essere integrato. Quando vuoi condividere il tuoi lavoro, uniscilo al tuo branch master, poi recupera ed unisci `origin/master` se è cambiato, ed infine esegui il push verso il branch `master` nel server. La sequenza è simile a quella di Figura 5-11.
+Questo è uno dei workflow più semplici. Lavori per un pò, generalmente in un ramo, ed unisci il tutto al ramo master questo è pronto ad essere integrato. Quando vuoi condividere il tuoi lavoro, uniscilo al tuo ramo master, poi recupera ed unisci `origin/master` se è cambiato, ed infine esegui il push verso il ramo `master` nel server. La sequenza è simile a quella di Figura 5-11.
 
 Insert 18333fig0511.png
 Figura 5-11. La sequenza generale di eventi per un semplice workflow con Git a più sviluppatori.
 
-### Private Managed Team ###
+### Team privato con manager ###
 
-In this next scenario, you’ll look at contributor roles in a larger private group. You’ll learn how to work in an environment where small groups collaborate on features and then those team-based contributions are integrated by another party.
+In questo prossimo scenario, scoprirai ai ruoli di un contributore in un gruppo privato più grande. Imparerai come lavorare in un ambiente dove piccoli gruppi collaborano a delle funzionalità e poi queste contribuzioni sono integrate da un altro componente.
 
-Let’s say that John and Jessica are working together on one feature, while Jessica and Josie are working on a second. In this case, the company is using a type of integration-manager workflow where the work of the individual groups is integrated only by certain engineers, and the `master` branch of the main repo can be updated only by those engineers. In this scenario, all work is done in team-based branches and pulled together by the integrators later.
+Supponiamo che John e Jessica stiano lavorando insieme su una funzionalità, mentre Jessica e Josie si stanno concentrando su una seconda. In questo caso, l'azienda sta usando un workflow con manager d'integrazione dove il lavoro di ogni gruppo è integrato solo da certi ingegneri, ed il ramo `master` del repository principale può essere aggiornato solo dai suddetti ingegneri. In questo scenario, tutto il lavoro è eseguito sui rami suddivisi per team, ed unito dagli integratori in seguito.
 
-Let’s follow Jessica’s workflow as she works on her two features, collaborating in parallel with two different developers in this environment. Assuming she already has her repository cloned, she decides to work on `featureA` first. She creates a new branch for the feature and does some work on it there:
+Seguiamo il workflow di Jessica mentre lavora sulle due funzionalità, collaborando parallelamente con due diversi sviluppatori in questo ambiente. Assumendo che lei abbia già clonato il suo repository, decide di lavorare su `funzionalitaA` per prima. Crea un nuovo ramo per la funzionalità ed esegue del lavoro su di esso.
 
-	# Jessica's Machine
+	# Computer di Jessica
 	$ git checkout -b featureA
-	Switched to a new branch "featureA"
+	Switched to a new branch "funzionalitaA"
 	$ vim lib/simplegit.rb
-	$ git commit -am 'add limit to log function'
-	[featureA 3300904] add limit to log function
+	$ git commit -am 'aggiunto il limite alla funzione di log'
+	[featureA 3300904] aggiunto il limite alla funzione di log
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-At this point, she needs to share her work with John, so she pushes her `featureA` branch commits up to the server. Jessica doesn’t have push access to the `master` branch — only the integrators do — so she has to push to another branch in order to collaborate with John:
+A questo punto, lei ha bisogno di condividere il suo lavoro con John, così lei esegue il push del ramo `funzionalitaA` sul server. Jessica non ha accesso per il push al ramo `master` - solo gli integratori ce l'hanno - perciò deve eseguire il push verso un altro ramo per poter collaborare con John:
 
-	$ git push origin featureA
+	$ git push origin funzionalitaA
 	...
 	To jessica@githost:simplegit.git
 	 * [new branch]      featureA -> featureA
 
-Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch:
+Jessica manda una e-mail a John dicendogli che ha eseguito il push del suo lavoro in un ramo chiamato `funzioanlitaA` e lui può dargli un'occhiata. Mentre aspetta una risposta da John, Jessica decide di iniziare a lavorare su `funzionalitaB` con Josie. Per iniziare, crea un nuovo ramo basandosi sul ramo `master` del server:
 
-	# Jessica's Machine
+  # Computer di Jessica
 	$ git fetch origin
 	$ git checkout -b featureB origin/master
 	Switched to a new branch "featureB"
 
-Now, Jessica makes a couple of commits on the `featureB` branch:
+Ora, Jessica esegue un paio di commit sul ramo `funzionalitaB`:
 
 	$ vim lib/simplegit.rb
-	$ git commit -am 'made the ls-tree function recursive'
-	[featureB e5b0fdc] made the ls-tree function recursive
+	$ git commit -am 'resa la funzione ls-tree ricorsiva'
+	[featureB e5b0fdc] resa la funziona ls-tree ricorsiva
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	$ vim lib/simplegit.rb
-	$ git commit -am 'add ls-files'
-	[featureB 8512791] add ls-files
+	$ git commit -am 'aggiunto ls-files'
+	[featureB 8512791] aggiunto ls-files
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Jessica’s repository looks like Figure 5-12.
+Il repository di Jessica è come quello di Figura 5-12.
 
 Insert 18333fig0512.png 
+Figura 5.12. La cronologia iniziale dei commit di Jessica
 Figure 5-12. Jessica’s initial commit history.
 
-She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`:
+Lei è pronta ad eseguire un push del proprio lavoro, ma riceve una e-mail da Josie la quale dice che una parte del lavoro era già stato messo nel server nel ramo chiamato `funzionalitaBee`. Jessica innanzitutto deve unire questi cambiamenti ai suoi prima di poter eseguire il push verso il server. Può recuperare il lavoro di Josie usando `git fetch`:
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
 	 * [new branch]      featureBee -> origin/featureBee
 
-Jessica can now merge this into the work she did with `git merge`:
+Jessica ora può unire il suo lavoro a quello di Josie con `git merge`:
 
 	$ git merge origin/featureBee
 	Auto-merging lib/simplegit.rb
@@ -323,65 +324,65 @@ Jessica can now merge this into the work she did with `git merge`:
 	 lib/simplegit.rb |    4 ++++
 	 1 files changed, 4 insertions(+), 0 deletions(-)
 
-There is a bit of a problem — she needs to push the merged work in her `featureB` branch to the `featureBee` branch on the server. She can do so by specifying the local branch followed by a colon (:) followed by the remote branch to the `git push` command:
+C'è un problema - deve eseguire il push del suo ramo `funzionalitaB` verso il ramo `funzionalitaBee` nel server. Può farlo specificando il ramo locale seguito dal simbolo dei due punti (:) seguito a sua volta dal nome del ramo remoto destinazione del comando `git push`:
 
-	$ git push origin featureB:featureBee
+	$ git push origin funzionalitaB:funzionalitaBee
 	...
 	To jessica@githost:simplegit.git
 	   fba9af8..cd685d1  featureB -> featureBee
 
-This is called a _refspec_. See Chapter 9 for a more detailed discussion of Git refspecs and different things you can do with them.
+Questo è chiamato _refSpec_. Vedi il capitolo 9 per una discussione più dettagliata sui refspec di Git ed altre cose che puoi fare con loro.
 
-Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` branch and ask her to verify them. She runs a `git fetch` to pull down those changes:
+Ora John manda una mail a Jessica dicendo che ha eseguito il push di alcuni cambiamenti sul ramo `funzionalitaA` e le chiede di controllarli. Lei esegue `git fetch` per recuperare questi cambiamenti:
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
 	   3300904..aad881d  featureA   -> origin/featureA
 
-Then, she can see what has been changed with `git log`:
+Ora, lei può vedere cos'è stato cambiamento con `git log`:
 
-	$ git log origin/featureA ^featureA
+	$ git log origin/funzionalitaA ^funzionalitaA
 	commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
 	Author: John Smith <jsmith@example.com>
 	Date:   Fri May 29 19:57:33 2009 -0700
 
-	    changed log output to 30 from 25
+	    cambianto l'output del log da 30 a 25
 
-Finally, she merges John’s work into her own `featureA` branch:
+Finalmente, unisce il lavoro di John al suo sul ramo `funzionalitaA`:
 
-	$ git checkout featureA
-	Switched to branch "featureA"
-	$ git merge origin/featureA
+	$ git checkout funzionalitaA
+	Switched to branch "funzionalitaA"
+	$ git merge origin/funzionalitaA
 	Updating 3300904..aad881d
 	Fast forward
 	 lib/simplegit.rb |   10 +++++++++-
 	1 files changed, 9 insertions(+), 1 deletions(-)
 
-Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
+Jessica vuole aggiustare qualcosa, così esegue un altro commit ed un push verso il server:
 
-	$ git commit -am 'small tweak'
-	[featureA ed774b3] small tweak
+	$ git commit -am 'leggero aggiustamento'
+	[featureA ed774b3] leggero aggiustamento
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	$ git push origin featureA
 	...
 	To jessica@githost:simplegit.git
 	   3300904..ed774b3  featureA -> featureA
 
-Jessica’s commit history now looks something like Figure 5-13.
+Ora la cronologia dei commit di Jessica sarà come quella di Figura 5-13.
 
 Insert 18333fig0513.png 
-Figure 5-13. Jessica’s history after committing on a feature branch.
+Figura 5-13. La cronologia di Jessica dopo aver eseguito il commit sul ramo.
 
-Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14.
+Jessica, Josie e John informato gli integratori che i rami `funzionalitaA` e `funzionalitaB` sono sul server e pronti per l'integrazione nel ramo `master`. Dopo l'integrazione di questi rami nel `master`, un recupero del ramo principale aggiungerà anche i nuovi commit, rendendo la cronologia dei commit come quella di figura 5.14.
 
-Insert 18333fig0514.png 
-Figure 5-14. Jessica’s history after merging both her topic branches.
+Insert 18333fig0514.png
+Figura 5.14. La cronologia di Jessica dopo aver unito entrambi i rami.
 
-Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
+Molti gruppi migrano verso Git per la sua capacità di avere più team a lavorarare in parallelo, unendo le differenti linee di lavoro alla fine del processo. L'abilità di piccoli sotto gruppi di una squadra di collaborare tramite rami remoti senza necessariamenti dover coinvolgere o ostacolare l'intero team è un grande beneficio di Git. La sequenza per il workflow che hai appena visto è rappresentata dalla Figura 5-15.
 
-Insert 18333fig0515.png 
-Figure 5-15. Basic sequence of this managed-team workflow.
+Insert 18333fig0515.png
+Figura 5-15. Sequenza base di questo workflow con team separati.
 
 ### Public Small Project ###
 

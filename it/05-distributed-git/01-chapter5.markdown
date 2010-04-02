@@ -384,93 +384,93 @@ Molti gruppi migrano verso Git per la sua capacità di avere più team a lavorar
 Insert 18333fig0515.png
 Figura 5-15. Sequenza base di questo workflow con team separati.
 
-### Public Small Project ###
+### Piccolo progetto pubblico ###
 
-Contributing to public projects is a bit different. Because you don’t have the permissions to directly update branches on the project, you have to get the work to the maintainers some other way. This first example describes contributing via forking on Git hosts that support easy forking. The repo.or.cz and GitHub hosting sites both support this, and many project maintainers expect this style of contribution. The next section deals with projects that prefer to accept contributed patches via e-mail.
+Contribuire ad un progetto pubblico è leggermente differente. Dato che non hai il permesso di aggiornare direttamente i rami del progetto, devi far avere il tuo lavoro ai mantenitori in qualche altro modo. Questo esempio descrive la contribuzione via fork su host Git che lo supportano in maniera semplice. I siti repo.or.cz e GitHub lo supportano, e molti altri mantenitori di progetti si aspettano questo tipo di contribuzione. La prossima sezione si occupa di progetti che preferiscono accettare patch via e-mail
 
-First, you’ll probably want to clone the main repository, create a topic branch for the patch or patch series you’re planning to contribute, and do your work there. The sequence looks basically like this:
+Innanzitutto, probabilemnte dovrai clonare il repository principale, creare un ramo per le modifiche che hai in programma di fare, e fare li il tuo lavoro. La sequenza è grossomodo questa:
 
 	$ git clone (url)
 	$ cd project
-	$ git checkout -b featureA
-	$ (work)
+	$ git checkout -b funzionalitaA
+	$ (lavoro)
 	$ git commit
-	$ (work)
+	$ (lavoro)
 	$ git commit
 
-You may want to use `rebase -i` to squash your work down to a single commit, or rearrange the work in the commits to make the patch easier for the maintainer to review — see Chapter 6 for more information about interactive rebasing.
+Potresti voler usare `rebase -i` per ridurre il tuo lavoro ad un singolo commit, o riorganizzare il lavoro nei commit per rendere le modifiche semplice da controllare per il mantenitore - vedi il Capitolo 6 per altre informazioni sul rebasing interattivo.
 
-When your branch work is finished and you’re ready to contribute it back to the maintainers, go to the original project page and click the "Fork" button, creating your own writable fork of the project. You then need to add in this new repository URL as a second remote, in this case named `myfork`:
+Quando il tuo lavoro sul ramo è completato e sei pronto per farlo avere ai mantenitori, vai alla pagina principale del progetto e clicca sul link "Fork", creando una tua copia scrivibile del progetto. Dovrai poi aggiungere questo nuovo URL di repository come secondo URL remoto, in questo caso chiamato `miofork`:
 
-	$ git remote add myfork (url)
+	$ git remote add miofork (url)
 
-You need to push your work up to it. It’s easiest to push the remote branch you’re working on up to your repository, rather than merging into your master branch and pushing that up. The reason is that if the work isn’t accepted or is cherry picked, you don’t have to rewind your master branch. If the maintainers merge, rebase, or cherry-pick your work, you’ll eventually get it back via pulling from their repository anyhow:
+Dovrai eseguire un push del tuo lavoro verso esso. E' più semplice eseguire il push del ramo su cui stai lavorando piuttosto che unirlo al ramo master ed eseguire il push di quest'ultimo. La ragione è che se il tuo lavoro non è accettato, oppure lo è solo in parte, non dovrai tornare indietro nei commit sul tuo ramo master. Se i mantenitori uniscono, eseguono un rebase, o prendono pezzi dal tuo lavoro, riuscirai in ogni caso a recuperarlo eseguendo un pull dal loro repository:
 
-	$ git push myfork featureA
+	$ git push myfork funzionalitaA
 
-When your work has been pushed up to your fork, you need to notify the maintainer. This is often called a pull request, and you can either generate it via the website — GitHub has a "pull request" button that automatically messages the maintainer — or run the `git request-pull` command and e-mail the output to the project maintainer manually.
+Quando hai eseguito il push del tuo lavoro verso il tuo fork, devi farlo sapere al mantenitore. Questo passaggio è chiamato spesso richiesta di pull (pull request), e puoi farlo sia tramite il sito - GitHub ha un pulsante "pull request" che automaticamente notifica al mantenitore - o eseguire il comando `git request-pull` ed inviare l'output il mantenitore manualmente.
 
-The `request-pull` command takes the base branch into which you want your topic branch pulled and the Git repository URL you want them to pull from, and outputs a summary of all the changes you’re asking to be pulled in. For instance, if Jessica wants to send John a pull request, and she’s done two commits on the topic branch she just pushed up, she can run this:
+Il comando `request-pull` riceve come parametri il ramo base sul quale vuoi far applicare le modifiche ed l'URL del repository Git da cui vuoi estrarle, ed in output fornisce un riassunto di tutte queste modifiche. Per esempio, se Jessica volesse inviare a John una richiesta di pull, e lei ha eseguito due commit sul ramo di cui ha appena effettuato il push, può eseguire questo:
 
-	$ git request-pull origin/master myfork
+	$ git request-pull origin/master miofork
 	The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
 	  John Smith (1):
-	        added a new function
+	        aggiunta una nuova funzione
 
 	are available in the git repository at:
 
-	  git://githost/simplegit.git featureA
+	  git://githost/simplegit.git funzionalitaA
 
 	Jessica Smith (2):
-	      add limit to log function
-	      change log output to 30 from 25
+	      aggiunto limite alla funzione di log
+	      cambiato l'output del log da 30 a 25
 
 	 lib/simplegit.rb |   10 +++++++++-
 	 1 files changed, 9 insertions(+), 1 deletions(-)
 
-The output can be sent to the maintainer—it tells them where the work was branched from, summarizes the commits, and tells where to pull this work from.
+L'output può venir inviarto al mantenitore - riporta da dove è stato creato il nuovo ramo, un riassunto dei commit e dice da dove possono eseguire il pull.
 
-On a project for which you’re not the maintainer, it’s generally easier to have a branch like `master` always track `origin/master` and to do your work in topic branches that you can easily discard if they’re rejected.  Having work themes isolated into topic branches also makes it easier for you to rebase your work if the tip of the main repository has moved in the meantime and your commits no longer apply cleanly. For example, if you want to submit a second topic of work to the project, don’t continue working on the topic branch you just pushed up — start over from the main repository’s `master` branch:
+Su un progetto dove non sei il mantenitore, è generalmente comune avere un ramo come `master` sempre collegato a `origin/master` ed eseguire il tuo lavoro su rami che puoi eliminare nel caso non venissero accettati. Avere il lavoro suddiviso in rami inoltre rende semplice per te eseguire il rebase del tuo lavoro se è stato modificato il repository principale ed i tuoi commit non possono venire applicati in maniera pulita. Per esempio, se vuoi aggiungere un secondo argomento di lavoro ad un progetto, non continuare a lavorare sul ramo di cui hai appena fatto il push - creane un altro partendo dal ramo `master` del repository:
 
-	$ git checkout -b featureB origin/master
-	$ (work)
+	$ git checkout -b funzionalitaB origin/master
+	$ (lavoro)
 	$ git commit
-	$ git push myfork featureB
-	$ (email maintainer)
+	$ git push miofork funzionalitaB
+	$ (email al mantenitore)
 	$ git fetch origin
 
-Now, each of your topics is contained within a silo — similar to a patch queue — that you can rewrite, rebase, and modify without the topics interfering or interdepending on each other as in Figure 5-16.
+Ora, ognuno dei tuoi lavori è separato - simile ad una coda di modifiche - che puoi riscrivere, effettuare un rebase, e modificare senza che i rami interferiscano o dipendano l'uno dall'altro, come in Figura 5-16.
 
 Insert 18333fig0516.png 
-Figure 5-16. Initial commit history with featureB work.
+Figura 5-16. Conologia iniziale dei commit con del lavoro su funzionalitaB.
 
-Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes:
+Diciamo che il mantenitore del progetto ha eseguito il pull una manciata di altre modifiche, e provato il tuo primo ramo, ma non riesce più ad applicarsi in maniera pulita. In questo caso, puoi provare ad effettuare un rebase di quel ramo basandoti sul nuovo `origin/master`, risolvere in conflitti e poi inviare di nuovo i tuoi cambiamenti:
 
-	$ git checkout featureA
+	$ git checkout funzionalitaA
 	$ git rebase origin/master
-	$ git push –f myfork featureA
+	$ git push –f miofork featureA
 
-This rewrites your history to now look like Figure 5-17.
+Questo riscrive la tua cronologia per farla diventare come quella di Figura 5-17.
 
-Insert 18333fig0517.png 
-Figure 5-17. Commit history after featureA work.
+Insert 18333fig0517.png
+Fgiura 5-17. La cronologia dei commit dopo il lavoro su funzionalitaA.
 
-Because you rebased the branch, you have to specify the `–f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
+Dato che hai eseguito un rebase del ramo, devi specificare l'opzione `-f` per eseguire un push, per poter sostituire il ramo `funzionalitaA` sul server con un commit che non discende da esso. Un'alternativa potrebbe essere un push di questo nuovo lavoro verso un diverso branch sul server (chiamato ad esempio `funzionalitaAv2`).
 
-Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
+Diamo un'occhiata ad un possibile scenario: il mantenitore ha guardato al tuo lavoro in un secondo ramo, e gradisce il concetto ma vorrebbe che tu cambiassi dei dettagli dell'implementazione. Potresti inoltre cogliere questa opportunità per basarti sul ramo `master` corrente. Crei un nuovo ramo basato sul corrente `origin/master`, sposti i cambiamenti di `funzionalitaB` qui, risolvi i conflitti, cambi l'implementazione, e poi esegui il push come un nuovo ramo:
 
-	$ git checkout -b featureBv2 origin/master
-	$ git merge --no-commit --squash featureB
-	$ (change implementation)
+	$ git checkout -b funzionalitaBv2 origin/master
+	$ git merge --no-commit --squash funzionalitaB
+	$ (cambia implementazione)
 	$ git commit
-	$ git push myfork featureBv2
+	$ git push miofork funzionalitaBv2
 
-The `--squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `--no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit.
+L'opzione `--squash` prende tutto il lavoro nel ramo da unire e lo aggiunge al ramo in cui sei. L'opzione `no-commit` dice a Git di non eseguire automaticamente un commit. Questo ti consente di aggiungere i cambiamenti da un altro ramo e poi eseguire altre modifiche prima di effettuare il nuovo commit.
 
-Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `featureBv2` branch (see Figure 5-18).
+Ora puoi inviare al mantenitore un messaggio dicendo che hai effettuato i cambiamenti richiesti e che può trovare nel ramo `funzionalitaBv2` (vedi Figura 5-18).
 
-Insert 18333fig0518.png 
-Figure 5-18. Commit history after featureBv2 work.
+Insert 18333fig0518.png
+Figura 5-18. La cronologia dei commit dopo il lavoro su funzionalitaBv2.
 
 ### Public Large Project ###
 

@@ -46,8 +46,7 @@ Au fur et à mesure des validations, la branche master pointe vers le dernier de
 À chaque validation, le pointeur de la branche master avance automatiquement.
 
 Insert 18333fig0303.png 
-Figure 3-3.
-Branche pointant dans l'historique des données de commit.
+Figure 3-3. Branche pointant dans l'historique des données de commit.
 
 Que se passe-t-il si vous créez une nouvelle branche ?
 Et bien, cela crée un nouveau pointeur à déplacer.

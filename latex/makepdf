@@ -30,7 +30,7 @@ Usage:
   makepdf [OPTION...] LANGUAGE [LANGUAGE 2...]
 
 Options:
-  -d, --debug      prints TeX and other output 
+  -d, --debug      prints TeX and other output
 USAGE
 	exit
 end
@@ -81,7 +81,7 @@ def post_pandoc(string, config)
 		# Enable proper cross-reference
 		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
 		s /#{config['tab'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
-		s /#{config['prechap'].gsub(space, '\s')}\s*(\d+)\s*#{config['postchap'].gsub(space, '\s')}/, '\chapref{\1}'
+		s /#{config['prechap'].gsub(space, '\s')}\s*(\d+)(\s*)#{config['postchap'].gsub(space, '\s')}/, '\chapref{\1}\2'
 
 		# Miscellaneous fixes
 		s /FIG: (.*)/, '\img{\1}'
@@ -171,7 +171,7 @@ figures do
 
 		puts "\tRunning XeTeX:"
 		cd($root)
-		3.times do |i|	
+		3.times do |i|
 			print "\t\tPass #{i + 1}... "
 			pipe("xelatex -output-directory='#{dir}' '#{dir}/main.tex' 2>&1") do |_, stdout|
 				unless $DEBUG

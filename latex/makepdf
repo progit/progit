@@ -87,7 +87,7 @@ def post_pandoc(string, config)
 		s /FIG: (.*)/, '\img{\1}'
 		s '\begin{enumerate}[1.]', '\begin{enumerate}'
 		s /(\w)--(\w)/, '\1-\2'
-		s /``(.*?)''/, '“\1”'
+		s /``(.*?)''/, "#{config['dql']}\\1#{config['dqr']}"
 
 		# Typeset the maths in the book with TeX
 		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$)'

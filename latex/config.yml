@@ -11,7 +11,7 @@ default:
   con: "Contents"
   fig: "Figure "
   tab: "Table "
-  indent: "M"
+  indent: "\\qquad"
   thanks: "This is the PDF file for the Pro Git book contents. It is licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license. I hope you enjoy it, I hope it helps you learn Git, and I hope you'll support Apress and me by purchasing a print copy of the book at Amazon: \\url{http://tinyurl.com/amazonprogit}"
 zh:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"

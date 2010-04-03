@@ -94,14 +94,14 @@ def post_pandoc(string, config)
 		s '2\^{}80', '$2^{80}$'
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
 
-		# Ensure monospaced stuff is in a smaller font
-		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
-		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
-
 		# Convert inline-verbatims into \texttt (which is able to wrap)
 		s /\\verb(\W)(.*?)\1/ do
 			"{\\texttt{#{verbatim_sanitize($2)}}}"
 		end
+
+		# Ensure monospaced stuff is in a smaller font
+		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
+		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
 
 		# Make Tables 2-1..2-3 actual tables
 		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)(([^\t\n]*)\n)?\\end\{verbatim\}/ do

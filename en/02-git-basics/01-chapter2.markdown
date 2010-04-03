@@ -18,7 +18,7 @@ If you want to start version-controlling existing files (as opposed to an empty 
 
 	$ git add *.c
 	$ git add README
-	$ git commit –m 'initial project version'
+	$ git commit -m 'initial project version'
 
 We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
 
@@ -42,11 +42,11 @@ Git has a number of different transfer protocols you can use. The previous examp
 
 You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
+Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything.
 
 As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
 
-Insert 18333fig0201.png 
+Insert 18333fig0201.png
 Figure 2-1. The lifecycle of the status of your files.
 
 ### Checking the Status of Your Files ###
@@ -121,7 +121,7 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 
 Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
 
-	$ vim benchmarks.rb 
+	$ vim benchmarks.rb
 	$ git status
 	# On branch master
 	# Changes to be committed:
@@ -165,11 +165,11 @@ The rules for the patterns you can put in the .gitignore file are as follows:
 *	You can end patterns with a forward slash (`/`) to specify a directory.
 *	You can negate a pattern by starting it with an exclamation point (`!`).
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) .
 
 Here is another example .gitignore file:
 
-	# a comment – this is ignored
+	# a comment - this is ignored
 	*.a       # no .a files
 	!lib.a    # but do track lib.a, even though you're ignoring .a files above
 	/TODO     # only ignore the root TODO file, not subdir/TODO
@@ -178,7 +178,7 @@ Here is another example .gitignore file:
 
 ### Viewing Your Staged and Unstaged Changes ###
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were.
 
 Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
 
@@ -216,7 +216,7 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 
 That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+If you want to see what you’ve staged that will go into your next commit, you can use `git diff --cached`. (In Git versions 1.6.1 and later, you can also use `git diff --staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -251,7 +251,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 
 Now you can use `git diff` to see what is still unstaged
 
-	$ git diff 
+	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index e445e28..86b2f7c 100644
 	--- a/benchmarks.rb
@@ -259,7 +259,7 @@ Now you can use `git diff` to see what is still unstaged
 	@@ -127,3 +127,4 @@ end
 	 main()
 
-	 ##pp Grit::GitRuby.cache_client.stats 
+	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
 and `git diff --cached` to see what you’ve staged so far:
@@ -276,7 +276,7 @@ and `git diff --cached` to see what you’ve staged so far:
 	+        run_code(x, 'commits 1') do
 	+          git.commits.size
 	+        end
-	+              
+	+
 	        run_code(x, 'commits 2') do
 	          log = git.commits('master', 15)
 	          log.size
@@ -288,7 +288,7 @@ In this case, the last time you ran `git status`, you saw that everything was st
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1).
 
 The editor displays the following text (this example is a Vim screen):
 
@@ -299,7 +299,7 @@ The editor displays the following text (this example is a Vim screen):
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
 	#       new file:   README
-	#       modified:   benchmarks.rb 
+	#       modified:   benchmarks.rb
 	~
 	~
 	~
@@ -413,7 +413,7 @@ Git figures out that it’s a rename implicitly, so it doesn’t matter if you r
 
 After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
 
-These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run 
+These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
@@ -444,7 +444,7 @@ A huge number and variety of options to the `git log` command are available to s
 
 One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
 
-	$ git log –p -2
+	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -485,7 +485,7 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
 You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
 
-	$ git log --stat 
+	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -541,7 +541,7 @@ Table 2-1 lists some of the more useful options that format takes.
 	%p	Abbreviated parent hashes
 	%an	Author name
 	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
+	%ad	Author date (format respects the --date= option)
 	%ar	Author date, relative
 	%cn	Committer name
 	%ce	Committer email
@@ -556,12 +556,12 @@ The oneline and format options are particularly useful with another `log` option
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
 	*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit
-	|\  
+	|\
 	| * 420eac9 Added a method for getting the current branch.
 	* | 30e367c timeout code and tests
 	* | 5a09431 add timeout protection to grit
 	* | e1193f8 support for heads with slashes in them
-	|/  
+	|/
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
@@ -618,7 +618,7 @@ Of the nearly 20,000 commits in the Git source code history, this command shows 
 
 If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
 
-Insert 18333fig0202.png 
+Insert 18333fig0202.png
 Figure 2-2. The gitk history visualizer.
 
 You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
@@ -641,7 +641,7 @@ As an example, if you commit and then realize you forgot to stage the changes in
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
-	$ git commit --amend 
+	$ git commit --amend
 
 All three of these commands end up with a single commit — the second commit replaces the results of the first.
 
@@ -661,7 +661,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 
 Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
 
-	$ git reset HEAD benchmarks.rb 
+	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
 	$ git status
 	# On branch master
@@ -701,7 +701,7 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   README.txt
 	#
 
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go. 
+You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go.
 
 Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see Chapter 9 for data recovery). However, anything you lose that was never committed is likely never to be seen again.
 
@@ -722,7 +722,7 @@ To see which remote servers you have configured, you can run the git remote comm
 	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
 	Resolving deltas: 100% (255/255), done.
 	$ cd ticgit
-	$ git remote 
+	$ git remote
 	origin
 
 You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
@@ -1000,7 +1000,7 @@ Now, suppose you forgot to tag the project at v1.2, which was at the "updated ra
 
 You can see that you’ve tagged the commit:
 
-	$ git tag 
+	$ git tag
 	v0.1
 	v1.2
 	v1.3
@@ -1023,7 +1023,7 @@ You can see that you’ve tagged the commit:
 
 ### Sharing Tags ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
+By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches — you can run `git push origin [tagname]`.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1069,7 +1069,7 @@ Press the Tab key when you’re writing a Git command, and it should return a se
 	commit config
 
 In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
-	
+
 This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
 
 	$ git log --s<tab>
@@ -1102,7 +1102,7 @@ This seems a bit clearer. It’s also common to add a `last` command, like this:
 	$ git config --global alias.last 'log -1 HEAD'
 
 This way, you can see the last commit easily:
-	
+
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
 	Author: Josh Goebel <dreamer3@example.com>

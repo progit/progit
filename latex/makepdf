@@ -189,8 +189,8 @@ figures do
 		end
 
 		unless abort
-			print "\tCopying output to progit.#{lang}.pdf... "
-			cp("#{dir}/main.pdf", "#$root/progit.#{lang}.pdf")
+			print "\tMoving output to progit.#{lang}.pdf... "
+			mv("main.pdf", "#$root/progit.#{lang}.pdf")
 			puts "done"
 		end
 	end

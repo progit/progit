@@ -152,7 +152,7 @@ figures do
 		end.join("\n\n")
 
 		print "\tParsing markdown... "
-		latex = pipe('pandoc -p -f markdown -t latex') do |stdin, stdout|
+		latex = pipe('pandoc -p --no-wrap -f markdown -t latex') do |stdin, stdout|
 			stdin.write(pre_pandoc(markdown, config))
 			stdin.close
 			post_pandoc(stdout.read, config)

@@ -532,9 +532,9 @@ The most interesting option is `format`, which allows you to specify your own lo
 
 Table 2-1 lists some of the more useful options that format takes.
 
-------------------------------------------------------------------------------
+---------------------------------------------------------
 Option Description of Output
------- -----------------------------------------------------------------------
+------ --------------------------------------------------
 `%H`   Commit hash
 
 `%h`   Abbreviated commit hash
@@ -564,7 +564,7 @@ Option Description of Output
 `%cr`  Committer date, relative
 
 `%s`   Subject
-------------------------------------------------------------------------------
+---------------------------------------------------------
 Table: Format options
 
 You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.

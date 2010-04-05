@@ -426,26 +426,33 @@ Si vous souhaitez réellement effacer cette branche et perdre ainsi le travail r
 
 ## Travailler avec les branches ##
 
-Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
+Après avoir acquis les bases pour brancher et fusionner, que pouvous-nous ou devons-nous en faire ?
+Ce chapitre traite des différents style de développement que cette gestion de branche légère permet de mettre en place, pour vous aider à décider d'en incorporer une dans votre cycle de développement.
 
-### Long-Running Branches ###
+### Des branches au long cours ###
 
-Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
+Comme Git utilise une fusion à 3 branches, fusionner une branche dans une autre plusieurs fois sur une longue période est généralement facile.
+Cela signifie que vous pouvez travailler sur plusieurs branches ouvertes en permanence pendant plusieurs étapes de votre cycle de développement ; vous pouvez fusionnner régulièrement certaines dans d'autres.
 
-Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `prob53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+De nombreux développeurs utilisent Git avec une méthode que utilise cette approche, telle que n'avoir que du code entièrement stable et testé dans la branche `master`, voire du code que a été ou sera publié.
+Ils ont une autre branche en parallèle appelée develop qui, lorsqu'elle devient stable, peut être fusionnée dans `master`.
+Cette branche est utilisée pour tirer des branches spécifiques (branches avec une faible durée de vie, telles que notre branche `prob53`) quand elles sont prêtes, s'assurer qu'elles passent tous les tests et n'introduisent pas de bugs.
 
-In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
+En réalité, nous parlons de pointeurs qui se déplacent le long des lignes des commits réalisés.
+Les branches stables sont plus profond dans la ligne de l'historique des commits tandis que les branches des derniers développements sont plus en haut dans l'historique (voir figure 3-18).
 
 Insert 18333fig0318.png 
-Figure 3-18. More stable branches are generally farther down the commit history.
+Figure 3-18. Les branches les plus stables sont généralement plus bas dans l'historique des commits.
 
-It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (see Figure 3-19).
+C'est généralement plus simple d'y penser en terme de silos de tâche, où un ensemble de commits évolue vers un silo plus stable quand il a été complètement testé (voir figure 3-19).
 
 Insert 18333fig0319.png 
-Figure 3-19. It may be helpful to think of your branches as silos.
+Figure 3-19. Représentation des branches comme des silos.
 
-You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
-Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
+Vous pouvez reproduire ce schéma sur plusieurs niveaux de stabilité.
+Des projets plus gros ont aussi une branche `proposed` ou `pu` (proposed updates) qui permet d'intégrer des branches qui ne sont pas encore prêtes pour la prochaine version ou pour `master`.
+L'idée reste que les branches évoluent à différents niveaux de stabilité ; quand elles atteignent un niveau plus stable, elles peuvent être fusionnées dans la branche de stabilité supérieure.
+Une fois encore, les branches au long cours ne sont pas nécessaires, mais s'avèrent souvent utiles, spécialement dans le cadre de projets gros ou complexes.
 
 ### Topic Branches ###
 

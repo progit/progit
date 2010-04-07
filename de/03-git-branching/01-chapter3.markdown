@@ -239,7 +239,7 @@ Abbildung 3-13. Der Hotfix-Branch basiert auf dem zurückliegenden Master-Branch
 Abbildung 3-13. Hotfix Branch verweist auf die master Branch zurück
 Figure 3-13. hotfix branch based back at your master branch point
 
-Mach deine Tests, stell sicher das sich der Hotfix verhält wie gewünscht, und führe ihn mit dem Master-Branch zusammen um ihn in die Produktionsumgebung zu integrieren. Das machst du mit dem `git merge`-Kommando:
+Mach deine Tests, stell sicher, dass sich der Hotfix verhält wie gewünscht und führe ihn mit dem Master-Branch zusammen um ihn in die Produktionsumgebung zu integrieren. Das machst du mit dem `git merge`-Kommando:
 
 Mach deine Tests, stell sicher, dass der Hotfix das macht, was du willst und führe ihn mit der master Branch zusammen, um diese wieder in die Produktion zu bringen. Du machst das mit dem Kommando `git merge`:
 You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
@@ -254,22 +254,35 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 <!--
     TODO    progress-end:   2010-03-31 - florianb
 -->
+<!--
+    TODO    progress-begin: 2010-04-07 - florianb
+-->
+
+Du wirst die Mitteilung "Fast Forward" während des Zusammenführens bemerken. Da der neue Commit direkt von dem ursprünglichen Commit, auf den sich der nun eingebrachte Zweig bezieht, abstammt, bewegt Git einfach den Zeiger weiter. Mit anderen Worten, kann Git den neuen Commit, durch verfolgen der Commitabfolge, direkt erreichen, dann bewegt es ausschließlich den Branch-Zeiger. Zu einer tatsächlichen Kombination der Commits besteht ja kein Anlass. Dieses Vorgehen wird "Fast Forward" genannt.
 
 Hast du die Nachricht "Fast forward" beim Zusammenführen gesehen? Da du auf die aktuelle Branch aufgesetzt hast und die Änderung eine direkte Weiterführung dieser war, hat Git den Pointer weitergestellt. Anders ausgedrückt, wenn zwischen zwei Branches kein Unterschied besteht oder nur eine davon eine Weiterentwicklung darstellt, bringt Git diese beiden wieder auf 'Linie' - das wird dann "fast forward" genannt.
 You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
 
+Deine Modifikationen befinden sich nun als Schnappschuss in dem Commit, auf den der `master`-Branch zeigt, diese lassen sich nun veröffentlichen (siehe Abbildung 3-14).
+
 Deine Änderung befindet sich nun in dem commit-Snapshot der auf die `master` Branch zeigt und du kannst ein deploy deiner Änderungen durchführen (siehe Abbildung 3-14).
 Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
 
-Insert 18333fig0314.png 
+Insert 18333fig0314.png
+Abbildung 3-14. Der Master-Branch zeigt nach der Zusammenführung auf den gleichen Commit wie der Hotfix-Branch.
+
 Abbildung 3-14. Dein Master-Branch zeigt, nach dem Merge, auf den gleichen Commit, wie der Hotfix-Branch.
 Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+
+Nachdem dein superwichtiger Hotfix veröffentlicht wurde kannst du dich wieder deiner ursprünglichen Arbeit zuwenden. Vorher wird sich allerdings des nun nutzlosen Hotfix-Zweiges entledigt, schließlich zeigt der Master-Branch ebenfalls auf die aktuelle Version. Du kannst ihn mit der `-d`-Option von `git branch` entfernen:
 
 Nachdem du den super wichtigen Fix erstellt hast, kannst du mit der Arbeit weiter zu machen, die du zuvor angefangen hast. Als erstes kannst du den `hotfix`-Branch löschen, da er nicht länger benötigt wird - der `master`-Branch zeigt auf die gleiche Version. Den Branch kannst du mit der `-d`-Option, angehängen an `git branch`, löschen:
 After that your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
+
+Nun kannst du zu deinem Issue #53-Branch zurückwechseln und mit deiner Arbeit fortfahren (Abbildung 3-15):
 
 Nun kannst du zurück auf deinen "Work-In-Progress"-Branch, Issue #53, wechseln und mit deiner Arbeit weiter machen (Abbildung 3-15):
 Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
@@ -282,10 +295,18 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
+Dein `iss53`-Branch kann sich unabhängig weiterentwickeln.
+
 Abbildung 3-15. Deine "iss53" Branch kann sich unabhängig weiter entwickeln.
 Figure 3-15. Your iss53 branch can move forward independently.
 
+An dieser Stelle ist anzumerken, dass die Änderungen an dem `hotfix`-Branch nicht in deinen `iss53`-Zweig eingeflossen sind. Falls nötig kannst du den `master`-Branch allerdings mit dem Kommando `git merge master` mit deinem Zweig kombinieren. Oder du wartest bis du den `iss53`-Branch später in den Master-Zweig zurückführst.
+
 `It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+
+<!--
+    TODO    progress-end:   2010-04-07 - florianb
+-->
 
 ### Die Grundlagen des Zusammenführens (Mergen) ###
 ### Basic Merging ###
@@ -568,6 +589,8 @@ Figure 3-24. The git fetch command updates your remote references.
 <!--
     TODO    process-end: 2010-03-31 - florianb
 -->
+
+
 
 To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
 

@@ -4,10 +4,10 @@ Quasiment tous les VCSs ont une forme ou une autre de gestion de branche.
 Faire une branche signifie diverger de la ligne principale de développement et continuer à travailler sans se préoccuper de cette ligne principale.
 Dans de nombreux outils de gestion de version, cette fonctionnalité est souvent chère en ressources, et nécessite souvent de créer une nouvelle copie du répertoire de travail, ce qui peut prendre longtemps dans le cas de grands projets.
 
-De nombreuses personnes font référence au modèle de gestion de branche de Git comme LA fonctionnalité et c'est surement la spécificité de Git par rapport à la communauté des gestionnaires de version.
+De nombreuses personnes font référence au modèle de gestion de branche de Git comme LA fonctionnalité et c'est sûrement la spécificité de Git par rapport à la communauté des gestionnaires de version.
 Pourquoi est-elle si spéciale ?
-La méthode de Git pour gérer les branches est particulièrement légère, permettant de réaliser des embranchements quasi-instantanément et de basculer de branche généralement aussi rapidement.
-À la différence de nombreux autres gestionnaires de version, Git encourage à travailler avec des méthodes qui privilègient la creation et la fusion de branches, jusqu'à plusieurs fois par jour.
+La méthode de Git pour gérer les branches est particulièrement légère, permettant de réaliser des embranchements quasi instantanément et de basculer de branche généralement aussi rapidement.
+À la différence de nombreux autres gestionnaires de version, Git encourage à travailler avec des méthodes qui privilégient la création et la fusion de branches, jusqu'à plusieurs fois par jour.
 Bien comprendre et maîtriser cette fonctionnalité est un atout pour faire de Git un outil unique qui peut littéralement changer la manière de développer.
 
 ## Ce qu'est une branche ##
@@ -15,19 +15,19 @@ Bien comprendre et maîtriser cette fonctionnalité est un atout pour faire de G
 Pour réellement comprendre comment Git gère les branches, nous devons revenir en arrière et examiner de plus près comment Git stocke ses données.
 Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données comme une série de changesets ou deltas, mais comme une série d'instantanés.
 
-Lors qu'on valide dans Git, Git stock un objet commit qui contient un pointeur vers l'instantané du contenu qui a été indexé, les métadonnées d'auteur et de message, et zéro ou plusieurs pointeurs vers le ou les commits qui sont les parents directs de ce commit :
+Lors qu'on valide dans Git, Git stock un objet commit qui contient un pointeur vers l'instantané du contenu qui a été indexé, les méta-données d'auteur et de message, et zéro ou plusieurs pointeurs vers le ou les commits qui sont les parents directs de ce commit :
 zéro parent pour la première validation, un parent pour un commit normal, et des parents multiples pour des commits qui sont le résultat de la fusion d'une ou plusieurs branches.
 
 Pour visualiser ce concept, supposons un répertoire contenant trois fichiers, ces trois fichiers étant indexés puis validés.
-Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépot Git (Git les nomme blobs), et ajouter la somme de contrôle à la zone d'index :
+Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépôt Git (Git les nomme blobs), et ajouter la somme de contrôle à la zone d'index :
 
 	$ git add LISEZMOI test.rb LICENSE
 	$ git commit -m 'commit initial de mon projet'
 
-Lorsque vous créez le commit en lançant la commande `git commit`, Git calcule la somme de contrôle de chaque répertoire (ici, seulement pour le répertoire racine) et stocke ces objets arbres dans le dépot Git.
+Lorsque vous créez le commit en lançant la commande `git commit`, Git calcule la somme de contrôle de chaque répertoire (ici, seulement pour le répertoire racine) et stocke ces objets arbres dans le dépôt Git.
 Git crée alors un objet commit qui contient les méta-données et un pointeur vers l'arbre projet d'origine de manière à pouvoir recréer l'instantané si besoin.
 
-Votre dépot Git contient à présent cinq objets :
+Votre dépôt Git contient à présent cinq objets :
 un blob pour le contenu de chacun des trois fichiers, un arbre qui liste les contenus des répertoires et spécifie quels noms de fichier sont attachés à quels blobs, et un objet commit avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au commit.
 Conceptuellement, les données contenues dans votre dépôt git ressemblent à la Figure 3-1.
 
@@ -46,8 +46,7 @@ Au fur et à mesure des validations, la branche master pointe vers le dernier de
 À chaque validation, le pointeur de la branche master avance automatiquement.
 
 Insert 18333fig0303.png 
-Figure 3-3.
-Branche pointant dans l'historique des données de commit.
+Figure 3-3. Branche pointant dans l'historique des données de commit.
 
 Que se passe-t-il si vous créez une nouvelle branche ?
 Et bien, cela crée un nouveau pointeur à déplacer.
@@ -85,177 +84,221 @@ Qu'est-ce que cela signifie ?
 Et bien, faisons une autre validation :
 
 	$ vim test.rb
-	$ git commit -a -m 'made a change'
+	$ git commit -a -m 'petite modification'
 
-Figure 3-7 illustrates the result.
+La figure 3-7 illustre le résultat.
 
 Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+Figure 3-7. La branche sur laquelle HEAD pointe avance avec chaque nouveau commit.
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+C'est intéressant parce qu'à présent, votre branche testing a avancé, tandis que la branche master pointe toujours sur le commit sur lequel vous étiez lorsque vous avez lancé `git checkout` pour basculer de branche.
+Retournons sur la branche master :
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+La figure 3-8 montre le résultat.
 
 Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+Figure 3-8. HEAD se déplace sur une autre branche lors d'un checkout.
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+Cette commande a réalisé deux actions.
+Elle a remis le pointeur HEAD sur la branche master et elle a replacé les fichiers de la copie de travail dans l'état pointé par master.
+Cela signifie aussi que les modifications que vous réalisez à partir de maintenant divergeront de l'ancienne version du projet.
+Cette commande retire les modifications réalisées dans la branche testing pour vous permettre de repartir dans une autre direction de développement.
 
-Let’s make a few changes and commit again:
+Réalisons quelques autres modifications et validons à nouveau :
 
 	$ vim test.rb
-	$ git commit -a -m 'made other changes'
+	$ git commit -a -m 'autres modifications'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+Maintenant, l'historique du projet a divergé (voir figure 3-9).
+Vous avez créé une branche et basculé dessus, avez réalisé des modifications, puis avez rebasculé sur la branche principale et réalisé d'autre modifications.
+Ces deux modifications sont isolées dans des branches séparées.
+Vous pouvez basculer d'une branche à l'autre et les fusionner quand vous êtes prêt.
+Vous avez fait tout ceci avec de simples commandes `branch` et `checkout`.
 
 Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+Figure 3-9. Les historiques de branche ont divergé.
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+Parce que dans Git, une branche n'est en fait qu'un simple fichier contenant les 40 caractères de la somme de contrôle SHA-1 du commit sur lequel elle pointe, les branches ne coûtent rien à créer et détruire.
+Créer une branche est aussi rapide qu'écrire un fichier de 41 caractères (40 caractères plus un retour chariot).
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+C'est une différence de taille avec la manière dont la plupart des VCSs gèrent les branches, qui implique de copier tous les fichiers du projet dans un second répertoire.
+Cela peut durer plusieurs secondes ou même quelques minutes selon la taille du projet, alors que pour Git, le processus est toujours instantané.
+De plus, comme nous enregistrons les parents quand nous validons les modifications, la détermination de l'ancêtre commun pour la fusion est réalisée automatiquement, et de manière très facile.
+Ces fonctionnalités encouragent naturellement les développeurs à créer et utiliser souvent des branches. 
 
-Let’s see why you should do so.
+Voyons pourquoi vous devriez en faire autant.
 
-## Basic Branching and Merging ##
+## Brancher et fusionner : les bases ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+Suivons un exemple simple de branche et fusion dans une utilisation que vous feriez dans le monde réel.
+Vous feriez les étapes suivantes :
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.	Travailler sur un site web
+2.	Créer une branche pour une nouvelle Story sur laquelle vous souhaiteriez travailler
+3.	Réaliser quelques tâches sur cette branche
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+À cette étape, vous recevez un appel pour vous dire qu'un problème critique a été découvert et qu'il faut le régler au plus tôt.
+Vous feriez ce qui suit :
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.	Revenir à la branche de production
+2.	Créer un branche et y développer le correctif
+3.	Après qu'il a été testé, fusionner la branche de correctif et pousser le résultat à la production
+4.	Rebasculer à la branche initiale et continuer le travail
 
-### Basic Branching ###
+### Le branchement de base ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+Premièrement, supposons que vous êtes à travailler sur votre projet et avez déjà quelques commits (voir figure 3-10).
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history.
+Figure 3-10. Un historique simple et court.
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+Vous avez décidé de travailler sur le problème numéroté #53 dans le suivi de faits techniques que votre entreprise utilise.
+Pour clarifier, Git n'est pas lié à un gestionnaire particulier de faits techniques.
+Mais comme le problème #53 est un problème ciblé sur lequel vous voulez travailler, vous allez créer une nouvelle branche dédiée à sa résolution.
+Pour créer une branche et y basculer tout de suite, vous pouvez lancer la commande `git checkout` avec l'option `-b` :
 
-	$ git checkout -b iss53
-	Switched to a new branch "iss53"
+	$ git checkout -b prob53
+	Switched to a new branch "prob53"
 
-This is shorthand for:
+C'est un raccourci pour :
 
-	$ git branch iss53
-	$ git checkout iss53
+	$ git branch prob53
+	$ git checkout prob53
 
-Figure 3-11 illustrates the result.
+La figure 3-11 illustre le résultat.
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer.
+Figure 3-11. Création d'un nouveau pointeur de branche.
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+Vous travaillez sur votre site web et validez des modifications.
+Ce faisant, la branche `prob53` avance, parce que vous l'avez extraite (c'est-à-dire que votre pointeur HEAD pointe dessus, voir figure 3-12) :
 
 	$ vim index.html
-	$ git commit -a -m 'added a new footer [issue 53]'
+	$ git commit -a -m 'ajout d'un pied de page [problème 53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+Figure 3-12. La branche prob53 a avancé avec votre travail.
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+Maintenant vous recevez un appel qui vous apprend qu'il y a un problème sur le site web, un problème qu'il faut résoudre immédiatement.
+Avec Git, vous n'avez pas besoin de déployer les modifications déjà validée pour `prob53` avec les correctifs du problème et vous n'avez pas non plus à suer pour éliminer ces modifications avant de pouvoir appliquer les correctifs du problème en production.
+Tout ce que vous avez à faire, c'est simplement rebasculer sur la branche `master`.
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+Cependant, avant de le faire, notez que si votre copie de travail ou votre zone de préparation contient des modifications non validées qui sont en conflit avec la branche que vous extrayez, Git ne vous laissera pas basculer de branche.
+Le mieux est d'avoir votre copie de travail dans un état propre au moment de basculer de branche.
+Il y a des moyens de contourner ceci (précisément par la planque et l'amendement de commit) dont nous parlerons plus loin.
+Pour l'instant, vous avez validé tous vos changements dans la branche `prob53` et vous pouvez donc rebasculer vers la branche `master` : 
 
 	$ git checkout master
 	Switched to branch "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+À présent, votre répertoire de copie de travail est exactement dans l'état précédent les modifications pour le problème #53 et vous pouvez vous consacrer à votre correctif.
+C'est un point important : Git réinitialise le répertoire de travail pour qu'il ressemble à l'instantané de la validation sur laquelle la branche que vous extrayez pointe.
+Il ajoute, retire et modifie les fichiers automatiquement pour assurer que la copie de travail soit identique à ce qu'elle était lors de votre dernière validation sur la branche.
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+Ensuite, vous avez un correctif à faire.
+Créons une branche de correctif sur laquelle travailler jusqu'à ce que ce soit terminé (voir figure 3-13) :
 
-	$ git checkout -b 'hotfix'
-	Switched to a new branch "hotfix"
+	$ git checkout -b 'correctif'
+	Switched to a new branch "correctif"
 	$ vim index.html
-	$ git commit -a -m 'fixed the broken email address'
-	[hotfix]: created 3a0874c: "fixed the broken email address"
+	$ git commit -a -m "correction d'une adresse mail incorrecte"
+	[correctif]: created 3a0874c: "correction d'une adresse mail incorrecte"
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point.
+Figure 3-13. Branche de correctif basée à partir de la branche master.
 
-You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
+Vous pouvez lancer vos tests, vous assurer que la correction est efficace, et la fusionner dans la branche master pour la déployer en production.
+Vous réalisez ceci au moyen de la commande `git merge` :
 
 	$ git checkout master
-	$ git merge hotfix
+	$ git merge correctif
 	Updating f42c576..3a0874c
 	Fast forward
-	 README |    1 -
+	 LISEZMOI |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
+Vous noterez la mention "Fast forward" qui signifie avance rapide dans cette fusion.
+Comme le commit pointé par la branche que vous avez fusionné était directement descendant du commit sur lequel vous vous trouvez, Git a avancé le pointeur en avant. 
+Autrement dit, lorsque l'on cherche à fusionner un commit qui peut être joint en suivant l'historique depuis le commit d'origine, Git avance simplement le pointeur car il n'y a pas de travaux divergeant à réellement fusionner — ceci s'appelle l'avance rapide.
 
-Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
+Votre modification est maintenant dans l'instantané du commit pointé par la branche `master`, et vous pouvez déployer votre modification (voir figure 3-14)
 
 Insert 18333fig0314.png 
-Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+Figure 3-14. Après la fusion, votre branche master pointe au même endroit que la correction.
 
-After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+Après le déploiement de votre correction super-importante, vous voilà de nouveau prêt à travailler sur votre sujet précédent l'interruption.
+Cependant, vous allez avant tout effacer la branche `correctif` parce que vous n'en avez plus besoin et la branche `master` pointe au même endroit.
+Vous pouvez l'effacer avec l'option `-d` de la commande `git branch` :
 
-	$ git branch -d hotfix
-	Deleted branch hotfix (3a0874c).
+	$ git branch -d correctif
+	Deleted branch correctif (3a0874c).
 
-Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
+Maintenant, il est temps de basculer sur la branch "travaux en cours" sur le problème #53 et de continuer à travailler dessus (voir figure 3-15) :
 
-	$ git checkout iss53
-	Switched to branch "iss53"
+	$ git checkout prob53
+	Switched to branch "prob53"
 	$ vim index.html
-	$ git commit -a -m 'finished the new footer [issue 53]'
-	[iss53]: created ad82d7a: "finished the new footer [issue 53]"
+	$ git commit -a -m 'Nouveau pied de page terminé [problème 53]'
+	[prob53]: created ad82d7a: "Nouveau pied de page terminé [problème 53]"
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-Figure 3-15. Your iss53 branch can move forward independently.
+Figure 3-15. Votre branche prob53 peut avancer indépendamment de master.
 
-It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+Il est utile de noter que le travail réalisé dans `correctif` n'est pas contenu dans les fichiers de la branche `prob53`.
+Si vous avez besoin de les y rapatrier, vous pouvez fusionner la branche `master` dans la branche `prob53` en lançant la commande `git merge master`, ou vous pouvez retarder l'intégration de ces modifications jusqu'à ce que vous décidiez plus tard de rapatrier la branche `prob53` dans `master`.
 
-### Basic Merging ###
+### Les bases de la fusion ###
 
-Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
+Supposons que vous ayez décidé que le travail sur le problème #53 est terminé et se trouve donc prêt à être fusionné dans la branche `master`.
+Pour ce faire, vous allez rapatrier votre branche `prob53` de la même manière que vous l'avez fait plus tôt pour la branche `correctif`.
+Tout ce que vous avez à faire est d'extraire la branche dans laquelle vous souhaitez fusionner et lancer la commande `git merge` :
 
 	$ git checkout master
-	$ git merge iss53
+	$ git merge prob53
 	Merge made by recursive.
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
+Le comportement semble légèrement différent de celui observé pour la fusion précédente de `correctif`. Dans ce cas, l'historique de développement a divergé à un certain point.
+Comme le commit sur la branche sur laquelle vous vous trouvez n'est plus un ancêtre direct de la branche que vous cherchez à fusionner, Git doit travailler.
+Dans ce cas, Git réalise une simple fusion à trois sources, en utilisant les deux instantanés pointés par les sommets des branches et l'ancêtre commun des deux.
+La figure 3-16 illustre les trois instantanés que Git utilise pour réaliser la fusion dans ce cas.
 
 Insert 18333fig0316.png 
-Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
+Figure 3-16. Git identifie automatiquement la meilleure base d'ancêtre commun pour réaliser la fusion.
 
-Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
+Au lieu de simplement d'avancer le pointeur de branche, Git crée un nouvel instantané qui résulte de la fusion à trois branches et crée automatiquement un nouveau commit qui pointe dessus (voir figure 3-17).
+On appelle ceci un commit de fusion, qui est spécial en ce qu'il comporte plus d'un parent.
 
-It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
+Il est à noter que que Git détermine par lui-même le meilleur ancêtre commun à utiliser comme base de fusion ; ce comportement est très différent de celui de CVS ou Subversion (antérieur à la version 1.5), où le développeur en charge de la fusion doit trouver par lui-même la meilleure base de fusion.
+Cela rend la fusion tellement plus facile dans Git que dans les autres systèmes.
 
 Insert 18333fig0317.png 
-Figure 3-17. Git automatically creates a new commit object that contains the merged work.
+Figure 3-17. Git crée automatiquement un nouvel objet commit qui contient le travail fusionné.
 
-Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
+A présent que votre travail a été fusionné, vous n'avez plus besoin de la branche `prob53`.
+Vous pouvez l'effacer et fermer manuellement le ticket dans votre outil de suivi de faits techniques :
 
-	$ git branch -d iss53
+	$ git branch -d prob53
 
-### Basic Merge Conflicts ###
+### Conflits de fusion ###
 
-Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
+Quelques fois, le processus ci-dessus ne se passe pas sans accroc.
+Si vous avez modifié différemment la même partie du même fichier dans les deux branches que vous souhaitez fusionner, Git ne sera pas capable de réaliser proprement la fusion.
+Si votre résolution du problème #53 a modifié la même section de fichier que le `correctif`, vous obtiendrez une conflit de fusion qui ressemble à ceci :
 
-	$ git merge iss53
+	$ git merge prob53
 	Auto-merging index.html
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
+Git n'a pas automatiquement créé le commit du fusion.
+Il a arrêté le processus le temps que vous résolviez le conflit.
+Lancez `git status`  pour voir à tout moment  après l'apparition du conflit de fusion quels fichiers n'ont pas été fusionnés :
 
 	[master*]$ git status
 	index.html: needs merge
@@ -267,7 +310,9 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
-Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
+Tout ce qui comporte des conflits de fusion et n'a pas été résolu est listé comme `unmerged`.
+Git ajoute des marques de conflit standard dans les fichiers qui comportent des conflit, pour que vous puissiez les ouvrir et résoudre les conflits manuellement.
+Votre fichier contient des sections qui ressemblent à ceci :
 
 	<<<<<<< HEAD:index.html
 	<div id="footer">contact : email.support@github.com</div>
@@ -275,16 +320,20 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	<div id="footer">
 	  please contact us at support@github.com
 	</div>
-	>>>>>>> iss53:index.html
+	>>>>>>> prob53:index.html
 
-This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
+Cela signifie que la version dans HEAD (votre branche master, parce que c'est celle que vous aviez extraite quand vous avez lancé votre commande de fusion) est la partie supérieure de ce bloc (tout ce qui se trouve au dessus de la ligne `=======`), tandis que la version de la branche `prob53` se trouve en dessous.
+Pour résoudre le conflit, vous devez choisir une partie ou l'autre ou bien fusionner leurs contenus par vous-même.
+Par exemple, vous pourriez choisir de résoudre ce conflit en remplaçant tout le bloc par ceci :
 
 	<div id="footer">
 	please contact us at email.support@github.com
 	</div>
 
-This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
-If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:
+Cette résolution comporte des parties de chaque section, et les lignes `<<<<<<<`, `=======`, et `>>>>>>>` ont été complètement effacées.
+Après avoir résolu chacune de ces sections dans chaque fichier comportant un conflit, lancez `git add` sur chaque fichier pour le marquer comme résolu.
+Préparer le fichier en zone de préparation suffit à le marquer résolu pour Git.
+Si vous souhaitez utiliser un outil graphique pour résoudre ces problèmes, vous pouvez lancer `git mergetool` qui démarre l'outil graphique de fusion approprié et vous permet de naviguer dans les conflits :
 
 	$ git mergetool
 	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
@@ -295,11 +344,14 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
+Si vous souhaitez utiliser un outil de fusion autre que celui par défaut (Git a choisi `opendiff` pour moi dans ce cas car j'utilise la commande sous Mac), vous pouvez voir tous les outils supportés après l'indication "merge tool candidates".
+Tapez le nom de l'outil que vous préféreriez utiliser.
+Au chapitre 7, nous expliquerons comment changer cette valeur par défaut dans votre environnement.
 
-After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
+Après avoir quitté l'outil de fusion, Git vous demande si la fusion a été réussie.
+Si vous répondez par la positive à l'outil, il indexe le fichier pour le marquer comme résolu.
 
-You can run `git status` again to verify that all conflicts have been resolved:
+Vous pouvez lancer à nouveau la commande `git status` pour vérifier que tous les conflits ont été résolus :
 
 	$ git status
 	# On branch master
@@ -309,9 +361,10 @@ You can run `git status` again to verify that all conflicts have been resolved:
 	#	modified:   index.html
 	#
 
-If you’re happy with that, and you verify that everything that had conflicts has been staged, you can type `git commit` to finalize the merge commit. The commit message by default looks something like this:
+Cela vous convient et vous avez vérifié que tout ce qui comportait un conflit a été indexé, vous pouvez taper la commande `git commit` pour finaliser le commit de fusion.
+Le message de validation ressemble d'habitude à ceci :
 
-	Merge branch 'iss53'
+	Merge branch 'prob53'
 
 	Conflicts:
 	  index.html
@@ -322,48 +375,56 @@ If you’re happy with that, and you verify that everything that had conflicts h
 	# and try again.
 	#
 
-You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
+Vous pouvez modifier ce message pour inclure les détails sur la résolution du conflit si vous pensez que cela peut être utile lors d'une revue ultérieure es— pourquoi vous avez fait ceci si ce n'est pas clair.
 
-## Branch Management ##
+## Gestion de branches ##
 
-Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+Après avoir créé, fusionné et effacé des branches, regardons de plus près les outils de gestion de branche qui s'avèreront utiles lors d'une utilisation intensive des branches.
 
-The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
+La commande `git branch` fait plus que créer et effacer des branches.
+Si vous la lancez sans argument, vous obtenez la liste des branches courantes :
 
 	$ git branch
-	  iss53
+	  prob53
 	* master
 	  testing
 
-Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch –v`:
+Notez le caractère `*` qui préfixe la branche `master`.
+Ce caractère indique la branche qui a été extraite.
+Ceci signifie que si vous validez des modifications, la branche `master` avancera avec votre travail.
+Pour visualiser les dernière validations sur chaque branche, vous pouvez lancer le commande `git branch -v` :
 
 	$ git branch -v
-	  iss53   93b412c fix javascript issue
-	* master  7a98805 Merge branch 'iss53'
+	  prob53   93b412c fix javascript issue
+	* master  7a98805 Merge branch 'prob53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
+Une autre option permettant de voir l'état des branches permet de filtrer cette liste par les branches qui ont ou n'ont pas encore été fusionnées dans la branche courante.
+Les options `--merged` et `--no-merge` sont disponibles depuis la version 1.5.6 de Git.
+Pour voir quelles branches ont déjà été fusionnées dans votre branche actuelle, lancez `git branch --merged` :
 
 	$ git branch --merged
-	  iss53
+	  prob53
 	* master
 
-Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+Comme vous avez déjà fusionné `prob53` auparavant, vous le voyez dans votre liste.
+Les branches de cette liste qui ne comportent pas l'étoile en préfixe peuvent généralement être effacées sans risque au moyen de `git branch -d` ; vous avez déjà incorporé leurs modifications dans une autre branche, et n'allez donc rien perdre.
 
-To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
+Lancez `git branch --no-merged` pour visualiser les branches qui contiennent des travaux qui n'ont pas encore été fusionnés :
 
 	$ git branch --no-merged
 	  testing
 
-This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
+Ceci montre votre autre branche.
+Comme elle contient des modifications qui n'ont pas encore été fusionnées, un essai d'effacement par `git branch -d` se solde par un échec :
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
-If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
+Si vous souhaitez réellement effacer cette branche et perdre ainsi le travail réalisé, vous pouvez forcer l'effacement avec l'option `-D`, comme l'indique justement le message.
 
-## Branching Workflows ##
+## Travailler avec les branches ##
 
 Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
 
@@ -371,7 +432,7 @@ Now that you have the basics of branching and merging down, what can or should y
 
 Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
 
-Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `prob53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
 
 In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
 
@@ -390,7 +451,7 @@ Again, having multiple long-running branches isn’t necessary, but it’s often
 
 Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
 
-You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
+You saw this in the last section with the `prob53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
 
 Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
 
@@ -408,7 +469,7 @@ It’s important to remember when you’re doing all this that these branches ar
 
 Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `prob53` branch, you might have your own local `prob53` branch; but the branch on the server would point to the commit at `origin/prob53`.
 
 This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
 

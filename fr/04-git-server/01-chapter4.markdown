@@ -1,78 +1,121 @@
-# Git on the Server #
+# Git sur le serveur #
 
-At this point, you should be able to do most of the day-to-day tasks for which you’ll be using Git. However, in order to do any collaboration in Git, you’ll need to have a remote Git repository. Although you can technically push changes to and pull changes from individuals’ repositories, doing so is discouraged because you can fairly easily confuse what they’re working on if you’re not careful. Furthermore, you want your collaborators to be able to access the repository even if your computer is offline — having a more reliable common repository is often useful. Therefore, the preferred method for collaborating with someone is to set up an intermediate repository that you both have access to, and push to and pull from that. We’ll refer to this repository as a "Git server"; but you’ll notice that it generally takes a tiny amount of resources to host a Git repository, so you’ll rarely need to use an entire server for it.
+À présent, vous devriez être capable de réaliser la plupart des tâches quotidiennes impliquant Git.
+Néanmoins, pour pouvoir collaborer avec d'autres personnes au moyen de Git, vous allez devoir avoir un dépot distant Git.
+Bien que vous puissiez techniquement tirer des modifications et pousser des modification avec des dépots individuels, cette pratique est découragée parce qu'elle introduit très facilement une confusion avec votre travail actuel.
+De plus, vous souhaitez que vos collaborateurs puisse accéder à votre dépôt de source, y compris si vous n'êtes pas connecté — disposer d'un dépôt accessible en permanence peut s'avérer utile.
+De ce fait, la méthode canonique pour collaborer consiste à instancier un dépôt intermédiaire auquel tous ont accès, que ce soit pour pousser ou tirer.
+Nous nommerons ce dépôt le "serveur Git" mais vous vous apercevrez qu'héberger un serveur de dépôt Git ne consomme que peu de ressources, et que de ce fait, on n'utilise rarement une machine dédiée à cette tâche.
 
-Running a Git server is simple. First, you choose which protocols you want your server to communicate with. The first section of this chapter will cover the available protocols and the pros and cons of each. The next sections will explain some typical setups using those protocols and how to get your server running with them. Last, we’ll go over a few hosted options, if you don’t mind hosting your code on someone else’s server and don’t want to go through the hassle of setting up and maintaining your own server.
+Un serveur Git est simple à lancer.
+Premièrement, vous devez choisir quels protocoles seront supportés.
+La première partie de ce chapitre traite des protocoles disponibles et de  leurs avantages et inconvénients.
+La partie suivante explique certaines configurations typiques avec ces protocoles et comment les mettre en œuvre.
+Enfin, nous traiterons de quelques types d'hébergement, si vous souhaitez héberger votre code sur un serveur tiers, sans avoir à régler et maintenir un serveur par vous-même.
 
-If you have no interest in running your own server, you can skip to the last section of the chapter to see some options for setting up a hosted account and then move on to the next chapter, where we discuss the various ins and outs of working in a distributed source control environment.
+Si vous ne voyez pas d'intérêt à gérer votre propre serveur, vous pouvez sauter directement à la dernière partie de ce chapitre pour détailler les options pour mettre en place un compte hébergé, avant de continuer dans le chapitre suivant où les problèmatiques de développement distribué sont abordées.
 
-A remote repository is generally a _bare repository_ — a Git repository that has no working directory. Because the repository is only used as a collaboration point, there is no reason to have a snapshot checked out on disk; it’s just the Git data. In the simplest terms, a bare repository is the contents of your project’s `.git` directory and nothing else.
+Un dépôt distant est généralement un _dépôt nu_ (_bare repository_), un dépôt Git qui n'a pas de copie de travail.
+Comme ce dépôt n'est utilisé que comme centralisateur de collaboration, il n'y a aucune raison d'extraire un instantané sur le disque ; seules les données Git sont nécessaires.
+Pour simplifier, un dépôt nu est le contenu du répertoire `.git` sans fioriture.
 
-## The Protocols ##
+## Les protocoles ##
 
-Git can use four major network protocols to transfer data: Local, Secure Shell (SSH), Git, and HTTP. Here we’ll discuss what they are and in what basic circumstances you would want (or not want) to use them.
+Git peut utiliser quatre protocoles réseau majeurs pour transporter des données : Local, Secure Shell (SSH), Git et HTTP.
+Nous allons voir leur nature et dans quelles circonstances ils peuvent (ou ne peuvent pas) être utilisés.
 
-It’s important to note that with the exception of the HTTP protocols, all of these require Git to be installed and working on the server.
+Il est à noter que mis à part HTTP, tous le protocoles nécessite l'installation de Git sur le serveur.
 
-### Local Protocol ###
+### Le protocole local ###
 
-The most basic is the _Local protocol_, in which the remote repository is in another directory on disk. This is often used if everyone on your team has access to a shared filesystem such as an NFS mount, or in the less likely case that everyone logs in to the same computer. The latter wouldn’t be ideal, because all your code repository instances would reside on the same computer, making a catastrophic loss much more likely.
+Le protocole de base est le _protocole local_ pour lequel le dépot distant est un autre répertoire dans le système de fichier.
+Il est souvent utilisé si tous les membres de l'équipe ont accès à un répertoirepartagé via NFS par exemple ou dans le cas moins probable où tous les développeurs travaille sur le même ordinateur.
+Ce dernier cas n'est pas optimum car tous les dépôts seraient hébergés de fait sur le même ordinateur, rendant ainsi tout défaillance catastrophique.
 
-If you have a shared mounted filesystem, then you can clone, push to, and pull from a local file-based repository. To clone a repository like this or to add one as a remote to an existing project, use the path to the repository as the URL. For example, to clone a local repository, you can run something like this:
+Si vous disposez d'un système de fichier partagé, vous pouvez cloner, pousser et tirer avec un dépôt local.
+Pour cloner un dépôt ou pour l'utiliser comme dépôt distant à un projet existant, utilisez le chemin vers le dépôt comme URL.
+Par exemple, pour cloner un dépôt local, vous pouvez lancer ceci :
 
 	$ git clone /opt/git/project.git
 
-Or you can do this:
+Ou bien celà :
 
 	$ git clone file:///opt/git/project.git
 
-Git operates slightly differently if you explicitly specify `file://` at the beginning of the URL. If you just specify the path, Git tries to use hardlinks or directly copy the files it needs. If you specify `file://`, Git fires up the processes that it normally uses to transfer data over a network which is generally a lot less efficient method of transferring the data. The main reason to specify the `file://` prefix is if you want a clean copy of the repository with extraneous references or objects left out — generally after an import from another version-control system or something similar (see Chapter 9 for maintenance tasks). We’ll use the normal path here because doing so is almost always faster.
+Git opère légèrement différemment si vous spécifiez explicitement le protocole `file://` au début de l'URL/
+Si vous spécifiez simplement le chemin, Git tente d'utiliser des liens durs ou une copie des fichiers nécessaires.
+Si vous spécifiez le protocole `file://`, Git lancer un processus d'accès au travers du réseau, ce qui généralement moins efficace.
+La raison d'utiliser spécifiquement le préfixe `file://` est la volonté d'obtenir une copie propre du dépôt, sans aucune référence ou aucun objet supplémentaire qui pourraient résulter d'un import depuis un autre système de gestion de version ou d'un action similaire (voir chapitre 9 pour les tâches de maintenance).
+Nous utiliserons les chemins normaux par la suite car c'est la méthode la plus efficace.
 
-To add a local repository to an existing Git project, you can run something like this:
+Pour ajouter un dépôt local à un projet Git existant, vous pouvez lancer ceci :
 
 	$ git remote add local_proj /opt/git/project.git
 
-Then, you can push to and pull from that remote as though you were doing so over a network.
+Ensuite, vous pouvez pousser vers et tirer depuis ce dépôt distant de la même manière que vous le feriez pour un dépôt accessible sur le réseau.
 
-#### The Pros ####
+#### Les avantages ####
 
-The pros of file-based repositories are that they’re simple and they use existing file permissions and network access. If you already have a shared filesystem to which your whole team has access, setting up a repository is very easy. You stick the bare repository copy somewhere everyone has shared access to and set the read/write permissions as you would for any other shared directory. We’ll discuss how to export a bare repository copy for this purpose in the next section, “Getting Git on a Server.”
+Les avantages des dépôts accessibles sur le sytème de fichier sont qu'ils sont simples et qu'ils utilisent les permissions du système de fichier.
+Si vous avez déjà un montage partagé auquel toute votre équipe a accès, déployer un dépôt est extrêment facile.
+Vous placer la copie du dépôt nu à un endroit accessible de tous et positionnez correctement les droits de lecture/écriture de la même manière que pour tout autre partage.
+Nous aborderons la méthode pour exporter une copie de dépôt nu à cette fin dans la section suivante "Déployer Git sur un serveur".
 
-This is also a nice option for quickly grabbing work from someone else’s working repository. If you and a co-worker are working on the same project and they want you to check something out, running a command like `git pull /home/john/project` is often easier than them pushing to a remote server and you pulling down.
+C'est un choix satisfaisant pour partager rapidement le travail.
+Si vous et votre coéquipier travaillez sur le même projet et qu'il souhaite partager son travail, lancer une commande telle que `git pull /home/john/project` est certainement plus simple que de passer par un serveur intermédiaire.
 
-#### The Cons ####
+#### Les inconvénients ####
 
-The cons of this method are that shared access is generally more difficult to set up and reach from multiple locations than basic network access. If you want to push from your laptop when you’re at home, you have to mount the remote disk, which can be difficult and slow compared to network-based access.
+les inconvénients de cette méthodes sont qu'il est généralement plus difficile de rendre disponible un partage réseau depuis de nombreux endroits que de simplement gérer des accès réseau.
+Si vous souhaitez pousser depuis votre portable à la maison, vous devez monter le partage distant, ce qui peut s'avérer plus difficile et lent que d'accèder directement par un protocole réseau.
 
-It’s also important to mention that this isn’t necessarily the fastest option if you’re using a shared mount of some kind. A local repository is fast only if you have fast access to the data. A repository on NFS is often slower than the repository over SSH on the same server, allowing Git to run off local disks on each system.
+Il est aussi à mentionner que ce n'est pas nécessairement l'option la plus rapide à l'utilisation si un partage réseau est utilisé.
+Un dépôt local n'est rapide que si l'accès aux fichiers est rapide.
+Un dépôt accessible sur un montage NFS est souvent plus lent qu'un dépôt accessible via SSH sur le même serveur qui ferait tourner Git avec un accès au disques locaux.
 
-### The SSH Protocol ###
+### Le protocole SSH ###
 
-Probably the most common transport protocol for Git is SSH. This is because SSH access to servers is already set up in most places — and if it isn’t, it’s easy to do. SSH is also the only network-based protocol that you can easily read from and write to. The other two network protocols (HTTP and Git) are generally read-only, so even if you have them available for the unwashed masses, you still need SSH for your own write commands. SSH is also an authenticated network protocol; and because it’s ubiquitous, it’s generally easy to set up and use.
+Le protocole SSH est probablement le protocole de transport de Git le plus utilisé.
+Cela est du au fait que l'accès SSH est déjà mis en place à de nombreux endroits et que ce n'est pas le cas, celà reste très facile à faire.
+Cela est aussi du au fait que SSH est le seul protocole permettant facilement de lire et d'écrire à distance.
+Les deux autres protocoles réseau (HTTP et Git) sont généralement en lecture seule et s'ils peuvent être utiles pour la publication, le protocole SSH est nécessaire pour les mises à jour de par ce qu'il permet l'écriture.
+SSH est un protocole authentifié suffisamment répandu que sa mise œuvre est simplifiée.
 
-To clone a Git repository over SSH, you can specify ssh:// URL like this:
+Pour cloner une dépôt Git à travers SSH, vous pouvez spécifier le préfix `ssh://` dans l'URL comme ceci :
 
 	$ git clone ssh://user@server:project.git
 
-Or you can not specify a protocol — Git assumes SSH if you aren’t explicit:
+ou vous pouvez ne pas spécifier de protocole du tout — Git choisit SSH par défaut si vous n'êtes pas explicite :
 	
 	$ git clone user@server:project.git
 
-You can also not specify a user, and Git assumes the user you’re currently logged in as.
+Vous pouvez aussi ne pas spécifier de nom d'utilisateur et Git utilisera par défaut le nom de login.
 
-#### The Pros ####
+#### Les avantages ####
 
-The pros of using SSH are many. First, you basically have to use it if you want authenticated write access to your repository over a network. Second, SSH is relatively easy to set up — SSH daemons are commonplace, many network admins have experience with them, and many OS distributions are set up with them or have tools to manage them. Next, access over SSH is secure — all data transfer is encrypted and authenticated. Last, like the Git and Local protocols, SSH is efficient, making the data as compact as possible before transferring it.
+Les avantages liés à l'utilisation de SSH sont nombreux.
+Primo, vous ne pourrez pas vous faire autrement si vous souhaitez gérer un accès authentifié en écriture à votre dépôt au travers du réseau.
+Secundo, SSH est relativement simple à mettre en place, les daemons SSH sont facilement disponibles, les adminstrateurs réseaux sont habitués à les gérer et de nombreuses distributions de systèmes d'exploitation en disposent et proposent des outils de gestion.
+Ensuite, l'accès distant à travers SSH est sécurisé, toutes les données sont chiffrées et authentifiées.
+Enfin, comme les protocoles Git et local, SSH est efficace et permet de comprimer autant que possible les données avant de les transférer.
 
-#### The Cons ####
+#### Les inconvénients ####
 
-The negative aspect of SSH is that you can’t serve anonymous access of your repository over it. People must have access to your machine over SSH to access it, even in a read-only capacity, which doesn’t make SSH access conducive to open source projects. If you’re using it only within your corporate network, SSH may be the only protocol you need to deal with. If you want to allow anonymous read-only access to your projects, you’ll have to set up SSH for you to push over but something else for others to pull over.
+Le point négatif avec SSH est qu'il est impossible de proposer un accès anonyme au dépôt.
+Les accès sont régis par les permission SSH, même pour un accès en lecture seule, ce qui s'oppose à une optique open-source.
+Si vous souhaitez utiliser Git dans un environnement d'entreprise, SSH peut bien être le seul protocole nécessaire.
+Si vous souhaitez proposer de l'accès anonyme en lecture seule à vos projets, vous aurez besoin de SSH pour vous permettre de pousser mais un autre protocole sera nécessaire pour permettre à d'autre de tirer.
 
-### The Git Protocol ###
+### Le protocole Git ###
 
-Next is the Git protocol. This is a special daemon that comes packaged with Git; it listens on a dedicated port (9418) that provides a service similar to the SSH protocol, but with absolutely no authentication. In order for a repository to be served over the Git protocol, you must create the `git-export-daemon-ok` file — the daemon won’t serve a repository without that file in it — but other than that there is no security. Either the Git repository is available for everyone to clone or it isn’t. This means that there is generally no pushing over this protocol. You can enable push access; but given the lack of authentication, if you turn on push access, anyone on the internet who finds your project’s URL could push to your project. Suffice it to say that this is rare.
+Vient ensuite le protocole Git. Celui-ci est géré par un daemon spécial qui est livré avec Git ; ce démon écoute sur un port dédié (9418) qui propose en service similaire au protocole SSH, mais sans aucune sécurisation.
+Pour qu'un dépôt soit publié via le protocole Git, le fichier `git-export-daemon-ok` doit exister mais mise à part cette condition sans laquelle le deamon refuse de publier un projet, il n'y a aucune sécurité.
+Soit le dépôt Git est disponible sans restriction en lecture, soit il n'est pas publié.
+Cela signifie qu'il ne permet de pousser des modifications.
+Vous pouvez activer la capacité à pousser mais étant donné l'absence d'authentification, n'importe qui sur internet peut pousser sur le dépôt.
+Autant dire que ce mode est rarement recherché.
 
-#### The Pros ####
+#### Les avantages ####
 
 The Git protocol is the fastest transfer protocol available. If you’re serving a lot of traffic for a public project or serving a very large project that doesn’t require user authentication for read access, it’s likely that you’ll want to set up a Git daemon to serve your project. It uses the same data-transfer mechanism as the SSH protocol but without the encryption and authentication overhead.
 

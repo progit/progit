@@ -130,7 +130,7 @@ Ces fonctionnalités encouragent naturellement les développeurs à créer et ut
 
 Voyons pourquoi vous devriez en faire autant.
 
-## Brancher et fusionner : les bases ##
+## Brancher et fusionner - les bases ##
 
 Suivons un exemple simple de branche et fusion dans une utilisation que vous feriez dans le monde réel.
 Vous feriez les étapes suivantes :

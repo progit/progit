@@ -590,7 +590,15 @@ Figure 3-24. The git fetch command updates your remote references.
     TODO    process-end: 2010-03-31 - florianb
 -->
 
+<!--
+    TODO    process-begin: 2010-04-17 - florianb
+-->
 
+Um zu demonstrieren wie Remote-Branches auf verschiedenen Remote-Servern aussehen, nehmen wir einmal an du hast einen weiteren internen Git-Server der nur von einem Sprint-Team zur Entwicklung genutzt wird.
+
+<!--
+    TODO    process-break: 2010-04-17 - florianb
+-->
 
 To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
 

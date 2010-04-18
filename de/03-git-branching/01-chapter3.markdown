@@ -594,21 +594,27 @@ Figure 3-24. The git fetch command updates your remote references.
     TODO    process-begin: 2010-04-17 - florianb
 -->
 
-Um zu demonstrieren wie Remote-Branches auf verschiedenen Remote-Servern aussehen, nehmen wir einmal an du hast einen weiteren internen Git-Server der nur von einem Sprint-Team zur Entwicklung genutzt wird.
-
-<!--
-    TODO    process-break: 2010-04-17 - florianb
--->
+Um zu demonstrieren wie Branches auf verschiedenen Remote-Servern aussehen, stellen wir uns vor, dass du einen weiteren internen Git-Server besitzt, welcher nur von einem deiner Sprint-Teams zur Entwicklung genutzt wird. Diesen Server erreichen wir unter `git.team1.ourcompany.com`. Du kannst ihn, mit dem Git-Kommando `git remote add` - wie in Kapitel 2 beschrieben, deinem derzeitigen Arbeitsprojekt als weiteren Quell-Server hinzufügen. Gib dem Remote-Server den Namen `teamone`, welcher nun als Synonym für die ausgeschriebene Internetadresse dient (siehe Abbildung 3-25).
 
 To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
 
-Insert 18333fig0325.png 
+Insert 18333fig0325.png
+Abbildung 3-25. Einen weiteren Server als Quelle hinzufügen.
+
 Figure 3-25. Adding another server as a remote
+
+Nun kannst du einfach `git fetch teamone` ausführen um alles vom Server zu holen was du noch nicht hast. Da der Datenbestand auf dem Teamserver einen Teil der Informationen auf deinem `origin`-Server ist, holt Git keine Daten, erstellt allerdings einen Remote-Branch namens `teamone/master`, der auf den gleichen Commit wie `teamone`s `master`-Branch zeigt (siehe Abbildung 3-26).
 
 Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
 
 Insert 18333fig0326.png 
+Abbildung 3-26. Du bekommst eine lokale Referenz auf `teamone`s `master`-Branch.
+
 Figure 3-26. You get a reference to teamone’s master branch position locally.
+
+<!--
+    TODO    process-end: 2010-04-18 - florianb
+-->
 
 ### Pushing ###
 

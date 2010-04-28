@@ -107,7 +107,7 @@ Zmodyfikujmy teraz plik, który był już śledzony. Jeśli zmienisz śledzony w
 	#	modified:   benchmarks.rb
 	#
 
-Plik `benchmarks.rb` pojawia się w sekcji „Changed but bit updated“ (Zmienione ale nie zaktualizowane), co oznacza, że śledzony plik został zmodyfikowany, ale zmiany nie nie trafiły jeszcze do poczekalni. Aby je tam wysłać, uruchom polecenie `git add` (jest to wielozadaniowe polecenie — używa się go do rozpoczynania śledzenia nowych plików, umieszczania ich w poczekalni, oraz innych zadań, takich jak oznaczanie rozwiązanych konfliktów scalania). Uruchom zatem `git add` by umieścić `benchmarks.rb` w poczekalni, a następnie ponownie wykonaj `git status`:
+Plik `benchmarks.rb` pojawia się w sekcji „Changed but bit updated“ (Zmienione ale nie zaktualizowane), co oznacza, że śledzony plik został zmodyfikowany, ale zmiany nie trafiły jeszcze do poczekalni. Aby je tam wysłać, uruchom polecenie `git add` (jest to wielozadaniowe polecenie — używa się go do rozpoczynania śledzenia nowych plików, umieszczania ich w poczekalni, oraz innych zadań, takich jak oznaczanie rozwiązanych konfliktów scalania). Uruchom zatem `git add` by umieścić `benchmarks.rb` w poczekalni, a następnie ponownie wykonaj `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -119,7 +119,7 @@ Plik `benchmarks.rb` pojawia się w sekcji „Changed but bit updated“ (Zmieni
 	#	modified:   benchmarks.rb
 	#
 
-Oba pliki znajdują się już w poczekalni i zostaną uwzględnione podczas kolejnego zatwierdzenie zmian. Załóżmy, że w tym momencie przypomniałeś sobie o jeszcze jednej małej zmianie, którą koniecznie chcesz wprowadzić do pliku `benchmarks.rb` jeszcze przed zatwierdzeniem. Otwierasz go zatem, wprowadzasz zmianę i jesteś gotowy do zatwierdzenia. Uruchom jednak `git status` raz jeszcze:
+Oba pliki znajdują się już w poczekalni i zostaną uwzględnione podczas kolejnego zatwierdzenie zmian. Załóżmy, że w tym momencie przypomniałeś sobie o dodatkowej małej zmianie, którą koniecznie chcesz wprowadzić do pliku `benchmarks.rb` jeszcze przed zatwierdzeniem. Otwierasz go zatem, wprowadzasz zmianę i jesteś gotowy do zatwierdzenia. Uruchom jednak `git status` raz jeszcze:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -233,7 +233,7 @@ Jeśli chcesz zobaczyć zawartość poczekalni, która trafi do repozytorium z n
 
 Istotnym jest, że samo polecenie `git diff` nie pokazuje wszystkich zmian dokonanych od ostatniego zatwierdzenia — ­jedynie te, które nie trafiły do poczekalni. Może być to nieco mylące, ponieważ jeżeli wszystkie twoje zmiany są już w poczekalni, wynik `git diff` będzie pusty.
 
-Jeszcze jeden przykład — jeżeli wyślesz do poczekalni plik `benchmarks.rb`, a następnie go zmodyfikujesz go ponownie, możesz użyć `git status`, by obejrzeć zmiany znajdujące się w poczekalni, jak i tych poza nią:
+Jeszcze jeden przykład — jeżeli wyślesz do poczekalni plik `benchmarks.rb`, a następnie zmodyfikujesz go ponownie, możesz użyć `git status`, by obejrzeć zmiany znajdujące się w poczekalni, jak i te poza nią:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -315,13 +315,13 @@ Alternatywnie opis rewizji możesz podać już wydając polecenie `commit`, popr
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Właśnie zatwierdziłeś swoje pierwsze zmiany! Sama operacja rewizji zwraca dodatkowo garść informacji, między innymi, gałąź do której dorzuciłeś zmiany (master), ich sumę kontrolną SHA-1 (`463dc4f`), ilość zmienionych plików oraz statystyki dodanych i usuniętych linii kodu.
+Właśnie zatwierdziłeś swoje pierwsze zmiany! Sama operacja rewizji zwróciła dodatkowo garść informacji, między innymi, gałąź do której dorzuciłeś zmiany (master), ich sumę kontrolną SHA-1 (`463dc4f`), ilość zmienionych plików oraz statystyki dodanych i usuniętych linii kodu.
 
-Pamiętaj, że operacja commit zapamiętuje migawkę zmian z poczekalni. Wszystko czego do niej nie dodałeś, ciągle czeka zmienione w swoim miejscu - możesz to uwzględnić przy następnym zatwierdzaniu zmian. Każdorazowe wywołanie polecenia `git commit` powoduje zapamiętanie migawki projektu, którą możesz następnie odtworzyć albo porównać do innej migawki.
+Pamiętaj, że operacja commit zapamiętała migawkę zmian z poczekalni. Wszystko czego nie dodałeś do poczekalni, ciągle czeka zmienione w swoim miejscu - możesz to uwzględnić przy następnym zatwierdzaniu zmian. Każdorazowe wywołanie polecenia `git commit` powoduje zapamiętanie migawki projektu, którą możesz następnie odtworzyć albo porównać do innej migawki.
 
 ### Pomijanie poczekalni ###
 
-Chociaż poczekalnia może być niesamowicie przydatna do ustalania dokładnie takich rewizji, jakie chcesz mieć później w historii, czasami możesz uznać ją za odrobinę zbyt skomplikowaną aniżeli wymaga tego twoja praca. Jeśli chcesz pominąć poczekalnię, Git udostępnia prosty skrót. Po dodaniu do składni polecenia `git commit` opcję `-a` każdy zmieniony plik, który jest już śledzony, automatycznie trafi do poczekalni, dzięki czemu pominiesz część `git add`:
+Chociaż poczekalnia może być niesamowicie przydatna przy ustalaniu rewizji dokładnie takich, jakimi chcesz je mieć później w historii, czasami możesz uznać ją za odrobinę zbyt skomplikowaną aniżeli wymaga tego twoja praca. Jeśli chcesz pominąć poczekalnię, Git udostępnia prosty skrót. Po dodaniu do składni polecenia `git commit` opcji `-a` każdy zmieniony plik, który jest już śledzony, automatycznie trafi do poczekalni, dzięki czemu pominiesz część `git add`:
 
 	$ git status
 	# On branch master
@@ -334,13 +334,13 @@ Chociaż poczekalnia może być niesamowicie przydatna do ustalania dokładnie t
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Zauważ, że w tym wypadku przed zatwierdzeniem zmian i wykonaniem rewizji nie musisz uruchamiać `git add` na pliku banchmark.rb.
+Zauważ, że w tym wypadku przed zatwierdzeniem zmian i wykonaniem rewizji nie musiałeś uruchamiać `git add` na pliku banchmark.rb.
 
 ### Usuwanie plików ###
 
-Aby usunąć plik z Gita, trzeba go najpierw wyrzucić ze zbioru plików śledzonych a następnie zatwierdzić zmiany. Służy do tego polecenie `git -rm`, które dodatkowo usuwa plik z katalogu roboczego. Nie zobaczysz go już zatem w sekcji plików nieśledzonych przy następnej okazji.
+Aby usunąć plik z Gita, należy go najpierw wyrzucić ze zbioru plików śledzonych, a następnie zatwierdzić zmiany. Służy do tego polecenie `git -rm`, które dodatkowo usuwa plik z katalogu roboczego. Nie zobaczysz go już zatem w sekcji plików nieśledzonych przy następnej okazji.
 
-Jeżeli po prostu usuniesz plik z katalogu roboczego, uruchomienie komendy `git status` pokaże go w sekcji "Zmienione ale nie zaktualizowane" (Changed but not updated) (czyli, poza poczekalnią):
+Jeżeli po prostu usuniesz plik z katalogu roboczego i uruchomisz komendę `git status` zobaczysz go w sekcji "Zmienione ale nie zaktualizowane" (Changed but not updated) (czyli, poza poczekalnią):
 
 	$ rm grit.gemspec
 	$ git status
@@ -365,9 +365,9 @@ W dalszej kolejności, uruchomienie `git rm` doda do poczekalni operację usuni�
 	#       deleted:    grit.gemspec
 	#
 
-Przy kolejnej rewizji, plik zniknie i nie będzie dłużej śledzony. Jeśli zmodyfikowałeś go wcześniej i dodałeś do indeksu oczekujących zmian, musisz wymusić usunięcie opcją `-f`. Spowodowane jest to wymogami bezpieczeństwa, aby uchronić cię przed usunięciem danych, które nie zostały jeszcze zapamiętane w żadnej migawce i które później nie będą mogły być odtworzone z repozytorium Git-a.
+Przy kolejnej rewizji, plik zniknie i nie będzie dłużej śledzony. Jeśli zmodyfikowałeś go wcześniej i dodałeś już do indeksu oczekujących zmian, musisz wymusić usunięcie opcją `-f`. Spowodowane jest to wymogami bezpieczeństwa, aby uchronić cię przed usunięciem danych, które nie zostały jeszcze zapamiętane w żadnej migawce i które później nie będą mogły być odtworzone z repozytorium Gita.
 
-Kolejną przydatną funkcją jest możliwość zachowanie plików w drzewie roboczym ale usunięcia ich z poczekalni. Innymi słowy, możesz chcieć trzymać plik na dysku ale nie chcieć, żeby Git go dalej śledził. Jest to szczególnie przydatne w sytuacji kiedy zapomniałeś dodać czegoś do `.gitignore` i przez przypadek umieściłeś to w poczekalni np. duży plik dziennika lub garść plików `.a`. Wystarczy wówczas wywołać polecenie rm wraz opcją `--cached`:
+Kolejną przydatną funkcją jest możliwość zachowywania plików w drzewie roboczym ale usuwania ich z poczekalni. Innymi słowy, możesz chcieć trzymać plik na dysku ale nie chcieć, żeby Git go dalej śledził. Jest to szczególnie przydatne w sytuacji kiedy zapomniałeś dodać czegoś do `.gitignore` i przez przypadek umieściłeś w poczekalni np. duży plik dziennika lub garść plików `.a`. Wystarczy wówczas wywołać polecenie rm wraz opcją `--cached`:
 
 	$ git rm --cached readme.txt
 
@@ -379,7 +379,7 @@ Zwróć uwagę na odwrotny ukośnik (`\`) na początku `*`. Jest on niezbędny g
 
 	$ git rm \*~
 
-Usunie ona wszystkie pliki, które kończą się tyldą `~`.	
+Usuwa ona wszystkie pliki, które kończą się tyldą `~`.	
 
 ### Przenoszenie plików ###
 
@@ -389,7 +389,7 @@ Nieco mylący jest fakt, że Git posiada polecenie `mv`. Służy ono do zmiany n
 
 	$ git mv file_from file_to
 
-W rzeczywistości, uruchomienie takiego polecenia spowoduje, że Git zapamięta w poczekalni operację zmiany nazwy co możesz sprawdzić patrząc na wynik operacji status:
+W rzeczywistości, uruchomienie takiego polecenia spowoduje, że Git zapamięta w poczekalni operację zmiany nazwy - możesz to sprawdzić wyświetlając wynik operacji status:
 
 	$ git mv README.txt README
 	$ git status
@@ -402,7 +402,7 @@ W rzeczywistości, uruchomienie takiego polecenia spowoduje, że Git zapamięta 
 	#       renamed:    README.txt -> README
 	#
 
-Jest to równoważne z uruchomieniem poniższych poleceń:	
+Jest to równoważne z uruchomieniem poleceń:	
 
 	$ mv README.txt README
 	$ git rm README.txt
@@ -440,9 +440,9 @@ Jeśli teraz uruchomisz na sklonowanym repozytorium polecenie `git log`, uzyskas
 	    first commit
 
 
-Domyślnie, polecenie `git log` uruchomione bez argumentów, listuje zmiany zatwierdzone w tym repozytorium w odwrotnej kolejności chronologicznej, czyli pokazując najnowsze zmiany w pierwszej kolejności. Jak widzisz polecenie wyświetla zmiany wraz z ich sumą kontrolną SHA-1, nazwiskiem oraz e-mailem autora, datą zapisu oraz notką zmiany.
+Domyślnie, polecenie `git log` uruchomione bez argumentów, listuje zmiany zatwierdzone w tym repozytorium w odwrotnej kolejności chronologicznej, czyli pokazując najnowsze zmiany w pierwszej kolejności. Jak widzisz polecenie wyświetliło zmiany wraz z ich sumą kontrolną SHA-1, nazwiskiem oraz e-mailem autora, datą zapisu oraz notką zmiany.
 
-Duża liczba opcji polecenia `git log` oraz ich różnorodność pozwalają na dokładne wybieranie interesujących nas informacji. Za chwilę przedstawimy najważniejsze i najczęściej używane spośród nich.
+Duża liczba opcji polecenia `git log` oraz ich różnorodność pozwalają na dokładne wybranie interesujących nas informacji. Za chwilę przedstawimy najważniejsze i najczęściej używane spośród nich.
 
 Jedną z najprzydatniejszych opcji jest `-p`. Pokazuje ona różnice wprowadzone z każdą rewizją. Dodatkowo możesz użyć opcji `-2` aby ograniczyć zbiór do dwóch ostatnich wpisów:
 
@@ -484,7 +484,7 @@ Jedną z najprzydatniejszych opcji jest `-p`. Pokazuje ona różnice wprowadzone
 	-end
 	\ No newline at end of file
 
-Opcja wyświetla te same informacje z tą różnicą, że bezpośrednio po każdym wpisie pokazywany jest diff (różnica). Szczególnie przydaje się to podczas recenzowania kodu albo szybkiego przeglądania zmian dokonanych przez twojego współpracownika.
+Opcja spowodowała wyświetlenie tych samych informacji z tą różnicą, że bezpośrednio po każdym wpisie został pokazywany tzw. diff, czyli różnica. Jest to szczególnie przydatne podczas recenzowania kodu albo szybkiego przeglądania zmian dokonanych przez twojego współpracownika.
 Dodatkowo możesz skorzystać z całej serii opcji podsumowujących wynik działania `git log`. Na przykład, aby zobaczyć skrócone statystyki każdej z zatwierdzonych zmian, użyj opcji `--stat`:
 
 	$ git log --stat 
@@ -518,7 +518,7 @@ Dodatkowo możesz skorzystać z całej serii opcji podsumowujących wynik dział
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
 Jak widzisz, `--stat` wyświetlił pod każdym wpisem historii listę zmodyfikowanych plików, liczbę zmienionych plików oraz liczbę dodanych i usuniętych linii. Dodatkowo, opcja dołożyła podobne podsumowanie wszystkich informacji na samym końcu wyniku.
-Kolejną bardzo przydatnym parametrem jest `--pretty`. Pokazuje on wynik wykonania polecenia log w nowym, innym niż domyślny formacie. Możesz skorzystać z kilku pre-definiowanych wariantów. Opcja `oneline` wyświetla każdą zatwierdzoną zmianę w pojedynczej linijce, co szczególnie przydaje się podczas wyszukiwania w całym gąszczu zmian. Dodatkowo, `short`, `full` oraz `fuller` pokazują wynik w mniej więcej tym samym formacie ale odpowiednio z odrobiną więcej lub mniej informacji:
+Kolejnym bardzo przydatnym parametrem jest `--pretty`. Pokazuje on wynik polecenia log w nowym, innym niż domyślny formacie. Możesz skorzystać z kilku pre-definiowanych wariantów. Opcja `oneline` wyświetla każdą zatwierdzoną zmianę w pojedynczej linii, co szczególnie przydaje się podczas wyszukiwania w całym gąszczu zmian. Dodatkowo, `short`, `full` oraz `fuller` pokazują wynik w mniej więcej tym samym formacie ale odpowiednio z odrobiną więcej lub mniej informacji:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
@@ -582,9 +582,9 @@ Są to jedynie podstawowe opcje formatowania wyjścia polecenia `git log` - jest
 
 ### Ograniczanie wyniku historii ###
 
-Jako dodatek do opcji formatowania, git log przyjmuje także zestaw parametrów ograniczających wynik do określonego podzbioru. Jeden z takich parametrów pokazaliśmy już wcześniej: opcja `-2`, która spowodowała pokazanie jedynie dwóch ostatnich rewizji. Oczywiście, możesz podać ich dowolną liczbę - `-<n>`, gdzie `n` jest liczbą całkowitą. Na co dzień raczej nie będziesz używał jej zbyt często, ponieważ Git domyślnie "pipe-uje" wynik do narzędzia stronicującego, w skutek czego i tak jednocześnie widzisz tylko jedną jego stronę.
+Jako dodatek do opcji formatowania, git log przyjmuje także zestaw parametrów ograniczających wynik do określonego podzbioru. Jeden z takich parametrów pokazaliśmy już wcześniej: opcja `-2`, która spowodowała pokazanie jedynie dwóch ostatnich rewizji. Oczywiście, możesz podać ich dowolną liczbę - `-<n>`, gdzie `n` jest liczbą całkowitą. Na co dzień raczej nie będziesz używał jej zbyt często, ponieważ Git domyślnie przekazuje wynik do narzędzia stronicującego, w skutek czego i tak jednocześnie widzisz tylko jedną jego stronę.
 
-Odmiennie jest z opcjami ograniczania w czasie takimi jak `--sience` (od) oraz `--until` (do) które są wyjątkowo przydatne. Na przykład, poniższe polecenie pobiera listę zmian dokonanych w ciągu ostatnich dwóch tygodni:
+Inaczej jest z w przypadku opcji ograniczania w czasie takich jak `--sience` (od) oraz `--until` (do) które są wyjątkowo przydatne. Na przykład, poniższe polecenie pobiera listę zmian dokonanych w ciągu ostatnich dwóch tygodni:
 
 	$ git log --since=2.weeks
 
@@ -618,7 +618,7 @@ Z prawie 20000 rewizji w historii kodu Gita, podana komenda wyłowiła jedynie 6
 
 ### Wizualizacja historii w interfejsie graficznym ###
 
-Do wyświetlenia historii rewizji możesz także użyć narzędzi okienkowych - być może spodoba ci się na przykład napisany w Tcl/Tk program o nazwie gitk, który jest dystrybuowany wraz z Gitem. Gitk to proste narzędzie do wizualizacji wyniku polecenia `git log` i akceptuje ono prawie wszystkie, wcześniej wymienione, opcje filtrowania. Po uruchomieniu gitk z linii poleceń powinieneś zobaczyć okno podobne do widocznego na ekranie 2-2.
+Do wyświetlania historii rewizji możesz także użyć narzędzi okienkowych - być może spodoba ci się na przykład napisany w Tcl/Tk program o nazwie gitk, który jest dystrybuowany wraz z Gitem. Gitk to proste narzędzie do wizualizacji wyniku polecenia `git log` i akceptuje ono prawie wszystkie, wcześniej wymienione, opcje filtrowania. Po uruchomieniu gitk z linii poleceń powinieneś zobaczyć okno podobne do widocznego na ekranie 2-2.
 
 Insert 18333fig0202.png 
 Ekran 2-2. Graficzny interfejs programu gitk przedstawiający historię rewizji.
@@ -627,7 +627,7 @@ Historia wraz z grafem przodków znajduje się w górnej połówce okna. W dolne
 
 ## Cofanie zmian ##
 
-Każdą z wcześniej wprowadzonych zmian możesz cofnąć w dowolnym momencie. Poniżej przyjrzymy się kilku podstawowym funkcjom cofającym modyfikacje. Musisz być jednak ostrożny ponieważ nie zawsze można cofnąć niektóre z tych cofnięć. Jest to jedno z niewielu miejsc w Gitcie, w których należy być naprawdę ostrożnym, gdyż można stracić bezpowrotnie część pracy.
+Każdą z wcześniej wprowadzonych zmian możesz cofnąć w dowolnym momencie. Poniżej przyjrzymy się kilku podstawowym funkcjom cofającym modyfikacje. Musisz być jednak ostrożny ponieważ nie zawsze można cofnąć niektóre z tych cofnięć [FIXME]. Jest to jedno z niewielu miejsc w Gitcie, w których należy być naprawdę ostrożnym, gdyż można stracić bezpowrotnie część pracy.
 
 ### Poprawka do ostatniej rewizji ###
 

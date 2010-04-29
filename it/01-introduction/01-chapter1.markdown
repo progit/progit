@@ -1,6 +1,6 @@
 # Per iniziare #
 
-Questo capitolo spiegher‡ come iniziare ad usare Git.  Inizieremo con una introduzione sugli strumenti di controllo della versione,  per poi passare a come far funzionare Git sul vostro sistema  e infine di come configurarlo per lavorarci.  Alla fine di questo capitolo, si dovrebbe capire a cosa serve Git, perche lo dovreste usare e avere tutto pronto per usarlo.
+Questo capitolo spiegher√† come iniziare ad usare Git.  Inizieremo con una introduzione sugli strumenti di controllo della versione,  per poi passare a come far funzionare Git sul vostro sistema  e infine di come configurarlo per lavorarci.  Alla fine di questo capitolo, si dovrebbe capire a cosa serve Git, perche lo dovreste usare e avere tutto pronto per usarlo.
 
 ## About Version Control ##
 
@@ -10,7 +10,7 @@ If you are a graphic or web designer and want to keep every version of an image 
 
 ### Local Version Control Systems ###
 
-Many peopleís version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if theyíre clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory youíre in and accidentally write to the wrong file or copy over files you donít mean to.
+Many people‚Äôs version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they‚Äôre clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you‚Äôre in and accidentally write to the wrong file or copy over files you don‚Äôt mean to.
 
 To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
 
@@ -26,24 +26,24 @@ The next major issue that people encounter is that they need to collaborate with
 Insert 18333fig0102.png 
 Figure 1-2. Centralized version control diagram.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and itís far easier to administer a CVCS than it is to deal with local databases on every client.
+This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it‚Äôs far easier to administer a CVCS than it is to deal with local databases on every client.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything theyíre working on. If the hard disk the central database is on becomes corrupted, and proper backups havenít been kept, you lose absolutely everythingóthe entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problemówhenever you have the entire history of the project in a single place, you risk losing everything.
+However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they‚Äôre working on. If the hard disk the central database is on becomes corrupted, and proper backups haven‚Äôt been kept, you lose absolutely everything‚Äîthe entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem‚Äîwhenever you have the entire history of the project in a single place, you risk losing everything.
 
 ### Distributed Version Control Systems ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients donít just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don‚Äôt just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
 
 Insert 18333fig0103.png 
 Figure 1-3. Distributed version control diagram.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that arenít possible in centralized systems, such as hierarchical models.
+Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren‚Äôt possible in centralized systems, such as hierarchical models.
 
 ## A Short History of Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991ñ2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991‚Äì2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the toolís free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool‚Äôs free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
 
 *	Speed
 *	Simple design
@@ -51,7 +51,7 @@ In 2005, the relationship between the community that developed the Linux kernel 
 *	Fully distributed
 *	Able to handle large projects like the Linux kernel efficiently (speed and data size)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. Itís incredibly fast, itís very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It‚Äôs incredibly fast, it‚Äôs very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
 
 ## Git Basics ##
 
@@ -64,26 +64,26 @@ The major difference between Git and any other VCS (Subversion and friends inclu
 Insert 18333fig0104.png 
 Figure 1-4. Other systems tend to store data as changes to a base version of each file.
 
-Git doesnít think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesnít store the file againójust a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git doesn‚Äôt think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn‚Äôt store the file again‚Äîjust a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
 
 Insert 18333fig0105.png 
 Figure 1-5. Git stores data as snapshots of the project over time.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. Weíll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We‚Äôll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
 
 ### Nearly Every Operation Is Local ###
 
-Most operations in Git only need local files and resources to operate ñ generally no information is needed from another computer on your network.  If youíre used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Most operations in Git only need local files and resources to operate ‚Äì generally no information is needed from another computer on your network.  If you‚Äôre used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
 
-For example, to browse the history of the project, Git doesnít need to go out to the server to get the history and display it for youóit simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+For example, to browse the history of the project, Git doesn‚Äôt need to go out to the server to get the history and display it for you‚Äîit simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
 
-This also means that there is very little you canít do if youíre offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and canít get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you canít do much when you arenít connected to the server; and in Subversion and CVS, you can edit files, but you canít commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+This also means that there is very little you can‚Äôt do if you‚Äôre offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can‚Äôt get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can‚Äôt do much when you aren‚Äôt connected to the server; and in Subversion and CVS, you can edit files, but you can‚Äôt commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
 
 ### Git Has Integrity ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means itís impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You canít lose information in transit or get file corruption without Git being able to detect it.
+Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it‚Äôs impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can‚Äôt lose information in transit or get file corruption without Git being able to detect it.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0ñ9 and añf) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0‚Äì9 and a‚Äìf) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
@@ -91,9 +91,9 @@ You will see these hash values all over the place in Git because it uses them so
 
 ### Git Generally Only Adds Data ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you havenít committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven‚Äôt committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see ìUnder the Coversî in Chapter 9.
+This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see ‚ÄúUnder the Covers‚Äù in Chapter 9.
 
 ### The Three States ###
 
@@ -108,7 +108,7 @@ The Git directory is where Git stores the metadata and object database for your 
 
 The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. Itís sometimes referred to as the index, but itís becoming standard to refer to it as the staging area.
+The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It‚Äôs sometimes referred to as the index, but it‚Äôs becoming standard to refer to it as the staging area.
 
 The basic Git workflow goes something like this:
 
@@ -116,17 +116,17 @@ The basic Git workflow goes something like this:
 2.	You stage the files, adding snapshots of them to your staging area.
 3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
 
-If a particular version of a file is in the git directory, itís considered committed. If itís modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, youíll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+If a particular version of a file is in the git directory, it‚Äôs considered committed. If it‚Äôs modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you‚Äôll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
 ## Installing Git ##
 
-Letís get into using some Git. First things firstóyou have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Let‚Äôs get into using some Git. First things first‚Äîyou have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
 
 ### Installing from Source ###
 
-If you can, itís generally useful to install Git from source, because youíll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless youíre on a very up-to-date distro or are using backports, installing from source may be the best bet.
+If you can, it‚Äôs generally useful to install Git from source, because you‚Äôll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you‚Äôre on a very up-to-date distro or are using backports, installing from source may be the best bet.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if youíre on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you‚Äôre on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -151,11 +151,11 @@ After this is done, you can also get Git via Git itself for updates:
 	
 ### Installing on Linux ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If youíre on Fedora, you can use yum:
+If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you‚Äôre on Fedora, you can use yum:
 
 	$ yum install git-core
 
-Or if youíre on a Debian-based distribution like Ubuntu, try apt-get:
+Or if you‚Äôre on a Debian-based distribution like Ubuntu, try apt-get:
 
 	$ apt-get install git-core
 
@@ -172,7 +172,7 @@ The other major way is to install Git via MacPorts (`http://www.macports.org`). 
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You donít have to add all the extras, but youíll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+You don‚Äôt have to add all the extras, but you‚Äôll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
 
 ### Installing on Windows ###
 
@@ -180,32 +180,32 @@ Installing Git on Windows is very easy. The msysGit project has one of the easie
 
 	http://code.google.com/p/msysgit
 
-After itís installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+After it‚Äôs installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
 
 ## First-Time Git Setup ##
 
-Now that you have Git on your system, youíll want to do a few things to customize your Git environment. You should have to do these things only once; theyíll stick around between upgrades. You can also change them at any time by running through the commands again.
+Now that you have Git on your system, you‚Äôll want to do a few things to customize your Git environment. You should have to do these things only once; they‚Äôll stick around between upgrades. You can also change them at any time by running through the commands again.
 
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 
 *	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository youíre currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	config file in the git directory (that is, `.git/config`) of whatever repository you‚Äôre currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although itís relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it‚Äôs relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
 ### Your Identity ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and itís immutably baked into the commits you pass around:
+The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it‚Äôs immutably baked into the commits you pass around:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when youíre in that project.
+Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you‚Äôre in that project.
 
 ### Your Editor ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your systemís default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system‚Äôs default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
 
 	$ git config --global core.editor emacs
 	
@@ -232,7 +232,7 @@ If you want to check your settings, you can use the `git config --list` command 
 
 You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
 
-You can also check what Git thinks a specific keyís value is by typing `git config {key}`:
+You can also check what Git thinks a specific key‚Äôs value is by typing `git config {key}`:
 
 	$ git config user.name
 	Scott Chacon
@@ -250,8 +250,8 @@ For example, you can get the manpage help for the config command by running
 	$ git help config
 
 These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book arenít enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+If the manpages and this book aren‚Äôt enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
 ## Summary ##
 
-You should have a basic understanding of what Git is and how itís different from the CVCS you may have been using. You should also now have a working version of Git on your system thatís set up with your personal identity. Itís now time to learn some Git basics.
+You should have a basic understanding of what Git is and how it‚Äôs different from the CVCS you may have been using. You should also now have a working version of Git on your system that‚Äôs set up with your personal identity. It‚Äôs now time to learn some Git basics.

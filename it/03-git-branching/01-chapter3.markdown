@@ -1,0 +1,5 @@
+# Git Branching #
+
+Praticamente ogni VCS ha un suo modo di supportare il branching. Branching significa distanziarsi dal flusso principale di sviluppo continuando a lavorare senza correre il rischio di fare pasticci sul flusso principale. In molti strumenti VCS questo è un processo in alcuni termini costoso, spesso richiede la creazione di una nuova copia della directory del codice sorgente che in grandi progetti può richiedere molto tempo.
+
+Molte persone fanno riferimento al modello di branching di Git per indicare la "killer feature", e questo certamente separa Git dagli altri VCS. Perchè è così speciale? Git crea branch in modo incredibilmente semplice e leggero, permettendo operazioni di branching praticamente istantanee come lo sono anche i passaggi da un branch ad un altro. Diversamente da molti altri VCS, Git incoraggia un workflow che sfrutta branch e merge frequentemente, anche molte volte al giorno. Capire e padroneggiare questa funzionalità mette a disposizione uno strumento potente ed unico e può letteralmente modificare il modo in cui si lavora.

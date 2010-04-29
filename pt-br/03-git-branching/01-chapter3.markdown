@@ -1,96 +1,98 @@
-# Git Branching #
+# Ramificação (Branching) no Git #
 
-Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
+Quase todos os VCS tem alguma forma de suporte a ramificação (branching). Criar um ramo significa dizer que você vai divergir da linha principal de desenvolvimento e continuar a trabalhar sem bagunçar essa linha principal. Em muitas ferramentas VCS, este é um processo um pouco caro, muitas vezes exigindo que você crie uma nova cópia do seu diretório de código-fonte, que pode levar um longo tempo para grandes projetos.
 
-Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
+Algumas pessoas se referem ao modelo de ramificação em Git como sua característica "matadora", e que certamente o destaca na comunidade de VCS. Por que ele é tão especial? A forma como o Git cria ramos é inacreditavelmente leve, fazendo com que as operações de ramificação sejam praticamente instantâneas e a alternância entre os ramos seja tão rápida quanto. Ao contrário de muitos outros VCSs, o Git incentiva um fluxo de trabalho no qual se façam ramos e mesclagens com frequência, até mesmo várias vezes ao dia. Compreender e dominar esta característica lhe dará uma ferramenta poderosa e única e poderá literalmente mudar a maneira como você desenvolve.
 
-## What a Branch Is ##
+## O que é um Ramo (Branch) ##
 
-To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
+Para compreender realmente a forma como o Git cria ramos, precisamos dar um passo atrás e examinar como o Git armazena seus dados. Como você pode se lembrar do capítulo 1, o Git não armazena dados como uma série de mudanças ou deltas, mas sim como uma série de snapshots.
 
-When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+Quando você faz uma submissão (commit) no Git, o Git submete um objeto que contém um ponteiro para o snapshot do conteúdo que você elencou, o autor e os metadados da mensagen, zero ou mais ponteiros para os commits ou commits que são pais deste commit: nenhum pai para o commit inicial, um pai para um commit normal e múltiplos pais para commits que resultem de uma mescla (merge) de dois ou mais ramos.
 
-To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
+Para visualizar isso, vamos supor que você tenha um diretório contendo três arquivos, e elencou e submeteu todos eles. Elencar os checksums de cada um (o hash SHA-1 que nos referimos no capítulo 1), vai armazenar esta versão do arquivo no repositório Git (o Git se refere a eles como blobs), e acrescenta este checksum à área de seleção (staging area):
 
 	$ git add README test.rb LICENSE2
 	$ git commit -m 'initial commit of my project'
 
-When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
+Quando você cria um commit executando `git commit`, o Git calcula o checksum de cada subdiretório (neste caso, apenas o diretório raiz do projeto) e armazena os objetos de árvore no repositório Git. O Git em seguida, cria um objeto commit que tem os metadados e um ponteiro para a raiz projeto, então ele pode recriar este snapshot quando noecessário.
 
-Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
+Seu repositório Git já contém cinco objetos: um blob para o conteúdo de cada um dos três arquivos, uma árvore que lista o conteúdo do diretório e especifica quais nomes de arquivos são armazenados em quais blobs, e um commit com o ponteiro para a raiz dessa árvore com todos os metadados do commit. Conceitualmente, os dados em seu repositório Git se parecem como na Figura 3-1.
 
 Insert 18333fig0301.png 
-Figure 3-1. Single commit repository data
+Figure 3-1. Dados de um repositório com um único commit.
 
-If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
+Se você fizer algumas mudanças e submeter novamente, o próximo commit armazenará um ponteiro para commit imediatamente anterior. Depois de mais dois commits, seu histórico poderia ser algo como a Figura 3-2.
 
 Insert 18333fig0302.png 
-Figure 3-2. Git object data for multiple commits 
+Dados dos objetos Git para múltiplos commits.
 
-A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
+Um ramo no Git é simplesmente um leve ponteiro móvel um desses commits. O nome do ramo padrão no Git é master. Como você inicialmente fez commits, você tem um ramo principal (master branch) que aponta para o último commit que você fez. Cada vez que você submete (faz um commit) ele avança automaticamente.
 
 Insert 18333fig0303.png 
-Figure 3-3. Branch pointing into the commit data’s history
+Figure 3-3. Branch apontando para o histórico de commits
 
-What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
+O que acontece se você criar um novo ramo? Bem, isso cria um novo ponteiro para que você possa se mover. Vamos dizer que você crie um novo ramo chamado teste. Você faz isso com o comando `git branch`:
 
 	$ git branch testing
 
-This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
+Isso cria um novo ponteiro para o mesmo commit em que você está no momento (ver a Figura 3-4).
 
 Insert 18333fig0304.png 
-Figure 3-4. Multiple branches pointing into the commit’s data history
+Figura 3-4. Múltiplos ramos apontando para o histórico de commits
 
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+Como o Git sabe o ramo em que você está atualmente? Ele mantém um ponteiro especial chamado HEAD. Observe que isso é muito diferente do conceito de cabeça em outros VCSs que você possa ter usado, como Subversion e CVS. No Git, este é um ponteiro para o ramo local em que está no momento. Neste caso, você ainda está no master. O comando git branch só criou um novo ramo — ele não mudou para esse ramo (veja Figura 3-5).
 
 Insert 18333fig0305.png 
-Figure 3-5. HEAD file pointing to the branch you’re on
+Figura 3-5. HEAD apontando para o ramo em que você está
 
-To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
+Para mudar para um ramo existente, você executa o comando `git checkout`. Vamos mudar para o novo ramo de testes:
 
 	$ git checkout testing
 
-This moves HEAD to point to the testing branch (see Figure 3-6).
+Isto move o HEAD para apontar para o ramo de testes (ver Figura 3-6).
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD points to another branch when you switch branches.
+Figura 3-6. O HEAD aponta para outro ramo quando você troca de ramos.
 
-What is the significance of that? Well, let’s do another commit:
+Qual é o significado disso? Bem, vamos fazer um outro commit:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
-Figure 3-7 illustrates the result.
+A figura 3-7 ilustra o resultado.
 
 Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+Figura 3-7. O ramo para o qual HEAD aponta se move à frente em cada commit.
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+Isso é interessante, porque agora o seu ramo de testes, avançou, mas o seu ramo mestre ainda aponta para o commit em que estava quando você executou `git checkout` para trocar de ramo. Vamos voltar para o ramo mestre (master branch):
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+A figura 3-8 nostra o resultado.
 
 Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+Figura 3-8. O HEAD se move para outro ramo com um checkout.
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+Esse comando fez duas coisas. Ele alterou o ponteiro HEAD para apontar novamente para o ramo principal, e reverteu os arquivos em seu diretório de trabalho para o estado em que estavam no snapshot para o qual o master apontava. Isto significa também que as mudanças feitas a partir deste ponto em diante, irão divergir de uma versão anterior do projeto. Ele essencialmente "volta" o trabalho que você fez no seu ramo de testes, temporariamente, de modo que você possa ir em uma direção diferente a partir do master.
 
-Let’s make a few changes and commit again:
+Vamos fazer algumas mudanças e submeter novamente:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+Agora o histórico do seu projeto diverge (ver Figura 3-9). Você criou e trocou para um ramo, fez alguns trabalhos nele, e então voltou para o seu ramo principal e fez outros trabalhos. Ambas as mudanças são isoladas em ramos distintos: você pode alternar entre os ramos e fundi-los quando estiver pronto. E você fez tudo isso simplesmente com os comandos `branch` e `checkout`.
 
 Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+Figura 3-9. O histórico dos ramos diverge.
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+Por causa de um ramo em Git ser na verdade um arquivo simples que contém os 40 caracteres do checksum SHA-1 do commit para o qual ele aponta, os ramos são baratos para criar e destruir. Criar um novo ramo é tão rápido e simples como escrever 41 bytes em um arquivo (40 caracteres e uma nova linha).
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+Isto está em nítido contraste com a forma coma a qual a maioria das ferramentas VCS ramificam, que envolve a cópia de todos os arquivos do projeto para um segundo diretório. Isso pode demorar vários segundos ou até minutos, dependendo do tamanho do projeto, enquanto que no Git o processo é sempre instantâneo. Também, porque nós estamos gravando os pais dos objetos quando fazemos commits, encontrar uma boa base para mesclar (merge) é uma tarefa feita automaticamente para nós e geralmente é muito fácil de fazer. Esses recursos ajudam a estimular os desenvolvedores a criar e utilizar ramos com freqüência.
 
-Let’s see why you should do so.
+Vamos ver por que você deve fazê-lo.
+
+__BLABOS__PAUSED__HERE__
 
 ## Basic Branching and Merging ##
 

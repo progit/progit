@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
 require 'fileutils'
 require 'open3'
 require 'erb'
@@ -7,7 +8,7 @@ require 'yaml'
 include FileUtils, Open3
 alias :pipe :popen3
 
-$here = File.dirname(__FILE__)
+$here = File.expand_path(File.dirname(__FILE__))
 $root = File.join($here, '..')
 
 def figures(&block)
@@ -80,7 +81,7 @@ def post_pandoc(string, config)
 		# Enable proper cross-reference
 		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
 		s /#{config['tab'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
-		s /#{config['chap'].gsub(space, '\s')}\s*(\d+)/, '\chapref{\1}'
+		s /#{config['prechap'].gsub(space, '\s')}\s*(\d+)\s*#{config['postchap'].gsub(space, '\s')}/, '\chapref{\1}'
 
 		# Miscellaneous fixes
 		s /FIG: (.*)/, '\img{\1}'
@@ -103,11 +104,12 @@ def post_pandoc(string, config)
 		end
 
 		# Make Tables 2-1..2-3 actual tables
-		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)\\end\{verbatim\}/ do
+		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)(([^\t\n]*)\n)?\\end\{verbatim\}/ do
+			$cap = $4
 			"\\begin{table}[h!]
-				\\refstepcounter{table}
+				\\refstepcounter{tab}
 				\\centering
-				\\label{tab:\\thetable}
+				\\label{tab:\\thetab}
 				\\begin{tabular}{p{2.75cm}p{8.25cm}}
 					\\toprule\n" <<
 					verbatim_sanitize($1).
@@ -117,8 +119,12 @@ def post_pandoc(string, config)
 						concat("
 					\\bottomrule
 				\\end{tabular}
+				\\textbf{\\caption{#{$cap}}}
 			\\end{table}")
 		end
+
+		# Shaded verbatim block
+		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'
 	end
 end
 

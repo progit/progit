@@ -1,0 +1,29 @@
+# Palabras que me crean regomeyo
+
+- Backport: No encuentro una traducción adecuada.
+- Branch/Branching: Lo traduzco como *rama*/*ramificación*, pero pongo entre () el término original.
+- Checkin: No encuentro una traducción adecuada.
+- Checkout: No encuentro una traducción adecuada.
+- Checksum: Lo traduzco como *suma de comprobación* a regañadientes, pongo entre () el término original.
+- Commit/Committed: Lo traduzco como *confirmar*/*confirmado*, pero pongo entre () el término original.
+- Diff: Lo traduzco como *diferencia*.
+- Fork: Lo traduzco como *bifurcación*, pero pongo entre () el término original.
+- Hook: Lo traduzco como *gancho* a regañadientes, pongo entre () el término original.
+- Kernel: La traducción habitual es *núcleo*, así que la usaré.
+- Manpage: Lo traduzco como *página del manual*, pero pongo entre () el término original.
+- Merge: Lo traduzco como *unión*, pero pongo entre () el término original.
+- Rebase: No encuentro una traducción adecuada.
+- Pull: Lo traduzco como *recibir*, pero pongo entre () el término original. No quiero usar *descargar* o *bajar*, porque parece que hace referencia a entornos cliente/servidor.
+- Push: Lo traduzco como *mandar*, pero pongo entre () el término original. No quiero usar *subir*, porque parece que hace referencia a entornos cliente/servidor.
+- Remote: Lo traduzco como *repositorio remoto* o *remoto*.
+- Snapshot: Lo traduzco como *instantánea*.
+- Stage/Staged: Lo traduzco como *preparar*/*preparado*, pero pongo entre () el término original.
+- Staging area: Parece ser un término militar. Se refiere a una localización temporal donde se reúnen recursos antes de un ataque o invasión. Lo traduzco como *área de preparación*, pero pongo entre () el término original.
+- Track/Tracking: Lo traduzco como *seguir*/*seguimiento*.
+
+
+# Anotaciones sobre las anotaciones [afgomez]
+
+- No creo que sea necesario poner entre parentesis los términos originales de "rama" y "unión". Es una traduccion lo suficientemente clara como para no necesitarlos.
+- A lo largo del texto se utilizan guiones '-' para indicar aclaraciones en el texto. En Español el signo correcto es la raya ('—', &mdash; en HTML), y debe ir siempre cerrado, por lo que se han modificado en el texto.
+  Más información: http://es.wikipedia.org/wiki/Raya_%28puntuaci%C3%B3n%29

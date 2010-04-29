@@ -71,7 +71,7 @@ If you have a commit-message policy in place, then putting a template for that p
 
 #### core.pager ####
 
-The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to more or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
+The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
 
 	$ git config --global core.pager ''
 
@@ -117,7 +117,7 @@ When that value is set, Git colors its output if the output goes to a terminal. 
 
 You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `--color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use.
 
-#### color.* ####
+#### `color.*` ####
 
 If you want to be more specific about which commands are colored and how, or you have an older version, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:
 
@@ -190,7 +190,7 @@ After all this is set, if you run diff commands such as this:
 Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.
 
 Insert 18333fig0701.png 
-Figure 7-1. P4Merge
+Figure 7-1. P4Merge.
 
 If you try to merge two branches and subsequently have merge conflicts, you can run the command `git mergetool`; it starts P4Merge to let you resolve the conflicts through that GUI tool.
 
@@ -285,7 +285,7 @@ This denies branch and tag deletion over a push across the board — no user can
 
 ## Git Attributes ##
 
-Some of these settings can also be specified for a path, so that Git applies those settings only for a subdirectory or subset of files. These path-specific settings are called Git attributes and are set either in a `.gitattribute` file in one of your directories (normally the root of your project) or in the `.git/info/attributes` file if you don’t want the attributes file committed with your project.
+Some of these settings can also be specified for a path, so that Git applies those settings only for a subdirectory or subset of files. These path-specific settings are called Git attributes and are set either in a `.gitattributes` file in one of your directories (normally the root of your project) or in the `.git/info/attributes` file if you don’t want the attributes file committed with your project.
 
 Using attributes, you can do things like specify separate merge strategies for individual files or directories in your project, tell Git how to diff non-text files, or have Git filter content before you check it into or out of Git. In this section, you’ll learn about some of the attributes you can set on your paths in your Git project and see a few examples of using this feature in practice.
 
@@ -389,7 +389,7 @@ The next time you check out this file, Git injects the SHA of the blob:
 
 However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
 
-It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
+It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re checked out ("smudge", see Figure 7-2) and just before they’re committed ("clean", see Figure 7-3). These filters can be set to do all sorts of fun things.
 
 Insert 18333fig0702.png 
 Figure 7-2. The “smudge” filter is run on checkout.
@@ -582,12 +582,12 @@ You have to figure out how to get the commit message from each of these commits 
 	author Scott Chacon <schacon@gmail.com> 1205815931 -0700
 	committer Scott Chacon <schacon@gmail.com> 1240030591 -0700
 
-	changed the verison number
+	changed the version number
 
 A simple way to get the commit message from a commit when you have the SHA-1 value is to go to the first blank line and take everything after that. You can do so with the `sed` command on Unix systems:
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
-	changed the verison number
+	changed the version number
 
 You can use that incantation to grab the commit message from each commit that is trying to be pushed and exit if you see anything that doesn’t match. To exit the script and reject the push, exit non-zero. The whole method looks like this:
 

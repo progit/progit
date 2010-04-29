@@ -318,7 +318,7 @@ This way, you can set up HTTP-based read access to any of your projects for a fa
 Now that you have basic read/write and read-only access to your project, you may want to set up a simple web-based visualizer. Git comes with a CGI script called GitWeb that is commonly used for this. You can see GitWeb in use at sites like `http://git.kernel.org` (see Figure 4-1).
 
 Insert 18333fig0401.png 
-Figure 4-1. The GitWeb web-based user interface
+Figure 4-1. The GitWeb web-based user interface.
 
 If you want to check out what GitWeb would look like for your project, Git comes with a command to fire up a temporary instance if you have a lightweight server on your system like `lighttpd` or `webrick`. On Linux machines, `lighttpd` is often installed, so you may be able to get it to run by typing `git instaweb` in your project directory. If you’re running a Mac, Leopard comes preinstalled with Ruby, so `webrick` may be your best bet. To start `instaweb` with a non-lighttpd handler, you can run it with the `--httpd` option.
 
@@ -488,9 +488,179 @@ Gitosis has simple access controls as well. If you want John to have only read a
 	readonly = iphone_project
 	members = john
 
-Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members, to inherit all of its members automatically.
+Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members (using `@` as prefix), to inherit all of its members automatically:
+
+	[group mobile_committers]
+	members = scott josie jessica
+
+	[group mobile]
+	writable  = iphone_project
+	members   = @mobile_committers
+
+	[group mobile_2]
+	writable  = another_iphone_project
+	members   = @mobile_committers john
 
 If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.
+
+## Gitolite ##
+
+Git has started to become very popular in corporate environments, which tend to have some additional requirements in terms of access control.  Gitolite was created to help with those requirements.
+
+Gitolite allows you to specify permissions not just by repository (like Gitosis does), but also by branch or tag names within each repository.  That is, you can specify that certain people (or groups of people) can only push certain "refs" (branches or tags) but not others.
+
+### Installing ###
+
+Installing Gitolite is very easy, even if you don't read the extensive documentation that comes with it.  You need an account on a Unix server of some kind; various Linux flavours, and Solaris 10, have been tested.  You do not need root access, assuming git, perl, and an openssh compatible ssh server are already installed.  In the examples below, we will use the `gitolite` account on a host called `gitserver`.
+
+Curiously, Gitolite is installed by running a script *on the workstation*, so your workstation must have a bash shell available.  Even the bash that comes with msysgit will do, in case you're wondering.
+
+You start by obtaining public key based access to your server, so that you can log in from your workstation to the server without getting a password prompt.  The following method works on Linux; for other workstation OSs you may have to do this manually.  We assume you already had a key pair generated using `ssh-keygen`.
+
+	$ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
+
+This will ask you for the password to the gitolite account, and then set up public key access.  This is **essential** for the install script, so check to make sure you can run a command without getting a password prompt:
+
+	$ ssh gitolite@gitserver pwd
+	/home/gitolite
+
+Next, you clone Gitolite from the project's main site and run the "easy install" script (the third argument is your name as you would like it to appear in the resulting gitolite-admin repository):
+
+	$ git clone git://github.com/sitaramc/gitolite
+	$ cd gitolite/src
+	$ ./gl-easy-install -q gitolite gitserver sitaram
+
+And you're done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in the home directory of your workstation.  You administer your gitolite setup by making changes to this repository and pushing (just like Gitosis).
+
+[By the way, *upgrading* gitolite is also done the same way.  Also, if you're interested, run the script without any arguments to get a usage message.]
+
+That last command does produce a fair amount of output, which might be interesting to read.  Also, the first time you run this, a new keypair is created; you will have to choose a passphrase or hit enter for none.  Why a second keypair is needed, and how it is used, is explained in the "ssh troubleshooting" document that comes with Gitolite.  (Hey the documentation has to be good for *something*!)
+
+### Customising the Install ###
+
+While the default, quick, install works for most people, there are some ways to customise the install if you need to.  If you omit the `-q` argument, you get a "verbose" mode install -- detailed information on what the install is doing at each step.  The verbose mode also allows you to change certain server-side parameters, such as the location of the actual repositories, by editing an "rc" file that the server uses.  This "rc" file is liberally commented so you should be able to make any changes you need quite easily, save it, and continue.  This file also contains various settings that you can change to enable or disable some of gitolite's advanced features.
+
+### Config File and Access Control Rules ###
+
+So once the install is done, you switch to the `gitolite-admin` repository (placed in your HOME directory) and poke around to see what you got:
+
+	$ cd ~/gitolite-admin/
+	$ ls
+	conf/  keydir/
+	$ find conf keydir -type f
+	conf/gitolite.conf
+	keydir/sitaram.pub
+	$ cat conf/gitolite.conf
+	#gitolite conf
+	# please see conf/example.conf for details on syntax and features
+
+	repo gitolite-admin
+	    RW+                 = sitaram
+
+	repo testing
+	    RW+                 = @all
+
+Notice that "sitaram" (the last argument in the `gl-easy-install` command you gave earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.
+
+The config file syntax for Gitolite is *quite* different from Gitosis.  Again, this is liberally documented in `conf/example.conf`, so we'll only mention some highlights here.
+
+You can group users or repos for convenience.  The group names are just like macros; when defining them, it doesn't even matter whether they are projects or users; that distinction is only made when you *use* the "macro".
+
+	@oss_repos      = linux perl rakudo git gitolite
+	@secret_repos   = fenestra pear
+
+	@admins         = scott     # Adams, not Chacon, sorry :)
+	@interns        = ashok     # get the spelling right, Scott!
+	@engineers      = sitaram dilbert wally alice
+	@staff          = @admins @engineers @interns
+
+You can control permissions at the "ref" level.  In the following example, interns can only push the "int" branch.  Engineers can push any branch whose name starts with "eng-", and tags that start with "rc" followed by a digit.  And the admins can do anything (including rewind) to any ref.
+
+	repo @oss_repos
+	    RW  int$                = @interns
+	    RW  eng-                = @engineers
+	    RW  refs/tags/rc[0-9]   = @engineers
+	    RW+                     = @admins
+
+The expression after the `RW` or `RW+` is a regular expression (regex) that the refname (ref) being pushed is matched against.  So we call it a "refex"!  Of course, a refex can be far more powerful than shown here, so don't overdo it if you're not comfortable with perl regexes.
+
+Also, as you probably guessed, Gitolite prefixes `refs/heads/` as a syntactic convenience if the refex does not begin with `refs/`.
+
+An important feature of the config file's syntax is that all the rules for a repository need not be in one place.  You can keep all the common stuff together, like the rules for all `oss_repos` shown above, then add specific rules for specific cases later on, like so:
+
+	repo gitolite
+	    RW+                     = sitaram
+
+That rule will just get added to the ruleset for the `gitolite` repository.
+
+At this point you might be wondering how the access control rules are actually applied, so let's go over that briefly.
+
+There are two levels of access control in gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.  This is the only access control that Gitosis had.
+
+The second level, applicable only to "write" access, is by branch or tag within a repository.  The username, the access being attempted (`W` or `+`), and the refname being updated are known.  The access rules are checked in order of appearance in the config file, looking for a match for this combination (but remember that the refname is regex-matched, not merely string-matched).  If a match is found, the push succeeds.  A fallthrough results in access being denied.
+
+### Advanced Access Control with "deny" rules ###
+
+So far, we've only seen permissions to be one or `R`, `RW`, or `RW+`.  However, gitolite allows another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
+
+Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  Here's how to do that:
+
+	    RW  master integ    = @engineers
+	    -   master integ    = @engineers
+	    RW+                 = @engineers
+
+Again, you simply follow the rules top down until you hit a match for your access mode, or a deny.  Non-rewind push to master or integ is allowed by the first rule.  A rewind push to those refs does not match the first rule, drops down to the second, and is therefore denied.  Any push (rewind or non-rewind) to refs other than master or integ won't match the first two rules anyway, and the third rule allows it.
+
+### Restricting pushes by files changed ###
+
+In addition to restricting what branches a user can push changes to, you can also restrict what files they are allowed to touch.  For example, perhaps the Makefile (or some other program) is really not supposed to be changed by just anyone, because a lot of things depend on it or would break if the changes are not done *just right*.  You can tell gitolite:
+
+    repo foo
+        RW                  =   @junior_devs @senior_devs
+
+        RW  NAME/           =   @senior_devs
+        -   NAME/Makefile   =   @junior_devs
+        RW  NAME/           =   @junior_devs
+
+This powerful feature is documented in `conf/example.conf`.
+
+### Personal Branches ###
+
+Gitolite also has a feature called "personal branches" (or rather, "personal branch namespace") that can be very useful in a corporate environment.
+
+A lot of code exchange in the git world happens by "please pull" requests.  In a corporate environment, however, unauthenticated access is a no-no, and a developer workstation cannot do authentication, so you have to push to the central server and ask someone to pull from there.
+
+This would normally cause the same branch name clutter as in a centralised VCS, plus setting up permissions for this becomes a chore for the admin.
+
+Gitolite lets you define a "personal" or "scratch" namespace prefix for each developer (for example, `refs/personal/<devname>/*`), with full permissions for that dev only, and read access for everyone else.  Just choose a verbose install and set the `$PERSONAL` variable in the "rc" file to `refs/personal`.  That's all; it's pretty much fire and forget as far as the admin is concerned, even if there is constant churn in the project team composition.
+
+### "Wildcard" repositories ###
+
+Gitolite allows you to specify repositories with wildcards (actually perl regexes), like, for example `assignments/s[0-9][0-9]/a[0-9][0-9]`, to pick a random example.  This is a *very* powerful feature, which has to be enabled by setting `$GL_WILDREPOS = 1;` in the rc file.  It allows you to assign a new permission mode ("C") which allows users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out R and RW permissions to other users to collaborate, etc.  This feature is documented in `doc/4-wildcard-repositories.mkd`.
+
+### Other Features ###
+
+We'll round off this discussion with a bunch of other features, all of which are described in great detail in the "faqs, tips, etc" document.
+
+**Logging**: Gitolite logs all successful accesses.  If you were somewhat relaxed about giving people rewind permissions (`RW+`) and some kid blew away "master", the log file is a life saver, in terms of easily and quickly finding the SHA that got hosed.
+
+**Git outside normal PATH**: One extremely useful convenience feature in gitolite is support for git installed outside the normal `$PATH` (this is more common than you think; some corporate environments or even some hosting providers refuse to install things system-wide and you end up putting them in your own directories).  Normally, you are forced to make the *client-side* git aware of this non-standard location of the git binaries in some way.  With gitolite, just choose a verbose install and set `$GIT_PATH` in the "rc" files.  No client-side changes are required after that :-)
+
+**Access rights reporting**: Another convenient feature is what happens when you try and just ssh to the server.  Older versions of gitolite used to complain about the `SSH_ORIGINAL_COMMAND` environment variable being empty (see the ssh documentation if interested).  Now Gitolite comes up with something like this:
+
+	hello sitaram, the gitolite version here is v0.90-9-g91e1e9f
+	you have the following permissions:
+	  R     anu-wsd
+	  R     entrans
+	  R  W  git-notes
+	  R  W  gitolite
+	  R  W  gitolite-admin
+	  R     indic_web_input
+	  R     shreelipi_converter
+
+**Delegation**: For really large installations, you can delegate responsibility for groups of repositories to various people and have them manage those pieces independently.  This reduces the load on the main admin, and makes him less of a bottleneck.  This feature has its own documentation file in the `doc/` directory.
+
+**Gitweb support**: Gitolite supports gitweb in several ways.  You can specify which repos are visible via gitweb.  You can set the "owner" and "description" for gitweb from the gitolite config file.  Gitweb has a mechanism for you to implement access control based on HTTP authentication, so you can make it use the "compiled" config file that gitolite produces, which means the same access control rules (for read access) apply for gitweb and gitolite.
 
 ## Git Daemon ##
 
@@ -579,18 +749,18 @@ GitHub is also a commercial company that charges for accounts that maintain priv
 The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
 
 Insert 18333fig0402.png
-Figure 4-2. The GitHub plan page
+Figure 4-2. The GitHub plan page.
 
 Here you must choose a username that isn’t yet taken in the system and enter an e-mail address that will be associated with the account and a password (see Figure 4-3).
 
 Insert 18333fig0403.png 
-Figure 4-3. The GitHub user signup form
+Figure 4-3. The GitHub user signup form.
 
 If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
 Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).
 
 Insert 18333fig0404.png 
-Figure 4-4. The GitHub user dashboard
+Figure 4-4. The GitHub user dashboard.
 
 Next you can create a new repository. 
 
@@ -599,17 +769,17 @@ Next you can create a new repository.
 Start by clicking the "create a new one" link next to Your Repositories on the user dashboard. You’re taken to the Create a New Repository form (see Figure 4-5).
 
 Insert 18333fig0405.png 
-Figure 4-5. Creating a new repository on GitHub
+Figure 4-5. Creating a new repository on GitHub.
 
 All you really have to do is provide a project name, but you can also add a description. When that is done, click the "Create Repository" button. Now you have a new repository on GitHub (see Figure 4-6).
 
 Insert 18333fig0406.png 
-Figure 4-6. GitHub project header information
+Figure 4-6. GitHub project header information.
 
 Since you have no code there yet, GitHub will show you instructions for how create a brand-new project, push an existing Git project up, or import a project from a public Subversion repository (see Figure 4-7).
 
 Insert 18333fig0407.png 
-Figure 4-7. Instructions for a new repository
+Figure 4-7. Instructions for a new repository.
 
 These instructions are similar to what we’ve already gone over. To initialize a project if it isn’t already a Git project, you use
 
@@ -625,7 +795,7 @@ When you have a Git repository locally, add GitHub as a remote and push up your 
 Now your project is hosted on GitHub, and you can give the URL to anyone you want to share your project with. In this case, it’s `http://github.com/testinguser/iphone_project`. You can also see from the header on each of your project’s pages that you have two Git URLs (see Figure 4-8).
 
 Insert 18333fig0408.png 
-Figure 4-8. Project header with a public URL and a private URL
+Figure 4-8. Project header with a public URL and a private URL.
 
 The Public Clone URL is a public, read-only Git URL over which anyone can clone the project. Feel free to give out that URL and post it on your web site or what have you.
 
@@ -636,7 +806,7 @@ The Your Clone URL is a read/write SSH-based URL that you can read or write over
 If you have an existing public Subversion project that you want to import into Git, GitHub can often do that for you. At the bottom of the instructions page is a link to a Subversion import. If you click it, you see a form with information about the import process and a text box where you can paste in the URL of your public Subversion project (see Figure 4-9).
 
 Insert 18333fig0409.png 
-Figure 4-9. Subversion importing interface
+Figure 4-9. Subversion importing interface.
 
 If your project is very large, nonstandard, or private, this process probably won’t work for you. In Chapter 7, you’ll learn how to do more complicated manual project imports.
 
@@ -647,17 +817,17 @@ Let’s add the rest of the team. If John, Josie, and Jessica all sign up for ac
 Click the "edit" button in the project header or the Admin tab at the top of the project to reach the Admin page of your GitHub project (see Figure 4-10).
 
 Insert 18333fig0410.png 
-Figure 4-10. GitHub administration page
+Figure 4-10. GitHub administration page.
 
 To give another user write access to your project, click the “Add another collaborator” link. A new text box appears, into which you can type a username. As you type, a helper pops up, showing you possible username matches. When you find the correct user, click the Add button to add that user as a collaborator on your project (see Figure 4-11).
 
 Insert 18333fig0411.png 
-Figure 4-11. Adding a collaborator to your project
+Figure 4-11. Adding a collaborator to your project.
 
 When you’re finished adding collaborators, you should see a list of them in the Repository Collaborators box (see Figure 4-12).
 
 Insert 18333fig0412.png 
-Figure 4-12. A list of collaborators on your project
+Figure 4-12. A list of collaborators on your project.
 
 If you need to revoke access to individuals, you can click the "revoke" link, and their push access will be removed. For future projects, you can also copy collaborator groups by copying the permissions of an existing project.
 
@@ -666,7 +836,7 @@ If you need to revoke access to individuals, you can click the "revoke" link, an
 After you push your project up or have it imported from Subversion, you have a main project page that looks something like Figure 4-13.
 
 Insert 18333fig0413.png 
-Figure 4-13. A GitHub main project page
+Figure 4-13. A GitHub main project page.
 
 When people visit your project, they see this page. It contains tabs to different aspects of your projects. The Commits tab shows a list of commits in reverse chronological order, similar to the output of the `git log` command. The Network tab shows all the people who have forked your project and contributed back. The Downloads tab allows you to upload project binaries and link to tarballs and zipped versions of any tagged points in your project. The Wiki tab provides a wiki where you can write documentation or other information about your project. The Graphs tab has some contribution visualizations and statistics about your project. The main Source tab that you land on shows your project’s main directory listing and automatically renders the README file below it if you have one. This tab also shows a box with the latest commit information.
 
@@ -684,7 +854,7 @@ Figure 4-14. Get a writable copy of any repository by clicking the "fork" button
 After a few seconds, you’re taken to your new project page, which indicates that this project is a fork of another one (see Figure 4-15).
 
 Insert 18333fig0415.png 
-Figure 4-15. Your fork of a project 
+Figure 4-15. Your fork of a project.
 
 ### GitHub Summary ###
 

@@ -1,4 +1,4 @@
- # Почетак #
+# Почетак #
 
 Ово поглавље прича о почетку рада са Гитом. Започећемо појашњавањем позадине алата за контролу верзије, затим ћемо прећи на то како покренути Гит на свом систему и коначно како га подесити и кренути са радом. На крају овог поглавља разумећеш зашто постоји Гит, зашто га треба користити и како га подесити.
 
@@ -10,12 +10,12 @@
 
 ### Локални системи контроле верзије ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+Многи људи прате верзије тако што копирају фајлове у други директоријум (којем, евентуално, додају датум и време). Овај приступ је врло чест јер је једноставан, али врло подложан грешкама. Човек лако заборави у којем је директоријуму и онда случајно упише у погрешан фајл или препише постојеће фајлове погрешним копијама.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Да бисмо се изборили са овим проблемом, програмери су одавно развили локалне систем за контролу верзија који имају једноставну базу у којој памте све промене над фајловима које прате (види Figure 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram
+Figure 1-1. Дијаграм локланог система за праћење верзија
 
 One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 

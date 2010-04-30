@@ -17,18 +17,18 @@
 Insert 18333fig0101.png 
 Figure 1-1. Дијаграм локланог система за праћење верзија
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+Један од популарнијих алата јесте систем rcs, који се и даље испоручује у многим рачунарима и данас. Чак и популарни Mac OS X оперативни систем садржи rcs команду када се инсталирају Програмерки Алати (ор. Developer Tools). Овај алат у ствари ради тако што памти скупове закрпа (тј. фајлове са разликама међу фајловима) од једне промене до друге у посебном формату на диксу; на тај начин, он може да поново рестаурира стање било код фајла у било којој тачки у времену додајући јој закрпе (ен. patch).
 
 ### Централизовани системи контроле верзије ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Следећи велики проблем који људи сусрећу јесте да морају да сарађују са програмерима на другим системима. Да би се решио овај проблем, развијени су Централизовани системи за праћење верзија. Овакви системи, попут CVS-а, Subversion-a и Perforce-a, поседују један сервер који садржи све верзионисане фајлове, и бројне клијенте који онда пореде фајлове са тим централним местом. Дуги низ година, ово је представљало стандард за праћење верзија (видети Figure 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram
+Figure 1-2. Дијаграм централизованог система за праћење верзија
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Оваква поставка нуди много предности, посебно над чисто локалним системима за верзионисање. На пример, сви знају отприлике шта остали на пројекту раде. Администратори имају прецизну контролу над тиме шта ко може да уради; и много је једноставније да се администрира централизовани систем него управљати локалним базама на сваком клијенту.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Свакако, ова поставка садржи такође неке озбиљне недостатке. Најочигледнији је једно место грешке које представљају централизовани сервери. Ако сервер није доступан сат времена, онда током ток сата нико не може уопште да сарађује нити да сачува верзионисане промене над урађеним послом. Ако се хард диск централне базе поквари, а не постоје одговарајуће сигурносне копије, изгубљено је практично све — цела историја пројекта евентулано појединих последњих стања које су учесници сачували на својим локланим машинама. Локални системи верзионисања пате од истог проблема — кад год постоји само једна копија историје пројекта на једној локацији, расте ризик да се то све изгуби.
 
 ### Дистрибуирани системи контроле верзије ###
 

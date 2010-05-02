@@ -10,7 +10,6 @@ By now, you’ve learned most of the day-to-day commands and workflows that you 
 Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
 
 ## Выбор ревизии ##
-
 ## Revision Selection ##
 
 Git позволяет вам указывать конкретные коммиты или их последовательности несколькими способами. Они не всегда очевидны, но иногда их полезно знать.
@@ -18,7 +17,6 @@ Git позволяет вам указывать конкретные комми
 Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
 
 ### Одиночные ревизии ###
-
 ### Single Revisions ###
 
 Вы можете просто сослаться на коммит по его SHA-1 хэшу, но также существуют более дружественные для человека способы ссылаться на коммиты. В этой секции обозреваются различные способы, которыми вы можете сослаться на одиночный коммит.
@@ -73,12 +71,11 @@ Git can figure out a short, unique abbreviation for your SHA-1 values. If you pa
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-В общем случае, от восемь-десять символов более чем достаточно для уникальности внутри проекта. В одном из самых больших проектов на Git, ядре Linux только начинает появляться необходимость использовать 12 символов из 40 возможных для сохранения однозначности.
+В общем случае, восемь-десять символов более чем достаточно для уникальности внутри проекта. В одном из самых больших проектов на Git, ядре Linux только начинает появляться необходимость использовать 12 символов из 40 возможных для сохранения однозначности.
 
 Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
 
 ### Небольшое замечание о SHA-1###
-
 ### A SHORT NOTE ABOUT SHA-1 ###
 
 Многие люди интересуются что произойдет, если они в какой-то момент, по некоторой случайности, получат два объекта в репозитории, которые будут иметь два одинаковых значения SHA-1 хэша. Что тогда?
@@ -132,7 +129,7 @@ Every time your branch tip is updated for any reason, Git stores that informatio
 
 	$ git show HEAD@{5}
 
-Вы также можете использовать эту команду, чтобы увидетль ветку, которая была в прошлом. Например, чтобы увидеть состояние вашей `master`-ветки вчера, наберите команду
+Вы также можете использовать эту команду, чтобы увидеть ветку, которая была в прошлом. Например, чтобы увидеть состояние вашей `master`-ветки вчера, наберите команду
 You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
 
 	$ git show master@{yesterday}

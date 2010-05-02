@@ -1046,21 +1046,21 @@ If you want to remove a reference for some reason — you’ve moved the server 
 	$ git remote
 	origin
 
-## Tagging ##
+## Создание тегов (tags) ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+Как и большинство систем контроля версий, Git имеет возможность помечать конкретные моменты в истории как важные. Как правило, люди используют эту функциональность, чтобы отметить релизы (v1.0, и так далее). В этом разделе вы узнаете, как получить список доступных тегов, как создать новые, а также узнаете какие бывают типы тегов и их отличия друг от друга.
 
-### Listing Your Tags ###
+### Просмотр ваших тегов ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+Для получения списка тегов достаточно просто набрать команду `git tag`:
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+Эта команда выводит список тегов в алфавитном порядке; порядок, в котором они назначаются не имеет никакого значения.
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+Вы также можете вывести теги по шаблону. Репозиторий Git, к примеру, содержит более 240 тегов. Если вас интересуют теги только релиза 1.4.2, вы можете просмотреть их следующим образом:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -1068,11 +1068,11 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### Создание тегов ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git использует два основных типа тегов: легковесные и аннотированные. Легковесные теги очень похож на ветку (branch), который не изменяется - это просто указатель на конкретный коммит. Аннотированные теги, однако, хранятся как стандартные объекты в базе данных Git. Они имеют контрольную сумму, имеют автора, адрес его электронной почты, а также дату; имеют сообщение коммита, и могут быть подписаны и проверены с GNU Privacy Guard (GPG). Обычно рекомендуется создать аннотированные теги, чтобы вы могли иметь всю эту информацию, но если вы хотите создать временный тег или по какой-то причине не хотите сохранять другую информацию, вам необходимо использовать легковесные теги.
 
-### Annotated Tags ###
+### Аннотированные теги ###
 
 Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
 
@@ -1101,7 +1101,7 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
 
-### Signed Tags ###
+### Подписывание тегов ###
 
 You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
 
@@ -1134,9 +1134,9 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 A bit later, you’ll learn how to verify signed tags.
 
-### Lightweight Tags ###
+### Легковесные теги ###
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+Другой способ пометить коммит — использовать легковесный тег. Сохраняется только имя тега и указатель на коммит, никакая другая информация не сохраняется. Чтобы создать легковесный тег, не пишите ключи -a, -s, или -m:
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1146,7 +1146,7 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+На этот раз, если вы запустите `git show имя_тега`, вы не увидите дополнительную информацию. Команда только выведет коммит:
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -1156,7 +1156,7 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### Проверка тегов ###
 
 To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
 

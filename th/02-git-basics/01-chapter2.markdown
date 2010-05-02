@@ -1,6 +1,6 @@
 # Git ขั้นพื้นฐาน #
 
-ถ้าคุณมีเวลาอ่านแค่บทเดียวเพื่อจะเริ่มใช้งาน Git ก็ให้อ่านบทนี้ล่ะ  เพราะบทนี้ครอบคลุมเนื้อหาเกี่ยวกับคำสั่งขั้นพื้นฐานของ Git ที่คุณต้องใช้ในการทำงานประจำวันบ่อย ๆ  เมื่ออ่านถึงท้ายบทคุณจะได้เรียนรู้วิธีการตั้งค่าและสร้าง repository ใหม่ เริ่มเก็บประวัติของไฟล์ stage และ commit การแก้ไข รวมไปถึงการตั้งค่าให้ Git เพิกเฉยต่อไฟล์ที่คุณไม่ต้องการเก็บประวัติ การยกเลิก commit ที่ผิดพลาด การดูประวัติของโปรเจคของคุณ การแสดงความต่างระหว่างสอง commit และการ push และ pull จาก remote repository
+ถ้าคุณมีเวลาอ่านแค่บทเดียวเพื่อจะเริ่มใช้งาน Git ก็ให้อ่านบทนี้ล่ะ  เพราะบทนี้ครอบคลุมเนื้อหาเกี่ยวกับคำสั่งขั้นพื้นฐานของ Git ที่คุณต้องใช้ในการทำงานประจำวันบ่อย ๆ  เมื่ออ่านถึงท้ายบทคุณจะได้เรียนรู้วิธีการตั้งค่าและสร้าง repository ใหม่ เริ่มเก็บประวัติของแฟ้ม stage และ commit การแก้ไข รวมไปถึงการตั้งค่าให้ Git เพิกเฉยต่อแฟ้มที่คุณไม่ต้องการเก็บประวัติ การยกเลิก commit ที่ผิดพลาด การดูประวัติของโปรเจคของคุณ การแสดงความต่างระหว่างสอง commit และการ push และ pull จาก remote repository
 
 ## เริ่มต้นใช้งาน Git Repository ##
 
@@ -12,54 +12,54 @@
 
 	$ git init
 
-คำสั่งนี้จะสร้างแฟ้มข้อมูลย่อยชื่อ .git ซึ่งเก็บไฟล์โครงสร้างของ Git repository เปล่า ๆ ที่ยังไม่มีเนื้อหาใด   ในขั้นตอนนี้ไฟล์ที่อยู่ในโปรเจคของคุณจะยังไม่ถูก track โดย Git (กรุณาอ่านบทที่ 9 ถ้าคุณต้องการรู้ว่าไฟล์ที่อยู่ใน .git ที่คุณเพิ่งสร้างขึ้นมานั้นเก็บข้อมูลอะไรบ้าง)
+คำสั่งนี้จะสร้างแฟ้มข้อมูลย่อยชื่อ .git ซึ่งเก็บแฟ้มโครงสร้างของ Git repository เปล่า ๆ ที่ยังไม่มีเนื้อหาใด   ในขั้นตอนนี้แฟ้มที่อยู่ในโปรเจคของคุณจะยังไม่ถูก track โดย Git (กรุณาอ่านบทที่ 9 ถ้าคุณต้องการรู้ว่าแฟ้มที่อยู่ใน .git ที่คุณเพิ่งสร้างขึ้นมานั้นเก็บข้อมูลอะไรบ้าง)
 
-เพื่อที่จะเริ่มเก็บประวัติการแก้ไขของไฟล์ที่มีอยู่ คุณจะต้องเพิ่มไฟล์เข้าไปใน repository เสียก่อน โดยใช้คำสั่ง git add กับไฟล์ที่คุณต้องการเก็บประวัติ ตามด้วยการ commit:
+เพื่อที่จะเริ่มเก็บประวัติการแก้ไขของแฟ้มที่มีอยู่ คุณจะต้องเพิ่มแฟ้มเข้าไปใน repository เสียก่อน โดยใช้คำสั่ง git add กับแฟ้มที่คุณต้องการเก็บประวัติ ตามด้วยการ commit:
 
 	$ git add *.c
 	$ git add README
 	$ git commit –m 'เริ่มเก็บประวัติ'
 
-หลังจาก commit คุณก็จะได้ repository ที่เริ่มเก็บประวัติของไฟล์ต่าง ๆ ในโปรเจคของคุณแล้ว
+หลังจาก commit คุณก็จะได้ repository ที่เริ่มเก็บประวัติของแฟ้มต่าง ๆ ในโปรเจคของคุณแล้ว
 
 ### การ clone จาก repository ที่มีอยู่แล้ว ###
 
-ถ้าคุณต้องการคัดลอก repository ที่มีอยู่แล้ว - ยกตัวอย่างเช่น จากโปรเจคที่คุณอยากมีส่วนร่วม - คำสั่งที่คุณต้องใช้คือ git clone  ถ้าคุณเคยใช้ระบบ VCS อื่นอย่าง Subversion คุณจะสังเกตเห็นว่าคำสั่งคือ clone ไม่ใช่ checkout ซึ่งความแตกต่างนี้เป็นความแตกต่างที่สำคัญมาก เพราะมันหมายความว่า Git ทำการคัดลอกข้อมูลเกือบทุกอย่างที่อยู่ในเซิร์ฟเวอร์ ทุกเวอร์ชั่นของทุกไฟล์มีมีในประวัติของโปรเจคจะถูกคัดลอกมายังเครื่องของคุณเมื่อคุณใช้คำสั่ง `git clone`  ในความเป็นจริงถ้าเกิดดิสก์ของเซิร์ฟเวอร์เกิดเสียขึ้นมา คุณสามารถใช้ clone ตัวใดก็ได้เพื่อกู้ข้อมูลกลับไป ณ ตอนที่คุณทำการสร้าง clone นั้น (แต่คุณก็อาจเสีย server-side hooks ฯลฯ ที่มีอยู่ในเซิร์ฟเวอร์ไป - อ่านข้อมูลเพิ่มเติมที่บทที่ 4)
+ถ้าคุณต้องการคัดลอก repository ที่มีอยู่แล้ว - ยกตัวอย่างเช่น จากโปรเจคที่คุณอยากมีส่วนร่วม - คำสั่งที่คุณต้องใช้คือ git clone  ถ้าคุณเคยใช้ระบบ VCS อื่นอย่าง Subversion คุณจะสังเกตเห็นว่าคำสั่งคือ clone ไม่ใช่ checkout ซึ่งความแตกต่างนี้เป็นความแตกต่างที่สำคัญมาก เพราะมันหมายความว่า Git ทำการคัดลอกข้อมูลเกือบทุกอย่างที่อยู่ในเซิร์ฟเวอร์ ทุกเวอร์ชั่นของทุกแฟ้มมีมีในประวัติของโปรเจคจะถูกคัดลอกมายังเครื่องของคุณเมื่อคุณใช้คำสั่ง `git clone`  ในความเป็นจริงถ้าเกิดดิสก์ของเซิร์ฟเวอร์เกิดเสียขึ้นมา คุณสามารถใช้ clone ตัวใดก็ได้เพื่อกู้ข้อมูลกลับไป ณ ตอนที่คุณทำการสร้าง clone นั้น (แต่คุณก็อาจเสีย server-side hooks ฯลฯ ที่มีอยู่ในเซิร์ฟเวอร์ไป - อ่านข้อมูลเพิ่มเติมที่บทที่ 4)
 
 คุณจะต้องใช้คำสั่ง `git clone [url]` เพื่อทำการ clone repository  ยกตัวอย่างเช่น ถ้าคุณต้องการ clone ไลบรารี่ Ruby ที่ชื่อ Grit คุณสามารถทำได้โดยใช้คำสั่งดังนี้:
 
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
+คำสั่งดังกล่าวจะสร้างไดเรกทอรี่ชื่อ "grit" และสร้างไดเรกทอรี่ย่อยชื่อ `.git` จากนั้นจะทำการดึงข้อมูลทั้งหมดทีมีอยู่ใน repository และ check out working copy เวอร์ชั่นล่าสุด  ถ้าคุณดูใน `grit` คุณจะเห็นแฟ้มที่อยู่ในโปรเจคทั้งหมดที่คุณสามารถเริ่มใช้งานได้ทันที ถ้าคุณต้องการ clone repository ไปที่ไดเรกทอรี่ชื่ออื่น คุณสามารถระบุชื่อที่คุณต้องการได้ต่อท้ายคำสั่งด้านบน:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-That command does the same thing as the previous one, but the target directory is called mygrit.
+คำสั่งนี้ทำงานเหมือนคำสั่งด้านบน แต่เก็บข้อมูลในไดเรกทอรี่ mygrit แทน
 
-Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
+Git มีโพรโทคอลสำหรับโอนข้อมูลหลายแบบ ตัวอย่างด้านบนใช้โพรโทคอล `git://` แต่คุณสามารถใช้ `http(s)://` หรือ `user@server:path.git` ซึ่งใช้ SSH ได้เหมือนกัน  ลองอ่านบทที่ 4 เพื่อดูวิธีตั้งค่าเครื่องเซิร์ฟเวอร์ของคุณ และข้อดีและข้อเสียของแต่ละโพรโตคอล
 
-## Recording Changes to the Repository ##
+## การบันทึกการแก้ไขใน Repository ##
 
-You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+หลังจากทำการคัดลอง repository และได้แฟ้มต่าง ๆ มา คุณสามารถทำการแก้ไขและ commit เพื่อจัดเก็บการแก้ไขเข้าไปใน repository เมื่อคุณต้องการ
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
+ขอให้จำไว้ว่าแฟ้มแต่ละแฟ้มใน working directory มีสถานะอยู่สองสถานะ คือ tracked หรือ untracked  แฟ้มที่อยู่ในสถานะ tracked คือแฟ้มที่อยู่ใน snapshot ล่าสุด เป็นแฟ้มที่คุณสามารถกู้เนื้อหากลับมา แก้ไข หรือ stage ได้  ส่วนแฟ้มที่อยู่ในสถานะ untracked คือแฟ้มที่ไม่อยู่ใน snapshot ล่าสุดและไม่อยู่ใน staging area  หลักจากคุณ clone repository แฟ้มทั้งหมดจะอยู่ในสถานะ tracked เพราะคุณเพิ่ง check out ออกมา
 
-As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
+เมื่อคุณทำการแก้ไข แฟ้มที่ถูกแก้ไขจะอยู่ในสถานะถูกแก้ไขเพราะเนื้อหาได้ถูกเปลี่ยนไป ถ้าคุณต้องการจัดเก็บการแก้ไข คุณต้อง stage แฟ้มเหล่านั้นและ commit สิ่งที่คุณ stage เอาไว้ ตามรูป 2-1
 
 Insert 18333fig0201.png 
-Figure 2-1. The lifecycle of the status of your files.
+รูปที่ 2-1. วงจรสถานะของแฟ้ม
 
-### Checking the Status of Your Files ###
+### การตรวจสอบสถานะของแฟ้ม ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+เครื่องมือหลักในการตรวจสอบสถานะของแฟ้มคือคำสั่ง git status ถ้าคุณใช้คำสั่งนี้ทันทีหลังจาก clone repository คุณจะเห็นผลลัพธ์ประมาณนี้:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+ผลลัพธ์ด้านบนหมายความว่าไดเรกทอรีของคุณยังสะอาดอยู่ นั่นก็คือไม่มีการแก้ไขแฟ้มที่ถูก track และ ไม่มีแฟ้มที่อยู่ในสถานะ untracked ในไดเรกทอรี นอกจากนั้นคำสั่งนี้ยังบอกว่าคุณอยู่ใน branch ชื่อ master ซึ่งเป็น branch เริ่มต้นอยู่แล้ว เราจะลงรายละเอียดเกี่ยวกับ branch และ reference ในบทถัดไป
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+สมมุติว่าคุณสร้างแฟ้มข้อมูลใหม่ เช่น README ซึ่งไม่เคยมีมาก่อน เมื่อคุณใช้คำสั่ง `git status` คุณจะเห็นสถานะของแฟ้มเป็น untracked:
 
 	$ vim README
 	$ git status
@@ -70,15 +70,15 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+คุณจะเห็นว่าแฟ้ม README อยู่ในสถานะ untracked เพราะว่ามันอยู่ภายใต้หัวข้อ "Untracked files" ในผลลัพธ์ของคำสั่ง ความหมายของ untracked คือแฟ้มข้อมูลนี้ไม่อยู่ใน snapshot (commit) ล่าสุด และ Git จะไม่รวมแฟ้มข้อมูลนี้ใน commit ถัดไปนอกเสียจากว่าคุณบอกให้ Git ทำ เหตุผลที่ Git ทำงานแบบนี้ก็เพื่อป้องกันไม่ให้แฟ้มไบนารีหรือแฟ้มข้อมูลอื่น ๆ ถูกเพิ่มเข้าไปใน repository โดยไม่ได้ตั้งใจ  ในกรณีนี้เนื่องจากคุณต้องการเพิ่มแฟ้ม README อ่านวิธีการเพิ่มแฟ้มใหม่ในส่วนถัดไปได้เลย
 
-### Tracking New Files ###
+### การเพิ่มแฟ้มข้อมูลใหม่ ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+คุณสามารถเพิ่มแฟ้มข้อมูลใหม่โดยใช้คำสั่ง `git add`:
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+ถ้าคุณใช้คำสั่ง status อีกครั้ง คุณจะเห็นว่าแฟ้ม README มีสถานะเป็น tracked และถูก staged เรียบร้อย:
 
 	$ git status
 	# On branch master
@@ -90,7 +90,7 @@ If you run your status command again, you can see that your README file is now t
 
 You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
 
-### Staging Modified Files ###
+### การ Stage แฟ้มที่ถูกแก้ไข ###
 
 Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
 

@@ -1,164 +1,164 @@
-# Git Branching #
+# Гранење со Git #
 
-Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
+Во скоро секој VCS постои подршка за гранење. Гранење значи одделување од главната линија за развој и се продолжува со работа без интерференција во основната содржина. Во многу VCS алатки овој процес може да биде доста скап. Често има потреба од креирање на нова копија од изворниот код, што може да одземе многу време, посебно за поголеми проекти.
 
-Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
+Една од најдобрите изведени функционалности во Git е токму гранењето и ова е тоа што го издвојува Git од останатите VCS. Што е тоа што го издвојува? Начинот на кој Git го врши гранењето е доста оптимизиран, креирањето на гранки и преминување од гранка на гранка завзема многу малку време. За разлика од останатите VCS, Git ви наметнува начин на работа со кој се врши гранење и спојување (merge) доста често, дури и неколку пати дневно. Разбирањето и учењето на оваа особина ви дава моќна и уникатна алатка и може буквално да ви го промени начинот на развој на вашиот проект.
 
-## What a Branch Is ##
+## Што е гранење ##
 
-To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
+За да може да го разбереме начинот на кој Git врши гранење мора да направиме еден чекор наназад и да разгледаме како Git ги зачувува податоците. Во Погавје 1 беше наведено дека Git не ги зачувува податоците како серија од промени, туку зачувува целосни слики од вашиот проект.
 
-When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+Секогаш кога сакате да зачувате податоци во Git, Git запишува објект во кој се состои покажувач до целосната слика која сте ја поставиле на сцена (stage), авторот и мета-податоци, нула или повеќе покажувачи до зачуваните податоци кои се директни родители на овој запис (commit): ниеден родител за првиот запис, еден родител за нормален запис, и повеќе родители за запис кој произлегува од спојување на две или повеќе гранки.
 
-To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
+Да претпоставиме дека имате папка во која се содржат три датотеки и ги поставувате сите три на сцена, а потоа ги комитувате (зачувувате). Со поставување на сцена се креира контролна сума на секоја од датотеките (SHA-1 хеш спомнат во Поглавје 1), се зачувува верзијата на датотеката во базата на податоци (Git ги именува како blobs) и ја поставува контролната сума на сцена:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
+Кога правете комит со командата `git commit`, Git пресметува контролна сума за сите папки (во овој случај само главната папка на проектот) и ги запишува овие три објекти во базата на податоци. Потоа Git креира комит објект во кој се содржат мета-податоците и покажувач кон коренот (root) на дрвото на проектот за потоа кога ке има потреба да може да крира слика од проектот.
 
-Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
+Во овој момент вашата база на податоци содржи 5 објекти: еден blob за зодржината на секој од трите директориуми, едно дрво со кое е прикажана содржината на папката и во кое се наведени имињата на директориумите за секој blob и еден комит со покажувач до дрвото и комитираните мета-податоци. Концептуално податоците во базата на податоци изгледаат како на Слика 3-1.
 
 Insert 18333fig0301.png 
-Figure 3-1. Single commit repository data.
+Слика 3-1. Приказ на базата на податоци после еден комит.
 
-If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
+Ако направите некоја промена и извршите повторно комит, овој комит зачувува покажувач кон записот кој дошол непосредно пред него. После две нови комитувања, вашата историја би можела да изгледа како на Слика 3-2.
 
 Insert 18333fig0302.png 
-Figure 3-2. Git object data for multiple commits.
+Слика 3-2. Git објекти после повеќе запишувања.
 
-A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
+Гранка во Git преставува едноставен покажувач кон еден од овие записи. Основната гранка се нарекува главна гранка или master. При првиот запис ви се доделува master гранка која покажува до последниот запис што сте го направиле. Секогаш кога запишувате (комитирате) покажувачот автоматски се поместува нанапред.
 
 Insert 18333fig0303.png 
-Figure 3-3. Branch pointing into the commit data’s history.
+Слика 3-3. Гранка која покажува кон историјата на записите.
 
-What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
+Што се случува кога креирате нова гранка? Со креирање на нова гранка се креира нов покажувач со кој може да се поместувате помеѓу записите. Да претпоставиме дека имаме креирано нова гранка со име testing. Ова се прави со командата `git branch`.
 
 	$ git branch testing
 
-This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
+Со ова се креира нов покажувач кој покажува на истиот запис кој го користете во моментот на креирањето на гранката (Слика 3-4).
 
 Insert 18333fig0304.png 
-Figure 3-4. Multiple branches pointing into the commit’s data history.
+Слика 3-4. Повеќе гранки кои покажуваат кон историјата на записите.
 
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+Како Git препознава на која гранка моментално се наоѓате? Се чува посебен покажувач кој се нарекува HEAD. Овој покажувач е различен од концептот за HEAD во останатите VSC кои ви се познати, како што се Subversion или CVS. Во Git HEAD е покажувач до локалната гранка на која моментално се наоѓате. Во овој случај тој е поставен на главната гранка - master гранка. Командата git branch само креира нова гранка но не го поместува HEAD покажувачот кон ново креираната гранка (Слика 3-5).
 
 Insert 18333fig0305.png 
-Figure 3-5. HEAD file pointing to the branch you’re on.
+Слика 3-5. HEAD датотека која покажува кон гранката на која се наоѓате.
 
-To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
+За да се префрлите кон веќе постоечка гранка се користи командата `git checkout`:
 
 	$ git checkout testing
 
-This moves HEAD to point to the testing branch (see Figure 3-6).
+Ова го поместува HEAD да покажува кон гранката testing (Слика 3-6).
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD points to another branch when you switch branches.
+Слика 3-6. HEAD покажува кон друга гранка кога се поместуваме на друга гранка.
 
-What is the significance of that? Well, let’s do another commit:
+Кое е значењето на ова? Да направиме уште еден комит:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
-Figure 3-7 illustrates the result.
+Слика 3-7 го прикажува резултатот.
 
 Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+Слика 3-7. Гранката кон која покажува HEAD се поместува нанапред со секој комит.
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+Ова е доста интересно бидејќи сега вашата гранка testing се придвижува нанапред, но вашата master гранка сеуште покажува кон записот на кој се наоѓавте кога е повикана командата `git checkout`. Да се придвижиме назад кон master гранката:
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+Слика 3-8 го прикажува резултатот.
 
 Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+Слика 3-8. HEAD се поместува кон друга гранка со командата checkout.
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+Оваа команда направи две работи. Го помести HEAD да покажува кон master гранката и ги врати директориумите во работната папка кон целосната слика кон која покажува master гранката. Ова значи дека промените кои ќе настанат од овој момент ќе потекнуваат од постара верзија на проектот. Генерално означува дека се враќаме назад и привремено ги одфрламе промените кои се направени на гранката testing со цел да продолжиме во различна насока.
 
-Let’s make a few changes and commit again:
+Да направиме уште некои измени и повторно да комитираме:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+Сега историјата на вашиот проект се разграни (Слика 3-9). Креиравме нова гранка и се префрливме на неа, направивме некои измени, а потоа се префрливме на main гранката и исто така направивме измени. Двете измени се изолирани во посебни гранки: може во секој момент да се префрлиме на некоја од гранките и да ги споиме кога ќе завршеме со сите потребни измени. Целата оваа работа е извршена со едноставни `branch` и `checkout` команди.
 
 Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+Слика 3-9. Разгранување на гранката.
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+Бидејќи гранка во Git е всушност едноставен директориум кој содржи SHA-1 контролна сума на записот кон кој покажува со големина од 40 карактери, гранките завземаат малку ресурси при креирање и бришење на истите. Креирање на нова гранка е едноставен процес на запишување на 41 бајт во директориум (40 карактери и 1 карактер за нов ред).
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+Овој принцип на креирање на гранки е доста различен од начинот на кој останатите VCS алатки вршат гранење, најчесто со копирање на целиот проект во нова папка. Ова одзема неколку секунди па дури и минути, во зависност од големината на проектот, додека во Git овој процес е секогаш моментален. Исто така бидејќи се запишува и родителот кога комитираме, наоѓањето на стартната точка при спојувањето на гранките се врши автоматски и генерално е многу лесно да се изведе. Овие карактеристики ги охрабруваат програмерите почесто да креираат и да користат гранки.
 
-Let’s see why you should do so.
+Да видиме зошто ова е корисно.
 
-## Basic Branching and Merging ##
+## Основно Гранење и Спојување ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+Да разгледаме еден едноставен пример на гранење и спојување на гранки преку едноставен модел на работа кој реално би можел да се користи. Да го следиме следново сценарио:
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.  Работете на некоја веб страна.
+2.  Креирате гранка за нов натпис на кој работете.
+3.  Работете на оваа гранка.
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+Во овој момент добивате повик дека друг настан е со поголем преоритет и треба брза реакција. Го правите следново:
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.  Се враќате назад кон вашата гранка која ја користите за продукција.
+2.  Креирајте гранка за да ги додадете потребните итни измени.
+3.  Откако се е истестирано, ја спојувате новата гранка со гранката за продукција.
+4.  Вратете се назад кон почетниот натпис на кој работевте.
 
-### Basic Branching ###
+### Основно гранење ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+Да претпоставиме дека работите на вашиот проект и веќе имате направено неколку комитирања (Слика 3-10).
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history.
+Слика 3-10. Кратка и едноставна историја на записи.
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+Сте одлучиле дека сакате да работите на изданието #53, во кој и да било систем за водење на евиденција кој го користи вашата компанија. Да разјасниме Git не е поврзан со никој специфичен систем за евиденција на изданијата, но бидејќи сакате да работите на изданието #53, креирате нова гранка на која ќе работите. За да креираме гранка и да се префрлиме на неа може да ја користеме командата `git checkout` со опцијата `-b`:
 
 	$ git checkout -b iss53
-	Switched to a new branch "iss53"
+	Се префрламе на нова гранка "iss53"
 
-This is shorthand for:
+Ова е скратеница за:
 
 	$ git branch iss53
 	$ git checkout iss53
 
-Figure 3-11 illustrates the result.
+Слика 3-11 го прикажува резултатот.
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer.
+Слика 3-11. Креирање на нов покажувач кон гранка.
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+Додека работите на вашата веб страна правите комит т.е ги зачувувате измените. Со ова гранката `iss53` се поместува нанапред, бидејќи сте направиле checked out (HEAD покажува кон неа; Слика 3-12):
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+Слика 3-12. Гранката iss53 се поместува нанапред.
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+Во овој момент добивате известување дека има проблем со вашата веб страна и морате итно да го поравете проблемот. Со Git немора решението на проблемот да го направите заедно со промените на гранката `iss53`. Се што треба да направите е да се вратите назад кон вашата главна гранка (master branch).
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+Мора да се запази фактот дека Git нема да ви дозволи да ја смените гранката доколку во вашиот работен директориум или на сцена имате некомитирани промени кои се во конфликт со грнаката од која сакате да направите нова гранка. Најдобро е да имате чиста работна состојба пред да правите промена на гранки. Постојат начини да се заобиколи ова, кои ќе бидат објаснети подоцна. Засега вршиме комитирање на сите измени, за да се префрлиме на главната гранка:
 
 	$ git checkout master
-	Switched to branch "master"
+	Се префрламе на гранката "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+Во овој момент, вашиот работен директориум за проектот е ист како пред почнување со работа на изданието #53 и можете да се концентрирате на решавање на настанатиот проблем. Ова е важна особина која треба да се запамети: Git го ресетира вашиот работен директориум да изгледа како целосната слика на записот од кој креирате нова гранка. Тој автоматски ги додава, бриши и модифицира датотеките се со цел вашата работна копија да биде иста со гранката во моментот кога последен пат сте комитирале на истата.
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+Потоа треба да го внесете решението на проблемот кој го имате. Да креираме нова гранка hotfix на која ќе работиме на проблемот (Слика 3-13):
 
 	$ git checkout -b 'hotfix'
-	Switched to a new branch "hotfix"
+	Се префрламе на нова гранка "hotfix"
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
 	[hotfix]: created 3a0874c: "fixed the broken email address"
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point.
+Слика 3-13. Гранка hotfix базирана на вашата главна гранка.
 
-You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
+Можете да направите одредени тестови за да бидете сигурни дека проблемот е решен, а потоа ја соединувате гранката со вашата главна гранка. Ова се прави со командата `git merge`:
 
 	$ git checkout master
 	$ git merge hotfix
@@ -167,19 +167,19 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
+Во ова соединување се појавува фразата "Fast forward". Бидејќи записот кон кој што покажува гранката која ја споивте е наследник на записот на кој моментално се наоѓаме, Git го поместува покажувачот нанапред. Со други зборови кога спојуваме еден запис со запис кон кој може да се пристапи следејќи ја историјата на првиот запис, Git ги поедноставува работите со поместување на покажувачот нанапред бидејќи нема неконзистентни измени за спојување. Ова се нарекува "fast forward".
 
-Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
+Вашите измени сега се наоѓаат во целосниот запис кон кој покажува `master` гранката (Слика 3-14).
 
 Insert 18333fig0314.png 
-Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+Слика 3-14. По спојувањето главна гранка покажува кон истото место кон кое покажува hotfix гранката.
 
-After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+Откако решенитео на ненадејниот проблем е зачувано, подготвени сме да се вратиме назад на работата која ја работевме пред да бидеме прекинати. Меѓутоа прво ја бришеме `hotfix` гранката бидејќи повеќе не ни е потребна - `master` гранката покажува на исто место. Ова се прави со додавање на опцијата `-d` на командата `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
+Сега можете да се вратите кон гранката за изданието #53 и да продолжите со работа (Слика 3-15):
 
 	$ git checkout iss53
 	Switched to branch "iss53"
@@ -189,13 +189,13 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-Figure 3-15. Your iss53 branch can move forward independently.
+Слика 3-15. Сега гранката iss53 може независно да се придвижува нанапред.
 
-It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+Овде е важно да се напомене дека промените кои се направени во `hotfix` гранката не се вклучени во гранката `iss53`. Ако сакате да ги повлечете овие промени, може да ја споите вашата `master` гранка со гранката `iss53` со извршување на командата `git merge master` или пак може подоцна ги повечете измените од `iss53` назад кон `master` гранката.
 
-### Basic Merging ###
+### Основно спојување ###
 
-Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
+Да претпоставиме дека сте завршиле со работа на изданието #53 и сте подготвени да ги споите измените во `master` гранката. За да го направиме ова ќе ја споиме `iss53` гранката слично како што направивме претходно со `hotfix` гранката. Се што треба да направиме е да ја одвоиме гранката која сакаме да ја надградиме и да ја повикаме командата `git merge`:
 
 	$ git checkout master
 	$ git merge iss53
@@ -203,32 +203,32 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
+Ова изгледа малку поинаку отколку претходниот случај со спојувањето на `hotfix` гранката. Во овој случај вашата историја на развој започнува од некоја постара точка. Поради тоа што записот на гранката на која се наоѓате не е директен наследник на гранката на која што сакате да запишете, Git мора да изврши дополнителни работи. Во овој случај Git врши едноставено тристрано спојување, користејќи ги целосните записи кон кои покажуваат двете гранки и нивниот заеднички предок. На Слика 3-16 се прикажани трите целосни записи кои Git ги користи при ова спојување.
 
 Insert 18333fig0316.png 
-Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
+Слика 3-16. Git автоматски го пронаоѓа најдобриот заеднички предок, кој го користи како основа за спојување.
 
-Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
+Наместо да го помести покажувачот нанапред, Git креира нов целосен запис кој произлегува од ова тристрано спојување и креира нов комит кој покажува кон него (Слика 3-17). Овој запис при спојување е карактеристичен по тоа што има повеќе од еден родител.
 
-It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
+Важно е да се напомене дека Git го одредува најдобриот предок кој го користи како основа при спојувањето; ова е различно од CVS или од Subversion(пред верзијата 1.5), каде програмерот кој го врши спојувањето мора сам да одреди кој е најдобар предок. Ова го прави спојувањето со Git доста полесно во споредба со овие системи.
 
 Insert 18333fig0317.png 
-Figure 3-17. Git automatically creates a new commit object that contains the merged work.
+Слика 3-17. Git автоматски креира нов комит објект кој ги содржи споените измени.
 
-Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
+Сега откако вашите измени се споени со главната гранака немате потреба од гранката `iss53`. Може слободно да ја избришиме:
 
 	$ git branch -d iss53
 
-### Basic Merge Conflicts ###
+### Основни конфликти при спојување ###
 
-Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
+Повремено овој процес не се одвива толку едноставно. Git нема да може да ги спои гранките доколку имате промени во ист дел од иста датотека во двете гранки кои сакате да ги споите. Доколку вашите измени во изданието #53 афектираат ист дел од датотека на која сте работеле на `hotfix` гранката, ќе добиете конфликт кој изгледа вака:
 
 	$ git merge iss53
 	Auto-merging index.html
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
+Git автоматски нема да креира нов комит објект. Тој го паузира процесот се додека не го разрешите конфликтот. Доколку сакате да видете кои датотеки не се споени после конфликтот може да ја повикате командата `git status`:
 
 	[master*]$ git status
 	index.html: needs merge
@@ -240,7 +240,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
-Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
+Секој директориум во кој има конфликти кои не се разрешени се пикажани како unmerged. Git додава стандардни маркери за разрешување на конфликти на директориумите кои имаат конфликти. Конфликтните датотеки имаат секции кои изгледаат вака:
 
 	<<<<<<< HEAD:index.html
 	<div id="footer">contact : email.support@github.com</div>
@@ -250,7 +250,7 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
-This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
+Ова означува дека везијата во HEAD (вашата master гранка, бидејќи таа е гранката која ја одвоивте при повикување на командата merge) е горниот дел од сегментот (се што е над `=======`), додека верзијата во `iss53` гранката изгледа како долниот дел од сегментот. Со цел да се разреши конфликтот треба да одберете една од можностите и да ја споете содржината мануелно. На пример овој конфликт може да се разреши со промена на целиот блок со:
 
 	<div id="footer">
 	please contact us at email.support@github.com

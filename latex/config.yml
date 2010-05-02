@@ -55,7 +55,11 @@ ja:
   tab: "表"
   indent: "あ"
 ru:
-  fig: "рисунок "
+  prechap: "Глава "
+  presect: "Раздел "
+  con: "Содержание"
+  fig: "Рисунок "
+  tab: "Таблица "
 cs:
   prechap: "Kapitola "
   presect: "Oddíl "

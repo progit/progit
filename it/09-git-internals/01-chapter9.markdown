@@ -25,13 +25,13 @@ con i quali potreste aver a che fare.
 Questo libro parla di come usare Git utilizzando più di 30 verbi, tra i quali `checkout`, `branch`, `remote` e così via.
 Siccome Git è stato inizialmente sviluppato come insieme di strumenti per un VCS piuttosto che un completo VCS user-friendly
 comprende un mucchio di verbi per fare lavori di basso livello e progettati per essere concatenati insieme in stile UNIX
-o invocati da script. Di solito ci si riferisce a questi comandi come comandi "plumbing", mentre i comandi più user-friendly
+o invocati da script. Di solito ci si riferisce a questi comandi come "plumbing", mentre i comandi più user-friendly
 sono detti comandi "porcelain".
 
 I primi otto capitoli del libro hanno a che fare quasi esclusivamente con comandi porcelain. In questo 
 capitolo invece vedremo i comandi plumbing di basso livello, perchè permettono di accedere al funzionamento 
 interno di Git ed aiutano a dimostrare come e perchè Git fà quello che fà. Questi comandi non sono 
-pensati per essere invocati manualmente dalla linea di comando ma sono da considerare piuttosto come mattoni 
+pensati per essere lanciati manualmente dalla linea di comando ma sono da considerare piuttosto come mattoni 
 con i quali costruire nuovi strumenti e script personallizzati.
 
 Lanciando `git init` in una directory nuova o esistente Git provvederà a creare la directory `.git` che contiene praticamente 
@@ -64,10 +64,14 @@ la directory `refs` conserva i puntatori agli oggetti commit (branches), il file
 fatto il checkout e il file `index` è dove Git conserva la informazioni sulla vostra area di staging
 Vedremo in dettaglio ognuna di queste sezioni per capire in che modo opera Git.
 
-## Git Objects ##
+## Gli oggetti di Git ##
 
-Git is a content-addressable filesystem. Great. What does that mean?
-It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:
+Git è un filesystem content-addressable. Magnifico. Ma che cosa significa? 
+Significa che il cuore di Git è un semplice data store chiave-valore. Potete inserire qualsiasi tipo di contenuto
+al suo interno, e vi verrà restituita una chiave che potrete usare per recuperare quel contenuto quando vorrete. 
+Come dimostrazione potete usare il comando plumbing `hash-object`, che accetta dei dati, li salva nella vostra directory
+`.git` e restituisce la chiave associata ai dati salvati. Per prima cosa inizializzate un nuovo repository Git e verificate
+che la directory `objects` non contiene nulla:
 
 	$ mkdir test
 	$ cd test
@@ -80,104 +84,141 @@ It means that at the core of Git is a simple key-value data store. You can inser
 	$ find .git/objects -type f
 	$
 
-Git has initialized the `objects` directory and created `pack` and `info` subdirectories in it, but there are no regular files. Now, store some text in your Git database:
+Git ha inizializzato la directory `objects` e creato le sottodirectory `pack` e `info` al suo interno, ma non ci sono file.
+Ora inseriamo del testo nel vostro database di Git:
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
+Il `-w` dice a `hash-object` di salvare l'oggetto; in caso contrario il comando restituirà semplicemente la chiave
+associata che verrebbe associata al soggetto. `--stdin` dice al comando di leggere il contenuto da stdin; se non lo specificate
+`hash-object` si aspetta il percorso di un file. L'output del comando è un checksum di 40 caratteri. La funzione di hashing
+è SHA-1 - un checksum del contenuto che viene salvato più un header, del quale imparerete di più tra poco.
+Ora potete vedere come Git ha salvato i vostri dati:
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-You can see a file in the `objects` directory. This is how Git stores the content initially — as a single file per piece of content, named with the SHA-1 checksum of the content and its header. The subdirectory is named with the first 2 characters of the SHA, and the filename is the remaining 38 characters.
 
-You can pull the content back out of Git with the `cat-file` command. This command is sort of a Swiss army knife for inspecting Git objects. Passing `-p` to it instructs the `cat-file` command to figure out the type of content and display it nicely for you:
+Nella directory `objects` ora è presente un file. Questo è come Git salva inizialmente il contenuto -
+ossia come un singolo file per ogni parte di contenuto, con nome uguale al checksum SHA-1 del contenuto stesso
+e del suo header.
+La subdirectory ha come nome i primi 2 caratteri dello SHA  mentre il nome del file è costituito dai 38 caratteri rimanenti
+
+Potete estrarre un contenuto da Git con il comando `cat-file`. Questo comando è una specie di coltellino svizzero
+per ispezionare gli oggetti Git. Passandogli `-p` è possibile istruire il comando `cat-file` a interpretare il tipo
+di contenuto e mostrarlvelo in modo leggibile: 
 
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content
 
-Now, you can add content to Git and pull it back out again. You can also do this with content in files. For example, you can do some simple version control on a file. First, create a new file and save its contents in your database:
+Ora potete aggiungere altro contenuto a Git ed estrarlo nuovamente. E' possibile farlo anche con il contenuto dei file. 
+E' possibile, ad esempio, implementare un semplice controllo di versione su un file. 
+
+Come prima cosa create un nuovo file e salvate il suo contenuto nel database:
 
 	$ echo 'version 1' > test.txt
 	$ git hash-object -w test.txt 
 	83baae61804e65cc73a7201a7252750c76066a30
 
-Then, write some new content to the file, and save it again:
+Poi scrivete un nuovo contenuto nel file e salvatelo nuovamente:
 
 	$ echo 'version 2' > test.txt
 	$ git hash-object -w test.txt 
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
-Your database contains the two new versions of the file as well as the first content you stored there:
+Il vostro database ora contiente le due nuove versioni del file così come il primo contenuto che avete salvato:
 
 	$ find .git/objects -type f 
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-Now you can revert the file back to the first version
+Ora potete riportare il file alla prima versione:
 
 	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
 	$ cat test.txt 
 	version 1
 
-or the second version:
+o alla seconda:
 
 	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
 	$ cat test.txt 
 	version 2
 
-But remembering the SHA-1 key for each version of your file isn’t practical; plus, you aren’t storing the filename in your system — just the content. This object type is called a blob. You can have Git tell you the object type of any object in Git, given its SHA-1 key, with `cat-file -t`:
+Ricordare la chiave SHA-1 per ogni versione del vostro file non è pratico; inoltre non state salvando 
+il nome del file nel vostro sistema - solamente il contenuto. Questo tipo di oggetto a chiamato blob.
+Potete fare in modo che Git vi restituisca il tipo di un oggetto al suo interno, data la sua chiave SHA-1
+con `cat-file -t`:
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
 
-### Tree Objects ###
+### Oggetti Albero###
 
-The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:
+Il prossimo argomento che guarderemo è l'albero degli oggetti, che risove il problema del salvataggio del nome del file 
+e permette di salvare un gruppo di file insieme Git salva il contenuto in modo simile ad un filesystem UNIX, ma più semplificato.
+Tutto il contenuto è salvato come oggetti albero e blob, con gli alberi che corrispondono alle directory UNIX e i blob che corrispondono 
+più o meno agli inode od i contenuti dei file. Un singolo oggetto albero contiene una o più voci, ognuna delle quali contiene un puntatore
+SHA-1 ad un blob od un sottoalbero con i relativi mode, type e nome del file. Ad esempio, l'albero più recente nel progetto simplegit
+può assogliare a questo:
 
 	$ git cat-file -p master^{tree}
 	100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
 	100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
 	040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib
 
-The `master^{tree}` syntax specifies the tree object that is pointed to by the last commit on your `master` branch. Notice that the `lib` subdirectory isn’t a blob but a pointer to another tree:
+La sintassi `master^{tree}` specifica che l'oggetto albero è puntato dall'ultima commit sul vostro branch `master`.
+Notate che la directory `lib` non è un blob ma un puntatore ad un'altro albero:
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
 
-Conceptually, the data that Git is storing is something like Figure 9-1.
+Concettualmente, i dati che vengono salvati da Git sono simili a quelli in Figura 9-1.
 
 Insert 18333fig0901.png 
-Figure 9-1. Simple version of the Git data model.
+Figura 9-1. Versione semplice del modello dei dati di Git.
 
-You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your text.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `--add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `--cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:
+Potete creare il vostro albero. Git normalmente crea un albero prendendo lo stato della vostra area di staging o indice e scrivendo l'oggetto 
+albero a partire da questo. Quindi, per creare un oggetto albero dovete per prima cosa creare un indice mettendo in staging alcuni file. Per creare 
+un indice con una singola voce - la prima versione del vostro file text.txt - potete usare il comando plumbing `update-index`. Usando questo 
+comando aggiungete artificialmente la precedente versione el file text.txt ad una nuova area di staging.
+Dovete passare l'opzione `--add` perchè il file non esiste ancora nella vostra area di staging (in effetti non avete ancora un'area di staging)
+a l'opzione `--cacheinfo` perchè il file che state aggiungendo non è nella vostra directory ma è nel vostro database.
+
+Per finire, specificate modo, SHA-1 ed il nome del file:
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
 
-In this case, you’re specifying a mode of `100644`, which means it’s a normal file. Other options are `100755`, which means it’s an executable file; and `120000`, which specifies a symbolic link. The mode is taken from normal UNIX modes but is much less flexible — these three modes are the only ones that are valid for files (blobs) in Git (although other modes are used for directories and submodules).
+In questo caso, state specificando il modo `100644` il quale significa che si tratta di un normale file.
+Altre opzioni sono `100755`, che significa che il file è eseguibile; e `120000`, che specifica un link simbolico
+Il modo è preso dai normali modi UNIX, ma è molto meno flessibile - questi tre modi sono gli unici validi per i file (blob)
+in Git (anche se ci sono altri modi utilizzati per le directory ed i submodules).
 
-Now, you can use the `write-tree` command to write the staging area out to a tree object. No `-w` option is needed — calling `write-tree` automatically creates a tree object from the state of the index if that tree doesn’t yet exist:
+Ora potete usare il comando `write-tree` per scrivere l'area di staging in un oggetto albero. L'opzione `-w`
+non è necessaria - l'esecuzione di `write-tree` crea automaticamente un oggetto albero a partire dallo stato dell'indice, se questo albero non
+è già esistente:
 
 	$ git write-tree
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt
 
-You can also verify that this is a tree object:
+Potete anche verificare che si tratta di un oggetto albero:
 
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
 
-You’ll now create a new tree with the second version of test.txt and a new file as well:
+Ora creerete un nuovo albero con la seconda versione di test.txt e un nuovo file:
 
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt 
 	$ git update-index --add new.txt 
 
-Your staging area now has the new version of test.txt as well as the new file new.txt. Write out that tree (recording the state of the staging area or index to a tree object) and see what it looks like:
+
+La vostra area di staging ora contiene la nuova versione di test.txt così come il nuovo file new.txt
+Scrivete l'albero (registrando lo stato dell'area di staging o indice in un oggetto albero) e osservate a cosa assomiglia
 
 	$ git write-tree
 	0155eb4229851634a0f03eb265b69f5a2d56f341
@@ -185,7 +226,10 @@ Your staging area now has the new version of test.txt as well as the new file ne
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-Notice that this tree has both file entries and also that the test.txt SHA is the "version 2" SHA from earlier (`1f7a7a`). Just for fun, you’ll add the first tree as a subdirectory into this one. You can read trees into your staging area by calling `read-tree`. In this case, you can read an existing tree into your staging area as a subtree by using the `--prefix` option to `read-tree`:
+Notate che questo albero ha entrambe le voci ed anche che lo SHA di test.txt è lo SHA "versione 2" del precedente (`1f7a7a`).
+Solo per divertimento, aggiungerete il primo albero come sottodirectory di questo. Potete leggere gli alberi nella votra area di staging
+lanciando `read-tree`. In questo caso potete leggere un albero esistente nella vostra area di staging come sottoalbero utilizzando
+l'opzione `--prefix` di `read-tree`:
 
 	$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git write-tree
@@ -195,21 +239,27 @@ Notice that this tree has both file entries and also that the test.txt SHA is th
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like Figure 9-2.
+Se avete creato una directory di lavoro dal nuovo albero che avete appena scritto, otterrete i due file nel primo livello
+della directory e una sottodirectory chiamata `bak` che contiene la prima versione del file test.txt.
+Potete pensare che i dati contenuti da Git per questa strutture siano simili a quelli della Figura 9-2.
 
 Insert 18333fig0902.png 
-Figure 9-2. The content structure of your current Git data.
+Figura 9-2. La struttura dei contenuti per i vostri dati di Git correnti.
 
-### Commit Objects ###
+### Oggetti Commit ###
 
-You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.
+A questo punto avere tre alberi che specificano i diversi snapshot del vostro progetto del quale volete tenere traccia, 
+ma il problema iniziale rimane: dovete ricordare tutti e tre i valori SHA-1 per poter recuperare gli snapshot. Non avete inoltre nessuna 
+informazione su chi ha salvato gli snapshot, quando li ha salvati o perchè li ha salvati. Queste sono le informazioni di base che gli oggetti
+commit salvati per voi.
 
-To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:
+Per creare un oggetto commit, lanciate `commit-tree` e specificate un singolo albero SHA-1 e quale oggetto commit, 
+se esiste, lo precede direttamente. Cominciate con il primo albero che avete scritto:
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
-Now you can look at your new commit object with `cat-file`:
+Ora potete analizzare il vostro nuovo oggetto commit con `cat-file`:
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -218,16 +268,19 @@ Now you can look at your new commit object with `cat-file`:
 
 	first commit
 
-The format for a commit object is simple: it specifies the top-level tree for the snapshot of the project at that point; the author/committer information pulled from your `user.name` and `user.email` configuration settings, with the current timestamp; a blank line, and then the commit message.
+Il formato di un oggetto commit è semplice: specifica l'albero di primo livello per lo snapshot del progetto a quel punto;
+le informazioni sull'autore/colui che ha fatto la commit estratte dalle vostre impostazioni `user.name` and `user.email`,
+con il timestamp corrente; una linea vuota ed infine il messaggio di commit.
 
-Next, you’ll write the other two commit objects, each referencing the commit that came directly before it:
+Di seguito, scrivete gli altri due oggetti commit, ognuno dei quali fa riferimento alla commit che le hanno preceduti:
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
 	cac0cab538b970a37ea1e769cbbde608743bc96d
 	$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
 	1a410efbd13591db07496601ebc7a059dd55cfe9
 
-Each of the three commit objects points to one of the three snapshot trees you created. Oddly enough, you have a real Git history now that you can view with the `git log` command, if you run it on the last commit SHA-1:
+Ognuno dei tre oggetti commit punta ad uno dei tre alberi snapshot che avete creato.
+Ora avete una vera Git history che potete vedere con il comando `git log`, se lo lanciate sull'ultima commit SHA-1:
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -258,7 +311,12 @@ Each of the three commit objects points to one of the three snapshot trees you c
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Amazing. You’ve just done the low-level operations to build up a Git history without using any of the front ends. This is essentially what Git does when you run the `git add` and `git commit` commands — it stores blobs for the files that have changed, updates the index, writes out trees, and writes commit objects that reference the top-level trees and the commits that came immediately before them. These three main Git objects — the blob, the tree, and the commit — are initially stored as separate files in your `.git/objects` directory. Here are all the objects in the example directory now, commented with what they store:
+Fantastico. Avete appena eseguito le operazioni di basso livello per costruire una Git history senza utilizzare 
+nessuno dei comandi del front end. Questo è essenzialmente quello che Git fà quando lanciate i comandi `git add` e `git commit`
+- salva i blob per i file che sono cambiati, aggiorna l'indice, scrive gli alberi e scrive gli oggetti commit che 
+fanno riferimento agli alberi di primo livello e le commit fatte immediatamente prima di questi. Questi tre oggetti Git principali
+- il blob, l'albero, e la commit - sono inizialmente slavati come file separati nella vostra directory `.git/objects`. Di seguito
+potete vedere tutti gli oggetti nella directory di esempio, commentati con quello che contengono:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -272,25 +330,31 @@ Amazing. You’ve just done the low-level operations to build up a Git history w
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-If you follow all the internal pointers, you get an object graph something like Figure 9-3.
+Se seguite tutti i puntatori interni otterrete un grafo degli oggetti simile a quelli in Figura 9-3.
 
 Insert 18333fig0903.png 
-Figure 9-3. All the objects in your Git directory.
+Figura 9-3. Tutti gli oggetti nella vostra directory Git.
 
-### Object Storage ###
+### Il salvataggio degli oggetti ###
 
-I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:
+In precendeza ho menzionato il fatto che insieme ad un contenuto viene salvato anche un header. Prendiamoci 
+un minuto per capire come Git salva i propri oggetti. Vedrete come salvare un oggetto blob - in questo caso, la stringa
+"what is up, doc?" - intrerattivamente con il linguaggio di scripting Ruby. Potete lanciare Ruby in modalità interattiva
+con il comando `irb`:
 
 	$ irb
 	>> content = "what is up, doc?"
 	=> "what is up, doc?"
 
-Git constructs a header that starts with the type of the object, in this case a blob. Then, it adds a space followed by the size of the content and finally a null byte:
+Git costruisce un header che comincia con il tipo dell'oggetto, in questo caso un blob. Poi aggiunge uno spazio 
+seguito dalla dimensione del contenuto ed infine da un null byte:
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"
 
-Git concatenates the header and the original content and then calculates the SHA-1 checksum of that new content. You can calculate the SHA-1 value of a string in Ruby by including the SHA1 digest library with the `require` command and then calling `Digest::SHA1.hexdigest()` with the string:
+Git concatena header e contenuto originle e calcola il checksum SHA-1 del nuovo contenuto. Potete calcolare 
+lo SHA-1 di una stringa in Ruby includendo la libreria SHA1 digest con il comando `require` e invocando 
+`Digest::SHA1.hexdigest()`:
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -299,14 +363,20 @@ Git concatenates the header and the original content and then calculates the SHA
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git compresses the new content with zlib, which you can do in Ruby with the zlib library. First, you need to require the library and then run `Zlib::Deflate.deflate()` on the content:
+Git comprime il nouvo contenuto con zlib, cosa che potete fare in Ruby con la libreria zlib.
+Prima avrete bisogno di includere la libreria ed invocare `Zlib::Deflate.deflate()` sul contenuto:
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
-Finally, you’ll write your zlib-deflated content to an object on disk. You’ll determine the path of the object you want to write out (the first two characters of the SHA-1 value being the subdirectory name, and the last 38 characters being the filename within that directory). In Ruby, you can use the `FileUtils.mkdir_p()` function to create the subdirectory if it doesn’t exist. Then, open the file with `File.open()` and write out the previously zlib-compressed content to the file with a `write()` call on the resulting file handle:
+Infine, scriverete il vostro contenuto zlib-deflated in un oggetto sul disco.
+Determinerete il percorso dell'oggetto che volete scrivere (i primi due caratteri dello SHA-1 sono il nome 
+della sottodirectory e gli ultimi 38 caratteri sono il nome del file contenuto in quella directory).
+I Ruby, potete usare la funzione `FileUtils.mkdir_p()` per creare la sottodirectory se questa non esiste.
+Di seguito aprite il file con `File.open()` e scrivete il contenuto ottenuto in precedenza nel file chiamando
+`write()` sul file handler risultante:
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37"
@@ -317,13 +387,20 @@ Finally, you’ll write your zlib-deflated content to an object on disk. You’l
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-That’s it — you’ve created a valid Git blob object. All Git objects are stored the same way, just with different types — instead of the string blob, the header will begin with commit or tree. Also, although the blob content can be nearly anything, the commit and tree content are very specifically formatted.
+Questoè tutto - avete creato un oggetto Git di tipo blob valido. Tutti gli oggetti Git sono salvati nello
+stesso modo, solo con tipi differenti - invece della stringa "blob" l'header comincierà con "commit" o "tree".
+Inoltre, seppure il contenuto blob può essere praticamente qualsiasi cosa, i contenuti commit e tree sono formttati 
+in modo molto specifico.
 
-## Git References ##
+## I riferimenti di Git ##
 
-You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.
+Potete lanciare qualcosa tipo `git log 1a410e` per vedere tutta la vostra intera history, ma dovete 
+comunque ricordare che quel `1a410e` è l'ultima commit per poter essere in grado di percorrere la history stessa
+per trovare tutti quegli oggetti. Avete bisogno di un file nel quale potete salvare il valore dello SHA-1
+attribuendogli un semplice nome in modo da poter usare quel nome al posto del valore SHA-1 grezzo.
 
-In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:
+In Git, questi sono chiamati "riferimenti" o "refs"; potete trovare i file che contengono i valori SHA-1
+nella directory `.git/refs`. Nel progetto corrente, questa directory non contiene files ma una semplice struttura:
 
 	$ find .git/refs
 	.git/refs
@@ -332,86 +409,100 @@ In Git, these are called "references" or "refs"; you can find the files that con
 	$ find .git/refs -type f
 	$
 
-To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:
+Per creare un nuovo riferimento che vi aiuterà a ricordare dov'è la vostra ultima commit, potete tecnicamente 
+fare qualcosa di semplice come questo:
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
-Now, you can use the head reference you just created instead of the SHA-1 value in your Git commands:
+Ora potete usare il riferimento appena creato al posto del valore SHA-1 nei vostri comandi Git:
 
 	$ git log --pretty=oneline  master
 	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-You aren’t encouraged to directly edit the reference files. Git provides a safer command to do this if you want to update a reference called `update-ref`:
+Non siete incoraggiati ad editare direttamente i file riferimento.
+Git fornisce un comando sicuro per fare questo se volete agiornare un riferimento, chiamato `update-ref`:
 
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
-That’s basically what a branch in Git is: a simple pointer or reference to the head of a line of work. To create a branch back at the second commit, you can do this:
+Questo è di base cos'è un branch in Git: un semplice puntetore o riferimento alla head di una linea di lavoro.
+Per creare un branch indietro alla seconda commit, potete fare questo:
 
 	$ git update-ref refs/heads/test cac0ca
 
-Your branch will contain only work from that commit down:
+Il vostro branch conterrà solo il lavoro da quella commit in poi:
 
 	$ git log --pretty=oneline test
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Now, your Git database conceptually looks something like Figure 9-4.
+Ora, il vostro database Git assomiglia concettualmente all Figura 9-4.
 
 Insert 18333fig0904.png 
-Figure 9-4. Git directory objects with branch head references included.
+Figura 9-4. La direcotyr degli oggetti Git directory con incluse i riferimenti branch e head.
 
-When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
+Quando lanciate comandi come `git branch (branchname)`, Git in pratic lancia il comando `update-ref` per
+aggiungere lo SHA-1 dell'ultima commit del branch nel quale siete in qualsiasi nuovo riferimento vogliate creare.
 
-### The HEAD ###
+### HEAD ###
 
-The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:
+La domanda ora è, quando lanciate `git branch (branchname)`, come fà Git a conoscere lo SHA-1 dell'ultima commit? 
+La risposta è il file HEAD. Il file HEAD è un riferimento simbolico al branch corrente.
+Con riferimento simbolico intendo che, a differenze di un normale riferimento, non contiente in generale un 
+valore SHA-1 ma piuttosto un puntatore ad unl'altro riferimento. Se esaminate il file, vedrete qualcosa come:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/master
 
-If you run `git checkout test`, Git updates the file to look like this:
+Se lanciate `git checkout test`, Git aggiorna il file in questo modo:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.
+Quando lanciate `git commit`, crea l'oggetto commit, specificando che il padre dell'oggetto commit
+stesso sia il valore SHA-1 al quale punta il riferimento in HEAD.
 
-You can also manually edit this file, but again a safer command exists to do so: `symbolic-ref`. You can read the value of your HEAD via this command:
+Potete anche editare manualmente questo file, ma ancora una volta esiste un comando più sicuro per farlo: `symbolic-ref`.
+Potete anche leggere il valore della vostra HEAD tramite questo comando:
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
 
-You can also set the value of HEAD:
+Potet anche impostare il valore di HEAD:
 
 	$ git symbolic-ref HEAD refs/heads/test
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-You can’t set a symbolic reference outside of the refs style:
+Non potete impostare un riferimento simbolico al di fuori di refs:
 
 	$ git symbolic-ref HEAD test
 	fatal: Refusing to point HEAD outside of refs/
 
 ### Tags ###
 
-You’ve just gone over Git’s three main object types, but there is a fourth. The tag object is very much like a commit object — it contains a tagger, a date, a message, and a pointer. The main difference is that a tag object points to a commit rather than a tree. It’s like a branch reference, but it never moves — it always points to the same commit but gives it a friendlier name.
+Avete appena visto i tre principali tipi di oggetti di Git, ma ce n'è un quarto. L'oggetto tag è molto simile 
+ad un oggetto commit - contiene un tag. una data, un messaggio ed un puntatore. La differenza principale sta 
+nel fatto che un oggetto tag punta ad un oggetto commit piuttosto che ad un albero. E' come un riferimento 
+ad un branch, ma non si muove - punta sempre alla stessa commit ma gli da un nome più amichevole.
 
-As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:
+Come discusso nel Capitolo 2, ci sono due tipi di tag: annotated e lightweight. Potete creare un tag lightweight lanciando un comando tipo questo:
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
-That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
+Questo è tutto quello che è un tag lightweight - un branch che non si muove mai. Un tag annotated però è più complesso.
+Se create un tag annotated, Git crea un oggetto tag e scrive un riferimento al quale puntare, invece di puntare direttamente alla commit.
+Potete vedere tutto questo creando un tag annotated (`-a` specifica che si tratta di un tag annotated):
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
 
-Here’s the object SHA-1 value it created:
+Questo è il valore SHA-1 dell'oggetto creato:
 
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
-Now, run the `cat-file` command on that SHA-1 value:
+Ora, lanciando il comando `cat-file` su questo SHA-1:
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -421,15 +512,21 @@ Now, run the `cat-file` command on that SHA-1 value:
 
 	test tag
 
-Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running
+Notate che l'oggetto punta al valore SHA-1 della commit che avete taggato. Notate anche che non è 
+importante che punti ad un oggetto commit; potete taggare ogni oggetto di Git. Nel codice sorgente di 
+Git, ad esempio, il mantainer ha aggiunto la sua chiave pubblica GPG come oggetto blob e lo ha taggato.
+Potete vedere la chiave pubblica lanciando
 
 	$ git cat-file blob junio-gpg-pub
 
-in the Git source code. The Linux kernel also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
+nel codice sorgente di Git. Anche il kernel di Linux ha un oggetto tag che non punta ad una commit - 
+il primo tag creato punta all'albero iniziale dell'import del codice sorgente.
 
 ### Remotes ###
 
-The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:
+Il terzo tipo di riferimento che vedrete è il riferimento remoto. Se aggiungete un remote e poi fate un
+push, Git salva il valore del quale avete fatto la push per ogni branch nella directory `refs/remotes`.
+Ad esempio potete aggiungere un remote di nome `origin`e fare push del vostro branch `master` in esso:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -440,12 +537,15 @@ The third type of reference that you’ll see is a remote reference. If you add 
 	To git@github.com:schacon/simplegit-progit.git
 	   a11bef0..ca82a6d  master -> master
 
-Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:
+Poi, potete vedere quale era il branch `master` del remote `origin` l'ultima volta che avete comunicato con il server,
+esaminando il file `refs/remotes/origin/master`:
 
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
 
-Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers.
+I riferimenti remoti differiscono dai branch (riferimenti in `refs/heads`) principalmente per il fatto
+che non è possibile fare il checkout di quest'ultimi. Git li sposta come segnalibri fino all'ultimo stato conosciuto
+di quei branch avevano sul server.
 
 ## Packfiles ##
 

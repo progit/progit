@@ -379,17 +379,16 @@ Perhatikan karakter backslash (`\`) di depan tanda `*`. Ini dibutuhkan agar Git 
 	$ git rm \*~
 
 Perintah ini akan membuang semua berkas yang berakhiran dengan `~`.
-This command removes all files that end with `~`.
 
-### Moving Files ###
+### Memindahkan Berkas ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Tidak seperti kebanyakan sistem VCS lainnya, Git tidak secara eksplisit memantau perpindahan berkas. Jika Anda mengubag nama berkas di Git, tidak ada metada yang tersimpan di Git yang menyatakan bahwa Anda mengubah nama berkas tersebut. Namun demikian, Git cukup cerdas untuk menemukannya berdasarkan fakta yang ada - kita akan membicarakan tentang mendeteksi perpindahan berkas sebentar lagi.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+Untuk itu agak membingungkan bahwa Git memiliki perintah `mv`. Jika Anda hendak mengubah nama berkas di Git, Anda dapat menjalankan seperti berikut
 
 	$ git mv file_from file_to
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+dan itu berjalan baik. Bahkan, jika Anda menjalankannya seperti ini kemudian melihat ke status, Anda akan melihat bahwa Git menganggapnya sebagai perintah pengubahan nama berkas. 
 
 	$ git mv README.txt README
 	$ git status
@@ -402,23 +401,23 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+Namun sebetulnya hal ini serupa dengan menjalankan perintah-perintah berikut:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git mengetahui secara implisit bahwa perubahan yang terjadi merupakan proses pengubahan nama, sehingga sebetulnya tidaklah terlalu bermasalah jika Anda mengubah nama sebuah berkas dengan cara ini atau dengan menggunakan perintah `mv`. Satu-satunya perbedaan utama adalah `mv` berjumlah satu perintah dan bukannya tiga - yang membuat fungsi ini lebih nyaman digunakan. Lebih penting lagi, Anda sebetulnya dapat menggunakan alat apapun yang Anda suka untuk mengubah nama berkas, tinggal tambahkan perintah add/rm di bagian akhir, sesaat sebelum Anda melakukan commit.
 
-## Viewing the Commit History ##
+## Melihat Sejarah Commit ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+Setelah Anda membuat beberapa commit, atau jika Anda sudah menduplikasi sebuah repositori dengan sejumlah sejarah commit yang telah terjadi, Anda mungkin akan mau untuk melihat ke belakang untuk mengetahui apa yang sudah pernah terjadi. Alat paling dasar dan tepat untuk melakukan ini adalah perintah `git log`.
 
-These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run 
+Contoh berikut menggunakan sebuah proyek sangat sederhana yang disebut simplegit yang sering saya gunakan untuk keperluan demonstrasi. Untuk mengambil proyek ini, lakukan
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+Ketika Anda jalankan `git log` dalam proyek ini, Anda akan mendapat keluaran yang mirip seperti berikut:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -439,11 +438,11 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+Secara standar, dengan tanpa argumen, `git log` menampilkan daftar commit yang pernah dibuat di dalam repositori ini terurut secara kronologis terbalik. Yaitu, commit terbaru muncul paling atas. Seperti yang dapat Anda lihat, perintah ini menampilkan setiap commit dengan nlai checksum SHA-1, nama dan email dari pengubah, tanggal perubahan dilakukan, dan pesan commitnya.
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+Sebagian besar variasi opsi dari perintah `git log` tersedia untuk menunjukkan kepada Anda secara tepat apa yang Anda cari. Di sini, kami akan menunjukkan kepada Anda beberapa dari opsi yang paling sering digunakan.
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+Salah satu dari opsi yang paling berguna adalah `-p`, karena menampilkan diff dari setiap commit. Anda juga dapat menggunakan `-2`, yang membantu membatasi keluarannya hingga 2 entri terakhir:
 
 	$ git log –p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -483,8 +482,8 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+Opsi ini menampilkan informasi log yang sama, namun ditambah informasi diff dari setiap entri. Ini sangat membantu untuk proses tilik-ulang kode atau untuk secara cepat menelusuri apa yang telah terjadi dalam serangkaian commit yang telah ditambahkan oleh rekan kolaborasi.
+Anda juga dapat menggunakan serangkaian opsi simpulan menggunakan `git log`. Misalnya, jika Anda ingin melihat statistik dari setiap commit, Anda dapat menggunakan osi `--stat`: 
 
 	$ git log --stat 
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -516,43 +515,43 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The oneline option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+Seperti Anda dapat lihat, opsi `--stat` menampilkan di bawah setiap entri commit sebuah daftar dari berkasi terubah, jumlah berkas yang diubah dan jumlah baris dalam berkas tersebut yang ditambah atau dihapus. Opsi ini juga menambahkan sebuah simpulan dari informasi tadi di bagian akhir.
+Opsi lain yang juga berguna adalah `--pretty`. Opsi ini mengubah keluaran log ke dalam bentuk selain dari bentuk standar. Beberapa pilihan bentuk yang telah dibuat sebelumnya dapat Anda gunakan. Pilihan bentuk `oneline` akan mencetak setiap commit dalam satu baris, yang berguna jika Anda melihat banyak sekali commit. Selain itu, ada pilihan bentuk `short`, `full`, dan `fuller` yang menampilkan keluaran dalam format yang kurang lebih sama tetapi dengan lebih sedikit atau lebih banyak informasi, seperti:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+Yang lebih mearik adalah pilihan bentuk `format`, yang memungkinkan kita untuk menentukan format keluaran log yang kita inginkan. Ini secara khusus berguna jika Anda membuat keluaran untuk diolah oleh mesin - karena Anda menentukan format secara eksplisit, Anda tahu keluaran tidak akan berubah jika Git dimutakhirkan.
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+Tabel 2-1 memperlihatkan beberapa opsi berguna yang dapat digunakan oleh format.
 
-	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+	Opsi	Penjabaran dari keluaran
+	%H	Hash dari commit
+	%h	Hash dari commit dalam versi pendek
+	%T	Hash dari pohon
+	%t	Hash dari pohon dalam versi pendek
+	%P	Hash dari parent
+	%p	Hash dari parent dalam versi pendek
+	%an	Nama pembuat
+	%ae	Email pembuat
+	%ad	Tanggal pembuat (format juga memperhitungkan opsi -date=)
+	%ar	Tanggal pembuat, relatif
+	%cn	Name pelaku commit
+	%ce	Email pelaku commit
+	%cd	Tanggal pelaku commit
+	%cr	Tanggal pelaku commit, relatif
+	%s	Judul
 
-You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+Anda mungkin bertanya-tanya apa perbedaan dari _pembuat_ dan _pelaku_commit_. Pembuat adalah orang yang sebetulnya menulis perubahan, sedangkan pelaku commit adalah orang yang terakhir mengaplikasikan perubahan tersebut. Jadi, jika Anda mengirimkan sebuah patch ke sebuah proyek dan salah satu dari anggota inti mengaplikasikan patch tersebut, Anda berdua akan dihitung - Anda sebagai pembuat dan anggota inti sebagai pelaku commit. Perbedaan ini ini akan kita bahas lebih lanjut di Bab 5.
 
-The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
+Opsi `oneline` dan `format` secara khusus berguna dengan opsi `log` lainnya yang disebut `--graph`. Opsi ini menambah informasi gambar ASCII yang menunjukkan sejarah pencabangan dan penggabungan, yang kita dapat lihat dari salinan repositori proyek Grit:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -566,43 +565,43 @@ The oneline and format options are particularly useful with another `log` option
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
+Itulah beberapa opsi dalam memformat keluaran dari `git log` secara sederhana - masih ada banyak lagi. Tabel 2-2 menjabarkan opsi-opsi yang sejauh ini telah kita bahas dan beberapa opsi format umum lainnya yang mungkin berguna, sejalan dengan bagaimana opsi tersebut mengubah keluaran dari perintah `log`.
 
-	Option	Description
-	-p	Show the patch introduced with each commit.
-	--stat	Show statistics for files modified in each commit.
-	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
-	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+	Opsi	Penjabaran
+	-p	Tampilkan patch yang digunakan di setiap commit
+	--stat	Tampilkan statistik dari berkas terubah di setiap commit
+	--shortstat	Tampilkan opsi `--stat` dalam satu baris perubahan/penambahan/penghapusan 
+	--name-only	Tampilkan daftar berkas yang terubah setelah setiap informasi commit
+	--name-status	Tampilkan daftar berkas yang terubah dan informasi status tertambah/terubah/terhapus
+	--abbrev-commit	Tampilkan beberapa karakter awal dari ceksum SHA-1
+	--relative-date	Tampilkan tanggal dalam bentuk relatif (misalnya, "2 weeks ago")
+	--graph	Tampilkan gambar ASCII dari sejarah pencabangan dan penggabungan di samping keluaran log
+	--pretty	Tampilkan commit dalam format alternatif. Opsi antara lain oneline, short, full, fuller dan format (dimana kita dapat merumuskan format yang kita inginkan).
 
-### Limiting Log Output ###
+### Membatasi Keluaran Log ###
 
-In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+Sebagai tambahan dari opsi format-keluaran, `git log` juga memiliki opsi pembatasan yang berguna - yaitu opsi yang membuat kita dapat menampilkan sebagian dari commit. Anda telah melihat salah satu opsi pembatasan ini sebelumnya - opsi `-2` yang menampilkan 2 commit terakhir. Bahkan jika Anda melakukan `-<n>`, dengan `n` adalah integer apapun untuk menampilkan sejumlah `n` commit terakhir. Dalam kenyataannya, Anda mungkin tidak akan menggunakan opsi ini terlalu sering, karena Git secara standar melakukan pipe dari semua output lewat sebuah pager sehingga Anda melihat hanya sebuah halaman dari keluaran log setiap saat.
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+Namun demikian, opsi pembatasan waktu seperti `--since` dan `--until` akan lebih berguna. Sebagai contoh, perintah berikut akan menampilkan sejumlah commit yang dilakukan dalam 2 minggu terakhir:
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+Perintah ini bekerja dengan format lainnya - Anda dapat mencantumkan tanggal tertentu ("2008-01-15") atau tanggal relatif seperti "2 years 1 day 3 minutes ago".
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+Anda juga dapat menyaring daftar untuk commit yang cocok dengan beberapa kriteria pencarian. Opsi `--author` membuat Anda dapat menyaring pembuat tertentu, dan opsi `--grep` membuat Anda dapat mencari keyword di dalam pesan commit. (Mohon diingat bahwa jika Anda ingin mencantumkan kedua opsi author dan grep, Anda harus menambahkan `--all-match` atau perintah akan mencocokkan yang berisi keduanya saja).
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+Opsi terakhir yang sangat berguna untuk menyaring `git log` adalah path. Jika anda mencantumkan direktori atau nama berkas, Anda dapat membatasi keluaran log ke commit yang merubah berkas-berkas tersebut. Ini selalu menjadi opsi terakhir dan biasanya didahului dengan dua tanda hubung (`--`) untuk memisahkan path dari opsi lainnya.
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+Dalam tabel 2-3 kita daftarkan opsi pembatasan ini dan opsi umum lainnya untuk acuan Anda.
 
-	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+	Opsi	Penjabaran
+	-(n)	Tampilkan hanya sejumlah n commit terakhir
+	--since, --after	Batasi commit hanya yang dibuat setelah tanggal yang dicantumkan
+	--until, --before	Batasi commit hanya yang dibuat sebelum tanggal yang dicantumkan
+	--author	Hanya tampilkan commit yang entri pembuatnya cocok dengan string yang dicantumkan
+	--committer	Hanya tampilkan commit yang entri pelaku commitnya cocok dengan string yang dicantumkan
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+Sebagai contoh, jika Anda ingin melihat commit mana saja yang mengubah berkas test di sejarah kode sumber yang di-commit oleh Junio Hamano dan bukan merupakan penggabungan selama bulan October 2008, Anda dapat menjalankan seperti berikut:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -613,42 +612,42 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+Dari sekitar 20,000 commit dalam sejarah kode sumber Git, perintah ini menampilkan hanya 6 yang cocok dengan kriteria di atas.
 
-### Using a GUI to Visualize History ###
+### Menggunakan GUI untuk Menggambarkan Sejarah ###
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
+Jika Anda ingin menggunakan alat yang lebih grafis untuk menggambarkan sejarah commit Anda, Anda dapat melihat program Tcl/Tk yang disebut gitk yang didistribusikan bersama dengan Git. Gitk sebelunya hanyalah alat visual dari `git log`, dan dia menerima hampir semua opsi pembatasan yang dapat dilakukan oleh `git log`. Jika Anda mengetikkan gitk di baris perintah dalam direktori proyek Anda, Anda akan melihat seperti Gambar 2-2.
 
 Insert 18333fig0202.png 
-Figure 2-2. The gitk history visualizer.
+Gambar 2-2. Penggambaran sejarah oleh Gitk.
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+Anda dapat melihat sejarah commit di setengah bagian atas jendela dengan gambar pohon yang menarik. Tampilan diff di bagian bawah jendela memperlihatkan kepada Anda perubahan yang dilakukan di commit manapun yang Anda klik.
 
-## Undoing Things ##
+## Membatalkan Apapun ##
 
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always undo some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+Pada setiap tahapan, Anda mungkin ingin membatalkan sesuatu. Di sini, kita akan membahas beberapa alat dasar untuk membatalkan perubahan yang baru saja Anda lakukan. Harus tetap diingat bahwa kita tidak selalu dapat membatalkan apa yang telah kita batalkan. Ini adalah salah satu area dalam Git yang dapat membuat Anda kehilangan apa yang telah Anda kerjakan jika Anda melakukannya dengan tidak tepat.
 
-### Changing Your Last Commit ###
+### Merubah Commit Terakhir Anda ###
 
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+Salah satu pembatalan yang biasa dilakukan adalah ketika kita melakukan commit terlalu cepat dan mungkin terjadi lupa untuk menambah beberapa berkas, atau Anda salah memberikan pesan commit Anda. Jika Anda ingin untuk mengulang commit tersebut, Anda dapat menjalankan commit dengan opsi `--ammend`:
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+Perintah ini mangambil area stage Anda dan menggunakannya untuk commit. Jika Anda tidak melakukan perubahan apapun sejak commit terakhir Anda (seumpama, Anda menjalankan perintah ini langsung setelah commit Anda sebelumnya), maka snapshot Anda akan sama persis dengan sebelumnya dan yang Anda dapat ubah hanyalah pesan commit Anda.
 
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+Pengolah kata akan dijalankan untuk mengedit pesan commit yang telah Anda buat pada commit sebelumnya. Anda dapat ubah pesan commit ini seperti biasa, tetapi pesan commit sebelumnya akan tertimpa.
 
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+Sebagai contoh, jika Anda melakukan commit dan menyadari bahwa Anda lupa untuk memasukkan beberapa perubahan dalam sebuah berkas ke area stage dan Anda ingin untuk menambahkan perubahan ini ke dalam commit terakhir, Anda dapat melakukannya sebagai berikut:
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend 
 
-All three of these commands end up with a single commit — the second commit replaces the results of the first.
+Ketiga perintah ini tetap akan bekerja di satu commit - commit kedua akan menggantikan hasil dari commit pertama.
 
-### Unstaging a Staged File ###
+### Mengeluarkan Berkas dari Area Stage ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+Dua seksi berikutnya akan menunjukkan bagaimana menangani area stage Anda dan perubahan terhadap direktori kerja Anda. Sisi baiknya adalah perintah yang Anda gunakan untuk menentukan keadaan dari kedua area tersebut juga mengingatkan Anda bagaimana membatalkan perubahannya. Sebagai contoh, mari kita anggap Anda telah merubah dua berkas dan ingin melakukan commit kepada keduanya sebagai dua perubahan terpisah, tetapi Anda secara tidak sengaja mengetikkan `git add *` dan memasukkan keduanya ke dalam area stage. Bagaimana Anda dapat mengeluarkan salah satu dari keduanya? Perintah `git status` mengingatkan Anda:
 
 	$ git add .
 	$ git status
@@ -660,7 +659,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+Tepat di bawah tulisan "Changes to be committed", tercantum anjuran untuk menggunakan `git reset HEAD <file>` untuk mengeluarkan dari area stage. Mari kita gunakan anjuran tersebut untuk mengeluarkan berkas benchmarks.rb dari area stage:
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -678,11 +677,11 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
+Perintahnya terlihat agak aneh, tetapi menyelesaikan masalah. Berkas benchmarks.rb sekarang menjadi  terubah dan sudah berada di luar area stage.
 
-### Unmodifying a Modified File ###
+### Mengembalikan Berkas Terubah ###
 
-What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
+Apa yang terjadi jika Anda menyadari bahwa Anda tidak ingin menyimpan perubahan terhadap berkas benchmarks.rb? Bgaimana kita dapat dengan mudah mengembalikan berkas tersebut ke keadaan yang sama dengan saat Anda melakukan commit terakhir (atau saat awal menduplikasi, atau bagaimanapun Anda mendapatkannya ketika masuk ke direktori kerja Anda)? Untungnya, `git status` memberitahu Anda lagi bagaimana untuk melakukan hal itu. Pada contoh keluaran sebelumnya, area direktori kerja terlihat seperti berikut:
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -691,7 +690,7 @@ What if you realize that you don’t want to keep your changes to the benchmarks
 	#       modified:   benchmarks.rb
 	#
 
-It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
+Terlihat secara eksplisit cara Anda dapat membuang perubahan yang telah Anda lakukan (paling tidak, hanya versi Git 1.6.1 atau yang lebih baru yang memperlihatkan cara ini - jika Anda memiliki versi yang lebih tua, kami sangat merekomendasikan untuk memperbaharui Git untuk mendapatkan fitur yang lebih nyaman digunakan). Mari kita lakukan apa yang tertulis di atas:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -702,18 +701,19 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   README.txt
 	#
 
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go. 
+Anda dapat lihat bahwa perubahan telah dikembalikan. Anda juga seharusnya menyadari bahwa perintah ini juga berbahaya: perubahan apapun yang Anda buat di berkas tersebut akan hilang - Anda baru saja menyalin berkas lain ke perubahan Anda. Jangan pernah gunakan perintah ini kecuali Anda sangat yakin bahwa Anda tidak menginginkan berkas tersebut. Jika Anda hanya butuh untuk menyingkirkan perubahan untuk sementara, kita dapat bahas tentang penyimpanan (_to stash_) dan pencabangan (_to branch_) di bab berikutnya; kedua cara tersebut secara umum adalah cara yang lebih baik untuk dilakukan.
 
-Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see Chapter 9 for data recovery). However, anything you lose that was never committed is likely never to be seen again.
+Ingat bahwa apapun yang dicommit di dalam Git dapat hampir selalu dikembalikan. Bahkan commit yang berada di cabang yang sudah terhapus ataupun commit yang sudah ditimpa dengan `commit --amend` masih dapat dikembalikan (lihat Bab 9 untuk penyelamatan data). Namun, apapun hilang yang belum pernah dicommit besar kumngkinannya tidak dapat dilihat kembali.
 
-## Working with Remotes ##
+## Bekerja Berjarak ##
 
-To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
+Untuk dapat berkolaborasi untuk proyek Git apapun, Anda perlu mengetahui bagaimana Anda dapat mengatur repositori berjarak dari jarak jauh. Repositori berjarak adalah sekumpulan versi dari proyek Anda yang disiarkan di Internet atau di jaringan. Anda dapat memiliki beberapa repositori berjarak, masing-masing bisanya dengan akses terbatas untuk membaca saja ataupun baca/tulis. Berkolaborasi dengan pihak lain menuntut kemampuan untuk mengatur repositori berjarak ini dan menarik dan mendorong data ke dan dari repositori berjarak tersebut ketika Anda butuh untuk membagi hasil kerja Anda.
 
-### Showing Your Remotes ###
+Mengatur repositori berjarak mencakup pengetahuan untuk menambah repositori berjarak, menghapus repositori yang sudah tidak berlaku, mengatur cabang-cabang berjarak dan mendefinisikan cabang-cabang tersebut sebagai terpantau atau tidak, dan seterusnya. Dalam bagian ini, kita akan membahas kemampuan manajemen jarak jauh ini.
 
-To see which remote servers you have configured, you can run the git remote command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
+### Melihat Repositori Berjarak Anda ###
+
+Untuk melihat server berjarak mana yang telah Anda konfigurasikan, Anda dapat menjalankan perintah `git remote`. Perintah tersebut mendaftarkan nama pendek dari masing-masing handle berjarak yang telah Anda buat sebelumnya. Jika Anda menduplikasikan repositori Anda, Anda seharusnya paling tidak dapat melihat `origin` - yaitu nama standar yang diberikan Git untuk menunjuk ke server asal tempat Anda menduplikasi: 
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -726,12 +726,12 @@ To see which remote servers you have configured, you can run the git remote comm
 	$ git remote 
 	origin
 
-You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+Anda juga dapat mencantumkan `-v`, yang akan menampilkan kepada Anda URL yang telah Git simpan sebagai alamat lengkap dari nama pendek tempat server asal.
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
-If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
+Jika Anda memiliki lebih dari satu server berjarak, perintah tersebut akan menampilkan semuanya. Sebagai contoh, repositori Grit tampak seperti berikut.
 
 	$ cd grit
 	$ git remote -v
@@ -741,11 +741,11 @@ If you have more than one remote, the command lists them all. For example, my Gr
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in Chapter 4).
+Ini berarti kita bisa menarik kontribusi dari pengguna manapun dengan cukup mudah. Tapi dapat dicatat bahwa hanya server berjarak `origin` yang menggunakan URL SSH, sehingga hanya itulah satu-satunya server yang dapat saya arahkan pendorongan (kita akan bahas kenapa hal ini terjadi di Bab 4).
 
-### Adding Remote Repositories ###
+### Menambah Repositori Berjarak ###
 
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+Saya telah menyinggung dan memberikan beberapa peragaan bagaimana menambah repositori berjarak di bagian sebelumnya, namun berikut adalah bagaimana untuk melakukannya secara eksplisit. Untuk menambah sebuah repositori berjarak Git yang baru sebagai sebuah nama pendek yang Anda dapat referensikan secara mudah, jalankan `git remote add [nama pendek] [url]`:
 
 	$ git remote
 	origin
@@ -754,7 +754,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+Sekarang Anda apat menggunakan `pb` dalam baris perintah daripada menggunakan URL lengkapnya. Sebagai contoh, jika Anda ingin mengambil semua informasi yang dimiliki oleh Paul, tapi belum Anda miliki di repositori Anda, Anda dapat menjalankan `git fetch pb`:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -765,31 +765,31 @@ Now you can use the string pb on the command line in lieu of the whole URL. For 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+Cabang master milik Paul sekarang dapat diakses di komputer Anda sebagai `pb/master` - Anda dapat menggabungkan cabang Paul ke dalam salah satu cabang Anda, atau Anda dapat melakukan `checkout` untuk mengaksesnya langsung sebagai cabang lokal jika Anda ingin menelitinya.
 
-### Fetching and Pulling from Your Remotes ###
+### Mengambil dan Menarik dari Repositori Berjarak ###
 
-As you just saw, to get data from your remote projects, you can run:
+Sebagaimana yang telah Anda ketahui, untuk mengambil data dari proyek berjarak Anda, Anda dapat menjalankan:
 
 	$ git fetch [remote-name]
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
+Perintah tersebut akan diteruskan ke repositori berjarak dan menarik semua data yang belum Anda miliki dari sana. Setelah Anda melakukan ini, Anda akan memiliki referensi terhadap semua cabang yang ada di repositori berjarak tadi, yang kemudian dapat Anda gabungkan atau periksa kapanpun. (Kita akan bahas apa itu cabang dan bagaimana menggunakannya dengan lebih detil di Bab 3.)
 
-If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+Jika Anda menduplikasi sebuah repositori, perintah tersebut akan secara otomatis menambahkan repositori berjarak dengan nama `origin`. Jadi, `git fetch origin` akan mengambil semua hasil kerja baru yang sudah didorong ke server sejak Anda melakukan duplikasi (atau terakhir Anda mengambil). Penting untuk dicatat bahwa perintah `fetch` menarik semua data ke repositori lokal - perintah tersebut tidak secara otomatis menggabungkan hasil kerja baru dengan hasil kerja Anda atau mengubah apa yang sekarang sedang Anda kerjakan. Anda harus menggabungkannya secara manual ke dalam kerja Anda ketika Anda sudah siap.
 
-If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+Jika Anda memiliki cabang yang sudah tertata untuk memantau cabang berjarak (lihat bagian berikutnya dan bab3 untuk informasi lebih lanjut), Anda dapat menggunakan perintah `git pull` untuk secara otomatis mengambil dan menggabungkan cabang berjarak ke dalam cabang yang sekarang sedang aktif. Alur kerja ini mungkin lebih mudah atau lebih nyaman bagi Anda; dan secara standar, perintah `git clone` secara otomatis menata cabang master di lokal Anda untuk memantau cabang master di server berjarak tempat asal Anda menduplikasi (diasumsikan bahwa repositori berjarak memiliki cabang master). Menjalankan `git pull` secara umum mengambil data dari server tempat asal kita menduplikasi dan secara otomatis mencoba untuk menggabungkannya dengan kode yang sedang kita kerjakan saat ini.
 
-### Pushing to Your Remotes ###
+### Mendorong ke Repositori Berjarak ###
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+Ketika proyek Anda sampai pada satu titik dimana Anda ingin membaginya, Anda harus mendorongnya ke server. Perintah untuk melakukan ini mudah: `git push [nama-berjarak] [nama-cabang]`. Jika Anda ingin mendorong cabang master ke server `origin` Anda (lagi, duplikasi secara umum menata nama-nama ini secara otomatis), maka Anda dapat menjalankan berikut ini untuk mendorong hasil kerja Anda kembali ke server:
 
 	$ git push origin master
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
+Perintah ini hanya bekerja jika Anda menduplikasi dari server dengan akses tulis terbuka bagi Anda dan jika belum ada orang yang mendorong sebelumnya. Jika Anda dan seorang lainnya menduplikasi secara bersamaan dan mereka mendorong ke server baru kemudian Anda, hasil kerja Anda akan segera ditolak. Anda perlu menarik hasil kerja mereka dahulu dan menggabungkannya dengan hasil kerja Anda sebelum Anda diperbolehkan untuk mendorong. Lihat Bab 3 untuk informasi lebih detil tentang bagaimana untuk mendorong ke server berjarak.
 
-### Inspecting a Remote ###
+### Memeriksa Repositori Berjarak ###
 
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+Jika Anda ingin melihat informasi tertentu lebih lanjut tentang repositori berjarak, Anda dapat menggunakan perintah `git remote show [nama-remote]`. Jika Anda menjalankan perintah ini dengan nama pendek tertentu, sepertin `origin`, Anda akan mendapatkan seperti ini:
 
 	$ git remote show origin
 	* remote origin
@@ -800,9 +800,9 @@ If you want to see more information about a particular remote, you can use the `
 	    master
 	    ticgit
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+Perintah ini akan memperlihatkan daftar URL dari repositori berjarak dan juga informasi cabang berjarak terpantau. Perintah tersebut juga membantu Anda melihat bahwa Anda berada di cabang master dan jika Anda menjalankan `git pull`, perintah tersebut akan secara otomatis menggabungkan dari cabang master berjarak setelah mengambil semua referensi dari sana. Perintah ini juga memperlihatkan daftar semua referensi yang sudah ditarik.
 
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+Ini adalah contoh sederhana yang paling mungkin Anda temui. Ketika Anda menggunakan Git lebih sering lagi, Anda makin dapat membaca lebih banyak lagi informasi yang keluar dari `git remote show`:
 
 	$ git remote show origin
 	* remote origin
@@ -826,40 +826,40 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+Perintah ini menunjukkan cabang mana yang secara otomatis terdorong ketika Anda menjalankan `git push` di cabang-cabang tertentu. Yang juga ditunjukkan adalah cabang berjarak di server yang belum Anda miliki, cabang berjarak yang Anda miliki namun telah terhapus di server, dan beberapa cabang yang secara otomatis akan digabungkan ketika Anda menjalankan `git pull`.
 
-### Removing and Renaming Remotes ###
+### Menghapus dan Mengganti Nama Repositori Berjarak ###
 
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+Jika Anda ingin mengganti nama sebuah referensi, pada Git versi baru Anda dapat menjalankan `git remote rename` untuk mengganti nama pendek dari repositori berjarak. Sebagai contoh, jika Anda ingin mengganti nama `pb` menjadi `paul`, Anda dapat melakukannya dengan perintah `git remote rename`:
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+Patut disinggung juga bahwa hal ini merubah nama cabang berjarak Anda juga. Apa yang biasanya dapat direferensikan sebagai `pb/master` saat ini berada di `paul/master`.
 
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+Jika Anda ingin untuk menghapus sebuah referensi untuk alasan tertentu - Anda memindahkan servernya atau tidak lagi menggunakan mirror tertentu, atau mungkin seorang kontributor tidak lagi berkontribusi - Anda dapat menggunakan `git remote rm`:
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
-## Tagging ##
+## Menandai ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+Seperti kebanyakan VCS, Git memiliki kemampuan untuk menandai titik tertentu dalam sejarah sebagai sesuatu yang penting. Biasanya, orang menggunakan fungsi ini untuk menandai titik-titik pelepasan (v1.0, dan seterusnya). Pada bagian ini, Anda akan belajar untuk melihat tanda-tanda yang telah ada, bagaimana membuat tanda baru, dan perbedaan dari beberapa tipe tanda.
 
-### Listing Your Tags ###
+### Melihat Daftar Tanda Anda ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+Melihat daftar tanda yang sudah ada di GIT tidak berbelit-belit. Ketikkan `git tag`:
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+Perintah ini memperlihatkan tanda-tanda yang diurutkan secara alfabetis; urutan yang terlihat ini tidak memiliki kepentingan nyata tertentu.
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+Anda dapat juga mencari tanda dengan pola tertentu. Repositori kode Git, sebagai contoh, mengandung lebih dari 240 tanda. Jika Anda hanya tertarik untuk melihat seri dari 1.4.2, Anda dapat menjalankan:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -867,13 +867,13 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### Membuat Tetanda ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git membagi tetanda dalam 2 tipe utama: ringan dan bercatatan. Tipe tetanda ringan sangat mirip dengan sebuah cabang yang tidak pernah berubah - tetanda hanya sebagai penunjuk ke commit tertentu. Di lain pihak, tipe tetanda bercatatan disimpan sebagai obyek penuh di dalam basis data Git. Tetanda ini di-checksum; mengandung nama penanda, email dan tanggal; memiliki pesan penandaan; dan dapat ditandatangani dan diverifikasi menggunakan GNU Privacy Guard (GPG). Anda pada umumnya direkomendasikan untuk membuat tetanda bercatatan sehingga Anda dapat memiliki semua informasi ini; tetapi jika Anda hanya menginginkan tetanda sementara atau untuk alasan tertentu tidak ingin menyimpan informasi lain yang lebih detil, tetanda ringan juga tersedia.
 
-### Annotated Tags ###
+### Tetanda Bercatatan ###
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+Membuat sebuah tetanda bercatatan dalam Git adalah mudah. Cara termudah adalah dengan menggunakan parameter `-a` ketika Anda menjalankan perintah `tag`:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -881,9 +881,9 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+Parameter `-m` untuk mendefinikasn pesan penandaan, yang disimpan bersamaan dengan tanda. Jika Anda tidak mencantumkan pesan untuk tanda bercatatan, Git akan menjalankan editor Anda sehingga Anda dapat mengetikkannya di sana.
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+Anda dapat melihat data dari tanda tadi beserta commit yang ditandainya dengan menggunakan perintah `git show`:
 
 	$ git show v1.4
 	tag v1.4
@@ -898,18 +898,18 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+Terlihat informasi penanda, tanggal dilakukan penandaan terhadap commit, dan catatan sebelum Git menampilkan informasi commitnya.
 
-### Signed Tags ###
+### Tetanda Tertandatangani ###
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+Anda dapat juga menandatangani tetanda Anda menggunakan GPG, diasumsikan bahwa Anda telah memiliki kunci pribadi (private key). Yang perlu Anda lakukan adalah mengganti `a` dengan `-s`:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+Jika Anda menjalankan `git show` terhadap tag tadi, Anda akan melihat tanda tangan GPG Anda terlampir di sana:
 
 	$ git show v1.5
 	tag v1.5
@@ -931,11 +931,11 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+Sebentar lagi, Anda akan belajar untuk memverifikasi tanda tertandatangani.
 
-### Lightweight Tags ###
+### Tetanda Ringan ###
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+Cara lain untuk menandai sebuah commit adalah dengan sebuah tanda ringan. Pada dasarnya tetanda ini adalah checksum dari commit yang disimpan di dalam berkas - tanpa informasi lain. Untuk membuat tetanda ringan ini, jangan cantumkan parameter `-a`, `-s` ataupun `-m`.
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -945,7 +945,7 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+Pada saat ini, jika Anda menjalankan `git show` pada tag tersebut, Anda tidak akan melihat informasi lebih. Perinta tersebut hanya akan menampilkan commitnya.
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -955,9 +955,9 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### Memverifikasi Tetanda ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+Untuk memverifikasi sebuah tag bertandatangan, Anda menggunakan `git tag -v [nama-tag]`. Perintah ini akan menggunakan GPG untuk memverifikasi tanda tangannya. Anda membutuhkan kunci umum dari penandatangan di dalam keyring Anda agar dapat bekerja dengan benar:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -973,15 +973,15 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-If you don’t have the signer’s public key, you get something like this instead:
+Jika Anda tidak memiliki kunci umum dari penandatangan, Anda akan melihat serupa ini:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Tagging Later ###
+### Mengakhirkan Penandaan ###
 
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+Anda dapat juga menandai commit walaupun Anda telah pindah melewatinya. Misalnya catatan sejarah commit Anda tampak seperti berikut:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -995,11 +995,11 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+Sekarang, misalnya Anda lupa untuk menandai proyek di v1.2, yang sebetulnya terletak di commit "update rakefile". Anda dapat menambahkannya. Untuk menandai commit tersebut, Anda mencantumkan checksum dari commit tersebut (atau bagian darinya) di bagian akhir dari perintah:
 
 	$ git tag -a v1.2 9fceb02
 
-You can see that you’ve tagged the commit:
+Anda dapat melihat bahwa commit tersebut telah ditandai.
 
 	$ git tag 
 	v0.1
@@ -1022,9 +1022,9 @@ You can see that you’ve tagged the commit:
 	    updated rakefile
 	...
 
-### Sharing Tags ###
+### Membagi Tetanda ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
+Secara default, perintah `git push` tidak memindahkan tetanda ke server berjarak. Anda harus secara eksplisit mendorong tetanda ke server bersama setelah Anda membuatnya. Proses ini sama seperti membagi cabang berjarak - Anda dapat menjalankan `git push origin [nama-tag]`.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1034,7 +1034,7 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+Jika Anda memiliki banyak tanda yang ingin Anda dorong sekaligus, Anda dapat juga menggunakan opsi `--tags` terhadap perintah `git push`. Hal ini akan memindahkan semua tetanda Anda yang belum terpindahkan ke server berjarak.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1048,61 +1048,61 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+Saat ini, ketika orang lain menduplikasi atau menarik dari repositori Anda, Mereka akan mendapatkan semua tetanda Anda juga.
 
-## Tips and Tricks ##
+## Tips dan Tricks ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+Sebelum kita menyelesaikan bab tentang dasar-dasar Git ini, beberapa tips dan triks dapat membuat pengalaman Git Anda lebih sederhana, mudah, atau bahkan akrab. Banyak orang menggunakan Git tanpa menggunakan tip-tip berikut ini, dan kami tidak akan merujuk kepada mereka atau mengasumsikan bahwa Anda telah menggunakannya nanti dalam buku ini; tetapi Anda mungkin sebaiknya mengetahui bagaimana menggunakannya.
 
 ### Auto-Completion ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+Jika Anda menggunakan Bash shell, Git tersedia dengan sebuah script auto-completion yang dapat Anda hidupkan. Unduh source-code Git, dan cari direktori `contrib/completion`; di sana Anda akan menemukan berkas bernama `git-completion.bash`. Salin berkas ini ke direktori home Anda, dan tambahakn ini ke dalam berkas `.bashrc`:
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+Jika Anda ingin memasang Git agar secara otomatis menggunakan fitur ini bagi semua pengguna, salin script tadi ke direktori `/opt/local/etc/bash_completion.d` di sistem Mac atau ke direktori `/etc/bash_completion.d/` di sistem Linux. Ini adalah direktori tempat script yang akan secara otomatis dibaca oleh Bash untuk menyediakan fitur auto-complete nya.
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+Jika Anda menggunakan Windows dengan Git Bash, yang sebetulnya adalah setting default ketika instalasi Git di Windows menggunakan msysGit, fitur ini seharusnya sudah terkonfigurasi.
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+Pencet huruf Tab ketika Anda menuliskan perintah Git, dan Bash akan menampilkan beberapa kemungkinan yang Anda dapat pilih:
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+Dalam hal ini, mengetikkan `git co` dan memencet kunci Tab 2x akan menampilkan pilihan commit dan config. Dengan menambahkan `m<tab>` akan melengkapi `git commit` secara otomatis.
 	
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+Hal ini juga bekerja terhadap opsi, yang mungkin lebih berguna. Sebagai contoh, jika Anda menjalankan perintah `git log` dan tidak ingat salah satu dari opsi yang tersedia, Anda dapat mulai mengetikkannya dan memencet Tab untuk melihat apa yang cocok:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+Ini adalah trick yang cukup menarik dan dapat menghemat waktu Anda dan waktu membaca dokumentasi.
 
-### Git Aliases ###
+### Git Alias ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+Git tidak mengasumsikan perintah Anda jika Anda mengetikkannya sebagian. Jika Anda tidak ingin mengetikkan seluruh text dari setiap perintah Git, Anda dapat dengan mudah memasang alias dari setiap perintah menggunakan perintah `git config`. Berikut adalah beberapa contoh yang Anda mungkin ingin tata:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+Ini berarti bahwa, sebagai contoh, daripada mengetikkan `git commit`, Anda hanya butuh untuk mengetikkan `git ci`. Sejalan dengan Anda menggunakan Git, Anda akan mungkin menggunakan perintah lain sama seringnya; dalam hal ini, jangan ragu untuk membuat alias-alias baru.
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+Teknik ini juga akan berguna dalam pembuatan perintah yang Anda pikir harus ada. Sebagai contoh, untuk mengkoreksi masalah kemudahan penggunaan (usability) yang Anda temukan dalam pengeluaran berkas dari area stage, Anda dapat menambahkan alias ini ke dalam Git:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+Hal ini akan membuat kedua perintah berikut sama:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Tampak lebih terbaca. Biasa juga untuk menambahkan perintah `last` sebagai berikut:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+Dengan demikian, Anda dapat melihat commit terakhir dengan lebih mudah:
 	
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1113,10 +1113,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Sebagaimana yang dapat Anda katakan, Git secara sederhana menggantikan perintah-perintah baru dengan apapun yang Anda alias kan. Namun demikian, mungkin Anda ingin menjalankan perintah eksternal, dan bukannya Git subcommand. Dalam kasus ini, Anda dapat mulai perintahnya dengan karakter `!`. Hal ini berguna jika Anda ingin membuat alat Anda sendiri yang bekerja terhadap repositori Git. Kita dapat mendemokannya dengan membuat alias `git visual` untuk menjalankan `gitk`:
 
 	$ git config --global alias.visual "!gitk"
 
-## Summary ##
+## Simpulan ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+Pada saat ini, Anda dapat melakukan semua hal dasar terhadap Git di lokal - membuat atau menduplikasi sebuah repositori, melakukan perubahan, memasukkan ke area stage dan melakukan commit terhadap perubahan tersebut, dan melihat sejarah dari semua perubahan yang pernah terjadi di sebuah repositori. Selanjutnya, kita akan membahas fitur pembunuh dari Git: cara Git melakukan percabangan.

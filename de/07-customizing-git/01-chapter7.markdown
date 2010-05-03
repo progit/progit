@@ -763,7 +763,7 @@ Der nächste Hook, der beim Patchen vie `gti am` ausgefuehrt wird ist `pre-apply
 
 The next hook to run when applying patches via `git am` is `pre-applypatch`. It takes no arguments and is run after the patch is applied, so you can use it to inspect the snapshot before making the commit. You can run tests or otherwise inspect the working tree with this script. If something is missing or the tests don’t pass, exiting non-zero also aborts the `git am` script without committing the patch.
 
-Der letzte Hook, der währen des `git am` Operation ausgefuehrt wird ist `post-applypatch`. Du kannst dies verwenden, um eine Benutzergruppe oder den Autoren des Patches darueber zu informieren, dass der Patch angewendet wurde. Du kannst das Patchen mit diesem Skript nicht mehr abbrechen.
+Der letzte Hook, der währen des `git am` Operation ausgefuehrt wird ist `post-applypatch`. Du kannst dies verwenden, um eine Benutzergruppe oder den Autoren des Patches darueber zu informieren, dass der Patch angewendet wurde. Du kannst das Patchen mit diesem Skript nicht mehr abbrechen. 
 
 The last hook to run during a `git am` operation is `post-applypatch`. You can use it to notify a group or the author of the patch you pulled in that you’ve done so. You can’t stop the patching process with this script.
 
@@ -778,7 +778,7 @@ Nach jedem erfolgreichen `git-checkout` wird der `post-checkout` Hook ausgefuehr
 
 After you run a successful `git checkout`, the `post-checkout` hook runs; you can use it to set up your working directory properly for your project environment. This may mean moving in large binary files that you don’t want source controlled, auto-generating documentation, or something along those lines.
 
-Abschliessend wird noch der `post-merge` Hook nach einem erfolgreichen `merge` ausgefuehrt. Du kannst diesen benutzen, um Daten in Deinem Arbeitsverzeichnis wiederherzustellen, die Git nicht verfolgen kann, wie zum Beispiel Berechtigungsdaten. Dieser Hook kann genauso auch zur Bestätigung des Vorhandenseins von Dateien ausserhalb der Git Kontrolle dienen, die Du eventuell hinzukopieren möchtest, wenn das Arbeitsverzeichnis verändert worden ist.
+Abschliessend wird noch der `post-merge` Hook nach einem erfolgreichen `merge` ausgefuehrt. Du kannst diesen benutzen, um Daten in Deinem Arbeitsverzeichnis wiederherzustellen, die Git nicht verfolgen kann, wie zum Beispiel Berechtigungsdaten. Dieser Hook kann genauso auch zur Bestätigung des Vorhandenseins von Dateien ausserhalb der Git Kontrolle dienen, die Du eventuell hinzukopieren möchtest, wenn das Arbeitsverzeichnis verändert worden ist. 
 
 Finally, the `post-merge` hook runs after a successful `merge` command. You can use it to restore data in the working tree that Git can’t track, such as permissions data. This hook can likewise validate the presence of files external to Git control that you may want copied in when the working tree changes.
 

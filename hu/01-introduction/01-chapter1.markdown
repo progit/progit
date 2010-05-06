@@ -15,7 +15,7 @@ Sok ember választja verziókövető megoldásnak a fájlok különböző mappá
 Régebben a probléma megoldására a programozók egyéni VR-eket fejlesztettek, aminek volt egy egyszerű adatbázisa amiben követte a fájlok egyes verzióit (Lásd 1-1 ábra).
 
 Insert 18333fig0101.png
-1-1 ábra. Egyéni verziókövetés sematikus ábrája
+1-1 ábra. Egyéni verziókövetés sematikus ábrája.
 
 Az egyik legnébszerűbb VR a sok közül az rcs, ami még mindig sok számítógépen megtalálható. A népszerű Mac OS X operációs rendszer is tartalmazza, ha feltelpítjük a Fejlesztő Eszközöket. Ez az eszköz egyszerűen folt (patch) készleteket (a fájlok verziók közötti különbségégek összesége) tárol minden egyes változás egy speciális formátumban a merevlemezen; a fájlok bármely állapotra visszaállíthatóak a foltok segítségével.
 
@@ -24,20 +24,20 @@ Az egyik legnébszerűbb VR a sok közül az rcs, ami még mindig sok számító
 Az embereknek szembesülnie kellet azzal a problémával, hogy együtt kell működniük más fejesztőkkel akik más-más rendszereket használták. A probléma megoldását a központosított verzióküvető rendszerek (KVR) kifejlesztése kívánta meg. Ezek a rendszerek, úgymint a CVS, a Subversion (SVN) és a Prefoce, egy darab központi szerveren tárolják az összes verziókövetett fájlt, a kliensek pedig ebből a központi tárolóból kérik le azokat. Sok évig ezt jelentette "A verziókövetést" (Lásd 1-2 ábra).
 
 Insert 18333fig0102.png
-1-2. ábra. Központi verziókövetés sematikus ábrája
+1-2 ábra. Központi verziókövetés sematikus ábrája.
 
 Ez az összeállítás rengeteg előnnyel rendelkezett, különös képpen az egyéni VR-kel szemben. Példának okáért, mindenki pontosan tudta ki mit csinál a projekten belül. Az adminisztrátorok teljes körüen irányítusk alatt tarthatják ki, mit és hogyan tehet meg; nagyságrendekkel könnyebb adminisztrálni egy KVR-t mint ha az összes kliens lokális adatbázisait kellene.
 
-Ugyanakkor ez az összeállításnak van néhány komoly hátránya. A legnyílvánvalóbb egyetlen pont miatti működésképtelenség a központi szerver jelenti. Ha a szerver nem működik egy órán keresztül, akkor senki sem tud együttműködni vagy verziókövetni a változásait amin éppen dolgozott. Ha a központi szerver lemezen adatvesztés lép fel és nincs megfelelő mentésróla, mindent elveszíthetsz a projekt teljes történetét kivéve persze az egyes emberek egyéni másolatait ami a saját gépeiken található. Az egyéni VR rendszereket is veszélyezteti ez a veszély mivel mindent lokálisan egyetlen helyen tárolnak, megvan a veszélye hogy mindent elvíthetsz.
+Ugyanakkor ez az összeállításnak van néhány komoly hátránya. A legnyílvánvalóbb "single point of faliure"-t a központi szerver jelenti. Ha a szerver nem működik egy órán keresztül, akkor senki sem tud együttműködni vagy verziókövetni a változásait amin éppen dolgozott. Ha a központi szerver lemezen adatvesztés lép fel és nincs megfelelő mentésróla, mindent elveszíthetsz a projekt teljes történetét kivéve persze az egyes emberek egyéni másolatait ami a saját gépeiken található. Az egyéni VR rendszereket is veszélyezteti ez a veszély mivel mindent lokálisan egyetlen helyen tárolnak, megvan a veszélye hogy mindent elvíthetsz.
 
-### Distributed Version Control Systems ###
+### Elosztott verziókövető rendszerek ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+Ekkor jöttek az Elosztott Verziókövető Rendszerek (EVR). Az EVR-ekben, mint a Git, a Mercurical, a Bazaar vagy a Dracs, a kliensek nem csak a legutolsó állapotot kérik le, hanem a teljes repositorit. Ekéépen ha a szerver megáll, amin eddig folyt az együttműködés, bármelyik kliens repositoriból vissza állítható a teljes adatbázis. Minden adat lekrés tényleg teljes mentésnek felel meg (Lásd 1-3 ábra).
 
-Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+Insert 18333fig0103.png
+1-3 ábra. Elosztott verziókövetés sematikus ábrája.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Ezenkívül, a legtöbb ilyen rendszer támogatja a több távoli repositori elérését, így lehetővé válik számunkra hogy több különböző csoportokkal különböző módun tudjanak együtműködni ugyaz azon a projekt keretein belül. Így lehetőség van több munkafolyamat (workflow) alkamazására, ami egy centralizát hiearchiskus modelben elképzelhetetlen.
 
 ## A Short History of Git ##
 

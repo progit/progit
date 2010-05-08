@@ -56,13 +56,19 @@ However, this setup also has some serious downsides. The most obvious is the sin
 Kuitenkin, tässä asetelmassa on myös muutama vakava haittapuoli. Kaikkein selvin on keskitetty vikapiste, jota keskitetty serveri edustaa. Jos kyseessä oleva serveri ajetaan alas tunniksi, niin tämän tunnin aikana kukaan ei pysty tekemään yhteistyötä keskenään tai tallentamaan versioituja muutoksia mihinkään mitä he työskentelevät. Jos kiintolevy - jolla keskitetty tietokanta sijaitsee - korruptoituu, ja kunnollisia varmuuskopioita ei ole hallussa, menetät täysin kaiken - koko projektin historian, paitsi ne yksittäiset tilannekuvat joita ihmisillä sattuu olemaan heidän paikallisilla koneillaan. Paikalliset VCS järjestelmät kärsivät tästä samasta ongelmasta - milloin tahansa sinulla on koko projektin historia yhdessä paikassa, sinulla on riski menettää se kaikki.
 
 ### Distributed Version Control Systems ###
+### Hajautetut versionhallinta järjestelmät ###
 
 This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
 
+Tämä on missä hajautetut versionhallinta järjestelmät (DVCS) astuvat mukaan. DVCS:ssä (kuten Git, Mercurial, Bazaar tai Darcs), asiakkaat eivät vain hae viimeisintä tilannekuvaa tiedostoista: he täysin peilaavat koko tietolähteen. Täten, jos mikä tahansa serveri kuolee, ja nämä järjestelmät tekivät yhteistyötä sen läpi, mikä tahansa asiakas tietolähde pystytään kopioimaan takaisin serverille tiedon palauttamiseksi. Jokainen tiedonhaku on tosiasiassa täysi varmuuskopio kaikesta datasta (katso Kuva 1-3).
+
 Insert 18333fig0103.png 
 Figure 1-3. Distributed version control diagram.
+Kuva 1-3. Hajautettu versionhallinta diagrammi.
 
 Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+
+Lisäksi, monet näistä järjestelmistä selviytyvät melko hyvin siitä, että niillä on monia etä tietolähteitä, joiden kanssa ne voivat työskennellä, joten sinä voit tehdä monenlaista yhteistyötä monenlaisen ihmisryhmän kanssa yhtäaikaa, samassa projektissa. Tämä mahdollistaa sen että voit aloittaa monelaisia työnkulkuja, jotka eivät ole mahdollisia keskitetyissä järjestelmissä, kuten hierarkiset mallit.
 
 ## A Short History of Git ##
 

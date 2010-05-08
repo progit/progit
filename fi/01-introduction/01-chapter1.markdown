@@ -3,7 +3,7 @@
 
 This chapter will be about getting started with Git.  We will begin at the beginning by explaining some background on version control tools, then move on to how to get Git running on your system and finally how to get it setup to start working with.  At the end of this chapter you should understand why Git is around, why you should use it and you should be all setup to do so.
 
-Tämä luku auttaa sinut pääsemään alkuun Git:n kanssa. Me aloitamme aluksi selittämällä vähän versionhallinta työkalujen taustaa, jonka jälkeen siirrymme siihen, kuinka saat Git:n järjestelmääsi ja lopulta, kuinka se asennetaan työskentely valmiiksi. Tämän luvun lopussa sinun tulisi ymmärtää miksi Git on olemassa, miksi sinun tulisi sitä käyttää ja kaikki pitäis olla valmista, jotta voisit sitä käyttää.
+Tämä luku auttaa sinut pääsemään alkuun Gitin kanssa. Me aloitamme aluksi selittämällä vähän versionhallinta työkalujen taustaa, jonka jälkeen siirrymme siihen, kuinka saat Gitin järjestelmääsi ja lopulta, kuinka se asennetaan työskentely valmiiksi. Tämän luvun lopussa sinun tulisi ymmärtää miksi Git on olemassa, miksi sinun tulisi sitä käyttää ja kaikki pitäis olla valmista, jotta voisit sitä käyttää.
 
 ## About Version Control ##
 ## Versionhallinnasta ##
@@ -41,7 +41,7 @@ Yksi suosituimmista VCS työkaluista oli rcs:ksi kutsuttu järjestelmä, joka on
 
 The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
 
-Seuraava suuri ongelma mihin ihmiset törmäävät on, että heillä on tarve tehdä yhteistyötä muissa järjestelmissä olevien kehittäjien kanssa. Tämän ongelman ratkaisemiseksi luotiin keskitetyt versionhallinta järjestelmät (CVCS). Nämä järjestelmät, kuten CVS, Subversion, ja Perforce, omaavat yksittäisen serverin joka sisältää kaikki versioidut tiedostot, ja asiakkaita jotka hakevat tiedostot tästä keskitetystä paikasta. Monet vuodet, tämä on ollut versionhallinnan standardi (katso Kuva 1-2).
+Seuraava suuri ongelma mihin ihmiset törmäävät on, että heillä on tarve tehdä yhteistyötä muissa järjestelmissä olevien kehittäjien kanssa. Tämän ongelman ratkaisemiseksi luotiin keskitetyt versionhallinta järjestelmät (CVCS). Nämä järjestelmät, kuten CVS, Subversion, ja Perforce, omaavat yksittäisen palvelimen joka sisältää kaikki versioidut tiedostot, ja asiakkaita jotka hakevat tiedostot tästä keskitetystä paikasta. Monet vuodet, tämä on ollut versionhallinnan standardi (katso Kuva 1-2).
 
 Insert 18333fig0102.png 
 Figure 1-2. Centralized version control diagram.
@@ -53,14 +53,14 @@ Tämä asetelma tarjoaa monta etua, erityisesti paikalliseen VCS:n verrattuna. E
 
 However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
 
-Kuitenkin, tässä asetelmassa on myös muutama vakava haittapuoli. Kaikkein selvin on keskitetty vikapiste, jota keskitetty serveri edustaa. Jos kyseessä oleva serveri ajetaan alas tunniksi, niin tämän tunnin aikana kukaan ei pysty tekemään yhteistyötä keskenään tai tallentamaan versioituja muutoksia mihinkään mitä he työskentelevät. Jos kiintolevy - jolla keskitetty tietokanta sijaitsee - korruptoituu, ja kunnollisia varmuuskopioita ei ole hallussa, menetät täysin kaiken - koko projektin historian, paitsi ne yksittäiset tilannekuvat joita ihmisillä sattuu olemaan heidän paikallisilla koneillaan. Paikalliset VCS järjestelmät kärsivät tästä samasta ongelmasta - milloin tahansa sinulla on koko projektin historia yhdessä paikassa, sinulla on riski menettää se kaikki.
+Kuitenkin, tässä asetelmassa on myös muutama vakava haittapuoli. Kaikkein selvin on keskitetty vikapiste, jota keskitetty palvelin edustaa. Jos kyseessä oleva palvelin ajetaan alas tunniksi, niin tämän tunnin aikana kukaan ei pysty tekemään yhteistyötä keskenään tai tallentamaan versioituja muutoksia mihinkään mitä he työskentelevät. Jos kiintolevy - jolla keskitetty tietokanta sijaitsee - korruptoituu, ja kunnollisia varmuuskopioita ei ole hallussa, menetät täysin kaiken - koko projektin historian, paitsi ne yksittäiset tilannekuvat joita ihmisillä sattuu olemaan heidän paikallisilla koneillaan. Paikalliset VCS järjestelmät kärsivät tästä samasta ongelmasta - milloin tahansa sinulla on koko projektin historia yhdessä paikassa, sinulla on riski menettää se kaikki.
 
 ### Distributed Version Control Systems ###
 ### Hajautetut versionhallinta järjestelmät ###
 
 This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
 
-Tämä on missä hajautetut versionhallinta järjestelmät (DVCS) astuvat mukaan. DVCS:ssä (kuten Git, Mercurial, Bazaar tai Darcs), asiakkaat eivät vain hae viimeisintä tilannekuvaa tiedostoista: he täysin peilaavat koko tietolähteen. Täten, jos mikä tahansa serveri kuolee, ja nämä järjestelmät tekivät yhteistyötä sen läpi, mikä tahansa asiakas tietolähde pystytään kopioimaan takaisin serverille tiedon palauttamiseksi. Jokainen tiedonhaku on tosiasiassa täysi varmuuskopio kaikesta datasta (katso Kuva 1-3).
+Tämä on missä hajautetut versionhallinta järjestelmät (DVCS) astuvat mukaan. DVCS:ssä (kuten Git, Mercurial, Bazaar tai Darcs), asiakkaat eivät vain hae viimeisintä tilannekuvaa tiedostoista: he täysin peilaavat koko tietolähteen. Täten, jos mikä tahansa palvelin kuolee, ja nämä järjestelmät tekivät yhteistyötä sen läpi, mikä tahansa asiakas tietolähde pystytään kopioimaan takaisin palvelimelle tiedon palauttamiseksi. Jokainen tiedonhaku on tosiasiassa täysi varmuuskopio kaikesta datasta (katso Kuva 1-3).
 
 Insert 18333fig0103.png 
 Figure 1-3. Distributed version control diagram.

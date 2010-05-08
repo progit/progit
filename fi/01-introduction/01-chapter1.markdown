@@ -17,7 +17,7 @@ If you are a graphic or web designer and want to keep every version of an image 
 Jos sinä olet graafinen- tai web suunnittelija ja haluat säilyttää jokaisen version kuvasta tai leiskasta (minkä sinä mitä varmimmin haluat), versionhallintamenetelmä (VCS) on erittäin viisas asia käytettäväksi. Se mahdollistaa, että voit palauttaa tiedoston takaisin edelliseen tilaan, palauttaa koko projektin takaisin edelliseen tilaan, vertailla muutoksia ajan kuluessa, nähdä kuka viimeksi muokkasi jotain mikä voi olla ongelman aiheuttaja, kuka esitteli ongelman ja milloin, ja muuta. VCS:n käyttö pääasiassa tarkoittaa sitä, että jos sinä sotket jotain tai menetät tiedostoja, voit helposti palautua edelliseen toimivaan tilaan. Lisäksi, saat kaiken tämän erittäin vähällä ylläpidolla.
 
 ### Local Version Control Systems ###
-### Paikalliset versionhallinta menetelmät ###
+### Paikalliset versionhallinta järjestelmät ###
 
 Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 
@@ -37,15 +37,23 @@ One of the more popular VCS tools was a system called rcs, which is still distri
 Yksi suosituimmista VCS työkaluista oli rcs:ksi kutsuttu järjestelmä, joka on yhä tänä päivänä toimitettu monen tietokoneen mukana. Jopa suosittu Mac OS X käyttöjärjestelmä sisältää rcs komennon, Developer Tools paketin asennuksen jälkeen. Tämä työkalu periaatteessa toimii pitämällä patch settejä (muutoksia tiedostojen välillä) yhdestä muutoksesta toiseen, erikoisformaatissa kiintolevyllä; se voi täten uudelleen luoda sen, miltä mikä tahansa tiedosto näytti, millä tahansa ajan hetkellä, lisäämällä kaikki patch:t.
 
 ### Centralized Version Control Systems ###
+### Keskitetyt versionhallinta järjestelmät ###
 
 The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
 
+Seuraava suuri ongelma mihin ihmiset törmäävät on, että heillä on tarve tehdä yhteistyötä muissa järjestelmissä olevien kehittäjien kanssa. Tämän ongelman ratkaisemiseksi luotiin keskitetyt versionhallinta järjestelmät (CVCS). Nämä järjestelmät, kuten CVS, Subversion, ja Perforce, omaavat yksittäisen serverin joka sisältää kaikki versioidut tiedostot, ja asiakkaita jotka hakevat tiedostot tästä keskitetystä paikasta. Monet vuodet, tämä on ollut versionhallinnan standardi (katso Kuva 1-2).
+
 Insert 18333fig0102.png 
 Figure 1-2. Centralized version control diagram.
+Kuva 1-2. Keskitetyn versionhallinnan diagrammi.
 
 This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
 
+Tämä asetelma tarjoaa monta etua, erityisesti paikalliseen VCS:n verrattuna. Esimerkiksi, jokainen tietää, jossain määrin, mitä kukin projektissa oleva tekee. Järjestelmänvalvojilla on hienosäädetty kontrolli siihen, mitä kukin voi tehdä; ja on paljon helpompi valvoa CVCS:ä, kuin toimia joka asiakkaan paikallisen tietokannan kanssa.
+
 However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+
+Kuitenkin, tässä asetelmassa on myös muutama vakava haittapuoli. Kaikkein selvin on keskitetty vikapiste, jota keskitetty serveri edustaa. Jos kyseessä oleva serveri ajetaan alas tunniksi, niin tämän tunnin aikana kukaan ei pysty tekemään yhteistyötä keskenään tai tallentamaan versioituja muutoksia mihinkään mitä he työskentelevät. Jos kiintolevy - jolla keskitetty tietokanta sijaitsee - korruptoituu, ja kunnollisia varmuuskopioita ei ole hallussa, menetät täysin kaiken - koko projektin historian, paitsi ne yksittäiset tilannekuvat joita ihmisillä sattuu olemaan heidän paikallisilla koneillaan. Paikalliset VCS järjestelmät kärsivät tästä samasta ongelmasta - milloin tahansa sinulla on koko projektin historia yhdessä paikassa, sinulla on riski menettää se kaikki.
 
 ### Distributed Version Control Systems ###
 

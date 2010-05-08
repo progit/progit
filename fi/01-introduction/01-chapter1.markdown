@@ -34,7 +34,7 @@ Kuva 1-1. Paikallinen versionhallinta diagrammi.
 
 One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 
-Yksi suosituimmista VCS työkaluista oli rcs:ksi kutsuttu järjestelmä, joka on yhä tänä päivänä toimitettu monen tietokoneen mukana. Jopa suosittu Mac OS X käyttöjärjestelmä sisältää rcs komennon, Developer Tools paketin asennuksen jälkeen. Tämä työkalu periaatteessa toimii pitämällä patch settejä (muutoksia tiedostojen välillä) yhdestä muutoksesta toiseen, erikoisformaatissa kiintolevyllä; se voi täten uudelleen luoda sen, miltä mikä tahansa tiedosto näytti, millä tahansa ajan hetkellä, lisäämällä kaikki patch:t.
+Yksi suosituimmista VCS työkaluista oli rcs:ksi kutsuttu järjestelmä, joka on yhä tänä päivänä toimitettu monen tietokoneen mukana. Jopa suosittu Mac OS X käyttöjärjestelmä sisältää rcs komennon, Developer Tools paketin asennuksen jälkeen. Tämä työkalu periaatteessa toimii pitämällä pätsi kokoelmia (muutoksia tiedostojen välillä) yhdestä muutoksesta toiseen, erikoisformaatissa kiintolevyllä; se voi täten uudelleen luoda sen, miltä mikä tahansa tiedosto näytti, millä tahansa ajan hetkellä, lisäämällä kaikki tarvittavat pätsit.
 
 ### Centralized Version Control Systems ###
 ### Keskitetyt versionhallinta järjestelmät ###
@@ -71,10 +71,15 @@ Furthermore, many of these systems deal pretty well with having several remote r
 Lisäksi, monet näistä järjestelmistä selviytyvät melko hyvin siitä, että niillä on monia etä tietolähteitä, joiden kanssa ne voivat työskennellä, joten sinä voit tehdä monenlaista yhteistyötä monenlaisen ihmisryhmän kanssa yhtäaikaa, samassa projektissa. Tämä mahdollistaa sen että voit aloittaa monelaisia työnkulkuja, jotka eivät ole mahdollisia keskitetyissä järjestelmissä, kuten hierarkiset mallit.
 
 ## A Short History of Git ##
+## Gitin lyhyt historia ##
 
 As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 
+Kuten moni muu suuri asia elämässä, Git alkoi hippusella luovaa tuhoamista ja liekehtivää erimielisyyttä. Linux kernel on kohtalaisen suuren mittakaavan avoimen lähdekoodin projekti. Suurimman osan Linux kernelin ylläpidon elinkaaresta (1991-2002), muutokset ohjelmistoon olivat siirretty ympäriinsä pätseinä ja pakattuina tiedostoina. Vuonna 2002, Linux kernel projekti alkoi käyttämään BitKeeperiksi kutsuttua yksityistä DVCS järjestelmää.
+
 In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+
+Vuonna 2005, suhde Linux kerneliä kehittävän yhteisön ja kaupallisen BitKeeperiä kehittävän yhtiön välillä katkesi, ja ilmaisen statuksen työkalut olivat kumottu. Tämä johdatti Linuxin kehittäjä yhteisön (ja erityisesti Linus Torvaldsin, Linuxin luojan) kehittämään heidän omaa työkalua, perustuen oppeihin joita he oppivat BitKeeperin käyttö aikanaan. Muutamat uuden järjestelmän tavoitteista olivat seuraavanlaiset:
 
 *	Speed
 *	Simple design
@@ -82,7 +87,15 @@ In 2005, the relationship between the community that developed the Linux kernel 
 *	Fully distributed
 *	Able to handle large projects like the Linux kernel efficiently (speed and data size)
 
+* Nopeus
+* Yksinkertainen malli
+* Vahva tuki epälineaariselle kehitykselle (tuhansia rinnakkaisia haaroja)
+* Täysin hajautettu
+* Pystyy tehokkaasti selviytymään suurista projekteista kuten Linuxin kernel (nopeus ja tiedon koko)
+
 Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+
+Syntymästään lähtien 2005, Git on kehittynyt ja aikuistunut helpoksi käyttää ja silti säilyttämään nämä alkuperäiset ominaisuudet. Se on uskomattoman nopea, se on erittäin tehokas suurien projektien kanssa, ja se on uskomattoman haarautuva järjestelmä epälineaariselle kehitykselle (Katso Luku 3).
 
 ## Git Basics ##
 

@@ -98,22 +98,34 @@ Since its birth in 2005, Git has evolved and matured to be easy to use and yet r
 Syntymästään lähtien 2005, Git on kehittynyt ja aikuistunut helpoksi käyttää ja silti säilyttämään nämä alkuperäiset ominaisuudet. Se on uskomattoman nopea, se on erittäin tehokas suurien projektien kanssa, ja se on uskomattoman haarautuva järjestelmä epälineaariselle kehitykselle (Katso Luku 3).
 
 ## Git Basics ##
+## Git perusteet ##
 
 So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
 
+Joten, mitä on Git pähkinänkuoressa? Tämä on tärkeä osa-alue omaksua, koska jos ymmärrät mitä Git on ja periaatteet kuinka se toimii, Gitin tehokas käyttö tulee mahdollisesti olemaan paljon helpompaa. Kun opettelet Gitin käyttöä, yritä tyhjentää mielesi asioista joita mahdollisesti tiedät muista VCS:stä, kuten Subversionista ja Perforcesta; tämän tekeminen auttaa sinua välttämään hienoisen sekaantumisen kun käytät työkalua. Git säilyttää ja ajattelee informaatiosta huomattavasti erilailla kuin nämä muut järjestelät, vaikkakin käyttöliittymä on melko samanlainen; näiden eroavaisuuksien ymmärtäminen auttaa sinua välttämään sekaantumisia käyttäessäsi Gittiä.
+
 ### Snapshots, Not Differences ###
+### Tilannekuvia, ei eroavaisuuksia ###
 
 The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
 
+Suurin eroavaisuus Gitin ja minkä tahansa muun VCS:n (Subversion ja ystävät mukaanlukien) on tapa jolla Git ajattelee dataansa. Käsitteellisesti, moni muu järjestelmä varastoi informaatiotansa listana tiedostopohjaisista muutoksista. Nämä järjestelmät (CVS, Subversion, Perforce, Bazaar, ja niin edelleen) ajattelevat informaatiota jota ne varastoivat, kokoelmana tiedostoja ja ajan kuluessa jokaiseen tiedostoon tehtyinä muutoksina, kuten kuvattu Kuvassa 1-4.
+
 Insert 18333fig0104.png 
 Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Kuva 1-4. Muut järjestelmät tapaavat varastoida dataa muutoksina joka tiedoston alkuperäiseen versioon.
 
 Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
 
+Git ei ajattele tai varastoi dataansa tällä tavalla. Sen sijaan, Git ajattelee dataansa enemmän kokoelmana tilannekuvia pikkuruisesta tiedostojärjestelmästä. Joka kerta kun sinä teet pysyvän muutoksen (commit), tai tallennat projektisi tilan Gitissä, Git periaatteessa ottaa kuvan siitä miltä sinun tiedostosi näyttävät kyseisellä hetkellä ja varastoi viitteen tähän tilannekuvaan. Ollakseen tehokas, jos tiedostoja ei ole muutettu, Git ei varastoi tiedostoa uudestaan - vaan linkittää sen edelliseen identtiseen tiedostoon jonka se on jo varastoinut. Git ajattelee dataansa enemmän kuten Kuva 1-5 osoittaa.
+
 Insert 18333fig0105.png 
 Figure 1-5. Git stores data as snapshots of the project over time.
+Kuva 1-5. Git varastoi dataa projektin tilannekuvina ajan kuluessa.
 
 This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+
+Tämä on tärkeä ero Gitin ja melkein minkä tahansa muun VCS:n välilä. Se pistää Gitin harkitsemaan uudelleen melkein joka versionhallinan aspektia, jotka monet muut järjestelmät kopioivat edeltäneestä sukupolvesta. Tämä tekee Gitistä kuin pikkuruisen tiedostojärjestelmän, jolla on muutamia uskomattoman tehokkaita työkaluja päälle rakennettuna, ennemmin kuin simppelin VCS:n. Me tutkimme joitain hyötyjä joita saavutat ajattelemalla datastasi tällätavoin, kun käsittelemme Gitin haarautumista Luvussa 3.
 
 ### Nearly Every Operation Is Local ###
 

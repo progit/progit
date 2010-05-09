@@ -143,14 +143,23 @@ This also means that there is very little you can’t do if you’re offline or 
 Tämä myös tarkoittaa sitä, että on hyvin vähän asioita joita et voi tehdä, jos olet yhteydetön tai poissa VPN:stä. Jos nouset lentokoneeseen tai junaan ja haluat tehdä vähän töitä, voit iloisesti tehdä pysyviä muutoksia (commit) kunnes saat tietoverkon takaisin ja voit lähettää muutoksesi. Jos menet kotiin ja et saa VPN asiakasohjelmaasi toimimaan oikein, voit yhä työskennellä. Monissa muissa järjestelmissä, tämän tekeminen on joko mahdotonta tai kivuliasta. Perforcessa, esimerkiksi, et voi tehdä paljoa mitään, silloin kun et ole yhteydessä palvelimeen; Subversiossa ja CVS:ssä voit editoida tiedostojasi, mutta et voi tehdä pysyviä muutoksia (commit) tietokantaasi (koska tietokantasi on yhteydetön). Tämä saattaa vaikuttaa ettei se ole niin suuri juttu, mutta saatat yllättyä kuin suuren muutoksen se voi tehdä.
 
 ### Git Has Integrity ###
+### Git on eheä ###
 
 Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+
+Kaikki Gitissä on tarkistussummattu ennen kuin se on varastoitu ja on tämän jälkeen viitattu tällä tarkistussummalla. Tämä tarkoittaa, että on mahdotonta muuttaa minkään tiedoston sisältöä tai kansiota ilman, ettei Git tietäisi siitä. Tämä toiminnallisuus on rakennettu Gittiin alimmalla tasolla ja kiinteä osa sen filosofiaa. Et voi menettää informaatiota tiedonsiirrossa tai saada tiedosto korruptiota ilman ettei Git pystyisi sitä huomaamaan.
 
 The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
+	
+Mekanismi jota Git käyttää tarkistussummaan on kutsuttu SHA-1 tarkisteeksi. Tämä on 40-merkkinen merkkijono, joka koostuu hexadesimaali merkeistä (0-9 ja a-f) ja joka on Gitissä laskettu tiedoston sisältöön tai hakemisto rakenteeseen pohjautuen. SHA-1 tarkiste voi näyttää tällaiselta:
+
+	24b9da6552252987aa493b52f8696cd6d3b00373
 
 You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+
+Voit nähdä nämä tarkiste arvot jokapuolella Gitissä, koska se käyttää niitä niin paljon. Itseasiassa, Git varastoi kaiken, ei pohjautuen tiedoston nimeen, vaan Gitin tietokantaan osoitteistavaan sisällön tarkiste arvoon.
 
 ### Git Generally Only Adds Data ###
 

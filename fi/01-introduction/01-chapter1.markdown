@@ -173,19 +173,31 @@ This makes using Git a joy because we know we can experiment without the danger 
 Tämä tekee Gitin käyttämisestä hauskaa, koska me tiedämme, että voimme kokeilla erillaisia asioita ilman vaaraa, että vakavasti sotkisimme versionhallintamme. Syvääluotaavamman tarkastelun siihen miten Git varastoi dataansa ja kuinka voit palautua datan joka näyttää hävinneeltä, katso "Kuorien alla" Kappaleesta 9.
 
 ### The Three States ###
+### Kolme tilaa ###
 
 Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
 
+Nyt, lue huolellisesti. Tämä on pääasia muistaa Gitistä, jos sinä haluat lopun opiskelu prosessistasi menevän sulavasti. Gitillä on kolme pääasiallista tilaa, joissa tiedostosi voivat olla: pysyvästi muutettu (commit), muutettu, ja lavastettu. Pysyvästi muutettu (commit) tarkoittaa, että data on turvallisesti varastoitu sinun paikalliseen tietokantaasi. Muutettu tarkoittaa, että ole muuttanut tiedostoa, mutta et ole tehnyt vielä pysyvää muutosta tietokantaasi. Lavastettu tarkoittaa, että olet merkannut muutetun tiedoston nykyisessä versiossaan menemään seuraavaan pysyvään tilannekuvaan.
+
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+
+Tämä johdattaa meidät kolmeen seuraavaan osaan Git projektia: Git hakemisto, työskentely hakemisto, ja lavastus alue.
 
 Insert 18333fig0106.png 
 Figure 1-6. Working directory, staging area, and git directory.
+Kuva 1-6. Työskentely hakemisto, lavastus alue, ja git hakemisto.
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
 
+Git hakemisto on paikka, mihin Git varastoi metadatan ja olio tietokannan projektillesi. Tämä on kaikkein tärkein osa Gittiä, ja se sisältää sen, mitä kopioidaan, kun kloonaat tietovaraston toiselta tietokoneelta.
+
 The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
 
+Työskentely hakemisto on yksittäinen tiedonhaku yhdestä projektin versiosta. Nämä tiedostot ovat vedetty ulos pakatusta tietokannasta Git hakemistosta ja sijoitettu levylle sinun käytettäväksesi tai muokattavaksesi.
+
 The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+
+Lavastus alue on yksinkertainen tiedosto, yleensä se sisältyy Git hakemistoosi, joka varastoi informaatiota siitä, mitä menee seuraavaan pysyvään muutokseen (commit). Sitä on joskus viitattu indeksiksi, mutta on tulossa standardiksi viitata sitä lavastus alueeksi.
 
 The basic Git workflow goes something like this:
 
@@ -193,7 +205,15 @@ The basic Git workflow goes something like this:
 2.	You stage the files, adding snapshots of them to your staging area.
 3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
 
+Normaali Git työnkulku menee jokseenkin näin:
+
+1.	Muokkaat tiedostoja työskentely hakemistossasi.
+2.	Lavastat tiedostosi, lisäten niistä tilannekuvia lavastus alueellesi.
+3.	Teet pysyvän muutoksen (commit), joka ottaa tiedostot kuin ne ovat lavastus alueella ja varastoi tämän tilannekuvan pysyvästi sinun Git tietolähteeseesi.
+
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+
+Jos tietty versio tiedostosta on git hakemistossa, se on yhtä kuin pysyvä muutos. Jos sitä on muokattu, mutta se on lisätty lavastus alueelle, se on lavastettu. Ja jos se on muuttunut siitä kun se on haettu, mutta sitä ei ole lavastettu, se on muutettu. Luvussa 2, opit enemmän näistä tiloista ja kuinka voit hyödyntää niitä tai skipata lavastus osan kokonaan.
 
 ## Installing Git ##
 

@@ -216,12 +216,18 @@ If a particular version of a file is in the git directory, it’s considered com
 Jos tietty versio tiedostosta on git hakemistossa, se on yhtä kuin pysyvä muutos. Jos sitä on muokattu, mutta se on lisätty lavastus alueelle, se on lavastettu. Ja jos se on muuttunut siitä kun se on haettu, mutta sitä ei ole lavastettu, se on muutettu. Luvussa 2, opit enemmän näistä tiloista ja kuinka voit hyödyntää niitä tai skipata lavastus osan kokonaan.
 
 ## Installing Git ##
+## Gitin asennus ##
 
 Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
 
+Ryhdytäänpä käyttämään Gittiä. Ensimmäiset asiat ensin - sinun täytyy asentaa se. Voit saada sen monella tavalla; kaksi yleisintä tapaa on asentaa se suoraan lähdekoodista tai asentaa jo olemassa oleva paketti sovellusalustallesi.
+
 ### Installing from Source ###
+### Asennus suoraan lähdekoodista ###
 
 If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+
+Jos voit, on yleensä hyödyllistä asentaa Git suoraan lähedekoodista, koska näin saat kaikkein viimeisimmän version. Jokainen Gitin versio tapaa sisältää hyödyllisiä käyttöliittymä parannuksia, joten uusiman version hakeminen on yleensä paras reitti, jos tunnet olosi turvalliseksi kääntäessäsi ohjelmistoa sen lähdekoodista. On yleinen tilanne, että moni Linux jakelu sisältää erittäin vanhoja paketteja; joten, jollet käytä erittäin päivitettyä jakelua tai ellet käytä backportteja, lähdekoodista asennus voi olla paras ratkaisu.
 
 To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
 
@@ -231,11 +237,30 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
 	
+Asentaaksesi Gitin, tarvitset seuraavat kirjastot joista Git on riippuvainen: curl, zlib, openssl, expat, ja libiconv. Esimerkiksi, jos olet järjestelmässä, jossa on yum (kuten Fedora) tai apt-get (kuten Debian pohjaiset järjestelmät), voit käyttää yhtä näistä komennoista asentaaksesi kaikki riippuvaisuudet:
+
+	$ yum install curl-devel expat-devel gettext-devel \
+	  openssl-devel zlib-devel
+
+	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+	  libz-dev
+
 When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
 
 	http://git-scm.com/download
-	
+
+Kun sinulla on kaikki tarvittavat riippuvuudet, voit mennä eteenpäin ja kiskaista uusimman tilannekuvan Gitin verkkosivuilta:
+
+	http://git-scm.com/download
+
 Then, compile and install:
+
+	$ tar -zxf git-1.6.0.5.tar.gz
+	$ cd git-1.6.0.5
+	$ make prefix=/usr/local all
+	$ sudo make prefix=/usr/local install
+
+Tämän jälkeen, käännä ja asenna:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
@@ -245,8 +270,13 @@ Then, compile and install:
 After this is done, you can also get Git via Git itself for updates:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
-	
+
+Kun tämä on tehty, voit myös ottaa Gitin päivitykset Gitin itsensä kautta:
+
+	$ git clone git://git.kernel.org/pub/scm/git/git.git
+
 ### Installing on Linux ###
+### Asennus Linuxissa ###
 
 If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
 
@@ -256,7 +286,16 @@ Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
 
 	$ apt-get install git-core
 
+Jos haluat asentaa Gitin Linuxille binääri asennusohjelman kautta, voit yleensä tehdä näin perus paketinhallinnointi ohjelmalla, joka tulee julkaisusi mukana. Jos olet Fedorassa, voit käyttää yummia:
+
+	$ yum install git-core
+
+Tai jos ole Debian alustaisessa julkaisussa kuten Ubuntu, kokeile apt-gettiä:
+
+	$ yum install git-core
+
 ### Installing on Mac ###
+### Asennus Macilla ###
 
 There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
 
@@ -271,13 +310,33 @@ The other major way is to install Git via MacPorts (`http://www.macports.org`). 
 
 You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
 
+On olemassa kaksi helppoa tapaa asentaa Git Macille. Helpoin on käyttää graafista Git asennusohjelmaa, jonka voit ladata Googlen Code verkkosivuilta (katso Kuva 1-7):
+
+	http://code.google.com/p/git-osx-installer
+
+Insert 18333fig0107.png 
+Kuva 1-7. Git OS X asennusohjelma.
+
+Toinen pääasiallinen tapa on asentaa Git MacPortsien kautta (`http://www.macports.org`). Jos sinulla on MacPorts asennettuna, asenna Git näin:
+
+	$ sudo port install git-core +svn +doc +bash_completion +gitweb
+
+Sinun ei tarvitse asentaa kaikkia ekstroista, mutta varmaankin haluat sisältää +svn ekstran tapauksessa, että sinun koskaan tarviaa käyttää Gittiä Subversion tietolähteiden kanssa (katso Luku 8).
+
 ### Installing on Windows ###
+### Asennus Windowsilla ###
 
 Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
 
 	http://code.google.com/p/msysgit
 
 After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+
+Gitin asennus Windowsilla on erittäin helppoa. msysGit projektilla on yksi helpoimmista asennusmenettelyistä. Yksinkertaisesti lataa asennus exe tiedosto Googlen Code verkkosivuilta ja suorita se:
+
+	http://code.google.com/p/msysgit
+
+Asennuksen jälkeen, sinulla on kummatkin, komentorivi versio (sisältäen SSH-asiakasohjelman, joka osoittautuu hyödylliseksi myöhemmin) ja standardi graafinen käyttöliittymä.
 
 ## First-Time Git Setup ##
 

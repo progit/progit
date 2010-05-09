@@ -339,8 +339,10 @@ Gitin asennus Windowsilla on erittäin helppoa. msysGit projektilla on yksi help
 Asennuksen jälkeen, sinulla on kummatkin, komentorivi versio (sisältäen SSH-asiakasohjelman, joka osoittautuu hyödylliseksi myöhemmin) ja standardi graafinen käyttöliittymä.
 
 ## First-Time Git Setup ##
-
+## Ensikertainen Git konfiguraatio ##
 Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+
+Nyt kun sinulla on Git järjestelmässäsi, haluat tehdä muutamia asioita kustomoidaksesi Git ympäristöäsi. Sinun tulisi tarvita tehdä nämä asiat vain kerran; ne säilyvät Gitin päivitysten välissä. Voit myös muuttaa niitä minä tahansa hetkenä ajamalla komennot läpi uudestaan.
 
 Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
 
@@ -348,24 +350,46 @@ Git comes with a tool called git config that lets you get and set configuration 
 *	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
 *	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
 
+Git tulee mukanaan työkalu jota git configiksi kutsutaan, tämä työkalu antaa sinun hakea ja asettaa konfiguraatio muuttujia, jotka kontrolloivat kaikkia aspekteja siitä, miltä Git näyttää ja miten se operoi. Nämä muuttujat voidaan varastoida kolmeen erilliseen paikkaan:
+
+*	`/etc/gitconfig` tiedosto: Sisältää arvot jokaiselle käyttäjälle järjestelmässä ja heidän kaikki tietolähteensä. Jos annat option ` --system` `git config`:lle, se lukee ja kirjoittaa erityisesti tästä tiedostosta.
+* `~/.gitconfig` tiedosto: Tämä on erityisesti käyttäjällesi. Voit tehdä Gitin lukemaan ja kirjoittamaan erityisesti tähän tiedostoon antamalla option `--global`.
+* config tiedosto on Git hakemistossa (tämä on, `.git/config`) missä tahansa tietolähteistä jota juuri nyt käytät: Tämä on erityisesti tälle kyseessä olevalle tietolähteelle. Jokainen taso ylikirjoittaa arvoja aikaisemmilta tasoilta, joten arvot `.git/config`:ssa päihittää arvot `/etc/gitconfig`:ssa.
+
 On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
 
+Windows järjestelmissä, Git etsii `.gitconfig` tiedostoa `$HOME` hakemistosta (`C:\Documents and Settings\$USER` suurimmalle osalle ihmisistä). Se myös yhä etsii '/etc/gitconfig':a, vaikkakin se on suhteellinen MSys juureen, joka on missä tahansa minne päätät asentaa Gitin sinun Windows järjestelmässäsi, kun suoritat asennusohjelman.
+
 ### Your Identity ###
+### Identiteettisi ###
 
 The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
+Ensimmäinen asia joka sinun tulisi tehdä Gittiä asentaessasi, on asettaa käyttäjänimesi ja sähköposti osoitteesi. Tämä on tärkeää koska jokainen pysyvä muutos jonka Gitillä teet, käyttää tätä informaatiota, ja se on muuttumattomasti leivottu pysyviin muutoksiisi, joita liikuttelet ympäriinsä:
+
+	$ git config --global user.name "John Doe"
+	$ git config --global user.email johndoe@example.com
+
 Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
 
+Jälleen kerran, sinun täytyy tehdä tämä ainoastaan kerran, jos annat `--global` option, koska silloin Git käyttää aina tätä informaation mitä tahansa teetkään järjestelmässäsi. Jos haluat yliajaa tämän toisella nimellä tai sähköposti osoitteella tietyille projekteille, voit aina ajaa komennon ilman `--global` optiota, kun olet projektissasi.
+
 ### Your Editor ###
+### Editorisi ###
 
 Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
 
 	$ git config --global core.editor emacs
+
+Nyt kun identiteettisi on asetettu, voit konfiguroida oletus teksti editorisi, jota käytetään kun Git tarvitsee sinun kirjoittaa viestin. Oletusarvoisesti, Git käyttää järjestelmäsi oletus editoria, joka yleensä on Vi tai Vim. Jos haluat käyttää erillistä teksti editoria, kuten Emacs, voit tehdä seuraavanlaisesti:
+
+	$ git config --global core.editor emacs
 	
 ### Your Diff Tool ###
+### Diff työkalusi ###
 
 Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
 
@@ -373,9 +397,18 @@ Another useful option you may want to configure is the default diff tool to use 
 
 Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
 
+Seuraava hyödyllinen optio jota saatat haluta konfiguroida on oletus diff työkalu, jota käytetään yhdentämiskonfliktien selvittämiseen. Sanotaan vaikka, että haluat käyttää vimdiffiä:
+
+	$ git config --global merge.tool vimdiff
+
+Git hyväksyy seuraavat yhdentämistyökalut kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, ja opendiff. Voit myös käyttää kustomoitua työkalua; katso Luku 7 saadaksesi lisäinformaatiota tähän.
+
 ### Checking Your Settings ###
+### Tarkista asetuksesi ###
 
 If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+
+Jos haluat tarkistaa asetuksesi, sinä voit käyttää `git config --list` komentoa listataksesi kaikki asetukset jotka Git löytää tällä hetkellä:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -390,12 +423,19 @@ You may see keys more than once, because Git reads the same key from different f
 
 You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
 
+Voit nähdä avaimia useammin kuin kerran, koska Git lukee saman avaimen monesta eri tiedostosta (`/etc/gitconfig`:sta ja `~/.gitconfig`:sta, esimerkkinä). Tässä tapauksessa, Git käyttää viimeistä arvoa jokaisella yksittäiselle avaimelle jonka se näkee.
+
+Voit myös tarkistaa mitä Git ajattelee tietyin avaimen arvosta, kirjoittamalla `git config {key}`:
+
 	$ git config user.name
 	Scott Chacon
 
 ## Getting Help ##
+## Avun saanti ##
 
 If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+
+Jos koskaan tarvitset apua Gittiä käytäessäsi, on olemassa kolme tapaa päästä minkä tahansa git komennon manuaali apusivulle (manpage):
 
 	$ git help <verb>
 	$ git <verb> --help
@@ -403,11 +443,19 @@ If you ever need help while using Git, there are three ways to get the manual pa
 
 For example, you can get the manpage help for the config command by running
 
+Esimerkiksi, saat manuaali apusivun config komennolle suorittamalla:
+
 	$ git help config
 
 These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
+Nämä komennot ovat mukavia, koska pääset niihin käsiksi jokapaikasta, jopa yhteydettömässä tilassa.
+Jos manuaalisivut ja tämä kirja eivät ole tarpeeksi ja tarvitset henkilökohtaista apua, voit yrittää `#git` tai `#github` kanavia Freenoden IRC palvelimella (irc.freenode.net). Nämä kanavat ovat säännöllisesti täynnä satoja ihmisiä, jotka ovat erittäin osaavia Gitin käyttäjiä ja ovat usein halukkaita auttamaan.
+
 ## Summary ##
+## Yhteenveto ##
 
 You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+
+Sinulla tulisi olla perus ymmärtämys siitä mikä Git on ja kuinka se eroaa muista CVCS järjestelmistä, joita mahdollisesti käytät. Sinulla myös tulisi olla toimiva versio Gitistä järjestelmässäsi, joka on konfiguroitu sinun henkilökohtaisella identiteetilläsi. Joten, nyt on aika opetella Gitin perusteita.

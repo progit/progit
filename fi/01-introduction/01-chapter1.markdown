@@ -162,10 +162,15 @@ You will see these hash values all over the place in Git because it uses them so
 Voit nähdä nämä tarkiste arvot jokapuolella Gitissä, koska se käyttää niitä niin paljon. Itseasiassa, Git varastoi kaiken, ei pohjautuen tiedoston nimeen, vaan Gitin tietokantaan osoitteistavaan sisällön tarkiste arvoon.
 
 ### Git Generally Only Adds Data ###
+### Git yleisesti vain lisää dataa ###
 
 When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
 
+Kun teet toimintoja Gitissä, melkein kaikki niistä ainoastaa lisää dataa Gitin tietokantaan. On erittäin vaikea saada järjestelmä tekemään mitään, mikä olisi kumoamaton tai saada se poistamaan dataa millään tavoin. Kuten missä tahansa VCS:ssä, voit menettää tai sotkea muutoksia joita ei ole vielä tehty pysyviksi (commit); mutta sen jälkeen kun teet pysyvän tilannekuvan muutoksen (commit) Gittiin, se on erittäin vaikeaa hävittää, etenkin jos sinä säännöllisesti työnnät tietokantasi toiseen tietosäilöön.
+
 This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+
+Tämä tekee Gitin käyttämisestä hauskaa, koska me tiedämme, että voimme kokeilla erillaisia asioita ilman vaaraa, että vakavasti sotkisimme versionhallintamme. Syvääluotaavamman tarkastelun siihen miten Git varastoi dataansa ja kuinka voit palautua datan joka näyttää hävinneeltä, katso "Kuorien alla" Kappaleesta 9.
 
 ### The Three States ###
 

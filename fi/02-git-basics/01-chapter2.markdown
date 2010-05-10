@@ -51,17 +51,17 @@ Editoidessasi tiedostoja, Git näkee ne muokattuina, koska olet muuttanut niitä
 Insert 18333fig0201.png 
 Kuva 2-1. Tiedostojesi tilan elämänsykli.
 
-### Checking the Status of Your Files ###
+### Tiedostojesi tilan tarkistaminen ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+Päätyökalu tiedostojesi eri tilojen selvittämiseen on git status komento. Jos ajat tämän komennon suoraan kloonauksen jälkeen, sinun tulisi nähdä jotain vastaavaa:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+Tämä tarkoittaa, että sinulla on puhdas työhakemisto - toisin sanoen, se ei sisällä jäljitettyjä tai muutettuja tiedostoja. Git ei myöskään näe yhtään jäljittämätöntä tiedostoa, muuten ne olisi listattu näkymään. Viimein, komento kertoo sinulle missä haarassa olet. Tällä hetkellä se on aina master haara, joka on oletusarvo; sinun ei tarvitse huolehtia siitä nyt. Seuraavan kappale käy läpi haarautumiset ja viittaukset yksityiskohtaisesti.
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+Sanotaan vaikka, että lisäät uuden tiedoston projektiin, vaikka yksinkertaisen README-tiedoston. Jos tiedosto ei ollut olemassa ennen, ja ajat `git status`-komennon, näet jäljittämättömän tiedoston tällä tavoin:
 
 	$ vim README
 	$ git status
@@ -72,15 +72,15 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+Voit nähdä, että juuri luomasi README tiedosto on jäljittämätön, koska se on otsikon “Untracked files” alla tilatulosteessa. Jäljittämätön periaatteessa tarkoittaa, että Git näkee tiedoston, jota ei ollut edellisessä tilannekuvassa (pysyvässä muutoksessa); Git ei aloita sisällyttämään sitä sinun pysyviin muutostilannekuviisi, ennen kuin sinä vartavasten kerrot sen tehdä niin. Se tekee tämän, että et vahingossa alkaisi lisäämään generoituja binaaritiedostoja tai muita tiedostoja, joita et tarkoittanut lisätä. Haluat lisätä README:n, joten aloitetaan jäljittämään tiedostoa.
 
-### Tracking New Files ###
+### Uusien tiedostojen jäljitys ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+Jotta voisit jäljittää uusia tiedostoja, sinun täytyy käyttää `git add`-komentoa. Aloittaaksesi README tiedoston jäljittämisen, voit ajaa tämän:
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+Jos ajat tila komennon uudestaan, näet että README tiedostosi on nyt jäljitetty ja lavastettu:
 
 	$ git status
 	# On branch master
@@ -90,7 +90,7 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+Voit nähdä, että se on lavastettu, koska se on otsikon “Changes to be committed” alla. Jos teet pysyvän muutoksen tässä kohtaa, versio tiedostosta sillä hetkellä kun ajoit 'git add'-komennon on se, joka tulee olemaan historian tilannekuvassa. Voit palauttaa mieleen hetken, jolloin ajoit 'git init'-komennon aikaisemmin, ajoit sen jälkeen 'git add'-komennon - tämä komento aloitti tiedostojen jäljittämisen hakemistossa. Git add komento ottaa polunnimen joko tiedostolle tai hakemistolle; jos se on hakemisto, niin komento lisää kaikki tiedostot hakemiston alta rekursiivisesti.
 
 ### Staging Modified Files ###
 

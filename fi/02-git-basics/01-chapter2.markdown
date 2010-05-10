@@ -22,32 +22,34 @@ Jos haluat aloittaa versionhallinan jo olemassa oleville tiedostoille (tyhjän k
 
 Me käymme pian läpi mitä nämä komennot tekevät. Tällä hetkellä, sinulla on Git tietolähde, joka jäljittää tiedostoja sekä alustava pysyvä muutos.
 
-### Cloning an Existing Repository ###
+### Olemassa olevan tietolähteen kloonaus ###
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
+Jos haluat kopion olemassa olevasta tietolähteestä - esimerkiksi, projektista johon haluat olla osallisena - komento jonka tarviat on git clone. Jos muut VCS järjestelmät, kuten Subversion ovat sinulle tuttuja, niin huomaat, että komento on clone, eikä checkout. Tämä on tärkeä ero - Git saa kopion melkein kaikesta datasta mitä palvelimella on. Jokainen versio jokaisesta tiedostosta projektin historiasta tulee vedetyksi, kun suoritat `git clone`-komennon. Itseasiassa, jos palvelimesi levy korruptoituu, voit käyttää mitä tahansa klooneista, miltä tahansa asiakas sovellukselta, asettaaksesi palvelimen takaisin tilaan, jossa se oli kun se kloonattiin (voit menettää jotain palvelinpuolen sovelluskoukkuja ja muuta, mutta kaikki versioitu data on tallessa - katso Luku 4 tarkempia yksityiskohtia varten).
 
-You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
+Kloonaat tietolähteen `git clone [url]`-komennolla. Esimerkiksi, jos haluat kloonata Gritiksi kutsutun Ruby Git kirjaston, voit tehdä sen näin:
 
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
+Tämä luo hakemiston nimeltään "grit", alustaa `.git` hakemiston sen sisään, vetää kaiken datan tietolähteestä, ja hakee viimeisimmän version työkopion. Jos menet uuteen `grit` hakemistoon, näet projektin tiedostot, valmiina työtä varten tai käytettäväksi. Jos haluat kloonata tietolähteen hakemistoon, joka on nimetty joksikin muuksi kuin grit, voit antaa nimen seuraavanlaisella komentorivi optiolla:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-That command does the same thing as the previous one, but the target directory is called mygrit.
+Tämä komenta tekee samanasian kuin edellinen, mutta kohde hakemisto on nimeltään mygrit.
 
 Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
 
-## Recording Changes to the Repository ##
+Gitissä on monta erillaista siirto protokollaa jota voit käyttää. Edellinen esimerkki käyttää `git://` protokollaa, mutta voit myös nähdä `http(s)://` tai `user@server:/path.git`, joka käyttää SSH siirto protokollaa. Luku 4 esittelee kaikki saatavilla olevat optiot, miten palvelin voi asettaa Git tietolähteen, sekä jokaisin hyvät ja huonot puolet.
 
-You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+## Muutosten tallennus tietolähteeseen ##
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
+Sinulla on vilpitön Git tietolähde ja haettu- tai työkopio projektin tiedostoista. Sinun täytyy tehdä joitain muutoksia ja pysyviä tilannekuvia näistä muutoksista sinun tietolähteeseesi joka kerta, kun projekti saavuttaa tilan jonka haluat tallentaa.
 
-As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
+Muista, että jokainen tiedosto työhakemistossasi, voi olla yhdessä kahdesta tilasta: jäljitetty tai jäljittämätön. Jäljitetyt tiedostot ovat tiedostoja, jotka olivat viimeisimmässä tilannekuvassa; ne voivat olla muokkaamattomia, muokattuja, tai lavastettuja. Jäljittämättömät tiedostot ovat kaikkea muuta - mitkä tahansa tiedostot työhakemistossasi, jotka eivät olleet viimeisimmässä tilannekuvassa ja jotka eivät ole lavastusalueella. Kun ensimmäisen kerran kloonaat tietolähten, kaikki tiedostoistasi tulevat olemaan jäljitettyjä ja muokkaamattomia, koska sinä juuri hait ne ja et ole muokannut vielä mitään.
+
+Editoidessasi tiedostoja, Git näkee ne muokattuina, koska olet muuttanut niitä viimeisimmän pysyvän muutoksen jälkeen. Lavastat nämä muutetut tiedostot, jonka jälkeen muutat kaikki lavastetut muutokset pysyvästi, ja sykli toistuu. Tämä elämänsykli on kuvattu Kuvassa 2-1.
 
 Insert 18333fig0201.png 
-Figure 2-1. The lifecycle of the status of your files.
+Kuva 2-1. Tiedostojesi tilan elämänsykli.
 
 ### Checking the Status of Your Files ###
 

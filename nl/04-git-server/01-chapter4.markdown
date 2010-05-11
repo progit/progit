@@ -316,7 +316,6 @@ Op deze manier kun je HTTP-gebaseerde toegang voor ieder van je projecten voor e
 
 ## GitWeb ##
 
-Now that you have basic read/write and read-only access to your project, you may want to set up a simple web-based visualizer. Git comes with a CGI script called GitWeb that is commonly used for this. You can see GitWeb in use at sites like `http://git.kernel.org` (see Figure 4-1).
 Nu dat je basis lees/schrijf en alleen-lezen toegang tot je project hebt, wil je misschien een eenvoudige web-gebaseerde visualiseerder instellen. Git levert een CGI script genaamd GitWeb mee, dat veelal voor hiervoor gebruikt wordt. Je kunt GitWeb in gebruik zien bij sites zoals `http://git.kernel.org` (zie Figuur 4-1).
 
 Insert 18333fig0401.png 

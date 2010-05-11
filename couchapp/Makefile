@@ -1,10 +1,23 @@
 # TODO: research wildcard targets
+# TODO: DRY
 
-en: figures docs
-	cp ../en/*/*.markdown ./_docs/
+en: figures docs 
+	@for file in `ls ../en/*/*.markdown`; do \
+	  filename=`basename -s .markdown $$file`; \
+	  target=./_docs/$$filename; \
+	  mkdir -p $$target; \
+	  cp $$file $$target/body.markdown; \
+	  echo $$filename > $$target/_id; \
+	done;
 
 de: figures docs
-	cp ../de/*/*.markdown ./_docs/
+	@for file in `ls ../de/*/*.markdown`; do \
+	  filename=`basename -s .markdown $$file`; \
+	  target=./_docs/$$filename; \
+	  mkdir -p $$target; \
+	  cp $$file $$target/body.markdown; \
+	  echo $$filename > $$target/_id; \
+	done;
 
 # add your target language
 

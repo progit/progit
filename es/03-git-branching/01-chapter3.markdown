@@ -1,10 +1,17 @@
-# Git Branching #
+# Ramificaciones en Git #
 
-Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
+Cualquier sistema de control de versiones moderno tiene algún mecanismo para soportar distintas ramas. Cuando hablamos de ramificaciones, significa que tu has tomado la rama principal de desarrollo (master) y a partir de ahí has continuado trabajando sin seguir la rama principal de desarrollo. En muchas sistemas de control de versiones este proceso es costoso, pues a menudo requiere crear una nueva copia del código, lo cual puede tomar mucho tiempo cuando se trata de proyectos grandes.
 
-Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
+Algunas personas resaltan que uno de los puntos mas fuertes de Git es su sistema de ramificaciones y lo cierto es que esto le hace resaltar sobre los otros sistemas de control de versiones. ¿Porqué esto es tan importante? La forma en la que Git maneja las ramificaciones es increíblemente rápida, haciendo así de las operaciones de ramificación algo casi instantáneo, al igual que el avance o el retroceso entre distintas ramas, lo cual también es tremendamente rápido. A diferencia de otros sistemas de control de versiones, Git promueve un ciclo de desarrollo donde las ramas se crean y se unen ramas entre sí, incluso varias veces en el mismo día. Entender y manejar esta opción te proporciona una poderosa y exclusiva herramienta que puede, literalmente, cambiar la forma en la que desarrollas.
 
-## What a Branch Is ##
+Git no modela ni almacena sus datos de este modo. En cambio, Git modela sus datos más como un conjunto de instantáneas de un mini sistema de archivos. Cada vez que confirmas un cambio, o 
+
+
+## ¿Qué es una rama? ##
+
+$ git add README test.rb LICENSE
+$ git commit -m 'initial commit of my project'
+
 
 To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 
@@ -15,7 +22,21 @@ To visualize this, let’s assume that you have a directory containing three fil
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
+Para entender realmente la manera que utiliza Git para realizar las ramificaciones, tenemos que dar una paso atrás y examinar como Git almacena los datos. Como recordarás, en el Capítulo 1, Git no almacena los datos como una lista de cambios en los archivos, en vez de eso utiliza un conjunto de instantáneas de un mini sistema de archivos.
+
+Cada vez que tu confirmas un cambio en Git, Git hace una foto del aspecto de todos tus archivos en ese momento, y guarda una referencia a esa instantánea, el autor y el mensaje con metadatos, además de cero o más referencias al cambio o cambios que son dependientes del último cambio realizado: cero dependencias para el primer cambio, una para 
+When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+
 When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
+
+Para entender esto, asumamos que tu tienes un directorio que contiene tres archivos, entonces tu creas una instantánea de los cambios realizados en ellos y lo confirmas. Está instantánea de los tres archivos contiene los checksums de cada uno de ellos ( utilizando el hash SHA-1 que se mencionó en el Capítulo 1), guarda esa versión del archivo en el repositorio de Git ( Git hace referencia a ellos como blobs), y añade los checksums dejando así los archivos preparados.
+
+Cuando tu creas un cambio mediante el comando `git commit`, Git crea los checksums de cada directorio (en este caso solo el directorio raíz) y almacena estos como tres objetos en el repositorio de Git. Entonces Git crea los cambios para cada objeto, el cual tiene metainformación además de una referencia al directorio raíz, para así poder crear esa misma instantánea cuando sea necesario
+
+Tu repositorio de Git ahora contiene cinco objetos: un blob para el contenido de cada uno de tus tres archivos, un árbol que mantiene una lista de los contenidos de tu directorio y especifica cuales son los nombres de los archivos de cada blob, y un cambio que contiene una referencia de donde está el árbol y donde están los cambios 
+
+
+
 
 Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
 

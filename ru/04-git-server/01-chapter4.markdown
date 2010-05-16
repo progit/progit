@@ -393,11 +393,17 @@ Now, the 'git' user can only use the SSH connection to push and pull Git reposit
 	fatal: What do you think I am? A shell?
 	Connection to gitserver closed.
 
-## Public Access ##
+## Открытый доступ ##
+
+Что если вы хотите иметь анонимный доступ к вашему проекту на чтение? Возможно вместо размещения внутреннего закрытого проекта, вы хотите разместить проект open source. Или, может быть у вас есть автоматические билд-серверы или серверы непрерывной интеграции, которые часто изменяются, и вы не хотите постоянно перегенерировать ключи SSH, а вы просто хотите добавить анонимный доступ на чтение.
 
 What if you want anonymous read access to your project? Perhaps instead of hosting an internal private project, you want to host an open source project. Or maybe you have a bunch of automated build servers or continuous integration servers that change a lot, and you don’t want to have to generate SSH keys all the time — you just want to add simple anonymous read access.
 
+Вероятно наиболее простой способ для небольших конфигураций ― запустить статический веб-сервер, указав в качестве корневого каталога для документов каталог в котором расположены ваши репозитории Git, и разрешив хук `post-update`, как было показано в первой части этой главы. Давайте продолжим работу с предыдущего примера. Допустим ваши репозитории расположены в каталоге `/opt/git`, и сервер Apache запущен на вашей машине. Повторюсь, вы можете использовать любой веб-сервер, но в качестве примера мы покажем несколько основных конфигураций Apache, которые покажут основную идею что нужно сделать.
+
 Probably the simplest way for smaller setups is to run a static web server with its document root where your Git repositories are, and then enable that `post-update` hook we mentioned in the first section of this chapter. Let’s work from the previous example. Say you have your repositories in the `/opt/git` directory, and an Apache server is running on your machine. Again, you can use any web server for this; but as an example, we’ll demonstrate some basic Apache configurations that should give you an idea of what you might need.
+
+Для начала вам следует включить хук:
 
 First you need to enable the hook:
 
@@ -405,7 +411,11 @@ First you need to enable the hook:
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
+Если вы используете версию Git ниже 1.6, то команда `mv` не нужна ― именование примеров хуков с расширением .sample только недавно.
+
 If you’re using a version of Git earlier than 1.6, the `mv` command isn’t necessary — Git started naming the hooks examples with the .sample postfix only recently. 
+
+Что делает хук `post-update`? Обычно он выглядит так:
 
 What does this `post-update` hook do? It looks basically like this:
 
@@ -413,7 +423,11 @@ What does this `post-update` hook do? It looks basically like this:
 	#!/bin/sh
 	exec git-update-server-info
 
+Это означает, что когда вы отгружаете на сервер по SSH, Git будет запускать эту команду, чтобы обновить файлы необходимые для скачивания по HTTP.
+
 This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.
+
+Затем, вы должны добавить запись VirtualHost в конфигурацию вашего Apache с корневым каталогом документов в каталоге с вашими проектами Git. Здесь мы подразумеваем, что у ваш DNS сервер настроен на отправку `*.gitserver` на машину, которую вы используете, чтобы запустить все это:
 
 Next, you need to add a VirtualHost entry to your Apache configuration with the document root as the root directory of your Git projects. Here, we’re assuming that you have wildcard DNS set up to send `*.gitserver` to whatever box you’re using to run all this:
 
@@ -426,13 +440,19 @@ Next, you need to add a VirtualHost entry to your Apache configuration with the 
 	    </Directory>
 	</VirtualHost>
 
+Вам также понадобится задать Unix группу пользователей для каталога `/opt/git` в `www-data`, чтобы ваш веб-сервер получил доступ на чтение этих каталогов, поскольку (по умолчанию) Apache запускает CGI скрипты от имени такого пользователя:
+
 You’ll also need to set the Unix user group of the `/opt/git` directories to `www-data` so your web server can read-access the repositories, because the Apache instance running the CGI script will (by default) be running as that user:
 
 	$ chgrp -R www-data /opt/git
 
+После перезапуска Apache, вы должны получить возможность склонировать ваши репозитории из того каталога указывая их в URL:
+
 When you restart Apache, you should be able to clone your repositories under that directory by specifying the URL for your project:
 
 	$ git clone http://git.gitserver/project.git
+
+Таким образом, вы можете настроить доступ на чтение по HTTP к любому из ваших проектов для значительно количества пользователей за несколько минут. Другой простой способ дать открытый неаутентифицируемый доступ ― использовать демон Git, однако это требует запуска процесса демона. Мы рассмотрим этот вариант в следующей секции, если вы предпочитаете этот вариант.
 
 This way, you can set up HTTP-based read access to any of your projects for a fair number of users in a few minutes. Another simple option for public unauthenticated access is to start a Git daemon, although that requires you to daemonize the process - we’ll cover this option in the next section, if you prefer that route.
 

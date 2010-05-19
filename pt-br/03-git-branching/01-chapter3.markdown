@@ -362,23 +362,23 @@ Figura 3-19. Pode ser mais útil pensar em seus ramos como contêineres.
 Você pode continuar fazendo isso em vários níveis de estabilidade. Alguns projetos grandes podem ter um ramo 'sugerido' (`proposed`) ou 'sugestões atualizadas' (`pu`, proposed updates) que contém outros ramos integrados que podem não estar prontos para ir para o próximo (`next`) ou ramo principal (`master`). A ideia é que seus ramos estejam em vários níveis de estabilidade; quando eles atigem um nível mais estável, eles são mesclados no ramo acima deles.
 Repetindo, ter muitos ramos de longa duração não é necessário, mas geralmente é útil, especialmente quando você está lidando com projetos muito grandes ou complexos.
 
-### Topic Branches ###
+### Ramos tópicos (topic) ###
 
-Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
+Ramos tópicos, entretanto, são úteis em projetos de qualquer tamanho. Um ramo tópico é um ramo de curta duração que você cria e usa para uma funcionalidade ou trabalho relacionado. Isso é algo que você provavelmente nunca fez com um controle de versão antes porque é geralmente muito custoso criar e mesclar ramos. Mas no Git é comum criar, trabalhar, mesclar e apagar ramos muitas vezes ao dia.
 
-You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
+Você viu isso na seção anterior com os ramos `iss53` e o `hotfix` que você criou. Você fez submissões (commits) neles e os apagou depois que os mesclou (merge) com seu ramo principal (master). Tecnicamente isso lhe permite mudar completamente e rapidamente o contexto — por seu trabalho estar separado em contêineres onde todas as modificações naquele ramo estarem relacionadas ao tópico, é fácil ver o que aconteceu durante a revisão de código. Você pode manter as mudanças la por minutos, dias, ou meses, e mesclá-las quando estivem prontas, não importando a ordem que foram criadas ou trabalhadas.
 
-Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
+Condisere um exemplo onde você está fazendo um trabalho no ramo principal (`master`), cria um ramo para um erro (`iss91`), trabalha nele um pouco, cria um segundo ramo para testar uma nova maneira de resolver o mesmo problema (`iss91v2`), volta ao seu ramo principal e trabalha nele por um tempo, e cria um novo ramo para trabalhar em algo que você não certeza se é uma boa ideia (`dumbidea`). Seu histórico de submissões (commits) irá se parecer com a Figura 3-20.
 
 Insert 18333fig0320.png 
-Figure 3-20. Your commit history with multiple topic branches
+Figura 3-20. Seu histórico de submissões com multiplos ramos tópicos.
 
-Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
+Agora, vamos dizer que você decidiu que sua segunda solução é a melhor para resolver o erro (`iss91v2`); e você mostrou seu ramo `dumbidea` para seus colegas de trabalho, e ele é genial. Agora você pode jogar fora o ramo original `iss91` (perdendo as submissões C5 e C6) e mesclar os dois restantes. Seu histórico irá se parecer com a Figura 3-21.
 
 Insert 18333fig0321.png 
-Figure 3-21. Your history after merging in dumbidea and iss91v2
+Figura 3-21. Seu histórico depois de mesclar dumbidea e iss91v2.
 
-It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
+É importante lembrar que você esta fazendo tudo isso com seus ramos localmente. Quando você cria e mescla ramos, tudo está sendo feito somente no seu repositório Git - nenhuma comunicação com o servidor esta sendo feita.
 
 ## Remote Branches ##
 

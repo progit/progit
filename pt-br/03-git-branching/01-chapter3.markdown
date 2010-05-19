@@ -338,28 +338,29 @@ Isso mostra seu outro ramo. Por ele conter trabalho que ainda não foi mesclado,
 
 Se você quer realmente apagar o ramo e perder o trabalho que existe nele, você pode forçar com `-D`, como é apontado na mensagem útil.
 
-## Branching Workflows ##
+## Fluxos de trabalho com Ramos ##
 
-Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
+Agora que você sabe o básico sobre criação e mesclagem (merge) de ramos, o que você pode ou deve fazer com eles? Nessa seção, nós vamos abordar alguns fluxos de trabalhos comuns que esse tipo de criação leve de ramos torna possível, então você pode decidir se você quer incorporá-lo no seu próprio ciclo de desenvolvimento.
 
-### Long-Running Branches ###
+### Ramos de longa duração ###
 
-Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
+Por o Git usar uma mesclagem de três vias, mesclar um ramo em outro várias vezes em um período longo é geralmente fácil de fazer. Isto significa que você pode ter vários ramos que ficam sempre abertos e que são usados em diferentes estágios do seu ciclo de desenvolvimento; você pode regularmente mesclar alguns deles em outros.
 
-Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+Muitos desenvolvedores Git tem um fluxo de trabalho que adotam essa abordagem, como ter somente código completamente estável em seus ramos principais
+(`master`) — possivelmente somente código que já foi ou será liberado. Eles tem outro ramo paralelo chamado develop ou algo parecido em que eles trabalham ou usam para testar estabilidade — ele não é necessariamente sempre estável, mas quando ele chega a tal estágio, pode ser mesclado com o ramo principal (`master`). Ele é usado para puxar (pull) ramos tópicos (topic, ramos de curta duração, como o seu ramo `iss53` anteriormente) quando eles estão prontos, para ter certeza que eles passam em todos os testes e não acresentam erros.
 
-In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
+Na realidade, nós estamos falando de ponteiros se movendo adiante na linha de submissões (commits) que você está fazendo. Os ramos estáveis estão muito atrás na linha histórica de submissões, e os ramos de ponta (que estão sendo trabalhados) estão a frente no histórico (veja Figura 3-18).
 
 Insert 18333fig0318.png 
-Figure 3-18. More stable branches are generally farther down the commit history.
+Figura 3-18. Ramos mais estáveis geralmente ficam atrás no histórico de submissões.
 
-It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (see Figure 3-19).
+Normalmente é mais fácil pensar neles como um contêiner de trabalho, onde conjuntos de submissões são promovidos a um contêiner mais estável quando eles são completamente testados (veja figura 3-19).
 
 Insert 18333fig0319.png 
-Figure 3-19. It may be helpful to think of your branches as silos.
+Figura 3-19. Pode ser mais útil pensar em seus ramos como contêineres.
 
-You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
-Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
+Você pode continuar fazendo isso em vários níveis de estabilidade. Alguns projetos grandes podem ter um ramo 'sugerido' (`proposed`) ou 'sugestões atualizadas' (`pu`, proposed updates) que contém outros ramos integrados que podem não estar prontos para ir para o próximo (`next`) ou ramo principal (`master`). A ideia é que seus ramos estejam em vários níveis de estabilidade; quando eles atigem um nível mais estável, eles são mesclados no ramo acima deles.
+Repetindo, ter muitos ramos de longa duração não é necessário, mas geralmente é útil, especialmente quando você está lidando com projetos muito grandes ou complexos.
 
 ### Topic Branches ###
 

@@ -1,4 +1,4 @@
-\documentclass[a4paper,twoside]{book}
+\documentclass[a4paper]{book}
 \usepackage[
 	%urlbordercolor = {1 1 1},
 	%linkbordercolor = {1 1 1},
@@ -45,27 +45,28 @@
   \setlength\headsep   {.25in}
   \setlength\topskip   {10\p@}
   \setlength\footskip{.35in}
-  \setlength\textwidth{480\p@} % before: {345\p@}
+  \setlength\textwidth{400\p@}
+  
   \setlength\@tempdima{\paperheight}
-  \addtolength\@tempdima{-2in} % before: {-3.5in}
+  \addtolength\@tempdima{-2in}
   \divide\@tempdima\baselineskip
   \@tempcnta=\@tempdima
   \setlength\textheight{\@tempcnta\baselineskip}
   \addtolength\textheight{\topskip}
+  
   \setlength\@tempdima        {\paperwidth}
   \addtolength\@tempdima      {-\textwidth}
-  \setlength\oddsidemargin    {.6\@tempdima} % before: {.4\@tempdima}
-  \addtolength\oddsidemargin  {-1in}
-  \setlength\marginparwidth   {.4\@tempdima} % before: {.6\@tempdima}
-  \addtolength\marginparwidth {-\marginparsep}
-  \addtolength\marginparwidth {-0.4in}
+  \setlength\oddsidemargin    {\paperwidth}
+  \addtolength\oddsidemargin  {-2.35in}
+  \addtolength\oddsidemargin  {-\textwidth}
+  \setlength\marginparwidth   {0pt}
   \@settopoint\oddsidemargin
   \@settopoint\marginparwidth
   \setlength\evensidemargin  {\paperwidth}
-  \addtolength\evensidemargin{-2in}
+  \addtolength\evensidemargin{-2.35in}
   \addtolength\evensidemargin{-\textwidth}
-  \addtolength\evensidemargin{-\oddsidemargin}
   \@settopoint\evensidemargin
+  
   \setlength\topmargin{\paperheight}
   \addtolength\topmargin{-2in}
   \addtolength\topmargin{-\headheight}

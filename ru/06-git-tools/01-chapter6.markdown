@@ -10,7 +10,6 @@ By now, you’ve learned most of the day-to-day commands and workflows that you 
 Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
 
 ## Выбор ревизии ##
-
 ## Revision Selection ##
 
 Git позволяет вам указывать конкретные коммиты или их последовательности несколькими способами. Они не всегда очевидны, но иногда их полезно знать.
@@ -18,7 +17,6 @@ Git позволяет вам указывать конкретные комми
 Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
 
 ### Одиночные ревизии ###
-
 ### Single Revisions ###
 
 Вы можете просто сослаться на коммит по его SHA-1 хэшу, но также существуют более дружественные для человека способы ссылаться на коммиты. В этой секции обозреваются различные способы, которыми вы можете сослаться на одиночный коммит.
@@ -73,12 +71,11 @@ Git can figure out a short, unique abbreviation for your SHA-1 values. If you pa
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-В общем случае, от восемь-десять символов более чем достаточно для уникальности внутри проекта. В одном из самых больших проектов на Git, ядре Linux только начинает появляться необходимость использовать 12 символов из 40 возможных для сохранения однозначности.
+В общем случае, восемь-десять символов более чем достаточно для уникальности внутри проекта. В одном из самых больших проектов на Git, ядре Linux только начинает появляться необходимость использовать 12 символов из 40 возможных для сохранения однозначности.
 
 Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
 
 ### Небольшое замечание о SHA-1###
-
 ### A SHORT NOTE ABOUT SHA-1 ###
 
 Многие люди интересуются что произойдет, если они в какой-то момент, по некоторой случайности, получат два объекта в репозитории, которые будут иметь два одинаковых значения SHA-1 хэша. Что тогда?
@@ -132,7 +129,7 @@ Every time your branch tip is updated for any reason, Git stores that informatio
 
 	$ git show HEAD@{5}
 
-Вы также можете использовать эту команду, чтобы увидетль ветку, которая была в прошлом. Например, чтобы увидеть состояние вашей `master`-ветки вчера, наберите команду
+Вы также можете использовать эту команду, чтобы увидеть ветку, которая была в прошлом. Например, чтобы увидеть состояние вашей `master`-ветки вчера, наберите команду
 You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
 
 	$ git show master@{yesterday}
@@ -735,14 +732,17 @@ The `--tree-filter` option runs the specified command after each checkout of the
 
 You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
 
+#### Создание новой корневой поддириктории ####
 #### Making a Subdirectory the New Root ####
 
+Предположим, вы импортировали репозиторий из другой системы контроля версий и в нем есть бессмысленные каталоги (trunk, tags, и др.). Если вы захотите сделать `trunk` новым корнем проекта, команда `filter-branch` тоже может помочь вам это сделать:
 Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
+Теперь корневая директория будет в папке `trunk`. Git также автоматом удалит все коммиты, которые не затронули эту папку.
 Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. 
 
 #### Changing E-Mail Addresses Globally ####

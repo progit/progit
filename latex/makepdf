@@ -31,7 +31,7 @@ Usage:
   makepdf [OPTION...] LANGUAGE [LANGUAGE 2...]
 
 Options:
-  -d, --debug      prints TeX and other output 
+  -d, --debug      prints TeX and other output
 USAGE
 	exit
 end
@@ -82,47 +82,27 @@ def post_pandoc(string, config)
 		# Enable proper cross-reference
 		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
 		s /#{config['tab'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\tabref{\1.\2}'
-		s /#{config['prechap'].gsub(space, '\s')}\s*(\d+)\s*#{config['postchap'].gsub(space, '\s')}/, '\chapref{\1}'
+		s /#{config['prechap'].gsub(space, '\s')}\s*(\d+)(\s*)#{config['postchap'].gsub(space, '\s')}/, '\chapref{\1}\2'
 
 		# Miscellaneous fixes
 		s /FIG: (.*)/, '\img{\1}'
 		s '\begin{enumerate}[1.]', '\begin{enumerate}'
 		s /(\w)--(\w)/, '\1-\2'
-		s /``(.*?)''/, '“\1”'
+		s /``(.*?)''/, "#{config['dql']}\\1#{config['dqr']}"
 
 		# Typeset the maths in the book with TeX
 		s '\verb!p = (n(n-1)/2) * (1/2^160))!', '$p = \frac{n(n-1)}{2} \times \frac{1}{2^{160}}$)'
 		s '2\^{}80', '$2^{80}$'
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
 
-		# Ensure monospaced stuff is in a smaller font
-		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
-		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
-
 		# Convert inline-verbatims into \texttt (which is able to wrap)
 		s /\\verb(\W)(.*?)\1/ do
 			"{\\texttt{#{verbatim_sanitize($2)}}}"
 		end
 
-		# Make Tables 2-1..2-3 actual tables
-		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)(([^\t\n]*)\n)?\\end\{verbatim\}/ do
-			$cap = $4
-			"\\begin{table}[h!]
-				\\refstepcounter{tab}
-				\\centering
-				\\label{tab:\\thetab}
-				\\begin{tabular}{p{2.75cm}p{8.25cm}}
-					\\toprule\n" <<
-					verbatim_sanitize($1).
-						gsub(/^([^\n\t]+)\t/, '{\footnotesize\texttt{\1}} & ').
-						gsub(/(\n)/, '\\\\\\\\\1').
-						sub(/\{\\footnotesize\\texttt(.*?)\n/, '{\1\midrule ').
-						concat("
-					\\bottomrule
-				\\end{tabular}
-				\\textbf{\\caption{#{$cap}}}
-			\\end{table}")
-		end
+		# Ensure monospaced stuff is in a smaller font
+		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
+		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
 
 		# Shaded verbatim block
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'
@@ -153,7 +133,7 @@ figures do
 		end.join("\n\n")
 
 		print "\tParsing markdown... "
-		latex = pipe('pandoc -p -f markdown -t latex') do |stdin, stdout|
+		latex = pipe('pandoc -p --no-wrap -f markdown -t latex') do |stdin, stdout|
 			stdin.write(pre_pandoc(markdown, config))
 			stdin.close
 			post_pandoc(stdout.read, config)
@@ -172,7 +152,7 @@ figures do
 
 		puts "\tRunning XeTeX:"
 		cd($root)
-		3.times do |i|	
+		3.times do |i|
 			print "\t\tPass #{i + 1}... "
 			pipe("xelatex -output-directory='#{dir}' '#{dir}/main.tex' 2>&1") do |_, stdout|
 				unless $DEBUG
@@ -190,8 +170,8 @@ figures do
 		end
 
 		unless abort
-			print "\tCopying output to progit.#{lang}.pdf... "
-			cp("#{dir}/main.pdf", "#$outDir/progit.#{lang}.pdf")
+			print "\tMoving output to progit.#{lang}.pdf... "
+			mv("main.pdf", "#$root/progit.#{lang}.pdf")
 			puts "done"
 		end
 	end

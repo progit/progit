@@ -13,6 +13,8 @@
 \usepackage{booktabs}
 \usepackage{indentfirst}
 \usepackage{framed,color}
+\usepackage{array}
+\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
 
 \definecolor{shadecolor}{gray}{0.90}
 
@@ -40,6 +42,8 @@
 \date{\w3cdtfymd}
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\let\PBS=\PreserveBackslash
 \makeatletter
   \setlength\headheight{12\p@}
   \setlength\headsep   {.25in}
@@ -89,7 +93,7 @@
 	\refstepcounter{img}
 	\label{img:\theimg}
 	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}
-	\textbf{\caption{#1}}
+	\caption{#1}
 \end{figure}}
 
 \newcounter{tab}[chapter]

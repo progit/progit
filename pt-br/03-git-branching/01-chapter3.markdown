@@ -299,44 +299,44 @@ If you’re happy with that, and you verify that everything that had conflicts h
 
 You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
 
-## Branch Management ##
+## Gerenciamento de ramos ##
 
-Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+Agora que você criou, mesclou (merge) e apagou alguns ramos, vamos ver algumas ferramentas de gerenciamento de ramos que serão úteis quando você começar a usar ramos o tempo todo.
 
-The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
+O comando `git branch` faz mais do que criar e apagar ramos. Se você executá-lo sem argumentos, você verá uma lista simples dos seus ramos atuais:
 
 	$ git branch
 	  iss53
 	* master
 	  testing
 
-Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch –v`:
+Note o caractere `*` que vem antes do ramo principal (`master`): ele indica o ramo que você está atualmente (fez o checkout). Isso significa que se você fizer uma submissão (commit) nesse momento, o ramo principal (`master`) irá mover adiante com seu novo trabalho. Para ver a última submissão em cada ramo, você pode executar o comando `git branch –v`:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
+Outra opção útil para saber em que estado estão seus ramos é filtrar na lista somente ramos que você já mesclou ou não no ramo que você está atualmente. As opções `--merged` e `--no-merged` estão disponíveis no Git desde a versão 1.5.6 para esse propósito. Para ver quais ramos já foram mesclados no ramo que você está, você pode executar `git branch –merged`:
 
 	$ git branch --merged
 	  iss53
 	* master
 
-Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+Por você já ter mesclado o ramo `iss53` antes, você o verá na sua lista. Os ramos nesta lista sem o `*` na frente em geral podem ser apagados com `git branch -d`; você já incorporou o trabalho que existia neles em outro ramo, sendo assim você não perderá nada.
 
-To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
+Para ver todos os ramos que contém trabalho que você ainda não mesclou, você pode executar `git branch --no-merged`:
 
 	$ git branch --no-merged
 	  testing
 
-This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
+Isso mostra seu outro ramo. Por ele conter trabalho que ainda não foi mesclado, tentar apagá-lo com `git branch -d` irá falhar:
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
+	If you are sure you want to delete it, run `git branch -D testing`.
 
-If you are sure you want to delete it, run `git branch -D testing`.
-If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
+Se você quer realmente apagar o ramo e perder o trabalho que existe nele, você pode forçar com `-D`, como é apontado na mensagem útil.
 
 ## Branching Workflows ##
 

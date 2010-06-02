@@ -26,10 +26,15 @@ namespace :epub do
 			found_maruku = false
 		end
 		
-		found_calibre = true
-		if `which ebook-convert`.empty?
-			found_calibre = false
+		$ebook_convert_cmd = ENV['ebook_convert_path'].to_s
+		if $ebook_convert_cmd.empty?
+			$ebook_convert_cmd = `which ebook-convert`.chomp
 		end
+		if $ebook_convert_cmd.empty?
+			mac_osx_path = '/Applications/calibre.app/Contents/MacOS/ebook-convert'
+			$ebook_convert_cmd = mac_osx_path
+		end
+		found_calibre = File.executable?($ebook_convert_cmd)
 		
 		if !found_maruku
 			puts 'EPUB generation requires the Maruku gem.'
@@ -135,7 +140,7 @@ namespace :epub do
 			'--level3-toc', '//h:h3',
 		]
 		
-		sh "ebook-convert", INDEX_FILEPATH, TARGET_FILEPATH, *opts
+		sh $ebook_convert_cmd, INDEX_FILEPATH, TARGET_FILEPATH, *opts
 	end
 	
 	CLEAN.push(*CONVERTED_MK_FILES)

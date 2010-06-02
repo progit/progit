@@ -127,6 +127,7 @@ namespace :epub do
 			'--comments', 'Licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license',
 			
 			'--cover', 'epub/title.png',
+			'--extra-css', 'epub/ProGit.css',
 			
 			'--chapter', '//h:h1',
 			'--level1-toc', '//h:h1',

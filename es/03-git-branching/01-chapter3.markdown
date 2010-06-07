@@ -377,42 +377,42 @@ Figura 3-21. El registro tras fusionar 'dumbidea' e 'iss91v2'.
 
 Es importante recordar que, mientras estás haciendo todo esto, todas las ramas son completamente locales. Cuando ramificas y fusionas, todo se realiza en tu propio repositório Git. No hay nigún tipo de tráfico con ningún servidor.
 
-## Remote Branches ## 
+## Ramas Remotas ## 
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
+Las ramas remotas son referencias al estado de ramas en tus repositorios remotos. Son ramas locales que no puedes mover;  se mueven automáticamente cuando estableces comunicaciones en la red. Las ramas remotas funcionan como marcadores, para recordarte en qué estado se encontraban tus repositorios remotos la última vez que conectaste con ellos.
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+Suelen referenciarse como '(remoto)/(rama)'. Por ejemplo, si quieres saber cómo estaba la rama 'master' en el remoto 'origin'. Puedes revisar la rama 'origin/master'. O si estás trabajando en un problema con un compañero y este envia (push) una rama 'iss53', tu tendrás tu propia rama de trabajo local 'iss53'; pero la rama en el servidor apuntará a la última confirmación (commit) en la rama 'origin/iss53'.
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
+Esto puede ser un tanto confuso, pero intentemos aclararlo con un ejemplo.  Supongamos que tienes un sevidor Git en tu red, en 'git.ourcompany.com'. Si haces un clón desde ahí, Git automáticamente lo denominará 'origin', traerá (pull) sus datos, creará un apuntador hacia donde esté en ese momento su rama 'master', denominará la copia local 'origin/master'; y será inamovible para tí.  Git te proporcionará también tu propia rama 'master', apuntando al mismo lugar que la rama 'master' de 'origin'; siendo en esta última donde podrás trabajar.
 
 Insert 18333fig0322.png 
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+Figura 3-22. Un clón Git te proporciona tu propia rama 'master' y otra rama 'origin/master' apuntando a la rama 'master' original.
 
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+Si haces algún trabajo en tu rama 'master' local. Y, al mismo tiempo, alguna otra persona lleva (push) su trabajo al servidor 'git.ourcompany.com', actualizando la rama 'master' de allí. Te encontrarás con que ambos registros avanzan de forma diferente. Además, mientras no tengas contacto con el servidor, tu apuntador a tu rama 'origin/master' no se moverá (ver Figura 3/23).
 
 Insert 18333fig0323.png 
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+Figura 3-23. Trabajando localmente y que otra persona esté llevando (push) algo al servidor remoto, hace que cada registro avance de forma distinta.
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
+Para sincronizarte, puedes utilizar el comando 'git fetch origin'. Este comando localiza en qué servidor está el origen (en este caso 'git.ourcompany.com'), recupera cualquier dato presente allí que tu no tengas, y actualiza tu base de datos local, moviendo tu rama 'origin/master' para que apunte a esta nueva y más reciente posición (ver Figura 3-24).
 
 Insert 18333fig0324.png 
-Figure 3-24. The git fetch command updates your remote references.
+Figura 3-24. El comando 'git fetch' actualiza tus referencias remotas.
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
+Para ilustrar mejor el caso de tener múltiples servidores y cómo van las ramas remotas para esos proyectos remotos. Supongamos que tienes otro servidor Git; utilizado solamente para desarrollo, por uno de tus equipos sprint. Un servidor en 'git.team1.ourcompany.com'. Puedes incluirlo como una nueva referencia remota a tu proyecto actual, mediante el comando 'git remote add', tal y como vimos en el capítulo 2. Puedes denominar 'teamone' a este remoto, poniendo este nombre abreviado para la URL (ver Figura 3-25)
 
 Insert 18333fig0325.png 
-Figure 3-25. Adding another server as a remote.
+Figura 3-25. Añadiendo otro servidor como remoto.
 
-Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
+Ahora, puedes usar el comando 'git fetch teamone' para recuperar todo el contenido del servidor que tu no tenias. Debido a que dicho servidor es un subconjunto de de los datos del servidor 'origin' que tienes actualmente, Git no recupera (fetch) ningún  dato; simplemente prepara una rama remota llamada 'teamone/master' para apuntar a la confirmación (commit) que 'teamone' tiene en su rama 'master'.
 
 Insert 18333fig0326.png 
-Figure 3-26. You get a reference to teamone’s master branch position locally.
+Figura 3-26. Obtienes una referencia local a la posición en la rama 'master' de 'teamone'.
 
-### Pushing ###
+### Publicando ###
 
-When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
+Cuando quieres compartir una rama con el resto del mundo, has de llevarla (push) a un remoto donde tengas permisos de escritura. Tus ramas locales no se sincronizan automáticamente con los remotos en los que escribes. Sino que tienes que llevar (push) expresamente, cada vez, al remoto las ramas que desees compartir. De esta forma, puedes usar ramas privadas para el trabajo que no deseas compartir. Llevando a un remoto tan solo aquellas partes que deseas aportar a los demás.
 
-If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
+Si tienes una rama llamada 'serverfix', con la que vas a trabajar en colaboración; puedes llevarla al remoto de la misma forma que llevaste tu primera rama. Con el comando 'git push (remoto) (rama)':
 
 	$ git push origin serverfix
 	Counting objects: 20, done.
@@ -422,9 +422,9 @@ If you have a branch named `serverfix` that you want to work on with others, you
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.
+Esto es un poco como un atajo. Git expande automáticamente el nombre de rama 'serverfix' a 'refs/heads/serverfix:refs/heads/serverfix', que significa: "coge mi rama local 'serverfix' y actualiza con ella la rama 'serverfix' del remoto". Volveremos más tarde sobre el tema de 'refs/heads/', viendolo en detalle en el capítulo 9; aunque puedes ignorarlo por ahora. También puedes hacer 'git push origin serverfix:serverfix', que hace lo mismo; es decir: "coge mi 'serverfix' y hazlo el 'serverfix' remoto". Puedes utilizar este último formato para llevar una rama local a una rama remota con otro nombre distinto. Si no quieres que se llame 'serverfix' en el remoto, puedes lanzar, por ejemplo, 'git push origin serverfix:awesomebranch'; para llevar tu rama 'serverfix' local a la rama 'awesomebranch' en el proyecto remoto.
 
-The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:
+La próxima vez que tus colaboradores recuperen desde el servidor, obtendrán una referencia a donde la versión de 'serverfix' en el servidor esté bajo la rama remota 'origin/serverfix':
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -434,43 +434,43 @@ The next time one of your collaborators fetches from the server, they will get a
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.
+Es importante destacar que cuando recuperas (fetch) nuevas ramas remotas, no obtienes automáticamente una copia editable local de las mismas. En otras palabras, en este caso, no tienes una nueva rama 'serverfix'. Sino que únicamente tienes un puntero no editable a 'origin/serverfix'.
 
-To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
+Para integrar (merge) esto en tu actual rama de trabajo, puedes usar el comando 'git merge origin/serverfix'. Y si quieres tener tu propia rama 'serverfix', donde puedas trabajar, puedes crearla directamente basandote en rama remota:
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "serverfix"
+	Switched to a new branch "serverfix"Switched to a new branch "serverfix"
 
-This gives you a local branch that you can work on that starts where `origin/serverfix` is.
+Esto sí te da una rama local donde puedes trabajar, comenzando donde 'origin/serverfix' estaba en ese momento.
 
-### Tracking Branches ###
+### Haciendo seguimiento a las ramas ###
 
-Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+Activando (checkout) una rama local a partir de una rama remota, se crea automáticamente lo que podríamos denominar "una rama de seguimiento" (tracking branch). Las ramas de seguimiento son ramas locales que tienen una relación directa con alguna rama remota. Si estás en una rama de seguimiento y tecleas el comando 'git push', Git sabe automáticamente a qué servidor y a qué rama ha de llevar los contenidos. Igualmente, tecleando 'git pull' mientras estamos en una de esas ramas, recupera (fetch) todas las referencias remotas y las consolida (merge) automáticamente en la correspondiente rama remota.
 
-When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
+Cuando clonas un repositorio, este suele crear automáticamente una rama 'master' que hace seguimiento de 'origin/master'. Y es por eso que 'git push' y 'git pull' trabajan directamente, sin necesidad de más argumentos. Sin embargo, puedes preparar otras ramas de seguimiento si deseas tener unas que no hagan seguimiento de ramas en 'origin' y que no sigan a la rama 'master'. El ejemplo más simple, es el que acabas de ver al lanzar el comando 'git checkout -b [rama] [nombreremoto]/[rama]'. Si tienes la versión 1.6.2 de Git, o superior, puedes utilizar también el parámetro '--track':
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "serverfix"
+	Switched to a new branch "serverfix"Switched to a new branch "serverfix"
 
-To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
+Para preparar una rama local con un nombre distinto a la del remoto, puedes utilizar:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
+Así, tu rama local 'sf' va a llevar (push) y traer (pull) hacia o desde 'origin/serverfix'.
 
-### Deleting Remote Branches ###
+### Borrando ramas remotas ###
 
-Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
+Imagina que ya has terminado con una rama remota. Es decir, tanto tu como tus colaboradores habeis completado una determinada funcionalidad y la habeis incorporado (merge) a la rama 'master' en el remoto (o donde quiera que tengais la rama de código estable). Puedes borrar la rama remota utilizando la un tanto confusa sintaxis:  'git push [nombreremoto] :[rama]'. Por ejemplo, si quieres borrar la rama 'serverfix' del servidor, puedes utilizar:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
+Y....Boom!. La rama en el servidor ha desaparecido. Puedes grabarte a fuego esta página, porque necesitarás ese comando y, lo más probable es que hayas olvidado su sintaxis. Una manera de recordar este comando es dándonos cuenta de que proviene de la sintaxis 'git push [nombreremoto] [ramalocal]:[ramaremota]'. Si omites la parte '[ramalocal]', lo que estás diciendo es: "no cojas nada de mi lado y haz con ello [ramaremota]".
 
 ## Rebasing ##
 

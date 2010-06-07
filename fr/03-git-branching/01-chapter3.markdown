@@ -426,13 +426,13 @@ Si vous souhaitez réellement effacer cette branche et perdre ainsi le travail r
 
 ## Travailler avec les branches ##
 
-Après avoir acquis les bases pour brancher et fusionner, que pouvous-nous ou devons-nous en faire ?
+Après avoir acquis les bases pour brancher et fusionner, que pouvons-nous ou devons-nous en faire ?
 Ce chapitre traite des différents style de développement que cette gestion de branche légère permet de mettre en place, pour vous aider à décider d'en incorporer une dans votre cycle de développement.
 
 ### Les branches au long cours ###
 
 Comme Git utilise une fusion à 3 branches, fusionner une branche dans une autre plusieurs fois sur une longue période est généralement facile.
-Cela signifie que vous pouvez travailler sur plusieurs branches ouvertes en permanence pendant plusieurs étapes de votre cycle de développement ; vous pouvez fusionnner régulièrement certaines dans d'autres.
+Cela signifie que vous pouvez travailler sur plusieurs branches ouvertes en permanence pendant plusieurs étapes de votre cycle de développement ; vous pouvez fusionner régulièrement certaines dans d'autres.
 
 De nombreux développeurs utilisent Git avec une méthode que utilise cette approche, telle que n'avoir que du code entièrement stable et testé dans la branche `master`, voire du code que a été ou sera publié.
 Ils ont une autre branche en parallèle appelée develop qui, lorsqu'elle devient stable, peut être fusionnée dans `master`.
@@ -458,12 +458,12 @@ Une fois encore, les branches au long cours ne sont pas nécessaires, mais s'av�
 
 Les branches de sujet sont tout de même utiles quelle que soit la taille du projet.
 Une branche de sujet est une branche de courte vie créée et utilisée pour une fonctionnalité ou une tâche particulière.
-C'est une manière d'opérer que vous n'avez vraissemblablement jamais utilisée avec un autre VCS parce qu'il est généralement trop lourd de créer et fusionner des branches.
+C'est une manière d'opérer que vous n'avez vraisemblablement jamais utilisée avec un autre VCS parce qu'il est généralement trop lourd de créer et fusionner des branches.
 Mais dans Git, créer, développer, fusionner et effacer des branches plusieurs fois par jour est monnaie courante.
 
 Vous l'avez remarqué dans la section précédent avec les branches `prob53` et `correctif` que vous avez créées.
 Vous avez réalisé quelque validations sur elles et vous les avez effacées juste après les avoir fusionné dans votre branche principale.
-Cette technique vous permet de basculer de contexte complêtement et immédiatement. 
+Cette technique vous permet de basculer de contexte complètement et immédiatement. 
 Il est beaucoup plus simple de réaliser des revues de code parce que votre travail est isolé dans des silos où toutes les modifications sont liées au sujet .
 Vous pouvez entreposer vos modifications ici pendant des minutes, des jours ou des mois, puis les fusionner quand elles sont prêtes, indépendamment de l'ordre dans lequel elles ont été créées ou de développées.
 
@@ -486,52 +486,73 @@ Aucune communication avec un serveur n'a lieu.
 
 ## Les branches distantes ##
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
+Les branches distantes sont des références à l'état des branches sur votre dépôt distant.
+Ce sont des branches locales qu'on ne peut pas modifier ; elles sont modifiées automatiquement lors de communications réseau.
+Les branches distantes agissent comme des marques-pages pour vous aider à vous souvenir de l'état de votre dépôt distant lorsque vous vous y êtes connectés.
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `prob53` branch, you might have your own local `prob53` branch; but the branch on the server would point to the commit at `origin/prob53`.
+Elles prennent la forme de `(distant)/(branche)`.
+Par exemple, si vous souhaitiez visualiser l'état de votre branche `master` sur le dépôt distant `origin` lors de votre dernière communication, il vous suffit de vérifier la branche `origin/master`.
+Si vous étiez en train de travailler avec un collègue et qu'il a mis à jour la branche `prob53`, vous pourriez avoir votre propre branche `prob53` ; mais la branche sur le serveur pointerait sur le commit de `origin/prob53`.
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
+Cela peut paraître déconcertant, alors éclaircissons les choses par un exemple.
+Supposons que vous avez un serveur Git sur le réseau à l'adresse `git.notresociete.com`.
+Si vous clones à partir de ce serveur, Git le nomme automatiquement `origin`, et en tire tout l'historique, crée un pointeur sur l'état actuel de la branche `master`, et l'appelle localement `origin/master` ; vous ne pouvez pas la modifier.
+Git vous crée votre propre branche `master` qui démarre au même commit que la branche `master` d'origine, pour que vous puissiez commencer à travailler (voir figure 3-22).
 
 Insert 18333fig0322.png 
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+Figure 3-22. Un clonage Git vous fournit une branche master et une branche origin/master pointant sur la branche master de l'origine.
 
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+Si vous travaillez sur votre branche locale `master`, et que dans le même temps, quelqu'un pousse vers `git.notresociete.com` et met à jour cette branche, alors vos deux historiques divergent.
+Tant que vous restez sans contact avec votre serveur distant, votre pointeur `origin/master` n'avance pas (voir figure 3-23).
 
 Insert 18333fig0323.png 
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+Figure 3-23. Les travaux locaux et les modifications poussées sur le serveur distant font diverger les deux historiques.
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
+Lancez la commande `git fetch origin` pour synchroniser votre travail.
+Cette commande recherche le serveur hébergeant origin (dans notre cas, `git.notresociete.com`), en récupère toutes les nouvelles données et met à jour votre base de donnée locale en déplaçant votre pointeur `origin/master` à sa valeur nouvelle à jour avec le serveur distant (voir figure 3-24).
 
 Insert 18333fig0324.png 
-Figure 3-24. The git fetch command updates your remote references.
+Figure 3-24. La commande git fetch met à jour vos références distantes.
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
+Pour démontrer l'usage de multiples serveurs distants et le fonctionnement avec des branches multiples, supposons que vous avez un autre serveur Git interne qui n'est utilisé pour le développement que par une équipe.
+Ce serveur se trouve sur `git.equipe1.notresociete.com`.
+Vous pouvez l'ajouter à vos références distantes de votre projet actuel en lançant la commande `git remote add` comme nous l'avons décrite au chapitre 2.
+Nommez ce serveur distant `equipeun` qui sera le raccourcis pour l'URL complète (voir figure 3-25).
 
 Insert 18333fig0325.png 
-Figure 3-25. Adding another server as a remote.
+Figure 3-25. Ajouter un autre serveur comme accès distant.
 
-Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
+Maintenant, lancez `git fetch equipeun` pour récupérer l'ensemble des informations du serveur que vous ne possédez pas.
+Comme ce serveur contient déjà un sous-ensemble des données du serveur `origin`, Git ne récupère aucune donnée mais positionne une branche distante appelée `equipeun/master` qui pointe sur le commit que `equipeun` a comme branche `master` (voir figure 3-26).
 
 Insert 18333fig0326.png 
-Figure 3-26. You get a reference to teamone’s master branch position locally.
+Figure 3-26. Vous récupérez une référence locale à la branch master de equipeun.
 
-### Pushing ###
+### Pousser vers un serveur ###
 
-When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
+Lorsque vous souhaitez partager une branche avec le reste du monde, vous devez la pousser sur le serveur distant sur lequel vous accès en écriture.
+Vos branches locales ne sont pas automatiquement synchronisées sur les serveurs distants — vous devez pousser explicitement les branches que vous souhaitez partager.
+De cette manière, vous pouvez utiliser des branches privées pour le travail que vous ne souhaitez pas partager, et ne pousser que les branches sur lesquelles vous souhaitez collaborer.
 
-If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
+Si vous possédez une branche nommée `correctionserveur` sur laquelle vous souhaitez travailler avec des tiers, vous pouvez la pousser de la même manière que vous avez poussé votre première branche.
+Lancez `git push (serveur distant) (branche)` :
 
-	$ git push origin serverfix
+	$ git push origin correctionserveur
 	Counting objects: 20, done.
 	Compressing objects: 100% (14/14), done.
 	Writing objects: 100% (15/15), 1.74 KiB, done.
 	Total 15 (delta 5), reused 0 (delta 0)
 	To git@github.com:schacon/simplegit.git
-	 * [new branch]      serverfix -> serverfix
+	 * [new branch]      correctionserveur -> correctionserveur
 
-This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.
+C'est un raccourcis.
+En fait, Git étend le nom de branche `correctionserveur` en `refs/heads/correctionserveur:refs/heads/correctionserveur`, ce qui signifie « Prendre ma branche locale correctionserveur et la pousser pour mettre à jour la branche distante correctionserveur ».
+Nous traiterons plus en détail la partie `refs/heads/` au chapitre 9, mais vous pouvez généralement l'oublier.
+Vous pouvez aussi lancer `git push origin correctionserveur:correctionserveur`, qui réalise la même chose — ce qui signifie « Prendre ma branche correctionserveur et en faire la branche correctionserveur distante ».
+Vous pouvez utiliser ce format pour pousser une branche locale vers une branche distante nommée différemment.
+Si vous ne souhaitez pas l'appeler `correctionserveur` sur le serveur distant, vous pouvez lancer à la place `git push origin correctionserveur:branchegeniale` pour pousser votre branche locale `correctionserveur` sur la branche `branchegeniale` sur le projet distant.
 
-The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:
+La prochaine fois qu'un de vos collaborateurs récupère les données depuis le serveur, ils récupéreront une référence à l'état de la branche distante `origin/correctionserveur` :
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -539,17 +560,19 @@ The next time one of your collaborators fetches from the server, they will get a
 	remote: Total 15 (delta 5), reused 0 (delta 0)
 	Unpacking objects: 100% (15/15), done.
 	From git@github.com:schacon/simplegit
-	 * [new branch]      serverfix    -> origin/serverfix
+	 * [new branch]      correctionserveur    -> origin/correctionserveur
 
-It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.
+Important : lorsque l'on récupère une nouvelle branche depuis un serveur distant, il n'y a pas de création automatique d'une copie locale éditable.
+En d'autres termes, il n'y a pas de branche `correctionserveur`, seulement un pointeur sur la branche `origin/correctionserveur` qui n'est pas modifiable.
 
-To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
+Pour fusionner ce travail dans votre branche actuelle de travail, vous pouvez lancer `git merge origin/correctionserveur`.
+Si vous souhaitez créer votre propre branche `correctionserveur` pour pouvoir y travailler, vous pouvez la baser sur le pointeur distant :
 
-	$ git checkout -b serverfix origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
-	Switched to a new branch "serverfix"
+	$ git checkout -b correctionserveur origin/correctionserveur
+	Branch correctionserveur set up to track remote branch refs/remotes/origin/correctionserveur.
+	Switched to a new branch "correctionserveur"
 
-This gives you a local branch that you can work on that starts where `origin/serverfix` is.
+Cette commande vous fournit une branche locale modifiable basée sur l'état actuel de `origin/correctionserveur`.
 
 ### Tracking Branches ###
 

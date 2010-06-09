@@ -1,66 +1,67 @@
-# مبادئ Git #
+# Gitin perusteet #
 
-إذا كان هناك فصل واحد عليك قراءته لكي تبدأ بإستخدام Git، فعليك بهذا الفصل! يغطي هذا الفصل جميع الأوامر الأساسية التي عليك معرفتها لكي تتمكن من القيام بأغلب الأمور أثناء استخدامك لـ Git. في نهاية هذا الفصل يجب أن تكون قادراً على انشاء واعداد الـ repository لمشروعك وعلى تحديد الملفات التي ستتم متابعتها والتي ستترك، وعلى تهييئ التغييرات لعمل commit عليها. ستتعلم أيضاً كيف تعد Git لكي تتجاهل بعض أنواع الملفات، كيف تقوم بالتراجع عن الأخطاء التي سترتكبها بسرعة وبسهولة، كيف تتصفح تاريخ مشروعك وكيف تعرض التغيرات بين الـ commits، وكيف تنشر وتسحب (push & pull) التغيرات من الـ repositories البعيدة عنك.
+Jos voit lukea vain yhden kappaleen päästäksesi vauhtiin Gitin kanssa, se on tämä. Tämä kappale sisältää jokaisen peruskomennon jonka tarvitset tehdäksesi valtavan määrän asioita, joiden kanssa viimein tulet käyttämään aikaasi Gitillä työskennellessäsi. Tämän kappaleen lopussa, sinun tulisi pystyä konfiguroimaan ja alustamaan tietolähde, aloittamaan ja lopettamaan tiedostojen jäljitys, ja lavastaa ja tehdä pysyviä muutoksia. Me myös näytämme sinulle kuinka asettaa Git niin, että se jättää tietyt tiedostot ja tiedostomallit huomioimatta, kuinka kumota virheet nopeasti ja helposti, kuinka selata projektisi historiaa ja tarkastella muutoksia pysyvien muutosten välillä, ja kuinka työntää ja vetää etätietolähteistä.
 
-## الحصول على repository لمشروعك بـ Git ##
+## Git tietolähteen hankinta ##
 
-يمكنك انشاء مشروع بـ git بإحدى طريقتين. الأولى تكمن في أن تبدأ بناء على مشروع أسبق أو مجلد على سبيل المثال يحوي ملفات وأن تستورد مافيه الى مشروعك الجديد. أو أن تستنسخ repository بـ git جاهزة من مخدم ما.
+Voit hankkia itsellesi Git projektin käyttäen kahta yleistä lähestymistapaa. Ensimmäinen ottaa jo olemassa olevan projektin tai hakemiston ja tuo sen Gittiin. Toinen kloonaa jo olemassa olevan Git tietolähteen toiselta palvelimelta.
 
-### انشاء Repository في مجلد موجود مسبقاً ###
+### Tietolähteen alustaminen jo olemassa olevalle hakemistolle ###
 
-للبد بمتابعة تغيرات مشروع مسبق لديك بـ git، عليك الذهاب الى مجلد مشروعك ثم كتابة:
+Jos aloitat jo olemassa olevan projektin jäljittämisen Gitillä, sinun täytyy mennä projektisi hakemistoon ja kirjoittaa
 
 	$ git init
 
-يقوم هذا بانشاء مجلد فرعية جديد تحت اسم .git يحوي جميع المعلومات والملفات المطلوبة - هيكل repository بـ git. حتى الآن، لن يتم متابعة أي تغيرات تحصل على مشروعك (انظر الفصل التاسع لمعلومات أخرى عن الملفات الموجودة في مجلد `.git` الذي أنشأته قبل قليل).
+Tämä luo uuden alihakemiston nimeltään .git, joka sisältää kaikki tarvittavat tietolähde tiedostot - luurangon Git tietolähteelle. Tällä hetkellä, mitään projektissasi ei vielä jäljitetä. (Katso Luku 9 saadaksesi enemmän tietoa siitä, mitä tiedostoja tarkalleen ottaen juuri luomasi `.git` hakemisto sisältää.)
 
-اذا أردت بمتابعة اصدارات الملفات الموجودة، يجب عليك البدء باخبار Git بهذه الملفات ومن ثم اجراء commit أولي. للقيام بهذا عليك استخدام أمر git add بالعدد الكافي بالملفات التي تريد، ومن ثم تتبعها أمر commit:
+Jos haluat aloittaa versionhallinan jo olemassa oleville tiedostoille (tyhjän kansion sijaan), sinun täytyy mitä luultavammin aloittaa näiden tiedostojen jäljittäminen ja tehdä alustava pysyvä muutos. Sinä saavutat tämän muutamalla git komennolla, joista ensimmäiset määrittävät mitä tiedostoja haluat jäljittää ja joita seuraa pysyvän muutoksen luonti:
 
 	$ git add *.c
 	$ git add README
 	$ git commit –m 'initial project version'
 
-سنقوم بشرح هذه الأوامر في الفقرة القادمة، ولكن، الآن أصبحت التغيرات في مشروعك تتم متابعتها و commit أولي.
+Me käymme pian läpi mitä nämä komennot tekevät. Tällä hetkellä, sinulla on Git tietolähde, joka jäljittää tiedostoja sekä alustava pysyvä muutos.
 
-### استنساخ repository موجودة مسبقاً ###
+### Olemassa olevan tietolähteen kloonaus ###
 
-للقيام باستنساخ  repository بـ git موجودة مسبقاً - مشروع تريد المساهمة فيه على سبيل المثال - الأمر الذي ستحتاجه هو git clone.  اذا كنت قد استخدمت أحد أنظمة إدارة الإصدارات الأخرى مثل Subversion مثلاً، ستلاحظ الإختلاف بين الأمر clone في git وأمر checkout. هناك فرق مهم، عندما تقوم git بعملية clone فإنك ستحصل على نسخة من كامل المعلومات تقريباً الموجودة على مخدم الـ repository. جميع إصدارات الملفات كلها في تاريخ حياة المشروع. أي، وبمعنى آخر، اذا حدث عطل أو ضرر ما لملفات المشروع الموجودة على المخدم الأساسي يمكنك استخدام أي واحدة من النسخ لاسترجاع المشروع للحالة التي كان عليها عند استنساخه (من الممكن أن تخسر بعض الروابط من طرف المخدم، ولكن جميع معلومات الإصدارات ستكون موجودة- انظر الفصل الرابع لمعلومات اخرى).
+Jos haluat kopion olemassa olevasta tietolähteestä - esimerkiksi, projektista johon haluat olla osallisena - komento jonka tarviat on git clone. Jos muut VCS järjestelmät, kuten Subversion ovat sinulle tuttuja, niin huomaat, että komento on clone, eikä checkout. Tämä on tärkeä ero - Git saa kopion melkein kaikesta datasta mitä palvelimella on. Jokainen versio jokaisesta tiedostosta projektin historiasta tulee vedetyksi, kun suoritat `git clone`-komennon. Itseasiassa, jos palvelimesi levy korruptoituu, voit käyttää mitä tahansa klooneista, miltä tahansa asiakas sovellukselta, asettaaksesi palvelimen takaisin tilaan, jossa se oli kun se kloonattiin (voit menettää jotain palvelinpuolen sovelluskoukkuja ja muuta, mutta kaikki versioitu data on tallessa - katso Luku 4 tarkempia yksityiskohtia varten).
 
-
-لاستنساخ repository يمكنك استخدام الأمر 'git clone [url]'. فعلى سبيل المثال، لكي تقوم باستنساخ مكتبة Git للغة Ruby والتي تدعى Grit، يمكنك القيام بالتالي:
+Kloonaat tietolähteen `git clone [url]`-komennolla. Esimerkiksi, jos haluat kloonata Gritiksi kutsutun Ruby Git kirjaston, voit tehdä sen näin:
 
 	$ git clone git://github.com/schacon/grit.git
 
-سيقوم هذا بانشاء مجلد جديد باسم "grit"، وتجهيز مجلد '.git' في داخله، سيقوم أيضاً بسحب جميع المعلومات من الـ repository، ويجهز نسخة جاهزة لكي تعمل عليها لآخر نسخة. اذا دخلت على مجلد 'grit' الجديد ستجد جميع ملفات المشروع. يمكنك بالطبع استنساخ المشروع لمجلد بإسم آخر، إليك مثال لكيفية القيام بهذا:
+Tämä luo hakemiston nimeltään "grit", alustaa `.git` hakemiston sen sisään, vetää kaiken datan tietolähteestä, ja hakee viimeisimmän version työkopion. Jos menet uuteen `grit` hakemistoon, näet projektin tiedostot, valmiina työtä varten tai käytettäväksi. Jos haluat kloonata tietolähteen hakemistoon, joka on nimetty joksikin muuksi kuin grit, voit antaa nimen seuraavanlaisella komentorivi optiolla:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-سيقوم هذا الأمر بذات الأمر ولكن سيتم وضع المشروع بمجلد جديد باسم mygrit.
+Tämä komenta tekee samanasian kuin edellinen, mutta kohde hakemisto on nimeltään mygrit.
 
-هناك عدد من البروتوكولات المختلفة التي يمكنك اسستعمالها لنقل المعلومات في git. المثال السابق يستعمل بروتوكول 'git://'، ولكن من الممكن أن تجد أيضاً استخداماً لـ 'http(s)://' أو 'user@server:/path.git'، والتي تستعمل بروتوكول SSH في النقل. في الفصل الرابع من الكتاب ستتعرف على الخيارات المتوفرة للتواصل مع الـ repository الخاصة بك وميزات ومساوئ كل منها.
+Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
 
-## تسجيل التعديلات في الـ repository ##
+Gitissä on monta erillaista siirto protokollaa jota voit käyttää. Edellinen esimerkki käyttää `git://` protokollaa, mutta voit myös nähdä `http(s)://` tai `user@server:/path.git`, joka käyttää SSH siirto protokollaa. Luku 4 esittelee kaikki saatavilla olevat optiot, miten palvelin voi asettaa Git tietolähteen, sekä jokaisin hyvät ja huonot puolet.
 
-You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+## Muutosten tallennus tietolähteeseen ##
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything. 
+Sinulla on vilpitön Git tietolähde ja haettu- tai työkopio projektin tiedostoista. Sinun täytyy tehdä joitain muutoksia ja pysyviä tilannekuvia näistä muutoksista sinun tietolähteeseesi joka kerta, kun projekti saavuttaa tilan jonka haluat tallentaa.
 
-As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
+Muista, että jokainen tiedosto työhakemistossasi, voi olla yhdessä kahdesta tilasta: jäljitetty tai jäljittämätön. Jäljitetyt tiedostot ovat tiedostoja, jotka olivat viimeisimmässä tilannekuvassa; ne voivat olla muokkaamattomia, muokattuja, tai lavastettuja. Jäljittämättömät tiedostot ovat kaikkea muuta - mitkä tahansa tiedostot työhakemistossasi, jotka eivät olleet viimeisimmässä tilannekuvassa ja jotka eivät ole lavastusalueella. Kun ensimmäisen kerran kloonaat tietolähten, kaikki tiedostoistasi tulevat olemaan jäljitettyjä ja muokkaamattomia, koska sinä juuri hait ne ja et ole muokannut vielä mitään.
+
+Editoidessasi tiedostoja, Git näkee ne muokattuina, koska olet muuttanut niitä viimeisimmän pysyvän muutoksen jälkeen. Lavastat nämä muutetut tiedostot, jonka jälkeen muutat kaikki lavastetut muutokset pysyvästi, ja sykli toistuu. Tämä elämänsykli on kuvattu Kuvassa 2-1.
 
 Insert 18333fig0201.png 
-Figure 2-1. The lifecycle of the status of your files.
+Kuva 2-1. Tiedostojesi tilan elämänsykli.
 
-### Checking the Status of Your Files ###
+### Tiedostojesi tilan tarkistaminen ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+Päätyökalu tiedostojesi eri tilojen selvittämiseen on git status komento. Jos ajat tämän komennon suoraan kloonauksen jälkeen, sinun tulisi nähdä jotain vastaavaa:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory—in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+Tämä tarkoittaa, että sinulla on puhdas työhakemisto - toisin sanoen, se ei sisällä jäljitettyjä tai muutettuja tiedostoja. Git ei myöskään näe yhtään jäljittämätöntä tiedostoa, muuten ne olisi listattu näkymään. Viimein, komento kertoo sinulle missä haarassa olet. Tällä hetkellä se on aina master haara, joka on oletusarvo; sinun ei tarvitse huolehtia siitä nyt. Seuraavan kappale käy läpi haarautumiset ja viittaukset yksityiskohtaisesti.
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+Sanotaan vaikka, että lisäät uuden tiedoston projektiin, vaikka yksinkertaisen README-tiedoston. Jos tiedosto ei ollut olemassa ennen, ja ajat `git status`-komennon, näet jäljittämättömän tiedoston tällä tavoin:
 
 	$ vim README
 	$ git status
@@ -71,15 +72,15 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+Voit nähdä, että juuri luomasi README tiedosto on jäljittämätön, koska se on otsikon “Untracked files” alla tilatulosteessa. Jäljittämätön periaatteessa tarkoittaa, että Git näkee tiedoston, jota ei ollut edellisessä tilannekuvassa (pysyvässä muutoksessa); Git ei aloita sisällyttämään sitä sinun pysyviin muutostilannekuviisi, ennen kuin sinä vartavasten kerrot sen tehdä niin. Se tekee tämän, että et vahingossa alkaisi lisäämään generoituja binaaritiedostoja tai muita tiedostoja, joita et tarkoittanut lisätä. Haluat lisätä README:n, joten aloitetaan jäljittämään tiedostoa.
 
-### Tracking New Files ###
+### Uusien tiedostojen jäljitys ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+Jotta voisit jäljittää uusia tiedostoja, sinun täytyy käyttää `git add`-komentoa. Aloittaaksesi README tiedoston jäljittämisen, voit ajaa tämän:
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+Jos ajat tila komennon uudestaan, näet että README tiedostosi on nyt jäljitetty ja lavastettu:
 
 	$ git status
 	# On branch master
@@ -89,11 +90,11 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+Voit nähdä, että se on lavastettu, koska se on otsikon “Changes to be committed” alla. Jos teet pysyvän muutoksen tässä kohtaa, versio tiedostosta sillä hetkellä kun ajoit 'git add'-komennon on se, joka tulee olemaan historian tilannekuvassa. Voit palauttaa mieleen hetken, jolloin ajoit 'git init'-komennon aikaisemmin, ajoit sen jälkeen 'git add'-komennon - tämä komento aloitti tiedostojen jäljittämisen hakemistossa. Git add komento ottaa polunnimen joko tiedostolle tai hakemistolle; jos se on hakemisto, niin komento lisää kaikki tiedostot hakemiston alta rekursiivisesti.
 
-### Staging Modified Files ###
+### Muutettujen tiedostojen lavastus ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+Muutetaanpa tiedostoa, joka on jo jäljitetty. Jos muutat aikaisemmin jäljitettyä `benchmarks.rb` tiedostoa ja sen jälkeen ajat `status` komennon uudestaan, saat suunnilleen tämännäköisen tulosteen:
 
 	$ git status
 	# On branch master
@@ -108,7 +109,7 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+Benchmarks.rb tiedosto näkyy kohdan “Changed but not updated” alla - mikä tarkoittaa, että tiedostoa jota jäljitetään on muokattu työskentely hakemistossa, mutta sitä ei vielä ole lavastettu. Lavastaaksesi sen, ajat `git add` komennon (se on monitoimikomento - käytät sitä aloittaaksesi uusien tiedostojen jäljittämisen, lavastaaksesi tiedostoja, ja tehdäksesi muita asioita, kuten merkataksesi liitos-konflikti tiedostot ratkaistuksi). Ajetaanpa nyt `git add`-komento lavastaaksemme benchmarks.rb tiedoston, ja sitten `git status`-komento uudestaan:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -120,7 +121,7 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+Kummatkin tiedostot ovat lavastettuja ja tulevat menevät seuraavaan pysyvään muutokset. Tällä kyseisellä hetkellä, oletetaan että muistat pienen muutoksen, jonka haluat tehdä benchmarks.rb tiedostoon, ennen kuin teet pysyvää muutosta. Avaat tiedoston uudestaan ja muutat sitä, jonka jälkeen olet valmis tekemään pysyvän muutoksen. Mutta ajetaan silti `git status`-komento vielä kerran:
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -137,7 +138,7 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+Mitä ihmettä? Nyt benchmarks.rb on listattu sekä lavastettuna että lavastamattomana. Miten se on mahdollista? Tapahtuu niin, että Git lavastaa tiedoston juuri sellaisena kuin se on, kun ajat 'git add'-komennon. Jos teet pysyvän muutoksen nyt, niin benchmark.rb tiedoston versio sillä hetkellä, kun ajoit 'git add'-komennon, on se, joka menee tähän pysyvään muutokseen, eikä se tiedoston versio, joka on työskentely hakemistossasi sillä hetkellä, kun ajat 'git commit'-komennon. Jos muutat tiedostoa sen jälkeen, kun olet ajanut `git add`-komennon, täytyy sinun ajaa `git add` uudestaan lavastaaksesi uusimman version tiedostosta:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -149,39 +150,39 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### Tiedostojen sivuuttaminen ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+Usein, sinulla on luokka tiedostoja, joita et halua Gitin automaattisesti lisäävän tai edes näyttävän, että ne ovat jäljittämättömiä. Näitä ovat yleensä automaattisesti generoidut tiedostot, kuten logi-tiedostot tai tiedostot, jotka sinun rakennejärjestelmä on luonut. Tällaisissa tapauksissa, voit luoda tiedoston listaus malleja löytääksesi ne, .gitignore tiedostoon. Tässä on esimerkki .gitignore tiedostosta:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+Ensimmäinen rivi kertoo Gitille, että jokainen tiedosto joka loppuu .o tai .a päätteeseen, sivuutetaan - näitä ovat mm. olio ja arkisto tiedostot, jotka voivat olla ohjelmakoodisi rakennuksen tulos. Toinen rivi kertoo Gitille, että kaikki tiedostot, jotka loppuvat tildeen (`~`), mitkä yleensä ovat monen teksti-editorin, kuten Emacsin tapa merkata väliaikaisia tiedostoja, sivuutetaan. Voit myös sisällyttää log, tmp, tai pid hakemiston; automaattisesti generoidun dokumentaation; ja niin edelleen. Välttääksesi sellaisten tiedostojen joutumisten Git tietolähteeseen, joita et sinne alunperinkään halua menevän, on .gitignore tiedoston asettaminen ennen varsinaisen työskentelyn aloittamista yleensä hyvä idea.
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+Säännöt malleille joita voit pistää .gitignore tiedostoon ovat seuraavanlaiset:
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+*	Tyhjät rivit ja rivit jotka alkaa # merkillä sivuutetaan.
+*	Yleiset keräysmallit toimivat.
+*	Voit päättää malleja kenoviivalla (`/`) määrittääksesi hakemiston.
+*	Voit kieltää mallin aloittamalla sen huutomerkillä (`!`).
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) . 
+Keräysmallit ovat kuin yksinkertaistettuja 'säännöllisiä ilmaisuja' (regular expressions), joita komentorivit käyttävät. Asteriski (`*`) löytää nolla tai enemmän merkkiä; `[abc]` löytää jokaisen merkin, joka on hakasulkujen sisällä (tässä tapauksessa a:n, b:n tai c:n); kysymysmerkki (`?`) löytää yksittäisen merkin; hakasulut, jotka ovat väliviivalla erotettujen merkkien ympärillä (`[0-9]`) löytävät jokaisen merkin, joka on merkkien välissä, tai on itse merkki (tässä tapauksessa merkit 0:sta 9:n).
 
-Here is another example .gitignore file:
+Tässä toinen esimerkki .gitignore tiedostosta:
 
-	# a comment – this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# kommentti – tämä sivuutetaan
+	*.a       # ei .a tiedostoja
+	!lib.a    # mutta jäljitä lib.a, vaikka sivuutatkin .a tiedostot yllä
+	/TODO     # sivuttaa vain juuren TODO tiedosto, ei subdir/TODO hakemistoa
+	build/    # sivuttaa kaikki tiedostot build/ hakemistosta
+	doc/*.txt # sivuttaa doc/notes.txt, mutta ei doc/server/arch.txt
 
-### Viewing Your Staged and Unstaged Changes ###
+### Lavastettujen ja lavastattomien muutosten tarkastelu ###
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were. 
+Jos `git status`-komento on liian epämääräinen sinulle - haluat tietää tarkalleen mitä on muutettu, et ainoastaan sitä, mitkä tiedostot ovat muuttuneet - voit käyttää `git diff`-komentoa. Me käsittelemme `git diff`-kommenon yksityiskohtaisesti myöhemmin; mutta sinä tulet mahdollisesti käyttämään sitä useasti, vastataksesi näihin kahteen kysymykseen: Mitä olet muuttanut, mutta et ole vielä lavastanut? Ja mitä sellaista olet lavastanut, josta olet tekemässä pysyvän muutoksen? Vaikkakin `git status` vastaa näihin kysymyksiin yleisesti, `git diff` näyttää sinulle tarkalleen ne rivit, jotka on lisätty ja poistettu - vähän niin kuin pätsi.
 
-Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
+Sanotaan vaikka, että muokkaat ja lavastat README tiedostoa uudestaan, jonka jälkeen muokkaat benchmarks.rb tiedostoa, ilman että lavastat sitä. Jos ajat `status`-komennon, näet jälleen kerran jotain tällaista:
 
 	$ git status
 	# On branch master
@@ -196,7 +197,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#	modified:   benchmarks.rb
 	#
 
-To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
+Nähdäksesi mitä olet muuttanut, mutta et vielä lavastanut, kirjoita `git diff` ilman mitään muita argumentteja:
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -215,9 +216,9 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+Tämä komento vertailee sitä, mitä sinun työskentely hakemistossa on verrattuna siihen, mitä sinun lavastus alueellasi on. Tulos kertoo tekemäsi muutokset, joita et ole vielä lavastanut.
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff –-cached`. (In Git versions 1.6.1 and later, you can also use `git diff –-staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+Jos haluat nähdä mitä sellaista olet lavastanut, joka menee seuraavaan pysyvään muutokseen, voit käyttää `git diff –-cached`-komentoa. (Git versiossa 1.6.1:stä lähtien, voit käyttää myös `git diff –-staged`-komentoa, joka on helpompi muistaa.) Tämä komento vertailee lavastettuja muutoksia viimeisimpään pysyvään muutokseen.
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -232,9 +233,9 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+On tärkeää ottaa huomioon, että `git diff` itsessään ei näytä kaikkia muutoksia viimeisimmästä pysyvästä muutoksesta lähtien - vain muutokset jotka ovat yhä lavastamattomia. Tämä voi olla sekavaa, koska kun olet lavastanut kaikki muutoksesi, `git diff` ei anna ollenkaan tulostetta.
 
-For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
+Toisena esimerkkinä, jos lavastat benchmarks.rb tiedoston ja sitten muokkaat sitä, voit käyttää `git diff`-komentoa nähdäksesi tiedoston lavastetut muutokset ja lavastamattomat muutokset:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -250,7 +251,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
-Now you can use `git diff` to see what is still unstaged
+Nyt voit käyttää `git diff`-komentoa nähdäksesi mitä on yhä lavastamatta:
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -263,7 +264,7 @@ Now you can use `git diff` to see what is still unstaged
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
 
-and `git diff --cached` to see what you’ve staged so far:
+ja `git diff --cached`-komentoa nähdäksesi mitä olet lavastanut tähän mennessä:
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -282,16 +283,16 @@ and `git diff --cached` to see what you’ve staged so far:
 	          log = git.commits('master', 15)
 	          log.size
 
-### Committing Your Changes ###
+### Pysyvien muutoksien tekeminen ###
 
-Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
+Nyt kun lavastusalueesi on asetettu niin kuin sen haluat, voit tehdä muutoksistasi pysyviä. Muista, että kaikki, mikä vielä on lavastamatta - mitkä tahansa tiedostot, jotka olet luonut tai joita olet muokannut, joihin et ole ajanut `git add`-komentoa editoinnin jälkeen - ei mene pysyvään muutokseen. Ne pysyvät muokattuina tiedostoina levylläsi.
+Tässä tapauksessa oletamme, että viime kerran kun ajoit `git status`-komennon, näit, jotta kaikki oli lavastattu, joten olet valmis tekemään pysyvän muutoksen. Helpoin tapa pysyvän muutoksen tekoon on kirjoittaa `git commit`:
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1). 
+Tämän suorittaminen aukaisee editorisi. (Tämä on asetettu komentorivisi `$EDITOR` ympäristömuuttujalla - yleensä vim tai emacs, kuitenkin voit konfiguroida sen käyttämään mitä tahansa haluat, käyttäen `git config --global core.editor`-komentoa, kuten Kappeleessa 1 näit).
 
-The editor displays the following text (this example is a Vim screen):
+Editori näyttää seuraavanlaisen tekstin (tämä esimerkki on Vimistä):
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -306,22 +307,22 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+Voit nähdä, että oletuksena pysyvän muutoksen viesti sisältää viimeisimmän `git status`-komennon syötteen kommentoituna ja yhden tyhjän rivin ylhäällä. Voit poistaa nämä kommentit ja kirjoittaa pysyvän muutoksen viestisi, tai voit jättää kommentit viestiin auttamaan sinua muistamaan mihin olet pysyvää muutosta tekemässä. (Saadaksesi vieläkin tarkemman muistutukseen muutoksistasi, voit antaa `-v`-option `git commit`-komennolle. Tämä option laittaa myös diff muutostulosteen editoriin, jotta näet tarkalleen mitä teit.) Kun poistut editorista, Git luo pysyvän muutoksesi viestilläsi (kommentit ja diff pois lukien).
 
-Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
+Vaihtoehtoisesti, voit kirjoittaa pysyvän muutoksen viestin suoraan `commit`-kommennolla antamalla sen -m lipun jälkeen, näin:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+Nyt olet luonut ensimmäisen pysyvän muutoksen! Voit nähdä, että pysyvä muutos on antanut sinulle tulosteen itsestään: kertoen mihin haaraan teit pysyvän muutoksen (master), mikä SHA-1 tarkistussumma pysyvällä muutoksella on (`463dc4f`), kuinka monta tiedostoa muutettiin ja tilastoja pysyvän muutoksen rivien lisäyksistä ja poistoista.
 
-Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
+Muista, että pysyvä muutos tallentaa tilannekuvan lavastusalueestasi. Kaikki mitä et lavastanut on yhä istumassa projektissasi muokattuna; voit tehdä toisen pysyvän muutoksen lisätäksesi ne historiaasi. Joka kerta kun teet pysyvän muutoksen, olet tallentamassa tilannekuvaa projektistasi. Tilannekuvaa johon voit palata tai jota voit vertailla myöhemmin. 
 
-### Skipping the Staging Area ###
+### Lavastusalueen ohittaminen ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+Vaikka se voi olla uskomattoman hyödyllinen pysyvien muutoksien tekoon tarkalleen niin kuin ne haluat, on lavastusalue joskus pikkaisen liian monimutkainen, kuin mitä työnkulussasi tarvitsisit. Jos haluat ohittaa lavastusalueen, Git tarjoaa siihen helpon oikoreitin. Antamalla `-a` option `git commit`-komentoon, asettaa Gitin automaattisesti lavastamaan jokaisen jo jäljitetyn tiedoston ennen pysyvää muutosta, antaen sinun ohittaa `git add` osan:
 
 	$ git status
 	# On branch master
@@ -334,13 +335,13 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+Huomaa miten sinun ei tarvitse ajaa `git add`-komentoa benchmarks.rb tiedostolle tässä tapauksessa pysyvää muutosta tehdessäsi.
 
-### Removing Files ###
+### Tiedostojen poistaminen ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+Poistaaksesi tiedoston Gitistä, täytyy sinun poistaa se sinun jäljitetyistä tiedostoistasi (tarkemmin sanoen, poistaa se lavastusalueeltasi) ja sitten tehdä pysyvä muutos. Komento `git rm` tekee tämän myös ja myös poistaa tiedoston työskentely hakemistostasi, joten et näe sitä enää jäljittämättömänä tiedostona.
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+Jos yksinkertaisesti poistat tiedoston työskentely hakemistostasi, näkyy se “Changed but not updated” otsikon alla (se on, _lavastamaton_) `git status` tulosteessasi:
 
 	$ rm grit.gemspec
 	$ git status
@@ -352,7 +353,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+Tämän jälkeen, jos ajat `git rm`-komennon, se lavastaa tiedostot poistoon:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -365,21 +366,21 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+Seuraavan kerran kun teet pysyvän muutoksen, tiedosto katoaa ja sitä ei jäljitetä enää. Jos muokkasit tiedostoa ja lisäsit sen jo indeksiin, täytyy sinun pakottaa poisto `-f` optiolla. Tämä on turvallisuus ominaisuus, joka estää vahingossa tapahtuvan datan poistamisen, datan, jota ei ole vielä tallennettu tilannekuvaksi ja jota ei voida palauttaa Gitistä.
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+Toinen hyödyllinen asia, jonka saatat haluta tehdä, on tiedoston pitäminen työskentely puussa, mutta samalla sen poistaminen lavastusalueelta. Toisin sanoen, voit haluta pitää tiedoston kovalevylläsi, mutta et halua, että Git jäljittää sitä enää. Tämä on erityisesti hyödyllinen, jos unohdit lisätä jotain `.gitignore`-tiedostoosi ja vahingossa asetit sellaisen Gittin, kuten suuri logi tiedosto tai joukko `.a`-muotoon käännettyjä tiedostoja. Tehdäksesi tämän, käytä `--cached` optiota:
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+Voit antaa tiedostoja, hakemistoja, tai tiedosto-keräys malleja `git rm`-komennolle. Tämä tarkoittaa, että voit tehdä asioita kuten:
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+Huomaa kenoviiva (`\`) `*`-merkin edessä. Tämä on tarpeellinen, koska Git tekee oman tiedostonimi laajennuksensa komentorivisi tiedostonimilaajennuksen lisänä. Tämä komento poistaa kaikki tiedostot, joilla on `.log` liite, `log/`-hakemistosta. Tai, voit tehdä näin:
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+Tämä komento poistaa kaikki tiedostot, jotka loppuvat `~`-merkkiin.
 
 ### Moving Files ###
 

@@ -516,8 +516,8 @@ Figure 3-24. La commande git fetch met à jour vos références distantes.
 
 Pour démontrer l'usage de multiples serveurs distants et le fonctionnement avec des branches multiples, supposons que vous avez un autre serveur Git interne qui n'est utilisé pour le développement que par une équipe.
 Ce serveur se trouve sur `git.equipe1.notresociete.com`.
-Vous pouvez l'ajouter à vos références distantes de votre projet actuel en lançant la commande `git remote add` comme nous l'avons décrite au chapitre 2.
-Nommez ce serveur distant `equipeun` qui sera le raccourcis pour l'URL complète (voir figure 3-25).
+Vous pouvez l'ajouter à vos références distantes de votre projet actuel en lançant la commande `git remote add` comme nous l'avons décrit au chapitre 2.
+Nommez ce serveur distant `equipeun` qui sera le raccourci pour l'URL complète (voir figure 3-25).
 
 Insert 18333fig0325.png 
 Figure 3-25. Ajouter un autre serveur comme accès distant.
@@ -530,12 +530,12 @@ Figure 3-26. Vous récupérez une référence locale à la branch master de equi
 
 ### Pousser vers un serveur ###
 
-Lorsque vous souhaitez partager une branche avec le reste du monde, vous devez la pousser sur le serveur distant sur lequel vous accès en écriture.
+Lorsque vous souhaitez partager une branche avec le reste du monde, vous devez la pousser sur le serveur distant sur lequel vous avez accès en écriture.
 Vos branches locales ne sont pas automatiquement synchronisées sur les serveurs distants — vous devez pousser explicitement les branches que vous souhaitez partager.
 De cette manière, vous pouvez utiliser des branches privées pour le travail que vous ne souhaitez pas partager, et ne pousser que les branches sur lesquelles vous souhaitez collaborer.
 
 Si vous possédez une branche nommée `correctionserveur` sur laquelle vous souhaitez travailler avec des tiers, vous pouvez la pousser de la même manière que vous avez poussé votre première branche.
-Lancez `git push (serveur distant) (branche)` :
+Lancez `git push [serveur distant] [branche]` :
 
 	$ git push origin correctionserveur
 	Counting objects: 20, done.
@@ -545,14 +545,14 @@ Lancez `git push (serveur distant) (branche)` :
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      correctionserveur -> correctionserveur
 
-C'est un raccourcis.
+C'est un raccourci.
 En fait, Git étend le nom de branche `correctionserveur` en `refs/heads/correctionserveur:refs/heads/correctionserveur`, ce qui signifie « Prendre ma branche locale correctionserveur et la pousser pour mettre à jour la branche distante correctionserveur ».
 Nous traiterons plus en détail la partie `refs/heads/` au chapitre 9, mais vous pouvez généralement l'oublier.
 Vous pouvez aussi lancer `git push origin correctionserveur:correctionserveur`, qui réalise la même chose — ce qui signifie « Prendre ma branche correctionserveur et en faire la branche correctionserveur distante ».
 Vous pouvez utiliser ce format pour pousser une branche locale vers une branche distante nommée différemment.
 Si vous ne souhaitez pas l'appeler `correctionserveur` sur le serveur distant, vous pouvez lancer à la place `git push origin correctionserveur:branchegeniale` pour pousser votre branche locale `correctionserveur` sur la branche `branchegeniale` sur le projet distant.
 
-La prochaine fois qu'un de vos collaborateurs récupère les données depuis le serveur, ils récupéreront une référence à l'état de la branche distante `origin/correctionserveur` :
+La prochaine fois qu'un de vos collaborateurs récupère les données depuis le serveur, il récupérera une référence à l'état de la branche distante `origin/correctionserveur` :
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -574,31 +574,38 @@ Si vous souhaitez créer votre propre branche `correctionserveur` pour pouvoir y
 
 Cette commande vous fournit une branche locale modifiable basée sur l'état actuel de `origin/correctionserveur`.
 
-### Tracking Branches ###
+### Suivre les branches ###
 
-Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+L'extraction d'une branche locale à partir d'une branche distante crée automatiquement ce qu'on appelle une _branche de suivi_.
+Les branches de suivi sont des branches locales qui sont en relation directe avec une branche distante.
+Si vous vous trouvez sur une branche de suivi et que vous tapez `git push`, Git sélectionne automatiquement le serveur vers lequel pousser vos modifications.
+De même, `git pull` sur une de ces branches récupère toutes les références distantes et les fusionne automatiquement dans la branche distante correspondante.
 
-When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
+Lorsque vous clonez un dépôt, il crée généralement automatiquement une branche `master` qui suit `origin/master`.
+C'est pourquoi les commandes `git push` et `git pull` fonctionnent directement sans plus de paramétrage.
+Vous pouvez néanmoins créer d'autres branches de suivi si vous le souhaitez, qui ne suivront pas `origin` ni la branche `master`.
+Un cas d'utilisation simple est l'exemple précédent, en lançant `git checkout -b [branche] [nomdistant]/[branche]`.
+Si vous avez Git version 1.6.2 ou plus, vous pouvez aussi utiliser l'option courte `--track` :
 
-	$ git checkout --track origin/serverfix
-	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
+	$ git checkout --track origin/correctionserveur
+	Branch correctionserveur set up to track remote branch refs/remotes/origin/correctionserveur.
 	Switched to a new branch "serverfix"
 
-To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
+Pour créer une branche local avec un nom différent de celui de la branche distante, vous pouvez simplement utiliser la première version avec un nom de branch locale différent :
 
-	$ git checkout -b sf origin/serverfix
-	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
+	$ git checkout -b sf origin/correctionserveur
+	Branch sf set up to track remote branch refs/remotes/origin/correctionserveur.
 	Switched to a new branch "sf"
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
+À présent, votre branche locale sf poussera vers et tirera automatiquement depuis origin/correctionserveur.
 
-### Deleting Remote Branches ###
+### Effacer des branches distantes ###
 
-Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
+Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `correctionserveur` branch from the server, you run the following:
 
-	$ git push origin :serverfix
+	$ git push origin :correctionserveur
 	To git@github.com:schacon/simplegit.git
-	 - [deleted]         serverfix
+	 - [deleted]         correctionserveur
 
 Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
 

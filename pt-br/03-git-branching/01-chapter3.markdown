@@ -380,36 +380,36 @@ Figura 3-21. Seu histórico depois de mesclar dumbidea e iss91v2.
 
 É importante lembrar que você esta fazendo tudo isso com seus ramos localmente. Quando você cria e mescla ramos, tudo está sendo feito somente no seu repositório Git - nenhuma comunicação com o servidor esta sendo feita.
 
-## Remote Branches ##
+## Ramos Remotos ##
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
+Ramos remotos são referências ao estado de seus ramos no seu repositório remoto. São ramos locais que você não pode mover, eles se movem automaticamente sempre que você faz alguma comunicação via rede. Ramos remotos agem como marcadores para lembrá-lo onde estavam seus ramos no seu repositório remoto na última vez que você se conectou a eles.
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+Eles seguem o padrão `(remoto)/(ramo)`. Por exemplo, se você quer ver como o ramo principal (`master`) no seu repositório remoto (`origin`) estava na última vez que você se comunicou com ele, você deveria ver o ramo `origin/master`. Se você estivesse trabalhando em um problema com um colega e eles colocassem o ramo `iss53` no repositório, você poderia ter seu próprio ramo `iss53`; mas o ramo no servidor iria fazer referência ao commit em `origin/iss53`.
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
+Isso pode parecer um pouco confuso, então vamos ver um exemplo. Digamos que você tem um servidor Git na sua rede em `git.ourcompany.com`. Se você cloná-lo, Git automaticamente dá o nome `origin` para ele, baixa todo o seu conteúdo, cria uma referência para onde o ramo principal dele está (`master`), e dá o nome `origin/master` para ele localmente; e você não pode movê-lo. O Git também dá seu próprio ramo principal (`master`) com ponto de partida no mesmo local onde o ramo principal remoto está, a partir de onde você pode trabalhar (veja Figura 3-22).
 
 Insert 18333fig0322.png 
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+Figura 3-22. Um comando clone do Git dá a você seu próprio ramo principal (master) e origin/master faz referência ao ramo principal original.
 
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+Se você estiver trabalhando no seu ramo local, e, ao mesmo tempo, alguem envia algo para `git.ourcompany.com` atualizando o ramo principal, seu histórico se moverá adiante de forma diferente. Além disso, enquanto você não fizer contado com seu servidor original, seu `origin/master` não se moverá (veja Figura 3-23).
 
 Insert 18333fig0323.png 
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+Figura 3-23. Ao trabalhar local e alguém enviar coisas para seu servidor remoto faz cada histórico se mover adiante de forma diferente.
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
+Para sincronizar suas coisas, você executa o comando `git fetch origin`. Esse comando verifica qual servidor origin representa (nesse caso, é `git.ourcompany.com`), obtém todos os dados que você ainda não tem, e atualiza o seu banco de dados local, movendo o seu `origin/master` para a posição mais recente e atualizada (veja Figura 3-24).
 
 Insert 18333fig0324.png 
-Figure 3-24. The git fetch command updates your remote references.
+Figura 3-24. O comando git fetch atualiza suas referências remotas.
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
+Para demostrar o uso de multiplos servidores remotos e como os ramos remotos desses projetos remotos parecem, vamos assumir que você tem outro servidor Git interno que é usado somente para desenvolvimento por um de seus times. Este servidor está em `git.team1.ourcompany.com`. Você pode adicioná-lo como uma nova referência remota ao projeto que você está atualmente trabalhando executando o comando `git remote add` como discutimos no capítulo 2. Dê o nome de `teamone`, que será o apelido para aquela URL (veja Figura 3-25).
 
 Insert 18333fig0325.png 
-Figure 3-25. Adding another server as a remote
+Figura 3-25. Adicionando outro servidor remoto.
 
-Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
+Agora, você pode executar o comando `git fetch teamone` para obter tudo que o servidor tem e você ainda não. Por esse servidor ter um subcojunto dos dados que seu servidor `origin` tem, Git não obtém nenhum dados, somente cria um ramo chamado `teamone/master` que faz referência ao commit que `teamone` tem no `master` dele (veja Figura 3-26).
 
 Insert 18333fig0326.png 
-Figure 3-26. You get a reference to teamone’s master branch position locally.
+Figura 3-26. Você consegue uma referência local para a posição do ramo principal do teamone.
 
 ### Pushing ###
 

@@ -601,50 +601,65 @@ Pour créer une branche local avec un nom différent de celui de la branche dist
 
 ### Effacer des branches distantes ###
 
-Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `correctionserveur` branch from the server, you run the following:
+Supposons que vous en avez terminé avec une branche distante.
+Vous et vos collaborateurs avez terminé une fonctionnalité et l'avez fusionnée dans la branche `master` du serveur distant (ou la branche correspondant à votre code stable).
+Vous pouvez effacer une branche distante en utilisant la syntaxe plutôt obtuse `git push [nomdistant] :[branch]`.
+Si vous souhaitez effacer votre branche `correctionserveur` du serveur, vous pouvez lancer ceci :
 
 	$ git push origin :correctionserveur
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         correctionserveur
 
-Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
+Boum !
+Plus de branche sur le serveur.
+Vous souhaiterez surement corner cette page parce que vous aurez besoin de cette commande et il y a de fortes chances que vous en oubliez la syntaxe.
+Un moyen mnémotechnique est de l'associer à la syntaxe de la commande `git push [nomdistant] [branchelocale]:[branchedistante]` que nous avons utilisé précédemment.
+Si vous éliminez la partie `[branchelocale]`, cela signifie « ne rien prendre de mon côté et en faire `[branchedistante]` ».
 
-## Rebasing ##
+## Rebaser ##
 
-In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
+Dans Git, il y a deux façons d'intégrer les modifications d'une branche dans une autre : en fusionnant `merge` et en rebasant `rebase`.
+Dans ce chapitre, vous apprendrez la signification de rebaser, comment le faire, pourquoi c'est un outil plutôt ébouriffant et dans quels cas il est déconseillé de l'utiliser.
 
-### The Basic Rebase ###
 
-If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
+### Les bases ###
+
+Si vous revenez à un exemple précédent du chapitre sur la fusion (voir la figure 3-27), vous remarquerez que votre travail a divergé et que vous avez ajouté de commits sur deux branches différentes.
 
 Insert 18333fig0327.png 
-Figure 3-27. Your initial diverged commit history.
+Figure 3-27. Votre historique divergent initial.
 
-The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
+Comme nous l'avons déjà expliqué, le moyen le plus simple pour intégrer ensemble ces branches est la fusion via la commande `merge`.
+Cette commande réalise une fusion à trois branches entre les deux derniers instantanés de chaque branche (C3 et C4) et l'ancêtre commun le plus récent (C2), créant un nouvel instantané (et un commit), comme montré par la figure 3-28.
 
 Insert 18333fig0328.png 
-Figure 3-28. Merging a branch to integrate the diverged work history.
+Figure 3-28. Fusion d'une branche pour intégrer les historiques divergents.
 
-However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
+Cependant, il existe un autre moyen : vous pouvez prendre le patch de la modificaition introduite en C3 et le réappliquer sur C4.
+Dans Git, cette action est appelée _rebaser_.
+Avec la commande `rebase`, vous prenez toutes les modifications qui ont été validées sur une branche et vous les rejouez sur une autre.
 
-In this example, you’d run the following:
+Dans cet exemple, vous lanceriez les commandes suivantes :
 
-	$ git checkout experiment
+	$ git checkout experience
 	$ git rebase master
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
+Cela fonctionne en cherchant l'ancêtre commun le plus récent des deux branches (celle sur laquelle vous vous trouvez et celle sur laquelle vous rebasez), en recupérant toutes les différences introduites entre chaque validation de la branche sur laquelle vous êtes, en les sauvant dans des fichiers temporaires, en basculant sur la branche destination, et en réappliquant chaque modification dans le même ordre.
+La figure 3-29 illustre ce processus.
 
 Insert 18333fig0329.png 
-Figure 3-29. Rebasing the change introduced in C3 onto C4.
+Figure 3-29. Rebaser les modifications introduites par C3 sur C4.
 
-At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
+À ce moment, vous pouvez retourner sur la branche master et réaliser une fusion en avance rapide (voir figure 3-30).
 
 Insert 18333fig0330.png 
-Figure 3-30. Fast-forwarding the master branch.
+Figure 3-30. Avance rapide sur la branche master.
 
-Now, the snapshot pointed to by C3 is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
+À présent, l'instantané pointé par C3 est exactement le même que celui pointé par C5 dans l'exemple de fusion.
+Il n'y a pas de différence entre les résultats des deux types d'intégration, mais rebaser rend l'historique plus clair.
+Si vous examinez le journal de la branche rebasée, elle est devenue linéaire : toutes les modifications apparaissent en série même si elles ont eu lieu en parallèle.
 
 Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
 

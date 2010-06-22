@@ -411,7 +411,7 @@ Agora, você pode executar o comando `git fetch teamone` para obter tudo que o s
 Insert 18333fig0326.png 
 Figura 3-26. Você consegue uma referência local para a posição do ramo principal do teamone.
 
-### Pushing ###
+### Enviando (Pushing) ###
 
 Quando você quer compatilhar um branch com o mundo, você precisa enviá-lo a um servidor remoto que você tem acesso. Seus branches locais não são automaticamente sincronizados com os remotos - você tem que explicitamente enviar (push) os branches que quer compartilhar. Desta maneira, você pode usar branches privados para o trabalho que não quer compartilhar, e enviar somente os branches tópicos que quer colaboração.
 
@@ -447,23 +447,23 @@ Para mesclar (merge) esses dados no branch que você está trabalhando, você po
 
 Isso da a você um branch local para trabalhar que começa onde `origin/serverfix` está.
 
-### Tracking Branches ###
+### Branches seguidores (Tracking branches) ###
 
-Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+Baixar um branch local a partir de um branch remoto cria automaticamente o chamado _tracking branch_ (branches seguidores). Tracking branches são branches locais que tem uma relação direta com um branch remoto. Se você está em um tracking branch e digita git push, Git automaticamente sabe que servidor e branch para fazer o envio (push). Além disso, ao executar o comando `git pull` em um desses branches, é obtido todos os dados remotos e automaticamente feito o merge do branch remoto correspondente.
 
-When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
+Quando você faz o clone de um repositório, é automaticamente criado um branch `master` que segue `origin/master`. Esse é o motivo pelo qual `git push` e `git pull` funcionam sem argumentos. Entretanto, você pode criar outros tracking brancher se quiser - outros que não seguem branches em `origin` e não seguem o branch `master`. Um caso simples é o exemplo que você acabou de ver, executando o comando `git checkout -b [branch] [nomeremoto]/[branch]`. Se você tem a versão do Git 1.6.2 ou mais recente, você pode usar também o atalho `--track`:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
+Para criar um branch local com um nome diferente do branch remoto, você pode facilmente usar a primeira versão com um nome diferente para o branch local:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
+Agora, seu branch local sf irá automaticamente enviar e obter dados de origin/serverfix.
 
 ### Deleting Remote Branches ###
 

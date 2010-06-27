@@ -2,7 +2,7 @@
 
 Quasiment tous les VCSs ont une forme ou une autre de gestion de branche.
 Faire une branche signifie diverger de la ligne principale de développement et continuer à travailler sans se préoccuper de cette ligne principale.
-Dans de nombreux outils de gestion de version, cette fonctionnalité est souvent chère en ressources, et nécessite souvent de créer une nouvelle copie du répertoire de travail, ce qui peut prendre longtemps dans le cas de grands projets.
+Dans de nombreux outils de gestion de version, cette fonctionnalité est souvent chère en ressources et nécessite souvent de créer une nouvelle copie du répertoire de travail, ce qui peut prendre longtemps dans le cas de grands projets.
 
 De nombreuses personnes font référence au modèle de gestion de branche de Git comme LA fonctionnalité et c'est sûrement la spécificité de Git par rapport à la communauté des gestionnaires de version.
 Pourquoi est-elle si spéciale ?
@@ -15,11 +15,11 @@ Bien comprendre et maîtriser cette fonctionnalité est un atout pour faire de G
 Pour réellement comprendre comment Git gère les branches, nous devons revenir en arrière et examiner de plus près comment Git stocke ses données.
 Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données comme une série de changesets ou deltas, mais comme une série d'instantanés.
 
-Lors qu'on valide dans Git, Git stock un objet commit qui contient un pointeur vers l'instantané du contenu qui a été indexé, les méta-données d'auteur et de message, et zéro ou plusieurs pointeurs vers le ou les commits qui sont les parents directs de ce commit :
-zéro parent pour la première validation, un parent pour un commit normal, et des parents multiples pour des commits qui sont le résultat de la fusion d'une ou plusieurs branches.
+Lors qu'on valide dans Git, Git stock un objet commit qui contient un pointeur vers l'instantané du contenu qui a été indexé, les méta-données d'auteur et de message et zéro ou plusieurs pointeurs vers le ou les commits qui sont les parents directs de ce commit :
+zéro parent pour la première validation, un parent pour un commit normal et des parents multiples pour des commits qui sont le résultat de la fusion d'une ou plusieurs branches.
 
 Pour visualiser ce concept, supposons un répertoire contenant trois fichiers, ces trois fichiers étant indexés puis validés.
-Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépôt Git (Git les nomme blobs), et ajouter la somme de contrôle à la zone d'index :
+Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépôt Git (Git les nomme blobs) et ajouter la somme de contrôle à la zone d'index :
 
 	$ git add LISEZMOI test.rb LICENSE
 	$ git commit -m 'commit initial de mon projet'
@@ -28,7 +28,7 @@ Lorsque vous créez le commit en lançant la commande `git commit`, Git calcule 
 Git crée alors un objet commit qui contient les méta-données et un pointeur vers l'arbre projet d'origine de manière à pouvoir recréer l'instantané si besoin.
 
 Votre dépôt Git contient à présent cinq objets :
-un blob pour le contenu de chacun des trois fichiers, un arbre qui liste les contenus des répertoires et spécifie quels noms de fichier sont attachés à quels blobs, et un objet commit avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au commit.
+un blob pour le contenu de chacun des trois fichiers, un arbre qui liste les contenus des répertoires et spécifie quels noms de fichier sont attachés à quels blobs et un objet commit avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au commit.
 Conceptuellement, les données contenues dans votre dépôt git ressemblent à la Figure 3-1.
 
 Insert 18333fig0301.png 
@@ -125,7 +125,7 @@ Créer une branche est aussi rapide qu'écrire un fichier de 41 caractères (40 
 
 C'est une différence de taille avec la manière dont la plupart des VCSs gèrent les branches, qui implique de copier tous les fichiers du projet dans un second répertoire.
 Cela peut durer plusieurs secondes ou même quelques minutes selon la taille du projet, alors que pour Git, le processus est toujours instantané.
-De plus, comme nous enregistrons les parents quand nous validons les modifications, la détermination de l'ancêtre commun pour la fusion est réalisée automatiquement, et de manière très facile.
+De plus, comme nous enregistrons les parents quand nous validons les modifications, la détermination de l'ancêtre commun pour la fusion est réalisée automatiquement et de manière très facile.
 Ces fonctionnalités encouragent naturellement les développeurs à créer et utiliser souvent des branches. 
 
 Voyons pourquoi vous devriez en faire autant.
@@ -210,7 +210,7 @@ Créons une branche de correctif sur laquelle travailler jusqu'à ce que ce soit
 Insert 18333fig0313.png 
 Figure 3-13. Branche de correctif basée à partir de la branche master.
 
-Vous pouvez lancer vos tests, vous assurer que la correction est efficace, et la fusionner dans la branche master pour la déployer en production.
+Vous pouvez lancer vos tests, vous assurer que la correction est efficace et la fusionner dans la branche master pour la déployer en production.
 Vous réalisez ceci au moyen de la commande `git merge` :
 
 	$ git checkout master
@@ -224,7 +224,7 @@ Vous noterez la mention "Fast forward" qui signifie avance rapide dans cette fus
 Comme le commit pointé par la branche que vous avez fusionné était directement descendant du commit sur lequel vous vous trouvez, Git a avancé le pointeur en avant. 
 Autrement dit, lorsque l'on cherche à fusionner un commit qui peut être joint en suivant l'historique depuis le commit d'origine, Git avance simplement le pointeur car il n'y a pas de travaux divergeant à réellement fusionner — ceci s'appelle l'avance rapide.
 
-Votre modification est maintenant dans l'instantané du commit pointé par la branche `master`, et vous pouvez déployer votre modification (voir figure 3-14)
+Votre modification est maintenant dans l'instantané du commit pointé par la branche `master` et vous pouvez déployer votre modification (voir figure 3-14)
 
 Insert 18333fig0314.png 
 Figure 3-14. Après la fusion, votre branche master pointe au même endroit que la correction.
@@ -330,7 +330,7 @@ Par exemple, vous pourriez choisir de résoudre ce conflit en remplaçant tout l
 	please contact us at email.support@github.com
 	</div>
 
-Cette résolution comporte des parties de chaque section, et les lignes `<<<<<<<`, `=======`, et `>>>>>>>` ont été complètement effacées.
+Cette résolution comporte des parties de chaque section et les lignes `<<<<<<<`, `=======` et `>>>>>>>` ont été complètement effacées.
 Après avoir résolu chacune de ces sections dans chaque fichier comportant un conflit, lancez `git add` sur chaque fichier pour le marquer comme résolu.
 Préparer le fichier en zone de préparation suffit à le marquer résolu pour Git.
 Si vous souhaitez utiliser un outil graphique pour résoudre ces problèmes, vous pouvez lancer `git mergetool` qui démarre l'outil graphique de fusion approprié et vous permet de naviguer dans les conflits :
@@ -408,7 +408,7 @@ Pour voir quelles branches ont déjà été fusionnées dans votre branche actue
 	* master
 
 Comme vous avez déjà fusionné `prob53` auparavant, vous le voyez dans votre liste.
-Les branches de cette liste qui ne comportent pas l'étoile en préfixe peuvent généralement être effacées sans risque au moyen de `git branch -d` ; vous avez déjà incorporé leurs modifications dans une autre branche, et n'allez donc rien perdre.
+Les branches de cette liste qui ne comportent pas l'étoile en préfixe peuvent généralement être effacées sans risque au moyen de `git branch -d` ; vous avez déjà incorporé leurs modifications dans une autre branche et n'allez donc rien perdre.
 
 Lancez `git branch --no-merged` pour visualiser les branches qui contiennent des travaux qui n'ont pas encore été fusionnés :
 
@@ -496,13 +496,13 @@ Si vous étiez en train de travailler avec un collègue et qu'il a mis à jour l
 
 Cela peut paraître déconcertant, alors éclaircissons les choses par un exemple.
 Supposons que vous avez un serveur Git sur le réseau à l'adresse `git.notresociete.com`.
-Si vous clones à partir de ce serveur, Git le nomme automatiquement `origin`, et en tire tout l'historique, crée un pointeur sur l'état actuel de la branche `master`, et l'appelle localement `origin/master` ; vous ne pouvez pas la modifier.
+Si vous clones à partir de ce serveur, Git le nomme automatiquement `origin` et en tire tout l'historique, crée un pointeur sur l'état actuel de la branche `master` et l'appelle localement `origin/master` ; vous ne pouvez pas la modifier.
 Git vous crée votre propre branche `master` qui démarre au même commit que la branche `master` d'origine, pour que vous puissiez commencer à travailler (voir figure 3-22).
 
 Insert 18333fig0322.png 
 Figure 3-22. Un clonage Git vous fournit une branche master et une branche origin/master pointant sur la branche master de l'origine.
 
-Si vous travaillez sur votre branche locale `master`, et que dans le même temps, quelqu'un pousse vers `git.notresociete.com` et met à jour cette branche, alors vos deux historiques divergent.
+Si vous travaillez sur votre branche locale `master` et que dans le même temps, quelqu'un pousse vers `git.notresociete.com` et met à jour cette branche, alors vos deux historiques divergent.
 Tant que vous restez sans contact avec votre serveur distant, votre pointeur `origin/master` n'avance pas (voir figure 3-23).
 
 Insert 18333fig0323.png 
@@ -532,7 +532,7 @@ Figure 3-26. Vous récupérez une référence locale à la branch master de equi
 
 Lorsque vous souhaitez partager une branche avec le reste du monde, vous devez la pousser sur le serveur distant sur lequel vous avez accès en écriture.
 Vos branches locales ne sont pas automatiquement synchronisées sur les serveurs distants — vous devez pousser explicitement les branches que vous souhaitez partager.
-De cette manière, vous pouvez utiliser des branches privées pour le travail que vous ne souhaitez pas partager, et ne pousser que les branches sur lesquelles vous souhaitez collaborer.
+De cette manière, vous pouvez utiliser des branches privées pour le travail que vous ne souhaitez pas partager et ne pousser que les branches sur lesquelles vous souhaitez collaborer.
 
 Si vous possédez une branche nommée `correctionserveur` sur laquelle vous souhaitez travailler avec des tiers, vous pouvez la pousser de la même manière que vous avez poussé votre première branche.
 Lancez `git push [serveur distant] [branche]` :
@@ -612,7 +612,7 @@ Si vous souhaitez effacer votre branche `correctionserveur` du serveur, vous pou
 
 Boum !
 Plus de branche sur le serveur.
-Vous souhaiterez surement corner cette page parce que vous aurez besoin de cette commande et il y a de fortes chances que vous en oubliez la syntaxe.
+Vous souhaiterez sûrement corner cette page parce que vous aurez besoin de cette commande et il y a de fortes chances que vous en oubliez la syntaxe.
 Un moyen mnémotechnique est de l'associer à la syntaxe de la commande `git push [nomdistant] [branchelocale]:[branchedistante]` que nous avons utilisé précédemment.
 Si vous éliminez la partie `[branchelocale]`, cela signifie « ne rien prendre de mon côté et en faire `[branchedistante]` ».
 
@@ -635,7 +635,7 @@ Cette commande réalise une fusion à trois branches entre les deux derniers ins
 Insert 18333fig0328.png 
 Figure 3-28. Fusion d'une branche pour intégrer les historiques divergents.
 
-Cependant, il existe un autre moyen : vous pouvez prendre le patch de la modificaition introduite en C3 et le réappliquer sur C4.
+Cependant, il existe un autre moyen : vous pouvez prendre le patch de la modification introduite en C3 et le réappliquer sur C4.
 Dans Git, cette action est appelée _rebaser_.
 Avec la commande `rebase`, vous prenez toutes les modifications qui ont été validées sur une branche et vous les rejouez sur une autre.
 
@@ -646,7 +646,7 @@ Dans cet exemple, vous lanceriez les commandes suivantes :
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-Cela fonctionne en cherchant l'ancêtre commun le plus récent des deux branches (celle sur laquelle vous vous trouvez et celle sur laquelle vous rebasez), en recupérant toutes les différences introduites entre chaque validation de la branche sur laquelle vous êtes, en les sauvant dans des fichiers temporaires, en basculant sur la branche destination, et en réappliquant chaque modification dans le même ordre.
+Cela fonctionne en cherchant l'ancêtre commun le plus récent des deux branches (celle sur laquelle vous vous trouvez et celle sur laquelle vous rebasez), en récupérant toutes les différences introduites entre chaque validation de la branche sur laquelle vous êtes, en les sauvant dans des fichiers temporaires, en basculant sur la branche destination et en réappliquant chaque modification dans le même ordre.
 La figure 3-29 illustre ce processus.
 
 Insert 18333fig0329.png 
@@ -661,90 +661,116 @@ Figure 3-30. Avance rapide sur la branche master.
 Il n'y a pas de différence entre les résultats des deux types d'intégration, mais rebaser rend l'historique plus clair.
 Si vous examinez le journal de la branche rebasée, elle est devenue linéaire : toutes les modifications apparaissent en série même si elles ont eu lieu en parallèle.
 
-Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
+Vous aurez souvent à rebaser pour vous assurer que les commits que vous envoyez s'appliquent correctement sur une branche distante — par exemple, sur un projet où vous souhaitez contribuer mais que vous ne maintenez pas.
+Dans ce cas, vous réaliseriez votre travail dans une branche puis vous rebaseriez votre travail sur `origin/master` quand vous êtes prêt à soumettre vos patches au projet principal.
+De cette manière, le mainteneur n'a pas à réaliser de travail d'intégration — juste une avance rapide ou simplement une application propre.
 
-Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.
+Il faut noter que l'instantané pointé par le commit final, qu'il soit le dernier des commits d'une opération de rebase ou le commit final issu d'une fusion, sont en fait le même instantané — c'est juste que l'historique est différent.
+Rebaser rejoue les modifications d'une ligne de commits sur une autre dans l'ordre d'apparition, alors que la fusion joint et fusionne les deux têtes.
 
-### More Interesting Rebases ###
+### Rebasages plus intéressants ###
 
-You can also have your rebase replay on something other than the rebase branch. Take a history like Figure 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+Vous pouvez aussi faire rejouer votre rebasage sur autre chose qu'une branche.
+Prenez l'historique de la figure 3-31 par exemple.
+Vous avez créé une branche pour un sujet spécifique (`server`) pour ajouter des fonctionnalités côté serveur à votre projet et avez réalisé un commit.
+Ensuite, vous avez créé une branche pour ajouter des modifications côté client (`client`) et avez validé plusieurs fois.
+Finalement, vous avez rebasculé sur la branche `server` et avez réalisé quelques commits supplémentaires.
 
 Insert 18333fig0331.png 
-Figure 3-31. A history with a topic branch off another topic branch.
+Figure 3-31. Un historique avec une branche qui sort d'une autre branche de sujet.
 
-Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
+Supposons que vous décidez que vous souhaitez fusionner vos modifications pour le côté client dans votre ligne principale pour une publication mais vous souhaitez retenir les modifications pour la partie serveur jusqu'à ce qu'elles soient un peu plus testées.
+Vous pouvez récupérer les modifications pour le côté client qui ne sont pas sur le serveur (C8 et C9) et les rejouer sur la branche master en utilisant l'option `--onto` de `git rebase` :
 
 	$ git rebase --onto master server client
 
-This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
+Cela signifie en essence Extrait la branche client, détermine les patches depuis l'ancêtre commun des branches `client` et `server` puis rejoue les sur `master`.
+C'est assez complexe, mais le résultat visible sur la figure 3-32 est assez impressionnant.
 
 Insert 18333fig0332.png 
-Figure 3-32. Rebasing a topic branch off another topic branch.
+Figure 3-32. Rebaser une branche de sujet sur une autre branche.
 
-Now you can fast-forward your master branch (see Figure 3-33):
+Maintenant, vous pouvez faire une avance rapide sur votre branche master (voir figure 3-33) :
 
 	$ git checkout master
 	$ git merge client
 
 Insert 18333fig0333.png 
-Figure 3-33. Fast-forwarding your master branch to include the client branch changes.
+Figure 3-33. Avance rapide sur votre branche master pour inclure les modifications de la branche client.
 
-Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
+Supposons que vous décidiez de tirer de votre branche server aussi.
+Vous pouvez rebaser la branche server sur la branche master sans avoir à l'extraire avant en utilisant `git rebase [branchedebase] [branchedesujet]` — qui extrait la branche de sujet (dans notre cas, `server`) pour vous et la rejoue sur la branche de base (`master`) :
 
 	$ git rebase master server
 
-This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
+Cette commande rejoue les modifications de `server` sur le sommet de la branche `master`, comme indiqué dans la figure 3-34.
 
 Insert 18333fig0334.png 
-Figure 3-34. Rebasing your server branch on top of your master branch.
+Figure 3-34. Rebaser la branche server sur le sommet de la branche master.
 
-Then, you can fast-forward the base branch (`master`):
+Ensuite, vous pouvez faire une avance rapide sur la branche de base (`master`) :
 
 	$ git checkout master
 	$ git merge server
 
-You can remove the `client` and `server` branches because all the work is integrated and you don’t need them anymore, leaving your history for this entire process looking like Figure 3-35:
+Vous pouvez effacer les branches `client` et `server` une fois que tout le travail est intégré et que vous n'en avez pas besoin, éliminant tout l'historique de ce processus, comme visible sur la figure 3-35 :
 
 	$ git branch -d client
 	$ git branch -d server
 
 Insert 18333fig0335.png 
-Figure 3-35. Final commit history.
+Figure 3-35. L'historique final des commits.
 
-### The Perils of Rebasing ###
+### Les dangers de rebaser ###
 
-Ahh, but the bliss of rebasing isn’t without its drawbacks, which can be summed up in a single line:
+Ah... mais les joies de rebaser ne viennent pas sans leurs contreparties, qui peuvent être résumées en une ligne :
 
-**Do not rebase commits that you have pushed to a public repository.**
+**Ne rebasez jamais des commits qui ont déjà été poussés sur un dépôt public.**
 
-If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.
+Si vous suivez ce conseil, tout ira bien.
+Sinon, de nombreuses personnes vont vous haïr et vous serez méprisé par vos amis et votre famille.
 
-When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.
+Quand vous rebasez des données, vous abandonnés les commits existant et vous en créez de nouveau qui sont similaires mais différents.
+Si vous poussez des commits quelque part et que d'autre les tirent et se basent dessus pour travailler et qu'après coup, vous réécrivez ces commits à l'aide de `git rebase` et les poussez à nouveau, vos collaborateurs devront re-fusionner leur travail et les choses peuvent rapidement devenir très désordonnées quand vous essaierez de tirer leur travail dans votre dépôt.
 
-Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.
+Examinons un exemple de comment rebaser un travail déjà publié sur un dépôt public peut générer des gros problèmes.
+Supposons que vous cloner une dépôt depuis un serveur central et réalisez quelques travaux dessus.
+Votre historique de commits ressemble à la figure 3-36.
 
 Insert 18333fig0336.png 
-Figure 3-36. Clone a repository, and base some work on it.
+Figure 3-36. Cloner un dépôt et baser du travail dessus.
 
-Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figure 3-37.
+A présent, une autre personne travaille et inclut une fusion, puis elle pousse ce travail sur le serveur central.
+Vous le récupérez et vous fusionnez le nouvelle branche distante dans votre copie, ce qui donne l'historique de la figure 3-37.
 
 Insert 18333fig0337.png 
-Figure 3-37. Fetch more commits, and merge them into your work.
+Figure 3-37. Récupération de commits et fusion dans votre copie.
 
-Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
+Ensuite, la personne qui a poussé le travail que vous venez de fusionner décide de faire marche arrière et de rebaser son travail.
+Elle lance un `git push --force` pour forcer l'écrasement de l'historique sur le serveur.
+Vous récupérez alors les données du serveur, qui vous amènent les nouveaux commits.
 
 Insert 18333fig0338.png 
-Figure 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+Figure 3-38. Quelqu'un pousse des commits rebasés, en abandonnant les commits sur lesquels vous avez basé votre travail.
 
-At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (see Figure 3-39).
+
+A ce moment, vous devez fusionner son travail une nouvelle fois, même si vous l'avez déjà fait.
+Rebaser change les empreintes SHA-1 de ces commits, ce qui les rend nouveaux aux yeux de Git, alors qu'en fait, vous avez déjà le travail de C4 dans votre historique (voir figure 3-39).
+
 
 Insert 18333fig0339.png 
-Figure 3-39. You merge in the same work again into a new merge commit.
+Figure 3-39. Vous fusionnez le même travail une nouvelle fois dans un nouveau commit de fusion.
 
-You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
+Vous devez fusionner ce travail pour pouvoir continuer à suivre ce développeur dans le futur.
+Après fusion, votre historique contient à la fois les commits C4 et C4', qui ont des empreintes SHA-1 différentes mais introduisent les même modifications et ont les mêmes messages de validation.
+Si vous lancez `git log` lorsque votre historique ressemble à ceci, vous verrez deux commits qui ont la même date d'auteur et les mêmes messages, ce qui est déroutant.
+De plus, si vous poussez cet historique sur le serveur, vous réintroduirez tous ces commits rebasés sur le serveur central, ce qui va encore plus dérouter les autres développeurs.
 
-If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
+Si vous considérez le fait de rebase comme un moyen de nettoyer et réarranger des commits avant de les pousser et si vous vous en tenez à ne rebaser que des commits qui n'ont jamais été publiés, tout ira bien.
+Si vous tentez de rebaser des commits déjà publiés sur lesquels les gens ont déjà basé leur travail, vous allez au devant de gros problèmes énervants.
 
-## Summary ##
+## Résumé ##
 
-We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.
+Nous avons traité les bases des branches et de fusions dans Git.
+Vous devriez être à l'aise pour le création et le basculement sur de nouvelles branches, le basculement entre branches et la fusion de branches locales.
+Vous devriez aussi être capable de partager vos branches en les poussant sur une serveur partagé, travailler avec d'autres personnes sur des branches partagées et rebaser vos branches avant de les partager.

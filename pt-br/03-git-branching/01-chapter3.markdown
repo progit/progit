@@ -477,44 +477,44 @@ Boom. O branch não existe mais no servidor. Talvez você queira marcar essa pá
 
 ## Rebasing ##
 
-In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
+No Git, existem duas maneiras principais de integrar mudanças de um branch em outro: o `merge` e o `rebase`. Nessa seção você aprenderá o que é rebase, como fazê-lo, por que é uma ferramenta sensacional, e em quais casos você não deve usá-la.
 
-### The Basic Rebase ###
+### O Rebase básico ###
 
-If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
+Se você voltar para o exemplo anterior na seção de merge (veja Figura 3-27), você pode ver que você criou uma divergência no seu trabalho e fez commits em dois branches diferentes.
 
 Insert 18333fig0327.png 
-Figure 3-27. Your initial diverged commit history
+Figura 3-27. Divergência inicial no seu histórico de commits.
 
-The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
+A maneira mais fácil de integrar os branches, como já falamos, é o comando `merge`. Ele executa um merge de três vias entre os dois últimos snapshots (cópias em um determinado ponto no tempo) dos branches (C3 e C4) e o mais recente ancestral comum aos dois (C2), criando um novo snapshot (e um commit), como é mostrado na Figura 3-28.
 
 Insert 18333fig0328.png 
-Figure 3-28. Merging a branch to integrate the diverged work history
+Figura 3-28. Fazendo o merge de um branch para integrar o trabalho divergente.
 
-However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
+Porém, existe outro modo: você pode pegar o trecho da mudança que foi introduzido em C3 e reaplicá-lo em cima do C4. No Git, isso é chamado de _rebasing_. Com o comando `rebase`, você pode pegar todas as mudanças que foram feitas commit em um branch e replicá-las em outro.
 
-In this example, you’d run the following:
+Nesse exemplo, você executar o seguinte:
 
 	$ git checkout experiment
 	$ git rebase master
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
+Ele vai ao ancestral comum aos dois branches (o que você está e o qual será feito o rebase), pega a diferença (diff) de cada commit do branch que você está, salva elas em um arquivo temporário, restaura o brach atual para o mesmo commit do branch que está sendo feito o rebase, e finalmente aplica uma mudança de cada vez. A Figura 3-29 ilustra esse processo.
 
 Insert 18333fig0329.png 
-Figure 3-29. Rebasing the change introduced in C3 onto C4
+Figura 3-29. Fazendo o rebase em C4 de mudanças feitas em C3.
 
-At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
+Nesse ponto, você pode ir ao branch master e fazer o merge, que avança no histórico (Figura 3-30).
 
 Insert 18333fig0330.png 
-Figure 3-30. Fast-forwarding the master branch
+Figura 3-30. Fazendo o merge no branch master.
 
-Now, the snapshot pointed to by C3 is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
+Agora, o snapshot apontado por C3 é exatamente o mesmo apontado por C5 no exemplo do merge. Não há diferença no produto final dessas integrações, mas o rebase monta um histórico mais limpo. Se você examinar um log de um branch com rebase, ele parece um histórico linear: como se todo o trabalho tivesse sido feito em série, mesmo que originalmente tenha sido feito em paralelo.
 
-Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
+Constantemente você fará isso para garantir que seus commits sejam feitos de forma limpa em um branch remoto - talvez em um projeto em que você está tentando contribuir mas não mantém. Nesse caso, você faz seu trabalho em um branch e então faz o rebase em `origin/master` quando está pronto pra enviar suas correções para o projeto principal. Desta maneira, o mantenedor não precisa fazer nenhum trabalho de integração - somente um merge ou uma inserção limpa.
 
-Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.
+Note que o snapshot apontado pelo o commit final, o último commit dos que vieram no rebase ou o último commit depois do merge, são o mesmo snapshot - somente o histórico é diferente. Fazer o rebase modifica de uma linha de trabalho para outra na ordem em que foram feitos, já que o merge pega os pontos e os une.
 
 ### More Interesting Rebases ###
 

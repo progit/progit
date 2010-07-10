@@ -1414,35 +1414,56 @@ If you have a lot of tags that you want to push up at once, you can also use the
 
 Now, when someone else clones or pulls from your repository, they will get all your tags as well.
 
+## Полезные советы ##
 ## Tips and Tricks ##
+
+Перед тем как закончить данную главу об основах Git, дадим несколько полезных советов о том как сделать ваш опыт работы с Git проще, удобнее или привычнее. Многие люди используют Git не прибегая к этим советам, и мы дальше в книге не будем ссылаться на них или подразумевать, что вы ими пользуетесь, но вам всё же стоит знать о них.
 
 Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
 
+### Автоматическое дополнение ###
 ### Auto-Completion ###
+
+Если вы используете командую оболочку Bash, Git поставляется с замечательным сценарием (script), который вы можете активировать. Скачайте исходный код Git и посмотрите в каталоге `contrib/completion`; там должен быть файл `git-completion.bash`. Скопируйте этот файл в ваш домашний каталог и добавьте следующее в свой файл `.bashrc`:
 
 If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
 
 	source ~/.git-completion.bash
 
+Если вы хотите настроить автоматическое дополнение в Bash для всех пользователей, скопируйте этот сценарий в каталог `/opt/local/etc/bash_completion.d` на Mac системах или в каталог `/etc/bash_completion.d/` на Linux системах. Это каталог, из которого Bash автомастически загружает сценарии для автодополнения.
+
 If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
 
+Если вы используете Git Bash на Windows, что является стандартным при установке Git на Windows с помощью msysGit, то автодополнение должно быть настроено заранее.
+
 If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+
+Нажав Tab во время ввода команды Git, вы должны получить набор вариантов на выбор:
 
 Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
 
 	$ git co<tab><tab>
 	commit config
 
+В данном случае, набрав git co и дважды нажав клавишу Tab, вы получите как варианты commit и config. Добавление `m<tab>` дополнит `git commit` автоматически.
+
 In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
-	
+
+То же самое работает и для опций, что, возможно, полезней. Например, если вы хотите выполнить команду `git log` и не помните какую-то опцию, вы можете начать её печатать и затем нажать Tab, чтобы увидеть, что подходит:
+
 This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
+Это довольно приятная уловка и может спасти вам немного времени от работы и чтения документации.
+
 That’s a pretty nice trick and may save you some time and documentation reading.
 
+### Псевдонимы в Git ###
 ### Git Aliases ###
+
+Git не будет пытаться сделать вывод о том какую команду вы хотели ввести если вы ввели её не полностью. Если вы не хотите печатать каждую команду Git полностью, вы легко можете настроить псевдонимы (alias) для каждой команды с помощью `git config`. Вот пара примеров того, что вы возможно захотите настроить:
 
 Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
 
@@ -1451,20 +1472,30 @@ Git doesn’t infer your command if you type it in partially. If you don’t wan
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
+Это означает, что, например, вместо набирания `git commit`, вам достаточно набрать только `git ci`. При продвижении в использовании Git, вам вероятно придётся часто пользоваться и другими командами. В этом случае без колебаний создавайте новые псевдонимы. 
+
 This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+
+Такой способ может также быть полезен для создания команд, которые вы думаете должны существовать. Например, чтобы исправить неудобство, с которым вы столкнулись при исключении файла из индекса (unstage), вы можете добавить собственный псевдоним в Git:
 
 This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
 
 	$ git config --global alias.unstage 'reset HEAD --'
+
+Это делает следующие две команды эквивалентными:
 
 This makes the following two commands equivalent:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
+Тек как-будто немного понятней. Также обычно добавляют команду `last` следующим образом:
+
 This seems a bit clearer. It’s also common to add a `last` command, like this:
 
 	$ git config --global alias.last 'log -1 HEAD'
+
+Так легко можно просмотреть последний коммит:
 
 This way, you can see the last commit easily:
 	
@@ -1477,10 +1508,15 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
+Можно сказать, что Git просто заменяет новые команды на то, для чего вы создавали псевдоним (alias). Однако, возможно, вы захотите выполнять внешнюю команду, а не подкоманду Git. В этом случае, следует начать команду с символа `!`. Такое полезно если вы пишите свои утилиты для работы с Git-репозиторием. Продемонстрируем этот случай на примере создания псевдонима `git visual` для запуска `gitk`:
+
 As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
 
 	$ git config --global alias.visual "!gitk"
 
+## Резюме ##
 ## Summary ##
+
+К этому моменту вы умеете выполнять все базовые локальные операции с Git: создавать или клонировать репозиторий, вносить изменения, индексировать и фиксировать эти изменения, а также просматривать историю всех изменений в репозитории. Дальше мы рассмотрим самую убийственную особенность Git'а — его модель ветвления.
 
 At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.

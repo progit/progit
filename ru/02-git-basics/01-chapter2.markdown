@@ -1156,11 +1156,17 @@ If you want to remove a reference for some reason — you’ve moved the server 
 	$ git remote
 	origin
 
+## Работа с метками ##
 ## Tagging ##
+
+Как и большинство СУВ, Git имеет возможность отмечать (tag) определённые точки в истории как имеющие важное значение. Как правило, этот функционал используется для отметки моментов выпуска версий (v1.0, и т.п.). В этом разделе, вы узнаете как посмотреть имеющиеся метки (tag), как создать новые. А также вы узнаете что из себя представляют разные типы меток.
 
 Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
 
+### Просмотр меток ###
 ### Listing Your Tags ###
+
+Просмотр имеющихся меток (tag) в Git делается просто. Достаточно набрать `git tag`:
 
 Listing the available tags in Git is straightforward. Just type `git tag`:
 
@@ -1168,7 +1174,11 @@ Listing the available tags in Git is straightforward. Just type `git tag`:
 	v0.1
 	v1.3
 
+Данная команда перечисляет метки в алфавитном порядке; порядок их появления не имеет значения.
+
 This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+
+Вы также можете осуществлять для меток поиск по шаблону. Например, репозиторий Git содержит более 240 меток. Если вас интересует просмотр только выпусков 1.4.2, вы можете выполнить следующее:
 
 You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
 
@@ -1178,11 +1188,17 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
+### Создание меток ###
 ### Creating Tags ###
+
+Git использует два основных типа меток: легковесные и аннотированные. Легковесная метка — это что-то весьма похожее на ветку, которая не меняется — это просто указатель на определённый коммит. А вот аннотированные метки хранятся в базе данных Git'а как полноценные объекты. Они имеют контрольную сумму; содержат имя поставившего метку, e-mail и дату; имеют комментарий; и могут быть подписаны и проверены с помощью GNU Privacy Guard (GPG). Обычно рекомендуется создавать аннотированные метки, чтобы иметь всю перечисленную информацию; но если вы хотите сделать временную метку или по какой-то причине не хотите сохранять остальную информацию, то для этого годятся и легковесные теги.
 
 Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
 
+### Аннотированные метки ###
 ### Annotated Tags ###
+
+Создание аннотированной метки в Git выполняется легко. Самый простой способ это указать `-a` при выполнении команды `tag`:
 
 Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
 
@@ -1192,7 +1208,11 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
+Опция `-m` задаёт меточное сообщение, которое будет храниться вместе с меткой. Если не указать сообщение для аннотированной метки, Git запустит редактор, чтоб вы смогли его ввести.
+
 The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+
+Вы можете посмотреть данные метки наряду с коммитом, который был помечен, с помощью команды `git show`:
 
 You can see the tag data along with the commit that was tagged by using the `git show` command:
 
@@ -1209,9 +1229,14 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
+Она показывает иноформацию о выставившем метку, дату отметки коммита и аннотирующее сообщение перед информацией о коммите.
+
 That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
 
+### Подписанные метки ###
 ### Signed Tags ###
+
+Вы также можете подписывать свои метки с помощью GPG, конечно, если у вас есть ключ. Всё что нужно сделать, это использовать `-s` вместо `-a`:
 
 You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
 
@@ -1219,6 +1244,8 @@ You can also sign your tags with GPG, assuming you have a private key. All you h
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
+
+Если выполните `git show` на этой метке, то вы увидите прикреплённую к ней GPG-подпись.
 
 If you run `git show` on that tag, you can see your GPG signature attached to it:
 
@@ -1242,9 +1269,14 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
+Чуть позже вы узнаете как верифицировать метки с подписью.
+
 A bit later, you’ll learn how to verify signed tags.
 
+### Легковесные метки ###
 ### Lightweight Tags ###
+
+Легковесная метка — это ещё один способ отметки коммитов. В сущности, это контрольная сумма коммита сохранённая в файл — больше никакой информации не хранится. Для создания легковесной метки, не передавайте опций `-a`, `-s` и `-m`:
 
 Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
 
@@ -1256,6 +1288,8 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
+На этот раз, при выполнении `git show` на этой метке, вы не увидите дополнительной информации. Команда просто покажет помеченный коммит:
+
 This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
 
 	$ git show v1.4-lw
@@ -1266,7 +1300,10 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
+### Верификация меток ###
 ### Verifying Tags ###
+
+Для верификации подписанной метки, используйте `git tag -v [имя метки]`. Эта команда использует GPG для верификации подписи. Вам нужен открытый ключ автора подписи, чтобы команда работала правильно.
 
 To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
 
@@ -1284,13 +1321,18 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
+Если у вас нет открытого ключа автора подписи, вы вместо этого получите что-то подобное:
+
 If you don’t have the signer’s public key, you get something like this instead:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
+### Выставление меток позже ###
 ### Tagging Later ###
+
+Также возможно помечать уже пройденные коммиты. Предположим, что история коммитов выглядит следующим образом:
 
 You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
 
@@ -1306,9 +1348,13 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
+Теперь предположим, что вы забыли отметить версию проекта v1.2, которая была там, где находится коммит "updated rakefile". Вы можете добавить метку апосля. Для отметки коммита, укажите контрольную сумму коммита (или часть её) в конце команды:
+
 Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
 
 	$ git tag -a v1.2 9fceb02
+
+Можете проверить, что коммит отмечен:
 
 You can see that you’ve tagged the commit:
 
@@ -1333,7 +1379,10 @@ You can see that you’ve tagged the commit:
 	    updated rakefile
 	...
 
+### Обмен метками ###
 ### Sharing Tags ###
+
+По умолчанию, команда `git push` не отправляет метки на удалённые серверы. Необходимо явно отправить (push) метки на общий сервер после того как вы их создали. Это делается так же как и выкладывание в совместное пользование удалённых веток — нужно выполнить `git push origin [имя метки]`.
 
 By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
 
@@ -1344,6 +1393,8 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	Total 44 (delta 18), reused 8 (delta 1)
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
+
+Если у вас есть много меток, которые хотелось бы отправить все за один раз, можно использовать опцию `--tags` для команды `git push`. В таком случае все ваши метки отправятся на удалённый сервер (если только их уже там нет).
 
 If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
 
@@ -1358,6 +1409,8 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4 -> v1.4
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
+
+Теперь, если кто-то склонирует (clone) или выполнит `git pull` из вашего репозитория, то он получит в добавок к остальному и ваши метки.
 
 Now, when someone else clones or pulls from your repository, they will get all your tags as well.
 

@@ -626,32 +626,20 @@ Insert 18333fig0202.png
 В верхней части окна располагается история коммитов вместе с подробным графом наследников. Просмотрщик дельт в нижней половине окна отображает изменения сделанные выбранным коммитом. Указать коммит можно с помощью щелчка мышью.
 
 ## Отмена изменений ##
-## Undoing Things ##
 
-На любой стадии может возникнуть необходимость что-либо отменить. Здесь мы рассмотрим несколько основных инструментов для отмены произведённых изменений. Будьте осторожны, ибо не всегда можно отменить сами отмены. Это одно из мест в Git, где вы можете потерять свою работу если сделаете что-то неправильно. 
-
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always undo some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+На любой стадии может возникнуть необходимость что-либо отменить. Здесь мы рассмотрим несколько основных инструментов для отмены произведённых изменений. Будьте осторожны, ибо не всегда можно отменить сами отмены. Это одно из немногих мест в Git, где вы можете потерять свою работу если сделаете что-то неправильно. 
 
 ### Изменение последнего коммита ###
-### Changing Your Last Commit ###
 
-Одна из обычных отмен происходит, когда вы делаете коммит слишком рано забыв добавить какие-то файлы, или напутали с комментарием к коммиту. Если вам хотелось бы сделать этот коммит ещё раз, вы можете выполнить commit с опцией `--amend`.
-
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+Одна из типичных отмен происходит тогда, когда вы делаете коммит слишком рано забыв добавить какие-то файлы, или напутали с комментарием к коммиту. Если вам хотелось бы сделать этот коммит ещё раз, вы можете выполнить commit с опцией `--amend`:
 
 	$ git commit --amend
 
 Эта команда берёт индекс и использует его для коммита. Если после последнего коммита не было никаких изменений (например, вы запустили приведённую команду сразу после предыдущего коммита), то состояние проекта будет абсолютно таким же и всё, что вы измените это комментарий к коммиту.
 
-This command takes your staging area and uses it for the commit. If you’ve have made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
-
-Появится всё тот же редактор для комментариев к коммитам, но уже с введённым комментарем к предыдущему коммиту. Вы можете отредактировать это сообщение так же как обычно, и оно перепишет предыдущее.
-
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+Появится всё тот же редактор для комментариев к коммитам, но уже с введённым комментарем к последнему коммиту. Вы можете отредактировать это сообщение так же как обычно, и оно перепишет предыдущее.
 
 Для примера, если после совершения коммита вы осознали, что забыли проиндексировать изменения в файле, которые хотели добавить в этот коммит, вы можете сделать что-то подобное:
-
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
@@ -659,14 +647,9 @@ As an example, if you commit and then realize you forgot to stage the changes in
 
 Все три команды вместе дают один коммит — второй коммит заменяет результат первого.
 
-All three of these commands end up with a single commit — the second commit replaces the results of the first.
-
 ### Отмена индексации файла ###
-### Unstaging a Staged File ###
 
-В следующих двух разделах мы продемонстрируем как переделать проиндексированные изменения и изменения в рабочей директории. Приятно то, что команда используемая для определения состояния этих двух вещей дополнительно напоминает о том как отменить изменения в них. Приведём пример. Допустим вы внесли изменения в два файла и хотите записать их как два отдельных коммита, но случайно набрали `git add *` и проиндексировали оба файла. Как теперь отменить индексацию одного из двух файлов? Комманда `git status` напомнит вам об этом:
-
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+В следующих двух разделах мы продемонстрируем как переделать изменения в индексе и в рабочей директории. Приятно то, что команда используемая для определения состояния этих двух вещей дополнительно напоминает о том как отменить изменения в них. Приведём пример. Допустим вы внесли изменения в два файла и хотите записать их как два отдельных коммита, но случайно набрали `git add *` и проиндексировали оба файла. Как теперь отменить индексацию одного из двух файлов? Комманда `git status` напомнит вам об этом:
 
 	$ git add .
 	$ git status
@@ -678,9 +661,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Сразу после надписи “Changes to be committed”, сказано использовать `git reset HEAD <file>...` для исключения из индекса. Так что давайте последуем совету и отменим индексацию файла benchmarks.rb:
-
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+Сразу после надписи “Changes to be committed”, написано использовать `git reset HEAD <file>...` для исключения из индекса. Так что давайте последуем совету и отменим индексацию файла benchmarks.rb:
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -698,16 +679,11 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-Эта команда немного странновата, но она сработала. Файл benchmarks.rb изменён, но уже не в индексе.
+Эта команда немного странновата, но она работает. Файл benchmarks.rb изменён, но снова не в индексе.
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
-
-### Отмена изменения файла ###
-### Unmodifying a Modified File ###
+### Отмена изменений файла ###
 
 Что если вы поняли, что не хотите оставлять изменения внесённые в файл benchmarks.rb? Как быстро отменить изменения, вернуть то состояние, в котором он находился во время последнего коммита (или первоначального клонирования, или какого-то другого действия, после которого файл попал в рабочую директорию)? К счастью, `git status` говорит как добиться и этого. В выводе для последнего примера, неиндексированная область выглядит следующим образом:
-
-What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -718,8 +694,6 @@ What if you realize that you don’t want to keep your changes to the benchmarks
 
 Здесь довольно ясно сказано как отменить сделанные изменения (по крайней мере новые версии Git'а, 1.6.1 и дальше, делают это; если у вас более старая версии, мы настоятельно рекомендуем обновиться, чтобы получить некоторые приятные удобные возможности). Давайте сделаем, то что написано:
 
-It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
-
 	$ git checkout -- benchmarks.rb
 	$ git status
 	# On branch master
@@ -729,29 +703,18 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   README.txt
 	#
 
-Как вы видите, изменения отменены. Вы должны понимать, что это опасная команда: все сделанные вами изменения в этом файле пропали — вы просто скопировали поверх него другой файл. Никогда не используйте эти команду если вы не полностью уверены, что этот файл вам не нужен. Если вам нужно просто сделать, чтобы он не мешался, мы рассмотрим прятание(??) и ветвление в следующей главе; это обычно более предпочтительный способ.
-
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go. 
+Как вы видите, изменения были отменены. Вы должны понимать, что это опасная команда: все сделанные вами изменения в этом файле пропали — вы просто скопировали поверх него другой файл. Никогда не используйте эту команду если вы не полностью уверены, что этот файл вам не нужен. Если вам нужно просто сделать, чтобы он не мешался, мы рассмотрим прятание (stash) и ветвление в следующей главе; эти способы обычно более предпочтительны.
 
 Помните, что всё, что является частью коммита в Git, почти всегда может быть восстановлено. Даже коммиты, которые находятся на ветках, которые были удалены, и коммиты переписанные с помощью `--amend` могут быть восстановлены (см. Главу 9 для восстановления данных). Несмотря на это, всё, что никогда не попадало в коммит, вы скорее всего уже не увидете снова.
 
-Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see Chapter 9 for data recovery). However, anything you lose that was never committed is likely never to be seen again.
-
 ## Работа с удалёнными репозиторями ##
-## Working with Remotes ##
 
-Чтобы иметь возможность работать вместе над каким-либо Git-проектом, необходимо знать как управлять удалёнными репозиториями. Удалённые репозитории — это модификации проекта, которые хранятся в интернете или ещё где-то в сети. Их может быть несколько, каждый из которых как правило доступен для вас либо только на чтение, либо на чтение и запись. Совместная работа включает в себя управление удалёнными репозиториями и помещение (push) и получение (pull) данных в и из них, когда нужно обменяться результатами работы.
+Чтобы иметь возможность совместной работы над каким-либо Git-проектом, необходимо знать как управлять удалёнными репозиториями. Удалённые репозитории — это модификации проекта, которые хранятся в интернете или ещё где-то в сети. Их может быть несколько, каждый из которых как правило доступен для вас либо только на чтение, либо на чтение и запись. Совместная работа включает в себя управление удалёнными репозиториями и помещение (push) и получение (pull) данных в и из них тогда, когда нужно обменяться результатами работы.
 Управление удалёнными репозиториями включает умение добавлять удалённые репозитории, удалять те из них, которые больше не действуют, умение управлять различными удалёнными ветками и определять их как ослеживаемые (tracked) или нет и прочее. Данный раздел охватывает все перечисленные навыки по управлению удалёнными репозиториями.
 
-To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
-
 ### Отображение удалённых репозиториев ###
-### Showing Your Remotes ###
 
-Чтобы просмотреть какие у вас в настройках есть удалённые серверы, следует выполнить команду git remote. Она выдаёт список имён-сокращений для каждого указанного удалённого объекта. Если вы склонировали ваш репозиторий, у вас должен отобразиться по крайней мере origin — это имя по умолчанию, которое Git присваивает серверу, с которого вы склонировали:
-
-To see which remote servers you have configured, you can run the git remote command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
+Чтобы просмотреть какие удалённые серверы у вас уже настроены, следует выполнить команду git remote. Она перечисляет список имён-сокращений для всех уже указанных удалённых дескрипторов. Если вы склонировали ваш репозиторий, у вас должен отобразиться по крайней мере origin — это имя по умолчанию, которое Git присваивает серверу, с которого вы склонировали:
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -764,16 +727,12 @@ To see which remote servers you have configured, you can run the git remote comm
 	$ git remote 
 	origin
 
-Чтобы посмотреть какой полный URL записан в Git для сокращённого имени, можно указать команде опцию `-v`:
-
-You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+Чтобы посмотреть какому URL соответствует сокращённое именя в Git, можно указать команде опцию `-v`:
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
 Если у вас больше одного удалённого репозитория, команда покажет их все. Например, мой репозиторий Grit выглядит следующим образом.
-
-If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
 
 	$ cd grit
 	$ git remote -v
@@ -783,16 +742,11 @@ If you have more than one remote, the command lists them all. For example, my Gr
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-Это означает, что мы легко можем получить изменения от любого из этих пользователей. Но, заметьте, что origin — это единственный удалённый сервер прописанный как SSH ссылка, поэтому он единственный, в который я могу помещать изменения (это будет рассмотрено в Главе 4).
-
-This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in Chapter 4).
+Это означает, что мы легко можем получить изменения от любого из этих пользователей. Но, заметьте, что origin — это единственный удалённый сервер прописанный как SSH ссылка, поэтому он единственный, в который я могу помещать свои изменения (это будет рассмотрено в Главе 4).
 
 ### Добавление удалённых репозиториев ###
-### Adding Remote Repositories ###
 
 В предыдущих разделах мы упомянули и немного продемонстрировали добавление удалённых репозиториев, сейчас мы рассмотрим это более детально. Чтобы добавить новый удалённый Git-репозиторий под именем-сокращением, к которому будет проще обращаться, выполните `git remote add [сокращение] [url]`:
-
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
 
 	$ git remote
 	origin
@@ -801,9 +755,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Теперь вы можете использовать в командной строке строку pb вместо полного URL. Например, если вы хотите извлечь (fetch) всю информацию, которая есть в репозитории Павла, но нет в вашем, вы можете выполнить git fetch pb: 
-
-Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+Теперь вы можете использовать в командной строке имя pb вместо полного URL. Например, если вы хотите извлечь (fetch) всю информацию, которая есть в репозитории Павла, но нет в вашем, вы можете выполнить git fetch pb: 
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -814,50 +766,31 @@ Now you can use the string pb on the command line in lieu of the whole URL. For 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Ветка master Павла теперь доступна локально как `pb/master`. Вы можете слить (merge) её в одну из ваших веток, или сейчас вы можете перейти на эту ветку если вы хотите её просмотреть.
-
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+Ветка master Павла теперь доступна локально как `pb/master`. Вы можете слить (merge) её в одну из ваших веток, или теперь вы можете перейти на эту ветку если вы хотите её просмотреть.
 
 ### Fetch и Pull ### 
-### Fetching and Pulling from Your Remotes ###
 
 Как вы только что узнали, для получения данных из удалённых проектов, следует выполнить:
-
-As you just saw, to get data from your remote projects, you can run:
 
 	$ git fetch [remote-name]
 
 Данная команда связывается с указанным удалённым проектом и забирает все те данные  проекта, которых у вас ещё нет. После того как вы выполнили команду, у вас должны появиться ссылки на все ветки из этого удалённого проекта. Теперь эти ветки в любой момент могут быть просмотрены или слиты. (В 3 Главе мы перейдём к более детальному рассмотрению, что такое ветки и как их использовать.)
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
+Когда вы клонируете репозиторий, команда clone автоматически добавляет этот удалённый репозиторий под именем origin. Таким образом `git fetch origin` извлекает все наработки, отправленные (push) на этот сервер после того, как вы склонировали его (или получили изменения с помощью fetch). Важно отметить, что команда fetch забирает данные в ваш локальный репозиторий, но не сливает их с какими-либо вашими наработками, и не модифицирует то, над чем вы работаете в данный момент. Вам необходимо вручную слить эти данные с вашими, когда вы будете готовы.
 
-Когда вы клонируете (clone) репозиторий, команда автоматически добавляет этот удалённый репозиторий под именем origin. Таким образом `git fetch origin` извлекает все наработки, отправленные (push) на этот сервер после того, как вы склонировали его (или получили изменения с помощью fetch). Важно отметить, что команда fetch забирает данные в ваш локальный репозиторий, но не сливает их с какой-либо вашей работой, и не модифицирует то, над чем вы в данный момент работаете. Необходимо вручную слить эти данные с вашими наработками, когда вы будете готовы.
-
-If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
-
-Если у вас есть ветка настроенная на отслеживание удалённой ветки (для дополнительной информации смотри следующий раздел и Главу 3), то вы можете использовать команду `git pull`. Она автоматичеси извлекает и затем сливает данные из удалённой ветки в вашу текущую ветку. Этот способ для вас может оказаться более простым или более удобным. К тому же по умолчанию команда `git clone` автоматически настраивает вашу локальную ветку master на отслеживание удалённой ветки master на сервере, с которого вы клонировали (подразумевается, что на удалённом сервере есть ветка master). Выполнение `git pull` как правило извлекает (fetch) данные с сервера, с которого вы изначально склонировали, и автоматически пытается слить (merge) их с кодом, над которым вы в данный момент работаете.
-
-If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+Если у вас есть ветка настроенная на отслеживание удалённой ветки (для дополнительной информации смотри следующий раздел и Главу 3), то вы можете использовать команду `git pull`. Она автоматичеси извлекает и затем сливает данные из удалённой ветки в вашу текущую ветку. Этот способ может для вас оказаться более простым или более удобным. К тому же по умолчанию команда `git clone` автоматически настраивает вашу локальную ветку master на отслеживание удалённой ветки master на сервере, с которого вы клонировали (подразумевается, что на удалённом сервере есть ветка master). Выполнение `git pull` как правило извлекает (fetch) данные с сервера, с которого вы изначально склонировали, и автоматически пытается слить (merge) их с кодом, над которым вы в данный момент работаете.
 
 ### Push ### 
-### Pushing to Your Remotes ###
 
 Когда ваш проект достигает момента, когда вы хотите поделиться наработками, вам необходимо отправить (push) их в главный репозиторий. Команда для этого действия простая: `git push [удал. сервер] [ветка]`. Чтобы отправить вашу ветку master на сервер `origin` (повторимся, что клонирование как правило настраивает оба этих имени автоматически), вы можете выполнить следующую команду для отправки наработок обратно на сервер:
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
-
 	$ git push origin master
 
-Эта команда срабатывает только в случае, если вы клонировали с сервера, на котором у вас есть права на запись, и если никто другой с тех пор не выполнял команду push. Если вы и кто-то ещё одновременно клонируете, затем они выполняют команду push, а затем команду push выполняете вы, то ваш push точно будет отклонён. Вам придётся сначала вытянуть (pull) их изменения и объединить с вашими. Только после этого вам будет позволено выполнить push. Смотри Главу 3 для более подробного описания как отправлять (push) данные на удалённый сервер.
+Эта команда срабатывает только в случае, если вы клонировали с сервера, на котором у вас есть права на запись, и если никто другой с тех пор не выполнял команду push. Если вы и кто-то ещё одновременно клонируете, затем он выполняет команду push, а затем команду push выполняете вы, то ваш push точно будет отклонён. Вам придётся сначала вытянуть (pull) их изменения и объединить с вашими. Только после этого вам будет позволено выполнить push. Смотри Главу 3 для более подробного описания как отправлять (push) данные на удалённый сервер.
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
-
-### Проверка удалённого репозитория ###
-### Inspecting a Remote ###
+### Инспекция удалённого репозитория ###
 
 Если хотите получить побольше информации об одном из удалённых репозиториев, вы можете использовать команду `git remote show [удал. сервер]`. Если вы выполните эту команду с некоторым именем, например, `origin`, вы получите что-то подобное:
-
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
 
 	$ git remote show origin
 	* remote origin
@@ -870,11 +803,7 @@ If you want to see more information about a particular remote, you can use the `
 
 Она выдаёт URL удалённого репозитория, а также информацию об отслеживаемых ветках. Эта команда любезно сообщает вам, что, если вы находясь на ветке master, выполните `git pull`, ветка master с удалённого сервера будет автоматически влита в вашу сразу после получения всех необходимых данных. Она также выдаёт список всех полученных ею ссылок.
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
-
 Это был пример для простой ситуации, и наверняка вы встретились с чем-то подобным. Однако, если вы используете Git более интенсивно, вы можете увидеть гораздо большее количество информации от `git remote show`:
-
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
 
 	$ git remote show origin
 	* remote origin
@@ -900,45 +829,30 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 
 Данная команда показывает какая именно локальная ветка будет отправлена на удалённый сервер по умолчанию при выполнении `git push`. Она также показывает каких веток с удалённого сервера у вас ещё нет, какие ветки всё ещё есть у вас, но уже удалены на сервере. И для нескольких веток показано какие удалённые ветки будут в них влиты при выполнении `git pull`.
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
-
 ### Удаление и переименование удалённых репозиториев ###
-### Removing and Renaming Remotes ###
 
 Для переименования ссылок в новых версиях Git можно вылолнить `git remote rename`, это изменит сокращённое имя, используемое для удалённого репозитория. Например, если вы хотите переименовать `pb` в `paul`, вы можете сделать это следующим образом:
-
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-Стоит упомянуть, что это также изменяет для вас имена удалённых веток. То, к чему вы обращались как `pb/master`, стало `paul/master`.
-
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+Стоит упомянуть, что это также меняет для вас имена удалённых веток. То, к чему вы обращались как `pb/master`, стало `paul/master`.
 
 Если по какой-то причине вы хотите удалить ссылку (вы сменили сервер или больше не используете определённое зеркало, или, возможно, контрибьютор перестал быть активным), вы можете использовать `git remote rm`:
-
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
 ## Работа с метками ##
-## Tagging ##
 
 Как и большинство СУВ, Git имеет возможность отмечать (tag) определённые точки в истории как имеющие важное значение. Как правило, этот функционал используется для отметки моментов выпуска версий (v1.0, и т.п.). В этом разделе, вы узнаете как посмотреть имеющиеся метки (tag), как создать новые. А также вы узнаете что из себя представляют разные типы меток.
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
-
 ### Просмотр меток ###
-### Listing Your Tags ###
 
 Просмотр имеющихся меток (tag) в Git делается просто. Достаточно набрать `git tag`:
-
-Listing the available tags in Git is straightforward. Just type `git tag`:
 
 	$ git tag
 	v0.1
@@ -946,11 +860,7 @@ Listing the available tags in Git is straightforward. Just type `git tag`:
 
 Данная команда перечисляет метки в алфавитном порядке; порядок их появления не имеет значения.
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
-
-Вы также можете осуществлять для меток поиск по шаблону. Например, репозиторий Git содержит более 240 меток. Если вас интересует просмотр только выпусков 1.4.2, вы можете выполнить следующее:
-
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+Для меток вы также можете осуществлять поиск по шаблону. Например, репозиторий Git содержит более 240 меток. Если вас интересует просмотр только выпусков 1.4.2, вы можете выполнить следующее:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -959,18 +869,12 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.4
 
 ### Создание меток ###
-### Creating Tags ###
 
-Git использует два основных типа меток: легковесные и аннотированные. Легковесная метка — это что-то весьма похожее на ветку, которая не меняется — это просто указатель на определённый коммит. А вот аннотированные метки хранятся в базе данных Git'а как полноценные объекты. Они имеют контрольную сумму; содержат имя поставившего метку, e-mail и дату; имеют комментарий; и могут быть подписаны и проверены с помощью GNU Privacy Guard (GPG). Обычно рекомендуется создавать аннотированные метки, чтобы иметь всю перечисленную информацию; но если вы хотите сделать временную метку или по какой-то причине не хотите сохранять остальную информацию, то для этого годятся и легковесные теги.
-
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git использует два основных типа меток: легковесные и аннотированные. Легковесная метка — это что-то весьма похожее на ветку, которая не меняется — это просто указатель на определённый коммит. А вот аннотированные метки хранятся в базе данных Git'а как полноценные объекты. Они имеют контрольную сумму; содержат имя поставившего метку, e-mail и дату; имеют комментарий; и могут быть подписаны и проверены с помощью GNU Privacy Guard (GPG). Обычно рекомендуется создавать аннотированные метки, чтобы иметь всю перечисленную информацию; но если вы хотите сделать временную метку или по какой-то причине не хотите сохранять остальную информацию, то для этого годятся и легковесные метки.
 
 ### Аннотированные метки ###
-### Annotated Tags ###
 
 Создание аннотированной метки в Git выполняется легко. Самый простой способ это указать `-a` при выполнении команды `tag`:
-
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -980,11 +884,7 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 
 Опция `-m` задаёт меточное сообщение, которое будет храниться вместе с меткой. Если не указать сообщение для аннотированной метки, Git запустит редактор, чтоб вы смогли его ввести.
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
-
-Вы можете посмотреть данные метки наряду с коммитом, который был помечен, с помощью команды `git show`:
-
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+Вы можете посмотреть данные метки вместе с коммитом, который был помечен, с помощью команды `git show`:
 
 	$ git show v1.4
 	tag v1.4
@@ -1001,23 +901,16 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 Она показывает иноформацию о выставившем метку, дату отметки коммита и аннотирующее сообщение перед информацией о коммите.
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
-
 ### Подписанные метки ###
-### Signed Tags ###
 
 Вы также можете подписывать свои метки с помощью GPG, конечно, если у вас есть ключ. Всё что нужно сделать, это использовать `-s` вместо `-a`:
-
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-Если выполните `git show` на этой метке, то вы увидите прикреплённую к ней GPG-подпись.
-
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+Если вы выполните `git show` на этой метке, то увидите прикреплённую к ней GPG-подпись:
 
 	$ git show v1.5
 	tag v1.5
@@ -1041,14 +934,9 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 Чуть позже вы узнаете как верифицировать метки с подписью.
 
-A bit later, you’ll learn how to verify signed tags.
-
 ### Легковесные метки ###
-### Lightweight Tags ###
 
 Легковесная метка — это ещё один способ отметки коммитов. В сущности, это контрольная сумма коммита сохранённая в файл — больше никакой информации не хранится. Для создания легковесной метки, не передавайте опций `-a`, `-s` и `-m`:
-
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1060,8 +948,6 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 
 На этот раз, при выполнении `git show` на этой метке, вы не увидите дополнительной информации. Команда просто покажет помеченный коммит:
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
-
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
 	Merge: 4a447f7... a6b4c97...
@@ -1071,11 +957,8 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 	    Merge branch 'experiment'
 
 ### Верификация меток ###
-### Verifying Tags ###
 
-Для верификации подписанной метки, используйте `git tag -v [имя метки]`. Эта команда использует GPG для верификации подписи. Вам нужен открытый ключ автора подписи, чтобы команда работала правильно.
-
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+Для верификации подписанной метки, используйте `git tag -v [имя метки]`. Эта команда использует GPG для верификации подписи. Вам нужен открытый ключ автора подписи, чтобы команда работала правильно:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1093,18 +976,13 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 
 Если у вас нет открытого ключа автора подписи, вы вместо этого получите что-то подобное:
 
-If you don’t have the signer’s public key, you get something like this instead:
-
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
 ### Выставление меток позже ###
-### Tagging Later ###
 
 Также возможно помечать уже пройденные коммиты. Предположим, что история коммитов выглядит следующим образом:
-
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -1120,13 +998,9 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 
 Теперь предположим, что вы забыли отметить версию проекта v1.2, которая была там, где находится коммит "updated rakefile". Вы можете добавить метку апосля. Для отметки коммита, укажите контрольную сумму коммита (или часть её) в конце команды:
 
-Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
-
 	$ git tag -a v1.2 9fceb02
 
-Можете проверить, что коммит отмечен:
-
-You can see that you’ve tagged the commit:
+Можете проверить, что коммит теперь отмечен:
 
 	$ git tag 
 	v0.1
@@ -1150,11 +1024,8 @@ You can see that you’ve tagged the commit:
 	...
 
 ### Обмен метками ###
-### Sharing Tags ###
 
 По умолчанию, команда `git push` не отправляет метки на удалённые серверы. Необходимо явно отправить (push) метки на общий сервер после того как вы их создали. Это делается так же как и выкладывание в совместное пользование удалённых веток — нужно выполнить `git push origin [имя метки]`.
-
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1165,8 +1036,6 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	* [new tag]         v1.5 -> v1.5
 
 Если у вас есть много меток, которые хотелось бы отправить все за один раз, можно использовать опцию `--tags` для команды `git push`. В таком случае все ваши метки отправятся на удалённый сервер (если только их уже там нет).
-
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1182,60 +1051,37 @@ If you have a lot of tags that you want to push up at once, you can also use the
 
 Теперь, если кто-то склонирует (clone) или выполнит `git pull` из вашего репозитория, то он получит в добавок к остальному и ваши метки.
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
-
 ## Полезные советы ##
-## Tips and Tricks ##
 
 Перед тем как закончить данную главу об основах Git, дадим несколько полезных советов о том как сделать ваш опыт работы с Git проще, удобнее или привычнее. Многие люди используют Git не прибегая к этим советам, и мы дальше в книге не будем ссылаться на них или подразумевать, что вы ими пользуетесь, но вам всё же стоит знать о них.
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
-
 ### Автоматическое дополнение ###
-### Auto-Completion ###
 
 Если вы используете командую оболочку Bash, Git поставляется с замечательным сценарием (script), который вы можете активировать. Скачайте исходный код Git и посмотрите в каталоге `contrib/completion`; там должен быть файл `git-completion.bash`. Скопируйте этот файл в ваш домашний каталог и добавьте следующее в свой файл `.bashrc`:
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
-
 	source ~/.git-completion.bash
 
-Если вы хотите настроить автоматическое дополнение в Bash для всех пользователей, скопируйте этот сценарий в каталог `/opt/local/etc/bash_completion.d` на Mac системах или в каталог `/etc/bash_completion.d/` на Linux системах. Это каталог, из которого Bash автомастически загружает сценарии для автодополнения.
-
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+Если вы хотите настроить автоматическое дополнение в Bash для всех пользователей, скопируйте этот сценарий в каталог `/opt/local/etc/bash_completion.d` на Mac системах или в каталог `/etc/bash_completion.d/` на Linux системах. Это каталог, из которого Bash автоматически загружает сценарии для автодополнения.
 
 Если вы используете Git Bash на Windows, что является стандартным при установке Git на Windows с помощью msysGit, то автодополнение должно быть настроено заранее.
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
-
 Нажав Tab во время ввода команды Git, вы должны получить набор вариантов на выбор:
-
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
 
 	$ git co<tab><tab>
 	commit config
 
-В данном случае, набрав git co и дважды нажав клавишу Tab, вы получите как варианты commit и config. Добавление `m<tab>` дополнит `git commit` автоматически.
-
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+В данном случае, набрав git co и дважды нажав клавишу Tab, вы получите как варианты commit и config. Добавление `m<tab>` выполнит дополнение до `git commit` автоматически.
 
 То же самое работает и для опций, что, возможно, полезней. Например, если вы хотите выполнить команду `git log` и не помните какую-то опцию, вы можете начать её печатать и затем нажать Tab, чтобы увидеть, что подходит:
-
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
 Это довольно приятная уловка и может спасти вам немного времени от работы и чтения документации.
 
-That’s a pretty nice trick and may save you some time and documentation reading.
-
 ### Псевдонимы в Git ###
-### Git Aliases ###
 
 Git не будет пытаться сделать вывод о том какую команду вы хотели ввести если вы ввели её не полностью. Если вы не хотите печатать каждую команду Git полностью, вы легко можете настроить псевдонимы (alias) для каждой команды с помощью `git config`. Вот пара примеров того, что вы возможно захотите настроить:
-
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
@@ -1244,31 +1090,21 @@ Git doesn’t infer your command if you type it in partially. If you don’t wan
 
 Это означает, что, например, вместо набирания `git commit`, вам достаточно набрать только `git ci`. При продвижении в использовании Git, вам вероятно придётся часто пользоваться и другими командами. В этом случае без колебаний создавайте новые псевдонимы. 
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
-
 Такой способ может также быть полезен для создания команд, которые вы думаете должны существовать. Например, чтобы исправить неудобство, с которым вы столкнулись при исключении файла из индекса (unstage), вы можете добавить собственный псевдоним в Git:
-
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
 Это делает следующие две команды эквивалентными:
 
-This makes the following two commands equivalent:
-
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-Тек как-будто немного понятней. Также обычно добавляют команду `last` следующим образом:
-
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Так как-будто немного понятней. Также обычно добавляют команду `last` следующим образом:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
 Так легко можно просмотреть последний коммит:
 
-This way, you can see the last commit easily:
-	
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
 	Author: Josh Goebel <dreamer3@example.com>
@@ -1278,15 +1114,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-Можно сказать, что Git просто заменяет новые команды на то, для чего вы создавали псевдоним (alias). Однако, возможно, вы захотите выполнять внешнюю команду, а не подкоманду Git. В этом случае, следует начать команду с символа `!`. Такое полезно если вы пишите свои утилиты для работы с Git-репозиторием. Продемонстрируем этот случай на примере создания псевдонима `git visual` для запуска `gitk`:
-
-As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Можно сказать, что Git просто заменяет эти новые команды на то, для чего вы создавали псевдоним (alias). Однако, возможно, вы захотите выполнять внешнюю команду, а не подкоманду Git. В этом случае, следует начать команду с символа `!`. Такое полезно если вы пишите свои утилиты для работы с Git-репозиторием. Продемонстрируем этот случай на примере создания псевдонима `git visual` для запуска `gitk`:
 
 	$ git config --global alias.visual "!gitk"
 
 ## Резюме ##
-## Summary ##
 
 К этому моменту вы умеете выполнять все базовые локальные операции с Git: создавать или клонировать репозиторий, вносить изменения, индексировать и фиксировать эти изменения, а также просматривать историю всех изменений в репозитории. Дальше мы рассмотрим самую убийственную особенность Git'а — его модель ветвления.
-
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.

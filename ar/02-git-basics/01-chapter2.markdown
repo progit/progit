@@ -1,44 +1,45 @@
-# Git Basics #
+# مبادئ Git #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+إذا كان هناك فصل واحد عليك قراءته لكي تبدأ بإستخدام Git، فعليك بهذا الفصل! يغطي هذا الفصل جميع الأوامر الأساسية التي عليك معرفتها لكي تتمكن من القيام بأغلب الأمور أثناء استخدامك لـ Git. في نهاية هذا الفصل يجب أن تكون قادراً على انشاء واعداد الـ repository لمشروعك وعلى تحديد الملفات التي ستتم متابعتها والتي ستترك، وعلى تهييئ التغييرات لعمل commit عليها. ستتعلم أيضاً كيف تعد Git لكي تتجاهل بعض أنواع الملفات، كيف تقوم بالتراجع عن الأخطاء التي سترتكبها بسرعة وبسهولة، كيف تتصفح تاريخ مشروعك وكيف تعرض التغيرات بين الـ commits، وكيف تنشر وتسحب (push & pull) التغيرات من الـ repositories البعيدة عنك.
 
-## Getting a Git Repository ##
+## الحصول على repository لمشروعك بـ Git ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+يمكنك انشاء مشروع بـ git بإحدى طريقتين. الأولى تكمن في أن تبدأ بناء على مشروع أسبق أو مجلد على سبيل المثال يحوي ملفات وأن تستورد مافيه الى مشروعك الجديد. أو أن تستنسخ repository بـ git جاهزة من مخدم ما.
 
-### Initializing a Repository in an Existing Directory ###
+### انشاء Repository في مجلد موجود مسبقاً ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+للبد بمتابعة تغيرات مشروع مسبق لديك بـ git، عليك الذهاب الى مجلد مشروعك ثم كتابة:
 
 	$ git init
 
-This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
+يقوم هذا بانشاء مجلد فرعية جديد تحت اسم .git يحوي جميع المعلومات والملفات المطلوبة - هيكل repository بـ git. حتى الآن، لن يتم متابعة أي تغيرات تحصل على مشروعك (انظر الفصل التاسع لمعلومات أخرى عن الملفات الموجودة في مجلد `.git` الذي أنشأته قبل قليل).
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
+اذا أردت بمتابعة اصدارات الملفات الموجودة، يجب عليك البدء باخبار Git بهذه الملفات ومن ثم اجراء commit أولي. للقيام بهذا عليك استخدام أمر git add بالعدد الكافي بالملفات التي تريد، ومن ثم تتبعها أمر commit:
 
 	$ git add *.c
 	$ git add README
 	$ git commit –m 'initial project version'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+سنقوم بشرح هذه الأوامر في الفقرة القادمة، ولكن، الآن أصبحت التغيرات في مشروعك تتم متابعتها و commit أولي.
 
-### Cloning an Existing Repository ###
+### استنساخ repository موجودة مسبقاً ###
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there—see Chapter 4 for more details).
+للقيام باستنساخ  repository بـ git موجودة مسبقاً - مشروع تريد المساهمة فيه على سبيل المثال - الأمر الذي ستحتاجه هو git clone.  اذا كنت قد استخدمت أحد أنظمة إدارة الإصدارات الأخرى مثل Subversion مثلاً، ستلاحظ الإختلاف بين الأمر clone في git وأمر checkout. هناك فرق مهم، عندما تقوم git بعملية clone فإنك ستحصل على نسخة من كامل المعلومات تقريباً الموجودة على مخدم الـ repository. جميع إصدارات الملفات كلها في تاريخ حياة المشروع. أي، وبمعنى آخر، اذا حدث عطل أو ضرر ما لملفات المشروع الموجودة على المخدم الأساسي يمكنك استخدام أي واحدة من النسخ لاسترجاع المشروع للحالة التي كان عليها عند استنساخه (من الممكن أن تخسر بعض الروابط من طرف المخدم، ولكن جميع معلومات الإصدارات ستكون موجودة- انظر الفصل الرابع لمعلومات اخرى).
 
-You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
+
+لاستنساخ repository يمكنك استخدام الأمر 'git clone [url]'. فعلى سبيل المثال، لكي تقوم باستنساخ مكتبة Git للغة Ruby والتي تدعى Grit، يمكنك القيام بالتالي:
 
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
+سيقوم هذا بانشاء مجلد جديد باسم "grit"، وتجهيز مجلد '.git' في داخله، سيقوم أيضاً بسحب جميع المعلومات من الـ repository، ويجهز نسخة جاهزة لكي تعمل عليها لآخر نسخة. اذا دخلت على مجلد 'grit' الجديد ستجد جميع ملفات المشروع. يمكنك بالطبع استنساخ المشروع لمجلد بإسم آخر، إليك مثال لكيفية القيام بهذا:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-That command does the same thing as the previous one, but the target directory is called mygrit.
+سيقوم هذا الأمر بذات الأمر ولكن سيتم وضع المشروع بمجلد جديد باسم mygrit.
 
-Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
+هناك عدد من البروتوكولات المختلفة التي يمكنك اسستعمالها لنقل المعلومات في git. المثال السابق يستعمل بروتوكول 'git://'، ولكن من الممكن أن تجد أيضاً استخداماً لـ 'http(s)://' أو 'user@server:/path.git'، والتي تستعمل بروتوكول SSH في النقل. في الفصل الرابع من الكتاب ستتعرف على الخيارات المتوفرة للتواصل مع الـ repository الخاصة بك وميزات ومساوئ كل منها.
 
-## Recording Changes to the Repository ##
+## تسجيل التعديلات في الـ repository ##
 
 You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
 

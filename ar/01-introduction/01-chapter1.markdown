@@ -59,170 +59,175 @@ Insert 18333fig0103.png
 
 لنتحدث الآن عن Git بشكل سريع. هذا القسم هام جداً لك، لأنك إذا عرفت ماهي Git وماهيا أوليات عملها، سيكون من السهل عليك استخدام Git بشكل أسهل وأفضل. وخلال تعلمك لـ Git حاول أن تفرغ ذهنك من المعلومات السابقة عن أنظمة إدارة الإصدارات الأخرى، مثل Subversion أو Perforce; سيجنبك هذا من الخلط بين المعلومات عند استخدام هذه الأداة. تقوم Git بالتعامل وتخزين المعلومات بشكل مختلف تماماً عن الأنظمة الأخرى، وبالرغم من أن واجهة الإستخدام بسيطة نسبياً; سيكون فهمك لهذه الإختلافات سيبعد عنك الحيرة عند الإستخدام.
 
-### لمحات، وليست تغيرات ###
+### لفطات، وليست تغيرات ###
 
 الفرق الرئيسي بين Git وأي نظام إدارة إصدارات آخر (Subversion وأصدقاءه) هو الطريقة التي تتعامل بها Git مع المعلومات. تقوم معظم هذه الأنظمة بتخزين المعلومات كقائمة من التغيرات القائمة على الملفات. هذه الأنظمة (مثل CVS، Subversion، Perforce، Bazaar وغيرها) تتعامل مع المعلومات التي تحفظها كمجموعة ملفات والتغيرات القائمة عليها مع مرور الوقت، كما هو موضح في الشكل 1-4.
 
 Insert 18333fig0104.png 
 الشكل 1-4. الأنظمة الاخرى تقوم بحفظ معلومات التغيرات الحاصلة على كل ملف وكنها الإصدار الأول.
 
-تتعامل Git مع المعلومات المخزنة بطريقة مختلفة. ف
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+الأمر مختلف مع Git. حيث تعامل Git المعلومات المخزنة على أنها "لقطات" من نظام ملفات مصغر. ففي كل مرة تقوم بـ Commit أو تحفظ حالة المشروع، تقوم Git بأخذ صورة عن جميع الملفات في تلك اللحظة وتخزن رابطاً الى تلك اللقطة. ومن أجل السرعة، إذا لم يتغير الملف، لا تقوم Git بحفظة، بل تحفظ رابطاً عن الملف الأسبق منه المطابق. تتعامل Git مع المعلومات كما هو موضح في الشكل 1-5.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+الشكل 1-5. تحفظ Git المعلومات على أنها "لفطات".
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+وبالطبع، هذا الإختلاف بين Git وبين جميع أنظمة إدارة الإصدارات الأخرى تقريباً. يجعل هذا Git أشبه بنظام ملفات مصغر مزود بأدوات خارقة مبنية عليه، عوضاً عن نظام إدارة إصدارات عادي. سنقوم بشرح الفوائد التي تحصل عليها عندما تتعامل مع المعلومات بهذه الطريقة في الفصل الثالث "التشعيب في Git".
 
-### Nearly Every Operation Is Local ###
+### جميع العمليات هي عمليات داخلية تقريباً ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+أغلب العمليات في Git لا تحتاج سوى ملفات ومصادر داخلية لتعمل - أي بشكل عام، لا توجد معلومات تحتاجها من حاسوب آخر من الشبكة. إذا كنت قد استخدمت أحد أنظمة إداراة الإصدارات الأخرى والتي تعتمد عملياتها بشكل كبير على الشبكة فإن هذا سيجعلك تعتقد أن آلهة السرعة قد باركت Git وأعطتها هذه السرعة الجبارة. ستجد أنك تملك كامل تاريخ مشروعك موجود أمامك مباشرة، وأغلب العمليات أقرب ما تكون الى الآنية.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+فعلى سبيل المثال، لكي تستعرض تاريخ مشروعك، لن تحتاج Git الى الذهاب الى مخدم معين للحصول علىه وعرضه، بل تقوم بقراءته مباشرة من حاسوبك. اي انك ستحصل على تاريخ مشروعك بشكل مباشر. اذا أردت استعراض التغيرات الحاصلة بين الإصدار الحالي لملف ما واصدار الشهر السابق، تستطيع Git النظر الى الملف من الشهر السابق وحساب الفروقات بينهما مباشرة، عوضاً عن طلب هذه المعلومات من مخدم خارجي.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+هذا يعني أيضاً أن الأمور التي لا تستطيع فعلها عندما تكون مفصولاً عن الإنترنت أو عن الشبكة الداخلية قليلة جداً. إذا كنت في طائرة أو في القطار ولم تستطيع الإرتباط بالشبكة بشكل صحيح، يمكنك إكمال عملك بشكل طبيعي. في الأنظمة الأخرى يكون هذا الأمر مستحيلاً! أو من الممكن لك أن تعدل الملفات ولكن دون عمليات Commit لتغييراتك. في نظام Perforce على سبيل المثال، لا يمكنك فعل الكثير حينما تكون مفصولاً عن المخدم الأساسي; وفي Subversion أو CVS، يمكنك التعديل على الملفات لكن بدون عمليات Commit لتعديلاتك، قد تعتقد بأن هذا ليس بالأمر الكبير، ولكن ستتفاجئ بحجم الفرق الذي يصنعه.
 
-### Git Has Integrity ###
+### Git تحمل المصداقية ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+كل شيء في Git سيتم وضع Check-sum عليه قبل تخزينة حيث ستتم الإشارة اليه لاحقاً بهذه الـ checksum. هذا يعني أنه من المستحيل أن يتم تغيير أي ملف أو مجلد دون أن يتم اعلام Git بهذا التغيير. تم بناء هذه الخاصية بشكل أساسي في فلسفة وطريقة عمل Git. من المستحيل أن تخسر معلوماتك بشكل فجائي أو أن ينعطب معلف ما دون أن تعرف Git بذلك.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+تدعى الآلية التي تستخدمها Git لعملية الـ checksum هذه باسم SHA-1 hash. وهي عبارة عن قيمة نصية من 40 محرف ستاعشري (0-9 و a-f) ويتم حسابها بناء على محتوى الملف أو المجلد الذي تتبعه Git. يبدو الـ hash من نوع SHA-1 كما يلي:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+سترى أن هذه القيم ستكون موجودة في كل مكان في Git ذلك لأنها تستخدمها بشكل كثيف. في الحقيقة، تستخدم Git هذه القيم للدلالة على الملفات في قاعدة بياناتها.
 
-### Git Generally Only Adds Data ###
+### Git تضيف المعلومات فقط! ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+عندما تقوم بعملياتك في Git، ستقوم Git في أغلب الأحيان بإضافة معلومات فقط الى قاعدة البيانات. ومن الصعب جداً القيام بعملية بحيث لا يمكنك العودة الى الوراء فيها أو محيها من قاعدة البيانات بشكل نهائي. ولكن، وكما هو الأمر في أغلب نظم إدارة الإصدارات، من الممكن أن تخسر المعلومات قبل القيام بعملية Commit للتغيرات الحاصلة; ولكن بعد عملية الـ commit في Git، من الصعب جداً خسارة المعلومات، وخاصة اذا كنت تقوم بعملية push للتعديلات من قاعدة بياناتك الى repository اخرى بشكل منظم.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+سيضيف هذا الكثير من المتعة لإستخدامك لـ Git، لأننا نعرف أنه بإمكاننا القيام بالتجارب دون خطر تعريض المعلومات للخطر أو الضياع. للحصول على معلومات معمقة أكثر عن كيفية حفظ Git للمعلومات وكيفية استرجاعها انظر فقرة "Under the Cover" في الفصل التاسع.
 
-### The Three States ###
+### الحالات الثلاثة ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+والآن عليك الإنتباه قليلاً.  الأمر الأساسي الذي عليك أن تتذكره في Git اذا أردت أن تكمك تعلمك بسلاسة هو أنه في Git توجد ثلاث حالات أساسية يمكن للملفاتك أن تكون عليها: commited، معدلة أو مهيئة للعملية commit (أو staged). نعني بـ commitedf بأن المعلومات تم تخزينها بآمان في قاعدة بياناتك الخاصة. "معدل" تعني أنك قمت ببعض التعديلات على الملف ولكنك لم تقبل بعملية Commit عليه بعد. أما "مهيأ (Staged)" فتعني بأنك حددت ملفاً قمت بتعديله بإصداره الحالية ليتم حفظ في عملية الـ commit التي ستقوم بها.
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+يقودنا هذا الى الحديث عن الأقسام الثلاثة الرئيسية في أي مشروع Git: المجلد الخاص بـ Git، مجلد العمل و مكان التهييئ (staging area).
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+الشكل 1-6. المجلد الخاص بـ Git، مجلد العمل و مكان التهييئ (staging area).
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+المجلد الخاص بـ Git هو المكان الذي تحفظ فيه Git المعلومات الخاصة بها عن مشروعك. هذا هو المكان الأكثر أهمية في Git، وهو الذي يتم نسخه عندما تنسخ الـ repository من حاسوب آخر.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+مجلد العمل هو النسخة الحالية المسحوبة من مشروعك. الملفات التي سيتم سحبها من قاعدة بيانات Git للمشروع وتجهيزها لك لتقوم بتعديلها.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+مكان التهييئ (staging area)، عادة ما تكون موجودة في مجلد Git لمشروعك، وتحتوي على المعلومات التي سيتم عملية commit عليها. قد يشار الى هذا المكان أيضاً باسم الفهرس (index).
 
-The basic Git workflow goes something like this:
+خطوات العمل الإعتيادية في Git غالباً ما تكون كالتالي:
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	تقوم بالتعديلات على الملفات في مجلد العمل.
+2.	تقوم بوضع هذه الملفات في مكان التهييئ (staging area)، حيث تقوم بإضافة اللقطات الى الـ staging area.
+3.	تقوم بعملية Commit، يتم أخذ الملفات المهيئة من مكان التهيئة Staging Area وتقوم بتخزين هذه الللقطة بشكل نهائي في مجلد عمل Git.
 
+إذا كان هناك إصدار معين لملف، فسيكون Commited. إذا كان معدل ومضاف إلى مكان التهييئ staging area فهو مهيئ staged. 
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
 
-## Installing Git ##
+## تصيب Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+والآن لنبدأ باستخدام Git! ولكن أولاً علينا تنصيبها على نظامنا. يمكنك الحصول على Git بأكثر من طريقة. الطريقتين الأكثر شهرة هي إما أن تنصبها يدوياً من الكود المصدري أو أن تحصل على تنصيب مهيئ لنظامك مباشرة.
 
-### Installing from Source ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+### التنصيب من الكود المصدري ###
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+بالطبع، من المفضل أن تقوم بتنصيب Git من الكود المصدري (أي أن تقوم ببناء Git يدوياً، إن استطعت) وذلك لأنك ستحصل دائماً على آخر نسخة منها. كل اصدار جديد من Git غالباً ما يحوي على تحسينات في واجهة الإستخدام. بالإضافة إلى أنك ستحصل على اصدار قديم اذا كنت تستخدم احدى توزيعات لينكس المختلفة. ولذلك، إذا لم تكن على توزيعة حديثاً جداً من المفضل أن تقوم بتنصيب مباشرة من الكود المصدري لـ Git.
+
+لتنصيب Git، عليك أن تتحق من أن نظامك يحوي على المكتبات التالية، والتي تعتمد عليها Git، وهي: curl, zlip, openssl, expat و libiconv. على سبيل المثال، اذا كنت على نظام يحوي على أداة yum (مثل فيدورا Fedora) أو apt-get (مثل ديبيان Debian)، يمكنك تشغيل أحد الأوامر التالية للتأكد من تواجد هذه المكتبات:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev
-	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+
+بعد تأكدك من المكتبات المطلوبة، يمكنك الحصول على آخر نسخة من الكود المصدري لـ Git من الموقع:
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+ثم، يمكنك البناء والتنصيب:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+بعد ذلك، ستتمكن من الحصول على تحديثات على الكود المصدري لـ Git من خلال Git نفسها :)
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### التنصيب على لينكس ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+إذا أردت تنصيب Git على نظام لينكس دون بناءه يدوياً، يمكنك ذلك من خلال أداة النصيب الخاصة بنظامك والتي تأتي مع نظامك. على سبيل المثال اذا كنت تستخدم نظام فيدورا Fedora، يمكنك استخدام yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+أو اذا كنت على نظام مبنى على ديبيان Debian مثل أوبونتو Ubuntu، يمكنك استخدام apt-get كالتالي:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### التنصيب على نظام الماك أو اس ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+
+هناك طريقتين للتنصيب على  ماك أو اس، الأسهل هي استخدام الواجهة الرسومية للتنصيب، والتي يمكنك تحميلها من صفحة المشروع على غوغل كود (انظر الشكل 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer.
+الشكل 1-7. تنصيب Git على ماك أو اس.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+والطريقة الأكثر شهرة للحصول على Git هي من خلال MacPorts، ("http://macports.org"). يمكنك تشغيل الأمر التالي اذا كنت قد نصبت MacPorts من قبل:
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+يمكنك عدم تنصيب أي من الأمور الإضافية مع Git، ولكنك ستحتاج الى +svn اذا كنت ستستخدم Git على repository تعتمد على نظام Subversion (انظر الفصل 8).
 
-### Installing on Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+### التنصيب على ويندوز ###
+
+يمكنك تنصيب Git على نظام ويندوز بسهولة. أحد أسهل الطرق هو استخدام مشروع msysGit. يمكنك تنصيب البرنامج من صفحة المشروع على غوغل كود:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+بعد التنصيب سيكون لدين نسختين من الأداة للـ command-line في ويندوز (بالإضافة الى أداة SSH والتي ستستفيد منها لاحقاً) والأداة بالواجهة الرسومية الإعتيادية.
 
-## First-Time Git Setup ##
+## إعداد Git لأول مرة ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+والآن وبعد أن حصلت على Git على نظامك، سيتوجب عليك تخصيص بعض الخيارات لتناسب بيئتك. سيكون عليك القيام بهذه التعديلات مرة واحدة فقط; حتى بعد قيامك بتحديث نسختك من Git. ولكن بالطبع يمكنك تغيير هذه الإعدادات في أي وقت تريد.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+تأتي Git مرفقة بأداة تدعى git config والتي تمكنك تعديل الخيارات (المتغيرات) التي تتحكم بطريقة عمل Git. يتم حفظ هذه المتغيرات في أحد ثلاث أمكنة مختلفة:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	في ملف `/etc/gitconfig`: يحتوي على قيم لجميع المستخديم على نظامك لجميع الـ repositories أيضاً. اذا قمت بوضع إضافة ` --system` عند تشغيل الأمر `git config`، سيتم تعديل الخيارات على هذا الملف بالتحديد.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+*	في ملف `~/.gitconfig`: وهو مخصص للمستخدم الخاص بك فقط. سيتم تغيير الإعدادات في هذا الملف بالتحديد عن طريق إضافة `--global` الى أمر git config.
 
-### Your Identity ###
+*	ملف الخيارات الموجود في مجلد عمل Git (الموجود في `.git/config`) في أي repository تعمل عليها، حيث تكون هذه الإعدادات مخصصة لهذه الـ repository فقط. عليك أن تعلم أيضاً بأن الإعدادات الموجودة في أي ملف سيتم تفضيلها (أي استخدامها) على المعلومات الموجودة في الملف الأعم، أي الإعدادات الموجودة في ملف الإعدادات `.git/config` ستتفوق على تلك الموجودة في `/etc/gitconfig`.
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+على نظام ويندوز، ستقوم Git بتفحص `.gitconfig` في مجلد الـ `$HOME` (عادة تكون `C:\Documents and Settings\$USER`). ستقوم Git أيضاً بتفقد ملف /etc/gitconfig، والذي يكون مبنياً على مكان وجود MSys، والذي تحدده أنت عندما تقوم بتنصيب Git على نظامك.
+
+### شخصيتك ###
+
+أول شيء عليك فعله بعد تنصيبك لـ Git هو اعداد اسمك وبريدك الالكتروني. أهمية هذا الأمر تكمن في أن كل عملية Commit في Git ستستخدم هذه المعلومات وسيتم لصقها بشكل غير قابل للتغيير في كل عملياتك:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+وطبعاً، اذا أردت أن تتحدد هذه المعلومات على كامل النظام، عليك اضافة '--global' الى الأمر. واذا أردت تجاوز هذا الأمر وتحديد معلومات مختلفة لمشروع معين، عليك تشغيل هذا الأمر بدون '--global' داخل مشروعك.
 
-### Your Editor ###
+### محرر النصوص ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
-
+والآن وبعد اعداد شخصيتك، يمكنك تعيين محرر النصوص الإفتراضي والذي ستستخدمه Git عندما تحتاج منك الى ادخال رسالة ما. افتراضياً، ستستخدم Git المحرر الإفتراضي المحدد للنظام، والذي يكون عادة Vi أو Vim.  إذا أردت استخدام محرر آخر، مثل Emacs، يمكن كتابة مايلي:
+ء
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### أداة عرض الإختلافات Diff Tool ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+أمر آخر قد تهتم بتعديله عن الخيار الإفتراضي هو أداة عرض الإختلافات Diff tool والتي ستستخدمها لحل التعارضات بين الإصدارات عن الدمج. فعلى سبيل المثال، لإستخدام أداة vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+تقبل Git كلا من: kdiff3، tkdiff، meld، xxdiff، emerge، vimdiff، gvimdiff، ecmerge و opendiff كأدوات فعالة، يمكنك إضافة خيارات أخرى خاصة أيضاً، انظر الفصل السابع لمعلومات اخرى عن كيفية القيام بهذا.
 
-### Checking Your Settings ###
+### تغيير الإعدادات ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+اذا أردت القاء نظرة على إعداداتك، يمكنك استخدام أمر 'git config --list' لعرض قائمة بكافة الخيارات التي أعددتها في Git:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -233,28 +238,27 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+من الممكن أن ترى هذه المفاتيح أكثر من مرة، ذلك لأن Git تقوم بقراءة هذه المفاتيح من الملفات المختلفة (`/etc/gitconfig` و `~/.gitconfig`, على سبيل المثال). في هذه الحاله، تقوم Git باستخدام آخر قيمة موجودة لكل مفتاح مختلف.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+يمكنك أيضاً تفحص القيمة التي "تتعامل" معها Git لأي مفتاح مختلف عن طريق الأمر `git config {key}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## الحصول على المساعدة ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+هناك أكثر من طريقة للحصول على المساعدة أثناء استخدامك لـ Git، يمكنك كتابة أحد الأوامر التالية:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
-
-For example, you can get the manpage help for the config command by running
+على سبيل المثال، يمكنك الحصول على المساعدة لاستخدام أمر config عن طريق الأمر التالي:
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+تكمن روعة هذه الأوامر بأنه يمكنك الوصول اليها من أي مكان، حتى ولو لم تكن موصولاً بالشبكة.
+إذا لم تكن صفحات المساعدة السابقة أو هذا الكتاب كافية بالنسبة اليك يمكنك الذهاب الى قناة #git أو #github على شبكة IRC Freenode (irc.freenode.net). عادة ما تكون هذه القنوات مليئة بالعديد من الخبراء بكيفية عمل Git ومستعدين للمساعدة.
 
-## Summary ##
+## الملخص ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+لقد حصلت حتى الآن على معلومات أولية عن نظام Git وماهي اختلفاته عن أنظمة ادارة الإصدارات المركزية الآخرى. يجب أن تكون قد حصلت على نسخة من Git تعمل على نظامك. والآن حان الوقت لتعلم بعض مبادئ استخدام Git.

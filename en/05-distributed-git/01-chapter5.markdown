@@ -445,14 +445,14 @@ Let’s say the project maintainer has pulled in a bunch of other patches and tr
 
 	$ git checkout featureA
 	$ git rebase origin/master
-	$ git push –f myfork featureA
+	$ git push -f myfork featureA
 
 This rewrites your history to now look like Figure 5-17.
 
 Insert 18333fig0517.png 
 Figure 5-17. Commit history after featureA work.
 
-Because you rebased the branch, you have to specify the `–f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
+Because you rebased the branch, you have to specify the `-f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
 
 Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
 

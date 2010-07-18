@@ -263,7 +263,7 @@ Tant que chaque utilisateur peut accéder à un shell sur la machine, n'importe 
 ## Génération des clefs publiques SSH ##
 
 Cela dit, de nombreux serveurs Git utilisent une authentification par clefs publiques SSH.
-Pour fournir une clef publique, chaque utilisateur de votre système doit la générer s'il n'en ont pas déjà.
+Pour fournir une clef publique, chaque utilisateur de votre système doit la générer s'il n'en a pas déjà.
 Le processus est similaire sur tous les systèmes d'exploitation.
 Premièrement, l'utilisateur doit vérifier qu'il n'en a pas déjà une.
 Par défaut, les clefs SSH d'un utilisateur sont stockées dans le répertoire `~/.ssh` du compte.
@@ -339,8 +339,8 @@ Il suffit de les ajouter au fichier `authorized_keys` :
 Maintenant, vous pouvez créer un dépôt vide nu en lançant la commande `git init` avec l'option `--bare`, ce qui initialise un dépôt sans répertoire de travail :
 
 	$ cd /opt/git
-	$ mkdir project.git
-	$ cd project.git
+	$ mkdir projet.git
+	$ cd projet.git
 	$ git --bare init
 
 Alors, John, Josie ou Jessica peuvent pousser la première version de leur projet vers ce dépôt en l'ajoutant en tant que dépôt distant et en lui poussant une branche.
@@ -353,12 +353,12 @@ Si vous l'hébergez en interne et avez réglé le DNS pour faire pointer `gitser
 	$ git init
 	$ git add .
 	$ git commit -m 'premiere validation'
-	$ git remote add origin git@gitserver:/opt/git/project.git
+	$ git remote add origin git@gitserver:/opt/git/projet.git
 	$ git push origin master
 
 À présent, les autres utilisateurs peuvent cloner le dépôt et y pousser leurs modifications aussi simplement :
 
-	$ git clone git@gitserver:/opt/git/project.git
+	$ git clone git@gitserver:/opt/git/projet.git
 	$ vim LISEZMOI
 	$ git commit -am 'correction fichier LISEZMOI'
 	$ git push origin master
@@ -382,7 +382,7 @@ La ligne devrait maintenant ressembler à ceci :
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
 À présent, l'utilisateur 'git' ne peut plus utiliser la connexion SSH que pour pousser et tirer sur des dépôts Git, il ne peut plus ouvrir un shell.
-Si vous essayez, vous verrez une réjection de login :
+Si vous essayez, vous verrez un rejet de login :
 
 	$ ssh git@gitserver
 	fatal: What do you think I am? A shell?
@@ -396,12 +396,12 @@ Ou peut-être avez-vous quelques serveurs de compilation ou d'intégration conti
 
 Le moyen le plus simple pour des petites installations est probablement d'installer un serveur web statique dont la racine pointe sur vos dépôts Git puis d'activer le ???hook??? `post-update` mentionné à la première partie de ce chapitre.
 Reprenons l'exemple précédent.
-Supposons que vos dépôts sont dans le répertoire `/opt/git` et qu'un serveur Apache soit installé sur la machine.
-Vous pouvez bien sur utiliser n'importe quel serveur web mais nous utiliserons Apache pour montrer le nécessaire d'une configuration.
+Supposons que vos dépôts soient dans le répertoire `/opt/git` et qu'un serveur Apache soit installé sur la machine.
+Vous pouvez bien sur utiliser n'importe quel serveur web mais nous utiliserons Apache pour montrer la configuration nécessaire.
 
 Premièrement, il faut activer le ???hook??? :
 
-	$ cd project.git
+	$ cd projet.git
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
@@ -416,7 +416,7 @@ Il contient simplement ceci :
 
 Cela signifie que lorsque vous poussez vers le serveur via SSH, Git lance cette commande pour mettre à jour les fichiers nécessaires lorsqu'on tire par HTTP.
 
-Ensuite, il faut ajouter une entrée VirtualHost à la configuration Apache dont la racine pointe sur vos dépôts Git.
+Ensuite, il faut ajouter dans la configuration Apache une entrée VirtualHost dont la racine pointe sur vos dépôts Git.
 Ici, nous supposerons que vous avez réglé un DNS avec résolution générique qui renvoit `*.gitserver` vers la machine qui héberge ce système :
 
 	<VirtualHost *:80>
@@ -432,9 +432,9 @@ Vous devrez aussi positionner le groupe d'utilisateur Unix du répertoire `/opt/
 
 	$ chgrp -R www-data /opt/git
 
-Après avoir redémarré Apache, vous devriez être capacle de cloner vos dépôts en spécifiant l'URL de votre projet :
+Après avoir redémarré Apache, vous devriez être capable de cloner vos dépôts en spécifiant l'URL de votre projet :
 
-	$ git clone http://git.gitserver/project.git
+	$ git clone http://git.gitserver/projet.git
 
 Ainsi, vous pouvez donner accès en lecture seule à tous vos projets à un grand nombre d'utilisateurs en quelques minutes.
 Une autre option simple pour fournir un accès public non-authentifié consiste à lancer un daemon Git, bien que cela requiert de daemoniser le processus ─ nous traiterons cette option dans un chapitre ultérieur si vous préférez cette option.
@@ -448,7 +448,7 @@ Vous pouvez voir GitWeb en action sur des sites tels que `http://git.kernel.org`
 Insert 18333fig0401.png 
 Figure 4-1. L'interface web de visualisation GitWeb
 
-Si vous souhaitez vérifier à quoi GitWeb ressemblerait pour votre projet, Git fournit une commande pour démarrer une instance temporaire de serveur si vous avez un serveur léger sur votre système, tel que `lighttpd` ou `webrick`.
+Si vous souhaitez vérifier à quoi GitWeb ressemblerait pour votre projet, Git fournit une commande pour démarrer une instance temporaire de serveur si vous avez un serveur léger tel que `lighttpd` ou `webrick` sur votre système.
 Sur les machines Linux, `lighttpd` est souvent pré-installé et vous devriez pouvoir le démarrer en tapant `git instaweb` dans votre répertoire de travail.
 Si vous utilisez un Mac, Ruby est installé de base avec Léopard, donc `webrick` est une meilleure option.
 Pour démarrer `instaweb` avec un gestionnaire autre que lighttpd, vous pouvez le lancer avec l'option `--httpd`.
@@ -459,11 +459,11 @@ Pour démarrer `instaweb` avec un gestionnaire autre que lighttpd, vous pouvez l
 
 Cette commande démarre un serveur HTTP sur le port 1234 et lance automatique un navigateur internet qui ouvre la page d'accueil.
 C'est vraiment très simple.
-Pour arrêter le serveur, il suffit de lancer la même commande mais avec l'option `--stop` :
+Pour arrêter le serveur, il suffit de lancer la même commande, mais avec l'option `--stop` :
 
 	$ git instaweb --httpd=webrick --stop
 
-Si vous souhaiter fournir l'interface web en permanence sur le serveur pour votre équipe ou pour un projet opensource que vous hébergez, il sera nécessaire d'installer le script CGI pour qu'il soit appelé paqr votre serveur web.
+Si vous souhaitez fournir l'interface web en permanence sur le serveur pour votre équipe ou pour un projet opensource que vous hébergez, il sera nécessaire d'installer le script CGI pour qu'il soit appelé par votre serveur web.
 Quelques distributions Linux ont un package `gitweb` qu'il suffira d'installer via `apt` ou `yum`, ce qui est une possibilité.
 Nous détaillerons tout de même rapidement l'installation manuelle de GitWeb.
 Premièrement, le code source de Git qui fournit GitWeb est nécessaire pour pouvoir générer un script CGI personnalisé :
@@ -475,7 +475,7 @@ Premièrement, le code source de Git qui fournit GitWeb est nécessaire pour pou
 	$ sudo cp -Rf gitweb /var/www/
 
 Notez que vous devez indiquer où trouver les dépôts Git au moyen de la variable `GITWEB_PROJECTROOT`.
-Maintenant, il faut installer dans Apache l'utilisation de CGI pour ce script, en spécifiant un nouveau VirtualHost :
+Maintenant, il faut paramétrer dans Apache l'utilisation de CGI pour ce script, en spécifiant un nouveau VirtualHost :
 
 	<VirtualHost *:80>
 	    ServerName gitserver
@@ -501,7 +501,7 @@ Avec des centaines d'utilisateurs, la gestion devient compliquée.
 À chaque fois, il faut se connecter au serveur et il n'y a aucun contrôle d'accès — toute personne avec une clef dans le fichier a accès en lecture et écriture à tous les projets.
 
 Il est temps de se tourner vers un logiciel largement utilisé appelé Gitosis.
-Gitosis est une collection de scripts qui aident à gérer le fichier `authorize_keys` ainsi qu'à implémenter des contrôles d'accès simples.
+Gitosis est une collection de scripts qui aident à gérer le fichier `authorized_keys` ainsi qu'à implémenter des contrôles d'accès simples.
 La partie la plus intéressante de l'outil est que l'interface d'administration permettant d'ajouter des utilisateurs et de déterminer leurs droits n'est pas une interface web mais un dépôt Git spécial.
 Vous paramétrez les informations dans ce projet et lorsque vous le poussez, Gitosis reconfigure les serveurs en fonction des données, ce qui est cool.
 
@@ -562,9 +562,9 @@ Vous devriez voir quelque chose comme :
 	  Connection to gitserver closed.
 
 Cela signifie que Gitosis vous a bien reconnu mais vous a rejeté car vous ne lancez pas de commandes Git.
-Lançons donc une vraie commande Git — en clonant le dépôt de contrôle Gitosis :
+Lançons donc une vraie commande Git en clonant le dépôt de contrôle Gitosis :
 
-	# on your local computer
+	# sur votre ordinateur local
 	$ git clone git@gitserver:gitosis-admin.git
 
 Vous avez à présent un répertoire `gitosis-admin` qui contient deux entrées :
@@ -577,7 +577,7 @@ Vous avez à présent un répertoire `gitosis-admin` qui contient deux entrées�
 
 Le fichier `gitosis.conf` est le fichier de configuration qui permet de spécifier les utilisateurs, les dépôts et les permissions.
 le répertoire `keydir` stocke les clefs publiques de tous les utilisateurs qui peuvent avoir un accès à vos dépôts — un fichier par utilisateur.
-Le nom du fichier dans `keydir` (dans l'exemple précédent, `scott.pub`) sera différente pour vous — Gitosis utilise le nom issu de la description à la fin de la clef publique qui a été importée par le script `gitosis-init`.
+Le nom du fichier dans `keydir` (dans l'exemple précédent, `scott.pub`) sera différent pour vous — Gitosis utilise le nom issu de la description à la fin de la clef publique qui a été importée par le script `gitosis-init`.
 
 Le fichier `gitosis.conf` contient la configuration du projet `gitosis-admin` cloné à l'instant :
 
@@ -588,7 +588,7 @@ Le fichier `gitosis.conf` contient la configuration du projet `gitosis-admin` cl
 	writable = gitosis-admin
 	members = scott
 
-Il indique que l'utilisateur scott — l'utilisateur dont la clef publique a servi à initialiser Gitosis — est le seul à avoir accès au projet `gitosis-admin`.
+Il indique que l'utilisateur « scott » — l'utilisateur dont la clef publique a servi à initialiser Gitosis — est le seul à avoir accès au projet `gitosis-admin`.
 
 A présent, ajoutons un nouveau projet.
 Ajoutons une nouvelle section appelée `mobile` où vous listez les développeurs de votre équipe mobile et les projets auquels ces développeurs ont accès.
@@ -613,7 +613,7 @@ Comme « scott » est le seul utilisateur déclaré pour l'instant, vous devre
 
 Vous pouvez pousser vers le nouveau `iphone_projet` en ajoutant votre serveur comme dépôt distant dans votre dépôt local de projet et en poussant.
 Vous n'avez plus besoin de créer manuellement un dépôt nu sur le serveur pour les nouveaux projets.
-Gitosis crée les automatiquement dès qu'il voit le premier push :
+Gitosis les crée automatiquement dès qu'il voit le premier push :
 
 	$ git remote add origin git@gitserver:iphone_projet.git
 	$ git push origin master
@@ -624,7 +624,7 @@ Gitosis crée les automatiquement dès qu'il voit le premier push :
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
 
-Notez qu'il n'est pas nécessaire de spécifier le chemin distant (en fait, c'est interdit), juste deux points et le nom du projet.
+Notez qu'il est inutile de spécifier le chemin distant (en fait, c'est interdit), juste deux points et le nom du projet.
 Gitosis gère les chemins.
 
 Souhaitant travailler sur ce projet avec vos amis, vous devrez rajouter leurs clefs publics.
@@ -646,7 +646,7 @@ Après validation et poussée vers le serveur, les quatre utilisateurs sont admi
 
 Gitosis fournit aussi des permissions simples.
 Si vous souhaitez que John n'ait qu'un accès en lecture à ce projet, vous pouvez configurer ceci plutôt :
-i
+
 	[group mobile]
 	writable = iphone_projet
 	members = scott josie jessica
@@ -670,28 +670,36 @@ Vous pouvez aussi spécifier un autre groupe comme membre du groupe (avec le pr�
 	writable  = autre_iphone_projet
 	members   = @mobile_committers john
 
-Si vous rencontrez de problèmes, il peut être utile d'ajouter `loglevel=DEBUG` sous la section `[gitosis]`.
-Si vous avez perdu le droit de pousser en poussant une configuration vérolée, vous pouvez toujours réparer le fichier `/home/git/.gitosis.conf` sur le serveur — le fichier dans lequel Gitosis lit sa configuration.
+Si vous rencontrez des problèmes, il peut être utile d'ajouter `loglevel=DEBUG` sous la section `[gitosis]`.
+Si vous avez perdu le droit de pousser en envoyant une configuration vérolée, vous pouvez toujours réparer le fichier `/home/git/.gitosis.conf` sur le serveur — le fichier dans lequel Gitosis lit sa configuration.
 Pousser sur le projet `gitosis-admin` provoque la recopie du fichier `gitosis.conf` à cet endroit.
 Si vous éditez ce fichier à la main, il restera dans cet état jusqu'à la prochaine poussée.
 
-## Git Daemon ##
+## le daemon Git ##
 
-For public, unauthenticated read access to your projects, you’ll want to move past the HTTP protocol and start using the Git protocol. The main reason is speed. The Git protocol is far more efficient and thus faster than the HTTP protocol, so using it will save your users time.
+Pour garantir les accès publics non authentifiés en lecture à vos projet, il est préférable de dépasser le protocole HTTP et de commencer à utiliser le protocole Git.
+La raison principale en est la vitesse.
+Le protocole Git est bien plus efficace et de ce fait plus rapide que le protocole HTTP et fera gagner du temps à vos utilisateurs.
 
-Again, this is for unauthenticated read-only access. If you’re running this on a server outside your firewall, it should only be used for projects that are publicly visible to the world. If the server you’re running it on is inside your firewall, you might use it for projects that a large number of people or computers (continuous integration or build servers) have read-only access to, when you don’t want to have to add an SSH key for each.
+Ce système n'est valable que pour les accès non authentifiés en lecture seule.
+Si vous mettez ceci en place sur un serveur à l'extérieur de votre pare-feu, il ne devrait être utilisé que pour des projets qui sont destinés à être visibles publiquement par le monde entier.
+Si  le serveur est derrière le pare-feu, il peut être utilisé pour des projets avec accès en lecture seule pour un grand nombre d'utilisateurs ou des ordinateurs (intégration continue ou serveur de compilation) pour lequels vous ne souhaitez pas avoir à gérer des clefs SSH.
 
-In any case, the Git protocol is relatively easy to set up. Basically, you need to run this command in a daemonized manner:
+En tout cas, le protocole Git est relativement facile à mettre en place.
+Grossièrement, il suffit de lancer la commande suivante en tant que daemon :
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` allows the server to restart without waiting for old connections to time out, the `--base-path` option allows people to clone projects without specifying the entire path, and the path at the end tells the Git daemon where to look for repositories to export. If you’re running a firewall, you’ll also need to punch a hole in it at port 9418 on the box you’re setting this up on.
+`--reuseaddr` autorise le serveur à redémarrer sans devoir attendre que les anciennes connexions expirent, l'option `--base-path` autorise les gens à cloner des projets sans devoir spécifier le chemin complet, et le chemin en fin de ligne indique au daemon Git l'endroit où chercher des dépôts à exporter.
+Si vous utilisez un pare-feu, il sera nécessaire de rediriger le port 9418 sur la machine hébergeant le serveur.
 
-You can daemonize this process a number of ways, depending on the operating system you’re running. On an Ubuntu machine, you use an Upstart script. So, in the following file
+Transformer ce processus en daemon se réalise par différentes manières qui dépendent du système d'exploitation sur lequel il est lancé.
+Sur une machine Ubuntu, c'est un script Upstart.
+Donc dans le fichier
 
 	/etc/event.d/local-git-daemon
 
-you put this script:
+le script suivant :
 
 	start on startup
 	stop on shutdown
@@ -702,42 +710,48 @@ you put this script:
 	    /opt/git/
 	respawn
 
-For security reasons, it is strongly encouraged to have this daemon run as a user with read-only permissions to the repositories – you can easily do this by creating a new user 'git-ro' and running the daemon as them.  For the sake of simplicity we’ll simply run it as the same 'git' user that Gitosis is running as.
+Par sécurité, ce daemon devrait être lancé par un utilisateur n'ayant que des droits de lecture seule sur les dépôts — simplement en créant un nouvel utilisateur « git-ro » qui servira à lancer le daemon.
+Par simplicité, nous le lancerons avec le même utilisateur « git » qui est utilisé par Gitosis.
 
-When you restart your machine, your Git daemon will start automatically and respawn if it goes down. To get it running without having to reboot, you can run this:
+Au rédémarrage de la machine, votre daemon Git démarrera automatiquement et redémarrera s'il meurt.
+Pour le lancer sans avoir à redémarrer, vous pouvez lancer ceci :
 
 	initctl start local-git-daemon
 
-On other systems, you may want to use `xinetd`, a script in your `sysvinit` system, or something else — as long as you get that command daemonized and watched somehow.
+Sur d'autres systèmes, le choix reste large, allant de `xinetd` à un script de système `sysvinit` ou à tout autre moyen — tant que le programme est daemonisé et surveillé.
 
-Next, you have to tell your Gitosis server which repositories to allow unauthenticated Git server-based access to. If you add a section for each repository, you can specify the ones from which you want your Git daemon to allow reading. If you want to allow Git protocol access for your iphone project, you add this to the end of the `gitosis.conf` file:
+Ensuite, il faut spécifier à votre serveur Gitosis les dépôts à autoriser en accès Git.
+Si vous ajoutez une section pour chaque dépôt, vous pouvez indiquer ceux que vous souhaitez servir en lecture via votre daemon Git.
+Par exemple, si vous souhaitez un accès par protocole Git à votre projet iphone, ajoutez ceci à la fin du fichier `gitosis.conf` :
 
 	[repo iphone_projet]
 	daemon = yes
 
-When that is committed and pushed up, your running daemon should start serving requests for the project to anyone who has access to port 9418 on your server.
+Une fois cette configuration validée et poussée, votre daemon devrait commencer à servir des requêtes pour ce projet à tout personne ayant accès au port 9518 de votre serveur.
 
-If you decide not to use Gitosis, but you want to set up a Git daemon, you’ll have to run this on each project you want the Git daemon to serve:
+Si vous décidez de ne pas utiliser Gitosis, mais d'utiliser un daemon Git, il faudra lancer les commandes suivantes sur chaque projet que vous souhaitez faire servir par le daemon Git :
 
-	$ cd /path/to/project.git
+	$ cd /chemin/au/projet.git
 	$ touch git-daemon-export-ok
 
-The presence of that file tells Git that it’s OK to serve this project without authentication.
+La présence de ce fichier indique à Git que ce projet peut être servi sans authentification.
 
-Gitosis can also control which projects GitWeb shows. First, you need to add something like the following to the `/etc/gitweb.conf` file:
+Gitosis peut aussi contrôler les projets que GitWeb publie.
+Premièrement, il faut ajouter au fichier `/etc/gitweb.conf` quelque chose comme :
 
 	$projects_list = "/home/git/gitosis/projects.list";
 	$projectroot = "/home/git/repositories";
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
-You can control which projects GitWeb lets users browse by adding or removing a `gitweb` setting in the Gitosis configuration file. For instance, if you want the iphone project to show up on GitWeb, you make the `repo` setting look like this:
+Vous pouvez contrôler les projets publiés sur GitWeb en ajoutant ou retirant une propriété `gitweb` au fichier de configuration de Gitosis.
+Par exemple, si vous voulez que le projet iphone soit visible sur GitWeb, le paramétrage `repo` doit être le suivant :
 
 	[repo iphone_projet]
 	daemon = yes
 	gitweb = yes
 
-Now, if you commit and push the project, GitWeb will automatically start showing your iphone project.
+Maintenant, si vous validez et poussez le projet `gitosis-admin`, GitWeb commencera automatiquement à publier votre projet iphone.
 
 ## Hosted Git ##
 

@@ -783,7 +783,7 @@ Nous allons détailler comment faire.
 ### Créer un compte utilisateur ###
 
 La première chose à faire, c'est de créer un compte utilisateur gratuit.
-Visitez la page « Pricing and Signup » à `http://github.com/plans` et cliquez sur le bouton « Sign Up » (s'enregistrer) de la zone  « Free account » (compte gratuit) (voir figure 4-2) qui vous amène à la page d'enregistrement.
+Visitez la page « Prix et inscription » à `http://github.com/plans` et cliquez sur le bouton « Créer un compte gratuit » de la zone  « Gratuit pour l'open source » (voir figure 4-2) qui vous amène à la page d'enregistrement.
 
 Insert 18333fig0402.png
 Figure 4-2. La page des différents plans de GitHub.
@@ -795,9 +795,9 @@ Figure 4-3. La page d'enregistrement de GitHub
 
 Si vous l'avez, c'est le bon moment pour ajouter votre clef publique SSH.
 Nous avons détaillé comment en générer précédemment au chapitre « Les petites installations ».
-Copiez le contenu de la clef publique et collez-le dans la boîte à texte « SSH Public Key ».
-En cliquant sur  « explain ssh keys », vous aurez accès aux instructions (en anglais) pour réaliser créer des clefs sur la majorité des systèmes d'exploitation.
-Cliquez sur « I agree, sign me up » pour avoir accès au tableau de bord (dashboard) du nouvel utilisateur (voir figure 4-4).
+Copiez le contenu de la clef publique et collez-le dans la boîte à texte « Clés SSH publiques ».
+En cliquant sur  « Besoin d'aide avec les clés publiques? », vous aurez accès aux instructions (en anglais) pour créer des clefs sur la majorité des systèmes d'exploitation.
+Cliquez sur « Créer un compte » pour avoir accès au tableau de bord du nouvel utilisateur (voir figure 4-4).
 
 Insert 18333fig0404.png 
 Figure 4-4. Le tableau de bord d'utilisateur de GitHub
@@ -806,14 +806,14 @@ Vous pouvez ensuite procéder à la création d'un nouveau dépôt.
 
 ### Création d'un nouveau dépôt ###
 
-Commencez en cliquant sur « New Repository » (Nouveau dépôt) juste à côté de vos dépôts sur le tableau de bord utilisateur.
-Un formulaire « Create a New Repository » (créer un nouveau dépôt) apparaît pour vous guider dans la création d'un nouveau dépôt (voir figure 4-5).
+Commencez en cliquant sur « Nouveau dépôt » juste à côté de vos dépôts sur le tableau de bord utilisateur.
+Un formulaire « Créer un nouveau dépôt » apparaît pour vous guider dans la création d'un nouveau dépôt (voir figure 4-5).
 
 Insert 18333fig0405.png 
 Figure 4-5. Création d'un nouveau dépôt sur GitHub
 
 Le strict nécessaire consiste à fournir un nom au projet, mais vous pouvez aussi ajouter une description.
-Ensuite, cliquez sur le bouton « Create Repository » (créer le dépôt).
+Ensuite, cliquez sur le bouton « Créer un dépôt ».
 Voilà un nouveau dépôt sur GitHub (voir figure 4-6).
 
 Insert 18333fig0406.png 
@@ -843,16 +843,16 @@ Vous pouvez aussi voir dans l'entête de la page de chaque projet qu'il y a deux
 Insert 18333fig0408.png 
 Figure 4-8. Entête de projet avec une URL publique et une URL privée
 
-L'URL « Public Clone URL » est une URL Git publique en lecture seule que tout le monde peut cloner.
+L'URL « Git en lecture seule » est une URL Git publique en lecture seule que tout le monde peut cloner.
 Utilisez cette URL pour publier et partager votre dépôt sur un site web ou autre.
 
-Votre URL « Your Clone URL » est une URL SSH en lecture/écriture qui ne vous permet de lire et écrire que si vous possédez la clef privée associée à la clef publique téléchargée pour votre utilisateur.
+Votre URL « SSH » est une URL SSH en lecture/écriture qui ne vous permet de lire et écrire que si vous possédez la clef privée associée à la clef publique téléchargée pour votre utilisateur.
 Quand d'autres utilisateurs visiteront cette page de projet, ils ne verront pas cette URL, ils ne verront que l'URL publique.
 
 ### Import depuis Subversion ###
 
 Si vous souhaitez importer un projet public sous Subversion dans Git, GitHub peut vous faciliter la tâche.
-Il y a un lien  « Importing a Subversion Repo? Click here » au bas de la page d'instructions.
+Il y a un lien  « Vous importez un dépôt Subversion? Cliquez ici » au bas de la page d'instructions.
 En le cliquant, vous accédez à un formulaire contenant des informations sur le processus d'import et une boîte à texte où vous pouvez coller l'URL de votre dépôt public Subversion (voir figure 4-9).
 
 Insert 18333fig0409.png 
@@ -872,10 +872,10 @@ Cliquez le bouton « Admin » dans l'entête du projet pour accéder à la pag
 Insert 18333fig0410.png 
 Figure 4-10. Page d'administration GitHub.
 
-Pour accorder à un autre utilisateur l'accès en écriture au projet, cliquez l'onglet « Collaborators » (Collaborateurs).
+Pour accorder à un autre utilisateur l'accès en écriture au projet, cliquez l'onglet « Collaborateurs ».
 Vous pouvez entrer le nom de l'utilisateur dans la boîte à texte qui apparaît.
 Au fur et à mesure de votre frappe, une liste déroulante affiche les noms qui correspondent aux caractères tapés.
-Lorsque vous avez trouvé l'utilisateur correct, cliquez le bouton « Add » (ajouter) pour ajouter l'utilisateur comme collaborateur au projet (voir figure 4-11).
+Lorsque vous avez trouvé l'utilisateur correct, cliquez le bouton « Ajouter » pour ajouter l'utilisateur comme collaborateur au projet (voir figure 4-11).
 
 Insert 18333fig0411.png 
 Figure 4-11. Ajout d'un collaborateur à votre projet.
@@ -897,11 +897,11 @@ Figure 4-13. Un page principale de projet GitHub.
 
 Lorsqu'on visite votre projet, on voit cette page.
 Elle contient des onglets vers différentes vues des projets.
-L'onglet « Commits » affiche une liste des validations dans l'ordre chronologique inverse, similaire à ce qu'afficherait la commande `git log`.
-L'onglet « Network » affiche tous les utilisateurs ayant dupliqué votre projet et contribué.
-L'onglet « Downloads » vous permet de télécharger les éxécutables du projet ou de fournir des archives des sources de votre projet à des points balisés.
+L'onglet « Contributions » affiche une liste des validations dans l'ordre chronologique inverse, similaire à ce qu'afficherait la commande `git log`.
+L'onglet « Réseau » affiche tous les utilisateurs ayant dupliqué votre projet et contribué.
+L'onglet « Téléchagements » vous permet de télécharger les éxécutables du projet ou de fournir des archives des sources de votre projet à des points balisés.
 L'onglet « Wiki » fournit un wiki ou vous pouvez commencer à écrire la documentation ou d'autres informations du projet.
-L'onglet « Graphs » permet de visualiser les contributions et les statistiques.
+L'onglet « Graphiques » permet de visualiser les contributions et les statistiques.
 L'onglet principal « Source » sur lequel vous arrivez par défaut affiche le contenu du répertoire principal du projet et met en forme dessous le fichier README s'il en contient un.
 Cet onglet affiche aussi un boîte contenant les informations de la dernière validation.
 
@@ -918,7 +918,7 @@ Pour dupliquer un projet, visitez la page du projet (par exemple mojombo/chronic
 Insert 18333fig0414.png 
 Figure 4-14. Obtenir un copie modifiable et publiable d'un dépôt en cliquant le bouton « Fork ».
 
-Quelques secondes plus tard, vous êtes rediriges vers une nouvelle page de projet qui indique que ce projet est un dupliqué d'un autre (voir figure 4-15).
+Quelques secondes plus tard, vous êtes redirigés vers une nouvelle page de projet qui indique que ce projet est un dupliqué d'un autre (voir figure 4-15).
 
 Insert 18333fig0415.png 
 Figure 4-15. Votre duplicata d'un projet.
@@ -936,6 +936,6 @@ Vous disposez de plusieurs moyens de mettre en place un dépôt Git distant pour
 
 Gérer votre propre serveur vous donne une grande maîtrise et vous permet de l'installer derrière un pare-feu, mais un tel serveur nécessite généralement une certaine quantité de travail pour l'installation et la maintenance.
 Si vous placez vos données sur un serveur hébergé, c'est très simple à installer et maintenir.
-Cependant vous devez pouvoir héberger votre code sur des serveurs tiers et certaines sociétés ne le permettent pas.
+Cependant vous devez pouvoir héberger votre code sur des serveurs tiers et certaines politiques d'organisation ne le permettent pas.
 
 Choisir la meilleure solution ou combinaison de solutions pour votre cas ou celui de votre société ne devrait pas poser de problème.

@@ -1,28 +1,22 @@
 # Utilitaires Git #
 
---By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
 A présent, vous avez appris les commandes et modes de fonctionnements de tous les jours requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source. Vous avez déroulés les routines de *tracking* et de *committing* de files, and vous avez exploité la puissance de la *staging area* et du départ en branches et des merges de branches locales de travail.
 
---Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
 Désormais, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous n'utiliserez que peu souvant mais dont vous pourriez avoir l'usage à un moment ou à un autre.
 
 ## Sélection des versions ##
 
---Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
 Git vous permet d'adresser certains *commits* ou un ensemble de *commits* de différentes façons. Si elles ne sont pas toutes évidentes il est bon de les connaître.
 
 ### Révisions ponctuelles ###
 
---You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
-Naturellement, vous pouvez référencer un *commit* par le hash SHA-1, mais il existe des méthodes plus confortables pour le genre humain. Cette section présente les méthodes pour référencer un *commit* simple.
+Naturellement, vous pouvez référencer un commit par le hash SHA-1, mais il existe des méthodes plus confortables pour le genre humain. Cette section présente les méthodes pour référencer un commit simple.
 
 ### SHA court ###
 
---Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
-Git est capable de deviner de quel *commit* vous parlez si vous ne fournissez que quelques caractères du début du hash, pour autant que votre SHA-1 partiel comporte 4 caractères et ne génère pas de collision - dans ces conditions, un objet seulement verra son SHA-1 correspondre.
+Git est capable de deviner de quel commit vous parlez si vous ne fournissez que quelques caractères du début du hash, pour autant que votre SHA-1 partiel comporte 4 caractères et ne génère pas de collision - dans ces conditions, un objet seulement verra son SHA-1 correspondre.
 
---For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
-Par exemple, pour afficher un *commit* préis, supposons que vous exécutiez `git log` et que vous identifiez le *commit* où vous avez introduit une fonctionnalité précise.
+Par exemple, pour afficher un commit préis, supposons que vous exécutiez `git log` et que vous identifiez le commit où vous avez introduit une fonctionnalité précise.
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -44,14 +38,12 @@ Par exemple, pour afficher un *commit* préis, supposons que vous exécutiez `gi
 
 	    added some blame and merge stuff
 
---In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
-Pour ce cas, choisissons `1c002dd....` Si vous affichez le contenu de ce *commit* via `git show`, les commandes suivantes sont équivalents (en partant du principe que les SHA-1 courts ne sont pas ambigüs).
+Pour ce cas, choisissons `1c002dd....` Si vous affichez le contenu de ce commit via `git show`, les commandes suivantes sont équivalents (en partant du principe que les SHA-1 courts ne sont pas ambigüs).
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
---Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
 Git peut déterminer un SHA tout à la fois le plus court possible et non ambigü. Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut git retiendra 7 caractères et alongera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
@@ -59,7 +51,6 @@ Git peut déterminer un SHA tout à la fois le plus court possible et non ambig�
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
---Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
 En règle générale, entre 8 et 10 caractères sont largement suffisant pour assurer l'unicité dans un projet. Un des plus projets utilisant Git, le kernel Linux, nécessite de plus en plus fréquemment 12 sur les 40 caractères possible pour assurer l'unicité.
 
 ### QUELQUES MOTS SUR SHA-1 ###
@@ -68,30 +59,28 @@ A lot of people become concerned at some point that they will, by random happens
 
 If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
 
---However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
 Quoi qu'il en soit, vous devriez être conscient à quel point ce scnératio est ridiculement improbable. Un *digest* SHA-1 porte sur 20 octet soit 160bits. Le nombre d'objet aléatoires à hasher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`. 2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards. Cela représente 1200 fois le nombre de grains de sable présent sur terre.
 
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
 ### Références de branches ###
 
---The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
-La méthode la plus standard pour désigner un *commit* nécessite une branche y pointant. Dès lors, vous pouvez utiliser le nombre de la branche dans toute commande utilisant un objet de type *commit* ou un SHA-1. Par exemple, si vous souhaitez afficher le dernier *commit* d'une branche, les commandes suivantes sont équivalentes, en supposant que la branche `sujet1` pointe sur `ca82a6d` :
+La méthode la plus standard pour désigner un commit nécessite une branche y pointant. Dès lors, vous pouvez utiliser le nom de la branche dans toute commande utilisant un objet de type commit ou un SHA-1. Par exemple, si vous souhaitez afficher le dernier commit d'une branche, les commandes suivantes sont équivalentes, en supposant que la branche `sujet1` pointe sur `ca82a6d` :
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show sujet1
 
---If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
-Pour connaitre le SHA sur lequel pointe une branche, ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plombier nommée `rev-parse`. Se référer au chapitre 9 pour plus d'informations sur les commandes de plombier ; sommairement, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour. Quoi qu'il en soit, cela peut se révélér utile pour comprendre ce qui se passe. Je vous invite à tester `rev-parse` sur votre propre branche.
+Pour connaître le SHA sur lequel pointe une branche, ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`. Se référer au chapitre 9 pour plus d'informations sur les commandes de plombier ; sommairement, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour. Quoi qu'il en soit, cela peut se révéler utile pour comprendre ce qui se passe. Je vous invite à tester `rev-parse` sur votre propre branche.
 
 	$ git rev-parse sujet1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### RefLog Shortnames ###
+### Reccourcis RefLog ###
 
-One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+!- One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+Git maintient en arrière-plan un historique des références où sont passées HEAD et vos branches sur les dernieres mois - ceci s'appelle le reflog.
 
-You can see your reflog by using `git reflog`:
+Vous pouvez le consulter avec la commande `git reflog` :
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
@@ -102,17 +91,17 @@ You can see your reflog by using `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
+À chaque fois que l'extrémité de votre branche est modifiée, Git persiste cette information pour vous dans son historique temporaire. Vous pouvez référencer d'anciens commits avec cette donnée. Si vous souhaitez consulter le n-ième antécédent de votre HEAD, vous pouvez utiliser la référence `@{n}` du reflog, 5 dans cet exemple :
 
 	$ git show HEAD@{5}
 
-You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
+Vous pouvez également remonter le temps et savoir où en était une branche. Par exemple, pour savoir où en était la branche `master` hier (yesterday en anglais), tapez :
 
 	$ git show master@{yesterday}
 
-That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
+Cette technique fonctionne uniquement si l'information est encore présente dans le reflog, vous ne pourrez donc pas consulter les commits trop ancients.
 
-To see reflog information formatted like the `git log` output, you can run `git log -g`:
+Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -131,24 +120,24 @@ To see reflog information formatted like the `git log` output, you can run `git 
 
 	    Merge commit 'phedders/rdocs'
 
-It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
+Veuillez noter que le reflog ne stocke que l'information locale — c'est un historique de ce que vous avez fait dans votre dépôt. Les références ne sont pas dans une autre copie du dépôt ; et juste après le clone d'un dépôt, votre reflog sera vide, puisque qu'aucune activité ne s'y sera produite. Exécuter `git show` HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliqué ce projet depuis au moins 2 moins — si vous l'avez dupliqué il y a 5 minutes, vous n'obtiendrez rien.
 
-### Ancestry References ###
+### Références passées ###
 
-The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
-Suppose you look at the history of your project:
+Une solution fréquente de référencer un commit est d'utiliser son ancêtre. Si vous suffixez une référence par `^`, Git la résoudra comme étant le parent de cette référence.
+Supposons que vous consultiez votre historique :
 
 	$ git log --pretty=format:'%h %s' --graph
-	* 734713b fixed refs handling, added gc auto, updated tests
+	* 734713b fix sur la gestion des refs, ajout gc auto, mise à jour des tests
 	*   d921970 Merge commit 'phedders/rdocs'
 	|\  
-	| * 35cfb2b Some rdoc changes
-	* | 1c002dd added some blame and merge stuff
+	| * 35cfb2b modifs minor rdoc
+	* | 1c002dd ajout blame and merge
 	|/  
 	* 1c36188 ignore *.gem
-	* 9b29157 add open3_detach to gemspec file list
+	* 9b29157 ajout open3_detach à la liste des fichiers gemspcec
 
-Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD":
+Alors, vous pouvez consulter le commit précédent en spécifiant `HEAD^`, ce qui signifie "le parent de HEAD" :
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -158,23 +147,23 @@ Then, you can see the previous commit by specifying `HEAD^`, which means "the pa
 
 	    Merge commit 'phedders/rdocs'
 
-You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:
+Vous pouvez également spécifier un nombre après `^` — par exemple, `d921970^2` signifie "le second parent de d921970.". Cette syntaxe ne sert que pour les commits de fusion, qui ont plus d'un parent. Le premier parent est la branche où vous avez fusionné, et le second est le commit de la branche que vous avez fusionnée : 
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Thu Dec 11 14:58:32 2008 -0800
 
-	    added some blame and merge stuff
+	    ajout blame and merge
 
 	$ git show d921970^2
 	commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
 	Author: Paul Hedderly <paul+git@mjr.org>
 	Date:   Wed Dec 10 22:22:03 2008 +0000
 
-	    Some rdoc changes
+	    modifs minor rdoc
 
-The other main ancestry specification is the `~`. This also refers to the first parent, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means "the first parent of the first parent," or "the grandparent" — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
+Une autre solution courante pour spécifier une référence est le `~`. Il fait également référence au premier parent, donc `HEAD~` et `HEAD^` sont équivalents. La différence se fait sentir si vous spécifiez un nombre. `HEAD~2` signifie "le premier parent du premier parent," ou bien "le grandparent" — ça remonte les premiers parents autant de fois que demandé. Par exemple, dans l'historique précédemment présenté, `HEAD~3` serait :
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -183,7 +172,7 @@ The other main ancestry specification is the `~`. This also refers to the first 
 
 	    ignore *.gem
 
-This can also be written `HEAD^^^`, which again is the first parent of the first parent of the first parent:
+Cela aura bien pu être écrit `HEAD^^^`, qui là encore est le premier parent du premier parent du premier parent :
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -192,57 +181,57 @@ This can also be written `HEAD^^^`, which again is the first parent of the first
 
 	    ignore *.gem
 
-You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
+Vous pouvez également combiner ces syntaxes — vous pouvez obtenier le second parent de la référence précédent (en supposant que c'était un commit de fusion) en utilisant `HEAD~3^2`, etc.
 
-### Commit Ranges ###
+### Plages de commits ###
 
-Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
+A présent que vous pouvez spécifier des commits individuels, voyons comme spécifier une place de commits. Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour adresser des problèmes tels que "Quel activité sur cette branche n'ai-je pas encore fusionné sur ma branche principlae ?".
 
-#### Double Dot ####
+#### Double point ####
 
-The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
+La plus fréquente spécification de plage de commit est la syntaxe double-point. En gros, cela demande à Git de résoudre la plage des commits qui sont accessible depuis un commit mais ne le sont pas depuis un autre. Par exemple, disons que votre historique ressemble à celui de la Figure 6-1.
 
 Insert 18333fig0601.png 
-Figure 6-1. Example history for range selection.
+Figure 6-1. Exemple d'historique pour la sélection de plages de commits.
 
-You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
+Si vous voulez savoir ce que n'a pas encore été fusionné sur votre branche master depuis votre branche experiment, vous pouvez demandez à Git de vous montrer un listing des commits with `master..experiment` — ce qui signifie "tous les commits accessibles par experiment qui ne le sont pas par master.". Dans un souci de brièveté et de clarté de ces exemples, je vais utiliser les lettres des commits issus du diagramme à la place du vrai listing dans l'ordre où ils auraient dû être affichés :
 
 	$ git log master..experiment
 	D
 	C
 
-If, on the other hand, you want to see the opposite — all commits in `master` that aren’t in `experiment` — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:
+D'un autre côté, si vous souhaitez voir l'opposé — tous les commits dans `master` mais pas encore dans `experiment` — vous pouvez inverser les noms de branches, `experiment..master` vous montre tout ce à que `master` accède mais qu'experiment ne voit pas :
 
 	$ git log experiment..master
 	F
 	E
 
-This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge in. Another very frequent use of this syntax is to see what you’re about to push to a remote:
+C'est pratique si vous souhaitez maintenir `experiment` à jour et anticiper les fusions. Une autre cas d'utilisation fréquent et de voir ce que vous vous appréter à pousser sur une branche distante :
 
 	$ git log origin/master..HEAD
 
-This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
-You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.
+Cette commande vous affiche tous les commits de votre branche courante qui ne sont pas sur la branche `master` du dépôt distant `origin`. Si vous exécutez `git push` et que votre branche courante suit `origin/master`, les commits listés par `git log origin/master..HEAD` sont les commits qui seront transférés sur le serveur.
+Vous pouvez également laisser tomber une borne de la syntaxe pour faire comprendre à Git que vous parlez de HEAD. Par exemple, vous pouvez obtenir les mêmes résultats que précédemment en tapant `git log origin/master..` — Git utilise HEAD si une des bornes est manquante.
 
-#### Multiple Points ####
+#### Plusieurs points ####
 
-The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
+La syntaxe double-point est pratique comme raccourci ; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels commits sont dans plusieurs branches mais qui sont absents de la branche courante. Git vous permets cela avec `^` or `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les commits. Les 3 commandes ci-après sont équivalents :
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+C'est utile car cela vous permets de spécifier plus de 2 références dans votre requête, ce que vous ne pouvez accomplir avec la syntaxe double-point. Par exemple, si vous souhaitez voir les commits qui sont accessibles depuis `refA` et `refB` mais pas depuis `refC`, vous pouvez taper ces 2 commandes :
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-This makes for a very powerful revision query system that should help you figure out what is in your branches.
+Ceci vous prodigue un système de requêtage des révisions très puissant, pour vous aider à saisir ce qui se trouve sur vos branches.
 
-#### Triple Dot ####
+#### Triple point ####
 
-The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
-If you want to see what is in `master` or `experiment` but not any common references, you can run
+La dernière syntaxe majeure de sélection de plage de commits est la syntaxe triple-point, qui spécifie tous les commits accessible par l'une des deux référence, exclusivement. Retournez consulter l'exemple d'historique à la figure 6-1.
+Si vous voulez voir ce qui ce trouve sur `master` ou `experiment` mais pas sur les 2, exécutez :
 
 	$ git log master...experiment
 	F
@@ -250,9 +239,9 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
-Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.
+Encore une fois, cela vous donne un `log` normal mais ne vous montre les informations que pour ces quatre commits, dans l'ordre naturel des dates de commit.
 
-A common switch to use with the `log` command in this case is `--left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:
+Une option courante à utiliser avec la commande `log` dans ce ces est `--left-right` qui vous montre de quel borne de la plage ce commit fait partie. Cela rend les données plus utiles :
 
 	$ git log --left-right master...experiment
 	< F
@@ -260,7 +249,7 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 	> D
 	> C
 
-With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
+Avec ces outils, vous pourrez utiliser Git pour savoir quels commits inspecter.
 
 ## Interactive Staging ##
 

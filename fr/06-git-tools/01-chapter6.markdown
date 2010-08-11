@@ -1,22 +1,28 @@
-# Git Tools #
+# Utilitaires Git #
 
-By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+--By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+A présent, vous avez appris les commandes et modes de fonctionnements de tous les jours requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source. Vous avez déroulés les routines de *tracking* et de *committing* de files, and vous avez exploité la puissance de la *staging area* et du départ en branches et des merges de branches locales de travail.
 
-Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
+--Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
+Désormais, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous n'utiliserez que peu souvant mais dont vous pourriez avoir l'usage à un moment ou à un autre.
 
-## Revision Selection ##
+## Sélection des versions ##
 
-Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+--Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+Git vous permet d'adresser certains *commits* ou un ensemble de *commits* de différentes façons. Si elles ne sont pas toutes évidentes il est bon de les connaître.
 
-### Single Revisions ###
+### Révisions ponctuelles ###
 
-You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
+--You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
+Naturellement, vous pouvez référencer un *commit* par le hash SHA-1, mais il existe des méthodes plus confortables pour le genre humain. Cette section présente les méthodes pour référencer un *commit* simple.
 
-### Short SHA ###
+### SHA court ###
 
-Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
+--Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
+Git est capable de deviner de quel *commit* vous parlez si vous ne fournissez que quelques caractères du début du hash, pour autant que votre SHA-1 partiel comporte 4 caractères et ne génère pas de collision - dans ces conditions, un objet seulement verra son SHA-1 correspondre.
 
-For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
+--For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
+Par exemple, pour afficher un *commit* préis, supposons que vous exécutiez `git log` et que vous identifiez le *commit* où vous avez introduit une fonctionnalité précise.
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,41 +44,47 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 	    added some blame and merge stuff
 
-In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
+--In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
+Pour ce cas, choisissons `1c002dd....` Si vous affichez le contenu de ce *commit* via `git show`, les commandes suivantes sont équivalents (en partant du principe que les SHA-1 courts ne sont pas ambigüs).
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
+--Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
+Git peut déterminer un SHA tout à la fois le plus court possible et non ambigü. Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut git retiendra 7 caractères et alongera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+--Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+En règle générale, entre 8 et 10 caractères sont largement suffisant pour assurer l'unicité dans un projet. Un des plus projets utilisant Git, le kernel Linux, nécessite de plus en plus fréquemment 12 sur les 40 caractères possible pour assurer l'unicité.
 
-### A SHORT NOTE ABOUT SHA-1 ###
+### QUELQUES MOTS SUR SHA-1 ###
 
 A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
 
 If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+--However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+Quoi qu'il en soit, vous devriez être conscient à quel point ce scnératio est ridiculement improbable. Un *digest* SHA-1 porte sur 20 octet soit 160bits. Le nombre d'objet aléatoires à hasher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`. 2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards. Cela représente 1200 fois le nombre de grains de sable présent sur terre.
 
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
-### Branch References ###
+### Références de branches ###
 
-The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
+--The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
+La méthode la plus standard pour désigner un *commit* nécessite une branche y pointant. Dès lors, vous pouvez utiliser le nombre de la branche dans toute commande utilisant un objet de type *commit* ou un SHA-1. Par exemple, si vous souhaitez afficher le dernier *commit* d'une branche, les commandes suivantes sont équivalentes, en supposant que la branche `sujet1` pointe sur `ca82a6d` :
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
-	$ git show topic1
+	$ git show sujet1
 
-If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
+--If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
+Pour connaitre le SHA sur lequel pointe une branche, ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plombier nommée `rev-parse`. Se référer au chapitre 9 pour plus d'informations sur les commandes de plombier ; sommairement, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour. Quoi qu'il en soit, cela peut se révélér utile pour comprendre ce qui se passe. Je vous invite à tester `rev-parse` sur votre propre branche.
 
-	$ git rev-parse topic1
+	$ git rev-parse sujet1
 	ca82a6dff817ec66f44342007202690a93763949
 
 ### RefLog Shortnames ###

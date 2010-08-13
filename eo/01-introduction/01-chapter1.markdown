@@ -1,45 +1,45 @@
-# Почетак #
+# Ekkomenci #
 
-Ово поглавље прича о почетку рада са Гитом. Започећемо појашњавањем позадине алата за контролу верзије, затим ћемо прећи на то како покренути Гит на свом систему и коначно како га подесити и кренути са радом. На крају овог поглавља разумећеш зашто постоји Гит, зашто га треба користити и како га подесити.
+Ĉi tiu ĉapitro estos pri komenci pri Git. Ni komencos je la komenco, klarigante iom da fonaj aferoj pri versikontrolaj iloj, poste pluiros pri kiel ruligi Git en via sistemo kaj fine kiel agordi por ekuzi ĝin. Je la fino de ĉi tiu ĉapitro vi komprenu kial Git ekzistas, kial vi uzi ĝin kaj vi estu pretiĝinta por ekuzi.
 
-## О контроли верзије ##
+## Pri versikontrolo ##
 
-Шта је контрола верзије и зашто би требало да знате за то? Контрола верзије је систем који снима промене над фајлом или скупом фајлова у времену да би се после могла вратити поједина верзија по потреби. У примерима у овој књизи користићете изворни код програма као фајлове чије верзије се контролишу, иако у реалности ово се може искористити за скоро било који тип фајла на компјутеру.
+Kio estas versikontrolo, kaj kial vi okupiĝu pri tio? Versikontrolo estas sistemo kiu registras ŝanĝojn pri dosiero aŭ dosieraro dumtempe por ke vi povu revoki specifajn versiojn poste. Por la ekzemploj en ĉi tiu libro vi uzos programaran fontkodon kiel la dosierojn versikontrolataj, sed vere vi povas fari ĉi tion pri ĉiaj dosieroj komputilaj.
 
-Ако сте графички или веб дизанер и желите да чувате сваку верзију слике или шаблона (што сигурно желите), мудро је користити систем за контролу верзија (VCS). Он омогућава да се фајлови врате на претходна стања, да се цео пројекат врати на неко стање из прошлости, да се пореде промене током времена, да се види ко је последњи мењао и шта те се тако брже дође до узрока проблема, ко је направио проблем и када, и више. Коришћење VCS генерално значи да ако нешто зезнете или изгубите фајлове, лако се ствари могу поправити. Уз то, све ово долази уз врло мало додатног посла.
+Se vi estas grafika aŭ retpaĝa dizajnisto kaj vi volas If you are a graphic or web designer and want to keep every version of an image or layout (which you would most certainly want to), a Version Control System (VCS) is a very wise thing to use. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
 
-### Локални системи контроле верзије ###
+### Local Version Control Systems ###
 
-Многи људи прате верзије тако што копирају фајлове у други директоријум (којем, евентуално, додају датум и време). Овај приступ је врло чест јер је једноставан, али врло подложан грешкама. Човек лако заборави у којем је директоријуму и онда случајно упише у погрешан фајл или препише постојеће фајлове погрешним копијама.
+Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 
-Да бисмо се изборили са овим проблемом, програмери су одавно развили локалне систем за контролу верзија који имају једноставну базу у којој памте све промене над фајловима које прате (види Figure 1-1).
+To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
 
 Insert 18333fig0101.png 
-Figure 1-1. Дијаграм локланог система за праћење верзија
+Figure 1-1. Local version control diagram.
 
-Један од популарнијих алата јесте систем rcs, који се и даље испоручује у многим рачунарима и данас. Чак и популарни Mac OS X оперативни систем садржи rcs команду када се инсталирају Програмерки Алати (ор. Developer Tools). Овај алат у ствари ради тако што памти скупове закрпа (тј. фајлове са разликама међу фајловима) од једне промене до друге у посебном формату на диксу; на тај начин, он може да поново рестаурира стање било код фајла у било којој тачки у времену додајући јој закрпе (ен. patch).
+One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
 
-### Централизовани системи контроле верзије ###
+### Centralized Version Control Systems ###
 
-Следећи велики проблем који људи сусрећу јесте да морају да сарађују са програмерима на другим системима. Да би се решио овај проблем, развијени су Централизовани системи за праћење верзија. Овакви системи, попут CVS-а, Subversion-a и Perforce-a, поседују један сервер који садржи све верзионисане фајлове, и бројне клијенте који онда пореде фајлове са тим централним местом. Дуги низ година, ово је представљало стандард за праћење верзија (видети Figure 1-2).
+The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Дијаграм централизованог система за праћење верзија
+Figure 1-2. Centralized version control diagram.
 
-Оваква поставка нуди много предности, посебно над чисто локалним системима за верзионисање. На пример, сви знају отприлике шта остали на пројекту раде. Администратори имају прецизну контролу над тиме шта ко може да уради; и много је једноставније да се администрира централизовани систем него управљати локалним базама на сваком клијенту.
+This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
 
-Свакако, ова поставка садржи такође неке озбиљне недостатке. Најочигледнији је једно место грешке које представљају централизовани сервери. Ако сервер није доступан сат времена, онда током ток сата нико не може уопште да сарађује нити да сачува верзионисане промене над урађеним послом. Ако се хард диск централне базе поквари, а не постоје одговарајуће сигурносне копије, изгубљено је практично све — цела историја пројекта евентулано појединих последњих стања које су учесници сачували на својим локланим машинама. Локални системи верзионисања пате од истог проблема — кад год постоји само једна копија историје пројекта на једној локацији, расте ризик да се то све изгуби.
+However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
 
-### Дистрибуирани системи контроле верзије ###
+### Distributed Version Control Systems ###
 
 This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+Figure 1-3. Distributed version control diagram.
 
 Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
 
-## Кратка историја Гита ##
+## A Short History of Git ##
 
 As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 
@@ -102,7 +102,7 @@ Now, pay attention. This is the main thing to remember about Git if you want the
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory
+Figure 1-6. Working directory, staging area, and git directory.
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
 
@@ -131,8 +131,8 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
 
-	$ apt-get install curl-devel expat-devel gettext-devel \
-	  openssl-devel zlib-devel
+	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+	  libz-dev
 	
 When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
 
@@ -166,7 +166,7 @@ There are two easy ways to install Git on a Mac. The easiest is to use the graph
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer
+Figure 1-7. Git OS X installer.
 
 The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
 
@@ -252,6 +252,6 @@ For example, you can get the manpage help for the config command by running
 These commands are nice because you can access them anywhere, even offline.
 If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
 
-## Закључак ##
+## Summary ##
 
 You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.

@@ -1,45 +1,45 @@
-# Почетак #
+# Első lépések
 
-Ово поглавље прича о почетку рада са Гитом. На почетку, почећемо објашњавајући позадину алата за контролу верзије, затим ћемо прећи на то како покренути Гит на свом систему и коначно на то како га подесити и започети рад са њиме. На крају овог поглавља требало би да разумете зашто постоји Гит, зашто га требате користити и како га подесити за рад.
+Ez a fejezet a Git használatba vételének első lépéseit mutatja be. Először megismerkedünk a verziókövető eszközök hátterével, majd futatásra kész állapotba hozzuk a Git-et a saját rendszerünkön és végezetül munkára kész állapotba hozzuk. A fejezet végére megértjük miért is van szükségünk a Git-re, miért kellene használni és miért kell elvégezni minden beállítást.
 
-## О контроли верзије ##
+## A verziókövetésről ##
 
-Шта је контрола верзије и зашто би требало да знате за то? Контрола верзије је систем који снима промене над фајлом или скупом фајлова у времену да би се после могла вратити поједина верзија по потреби. У примерима у овој књизи користићете изворни код програма као фајлове чије верзије се контролишу, иако у реалности ово се може искористити за скоро било који тип фајла на компјутеру.
+Mi az a verziókövetés, és miért kellene vele törődnünk? A verziókövető rendszer nyílvántartja egy file vagy fájlok gyűjteményén időről-időre végzett módosításokat és bármelyik verzióhoz hozzáférhetünk a segítségével. A könyvben szereplő példában egy program forráskódot verziókövetünk, a való világban szinte bármilyen a számítógépen található fájlal meg tehető.
 
-Ако сте графички или веб дизанер и желите да чувате сваку верзију слике или шаблона (што сигурно желите), мудро је користити систем за контролу верзија (VCS). Он омогућава да се фајлови врате на претходна стања, да се цео пројекат врати на неко стање из прошлости, да се пореде промене током времена, да се види ко је последњи мењао и шта те се тако брже дође до узрока проблема, ко је направио проблем и када, и више. Коришћење VCS генерално значи да ако нешто зезнете или изгубите фајлове, лако се ствари могу поправити. Уз то, све ово долази уз врло мало додатног посла.
+Ha grafikus vagy webdizájner vagy és meg akarod tartani az összes verzióját egy képnek vagy egy weboldal tervezetnek (amit mindenképp szeretnél), egy Verziókövető Rendszer (VR) legalkalmasabb dolog a feladatra. Lehetővé teszi fájlok visszaálítást egy előző verzióra, a teljes projekt visszaállítását egy előző verzióra, változatok összehasonlítását bármely idő intervalimra, rájöhetsz miért okoz az utolsó módsításod problémát, hogyan keletkezik egy esemény és miért és így tovább. A VR használata az is jelenti ha elrontasz valamit vagy elveszne egy fájl könnyedén visszavonhatod minimális erőforrás ráfordítással.
 
-### Локални системи контроле верзије ###
+### Egyéni verziókövető rendszerk  ###
 
-Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
+Sok ember választja verziókövető megoldásnak a fájlok különböző mappákba másolását (mappák neve egy időbélyeg ha értelmesen csinálják). Ez a legkönnyebben befogadható megoldás mert egyszerű, de hihetetlenül könnyű hibázni. Elfelejtik hogy melyik mappában vannak rossz fájlt írnak vagy írnakfelül olyat amit nem kellett volna.
 
-To deal with this issue, programmers long ago developed local VCSs that had a simple database that kept all the changes to files under revision control (see Figure 1-1).
+Régebben a probléma megoldására a programozók egyéni VR-eket fejlesztettek, aminek volt egy egyszerű adatbázisa amiben követte a fájlok egyes verzióit (Lásd 1-1 ábra).
 
-Insert 18333fig0101.png 
-Figure 1-1. Local version control diagram
+Insert 18333fig0101.png
+1-1 ábra. Egyéni verziókövetés sematikus ábrája.
 
-One of the more popular VCS tools was a system called rcs, which is still distributed with many computers today. Even the popular Mac OS X operating system includes the  rcs command when you install the Developer Tools. This tool basically works by keeping patch sets (that is, the differences between files) from one change to another in a special format on disk; it can then re-create what any file looked like at any point in time by adding up all the patches.
+Az egyik legnébszerűbb VR a sok közül az rcs, ami még mindig sok számítógépen megtalálható. A népszerű Mac OS X operációs rendszer is tartalmazza, ha feltelpítjük a Fejlesztő Eszközöket. Ez az eszköz egyszerűen folt (patch) készleteket (a fájlok verziók közötti különbségégek összesége) tárol minden egyes változás egy speciális formátumban a merevlemezen; a fájlok bármely állapotra visszaállíthatóak a foltok segítségével.
 
-### Централизовани системи контроле верзије ###
+### Központosított verziókövető rendszerek ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Az embereknek szembesülnie kellet azzal a problémával, hogy együtt kell működniük más fejesztőkkel akik más-más rendszereket használták. A probléma megoldását a központosított verzióküvető rendszerek (KVR) kifejlesztése kívánta meg. Ezek a rendszerek, úgymint a CVS, a Subversion (SVN) és a Prefoce, egy darab központi szerveren tárolják az összes verziókövetett fájlt, a kliensek pedig ebből a központi tárolóból kérik le azokat. Sok évig ezt jelentette "A verziókövetést" (Lásd 1-2 ábra).
 
-Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram
+Insert 18333fig0102.png
+1-2 ábra. Központi verziókövetés sematikus ábrája.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Ez az összeállítás rengeteg előnnyel rendelkezett, különös képpen az egyéni VR-kel szemben. Példának okáért, mindenki pontosan tudta ki mit csinál a projekten belül. Az adminisztrátorok teljes körüen irányítusk alatt tarthatják ki, mit és hogyan tehet meg; nagyságrendekkel könnyebb adminisztrálni egy KVR-t mint ha az összes kliens lokális adatbázisait kellene.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Ugyanakkor ez az összeállításnak van néhány komoly hátránya. A legnyílvánvalóbb "single point of faliure"-t a központi szerver jelenti. Ha a szerver nem működik egy órán keresztül, akkor senki sem tud együttműködni vagy verziókövetni a változásait amin éppen dolgozott. Ha a központi szerver lemezen adatvesztés lép fel és nincs megfelelő mentésróla, mindent elveszíthetsz a projekt teljes történetét kivéve persze az egyes emberek egyéni másolatait ami a saját gépeiken található. Az egyéni VR rendszereket is veszélyezteti ez a veszély mivel mindent lokálisan egyetlen helyen tárolnak, megvan a veszélye hogy mindent elvíthetsz.
 
-### Дистрибуирани системи контроле верзије ###
+### Elosztott verziókövető rendszerek ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+Ekkor jöttek az Elosztott Verziókövető Rendszerek (EVR). Az EVR-ekben, mint a Git, a Mercurical, a Bazaar vagy a Dracs, a kliensek nem csak a legutolsó állapotot kérik le, hanem a teljes repositorit. Ekéépen ha a szerver megáll, amin eddig folyt az együttműködés, bármelyik kliens repositoriból vissza állítható a teljes adatbázis. Minden adat lekrés tényleg teljes mentésnek felel meg (Lásd 1-3 ábra).
 
-Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram
+Insert 18333fig0103.png
+1-3 ábra. Elosztott verziókövetés sematikus ábrája.
 
-Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
+Ezenkívül, a legtöbb ilyen rendszer támogatja a több távoli repositori elérését, így lehetővé válik számunkra hogy több különböző csoportokkal különböző módun tudjanak együtműködni ugyaz azon a projekt keretein belül. Így lehetőség van több munkafolyamat (workflow) alkamazására, ami egy centralizát hiearchiskus modelben elképzelhetetlen.
 
-## Кратка историја Гита ##
+## A Short History of Git ##
 
 As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
 
@@ -102,7 +102,7 @@ Now, pay attention. This is the main thing to remember about Git if you want the
 This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory
+Figure 1-6. Working directory, staging area, and git directory.
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
 
@@ -131,8 +131,8 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
 
-	$ apt-get install curl-devel expat-devel gettext-devel \
-	  openssl-devel zlib-devel
+	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+	  libz-dev
 	
 When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
 
@@ -166,7 +166,7 @@ There are two easy ways to install Git on a Mac. The easiest is to use the graph
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer
+Figure 1-7. Git OS X installer.
 
 The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
 

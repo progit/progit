@@ -393,11 +393,17 @@ Now, the 'git' user can only use the SSH connection to push and pull Git reposit
 	fatal: What do you think I am? A shell?
 	Connection to gitserver closed.
 
-## Public Access ##
+## Открытый доступ ##
+
+Что если вы хотите иметь анонимный доступ к вашему проекту на чтение? Возможно вместо размещения внутреннего закрытого проекта, вы хотите разместить проект open source. Или, может быть у вас есть автоматические билд-серверы или серверы непрерывной интеграции, которые часто изменяются, и вы не хотите постоянно перегенерировать ключи SSH, а вы просто хотите добавить анонимный доступ на чтение.
 
 What if you want anonymous read access to your project? Perhaps instead of hosting an internal private project, you want to host an open source project. Or maybe you have a bunch of automated build servers or continuous integration servers that change a lot, and you don’t want to have to generate SSH keys all the time — you just want to add simple anonymous read access.
 
+Вероятно наиболее простой способ для небольших конфигураций ― запустить статический веб-сервер, указав в качестве корневого каталога для документов каталог в котором расположены ваши репозитории Git, и разрешив хук `post-update`, как было показано в первой части этой главы. Давайте продолжим работу с предыдущего примера. Допустим ваши репозитории расположены в каталоге `/opt/git`, и сервер Apache запущен на вашей машине. Повторюсь, вы можете использовать любой веб-сервер, но в качестве примера мы покажем несколько основных конфигураций Apache, которые покажут основную идею что нужно сделать.
+
 Probably the simplest way for smaller setups is to run a static web server with its document root where your Git repositories are, and then enable that `post-update` hook we mentioned in the first section of this chapter. Let’s work from the previous example. Say you have your repositories in the `/opt/git` directory, and an Apache server is running on your machine. Again, you can use any web server for this; but as an example, we’ll demonstrate some basic Apache configurations that should give you an idea of what you might need.
+
+Для начала вам следует включить хук:
 
 First you need to enable the hook:
 
@@ -405,7 +411,11 @@ First you need to enable the hook:
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
+Если вы используете версию Git ниже 1.6, то команда `mv` не нужна ― именование примеров хуков с расширением .sample только недавно.
+
 If you’re using a version of Git earlier than 1.6, the `mv` command isn’t necessary — Git started naming the hooks examples with the .sample postfix only recently. 
+
+Что делает хук `post-update`? Обычно он выглядит так:
 
 What does this `post-update` hook do? It looks basically like this:
 
@@ -413,7 +423,11 @@ What does this `post-update` hook do? It looks basically like this:
 	#!/bin/sh
 	exec git-update-server-info
 
+Это означает, что когда вы отгружаете на сервер по SSH, Git будет запускать эту команду, чтобы обновить файлы необходимые для скачивания по HTTP.
+
 This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.
+
+Затем, вы должны добавить запись VirtualHost в конфигурацию вашего Apache с корневым каталогом документов в каталоге с вашими проектами Git. Здесь мы подразумеваем, что у ваш DNS сервер настроен на отправку `*.gitserver` на машину, которую вы используете, чтобы запустить все это:
 
 Next, you need to add a VirtualHost entry to your Apache configuration with the document root as the root directory of your Git projects. Here, we’re assuming that you have wildcard DNS set up to send `*.gitserver` to whatever box you’re using to run all this:
 
@@ -426,22 +440,32 @@ Next, you need to add a VirtualHost entry to your Apache configuration with the 
 	    </Directory>
 	</VirtualHost>
 
+Вам также понадобится задать Unix группу пользователей для каталога `/opt/git` в `www-data`, чтобы ваш веб-сервер получил доступ на чтение этих каталогов, поскольку (по умолчанию) Apache запускает CGI скрипты от имени такого пользователя:
+
 You’ll also need to set the Unix user group of the `/opt/git` directories to `www-data` so your web server can read-access the repositories, because the Apache instance running the CGI script will (by default) be running as that user:
 
 	$ chgrp -R www-data /opt/git
+
+После перезапуска Apache, вы должны получить возможность склонировать ваши репозитории из того каталога указывая их в URL:
 
 When you restart Apache, you should be able to clone your repositories under that directory by specifying the URL for your project:
 
 	$ git clone http://git.gitserver/project.git
 
+Таким образом, вы можете настроить доступ на чтение по HTTP к любому из ваших проектов для значительно количества пользователей за несколько минут. Другой простой способ дать открытый неаутентифицируемый доступ ― использовать демон Git, однако это требует запуска процесса демона. Мы рассмотрим этот вариант в следующей секции, если вы предпочитаете этот вариант.
+
 This way, you can set up HTTP-based read access to any of your projects for a fair number of users in a few minutes. Another simple option for public unauthenticated access is to start a Git daemon, although that requires you to daemonize the process - we’ll cover this option in the next section, if you prefer that route.
 
 ## GitWeb ##
 
+Теперь, когда у вас есть основной доступ на чтение и запись и доступ только на чтение к вашему проекту, вероятно вы захотите настроить простой веб визуализатор. Git поставляется в комплекте с CGI скриптом, называющимся GitWeb, который обычно используется для этого. Вы можете увидеть GitWeb в действии на таких сайтах как `http://git.kernel.org` (рис. 4-1).
+
 Now that you have basic read/write and read-only access to your project, you may want to set up a simple web-based visualizer. Git comes with a CGI script called GitWeb that is commonly used for this. You can see GitWeb in use at sites like `http://git.kernel.org` (see Figure 4-1).
 
 Insert 18333fig0401.png 
-Figure 4-1. The GitWeb web-based user interface.
+Figure 4-1. Веб-интерфейс GitWeb.
+
+Если вы хотите проверить как GitWeb будет выглядеть для вашего проекта, Git поставляется с командой для быстрой установки временного экземпляра, если в вашей системе есть легковесный веб-сервер, такой как `lighttpd` или `webrick`. На машинах с Linux `lighttpd` часто установлен, поэтому возможно вы сможете его запустить выполнив `git instaweb` в вашем каталоге с вашим проектом. Если вы используете Mac, Leopard поставляется с предустановленным Ruby, поэтому `webrick` может быть лучшим выбором. Чтобы запустить `instaweb` с не ligttpd вы можете запустить команду с параметром `-httpd`.
 
 If you want to check out what GitWeb would look like for your project, Git comes with a command to fire up a temporary instance if you have a lightweight server on your system like `lighttpd` or `webrick`. On Linux machines, `lighttpd` is often installed, so you may be able to get it to run by typing `git instaweb` in your project directory. If you’re running a Mac, Leopard comes preinstalled with Ruby, so `webrick` may be your best bet. To start `instaweb` with a non-lighttpd handler, you can run it with the `--httpd` option.
 
@@ -449,9 +473,13 @@ If you want to check out what GitWeb would look like for your project, Git comes
 	[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
 	[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 
+Это запустит HTTPD сервер на порту 1234 и затем запустить веб-браузер, открытый на этой странице. Это очень просто. Когда вы закончили и хотите остановить сервер, вы можете запустить ту же команду с параметром `--stop`.
+
 That starts up an HTTPD server on port 1234 and then automatically starts a web browser that opens on that page. It’s pretty easy on your part. When you’re done and want to shut down the server, you can run the same command with the `--stop` option:
 
 	$ git instaweb --httpd=webrick --stop
+
+Если вы хотите иметь постоянно работающий веб-интерфейс на сервере для вашей команды или для проекта с открытым кодом на хостинге, вам необходимо установить CGI скрипт на вашем веб-сервере. Некоторые дистрибутивы Linux имеют пакет `gitweb` который вы можете установить используя `apt` или `yum`, так что вы можете попробовать сначала этот способ. Мы рассмотрим установку GitWeb вручную очень вкратце. Для начала, вам нужно получить исходный код Git, с которым поставляется GitWeb и сгенерировать настроеный CGI скрипт:
 
 If you want to run the web interface on a server all the time for your team or for an open source project you’re hosting, you’ll need to set up the CGI script to be served by your normal web server. Some Linux distributions have a `gitweb` package that you may be able to install via `apt` or `yum`, so you may want to try that first. We’ll walk though installing GitWeb manually very quickly. First, you need to get the Git source code, which GitWeb comes with, and generate the custom CGI script:
 
@@ -460,6 +488,8 @@ If you want to run the web interface on a server all the time for your team or f
 	$ make GITWEB_PROJECTROOT="/opt/git" \
 	        prefix=/usr gitweb/gitweb.cgi
 	$ sudo cp -Rf gitweb /var/www/
+
+Помните, что вы должны указать команде где расположены ваши репозитории Git с помощью переменной `GITWEB_PROJECTROOT`. Теперь вы должно настроить Apache на использование этого скрипта, для чего вы можете добавить виртуальный хост:
 
 Notice that you have to tell the command where to find your Git repositories with the `GITWEB_PROJECTROOT` variable. Now, you need to make Apache use CGI for that script, for which you can add a VirtualHost:
 
@@ -475,6 +505,8 @@ Notice that you have to tell the command where to find your Git repositories wit
 	        DirectoryIndex gitweb.cgi
 	    </Directory>
 	</VirtualHost>
+
+Повторюсь, GitWeb может быть установлен на любой веб-сервер, совместимый с CGI. Если вы предпочитаете использовать что то другое, настройка не должна стать для вас проблемой. К этому моменту вы должны иметь возможность зайти на `http://gitserver/` для просмотра ваших репозиториев онлайн, а также использовать `http://git.gitserver` для клонирования и скачивания ваших репохиториев по HTTP.
 
 Again, GitWeb can be served with any CGI capable web server; if you prefer to use something else, it shouldn’t be difficult to set up. At this point, you should be able to visit `http://gitserver/` to view your repositories online, and you can use `http://git.gitserver` to clone and fetch your repositories over HTTP.
 

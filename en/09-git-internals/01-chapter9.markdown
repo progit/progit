@@ -371,7 +371,7 @@ As discussed in Chapter 2, there are two types of tags: annotated and lightweigh
 
 That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
 
-	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
+	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 -m 'test tag'
 
 Here’s the object SHA-1 value it created:
 
@@ -857,7 +857,7 @@ It looks like the bottom commit is the one you lost, so you can recover it by cr
 Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again. 
 Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:
 
-	$ git branch –D recover-branch
+	$ git branch -D recover-branch
 	$ rm -Rf .git/logs/
 
 Because the reflog data is kept in the `.git/logs/` directory, you effectively have no reflog. How can you recover that commit at this point? One way is to use the `git fsck` utility, which checks your database for integrity. If you run it with the `--full` option, it shows you all objects that aren’t pointed to by another object:

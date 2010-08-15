@@ -1,40 +1,62 @@
-# Distributed Git #
+# Git distribué #
 
-Now that you have a remote Git repository set up as a point for all the developers to share their code, and you’re familiar with basic Git commands in a local workflow, you’ll look at how to utilize some of the distributed workflows that Git affords you.
+Avec un dépôt distant Git mis en place pour permettre à tous les développeurs de partager leur code, et la connaissance des commandes de base de Git pour une gestion locale, abordons les méthodes de gestion distribuée que Git nous offre.
 
-In this chapter, you’ll see how to work with Git in a distributed environment as a contributor and an integrator. That is, you’ll learn how to contribute code successfully to a project and make it as easy on you and the project maintainer as possible, and also how to maintain a project successfully with a number of developers contributing.
+Dans ce chapitre, vous découvrirez comment travailler dans un environnement distribué avec Git en tant que contributeur ou comme intégrateur.
+Cela recouvre la manière de contribuer efficacement à un projet et de rendre la vie plus facile au mainteneur du projet ainsi qu'à vous même, mais aussi en tant que mainteneur, de gérer un projet avec de nombreux contributeurs.
 
-## Distributed Workflows ##
+## développements distribués ##
 
-Unlike Centralized Version Control Systems (CVCSs), the distributed nature of Git allows you to be far more flexible in how developers collaborate on projects. In centralized systems, every developer is a node working more or less equally on a central hub. In Git, however, every developer is potentially both a node and a hub — that is, every developer can both contribute code to other repositories and maintain a public repository on which others can base their work and which they can contribute to. This opens a vast range of workflow possibilities for your project and/or your team, so I’ll cover a few common paradigms that take advantage of this flexibility. I’ll go over the strengths and possible weaknesses of each design; you can choose a single one to use, or you can mix and match features from each.
+À la différence des systèmes de gestion de version centralisés (CVCSs), la nature distribuée de Git permet une bien plus grande flexibilité dans la manière dont les développeurs collaborent sur un projet.
+Dans les systèmes centralisés, tout développeur est un nœud travaillant de manière plus ou moins égale sur un concentrateur central.
+Dans Git par contre, tout développeur est potentiellement un nœud et un concentrateur, c'est-à-dire que chaque développeur peut à la fois contribuer du codes vers les autres dépôts et maintenir un dépôt public sur lequel d'autres vont baser leur travail et auquel il vont contribuer.
+Cette capacité ouvre une perspective de modes de développement pour votre projet ou votre équipe dont certains archétypes tirant parti de cette flexibilité seront traités dans les sections qui suivent.
+Les avantages et inconvénients éventuels de chaque mode seront traités.
+Vous pouvez choisir d'en utiliser un seul, ou de mélanger les fonctions de chacun.
 
-### Centralized Workflow ###
+### Gestion centralisée ###
 
-In centralized systems, there is generally a single collaboration model—the centralized workflow. One central hub, or repository, can accept code, and everyone synchronizes their work to it. A number of developers are nodes — consumers of that hub — and synchronize to that one place (see Figure 5-1).
+Dans les systèmes centralisés, il n'y a généralement qu'un seul modèle de collaboration, la gestion centralisée.
+Un concentrateur ou dépôt central accepte le code et tout le monde doit synchroniser son travail avec.
+Les développeurs sont des nœuds, des consommateurs de concentrateur, seul endroit où ils se synchronisent (voir figure 5-1).
 
 Insert 18333fig0501.png 
-Figure 5-1. Centralized workflow.
+Figure 5-1. La gestion centralisée.
 
-This means that if two developers clone from the hub and both make changes, the first developer to push their changes back up can do so with no problems. The second developer must merge in the first one’s work before pushing changes up, so as not to overwrite the first developer’s changes. This concept is true in Git as it is in Subversion (or any CVCS), and this model works perfectly in Git.
+Cela signifie que si deux développeurs clonent depuis le concentrateur et qu'ils introduisent tous les deux des modifications, le premier à pousser ses modifications le fera sans encombre.
+Le second développeur doit fusionner les modifications du premier dans son dépôt local avant de pousser ses modifications pour ne pas écraser les modifications du premier.
+Ce concept reste aussi vrai avec Git qu'il l'est avec Subversion (ou tout autre CVCS), et le modèle fonctionne parfaitement dans Git.
 
-If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge.
-This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.
+Si votre équipe est petite et que vous êtes déjà habitués à une gestion centralisée dans votre société ou votre équipe, vous pouvez simplement continuer à utiliser cette méthode avec Git.
+Mettez en place un dépôt unique et donnez à tous l'accès en poussée.
+Git empêchera les utilisateurs d'écraser le travail des autres.
+Si un développeur clone le dépôt central, fait des modifications et essaie de les pousser alors qu'un autre développeur à pousser ses modifications dans le même temps, le serveur rejettera les modifications du premier.
+Il lui sera indiqué qu'il cherche à pousser des modifications sans mode avance rapide et qu'ils ne pourront pas le faire tant qu'il n'auront pas récupéré et fusionné les nouvelles modifications depuis le serveur.
+Cette méthode est très intéressante pour de nombreuses personnes car c'est un paradigme avec lequel nombreux sont familiers et à l'aise.
 
-### Integration-Manager Workflow ###
+### Le mode du gestionnaire d'intégration ###
 
-Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2):
+Comme Git permet une multiplicité de dépôt distants, il est possible d'envisager un mode de fonctionnement où chaque développeur a un accès en écriture à son propre dépôt public et en lecture à tous ceux des autres.
+Ce scénario inclut souvent un dépôt canonique qui représente le projet « officiel ».
+Pour commencer à contribuer au projet, vous créez votre propre clone public du projet et poussez vos modifications dessus.
+Après, il suffit d'envoyer une demande au mainteneur de projet pour qu'il tire vos modifications dans le dépôt canonique.
+Il peut ajouter votre dépôt comme dépôt distant, tester vos modifications localement, les fusionner dans sa branche et les pousser vers le dépôt public.
+Le processus se passe comme ceci (voir figure 5-2) :
 
-1.	The project maintainer pushes to their public repository.
-2.	A contributor clones that repository and makes changes.
-3.	The contributor pushes to their own public copy.
-4.	The contributor sends the maintainer an e-mail asking them to pull changes.
-5.	The maintainer adds the contributor’s repo as a remote and merges locally.
-6.	The maintainer pushes merged changes to the main repository.
+1.      Le mainteneur du projet pousse vers sont dépôt public.
+2.      Un contributeur clone ce dépôt et introduit des modifications.
+3.      Le contributeur pousse son travail sur son dépôt public.
+4.      Le contributeur envoie au mainteneur un e-mail de demande pour tirer depuis son dépôt.
+5.      Le mainteneur ajoute le dépôt du contributeur comme dépôt distant et fusionne localement.
+6.      Le mainteneur pousse les modifications fusionnées sur le dépôt principal.
 
 Insert 18333fig0502.png 
-Figure 5-2. Integration-manager workflow.
+Figure 5-2. Le mode du gestionnaire d'intégration
 
-This is a very common workflow with sites like GitHub, where it’s easy to fork a project and push your changes into your fork for everyone to see. One of the main advantages of this approach is that you can continue to work, and the maintainer of the main repository can pull in your changes at any time. Contributors don’t have to wait for the project to incorporate their changes — each party can work at their own pace.
+C'est une gestion très commune sur des sites tels que GitHub où il est aisé de dupliquer un projet et de pousser ses modifications pour les rendre publiques.
+Un avantage distinctif de cette approche est qu'il devient possible de continuer à travailler et que le mainteneur du dépôt principal peut tirer les modifications à tout moment.
+Les contributeurs n'ont pas à attendre le bon-vouloir du mainteneur pour incorporer leurs modifications.
+Chaque acteur peut travailler à son rythme.
 
 ### Dictator and Lieutenants Workflow ###
 

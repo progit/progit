@@ -163,26 +163,26 @@ Let’s see why you should do so.
 ## Основы ветвления и слияния ##
 ## Basic Branching and Merging ##
 
-Давайте рассмотрим простой пример разветвления и объединения с процессом разработки, который вы могли бы использовть в реальности. Вы будете следовать следующим шагам:
+Давайте рассмотрим простой пример ветвления и слияния с таким процессом работы, который вы могли бы использовать в настоящей разработке. Вы будете делать следующее:
 
 Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
 
-1. Выполнить работу над веб сайтом.
-2. Создать ветку для новой истории, над которой вы работаете.
-3. Выполнить работу на этой ветке.
+1.	Работать над веб-сайтом.
+2.	Создадите ветку для новой истории, над которой вы работаете.
+3.	Выполните некоторую работу на этой ветке.
 
 1.	Do work on a web site.
 2.	Create a branch for a new story you’re working on.
 3.	Do some work in that branch.
 
-На этой фазе вам приходит звонок о том, что другой критической проблеме, которуя надо быстро решить. Вы делаете следующее:
+На этом этапе вы получите звонок о том, что сейчас критична другая проблема, и её надо срочно решить. Вы сделаете следующее:
 
 At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
 
-1. Возвращаетесь на ваш продуктовый брэнч.
-2. Создаете ветку для срочного решения.
-3. После его тестирования, мержите срочную заплатку и включаете в продукт.
-4. Возвращаетесь к прерваной истории и продолжаете работу.
+1.	Вернётесь на производственную ветку.
+2.	Создадите ветку для исправления ошибки.
+3.	После его тестирования, сольёте ветку с исправлением и отправите в продакшн.
+4.	Переключитесь к прерванной истории и продолжите работу.
 
 1.	Revert back to your production branch.
 2.	Create a branch to add the hotfix.
@@ -200,7 +200,7 @@ Insert 18333fig0310.png
 
 Figure 3-10. A short and simple commit history.
 
-Вы решили, что вы будете работать над проблемой №53 в какой-то системе отслеживания проблем, используемой вашей компанией. Разумеется, Git не привязан к какой-то определенной системе отслеживания, но из-за того, что проблема №53 является основной, над которой вы хотите работать, вы создадите новую ветку для работы в ней. Чтобы создать бранч и сразу перейти на него, вы можете выполнить команду `git checkout` с ключом `-b`:
+Вы решили, что вы будете работать над проблемой №53 из какой-то системы отслеживания проблем, используемой вашей компанией. Разумеется, Git не привязан к какой-то определенной системе отслеживания проблем. Просто из-за того, что проблема №53 является основной задачей, над которой вы хотите работать, вы создадите новую ветку для работы в ней. Чтобы создать ветку и сразу же перейти на неё, вы можете выполнить команду `git checkout` с ключом `-b`:
 
 You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
 
@@ -219,11 +219,11 @@ This is shorthand for:
 Figure 3-11 illustrates the result.
 
 Insert 18333fig0311.png 
-Рисунок 3-11. Создание указателя на новую ветку.
+Рисунок 3-11. Создание нового указателя на ветку.
 
 Figure 3-11. Creating a new branch pointer.
 
-Во время работы над вашим веб сайтом, вы делаете несколько коммитов. Эти действия передвигают брэнч `iss53` вперед, потому что вы перешли на него (из-за этого ваш HEAD указывает на него; см. Рисунок 3-12):
+Во время работы над вашим веб-сайтом, вы делаете несколько коммитов. Это передвигает ветку `iss53` вперёд, потому что вы на неё перешли (то есть ваш HEAD указывает на неё; см. Рисунок 3-12):
 
 You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
 
@@ -231,26 +231,26 @@ You work on your web site and do some commits. Doing so moves the `iss53` branch
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Рисунок 3-12. Ветка iss53 передвинулась вперед с вашей работой.
+Рисунок 3-12. Ветка iss53 передвинулась вперёд во время работы.
 
 Figure 3-12. The iss53 branch has moved forward with your work.
 
-Теперь вы получаете звонок о том, что с вебсайтом беда, которую надо устранить немедленно. С Git, вам нет нужды создавать заплатку вместе с изменениями для `iss53`, которые вы уже сделали. Также нет необходимости прикладывать много усилий, чтобы отменить эти изменения перед тем, как вы сможете начать работать над решением срочной проблемы. Все, что вам нужно сделать, это перейти на ваш master брэнч.
+Теперь вы получаете звонок о том, что есть проблема с веб-сайтом, которую необходимо немедленно устранить. С Git, вам нет нужды создавать заплатку вместе с изменениями для `iss53`, которые вы уже сделали. А также не надо прикладывать много усилий, чтобы отменить эти изменения перед тем, как вы сможете начать работать над решением срочной проблемы. Всё, что вам нужно сделать, это перейти на ветку master.
 
 Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
 
-Однако, прежде чем сделать это, учтите, что если в вашей рабочей дирректории или области подготовки к коммиту имеются незафиксированные изменения, которые конфликтуют с веткой, на которую вы переходите, Git не позволит переключить брэнчи. Лучше всего иметь чистое рабочее состояния, когда вы переключаете ветки. Существует несколько путей сделать это (а именно, временная фиксайия работы и правка коммита), которые мы рассмотрим позже. А на данный момент представим, что вы зафиксировали все изменения, и можете переключится обратно на ветку master:
+Однако, прежде чем сделать это, учтите, что если в вашем рабочем каталоге или индексе имеются незафиксированные изменения, которые конфликтуют с веткой, на которую вы переходите, Git не позволит переключить ветки. Лучше всего иметь чистое рабочее состояния, когда вы переключаете ветки. Существует несколько способов добиться этого (а именно, прятание (stash) работы и правка (amend) коммита), которые мы рассмотрим позже. А на данный момент представим, что вы зафиксировали все изменения, и можете переключиться обратно на ветку master:
 
 However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
 
 	$ git checkout master
 	Switched to branch "master"
 
-После этого рабочая директория проекта находится в том же состоянии, что было в момент начала работы над проблемой №53, так что вы можете сконцентрироваться на срочном изменении. Очень важно запомнить: Git возвращает вашу рабочую дирректорию к состоянию слепка коммита, на который указывает ветка, на которую вы переходите. Он добавляет, удаляет и изменяет файлы автоматически, чтобы гарантировать, что состояние вашей рабочей копии идентично последнему коммиту на ветке.
+Теперь рабочий каталог проекта находится точно в таком же состоянии, что и в момент начала работы над проблемой №53, так что вы можете сконцентрироваться на срочном изменении. Очень важно запомнить: Git возвращает ваш рабочий каталог к снимку состояния того коммита, на который указывает ветка, на которую вы переходите. Он добавляет, удаляет и изменяет файлы автоматически, чтобы гарантировать, что состояние вашей рабочей копии идентично последнему коммиту на ветке.
 
 At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
 
-Итак, вам надо сделать срочноное изменение. Давайте создадим брэнч для него, на котором вы будете работать (см. Рисунок 3-13):
+Итак, вам надо срочно исправить ошибку. Давайте создадим для этого ветку, на которой вы будете работать (см. Рисунок 3-13):
 
 Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
 
@@ -262,11 +262,11 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Рисунок 3-13. Ветка для решения срочной проблемы базируется на master брэнче.
+Рисунок 3-13. Ветка для решения срочной проблемы базируется на ветке master.
 
 Figure 3-13. hotfix branch based back at your master branch point.
 
-Вы можете запустить тесты, убедиться, что решение работает, и замержить изменение назад на ветку master, чтобы включить его в продукт. Вы можете сделать это с помощью команды `git merge`:
+Вы можете запустить тесты, убедиться, что решение работает, и слить (merge) изменения назад в ветку master, чтобы включить его в продукт. Это делается с помощью команды `git merge`:
 
 You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
 
@@ -277,27 +277,27 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Наверное, вы заметили фразу "Fast forward" в этом мерже. Так как бранч, с которымй вы мержитесь, указывает на коммит, являющийся прямым потомком коммита, на котором вы находитесь, Git передвигает указатель вперед. Говоря иными словами, когда вы пытаетесь помержить один коммит с другим, который может быть достигнут путем следованя первичной истории коммитов, Git упрощает вещи перемещением указателя вперед, так как нету расходящихся изменений для слияния их воедино. Это называется "fast forward".
+Наверное, вы заметили фразу "Fast forward" в этом слиянии. Так как ветка, которую вы сливали, указывала на коммит, являющийся прямым потомком коммита, на котором вы находитесь, Git передвигает указатель вперёд. Иными словами, когда вы пытаетесь слить один коммит с другим, который может быть достигнут идя по истории первого коммита, Git упрощает вещи, перемещая указатель вперёд, так как нету расходящихся изменений для слияния их воедино. Это называется "fast forward" (перемотка).
 
 You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
 
-Ваши изменения теперь на слепке коммита, на который указывает master брэнч, и вы можете включить изменения в продукт (см. Рисунок 3-14).
+Ваши изменения теперь в снимке состояния коммита, на который указывает ветка master, и вы можете включить изменения в продукт (см. Рисунок 3-14).
 
 Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
 
 Insert 18333fig0314.png 
-Рисунок 3-14. После слияния ваш master брэнч указывает на то же место, что и ветка hotfix
+Рисунок 3-14. После слияния ветка master указывает туда же, куда и ветка hotfix.
 
 Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
 
-После того, как очень важная проблема решена, вы готовы вернуться обратно к работе, которую делали, прежде чем были прерваны.Однако, сначала удалите ветку `hotfix`, так как она больше не нужна - ветка master уже указывает на то же место. Вы можети удалить брэнч ключом `-d` к `git branch`:
+После того, как очень важная проблема решена, вы готовы вернуться обратно к работе, которую делали, прежде чем были прерваны. Однако, сначала удалите ветку `hotfix`, так как она больше не нужна — ветка `master` уже указывает на то же место. Вы можете удалить ветку с помощью ключа `-d` к `git branch`:
 
 After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Теперь вы можете вернуться обратно к рабочему брэнчу для проблемы №53 и продолжить работать на нем (см. Рисунок 3-15):
+Теперь вы можете вернуться обратно к рабочей ветке для проблемы №53 и продолжить работать над ней (см. Рисунок 3-15):
 
 Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
 
@@ -309,15 +309,15 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-Рисунок 3-15. Ваш iss53 брэнч может двигаться вперед независимо.
+Рисунок 3-15. Ветка iss53 может двигаться вперёд независимо.
 
 Figure 3-15. Your iss53 branch can move forward independently.
 
-Не стоит волноваться, что работа, сделанная на ветке `hotfix`, не включена в файлы на вашем `iss53` брэнче. Если вам нужно включить ее, вы можете выполнить мерж ветки `master` и брэнча `iss53` по средством команды `git merge master`. Или вы можете подождать с интеграцией изменений до тех пор, пока не решите включить изменения на `iss53` в продуктовую ветку `master`.
+Стоит напомнить, что работа, сделанная на ветке `hotfix`, не включена в файлы на ветке `iss53`. Если вам это необходимо, вы можете выполнить слияние ветки `master` в ветку `iss53` посредством команды `git merge master`. Или же вы можете подождать с интеграцией изменений до тех пор, пока не решите включить изменения на `iss53` в продуктовую ветку `master`.
 
 It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
 
-### Основы мержа ###
+### Основы слияния ###
 ### Basic Merging ###
 
 Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:

@@ -580,7 +580,7 @@ Those are only some simple output-formatting options to `git log` — there are 
 
 ### Limiting Log Output ###
 
-In addition to output-formatting options, `git log` takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+In addition to output-formatting options, `git log` takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which shows only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
 
 However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
 
@@ -997,7 +997,7 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 
 Now, suppose you forgot to tag the project at `v1.2`, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 You can see that you’ve tagged the commit:
 

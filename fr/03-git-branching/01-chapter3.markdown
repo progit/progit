@@ -426,13 +426,13 @@ Si vous souhaitez réellement effacer cette branche et perdre ainsi le travail r
 
 ## Travailler avec les branches ##
 
-Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
+Maintenant que vous détenez les bases des branches et fusions, que pouvez ou devez vous faire avec ? Dans cette section, nous aborderons certaines des façons de travailler les plus courantes, rendues possible par cette gestion légère des branches, afin que vous puissiez décider si vous désirez l'intégrer dans votre propre cycle de dévelopement logiciel.
 
-### Long-Running Branches ###
+### Branches au long-cours###
 
-Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
+Parce que Git utilise une simple fusion à 3 participants, fusionner une branche dans une autre de façon répété sur une longue période se fait générale facilement. Cela veut donc dire que vous pouvez avoir plusieurs branches ouvertes, utilisées à différentes étapes de votre cycle de développement logiciel; vous pouvez fusionner régulièrement certaines d'entre elles dans d'autres.
 
-Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `prob53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+Beaucoup de développeurs de Git ont une façon de travailler qui respecte cette approche, comme par exemple en ayant uniquement du code totalement stable dans leur branch `master` — potentiellement même uniquement du code qui va ou a déjà été délivré. Ils ont une autre branch parallèle appelée `develop` or `next` ou ils travaillent ou utilisent pour tester la stabilité — elle n'est pas nécessairement toujours stable, mais dès qu'elle atteint une état stable, elle peut-être fusionnée dans la branche `master`. Elle est utilisée pour importer des branches spécifiques, ciblées (des branches de courtes durée de vie, comme votre branche `prob53` précédente) quand elles sont prêtes, pour être sûr qu'elles reussisent aux tests et ne vont pas introduire de bugs.
 
 In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
 

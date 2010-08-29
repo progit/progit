@@ -218,7 +218,7 @@ Par exemple, si vous avez un système d'exploitation qui utilise yum (tel que Fe
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
-	  libz-dev
+	  libz-dev libssl-dev
 	
 Quand vous avez toutes les dépendances nécessaires, vous pouvez poursuivre et télécharger la dernière version de Git depuis le site :
 

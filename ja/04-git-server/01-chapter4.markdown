@@ -506,32 +506,32 @@ Git は法人の環境でもよく使われるようになってきました。�
 
 Gitolite は、単なるリポジトリ単位の権限付与 (Gitosis と同じもの) だけではなくリポジトリ内のブランチやタグ単位で権限を付与することができます。つまり、特定の人 (あるいはグループ) にだけ特定の "refs" (ブランチあるいはタグ) に対するプッシュ権限を与えて他の人には許可しないといったことができるのです。
 
-### Installing ###
+### インストール ###
 
-Installing Gitolite is very easy, even if you don't read the extensive documentation that comes with it.  You need an account on a Unix server of some kind; various Linux flavours, and Solaris 10, have been tested.  You do not need root access, assuming git, perl, and an openssh compatible ssh server are already installed.  In the examples below, we will use the `gitolite` account on a host called `gitserver`.
+Gitolite のインストールは非常に簡単で、豊富な付属ドキュメントを読まなくてもインストールできます。必要なものは、何らかの Unix 系サーバのアカウントです。各種の Linux や Solaris 10 でテストされています。root アクセス権は不要です。git や perl、そして openssh 互換の ssh サーバは既にインストールされているものとします。以下の例では、`gitserver` というホストにあるアカウント `gitolite` を使います。
 
-Curiously, Gitolite is installed by running a script *on the workstation*, so your workstation must have a bash shell available.  Even the bash that comes with msysgit will do, in case you're wondering.
+不思議なことに、Gitolite のインストールは *ワークステーション上から* スクリプトを実行します。したがって、ワークステーション上に bash シェルが使えなければなりません。msysgit に付属している bash でもかまいません。
 
-You start by obtaining public key based access to your server, so that you can log in from your workstation to the server without getting a password prompt.  The following method works on Linux; for other workstation OSs you may have to do this manually.  We assume you already had a key pair generated using `ssh-keygen`.
+まず最初に公開鍵を使ってサーバにアクセスできるようにし、パスワードプロンプトなしにサーバにログインできるようにします。Linux では次の手順が使えますが、他の OS では手動で同じことをしなければならないかもしれません。鍵ペアは、すでに `ssh-keygen` で生成済みであるものとします。
 
 	$ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
 
-This will ask you for the password to the gitolite account, and then set up public key access.  This is **essential** for the install script, so check to make sure you can run a command without getting a password prompt:
+これを実行すると gitolite アカウントのパスワードを聞かれ、それから公開鍵によるアクセスを設定します。インストールスクリプトを実行するにはこれが **必須** なので、パスワードプロンプトなしにコマンドが実行できることを確認しておきましょう。
 
 	$ ssh gitolite@gitserver pwd
 	/home/gitolite
 
-Next, you clone Gitolite from the project's main site and run the "easy install" script (the third argument is your name as you would like it to appear in the resulting gitolite-admin repository):
+次に、プロジェクトのメインサイトから Gitolite をクローンし、"easy install" スクリプトを実行します (三番目の引数は、gitolite-admin リポジトリ上で使われるあなたの名前です)。
 
 	$ git clone git://github.com/sitaramc/gitolite
 	$ cd gitolite/src
 	$ ./gl-easy-install -q gitolite gitserver sitaram
 
-And you're done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in the home directory of your workstation.  You administer your gitolite setup by making changes to this repository and pushing (just like Gitosis).
+これで完了です! Gitolite はサーバにインストールされ、`gitolite-admin` という新しいリポジトリがあなたのワークステーションのホームディレクトリにできあがりました。gitolite の設定を管理するには、このリポジトリに変更を加えてプッシュします (Gitosis と同じです)。
 
-[By the way, *upgrading* gitolite is also done the same way.  Also, if you're interested, run the script without any arguments to get a usage message.]
+[ところで、gitolite の *アップグレード* も同じ方法でできます。また、もし興味があれば、スクリプトを引数なしで実行すると利用方法の説明が表示されます。]
 
-That last command does produce a fair amount of output, which might be interesting to read.  Also, the first time you run this, a new keypair is created; you will have to choose a passphrase or hit enter for none.  Why a second keypair is needed, and how it is used, is explained in the "ssh troubleshooting" document that comes with Gitolite.  (Hey the documentation has to be good for *something*!)
+最後のコマンドは、かなりの量の出力があります。読んでみるとおもしろいでしょう。また、最初にこれを実行したときには新しい鍵ペアが作られます。このとき、パスフレーズを指定しなければなりません。パスフレーズをなしにするときは単に enter キーを押します。なぜまた別の鍵ペアが必要なのか、そしてそれをどのように使うのかについては、Gitolite の付属ドキュメント "ssh troubleshooting" に説明があります。
 
 ### Customising the Install ###
 

@@ -133,8 +133,8 @@ Gitをインストールするためには、Gitが依存するライブラリ�
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
 
-	$ apt-get install curl-devel expat-devel gettext-devel \
-	  openssl-devel zlib-devel
+	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+	  libz-dev libssl-dev
 	
 全ての必要な依存対象を持っているのであれば、先に進んでGitのウェブサイトから最新版のスナップショットを持ってくる事ができます：
 

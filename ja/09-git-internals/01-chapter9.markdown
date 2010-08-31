@@ -393,7 +393,7 @@ Notice that the object entry points to the commit SHA-1 value that you tagged. A
 
 	$ git cat-file blob junio-gpg-pub
 
-in the Git source code. The Linux kernel also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
+in the Git source code repository. The Linux kernel repository also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
 
 ### Remotes ###
 

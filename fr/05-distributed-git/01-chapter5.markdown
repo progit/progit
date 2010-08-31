@@ -61,7 +61,7 @@ Chaque acteur peut travailler à son rythme.
 ### Le mode dictateur et ses lieutenants ###
 
 C'est une variante de la gestion multi-dépôt.
-En générale, ce mode est utilisé sur des projets immenses comprenant des centaines de collaborateurs.
+En général, ce mode est utilisé sur des projets immenses comprenant des centaines de collaborateurs.
 Un exemple connu en est le noyau Linux.
 Des gestionnaires d'intégration gèrent certaines parties du projet.
 Ce sont les lieutenants.
@@ -117,11 +117,15 @@ Toutes ces questions affectent la manière de contribuer efficacement à un proj
 Je vais traiter ces sujets dans une série de cas d'utilisation allant des plus simples aux plus complexes.
 Vous devriez pouvoir construire vos propres modes de gestion à partir de ces exemples.
 
-### Commit Guidelines ###
+### Guides pour une validation ###
 
-Before you start looking at the specific use cases, here’s a quick note about commit messages. Having a good guideline for creating commits and sticking to it makes working with Git and collaborating with others a lot easier. The Git project provides a document that lays out a number of good tips for creating commits from which to submit patches — you can read it in the Git source code in the `Documentation/SubmittingPatches` file.
+Avant de passer en revue les cas d'utilisation spécifiques, voici un point rapide sur les messages de validation.
+La définition et l'utilisation d'un bonne ligne de conduite sur les messages de validation facilitent grandement l'utilisation de Git et la collaboration entre développeurs.
+Le projet Git fournit un document qui décrit un certain nombre de bonnes pratiques pour créer des commits qui serviront à fournir des patchs — le document est accessibles dans les sources de Git, dans le fichier `Documentation/SubmittingPatches`.
 
-First, you don’t want to submit any whitespace errors. Git provides an easy way to check for this — before you commit, run `git diff --check`, which identifies possible whitespace errors and lists them for you. Here is an example, where I’ve replaced a red terminal color with `X`s:
+Premièrement, il ne faut pas soumettre de patchs comportant des erreurs d'espace (caractères espace inutiles en fin de ligne).
+Git fournit un moyen simple de le vérifier — avant de valider, lancez la commane `git diff --check` qui identifiera et listera les erreurs d'espace.
+Voici un exemple dans lequel les caractères en couleur rouge ont été remplacés par des `X` :
 
 	$ git diff --check
 	lib/simplegit.rb:5: trailing whitespace.
@@ -131,12 +135,25 @@ First, you don’t want to submit any whitespace errors. Git provides an easy wa
 	lib/simplegit.rb:26: trailing whitespace.
 	+    def command(git_cmd)XXXX
 
-If you run that command before committing, you can tell if you’re about to commit whitespace issues that may annoy other developers.
+En lançant cette commande avant chaque validation, vous pouvez vérifier que vous ne commettez pas d'erreurs d'espace qui pourraient ennuyer les autres développeurs.
 
-Next, try to make each commit a logically separate changeset. If you can, try to make your changes digestible — don’t code for a whole weekend on five different issues and then submit them all as one massive commit on Monday. Even if you don’t commit during the weekend, use the staging area on Monday to split your work into at least one commit per issue, with a useful message per commit. If some of the changes modify the same file, try to use `git add --patch` to partially stage files (covered in detail in Chapter 6). The project snapshot at the tip of the branch is identical whether you do one commit or five, as long as all the changes are added at some point, so try to make things easier on your fellow developers when they have to review your changes. This approach also makes it easier to pull out or revert one of the changesets if you need to later. Chapter 6 describes a number of useful Git tricks for rewriting history and interactively staging files — use these tools to help craft a clean and understandable history.
+Ensuite, assurez-vous de faire de chaque validation une modification logiquement atomique. Si possible, rendez chaque modification digeste — ne codez pas pendant un week-end entier sur cinq sujets différents pour enfin les soumettre tous dans une énorme validation le lundi suivant.
+Même si vous ne validez pas du week-end, utilisez la zone d'index le lundi pour découper votre travail en au moins une validation par problème, avec un message utile par validation.
+Si certaines modifications touchent au même fichier, essayez d'utiliser `git add --patch` pour indexer partiellement des fichiers (cette fonctionnalité est traitée au chapitre 6).
+L'instantané final sera identique, que vous utilisiez une validation unique ou cinq petites validations, à condition que toutes les modifications soient intégrées à un moment, donc n'hésitez pas à rendre la vie plus simple à vos compagnons développeurs lorsqu'ils auront à vérifier vos modifications.
+Cette approche simplifie aussi le retrait ou l'inversion ultérieurs d'une modification en cas de besoin.
+Le chapitre 6 décrit justement quelques trucs et astuces do Git pour réécrire l'historique et indexer interactivement les fichiers — utilisez ces outils pour fabriquer un historique propre et compréhensible.
 
-The last thing to keep in mind is the commit message. Getting in the habit of creating quality commit messages makes using and collaborating with Git a lot easier. As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely, followed by a blank line, followed by a more detailed explanation. The Git project requires that the more detailed explanation include your motivation for the change and contrast its implementation with previous behavior — this is a good guideline to follow. It’s also a good idea to use the imperative present tense in these messages. In other words, use commands. Instead of "I added tests for" or "Adding tests for," use "Add tests for."
-Here is a template originally written by Tim Pope at tpope.net:
+Le dernier point à soigner est le message de validation.
+S'habituer à écrire des messages de validation de qualité facilite grandement l'emploi et la collaboration avec Git.
+En règle générale, les messages doivent débuter par une ligne unique d'au plus 50 caractères décrivant concisément la modification, suivie d'un ligne vide, suivie d'une explication plus détaillée.
+Le projet Git exige que l'explication détaillée inclut la motivation de la modification en contrastant le nouveau comportement par rapport à l'ancien — c'est une bonne règle de rédaction.
+Un bonne règle consiste aussi à utiliser le présent de l'impératif ou des verbes substantivés dans le message.
+En d'autre terme, utilisez des ordres.
+Au lieu d'écrire « J'ai ajouté des tests pour » ou « En train d'ajouter des tests pour », utilisez juste « Ajoute des tests pour » ou « Ajout de tests pour ».
+
+En anglais, voici ci-dessous un modèle écrit par Tim Pope at tpope.net :
+
 
 	Short (50 chars or less) summary of changes
 
@@ -154,13 +171,19 @@ Here is a template originally written by Tim Pope at tpope.net:
 	 - Typically a hyphen or asterisk is used for the bullet, preceded by a
 	   single space, with blank lines in between, but conventions vary here
 
-If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log --no-merges` there to see what a nicely formatted project-commit history looks like.
+Si tous vos messages de validation ressemble à ceci, les choses seront beaucoup plus simples pour vous et les développeurs avec qui vous travaillez.
+Le projet Git montre des messages de commit bien formatés — je vous encourage à y lancer un `git log --no-merges` pour pouvoir voir comment rend un historique de messages bien formatés. 
 
-In the following examples, and throughout most of this book, for the sake of brevity I don’t format messages nicely like this; instead, I use the `-m` option to `git commit`. Do as I say, not as I do.
+Dans les exemples suivants, et à travers tout ce livre, par soucis de simplification, je ne formatterai pas les message aussi proprement.
+J'utiliserai plutôt l'option `-m` de `git commit`.
+Faites ce que je dis, pas ce que je fais.
 
-### Private Small Team ###
+### Cas d'une petite équipe privée ###
 
-The simplest setup you’re likely to encounter is a private project with one or two other developers. By private, I mean closed source — not read-accessible to the outside world. You and the other developers all have push access to the repository.
+Le cas le plus probable que vous rencontrerez est celui du projet privé avec un ou deux autres développeurs.
+Par privé, j'entends source fermé non accessible au public en lecture.
+Vous et les autres développeurs aurez accès push au dépôt.
+
 
 In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.
 Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)

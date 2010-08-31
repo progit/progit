@@ -502,9 +502,9 @@ John はプロジェクトをクローンして変更内容を受け取れます
 
 ## Gitolite ##
 
-Git has started to become very popular in corporate environments, which tend to have some additional requirements in terms of access control.  Gitolite was created to help with those requirements.
+Git は法人の環境でもよく使われるようになってきました。それにつれて、アクセス制御に関する要望もいくつか出てきました。そのような要望ににこたえるために作られたのが Gitolite です。
 
-Gitolite allows you to specify permissions not just by repository (like Gitosis does), but also by branch or tag names within each repository.  That is, you can specify that certain people (or groups of people) can only push certain "refs" (branches or tags) but not others.
+Gitolite は、単なるリポジトリ単位の権限付与 (Gitosis と同じもの) だけではなくリポジトリ内のブランチやタグ単位で権限を付与することができます。つまり、特定の人 (あるいはグループ) にだけ特定の "refs" (ブランチあるいはタグ) に対するプッシュ権限を与えて他の人には許可しないといったことができるのです。
 
 ### Installing ###
 

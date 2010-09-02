@@ -631,9 +631,9 @@ git の世界では、いわゆる「プルリクエスト」によるコード�
 
 Gitolite では、各開発者に対して "personal" あるいは "scratch" といった名前空間プレフィックス (たとえば `refs/personal/<devname>/*`) を定義します。そして、その開発者には完全なアクセス権を、それ以外のメンバーには読み込みのみのアクセス権を設定します。この機能を使うには、冗長モードでインストールして "rc" ファイルの変数 `$PERSONAL` を `refs/personal` に設定するだけです。プロジェクトのチーム構成が頻繁に変わる環境であっても、管理者が注意していればきちんと追いかけられるでしょう。
 
-### "Wildcard" repositories ###
+### "ワイルドカード" リポジトリ ###
 
-Gitolite allows you to specify repositories with wildcards (actually perl regexes), like, for example `assignments/s[0-9][0-9]/a[0-9][0-9]`, to pick a random example.  This is a *very* powerful feature, which has to be enabled by setting `$GL_WILDREPOS = 1;` in the rc file.  It allows you to assign a new permission mode ("C") which allows users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out R and RW permissions to other users to collaborate, etc.  This feature is documented in `doc/4-wildcard-repositories.mkd`.
+Gitolite では、ワイルドカード (実際のところは perl の正規表現です) を使ってリポジトリを指定することができます。たとえば `assignments/s[0-9][0-9]/a[0-9][0-9]` のようにします。これは非常に強力な機能で、使うには rc ファイルに `$GL_WILDREPOS = 1;` と設定しなければなりません。この機能を使うと、新たな権限モード ("C") が用意されます。これは、ワイルドカードにマッチするリポジトリの作成を許可するモードです。新たに作成したリポジトリの所有者は自動的にそのユーザに設定され、他のユーザに R あるいは RW の権限を付与できるようになります。この機能の説明は `doc/4-wildcard-repositories.mkd` にあります。
 
 ### Other Features ###
 

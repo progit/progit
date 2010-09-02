@@ -608,9 +608,9 @@ gitolite のアクセス制御には二段階のレベルがあります。ま�
 
 この場合も上から順にルールを適用し、最初にマッチしたアクセス権をあてはめます。何もマッチしなければアクセスは拒否されます。master や integ に対する巻き戻し以外のプッシュは、最初のルールにマッチするので許可されます。これらのブランチに対する巻き戻しのプッシュは最初のルールにマッチしません。そこで二番目のルールに移動し、この時点で拒否されます。master と integ 以外への (巻き戻しを含む) 任意のプッシュは最初の二つのルールのいずれにもマッチしないので、三番目のルールが適用されます。
 
-### Restricting pushes by files changed ###
+### ファイル単位でのプッシュの制限 ###
 
-In addition to restricting what branches a user can push changes to, you can also restrict what files they are allowed to touch.  For example, perhaps the Makefile (or some other program) is really not supposed to be changed by just anyone, because a lot of things depend on it or would break if the changes are not done *just right*.  You can tell gitolite:
+変更をプッシュすることのできるブランチを制限するだけでなく、変更できるファイルを制限することも可能です。たとえば、Makefile (あるいはその他のプログラム) などは誰もが変更できるというものではないでしょう。このファイルはさまざまなものに依存しており、変更によっては壊れてしまうことがあるかもしれないからです。そんな場合は次のように設定します。
 
     repo foo
         RW                  =   @junior_devs @senior_devs
@@ -619,7 +619,7 @@ In addition to restricting what branches a user can push changes to, you can als
         -   NAME/Makefile   =   @junior_devs
         RW  NAME/           =   @junior_devs
 
-This powerful feature is documented in `conf/example.conf`.
+この強力な機能については `conf/example.conf` に説明があります。
 
 ### Personal Branches ###
 

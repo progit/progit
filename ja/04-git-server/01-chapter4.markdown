@@ -537,9 +537,9 @@ Gitolite のインストールは非常に簡単で、豊富な付属ドキュ�
 
 デフォルトのインストールは素早く済ませられ、たいていの人にとってはこれで十分でしょう。しかし、必要に応じてインストール方法をカスタマイズすることもできます。引数 `-q` を省略すると、冗長モードのインストールとなり、各段階で何がインストールされるのかについて詳しい情報が表示されるようになります。冗長モードでインストールすると、サーバ側のパラメータを変更することもできます。たとえば実際のリポジトリの場所などです。パラメータを変更するには、サーバが使用する "rc" ファイルを編集します。この "rc" ファイルには大量にコメントが書かれているので、必要に応じて簡単に書き換えることができるでしょう。このファイルには、gitolite の高度な機能の有効/無効を切り替えるような設定項目も多く含まれています。
 
-### Config File and Access Control Rules ###
+### 設定ファイルおよびアクセス制御ルール ###
 
-So once the install is done, you switch to the `gitolite-admin` repository (placed in your HOME directory) and poke around to see what you got:
+インストールが終わったら、`gitolite-admin` リポジトリ (HOME ディレクトリにあります) に移動して中をのぞいてみましょう。
 
 	$ cd ~/gitolite-admin/
 	$ ls
@@ -557,11 +557,11 @@ So once the install is done, you switch to the `gitolite-admin` repository (plac
 	repo testing
 	    RW+                 = @all
 
-Notice that "sitaram" (the last argument in the `gl-easy-install` command you gave earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.
+"sitaram" (先ほどの `gl-easy-install` コマンドで、最後の引数に指定したユーザです) が、`gitolite-admin` リポジトリおよび同名の公開鍵ファイルへの読み書き権限を持っていることに注目しましょう。
 
-The config file syntax for Gitolite is *quite* different from Gitosis.  Again, this is liberally documented in `conf/example.conf`, so we'll only mention some highlights here.
+Gitolite の設定ファイルの構文は、Gitosis のものとは *まったく* 違います。何度も言いますが `conf/example.conf` には詳しいコメントが書かれているので、ここでは大事なところに絞って説明します。
 
-You can group users or repos for convenience.  The group names are just like macros; when defining them, it doesn't even matter whether they are projects or users; that distinction is only made when you *use* the "macro".
+ユーザやリポジトリをグループにまとめることもできます。グループ名は単なるマクロのようなものです。グループを定義する際には、それがユーザであるかプロジェクトであるかは無関係です。実際にその「マクロ」を *使う* 段階になって初めてそれらを区別することになります。
 
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
@@ -571,7 +571,7 @@ You can group users or repos for convenience.  The group names are just like mac
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
-You can control permissions at the "ref" level.  In the following example, interns can only push the "int" branch.  Engineers can push any branch whose name starts with "eng-", and tags that start with "rc" followed by a digit.  And the admins can do anything (including rewind) to any ref.
+パーミッションは、"ref" レベルで設定することができます。次の例では、インターン (@interns) は "int" ブランチにしかプッシュできないように設定しています。エンジニア (@engineers) は名前が "eng-" で始まるすべてのブランチにプッシュでき、また "rc" のあとに一桁の数字が続く名前のタグにもプッシュできます。また、管理者 (@admins) はすべての ref に対してあらゆることができます。
 
 	repo @oss_repos
 	    RW  int$                = @interns
@@ -579,22 +579,22 @@ You can control permissions at the "ref" level.  In the following example, inter
 	    RW  refs/tags/rc[0-9]   = @engineers
 	    RW+                     = @admins
 
-The expression after the `RW` or `RW+` is a regular expression (regex) that the refname (ref) being pushed is matched against.  So we call it a "refex"!  Of course, a refex can be far more powerful than shown here, so don't overdo it if you're not comfortable with perl regexes.
+`RW` や `RW+` の後に書かれている式は正規表現 (regex) で、これにマッチする refname (ref) が対象となります。なので、これに "refex" と名付けました! もちろん、refex はこの例で示したよりずっと強力なものです。perl の正規表現になじめない人は、あまりやりすぎないようにしましょう。
 
-Also, as you probably guessed, Gitolite prefixes `refs/heads/` as a syntactic convenience if the refex does not begin with `refs/`.
+また、すでにお気づきかもしれませんが、`refs/` で始まらない refex を指定すると、Gitolite はその先頭に `refs/heads/` がついているものとみなします。これは構文上の利便性を意識したものです。
 
-An important feature of the config file's syntax is that all the rules for a repository need not be in one place.  You can keep all the common stuff together, like the rules for all `oss_repos` shown above, then add specific rules for specific cases later on, like so:
+設定ファイルの構文の中でも重要なのは、ひとつのリポジトリに対するルールをすべてひとまとめにしなくてもよいということです。共通の設定をひとまとめにして上の例のように `oss_repos` に対してルールを設定し、その後で個々の場合について個別のルールを追加していくこともできます。
 
 	repo gitolite
 	    RW+                     = sitaram
 
-That rule will just get added to the ruleset for the `gitolite` repository.
+このルールは、`gitolite` リポジトリのルール群に追加されます。
 
-At this point you might be wondering how the access control rules are actually applied, so let's go over that briefly.
+で、実際のアクセス制御ルールはどのように書けばいいの? と思われたことでしょう。簡単に説明します。
 
-There are two levels of access control in gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.  This is the only access control that Gitosis had.
+gitolite のアクセス制御には二段階のレベルがあります。まず最初はリポジトリレベルのアクセス制御です。あるリポジトリへの読み込み (書き込み) アクセス権を持っているということは、そのリポジトリの *すべての* ref に対する読み込み (書き込み) 権限を持っていることを意味します。Gitosis で設定できたのはこのレベルのアクセス制御だけです。
 
-The second level, applicable only to "write" access, is by branch or tag within a repository.  The username, the access being attempted (`W` or `+`), and the refname being updated are known.  The access rules are checked in order of appearance in the config file, looking for a match for this combination (but remember that the refname is regex-matched, not merely string-matched).  If a match is found, the push succeeds.  A fallthrough results in access being denied.
+もうひとつのレベルは "書き込み" アクセス権だけを制御するものですが、リポジトリ内のブランチやタグ単位で設定できます。ユーザ名、試みられるアクセス (`W` あるいは `+`)、そして更新される refname が既知となります。アクセスルールのチェックは、設定ファイルに書かれている順に行われ、この組み合わせにマッチ (単なる文字列マッチではなく正規表現によるマッチであることに注意しましょう) するものを探していきます。マッチするものが見つかったら、プッシュが成功します。マッチしなかった場合は、アクセスが拒否されます。
 
 ### Advanced Access Control with "deny" rules ###
 

@@ -596,17 +596,17 @@ gitolite のアクセス制御には二段階のレベルがあります。ま�
 
 もうひとつのレベルは "書き込み" アクセス権だけを制御するものですが、リポジトリ内のブランチやタグ単位で設定できます。ユーザ名、試みられるアクセス (`W` あるいは `+`)、そして更新される refname が既知となります。アクセスルールのチェックは、設定ファイルに書かれている順に行われ、この組み合わせにマッチ (単なる文字列マッチではなく正規表現によるマッチであることに注意しましょう) するものを探していきます。マッチするものが見つかったら、プッシュが成功します。マッチしなかった場合は、アクセスが拒否されます。
 
-### Advanced Access Control with "deny" rules ###
+### "拒否" ルールによる高度なアクセス制御 ###
 
-So far, we've only seen permissions to be one or `R`, `RW`, or `RW+`.  However, gitolite allows another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
+これまでに見てきた権限は `R`、`RW` あるいは `RW+` だけでした。しかし、gitolite にはそれ以外の権限もあります。それが `-` で、"禁止" をあらわすものです。これを使えばより強力なアクセス制御ができるようになりますが、少し設定は複雑になります。マッチしなければアクセスを拒否するというだけでなく、ルールを書く順番もからんでくることになるからです。
 
-Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  Here's how to do that:
+上の例で、エンジニアは master と integ *以外* のすべてのブランチを巻き戻せるように設定しようとすると、次のようになります。
 
 	    RW  master integ    = @engineers
 	    -   master integ    = @engineers
 	    RW+                 = @engineers
 
-Again, you simply follow the rules top down until you hit a match for your access mode, or a deny.  Non-rewind push to master or integ is allowed by the first rule.  A rewind push to those refs does not match the first rule, drops down to the second, and is therefore denied.  Any push (rewind or non-rewind) to refs other than master or integ won't match the first two rules anyway, and the third rule allows it.
+この場合も上から順にルールを適用し、最初にマッチしたアクセス権をあてはめます。何もマッチしなければアクセスは拒否されます。master や integ に対する巻き戻し以外のプッシュは、最初のルールにマッチするので許可されます。これらのブランチに対する巻き戻しのプッシュは最初のルールにマッチしません。そこで二番目のルールに移動し、この時点で拒否されます。master と integ 以外への (巻き戻しを含む) 任意のプッシュは最初の二つのルールのいずれにもマッチしないので、三番目のルールが適用されます。
 
 ### Restricting pushes by files changed ###
 

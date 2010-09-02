@@ -533,9 +533,9 @@ Gitolite のインストールは非常に簡単で、豊富な付属ドキュ�
 
 最後のコマンドは、かなりの量の出力があります。読んでみるとおもしろいでしょう。また、最初にこれを実行したときには新しい鍵ペアが作られます。このとき、パスフレーズを指定しなければなりません。パスフレーズをなしにするときは単に enter キーを押します。なぜまた別の鍵ペアが必要なのか、そしてそれをどのように使うのかについては、Gitolite の付属ドキュメント "ssh troubleshooting" に説明があります。
 
-### Customising the Install ###
+### インストールのカスタマイズ ###
 
-While the default, quick, install works for most people, there are some ways to customise the install if you need to.  If you omit the `-q` argument, you get a "verbose" mode install -- detailed information on what the install is doing at each step.  The verbose mode also allows you to change certain server-side parameters, such as the location of the actual repositories, by editing an "rc" file that the server uses.  This "rc" file is liberally commented so you should be able to make any changes you need quite easily, save it, and continue.  This file also contains various settings that you can change to enable or disable some of gitolite's advanced features.
+デフォルトのインストールは素早く済ませられ、たいていの人にとってはこれで十分でしょう。しかし、必要に応じてインストール方法をカスタマイズすることもできます。引数 `-q` を省略すると、冗長モードのインストールとなり、各段階で何がインストールされるのかについて詳しい情報が表示されるようになります。冗長モードでインストールすると、サーバ側のパラメータを変更することもできます。たとえば実際のリポジトリの場所などです。パラメータを変更するには、サーバが使用する "rc" ファイルを編集します。この "rc" ファイルには大量にコメントが書かれているので、必要に応じて簡単に書き換えることができるでしょう。このファイルには、gitolite の高度な機能の有効/無効を切り替えるような設定項目も多く含まれています。
 
 ### Config File and Access Control Rules ###
 

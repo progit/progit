@@ -635,15 +635,15 @@ Gitolite では、各開発者に対して "personal" あるいは "scratch" と
 
 Gitolite では、ワイルドカード (実際のところは perl の正規表現です) を使ってリポジトリを指定することができます。たとえば `assignments/s[0-9][0-9]/a[0-9][0-9]` のようにします。これは非常に強力な機能で、使うには rc ファイルに `$GL_WILDREPOS = 1;` と設定しなければなりません。この機能を使うと、新たな権限モード ("C") が用意されます。これは、ワイルドカードにマッチするリポジトリの作成を許可するモードです。新たに作成したリポジトリの所有者は自動的にそのユーザに設定され、他のユーザに R あるいは RW の権限を付与できるようになります。この機能の説明は `doc/4-wildcard-repositories.mkd` にあります。
 
-### Other Features ###
+### その他の機能 ###
 
-We'll round off this discussion with a bunch of other features, all of which are described in great detail in the "faqs, tips, etc" document.
+最後にその他の機能をまとめて紹介しましょう。これらについての詳しい説明は、ドキュメントの "faqs, tips, etc" にあります。
 
-**Logging**: Gitolite logs all successful accesses.  If you were somewhat relaxed about giving people rewind permissions (`RW+`) and some kid blew away "master", the log file is a life saver, in terms of easily and quickly finding the SHA that got hosed.
+**ログ記録**: Gitolite は、成功したアクセスをすべてログに記録します。巻き戻し権限 (`RW+`) を与えているときに、誰かが "master" を吹っ飛ばしてしまったとしましょう。そんなときにはログファイルが救世主となります。ログを見れば、問題を起こした SHA をすぐに発見できるでしょう。
 
-**Git outside normal PATH**: One extremely useful convenience feature in gitolite is support for git installed outside the normal `$PATH` (this is more common than you think; some corporate environments or even some hosting providers refuse to install things system-wide and you end up putting them in your own directories).  Normally, you are forced to make the *client-side* git aware of this non-standard location of the git binaries in some way.  With gitolite, just choose a verbose install and set `$GIT_PATH` in the "rc" files.  No client-side changes are required after that :-)
+**通常の PATH 以外にインストールした git**: gitolite の非常に便利な機能のひとつは、通常の `$PATH` 以外にインストールされた git もサポートしているという点です (これは思っているほど珍しいことではありません。法人の環境やホスティング環境ではシステム全体への影響を及ぼすインストールが禁じられているところもあり、そんな場合は自分のディレクトリの配下にインストールすることになるからです)。通常なら、標準以外の場所にインストールされた git バイナリを何らかの方法でクライアント側の git に認識させなければなりませんが、gitolite があれば単に冗長モードのインストールで "rc" ファイルに `$GIT_PATH` を設定するだけです。クライアント側の変更は不要です :-)
 
-**Access rights reporting**: Another convenient feature is what happens when you try and just ssh to the server.  Older versions of gitolite used to complain about the `SSH_ORIGINAL_COMMAND` environment variable being empty (see the ssh documentation if interested).  Now Gitolite comes up with something like this:
+**アクセス権の報告**: もうひとつの便利な機能は、サーバに ssh で接続したときに起こります。古いバージョンの gitolite では、環境変数 `SSH_ORIGINAL_COMMAND` (興味のあるかたは ssh のドキュメントを参照ください) が空であることが不満でした。現在の gitolite では、このようになります。
 
 	hello sitaram, the gitolite version here is v0.90-9-g91e1e9f
 	you have the following permissions:
@@ -655,9 +655,9 @@ We'll round off this discussion with a bunch of other features, all of which are
 	  R     indic_web_input
 	  R     shreelipi_converter
 
-**Delegation**: For really large installations, you can delegate responsibility for groups of repositories to various people and have them manage those pieces independently.  This reduces the load on the main admin, and makes him less of a bottleneck.  This feature has its own documentation file in the `doc/` directory.
+**委譲**: 大規模な環境では、特定のリポジトリのグループに対する責任を委譲して個別に管理させることもできます。こうすれば主管理者の負荷が軽減され、主管理者がボトルネックとなることも少なくなります。この機能については、`doc/` ディレクトリの中に個別のファイルで説明されています。
 
-**Gitweb support**: Gitolite supports gitweb in several ways.  You can specify which repos are visible via gitweb.  You can set the "owner" and "description" for gitweb from the gitolite config file.  Gitweb has a mechanism for you to implement access control based on HTTP authentication, so you can make it use the "compiled" config file that gitolite produces, which means the same access control rules (for read access) apply for gitweb and gitolite.
+**Gitweb のサポート**: Gitolite は gitweb を何通りかの方法でサポートしています。まず、どのリポジトリを gitweb 上で見せるかを設定することができます。また、gitweb 用の "owner" と "description" を gitolite の設定ファイルに書くことができます。Gitweb には HTTP 認証に基づいたアクセス制御の機能もありますが、gitolite が生成する "コンパイル済み" の設定ファイルを使えば gitweb と gitolite で共通の (読み込み) アクセス制御ルールを適用することができます。
 
 ## Git デーモン ##
 

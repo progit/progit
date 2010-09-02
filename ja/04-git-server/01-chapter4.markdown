@@ -621,15 +621,15 @@ gitolite のアクセス制御には二段階のレベルがあります。ま�
 
 この強力な機能については `conf/example.conf` に説明があります。
 
-### Personal Branches ###
+### 個人ブランチ ###
 
-Gitolite also has a feature called "personal branches" (or rather, "personal branch namespace") that can be very useful in a corporate environment.
+Gitolite には "個人ブランチ" ("個人的なブランチ用の名前空間" と言ったほうがいいでしょうか) という機能があります。これは、法人の環境では非常に便利なものです。
 
-A lot of code exchange in the git world happens by "please pull" requests.  In a corporate environment, however, unauthenticated access is a no-no, and a developer workstation cannot do authentication, so you have to push to the central server and ask someone to pull from there.
+git の世界では、いわゆる「プルリクエスト」によるコードのやりとりが頻繁に発生します。しかし法人の環境では、権限のない人によるアクセスは厳禁です。開発者のワークステーションにはそんな権限はありません。そこで、まず一度中央サーバにプッシュして、そこからプルしてもらうよう誰かにお願いすることになります。
 
-This would normally cause the same branch name clutter as in a centralised VCS, plus setting up permissions for this becomes a chore for the admin.
+これを中央管理型の VCS でやろうとすると、同じ名前のブランチが乱造されることになってしまいます。また、これらのアクセス権限を設定するのは管理者にとって面倒な作業です。
 
-Gitolite lets you define a "personal" or "scratch" namespace prefix for each developer (for example, `refs/personal/<devname>/*`), with full permissions for that dev only, and read access for everyone else.  Just choose a verbose install and set the `$PERSONAL` variable in the "rc" file to `refs/personal`.  That's all; it's pretty much fire and forget as far as the admin is concerned, even if there is constant churn in the project team composition.
+Gitolite では、各開発者に対して "personal" あるいは "scratch" といった名前空間プレフィックス (たとえば `refs/personal/<devname>/*`) を定義します。そして、その開発者には完全なアクセス権を、それ以外のメンバーには読み込みのみのアクセス権を設定します。この機能を使うには、冗長モードでインストールして "rc" ファイルの変数 `$PERSONAL` を `refs/personal` に設定するだけです。プロジェクトのチーム構成が頻繁に変わる環境であっても、管理者が注意していればきちんと追いかけられるでしょう。
 
 ### "Wildcard" repositories ###
 

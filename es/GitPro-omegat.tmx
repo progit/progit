@@ -2817,6 +2817,1090 @@ Figura 5-18.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
+        <seg>### Public Large Project ###</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>### Proyecto Público Grande ###</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Muchos grandes proyectos suelen tener establecidos los procedimientos para aceptar parches; --es necesario que compruebes las normas específicas para cada proyecto, ya que pueden variar de uno a otro--.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>De todas formas, muchos de los proyectos públicos más grandes aceptar parches a través de una lista de correo electrónico, por lo que veremos un ejemplo de dicho procedimiento.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The workflow is similar to the previous use case — you create topic branches for each patch series you work on.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>El flujo de trabajo es similar a los casos de uso vistos anteriormente; --creando ramas puntuales para cada serie de parches en los que vayas a trabajar--.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The difference is how you submit them to the project.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>La diferencia está en la forma de enviarlos al proyecto.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>En lugar de bifurcar (fork) el proyecto y enviar a tu propia copia editable, generarás correos electrónicos para cada serie de parches y os enviarás a la lista de correo.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git checkout -b topicA
+	$ (work)
+	$ git commit
+	$ (work)
+	$ git commit</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git checkout -b topicA
+	$ (work)
+	$ git commit
+	$ (work)
+	$ git commit</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Now you have two commits that you want to send to the mailing list.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Tienes dos confirmaciones de cambios (commits) a enviar a la lista de correo.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Utilizarás el comando `git format-patch` para generar archivos formateados para poder ser enviados por correo electrónico. Este comando convierte cada confirmación de cambios (commit) en un mensaje de correo; con la primera línea del mensaje de confirmación puesto como asunto, y el resto del mensaje mas el parche como cuerpo. </seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these commits:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Lo bonito de este procedimiento es que, al aplicar un parche desde un correo electrónico generado por `format-patch`, se preserva íntegramente la información de la confirmación de cambios (commit). Lo veremos más adelante, en la próxima sección, cuando veamos como aplicarlos:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git format-patch -M origin/master
+	0001-add-limit-to-log-function.patch
+	0002-changed-log-output-to-30-from-25.patch</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git format-patch -M origin/master
+	0001-add-limit-to-log-function.patch
+	0002-changed-log-output-to-30-from-25.patch</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The `format-patch` command prints out the names of the patch files it creates.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>El comando `format-patch` lista los nombres de los archivos de parche que crea.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The `-M` switch tells Git to look for renames.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>La opción `-M` indica a Git que ha de mirar por si hay algo renombrado.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The files end up looking like this:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Los archivos serán algo como:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ cat 0001-add-limit-to-log-function.patch 
+	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+	From: Jessica Smith &lt;jessica@example.com&gt;
+	Date: Sun, 6 Apr 2008 10:17:23 -0700
+	Subject: [PATCH 1/2] add limit to log function</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ cat 0001-add-limit-to-log-function.patch 
+	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+	From: Jessica Smith &lt;jessica@example.com&gt;
+	Date: Sun, 6 Apr 2008 10:17:23 -0700
+	Subject: [PATCH 1/2] add limit to log function</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Limit log functionality to the first 20</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Limit log functionality to the first 20Limit log functionality to the first 20Limit log functionality to the first 20</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>---
+	 lib/simplegit.rb |    2 +-
+	 1 files changed, 1 insertions(+), 1 deletions(-)</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>---
+	 lib/simplegit.rb |    2 +-
+	 1 files changed, 1 insertions(+), 1 deletions(-)</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+	index 76f47bc..f9815f1 100644
+	--- a/lib/simplegit.rb
+	+++ b/lib/simplegit.rb
+	@@ -14,7 +14,7 @@ class SimpleGit
+	   end</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>diff --git a/lib/simplegit.rb b/lib/simplegit.rb
+	index 76f47bc..f9815f1 100644
+	--- a/lib/simplegit.rb
+	+++ b/lib/simplegit.rb
+	@@ -14,7 +14,7 @@ class SimpleGit
+	   end</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>def log(treeish = 'master')
+	-    command(&quot;git log #{treeish}&quot;)
+	+    command(&quot;git log -n 20 #{treeish}&quot;)
+	   end</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>def log(treeish = 'master')
+	-    command(&quot;git log #{treeish}&quot;)
+	+    command(&quot;git log -n 20 #{treeish}&quot;)
+	   end</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>def ls_tree(treeish = 'master')
+	-- 
+	1.6.2.rc1.20.g8c5b.dirty</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>def ls_tree(treeish = 'master')
+	-- 
+	1.6.2.rc1.20.g8c5b.dirty</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Puedes incluso editar esos archivos de parche, para añadirles más información , específica para la lista de correo y que no desees mostrar en el propio mensaje de la confirmación de cambios. </seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si añades texto entre la línea que comienza por `--` y el comienzo del parche (la línea `lib/simplegit.rb). Los desarrolladores de la lista de correo podrán leerlo. Pero será ignorado al aplicar el parche al proyecto.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Para enviar estos archivos a la lista de correo,puedes tanto pegar directamente el archivo en tu programa de correo electrónico, como enviarlo a través de algún programa basado en línea de comandos.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Pasting the text often causes formatting issues, especially with &quot;smarter&quot; clients that don’t preserve newlines and other whitespace appropriately.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Pegar el texto directamente suele causar problemas de formato. Especialmente con los clientes de correo más &quot;inteligentes&quot;, que no preservan adecuadamente los saltos de línea y otros espaciados.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Afortunadamente, Git suministra una herramienta que nos puede ser de gran ayudapara enviar parches correctamente formateados a través de protocolo IMAP, facilitandonos así las cosas.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Voy a indicar cómo enviar un parche usando Gmail, que da la casualidad de que es el agente de correo que yo uso. El final de anteriormente mencionado documento `Documentation/SubmittingPatches`, puedes leer instrucciones detalladas para otros programas de correo.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>First, you need to set up the imap section in your `~/.gitconfig` file.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Lo primero es el configurar correctamente el apartado imap de tu archivo `~/.gitconfig`.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>You can set each value separately with a series of `git config` commands, or you can add them manually; but in the end, your config file should look something like this:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Puedes ir ajustando cada valor individualmente, a través de comandos `git config`; o puedes añadirlos todos manualmente. Pero, al final, tu archivo de configuración ha de quedar más o menos como esto:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>[imap]
+	  folder = &quot;[Gmail]/Drafts&quot;
+	  host = imaps://imap.gmail.com
+	  user = user@gmail.com
+	  pass = p4ssw0rd
+	  port = 993
+	  sslverify = false</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>[imap]
+	  folder = &quot;[Gmail]/Drafts&quot;
+	  host = imaps://imap.gmail.com
+	  user = user@gmail.com
+	  pass = p4ssw0rd
+	  port = 993
+	  sslverify = false</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Las dos últimas líneas probablente no sean necesarias si tu servidor IMAP no utiliza SSL; y, en ese caso, el valor para `host` deberá de ser `imap://` en lugar de `imaps://`.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Cuando tengas esto ajustado, podrás utilizar el comando `git send-email` para poner series de parches en la carpeta de borradores (Drafts) de tu servidor IMAP:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git send-email *.patch
+	0001-added-limit-to-log-function.patch
+	0002-changed-log-output-to-30-from-25.patch
+	Who should the emails appear to be from?</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git send-email *.patch
+	0001-added-limit-to-log-function.patch
+	0002-changed-log-output-to-30-from-25.patch
+	Who should the emails appear to be from?</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>[Jessica Smith &lt;jessica@example.com&gt;] 
+	Emails will be sent from: Jessica Smith &lt;jessica@example.com&gt;
+	Who should the emails be sent to?</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>[Jessica Smith &lt;jessica@example.com&gt;] 
+	Emails will be sent from: Jessica Smith &lt;jessica@example.com&gt;
+	Who should the emails be sent to?</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>jessica@example.com
+	Message-ID to be used as In-Reply-To for the first email?</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>jessica@example.com
+	Message-ID to be used as In-Reply-To for the first email?</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>y</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>y</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Then, Git spits out a bunch of log information looking something like this for each patch you’re sending:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Tras esto, Git escupirá una serie de información de registro, con pinta más o menos como esta:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from 
+	  \line 'From: Jessica Smith &lt;jessica@example.com&gt;'
+	OK.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>(mbox) Adding cc: Jessica Smith &lt;jessica@example.com&gt; from 
+	  \line 'From: Jessica Smith &lt;jessica@example.com&gt;'
+	OK.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Log says:
+	Sendmail: /usr/sbin/sendmail -i jessica@example.com
+	From: Jessica Smith &lt;jessica@example.com&gt;
+	To: jessica@example.com
+	Subject: [PATCH 1/2] added limit to log function
+	Date: Sat, 30 May 2009 13:29:15 -0700
+	Message-Id: &lt;1243715356-61726-1-git-send-email-jessica@example.com&gt;
+	X-Mailer: git-send-email 1.6.2.rc1.20.g8c5b.dirty
+	In-Reply-To: &lt;y&gt;
+	References: &lt;y&gt;</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Log says:
+	Sendmail: /usr/sbin/sendmail -i jessica@example.com
+	From: Jessica Smith &lt;jessica@example.com&gt;
+	To: jessica@example.com
+	Subject: [PATCH 1/2] added limit to log function
+	Date: Sat, 30 May 2009 13:29:15 -0700
+	Message-Id: &lt;1243715356-61726-1-git-send-email-jessica@example.com&gt;
+	X-Mailer: git-send-email 1.6.2.rc1.20.g8c5b.dirty
+	In-Reply-To: &lt;y&gt;
+	References: &lt;y&gt;</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Result: OK</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Result: OK</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>En estos momentos, deberías poder ir a tu carpeta de borradores (Drafts), cambiar el destinatario (To) para apuntar a la lista de correo donde estés enviando el parche, puede que poner en copia (CC) al gestor o persona responsable, y enviar el mensaje.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>### Summary ###</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>### Recapitulación ###</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>En esta sección hemos visto unos cuantos de los flujos de trabajo más habituales para lidiar con distintos tipos de proyectos Git. Y hemos introducido un par de nuevas herramientas para ayudarte a gestionar estos procesos.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Next, you’ll see how to work the other side of the coin: maintaining a Git project.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>A continuación veremos cómo trabajar en el otro lado de la moneda: manteniendo y gestionando un proyecto Git.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>You’ll learn how to be a benevolent dictator or integration manager.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Vas a aprender cómo ser un dictador benevolente o un gestor de integración.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>## Maintaining a Project ##</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>## Gestionando un proyecto ##</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Además de conocer cómo contribuir de forma efectiva a un proyecto, es posible que desees conocer tambien cómo mantener uno.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Esto implicará el aceptar y aplicar parches generados vía `format-patch`, enviados a tí a través de correo-e; o el integrar cambios realizados en ramas remotas de repositorios que añadirás como remotos a tu proyecto.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Tanto si gestionas un repositorio canónico, como si deseas colaborar verificando o aprobando parches, necesitas saber cómo aceptar trabajo de otros de la forma más clara para tus contribuyentes y la más sostenible para tí a largo plazo.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>### Working in Topic Branches ###</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>### Trabajando con Ramas Puntuales ###</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Cuando estás pensando en integrar nuevo trabajo, suele ser buena idea utilizar una rama puntual para cada tema concreto --una rama temporal creada específicamente para realizar dicho trabajo--</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>De esta forma, es sencillo tratar cada parche de forma individualizada y poder &quot;aparcar&quot; uno concreto cuando no trabajamos en él, hasta volver a tener tiempo para retomarlo.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si creas los nombres de ramas basandolos en el tema sobre el que vas a trabajar, por ejemplo 'ruby client' o algo así de descriptivo, podrás recordar de qué iba en caso de que lo abandones por un tiempo y lo retomes más tarde.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>La persona gestora del proyecto Git suele tender a nombrar cada rama de foma parecida --por ejemplo 'sc/ruby client', donde sc es la abreviatura para la persona que ha contribuido con ese trabajo-.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>As you’ll remember, you can create the branch based off your master branch like this:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Como recordarás, la forma de crear una rama basandola en tu rama master es:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git branch sc/ruby_client master</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git branch sc/ruby_client master</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Or, if you want to also switch to it immediately, you can use the `checkout -b` option:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>O, si deseas saltar inmediatamente a ella, puedes también utilizar la opción '-b' del comando 'checkout':</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git checkout -b sc/ruby_client master</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git checkout -b sc/ruby_client master</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Tras esto, estarás listo para añadir tu trabajo a esa rama puntual y ver si deseas o no fusionarla luego con alguna otra de tus ramas de más largo recorrido.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>### Applying Patches from E-mail ###</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>### Aplicar parches recibidos por correo-e ###</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si vas a integrar en tu proyecto un parche recibido a través de un correo electrónico, tendrás que incorporarlo a una de tus ramas puntuales para poder evaluarlo.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Tienes dos caminos para incorporar un parche recibido por correo-e: usando el comando 'git apply' o usando el comando 'git am'.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>#### Applying a Patch with apply ####</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>#### Incorporando un parche con apply ####</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si recibes un parche de alguien que lo ha generado con el comando 'git diff' o con un comando 'diff' de Unix, puedes incorporalo con el comando 'git apply'.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Suponiendo que has guardado el parche en '/tmp/patch-ruby-client.patch', puedes incorporarlo con una orden tal como:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git apply /tmp/patch-ruby-client.patch</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git apply /tmp/patch-ruby-client.patch</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This modifies the files in your working directory.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Esto modificará los archivos en tu carpeta de trabajo.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches then patch.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Es prácticamente idéntico a lanzar el comando 'patch -p1', aunque es más paranoico y acepta menos coincidencias aproximadas.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Además, es capaz de manejar adicciones, borrados o renombrados de archivos, si vienen en formato 'git diff'. Mientras que 'patch' no puede hacerlo.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Finally, `git apply` is an &quot;apply all or abort all&quot; model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Por ultimo, citar que 'git apply' sigue un modelo de &quot;aplicar todo o abortar todo&quot;, incorporando todos los cambios o no incorporando ninguno. Mientras que 'patch' puede incorporar cambios parcialmente, dejando tu carpeta de trabajo en un estado inconsistente.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>`git apply` is overall much more paranoid than `patch`.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>'git apply' es, de lejos, mucho más paranoico que 'patch'.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Nunca creará una confirmación de cambios (commit) por tí, --tras ejecutar el comando, tendrás que preparar y confirmar manualmente los cambios introducidos--.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Tambien puedes utilizar 'git apply' para comprobar si un parche se puede incorporar limpiamente; antes de intentar incorporarlo. Puedes lanzar el comando 'git apply --check':</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+	error: patch failed: ticgit.gemspec:1
+	error: ticgit.gemspec: patch does not apply</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+	error: patch failed: ticgit.gemspec:1
+	error: ticgit.gemspec: patch does not apply</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If there is no output, then the patch should apply cleanly.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si obtienes una salida vacia, el parche se podrá incorporar limpiamente.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Además, este comando retorna con un status no-cero en caso de fallar la comprobación, por lo que puedes utilizarlo en scripts si lo deseas.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>#### Applying a Patch with am ####</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>#### Incorporando un parche con am ####</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si la persona que contribuye es usuaria de Git y conoce lo suficiente como para utilizar el comando 'format-patch' al generar su parche, tendrás mucho camino recorrido al incorporarlo; ya que el parche traerá consigo información sobre el o la autora y un mensaje de confirmación de cambios.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si puedes, anima a tus colaboradoras a utilizar 'format-patch' en lugar de 'diff' cuando vayan a generar parches.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>You should only have to use `git apply` for legacy patches and things like that.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Solo deberías utilizar 'git apply' en caso de parches antiguos y similares.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>To apply a patch generated by `format-patch`, you use `git am`.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Para incorporar un parche generado con 'format-patch', utilizarás el comando 'git am'.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Técnicamente, 'git am' se construyó para leer un archivo de buzón de correo (mbox file), que no es más que un simple formato de texto plano para almacenar uno o varios mensajes de correo electrónico en un solo archivo de texto.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>It looks something like this:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Es algo parecido a esto:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+	From: Jessica Smith &lt;jessica@example.com&gt;
+	Date: Sun, 6 Apr 2008 10:17:23 -0700
+	Subject: [PATCH 1/2] add limit to log function</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
+	From: Jessica Smith &lt;jessica@example.com&gt;
+	Date: Sun, 6 Apr 2008 10:17:23 -0700
+	Subject: [PATCH 1/2] add limit to log function</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This is the beginning of the output of the format-patch command that you saw in the previous section.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Esto es el comienzo de la salida del comando format-patch visto en la sección anterior.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This is also a valid mbox e-mail format.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Es también un formato válido para un mbox.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si alguien te ha enviado correctamente un parche utilizando 'git send-email', y te lo has descargado a un formato mbox; podrás indicar a 'git am' dicho archivo mbox, y él comenzará a incorporar todos los parches que encuentre dentro.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si tienes un cliente de correo electrónico capaz de guardar varios mensajes en formato mbox, podrás guardar series completas de parches en un mismo archivo; y luego usar 'git am' para irlos incorporando sucesivamente.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Sin embargo, si alguien sube su archivo de parche a un sistema de gestión de peticiones de servicio o similar; tendrás que descargartelo a un archivo local y luego indicar ese archivo local de tu disco al comando 'git am':</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git am 0001-limit-log-function.patch 
+	Applying: add limit to log function</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git am 0001-limit-log-function.patch 
+	Applying: add limit to log function</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>You can see that it applied cleanly and automatically created the new commit for you.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Observarás que, si lo incorpora limpiamente, luego crea automáticamente una nueva confirmación de cambios (commit).</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>La información sobre el autor o autora la recoge de las cabeceras 'From' (Remitente) y 'Date' (Fecha). Y el mensaje para la confirmación (commit) lo recoge de 'Subject' (Asunto) y del cuerpo del correo electrónico.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Por ejemplo, si consideramos el parche incorporado desde el mbox del ejemplo que acabamos de mostrar, la confirmación de camios (commit) generada será algo como:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git log --pretty=fuller -1
+	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
+	Author:     Jessica Smith &lt;jessica@example.com&gt;
+	AuthorDate: Sun Apr 6 10:17:23 2008 -0700
+	Commit:     Scott Chacon &lt;schacon@gmail.com&gt;
+	CommitDate: Thu Apr 9 09:19:06 2009 -0700</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git log --pretty=fuller -1
+	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
+	Author:     Jessica Smith &lt;jessica@example.com&gt;
+	AuthorDate: Sun Apr 6 10:17:23 2008 -0700
+	Commit:     Scott Chacon &lt;schacon@gmail.com&gt;
+	CommitDate: Thu Apr 9 09:19:06 2009 -0700</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>add limit to log function</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>add limit to log function</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The `Commit` information indicates the person who applied the patch and the time it was applied.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>El campo 'Commit' muestra la persona que ha incorporado el parche y cuándo lo ha incorporado.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>The `Author` information is the individual who originally created the patch and when it was originally created.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>El campo 'Author' muestra la persona que ha creado originalmente el parche y cuándo fue creado este.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>But it’s possible that the patch won’t apply cleanly.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Pero también podría suceder que el parche no se pudiera incorporar limpiamente.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Es posible que tu rama principal diverja demasiado respecto de la rama sobre la que se construyó el parche; o que el parche tenga dependencias respecto de algún otro parche anterior que aún no hayas incorporado.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>In that case, the `git am` process will fail and ask you what you want to do:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>En ese caso, el proceso 'git am' fallará y te preguntará qué deseas hacer:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git am 0001-seeing-if-this-helps-the-gem.patch 
+	Applying: seeing if this helps the gem
+	error: patch failed: ticgit.gemspec:1
+	error: ticgit.gemspec: patch does not apply
+	Patch failed at 0001.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git am 0001-seeing-if-this-helps-the-gem.patch 
+	Applying: seeing if this helps the gem
+	error: patch failed: ticgit.gemspec:1
+	error: ticgit.gemspec: patch does not apply
+	Patch failed at 0001.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>When you have resolved this problem run &quot;git am --resolved&quot;.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>When you have resolved this problem run &quot;git am --resolved&quot;.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you would prefer to skip this patch, instead run &quot;git am --skip&quot;.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>If you would prefer to skip this patch, instead run &quot;git am --skip&quot;.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>To restore the original branch and stop patching run &quot;git am --abort&quot;.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>To restore the original branch and stop patching run &quot;git am --abort&quot;.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Este comando pondrá marcadores de conflicto en cualquier archivo con problemas, de forma similar a como lo haría una operación de fusión (merge) o de reorganización (rebase).</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Y resolverás los problemas de la misma manera, editando los archivos para resolver los conflictos, preparandolos, y lanzando luego 'git am --resolved' para continuar con el siguiente parche:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ (fix the file)
+	$ git add ticgit.gemspec 
+	$ git am --resolved
+	Applying: seeing if this helps the gem</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ (fix the file)
+	$ git add ticgit.gemspec 
+	$ git am --resolved
+	Applying: seeing if this helps the gem</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Si deseas más inteligencia por parte de Git al resolver conflictos, puedes pasarle la opción '-3', para que intente una fusión a tres bandas (three-way merge).</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Esta opción no suele ser la habitual porque no funcionará en caso de que la confirmación de cambios en que el parche dice estar basado no esté presente en tu repositorio. </seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Sin embargo, si tienes dicha confirmación de cambios (commit), --si el parche está basado en una confirmación pública--, entonces la opción '-3' suele ser mucho más avispada cuando incorporas un parche conflictivo:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+	Applying: seeing if this helps the gem
+	error: patch failed: ticgit.gemspec:1
+	error: ticgit.gemspec: patch does not apply
+	Using index info to reconstruct a base tree...
+	Falling back to patching base and 3-way merge...
+	No changes -- Patch already applied.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+	Applying: seeing if this helps the gem
+	error: patch failed: ticgit.gemspec:1
+	error: ticgit.gemspec: patch does not apply
+	Using index info to reconstruct a base tree...
+	Falling back to patching base and 3-way merge...
+	No changes -- Patch already applied.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>In this case, I was trying to apply a patch I had already applied.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>En este caso, estamos intentando incorporar un parche que ya tenemos incorporado.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>Without the `-3` option, it looks like a conflict.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Sin la opción '-3', tendríamos problemas.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>If you’re applying a number of patches from an mbox, you can also run the `am` command in interactive mode, which stops at each patch it finds and asks if you want to apply it:</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Al aplicar varios parches desde un mbox, puedes lanzar el comando 'am' en modo interactivo; haciendo que se detenga en cada parche y preguntandote si aplicarlo o no:</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>$ git am -3 -i mbox
+	Commit Body is:
+	--------------------------
+	seeing if this helps the gem
+	--------------------------
+	Apply?</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>$ git am -3 -i mbox
+	Commit Body is:
+	--------------------------
+	seeing if this helps the gem
+	--------------------------
+	Apply?</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>[y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>[y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Es una utilidad interesante si tienes tienes almacenados unos cuantos parches, porque puedes ir revisando previamente cada parche y aplicarlos selectivamente.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
+        <seg>When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.</seg>
+      </tuv>
+      <tuv lang="ES">
+        <seg>Cuando tengas integrados y confirmados todos los parches relativos al tema puntual en que estas trabajando, puedes plantearte cómo y cuándo lo vas a integar en alguna otra rama de más largo recorrido.</seg>
+      </tuv>
+    </tu>
+    <tu>
+      <tuv lang="EN">
         <seg>## Summary ##</seg>
       </tuv>
       <tuv lang="ES">

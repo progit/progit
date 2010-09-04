@@ -124,7 +124,7 @@ La définition et l'utilisation d'un bonne ligne de conduite sur les messages de
 Le projet Git fournit un document qui décrit un certain nombre de bonnes pratiques pour créer des commits qui serviront à fournir des patchs — le document est accessibles dans les sources de Git, dans le fichier `Documentation/SubmittingPatches`.
 
 Premièrement, il ne faut pas soumettre de patchs comportant des erreurs d'espace (caractères espace inutiles en fin de ligne).
-Git fournit un moyen simple de le vérifier — avant de valider, lancez la commane `git diff --check` qui identifiera et listera les erreurs d'espace.
+Git fournit un moyen simple de le vérifier — avant de valider, lancez la commande `git diff --check` qui identifiera et listera les erreurs d'espace.
 Voici un exemple dans lequel les caractères en couleur rouge ont été remplacés par des `X` :
 
 	$ git diff --check
@@ -174,7 +174,7 @@ En anglais, voici ci-dessous un modèle écrit par Tim Pope at tpope.net :
 Si tous vos messages de validation ressemble à ceci, les choses seront beaucoup plus simples pour vous et les développeurs avec qui vous travaillez.
 Le projet Git montre des messages de commit bien formatés — je vous encourage à y lancer un `git log --no-merges` pour pouvoir voir comment rend un historique de messages bien formatés. 
 
-Dans les exemples suivants, et à travers tout ce livre, par soucis de simplification, je ne formatterai pas les message aussi proprement.
+Dans les exemples suivants, et à travers tout ce livre, par soucis de simplification, je ne formaterai pas les messages aussi proprement.
 J'utiliserai plutôt l'option `-m` de `git commit`.
 Faites ce que je dis, pas ce que je fais.
 
@@ -184,127 +184,145 @@ Le cas le plus probable que vous rencontrerez est celui du projet privé avec un
 Par privé, j'entends source fermé non accessible au public en lecture.
 Vous et les autres développeurs aurez accès push au dépôt.
 
+Dans cet environnement, vous pouvez suivre une méthode similaire à ce que vous feriez en utilisant Subversion ou tout autre système centralisé.
+Vous bénéficiez toujours d'avantages tels que la validation hors-ligne et la gestion de branche et de fusion grandement simplifiée mais les étapes restent similaires.
+La différence principale que les fusions ont lieu du côté client plutôt que sur le serveur au moment de valider.
+Voyons à quoi pourrait ressembler la collaboration de deux développeurs sur un dépôt partager.
+Le premier développeur, John, clone le dépôt, fait une modification et valide localement.
+Dans les exemples qui suivent, les messages de protocole sont remplacés par `...` pour les raccourcir .
 
-In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.
-Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)
-
-	# John's Machine
+	# Ordinateur de John
 	$ git clone john@githost:simplegit.git
 	Initialized empty Git repository in /home/john/simplegit/.git/
 	...
 	$ cd simplegit/
 	$ vim lib/simplegit.rb 
-	$ git commit -am 'removed invalid default value'
-	[master 738ee87] removed invalid default value
+	$ git commit -am 'Eliminer une valeur par defaut invalide'
+	[master 738ee87] Eliminer une valeur par defaut invalide
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-The second developer, Jessica, does the same thing — clones the repository and commits a change:
+La deuxième développeuse, Jessica, fait la même chose.
+Elle clone le dépôt et valide une modification :
 
-	# Jessica's Machine
+	# Ordinateur de Jessica
 	$ git clone jessica@githost:simplegit.git
 	Initialized empty Git repository in /home/jessica/simplegit/.git/
 	...
 	$ cd simplegit/
 	$ vim TODO 
-	$ git commit -am 'add reset task'
-	[master fbff5bc] add reset task
+	$ git commit -am 'Ajouter une tache reset'
+	[master fbff5bc] Ajouter une tache reset
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Now, Jessica pushes her work up to the server:
+À présent, Jessica pousse son travail sur le serveur :
 
-	# Jessica's Machine
+	# Ordinateur de Jessica
 	$ git push origin master
 	...
 	To jessica@githost:simplegit.git
 	   1edee6b..fbff5bc  master -> master
 
-John tries to push his change up, too:
+John tente aussi de pousser ses modifications :
 
-	# John's Machine
+	# Ordinateur de John
 	$ git push origin master
 	To john@githost:simplegit.git
 	 ! [rejected]        master -> master (non-fast forward)
 	error: failed to push some refs to 'john@githost:simplegit.git'
 
-John isn’t allowed to push because Jessica has pushed in the meantime. This is especially important to understand if you’re used to Subversion, because you’ll notice that the two developers didn’t edit the same file. Although Subversion automatically does such a merge on the server if different files are edited, in Git you must merge the commits locally. John has to fetch Jessica’s changes and merge them in before he will be allowed to push:
+John n'a pas le droit de pousser parce que Jessica a déjà poussé dans l'intervalle.
+Il est très important de comprendre ceci si vous avez déjà utilisé Subversion, parce qu'il faut remarquer que les deux développeurs n'ont pas modifié le même fichier.
+Quand des fichiers différents ont été modifiés, Subversion réalise cette fusion automatiquement sur le serveur alors que Git nécessite une fusion des modifications locale.
+John doit récupérer les modifications de Jessica et les fusionner avant d'être autorisé à pousser :
 
 	$ git fetch origin
 	...
 	From john@githost:simplegit
 	 + 049d078...fbff5bc master     -> origin/master
 
-At this point, John’s local repository looks something like Figure 5-4.
+À présent, le dépôt local de John ressemble à la figure 5-4.
 
 Insert 18333fig0504.png 
-Figure 5-4. John’s initial repository.
+Figure 5-4. État initial du dépôt de John.
 
-John has a reference to the changes Jessica pushed up, but he has to merge them into his own work before he is allowed to push:
+John a une référence aux modifications que Jessica a poussé, mais il doit les fusionner dans sa propre branche avant de pouvoir pousser :
 
 	$ git merge origin/master
 	Merge made by recursive.
 	 TODO |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-The merge goes smoothly — John’s commit history now looks like Figure 5-5.
+Cette fusion se passe sans problème — l'historique de commit de John ressemble à présent à la figure 5-5.
 
 Insert 18333fig0505.png 
-Figure 5-5. John’s repository after merging origin/master.
+Figure 5-5. Le dépôt local de John après la fusion d'origin/master.
 
-Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
+Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore correctement et peut pousser son travail nouvellement fusionné sur le serveur :
 
 	$ git push origin master
 	...
 	To john@githost:simplegit.git
 	   fbff5bc..72bbc59  master -> master
 
-Finally, John’s commit history looks like Figure 5-6.
+À la fin, l'historique des commits de John ressemble à la figure 5-6.
 
 Insert 18333fig0506.png 
-Figure 5-6. John’s history after pushing to the origin server.
+Figure 5-6. L'historique de John après avoir poussé sur le serveur origin.
 
-In the meantime, Jessica has been working on a topic branch. She’s created a topic branch called `issue54` and done three commits on that branch. She hasn’t fetched John’s changes yet, so her commit history looks like Figure 5-7.
+Dans l'intervalle, Jessica a travaillé sur une branche de sujet.
+Elle a créé une branche de sujet nommée `prob54` et réalisé trois validations sur cette branche.
+Elle n'a pas encore récupéré les modifications de John, ce qui donne un historique semblable à la figure 5-7.
 
 Insert 18333fig0507.png 
-Figure 5-7. Jessica’s initial commit history.
+Figure 5-7. L'historique initial de commits de Jessica. 
 
-Jessica wants to sync up with John, so she fetches:
+Jessica souhaite se synchroniser sur le travail de John.
+Elle récupère donc ses modifications :
 
-	# Jessica's Machine
+	# Ordinateur de Jessica
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
 	   fbff5bc..72bbc59  master     -> origin/master
 
-That pulls down the work John has pushed up in the meantime. Jessica’s history now looks like Figure 5-8.
+Cette commande tire le travail que John avait poussé dans l'intervalle.
+L'historique de Jessica ressemble maintenant à la figure 5-8.
 
 Insert 18333fig0508.png 
-Figure 5-8. Jessica’s history after fetching John’s changes.
+Figure 5-8. L'historique de Jessica après avoir récupéré les modifications de John.
 
-Jessica thinks her topic branch is ready, but she wants to know what she has to merge her work into so that she can push. She runs `git log` to find out:
+Jessica pense que sa branche de sujet et prête mais elle souhaite savoir si elle doit fusionner son travail avant de pouvoir pousser.
+Elle lance `git log` pour s'en assurer :
 
 	$ git log --no-merges origin/master ^issue54
 	commit 738ee872852dfaa9d6634e0dea7a324040193016
 	Author: John Smith <jsmith@example.com>
 	Date:   Fri May 29 16:01:27 2009 -0700
 
-	    removed invalid default value
+	    Eliminer une valeur par defaut invalide
 
-Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:
+Maintenant, Jessica peut fusionner sa branche de sujet dans sa branche `master`, fusionner le travail de John (`origin/master`)dans sa branche `master`, puis pousser le résulat sur le serveur.
+Premièrement, elle rebascule sur sa branche `master` pour intégrer son travail :
 
 	$ git checkout master
 	Switched to branch "master"
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
 
-She can merge either `origin/master` or `issue54` first — they’re both upstream, so the order doesn’t matter. The end snapshot should be identical no matter which order she chooses; only the history will be slightly different. She chooses to merge in `issue54` first:
+Elle peut fusionner soit `origin/master` soit `prob54` en premier — les deux sont en avance, mais l'ordre n'importe pas.
+L'instantané final devrait être identique quelque soit l'ordre de fusion qu'elle choisit.
+Seul l'historique sera légèrement différent.
+Elle choisit de fusionner en premier `prob54` :
 
 	$ git merge issue54
 	Updating fbff5bc..4af4298
 	Fast forward
-	 README           |    1 +
+	 LISEZMOI         |    1 +
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-No problems occur; as you can see it, was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
+Aucun problème n'apparaît.
+Comme vous pouvez le voir, c'est une simple avance rapide.
+Maintenant, Jessica fusionne le travail de John (`origin/master`) :
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb
@@ -312,27 +330,30 @@ No problems occur; as you can see it, was a simple fast-forward. Now Jessica mer
 	 lib/simplegit.rb |    2 +-
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Everything merges cleanly, and Jessica’s history looks like Figure 5-9.
+Tout a fusionné proprement, et l'historique de Jessica ressemble à la figure 5-9.
 
 Insert 18333fig0509.png 
-Figure 5-9. Jessica’s history after merging John’s changes.
+Figure 5-9. L'historique de Jessica après avoir fusionné les modifications de John.
 
-Now `origin/master` is reachable from Jessica’s `master` branch, so she should be able to successfully push (assuming John hasn’t pushed again in the meantime):
+Maintenant `origin/master` est accessible depuis la branche `master` de Jessica, donc elle devrait être capable de pousser (en considérant que John n'a pas encore pousser dans l'intervalle) :
 
 	$ git push origin master
 	...
 	To jessica@githost:simplegit.git
 	   72bbc59..8059c15  master -> master
 
-Each developer has committed a few times and merged each other’s work successfully; see Figure 5-10.
+Chaque développeur a validé quelques fois et fusionné les travaux de l'autre avec succès (voir figure 5-10).
 
 Insert 18333fig0510.png 
-Figure 5-10. Jessica’s history after pushing all changes back to the server.
+Figure 5-10. L'historique de Jessica après avoir poussé toutes ses modifications sur le serveur.
 
-That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
+C'est un des schéma les plus simples.
+Vous travaillez pendant quelques temps, généralement sur une branche de sujet, et fusionnez dans votre branche `master` quand elle est prête à être intégrée.
+Quand vous souhaitez partager votre travail, vous récupérez `origin/master` et la fusionnez si elle a changé, puis finallement vous poussez le résultat sur la branche `master` du serveur.
+La séquence est illustrée par la figure 5-11.
 
 Insert 18333fig0511.png 
-Figure 5-11. General sequence of events for a simple multiple-developer Git workflow.
+Figure 5-11. Séquence générale des évènements pour une utilisation simple multi-développeur de Git.
 
 ### Private Managed Team ###
 

@@ -125,7 +125,7 @@ Le projet Git fournit un document qui décrit un certain nombre de bonnes pratiq
 
 Premièrement, il ne faut pas soumettre de patchs comportant des erreurs d'espace (caractères espace inutiles en fin de ligne).
 Git fournit un moyen simple de le vérifier — avant de valider, lancez la commande `git diff --check` qui identifiera et listera les erreurs d'espace.
-Voici un exemple dans lequel les caractères en couleur rouge ont été remplacés par des `X` :
+Voici un exemple dans lequel les caractères en couleur rouge ont été remplacés par des `X` :
 
 	$ git diff --check
 	lib/simplegit.rb:5: trailing whitespace.
@@ -152,7 +152,7 @@ Un bonne règle consiste aussi à utiliser le présent de l'impératif ou des ve
 En d'autre terme, utilisez des ordres.
 Au lieu d'écrire « J'ai ajouté des tests pour » ou « En train d'ajouter des tests pour », utilisez juste « Ajoute des tests pour » ou « Ajout de tests pour ».
 
-En anglais, voici ci-dessous un modèle écrit par Tim Pope at tpope.net :
+En anglais, voici ci-dessous un modèle écrit par Tim Pope at tpope.net :
 
 
 	Short (50 chars or less) summary of changes
@@ -171,10 +171,10 @@ En anglais, voici ci-dessous un modèle écrit par Tim Pope at tpope.net :
 	 - Typically a hyphen or asterisk is used for the bullet, preceded by a
 	   single space, with blank lines in between, but conventions vary here
 
-Si tous vos messages de validation ressemble à ceci, les choses seront beaucoup plus simples pour vous et les développeurs avec qui vous travaillez.
+Si tous vos messages de validation ressemblent à ceci, les choses seront beaucoup plus simples pour vous et les développeurs avec qui vous travaillez.
 Le projet Git montre des messages de commit bien formatés — je vous encourage à y lancer un `git log --no-merges` pour pouvoir voir comment rend un historique de messages bien formatés. 
 
-Dans les exemples suivants, et à travers tout ce livre, par soucis de simplification, je ne formaterai pas les messages aussi proprement.
+Dans les exemples suivants et à travers tout ce livre, par soucis de simplification, je ne formaterai pas les messages aussi proprement.
 J'utiliserai plutôt l'option `-m` de `git commit`.
 Faites ce que je dis, pas ce que je fais.
 
@@ -186,8 +186,8 @@ Vous et les autres développeurs aurez accès push au dépôt.
 
 Dans cet environnement, vous pouvez suivre une méthode similaire à ce que vous feriez en utilisant Subversion ou tout autre système centralisé.
 Vous bénéficiez toujours d'avantages tels que la validation hors-ligne et la gestion de branche et de fusion grandement simplifiée mais les étapes restent similaires.
-La différence principale que les fusions ont lieu du côté client plutôt que sur le serveur au moment de valider.
-Voyons à quoi pourrait ressembler la collaboration de deux développeurs sur un dépôt partager.
+La différence principale reste que les fusions ont lieu du côté client plutôt que sur le serveur au moment de valider.
+Voyons à quoi pourrait ressembler la collaboration de deux développeurs sur un dépôt partagé.
 Le premier développeur, John, clone le dépôt, fait une modification et valide localement.
 Dans les exemples qui suivent, les messages de protocole sont remplacés par `...` pour les raccourcir .
 
@@ -202,7 +202,7 @@ Dans les exemples qui suivent, les messages de protocole sont remplacés par `..
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
 La deuxième développeuse, Jessica, fait la même chose.
-Elle clone le dépôt et valide une modification :
+Elle clone le dépôt et valide une modification :
 
 	# Ordinateur de Jessica
 	$ git clone jessica@githost:simplegit.git
@@ -214,7 +214,7 @@ Elle clone le dépôt et valide une modification :
 	[master fbff5bc] Ajouter une tache reset
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-À présent, Jessica pousse son travail sur le serveur :
+À présent, Jessica pousse son travail sur le serveur :
 
 	# Ordinateur de Jessica
 	$ git push origin master
@@ -222,7 +222,7 @@ Elle clone le dépôt et valide une modification :
 	To jessica@githost:simplegit.git
 	   1edee6b..fbff5bc  master -> master
 
-John tente aussi de pousser ses modifications :
+John tente aussi de pousser ses modifications :
 
 	# Ordinateur de John
 	$ git push origin master
@@ -233,7 +233,7 @@ John tente aussi de pousser ses modifications :
 John n'a pas le droit de pousser parce que Jessica a déjà poussé dans l'intervalle.
 Il est très important de comprendre ceci si vous avez déjà utilisé Subversion, parce qu'il faut remarquer que les deux développeurs n'ont pas modifié le même fichier.
 Quand des fichiers différents ont été modifiés, Subversion réalise cette fusion automatiquement sur le serveur alors que Git nécessite une fusion des modifications locale.
-John doit récupérer les modifications de Jessica et les fusionner avant d'être autorisé à pousser :
+John doit récupérer les modifications de Jessica et les fusionner avant d'être autorisé à pousser :
 
 	$ git fetch origin
 	...
@@ -245,19 +245,19 @@ John doit récupérer les modifications de Jessica et les fusionner avant d'êtr
 Insert 18333fig0504.png 
 Figure 5-4. État initial du dépôt de John.
 
-John a une référence aux modifications que Jessica a poussé, mais il doit les fusionner dans sa propre branche avant de pouvoir pousser :
+John a une référence aux modifications que Jessica a pousséés, mais il doit les fusionner dans sa propre branche avant de pouvoir pousser :
 
 	$ git merge origin/master
 	Merge made by recursive.
 	 TODO |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Cette fusion se passe sans problème — l'historique de commit de John ressemble à présent à la figure 5-5.
+Cette fusion se passe sans problème — l'historique de commits de John ressemble à présent à la figure 5-5.
 
 Insert 18333fig0505.png 
 Figure 5-5. Le dépôt local de John après la fusion d'origin/master.
 
-Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore correctement et peut pousser son travail nouvellement fusionné sur le serveur :
+Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore correctement et peut pousser son travail nouvellement fusionné sur le serveur :
 
 	$ git push origin master
 	...
@@ -277,7 +277,7 @@ Insert 18333fig0507.png
 Figure 5-7. L'historique initial de commits de Jessica. 
 
 Jessica souhaite se synchroniser sur le travail de John.
-Elle récupère donc ses modifications :
+Elle récupère donc ses modifications :
 
 	# Ordinateur de Jessica
 	$ git fetch origin
@@ -292,7 +292,7 @@ Insert 18333fig0508.png
 Figure 5-8. L'historique de Jessica après avoir récupéré les modifications de John.
 
 Jessica pense que sa branche de sujet et prête mais elle souhaite savoir si elle doit fusionner son travail avant de pouvoir pousser.
-Elle lance `git log` pour s'en assurer :
+Elle lance `git log` pour s'en assurer :
 
 	$ git log --no-merges origin/master ^issue54
 	commit 738ee872852dfaa9d6634e0dea7a324040193016
@@ -302,7 +302,7 @@ Elle lance `git log` pour s'en assurer :
 	    Eliminer une valeur par defaut invalide
 
 Maintenant, Jessica peut fusionner sa branche de sujet dans sa branche `master`, fusionner le travail de John (`origin/master`)dans sa branche `master`, puis pousser le résulat sur le serveur.
-Premièrement, elle rebascule sur sa branche `master` pour intégrer son travail :
+Premièrement, elle rebascule sur sa branche `master` pour intégrer son travail :
 
 	$ git checkout master
 	Switched to branch "master"
@@ -311,7 +311,7 @@ Premièrement, elle rebascule sur sa branche `master` pour intégrer son travail
 Elle peut fusionner soit `origin/master` soit `prob54` en premier — les deux sont en avance, mais l'ordre n'importe pas.
 L'instantané final devrait être identique quelque soit l'ordre de fusion qu'elle choisit.
 Seul l'historique sera légèrement différent.
-Elle choisit de fusionner en premier `prob54` :
+Elle choisit de fusionner en premier `prob54` :
 
 	$ git merge issue54
 	Updating fbff5bc..4af4298
@@ -322,7 +322,7 @@ Elle choisit de fusionner en premier `prob54` :
 
 Aucun problème n'apparaît.
 Comme vous pouvez le voir, c'est une simple avance rapide.
-Maintenant, Jessica fusionne le travail de John (`origin/master`) :
+Maintenant, Jessica fusionne le travail de John (`origin/master`) :
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb
@@ -330,12 +330,12 @@ Maintenant, Jessica fusionne le travail de John (`origin/master`) :
 	 lib/simplegit.rb |    2 +-
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Tout a fusionné proprement, et l'historique de Jessica ressemble à la figure 5-9.
+Tout a fusionné proprement et l'historique de Jessica ressemble à la figure 5-9.
 
 Insert 18333fig0509.png 
 Figure 5-9. L'historique de Jessica après avoir fusionné les modifications de John.
 
-Maintenant `origin/master` est accessible depuis la branche `master` de Jessica, donc elle devrait être capable de pousser (en considérant que John n'a pas encore pousser dans l'intervalle) :
+Maintenant `origin/master` est accessible depuis la branche `master` de Jessica, donc elle devrait être capable de pousser (en considérant que John n'a pas encore poussé dans l'intervalle) :
 
 	$ git push origin master
 	...
@@ -349,7 +349,7 @@ Figure 5-10. L'historique de Jessica après avoir poussé toutes ses modificatio
 
 C'est un des schéma les plus simples.
 Vous travaillez pendant quelques temps, généralement sur une branche de sujet, et fusionnez dans votre branche `master` quand elle est prête à être intégrée.
-Quand vous souhaitez partager votre travail, vous récupérez `origin/master` et la fusionnez si elle a changé, puis finallement vous poussez le résultat sur la branche `master` du serveur.
+Quand vous souhaitez partager votre travail, vous récupérez `origin/master` et la fusionnez si elle a changé, puis finalement vous poussez le résultat sur la branche `master` du serveur.
 La séquence est illustrée par la figure 5-11.
 
 Insert 18333fig0511.png 

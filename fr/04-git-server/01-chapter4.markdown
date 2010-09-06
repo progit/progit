@@ -388,7 +388,7 @@ Si vous essayez, vous verrez un rejet de login :
 	fatal: What do you think I am? A shell?
 	Connection to gitserver closed.
 
-## Accès publique ##
+## Accès public ##
 
 Et si vous voulez permettre des accès anonymes en lecture ?
 Peut-être souhaitez-vous héberger un projet open source au lieu d'un projet interne privé.
@@ -675,7 +675,7 @@ Si vous avez perdu le droit de pousser en envoyant une configuration vérolée, 
 Pousser sur le projet `gitosis-admin` provoque la recopie du fichier `gitosis.conf` à cet endroit.
 Si vous éditez ce fichier à la main, il restera dans cet état jusqu'à la prochaine poussée.
 
-## le daemon Git ##
+## Le daemon Git ##
 
 Pour garantir les accès publics non authentifiés en lecture à vos projet, il est préférable de dépasser le protocole HTTP et de commencer à utiliser le protocole Git.
 La raison principale en est la vitesse.

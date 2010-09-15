@@ -532,40 +532,22 @@ The most interesting option is `format`, which allows you to specify your own lo
 
 Table 2-1 lists some of the more useful options that format takes.
 
----------------------------------------------------------
-Option Description of Output
------- --------------------------------------------------
-`%H`   Commit hash
-
-`%h`   Abbreviated commit hash
-
-`%T`   Tree hash
-
-`%t`   Abbreviated tree hash
-
-`%P`   Parent hashes
-
-`%p`   Abbreviated parent hashes
-
-`%an`  Author name
-
-`%ae`  Author e-mail
-
-`%ad`  Author date (format respects the `--date=` option)
-
-`%ar`  Author date, relative
-
-`%cn`  Committer name
-
-`%ce`  Committer email
-
-`%cd`  Committer date
-
-`%cr`  Committer date, relative
-
-`%s`   Subject
----------------------------------------------------------
-Table: Format options
+	Option	Description of Output
+	%H	Commit hash
+	%h	Abbreviated commit hash
+	%T	Tree hash
+	%t	Abbreviated tree hash
+	%P	Parent hashes
+	%p	Abbreviated parent hashes
+	%an	Author name
+	%ae	Author e-mail
+	%ad	Author date (format respects the –date= option)
+	%ar	Author date, relative
+	%cn	Committer name
+	%ce	Committer email
+	%cd	Committer date
+	%cr	Committer date, relative
+	%s	Subject
 
 You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
 
@@ -585,36 +567,16 @@ The oneline and format options are particularly useful with another `log` option
 
 Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
 
-------------------------------------------------------------------------------
-Option            Description
------------------ ------------------------------------------------------------
-`-p`              Show the patch introduced with each commit.
-
-`--stat`          Show statistics for files modified in each commit.
-
-`--shortstat`     Display only the changed/insertions/deletions line from the
-                  `--stat` command.
-
-`--name-only`     Show the list of files modified after the commit
-                  information.
-
-`--name-status`   Show the list of files affected with added/modified/deleted
-                  information as well.
-
-`--abbrev-commit` Show only the first few characters of the SHA-1 checksum
-                  instead of all 40.
-
-`--relative-date` Display the date in a relative format (for example,
-                  “2 weeks ago”) instead of using the full date format.
-
-`--graph`         Display an ASCII graph of the branch and merge history
-                  beside the log output.
-
-`--pretty`        Show commits in an alternate format. Options include
-                  oneline, short, full, fuller, and format (where you specify
-                  your own format).
-------------------------------------------------------------------------------
-Table: Some `git log` options
+	Option	Description
+	-p	Show the patch introduced with each commit.
+	--stat	Show statistics for files modified in each commit.
+	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
+	--name-only	Show the list of files modified after the commit information.
+	--name-status	Show the list of files affected with added/modified/deleted information as well.
+	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
+	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
+	--graph	Display an ASCII graph of the branch and merge history beside the log output.
+	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
 
 ### Limiting Log Output ###
 
@@ -632,24 +594,12 @@ The last really useful option to pass to `git log` as a filter is a path. If you
 
 In Table 2-3 we’ll list these and a few other common options for your reference.
 
-------------------------------------------------------------------------------
-Option                Description
---------------------- --------------------------------------------------------
-`-(n)`                Show only the last n commits
-
-`--since`, `--after`  Limit the commits to those made after the specified
-                      date.
-
-`--until`, `--before` Limit the commits to those made before the specified
-                      date.
-
-`--author`            Only show commits in which the author entry matches the
-                      specified string.
-
-`--committer`         Only show commits in which the committer entry matches
-                      the specified string.
-------------------------------------------------------------------------------
-Table: Some `git log` filter options
+	Option	Description
+	-(n)	Show only the last n commits
+	--since, --after	Limit the commits to those made after the specified date.
+	--until, --before	Limit the commits to those made before the specified date.
+	--author	Only show commits in which the author entry matches the specified string.
+	--committer	Only show commits in which the committer entry matches the specified string.
 
 For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
 

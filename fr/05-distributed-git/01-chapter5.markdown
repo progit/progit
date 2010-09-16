@@ -149,7 +149,7 @@ S'habituer à écrire des messages de validation de qualité facilite grandement
 En règle générale, les messages doivent débuter par une ligne unique d'au plus 50 caractères décrivant concisément la modification, suivie d'un ligne vide, suivie d'une explication plus détaillée.
 Le projet Git exige que l'explication détaillée inclut la motivation de la modification en contrastant le nouveau comportement par rapport à l'ancien — c'est une bonne règle de rédaction.
 Un bonne règle consiste aussi à utiliser le présent de l'impératif ou des verbes substantivés dans le message.
-En d'autre terme, utilisez des ordres.
+En d'autres termes, utilisez des ordres.
 Au lieu d'écrire « J'ai ajouté des tests pour » ou « En train d'ajouter des tests pour », utilisez juste « Ajoute des tests pour » ou « Ajout de tests pour ».
 
 En anglais, voici ci-dessous un modèle écrit par Tim Pope at tpope.net :
@@ -355,126 +355,143 @@ La séquence est illustrée par la figure 5-11.
 Insert 18333fig0511.png 
 Figure 5-11. Séquence générale des évènements pour une utilisation simple multi-développeur de Git.
 
-### Private Managed Team ###
+### Équipe privée importante ###
 
-In this next scenario, you’ll look at contributor roles in a larger private group. You’ll learn how to work in an environment where small groups collaborate on features and then those team-based contributions are integrated by another party.
+Dans le scenario suivant, nous aborderons les rôles de contributeur dans un groupe privé plus grand.
+Vous apprendrez comment travailler dans un environnement où des petits groupes collaborent sur des fonctionnalités, puis les contributions de chaque équipe sont intégrées par une autre entité.
 
-Let’s say that John and Jessica are working together on one feature, while Jessica and Josie are working on a second. In this case, the company is using a type of integration-manager workflow where the work of the individual groups is integrated only by certain engineers, and the `master` branch of the main repo can be updated only by those engineers. In this scenario, all work is done in team-based branches and pulled together by the integrators later.
+Supposons que John et Jessica travaillent ensemble sur une première fonctionnalité, tandis que Jessica et Josie travaillent sur une autre.
+Dans ce cas, l'entreprise utilise un mode d'opération de type « gestionnaire d'intégration » où le travail des groupes est intégré par certains ingénieurs, et la branche `master` du dépôt principal ne peut être mise à jour que par ces ingénieurs.
+Dans ce scenario, tout le travail est validé dans des branches orientées équipe, et tiré plus tard par les intégrateurs.
 
-Let’s follow Jessica’s workflow as she works on her two features, collaborating in parallel with two different developers in this environment. Assuming she already has her repository cloned, she decides to work on `featureA` first. She creates a new branch for the feature and does some work on it there:
+Suivons le cheminement de Jessica tandis qu'elle travaille sur les deux nouvelles fonctionnalités, collaborant en parallèle avec deux développeurs différents dans cet environnement.
+En supposant qu'elle a cloné son dépôt, elle décide de travailler sur la `fonctionA` en premier.
+Elle crée une nouvelle branche pour cette fonction et travaille un peu dessus :
 
-	# Jessica's Machine
-	$ git checkout -b featureA
-	Switched to a new branch "featureA"
+	# Ordinateur de Jessica
+	$ git checkout -b fonctionA
+	Switched to a new branch "fonctionA"
 	$ vim lib/simplegit.rb
-	$ git commit -am 'add limit to log function'
-	[featureA 3300904] add limit to log function
+	$ git commit -am 'Ajouter une limite à la fonction de log'
+	[fonctionA 3300904] Ajouter une limite à la fonction de log
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-At this point, she needs to share her work with John, so she pushes her `featureA` branch commits up to the server. Jessica doesn’t have push access to the `master` branch — only the integrators do — so she has to push to another branch in order to collaborate with John:
+À ce moment, elle a besoin de partager son travail avec John, donc elle pousse les commits de sa branche `fonctionA` sur le serveur.
+Jessica n'a pas le droit de pousser sur la branche `master` — seuls les intégrateurs l'ont — et elle doit donc pousser sur une autre branche pour collaborer avec John :
 
-	$ git push origin featureA
+	$ git push origin fonctionA
 	...
 	To jessica@githost:simplegit.git
-	 * [new branch]      featureA -> featureA
+	 * [new branch]      fonctionA -> fonctionA
 
-Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch:
+Jessica envoie un e-mail à John pour lui indiquer qu'elle a poussé son travail dans la branche appelée `fonctionA` et qu'il peut l'inspecter.
+Pendant qu'elle attend le retour de John, Jessica décide de commencer à travailler sur la `fonctionB` avec Josie.
+Pour commencer, elle crée une nouvelle branche fonctionnelle, à partir de la base `master` du serveur :
 
-	# Jessica's Machine
+	# Ordinateur de Jessica
 	$ git fetch origin
-	$ git checkout -b featureB origin/master
-	Switched to a new branch "featureB"
+	$ git checkout -b fonctionB origin/master
+	Switched to a new branch "fonctionB"
 
-Now, Jessica makes a couple of commits on the `featureB` branch:
+À présent, Jessica réalise quelques validations sur la branche `fonctionB` :
 
 	$ vim lib/simplegit.rb
-	$ git commit -am 'made the ls-tree function recursive'
-	[featureB e5b0fdc] made the ls-tree function recursive
+	$ git commit -am 'Rendre la fonction ls-tree recursive'
+	[fonctionB e5b0fdc] Rendre la fonction ls-tree recursive
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	$ vim lib/simplegit.rb
-	$ git commit -am 'add ls-files'
-	[featureB 8512791] add ls-files
+	$ git commit -am 'Ajoutde ls-files'
+	[fonctionB 8512791] Ajout ls-files
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Jessica’s repository looks like Figure 5-12.
+Le dépôt de Jessica ressemble à la figure 5-12.
 
 Insert 18333fig0512.png 
-Figure 5-12. Jessica’s initial commit history.
+Figure 5-12. L'historique initial de Jessica.
 
-She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`:
+Elle est prête à pousser son travail, mais elle reçoit un mail de Josie indiquant qu'une branche avec un premier travail a déjà été poussé sur le serveur en tant que `fonctionBee`.
+Jessica doit d'abord fusionner ces modifications avec les siennes avant de pouvoir pousser sur le serveur.
+Elle peut récupérer les modifications de Josie avec `git fetch` :
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
-	 * [new branch]      featureBee -> origin/featureBee
+	 * [new branch]      fonctionBee -> origin/fonctionBee
 
-Jessica can now merge this into the work she did with `git merge`:
+Jessica peut à présent fusionner ceci dans le travail qu'elle a réalisé grâce à `git merge` :
 
-	$ git merge origin/featureBee
+	$ git merge origin/fonctionBee
 	Auto-merging lib/simplegit.rb
 	Merge made by recursive.
 	 lib/simplegit.rb |    4 ++++
 	 1 files changed, 4 insertions(+), 0 deletions(-)
 
-There is a bit of a problem — she needs to push the merged work in her `featureB` branch to the `featureBee` branch on the server. She can do so by specifying the local branch followed by a colon (:) followed by the remote branch to the `git push` command:
+Mais il y a un petit problème — elle doit pousser son travail fusionné dans sa branche `fonctionB` sur la branche `fonctionBee` du serveur. 
+Elle peut le faire en spécifiant la branche locale suivie de deux points (:) suivi de la branche distante à la commande `git push` :
 
-	$ git push origin featureB:featureBee
+	$ git push origin fonctionB:fonctionBee
 	...
 	To jessica@githost:simplegit.git
-	   fba9af8..cd685d1  featureB -> featureBee
+	   fba9af8..cd685d1  fonctionB -> fonctionBee
 
-This is called a _refspec_. See Chapter 9 for a more detailed discussion of Git refspecs and different things you can do with them.
+Cela s'appelle une _refspec_. Référez-vous au chapitre 9 pour une explication plus détaillée des refspecs Git et des possibilités qu'elles offrent.
 
-Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` branch and ask her to verify them. She runs a `git fetch` to pull down those changes:
+Ensuite, John envoie un e-mail à Jessica pour lui indiquer qu'il a poussé des modifications sur la branche `fonctionA` et lui demander de les vérifier.
+Elle lance `git fetch` pour tirer toutes ces modifications :
 
 	$ git fetch origin
 	...
 	From jessica@githost:simplegit
-	   3300904..aad881d  featureA   -> origin/featureA
+	   3300904..aad881d  fonctionA   -> origin/fonctionA
 
-Then, she can see what has been changed with `git log`:
+Elle peut alors voir ce qui a été modifié avec `git log` :
 
-	$ git log origin/featureA ^featureA
+	$ git log origin/fonctionA ^fonctionA
 	commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
 	Author: John Smith <jsmith@example.com>
 	Date:   Fri May 29 19:57:33 2009 -0700
 
-	    changed log output to 30 from 25
+	    largeur du log passee de 25 a 30
 
-Finally, she merges John’s work into her own `featureA` branch:
+Finalement, elle fusionne le travail de John dans sa propre branche `fonctionA` :
 
-	$ git checkout featureA
-	Switched to branch "featureA"
-	$ git merge origin/featureA
+	$ git checkout fonctionA
+	Switched to branch "fonctionA"
+	$ git merge origin/fonctionA
 	Updating 3300904..aad881d
 	Fast forward
 	 lib/simplegit.rb |   10 +++++++++-
 	1 files changed, 9 insertions(+), 1 deletions(-)
 
-Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
+Jessica veut régler quelques détails.
+Elle valide donc encore et pousse ses changements sur le serveur :
 
-	$ git commit -am 'small tweak'
-	[featureA ed774b3] small tweak
+	$ git commit -am 'details regles'
+	[fonctionA ed774b3] details regles
 	 1 files changed, 1 insertions(+), 1 deletions(-)
-	$ git push origin featureA
+	$ git push origin fonctionA
 	...
 	To jessica@githost:simplegit.git
-	   3300904..ed774b3  featureA -> featureA
+	   3300904..ed774b3  fonctionA -> fonctionA
 
-Jessica’s commit history now looks something like Figure 5-13.
+L'historique des commits de Jessica ressemble à présent à la figure 5-13.
 
 Insert 18333fig0513.png 
-Figure 5-13. Jessica’s history after committing on a feature branch.
+Figure 5-13. L'historique de Jessica après la validation dans le branche fonctionnelle.
 
-Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14.
+Jessica, Josie et John informent les intégrateurs que les branches `fonctionA` et `fonctionB` du serveur sont prêtes pour une intégration dans la branche principale.
+Après cette intégration, une synchronisation apportera les commits de fusion, ce qui donnera un historique comme celui de la figure 5-14.
 
 Insert 18333fig0514.png 
-Figure 5-14. Jessica’s history after merging both her topic branches.
+Figure 5-14. L'historique de Jessica après la fusion de ses deux branches fonctionnelles.
 
-Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
+De nombreuses équipes basculent vers Git du fait de cette capacité à gérer plusieurs équipes travaillant en parallèle, fusionnant plusieurs lignes de développement très tard dans le processus de livraison.
+La capacité donnée à plusieurs sous-groupes d'équipes à collaborer au moyen de branches distantes sans nécessairement impacter le reste de l'équipe est un grand bénéfice apporté par Git.
+La séquence de travail qui vous a été décrite ressemble à la figure 5-15.
+
 
 Insert 18333fig0515.png 
-Figure 5-15. Basic sequence of this managed-team workflow.
+Figure 5-15. Une séquence simple de gestion orientée équipe.
 
 ### Public Small Project ###
 
@@ -484,7 +501,7 @@ First, you’ll probably want to clone the main repository, create a topic branc
 
 	$ git clone (url)
 	$ cd project
-	$ git checkout -b featureA
+	$ git checkout -b fonctionA
 	$ (work)
 	$ git commit
 	$ (work)
@@ -498,7 +515,7 @@ When your branch work is finished and you’re ready to contribute it back to th
 
 You need to push your work up to it. It’s easiest to push the remote branch you’re working on up to your repository, rather than merging into your master branch and pushing that up. The reason is that if the work isn’t accepted or is cherry picked, you don’t have to rewind your master branch. If the maintainers merge, rebase, or cherry-pick your work, you’ll eventually get it back via pulling from their repository anyhow:
 
-	$ git push myfork featureA
+	$ git push myfork fonctionA
 
 When your work has been pushed up to your fork, you need to notify the maintainer. This is often called a pull request, and you can either generate it via the website — GitHub has a "pull request" button that automatically messages the maintainer — or run the `git request-pull` command and e-mail the output to the project maintainer manually.
 
@@ -511,7 +528,7 @@ The `request-pull` command takes the base branch into which you want your topic 
 
 	are available in the git repository at:
 
-	  git://githost/simplegit.git featureA
+	  git://githost/simplegit.git fonctionA
 
 	Jessica Smith (2):
 	      add limit to log function
@@ -524,45 +541,45 @@ The output can be sent to the maintainer—it tells them where the work was bran
 
 On a project for which you’re not the maintainer, it’s generally easier to have a branch like `master` always track `origin/master` and to do your work in topic branches that you can easily discard if they’re rejected.  Having work themes isolated into topic branches also makes it easier for you to rebase your work if the tip of the main repository has moved in the meantime and your commits no longer apply cleanly. For example, if you want to submit a second topic of work to the project, don’t continue working on the topic branch you just pushed up — start over from the main repository’s `master` branch:
 
-	$ git checkout -b featureB origin/master
+	$ git checkout -b fonctionB origin/master
 	$ (work)
 	$ git commit
-	$ git push myfork featureB
+	$ git push myfork fonctionB
 	$ (email maintainer)
 	$ git fetch origin
 
 Now, each of your topics is contained within a silo — similar to a patch queue — that you can rewrite, rebase, and modify without the topics interfering or interdepending on each other as in Figure 5-16.
 
 Insert 18333fig0516.png 
-Figure 5-16. Initial commit history with featureB work.
+Figure 5-16. Initial commit history with fonctionB work.
 
 Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes:
 
-	$ git checkout featureA
+	$ git checkout fonctionA
 	$ git rebase origin/master
-	$ git push –f myfork featureA
+	$ git push –f myfork fonctionA
 
 This rewrites your history to now look like Figure 5-17.
 
 Insert 18333fig0517.png 
-Figure 5-17. Commit history after featureA work.
+Figure 5-17. Commit history after fonctionA work.
 
-Because you rebased the branch, you have to specify the `–f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
+Because you rebased the branch, you have to specify the `–f` to your push command in order to be able to replace the `fonctionA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `fonctionAv2`).
 
-Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
+Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `fonctionB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
 
-	$ git checkout -b featureBv2 origin/master
-	$ git merge --no-commit --squash featureB
+	$ git checkout -b fonctionBv2 origin/master
+	$ git merge --no-commit --squash fonctionB
 	$ (change implementation)
 	$ git commit
-	$ git push myfork featureBv2
+	$ git push myfork fonctionBv2
 
 The `--squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `--no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit.
 
-Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `featureBv2` branch (see Figure 5-18).
+Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `fonctionBv2` branch (see Figure 5-18).
 
 Insert 18333fig0518.png 
-Figure 5-18. Commit history after featureBv2 work.
+Figure 5-18. Commit history after fonctionBv2 work.
 
 ### Public Large Project ###
 

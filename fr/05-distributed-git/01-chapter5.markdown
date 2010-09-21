@@ -493,46 +493,58 @@ La séquence de travail qui vous a été décrite ressemble à la figure 5-15.
 Insert 18333fig0515.png 
 Figure 5-15. Une séquence simple de gestion orientée équipe.
 
-### Public Small Project ###
+### Petit projet public ###
 
-Contributing to public projects is a bit different. Because you don’t have the permissions to directly update branches on the project, you have to get the work to the maintainers some other way. This first example describes contributing via forking on Git hosts that support easy forking. The repo.or.cz and GitHub hosting sites both support this, and many project maintainers expect this style of contribution. The next section deals with projects that prefer to accept contributed patches via e-mail.
+Contribuer à un projet public est assez différent.
+Il faut présenter le travail au mainteneur d'une autre manière parce que vous n'avez pas possibilité de mettre à jour directement des branches du projet.
+Ce premiet exemple décrit un mode de contribution via des serveurs Git proposent facilement la duplication de dépôt.
+Les site repo.or.cz ou GitHub proposent cette méthone, et de nombreux mainteneurs s'attendent à ce style de contribution.
+Le chapitre suivant traite des projets qui préfèrent accepter les contributions sous forme de patch via e-mail.
 
-First, you’ll probably want to clone the main repository, create a topic branch for the patch or patch series you’re planning to contribute, and do your work there. The sequence looks basically like this:
+Premièrement, vous souhaiterez probablement cloner le dépôt principal, créer une nouvelle branche fonctionnelle pour le patch ou la série de patch que seront votre contribution et commencer à travailler.
+La séquence ressemble globalement à ceci :
 
 	$ git clone (url)
 	$ cd project
 	$ git checkout -b fonctionA
-	$ (work)
+	$ (travail)
 	$ git commit
-	$ (work)
+	$ (travail)
 	$ git commit
 
-You may want to use `rebase -i` to squash your work down to a single commit, or rearrange the work in the commits to make the patch easier for the maintainer to review — see Chapter 6 for more information about interactive rebasing.
+Vous pouvez utiliser `rebase -i` pour réduire votre travail à une seule validation ou pour réarranger les modifications dans des commits qui rendront les patchs plus facile à relire pour le mainteneur — référez-vous au chapitre 6 pour plus d'information sur comment rebaser de manière interactive.
 
-When your branch work is finished and you’re ready to contribute it back to the maintainers, go to the original project page and click the "Fork" button, creating your own writable fork of the project. You then need to add in this new repository URL as a second remote, in this case named `myfork`:
+Lorsque votre branche de travail est prête et que vous êtes prêt à la fournir au mainteneur, rendez-vous sur la page du projet et cliquez sur le bouton "Fork" pou créer votre propre projet dupliqué sur lequel vous aurez les droits en écriture.
+Vous devez alors ajouter l'URL de ce nouveau dépôt en tant que second dépôt distant, dans notre cas nommé `macopie` :
 
-	$ git remote add myfork (url)
+	$ git remote add macopie (url)
 
-You need to push your work up to it. It’s easiest to push the remote branch you’re working on up to your repository, rather than merging into your master branch and pushing that up. The reason is that if the work isn’t accepted or is cherry picked, you don’t have to rewind your master branch. If the maintainers merge, rebase, or cherry-pick your work, you’ll eventually get it back via pulling from their repository anyhow:
+Vous devez pousser votre travail sur cette branche distante.
+C'est beaucoup plus facile de pousser la branche sur laquelle vous travaillez sur une branche distante que de fusionner et de poussez le résultat sur le serveur.
+La raison principale en est que si le travail n'est pas accepté ou s'il est picoré, vous n'aurez pas à faire marche arrière sur votre branche master.
+Si le mainteneur fusionne, rebase ou picore votre travail, vous le saurez en tirant depuis son dépôt :
 
-	$ git push myfork fonctionA
+	$ git push macopie fonctionA
 
-When your work has been pushed up to your fork, you need to notify the maintainer. This is often called a pull request, and you can either generate it via the website — GitHub has a "pull request" button that automatically messages the maintainer — or run the `git request-pull` command and e-mail the output to the project maintainer manually.
+Une fois votre travail poussé sur votre copie du dépôt, vous devez notifier le mainteneur.
+Ce processus est souvent appelé une demande de tirage (pull request) et vous pouvez la générer soit via le site web — GitHub propose un bouton « pull request » qui envoie automatiquement un message au mainteneur — ou lancer la commande `git request-pull` et envoyer manuellement par e-mail le résultat au mainteneur de projet.
 
-The `request-pull` command takes the base branch into which you want your topic branch pulled and the Git repository URL you want them to pull from, and outputs a summary of all the changes you’re asking to be pulled in. For instance, if Jessica wants to send John a pull request, and she’s done two commits on the topic branch she just pushed up, she can run this:
 
-	$ git request-pull origin/master myfork
+La commande `request-pull` prend la branche de base dans laquelle vous souhaitez que votre branche fonctionnelle soit fusionnée et l'URL du dépôt Git depuis lequel vous souhaitez qu'elle soit tirée, et génère un résumé des modifications que vous demandez à faire tirer.
+Par exemple, si Jessica envoie à John une demande de tirage et qu'elle a fait deux validations dans la branche fonctionnelle qu'elle vient de pousser, elle peut lancer ceci :
+
+	$ git request-pull origin/master macopie
 	The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
 	  John Smith (1):
-	        added a new function
+	        ajout d'une nouvelle fonction
 
 	are available in the git repository at:
 
 	  git://githost/simplegit.git fonctionA
 
 	Jessica Smith (2):
-	      add limit to log function
-	      change log output to 30 from 25
+	      Ajout d'une limite à la fonction de log
+	      change la largeur du log de 25 a 30
 
 	 lib/simplegit.rb |   10 +++++++++-
 	 1 files changed, 9 insertions(+), 1 deletions(-)

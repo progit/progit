@@ -483,9 +483,9 @@ Notice the `*` character that prefixes the `master` branch: it indicates the bra
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Другая полезная опция для выяснения состояния ваших веток состоит в том, чтобы оставить в этом списке только те ветки, для которых вы выполнили (или не выполнили) слияние с веткой, на которой сейчас находитесь. Для этих целей в Git, начиная с версии 1.5.6, есть опции `--merged` и `--no-merged`. Чтобы посмотреть те ветки, которые вы уже объединили с текущей, можете выполнить команду `git branch –merged`:
+Другая полезная опция для выяснения состояния ваших веток состоит в том, чтобы оставить в этом списке только те ветки, для которых вы выполнили (или не выполнили) слияние с веткой, на которой сейчас находитесь. Для этих целей в Git, начиная с версии 1.5.6, есть опции `--merged` и `--no-merged`. Чтобы посмотреть те ветки, которые вы уже объединили с текущей, можете выполнить команду `git branch --merged`:
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
+Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch --merged`:
 
 	$ git branch --merged
 	  iss53

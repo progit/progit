@@ -317,10 +317,10 @@ Figure 3-15. Your iss53 branch can move forward independently.
 
 It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
 
-### Основы мержа ###
+### Основы слияния ###
 ### Basic Merging ###
 
-Представьте себе, что вы разобрались с проблемой №53 и готовы объединить эту ветку и свой `master`. Чтобы сделать это, вы смержите вашу ветку `iss53` с веткой `master` точно так же, как делали ранее с веткой `hotfix`. Все что вы должны сделать - перейти на ту ветку, в которую вы хотите замержить свои изменения и выполнить команду `git merge`:
+Представьте себе, что вы разобрались с проблемой №53 и готовы объединить эту ветку и свой `master`. Чтобы сделать это, вы выполните слияние вашей ветки `iss53` в ветку `master` точно так же, как делали ранее с веткой `hotfix`. Все что вы должны сделать - перейти на ту ветку, в которую вы хотите внести свои изменения и выполнить команду `git merge`:
 
 Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
 
@@ -330,38 +330,38 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Это выглядит немного нет так, как мерж ветки `hotfix`, который вы делали ранее. В этом случае ваша история разработки разделилась на более старой стадии. Так как коммит на той ветке, на которой вы находитесь (`master`), не является прямямым предком для ветки, которую вы мержите, Git должен сделать кое-какую работу. В этом случае Git делает простой трехходовой мерж, используя при этом два слепка репозитория, на которые указывают вершины ваших веток, и общий слепок-прародитель для этих двух веток. На рисунке 3-16 выделены три слепка, которые Git будет использовать для мержа в этом случае.
+Это выглядит немного нет так, как слияние для ветки `hotfix`, которое вы делали ранее. В этом случае ваша история разработки разделилась на более старой стадии. Так как коммит на той ветке, на которой вы находитесь (`master`), не является прямямым предком для ветки, которую вы объединяете, Git должен сделать кое-какую работу. В этом случае Git делает простое трехходовое слияние, используя при этом два слепка репозитория, на которые указывают вершины ваших веток, и общий слепок-прародитель для этих двух веток. На рисунке 3-16 выделены три слепка, которые Git будет использовать для слияния в этом случае.
 
 This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
 
 Insert 18333fig0316.png
-Рисунок 3-16. Git автоматически определяет нужного (наилучшего) общего предка для мержа веток.
+Рисунок 3-16. Git автоматически определяет нужного (наилучшего) общего предка для слияния веток.
 
 Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
 
-Вместо того, чтобы просто передвинуть указатель ветки вперед, Git создает новый слепок, который является результатом трехходового мержа, и автоматически создает новый коммит, который указывает на этот новый слепок (смотри Рисунок 3-17). Такой коммит называют merge-коммит. Он является особенным, так как имеет больше одного предка.
+Вместо того, чтобы просто передвинуть указатель ветки вперед, Git создает новый слепок, который является результатом трехходового слияния, и автоматически создает новый коммит, который указывает на этот новый слепок (смотри Рисунок 3-17). Такой коммит называют merge-коммит. Он является особенным, так как имеет больше одного предка.
 
 Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
 
-Стоит отметить, что Git определяет нужного (наилучшего) общего предка для мержа веток; в CSV или Subversion (версии ранее 1.5) этого не происходит. Разработчик должен сам указать основу для мержа. Это делает мерж в Git гораздо более простым занятием, чем в других системах.
+Стоит отметить, что Git определяет нужного (наилучшего) общего предка для слияния веток; в CSV или Subversion (версии ранее 1.5) этого не происходит. Разработчик должен сам указать основу для слияния. Это делает слияние в Git гораздо более простым занятием, чем в других системах.
 
 It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
 
 Insert 18333fig0317.png
-Рисунок 3-17. Git автоматически создает новый коммит, содержащий результаты мержа.
+Рисунок 3-17. Git автоматически создает новый коммит, содержащий результаты слияния.
  
 Figure 3-17. Git automatically creates a new commit object that contains the merged work.
 
-Теперь, когда вы сделали мерж вашей работы, ветка `iss53` вам больше не нужна. Можете удалить ее и затем вручную закрыть ticket в вашей системе:
+Теперь, когда вы осуществили слияние ваших наработок, ветка `iss53` вам больше не нужна. Можете удалить ее и затем вручную закрыть ticket в вашей системе:
 
 Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
 
 	$ git branch -d iss53
 
-### Конфликты при мерже ###
+### Основы конфликтов при слиянии ###
 ### Basic Merge Conflicts ###
 
-Иногда процесс мержа не идет гладко. Если вы изменили одну и ту же часть файла по-разному в двух ветках, которые собираетесь смержить, Git не сможет правильно сделать это. Если ваше решение проблемы #53 изменяет ту же часть файла, что и `hotfix`, у вас получится конфликт мержа, и выглядеть он будет примерно следующим образом:
+Иногда процесс слияния не идет гладко. Если вы изменили одну и ту же часть файла по-разному в двух ветках, которые собираетесь объединить, Git не сможет правильно сделать это. Если ваше решение проблемы #53 изменяет ту же часть файла, что и `hotfix`, у вас получится конфликт слияния, и выглядеть он будет примерно следующим образом:
 
 Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
 
@@ -370,7 +370,7 @@ Occasionally, this process doesn’t go smoothly. If you changed the same part o
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git не создал новый merge-коммит. Он приостановил этот процесс до тех пор, пока вы не разрешите конфликт. Если вы хотите посмотреть, какие файлы не смержены (на любом этапе после возникновения конфликта), можете выполнить команду `git status`:
+Git не создал новый merge-коммит. Он приостановил этот процесс до тех пор, пока вы не разрешите конфликт. Если вы хотите посмотреть, какие файлы не объединены (на любом этапе после возникновения конфликта), можете выполнить команду `git status`:
 
 Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
 
@@ -384,7 +384,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
-Все, что имеет отношение к конфликту мержа и не было разрешено, отмечено как unmerged. Git добавляет стандартные маркеры к файлам, которые имеют конфликт, так что вы можете открыть их вручную и разрешить эти конфликты. Ваш файл содержит секцию, которая выглядит примерно так:
+Все, что имеет отношение к конфликту слияния и что не было разрешено, отмечено как unmerged. Git добавляет стандартные маркеры к файлам, которые имеют конфликт, так что вы можете открыть их вручную и разрешить эти конфликты. Ваш файл содержит секцию, которая выглядит примерно так:
 
 Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
 
@@ -418,11 +418,11 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-Если вы хотите использовать другой инструмент для мержа, нежели выбираемый по умолчанию (Git выберет `opendiff` для меня, так как я выполнил команду на Mac), вы можете увидеть все поддерживаемые инструменты, указанные выше после “merge tool candidates”. Укажите более предпочтительное для вас название инструмента. В Главе 7 мы обсудим, как изменить это значение по умолчанию для вашего окружения.
+Если вы хотите использовать другой инструмент для слияния, нежели выбираемый по умолчанию (Git выберет `opendiff` для меня, так как я выполнил команду на Mac), вы можете увидеть все поддерживаемые инструменты, указанные выше после “merge tool candidates”. Укажите более предпочтительное для вас название инструмента. В Главе 7 мы обсудим, как изменить это значение по умолчанию для вашего окружения.
 
 If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
 
-После того, как вы выйдете из инструмента для мержа, Git спросит вас, был ли мерж успешным. Если вы отвечаете, что все было ок - файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешен.
+После того, как вы выйдете из инструмента для выполнения слияния, Git спросит вас, было ли оно успешным. Если вы отвечаете, что все было ok - файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешен.
 
 After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
 

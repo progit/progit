@@ -320,7 +320,7 @@ It’s worth noting here that the work you did in your `hotfix` branch is not co
 ### Основы слияния ###
 ### Basic Merging ###
 
-Представьте себе, что вы разобрались с проблемой №53 и готовы объединить эту ветку и свой `master`. Чтобы сделать это, вы выполните слияние вашей ветки `iss53` в ветку `master` точно так же, как делали ранее с веткой `hotfix`. Все что вы должны сделать - перейти на ту ветку, в которую вы хотите внести свои изменения и выполнить команду `git merge`:
+Представьте себе, что вы разобрались с проблемой №53 и готовы объединить эту ветку и свой `master`. Чтобы сделать это, вы выполните слияние вашей ветки `iss53` в ветку `master` точно так же, как делали ранее с веткой `hotfix`. Все что вы должны сделать ― перейти на ту ветку, в которую вы хотите внести свои изменения и выполнить команду `git merge`:
 
 Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
 
@@ -396,7 +396,7 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
-Это ваша версия HEAD (ваша ветка master, так как именно на нее вы перешли, когда выполнили команду merge) в верхней части блока (все что выше `=======`), версия `iss53` - все в нижней части. Чтобы разрешить конфликт вы должны выбрать одно из трех: верхнюю часть, нижнюю часть, отредактировать содержание файла по своему усмотрению. Например, вы можете разрешить этот конфликт заменой всего блока, показанного выше, следующим блоком:
+Это ваша версия HEAD (ваша ветка master, так как именно на нее вы перешли, когда выполнили команду merge) в верхней части блока (все что выше `=======`), версия `iss53` ― все в нижней части. Чтобы разрешить конфликт вы должны выбрать одно из трех: верхнюю часть, нижнюю часть, отредактировать содержание файла по своему усмотрению. Например, вы можете разрешить этот конфликт заменой всего блока, показанного выше, следующим блоком:
 
 This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
 
@@ -422,7 +422,7 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 
 If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
 
-После того, как вы выйдете из инструмента для выполнения слияния, Git спросит вас, было ли оно успешным. Если вы отвечаете, что все было ok - файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешен.
+После того, как вы выйдете из инструмента для выполнения слияния, Git спросит вас, было ли оно успешным. Если вы отвечаете, что все было ok ― файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешен.
 
 After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
 
@@ -457,9 +457,15 @@ If you’re happy with that, and you verify that everything that had conflicts h
 
 You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
 
+
+### Управление ветками ###
 ## Branch Management ##
 
+Теперь, когда вы уже попробовали создавать, объединять и удалять ветки, пора познакомиться с некоторыми инструментами для управления ветками. Когда вы начнете постоянно использовать ветки эти инструменты очень вам пригодятся.
+
 Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+
+Команда `git branch` делает несколько больше, чем просто создает и удаляет ветки. Если вы выполните ее без аргументов, то получите простой список ваших текущих веток:
 
 The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
 
@@ -468,6 +474,8 @@ The `git branch` command does more than just create and delete branches. If you 
 	* master
 	  testing
 
+Обратите внимание на символ `*`, стоящий перед веткой `master`: он указывает на ту ветку, на которой вы находитесь в настоящий момент. Это означает, что если вы сейчас выполните коммит, ветка `master` переместится вперед в соответствии с вашими последними изменениями. Чтобы посмотреть последний коммит на каждой из веток, выполните команду `git branch –v`:
+
 Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch –v`:
 
 	$ git branch -v
@@ -475,18 +483,26 @@ Notice the `*` character that prefixes the `master` branch: it indicates the bra
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
+Другая полезная опция для выяснения состояния ваших веток состоит в том, чтобы оставить в этом списке только те ветки, для которых вы выполнили (или не выполнили) слияние с веткой, на которой сейчас находитесь. Для этих целей в Git, начиная с версии 1.5.6, есть опции `--merged` и `--no-merged`. Чтобы посмотреть те ветки, которые вы уже объединили с текущей, можете выполнить команду `git branch –merged`:
+
 Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
 
 	$ git branch --merged
 	  iss53
 	* master
 
+Так как вы уже выполняли слияние для ветки `iss53` ранее, вы видите ее в своем списке. Неплохой идеей было бы удалить командой `git branch -d` те ветки из этого списка, перед которыми нет нет символа `*`; вы уже объединили наработки из этих веток с другой веткой, так что вы ничего не теряете.
+
 Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+
+Чтобы посмотреть все ветки, содержащие наработки, которые вы еще не объединили с текущей веткой, выполните команду `git branch --no-merged`:
 
 To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
 
 	$ git branch --no-merged
 	  testing
+
+Вы увидите оставшуюся ветку. Так как она содержит наработки, которые вы еще не объединили с текущей веткой, попытка удалить ее командой `git branch -d` не увенчается успехом:
 
 This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
 
@@ -494,27 +510,47 @@ This shows your other branch. Because it contains work that isn’t merged in ye
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
+Если вы действительно хоите удалить ветку и потерять наработки, вы можете сделать это при помощи опции `-D`, как говорится в сообщении об ошибке.
+
 If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
 
+### Приемы работы с ветками ###
 ## Branching Workflows ##
+
+Теперь, когда вы познакомились с основами ветвления и слияния веток, что вам делать с ними дальше? В этой секции мы рассмотрим некоторые стандартные приемы работы, которые становятся возможными, благодаря легкому осуществлению ветвления. Так что вы можете решить, использовать ли вам их в своем цикле разработки.
 
 Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
 
+### Долгоживущие ветки ###
 ### Long-Running Branches ###
+
+Так как Git использует простое трехходовое слияние, объединять одну ветку с другой большое количество раз через большие промежутки времени достаточно просто. Это значит вы можете иметь несколько веток, которые всегда открыты и которые вы используете для разных стадий вашего цикла разработки; вы можете регулярно объединять одну из них с другой.
 
 Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
 
+Много разработчиков Git-а ведут свой рабочий процесс в соответствии с этой идеей. Например, стабильный код располагается только в ветке `master` ― единственный стабильный код, который был или будет выпущен. Они имеют другую параллельную ветку, называемую develop (разработка) или next (следующая), из которой они работают или используют для проверки на стабильность ― она не обязательно всегда стабильна, но когда она принимает стабильное состояние, можно объединить ее c `master`. Она используется чтобы включать в себя изменения от коротких веток (таких как ветка `iss53`, с которой вы имели дело ранее) когда они готовы, чтобы удостовериться, что они успешно проходят все тесты и не вызывают ошибок.
+
 Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+
+В действительности же, мы говорим об указателях, передвигающихся вверх по линии коммитов, которые вы делаете. Стабильные ветки далеко внизу лии вашей истории коммитов, наиболее свежие ветки находятся ближе к верхушке этой линии.
 
 In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
 
 Insert 18333fig0318.png 
+Рисунок 3-18. Более стабильные ветки находятся далеко внизу линии истории коммитов.
+
 Figure 3-18. More stable branches are generally farther down the commit history.
+
+В общем, об этом проще думать как о шахтах, где набор коммитов переходит в более стабильную шахту только тогда, когда он полностью протестирован (смотри Рисунок 3-19).
 
 It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (see Figure 3-19).
 
 Insert 18333fig0319.png 
+Рисунок 3-19. Можно думать о ваших ветках как о шахтах.
+
 Figure 3-19. It may be helpful to think of your branches as silos.
+
+Вы можете применять эту идею для нескольких разных уровней стабильности. Некоторые большие проекты также имеют ветку `proposed` или `pu` (proposed updates ― предполагающий изменения), которые включают в себя ветки, не готовые для перехода в ветку `next` или `master`. Идея такова, что ваши ветки находятся на разных уровнях стабильности; когда они достигают более высокого уровня стабильности, они сливаются с веткой, стоящей на более высоком уровне. Опять таки, не обязательно иметь долгоживущие ветки, но часто это очень полезно, особенно когда вы имеете дело с очень большими и сложными проектами.
 
 You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
 Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.

@@ -1,37 +1,37 @@
 # Ветвление в Git #
 # Git Branching #
 
-Практически каждая VCS имеет какую-то форму поддержки ветвления. Ветвление означает, что вы отклоняетесь от основной линии разработки и продолжаете работу, не внося беспорядок в основную линию. Во многих VCS инструментах это в некотором роде дорогостоящий процесс, зачастую требующий от вас создания новой копии вашей директории исходного кода, что может занять продолжительное время для больших проектов.
+Почти каждая СУВ имеет в какой-то форме поддержку ветвления. Ветвление означает, что вы отклоняетесь от основной линии разработки и продолжаете работу, не вмешиваясь в основную линию. Во многих СУВ это в некотором роде дорогостоящий процесс, зачастую требующий от вас создания новой копии каталога с исходным кодом, что может занять продолжительное время для больших проектов.
 
 Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
 
-Некоторые люди упоминают о модели ветвления в Git, как о "потрясающей функциии", и это безусловно выделяет Git в VCS сообществе. Чем она столь хороша? Способ ветвления в Git черезвычайно легковесен, что делает операции ветвления практически мгновенными и переключение туда сюда между ветвями в целом поистине быстрым. В отличие от многих других VCSs, Git поддерживает процесс работы, который ветвится и соединяется очень часто, даже по несколько раз в день. Понимание и владение этой функцией дает вам мощный уникальный инструмент и может буквально изменить ваш процесс разработки.
+Некоторые говорят, что модель ветвления в Git это его “killer feature“ и она безусловно выделяет Git в СУВ-сообществе. Что же в ней такого особенного? Способ ветвления в Git чрезвычайно легковесен, что делает операции ветвления практически мгновенными и переключение туда-сюда между ветвями обычно так же быстрым. В отличие от многих других СУВ, Git поощряет процесс работы, при котором ветвление и слияние осуществляется часто, даже по несколько раз в день. Понимание и владение этой функциональностью даёт вам уникальный мощный инструмент и может буквально изменить то, как вы ведёте разработку.
 
 Some people refer to the branching model in Git as its “killer feature,” and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
 
 ## Что такое Ветвь ##
 ## What a Branch Is ##
 
-Чтобы на самом деле разобраться в способбе ветвления в Git, мы должны сделать шаг назад и рассмотреть, как Git хранит свои данные. Как вы наверное помните из Главы 1, Git не хранит данные как последовательность изменений или отличий, а как последовательность слепков.
+Чтобы на самом деле разобраться в том как Git работает с ветками, мы должны сделать шаг назад и рассмотреть, как Git хранит свои данные. Как вы наверное помните из Главы 1, Git не хранит данные как последовательность изменений или дельт, а как последовательность снимков состояния (snapshot).
 
 To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 
-Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который соодержит указатель на слепок содержимого, подготовленного к коммит, метаданные автора и комментария и ноль или больше указателей на коммит или коммиты, которые были прямыми предками этого коммита: ноль предков для первого коммита, один - для обычного коммита и несколько - для коммита, происходящей в результате слияния двух или более веток.
+Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который соодержит указатель на снимок содержимого индекса, метаданные автора и комментария и ноль или больше указателей на коммиты, которые были прямыми предками этого коммита: ноль предков для первого коммита, один — для обычного коммита и несколько — для коммита, полученного в результате слияния двух или более веток.
 
 When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
 
-Чтобы представить это, давайте предположим, что у вас есть дирректория, содержащая три файла, и вы их все поготавливаете и фиксируете. При подготовке файлов вычисляется контрольная сумма для каждого (SHA-1 хэш мы упоминали в Главе 1), эта версия файла сохраняется в Git репозиторий (Git ссылается на них как на массив двоичных данных), и  эта контрольная сумма добавляется в область подготовленных файлов:
+Для наглядности, давайте предположим, что у вас есть каталог, содержащий три файла, и вы их все индексируете и фиксируете (commit). При подготовке файлов для каждого из них вычисляется контрольная сумма (SHA-1 хэш мы упоминали в Главе 1), затем эта версия файла сохраняется в Git-репозиторий (Git обращается к ним как к двоичным данным), и эта контрольная сумма добавляется в индекс:
 
 To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-Когда вы создаете коммит запуском `git commit`, Git вычисляет контрольную сумму каждой подиректории (в нашем случае, только корневой директории) и сохраняет это дерево объектов в Git репозиторий. Затем Git создает фиксируемый объект, который имеет метаданные и указатель на корень проектного дерева, таким образом, он может снова создать слепок, когда нужно.
+Когда вы создаёте коммит выполняя `git commit`, Git вычисляет контрольную сумму каждого подкаталога (в нашем случае, только корневого каталога) и сохраняет объекты для этого дерева в Git-репозиторий. Затем Git создаёт объект для коммита, который имеет метаданные и указатель на корень проектного дерева. Таким образом, Git может воссоздать текущее состояние, когда нужно.
 
 When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
 
-Ваш Git репозиторий теперь соодержит пять объектов: по одному массиву двоичных данных для содержимого каждого из трех файлов, одно дерево, которое перечисляет содержимое директории и определяет соответствие имен файлов и массивов двоичных данных, и один коммит с указателем на корень этого дерева и все метаданные коммита. Мысленно данные в вашем Git репозитории выглядят, как показано на Рисунке 3-1.
+Ваш Git-репозиторий теперь соодержит пять объектов: по одному массиву двоичных данных для содержимого каждого из трех файлов, одно дерево, которое перечисляет содержимое каталога и определяет соответствие имен файлов и массивов двоичных данных, и один коммит с указателем на корень этого дерева и все метаданные коммита. Схематично, данные в вашем Git репозитории выглядят, как показано на Рисунке 3-1.
 
 Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
 
@@ -40,64 +40,64 @@ Insert 18333fig0301.png
 
 Figure 3-1. Single commit repository data.
 
-Если вы делаете какие-то изменения и фиксируете их снова, следующий коммит хранит указатель на коммит, который прошел непосредственно перед ним. После еще двух коммитов ваша история может выглядеть, как показано на Рисунке 3-2.
+Если вы сделаете некоторые изменения и зафиксируете их, следующий коммит сохранит указатель на коммит, который шёл непосредственно перед ним. После еще двух коммитов ваша история может выглядеть, как показано на Рисунке 3-2.
 
 If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
 
 Insert 18333fig0302.png 
-Рисунок 3-2. Объектные данные Git для множественных коммитов.
+Рисунок 3-2. Данные объектов Git в случае нескольких коммитов.
 
 Figure 3-2. Git object data for multiple commits.
 
-Ветвь в Git - это просто легковесный подвижный указатель на один из этих коммитов. Имя ветви по умолчанию в Git - master. Когда вы впервые создаете коммит, вам отдается ветвь master, которая является указателем на последний коммит, который вы сделали. Каждый раз когда вы фиксируетесь, он (указатель) двигается вперед автоматически.
+Ветвь в Git — это просто легковесный подвижный указатель на один из этих коммитов. Имя ветки по умолчанию в Git — master. Когда вы впервые создаете коммит, вам даётся ветвь master, которая указывает на последний сделанный коммит. Каждый раз когда вы фиксируетесь, указатель двигается вперед автоматически.
 
 A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
 
 Insert 18333fig0303.png 
-Рисунок 3-3. Ветвь, указывающая на историю зафиксированных данных.
+Рисунок 3-3. Ветка указывает на историю коммитов.
 
 Figure 3-3. Branch pointing into the commit data’s history.
 
-Что произойдет, когда вы создаете новую ветвь? Ну, это действие создает новый указатель для вас для перемещения. Например, вы создаете новую ветвь под названием testing. Это производится коммандой `git branch`:
+Что происходит, когда вы создаёте новую ветку? Итак, этим вы создаёте новый указатель, который вы можете перемещать. Скажем, вы создаёте новую ветку под названием testing. Это делается командой `git branch`:
 
 What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
 
 	$ git branch testing
 
-Эта команда создает указатель на ту же самый коммит, на котором вы сейчас находитесь (см. Рисунок 3-4).
+Эта команда создает новый указатель на тот самый коммит, на котором вы сейчас находитесь (см. Рисунок 3-4).
 
 This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
 
 Insert 18333fig0304.png 
-Рисунок 3-4. Несколько ветвей, указывающих на историю зафиксированных данных.
+Рисунок 3-4. Несколько веток, указывающих на историю коммитов.
 
 Figure 3-4. Multiple branches pointing into the commit’s data history.
 
-Как Git узнает, на какой ветви вы находитесь в данный момент? Он хранит специальный указатель, который называется HEAD (верхушка). Учтите, что существует множество различий с концепцией HEAD в других VCS, которые вы может быть использовали, таких как Subversion или CVS. В Git это указатель на локальную ветвь, на которой вы находитесь. В данном случае вы все еще на ветви master. Команда git branch только создала новую ветвь; она не передвинула вас на нее.
+Откуда Git узнает, на какой ветке вы находитесь в данный момент? Он хранит специальный указатель, который называется HEAD (верхушка). Учтите, что это сильно отличается от концепции HEAD в других СУВ, таких как Subversion или CVS, к которым вы возможно привыкли. В Git это указатель на локальную ветку, на которой вы находитесь. В данном случае вы всё ещё на ветке master. Команда git branch только создала новую ветвь, она не переключила вас на неё (см. Рисунок 3-5).
 
 How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
 
 Insert 18333fig0305.png 
-Рисунок 3-5. HEAD файл, указывающий на текущую ветвь.
+Рисунок 3-5. Файл HEAD указывает на текущую ветку.
 
 Figure 3-5. HEAD file pointing to the branch you’re on.
 
-Чтобы перейти на существующую ветвь, вам надо выполнить команду `git checkout`. Давайте перейдем на новую ветвь testing:
+Чтобы перейти на существующую ветку, вам надо выполнить команду `git checkout`. Давайте перейдем на новую ветку testing:
 
 To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
 
 	$ git checkout testing
 
-Это действие передвигает HEAD, чтобы тот указывал на ветвь testing (см. Рисунок 3-6).
+Это действие перемещает HEAD так, чтобы тот указывал на ветку testing (см. Рисунок 3-6).
 
 This moves HEAD to point to the testing branch (see Figure 3-6).
 
 Insert 18333fig0306.png
-Рисунок 3-6. HEAD указывает на другую ветвь, когда вы их переключаете
+Рисунок 3-6. HEAD указывает на другую ветвь, когда вы их переключаете.
 
 Figure 3-6. HEAD points to another branch when you switch branches.
 
-В чем важность этого действия? Давайте сделаем еще один коммит:
+В чём важность этого действия? Давайте сделаем ещё один коммит:
 
 What is the significance of that? Well, let’s do another commit:
 
@@ -109,11 +109,11 @@ What is the significance of that? Well, let’s do another commit:
 Figure 3-7 illustrates the result.
 
 Insert 18333fig0307.png 
-Рисунок 3-7. Ветвь, на которую указывает HEAD, движется вперед с каждым коммитом
+Рисунок 3-7. Ветка, на которую указывает HEAD, движется вперёд с каждым коммитом.
 
 Figure 3-7. The branch that HEAD points to moves forward with each commit.
 
-Это интересно, потому что теперь ваша ветвь testing передвинулась вперед, но ваша ветвь master все еще указывает на коммит, на котором вы были, когда выполняли `git checkout`, чтобы переключить ветви. Давайте перейдем обратно на ветвь master:
+Это интересно, потому что теперь ваша ветвь testing передвинулась вперёд, но ваша ветвь master всё ещё указывает на коммит, на котором вы были, когда выполняли `git checkout`, чтобы переключить ветки. Давайте перейдём обратно на ветвь master:
 
 This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
 
@@ -124,22 +124,22 @@ This is interesting, because now your testing branch has moved forward, but your
 Figure 3-8 shows the result.
 
 Insert 18333fig0308.png 
-Рисунко 3-8. HEAD двигается на другую ветвь при checkout'е
+Рисунок 3-8. HEAD перемещается на другую ветку при checkout'е
 
 Figure 3-8. HEAD moves to another branch on a checkout.
 
-Эта команда выполнила два действия. Она передвинула указатель HEAD назад на ветвь master и вернула файлы в вашей рабочей директории назад, чтобы соответвствовать слепоку, на который указывает master. Это также означает, что изменения, которые вы делаете, начиная с этого момента, будут ответвляться от старой версии проекта. Это полностью откатывает временные изменения, которые вы сделали на ветви testing, так что вы можете двигаться в другом направлении.
+Эта команда выполнила два действия. Она передвинула указатель HEAD назад на ветку master и вернула файлы в вашем рабочем каталоге назад, в соответствие со снимком состояния, на который указывает master. Это также означает, что изменения, которые вы делаете, начиная с этого момента, будут ответвляться от старой версии проекта. Это полностью откатывает временные изменения, которые вы сделали на ветке testing. Таким образом вы можете двигаться в другом направлении.
 
 That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
 
-Давайте сделаем немного изменений и зафиксируемся снова:
+Давайте сделаем немного изменений и зафиксируем их снова:
 
 Let’s make a few changes and commit again:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Теперь история вашего проекта разветвилась (см. Рисунок 3-9). Вы создали новую ветвь, перешли на нее, поработали на ней немного, переключились обратно на основную ветвь и выполнили другую работу. Оба этих изменений изолирована на отдельных ветвях: вы можете переключаться туда и обратно между ветвями и соединить их, когда вы готовы. И вы сделали все это простыми командами `branch` и `checkout`.
+Теперь история вашего проекта разветвилась (см. Рисунок 3-9). Вы создали новую ветку, перешли на неё, поработали на ней немного, переключились обратно на основную ветку и выполнили другую работу. Оба эти изменения изолированы на отдельных ветках: вы можете переключаться туда и обратно между ветвями и слить их, когда будете готовы. И вы сделали всё это простыми командами `branch` и `checkout`.
 
 Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
 
@@ -148,41 +148,41 @@ Insert 18333fig0309.png
 
 Figure 3-9. The branch histories have diverged.
 
-Из-за того, что ветвь в Git на самом деле является простым файлом, которые соодержит 40 символов результирующей суммы SHA-1 коммита, на который он указывает, создание и удаление ветвей практически беззатратно. Создание новой ветви настолько быстро и просто, насколько быстра и проста запись 41 байта в файл (40 символов + символ перехода на новую строку).
+Из-за того, что ветка в Git на самом деле является простым файлом, который соодержит 40 символов контрольной суммы SHA-1 коммита, на который он указывает, создание и удаление веток практически беззатратно. Создание новой ветки настолько же быстро и просто, как запись 41 байта в файл (40 символов + символ перехода на новую строку).
 
 Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
 
-Это разительно отличается от способов ветвления в большинстве VCS, которые включают копирование всех проектных файлов в другую директорию. Это может занять несколько секунд или даже минут, в зависимости от размера проекта, тогда как в Git этот процесс всегда моментален. Также, из-за того что мы запоминаем предков каждого коммита, поиск нужной базовой версии для соединения уже автоматически выполнен для нас, и в общем случае это легко выполнимо. Эти функции помогают поощрать разработчиков к частому созданию и использованию ветвей.
+Это разительно отличается от того как в большинстве СУВ делается ветвление. Там это приводит к копированию всех файлов проекта в другой каталог. Это может занять несколько секунд или даже минут, в зависимости от размера проекта, тогда как в Git этот процесс всегда моментален. Также, из-за того что мы запоминаем предков для каждого коммита, поиск нужной базовой версии для слияния уже автоматически выполнен для нас, и в общем случае делается легко. Эти особенности помогают поощрять разработчиков к частому созданию и использованию ветвей.
 
 This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
 
-Давайте посмотрим, почему мы должны это делать.
+Давайте поймём, почему вам стоит так делать.
 
 Let’s see why you should do so.
 
 ## Основы ветвления и слияния ##
 ## Basic Branching and Merging ##
 
-Давайте рассмотрим простой пример разветвления и объединения с процессом разработки, который вы могли бы использовть в реальности. Вы будете следовать следующим шагам:
+Давайте рассмотрим простой пример ветвления и слияния с таким процессом работы, который вы могли бы использовать в настоящей разработке. Вы будете делать следующее:
 
 Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
 
-1. Выполнить работу над веб сайтом.
-2. Создать ветку для новой истории, над которой вы работаете.
-3. Выполнить работу на этой ветке.
+1.	Работать над веб-сайтом.
+2.	Создадите ветку для новой истории, над которой вы работаете.
+3.	Выполните некоторую работу на этой ветке.
 
 1.	Do work on a web site.
 2.	Create a branch for a new story you’re working on.
 3.	Do some work in that branch.
 
-На этой фазе вам приходит звонок о том, что другой критической проблеме, которуя надо быстро решить. Вы делаете следующее:
+На этом этапе вы получите звонок о том, что сейчас критична другая проблема, и её надо срочно решить. Вы сделаете следующее:
 
 At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
 
-1. Возвращаетесь на ваш продуктовый брэнч.
-2. Создаете ветку для срочного решения.
-3. После его тестирования, мержите срочную заплатку и включаете в продукт.
-4. Возвращаетесь к прерваной истории и продолжаете работу.
+1.	Вернётесь на производственную ветку.
+2.	Создадите ветку для исправления ошибки.
+3.	После его тестирования, сольёте ветку с исправлением и отправите в продакшн.
+4.	Переключитесь к прерванной истории и продолжите работу.
 
 1.	Revert back to your production branch.
 2.	Create a branch to add the hotfix.
@@ -200,7 +200,7 @@ Insert 18333fig0310.png
 
 Figure 3-10. A short and simple commit history.
 
-Вы решили, что вы будете работать над проблемой №53 в какой-то системе отслеживания проблем, используемой вашей компанией. Разумеется, Git не привязан к какой-то определенной системе отслеживания, но из-за того, что проблема №53 является основной, над которой вы хотите работать, вы создадите новую ветку для работы в ней. Чтобы создать бранч и сразу перейти на него, вы можете выполнить команду `git checkout` с ключом `-b`:
+Вы решили, что вы будете работать над проблемой №53 из какой-то системы отслеживания проблем, используемой вашей компанией. Разумеется, Git не привязан к какой-то определенной системе отслеживания проблем. Просто из-за того, что проблема №53 является основной задачей, над которой вы хотите работать, вы создадите новую ветку для работы в ней. Чтобы создать ветку и сразу же перейти на неё, вы можете выполнить команду `git checkout` с ключом `-b`:
 
 You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
 
@@ -219,11 +219,11 @@ This is shorthand for:
 Figure 3-11 illustrates the result.
 
 Insert 18333fig0311.png 
-Рисунок 3-11. Создание указателя на новую ветку.
+Рисунок 3-11. Создание нового указателя на ветку.
 
 Figure 3-11. Creating a new branch pointer.
 
-Во время работы над вашим веб сайтом, вы делаете несколько коммитов. Эти действия передвигают брэнч `iss53` вперед, потому что вы перешли на него (из-за этого ваш HEAD указывает на него; см. Рисунок 3-12):
+Во время работы над вашим веб-сайтом, вы делаете несколько коммитов. Это передвигает ветку `iss53` вперёд, потому что вы на неё перешли (то есть ваш HEAD указывает на неё; см. Рисунок 3-12):
 
 You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
 
@@ -231,26 +231,26 @@ You work on your web site and do some commits. Doing so moves the `iss53` branch
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Рисунок 3-12. Ветка iss53 передвинулась вперед с вашей работой.
+Рисунок 3-12. Ветка iss53 передвинулась вперёд во время работы.
 
 Figure 3-12. The iss53 branch has moved forward with your work.
 
-Теперь вы получаете звонок о том, что с вебсайтом беда, которую надо устранить немедленно. С Git, вам нет нужды создавать заплатку вместе с изменениями для `iss53`, которые вы уже сделали. Также нет необходимости прикладывать много усилий, чтобы отменить эти изменения перед тем, как вы сможете начать работать над решением срочной проблемы. Все, что вам нужно сделать, это перейти на ваш master брэнч.
+Теперь вы получаете звонок о том, что есть проблема с веб-сайтом, которую необходимо немедленно устранить. С Git, вам нет нужды создавать заплатку вместе с изменениями для `iss53`, которые вы уже сделали. А также не надо прикладывать много усилий, чтобы отменить эти изменения перед тем, как вы сможете начать работать над решением срочной проблемы. Всё, что вам нужно сделать, это перейти на ветку master.
 
 Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
 
-Однако, прежде чем сделать это, учтите, что если в вашей рабочей дирректории или области подготовки к коммиту имеются незафиксированные изменения, которые конфликтуют с веткой, на которую вы переходите, Git не позволит переключить брэнчи. Лучше всего иметь чистое рабочее состояния, когда вы переключаете ветки. Существует несколько путей сделать это (а именно, временная фиксайия работы и правка коммита), которые мы рассмотрим позже. А на данный момент представим, что вы зафиксировали все изменения, и можете переключится обратно на ветку master:
+Однако, прежде чем сделать это, учтите, что если в вашем рабочем каталоге или индексе имеются незафиксированные изменения, которые конфликтуют с веткой, на которую вы переходите, Git не позволит переключить ветки. Лучше всего иметь чистое рабочее состояния, когда вы переключаете ветки. Существует несколько способов добиться этого (а именно, прятание (stash) работы и правка (amend) коммита), которые мы рассмотрим позже. А на данный момент представим, что вы зафиксировали все изменения, и можете переключиться обратно на ветку master:
 
 However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
 
 	$ git checkout master
 	Switched to branch "master"
 
-После этого рабочая директория проекта находится в том же состоянии, что было в момент начала работы над проблемой №53, так что вы можете сконцентрироваться на срочном изменении. Очень важно запомнить: Git возвращает вашу рабочую дирректорию к состоянию слепка коммита, на который указывает ветка, на которую вы переходите. Он добавляет, удаляет и изменяет файлы автоматически, чтобы гарантировать, что состояние вашей рабочей копии идентично последнему коммиту на ветке.
+Теперь рабочий каталог проекта находится точно в таком же состоянии, что и в момент начала работы над проблемой №53, так что вы можете сконцентрироваться на срочном изменении. Очень важно запомнить: Git возвращает ваш рабочий каталог к снимку состояния того коммита, на который указывает ветка, на которую вы переходите. Он добавляет, удаляет и изменяет файлы автоматически, чтобы гарантировать, что состояние вашей рабочей копии идентично последнему коммиту на ветке.
 
 At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
 
-Итак, вам надо сделать срочноное изменение. Давайте создадим брэнч для него, на котором вы будете работать (см. Рисунок 3-13):
+Итак, вам надо срочно исправить ошибку. Давайте создадим для этого ветку, на которой вы будете работать (см. Рисунок 3-13):
 
 Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
 
@@ -262,11 +262,11 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Рисунок 3-13. Ветка для решения срочной проблемы базируется на master брэнче.
+Рисунок 3-13. Ветка для решения срочной проблемы базируется на ветке master.
 
 Figure 3-13. hotfix branch based back at your master branch point.
 
-Вы можете запустить тесты, убедиться, что решение работает, и замержить изменение назад на ветку master, чтобы включить его в продукт. Вы можете сделать это с помощью команды `git merge`:
+Вы можете запустить тесты, убедиться, что решение работает, и слить (merge) изменения назад в ветку master, чтобы включить его в продукт. Это делается с помощью команды `git merge`:
 
 You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
 
@@ -277,27 +277,27 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Наверное, вы заметили фразу "Fast forward" в этом мерже. Так как бранч, с которымй вы мержитесь, указывает на коммит, являющийся прямым потомком коммита, на котором вы находитесь, Git передвигает указатель вперед. Говоря иными словами, когда вы пытаетесь помержить один коммит с другим, который может быть достигнут путем следованя первичной истории коммитов, Git упрощает вещи перемещением указателя вперед, так как нету расходящихся изменений для слияния их воедино. Это называется "fast forward".
+Наверное, вы заметили фразу "Fast forward" в этом слиянии. Так как ветка, которую вы сливали, указывала на коммит, являющийся прямым потомком коммита, на котором вы находитесь, Git передвигает указатель вперёд. Иными словами, когда вы пытаетесь слить один коммит с другим, который может быть достигнут идя по истории первого коммита, Git упрощает вещи, перемещая указатель вперёд, так как нету расходящихся изменений для слияния их воедино. Это называется "fast forward" (перемотка).
 
 You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
 
-Ваши изменения теперь на слепке коммита, на который указывает master брэнч, и вы можете включить изменения в продукт (см. Рисунок 3-14).
+Ваши изменения теперь в снимке состояния коммита, на который указывает ветка master, и вы можете включить изменения в продукт (см. Рисунок 3-14).
 
 Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
 
 Insert 18333fig0314.png 
-Рисунок 3-14. После слияния ваш master брэнч указывает на то же место, что и ветка hotfix
+Рисунок 3-14. После слияния ветка master указывает туда же, куда и ветка hotfix.
 
 Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
 
-После того, как очень важная проблема решена, вы готовы вернуться обратно к работе, которую делали, прежде чем были прерваны.Однако, сначала удалите ветку `hotfix`, так как она больше не нужна - ветка master уже указывает на то же место. Вы можети удалить брэнч ключом `-d` к `git branch`:
+После того, как очень важная проблема решена, вы готовы вернуться обратно к работе, которую делали, прежде чем были прерваны. Однако, сначала удалите ветку `hotfix`, так как она больше не нужна — ветка `master` уже указывает на то же место. Вы можете удалить ветку с помощью ключа `-d` к `git branch`:
 
 After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Теперь вы можете вернуться обратно к рабочему брэнчу для проблемы №53 и продолжить работать на нем (см. Рисунок 3-15):
+Теперь вы можете вернуться обратно к рабочей ветке для проблемы №53 и продолжить работать над ней (см. Рисунок 3-15):
 
 Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
 
@@ -309,15 +309,15 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-Рисунок 3-15. Ваш iss53 брэнч может двигаться вперед независимо.
+Рисунок 3-15. Ветка iss53 может двигаться вперёд независимо.
 
 Figure 3-15. Your iss53 branch can move forward independently.
 
-Не стоит волноваться, что работа, сделанная на ветке `hotfix`, не включена в файлы на вашем `iss53` брэнче. Если вам нужно включить ее, вы можете выполнить мерж ветки `master` и брэнча `iss53` по средством команды `git merge master`. Или вы можете подождать с интеграцией изменений до тех пор, пока не решите включить изменения на `iss53` в продуктовую ветку `master`.
+Стоит напомнить, что работа, сделанная на ветке `hotfix`, не включена в файлы на ветке `iss53`. Если вам это необходимо, вы можете выполнить слияние ветки `master` в ветку `iss53` посредством команды `git merge master`. Или же вы можете подождать с интеграцией изменений до тех пор, пока не решите включить изменения на `iss53` в продуктовую ветку `master`.
 
 It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
 
-### Основы мержа ###
+### Основы слияния ###
 ### Basic Merging ###
 
 Представьте себе, что вы разобрались с проблемой №53 и готовы объединить эту ветку и свой `master`. Чтобы сделать это, вы смержите вашу ветку `iss53` с веткой `master` точно так же, как делали ранее с веткой `hotfix`. Все что вы должны сделать - перейти на ту ветку, в которую вы хотите замержить свои изменения и выполнить команду `git merge`:

@@ -458,7 +458,7 @@ If you’re happy with that, and you verify that everything that had conflicts h
 You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
 
 
-### Управление ветками ###
+## Управление ветками ##
 ## Branch Management ##
 
 Теперь, когда вы уже попробовали создавать, объединять и удалять ветки, пора познакомиться с некоторыми инструментами для управления ветками. Когда вы начнете постоянно использовать ветки эти инструменты очень вам пригодятся.
@@ -514,7 +514,7 @@ This shows your other branch. Because it contains work that isn’t merged in ye
 
 If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
 
-### Приемы работы с ветками ###
+## Приемы работы с ветками ##
 ## Branching Workflows ##
 
 Теперь, когда вы познакомились с основами ветвления и слияния веток, что вам делать с ними дальше? В этой секции мы рассмотрим некоторые стандартные приемы работы, которые становятся возможными, благодаря легкому осуществлению ветвления. Так что вы можете решить, использовать ли вам их в своем цикле разработки.
@@ -532,7 +532,7 @@ Because Git uses a simple three-way merge, merging from one branch into another 
 
 Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
 
-В действительности же, мы говорим об указателях, передвигающихся вверх по линии коммитов, которые вы делаете. Стабильные ветки далеко внизу лии вашей истории коммитов, наиболее свежие ветки находятся ближе к верхушке этой линии.
+В действительности же, мы говорим об указателях, передвигающихся вверх по линии коммитов, которые вы делаете. Стабильные ветки далеко внизу линии вашей истории коммитов, наиболее свежие ветки находятся ближе к верхушке этой линии (смотри Рисунок 3-18).
 
 In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
 
@@ -555,21 +555,37 @@ Figure 3-19. It may be helpful to think of your branches as silos.
 You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
 Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
 
+
+### Тематические ветки ###
 ### Topic Branches ###
+
+Тематические ветки, однако, полезны в проектах любого размера. Тематическая ветка ― недолговечная ветка, которую вы создаете и используете для отдельной возможности или чего-то, имеющего отношение к работе. Это нечто такое, чего вы никогда не делали в системах контроля версиями ранее, так как создание и слияние веток ― достаточно затратный процесс. Но в Git является нормальным создавать ветки, работать над ними, объединять и удалять их по несколько раз в день.
 
 Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
 
+Вы видели это в последнем разделе, где вы создавали ветки `iss53` и `hotfix`. Вы сделали несколько коммитов на этих ветках и удалили их сразу после объединения с вашей основной веткой. Эта техника позволяет вам быстро и полноценно переключать контекст ― так как ваша работа разбита на <<шахты>>, где все изменения в данной ветке относятся к данной теме, достаточно просто отслеживать, что происходило во время работы с кодом. Вы можете хранить изменения несколько минут, дней или месяцев, а затем, когда они готовы, слить их с основной веткой, независимо от порядка, в котором их создавали или работали над ними.
+
 You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
+
+Представьте себе пример выполнения кое-какой работы (в ветке `master`), ответвление для решения задачи (`iss91`), выполнение небольшой работы над ней, ответвление на вторую ветку для другого пути решения той же задачи (`iss91v2`), переход назад на вашу основную ветку (`master`) и выполнение работы на ней, затем ответвление от нее для выполнения кое-какой работы, в которой вы не уверены, что это хорошая идея (ветка `dumbidea`). Тогда ваша история коммитов будет выглядеть примерно как на Рисунке 3-20.
 
 Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
 
 Insert 18333fig0320.png 
+Рисунок 3-20. Ваша история коммитов с несколькими тематическими ветками.
+
 Figure 3-20. Your commit history with multiple topic branches.
+
+Теперь представим, вы решили, что вам больше нравится второе решение для вашей задачи (`iss91v2`); и вы показываете ветку `dumbidea` вашим коллегам и оказывается, что она просто гениальна. Так что вы можете выбросить оригинальную ветку `iss91` (теряя при этом коммиты C5 и C6) и объединить две другие. Тогда ваша история будет выглядеть как на Рисунке 3-21.
 
 Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
 
 Insert 18333fig0321.png 
+Рисунок 3-21. Ваша история после объединения dumbidea и iss91v2.
+
 Figure 3-21. Your history after merging in dumbidea and iss91v2.
+
+Важно запомнить, что когда вы выполняете все эти действия, ветки являются полностью полкальными. Когда вы выполняете ветвление и слияние, все происходит только в вашем репозитории ― связь с сервером не осуществляется.
 
 It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
 

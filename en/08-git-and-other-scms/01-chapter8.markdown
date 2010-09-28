@@ -405,7 +405,11 @@ Next, move the rest of the references under `refs/remotes` to be local branches:
 	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
 	$ rm -Rf .git/refs/remotes
 
-Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Because you want all your branches and tags to go up, you can run this:
+Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. This is an example for usage with a gitosis repository:
+
+	$ git remote add origin git@my.gitosis-server.com:myrepository.git
+
+Because you want all your branches and tags to go up, you can now run this:
 
 	$ git push origin --all
 

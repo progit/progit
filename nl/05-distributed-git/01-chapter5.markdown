@@ -84,7 +84,7 @@ Als je dat commando uitvoert alvorens te committen, kun je al zien of je op het 
 
 Daarna, probeer om iedere van commit een logische set wijzigingen te maken. Probeer, als het je lukt, om je wijzigingen verteerbaar te maken – ga niet het hele weekend zitten coderen op vijf verschillende problemen om dat vervolgens op maandag als een gigantische commit in te dienen. Zels als je gedurende het weekend niet commit, gebruik dan het staging gebied op maandag om je werk in ten minste één commit per probleem op te splitsen, met een bruikbaar bericht per commit. Als een paar van de wijzigingen één bestand veranderen, probeer dan `git add --patch` te gebruiken om bestanden gedeeltelijk te stagen (wordt in detail behandeld in Hoofdstuk 6). Het snapshot van het project is gelijk of je nu één commit doet of vijf, zolang alle wijzigingen maar toegevoegd zijn op een bepaald punt, dus probeer om het je mede-ontwikkelaars makkelijk te maken als ze je wijzigingen moeten bekijken. Deze aanpak maakt het ook makkelijker om één wijziging op te halen of terug te draaien, mocht dat later nodig zijn. Hoofdstuk 6 beschrijft een aantal handige Git trucs om geschiedenis te herschrijven en bestanden interactief te stagen – gebruik deze applicaties om te helpen een schone en begrijpelijke historie op te bouwen.
 
-Het laatste ding om in gedachten te houden is het commit bericht. Als je er een gewoonte van maakt om een goede kwaliteit commit berichten aan te maken, dan maakt dat het gebruik van en samenwerken in Git een stuk eenvoudiger. Als een algemen regel, zouden je berichten moeten beginnen met een enkele regel, die niet langer is dan 50 karakters en die de set wijzigingen beknopt omschrijft, gevolgd door een lege regel, gevolgd door een meer gedetaileerde uitleg. Het Git project vereist dat de meer gedetaileerde omschrijving ook je motivatie voor de verandering bevat, en de nieuwe implementatie tegen het oude gedrag afzet – dit is een goede richtlijn om te volgen. Het is ook een goed idee om de gebiedende wijs te gebruiken in deze berichten. Met andere woorden, gebruik commando's. In plaats van "Ik heb testen toegevoegd voor" of "Testen toegevoegd voor" gebruik je "Voeg testen toe voor".
+Het laatste ding om in gedachten te houden is het commit bericht. Als je er een gewoonte van maakt om een goede kwaliteit commit berichten aan te maken, dan maakt dat het gebruik van en samenwerken in Git een stuk eenvoudiger. Als een algemene regel, zouden je berichten moeten beginnen met een enkele regel, die niet langer is dan 50 karakters en die de set wijzigingen beknopt omschrijft, gevolgd door een lege regel. Daarna volgt de meer gedetaileerde uitleg. Het Git project vereist dat de meer gedetaileerde omschrijving ook je motivatie voor de verandering bevat, en de nieuwe implementatie tegen het oude gedrag afzet – dit is een goede richtlijn om te volgen. Het is ook een goed idee om de gebiedende wijs te gebruiken in deze berichten. Met andere woorden, gebruik commando's. In plaats van "Ik heb testen toegevoegd voor" of "Testen toegevoegd voor" gebruik je "Voeg testen toe voor".
 Hier is een sjabloon dat origineel geschreven is door Tim Pope op tpope.net:
 
 	Kort (50 karakters of minder) samenvatting van wijzigingen
@@ -113,7 +113,7 @@ In de volgende voorbeelden, en verder door de rest van dit boek, zal ik omwille 
 De eenvoudigste opzet die je waarschijnlijk zult tegenkomen is een besloten project met één of twee ondere ontwikkelaars. Met besloten bedoel ik gesloten broncode – zonder leestoegang voor de buitenwereld. Jij en de andere ontwikkelaars hebben allemaal terugzet toegang op het repository.
 
 In deze omgeving kun je een werkwijze aanhouden die vergelijkbaar is met wat je zou doen als je Subversion of een andere gecentraliseerd systeem zou gebruiken. Je hebt nog steeds de voordelen van zaken als offline committen en veel eenvoudiger branchen en samenvoegen, maar de werkwijze kan erg vergelijkbaar zijn; het grote verschil is dat het samenvoegen aan de client-kant gebeurt tijdens het committen in plaats van aan de server-kant.
-Laten we eens kijken hoe het er uit zou kunnen zien als twee ontwikkelaars samen beginnen te werken met een gedeeld repository. De eerste ontwikkelaar, John, cloned het repository, maakt een wijziging, en commit lokaal. (Ik vervang de protocol berichten met `...` in deze voorbeelden om ze iets in te korten.)
+Laten we eens kijken hoe het er uit zou kunnen zien als twee ontwikkelaars samen beginnen te werken met een gedeelde repository. De eerste ontwikkelaar, John, cloned de repository, maakt een wijziging, en commit lokaal. (Ik vervang de protocol berichten met `...` in deze voorbeelden om ze iets in te korten.)
 
 	# John's Machine
 	$ git clone john@githost:simplegit.git
@@ -125,7 +125,7 @@ Laten we eens kijken hoe het er uit zou kunnen zien als twee ontwikkelaars samen
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-De tweede ontwikkelaar, Jessica, doet hetzelfde – cloned het repository en commit een wijziging:
+De tweede ontwikkelaar, Jessica, doet hetzelfde – cloned de repository en commit een wijziging:
 
 	# Jessica's Machine
 	$ git clone jessica@githost:simplegit.git
@@ -153,7 +153,7 @@ John probeert ook zijn werk terug te zetten:
 	 ! [rejected]        master -> master (non-fast forward)
 	error: failed to push some refs to 'john@githost:simplegit.git'
 
-John mag niet terugzetten omdat Jessica in de tussentijd teruggezet heeft. Dit is in het bijzonder belangrijk om te begrijpen als je gewent bent aan Subversion, omdat het je zal opvallen dat de twee ontwikkelaars niet hetzelfde bestand hebben aangepast. Alhoewel Subversion automatisch zo'n samenvoeging op de server doet, als verschillende bestanden zijn aangepast, in Git moet je de commits lokaal samenvoegen. John moet Jessica's wijzigingen ophalen en ze samenvoegen voor hij terug mag zetten:
+John mag niet terugzetten omdat Jessica in de tussentijd teruggezet heeft. Dit is in het bijzonder belangrijk om te begrijpen als je gewoon bent aan Subversion, omdat het je zal opvallen dat de twee ontwikkelaars niet hetzelfde bestand hebben aangepast. Alhoewel Subversion automatisch zo'n samenvoeging op de server doet, als verschillende bestanden zijn aangepast, moet je in Git de commits lokaal samenvoegen. John moet Jessica's wijzigingen ophalen en ze samenvoegen voor hij terug mag zetten:
 
 	$ git fetch origin
 	...
@@ -187,7 +187,7 @@ Nu kan John zijn code testen om er zeker van te zijn dat het nog steeds goed wer
 Tenslotte ziet John's commit historie eruit als Figuur 5-6.
 
 Insert 18333fig0506.png 
-Figuur 5-6. John’s history na teruggezet te hebben op de origin van de server.
+Figuur 5-6. John’s historie na teruggezet te hebben op de origin van de server.
 
 In de tussentijd heeft Jessica gewerkt op een onderwerp branch. Ze heeft een onderwerp branch genaamd `issue54` aangemaakt en daar drie commits op gedaan. Ze heeft John's wijzigingen nog niet opgehaald, dus haar commit historie ziet er uit als Figuur 5-7.
 
@@ -202,7 +202,7 @@ Jessica wil met John synchroniseren, dus ze haalt de wijzigingen op:
 	From jessica@githost:simplegit
 	   fbff5bc..72bbc59  master     -> origin/master
 
-Dat haalt het werk op dat John in de tussentijd teruggezet heeft. Jessica's historie ziet er nu uit als Figuur 5-8.
+Dit haalt het werk op dat John in de tussentijd teruggezet heeft. Jessica's historie ziet er nu uit als Figuur 5-8.
 
 Insert 18333fig0508.png 
 Figuur 5-8. Jessica’s historie na het ophalen van John's wijzigingen.
@@ -222,7 +222,7 @@ Nu kan Jessica het werk van haar onderwerp samenvoegen in haar master branch, Jo
 	Switched to branch "master"
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
 
-Ze kan of `origin/master` of `issue54` als eerste samenvoegen – ze zijn beide stroomopwaarts dus de volgorde maakt niet uit. Het snapshot aan het einde zou gelijk moeten zijn ongeacht welke volgorde ze kiest; allen de geschiedenis zal iets verschillen. Ze kiest ervoor om `issue54` eerst samen te voegen:
+Ze kan of `origin/master` of `issue54` als eerste samenvoegen – ze zijn beide stroomopwaarts dus de volgorde maakt niet uit. De snapshot aan het einde zou gelijk moeten zijn ongeacht welke volgorde ze kiest; alleen de geschiedenis zal iets verschillen. Ze kiest ervoor om `issue54` eerst samen te voegen:
 
 	$ git merge issue54
 	Updating fbff5bc..4af4298
@@ -231,7 +231,7 @@ Ze kan of `origin/master` of `issue54` als eerste samenvoegen – ze zijn beide 
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-Er doen zich geen problemen voor; zoals je kunt zien was het een eenvoudige fast-forware. Nu voegt Jessica John's werk in (`origin/master`):
+Er doen zich geen problemen voor; zoals je kunt zien was het een eenvoudige fast-forward. Nu voegt Jessica John's werk in (`origin/master`):
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb

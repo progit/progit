@@ -132,7 +132,7 @@ Insert 18333fig0106.png
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
-	  libz-dev 
+	  libz-dev libssl-dev
 	
 Установив все необходимые библиотеки, можно идти дальше и скачать последнюю версию с сайта Git:
 

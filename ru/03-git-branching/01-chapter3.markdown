@@ -16,7 +16,7 @@ Some people refer to the branching model in Git as its “killer feature,” and
 
 To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 
-Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который соодержит указатель на снимок содержимого индекса, метаданные автора и комментария и ноль или больше указателей на коммиты, которые были прямыми предками этого коммита: ноль предков для первого коммита, один — для обычного коммита и несколько — для коммита, полученного в результате слияния двух или более веток.
+Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который содержит указатель на снимок содержимого индекса, метаданные автора и комментария и ноль или больше указателей на коммиты, которые были прямыми предками этого коммита: ноль предков для первого коммита, один — для обычного коммита и несколько — для коммита, полученного в результате слияния двух или более веток.
 
 When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
 
@@ -591,40 +591,65 @@ Figure 3-21. Your history after merging in dumbidea and iss91v2.
 
 It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
 
+## Удалённые ветки ##
 ## Remote Branches ##
+
+Удалённые ветки ― это ссылки на состояние веток в ваших удалённых репозиториях. Это локальные ветки, которые нельзя перемещать; они двигаются автоматически всякий раз, когда вы осуществляете связь по сети. Удалённые ветки действуют как закладки для напоминания о том, где ветки в удалённых репозиториях находились во время последнего подключения к ним.
 
 Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
 
+Они выглядят как `(имя удал. репоз.)/(ветка)`. Например, если вы хотите посмотреть как выглядела ветка `master` на сервере `origin` во время последнего соединения с ним, проверьте ветку `origin/master`. Если вы с партнёром работали над одной проблемой и он выложил ветку `iss53`, у вас может быть своя локальная ветка `iss53`; но та ветка на сервере будет указывать на коммит в `origin/iss53`.
+
 They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+
+Всё это возможно сбивает с толку, поэтому давайте рассмотрим пример. Скажем, у вас есть Git-сервер в сети на `git.ourcompany.com`. Если вы склонируете (clone) с него, Git автоматически назовёт его для вас `origin`, заберёт с него все данные, создаст указатель на его ветку `master` и назовёт его локально `origin/master` (но вы не можете его двигать). Git также сделает вам вашу собственную ветку `master`, которая будет начинаться там же, где и ветка `master` в origin, так что вам будет с чем начать работать (смотри Рис. 3-22).
 
 This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
 
 Insert 18333fig0322.png 
+Рисунок 3-22. Клонирование Git-проекта даёт вам собственную ветку master и origin/master указывающий на ветку master в origin.
 Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+
+Если вы сделаете что-то в вашей локальной ветке `master`, а тем временем кто-то ещё отправит (push) изменения на `git.ourcompany.com` и обновит там ветку master, то ваши истории продолжатся по-разному. К тому же, до тех пор пока вы не свяжитесь с сервером origin, ваш указатель `origin/master` не будет сдвигаться (смотри Рисунок 3-23).
 
 If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
 
 Insert 18333fig0323.png 
+Рисунок 3-23. При выполнении локальной работы и отправке кем-то изменений на удалённый сервер, каждая история продолжается по-разному.
 Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+
+Для синхронизации вашей работы, выполняется команда `git fetch origin`. Эта команда ищет какому серверу соответствует origin (в нашем случае это `git.ourcompany.com`); извлекает оттуда все данные, которых у вас ещё нет, и обновляет ваше локальное хранилище данных; сдвигает указатель `origin/master` на новую позицию (смотри Рисунок 3-24).
 
 To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
 
 Insert 18333fig0324.png 
+Рисунок 3-24. Команда git fetch обновляет ваши удалённые ссылки.
 Figure 3-24. The git fetch command updates your remote references.
+
+Чтобы продемонстрировать то, как будут выглядеть удалённые ветки в ситуации с несколькими удалёнными серверами, предположим, что у вас есть ещё один внутренний Git-сервер, который используется для разработки только одной из ваших команд разработчиков. Этот сервер находится на `git.team1.ourcompany.com`. Вы можете добавить его в качестве новой удалённой ссылки на проект, над которым вы сейчас работаете с помощью команды `git remote add` так же как было описано в Главе 2. Дайте этому удалённому серверу имя `teamone`, которое будет сокращением для полного URL (смотри Рисунок 3-25).
 
 To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
 
 Insert 18333fig0325.png 
+Рисунок 3-25. Добавление дополнительного удалённого сервера.
 Figure 3-25. Adding another server as a remote.
+
+Теперь можете выполнить `git fetch teamone`, чтобы извлечь всё, что есть на сервере и нет у вас. Так как в данный момент на этом сервер есть только часть данных, которые есть на сервере `origin`, Git не получает никаких данных, но выставляет удалённую ветку с именем `teamone/master`, которая указывает на тот же коммит, что и ветка `master` на сервере `teamone` (смотри Рисунок 3-26).
 
 Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
 
 Insert 18333fig0326.png 
+Рисунок 3-26. У вас появилась локальная ссылка на ветку master на teamone-е.
 Figure 3-26. You get a reference to teamone’s master branch position locally.
 
+### Отправка изменений ###
 ### Pushing ###
 
+Когда вы хотите поделиться веткой с окружающими, вам необходимо отправить (push) её на удалённый сервер, на котором у вас есть права на запись. Ваши локальные ветки автоматически не синхронизируются с удалёнными серверами — вам нужно явно отправить те ветки, которыми вы хотите поделиться. Таким образом, вы можете использовать свои личные ветки для работы, которую вы не хотите показывать, и отправлять только те тематические ветки, над которыми вы хотите работать с кем-то совместно.
+
 When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
+
+Если у вас есть ветка `serverfix`, над которой вы хотите работать с кем-то ещё, вы можете отправить её точно так же как вы отправляли вашу первую ветку. Выполните `git push (удал. сервер) (ветка)`:
 
 If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
 
@@ -636,7 +661,11 @@ If you have a branch named `serverfix` that you want to work on with others, you
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
+Это в некотором роде сокращение. Git автоматически разворачивает имя ветки `serverfix` до `refs/heads/serverfix:refs/heads/serverfix`, что означает “возьми мою локальную ветку serverfix и обнови из неё удалённую ветку serverfix”. Мы подробно обсудим часть с `refs/heads/` в Главе 9, но обычно можно её опустить. Вы можете сделать также `git push origin serverfix:serverfix`, что означает то же самое — здесь говорится “возьми мой serverfix и сделай его удалённым serverfix”. Можно использовать этот формат для отправки локальной ветки в удалённую ветку, которая называется по-другому. Если вы не хотите, чтобы ветка называлась `serverfix` на удалённом сервере, то вместо предыдущей команды выполните `git push origin serverfix:awesomebranch`. Так ваша локальная ветка `serverfix` отправится в ветку `awesomebranch` удалённого проекта.
+
 This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.
+
+В следующий раз, когда один из ваших соавторов будет получать обновления с сервера, он получит ссылку на то, на что указывает `serverfix` на сервере, как удалённую ветку `origin/serverfix`:
 
 The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:
 
@@ -648,7 +677,11 @@ The next time one of your collaborators fetches from the server, they will get a
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
+Важно отметить, что когда при получении данных у вас появляются новые удалённые ветки, вы не получаете автоматически для них локальных редактируемых копий. Другими словами, в нашем случае вы не получите новую ветку `serverfix` — только указатель `origin/serverfix`, который вы не можете менять.
+
 It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.
+
+Чтобы слить эти наработки в вашу текущую рабочую ветку, можете выполнить `git merge origin/serverfix`. Если вы хотите иметь собственную ветку `serverfix`, над которой вы сможете работать, можете создать её на основе удалённой ветки:
 
 To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
 
@@ -656,11 +689,18 @@ To merge this work into your current working branch, you can run `git merge orig
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
+Это даст вам локальную ветку, на которой можно работать. Она будет начинаться там где и `origin/serverfix`.
+
 This gives you a local branch that you can work on that starts where `origin/serverfix` is.
 
+### Отслеживание веток ###
 ### Tracking Branches ###
 
+Получение локальной ветки с помощью `git checkout` из удалённой ветки автоматически создаёт то, что называется _отслеживаемой веткой_. Отслежваемые ветки это локальные ветки, которые напрямую относятся к удалённой ветке. Если находясь на отслеживаемой ветке вы наберёте `git push`, Git автоматически знает на какой сервер и в какую ветку отправлять изменения. Аналогично, выполнение `git pull` на одной из таких веток сначала получает все удалённые ссылки, а затем автоматически делает слияние с соответствующей удалённой веткой.
+
 Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+
+При клонировании репозитория, как правило автоматически создаётся ветка `master`, которая отслеживает `origin/master`. Вот почему `git push` и `git pull` работают "из коробки" и не требуют других аргументов. Однако, если хотите, можете настроить другие отслеживаемые ветки — те, которые не отслеживают ветки в `origin`, и те, которые не отслеживают ветку `master`. Простой случай это тот пример, который вы только что видели — выполнение `git checkout -b [ветка] [удал. сервер]/[ветка]`. Если вы используете Git версии 1.6.2 или более позднюю, можете также воспользоваться сокращением `--track`:
 
 When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
 
@@ -668,21 +708,30 @@ When you clone a repository, it generally automatically creates a `master` branc
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
+Чтобы настроить локальную ветку с именем отличным от имени удалённой ветки, вы можете легко использовать первую версию с другим именем локальной ветки:
+
 To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
+Теперь ваша локальная ветка sf будет автоматически отправлять (push) и получать (pull) изменения из origin/serverfix.
+
 Now, your local branch sf will automatically push to and pull from origin/serverfix.
 
+### Удаление веток на удалённом сервере ###
 ### Deleting Remote Branches ###
+
+Предположим, что вы закончили с удалённой веткой. Скажем, вы и ваши соавторы закончили с нововведением и слили его в ветку `master` на вашем удалённом сервере (или какую-то другую ветку, где у вас находится стабильный код). Вы можете удалить ветку на удалённом сервере используя весьма глупый синтаксис `git push [удал. сервер] :[ветка]`. Если вы хотите удалить ветку `serverfix` на сервере, выполните следующее:
 
 Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
+
+Хлоп. Нету больше ветки на вашем сервере. Вам может захотеться сделать закладку на текущей странице, так как эта команда вам понадобится, а синтаксис вы скорее всего забудите. Можно запомнить эту команду вернувшись к синтаксису `git push [удал. сервер] [лок. ветка]:[удал. ветка]`, который мы рассматривали немного раньше. Опуская часть `[лок. ветка]`, вы по сути говорите “возьми ничего у меня и сделай это `[удал. ветка]`”.
 
 Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
 

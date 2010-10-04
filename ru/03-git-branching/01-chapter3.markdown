@@ -423,7 +423,7 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 
 If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
 
-После того, как вы выйдете из инструмента для выполнения слияния, Git спросит вас, было ли оно успешным. Если вы отвечите, что да ― файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешен.
+После того, как вы выйдете из инструмента для выполнения слияния, Git спросит вас, было ли оно успешным. Если вы отвечаете, что да ― файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешен.
 
 After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
 
@@ -511,7 +511,7 @@ This shows your other branch. Because it contains work that isn’t merged in ye
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
-Если вы действительно хоите удалить ветку и потерять наработки, вы можете сделать это при помощи опции `-D`, как указано в подсказке.
+Если вы действительно хотите удалить ветку и потерять наработки, вы можете сделать это при помощи опции `-D`, как указано в подсказке.
 
 If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
 
@@ -561,15 +561,15 @@ Again, having multiple long-running branches isn’t necessary, but it’s often
 ### Тематические ветки ###
 ### Topic Branches ###
 
-Тематические ветки, однако, полезны в проектах любого размера. Тематическая ветка ― недолговечная ветка, которую вы создаете и используете для некоторой отдельной возможности или вспомогательной работы. Это то, чего вы вероятно никогда не делали с СУВ раньше, так как создание и слияние веток обычно слишком затратно. Но в Git принято создавать ветки, работать над ними, объединять и удалять их по несколько раз в день.
+Тематические ветки, однако, полезны в проектах любого размера. Тематическая ветка ― недолговечная ветка, которую вы создаете и используете для некоторой отдельной возможности или вспомогательной работы. Это то, чего вы вероятно никогда не делали с системами управления версиями раньше, так как создание и слияние веток обычно слишком затратно. Но в Git принято создавать ветки, работать над ними, объединять и удалять их по несколько раз в день.
 
 Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
 
-Вы видели это в последнем разделе, где вы создавали ветки `iss53` и `hotfix`. Вы сделали несколько коммитов на этих ветках и удалили их сразу после объединения с вашей основной веткой. Такая техника позволяет вам быстро и полноценно переключать контекст ― так как ваша работа разбита на <<шахты>>. Когда все изменения в данной ветке относятся к определённой теме, достаточно просто отслеживать, что происходило во время работы с кодом. Вы можете сохранить там изменения на несколько минут, дней или месяцев, а затем, когда они готовы, слить их с основной веткой, независимо от порядка, в котором их создавали или работали над ними.
+Вы видели это в последнем разделе, где вы создавали ветки `iss53` и `hotfix`. Вы сделали несколько коммитов на этих ветках и удалили их сразу после объединения с вашей основной веткой. Такая техника позволяет вам быстро и полноценно переключать контекст. Когда все изменения в данной ветке относятся к определённой теме, достаточно просто отслеживать, что происходило во время работы с кодом. Вы можете сохранить там изменения на несколько минут, дней или месяцев, а затем, когда они готовы, слить их с основной веткой, независимо от порядка, в котором их создавали или работали над ними.
 
 You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
 
-Рассмотрим пример, когда выполняется некоторая работа (в ветке `master`), делается ответвление для решения проблемы (`iss91`), выполняется чуть-чуть работы над ней, делается ответвление второй ветки для другого пути решения той же задачи (`iss91v2`), осуществляется переход назад на вашу основную ветку (`master`) и выполнение работы на ней, затем делается ответвление от неё для выполнения чего-то, в чём вы не уверены, что это хорошая идея (ветка `dumbidea`). Ваша история коммитов будет выглядеть примерно так как на Рисунке 3-20.
+Рассмотрим пример, когда выполняется некоторая работа (в ветке `master`), делается ответвление для решения проблемы (`iss91`), выполняется немного работы на ней, делается ответвление второй ветки для другого пути решения той же задачи (`iss91v2`), осуществляется переход назад на вашу основную ветку (`master`) и выполнение работы на ней, затем делается ответвление от неё для выполнения чего-то, в чём вы не уверены, что это хорошая идея (ветка `dumbidea`). Ваша история коммитов будет выглядеть примерно так как на Рисунке 3-20.
 
 Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
 

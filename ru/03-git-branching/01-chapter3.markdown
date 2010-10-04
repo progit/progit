@@ -16,7 +16,7 @@ Some people refer to the branching model in Git as its “killer feature,” and
 
 To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
 
-Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который соодержит указатель на снимок содержимого индекса, метаданные автора и комментария и ноль или больше указателей на коммиты, которые были прямыми предками этого коммита: ноль предков для первого коммита, один — для обычного коммита и несколько — для коммита, полученного в результате слияния двух или более веток.
+Когда вы фиксируете изменения в Git, Git сохраняет фиксируемый объект, который содержит указатель на снимок содержимого индекса, метаданные автора и комментария и ноль или больше указателей на коммиты, которые были прямыми предками этого коммита: ноль предков для первого коммита, один — для обычного коммита и несколько — для коммита, полученного в результате слияния двух или более веток.
 
 When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
 
@@ -320,7 +320,7 @@ It’s worth noting here that the work you did in your `hotfix` branch is not co
 ### Основы слияния ###
 ### Basic Merging ###
 
-Представьте себе, что вы разобрались с проблемой №53 и готовы объединить эту ветку и свой `master`. Чтобы сделать это, вы смержите вашу ветку `iss53` с веткой `master` точно так же, как делали ранее с веткой `hotfix`. Все что вы должны сделать - перейти на ту ветку, в которую вы хотите замержить свои изменения и выполнить команду `git merge`:
+Представьте себе, что вы разобрались с проблемой №53 и готовы объединить эту ветку и свой `master`. Чтобы сделать это, вы выполните слияние вашей ветки `iss53` в ветку `master` точно так же, как делали ранее с веткой `hotfix`. Все что вы должны сделать ― перейти на ту ветку, в которую вы хотите внести свои изменения и выполнить команду `git merge`:
 
 Suppose you’ve decided that your issue #53 work is complete and ready to be merged into your `master` branch. In order to do that, you’ll merge in your `iss53` branch, much like you merged in your `hotfix` branch earlier. All you have to do is check out the branch you wish to merge into and then run the `git merge` command:
 
@@ -330,38 +330,38 @@ Suppose you’ve decided that your issue #53 work is complete and ready to be me
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Это выглядит немного нет так, как мерж ветки `hotfix`, который вы делали ранее. В этом случае ваша история разработки разделилась на более старой стадии. Так как коммит на той ветке, на которой вы находитесь (`master`), не является прямямым предком для ветки, которую вы мержите, Git должен сделать кое-какую работу. В этом случае Git делает простой трехходовой мерж, используя при этом два слепка репозитория, на которые указывают вершины ваших веток, и общий слепок-прародитель для этих двух веток. На рисунке 3-16 выделены три слепка, которые Git будет использовать для мержа в этом случае.
+Сейчас слияние выглядит немного не так, как для ветки `hotfix`, которое вы делали ранее. В данном случае ваша история разработки разделилась в некоторой точке. Так как коммит на той ветке, на которой вы находитесь, не является прямым предком для ветки, которую вы сливаете, Git-у придётся проделать кое-какую работу. В этом случае Git делает простое трехходовое слияние, используя при этом два снимка состояния репозитория, на которые указывают вершины веток, и общий снимок-прародитель для этих двух веток. На рисунке 3-16 выделены три снимка, которые Git будет использовать для слияния в этом случае.
 
 This looks a bit different than the `hotfix` merge you did earlier. In this case, your development history has diverged from some older point. Because the commit on the branch you’re on isn’t a direct ancestor of the branch you’re merging in, Git has to do some work. In this case, Git does a simple three-way merge, using the two snapshots pointed to by the branch tips and the common ancestor of the two. Figure 3-16 highlights the three snapshots that Git uses to do its merge in this case.
 
 Insert 18333fig0316.png
-Рисунок 3-16. Git автоматически определяет нужного (наилучшего) общего предка для мержа веток.
+Рисунок 3-16. Git автоматически определяет наилучшего общего предка для слияния веток.
 
 Figure 3-16. Git automatically identifies the best common-ancestor merge base for branch merging.
 
-Вместо того, чтобы просто передвинуть указатель ветки вперед, Git создает новый слепок, который является результатом трехходового мержа, и автоматически создает новый коммит, который указывает на этот новый слепок (смотри Рисунок 3-17). Такой коммит называют merge-коммит. Он является особенным, так как имеет больше одного предка.
+Вместо того, чтобы просто передвинуть указатель ветки вперёд, Git создаёт новый снимок состояния, который является результатом трехходового слияния, и автоматически создает новый коммит, который указывает на этот новый снимок состояния (смотри Рисунок 3-17). Такой коммит называют коммит-слияние, так как он является особенным из-за того, что имеет больше одного предка.
 
 Instead of just moving the branch pointer forward, Git creates a new snapshot that results from this three-way merge and automatically creates a new commit that points to it (see Figure 3-17). This is referred to as a merge commit and is special in that it has more than one parent.
 
-Стоит отметить, что Git определяет нужного (наилучшего) общего предка для мержа веток; в CSV или Subversion (версии ранее 1.5) этого не происходит. Разработчик должен сам указать основу для мержа. Это делает мерж в Git гораздо более простым занятием, чем в других системах.
+Стоит отметить, что Git определяет наилучшего общего предка для слияния веток; в CVS или Subversion (версии ранее 1.5) этого не происходит. Разработчик должен сам указать основу для слияния. Это делает слияние в Git гораздо более простым занятием, чем в других системах.
 
 It’s worth pointing out that Git determines the best common ancestor to use for its merge base; this is different than CVS or Subversion (before version 1.5), where the developer doing the merge has to figure out the best merge base for themselves. This makes merging a heck of a lot easier in Git than in these other systems.
 
 Insert 18333fig0317.png
-Рисунок 3-17. Git автоматически создает новый коммит, содержащий результаты мержа.
+Рисунок 3-17. Git автоматически создает новый коммит, содержащий результаты слияния.
  
 Figure 3-17. Git automatically creates a new commit object that contains the merged work.
 
-Теперь, когда вы сделали мерж вашей работы, ветка `iss53` вам больше не нужна. Можете удалить ее и затем вручную закрыть ticket в вашей системе:
+Теперь, когда вы осуществили слияние ваших наработок, ветка `iss53` вам больше не нужна. Можете удалить ее и затем вручную закрыть карточку (ticket) в вашей системе:
 
 Now that your work is merged in, you have no further need for the `iss53` branch. You can delete it and then manually close the ticket in your ticket-tracking system:
 
 	$ git branch -d iss53
 
-### Конфликты при мерже ###
+### Основы конфликтов при слиянии ###
 ### Basic Merge Conflicts ###
 
-Иногда процесс мержа не идет гладко. Если вы изменили одну и ту же часть файла по-разному в двух ветках, которые собираетесь смержить, Git не сможет правильно сделать это. Если ваше решение проблемы #53 изменяет ту же часть файла, что и `hotfix`, у вас получится конфликт мержа, и выглядеть он будет примерно следующим образом:
+Иногда процесс слияния не идет гладко. Если вы изменили одну и ту же часть файла по-разному в двух ветках, которые собираетесь объединить, Git не сможет сделать это чисто. Если ваше решение проблемы №53 изменяет ту же часть файла, что и `hotfix`, вы получите конфликт слияния, и выглядеть он будет примерно следующим образом:
 
 Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
 
@@ -370,7 +370,7 @@ Occasionally, this process doesn’t go smoothly. If you changed the same part o
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git не создал новый merge-коммит. Он приостановил этот процесс до тех пор, пока вы не разрешите конфликт. Если вы хотите посмотреть, какие файлы не смержены (на любом этапе после возникновения конфликта), можете выполнить команду `git status`:
+Git не создал новый коммит для слияния. Он приостановил этот процесс до тех пор, пока вы не разрешите конфликт. Если вы хотите посмотреть, какие файлы не объединены (на любом этапе после возникновения конфликта), можете выполнить команду `git status`:
 
 Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
 
@@ -384,7 +384,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
-Все, что имеет отношение к конфликту мержа и не было разрешено, отмечено как unmerged. Git добавляет стандартные маркеры к файлам, которые имеют конфликт, так что вы можете открыть их вручную и разрешить эти конфликты. Ваш файл содержит секцию, которая выглядит примерно так:
+Все, что имеет отношение к конфликту слияния и что не было разрешено, отмечено как unmerged. Git добавляет стандартные маркеры к файлам, которые имеют конфликт, так что вы можете открыть их вручную и разрешить эти конфликты. Ваш файл содержит секцию, которая выглядит примерно так:
 
 Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
 
@@ -396,7 +396,7 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
-Это ваша версия HEAD (ваша ветка master, так как именно на нее вы перешли, когда выполнили команду merge) в верхней части блока (все что выше `=======`), версия `iss53` - все в нижней части. Чтобы разрешить конфликт вы должны выбрать одно из трех: верхнюю часть, нижнюю часть, отредактировать содержание файла по своему усмотрению. Например, вы можете разрешить этот конфликт заменой всего блока, показанного выше, следующим блоком:
+В верхней части блока (все что выше `=======`) это версия из HEAD (вашей ветки master, так как именно на неё вы перешли перед выполнением команды merge), всё что находится в нижней части ― версия в `iss53`. Чтобы разрешить конфликт вы должны либо выбрать одну из этих частей, либо как-то объединить содержимое по своему усмотрению. Например, вы можете разрешить этот конфликт заменой всего блока, показанного выше, следующим блоком:
 
 This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
 
@@ -404,7 +404,8 @@ This means the version in HEAD (your master branch, because that was what you ha
 	please contact us at email.support@github.com
 	</div>
 
-Это разрешение содержит по немногу из каждой секции, и я полностью удалил линии `<<<<<<<`, `=======` и `>>>>>>>`. После того, как вы разрешили каждую из таких секций с каждым из конфликтных файлов, выполните `git add` для каждого конфликтного файла. Это будет означать для Git, что все конфликтные файлы теперь разрешены. Если вы хотите использовать графические инструменты для разрешения конфликтов, можете выполнить команду `git mergetool`, которая запустит соответствующий графический инструмент и покажет конфликтные ситуации: 
+Это решение содержит понемногу из каждой части, и я полностью удалил строки `<<<<<<<`, `=======` и `>>>>>>>`. После того, как вы разрешили каждую из таких секций с каждым из конфликтных файлов, выполните `git add` для каждого конфликтного файла. Это будет означать для Git, что все конфликтные файлы теперь разрешены.
+Если вы хотите использовать графические инструменты для разрешения конфликтов, можете выполнить команду `git mergetool`, которая запустит соответствующий графический инструмент и покажет конфликтные ситуации:
 
 This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
 If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:
@@ -418,15 +419,15 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-Если вы хотите использовать другой инструмент для мержа, нежели выбираемый по умолчанию (Git выберет `opendiff` для меня, так как я выполнил команду на Mac), вы можете увидеть все поддерживаемые инструменты, указанные выше после “merge tool candidates”. Укажите более предпочтительное для вас название инструмента. В Главе 7 мы обсудим, как изменить это значение по умолчанию для вашего окружения.
+Если вы хотите использовать другой инструмент для слияния, нежели выбираемый по умолчанию (Git выбрал `opendiff` для меня, так как я выполнил команду на Mac). Вы можете увидеть все поддерживаемые инструменты, указанные выше после “merge tool candidates”. Укажите название предпочтительного для вас инструмента. В Главе 7 мы обсудим, как изменить это значение по умолчанию для вашего окружения.
 
 If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
 
-После того, как вы выйдете из инструмента для мержа, Git спросит вас, был ли мерж успешным. Если вы отвечаете, что все было ок - файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешен.
+После того, как вы выйдете из инструмента для выполнения слияния, Git спросит вас, было ли оно успешным. Если вы отвечите, что да ― файл индексируется (добавляется в область для коммита), чтобы дать вам понять, что конфликт разрешен.
 
 After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
 
-Вы также можете выполнить `git status` еще раз, чтобы убедиться, что все конфликты были разрешены.
+Можете выполнить `git status` ещё раз, чтобы убедиться, что все конфликты были разрешены:
 
 You can run `git status` again to verify that all conflicts have been resolved:
 
@@ -438,7 +439,7 @@ You can run `git status` again to verify that all conflicts have been resolved:
 	#	modified:   index.html
 	#
 
-Если вы успешно все это проделали и удостоверились, что все, имеющее конфликты, было проиндексировано, можете выполнить `git commit` для создания merge-коммита. По умолчанию сообщение коммита будет выглядеть примерно так:
+Если вы довольны тем, что получили, и удостоверились, что всё, имевшее конфликты, было проиндексировано, можете выполнить `git commit` для завершения слияния. По умолчанию сообщение коммита будет выглядеть примерно так:
 
 If you’re happy with that, and you verify that everything that had conflicts has been staged, you can type `git commit` to finalize the merge commit. The commit message by default looks something like this:
 
@@ -457,9 +458,15 @@ If you’re happy with that, and you verify that everything that had conflicts h
 
 You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
 
+
+## Управление ветками ##
 ## Branch Management ##
 
+Теперь, когда вы уже попробовали создавать, объединять и удалять ветки, пора познакомиться с некоторыми инструментами для управления ветками. Когда вы начнете постоянно использовать ветки, эти инструменты очень вам пригодятся.
+
 Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+
+Команда `git branch` делает несколько больше, чем просто создает и удаляет ветки. Если вы выполните ее без аргументов, то получите простой список ваших текущих веток:
 
 The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
 
@@ -468,6 +475,8 @@ The `git branch` command does more than just create and delete branches. If you 
 	* master
 	  testing
 
+Обратите внимание на символ `*`, стоящий перед веткой `master`: он указывает на ту ветку, на которой вы находитесь в настоящий момент. Это означает, что если вы сейчас выполните коммит, ветка `master` переместится вперёд в соответствии с вашими последними изменениями. Чтобы посмотреть последний коммит на каждой из веток, выполните команду `git branch -v`:
+
 Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch –v`:
 
 	$ git branch -v
@@ -475,18 +484,26 @@ Notice the `*` character that prefixes the `master` branch: it indicates the bra
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch –merged`:
+Другая полезная возможность для выяснения состояния ваших веток состоит в том, чтобы оставить в этом списке только те ветки, для которых вы выполнили (или не выполнили) слияние с веткой, на которой сейчас находитесь. Для этих целей в Git, начиная с версии 1.5.6, есть опции `--merged` и `--no-merged`. Чтобы посмотреть те ветки, которые вы уже слили с текущей, можете выполнить команду `git branch --merged`:
+
+Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch --merged`:
 
 	$ git branch --merged
 	  iss53
 	* master
 
+Так как вы уже выполняли слияние для ветки `iss53` ранее, вы видите ее в своем списке. Неплохой идеей было бы удалить командой `git branch -d` те ветки из этого списка, перед которыми нет символа `*`; вы уже объединили наработки из этих веток с другой веткой, так что вы ничего не теряете.
+
 Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+
+Чтобы посмотреть все ветки, содержащие наработки, которые вы еще не объединили с текущей веткой, выполните команду `git branch --no-merged`:
 
 To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
 
 	$ git branch --no-merged
 	  testing
+
+Вы увидите оставшуюся ветку. Так как она содержит ещё не слитые наработки, попытка удалить ее командой `git branch -d` не увенчается успехом:
 
 This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
 
@@ -494,83 +511,145 @@ This shows your other branch. Because it contains work that isn’t merged in ye
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
+Если вы действительно хоите удалить ветку и потерять наработки, вы можете сделать это при помощи опции `-D`, как указано в подсказке.
+
 If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
 
+## Приемы работы с ветками ##
 ## Branching Workflows ##
+
+Теперь, когда вы познакомились с основами ветвления и слияния, что вам делать с ними дальше? В этом разделе мы рассмотрим некоторые стандартные приёмы работы, которые становятся возможными, благодаря лёгкому осуществлению ветвления. И вы сможете выбрать, использовать ли вам какие-то из них в своём цикле разработки.
 
 Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
 
+### Долгоживущие ветки ###
 ### Long-Running Branches ###
+
+Так как Git использует простое трехходовое слияние, объединять одну ветку с другой большое количество раз через большие промежутки времени достаточно просто. Это значит вы можете иметь несколько веток, которые всегда открыты и которые вы используете для разных стадий вашего цикла разработки; вы можете регулярно сливать одну из них с другой.
 
 Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
 
+Много разработчиков Git-а ведут свой рабочий процесс в соответствии с этой идеей. Например, стабильный код располагается только в ветке `master` ― единственный стабильный код, который был или будет выпущен. Они имеют другую параллельную ветку, называемую develop (разработка) или next (следующая), из которой они работают или используют для проверки на стабильность ― она не обязательно всегда стабильна, но когда она принимает стабильное состояние, можно объединить ее c `master`. Она используется чтобы включать в себя изменения от коротких веток (таких как ветка `iss53`, с которой вы имели дело ранее) когда они готовы, чтобы удостовериться, что они успешно проходят все тесты и не вызывают ошибок.
+
 Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+
+В действительности же, мы говорим об указателях, передвигающихся вверх по линии коммитов, которые вы делаете. Стабильные ветки далеко внизу линии вашей истории коммитов, наиболее свежие ветки находятся ближе к верхушке этой линии (смотри Рисунок 3-18).
 
 In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
 
 Insert 18333fig0318.png 
+Рисунок 3-18. Более стабильные ветки находятся далеко внизу линии истории коммитов.
+
 Figure 3-18. More stable branches are generally farther down the commit history.
+
+В общем, об этом проще думать как о шахтах, где набор коммитов переходит в более стабильную шахту только тогда, когда он полностью протестирован (смотри Рисунок 3-19).
 
 It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (see Figure 3-19).
 
 Insert 18333fig0319.png 
+Рисунок 3-19. Можно думать о ваших ветках как о шахтах.
+
 Figure 3-19. It may be helpful to think of your branches as silos.
+
+Вы можете применять эту идею для нескольких разных уровней стабильности. Некоторые большие проекты также имеют ветку `proposed` или `pu` (proposed updates ― предлагаемые изменения), которые включают в себя ветки, не готовые для перехода в ветку `next` или `master`. Идея такова, что ваши ветки находятся на разных уровнях стабильности; когда они достигают более высокого уровня стабильности, они сливаются с веткой, стоящей на более высоком уровне.
+Опять таки, не обязательно иметь долгоживущие ветки, но часто это очень полезно, особенно когда вы имеете дело с очень большими и сложными проектами.
 
 You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
 Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
 
+
+### Тематические ветки ###
 ### Topic Branches ###
+
+Тематические ветки, однако, полезны в проектах любого размера. Тематическая ветка ― недолговечная ветка, которую вы создаете и используете для некоторой отдельной возможности или вспомогательной работы. Это то, чего вы вероятно никогда не делали с СУВ раньше, так как создание и слияние веток обычно слишком затратно. Но в Git принято создавать ветки, работать над ними, объединять и удалять их по несколько раз в день.
 
 Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
 
+Вы видели это в последнем разделе, где вы создавали ветки `iss53` и `hotfix`. Вы сделали несколько коммитов на этих ветках и удалили их сразу после объединения с вашей основной веткой. Такая техника позволяет вам быстро и полноценно переключать контекст ― так как ваша работа разбита на <<шахты>>. Когда все изменения в данной ветке относятся к определённой теме, достаточно просто отслеживать, что происходило во время работы с кодом. Вы можете сохранить там изменения на несколько минут, дней или месяцев, а затем, когда они готовы, слить их с основной веткой, независимо от порядка, в котором их создавали или работали над ними.
+
 You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
+
+Рассмотрим пример, когда выполняется некоторая работа (в ветке `master`), делается ответвление для решения проблемы (`iss91`), выполняется чуть-чуть работы над ней, делается ответвление второй ветки для другого пути решения той же задачи (`iss91v2`), осуществляется переход назад на вашу основную ветку (`master`) и выполнение работы на ней, затем делается ответвление от неё для выполнения чего-то, в чём вы не уверены, что это хорошая идея (ветка `dumbidea`). Ваша история коммитов будет выглядеть примерно так как на Рисунке 3-20.
 
 Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
 
 Insert 18333fig0320.png 
+Рисунок 3-20. История коммитов с несколькими тематическими ветками.
+
 Figure 3-20. Your commit history with multiple topic branches.
+
+Теперь представим, вы решили, что вам больше нравится второе решение для вашей задачи (`iss91v2`); и вы показываете ветку `dumbidea` вашим коллегам и оказывается, что она просто гениальна. Так что вы можете выбросить оригинальную ветку `iss91` (теряя при этом коммиты C5 и C6) и слить две другие. Тогда ваша история будет выглядеть как на Рисунке 3-21.
 
 Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
 
 Insert 18333fig0321.png 
+Рисунок 3-21. Ваша история после объединения dumbidea и iss91v2.
+
 Figure 3-21. Your history after merging in dumbidea and iss91v2.
+
+Важно запомнить, что когда вы выполняете все эти действия, ветки являются полностью локальными. Когда вы выполняете ветвление и слияние, всё происходит только в вашем репозитории ― связь с сервером не осуществляется.
 
 It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
 
+## Удалённые ветки ##
 ## Remote Branches ##
+
+Удалённые ветки ― это ссылки на состояние веток в ваших удалённых репозиториях. Это локальные ветки, которые нельзя перемещать; они двигаются автоматически всякий раз, когда вы осуществляете связь по сети. Удалённые ветки действуют как закладки для напоминания о том, где ветки в удалённых репозиториях находились во время последнего подключения к ним.
 
 Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
 
+Они выглядят как `(имя удал. репоз.)/(ветка)`. Например, если вы хотите посмотреть как выглядела ветка `master` на сервере `origin` во время последнего соединения с ним, проверьте ветку `origin/master`. Если вы с партнёром работали над одной проблемой и он выложил ветку `iss53`, у вас может быть своя локальная ветка `iss53`; но та ветка на сервере будет указывать на коммит в `origin/iss53`.
+
 They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+
+Всё это возможно сбивает с толку, поэтому давайте рассмотрим пример. Скажем, у вас есть Git-сервер в сети на `git.ourcompany.com`. Если вы склонируете (clone) с него, Git автоматически назовёт его для вас `origin`, заберёт с него все данные, создаст указатель на его ветку `master` и назовёт его локально `origin/master` (но вы не можете его двигать). Git также сделает вам вашу собственную ветку `master`, которая будет начинаться там же, где и ветка `master` в origin, так что вам будет с чем начать работать (смотри Рис. 3-22).
 
 This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
 
 Insert 18333fig0322.png 
+Рисунок 3-22. Клонирование Git-проекта даёт вам собственную ветку master и origin/master указывающий на ветку master в origin.
 Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+
+Если вы сделаете что-то в вашей локальной ветке `master`, а тем временем кто-то ещё отправит (push) изменения на `git.ourcompany.com` и обновит там ветку master, то ваши истории продолжатся по-разному. К тому же, до тех пор пока вы не свяжитесь с сервером origin, ваш указатель `origin/master` не будет сдвигаться (смотри Рисунок 3-23).
 
 If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
 
 Insert 18333fig0323.png 
+Рисунок 3-23. При выполнении локальной работы и отправке кем-то изменений на удалённый сервер, каждая история продолжается по-разному.
 Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+
+Для синхронизации вашей работы, выполняется команда `git fetch origin`. Эта команда ищет какому серверу соответствует origin (в нашем случае это `git.ourcompany.com`); извлекает оттуда все данные, которых у вас ещё нет, и обновляет ваше локальное хранилище данных; сдвигает указатель `origin/master` на новую позицию (смотри Рисунок 3-24).
 
 To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
 
 Insert 18333fig0324.png 
+Рисунок 3-24. Команда git fetch обновляет ваши удалённые ссылки.
 Figure 3-24. The git fetch command updates your remote references.
+
+Чтобы продемонстрировать то, как будут выглядеть удалённые ветки в ситуации с несколькими удалёнными серверами, предположим, что у вас есть ещё один внутренний Git-сервер, который используется для разработки только одной из ваших команд разработчиков. Этот сервер находится на `git.team1.ourcompany.com`. Вы можете добавить его в качестве новой удалённой ссылки на проект, над которым вы сейчас работаете с помощью команды `git remote add` так же как было описано в Главе 2. Дайте этому удалённому серверу имя `teamone`, которое будет сокращением для полного URL (смотри Рисунок 3-25).
 
 To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
 
 Insert 18333fig0325.png 
+Рисунок 3-25. Добавление дополнительного удалённого сервера.
 Figure 3-25. Adding another server as a remote.
+
+Теперь можете выполнить `git fetch teamone`, чтобы извлечь всё, что есть на сервере и нет у вас. Так как в данный момент на этом сервер есть только часть данных, которые есть на сервере `origin`, Git не получает никаких данных, но выставляет удалённую ветку с именем `teamone/master`, которая указывает на тот же коммит, что и ветка `master` на сервере `teamone` (смотри Рисунок 3-26).
 
 Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
 
 Insert 18333fig0326.png 
+Рисунок 3-26. У вас появилась локальная ссылка на ветку master на teamone-е.
 Figure 3-26. You get a reference to teamone’s master branch position locally.
 
+### Отправка изменений ###
 ### Pushing ###
 
+Когда вы хотите поделиться веткой с окружающими, вам необходимо отправить (push) её на удалённый сервер, на котором у вас есть права на запись. Ваши локальные ветки автоматически не синхронизируются с удалёнными серверами — вам нужно явно отправить те ветки, которыми вы хотите поделиться. Таким образом, вы можете использовать свои личные ветки для работы, которую вы не хотите показывать, и отправлять только те тематические ветки, над которыми вы хотите работать с кем-то совместно.
+
 When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
+
+Если у вас есть ветка `serverfix`, над которой вы хотите работать с кем-то ещё, вы можете отправить её точно так же как вы отправляли вашу первую ветку. Выполните `git push (удал. сервер) (ветка)`:
 
 If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
 
@@ -582,7 +661,11 @@ If you have a branch named `serverfix` that you want to work on with others, you
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
+Это в некотором роде сокращение. Git автоматически разворачивает имя ветки `serverfix` до `refs/heads/serverfix:refs/heads/serverfix`, что означает “возьми мою локальную ветку serverfix и обнови из неё удалённую ветку serverfix”. Мы подробно обсудим часть с `refs/heads/` в Главе 9, но обычно можно её опустить. Вы можете сделать также `git push origin serverfix:serverfix`, что означает то же самое — здесь говорится “возьми мой serverfix и сделай его удалённым serverfix”. Можно использовать этот формат для отправки локальной ветки в удалённую ветку, которая называется по-другому. Если вы не хотите, чтобы ветка называлась `serverfix` на удалённом сервере, то вместо предыдущей команды выполните `git push origin serverfix:awesomebranch`. Так ваша локальная ветка `serverfix` отправится в ветку `awesomebranch` удалённого проекта.
+
 This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.
+
+В следующий раз, когда один из ваших соавторов будет получать обновления с сервера, он получит ссылку на то, на что указывает `serverfix` на сервере, как удалённую ветку `origin/serverfix`:
 
 The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:
 
@@ -594,7 +677,11 @@ The next time one of your collaborators fetches from the server, they will get a
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
+Важно отметить, что когда при получении данных у вас появляются новые удалённые ветки, вы не получаете автоматически для них локальных редактируемых копий. Другими словами, в нашем случае вы не получите новую ветку `serverfix` — только указатель `origin/serverfix`, который вы не можете менять.
+
 It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.
+
+Чтобы слить эти наработки в вашу текущую рабочую ветку, можете выполнить `git merge origin/serverfix`. Если вы хотите иметь собственную ветку `serverfix`, над которой вы сможете работать, можете создать её на основе удалённой ветки:
 
 To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
 
@@ -602,11 +689,18 @@ To merge this work into your current working branch, you can run `git merge orig
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
+Это даст вам локальную ветку, на которой можно работать. Она будет начинаться там где и `origin/serverfix`.
+
 This gives you a local branch that you can work on that starts where `origin/serverfix` is.
 
+### Отслеживание веток ###
 ### Tracking Branches ###
 
+Получение локальной ветки с помощью `git checkout` из удалённой ветки автоматически создаёт то, что называется _отслеживаемой веткой_. Отслежваемые ветки это локальные ветки, которые напрямую относятся к удалённой ветке. Если находясь на отслеживаемой ветке вы наберёте `git push`, Git автоматически знает на какой сервер и в какую ветку отправлять изменения. Аналогично, выполнение `git pull` на одной из таких веток сначала получает все удалённые ссылки, а затем автоматически делает слияние с соответствующей удалённой веткой.
+
 Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+
+При клонировании репозитория, как правило автоматически создаётся ветка `master`, которая отслеживает `origin/master`. Вот почему `git push` и `git pull` работают "из коробки" и не требуют других аргументов. Однако, если хотите, можете настроить другие отслеживаемые ветки — те, которые не отслеживают ветки в `origin`, и те, которые не отслеживают ветку `master`. Простой случай это тот пример, который вы только что видели — выполнение `git checkout -b [ветка] [удал. сервер]/[ветка]`. Если вы используете Git версии 1.6.2 или более позднюю, можете также воспользоваться сокращением `--track`:
 
 When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
 
@@ -614,21 +708,30 @@ When you clone a repository, it generally automatically creates a `master` branc
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
+Чтобы настроить локальную ветку с именем отличным от имени удалённой ветки, вы можете легко использовать первую версию с другим именем локальной ветки:
+
 To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
+Теперь ваша локальная ветка sf будет автоматически отправлять (push) и получать (pull) изменения из origin/serverfix.
+
 Now, your local branch sf will automatically push to and pull from origin/serverfix.
 
+### Удаление веток на удалённом сервере ###
 ### Deleting Remote Branches ###
+
+Предположим, что вы закончили с удалённой веткой. Скажем, вы и ваши соавторы закончили с нововведением и слили его в ветку `master` на вашем удалённом сервере (или какую-то другую ветку, где у вас находится стабильный код). Вы можете удалить ветку на удалённом сервере используя весьма глупый синтаксис `git push [удал. сервер] :[ветка]`. Если вы хотите удалить ветку `serverfix` на сервере, выполните следующее:
 
 Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
+
+Хлоп. Нету больше ветки на вашем сервере. Вам может захотеться сделать закладку на текущей странице, так как эта команда вам понадобится, а синтаксис вы скорее всего забудите. Можно запомнить эту команду вернувшись к синтаксису `git push [удал. сервер] [лок. ветка]:[удал. ветка]`, который мы рассматривали немного раньше. Опуская часть `[лок. ветка]`, вы по сути говорите “возьми ничего у меня и сделай это `[удал. ветка]`”.
 
 Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
 

@@ -69,8 +69,8 @@ Tous les lieutenants ont un unique gestionnaire d'intégration, le dictateur bé
 Le dépôt du dictateur sert de dépôt de référence à partir duquel tous les collaborateurs doivent tirer.
 Le processus se déroule comme suit (voir figure 5-3) :
 
-1.      Les développeurs de base travaillent sur le branche de sujet et rebasent leur travail sur master. La branche master est celle du dictateur.
-2.      Les lieutenants fusionnent les branches de sujet des développeurs dans leur propre branche master.
+1.      Les développeurs de base travaillent sur la branche thématique et rebasent leur travail sur master. La branche master est celle du dictateur.
+2.      Les lieutenants fusionnent les branches thématiques des développeurs dans leur propre branche master.
 3.      Le dictateur fusionne les branches master de ses lieutenants dans sa propre branche master.
 4.      Le dictateur pousse sa branche master sur le dépôt de référence pour que les développeurs se rebasent dessus.
 
@@ -245,7 +245,7 @@ John doit récupérer les modifications de Jessica et les fusionner avant d'êtr
 Insert 18333fig0504.png 
 Figure 5-4. État initial du dépôt de John.
 
-John a une référence aux modifications que Jessica a pousséés, mais il doit les fusionner dans sa propre branche avant de pouvoir pousser :
+John a une référence aux modifications que Jessica a poussées, mais il doit les fusionner dans sa propre branche avant de pouvoir pousser :
 
 	$ git merge origin/master
 	Merge made by recursive.
@@ -269,8 +269,8 @@ Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore cor
 Insert 18333fig0506.png 
 Figure 5-6. L'historique de John après avoir poussé sur le serveur origin.
 
-Dans l'intervalle, Jessica a travaillé sur une branche de sujet.
-Elle a créé une branche de sujet nommée `prob54` et réalisé trois validations sur cette branche.
+Dans l'intervalle, Jessica a travaillé sur une branche thématique.
+Elle a créé une branche thématique nommée `prob54` et réalisé trois validations sur cette branche.
 Elle n'a pas encore récupéré les modifications de John, ce qui donne un historique semblable à la figure 5-7.
 
 Insert 18333fig0507.png 
@@ -291,7 +291,7 @@ L'historique de Jessica ressemble maintenant à la figure 5-8.
 Insert 18333fig0508.png 
 Figure 5-8. L'historique de Jessica après avoir récupéré les modifications de John.
 
-Jessica pense que sa branche de sujet et prête mais elle souhaite savoir si elle doit fusionner son travail avant de pouvoir pousser.
+Jessica pense que sa branche thématique et prête mais elle souhaite savoir si elle doit fusionner son travail avant de pouvoir pousser.
 Elle lance `git log` pour s'en assurer :
 
 	$ git log --no-merges origin/master ^issue54
@@ -301,7 +301,7 @@ Elle lance `git log` pour s'en assurer :
 
 	    Eliminer une valeur par defaut invalide
 
-Maintenant, Jessica peut fusionner sa branche de sujet dans sa branche `master`, fusionner le travail de John (`origin/master`)dans sa branche `master`, puis pousser le résulat sur le serveur.
+Maintenant, Jessica peut fusionner sa branche thématique dans sa branche `master`, fusionner le travail de John (`origin/master`)dans sa branche `master`, puis pousser le résultat sur le serveur.
 Premièrement, elle rebascule sur sa branche `master` pour intégrer son travail :
 
 	$ git checkout master
@@ -348,7 +348,7 @@ Insert 18333fig0510.png
 Figure 5-10. L'historique de Jessica après avoir poussé toutes ses modifications sur le serveur.
 
 C'est un des schéma les plus simples.
-Vous travaillez pendant quelques temps, généralement sur une branche de sujet, et fusionnez dans votre branche `master` quand elle est prête à être intégrée.
+Vous travaillez pendant quelques temps, généralement sur une branche thématique, et fusionnez dans votre branche `master` quand elle est prête à être intégrée.
 Quand vous souhaitez partager votre travail, vous récupérez `origin/master` et la fusionnez si elle a changé, puis finalement vous poussez le résultat sur la branche `master` du serveur.
 La séquence est illustrée par la figure 5-11.
 
@@ -357,12 +357,12 @@ Figure 5-11. Séquence générale des évènements pour une utilisation simple m
 
 ### Équipe privée importante ###
 
-Dans le scenario suivant, nous aborderons les rôles de contributeur dans un groupe privé plus grand.
+Dans le scénario suivant, nous aborderons les rôles de contributeur dans un groupe privé plus grand.
 Vous apprendrez comment travailler dans un environnement où des petits groupes collaborent sur des fonctionnalités, puis les contributions de chaque équipe sont intégrées par une autre entité.
 
 Supposons que John et Jessica travaillent ensemble sur une première fonctionnalité, tandis que Jessica et Josie travaillent sur une autre.
 Dans ce cas, l'entreprise utilise un mode d'opération de type « gestionnaire d'intégration » où le travail des groupes est intégré par certains ingénieurs, et la branche `master` du dépôt principal ne peut être mise à jour que par ces ingénieurs.
-Dans ce scenario, tout le travail est validé dans des branches orientées équipe, et tiré plus tard par les intégrateurs.
+Dans ce scénario, tout le travail est validé dans des branches orientées équipe, et tiré plus tard par les intégrateurs.
 
 Suivons le cheminement de Jessica tandis qu'elle travaille sur les deux nouvelles fonctionnalités, collaborant en parallèle avec deux développeurs différents dans cet environnement.
 En supposant qu'elle a cloné son dépôt, elle décide de travailler sur la `fonctionA` en premier.
@@ -386,7 +386,7 @@ Jessica n'a pas le droit de pousser sur la branche `master` — seuls les inté
 
 Jessica envoie un e-mail à John pour lui indiquer qu'elle a poussé son travail dans la branche appelée `fonctionA` et qu'il peut l'inspecter.
 Pendant qu'elle attend le retour de John, Jessica décide de commencer à travailler sur la `fonctionB` avec Josie.
-Pour commencer, elle crée une nouvelle branche fonctionnelle, à partir de la base `master` du serveur :
+Pour commencer, elle crée une nouvelle branche thématique, à partir de la base `master` du serveur :
 
 	# Ordinateur de Jessica
 	$ git fetch origin
@@ -400,7 +400,7 @@ Pour commencer, elle crée une nouvelle branche fonctionnelle, à partir de la b
 	[fonctionB e5b0fdc] Rendre la fonction ls-tree recursive
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	$ vim lib/simplegit.rb
-	$ git commit -am 'Ajoutde ls-files'
+	$ git commit -am 'Ajout de ls-files'
 	[fonctionB 8512791] Ajout ls-files
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
@@ -477,13 +477,13 @@ Elle valide donc encore et pousse ses changements sur le serveur :
 L'historique des commits de Jessica ressemble à présent à la figure 5-13.
 
 Insert 18333fig0513.png 
-Figure 5-13. L'historique de Jessica après la validation dans le branche fonctionnelle.
+Figure 5-13. L'historique de Jessica après la validation dans le branche thématique.
 
 Jessica, Josie et John informent les intégrateurs que les branches `fonctionA` et `fonctionB` du serveur sont prêtes pour une intégration dans la branche principale.
 Après cette intégration, une synchronisation apportera les commits de fusion, ce qui donnera un historique comme celui de la figure 5-14.
 
 Insert 18333fig0514.png 
-Figure 5-14. L'historique de Jessica après la fusion de ses deux branches fonctionnelles.
+Figure 5-14. L'historique de Jessica après la fusion de ses deux branches thématiques.
 
 De nombreuses équipes basculent vers Git du fait de cette capacité à gérer plusieurs équipes travaillant en parallèle, fusionnant plusieurs lignes de développement très tard dans le processus de livraison.
 La capacité donnée à plusieurs sous-groupes d'équipes à collaborer au moyen de branches distantes sans nécessairement impacter le reste de l'équipe est un grand bénéfice apporté par Git.
@@ -497,15 +497,15 @@ Figure 5-15. Une séquence simple de gestion orientée équipe.
 
 Contribuer à un projet public est assez différent.
 Il faut présenter le travail au mainteneur d'une autre manière parce que vous n'avez pas possibilité de mettre à jour directement des branches du projet.
-Ce premiet exemple décrit un mode de contribution via des serveurs Git proposent facilement la duplication de dépôt.
-Les site repo.or.cz ou GitHub proposent cette méthone, et de nombreux mainteneurs s'attendent à ce style de contribution.
+Ce premier exemple décrit un mode de contribution via des serveurs Git qui proposent facilement la duplication de dépôt.
+Les site repo.or.cz ou GitHub proposent cette méthode, et de nombreux mainteneurs s'attendent à ce style de contribution.
 Le chapitre suivant traite des projets qui préfèrent accepter les contributions sous forme de patch via e-mail.
 
-Premièrement, vous souhaiterez probablement cloner le dépôt principal, créer une nouvelle branche fonctionnelle pour le patch ou la série de patch que seront votre contribution et commencer à travailler.
+Premièrement, vous souhaiterez probablement cloner le dépôt principal, créer une nouvelle branche thématique pour le patch ou la série de patchs que seront votre contribution et commencer à travailler.
 La séquence ressemble globalement à ceci :
 
 	$ git clone (url)
-	$ cd project
+	$ cd projet
 	$ git checkout -b fonctionA
 	$ (travail)
 	$ git commit
@@ -514,7 +514,7 @@ La séquence ressemble globalement à ceci :
 
 Vous pouvez utiliser `rebase -i` pour réduire votre travail à une seule validation ou pour réarranger les modifications dans des commits qui rendront les patchs plus facile à relire pour le mainteneur — référez-vous au chapitre 6 pour plus d'information sur comment rebaser de manière interactive.
 
-Lorsque votre branche de travail est prête et que vous êtes prêt à la fournir au mainteneur, rendez-vous sur la page du projet et cliquez sur le bouton "Fork" pou créer votre propre projet dupliqué sur lequel vous aurez les droits en écriture.
+Lorsque votre branche de travail est prête et que vous êtes prêt à la fournir au mainteneur, rendez-vous sur la page du projet et cliquez sur le bouton "Fork" pour créer votre propre projet dupliqué sur lequel vous aurez les droits en écriture.
 Vous devez alors ajouter l'URL de ce nouveau dépôt en tant que second dépôt distant, dans notre cas nommé `macopie` :
 
 	$ git remote add macopie (url)
@@ -527,11 +527,10 @@ Si le mainteneur fusionne, rebase ou picore votre travail, vous le saurez en tir
 	$ git push macopie fonctionA
 
 Une fois votre travail poussé sur votre copie du dépôt, vous devez notifier le mainteneur.
-Ce processus est souvent appelé une demande de tirage (pull request) et vous pouvez la générer soit via le site web — GitHub propose un bouton « pull request » qui envoie automatiquement un message au mainteneur — ou lancer la commande `git request-pull` et envoyer manuellement par e-mail le résultat au mainteneur de projet.
+Ce processus est souvent appelé une demande de tirage (pull request) et vous pouvez la générer soit via le site web — GitHub propose un bouton « pull request » qui envoie automatiquement un message au mainteneur — soit lancer la commande `git request-pull` et envoyer manuellement par e-mail le résultat au mainteneur de projet.
 
-
-La commande `request-pull` prend la branche de base dans laquelle vous souhaitez que votre branche fonctionnelle soit fusionnée et l'URL du dépôt Git depuis lequel vous souhaitez qu'elle soit tirée, et génère un résumé des modifications que vous demandez à faire tirer.
-Par exemple, si Jessica envoie à John une demande de tirage et qu'elle a fait deux validations dans la branche fonctionnelle qu'elle vient de pousser, elle peut lancer ceci :
+La commande `request-pull` prend la branche de base dans laquelle vous souhaitez que votre branche thématique soit fusionnée et l'URL du dépôt Git depuis lequel vous souhaitez qu'elle soit tirée, et génère un résumé des modifications que vous demandez à faire tirer.
+Par exemple, si Jessica envoie à John une demande de tirage et qu'elle a fait deux validations dans la branche thématique qu'elle vient de pousser, elle peut lancer ceci :
 
 	$ git request-pull origin/master macopie
 	The following changes since commit 1edee6b1d61823a2de3b09c160d7080b8d1b3a40:
@@ -549,49 +548,58 @@ Par exemple, si Jessica envoie à John une demande de tirage et qu'elle a fait d
 	 lib/simplegit.rb |   10 +++++++++-
 	 1 files changed, 9 insertions(+), 1 deletions(-)
 
-The output can be sent to the maintainer—it tells them where the work was branched from, summarizes the commits, and tells where to pull this work from.
+Le résultat peut être envoyé au mainteneur — cela lui indique d'où la modification a été branchée, le résumé des validations et d'où tirer ce travail.
 
-On a project for which you’re not the maintainer, it’s generally easier to have a branch like `master` always track `origin/master` and to do your work in topic branches that you can easily discard if they’re rejected.  Having work themes isolated into topic branches also makes it easier for you to rebase your work if the tip of the main repository has moved in the meantime and your commits no longer apply cleanly. For example, if you want to submit a second topic of work to the project, don’t continue working on the topic branch you just pushed up — start over from the main repository’s `master` branch:
+Pour un projet dont vous n'êtes pas le mainteneur, il est généralement plus aisé de toujours laisser la branche `master` suivre `origin\master` et de réaliser vos travaux sur des branches thématiques que vous pourrez facilement effacer si elles sont rejetées.
+Garder les thèmes de travaux isolés sur des branches thématiques facilite aussi leur rebasage si le sommet du dépôt principal a avancé dans l'intervalle et que vos modifications ne s'appliquent plus proprement.
+Par exemple, si vous souhaitez soumettre un second sujet de travail au projet, ne continuez pas à travailler sur la branche thématique que vous venez de pousser mais démarrez en plutôt une depuis la branche `master` du dépôt principal :
 
 	$ git checkout -b fonctionB origin/master
-	$ (work)
+	$ (travail)
 	$ git commit
-	$ git push myfork fonctionB
-	$ (email maintainer)
+	$ git push macopie fonctionB
+	$ (email au mainteneur)
 	$ git fetch origin
 
-Now, each of your topics is contained within a silo — similar to a patch queue — that you can rewrite, rebase, and modify without the topics interfering or interdepending on each other as in Figure 5-16.
+À présent, chaque sujet est contenu dans son propre silo — similaire à un file de patchs — que vous pouvez réécrire, rebaser et modifier sans que les sujets n'interfèrent ou ne dépendent entre eux, comme sur la figure 5-16.
 
 Insert 18333fig0516.png 
-Figure 5-16. Initial commit history with fonctionB work.
+Figure 5-16. Historique initial des commits avec les modification de fonctionB.
 
-Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes:
+Supposons que le mainteneur du projet a tiré une poignée d'autres patchs et essayé par la suite votre première branche, mais celle-ci ne s'applique plus proprement.
+Dans ce cas, vous pouvez rebaser cette branche au sommet de `origin/master`, résoudre les conflits pour le mainteneur et soumettre de nouveau vos modifications :
 
 	$ git checkout fonctionA
 	$ git rebase origin/master
-	$ git push –f myfork fonctionA
+	$ git push –f macopie fonctionA
 
-This rewrites your history to now look like Figure 5-17.
+Cette action réécrit votre historique pour qu'il ressemble à la figure 5-17.
 
 Insert 18333fig0517.png 
-Figure 5-17. Commit history after fonctionA work.
+Figure 5-17. Historique des validations après le travail sur fonctionA.
 
-Because you rebased the branch, you have to specify the `–f` to your push command in order to be able to replace the `fonctionA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `fonctionAv2`).
+Comme vous avez rebasé votre branche, vous devez spécifier l'option `-f` à votre commande pour pousser, pour forcer le remplacement de la branche `fonctionA` sur le serveur par la suite de commits qui n'en est pas descendante.
+Une solution alternative serait de pousser ce nouveau travail dans une branche différente du serveur (appelée par exemple `fonctionAv2`).
 
-Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `fonctionB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
+Examinons un autre scénario possible : le mainteneur a revu les modifications dans votre seconde branche et apprécie le concept, mais il  souhaiterait que vous changiez des détails d'implémentation.
+Vous en profiterez pour rebaser ce travail sur le sommet actuel de la branche `master` du projet.
+Vous démarrez une nouvelle branche à partir de la branche `origin/master` courante, y collez les modifications de `fonctionB` en résolvant les conflits, changez l'implémentation et poussez le tout en tant que nouvelle branche :
 
 	$ git checkout -b fonctionBv2 origin/master
 	$ git merge --no-commit --squash fonctionB
-	$ (change implementation)
+	$ (changement d'implémentation)
 	$ git commit
-	$ git push myfork fonctionBv2
+	$ git push macopie fonctionBv2
 
-The `--squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `--no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit.
+L'option `--squash` prend tout le travail de la branche à fusionner et le colle dans un commit sans fusion au sommet de la branche extraite.
+L'option `--no-commit` indique à Git de ne pas enregistrer automatiquement une validation.
+Cela permet de reporter toutes les modifications d'une autre branche, puis de réaliser d'autres modifications avant de réaliser une nouvelle validation.
 
-Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `fonctionBv2` branch (see Figure 5-18).
+À présent, vous pouvez envoyer au mainteneur un message indiquant que vous avez réalisé les modifications demandées et qu'il peut trouver cette nouvelle mouture sur votre branche `fonctionBv2` (voir figure 5-18).
+
 
 Insert 18333fig0518.png 
-Figure 5-18. Commit history after fonctionBv2 work.
+Figure 5-18. Historique des validations après le travail sur fonctionBv2.
 
 ### Public Large Project ###
 

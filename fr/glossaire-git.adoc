@@ -72,29 +72,30 @@ référence à l'action, on peut traduire.
 * pull -> tirer ("retirer" est peut-être mieux)
 * fetch -> récupérer
 * push -> pousser (pourquoi pas "publier")
-* stash -> (gitbook propose "remiser")
+* stash -> (gitbook propose "remiser"), planquer
 * add -> ajouter
-* log ->
+* log -> journal
 * gc ->
- - garbage collector -> ramasse-miète
+ - garbage collector -> ramasse-miette
 * reset -> réinitialiser
  - hard reset ->
  - soft reset ->
  - mixed reset ->
 * bisect -> bissecter
 * archive -> archiver
-* cherry-pick -> séléctionner (a été préféré à "ceuillir")
-* cherry-picking -> séléction (préféré à "ceuillette")
+* cherry-pick -> sélectionner (a été préféré à "cueillir")
+* cherry-picking -> sélection (préféré à "cueillette")
 * clean -> nettoyer
 * clone -> clôner
 * To merge (a branch) -> fusionner
 * To merge (a change) -> incorporer
  - a merge -> une fusion
 * to diff ->
-* rebase ->
+* rebase -> rebaser
 * revert  -> défaire
 * packfile ->
 * to pack -> compacter
+* topic branch -> branche thématique
 
 .Divers
 * hex -> hexa

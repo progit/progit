@@ -536,6 +536,17 @@ And you're done!  Gitolite has now been installed on the server, and you now hav
 
 That last command does produce a fair amount of output, which might be interesting to read.  Also, the first time you run this, a new keypair is created; you will have to choose a passphrase or hit enter for none.  Why a second keypair is needed, and how it is used, is explained in the "ssh troubleshooting" document that comes with Gitolite.  (Hey the documentation has to be good for *something*!)
 
+Repos named `gitolite-admin` and `testing` are created on the server by default. If you wish to clone either of these locally (from an account that has SSH console access to the gitolite account via *authorized_keys*), type:
+
+	$ git clone gitolite:gitolite-admin
+	$ git clone gitolite:testing
+	
+To clone these same repos from any other account:
+
+	$ git clone gitolite@servername:gitolite-admin
+	$ git clone gitolite@servername:testing
+
+
 ### Customising the Install ###
 
 While the default, quick, install works for most people, there are some ways to customise the install if you need to.  If you omit the `-q` argument, you get a "verbose" mode install -- detailed information on what the install is doing at each step.  The verbose mode also allows you to change certain server-side parameters, such as the location of the actual repositories, by editing an "rc" file that the server uses.  This "rc" file is liberally commented so you should be able to make any changes you need quite easily, save it, and continue.  This file also contains various settings that you can change to enable or disable some of gitolite's advanced features.

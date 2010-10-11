@@ -735,23 +735,39 @@ Suppose you’re done with a remote branch — say, you and your collaborators a
 
 Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
 
+## Перемещение ##
 ## Rebasing ##
+
+В Git есть два способа включить изменения из одной ветки в другую: `merge` (слияние) и `rebase` (перемещение). В этом разделе вы узнаете, что такое перемещение, как его осуществлять, почему это удивительный инструмент и в каких случаях вам не следует его использовать.
 
 In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
 
+### Основы перемещения ###
 ### The Basic Rebase ###
+
+Если вы вернетесь назад к примеру из раздела Merge (Слияние) (смотри Рисунок 3-27), вы увидите, что вы разделили вашу работу на два направления и выполняли коммиты на двух разных ветках.
 
 If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
 
-Insert 18333fig0327.png 
+Insert 18333fig0327.png
+Рисунок 3-27. Впервые разделенная история коммитов.
+ 
 Figure 3-27. Your initial diverged commit history.
+
+Наиболее простое решение для объединения веток, как мы уже выяснили, команда `merge`. Эта команда выполняет трехходовое слияние между двумя последними снимками состояний из веток (C3 и C4) и последним общим предком этих двух веток (C2), создавая новый снимок состояния (и коммит), как показано на Рисунке 3-28.
 
 The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
 
-Insert 18333fig0328.png 
+Insert 18333fig0328.png
+Рисунок 3-28. Слияние двух веток для объединения разделившейся истории разработки.
+ 
 Figure 3-28. Merging a branch to integrate the diverged work history.
 
+Однако, есть и другой путь: вы можете взять изменения, представленные в C3, и применить их на вершине C4. В Git это называется _rebasing_ (перемещение). При помощи команды `rebase` вы можете взять все изменения, которые попали в коммиты на одной из веток, и применить их на другой.
+
 However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
+
+В этом примере вы выполните следующее:
 
 In this example, you’d run the following:
 
@@ -760,37 +776,62 @@ In this example, you’d run the following:
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
+Это работает следующим образом. Находится общий предок для двух веток (на которой вы находитесь сейчас и на которую вы выполняете перемещение). Берется разница, представленная в каждом из коммитов на текущей ветке, и сохраняется во временные файлы. Текущая ветка устанавливается на такой же коммит, что и ветка, на которую вы выполняете перемещение, и, наконец, последовательно применяются все изменения. Рисунок 3-29 иллюстрирует этот процесс.
+
 It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
 
 Insert 18333fig0329.png 
+Рисунок 3-29. Перемещение изменений, представленных в C3, на C4.
+
 Figure 3-29. Rebasing the change introduced in C3 onto C4.
+
+На этом этапе можно переключиться на ветку master и выполнить fast-forward merge (смотри Рисунок 3-30).
 
 At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
 
 Insert 18333fig0330.png 
 Figure 3-30. Fast-forwarding the master branch.
 
+Теперь снимок состояния, на который указывает C3, точно такой же, что тот, на который указывал C5 в примере со слиянием. Нет никакой разницы в конечном продукте объединения, но перемещение выполняется для того, чтобы история была более аккуратной. Если вы посмотрите log перемещенной ветки, то увидите, что он выглядит как линейная история работы: выходит, что вся работа выполнялась последовательно, когда в действительности она выполнялась параллельно. 
+
 Now, the snapshot pointed to by C3 is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
+
+Часто вы будете делать это, чтобы удостовериться, что ваши коммиты правильно применяются для удаленных веток — возможно для проекта, владельцем которого вы не являетесь, но в который вы хотите внести свой вклад. В этом случае вы будете выполнять работу в ветке, а затем, когда будете готовы внести свои изменения в основной проект, выполните перемещение вашей работы на `origin/master`. Таким образом, владельцу проекта не придется делать никаких действий по объединению — просто fast-forward или правильное применение ваших изменений.
 
 Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
 
+Заметьте, что снимок состояния, на который указывает последний коммит, который у вас получился, является ли этот коммит последним перемещенным коммитом (для случая выполнения перемещения) или итоговым коммитом слияния (для случая выполнения слияния), есть один и тот же снимок — разной будет только история. Перемещение применяет изменения из одной линии разработки в другую в том порядке, в котором они были представлены, тогда как слияние объединяет вместе конечные точки двух веток.
+
 Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.
 
+### Более интересные перемещения ###
 ### More Interesting Rebases ###
+
+Вы также можете выполнять перемещение не только для перемещения ветки. Возьмем историю разработки как на Рисунке 3-31, например. Вы создали создали тематическую ветку (`server`), чтобы добавить в проект некоторый функционал для серверной части, и сделали коммит. Затем вы выполнили ответвление, чтобы сделать изменения для клиентской части, и несколько раз выполнили коммиты. Наконец, вы вернулись на ветку server и сделали еще несколько коммитов.
 
 You can also have your rebase replay on something other than the rebase branch. Take a history like Figure 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
 
-Insert 18333fig0331.png 
+Insert 18333fig0331.png
+Рисунок 3-31. История разработки с тематической веткой, ответвленной от другой тематической ветки.
+ 
 Figure 3-31. A history with a topic branch off another topic branch.
+
+Предположим вы решили, что хотите внести ваши изменения для клиентской части в основную линию разработки для релиза, но при этом хотите оставить в стороне изменения для серверной части, пока они не будут полностью протестированы. Вы можете взять изменения из ветки client, которых нет на server (C8 и C9), и применить их на ветке master при помощи опции `--onto` команды `git rebase`:
 
 Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
 
 	$ git rebase --onto master server client
 
+По сути, это указание "переключиться на ветку client, взять изменения от общего предка веток `client` и `server` и применить их на `master`". Это немного сложно; но результат, показанный на Рисунке 3-32, достаточно классный.
+
 This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
 
-Insert 18333fig0332.png 
+Insert 18333fig0332.png
+Рисунок 3-32. Перемещение тематической ветки, ответвленной от другой тематической ветки.
+ 
 Figure 3-32. Rebasing a topic branch off another topic branch.
+
+Теперь вы можете выполнить fast-forward для вашей ветки master (смотри Рисунок 3-33):
 
 Now you can fast-forward your master branch (see Figure 3-33):
 
@@ -798,21 +839,33 @@ Now you can fast-forward your master branch (see Figure 3-33):
 	$ git merge client
 
 Insert 18333fig0333.png 
+Рисунок 3-33. Выполнение fast-forward для ветки master, чтобы включить изменения от ветки client.
+
 Figure 3-33. Fast-forwarding your master branch to include the client branch changes.
+
+Представим, что вы также решили включить ветку server в основную ветку. Вы можете выполнить перемещение ветки server на ветку master без предварительного переключения на эту ветку при помощи команды `git rebase [basebranch] [topicbranch]` — которая устанавливает тематическую ветку (в данном случае `server`) как текущую и применяет ее изменения на основной ветке (`master`):
 
 Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
 
 	$ git rebase master server
 
+Эта команда применит изменения из вашей работы над веткой `server` на вершину ветки `master`, как показано на Рисунке 3-34.
+
 This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
 
 Insert 18333fig0334.png 
+Рисунок 3-34. Перемещение вашей ветки server на вершину ветки master.
+
 Figure 3-34. Rebasing your server branch on top of your master branch.
+
+Затем вы можете выполнить fast-forward для основной ветки (`master`):
 
 Then, you can fast-forward the base branch (`master`):
 
 	$ git checkout master
 	$ git merge server
+
+Вы можете удалить ветки `client` и `server`, так как вся работа из них включена в основную линию разработки и они вам больше не нужны. При этом полная история вашего рабочего процесса выглядит как на Рисунке 3-35:
 
 You can remove the `client` and `server` branches because all the work is integrated and you don’t need them anymore, leaving your history for this entire process looking like Figure 3-35:
 
@@ -820,42 +873,75 @@ You can remove the `client` and `server` branches because all the work is integr
 	$ git branch -d server
 
 Insert 18333fig0335.png 
+Рисунок 3-35. Финальная история коммитов.
+
 Figure 3-35. Final commit history.
 
+### Возможные риски перемещения ###
 ### The Perils of Rebasing ###
+
+Все бы хорошо, но кое-что омрачает всю прелесть использования перемещения. Это выражается одной строчкой:
 
 Ahh, but the bliss of rebasing isn’t without its drawbacks, which can be summed up in a single line:
 
+**Не перемещайте коммиты, которые вы выложили в открытый репозиторий**
+
 **Do not rebase commits that you have pushed to a public repository.**
+
+Если вы будете следовать этому указанию, все будет хорошо. Если нет — люди возненавидят вас, вас будут презирать ваши друзья и семья.
 
 If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.
 
+Когда вы что-то перемещаете, вы отменяете существующие коммиты и создаете новые, которые являются похожими на старые, но в чем-то другими. Если вы выкладываете ваши коммиты куда-нибудь, и другие забирают их себе и в дальнейшем основывают на них свою работу, а затем вы переделываете эти коммиты командой `git rebase` и выкладываете их снова, ваши коллеги будут вынуждены заново выполнять слияние для своих наработок. Все запутается, когда вы в очередной раз попытаетесь включить их работу в свою.
+
 When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.
+
+Давайте рассмотрим пример того, как выполненное вами перемещение наработок, представленных для общего доступа, может вызвать проблемы. Представьте себе, что вы клонировали себе репозиторий с центрального сервера и поработали в нем. Ваша история коммитов выглядит как на Рисунке 3-36.
 
 Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.
 
 Insert 18333fig0336.png 
+Рисунок 3-36. Клонирование репозитория и выполнения в нем какой-то работы.
+
 Figure 3-36. Clone a repository, and base some work on it.
+
+Теперь кто-то другой тоже начинает работать над репозиторием, причем работа включает в себя и слияние, и выкладывает свои изменения на центральный сервер. Вы извлекаете их и объединяете новую удаленную ветку со своей работой. Тогда ваша история выглядит как на Рисунке 3-37.
 
 Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figure 3-37.
 
 Insert 18333fig0337.png 
+Рисунок 3-37. Извлечение коммитов и объединение их со своей работой.
+
 Figure 3-37. Fetch more commits, and merge them into your work.
+
+Далее, человек, выложивший и объединивший свои изменения с основной веткой, решает вернуться назад и переместить свою работу; он выполняет `git push --force` чтобы переписать историю на сервере. Затем вы извлекаете изменения с этого сервера, включая и новые коммиты.
 
 Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
 
 Insert 18333fig0338.png 
+Рисунок 3-38. Кто-то выложил перемещенные коммиты, отменяя коммиты, на которые вы основывались при работе.
 Figure 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+
+На этом этапе вы вынуждены объединить эту работу со своей снова, даже если вы уже сделали это ранее. Перемещение изменяет у этих коммитов хэши SHA-1, так что для Git они выглядят как новые коммиты, тогда как на самом деле вы уже располагаете наработками C4 в вашей истории (смотри Рисунок 3-39).
 
 At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (see Figure 3-39).
 
 Insert 18333fig0339.png 
+Рисунок 3-39. Вы снова выполняете слияние для той же самой работы в новый коммит слияния.
+
 Figure 3-39. You merge in the same work again into a new merge commit.
+
+Вы должны объединить эту работу со своей на каком-либо этапе, чтобы иметь возможность продолжать работать с другими разработчиками в будущем. После того, как вы сделаете это, ваша история коммитов будет содержать оба коммита — C4 и C4', которые имеют разные хэши SHA-1, но представляют из себя одинаковые изменения и имеют одинаковые сообщения. Если вы выполните команду `git log` когда ваша история выглядит таким образом, вы увидите два коммита, которые имеют одинакового автора и одни и те же сообщения. Это сбивает с толку. Более того, если вы выложите свою историю разработки обратно на сервер, вы заново включите все эти перемещенные коммиты в репозиторий центрального сервера, что в будущем может зупутать людей.
 
 You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
 
+Если вы рассматриваете перемещение как возможность работы с коммитами и наведения в них порядка до того, как выложили их, и только если вы перемещаете коммиты которые никогда не находились в общем доступе — все нормально. Если вы перемещаете коммиты, которые уже были представлены для общего доступа, и люди уже могли построить свою работу на основе этих коммитов, тогда вы можете получить наказание за неприятные проблемы.
+
 If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
 
+## Резюме ##
 ## Summary ##
+
+Мы рассмотрели основы ветвления и слияния в Git. Вы должны чувствовать себя уверенно при создании и переключении на новые ветки, переключении между ветками и объединении вместе локальных веток. Вы также должны иметь возможность делиться своими ветками, выкладывая их на общий сервер, работать с другими людьми над общими ветками и перемещать свои ветки до того, как они были представлены для общего доступа.
 
 We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.

@@ -42,6 +42,7 @@ ARGV.each do |lang|
   end
 
   system('ebook-convert', "progit.#{lang}.html", "progit.#{lang}.#{format}",
+         '--cover', 'ebooks/cover.png',
          '--authors', 'Scott Chacon',
          '--comments', "licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license",
          '--level1-toc', '//h:h1', 

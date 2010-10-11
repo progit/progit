@@ -1,4 +1,7 @@
 progit.*.pdf
+progit.*.mobi
+progit.*.epub
+progit.*.html
 *.swp
 latex/*
 !latex/makepdf

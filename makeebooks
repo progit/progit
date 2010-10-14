@@ -32,7 +32,7 @@ ARGV.each do |lang|
   Dir[File.join(dir, '**', '*.markdown')].each do |input|
     puts "processing #{input}"
     content = File.read(input)
-    content.gsub!(/Insert\s+(.*)(\.png)\s+\nFigure\s+(.*)/, '![\3](figures/\1-tn\2 "\3")')
+    content.gsub!(/Insert\s+(.*)(\.png)\s*\n?\s*Figure\s+(.*)/, '![\3](figures/\1-tn\2 "\3")')
     book_content << RDiscount.new(content).to_html
   end
   book_content << "</body></html>"
@@ -48,6 +48,5 @@ ARGV.each do |lang|
          '--level1-toc', '//h:h1', 
          '--level2-toc', '//h:h2', 
          '--level3-toc', '//h:h3',
-         '--extra-css', 'ebooks/style.css',
          '--language', lang)
 end

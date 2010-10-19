@@ -17,10 +17,10 @@
 
 Когда вы создаёте коммит выполняя `git commit`, Git вычисляет контрольную сумму каждого подкаталога (в нашем случае, только корневого каталога) и сохраняет объекты для этого дерева в Git-репозиторий. Затем Git создаёт объект для коммита, который имеет метаданные и указатель на корень проектного дерева. Таким образом, Git может воссоздать текущее состояние, когда нужно.
 
-Ваш Git-репозиторий теперь соодержит пять объектов: по одному массиву двоичных данных для содержимого каждого из трёх файлов, одно дерево, которое перечисляет содержимое каталога и определяет соответствие имён файлов и массивов двоичных данных, и один коммит с указателем на корень этого дерева и все метаданные коммита. Схематично, данные в вашем Git-репозитории выглядят, как показано на Рисунке 3-1.
+Ваш Git-репозиторий теперь содержит пять объектов: по одному массиву двоичных данных для содержимого каждого из трёх файлов, одно дерево, которое перечисляет содержимое каталога и определяет соответствие имён файлов и массивов двоичных данных, и один коммит с указателем на корень этого дерева и все метаданные коммита. Схематично, данные в вашем Git-репозитории выглядят, как показано на Рисунке 3-1.
 
 Insert 18333fig0301.png 
-Рисунок 3-1. Данные репозитория с единственным комитом.
+Рисунок 3-1. Данные репозитория с единственным коммитом.
 
 Если вы сделаете некоторые изменения и зафиксируете их, следующий коммит сохранит указатель на коммит, который шёл непосредственно перед ним. После еще двух коммитов ваша история может выглядеть, как показано на Рисунке 3-2.
 
@@ -74,7 +74,7 @@ Insert 18333fig0307.png
 Insert 18333fig0308.png 
 Рисунок 3-8. HEAD перемещается на другую ветку при checkout'е.
 
-Эта команда выполнила два действия. Она передвинула указатель HEAD назад на ветку master и вернула файлы в вашем рабочем каталоге назад, в соответствие со снимком состояния, на который указывает master. Это также означает, что изменения, которые вы делаете, начиная с этого момента, будут ответвляться от старой версии проекта. Это полностью откатывает изменения, которые вы временно делали на ветке testing. Таким образом дальше вы можете двигаться в другом направлении.
+Эта команда выполнила два действия. Она передвинула указатель HEAD назад на ветку master и вернула файлы в вашем рабочем каталоге назад, в соответствие со снимком состояния, на который указывает master. Это также означает, что изменения, которые вы делаете, начиная с этого момента, будут ответвляться от старой версии проекта. Это полностью откатывает изменения, которые вы временно делали на ветке testing. Таким образом, дальше вы можете двигаться в другом направлении.
 
 Давайте снова сделаем немного изменений и зафиксируем их:
 
@@ -129,7 +129,7 @@ Insert 18333fig0310.png
 Insert 18333fig0311.png 
 Рисунок 3-11. Создание новой ветки / указателя.
 
-Во время работы над вашим веб-сайтом, вы делаете несколько коммитов. Эти действия сдвигают ветку `iss53` вперёд, потому что вы на неё перешли (то есть ваш HEAD указывает на неё; см. Рисунок 3-12):
+Во время работы над вашим веб-сайтом, вы делаете несколько коммитов. Эти действия сдвигают ветку `iss53` вперёд потому, что вы на неё перешли (то есть ваш HEAD указывает на неё; см. Рисунок 3-12):
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
@@ -139,7 +139,7 @@ Insert 18333fig0312.png
 
 Теперь вы получаете звонок о том, что есть проблема с веб-сайтом, которую необходимо немедленно устранить. С Git, вам нет нужды создавать заплатку вместе с теми изменениями, которые вы уже сделали для `iss53`. А также не надо прикладывать много усилий, чтобы отменить эти изменения перед тем, как вы сможете начать работать над решением срочной проблемы. Всё, что вам нужно сделать, это перейти на ветку master.
 
-Однако, прежде чем сделать это, учтите, что если в вашем рабочем каталоге или индексе имеются незафиксированные изменения, которые конфликтуют с веткой, на которую вы переходите, Git не позволит переключить ветки. Лучше всего при переключении веток иметь чистое рабочее состояния. Существует несколько способов добиться этого (а именно, прятание (stash) работы и правка (amend) коммита), которые мы рассмотрим позже. А на данный момент представим, что вы зафиксировали все изменения, и можете переключиться обратно на ветку master:
+Однако, прежде чем сделать это, учтите, что если в вашем рабочем каталоге или индексе имеются незафиксированные изменения, которые конфликтуют с веткой, на которую вы переходите, Git не позволит переключить ветки. Лучше всего при переключении веток иметь чистое рабочее состояния. Существует несколько способов добиться этого (а именно, прятанье (stash) работы и правка (amend) коммита), которые мы рассмотрим позже. А на данный момент представим, что вы зафиксировали все изменения, и можете переключиться обратно на ветку master:
 
 	$ git checkout master
 	Switched to branch "master"
@@ -337,142 +337,82 @@ Git не создал новый коммит для слияния. Он при
 Если вы действительно хотите удалить ветку и потерять наработки, вы можете сделать это при помощи опции `-D`, как указано в подсказке.
 
 ## Приемы работы с ветками ##
-## Branching Workflows ##
 
-Теперь, когда вы познакомились с основами ветвления и слияния, что вам делать с ними дальше? В этом разделе мы рассмотрим некоторые стандартные приёмы работы, которые становятся возможными, благодаря лёгкому осуществлению ветвления. И вы сможете выбрать, использовать ли вам какие-то из них в своём цикле разработки.
-
-Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
+Теперь, когда вы познакомились с основами ветвления и слияния, что вам делать с ветками дальше? В этом разделе мы рассмотрим некоторые стандартные приёмы работы, которые становятся возможными, благодаря лёгкому осуществлению ветвления. И вы сможете выбрать, включить ли вам какие-то из них в свой цикл разработки.
 
 ### Долгоживущие ветки ###
-### Long-Running Branches ###
 
-Так как Git использует простое трехходовое слияние, объединять одну ветку с другой большое количество раз через большие промежутки времени достаточно просто. Это значит вы можете иметь несколько веток, которые всегда открыты и которые вы используете для разных стадий вашего цикла разработки; вы можете регулярно сливать одну из них с другой.
+Так как Git использует простое трехходовое слияние, сливать одну ветку с другой несколько в течение большого промежутка времени достаточно просто. Это значит вы можете иметь несколько веток, которые всегда открыты и которые вы используете для разных стадий вашего цикла разработки; вы можете регулярно сливать одну из них с другой.
 
-Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
-
-Много разработчиков Git-а ведут свой рабочий процесс в соответствии с этой идеей. Например, стабильный код располагается только в ветке `master` ― единственный стабильный код, который был или будет выпущен. Они имеют другую параллельную ветку, называемую develop (разработка) или next (следующая), из которой они работают или используют для проверки на стабильность ― она не обязательно всегда стабильна, но когда она принимает стабильное состояние, можно объединить ее c `master`. Она используется чтобы включать в себя изменения от коротких веток (таких как ветка `iss53`, с которой вы имели дело ранее) когда они готовы, чтобы удостовериться, что они успешно проходят все тесты и не вызывают ошибок.
-
-Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+Много разработчиков Git-а ведут свой рабочий процесс в соответствии с этой идеей. Например, стабильный код располагается только в ветке `master` ― единственный стабильный код, который был или будет выпущен. Они имеют другую параллельную ветку, называемую develop (разработка) или next (следующая), из которой они работают или используют для проверки на стабильность ― она не обязательно всегда стабильна, но когда она принимает стабильное состояние, можно слить её в `master`. Она используется чтобы включать в себя изменения от коротких веток (таких как ветка `iss53`, с которой вы имели дело ранее) когда они готовы, чтобы удостовериться, что они успешно проходят все тесты и не вызывают ошибок.
 
 В действительности же, мы говорим об указателях, передвигающихся вверх по линии коммитов, которые вы делаете. Стабильные ветки далеко внизу линии вашей истории коммитов, наиболее свежие ветки находятся ближе к верхушке этой линии (смотри Рисунок 3-18).
 
-In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
-
 Insert 18333fig0318.png 
-Рисунок 3-18. Более стабильные ветки находятся далеко внизу линии истории коммитов.
+Рисунок 3-18. Более стабильные ветки как правило находятся дальше в истории коммитов.
 
-Figure 3-18. More stable branches are generally farther down the commit history.
-
-В общем, об этом проще думать как о шахтах, где набор коммитов переходит в более стабильную шахту только тогда, когда он полностью протестирован (смотри Рисунок 3-19).
-
-It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (see Figure 3-19).
+В общем, об этом проще думать как о силоснах башнях, где набор коммитов переходит в более стабильную башню только тогда, когда он полностью протестирован (смотри Рисунок 3-19).
 
 Insert 18333fig0319.png 
-Рисунок 3-19. Можно думать о ваших ветках как о шахтах.
-
-Figure 3-19. It may be helpful to think of your branches as silos.
+Рисунок 3-19. Может быть полезным думать о ветках как о силосных башнях.
 
 Вы можете применять эту идею для нескольких разных уровней стабильности. Некоторые большие проекты также имеют ветку `proposed` или `pu` (proposed updates ― предлагаемые изменения), которые включают в себя ветки, не готовые для перехода в ветку `next` или `master`. Идея такова, что ваши ветки находятся на разных уровнях стабильности; когда они достигают более высокого уровня стабильности, они сливаются с веткой, стоящей на более высоком уровне.
-Опять таки, не обязательно иметь долгоживущие ветки, но часто это очень полезно, особенно когда вы имеете дело с очень большими и сложными проектами.
-
-You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
-Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
-
+Опять-таки, не обязательно иметь долгоживущие ветки, но часто это очень полезно, особенно когда вы имеете дело с очень большими и сложными проектами.
 
 ### Тематические ветки ###
-### Topic Branches ###
 
 Тематические ветки, однако, полезны в проектах любого размера. Тематическая ветка ― недолговечная ветка, которую вы создаете и используете для некоторой отдельной возможности или вспомогательной работы. Это то, чего вы вероятно никогда не делали с системами управления версиями раньше, так как создание и слияние веток обычно слишком затратно. Но в Git принято создавать ветки, работать над ними, объединять и удалять их по несколько раз в день.
 
-Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
-
-Вы видели это в последнем разделе, где вы создавали ветки `iss53` и `hotfix`. Вы сделали несколько коммитов на этих ветках и удалили их сразу после объединения с вашей основной веткой. Такая техника позволяет вам быстро и полноценно переключать контекст. Когда все изменения в данной ветке относятся к определённой теме, достаточно просто отслеживать, что происходило во время работы с кодом. Вы можете сохранить там изменения на несколько минут, дней или месяцев, а затем, когда они готовы, слить их с основной веткой, независимо от порядка, в котором их создавали или работали над ними.
-
-You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
+Вы видели подобное в последнем разделе, где вы создавали ветки `iss53` и `hotfix`. Вы сделали несколько коммитов на этих ветках и удалили их сразу после объединения с вашей основной веткой. Такая техника позволяет вам быстро и полноценно переключать контекст. Когда все изменения в данной ветке относятся к определённой теме, достаточно просто отслеживать, что происходило во время работы с кодом. Вы можете сохранить там изменения на несколько минут, дней или месяцев, а затем, когда они готовы, слить их с основной веткой, независимо от порядка, в котором их создавали или работали над ними.
 
 Рассмотрим пример, когда выполняется некоторая работа (в ветке `master`), делается ответвление для решения проблемы (`iss91`), выполняется немного работы на ней, делается ответвление второй ветки для другого пути решения той же задачи (`iss91v2`), осуществляется переход назад на вашу основную ветку (`master`) и выполнение работы на ней, затем делается ответвление от неё для выполнения чего-то, в чём вы не уверены, что это хорошая идея (ветка `dumbidea`). Ваша история коммитов будет выглядеть примерно так как на Рисунке 3-20.
-
-Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
 
 Insert 18333fig0320.png 
 Рисунок 3-20. История коммитов с несколькими тематическими ветками.
 
-Figure 3-20. Your commit history with multiple topic branches.
-
 Теперь представим, вы решили, что вам больше нравится второе решение для вашей задачи (`iss91v2`); и вы показываете ветку `dumbidea` вашим коллегам и оказывается, что она просто гениальна. Так что вы можете выбросить оригинальную ветку `iss91` (теряя при этом коммиты C5 и C6) и слить две другие. Тогда ваша история будет выглядеть как на Рисунке 3-21.
 
-Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
-
 Insert 18333fig0321.png 
-Рисунок 3-21. Ваша история после объединения dumbidea и iss91v2.
-
-Figure 3-21. Your history after merging in dumbidea and iss91v2.
+Рисунок 3-21. Ваша история после слияния dumbidea и iss91v2.
 
 Важно запомнить, что когда вы выполняете все эти действия, ветки являются полностью локальными. Когда вы выполняете ветвление и слияние, всё происходит только в вашем репозитории ― связь с сервером не осуществляется.
 
-It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
-
 ## Удалённые ветки ##
-## Remote Branches ##
 
 Удалённые ветки ― это ссылки на состояние веток в ваших удалённых репозиториях. Это локальные ветки, которые нельзя перемещать; они двигаются автоматически всякий раз, когда вы осуществляете связь по сети. Удалённые ветки действуют как закладки для напоминания о том, где ветки в удалённых репозиториях находились во время последнего подключения к ним.
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
-
-Они выглядят как `(имя удал. репоз.)/(ветка)`. Например, если вы хотите посмотреть как выглядела ветка `master` на сервере `origin` во время последнего соединения с ним, проверьте ветку `origin/master`. Если вы с партнёром работали над одной проблемой и он выложил ветку `iss53`, у вас может быть своя локальная ветка `iss53`; но та ветка на сервере будет указывать на коммит в `origin/iss53`.
-
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+Они выглядят как `(имя удал. репоз.)/(ветка)`. Например, если вы хотите посмотреть, как выглядела ветка `master` на сервере `origin` во время последнего соединения с ним, проверьте ветку `origin/master`. Если вы с партнёром работали над одной проблемой, и он выложил ветку `iss53`, у вас может быть своя локальная ветка `iss53`; но та ветка на сервере будет указывать на коммит в `origin/iss53`.
 
 Всё это возможно сбивает с толку, поэтому давайте рассмотрим пример. Скажем, у вас есть Git-сервер в сети на `git.ourcompany.com`. Если вы склонируете (clone) с него, Git автоматически назовёт его для вас `origin`, заберёт с него все данные, создаст указатель на его ветку `master` и назовёт его локально `origin/master` (но вы не можете его двигать). Git также сделает вам вашу собственную ветку `master`, которая будет начинаться там же, где и ветка `master` в origin, так что вам будет с чем начать работать (смотри Рис. 3-22).
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
-
 Insert 18333fig0322.png 
 Рисунок 3-22. Клонирование Git-проекта даёт вам собственную ветку master и origin/master указывающий на ветку master в origin.
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
 
-Если вы сделаете что-то в вашей локальной ветке `master`, а тем временем кто-то ещё отправит (push) изменения на `git.ourcompany.com` и обновит там ветку master, то ваши истории продолжатся по-разному. К тому же, до тех пор пока вы не свяжитесь с сервером origin, ваш указатель `origin/master` не будет сдвигаться (смотри Рисунок 3-23).
-
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+Если вы сделаете что-то в вашей локальной ветке `master`, а тем временем кто-то ещё отправит (push) изменения на `git.ourcompany.com` и обновит там ветку master, то ваши истории продолжатся по-разному. К тому же, до тех пор, пока вы не свяжитесь с сервером origin, ваш указатель `origin/master` не будет сдвигаться (смотри Рисунок 3-23).
 
 Insert 18333fig0323.png 
 Рисунок 3-23. При выполнении локальной работы и отправке кем-то изменений на удалённый сервер, каждая история продолжается по-разному.
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
 
 Для синхронизации вашей работы, выполняется команда `git fetch origin`. Эта команда ищет какому серверу соответствует origin (в нашем случае это `git.ourcompany.com`); извлекает оттуда все данные, которых у вас ещё нет, и обновляет ваше локальное хранилище данных; сдвигает указатель `origin/master` на новую позицию (смотри Рисунок 3-24).
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
-
 Insert 18333fig0324.png 
 Рисунок 3-24. Команда git fetch обновляет ваши удалённые ссылки.
-Figure 3-24. The git fetch command updates your remote references.
 
 Чтобы продемонстрировать то, как будут выглядеть удалённые ветки в ситуации с несколькими удалёнными серверами, предположим, что у вас есть ещё один внутренний Git-сервер, который используется для разработки только одной из ваших команд разработчиков. Этот сервер находится на `git.team1.ourcompany.com`. Вы можете добавить его в качестве новой удалённой ссылки на проект, над которым вы сейчас работаете с помощью команды `git remote add` так же как было описано в Главе 2. Дайте этому удалённому серверу имя `teamone`, которое будет сокращением для полного URL (смотри Рисунок 3-25).
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
-
 Insert 18333fig0325.png 
 Рисунок 3-25. Добавление дополнительного удалённого сервера.
-Figure 3-25. Adding another server as a remote.
 
 Теперь можете выполнить `git fetch teamone`, чтобы извлечь всё, что есть на сервере и нет у вас. Так как в данный момент на этом сервер есть только часть данных, которые есть на сервере `origin`, Git не получает никаких данных, но выставляет удалённую ветку с именем `teamone/master`, которая указывает на тот же коммит, что и ветка `master` на сервере `teamone` (смотри Рисунок 3-26).
 
-Now, you can run `git fetch teamone` to fetch everything server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
-
 Insert 18333fig0326.png 
 Рисунок 3-26. У вас появилась локальная ссылка на ветку master на teamone-е.
-Figure 3-26. You get a reference to teamone’s master branch position locally.
 
 ### Отправка изменений ###
-### Pushing ###
 
 Когда вы хотите поделиться веткой с окружающими, вам необходимо отправить (push) её на удалённый сервер, на котором у вас есть права на запись. Ваши локальные ветки автоматически не синхронизируются с удалёнными серверами — вам нужно явно отправить те ветки, которыми вы хотите поделиться. Таким образом, вы можете использовать свои личные ветки для работы, которую вы не хотите показывать, и отправлять только те тематические ветки, над которыми вы хотите работать с кем-то совместно.
 
-When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
-
 Если у вас есть ветка `serverfix`, над которой вы хотите работать с кем-то ещё, вы можете отправить её точно так же как вы отправляли вашу первую ветку. Выполните `git push (удал. сервер) (ветка)`:
-
-If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
 
 	$ git push origin serverfix
 	Counting objects: 20, done.
@@ -484,11 +424,7 @@ If you have a branch named `serverfix` that you want to work on with others, you
 
 Это в некотором роде сокращение. Git автоматически разворачивает имя ветки `serverfix` до `refs/heads/serverfix:refs/heads/serverfix`, что означает “возьми мою локальную ветку serverfix и обнови из неё удалённую ветку serverfix”. Мы подробно обсудим часть с `refs/heads/` в Главе 9, но обычно можно её опустить. Вы можете сделать также `git push origin serverfix:serverfix`, что означает то же самое — здесь говорится “возьми мой serverfix и сделай его удалённым serverfix”. Можно использовать этот формат для отправки локальной ветки в удалённую ветку, которая называется по-другому. Если вы не хотите, чтобы ветка называлась `serverfix` на удалённом сервере, то вместо предыдущей команды выполните `git push origin serverfix:awesomebranch`. Так ваша локальная ветка `serverfix` отправится в ветку `awesomebranch` удалённого проекта.
 
-This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.
-
 В следующий раз, когда один из ваших соавторов будет получать обновления с сервера, он получит ссылку на то, на что указывает `serverfix` на сервере, как удалённую ветку `origin/serverfix`:
-
-The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -500,30 +436,19 @@ The next time one of your collaborators fetches from the server, they will get a
 
 Важно отметить, что когда при получении данных у вас появляются новые удалённые ветки, вы не получаете автоматически для них локальных редактируемых копий. Другими словами, в нашем случае вы не получите новую ветку `serverfix` — только указатель `origin/serverfix`, который вы не можете менять.
 
-It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.
-
 Чтобы слить эти наработки в вашу текущую рабочую ветку, можете выполнить `git merge origin/serverfix`. Если вы хотите иметь собственную ветку `serverfix`, над которой вы сможете работать, можете создать её на основе удалённой ветки:
-
-To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-Это даст вам локальную ветку, на которой можно работать. Она будет начинаться там где и `origin/serverfix`.
-
-This gives you a local branch that you can work on that starts where `origin/serverfix` is.
+Это даст вам локальную ветку, на которой можно работать. Она будет начинаться там, где и `origin/serverfix`.
 
 ### Отслеживание веток ###
-### Tracking Branches ###
 
-Получение локальной ветки с помощью `git checkout` из удалённой ветки автоматически создаёт то, что называется _отслеживаемой веткой_. Отслежваемые ветки это локальные ветки, которые напрямую относятся к удалённой ветке. Если находясь на отслеживаемой ветке вы наберёте `git push`, Git автоматически знает на какой сервер и в какую ветку отправлять изменения. Аналогично, выполнение `git pull` на одной из таких веток сначала получает все удалённые ссылки, а затем автоматически делает слияние с соответствующей удалённой веткой.
+Получение локальной ветки с помощью `git checkout` из удалённой ветки автоматически создаёт то, что называется _отслеживаемой веткой_. Отслеживаемые ветки это локальные ветки, которые напрямую связаны с удалённой веткой. Если находясь на отслеживаемой ветке, вы наберёте `git push`, Git автоматически знает на какой сервер и в какую ветку отправлять изменения. Аналогично, выполнение `git pull` на одной из таких веток сначала получает все удалённые ссылки, а затем автоматически делает слияние с соответствующей удалённой веткой.
 
-Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type git push, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
-
-При клонировании репозитория, как правило автоматически создаётся ветка `master`, которая отслеживает `origin/master`. Вот почему `git push` и `git pull` работают "из коробки" и не требуют других аргументов. Однако, если хотите, можете настроить другие отслеживаемые ветки — те, которые не отслеживают ветки в `origin`, и те, которые не отслеживают ветку `master`. Простой случай это тот пример, который вы только что видели — выполнение `git checkout -b [ветка] [удал. сервер]/[ветка]`. Если вы используете Git версии 1.6.2 или более позднюю, можете также воспользоваться сокращением `--track`:
-
-When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
+При клонировании репозитория, как правило, автоматически создаётся ветка `master`, которая отслеживает `origin/master`. Вот почему `git push` и `git pull` работают "из коробки" и не требуют других аргументов. Однако, если хотите, можете настроить другие отслеживаемые ветки — те, которые не отслеживают ветки в `origin`, и те, которые не отслеживают ветку `master`. Простой случай это тот пример, который вы только что видели — выполнение `git checkout -b [ветка] [удал. сервер]/[ветка]`. Если вы используете Git версии 1.6.2 или более позднюю, можете также воспользоваться сокращением `--track`:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
@@ -531,238 +456,143 @@ When you clone a repository, it generally automatically creates a `master` branc
 
 Чтобы настроить локальную ветку с именем отличным от имени удалённой ветки, вы можете легко использовать первую версию с другим именем локальной ветки:
 
-To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
-
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
 Теперь ваша локальная ветка sf будет автоматически отправлять (push) и получать (pull) изменения из origin/serverfix.
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
-
 ### Удаление веток на удалённом сервере ###
-### Deleting Remote Branches ###
 
 Предположим, что вы закончили с удалённой веткой. Скажем, вы и ваши соавторы закончили с нововведением и слили его в ветку `master` на вашем удалённом сервере (или какую-то другую ветку, где у вас находится стабильный код). Вы можете удалить ветку на удалённом сервере используя весьма глупый синтаксис `git push [удал. сервер] :[ветка]`. Если вы хотите удалить ветку `serverfix` на сервере, выполните следующее:
-
-Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-Хлоп. Нету больше ветки на вашем сервере. Вам может захотеться сделать закладку на текущей странице, так как эта команда вам понадобится, а синтаксис вы скорее всего забудите. Можно запомнить эту команду вернувшись к синтаксису `git push [удал. сервер] [лок. ветка]:[удал. ветка]`, который мы рассматривали немного раньше. Опуская часть `[лок. ветка]`, вы по сути говорите “возьми ничего у меня и сделай это `[удал. ветка]`”.
-
-Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
+Хлоп. Нету больше ветки на вашем сервере. Вам может захотеться сделать закладку на текущей странице, так как эта команда вам понадобится, а синтаксис вы, скорее всего, забудете. Можно запомнить эту команду вернувшись к синтаксису `git push [удал. сервер] [лок. ветка]:[удал. ветка]`, который мы рассматривали немного раньше. Опуская часть `[лок. ветка]`, вы по сути говорите “возьми ничего у меня и сделай это `[удал. ветка]`”.
 
 ## Перемещение ##
-## Rebasing ##
 
 В Git есть два способа включить изменения из одной ветки в другую: `merge` (слияние) и `rebase` (перемещение). В этом разделе вы узнаете, что такое перемещение, как его осуществлять, почему это удивительный инструмент и в каких случаях вам не следует его использовать.
 
-In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
-
 ### Основы перемещения ###
-### The Basic Rebase ###
 
-Если вы вернетесь назад к примеру из раздела Merge (Слияние) (смотри Рисунок 3-27), вы увидите, что вы разделили вашу работу на два направления и выполняли коммиты на двух разных ветках.
-
-If you go back to an earlier example from the Merge section (see Figure 3-27), you can see that you diverged your work and made commits on two different branches.
+Если вы вернетесь назад к примеру из раздела Слияние (смотри Рисунок 3-27), вы увидите, что вы разделили вашу работу на два направления и выполняли коммиты на двух разных ветках.
 
 Insert 18333fig0327.png
 Рисунок 3-27. Впервые разделенная история коммитов.
- 
-Figure 3-27. Your initial diverged commit history.
 
 Наиболее простое решение для объединения веток, как мы уже выяснили, команда `merge`. Эта команда выполняет трехходовое слияние между двумя последними снимками состояний из веток (C3 и C4) и последним общим предком этих двух веток (C2), создавая новый снимок состояния (и коммит), как показано на Рисунке 3-28.
 
-The easiest way to integrate the branches, as we’ve already covered, is the `merge` command. It performs a three-way merge between the two latest branch snapshots (C3 and C4) and the most recent common ancestor of the two (C2), creating a new snapshot (and commit), as shown in Figure 3-28.
-
 Insert 18333fig0328.png
-Рисунок 3-28. Слияние двух веток для объединения разделившейся истории разработки.
- 
-Figure 3-28. Merging a branch to integrate the diverged work history.
+Рисунок 3-28. Слияние ветки для объединения разделившейся истории разработки.
 
-Однако, есть и другой путь: вы можете взять изменения, представленные в C3, и применить их на вершине C4. В Git это называется _rebasing_ (перемещение). При помощи команды `rebase` вы можете взять все изменения, которые попали в коммиты на одной из веток, и применить их на другой.
-
-However, there is another way: you can take the patch of the change that was introduced in C3 and reapply it on top of C4. In Git, this is called _rebasing_. With the `rebase` command, you can take all the changes that were committed on one branch and replay them on another one.
+Однако, есть и другой путь: вы можете взять изменения, представленные в C3, и применить их сверху C4. В Git это называется _перемещение_ (rebasing). При помощи команды `rebase` вы можете взять все изменения, которые попали в коммиты на одной из веток, и повторить их на другой.
 
 В этом примере вы выполните следующее:
-
-In this example, you’d run the following:
 
 	$ git checkout experiment
 	$ git rebase master
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-Это работает следующим образом. Находится общий предок для двух веток (на которой вы находитесь сейчас и на которую вы выполняете перемещение). Берется разница, представленная в каждом из коммитов на текущей ветке, и сохраняется во временные файлы. Текущая ветка устанавливается на такой же коммит, что и ветка, на которую вы выполняете перемещение, и, наконец, последовательно применяются все изменения. Рисунок 3-29 иллюстрирует этот процесс.
+Это работает следующим образом: находится общий предок для двух веток (на которой вы находитесь сейчас и на которую вы выполняете перемещение); берётся разница, представленная в каждом из коммитов на текущей ветке, и сохраняется во временные файлы; текущая ветка устанавливается на такой же коммит, что и ветка, на которую вы выполняете перемещение; и, наконец, последовательно применяются все изменения. Рисунок 3-29 иллюстрирует этот процесс.
 
-It works by going to the common ancestor of the two branches (the one you’re on and the one you’re rebasing onto), getting the diff introduced by each commit of the branch you’re on, saving those diffs to temporary files, resetting the current branch to the same commit as the branch you are rebasing onto, and finally applying each change in turn. Figure 3-29 illustrates this process.
+Insert 18333fig0329.png
+Рисунок 3-29. Перемещение изменений, сделанных в C3, на C4.
 
-Insert 18333fig0329.png 
-Рисунок 3-29. Перемещение изменений, представленных в C3, на C4.
+На этом этапе можно переключиться на ветку master и выполнить слияние-перемотку (fast-forward merge) (смотри Рисунок 3-30).
 
-Figure 3-29. Rebasing the change introduced in C3 onto C4.
+Insert 18333fig0330.png
+Рисунок 3-30. Перемотка ветки master.
 
-На этом этапе можно переключиться на ветку master и выполнить fast-forward merge (смотри Рисунок 3-30).
+Теперь снимок состояния, на который указывает C3, точно такой же, что тот, на который указывал C5 в примере со слиянием. Нет никакой разницы в конечном результате объединения, но перемещение выполняется для того, чтобы история была более аккуратной. Если вы посмотрите лог (log) перемещенной ветки, то увидите, что он выглядит как линейная история работы: выходит, что вся работа выполнялась последовательно, когда в действительности она выполнялась параллельно.
 
-At this point, you can go back to the master branch and do a fast-forward merge (see Figure 3-30).
-
-Insert 18333fig0330.png 
-Figure 3-30. Fast-forwarding the master branch.
-
-Теперь снимок состояния, на который указывает C3, точно такой же, что тот, на который указывал C5 в примере со слиянием. Нет никакой разницы в конечном продукте объединения, но перемещение выполняется для того, чтобы история была более аккуратной. Если вы посмотрите log перемещенной ветки, то увидите, что он выглядит как линейная история работы: выходит, что вся работа выполнялась последовательно, когда в действительности она выполнялась параллельно. 
-
-Now, the snapshot pointed to by C3 is exactly the same as the one that was pointed to by C5 in the merge example. There is no difference in the end product of the integration, but rebasing makes for a cleaner history. If you examine the log of a rebased branch, it looks like a linear history: it appears that all the work happened in series, even when it originally happened in parallel.
-
-Часто вы будете делать это, чтобы удостовериться, что ваши коммиты правильно применяются для удаленных веток — возможно для проекта, владельцем которого вы не являетесь, но в который вы хотите внести свой вклад. В этом случае вы будете выполнять работу в ветке, а затем, когда будете готовы внести свои изменения в основной проект, выполните перемещение вашей работы на `origin/master`. Таким образом, владельцу проекта не придется делать никаких действий по объединению — просто fast-forward или правильное применение ваших изменений.
-
-Often, you’ll do this to make sure your commits apply cleanly on a remote branch — perhaps in a project to which you’re trying to contribute but that you don’t maintain. In this case, you’d do your work in a branch and then rebase your work onto `origin/master` when you were ready to submit your patches to the main project. That way, the maintainer doesn’t have to do any integration work — just a fast-forward or a clean apply.
+Часто вы будете делать это, чтобы удостовериться, что ваши коммиты правильно применяются для удаленных веток — возможно для проекта, владельцем которого вы не являетесь, но в который вы хотите внести свой вклад. В этом случае вы будете выполнять работу в ветке, а затем, когда будете готовы внести свои изменения в основной проект, выполните перемещение вашей работы на `origin/master`. Таким образом, владельцу проекта не придется делать никаких действий по объединению — просто перемотка (fast-forward) или чистое применение патчей.
 
 Заметьте, что снимок состояния, на который указывает последний коммит, который у вас получился, является ли этот коммит последним перемещенным коммитом (для случая выполнения перемещения) или итоговым коммитом слияния (для случая выполнения слияния), есть один и тот же снимок — разной будет только история. Перемещение применяет изменения из одной линии разработки в другую в том порядке, в котором они были представлены, тогда как слияние объединяет вместе конечные точки двух веток.
 
-Note that the snapshot pointed to by the final commit you end up with, whether it’s the last of the rebased commits for a rebase or the final merge commit after a merge, is the same snapshot — it’s only the history that is different. Rebasing replays changes from one line of work onto another in the order they were introduced, whereas merging takes the endpoints and merges them together.
-
 ### Более интересные перемещения ###
-### More Interesting Rebases ###
 
-Вы также можете выполнять перемещение не только для перемещения ветки. Возьмем историю разработки как на Рисунке 3-31, например. Вы создали создали тематическую ветку (`server`), чтобы добавить в проект некоторый функционал для серверной части, и сделали коммит. Затем вы выполнили ответвление, чтобы сделать изменения для клиентской части, и несколько раз выполнили коммиты. Наконец, вы вернулись на ветку server и сделали еще несколько коммитов.
-
-You can also have your rebase replay on something other than the rebase branch. Take a history like Figure 3-31, for example. You branched a topic branch (`server`) to add some server-side functionality to your project, and made a commit. Then, you branched off that to make the client-side changes (`client`) and committed a few times. Finally, you went back to your server branch and did a few more commits.
+Вы также можете выполнять перемещение не только для перемещения ветки. Возьмём, например, историю разработки как на Рисунке 3-31. Вы создали тематическую ветку (`server`), чтобы добавить в проект некоторый функционал для серверной части, и сделали коммит. Затем вы выполнили ответвление, чтобы сделать изменения для клиентской части, и несколько раз выполнили коммиты. Наконец, вы вернулись на ветку server и сделали ещё несколько коммитов.
 
 Insert 18333fig0331.png
 Рисунок 3-31. История разработки с тематической веткой, ответвленной от другой тематической ветки.
- 
-Figure 3-31. A history with a topic branch off another topic branch.
 
-Предположим вы решили, что хотите внести ваши изменения для клиентской части в основную линию разработки для релиза, но при этом хотите оставить в стороне изменения для серверной части, пока они не будут полностью протестированы. Вы можете взять изменения из ветки client, которых нет на server (C8 и C9), и применить их на ветке master при помощи опции `--onto` команды `git rebase`:
-
-Suppose you decide that you want to merge your client-side changes into your mainline for a release, but you want to hold off on the server-side changes until it’s tested further. You can take the changes on client that aren’t on server (C8 and C9) and replay them on your master branch by using the `--onto` option of `git rebase`:
+Предположим, вы решили, что хотите внести ваши изменения для клиентской части в основную линию разработки для релиза, но при этом хотите оставить в стороне изменения для серверной части, пока они не будут полностью протестированы. Вы можете взять изменения из ветки client, которых нет на server (C8 и C9), и применить их на ветке master при помощи опции `--onto` команды `git rebase`:
 
 	$ git rebase --onto master server client
 
-По сути, это указание "переключиться на ветку client, взять изменения от общего предка веток `client` и `server` и применить их на `master`". Это немного сложно; но результат, показанный на Рисунке 3-32, достаточно классный.
-
-This basically says, “Check out the client branch, figure out the patches from the common ancestor of the `client` and `server` branches, and then replay them onto `master`.” It’s a bit complex; but the result, shown in Figure 3-32, is pretty cool.
+По сути, это указание “переключиться на ветку client, взять изменения от общего предка веток `client` и `server` и повторить их на `master`”. Это немного сложно; но результат, показанный на Рисунке 3-32, достаточно классный.
 
 Insert 18333fig0332.png
 Рисунок 3-32. Перемещение тематической ветки, ответвленной от другой тематической ветки.
- 
-Figure 3-32. Rebasing a topic branch off another topic branch.
 
-Теперь вы можете выполнить fast-forward для вашей ветки master (смотри Рисунок 3-33):
-
-Now you can fast-forward your master branch (see Figure 3-33):
+Теперь вы можете выполнить перемотку (fast-forward) для вашей ветки master (смотри Рисунок 3-33):
 
 	$ git checkout master
 	$ git merge client
 
-Insert 18333fig0333.png 
-Рисунок 3-33. Выполнение fast-forward для ветки master, чтобы включить изменения от ветки client.
+Insert 18333fig0333.png
+Рисунок 3-33. Перемотка ветки master, чтобы включить изменения из ветки client.
 
-Figure 3-33. Fast-forwarding your master branch to include the client branch changes.
-
-Представим, что вы также решили включить ветку server в основную ветку. Вы можете выполнить перемещение ветки server на ветку master без предварительного переключения на эту ветку при помощи команды `git rebase [basebranch] [topicbranch]` — которая устанавливает тематическую ветку (в данном случае `server`) как текущую и применяет ее изменения на основной ветке (`master`):
-
-Let’s say you decide to pull in your server branch as well. You can rebase the server branch onto the master branch without having to check it out first by running `git rebase [basebranch] [topicbranch]` — which checks out the topic branch (in this case, `server`) for you and replays it onto the base branch (`master`):
+Представим, что вы также решили включить ветку server в основную ветку. Вы можете выполнить перемещение ветки server на ветку master без предварительного переключения на эту ветку при помощи команды `git rebase [осн. ветка] [тем. ветка]` — которая устанавливает тематическую ветку (в данном случае `server`) как текущую и применяет её изменения на основной ветке (`master`):
 
 	$ git rebase master server
 
 Эта команда применит изменения из вашей работы над веткой `server` на вершину ветки `master`, как показано на Рисунке 3-34.
 
-This replays your `server` work on top of your `master` work, as shown in Figure 3-34.
-
-Insert 18333fig0334.png 
+Insert 18333fig0334.png
 Рисунок 3-34. Перемещение вашей ветки server на вершину ветки master.
 
-Figure 3-34. Rebasing your server branch on top of your master branch.
-
-Затем вы можете выполнить fast-forward для основной ветки (`master`):
-
-Then, you can fast-forward the base branch (`master`):
+Затем вы можете выполнить перемотку (fast-forward) основной ветки (`master`):
 
 	$ git checkout master
 	$ git merge server
 
 Вы можете удалить ветки `client` и `server`, так как вся работа из них включена в основную линию разработки и они вам больше не нужны. При этом полная история вашего рабочего процесса выглядит как на Рисунке 3-35:
 
-You can remove the `client` and `server` branches because all the work is integrated and you don’t need them anymore, leaving your history for this entire process looking like Figure 3-35:
-
 	$ git branch -d client
 	$ git branch -d server
 
-Insert 18333fig0335.png 
+Insert 18333fig0335.png
 Рисунок 3-35. Финальная история коммитов.
 
-Figure 3-35. Final commit history.
-
 ### Возможные риски перемещения ###
-### The Perils of Rebasing ###
 
 Все бы хорошо, но кое-что омрачает всю прелесть использования перемещения. Это выражается одной строчкой:
 
-Ahh, but the bliss of rebasing isn’t without its drawbacks, which can be summed up in a single line:
-
-**Не перемещайте коммиты, которые вы выложили в открытый репозиторий**
-
-**Do not rebase commits that you have pushed to a public repository.**
+**Не перемещайте коммиты, которые вы выложили в публичный репозиторий.**
 
 Если вы будете следовать этому указанию, все будет хорошо. Если нет — люди возненавидят вас, вас будут презирать ваши друзья и семья.
 
-If you follow that guideline, you’ll be fine. If you don’t, people will hate you, and you’ll be scorned by friends and family.
-
 Когда вы что-то перемещаете, вы отменяете существующие коммиты и создаете новые, которые являются похожими на старые, но в чем-то другими. Если вы выкладываете ваши коммиты куда-нибудь, и другие забирают их себе и в дальнейшем основывают на них свою работу, а затем вы переделываете эти коммиты командой `git rebase` и выкладываете их снова, ваши коллеги будут вынуждены заново выполнять слияние для своих наработок. Все запутается, когда вы в очередной раз попытаетесь включить их работу в свою.
-
-When you rebase stuff, you’re abandoning existing commits and creating new ones that are similar but different. If you push commits somewhere and others pull them down and base work on them, and then you rewrite those commits with `git rebase` and push them up again, your collaborators will have to re-merge their work and things will get messy when you try to pull their work back into yours.
 
 Давайте рассмотрим пример того, как выполненное вами перемещение наработок, представленных для общего доступа, может вызвать проблемы. Представьте себе, что вы клонировали себе репозиторий с центрального сервера и поработали в нем. Ваша история коммитов выглядит как на Рисунке 3-36.
 
-Let’s look at an example of how rebasing work that you’ve made public can cause problems. Suppose you clone from a central server and then do some work off that. Your commit history looks like Figure 3-36.
+Insert 18333fig0336.png
+Рисунок 3-36. Клонирование репозитория и выполнение в нём какой-то работы.
 
-Insert 18333fig0336.png 
-Рисунок 3-36. Клонирование репозитория и выполнения в нем какой-то работы.
+Теперь кто-то ещё выполняет работу, причём работа включает в себя и слияние, и отправляет свои изменения на центральный сервер. Вы извлекаете их и сливаете новую удалённую ветку со своей работой. Тогда ваша история выглядит как на Рисунке 3-37.
 
-Figure 3-36. Clone a repository, and base some work on it.
+Insert 18333fig0337.png
+Рисунок 3-37. Извлечение коммитов и слияние их со своей работой.
 
-Теперь кто-то другой тоже начинает работать над репозиторием, причем работа включает в себя и слияние, и выкладывает свои изменения на центральный сервер. Вы извлекаете их и объединяете новую удаленную ветку со своей работой. Тогда ваша история выглядит как на Рисунке 3-37.
+Далее, человек, выложивший изменения содержащие слияние, решает вернуться и вместо слияния (merge) переместить (rebase) свою работу; он выполняет `git push --force`, чтобы переписать историю на сервере. Затем вы извлекаете изменения с этого сервера, включая и новые коммиты.
 
-Now, someone else does more work that includes a merge, and pushes that work to the central server. You fetch them and merge the new remote branch into your work, making your history look something like Figure 3-37.
-
-Insert 18333fig0337.png 
-Рисунок 3-37. Извлечение коммитов и объединение их со своей работой.
-
-Figure 3-37. Fetch more commits, and merge them into your work.
-
-Далее, человек, выложивший и объединивший свои изменения с основной веткой, решает вернуться назад и переместить свою работу; он выполняет `git push --force` чтобы переписать историю на сервере. Затем вы извлекаете изменения с этого сервера, включая и новые коммиты.
-
-Next, the person who pushed the merged work decides to go back and rebase their work instead; they do a `git push --force` to overwrite the history on the server. You then fetch from that server, bringing down the new commits.
-
-Insert 18333fig0338.png 
-Рисунок 3-38. Кто-то выложил перемещенные коммиты, отменяя коммиты, на которые вы основывались при работе.
-Figure 3-38. Someone pushes rebased commits, abandoning commits you’ve based your work on.
+Insert 18333fig0338.png
+Рисунок 3-38. Кто-то выложил перемещённые коммиты, отменяя коммиты, на которых вы основывали свою работу.
 
 На этом этапе вы вынуждены объединить эту работу со своей снова, даже если вы уже сделали это ранее. Перемещение изменяет у этих коммитов хэши SHA-1, так что для Git они выглядят как новые коммиты, тогда как на самом деле вы уже располагаете наработками C4 в вашей истории (смотри Рисунок 3-39).
 
-At this point, you have to merge this work in again, even though you’ve already done so. Rebasing changes the SHA-1 hashes of these commits so to Git they look like new commits, when in fact you already have the C4 work in your history (see Figure 3-39).
-
-Insert 18333fig0339.png 
+Insert 18333fig0339.png
 Рисунок 3-39. Вы снова выполняете слияние для той же самой работы в новый коммит слияния.
 
-Figure 3-39. You merge in the same work again into a new merge commit.
+Вы вынуждены объединить эту работу со своей на каком-либо этапе, чтобы иметь возможность продолжать работать с другими разработчиками в будущем. После того, как вы сделаете это, ваша история коммитов будет содержать оба коммита — C4 и C4', которые имеют разные хэши SHA-1, но представляют собой одинаковые изменения и имеют одинаковые сообщения. Если вы выполните команду `git log` когда ваша история выглядит таким образом, вы увидите два коммита, которые имеют одинакового автора и одни и те же сообщения. Это сбивает с толку. Более того, если вы отправите такую историю обратно на сервер, вы добавите все эти перемещенные коммиты в репозиторий центрального сервера, что может ещё больше запутать людей.
 
-Вы должны объединить эту работу со своей на каком-либо этапе, чтобы иметь возможность продолжать работать с другими разработчиками в будущем. После того, как вы сделаете это, ваша история коммитов будет содержать оба коммита — C4 и C4', которые имеют разные хэши SHA-1, но представляют из себя одинаковые изменения и имеют одинаковые сообщения. Если вы выполните команду `git log` когда ваша история выглядит таким образом, вы увидите два коммита, которые имеют одинакового автора и одни и те же сообщения. Это сбивает с толку. Более того, если вы выложите свою историю разработки обратно на сервер, вы заново включите все эти перемещенные коммиты в репозиторий центрального сервера, что в будущем может зупутать людей.
-
-You have to merge that work in at some point so you can keep up with the other developer in the future. After you do that, your commit history will contain both the C4 and C4' commits, which have different SHA-1 hashes but introduce the same work and have the same commit message. If you run a `git log` when your history looks like this, you’ll see two commits that have the same author date and message, which will be confusing. Furthermore, if you push this history back up to the server, you’ll reintroduce all those rebased commits to the central server, which can further confuse people.
-
-Если вы рассматриваете перемещение как возможность работы с коммитами и наведения в них порядка до того, как выложили их, и только если вы перемещаете коммиты которые никогда не находились в общем доступе — все нормально. Если вы перемещаете коммиты, которые уже были представлены для общего доступа, и люди уже могли построить свою работу на основе этих коммитов, тогда вы можете получить наказание за неприятные проблемы.
-
-If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
+Если вы рассматриваете перемещение как возможность наведения порядка и работы с коммитами до того, как выложили их, и если вы перемещаете только коммиты, которые никогда не находились в публичном доступе — всё нормально. Если вы перемещаете коммиты, которые уже были представлены для общего доступа, и люди, возможно, основывали свою работу на этих коммитах, тогда вы можете получить наказание за разные неприятные проблемы.
 
 ## Резюме ##
-## Summary ##
 
-Мы рассмотрели основы ветвления и слияния в Git. Вы должны чувствовать себя уверенно при создании и переключении на новые ветки, переключении между ветками и объединении вместе локальных веток. Вы также должны иметь возможность делиться своими ветками, выкладывая их на общий сервер, работать с другими людьми над общими ветками и перемещать свои ветки до того, как они были представлены для общего доступа.
-
-We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.
+Мы рассмотрели основы ветвления и слияния в Git. Вы должны чувствовать себя уверенно при создании и переходе на новые ветки, переключении между ветками и слиянии локальных веток. Вы также должны иметь возможность делиться своими ветками, выкладывая их на общий сервер, работать с другими людьми над общими ветками и перемещать свои ветки до того, как они были представлены для общего доступа.

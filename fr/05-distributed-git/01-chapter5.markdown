@@ -601,33 +601,41 @@ Cela permet de reporter toutes les modifications d'une autre branche, puis de r�
 Insert 18333fig0518.png 
 Figure 5-18. Historique des validations après le travail sur fonctionBv2.
 
-### Public Large Project ###
+### Grand projet public ###
 
-Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now.
+De nombreux grands projets ont des procédures établies pour accepter des patchs — il faut vérifier les règles spécifiques à chaque projet qui peuvent varier.
+Néanmoins, ils sont nombreux à accepter les patchs via une liste de diffusion de développement, ce que nous allons éclairer d'un exemple.
 
-The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list:
+La méthode est similaire au cas précédent — vous créez une branche thématique par série de patchs sur laquelle vous travaillez.
+La différence réside dans la manière de les soumettre au projet.
+Au lieu de dupliquer le projet et de pousser vos soummisions sur votre version, il faut générer des versions e-mail de chaque série de commits et les envoyer à la liste de diffusion de développement. 
 
-	$ git checkout -b topicA
-	$ (work)
+	$ git checkout -b sujetA
+	$ (travail)
 	$ git commit
-	$ (work)
+	$ (travail)
 	$ git commit
 
-Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these commits:
+Vous avez à présent deux commit que vous souhaitez envoyer à la liste de diffusion.
+Vous utilisez `git format-patch` pour générer des fichiers au format mbox que vous pourrez envoyer à la liste.
+Cette commande transforme chaque commit en un message e-mail dont le sujet est la première ligne du message de validation et le corps est le reste du message plus le patch correspondant.
+Un point intéressant de cette commande est qu'appliquer le patch à partir d'un e-mail formaté avec `format-patch` préserve toute l'information de validation comme nous le verrons dans le chapitre suivant lorsqu'il s'agit de l'appliquer.
 
 	$ git format-patch -M origin/master
-	0001-add-limit-to-log-function.patch
-	0002-changed-log-output-to-30-from-25.patch
+	0001-Ajout-d-une-limite-la-fonction-de-log.patch
+	0002-change-la-largeur-du-log-de-25-a-30.patch
 
-The `format-patch` command prints out the names of the patch files it creates. The `-M` switch tells Git to look for renames. The files end up looking like this:
+La commande `format-patch` affiche les noms de fichiers de patch créés.
+L'option `-M` indique à Git de suivre les renommages.
+Le contenu des fichiers ressemble à ceci :
 
-	$ cat 0001-add-limit-to-log-function.patch 
+	$ cat 0001-Ajout-d-une-limite-la-fonction-de-log.patch
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
 	Date: Sun, 6 Apr 2008 10:17:23 -0700
-	Subject: [PATCH 1/2] add limit to log function
+	Subject: [PATCH 1/2] Ajout d'une limite à la fonction de log
 
-	Limit log functionality to the first 20
+	Limite la fonctionnalité de log aux 20 premières lignes
 
 	---
 	 lib/simplegit.rb |    2 +-
@@ -649,11 +657,17 @@ The `format-patch` command prints out the names of the patch files it creates. T
 	-- 
 	1.6.2.rc1.20.g8c5b.dirty
 
-You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.
+Vous pouvez maintenant éditer ces fichiers de patch pour ajouter plus d'information à destination de la liste de diffusion mais que vous ne souhaitez par voir apparaître dans le message de validation.
+Si vous ajoutez du texte entre la ligne `--` et le début du patch (la ligne `lib/simplegit.rb`), les développeurs peuvent le lire mais l'application du patch ne le prend pas en compte.
 
-To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.
+Pour envoyer par e-mail ces fichiers, vous pouvez soit copier leur contenu dans votre application d'e-mail ou l'envoyer via une ligne de commande.
+Le copier-coller cause souvent des problèmes de formattage, spécialement avec les applications « intelligentes » qui ne préservent pas les retours à la ligne et les types d'espace.
+Heureusement, Git fournit un outil pour envoyer correctement les patchs formattés via IMAP, la méthode la plus facile.
+Je démontrerai comment envoyer un patch via Gmail qui s'avère être l'agent e-mail que j'utilise ; vous pourrez trouver des instruction détaillées pour de nombreuses application de mail à la fin du fichier sus-mentionné `Documentation/SubmittingPatches` du code source de Git.
 
-First, you need to set up the imap section in your `~/.gitconfig` file. You can set each value separately with a series of `git config` commands, or you can add them manually; but in the end, your config file should look something like this:
+Premièrement, il est nécessaire de paramétrer la section imap de votre fichier `~/.gitconfig`.
+Vous pouvez positionner ces valeurs séparément avec une série de commandes `git config`, ou vous pouvez les ajouter manuellement.
+À la fin, le fichier de configuration doit ressembler à ceci :
 
 	[imap]
 	  folder = "[Gmail]/Drafts"
@@ -663,18 +677,20 @@ First, you need to set up the imap section in your `~/.gitconfig` file. You can 
 	  port = 993
 	  sslverify = false
 
-If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
-When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:
+Si votre serveur IMAP n'utilise pas SSL, les deux dernières lignes ne sont probablement pas nécessaires et le paramètre `host` commencera par `imap://` au lieu de `imaps://`.
+Quand c'est fait, vous pouvez utiliser la commande `git send-email` pour placer la série de patchs dans le répertoire Drafts du serveur IMAP spécifié :
 
 	$ git send-email *.patch
-	0001-added-limit-to-log-function.patch
-	0002-changed-log-output-to-30-from-25.patch
+	0001-Ajout-d-une-limite-la-fonction-de-log.patch
+	0002-change-la-largeur-du-log-de-25-a-30.patch
 	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>] 
 	Emails will be sent from: Jessica Smith <jessica@example.com>
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
-
-Then, Git spits out a bunch of log information looking something like this for each patch you’re sending:
+	
+La première question demande l'addresse mail d'origine (avec par défaut celle saisie en config), tandis que la seconde demande les destinataires.
+Enfin la dernière question sert à indiquer que l'on souhaite poster la série de patch comme une réponse au premier patch de la série, créant ainsi un fil de discussion unique pour cette série.
+Ensuite, Git crache un certain nombre d'informations qui ressemblent à ceci pour chaque patch à envoyer :
 
 	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
 	  \line 'From: Jessica Smith <jessica@example.com>'
@@ -691,11 +707,13 @@ Then, Git spits out a bunch of log information looking something like this for e
 
 	Result: OK
 
-At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
+À présent, vous devriez pouvoir vous rendre dans le répertoire Drafts, changer le champ destinataire pour celui de la liste de diffusion, y ajouter optionnellement en copie le mainteneur du projet ou le responsable et l'envoyer.
 
-### Summary ###
+### Résumé ###
 
-This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process. Next, you’ll see how to work the other side of the coin: maintaining a Git project. You’ll learn how to be a benevolent dictator or integration manager.
+Ce chapitre a traité quelques unes des méthodes communes de gestion de types différents de projets Git que vous pourrez rencontrer et introduit un certain nombre de nouveaux outils pour vous aider à gérer ces processus.
+Dans la section suivante, nous allons voir comment travailler de l'autre côté de la barrière : en tant que mainteneur de projet Git.
+Vous apprendrez comment travailler comme dictateur bénévole ou gestionnaire d'intégration.
 
 ## Maintaining a Project ##
 

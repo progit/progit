@@ -16,17 +16,25 @@ In this chapter, you’ll see how to work with Git in a distributed environment 
 
 Unlike Centralized Version Control Systems (CVCSs), the distributed nature of Git allows you to be far more flexible in how developers collaborate on projects. In centralized systems, every developer is a node working more or less equally on a central hub. In Git, however, every developer is potentially both a node and a hub — that is, every developer can both contribute code to other repositories and maintain a public repository on which others can base their work and which they can contribute to. This opens a vast range of workflow possibilities for your project and/or your team, so I’ll cover a few common paradigms that take advantage of this flexibility. I’ll go over the strengths and possible weaknesses of each design; you can choose a single one to use, or you can mix and match features from each.
 
+### Централизованный рабочий процесс ###
 ### Centralized Workflow ###
+
+В централизованных системах существует, как правило, одна модель совместной разработки — централизованный рабочий процесс. Один центральный хаб, или репозиторий, может принимать код, а все остальные синхронизируют свою работу с ним. Некоторое число разработчиков являются узлами — клиентами этого хаба — и синхронизируются с одним этим хабом (смотри Рисунок 5-1).
 
 In centralized systems, there is generally a single collaboration model—the centralized workflow. One central hub, or repository, can accept code, and everyone synchronizes their work to it. A number of developers are nodes — consumers of that hub — and synchronize to that one place (see Figure 5-1).
 
-Insert 18333fig0501.png 
+Insert 18333fig0501.png
+
+Рисунок 5-1. Централизованный рабочий процесс.
 Figure 5-1. Centralized workflow.
+
+Это значит, что если два разработчика выполняют клонирование с хаба и оба делают изменения в проекте, то первый из них, кто выкладывает свои изменения обратно на хаб, сделает это без проблем. Второй разработчик должен взять наработки первого и выполнить слияние до того, как начнет выкладывать свои изменения, так чтобы не перезаписать изменения первого разработчика. Эта концепция также применима в Git как и в Subversion (или любой другой CVCS), и в Git такая модель работает отлично.
 
 This means that if two developers clone from the hub and both make changes, the first developer to push their changes back up can do so with no problems. The second developer must merge in the first one’s work before pushing changes up, so as not to overwrite the first developer’s changes. This concept is true in Git as it is in Subversion (or any CVCS), and this model works perfectly in Git.
 
-If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge.
-This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.
+Если вы имеете небольшую команду или уже комфортно чувствуете себя при применении централизованного рабочего процесса в вашей компании или команде, вы можете запросто продолжить использовать такой рабочий процесс в Git. Просто настройте один репозиторий и дайте каждому в вашей команде право записи (push access); Git не позволить пользователям перезаписывать наработки друг-друга. Если один разработчик выполняет клонирование, делает изменения, а затем пытается выложить эти изменения, в то время как другой разработчик уже успел выложить свои, сервер отклонит изменения этого разработчика. Ему будет сказано, что он пытается выложить изменения, для которых невозможно выполнить fast-forward и что надо сначала извлечь данные с сервера, выполнить слияние, а уже потом выкладывать свои изменения. Этот рабочий процесс привлекателен для большого количества людей, так как это та парадигма, с которой многие знакомы и которая многим понятна.
+
+If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge. This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.
 
 ### Integration-Manager Workflow ###
 

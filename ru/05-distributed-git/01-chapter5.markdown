@@ -24,8 +24,8 @@ Unlike Centralized Version Control Systems (CVCSs), the distributed nature of Gi
 In centralized systems, there is generally a single collaboration model—the centralized workflow. One central hub, or repository, can accept code, and everyone synchronizes their work to it. A number of developers are nodes — consumers of that hub — and synchronize to that one place (see Figure 5-1).
 
 Insert 18333fig0501.png
-
 Рисунок 5-1. Централизованный рабочий процесс.
+
 Figure 5-1. Centralized workflow.
 
 Это значит, что если два разработчика выполняют клонирование с хаба и оба делают изменения в проекте, то первый из них, кто выкладывает свои изменения обратно на хаб, сделает это без проблем. Второй разработчик должен взять наработки первого и выполнить слияние до того, как начнет выкладывать свои изменения, так чтобы не перезаписать изменения первого разработчика. Эта концепция также применима в Git как и в Subversion (или любой другой CVCS), и в Git такая модель работает отлично.
@@ -36,9 +36,19 @@ This means that if two developers clone from the hub and both make changes, the 
 
 If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge. This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.
 
+### Рабочий процесс с менеджером по интеграции ###
 ### Integration-Manager Workflow ###
 
+Так как Git позволяет вам иметь несколько удаленных репозиториев, существует возможность ведения рабочего процесса, когда каждый разработчик имеет право записи на свой собственный публичный репозиторий и право на чтение для всех остальных. Этот сценарий часто подразумевает существование канонического (основного) репозитория, который представляет "официальный" проект. Чтобы поучаствовать этом проекте, вы создаете вашу собственную публичную копию этого проекта и выкладываете туда свои изменения. Потом вы можете отправить запрос владельцу основного проекта на внесение в него ваших изменений. Он может добавить ваш репозиторий как удаленный, протестировать локально ваши изменения, слить их со своей веткой и затем выложить обратно в публичный репозиторий. Этот процесс работает как описано далее (смотри Рисунок 5-2):
+
 Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2):
+
+1.	Владелец проекта выкладывает информацию в публичный репозиторий.
+2.	Участники проекта клонируют этот репозиторий и делают изменения.
+3.	Участники выкладывают изменения в свои собственные публичные репозитории.
+4.	Участник проекта отправляет владельцу на e-mail письмо с просьбой включения его изменений.
+5.	Владелец проекта добавляет репозиторий участника как удаленный и локально выполняет слияние.
+6.	Владелец выкладывает обновленный проект (с включенными изменениями) в основной репозиторий.
 
 1.	The project maintainer pushes to their public repository.
 2.	A contributor clones that repository and makes changes.
@@ -48,7 +58,11 @@ Because Git allows you to have multiple remote repositories, it’s possible to 
 6.	The maintainer pushes merged changes to the main repository.
 
 Insert 18333fig0502.png 
+Рисунок 5-2. Рабочий процесс с менеджером по интеграции.
+
 Figure 5-2. Integration-manager workflow.
+
+Это очень распространенный рабочий процесс для такого сайта, как GitHub, где можно легко сделать ответвление от проекта и выкладывать свои изменения в свою ветку, так чтобы все могли их видеть. Одно из главных преимуществ этого подхода — вы можете продолжать работать, а владелец главного репозитория может включать себе ваши изменения в любое время. Участники проекта не должны ждать, пока в проект будут включены их изменения — каждый может работать на своей собственной площадке.
 
 This is a very common workflow with sites like GitHub, where it’s easy to fork a project and push your changes into your fork for everyone to see. One of the main advantages of this approach is that you can continue to work, and the maintainer of the main repository can pull in your changes at any time. Contributors don’t have to wait for the project to incorporate their changes — each party can work at their own pace.
 

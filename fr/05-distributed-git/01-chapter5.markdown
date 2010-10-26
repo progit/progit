@@ -608,7 +608,7 @@ Néanmoins, ils sont nombreux à accepter les patchs via une liste de diffusion 
 
 La méthode est similaire au cas précédent — vous créez une branche thématique par série de patchs sur laquelle vous travaillez.
 La différence réside dans la manière de les soumettre au projet.
-Au lieu de dupliquer le projet et de pousser vos soummisions sur votre version, il faut générer des versions e-mail de chaque série de commits et les envoyer à la liste de diffusion de développement. 
+Au lieu de dupliquer le projet et de pousser vos soumissions sur votre dépôt, il faut générer des versions e-mail de chaque série de commits et les envoyer à la liste de diffusion de développement. 
 
 	$ git checkout -b sujetA
 	$ (travail)
@@ -616,9 +616,9 @@ Au lieu de dupliquer le projet et de pousser vos soummisions sur votre version, 
 	$ (travail)
 	$ git commit
 
-Vous avez à présent deux commit que vous souhaitez envoyer à la liste de diffusion.
+Vous avez à présent deux commits que vous souhaitez envoyer à la liste de diffusion.
 Vous utilisez `git format-patch` pour générer des fichiers au format mbox que vous pourrez envoyer à la liste.
-Cette commande transforme chaque commit en un message e-mail dont le sujet est la première ligne du message de validation et le corps est le reste du message plus le patch correspondant.
+Cette commande transforme chaque commit en un message e-mail dont le sujet est la première ligne du message de validation et le corps contient le reste du message plus le patch correspondant.
 Un point intéressant de cette commande est qu'appliquer le patch à partir d'un e-mail formaté avec `format-patch` préserve toute l'information de validation comme nous le verrons dans le chapitre suivant lorsqu'il s'agit de l'appliquer.
 
 	$ git format-patch -M origin/master
@@ -661,9 +661,9 @@ Vous pouvez maintenant éditer ces fichiers de patch pour ajouter plus d'informa
 Si vous ajoutez du texte entre la ligne `--` et le début du patch (la ligne `lib/simplegit.rb`), les développeurs peuvent le lire mais l'application du patch ne le prend pas en compte.
 
 Pour envoyer par e-mail ces fichiers, vous pouvez soit copier leur contenu dans votre application d'e-mail ou l'envoyer via une ligne de commande.
-Le copier-coller cause souvent des problèmes de formattage, spécialement avec les applications « intelligentes » qui ne préservent pas les retours à la ligne et les types d'espace.
-Heureusement, Git fournit un outil pour envoyer correctement les patchs formattés via IMAP, la méthode la plus facile.
-Je démontrerai comment envoyer un patch via Gmail qui s'avère être l'agent e-mail que j'utilise ; vous pourrez trouver des instruction détaillées pour de nombreuses application de mail à la fin du fichier sus-mentionné `Documentation/SubmittingPatches` du code source de Git.
+Le copier-coller cause souvent des problèmes de formatage, spécialement avec les applications « intelligentes » qui ne préservent pas les retours à la ligne et les types d'espace.
+Heureusement, Git fournit un outil pour envoyer correctement les patchs formatés via IMAP, la méthode la plus facile.
+Je démontrerai comment envoyer un patch via Gmail qui s'avère être l'agent e-mail que j'utilise ; vous pourrez trouver des instruction détaillées pour de nombreuses application de mail à la fin du fichier susmentionné `Documentation/SubmittingPatches` du code source de Git.
 
 Premièrement, il est nécessaire de paramétrer la section imap de votre fichier `~/.gitconfig`.
 Vous pouvez positionner ces valeurs séparément avec une série de commandes `git config`, ou vous pouvez les ajouter manuellement.
@@ -688,7 +688,7 @@ Quand c'est fait, vous pouvez utiliser la commande `git send-email` pour placer 
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
 	
-La première question demande l'addresse mail d'origine (avec par défaut celle saisie en config), tandis que la seconde demande les destinataires.
+La première question demande l'adresse mail d'origine (avec par défaut celle saisie en config), tandis que la seconde demande les destinataires.
 Enfin la dernière question sert à indiquer que l'on souhaite poster la série de patch comme une réponse au premier patch de la série, créant ainsi un fil de discussion unique pour cette série.
 Ensuite, Git crache un certain nombre d'informations qui ressemblent à ceci pour chaque patch à envoyer :
 
@@ -698,7 +698,7 @@ Ensuite, Git crache un certain nombre d'informations qui ressemblent à ceci pou
 	Sendmail: /usr/sbin/sendmail -i jessica@example.com
 	From: Jessica Smith <jessica@example.com>
 	To: jessica@example.com
-	Subject: [PATCH 1/2] added limit to log function
+	Subject: [PATCH 1/2] Ajout d'une limite à la-fonction de log
 	Date: Sat, 30 May 2009 13:29:15 -0700
 	Message-Id: <1243715356-61726-1-git-send-email-jessica@example.com>
 	X-Mailer: git-send-email 1.6.2.rc1.20.g8c5b.dirty
@@ -707,7 +707,7 @@ Ensuite, Git crache un certain nombre d'informations qui ressemblent à ceci pou
 
 	Result: OK
 
-À présent, vous devriez pouvoir vous rendre dans le répertoire Drafts, changer le champ destinataire pour celui de la liste de diffusion, y ajouter optionnellement en copie le mainteneur du projet ou le responsable et l'envoyer.
+À présent, vous devriez pouvoir vous rendre dans le répertoire Drafts, changer le champ destinataire pour celui de la liste de diffusion, y ajouter optionnelle ment en copie le mainteneur du projet ou le responsable et l'envoyer.
 
 ### Résumé ###
 
@@ -715,64 +715,86 @@ Ce chapitre a traité quelques unes des méthodes communes de gestion de types d
 Dans la section suivante, nous allons voir comment travailler de l'autre côté de la barrière : en tant que mainteneur de projet Git.
 Vous apprendrez comment travailler comme dictateur bénévole ou gestionnaire d'intégration.
 
-## Maintaining a Project ##
+## Maintenir un projet ##
 
-In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
+En plus de savoir comment contribuer efficacement à un projet, vous aurez probablement besoin de savoir comment en maintenir un.
+Cela peut consister à accepter et appliquer les patchs générés via `format-patch` et envoyés par e-mail, ou à intégrer des modifications dans des branches distantes de dépôts distants.
+Que vous mainteniez le dépôt de référence ou que vous souhaitiez aider en vérifiant et approuvant les patchs, vous devez savoir comment accepter les contributions d'une manière limpide pour vos contributeurs et soutenable à long terme pour vous.
 
-### Working in Topic Branches ###
+### Travailler dans des branches thématiques ###
 
-When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
-As you’ll remember, you can create the branch based off your master branch like this:
+Quand vous vous apprêtez à intégrer des contributions, un bonne idée consiste à les essayer d'abord dans une branche thématique, une branche temporaire spécifiquement créée pour essayer cette nouveauté.
+De cette manière, il est plus facile de rectifier un patch à part et de le laisser s'il ne fonctionne pas jusqu'à ce que vous disposiez de temps pour y travailler.
+Si vous créez une simple branche nommée d'après le thème de la modification que vous allez essayer, telle que `ruby_client` ou quelque chose d'aussi descriptif, vous pouvez vous en souvenir simplement plus tard.
+Le mainteneur du projet Git a l'habitude d'utiliser des espaces de nommage pour ses branches, tels que `sc/ruby_client`, où `sc` représente les initiales de la personne qui a contribué les modifications.
+Comme vous devez vous en souvenir, on crée une branche à part du master de la manière suivante :
 
 	$ git branch sc/ruby_client master
 
-Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
+Ou bien, si vous voulez aussi basculer immédiatement dessus, vous pouvez utiliser l'option `checkout -b` :
 
 	$ git checkout -b sc/ruby_client master
 
-Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
+Vous voilà maintenant prêt à ajouter les modifications sur cette branche thématique et à déterminer si c'est prêt à être fusionné dans les branches au long cours.
 
-### Applying Patches from E-mail ###
+### Appliquer des patchs à partir d'e-mail ###
 
-If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
+Si vous recevez par e-mail un patch que vous devez intégrer à votre projet, vous avez besoin d'appliquer le patch dans une branche thématique pour l'évaluer.
+Il existe deux méthodes pour appliquer un patch envoyé par e-mail : `git apply` et `git am`.
 
-#### Applying a Patch with apply ####
+#### Appliquer un patch avec apply ####
 
-If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
+Si vous avez reçu le patch de quelqu'un qui l'a généré avec la commande `git diff` ou `diff` Unix, vous pouvez l'appliquer avec la commande `git apply`.
+Si le patch a été sauvé comme fichier `/tmp/patch-ruby-client.patch`, vous pouvez l'appliquer comme ceci :
 
 	$ git apply /tmp/patch-ruby-client.patch
 
-This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches then patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is overall much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
+Les fichiers dans votre copie de travail sont modifiés.
+C'est quasiment identique à la commande `patch -p1` qui applique directement les patchs mais en plus paranoïaque et moins tolérant sur les concordances approximatives.
+Les ajouts, effacements et renommages de fichiers sont aussi gérés s'ils sont décrits dans le format `git diff`, ce que `patch` ne supporte pas.
+Enfin, `git apply` fonctionne en mode « applique tout ou refuse tout » dans lequel toutes les modifications proposées sont appliquées si elles le peuvent, sinon rien n'est modifié là où `patch` peut n'appliquer que partiellement les patchs, laissant le répertoire de travail dans un état intermédiaire.
+`git apply` est par dessus tout plus paranoïaque que `patch`.
+Il ne créera pas une validation à votre place : après l'avoir lancé, vous devrez indexer et valider les modifications manuellement.
 
-You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
+Vous pouvez aussi utiliser `git apply` pour voir si un patch s'applique proprement avant de réellement l'appliquer — vous pouvez lancer `git apply --check` avec le patch :
 
 	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
-If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
+S'il n'y pas de message, le patch devrait s'appliquer proprement.
+Cette commande se termine avec un statut non-nul si la vérification échoue et vous pouvez donc l'utiliser dans des scripts.
 
-#### Applying a Patch with am ####
+#### Appliquer un patch avec am ####
 
-If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
+Si le contributeur est un utilisateur de Git qui a été assez gentil d'utiliser la commande `format-patch` pour générer ses patchs, votre travail sera facilité car le patch contient alors déjà l'information d'auteur et le message de validation.
+Si possible, encouragez vos contributeurs à utiliser `format-patch` au lieu de `patch` pour générer les patchs qu'ils vous adressent.
+Vous ne devriez avoir à n'utiliser `git apply` que pour les vrais patchs.
 
-To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this:
+Pour appliquer un patch généré par `format-patch`, vous utilisez `git am`.
+Techniquement, `git am` s'attend à lire un fichier au format mbox, qui est un format texte simple permettant de stocker un ou plusieurs messages e-mail dans un unique fichier texte.
+Un fichier ressemble à ceci :
 
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
 	Date: Sun, 6 Apr 2008 10:17:23 -0700
-	Subject: [PATCH 1/2] add limit to log function
+	Subject: [PATCH 1/2] Ajout d'une limite à la fonction de log
 
-	Limit log functionality to the first 20
+	Limite la fonctionnalité de log aux 20 premières lignes
 
-This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+C'est le début de ce que la commande `format-patch` affiche, comme vous avez vu dans la section précédente.
+C'est aussi un format e-mail mbox parfaitement valide.
+Si quelqu'un vous a envoyé par e-mail un patch correctement formaté en utilisant `git send-mail` et que vous le téléchargez en format mbox, vous pouvez pointer `git am` sur ce fichier mbox et il commencera à appliquer tous les patchs contenus.
+Si vous utilisez un client e-mail qui sait sauver plusieurs messages au format mbox, vous pouvez sauver la totalité de la série de patchs dans un fichier et utiliser `git am` pour les appliquer tous en une fois.
 
-However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
+Néanmoins, si quelqu'un a déposé un fichier de patch généré via `format-patch` sur un système de suivi de faits techniques ou quelque chose similaire, vous pouvez toujours sauvegarder le fichier localement et le passer à `git am` pour l'appliquer :
 
-	$ git am 0001-limit-log-function.patch 
-	Applying: add limit to log function
+	$ git am 0001-limite-la-fonction-de-log.patch 
+	Applying:  Ajout d'une limite à la fonction de log
 
-You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
+Vous remarquez qu'il s'est appliqué proprement et a créé une nouvelle validation pour vous.
+L'information d'auteur est extraite des entêtes `From` et `Date` tandis que le message de validation est repris du champ `Subject` et du corps (avant le patch) du message.
+Par exemple, si le patch est appliqué depuis le fichier mbox ci-dessus, la validation générée ressemblerait à ceci :
 
 	$ git log --pretty=fuller -1
 	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
@@ -781,13 +803,16 @@ You can see that it applied cleanly and automatically created the new commit for
 	Commit:     Scott Chacon <schacon@gmail.com>
 	CommitDate: Thu Apr 9 09:19:06 2009 -0700
 
-	   add limit to log function
+	Ajout d'une limite à la fonction de log
 
-	   Limit log functionality to the first 20
+	Limite la fonctionnalité de log aux 20 premières lignes
 
-The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
+L'information `Commit` indique la personne qui appliqué le patch et la date d'application.
+L'information `Author` indique la personne qui a créé le patch et la date de création.
 
-But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
+Il reste la possibilité que le patch ne s'applique pas proprement.
+Peut-être votre branche principale a déjà trop divergé de la branche sur laquelle le patch a été construit, ou le patch dépend d'un autre patch qui n'a pas encore été appliqué.
+Dans ce cas, le processus de `git am` échouera et vous demandera ce que vous souhaitez faire :
 
 	$ git am 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -798,14 +823,17 @@ But it’s possible that the patch won’t apply cleanly. Perhaps your main bran
 	If you would prefer to skip this patch, instead run "git am --skip".
 	To restore the original branch and stop patching run "git am --abort".
 
-This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
+Cette commande introduit des marqueurs de conflit dans tous les fichiers qui ont généré un problème, de la même manière qu'un conflit de fusion ou de rebasage.
+Vous pouvez résoudre les problèmes de manière identique — éditez le fichier pour résoudre les conflits, indexez le nouveau fichier, puis lancez `git am --resolved` pour continuer avec le patch suivant :
 
-	$ (fix the file)
+	$ (correction du fichier)
 	$ git add ticgit.gemspec 
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
-If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
+Si vous souhaitez que Git essaie de résoudre les conflits avec plus d'intelligence, vous pouvez passer l'option `-3` qui demande à Git de tenter une fusion à trois sources.
+Cette option n'est pas active par défaut parce qu'elle ne fonctionne pas si le commit sur lequel le patch indique être basé n'existe pas dans votre dépôt.
+Si par contre, le patch est basé sur un commit public, l'option `-3` est généralement beaucoup plus fine pour appliquer des patchs conflictuels :
 
 	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
 	Applying: seeing if this helps the gem
@@ -815,9 +843,10 @@ If you want Git to try a bit more intelligently to resolve the conflict, you can
 	Falling back to patching base and 3-way merge...
 	No changes -- Patch already applied.
 
-In this case, I was trying to apply a patch I had already applied. Without the `-3` option, it looks like a conflict.
+Dans ce cas, je cherchais à appliquer un patch qui avait déjà été intégré.
+Sans l'option `-3`, cela aurait ressemblé à un conflit.
 
-If you’re applying a number of patches from an mbox, you can also run the `am` command in interactive mode, which stops at each patch it finds and asks if you want to apply it:
+Si vous appliquez des patchs à partir d'un fichier mbox, vous pouvez aussi lancer la commande `am` en mode interactif qui s'arrête à chaque patch trouvé et vous demande si vous souhaitez l'appliquer :
 
 	$ git am -3 -i mbox
 	Commit Body is:
@@ -826,34 +855,41 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 	--------------------------
 	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
 
-This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
+C'est agréable si vous avez un certain nombre de patchs sauvegardés parce que vous pouvez voir les patchs pour vous rafraîchir la mémoire et ne pas les appliquer s'ils ont déjà été intégrés.
 
-When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
+Quand tous les patchs pour votre sujet ont été appliqués et validés dans votre branche, vous pouvez choisir si et comment vous souhaitez les intégrer dans une branche au long cours.
 
-### Checking Out Remote Branches ###
+### Vérifier des branches distantes ###
 
-If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.
+Si votre contribution a été fournie par un utilisateur de Git qui a mis en place son propre dépôt public sur lequel il a poussé ses modifications et vous a envoyé l'URL du dépôt et le nom de la branche distante, vous pouvez les ajouter en tant que dépôt distant et réaliser les fusions localement.
 
-For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:
+Par exemple, si Jessica vous envoie un e-mail indiquant qu'elle a une nouvelle fonctionnalité géniale dans la branche `ruby-client` de son dépôt, vous pouvez la tester en ajoutant le dépôt distant et en tirant la branche localement :
 
-	$ git remote add jessica git://github.com/jessica/myproject.git
+	$ git remote add jessica git://github.com/jessica/monprojet.git
 	$ git fetch jessica
 	$ git checkout -b rubyclient jessica/ruby-client
 
-If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
+Si elle vous envoie un autre mail indiquant une autre branche contenant une autre fonctionnalité géniale, vous pouvez la récupérer et la tester simplement à partir de votre référence distante.
 
-This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
+C'est d'autant plus utile si vous travaillez en continu avec une personne.
+Si quelqu'un n'a qu'un seul patch à contribuer de temps en temps, l'accepter via e-mail peut s'avérer moins consommateur en temps de préparation du serveur public, d'ajout et retrait de branches distantes juste pour tirer quelques patchs.
+Vous ne souhaiteriez sûrement pas devoir gérer des centaines de dépôts distants pour intégrer à chaque fois un ou deux patchs.
+Néanmoins, des scripts et des services hébergés peuvent rendre cette tâche moins ardue.
+Cela dépend largement de votre manière de développer et de celle de vos contributeurs.
 
-The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
+Cette approche a aussi l'avantage de vous fournir l'historique des validations.
+Même si vous pouvez rencontrer des problèmes de fusion légitimes, vous avez l'information dans votre historique de la base ayant servi pour les modifications contribuées.
+La fusion à trois sources est choisie par défaut plutôt que d'avoir à spécifier l'option `-3` en espérant que le patch a été généré à partir d'un instantané public auquel vous auriez accès.
 
-If you aren’t working with a person consistently but still want to pull from them in this way, you can provide the URL of the remote repository to the `git pull` command. This does a one-time pull and doesn’t save the URL as a remote reference:
+Si vous ne travaillez pas en continu avec une personne mais souhaitez tout de même tirer les modifications de cette manière, vous pouvez fournir l'URL du dépôt distant à la commande `git pull`.
+Cela permet de réaliser un tirage unique sans sauver l'URL comme référence distante :
 
-	$ git pull git://github.com/onetimeguy/project.git
-	From git://github.com/onetimeguy/project
+	$ git pull git://github.com/typeunique/projet.git
+	From git://github.com/typeunique/projet
 	 * branch            HEAD       -> FETCH_HEAD
 	Merge made by recursive.
 
-### Determining What Is Introduced ###
+### Déterminer les modifications introduites ###
 
 Now you have a topic branch that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
 
@@ -1045,3 +1081,14 @@ You get a clean summary of all the commits since v1.0.1, grouped by author, that
 ## Summary ##
 
 You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.
+
+<!--  LocalWords:  Insert png CVCS bon-vouloir multi-dépôt master commits git
+ -->
+<!--  LocalWords:  SubmittingPatches diff trailing whitespace dir File.expand
+ -->
+<!--  LocalWords:  path XX XXXXXXXXXXX def command cmd XXXX add Tim at less of
+ -->
+<!--  LocalWords:  tpope.net summary detailed explanatory text necessary Wrap
+ -->
+<!--  LocalWords:  it to
+ -->

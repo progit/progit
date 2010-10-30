@@ -66,19 +66,33 @@ Figure 5-2. Integration-manager workflow.
 
 This is a very common workflow with sites like GitHub, where it’s easy to fork a project and push your changes into your fork for everyone to see. One of the main advantages of this approach is that you can continue to work, and the maintainer of the main repository can pull in your changes at any time. Contributors don’t have to wait for the project to incorporate their changes — each party can work at their own pace.
 
+### Рабочий процесс с диктатором и помощниками ###
 ### Dictator and Lieutenants Workflow ###
 
+Это разновидность рабочего процесса с большим количеством репозиториев. В основном он используется в огромных проектах с сотнями участников; ядро Linux яркий тому пример. Разные менеджеры по интеграции управляют разными группами репозиториев; их называют помощниками. Все помощники имеют одного менеджера по интеграции, которого называют благосклонным диктатором. Репозиторий благосклонного диктатора служит как опорный репозиторий, откуда все участники проекта должны забирать изменения. Процесс работает, как показано здесь (смотри Рисунок 5-3):
+
 This is a variant of a multiple-repository workflow. It’s generally used by huge projects with hundreds of collaborators; one famous example is the Linux kernel. Various integration managers are in charge of certain parts of the repository; they’re called lieutenants. All the lieutenants have one integration manager known as the benevolent dictator. The benevolent dictator’s repository serves as the reference repository from which all the collaborators need to pull. The process works like this (see Figure 5-3):
+
+1.	Обычные разработчики работают над своими тематическими ветками и перемещают (rebase) свою работу на вершину ветки master. Ветка master это та ветка, которая есть у диктатора.
+2.	Помощники выполняют слияние тематических веток разработчиков со своими ветками master.
+3.	Диктатор выполняет слияние веток master своих помощников со своей веткой master.
+4.	Диктатор выкладывает свою ветку master в основной репозиторий, так что другие разработчики могут выполнять перемещение на нее.
 
 1.	Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
 2.	Lieutenants merge the developers’ topic branches into their master branch.
 3.	The dictator merges the lieutenants’ master branches into the dictator’s master branch.
 4.	The dictator pushes their master to the reference repository so the other developers can rebase on it.
 
-Insert 18333fig0503.png  
+Insert 18333fig0503.png
+Рисунок 5-3. Рабочий процесс с благосклонным диктатором.
+  
 Figure 5-3. Benevolent dictator workflow.
 
+Этот вид рабочего процесса не является распространенным, но может быть полезен в очень больших проектах или в сильно иерархическом окружении, так как он позволяет лидеру проекта (диктатору) передать полномочия по выполнению большой части работ  и собирать код большими группами со многих точек перед его интеграцией.
+
 This kind of workflow isn’t common but can be useful in very big projects or in highly hierarchical environments, because as it allows the project leader (the dictator) to delegate much of the work and collect large subsets of code at multiple points before integrating them.
+
+Это несколько широко применяемых рабочих процессов, которые доступны при работе с такой распределенной системой, как Git, но вы можете увидеть, что возможно множество их вариаций, чтобы удовлетворить требованиям вашего реального рабочего процесса. Теперь, когда вы можете (я надеюсь) определить, какая комбинация рабочих процессов может послужить вам, я рассмотрю некоторые более специфичные примеры выполнения основных действий, являющихся частью разных процессов.
 
 These are some commonly used workflows that are possible with a distributed system like Git, but you can see that many variations are possible to suit your particular real-world workflow. Now that you can (I hope) determine which workflow combination may work for you, I’ll cover some more specific examples of how to accomplish the main roles that make up the different flows.
 

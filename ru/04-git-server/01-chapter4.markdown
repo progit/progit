@@ -70,7 +70,7 @@ This is also a nice option for quickly grabbing work from someone else’s worki
 
 #### Недостатки ####
 
-Недостаток этого метода в том что общий доступ обычно сложнее настроить и получить из разных мест чем простой сетевой доступ. Если вы хотите отправлять со своего ноутбука, когда вы дома, вы должны смонтировать удалённый диск, что может быть сложно и медленно по сравнению с сетевым доступом.
+Недостаток этого метода в том, что общий доступ обычно сложнее настроить и получить из разных мест чем простой сетевой доступ. Если вы хотите отправлять со своего ноутбука, когда вы дома, вы должны смонтировать удалённый диск, что может быть сложно и медленно по сравнению с сетевым доступом.
 
 The cons of this method are that shared access is generally more difficult to set up and reach from multiple locations than basic network access. If you want to push from your laptop when you’re at home, you have to mount the remote disk, which can be difficult and slow compared to network-based access.
 
@@ -80,7 +80,7 @@ It’s also important to mention that this isn’t necessarily the fastest optio
 
 ### Протокол SSH ###
 
-Наверно наиболее часто используемый транспортный протокол это SSH. Причина того в том что доступ по SSH уже есть на многих серверах, а если его нет, то его очень легко настроить. Кроме того SSH единственный из сетевых протоколов предоставляющий доступ и на чтение, и на запись. Два других сетевых протокола (HTTP и Git) в большинстве случаев дают доступ только на чтение, поэтому даже если они вам доступны, вам все равно понадобится SSH для записи. К тому же SSH протокол с аутентификацией, и благодаря его распространенности обычно его легко настроить и использовать.
+Наверное, наиболее часто используемый транспортный протокол это SSH. Причина этого в том, что доступ по SSH уже есть на многих серверах, а если его нет, то его очень легко настроить. Кроме того SSH единственный из сетевых протоколов предоставляющий доступ и на чтение, и на запись. Два других сетевых протокола (HTTP и Git) в большинстве случаев дают доступ только на чтение, поэтому даже если они вам доступны, вам все равно понадобится SSH для записи. К тому же SSH протокол с аутентификацией, и благодаря его распространенности обычно его легко настроить и использовать.
 
 Probably the most common transport protocol for Git is SSH. This is because SSH access to servers is already set up in most places — and if it isn’t, it’s easy to do. SSH is also the only network-based protocol that you can easily read from and write to. The other two network protocols (HTTP and Git) are generally read-only, so even if you have them available for the unwashed masses, you still need SSH for your own write commands. SSH is also an authenticated network protocol; and because it’s ubiquitous, it’s generally easy to set up and use.
 
@@ -237,13 +237,13 @@ It’s important to note that this is literally all you need to do to run a usef
 
 In the next few sections, you’ll see how to expand to more sophisticated setups. This discussion will include not having to create user accounts for each user, adding public read access to repositories, setting up web UIs, using the Gitosis tool, and more. However, keep in mind that to collaborate with a couple of people on a private project, all you _need_ is an SSH server and a bare repository.
 
-### Small Setups ###
+### Малые установки ###
 
 Если вы небольшая фирма, или вы только пробуете Git в вашей организации и у вас мало разработчиков, то все достаточно просто. Один из наиболее сложных аспектов настройки сервера Git ― управление пользователями. Если вы хотите чтобы некоторые репозитории было доступны некоторым пользователям только на чтение, а другие и на чтение и на запись, вам может быть весьма непросто привести права доступа в порядок.
 
 If you’re a small outfit or are just trying out Git in your organization and have only a few developers, things can be simple for you. One of the most complicated aspects of setting up a Git server is user management. If you want some repositories to be read-only to certain users and read/write to others, access and permissions can be a bit difficult to arrange.
 
-#### SSH Access ####
+#### SSH доступ ####
 
 Если у вас уже есть сервер, к которому все ваши разработчики имеют доступ по SSH проще всего разместить ваш первый репозиторий там, поскольку вам не нужно практически ничего делать (как мы уже обсудили в предыдущем разделе). Если вы хотите более сложного управления правами доступа в ваши репозитории, вы можете сделать это обычными правами файловой системы, предоставляемыми операционной системой вашего сервера.
 
@@ -265,7 +265,7 @@ A second method is to create a single 'git' user on the machine, ask every user 
 
 Another way to do it is to have your SSH server authenticate from an LDAP server or some other centralized authentication source that you may already have set up. As long as each user can get shell access on the machine, any SSH authentication mechanism you can think of should work.
 
-## Generating Your SSH Public Key ##
+## Создание публичного SSH ключа ##
 
 Как было уже сказано, многие сервера Git используют аутентификацию по открытым SSH ключам. Для того чтобы предоставить открытый ключ, пользователь должен его сгенерировать, если это не было сделано ранее. Это процесс похож во всех операционных системах. Сначала, вам стоит убедиться, что у вас еще нет ключа. По умолчанию пользовательские ключи SSH хранятся в каталоге `~/.ssh` этого пользователя. Вы можете легко проверить, есть ли у вас ключ, зайдя в этот каталог и посмотрев его содержимое:
 
@@ -630,11 +630,15 @@ If you look at the `gitosis.conf` file, it should only specify information about
 
 It shows you that the 'scott' user — the user with whose public key you initialized Gitosis — is the only one who has access to the `gitosis-admin` project.
 
+А теперь давайте добавим новый проект. Вы добавите новую секцию с названием `mobile`, где вы перечислите всех разработчиков в вашей мобильной команде и проекты, к которым должны иметь доступ. Поскольку `scott` пока что единственный пользователь в системе, вы добавите его как единственного члена, и вы создадите новый проект под названием `iphone_project` чтобы начать:
+
 Now, let’s add a new project for you. You’ll add a new section called `mobile` where you’ll list the developers on your mobile team and projects that those developers need access to. Because 'scott' is the only user in the system right now, you’ll add him as the only member, and you’ll create a new project called `iphone_project` to start on:
 
 	[group mobile]
 	writable = iphone_project
 	members = scott
+
+Когда вы вносите изменения в проект `gitosis-admin`, вы должны зафиксировать изменения и отправить их на сервер, чтобы они возымели эффект:
 
 Whenever you make changes to the `gitosis-admin` project, you have to commit the changes and push them back up to the server in order for them to take effect:
 
@@ -649,6 +653,8 @@ Whenever you make changes to the `gitosis-admin` project, you have to commit the
 	To git@gitserver:/opt/git/gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
+Вы можете сделать вашу первую отправку в новый проект `iphone_project` добавлением вашего сервера в качестве удалённого в локальную версию проекта и отправкой. Больше вам не нужно вручную создавать чистые репозитории на сервере - Gitosis создаёт их сам автоматически когда видит первую отправку:
+
 You can make your first push to the new `iphone_project` project by adding your server as a remote to your local version of the project and pushing. You no longer have to manually create a bare repository for new projects on the server — Gitosis creates them automatically when it sees the first push:
 
 	$ git remote add origin git@gitserver:iphone_project.git
@@ -660,7 +666,11 @@ You can make your first push to the new `iphone_project` project by adding your 
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
 
+Заметьте, что вам не нужно указывать путь (фактически, это не будет работать), только двоеточие и имя проекта - Gitosis найдёт его для вас.
+
 Notice that you don’t need to specify the path (in fact, doing so won’t work), just a colon and then the name of the project — Gitosis finds it for you.
+
+Вы хотите работать над проектом с вашими друзьями, так что вам нужно снова добавить их публичные ключи. Но вместо того, чтобы вручную добавлять их к файлу `~/.ssh/authorized_keys` на вашем сервере, добавьте их, один ключ на файл, в директорию `keydir`. Как вы назовёте ключи определит как вы будете ссылаться на них в `gitosis.conf`. Давайте добавим по-новой публичные ключи для Джона, Жози и Джессики:
 
 You want to work on this project with your friends, so you’ll have to re-add their public keys. But instead of appending them manually to the `~/.ssh/authorized_keys` file on your server, you’ll add them, one key per file, into the `keydir` directory. How you name the keys determines how you refer to the users in the `gitosis.conf` file. Let’s re-add the public keys for John, Josie, and Jessica:
 
@@ -668,13 +678,19 @@ You want to work on this project with your friends, so you’ll have to re-add t
 	$ cp /tmp/id_rsa.josie.pub keydir/josie.pub
 	$ cp /tmp/id_rsa.jessica.pub keydir/jessica.pub
 
+Теперь вы можете добавить их всех в вашу 'мобильную' команду, чтобы они имели доступ на чтение и запись в `iphone_project`:
+
 Now you can add them all to your 'mobile' team so they have read and write access to `iphone_project`:
 
 	[group mobile]
 	writable = iphone_project
 	members = scott john josie jessica
 
+После того, как вы зафиксируете и отправите изменения, все четыре пользователя будут иметь возможность читать и писать в проект.
+
 After you commit and push that change, all four users will be able to read from and write to that project.
+
+В Gitosis также есть простой контроль доступа. Если вы хотите, чтобы Джон имел только доступ на чтение к этому проекту, вы можете вместо этого сделать:
 
 Gitosis has simple access controls as well. If you want John to have only read access to this project, you can do this instead:
 
@@ -685,6 +701,8 @@ Gitosis has simple access controls as well. If you want John to have only read a
 	[group mobile_ro]
 	readonly = iphone_project
 	members = john
+
+Теперь Джон может клонировать проект и получать обновления, но Gitosis не позволит ему отправлять обратно в проект. Вы можете создать таких групп сколько хотите, каждую содержащую разные проекты и пользователей. Вы также можете указать другую группу как одного из пользователей (используя `@` как префикс), чтобы унаследовать всех её членов автоматически:
 
 Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members (using `@` as prefix), to inherit all of its members automatically:
 
@@ -699,23 +717,37 @@ Now John can clone the project and get updates, but Gitosis won’t allow him to
 	writable  = another_iphone_project
 	members   = @mobile_committers john
 
+Если у вас возникли какие-то проблемы, полезным может быть добавить `loglevel=DEBUG` в секции `[gitosis]`. Если вы потеряли доступ к отправке отправив неверную конфигурацию, вы можете вручную поправить файл `/home/git/.gitosis.conf` на сервере — файл, из которого Gitosis читает свою информацию. Отправка в проект берёт файл `gitosis.conf`, который вы только что отправили, и помещает его туда. Если вы отредактируете этот файл вручную, он останется таким до следующей успешной отправки в проект `gitosis-admin`.
+
 If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.
 
-## Git Daemon ##
+## Демон Git ##
+
+Для публичного, неидентифицированного доступа на чтение к вашим проектам вы можете захотеть продвинуться дальше, чем HTTP протокол и начать использовать Git протокол. Главная причина — скорость. Git протокол гораздо эффективнее и поэтому быстрее чем HTTP, поэтому используя его вы можете сэкономить вашим пользователям время.
 
 For public, unauthenticated read access to your projects, you’ll want to move past the HTTP protocol and start using the Git protocol. The main reason is speed. The Git protocol is far more efficient and thus faster than the HTTP protocol, so using it will save your users time.
 
+Повторимся, это для доступа только на чтение без авторизации. Если вы запустите его на сервере за пределами вашего сетевого экрана, он должен использоваться для проектов, которые публично видны миру. Если сервер, на котором вы его запускаете, в пределах вашего сетевого экрана, вы можете использовать его для проектов, к которым большее число людей или компьютеров (серверов непрерывной интеграции или сборки) должно иметь доступ на чтение, когда вы не хотите для каждого заводить SSH ключ.
+
 Again, this is for unauthenticated read-only access. If you’re running this on a server outside your firewall, it should only be used for projects that are publicly visible to the world. If the server you’re running it on is inside your firewall, you might use it for projects that a large number of people or computers (continuous integration or build servers) have read-only access to, when you don’t want to have to add an SSH key for each.
+
+В любом случае, протокол Git относительно просто установить. Упрощённо, вам нужно запустить следующую команду в демонизированной форме:
 
 In any case, the Git protocol is relatively easy to set up. Basically, you need to run this command in a daemonized manner:
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
+`--reuseaddr` позволит серверу перезапуститься без ожидания истечения старых подключений, `--base-path` позволит людям не указывать полный путь чтобы склонировать проект, а путь на конце говорит демону Git, где искать экспортируемые репозитории. Если у вас запущен сетевой экран, вы должны проколоть в нём дырочку, открыв порт 9418 на машину, на которой это всё запущено.
+
 `--reuseaddr` allows the server to restart without waiting for old connections to time out, the `--base-path` option allows people to clone projects without specifying the entire path, and the path at the end tells the Git daemon where to look for repositories to export. If you’re running a firewall, you’ll also need to punch a hole in it at port 9418 on the box you’re setting this up on.
+
+Вы можете демонизировать этот процесс несколькими путями, в зависимости от операционной системы. На машине с Ubuntu используйте Upstart скрипт. Итак, в этом файле
 
 You can daemonize this process a number of ways, depending on the operating system you’re running. On an Ubuntu machine, you use an Upstart script. So, in the following file
 
 	/etc/event.d/local-git-daemon
+
+поместите такой скрипт:
 
 you put this script:
 
@@ -728,27 +760,43 @@ you put this script:
 	    /opt/git/
 	respawn
 
+По соображениям безопасности крайне приветствуется, если вы будете запускать этого демона как пользователя с правами только на чтение на репозитории — вы легко можете сделать это, создав пользователя 'git-ro' и запустив этого демона из-под него. Для простоты мы запустим его от того же пользователя 'git', от которого запущен Gitosis.
+
 For security reasons, it is strongly encouraged to have this daemon run as a user with read-only permissions to the repositories – you can easily do this by creating a new user 'git-ro' and running the daemon as them.  For the sake of simplicity we’ll simply run it as the same 'git' user that Gitosis is running as.
+
+Когда вы перезапустите машину, Git демон запустится автоматически, и возродится, если вдруг завершится. Чтобы запустить его без перезагрузки машины, вы можете выполнить это:
 
 When you restart your machine, your Git daemon will start automatically and respawn if it goes down. To get it running without having to reboot, you can run this:
 
 	initctl start local-git-daemon
 
+На других системах вы можете использовать `xinetd`, скрипт вашей системы `sysvinit`, или что-то другое — если вы сможете эту команду как-либо демонизировать и перезапускать в случае завершения.
+
 On other systems, you may want to use `xinetd`, a script in your `sysvinit` system, or something else — as long as you get that command daemonized and watched somehow.
+
+Затем, вы должны указать Gitosis серверу, к каким репозиториям предоставить неидентифицированный доступ через Git сервер. Если вы добавили по секции для каждого репозитория, вы можете указать, из каких позволено читать демону Git& Если вы хотите предоставить доступ через Git протокол к вашему iphone проекту, добавьте это в конец вашего файла `gitosis.conf`:
 
 Next, you have to tell your Gitosis server which repositories to allow unauthenticated Git server-based access to. If you add a section for each repository, you can specify the ones from which you want your Git daemon to allow reading. If you want to allow Git protocol access for your iphone project, you add this to the end of the `gitosis.conf` file:
 
 	[repo iphone_project]
 	daemon = yes
 
+Когда это зафиксировано и отправлено, ваш запущенный демон должен начать обслуживать запросы к проекту от всех, у кого есть доступ к порту 9418 на вашем сервере.
+
 When that is committed and pushed up, your running daemon should start serving requests for the project to anyone who has access to port 9418 on your server.
+
+Если вы решили не использовать Gitosis, но хотите установить Git демон, вы должны запустить это в каждом проекте, который должен обслуживаться Git демоном:
 
 If you decide not to use Gitosis, but you want to set up a Git daemon, you’ll have to run this on each project you want the Git daemon to serve:
 
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok
 
+Присутствие этого файла скажет Git'у, что можно обслуживать этот проект без аутентификации.
+
 The presence of that file tells Git that it’s OK to serve this project without authentication.
+
+Gitosis также может контролировать, какие проекты будет показывать GitWeb. Вам нужно добавить что-то вроде этого в файл `/etc/gitweb.conf`:
 
 Gitosis can also control which projects GitWeb shows. First, you need to add something like the following to the `/etc/gitweb.conf` file:
 
@@ -757,68 +805,101 @@ Gitosis can also control which projects GitWeb shows. First, you need to add som
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
+Вы можете контролировать, какие проекты GitWeb будет позволять просматривать пользователям, добавляя или удаляя настройку `gitweb` в конфигурационном файле Gitosis. Например, если вы хотите, чтобы ваше iphone проект показывался в GitWeb, пусть ваша секция `repo` выглядит как-то так:
+
 You can control which projects GitWeb lets users browse by adding or removing a `gitweb` setting in the Gitosis configuration file. For instance, if you want the iphone project to show up on GitWeb, you make the `repo` setting look like this:
 
 	[repo iphone_project]
 	daemon = yes
 	gitweb = yes
 
+Теперь, если вы зафиксируете и отправите изменения, GitWeb автоматически начнёт показывать ваш iphone проект.
+
 Now, if you commit and push the project, GitWeb will automatically start showing your iphone project.
 
-## Hosted Git ##
+## Git хостинг ##
+
+Если вы не хотите связываться со всей работой по установке собственного Git сервера, у вас есть несколько вариантов размещения ваших Git проектов на внешних специальных хостинг сайтах. Это предоставляет множество преимуществ: на хостинг сайте обычно быстро настроить и запустить проект и нет никакого мониторинга или поддержки сервера. Даже если вы установили и запустили свой собственный внутренний сервер, вы можете захотеть использовать публичный хостинг сайт для вашего открытого кода — обычно сообществу открытого кода так будет проще вас найти и помочь.
 
 If you don’t want to go through all of the work involved in setting up your own Git server, you have several options for hosting your Git projects on an external dedicated hosting site. Doing so offers a number of advantages: a hosting site is generally quick to set up and easy to start projects on, and no server maintenance or monitoring is involved. Even if you set up and run your own server internally, you may still want to use a public hosting site for your open source code — it’s generally easier for the open source community to find and help you with.
+
+В наши дни у вас есть огромное количество вариантов хостинга чтобы выбирать, все со своими преимуществами и недостатками. Чтобы увидеть актуальный список, проверьте страницу GitHosting в главной вики Git:
 
 These days, you have a huge number of hosting options to choose from, each with different advantages and disadvantages. To see an up-to-date list, check out the GitHosting page on the main Git wiki:
 
 	http://git.or.cz/gitwiki/GitHosting
 
+Поскольку мы не можем рассмотреть их все, и поскольку я работаю на один из них, мы в этом разделе рассмотрим процесс создания учётной записи и нового проекта на GitHub. Это даст вам представление о вовлечённых в него вещах.
+
 Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved. 
+
+GitHub пока что крупнейший Git хостинг сайт открытого кода и также один из очень немногих, предоставляющих и публичный и приватный хостинг, так что вы можете хранить ваш открытый и коммерческий код в одном месте. На самом деле, мы использовали GitHub чтобы закрыто совместно писать эту книгу (прим. переводчика: и открыто переводить после её издания).
 
 GitHub is by far the largest open source Git hosting site and it’s also one of the very few that offers both public and private hosting options so you can keep your open source and private commercial code in the same place. In fact, we used GitHub to privately collaborate on this book.
 
 ### GitHub ###
 
+GitHub немного отличается от других хостингов кода способом группировки проектов. Вместо того, чтобы быть основанным главным образом на проектах, он ориентируется на пользователей. Это значит, что когда я размещаю свой проект `grit` на GitHub, вы найдёте его как `github.com/schacon/grit` вместо `github.com/grit`. Нет никакой канонической версии проекта, что позволяет проекту беспрепятственно переходить от пользователя к другому пользователю, если первый забросил проект.
+
 GitHub is slightly different than most code-hosting sites in the way that it namespaces projects. Instead of being primarily based on the project, GitHub is user centric. That means when I host my `grit` project on GitHub, you won’t find it at `github.com/grit` but instead at `github.com/schacon/grit`. There is no canonical version of any project, which allows a project to move from one user to another seamlessly if the first author abandons the project.
+
+GitHub также коммерческая компания, которая взимает плату за аккаунты с приватными репозиториями, но кто угодно может быстро получить бесплатную учётную запись чтобы разместить сколь угодно открытых проектов. Мы быстро рассмотрим, как это устроено.
 
 GitHub is also a commercial company that charges for accounts that maintain private repositories, but anyone can quickly get a free account to host as many open source projects as they want. We’ll quickly go over how that is done.
 
-### Setting Up a User Account ###
+### Настройка учётной записи ###
+
+Первая вещь, которую вам нужно сделат, это настройка учётной записи. Если вы посетите страницу Тарифные планы по адресу `http://github.com/plans` и нажмёте на кнопку "Создать бесплатный аккаунт" (см. рисунок 4-2), вы попадёте на страницу регистрации.
 
 The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
 
 Insert 18333fig0402.png
-Figure 4-2. The GitHub plan page.
+Рисунок 4-2. Страница тарифных планов GitHub.
+
+Здесь вы должны выбрать имя пользователя, которое ещё не занято в системе, и ввести адрес электронной почты, который будет сопоставлен аккаунту, и пароль (см. рис. 4-3).
 
 Here you must choose a username that isn’t yet taken in the system and enter an e-mail address that will be associated with the account and a password (see Figure 4-3).
 
 Insert 18333fig0403.png 
-Figure 4-3. The GitHub user signup form.
+Рисунок 4-3. Страница регистрации пользователя GitHub.
+
+Если есть возможность, сейчас также хорошее время добавить ваш публичный SSH ключ. Мы рассмотрели, как создать ключ, ранее, в разделе "Создание публичного SSH ключа". Возьмите содержимое публичного ключа из этой пары и вставьте в поле ввода публичного SSH ключа. Ссылка "Нужна помощь с публичными ключами?" направит вас к детальным инструкциям как это сделать на всех основных операционных системах.
+Нажатие на кнопку "Создать учётную запись" откроет приборную панель вашего нового пользователя (см. рис. 4-4).
 
 If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
 Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).
 
 Insert 18333fig0404.png 
-Figure 4-4. The GitHub user dashboard.
+Рисунок 4-4. Приборная панель GitHub.
 
-Next you can create a new repository. 
+Затем вы можете создать новый репозиторий.
 
-### Creating a New Repository ###
+Next you can create a new repository.
+
+### Создание нового репозитория ###
+
+Начните с клика на ссылку "Новый репозиторий" рядом с разделом "Твои репозитории" на пользовательской приборной панели. Вы перейдёте на форму "Создать новый репозиторий" (см. рис. 4-5).
 
 Start by clicking the "create a new one" link next to Your Repositories on the user dashboard. You’re taken to the Create a New Repository form (see Figure 4-5).
 
 Insert 18333fig0405.png 
-Figure 4-5. Creating a new repository on GitHub.
+Рисунок 4-5. Создание нового репозитория на GitHub.
+
+Всё что вам действительно необходимо сделать, это указать имя проекта, но также можно добавить и описание. Когда это сделано, нажмите на кнопку "Создать репозиторий". Теперь у вас есть новый репозиторий на GitHub (см. рис. 4-6).
 
 All you really have to do is provide a project name, but you can also add a description. When that is done, click the "Create Repository" button. Now you have a new repository on GitHub (see Figure 4-6).
 
 Insert 18333fig0406.png 
-Figure 4-6. GitHub project header information.
+Рисунок 4-6. Заглавная информация проекта GitHub.
+
+Поскольку у вас ещё нет кода, GitHub покажет вам инструкцию, как создать совершенно новый проект, отправить существующий или импортировать проект из публичного репозитория Subversion (см. рис. 4-7). 
 
 Since you have no code there yet, GitHub will show you instructions for how create a brand-new project, push an existing Git project up, or import a project from a public Subversion repository (see Figure 4-7).
 
 Insert 18333fig0407.png 
-Figure 4-7. Instructions for a new repository.
+Рисунок 4-7. Инструкции для нового репозитория.
+
+Эти инструкции похожи на те, что мы уже прошли. Чтобы инициализировать проект, если это ешщё не проект Git, вы пишете
 
 These instructions are similar to what we’ve already gone over. To initialize a project if it isn’t already a Git project, you use
 
@@ -826,83 +907,125 @@ These instructions are similar to what we’ve already gone over. To initialize 
 	$ git add .
 	$ git commit -m 'initial commit'
 
+Если у вас есть локальный Git репозиторий, добавьте GitHub как удалённый сервер и отправьте вашу ветку master:
+
 When you have a Git repository locally, add GitHub as a remote and push up your master branch:
 
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
 
+Теперь ваш проект размещён на GitHub и вы можете дать ссылку на него любому, с кем вы захотите разделить проект. В этом случае, это `http://github.com/testinguser/iphone_project`. Вы также можете в заголовке каждой страницы проекта, что у вас две Git ссылки (см. рис. 4-8).
+
 Now your project is hosted on GitHub, and you can give the URL to anyone you want to share your project with. In this case, it’s `http://github.com/testinguser/iphone_project`. You can also see from the header on each of your project’s pages that you have two Git URLs (see Figure 4-8).
 
 Insert 18333fig0408.png 
-Figure 4-8. Project header with a public URL and a private URL.
+Рисунок 4-8. Заголовок проекта с публичной и приватной ссылками.
+
+Ссылка "Git, только чтение" это публичная ссылка только для чтения через которую кто угодно может склонировать проект. Можете давать эту ссылку или размещать её на вашем сайте или делать с ней что угодно.
 
 The Public Clone URL is a public, read-only Git URL over which anyone can clone the project. Feel free to give out that URL and post it on your web site or what have you.
 
+Ссылка SSH это основанная на SSH ссылка на чтение и запись, через которую вы можете читать и писать только если вы соединяетесь имея приватный ключ из пары публичного SSH ключа, загруженного вашим пользователем. Когда другие пользователи посещают страницу проекта, они не увидят этой ссылки — только публичную.
+
 The Your Clone URL is a read/write SSH-based URL that you can read or write over only if you connect with the SSH private key associated with the public key you uploaded for your user. When other users visit this project page, they won’t see that URL—only the public one.
 
-### Importing from Subversion ###
+### Импорт из Subversion ###
+
+Если у вас есть существующий публичный Subversion проект, который вы хотите импортировать в Git, GitHub часто может сделать это за вас. Внизу страницы инструкций есть ссылка на импорт из Subversion. Если вы кликнете по ней, вы увидите форму с информацией о процессе импорта и текстовое поле, где вы можете вставить ссылку на ваш публичный Subversion проект (см. рис. 4-9).
 
 If you have an existing public Subversion project that you want to import into Git, GitHub can often do that for you. At the bottom of the instructions page is a link to a Subversion import. If you click it, you see a form with information about the import process and a text box where you can paste in the URL of your public Subversion project (see Figure 4-9).
 
 Insert 18333fig0409.png 
-Figure 4-9. Subversion importing interface.
+Рисунок 4-9. Интерфейс импорта из Subversion.
+
+Если ваш проект очень большой, нестандартный или приватный, этот процесс, возможно, не сработает для вас. В главе 7 вы узнаете, как делать более сложные импорты вручную.
 
 If your project is very large, nonstandard, or private, this process probably won’t work for you. In Chapter 7, you’ll learn how to do more complicated manual project imports.
 
-### Adding Collaborators ###
+### Добавление участников ###
+
+Давайте добавим остальную команду. Если Джон, Жоси и Джессика зарегистрированы на GitHub, и вы хотите дать им доступ на отправку в ваш репозиторий, вы можете добавить их к вашему проекту как участников. Это позволит им отправлять с использованием их приватных ключей.
 
 Let’s add the rest of the team. If John, Josie, and Jessica all sign up for accounts on GitHub, and you want to give them push access to your repository, you can add them to your project as collaborators. Doing so will allow pushes from their public keys to work.
+
+Нажмите на кнопке "Редактировать" в заголовке проекта или вкладку "Администратор" вверху чтобы попасть на страницу администратора вашего GitHub проекта (см. рис. 4-10).
 
 Click the "edit" button in the project header or the Admin tab at the top of the project to reach the Admin page of your GitHub project (see Figure 4-10).
 
 Insert 18333fig0410.png 
-Figure 4-10. GitHub administration page.
+Рисунок 4-10. Страница администратора GitHub.
+
+Чтобы дать другому пользователю доступ на запись в ваш проект, кликните по ссылке “Добавить другого участника”. Появится новое текстовое поле, в котором вы можете набрать имя пользователя. По мере набора всплывёт подсказка, показывая вам возможные совпадения имён. Когда вы найдёте нужного пользователя, нажмите на кнопке Добавить чтобы добавить пользователя как участника вашего проекта (см. рис. 4-11).
 
 To give another user write access to your project, click the “Add another collaborator” link. A new text box appears, into which you can type a username. As you type, a helper pops up, showing you possible username matches. When you find the correct user, click the Add button to add that user as a collaborator on your project (see Figure 4-11).
 
 Insert 18333fig0411.png 
-Figure 4-11. Adding a collaborator to your project.
+Рисунок 4-11. Добавление участника в ваш проект.
+
+Когда вы закончите добавлять участников, вы должны увидеть их список в разделе Участники (см. рис. 4-12).
 
 When you’re finished adding collaborators, you should see a list of them in the Repository Collaborators box (see Figure 4-12).
 
 Insert 18333fig0412.png 
-Figure 4-12. A list of collaborators on your project.
+Рисунок 4-12. Список участников вашего проекта.
+
+Если вам нужно отозвать доступ, вы можете кликнуть на ссылке "отозвать", и их доступ на отправку будет удалён. Для будущих проектов вы можете также скопировать группы участников копируя разрешения существующего проекта.
 
 If you need to revoke access to individuals, you can click the "revoke" link, and their push access will be removed. For future projects, you can also copy collaborator groups by copying the permissions of an existing project.
 
-### Your Project ###
+### Ваш проект ###
+
+После того как вы отправили ваш проект или импортировали его из Subversion, у вас есть главная страница проекта, которая выглядит как на рис. 4-13.
 
 After you push your project up or have it imported from Subversion, you have a main project page that looks something like Figure 4-13.
 
 Insert 18333fig0413.png 
-Figure 4-13. A GitHub main project page.
+Рисунок 4-13. Главная страница проекта на GitHub.
+
+Когда люди посещают ваш проект, они видят эту страницу. Она содержит вкладки по различным аспектам вашего проекта. Вкладка Коммиты показывает список коммитов в обратном хронологическом порядке, похоже на вывод команды `git log`. Вкладка Сеть показывает всех людей отделивших ваш проект и возвративших свои наработки. Вкладка Файлы позволит вам выложить бинарные файлы проекта и ссылки на архивы любых помеченных точек вашего проекта. Вкладка Вики предоставляет вики, где вы можете писать документацию или другую информацию о вашем проекте. Вкладка Графики показывает некоторую информацию о вкладе участников и статистику о вашем проекте. Главная вкладка Исходный код показывает листинг коневой директории проекта и автоматически отрисовывает README файл под ней, если он у вас есть. Эта вкладка также показывает информацию о последнем коммите.
 
 When people visit your project, they see this page. It contains tabs to different aspects of your projects. The Commits tab shows a list of commits in reverse chronological order, similar to the output of the `git log` command. The Network tab shows all the people who have forked your project and contributed back. The Downloads tab allows you to upload project binaries and link to tarballs and zipped versions of any tagged points in your project. The Wiki tab provides a wiki where you can write documentation or other information about your project. The Graphs tab has some contribution visualizations and statistics about your project. The main Source tab that you land on shows your project’s main directory listing and automatically renders the README file below it if you have one. This tab also shows a box with the latest commit information.
 
-### Forking Projects ###
+### Ответвления проектов ###
+
+Если вы хотите внести вклад в существующий проект, в который у вас нет права на отправку, GitHub приветствует ответвления. Когда вы смотрите на страницу проекта, который выглядит интересно и вы не прочь немного поработать над ним, вы можете нажать на кнопку Форк в заголовке проекта, чтобы GitHub скопировал проект вашему пользователю, чтобы вы могли отправлять туда.
 
 If you want to contribute to an existing project to which you don’t have push access, GitHub encourages forking the project. When you land on a project page that looks interesting and you want to hack on it a bit, you can click the "fork" button in the project header to have GitHub copy that project to your user so you can push to it.
 
+Таким образом, проектам не нужно беспокоиться о добавлении пользователей как участников для предоставления им доступа на отправку. Люди могут ответвить проект и отправить в него, хранитель главного проекта может вернуть эти изменения, добавив их как удалённые серверы и вливая их работу.
+
 This way, projects don’t have to worry about adding users as collaborators to give them push access. People can fork a project and push to it, and the main project maintainer can pull in those changes by adding them as remotes and merging in their work.
+
+Чтобы ответвить проект, посетите страницу проекта (в нашем случае mojombo/chronic) и нажмите на кнопку Форк в заголовке (см. рис. 4-14).
 
 To fork a project, visit the project page (in this case, mojombo/chronic) and click the "fork" button in the header (see Figure 4-14).
 
 Insert 18333fig0414.png 
-Figure 4-14. Get a writable copy of any repository by clicking the "fork" button.
+Рисунок 4-14. Получение доступной для записи копии любого репозитория.
+
+После нескольких секунд вы будете направлены на страницу вашего нового проекта, которая показывает, что данный проект является ответвлением другого (см. рис. 4-15).
 
 After a few seconds, you’re taken to your new project page, which indicates that this project is a fork of another one (see Figure 4-15).
 
 Insert 18333fig0415.png 
-Figure 4-15. Your fork of a project.
+Рисунок 4-15. Вы ответвили проект.
 
 ### GitHub Summary ###
 
+Это всё, что мы хотели бы рассказать про GitHub, но важно отметить, как быстро вы можете сделать всё это. Вы можете создать аккаунт, добавить новый проект и отправить в него за минуты.Если ваш проект с открытым кодом, вы также можете получить огромное сообщество разработчиков, кто может увидеть ваш проект и ответвить его и помочь, внеся в него свой вклад. И наконец, это может быть способ начать с Git и быстро попробовать его.
+
 That’s all we’ll cover about GitHub, but it’s important to note how quickly you can do all this. You can create an account, add a new project, and push to it in a matter of minutes. If your project is open source, you also get a huge community of developers who now have visibility into your project and may well fork it and help contribute to it. At the very least, this may be a way to get up and running with Git and try it out quickly.
 
-## Summary ##
+## Заключение ##
+
+У вас есть несколько вариантов получения удалённого Git репозитория так, чтобы вы могли принимать участие в проекте вместе с другими или поделиться работой.
 
 You have several options to get a remote Git repository up and running so that you can collaborate with others or share your work.
 
+Запуск своего сервера даёт полный контроль и позволит вам запустить сервер в пределах вашего сетевого экрана, но такой сервер обычно требует некоторой части вашего времени на настройку и поддержку. Если вы разместите ваши данные на хостинге, его просто настроить и поддерживать; однако вы должны иметь возможность хранить код на чужом сервере, а некоторые организации этого не позволяют.
+
 Running your own server gives you a lot of control and allows you to run the server within your own firewall, but such a server generally requires a fair amount of your time to set up and maintain. If you place your data on a hosted server, it’s easy to set up and maintain; however, you have to be able to keep your code on someone else’s servers, and some organizations don’t allow that.
+
+Легко определить, какое решение или комбинация решений подойдёт вам и вашей организации.
 
 It should be fairly straightforward to determine which solution or combination of solutions is appropriate for you and your organization.

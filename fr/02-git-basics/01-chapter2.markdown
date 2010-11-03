@@ -7,7 +7,7 @@ Nous vous montrerons aussi comment paramétrer Git pour qu'il ignore certains fi
 
 ## Démarrer un dépôt Git ##
 
-Vous pouvez principalement démarrer un dépôt Git de deux manière.
+Vous pouvez principalement démarrer un dépôt Git de deux manières.
 La première consiste à prendre un projet ou un répertoire existant et à l'importer dans Git.
 La seconde consiste à cloner un dépôt Git existant sur un autre serveur.
 
@@ -37,7 +37,7 @@ Si vous souhaitez obtenir une copie d'un dépôt Git existant — par exemple, 
 Si vous êtes familier avec d'autres systèmes de gestion de version tels que Subversion, vous noterez que la commande est 'clone' et non 'checkout'.
 C'est une distinction importante — Git reçoit une copie de quasiment toutes les données dont le serveur dispose.
 Toutes les versions de tous les fichiers pour l'historique du projet sont téléchargées quand vous lancez `git clone`.
-En fait, si le disque du serveur se corrompt, vous pouvez utiliser n'importe quel clone pour remonter le serveur dans l'état où il était au moment du clonage (vous pourriez perdre quelques paramètres du serveur, mais toutes les données en gestion de version serait récupérées — Cf.
+En fait, si le disque du serveur se corrompt, vous pouvez utiliser n'importe quel clone pour remonter le serveur dans l'état où il était au moment du clonage (vous pourriez perdre quelques paramètres du serveur, mais toutes les données en gestion de version seraient récupérées — Cf.
 chapitre 4 pour de plus amples détails).
 
 Vous clonez un dépôt avec `git clone [url]`.
@@ -68,7 +68,7 @@ Tous les autres fichiers sont non suivis — tout fichier de votre copie de tra
 Quand vous clonez un dépôt pour la première fois, tous les fichiers seront suivis en version et inchangés car vous venez tout juste de les enregistrer sans les avoir encore édités.
 
 Au fur et à mesure que vous éditez des fichiers, Git les considère comme modifiés, car vous les avez modifiés depuis le dernier instantané.
-Vous indexés ces fichiers modifiés et vous enregistrez toutes les modifications indexées, puis ce cycle se répète.
+Vous indexez ces fichiers modifiés et vous enregistrez toutes les modifications indexées, puis ce cycle se répète.
 Ce cycle de vie est illustré par la figure 2-1.
 
 Insert 18333fig0201.png 
@@ -124,8 +124,8 @@ Si vous lancez à nouveau le commande status, vous pouvez constater que votre fi
 	#
 
 Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à enregistrer).Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
-Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` — c'était bien sur pour commencer à suivre en version les fichiers de votre répertoire de travail.
-La commande git add accepte en paramètre un chemin qui correspond à un fichier ou un répertoire ; dans le cas d'un répertoire, la commande ajoute récursivement tous le fichiers de ce répertoire.
+Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` — c'était bien sûr pour commencer à suivre en version les fichiers de votre répertoire de travail.
+La commande git add accepte en paramètre un chemin qui correspond à un fichier ou un répertoire ; dans le cas d'un répertoire, la commande ajoute récursivement tous les fichiers de ce répertoire.
 
 ### Indexer des fichiers modifiés ###
 
@@ -212,7 +212,7 @@ Renseigner un fichier .gitignore avant de commencer à travailler est générale
 
 Les règles de construction des patrons à placer dans le fichier .gitignore sont les suivantes :
 
-* Les lignes vides ou commençant par # sont ignorée
+* Les lignes vides ou commençant par # sont ignorées
 * Les patrons standards de fichiers sont utilisables
 * Si le patron se termine par un slash (`/`), le patron dénote un répertoire
 * Un patron commençant par un point d'exclamation (`!`) est inversé.
@@ -232,7 +232,7 @@ Voici un autre exemple de fichier .gitignore :
 ### Inspecter les modifications indexées et non indexées ###
 
 Si le résultat de la commande `git status` est encore trop vague — lorsqu'on désire savoir non seulement quels fichiers ont changé mais aussi ce qui a changé dans ces fichiers — on peut utiliser la commande `git diff`.
-Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblablement utilisée le plus souvent pour répondre aux questions suivantes : qu'est-ce qui a été modifié mais pas encore indexé ? Quelle modifications a été indexée et est prête pour la validation ? Là où `git status` répond de manière générale à ces questions, `git diff` montre les lignes exactes qui ont été ajoutées, modifiées ou effacées — le patch en somme.
+Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblablement utilisée le plus souvent pour répondre aux questions suivantes : qu'est-ce qui a été modifié mais pas encore indexé ? Quelle modification a été indexée et est prête pour la validation ? Là où `git status` répond de manière générale à ces questions, `git diff` montre les lignes exactes qui ont été ajoutées, modifiées ou effacées — le patch en somme.
 
 Supposons que vous éditez et indexez le fichier LISEZMOI et que vous éditez le fichier benchmarks.rb sans l'indexer.
 Si vous lancez la commande `status`, vous verrez ceci :

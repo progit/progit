@@ -472,7 +472,7 @@ This way, you can set up HTTP-based read access to any of your projects for a fa
 Now that you have basic read/write and read-only access to your project, you may want to set up a simple web-based visualizer. Git comes with a CGI script called GitWeb that is commonly used for this. You can see GitWeb in use at sites like `http://git.kernel.org` (see Figure 4-1).
 
 Insert 18333fig0401.png 
-Figure 4-1. Веб-интерфейс GitWeb.
+Рисунок 4-1. Веб-интерфейс GitWeb.
 
 Если вы хотите проверить как GitWeb будет выглядеть для вашего проекта, Git поставляется с командой для быстрой установки временного экземпляра, если в вашей системе есть легковесный веб-сервер, такой как `lighttpd` или `webrick`. На машинах с Linux `lighttpd` часто установлен, поэтому возможно вы сможете его запустить выполнив `git instaweb` в вашем каталоге с вашим проектом. Если вы используете Mac, Leopard поставляется с предустановленным Ruby, поэтому `webrick` может быть лучшим выбором. Чтобы запустить `instaweb` с не ligttpd вы можете запустить команду с параметром `-httpd`.
 
@@ -723,24 +723,39 @@ If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[git
 
 ## Gitolite ##
 
+Git начал становиться очень популярным в корпоративных средах, где обычно есть дополнительные требования в плане контроля доступа. Gitolite был создан, чтобы посодействовать в выполнении таких требований.
+
 Git has started to become very popular in corporate environments, which tend to have some additional requirements in terms of access control.  Gitolite was created to help with those requirements.
+
+Gitolite позволяет указать права доступа не только для репозиториев (как Gitosis), но и для веток или имён меток внутри каждого репозитория. То есть, вы можете указать, что определённые люди (или группы людей) могут отправлять (push) определённые "ссылки" (ветки или метки), а остальные нет.
 
 Gitolite allows you to specify permissions not just by repository (like Gitosis does), but also by branch or tag names within each repository.  That is, you can specify that certain people (or groups of people) can only push certain "refs" (branches or tags) but not others.
 
+### Установка ###
 ### Installing ###
+
+Установить Gitolite очень просто, даже если вы не читали обширную документацию, которая идёт с ним. Вам нужен аккаунт на каком-нибудь Unix сервере; были протестированы различные Linux-ы и Solaris 10. Вам не нужен root-доступ, если git, perl и openssh-совместимый сервер уже настроены. Далее в примерах мы будем использовать аккаунт `gitolite` на хосте с именем `gitserver`.
 
 Installing Gitolite is very easy, even if you don't read the extensive documentation that comes with it.  You need an account on a Unix server of some kind; various Linux flavours, and Solaris 10, have been tested.  You do not need root access, assuming git, perl, and an openssh compatible ssh server are already installed.  In the examples below, we will use the `gitolite` account on a host called `gitserver`.
 
+Gitolite устанавливается с помощью выполения сценария *на рабочей станции*, так что на вашей рабочей станции должен быть доступен bash-шелл. Если вам интересно, даже тот bash, который идёт с msysgit достаточен.
+
 Curiously, Gitolite is installed by running a script *on the workstation*, so your workstation must have a bash shell available.  Even the bash that comes with msysgit will do, in case you're wondering.
+
+Начните с настройки доступа к вашему серверу с помощью открытого ключа, так, чтобы вы могли войти с вашей рабочей станции на сервер без ввода пароля. Следующий способ работает в Linux; для рабочих станций с другими ОС вам, возможно, нужно будет сделать это вручную. Мы полагаем, что у вас уже есть пара ключей сгенерированных с помощью `ssh-keygen`.
 
 You start by obtaining public key based access to your server, so that you can log in from your workstation to the server without getting a password prompt.  The following method works on Linux; for other workstation OSs you may have to do this manually.  We assume you already had a key pair generated using `ssh-keygen`.
 
 	$ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
 
+Эта команда спросит у вас пароль к gitolite-аккаунту, а затем настроит доступ по открытым ключам. Это **необходимо** для сценария установки, так что убедитесь, что вы можете выполнять команды без ввода пароля:
+
 This will ask you for the password to the gitolite account, and then set up public key access.  This is **essential** for the install script, so check to make sure you can run a command without getting a password prompt:
 
 	$ ssh gitolite@gitserver pwd
 	/home/gitolite
+
+Затем склонируйте Gitolite с главного сайта проекта и выполните сценарий для лёгкой установки (третий аргумент это ваше имя в том виде, в котором вам бы хотелось его видеть в окончательном репозитории gitolite-admin):
 
 Next, you clone Gitolite from the project's main site and run the "easy install" script (the third argument is your name as you would like it to appear in the resulting gitolite-admin repository):
 
@@ -748,17 +763,29 @@ Next, you clone Gitolite from the project's main site and run the "easy install"
 	$ cd gitolite/src
 	$ ./gl-easy-install -q gitolite gitserver sitaram
 
+Всё готово! Gitolite теперь установлен на сервере, и у вас в вашей домашней директории на рабочей станции теперь есть новый репозиторий, который называется `gitolite-admin`. Администрирование вашего установленнего gitolite осуществляется с помощью внесения изменений в этот репозиторий и их отправки (push) так же как и в Gitosis.
+
 And you're done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in the home directory of your workstation.  You administer your gitolite setup by making changes to this repository and pushing (just like Gitosis).
+
+[Кстати, *обновление* gitolite делается тем же способом. Кроме того, если вам интересно, запустите сценарий без аргументов, чтобы получить справку по использованию.]
 
 [By the way, *upgrading* gitolite is also done the same way.  Also, if you're interested, run the script without any arguments to get a usage message.]
 
+Та последняя команда делает довольно большое количество вывода, который может быть интересно прочитать. Также, при первом её выполнении, создаётся новая пара ключей; вам придётся выбрать пароль или нажать enter, чтобы пароля не было. Зачем нужна вторая пара ключей и как она используется, описано в документе "ssh troubleshooting" поставляемым с Gitolite. (Ну должна же документация быть *хоть для чего-то* хороша!)
+
 That last command does produce a fair amount of output, which might be interesting to read.  Also, the first time you run this, a new keypair is created; you will have to choose a passphrase or hit enter for none.  Why a second keypair is needed, and how it is used, is explained in the "ssh troubleshooting" document that comes with Gitolite.  (Hey the documentation has to be good for *something*!)
 
+### Изменение параметров установки ###
 ### Customising the Install ###
+
+Хотя быстрая установка с параметрами по умолчаиню подходит для большинства людей, есть несколько способов изменения параметров установки если вам это нужно. Если опустить опцию `-q`, вы получите "подробную" установку с детальной информацией о том, что происходит на каждом шаге. Подробный режим также позволяет изменить некоторые параметры на стороне сервера, такие как расположение репозиториев, с помощью редактирования "rc" файла используемого сервером. Этот "rc" файл содержит развёрнутые комметарии так, чтобы вы легко смогли сделать любые изменения, сохранить их и продолжить. Этот файл также содержит различные настройки, которые вы можете изменить, чтобы активировать или выключить некоторые "продвинутые" функции gitolite.
 
 While the default, quick, install works for most people, there are some ways to customise the install if you need to.  If you omit the `-q` argument, you get a "verbose" mode install -- detailed information on what the install is doing at each step.  The verbose mode also allows you to change certain server-side parameters, such as the location of the actual repositories, by editing an "rc" file that the server uses.  This "rc" file is liberally commented so you should be able to make any changes you need quite easily, save it, and continue.  This file also contains various settings that you can change to enable or disable some of gitolite's advanced features.
 
+### Конфигурационный файл и правила контроля доступа ###
 ### Config File and Access Control Rules ###
+
+Итак, когда установка завершена, вы переходите в репозиторий `gitolite-admin` (он находится в вашем домашнем каталоге) и осматриваитесь, чтобы выяснить что же вы получили:
 
 So once the install is done, you switch to the `gitolite-admin` repository (placed in your HOME directory) and poke around to see what you got:
 
@@ -778,9 +805,15 @@ So once the install is done, you switch to the `gitolite-admin` repository (plac
 	repo testing
 	    RW+                 = @all
 
+Заметьте, что "sitaram" (это последний аргумент при выполнении `gl-easy-install` ранее) имеет права на чтение и запись в репозиторий `gitolite-admin`, а также файл с открытым ключом с таким же именем.
+
 Notice that "sitaram" (the last argument in the `gl-easy-install` command you gave earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.
 
+Синтаксис конфигурационного файла для Gitolite *сильно* отличается от того что у Gitosis. Снова, это всё подробно продукоментировано в `conf/example.conf`, так что мы рассмотрим здесь только основные моменты.
+
 The config file syntax for Gitolite is *quite* different from Gitosis.  Again, this is liberally documented in `conf/example.conf`, so we'll only mention some highlights here.
+
+Вы можете сгруппировать пользователей или репозитории для удобства. Имена групп совсем как макросы; когда вы их определяете, даже не важно определяют ли они проекты или пользователей; это различие делается только, когды вы *используете* "макрос".
 
 You can group users or repos for convenience.  The group names are just like macros; when defining them, it doesn't even matter whether they are projects or users; that distinction is only made when you *use* the "macro".
 
@@ -792,6 +825,8 @@ You can group users or repos for convenience.  The group names are just like mac
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
+Вы можете контролировать права доступа на уровне "ссылок" (то, что находится в .git/refs/). В следующем примере стажёры (группа @interns) могут отправлять (push) только ветку "int". Инженеры (группа @engineers) могут отправлять любую ветку, чьё имя начинается с "eng-", а также метки начинающиеся с "rc" и затем цифры. И администраторы (группа @admins) могут делать всё (в том числе откатить назад) с любыми ссылками.
+
 You can control permissions at the "ref" level.  In the following example, interns can only push the "int" branch.  Engineers can push any branch whose name starts with "eng-", and tags that start with "rc" followed by a digit.  And the admins can do anything (including rewind) to any ref.
 
 	repo @oss_repos
@@ -800,26 +835,45 @@ You can control permissions at the "ref" level.  In the following example, inter
 	    RW  refs/tags/rc[0-9]   = @engineers
 	    RW+                     = @admins
 
+Выражение после `RW` или `RW+` это регулярное выражение (regex), с которым сопоставляется имя отправляемой ссылки (ref). Поэтому мы называем его "refex"! Конечно, "refex" может быть гораздо более сильным, чем показаные здесь. Так что не переусердствуйте с ними если вы не очень хорошо знакомы с регулярными выражениями perl.
+
 The expression after the `RW` or `RW+` is a regular expression (regex) that the refname (ref) being pushed is matched against.  So we call it a "refex"!  Of course, a refex can be far more powerful than shown here, so don't overdo it if you're not comfortable with perl regexes.
 
+Также, как вы уже наверно догадались, Gitolite для удобства дописывает в начале регулярного выражения `refs/heads/` если оно не начинается с `refs/`.
+
 Also, as you probably guessed, Gitolite prefixes `refs/heads/` as a syntactic convenience if the refex does not begin with `refs/`.
+
+Важной особенностью синтаксиса конфигурационного файла является то, что все правила для репозитория не обязательно должны находиться в одном месте. Вы можете держать все общие вещи вместе, как например правила для всех `oss_repos` выше, а потом добавить уточняющие правила для отдельных случаев следующим образом:
 
 An important feature of the config file's syntax is that all the rules for a repository need not be in one place.  You can keep all the common stuff together, like the rules for all `oss_repos` shown above, then add specific rules for specific cases later on, like so:
 
 	repo gitolite
 	    RW+                     = sitaram
 
+Это правило будет добавлено к набору правил для репозитория `gitolite`.
+
 That rule will just get added to the ruleset for the `gitolite` repository.
+
+В данный момент вы возможно задаётесь вопросом: "Каким образом правила контроля доступа применяются на самом деле?" — так что давайте вкратце рассмотрим это.
 
 At this point you might be wondering how the access control rules are actually applied, so let's go over that briefly.
 
+В gitolite есть два уровня контроля доступа. Первый — на уровне репозитория; если у вас есть доступ на чтение (или запись) к *любой* ссылке в репозитории, то у вас есть доступ на чтение (или запись) к этому репозиторию. Это единственный контроль доступа, который есть в Gitosis.
+
 There are two levels of access control in gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.  This is the only access control that Gitosis had.
+
+Второй уровень применим только к доступу на запись и осуществляется по веткам или меткам внутри репозитория. Имя пользователя, запрашиваемый уровень доступа (`W` или `+`) и имя ссылки, которая будет обновлена, известны. Правила доступа проверяются в порядке их появления в конфигурационном файле, в поисках совпадений для этой комбинации (но помните, что имя ссылки сопоставляется с регулярным выражением, а не просто строкой). Если совпадение найдено, отправка (push) проходит успешно. При неудачном исходе доступ запрещается.
 
 The second level, applicable only to "write" access, is by branch or tag within a repository.  The username, the access being attempted (`W` or `+`), and the refname being updated are known.  The access rules are checked in order of appearance in the config file, looking for a match for this combination (but remember that the refname is regex-matched, not merely string-matched).  If a match is found, the push succeeds.  A fallthrough results in access being denied.
 
+### Продвинутый контроль доступа с запрещающими правилами ###
 ### Advanced Access Control with "deny" rules ###
 
+До сих пор у нас были только права вида `R`, `RW`, или `RW+`. Однако, в gitolite есть другие права доступа: `-` означающий "запретить". Это даёт гораздо больше возможностей взамен большей сложности, так как теперь отсутствие разрешающего правила не *единственный* способ получить запрет доступа, так что *порядок правил теперь имеет значение*!
+
 So far, we've only seen permissions to be one or `R`, `RW`, or `RW+`.  However, gitolite allows another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
+
+Предположим, в описанной выше ситуации мы хотим, чтобы инженеры могли откатить назад любую ветку *кроме* master и integ. Вот как это сделать:
 
 Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  Here's how to do that:
 
@@ -827,9 +881,14 @@ Let us say, in the situation above, we want engineers to be able to rewind any b
 	    -   master integ    = @engineers
 	    RW+                 = @engineers
 
+Снова, вы просто идёте по правилам сверху вниз пока не наткнётесь на соответствующее вашему режиму доступа или на запрет. Неоткатывающий push в master или integ разрешается первым правилом. Откатывающий push для этих ссылок не соответствует первому правилу, переходит ко второму и поэтому запрещается. Любой push (откатывающий или неоткатывающий) по ссылкам отличным от master и integ не совпадёт с первыми двумя правилами, а третье правило его разрешает.
+
 Again, you simply follow the rules top down until you hit a match for your access mode, or a deny.  Non-rewind push to master or integ is allowed by the first rule.  A rewind push to those refs does not match the first rule, drops down to the second, and is therefore denied.  Any push (rewind or non-rewind) to refs other than master or integ won't match the first two rules anyway, and the third rule allows it.
 
+### Ограничение push-ей на основе изменённых файлов ###
 ### Restricting pushes by files changed ###
+
+Вдобавок к ограничению веток, в которые пользователю можно отправлять изменения, вы можете также ограничить файлы, которые он может трогать. Например, возможно, Makefile (или какая-то другая программа) не предназначен для изменения кем угодно, так как многие вещи зависят от него или сломаются если изменения не будут сделаны *правильно*. Вы можете сказать gitolite-у:
 
 In addition to restricting what branches a user can push changes to, you can also restrict what files they are allowed to touch.  For example, perhaps the Makefile (or some other program) is really not supposed to be changed by just anyone, because a lot of things depend on it or would break if the changes are not done *just right*.  You can tell gitolite:
 
@@ -840,29 +899,52 @@ In addition to restricting what branches a user can push changes to, you can als
         -   NAME/Makefile   =   @junior_devs
         RW  NAME/           =   @junior_devs
 
+Это мощное средство продокументировано в `conf/example.conf`.
+
 This powerful feature is documented in `conf/example.conf`.
 
+### Персональные ветки ###
 ### Personal Branches ###
+
+Gitolite также имеет средство, которое называется "персональные ветки" (или даже "персональное пространство имён веток"), которое может быть весьма полезным в корпоративных средах.
 
 Gitolite also has a feature called "personal branches" (or rather, "personal branch namespace") that can be very useful in a corporate environment.
 
+Очень часто обмен кодом в мире git происходит через запросы "пожалуйста, заберите (pull)". В корпоративных средах, однако, неаутентифицированный доступ под строгим запретом, и рабочая станция разработчика не может выполнить аутентификацию. Так что вы вынуждены отправить (push) работу на центральный сервер и попросить кого-нибудь забрать (pull) её оттуда.
+
 A lot of code exchange in the git world happens by "please pull" requests.  In a corporate environment, however, unauthenticated access is a no-no, and a developer workstation cannot do authentication, so you have to push to the central server and ask someone to pull from there.
+
+Это обычно вызывает такой же беспорядок с именами веток, что и в централизованных СУВ, плюс настройка прав доступа для этого становится ежедневной обязанностью админа.
 
 This would normally cause the same branch name clutter as in a centralised VCS, plus setting up permissions for this becomes a chore for the admin.
 
+Gitolite позволяет определить "персональный" или "рабочий" префикс пространства имён для каждого разработчика (например, `refs/personal/<devname>/*`), с полными правами только для этого разработчика, и доступом на чтение для всех остальных. Просто выберите подробный режим установки и задайте `refs/personal` в качестве значения переменной `$PERSONAL` в "rc"-файле. Это всё. По большому счёту это решение по принципу "сделал и забыл", по крайней мере что касается админа, даже при постоянной смене людей в составе команды проекта.
+
 Gitolite lets you define a "personal" or "scratch" namespace prefix for each developer (for example, `refs/personal/<devname>/*`), with full permissions for that dev only, and read access for everyone else.  Just choose a verbose install and set the `$PERSONAL` variable in the "rc" file to `refs/personal`.  That's all; it's pretty much fire and forget as far as the admin is concerned, even if there is constant churn in the project team composition.
 
+### "Шаблонные" репозитории ###
 ### "Wildcard" repositories ###
+
+Gitolite позволяет указывать репозитории с помощью шаблонов (на самом деле регулярных выражений perl), таких как, например, `assignments/s[0-9][0-9]/a[0-9][0-9]`. Это *очень* мощная функция, которая включается с помощью установки `$GL_WILDREPOS = 1;` в rc файле. Она позволяет назначать новый режим доступа ("C"), который позволяет пользователям создавать репозитории на основе подобных шаблонов, автоматически назначает владельцем пользователя, который создал репозиторий, позволяет ему раздавать R и RW права другим пользователям и т.п. Эта функция описана в документе `doc/4-wildcard-repositories.mkd`.
 
 Gitolite allows you to specify repositories with wildcards (actually perl regexes), like, for example `assignments/s[0-9][0-9]/a[0-9][0-9]`, to pick a random example.  This is a *very* powerful feature, which has to be enabled by setting `$GL_WILDREPOS = 1;` in the rc file.  It allows you to assign a new permission mode ("C") which allows users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out R and RW permissions to other users to collaborate, etc.  This feature is documented in `doc/4-wildcard-repositories.mkd`.
 
+### Другие функции ###
 ### Other Features ###
+
+Мы закончим это обсуждение рассмотрением кучи других функций, все они описаны в мельчайших подробностях в документе "faqs, tips, etc".
 
 We'll round off this discussion with a bunch of other features, all of which are described in great detail in the "faqs, tips, etc" document.
 
+**Логирование**: Gitolite регистрирует все успешные доступы. Если вы несколько легкомысленно раздали людям права на откатывание изменений (`RW+`) и какая-то козлина снесла "master", лог-файл спасёт вам жизнь, и вы легко и быстро найдёте проёбаный SHA.
+
 **Logging**: Gitolite logs all successful accesses.  If you were somewhat relaxed about giving people rewind permissions (`RW+`) and some kid blew away "master", the log file is a life saver, in terms of easily and quickly finding the SHA that got hosed.
 
+**Git не в обычном PATH**: Одна крайне полезная и удобная функция в gitolite это поддержка git установленного вне обычного `$PATH` (это совсем не такая редкость как вы думаете; в некоторых корпоративных средах или даже у некоторых хостинг-провайдеров отказываются устанавливать что-либо в систему и всё заканчивается тем, что вы кладёте всё в свои личные директории). Обычно, вы вынуждены каким-то образом заставить git *на стороне клиента* учитывать это нестандартное расположение бинарников git-а. С gitolite, просто выберите "подробную" установку и задайте `$GIT_PATH` в "rc" файлах. Никаких изменений на стороне клиента после этого не требуется :-)
+
 **Git outside normal PATH**: One extremely useful convenience feature in gitolite is support for git installed outside the normal `$PATH` (this is more common than you think; some corporate environments or even some hosting providers refuse to install things system-wide and you end up putting them in your own directories).  Normally, you are forced to make the *client-side* git aware of this non-standard location of the git binaries in some way.  With gitolite, just choose a verbose install and set `$GIT_PATH` in the "rc" files.  No client-side changes are required after that :-)
+
+**Уведомление о правах доступа**: Другая удобная функция проявляется в момент, когда вы просто проверяете и заходите по ssh на сервер. Ранние версии gitolite обычно ругались на то, что переменная окружения `SSH_ORIGINAL_COMMAND` пуста (если интересно, смотри документацию по ssh). Сейчас Gitolite появляется с сообщением вроде этого:
 
 **Access rights reporting**: Another convenient feature is what happens when you try and just ssh to the server.  Older versions of gitolite used to complain about the `SSH_ORIGINAL_COMMAND` environment variable being empty (see the ssh documentation if interested).  Now Gitolite comes up with something like this:
 
@@ -876,11 +958,15 @@ We'll round off this discussion with a bunch of other features, all of which are
 	  R     indic_web_input
 	  R     shreelipi_converter
 
+**Делегирование**: При действительно больших установках, вы можете делегировать ответственность за группы репозиториев различным людям, которые будут независимо управлять этими частями. Это уменьшает нагрузку на главного админа и делает его не таким критичным элементом. Эта функция описана в отдельном файле в каталоге `doc/`.
+
 **Delegation**: For really large installations, you can delegate responsibility for groups of repositories to various people and have them manage those pieces independently.  This reduces the load on the main admin, and makes him less of a bottleneck.  This feature has its own documentation file in the `doc/` directory.
+
+** Поддержка Gitweb**: Gitolite имеет поддержку gitweb в нескольких аспектах. Вы можете указать какие репозитории видны через gitweb. Вы можете назначить "владельца" и "описание" для gitweb из конфигурационного файла для gitolite. В gitweb есть механизм организации контроля доступа через аутентификацию по HTTP, и вы можете заставить его использовать "скомпилированный" конфигурационный файл сделанный gitolite-ом, что означает, что одинаковые правила контроля доступа (для доступа на чтение) действуют и для gitweb, и для gitolite.
 
 **Gitweb support**: Gitolite supports gitweb in several ways.  You can specify which repos are visible via gitweb.  You can set the "owner" and "description" for gitweb from the gitolite config file.  Gitweb has a mechanism for you to implement access control based on HTTP authentication, so you can make it use the "compiled" config file that gitolite produces, which means the same access control rules (for read access) apply for gitweb and gitolite.
 
-## Демон Git ##
+## Git-демон ##
 
 Для публичного, неидентифицированного доступа на чтение к вашим проектам вы можете захотеть продвинуться дальше, чем HTTP протокол и начать использовать Git протокол. Главная причина — скорость. Git протокол гораздо эффективнее и поэтому быстрее чем HTTP, поэтому используя его вы можете сэкономить вашим пользователям время.
 

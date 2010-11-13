@@ -64,20 +64,20 @@ Insert 18333fig0103.png
 Insert 18333fig0104.png 
 รูปที่ 1-4. ระบบอื่น ๆ มักจะเก็บข้อมูลโดยอิงกับการแก้ไขที่เกิดขึ้นกับไฟล์
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git ไม่ได้มองและจัดเก็บข้อมูลในลักษณะนี้ แต่จะคิดว่าข้อมูลของมันเป็นเสมือนภาพถ่าย(snapshot)ของระบบไฟล์ขนาดเล็กๆ ทุกครั้งที่มีการ commit หรือบันทึกสถานะของโปรเจคลงใน Git มันจะทำการถ่ายภาพของไฟล์ทั้งหมดในตอนนั้นและบันทึกการอ้างอิงไปยัง snapshot นั้น เพื่อให้การจัดเก็บนั้นมีประสิทธิภาพ ถ้าไฟล์ใดที่ไม่ได้มีการเปลี่ยนแปลง Git ก็จะไม่บันทึกไฟล์นั้นอีกครั้ง เพียงแต่จะทำการเชื่อมโยงไปยังไฟล์เดิมที่เคยถูกบันทึกเอาไว้อยู่แล้ว Git จะมองข้อมูลดังรูปที่ 1-5
 
 Insert 18333fig0105.png 
 รูปที่ 1-5. Git เก็บข้อมูลเป็น snapshot ของโปรเจค
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+นี่คือความแตกต่างที่สำคัญระหว่าง Git กับ VCSs ตัวอื่นๆ มันทำให้ Git ทำได้เกือบทุกด้านของระบบ VCS อื่นๆ ซึ่งส่วนใหญ่ก็คัดลอกมาจากรุ่นก่อนๆ นี่ทำให้ Git เป็นเหมือนกับระบบไฟล์ขนาดเล็กที่มีเครื่องมือ(tools)อันทรงพลังอย่างน่าเหลือเชื่อครอบอยู่ แทนที่จะเป็น VCS แบบทั่วไป เราจะมาสำรวจข้อดีที่คุณจะได้รับจากแนวคิดแบบนี้เมื่อเรากล่าวถึงเรื่อง การแตกสาขา(Git branching) ในบทที่ 3
 
 ### การทำงานเกือบทุกอย่างเป็นการทำงานในเครื่องตัวเอง ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+การทำงานโดยส่วนใหญ่ของ Git จะใช้ไฟล์และทรัพยากรในเครื่องของเราเท่านั้น ปกติจะไม่มีข้อมูลใดๆ ที่จำเป็นต้องใช้จากคอมพิวเตอร์เครื่องอื่นๆ ในเน็ตเวิร์ก แต่หากคุณเคยใช้ CVCS อื่นที่การทำงานส่วนใหญ่ต้องใช้ข้อมูลบนเน็ตเวิร์กจำนวนมาก ในแง่นี้ก็จะทำให้คุณรู้สึกมีความสุขกับความเร็วในการทำงานของ Git เพราะว่าคุณจะมีประวัติการเปลี่ยนแปลงทั้งหมดของโปรเจคอยู่ในเครื่องของคุณอยู่แล้วและพร้อมที่จะทำงานได้ทันที
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+ตัวอย่างเช่น ถ้าจะดูประวัติย้อนหลังของโปรเจค Git ไม่จำเป็นที่จะต้องไปดึงข้อมูลจากเซิร์ฟเวอร์แล้วจึงแสดงผลให้คุณได้ มันแค่อ่านโดยตรงจากฐานข้อมูลในเครื่องของคุณ หมายความว่าคุณสามารที่จะดูประวัติของโปรเจคได้ทันที หากคุณจะดูความเปลี่ยนแปลงของไฟล์ในรุ่นปัจจุบันกับเมื่อหนึ่งเดือนที่แล้ว Git ก็สามารถค้นหาไฟล์เมื่อเดือนก่อนในเครื่องของเราแล้วทำการคำนวณความแตกต่าง แทนที่จะถามเครื่องเซิร์ฟเวอร์ให้ดึงไฟล์เก่ามาให้
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+ซึ่งก็มีโอกาสน้อยมากที่คุณไม่สามารถทำงานได้ถ้าหากออฟไลน์อยู่ หากคุณต้องเดินทางอยู่บนเครื่องหรือบนรถไฟและอยากจะทำงานสักหน่อย คุณก็สามารถ commit ได้อย่างมีความสุขจนกว่าจะเชื่อมต่อเน็ตเวิร์กได้แล้วอัพโหลด หากที่บ้านของคุณมีปัญหาเรื่องเน็ตเวิร์กคุณก็ยังคงทำงานได้ ถ้าเป็นระบบอื่นทำแบบนี้ไม่ได้แน่ และจะทำอะไรแทบจะไม่ได้เลยหากคุณเชื่อมต่อไปยังเซิร์ฟเวอร์ไม่ได้ ยิ่งในโปรแกรม Subversion และ CVS คุณสามารถแก้ไขไฟล์ต่างๆ ได้แต่จะไม่สามารถ commit ได้เพราะฐานข้อมูลมันออฟไล์อยู่ นี่อาจจะไม่ใช้เรื่องใหญ่อะไรแต่ก็ได้แต่คุณจะแปลกใจในความสามารถนี้ที่ Git ทำได้
 
 ### Git Has Integrity ###
 

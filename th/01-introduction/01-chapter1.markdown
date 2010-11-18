@@ -79,19 +79,20 @@ Insert 18333fig0105.png
 
 ซึ่งก็มีโอกาสน้อยมากที่คุณไม่สามารถทำงานได้ถ้าหากออฟไลน์อยู่ หากคุณต้องเดินทางอยู่บนเครื่องหรือบนรถไฟและอยากจะทำงานสักหน่อย คุณก็สามารถ commit ได้อย่างมีความสุขจนกว่าจะเชื่อมต่อเน็ตเวิร์กได้แล้วอัพโหลด หากที่บ้านของคุณมีปัญหาเรื่องเน็ตเวิร์กคุณก็ยังคงทำงานได้ ถ้าเป็นระบบอื่นทำแบบนี้ไม่ได้แน่ และจะทำอะไรแทบจะไม่ได้เลยหากคุณเชื่อมต่อไปยังเซิร์ฟเวอร์ไม่ได้ ยิ่งในโปรแกรม Subversion และ CVS คุณสามารถแก้ไขไฟล์ต่างๆ ได้แต่จะไม่สามารถ commit ได้เพราะฐานข้อมูลมันออฟไล์อยู่ นี่อาจจะไม่ใช้เรื่องใหญ่อะไรแต่ก็ได้แต่คุณจะแปลกใจในความสามารถนี้ที่ Git ทำได้
 
-### Git Has Integrity ###
+### Git มีความเที่ยงตรง ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+ทุกอย่างที่ Git ทำการบันทึกเอาไว้จะถูกทำการ Checksum แล้วนำมาใช้เป็นตัวอ้างอิง นั่นทำให้ไม่มีทางที่เราจะแก้ไขข้อมูลของไฟล์และไดเร็กทอรี่ใดโดยที่ Git จะไม่รู้ ซึ่งฟังก์ชันนี้จะอยู่ในระดับล่างและเป็นหลักการของ Git คุณจะไม่มีทางที่จะทำข้อมูลสูญหายระหว่างการโยกย้ายหรือรับไฟล์ที่เสียหายโดย Git จะสามารถตรวจพบได้
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+กลไกที่ Git ใช้ในการทำ Checksum คือการแฮช(hash)แบบ SHA-1 ซึ่งผลลัพธ์จะได้ออกมาเป็นตัวอักษร 40 ตัวที่แทนเลขฐานสิบหก(0-9 และ a-f)จากการคำนวณเนื้อหาในไฟล์หรือโครงสร้างของไดเร็กทอรี่ของ Git ซึ่ง SHA-1 มีลักษณะดังนี้
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+คุณจะเห็นว่าผลของการแฮช(hash)เหล่านี้อยู่ในทุกที่ใน Git เพราะจะถูกใช้บ่อยครั้ง ซึ่งจริงๆแล้ว Git ไม่ได้เก็บบันทึกข้อมูลทุกอย่างตามชื่อไฟล์แต่เก็บในฐานข้อมูลของ Git แล้วสามารถอ้างถึงด้วยค่าแฮช(hash)ของข้อมูลของไฟล์
 
 ### Git Generally Only Adds Data ###
 
 When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+เมื่อคุณกระทำอะไรสักอย่างใน Git เนื้อหาเกือบทั้งหมดนั้นก็จะถูกเพิ่มเข้าไปในฐานข้อมูลของ Git 
 
 This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
 

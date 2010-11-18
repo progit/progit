@@ -89,35 +89,34 @@ Insert 18333fig0105.png
 
 คุณจะเห็นว่าผลของการแฮช(hash)เหล่านี้อยู่ในทุกที่ใน Git เพราะจะถูกใช้บ่อยครั้ง ซึ่งจริงๆแล้ว Git ไม่ได้เก็บบันทึกข้อมูลทุกอย่างตามชื่อไฟล์แต่เก็บในฐานข้อมูลของ Git แล้วสามารถอ้างถึงด้วยค่าแฮช(hash)ของข้อมูลของไฟล์
 
-### Git Generally Only Adds Data ###
+### Git เพียงแต่เพิ่มข้อมูล ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
-เมื่อคุณกระทำอะไรสักอย่างใน Git เนื้อหาเกือบทั้งหมดนั้นก็จะถูกเพิ่มเข้าไปในฐานข้อมูลของ Git 
+เมื่อคุณกระทำอะไรสักอย่างใน Git เนื้อหาเกือบทั้งหมดนั้นก็จะถูกเพิ่มเข้าไปในฐานข้อมูลของ Git เท่านั้น มันเป็นเรื่องยากมากๆ ที่เราจะใช้ระบบที่ทำอะไรลงไปแล้วไม่สามารถย้อนคืนกลับมาได้หรือลบแล้วลบเลย เช่นเดียวกันกับ VCS ตัวอื่นๆ คุณสามารถสูญเสียข้อมูลหรือแก้ไขผิดพลาดได้โดยที่ยังไม่ทันได้ commit แต่ถ้าคุณ commit ลงใน snapshot ของ Git แล้วมันก็ยากที่จะสูญหายได้โดยเฉพาะอย่างยิ่งถ้าคุณทำการผลัก(push)ฐานข้อมูลของคุณไปไว้ที่อื่นๆ
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+สิ่งนี้ทำให้การใช้ Git ได้อย่างมีความสุข เพราะเรารู้ว่าเราสามารถทำการทดลองได้โดยที่ไม่มีอันตรายร้ายแรง เราจะดูเนื้อหาลึกๆว่า Git จัดเก็บข้อมูลอย่างไร และเราสามารถกู้ข้อมูลที่สูญหายไปได้อย่างไร ในบทที่ 9
 
-### The Three States ###
+### สามสถานะ ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+ทีนี้เราต้องให้ความสนใจหน่อย เพราะนี่คือสิ่งสำคัญของ Git ที่จะต้องจำให้ได้ ถ้าคุณต้องการจะศึกษาส่วนอื่นๆต่อไปของ Git อย่างราบรื่น ไฟล์ของคุณใน Git จะมีอยู่ 3 สถานะ คือ ยืนยันแล้ว(committed), ถูกแก้ไข(modified) และ อยู่ในขั้นตอน(staged) ซึ่ง Committed หมายถึงข้อมูลที่ถูกบันทึกเรียบร้อยแล้วในฐานข้อมูลในเครื่องของคุณ  Modified หมายถึงไฟล์ของคุณได้ถูกแก้ไขแล้วแต่ยังไม่ได้ยืนยัน(commit)ลงในฐานข้อมูลของคุณ Staged หมายถึงคุณได้ทำเครื่องหมายไว้ที่ไฟล์ที่ถูกแก้ไขในเวอร์ชันปัจจุบันเพื่อที่จะรอการ commit ใน snapshot ถัดไป
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+นี่ทำให้โปรเจคที่ใช้ Git มี 3 ส่วน คือ the Git directory, working directory, และ staging area.
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+Figure 1-6. Working directory, staging area, และ git directory.
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git directory เป็นที่ที่ Git ใช้เก็บ metadata และออปเจ็คของฐานข้อมูลของโปรเจคของคุณ นี่คือส่วนสำคัญที่สุดของ Git และเป็นส่วนที่จะถูกคัดลอกมาเมื่อคุณทำการโคลน(clone)คลังข้อมูลจากคอมพิวเตอร์เครื่องอื่น
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+working directory เป็นเวอร์ชันนึงของไฟล์ในโปรเจคที่ถูกดึงออกมาจากฐานข้อมูลที่ถูกบีบอัดไว้ใน Git directory แล้วเก็บไว้ในดิสก์เพื่อให้คุณนำไปใช้หรือเอามาแก้ไข
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+staging area เป็นไฟล์ธรรมดาไฟล์นึง โดยทั่วไปก็อยู่ใน Git directory ของคุณ ซึ่งเก็บข้อมูลส่วนที่คุณจะทำการ commit ในครั้งถัดไป บางครั้งก็เรียกว่าดัชนี(index) แต่ปกติก็จะเรียกว่า staging area
 
-The basic Git workflow goes something like this:
+กระบวนการขั้นตอนพื้นฐานของ Git มีลักษณะดังนี้
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	คุณทำการแก้ไขไฟล์ใน working directory ของคุณ
+2.	แล้วทำการ  stage ไฟล์เหล่านั้นเพื่อให้มีการใส่ snapshot ลงไปใน staging area ของคุณ
+3.	ทำการยืนยัน(commit)ซึ่งนำไฟล์ที่อยู่ใน staging area ไปเก็บอย่างถาวรใน Git directory
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+เมื่อไฟล์อยู่ใน Git directory มันจะถือว่าเป็นสถานะ committed ถ้าไฟล์ถูกแก้ไขแล้วถูกเพิ่มลงใน staging area สถานะจะเป็น staged และถ้าไฟล์ถูกแก้ไขแล้วหลังถูกดึงออกมาแต่ไม่ได้เป็นสถานะ staged ก็จะเป็นสถานะ modified ในบทที่ 2 คุณจะได้เรียนรู้เกี่ยวกับสถานะมากกว่านี้และวิธีการที่คุณสามารถใช้ประโยชน์จากสถานะเหล่านี้หรือการข้ามสถานะ staged ได้อย่างไร
 
 ## การติดตั้ง Git ##
 

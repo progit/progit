@@ -39,19 +39,19 @@ Insert 18333fig0103.png
 
 Апроч таго, шмат якія з гэтых сістэм выдатна працуюць з некалькімі аддаленымі сховішчамі, так што вы можаце адначасова па-рознаму узаемадзейнічаць з некалькімі рознымі групамі людзей у межах аднаго праекта. Гэта дазваляе наладжваць розные тыпы паслядоўнасцяў дзеянняў, што немагчыма з цэнтралізаванымі сістэмамі, такімі як іерархічныя мадэлі.
 
-## A Short History of Git ##
+## Кароткая гісторыя Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Як і шмат іншых вялікіх рэчаў у жыцці, Git пачынаўся з стваральнага разбурэння і палымяных спрэчак. Ядро Linux — праграмны праект з адкрытымі зыходнікамі даволі вялікага аб'ёму. На пряцягу большай часткі перыяду існавання ядра Linux змены ў ім распаўсюджваліся у выглядзе патчаў і архіваваных файлаў. У 2002 годзе праект распрацоўкі ядра Linux пачаў карыстацца BitKeeper — прапрыетарнай РСКВ
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+У 2005 годзе адносіны паміж суполкай распрацоўшчыкаў ядра Linux і камерцыйнай кампаніяй, што распрацоўвала BitKeeper сапсаваліся і бясплатна карыстацца гэтай утылітай стала немагчыма. Гэта запатрабавала ад суполкі распрацоўшчыкаў Linux (і, ў прыватнасці, Лінуса Торвальдса (Linus Torvalds), стваральніка Linux'а) ствараць іх уласную сістэму, заснаваную на некаторых з урокаў, якія яны вынеслі для сябе з досведу карыстання BitKeeper. Некаторыя з мэтаў новай сітэмы ніжэй:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Хуткасць
+*	Просты дызайн
+*	Моцная падтрымка нелінейнай распрацоўкі (сотні паралельных галін)
+*	Цалкам размеркаваная
+*	Магчымасць эфектыўна працаваць з вялікімі праектамі, кшталту ядра Linux (хуткасць і памер дадзеных)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+З часу свайго з'яўлення ў 2005 годзе Git развіваўся і сталеў каб быць лёгкім у выкарыстанні і пры гэтым захоўваць гэтыя першапачатковыя якасці. Ён неверагодна хуткі, вельмі эфектыўны ў працы з вялікімі праектамі і мае неверагодную сістэму кіравання галінамі для нелінейных праектаў (гл. главу 3).
 
 ## Git Basics ##
 

@@ -19,16 +19,16 @@ Figura 1-1. Diagramă pentru controlul versiunilor local.
 
 Unul dintre cele mai populare unelte VCS era un sistem denumit rcs, care este încă distribuit cu multe calculatoare și astăzi. Până și popularul sistem de operare Mac OS X include comanda rcs atunci când instalați Uneltele de Dezvoltare. Acest utilitar practic funcționează prin menținerea mai multor mulțimi de patch-uri ("petice" [ro], care reprezintă de fapt diferențele dintre fișiere) de la schimbare la alta într-un format special pe disc; apoi utilitarul poate recrea cum arăta un anumit fișier la un anumit moment de timp prin adăugarea tuturor patch-urilor.
 
-### Centralized Version Control Systems ###
+### Sisteme Centralizate pentru Controlul Versiunilor ###
 
-The next major issue that people encounter is that they need to collaborate with developers on other systems. To deal with this problem, Centralized Version Control Systems (CVCSs) were developed. These systems, such as CVS, Subversion, and Perforce, have a single server that contains all the versioned files, and a number of clients that check out files from that central place. For many years, this has been the standard for version control (see Figure 1-2).
+Următoarea mare problemă pe care oamenii o au este necesitatea de a colabora cu alți dezvoltatori din alte sisteme. Pentru a face față acestei probleme, au fost dezvoltate Sisteme Centralizate de Controlul Versiunilor (SCCV, CVCS [en]). Aceste sisteme, cum ar fi CVS, Subversion, și Perforce, au un singur server care conține toate fișierele aflate sub controlul versiunilor, și un număr de clienți care preiau (check out [en]) fișiere din acea locație centrală. Timp de mulți ani, acesta a reprezentat standardul sistemele pentru controlul versiunilor (vezi Figura 1-2).
 
 Insert 18333fig0102.png 
-Figure 1-2. Centralized version control diagram.
+Figura 1-2. Diagramă pentru controlul versiunilor centralizat.
 
-This setup offers many advantages, especially over local VCSs. For example, everyone knows to a certain degree what everyone else on the project is doing. Administrators have fine-grained control over who can do what; and it’s far easier to administer a CVCS than it is to deal with local databases on every client.
+Acest model oferă multe avantaje, în special pentru sistemele locale de versionare. De exemplu, oricine știe până la un anumit punct ce face într-un proiect orice altcineva. Administratorii au un control foarte exact asupra ce poate face un anumit utilizator; în același timp fiind mult mai ușor de administrat un CVCS decât lucrul cu baze de date locale fiecărui client.
 
-However, this setup also has some serious downsides. The most obvious is the single point of failure that the centralized server represents. If that server goes down for an hour, then during that hour nobody can collaborate at all or save versioned changes to anything they’re working on. If the hard disk the central database is on becomes corrupted, and proper backups haven’t been kept, you lose absolutely everything—the entire history of the project except whatever single snapshots people happen to have on their local machines. Local VCS systems suffer from this same problem—whenever you have the entire history of the project in a single place, you risk losing everything.
+Totuși, acest model are și niște dezavantaje serioase. Cel mai evident este legat de un singur punct slab care este reprezentat de serverul central. Dacă acel server se oprește timp de o oră, în acea perioadă nimeni nu mai poate colabora cu nimeni altcineva sau nu poate salva schimbările făcute în cadrul proiectului la care lucrează. Dacă hard discul bazei de date centrale se defectează, și nu există un back-up consistent, se poate ajunge la situația de a pierde totul - întreaga istorie a proiectului cu excepția lucrurilor curente pe care unii membrii ai proiectului le pot avea pe stațiile de lucru locale. Sistemele locale de versionare suferă de aceleași probleme - oricând avem întreaga istorie a unui proiect într-un singur loc, riști să pierzi totul.
 
 ### Distributed Version Control Systems ###
 

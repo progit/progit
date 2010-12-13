@@ -30,79 +30,79 @@ Acest model oferă multe avantaje, în special pentru sistemele locale de versio
 
 Totuși, acest model are și niște dezavantaje serioase. Cel mai evident este legat de un singur punct slab care este reprezentat de serverul central. Dacă acel server se oprește timp de o oră, în acea perioadă nimeni nu mai poate colabora cu nimeni altcineva sau nu poate salva schimbările făcute în cadrul proiectului la care lucrează. Dacă hard discul bazei de date centrale se defectează, și nu există un back-up consistent, se poate ajunge la situația de a pierde totul - întreaga istorie a proiectului cu excepția lucrurilor curente pe care unii membrii ai proiectului le pot avea pe stațiile de lucru locale. Sistemele locale de versionare suferă de aceleași probleme - oricând avem întreaga istorie a unui proiect într-un singur loc, riști să pierzi totul.
 
-### Distributed Version Control Systems ###
+### Sisteme Distribuite pentru Controlul Versiunilor ###
 
-This is where Distributed Version Control Systems (DVCSs) step in. In a DVCS (such as Git, Mercurial, Bazaar or Darcs), clients don’t just check out the latest snapshot of the files: they fully mirror the repository. Thus if any server dies, and these systems were collaborating via it, any of the client repositories can be copied back up to the server to restore it. Every checkout is really a full backup of all the data (see Figure 1-3).
+Acum este momentul în care Sistemele Distribuite pentru Controlul Versiunilor (DVCS [en]) își fac apariția. Într-un DVCS (cum ar fi Git, Mercurial, Bazaar sau Darcs), clienții nu doar preiau ultima versiune a fișierelor: ei descarcă o copie completă a repository-ului. Deci chiar dacă orice server se defectează, și aceste sisteme colaborau prin intermediul lui, oricare din repository-urile de la client pot fi copiate înapoi pe server pentru a-l aduce la starea inițială. Fiecare checkout este efectiv un backup complet a tuturor datelor (vezi Figura 1-3).
 
 Insert 18333fig0103.png 
-Figure 1-3. Distributed version control diagram.
+Figura 1-3. Diagramă cu sistemul distribuit al versiunilor.
 
+Mai mult, multe din aceste sisteme se descurcă suficient de bine cu lucrul simultan cu mai multe repository-uri, așă că putem colabora cu diferite grupuri de oameni în diverse moduri în același timp în cadrul aceluiași proiect. Aceasta ne permite să ne configurăm diverse modele de lucru care nu sunt posibile în sistemele centralizate, de exemplu un model ierarhic.
 Furthermore, many of these systems deal pretty well with having several remote repositories they can work with, so you can collaborate with different groups of people in different ways simultaneously within the same project. This allows you to set up several types of workflows that aren’t possible in centralized systems, such as hierarchical models.
 
-## A Short History of Git ##
+## O Scurtă Istorie a Git ##
 
-As with many great things in life, Git began with a bit of creative destruction and fiery controversy. The Linux kernel is an open source software project of fairly large scope. For most of the lifetime of the Linux kernel maintenance (1991–2002), changes to the software were passed around as patches and archived files. In 2002, the Linux kernel project began using a proprietary DVCS system called BitKeeper.
+Ca și cu multe alte lucruri bune din viață, Git a început cu puțină distrugere creativă și multe controverse. Kernelul Linux este un proiect open source cu o gamă de aplicabilitate destul de mare. În marea parte a vieții proiectului (1991-2002), schimbările din cadrul kernelului Linux erau trimise ca și patches sau fișiere arhivate. În 2002, kernelul Linux a început să folosească un DVCS proprietar numit BitKeeper.
 
-In 2005, the relationship between the community that developed the Linux kernel and the commercial company that developed BitKeeper broke down, and the tool’s free-of-charge status was revoked. This prompted the Linux development community (and in particular Linus Torvalds, the creator of Linux) to develop their own tool based on some of the lessons they learned while using BitKeeper. Some of the goals of the new system were as follows:
+În 2005, relațiile dintre comunitatea care dezvolta kernelul și firma care dezvolta BitKeeper s-au stricat, și statutul de gratuit al aplicației a fost revocat. Această schimbare a impus comunității (și în special lui Linus Torvalds, creatorul Linux) să dezvolte propriul sistem bazat pe unele din lucrurile învățate în timpul utilizării BitKeeper. Unele din scopurile noului sistem au fost:
 
-*	Speed
-*	Simple design
-*	Strong support for non-linear development (thousands of parallel branches)
-*	Fully distributed
-*	Able to handle large projects like the Linux kernel efficiently (speed and data size)
+*	Rapiditate
+*	Design simplu
+*	Suport puternic pentru dezvoltare nelineară (mii de branch-uri paralele)
+*	Complet distribuit
+*	Abilitatea de a gestiona proiecte mari similare cu kernelul Linux într-un mod eficient (din punct de vedere al vitezei și mărimii datelor)
 
-Since its birth in 2005, Git has evolved and matured to be easy to use and yet retain these initial qualities. It’s incredibly fast, it’s very efficient with large projects, and it has an incredible branching system for non-linear development (See Chapter 3).
+Începând cu nașterea sa din 2005, Git a evoluat și s-a maturizat pentru a deveni ușor de folosit dar păstrându-și toate aceste calități inițiale. Git este incredibil de rapid, este foarte eficient cu proiecte mari, și deține un sistem incredibil pentru crearea de branch-uri utilizate in dezvoltarea neliniară (Vezi Capitolul 3).
 
-## Git Basics ##
+## Bazele Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Pe scurt, ce este Git? Această secțiune este important de urmărit, deoarece dacă ințelegeți ceea ce este Git și bazele funcționării acestuia, atunci folosirea lui eficientă va fi mult ușurată pentru dumneavoastră. Pe măsură ce învățați Git, încercați să vă mențineți o minte limpede cu privire la lucrurile deja cunoscute de la alte sisteme de versionare, cum ar fi Subversion și Perforce; făcând asta vă va ajuta să evitați confuziile subtile cauzate de folosirea inițială a sa. Git stochează informațiile și lucrează cu ele mult diferit comparativ cu oricare din acele sisteme, chiar dacă interfața cu utilizatorul este destul de asemănătoare; înțelegerea acelor diferențe vă va ajuta să nu fiți confuz în timpul folosirii.
 
-### Snapshots, Not Differences ###
-
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+### Instantanee, nu Diferențe ###
+Principala diferență dintre Git și oricare alte sisteme de versionare (Subversion și prietenii săi inclusiv) este modul în care Git își gestionează datele. Conceptual, majoritatea celorlalte sisteme își stochează informațiile ca o listă de schimbări asupra fișierelor. Aceste sisteme (CVS, Subversion, Perforce, Bazaar și altele) văd informațiile ca o mulțime de fișiere și schimbările asupra fișierelor în timp, după cum este ilustrat în Figura 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Figura 1-4. Alte sisteme tind să stocheze datele ca schimbări relative la versiune de bază a fiecărui fișier.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git nu vede și nici nu stochează datele în acest mod. În schimb, Git consideră datele sale mai mult ca o mulțime de instantanee (snapshots [en]) ale unu mini sistem de fișiere. De fiecare dată când faceți commit, sau salvați starea proiectului dumneavoastră în Git, acesta practic salvează o poză a stării curente a tuturor fișierelor din acel moment și stochează o referință la acel instantaneu. Pentru a fi eficient, dacă există fișiere care nu s-au schimbat, Git nu stochează fișierul iarași ci doar o legătură către fișierul anterior stocat identic cu cel din prezent. Git vede datele stocate similar cu Figura 1-5.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Figura 1-5. Git stochează datele ca și instantanee ale proiectului de-a lungul timpului.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Aceasta este o distincție importantă dintre Git și aproape toate celelalte VCS. Aceasta face ca Git să reconsidere fiecare aspect al controlului versiunilor pe care majoritatea sistemelor le-au copiat de la generația anterioară. Acest aspect face ca Git să fie mult asemănător cu un mini sistem de fișiere cu niște unelte incredibil de utile adăugate peste el, comparativ cu un simplu VCS, Vom analiza unele dintre benefiicle câștigate prin a vedea datele voastre în acest fel atunci când ne vom ocupa de crearea ramurilor (branches [en]) in Capitolul 3.
 
-### Nearly Every Operation Is Local ###
+### Aproape Orice Operație Este Locală ###
 
-Most operations in Git only need local files and resources to operate — generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Majoritatea operațiilor în Git necesită doar fișiere locale și resurse locale pentru a funcționa - în general nu sunt necesare informații de la un alt calculator din rețea. Dacă sunteți obișnuit cu un CVCS în care majoritatea operațiilor au o extra latență dată de rețea, aceste aspect al Git vă va face să credeți că zeii vitezei au binecuvântat Git cu puteri din alte lumi. Deoarece aveți întreaga istorie a proiectului chiar aici pe discul local, majoritatea operațiilor par aproape instantanee.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+De exemplu, pentru a răsfoi istoria proiectului, Git nu necesită să acceseze serverul pentru a prelua istoria și să o afișeze pentru dumneavoastră - pur și simplu o citește direct din baza de date locală. Aceasta înseamnă că vedeți istoria proiectului aproape instant. Dacă doriți să vedeți schimbările introduse între versiunea curentă a fișierului și cea de acum o lună, Git poate căuta fișierul de acum o lună și să facă un calcul față de diferența locală, în loc de a cere unui server să o facă sau să descarce o versiune mai veche a fișierului de la un server și apoi să facă operația local.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+Aceasta înseamnă de asemenea că sunt foarte puține lucruri care nu le puteți face atunci când nu sunteți conectat la rețea sau prin VPN. Dacă sunteți într-un avion sau într-un tren și doriți să munciți putin, puteți adăuga schimbări proiectului iar când ajungeți la o rețea să le încărcați. Dacă ajungeți acasă și nu vă puteți porni clientul VPN, încă puteți lucra. În multe alte sisteme, aceste activități sunt fie imposibile fie foarte greoaie de gestionat. În Perforce, nu puteți face mare lucru atunci când nu sunteți conectat la server; și în Subversion și CVS, puteți edita fișiere, dar nu le puteți face commit în baza de date (deoarece baza de date nu poate fi accesată). Aceasta poate părea o mică îmbunătațire, dar veți fi surprins ce diferență imensă poate face.
 
-### Git Has Integrity ###
+### Git Are Integritate ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Totul in Git are o sumă de control (checksum [en]) înainte de a fi stocat și este apoi referit de către acea sumă de control. Aceasta înseamnă că este imposibil de schimbat conținutul oricărui fișier sau director fără ca Git să știe de el. Aceast funcționalitate este inclusă în Git la cele mai de jos nivele și este o parte integrantă a filosofiei sale. Nu puteți pierde informații în tranzit sau să întâlniți corupere de fișiere fără ca Git să le detecteze.
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Mecanismul folosit de Git pentru sumele de control este denumit hash SHA-1. Acesta este un șir de 40 de caractere compus din caractere hexazecimale (toate cifrele, 0 la 9 și caracterele de la a la f) și este calculat pe baza conținutului unui fișier sau a structurii de directoare din Git. Un hash SHA-1 arată similar cu următorul șir:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Veți vedea aceste șiruri peste tot în cadrul Git deoarece Git le folosește foarte mult. De fapt, Git stochează orice nu bazându-se pe numele fișierului ci în baza de date Git adresabilă prin intermediul valorii hash a conținutului său. 
 
-### Git Generally Only Adds Data ###
+### Git Adaugă Date în General ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Când efectuați anumite operații în Git, aproape toate din ele doar adaugă date în baza de date Git. Este foarte dificil să constrângem sistemul să facă orice operații care sunt permanente sau să șteargă date în vreun fel. Dar ca în orice VCS, puteți pierde sau strica informații datorată schimbărilor care nu sunt deja adăugate; dar după ce faceți commit unui snapshot în Git, este foarte dificil să pierdeți date, mai ales dacă vă împingeți (push [en]) repository-ul către un alt repository.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Acest fapt face Git foarte ușor de folosit deoarece știm că putem experimenta fără a fi în pericol de a strica lucrurile într-un mod grav. Pentru o privire mai atentă la cum stochează Git datele și cum puteți recupera date care par pierdute, vedeți "Sub Capota Git" din Capitolul 9.
 
-### The Three States ###
+### Cele Trei Stări ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Acum, fiți atenți. Acesta este lucrul principal care trebuie să vi-l amintiți despre Git dacă doriți ca restul procesului de învățare să se desfășoare lin. Git are trei stări principale în care se pot afla fișierele: comise, modificate, și în așteptare (commited, modified, staged [en]). Comise (commited [en]) presupune că datele sunt în siguranță în baza de date locală. Modificate presupune că ați schimbat fișierul dar nu l-ați comis încă în baza de date. În așteptare (staged [en]) înseamnă că ați marcat un fișier în forma curentă să fie inclus în următorul instantaneu comis (commited snapshot [en]).
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+Aceasta ne duce la principalele trei secțiuni ale unui proiect Git: directorul Git, directorul curent, și zona de așteptare (staging area [en]).
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+Figura 1-6. Directorul de lucru, zona de așteptare, și directorul git.
 
 The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
 

@@ -104,122 +104,122 @@ Aceasta ne duce la principalele trei secțiuni ale unui proiect Git: directorul 
 Insert 18333fig0106.png 
 Figura 1-6. Directorul de lucru, zona de așteptare, și directorul git.
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Directorul Git este locația unde Git își stochează metadate și baza de date cu obiecte a proiectului dumneavoastră. Aceasta este partea cea mai importantă a Git, și reprezintă ceea ce este copiat atunci când clonați un repository de la un alt calculator.
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Directorul de lucru reprezintă un singur checkout al unei versiuni a proiectului. Aceste fișiere sunt preluate din baza de date comprimată din directorul Git și plasate pe discul dumneavoastră pentru a le putea modifica.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+Zona de așteptare (staging [en]) este un simplu fișier, de obicei conținut in directorul Git, și stochează informații despre ce va fi folosit pentru urmatorul commit. Este uneori denumit și index, dar devine obișnuit să i se spună zona de așteptare.
 
-The basic Git workflow goes something like this:
+Modelul de lucru a Git poate arată ceva similar cu:
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	Modificați fișierele din directorul de lucru.
+2.	Puneți fișierele în așteptare, adăugând instantanee ale lor în zona de așteptare.
+3.	Faceți un commit, care preia fișierele în starea curentă din zona de așteptare și stochează acel instantaneu permanent în directorul dumneavoastră Git.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Dacă o anumită versiune a unui fișier este în directorul Git, este considerat ca și adăugat (commited [en]). Dacă este modificat dar a fost adăugat în zona de așteptare, este în așteptare. Si dacă a fost schimbat de la ultimul moment în care a fost comis dar nu este în așteptare, este modificat. În Capitolul 2, veți învăța mai multe despre aceste stări și cum puteți fie să le folosiți în avantajul dumneavoastră sau să le omiteți complet.
 
-## Installing Git ##
+## Instalarea Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Să începem să folosim Git. Începând cu începutul - trebuie să îl instalăm. Puteți să îl obțineți în mai multe feluri; cele mai importante sunt să îl instalați din surse sau să instalați un pachet deja existent pentru platforma dumneavoastră.
 
-### Installing from Source ###
+### Instalarea din Fișiere Sursă ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Dacă puteți, este uneori folositor să instalați Git din surse, deoarece veți obține cea mai nouă versiune. Fiecare nouă versiune tinde să conțină îmbunătațiri ale interfeței, așa că dacă doriți ultima apariție aceasta este cea mai bună metodă dacă sunteți confortabil în lucrul cu cod sursă. Uneori puteți întâlni cazul în care versiunea dumneavoastră de Linux conține pachete foarte vechi; așa că dacă nu aveți ultima apariție a distribuției sau folosiți backports, instalarea din surse poate fi cea mai sigură alegere.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+Pentru a instala Git, aveți nevoie de următoarele biblioteci de care Git depinde: curl, zlib, openssl, expat, și libiconv. De exemplu, dacă sunteți într-un sistem care folosește yum (cum ar fi Fedora) sau apt-get (cum ar fi un sistem bazat pe Debian), puteți să folosiți una din aceste comenzi pentru a instala toate dependințele:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev
-	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+
+Când aveți toate dependințele cerute, puteți să treceți la pasul următor și să luați ultimul snapshot de pe site-ul Git:
 
 	http://git-scm.com/download
-	
-Then, compile and install:
+
+Apoi, compilați și instalați:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+După toți acești pași, puteți să luați Git prin intermediul lui însăși folosind update-uri:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
-	
-### Installing on Linux ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+### Instalarea în sistemele Linux ###
+
+Dacă doriți să instalați Git în Linux prin intermediul unui program de instalare, puteți de obicei să folosiți uneltele locale pentru administrarea pachetelor în funcție de distribuția utilizată. Dacă folosiți Fedora, puteți folosi yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Sau dacă folosiți o distribuție bazată pe Debian, de exemplu Ubuntu, încercați apt-get:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Instalarea pe sistemele Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Sunt două moduri simple de a instala Git pe sistemele Mac. Cea mai simplă este să folosiți programul de instalare grafic pentru Git, pe care îl puteți descărca de la pagina Google Code ( vedeți Figura 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer.
+Figura 1-7. Programul de instalare Git în OS X.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+Cealaltă posibilitate este să instalați Git prin intermediul MacPorts (`http://www.macports.org`). Dacă aveți instalat MacPorts, atunci instalați Git cu comanda
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-You don’t have to add all the extras, but you’ll probably want to include +svn in case you ever have to use Git with Subversion repositories (see Chapter 8).
+Nu trebuie să adăugați toate extra-opțiunile, dar probabil veți dori să includeți +svn în caz că veți dori să folosiți Git cu repository-uri Subversion (vedeți Capitolul 8).
 
-### Installing on Windows ###
+### Instalarea pe sistemele Windows ###
 
-Installing Git on Windows is very easy. The msysGit project has one of the easier installation procedures. Simply download the installer exe file from the Google Code page, and run it:
+Instalarea Git în Windows este foarte simplă. Proiectul msysGit are una din procedurile cele mai simple de instalare. Pur și simplu descărcați programul de instalare de pe pagina Google Code, și rulați-l:
 
 	http://code.google.com/p/msysgit
 
-After it’s installed, you have both a command-line version (including an SSH client that will come in handy later) and the standard GUI.
+După ce este instalat, veți avea atât o versiune în linie de comandă (inclusiv un client SSH care vă va fi util mai târziu) cât și o interfață grafică standard (GUI [en]).
 
-## First-Time Git Setup ##
+## Stările Git Pentru Prima Rulare ##
 
-Now that you have Git on your system, you’ll want to do a few things to customize your Git environment. You should have to do these things only once; they’ll stick around between upgrades. You can also change them at any time by running through the commands again.
+Acum că aveți Git instalat pe sistemul dumneavoastră, veți dori să faceți câteva schimbări în mediul dumneavoastră Git. Ar trebui să faceți aceste lucruri o singură dată; ele se vor păstra între diverse actualizări. Puteți de asemenea să le schimbați în orice moment rulând din nou comenzile.
 
-Git comes with a tool called git config that lets you get and set configuration variables that control all aspects of how Git looks and operates. These variables can be stored in three different places:
+Git vine cu un utilitar denumit git config care vă permite să setați variabile de configurare care controlează toate aspectele legate de funcționarea Git și interfața sa. Aceste variabile pot fi păstrate în diverse locuri:
 
-*	`/etc/gitconfig` file: Contains values for every user on the system and all their repositories. If you pass the option` --system` to `git config`, it reads and writes from this file specifically. 
-*	`~/.gitconfig` file: Specific to your user. You can make Git read and write to this file specifically by passing the `--global` option. 
-*	config file in the git directory (that is, `.git/config`) of whatever repository you’re currently using: Specific to that single repository. Each level overrides values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`.
+*	fișierul `/etc/gitconfig`: Conține valuroi pentru fiecare utilizator al unui sistem și pentru toate repository-urile sale. Dacă introduceți opțiunea ` --system` pentru `git config`, va citi și scrie din fișierul menționat anterior. 
+*	fișierul `~/.gitconfig`: Specific utilizatorului dumneavoastră. Puteți de asemenea să instruiți Git să citească și să scrie în acest fișier dacă introduceți opțiunea `--global`. 
+*	fișierul de configurare pentru configurația git (adică, `.git/config`) sau specific repository-ului curent: Specific doar pentru acel repository. Fiecare nivel suprascrie valorile din celălalt nivel, deci valorile din `.git/config` le suprascriu pe cele din `/etc/gitconfig`.
 
-On Windows systems, Git looks for the `.gitconfig` file in the `$HOME` directory (`C:\Documents and Settings\$USER` for most people). It also still looks for /etc/gitconfig, although it’s relative to the MSys root, which is wherever you decide to install Git on your Windows system when you run the installer.
+În sistemele Windows, Git caută fișierul `.gitconfig` din directorul `$HOME` (`C:\Documents and Settings\$USER` (utilizator [ro])). De asemenea se va uita în /etc/gitconfig, chiar dacă este relativ la rădăcin MSys, care este dată de locul unde v-ați decis să instalați Git pe sistemul dumneavoastră Windows la instalare.
 
-### Your Identity ###
+### Identitatea Dumneavoastră ###
 
-The first thing you should do when you install Git is to set your user name and e-mail address. This is important because every Git commit uses this information, and it’s immutably baked into the commits you pass around:
+Primul lucru care ar trebui să îl faceți atunci când instalați Git este să vă stabiliți numele și adresa de email. Acest aspect este important deoarece fiecare commit în Git va folosi aceste informații, și acestea vor fi conținute în commit-urile care le veți distribui:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Again, you need to do this only once if you pass the `--global` option, because then Git will always use that information for anything you do on that system. If you want to override this with a different name or e-mail address for specific projects, you can run the command without the `--global` option when you’re in that project.
+Din nou, va fi necesar să efectuați acești pași o singură dată dacă introduceți opțiunea `--global`, deoarece atunci Git va folosi întotdeauna aceste informații pentru toate operațiile efectuate pe acel sistem. Dacă doriți să suprascrieți aceste informații cu un nume sau email diferite pentru anumite proiecte, atunci puteți executa comanda fără opțiunea `--global` atunci când vă aflați în acel proiect.
 
-### Your Editor ###
+### Editorul Dumneavoastră ###
 
-Now that your identity is set up, you can configure the default text editor that will be used when Git needs you to type in a message. By default, Git uses your system’s default editor, which is generally Vi or Vim. If you want to use a different text editor, such as Emacs, you can do the following:
+Acum că v-ați setat identitatea, puteți configura editorul de text ce va fi folosit implicit atunci când Git are nevoie să introduceți mesaje. Implicit, Git va folosi editorul definit în sistem, cel mai des acesta va fi Vi sau Vim. Dacă doriți să folosiți un editor text diferit, cum ar fi Emacs, puteți să faceți următoarele:
 
 	$ git config --global core.editor emacs
 	
-### Your Diff Tool ###
+### Utilitatorul Pentru Diferențe ###
 
-Another useful option you may want to configure is the default diff tool to use to resolve merge conflicts. Say you want to use vimdiff:
+O altă configurare utilă pe care o puteți face este utilitarul folosit în aflarea diferențelor (diff [en]) folosit pentru rezolvarea conflictelor. Să presupunem că doriți să folosiți vimdiff:
 
 	$ git config --global merge.tool vimdiff
 
-Git accepts kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, and opendiff as valid merge tools. You can also set up a custom tool; see Chapter 7 for more information about doing that.
+Git acceptă ca și unelte valide pentru diferențe următoarele: kdiff3, tkdiff, meld, xxdiff, emerge, vimdiff, gvimdiff, ecmerge, și opendiff. Puteți de asemenea să configurați un utlitar personalizat; vedeți Capitolul 7 pentru mai multe informații despre această procedură.
 
-### Checking Your Settings ###
+### Verificarea Setărilor ###
 
-If you want to check your settings, you can use the `git config --list` command to list all the settings Git can find at that point:
+Dacă doriți să vă verificați setările, puteți folosi comanda `git config --list` pentru a afișa toate setările pe care Git le poate utiliza în prezent:
 
 	$ git config --list
 	user.name=Scott Chacon
@@ -230,28 +230,28 @@ If you want to check your settings, you can use the `git config --list` command 
 	color.diff=auto
 	...
 
-You may see keys more than once, because Git reads the same key from different files (`/etc/gitconfig` and `~/.gitconfig`, for example). In this case, Git uses the last value for each unique key it sees.
+Puteți vedea și mai multe chei de mai multe ori, deoarece Git citește aceeași cheie din fișiere diferite (`/etc/gitconfig` și `~/.gitconfig`, de exemplu). În acest caz, Git folosește ultima valoare pentru fiecare cheie unică întâlnită.
 
-You can also check what Git thinks a specific key’s value is by typing `git config {key}`:
+Puteți de asemenea să vedeți ceea ce Git crede despre valoarea unei anumite chei dacă scrieți `git config {cheie}`:
 
 	$ git config user.name
 	Scott Chacon
 
-## Getting Help ##
+## Cum să Obțineți Ajutor ##
 
-If you ever need help while using Git, there are three ways to get the manual page (manpage) help for any of the Git commands:
+Dacă veți avea vreodată nevoie de ajutor pentru a folosi Git, sunt trei modalități pentru a ajunge la pagina din manual sau manpage pentru ajutor cu oricare din comenzile Git:
 
 	$ git help <verb>
 	$ git <verb> --help
 	$ man git-<verb>
 
-For example, you can get the manpage help for the config command by running
+De exemplu, puteți ajunge la pagina din manual pentru comanda config dacă rulați
 
 	$ git help config
 
-These commands are nice because you can access them anywhere, even offline.
-If the manpages and this book aren’t enough and you need in-person help, you can try the `#git` or `#github` channel on the Freenode IRC server (irc.freenode.net). These channels are regularly filled with hundreds of people who are all very knowledgeable about Git and are often willing to help.
+Aceste comande sunt utile pentru că le puteți accesa de oriunde, chiar și când nu sunteți conectat la rețea.
+Dacă paginile din manual și această carte nu vă sunt suficiente și aveți nevoie de ajutor personal, puteți încerca canalele `#git` sau `#github` de pe serverul de IRC Freenode (irc.freenode.net). Aceste canale sunt în mod obișnuit pline cu sute de oameni care sunt versați în folosirea Git și sunt de obicei dispuși să vă ofere ajutorul.
 
-## Summary ##
+## Sumar ##
 
-You should have a basic understanding of what Git is and how it’s different from the CVCS you may have been using. You should also now have a working version of Git on your system that’s set up with your personal identity. It’s now time to learn some Git basics.
+Ar trebui să dețineți o înțelegere de bază a ceea ce este Git și cum este el diferit de CVCS pe care le utilizați în curent. De asemenea ar trebui să aveți o versiune funcțională a Git pe sistemul dumneavoastră care este configurată cu identitatea dumneavoastră. Acum a venit timpul să învățăm bazele Git.

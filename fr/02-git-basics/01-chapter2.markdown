@@ -452,7 +452,7 @@ Cela signifie que vous pouvez lancer des commandes telles que
 
 Notez bien l'antislash (`\`) devant `*`.
 Il est nécessaire d'échapper le caractère `*` car Git utilise sa propre expansion de nom de fichier en addition de l'expansion du shell.
-Cette commande efface tous le fichiers avec l'extension `.log` présents dans le répertoire `log/`.
+Cette commande efface tous les fichiers avec l'extension `.log` présents dans le répertoire `log/`.
 Vous pouvez aussi lancer une commande telle que :
 
 	$ git rm \*~

@@ -1,6 +1,6 @@
 # Gitの内側 #
 
-以前の章を飛ばしてこの章に来るか、この本の他の部分を読んだ後にここに到達したかでしょう。どちらの場合であっても、この章は、Gitの内部動作と実装を辿るところになります。この情報を学習することは、Gitがどうして便利で効果的なのかを理解するのには根本的には重要重要ですが、他の人々は初心者には混乱を招き無駄に複雑だと主張してきました。このため、遅かれ早かれ学習の仕方にあわせて読めるように、この議論をこの本の最後の章におきました。いつ読むかは、読者の判断にお任せします。
+以前の章を飛ばしてこの章に来るか、この本の他の部分を読んだ後にここに到達したかでしょう。どちらの場合であっても、この章は、Gitの内部動作と実装を辿るところになります。この情報を学習することは、Gitがどうして便利で効果的なのかを理解するのには根本的には重要ですが、他の人々は初心者には混乱を招き無駄に複雑だと主張してきました。このため、遅かれ早かれ学習の仕方にあわせて読めるように、この議論をこの本の最後の章におきました。いつ読むかは、読者の判断にお任せします。
 
 今やあなたはこの章を読んでいるので、早速、この章の議論を始めましょう。まず、Gitは基本的に連想記憶ファイル・システム（content-addressable filesystem）であり、それの上に書かれたVCSユーザー・インターフェイスを備えています。これが意味することを、もうちょっと学習していきましょう。
 
@@ -393,7 +393,7 @@ Notice that the object entry points to the commit SHA-1 value that you tagged. A
 
 	$ git cat-file blob junio-gpg-pub
 
-in the Git source code. The Linux kernel also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
+in the Git source code repository. The Linux kernel repository also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
 
 ### Remotes ###
 

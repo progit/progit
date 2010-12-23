@@ -17,7 +17,7 @@ Il est aussi très similaire à CVS qui a été le grand chef des gestionnaires 
 Une des grandes fonctionnalités de Git est sa passerelle vers subversion, `git svn`.
 Cet outil vous permet d'utiliser Git comme un client valide d'un serveur Subversion pour que vous puissiez utiliser les capacités de Git en local puis poussez sur le serveur Subversion comme si vous utilisiez Subversion localement.
 Cela signifie que vous pouvez réaliser localement les embranchements et les fusions, utiliser l'index, utiliser le rebasage et la sélection de commits, etc, tandis que vos collaborateurs continuent de travailler avec leurs méthodes ancestrales et obscures.
-C'est une bonne manière d'introduire Git dans un environnement professionnel et d'aider vos collègues développeurs à devenir plus efficace tandis que vous ferez pression pour une modification de l'infrastructure vers l'utilisation massive de Git.
+C'est une bonne manière d'introduire Git dans un environnement professionnel et d'aider vos collègues développeurs à devenir plus efficaces tandis que vous ferez pression pour une modification de l'infrastructure vers l'utilisation massive de Git.
 La passerelle Subversion n'est que la première dose vers la drogue du monde des DVCS.
 
 ### git svn ###
@@ -27,9 +27,9 @@ Vous préposerez tout avec cette paire de mots.
 Les possibilités étant nombreuses, nous traiterons des plus communes pendant que nous détaillerons quelques petits modes de gestion.
 
 Il est important de noter que lorsque vous utilisez `git svn`, vous interagissez avec Subversion qui est un système bien moins sophistiqué que Git.
-Bien que vous puissiez simplement réaliser des branches locales et les fusionner, il est généralement conseillé de conserver votre historique le plus linéaire possible en rebasant votre travail et évitant des activités telles que d'interagir dans le même temps avec un dépôt Git distant.
+Bien que vous puissiez simplement réaliser des branches locales et les fusionner, il est généralement conseillé de conserver votre historique le plus linéaire possible en rebasant votre travail et en évitant des activités telles que d'interagir dans le même temps avec un dépôt Git distant.
 
-Ne réécrivez pas votre historique et avant d'essayer de pousser à nouveau et ne poussez pas en parallèle dans un dépôt Git pour collaborer avec vos collègues développant avec Git.
+Ne réécrivez pas votre historique avant d'essayer de pousser à nouveau et ne poussez pas en parallèle dans un dépôt Git pour collaborer avec vos collègues développant avec Git.
 Subversion ne supporte qu'un historique linéaire et l'égarer est très facile.
 Si vous travaillez avec une équipe dont certains membres utilisent svn et d'autres utilisent Git, assurez-vous que tout le monde n'utilise que le serveur svn pour collaborer, cela vous rendra service.
 
@@ -37,7 +37,7 @@ Si vous travaillez avec une équipe dont certains membres utilisent svn et d'aut
 
 Pour montrer cette fonctionnalité, il faut un serveur svn sur lequel vous avez des droits en écriture.
 Pour copier ces exemples, faites une copie inscriptible de mon dépôt de test.
-Dans cette optique, vous pouvez utiliser un outil appelé `svnsync` qui est livré avec les versions les plus récentes  de Subversion — il devrait être distribué avec les version à partir de 1.4.
+Dans cette optique, vous pouvez utiliser un outil appelé `svnsync` qui est livré avec les versions les plus récentes  de Subversion — il devrait être distribué avec les versions à partir de 1.4.
 Pour ces tests, j'ai créé sur Google code un nouveau dépôt Subversion qui était une copie partielle du projet `protobuf` qui est un outil qui encode les données structurées pour une transmission par réseau.
 
 En préparation, créez un nouveau dépôt local Subversion :
@@ -52,7 +52,7 @@ Ensuite, autorisez tous les utilisateurs à changer les revprops — le moyen le
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-Vous pouvez à présent synchroniser ce projet sur votre machine locale en lançant `svnsync init` avec les dépôt sources et cibles.
+Vous pouvez à présent synchroniser ce projet sur votre machine locale en lançant `svnsync init` avec les dépôts sources et cibles.
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
 
@@ -148,8 +148,8 @@ Votre importation Subversion indique plutôt qu'il a un serveur distant appelé 
 Comme vous disposez d'un dépôt en état de marche, vous pouvez commencer à travailler sur le projet et pousser vos commits en utilisant efficacement Git comme client SVN.
 Si vous éditez un des fichiers et le validez, vous créez un commit qui existe localement dans Git mais qui n'existe pas sur le serveur Subversion :
 
-	$ git commit -am 'Adding git-svn instructions to the README'
-	[master 97031e5] Adding git-svn instructions to the README
+	$ git commit -am 'Ajout d'instructions pour git-svn dans LISEZMOI'
+	[master 97031e5] Ajout d'instructions pour git-svn dans LISEZMOI
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
 Ensuite, vous avez besoin de pousser vos modifications en amont.
@@ -175,7 +175,7 @@ L'examen du dernier commit montre que le nouveau `git-svn-id` a été ajouté :
 	Author: schacon <schacon@4c93b258-373f-11de-be05-5f7a86268029>
 	Date:   Sat May 2 22:06:44 2009 +0000
 
-	    Adding git-svn instructions to the README
+	    Ajout d'instructions pour git-svn dans LISEZMOI
 
 	    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 
@@ -246,7 +246,7 @@ Vous pouvez lancer `git svn fetch` pour tirer les nouveaux commits, mais `git sv
 
 Lancer `git svn rebase` de temps en temps vous assure que votre travail est toujours synchronisé avec le serveur.
 Vous devrez cependant vous assurer que votre copie de travail est propre quand vous la lancez.
-Si vous avez des modifications locales, il vous faudra soit remiser votre travail, soit valider temporairement vos modificaiton avant de lancer `git svn rebase`, sinon la commande s'arrêtera si elle détecte que le rebasage provoquerait un conflit de fusion.
+Si vous avez des modifications locales, il vous faudra soit remiser votre travail, soit valider temporairement vos modifications avant de lancer `git svn rebase`, sinon la commande s'arrêtera si elle détecte que le rebasage provoquerait un conflit de fusion.
 
 ### Le problème avec les branches Git ###
 
@@ -307,7 +307,7 @@ Remarquez que cette commande ne vous bascule pas sur cette branche ; si vous val
 
 Git devine la branche cible des dcommits en se référant au sommet des branches Subversion dans votre historique — vous ne devriez en avoir qu'un et celui-ci devrait être le dernier possédant un `git-svn-id` dans l'historique actuel de votre branche.
 
-Si vous souhaitez travailler simultanément sur plusieurs branches, vous pouvez régler vos branches locales pour que le `dcommit` arrive sur une branche Subversion spécifique en les démarrant sur le commit de cette branche importé depuis Subversion.
+Si vous souhaitez travailler simultanément sur plusieurs branches, vous pouvez régler vos branches locales pour que le `dcommit` arrive sur une branche Subversion spécifique en les démarrant sur le commit de cette branche importée depuis Subversion.
 Si vous voulez une branche `opera` sur laquelle travailler séparément, vous pouvez lancer
 
 	$ git branch opera remotes/opera
@@ -425,7 +425,7 @@ Ce chapitre traite d'outils d'import inclus dans Git avec des systèmes communs 
 
 ### Importer ###
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+Nous allons détailler la manière d'importer des données à partir de deux des plus grands systèmes SCM utilisés en milieu professionnel, Subversion et Perforce, pour les raisons combinées qu'ils regroupent la majorité des utilisateurs que je connais migrer vers Git et que des outils de grande qualité pour ces deux systèmes sont distribués avec Git.
 
 ### Subversion ###
 
@@ -447,7 +447,7 @@ Pour récupérer la liste des noms d'auteurs utilisés par SVN, vous pouvez util
 
 	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
 
-Cela génère une sortie au foramt XML — vous pouvez visualiser les auteurs, créer une liste unique puis éliminer l'XML.
+Cela génère une sortie au format XML — vous pouvez visualiser les auteurs, créer une liste unique puis éliminer l'XML.
 Évidemment, cette ligne ne fonctionne que sur une machine disposant des commandes `grep`, `sort` et `perl`.
 Ensuite, redirigez votre sortie dans votre fichier users.txt pour pouvoir y ajouter en correspondance les données équivalentes Git.
 
@@ -455,7 +455,7 @@ Vous pouvez alors fournir ce fichier à `git svn` pour l'aider à convertir les 
 Vous pouvez aussi indiquer à `git svn` de ne pas inclure les métadonnées que Subversion importe habituellement en passant l'option `--no-metadata` à la commande `clone` ou `init`.
 Au final, votre commande d'import ressemble à ceci :
 
-	$ git-svn clone http://my-project.googlecode.com/svn/ \
+	$ git-svn clone http://mon-projet.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
 Maintenant, l'import depuis Subversion dans le répertoire `my_project` est plus présentable.
@@ -488,7 +488,7 @@ Pour déplacer les balises et en faire de vraies balises Git, lancez
 	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
 	$ rm -Rf .git/refs/remotes/tags
 
-Cela récupère les références déclarées comme branches distantes commençant par `tag/` et les transforme en vraies balises (légères).
+Cela récupère les références déclarées comme branches distantes commençant par `tags/` et les transforme en vraies balises (légères).
 
 Ensuite, déplacez le reste des références sous `refs/remotes` en branches locales :
 

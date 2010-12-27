@@ -1,6 +1,6 @@
 # Git Essencial #
 
-Se você só puder ler um capítulo para continuar a usar o Git, leia esse. Esse capítulo cobre todos os comandos básicos que você precisa para realizar a maioria das atividades que eventualmente você fará no Git. Ao final desse capítulo você deverá ser capaz de configurar e inicializar um repositório, começar e parar o monitoramento de arquivos, além de selecionar e consolidar (comittar) alterações. Também vamos mostrar a você como configurar o Git para ignorar certos tipos de arquivos e padrões de arquivos, como desfazer enganos rápida e facilmente, como pesquisar o histórico do seu projeto e visualizar alterações entre commits e como enviar e obter arquivos a partir de repositórios remotos.
+Se você só puder ler um capítulo para continuar a usar o Git, leia esse. Esse capítulo cobre todos os comandos básicos que você precisa para realizar a maioria das atividades que eventualmente você fará no Git. Ao final desse capítulo você deverá ser capaz de configurar e inicializar um repositório, começar e parar o monitoramento de arquivos, além de selecionar e consolidar (fazer commit) alterações. Também vamos mostrar a você como configurar o Git para ignorar certos tipos de arquivos e padrões de arquivos, como desfazer enganos rápida e facilmente, como pesquisar o histórico do seu projeto e visualizar alterações entre commits e como enviar e obter arquivos a partir de repositórios remotos.
 
 ## Obtendo um Repositório Git ##
 
@@ -40,11 +40,11 @@ O Git possui diversos protocolos de transferência que você pode utilizar. O ex
 
 ## Gravando Alterações no Repositório ##
 
-Você tem um repositório Git de boa fé e um checkout ou cópia funcional dos arquivos para esse projeto. Você precisa fazer algumas mudanças e comitar partes destas mudanças em seu repositório cada vez que o projeto atinge um estado no qual você queira gravar.
+Você tem um repositório Git de boa fé e um checkout ou cópia funcional dos arquivos para esse projeto. Você precisa fazer algumas mudanças e fazer o commit das partes destas mudanças em seu repositório cada vez que o projeto atinge um estado no qual você queira gravar.
 
 Lembre-se que cada arquivo em seu diretório de trabalho pode estar em um de dois estados: monitorado ou não monitorado. Arquivos monitorados são arquivos que estavam no último snapshot; podendo estar inalterados, modificados ou selecionados. Arquivos não monitorados são todo o restante — qualquer arquivo em seu diretório de trabalho que não estava no último snapshot e também não estão em sua área de seleção. Quando um repositório é inicialmente clonado, todos os seus arquivos estarão monitorados e inalterados porque você simplesmente os obteve e ainda não os editou.
 
-Conforme você edita esses arquivos, o Git passa a vê-los como modificados, porque você os alterou desde seu último commit. Você seleciona esses arquivos modificados e então comita todas as alterações selecionadas e o ciclo se repete. Este ciclo é apresentado na Figura 2-1.
+Conforme você edita esses arquivos, o Git passa a vê-los como modificados, porque você os alterou desde seu último commit. Você seleciona esses arquivos modificados e então faz o commit de todas as alterações selecionadas e o ciclo se repete. Este ciclo é apresentado na Figura 2-1.
 
 Insert 18333fig0201.png 
 Figura 2-1. O ciclo de vida dos status de seus arquivos
@@ -92,7 +92,7 @@ Você pode dizer que ele está selecionado pois está sob o cabeçalho “Change
 
 ### Selecionando Arquivos Modificados ###
 
-Vamos alterar um arquivos que já está sendo monitorado. Se você altrar um aquivo previamente monitorado chamado `benchmarks.rb` e então rocar o comando `status` novamente, você terá algo semelhante a:
+Vamos alterar um arquivos que já está sendo monitorado. Se você alterar um aquivo previamente monitorado chamado `benchmarks.rb` e então rodar o comando `status` novamente, você terá algo semelhante a:
 
 	$ git status
 	# On branch master
@@ -136,7 +136,7 @@ Ambos os arquivos estão selecionados e serão consolidados no seu próximo comm
 	#	modified:   benchmarks.rb
 	#
 
-Que diabos? Agora o arquivo benchmarks.rb aparece listado como selecionado e não selecioano. Como isso é possível? Acontece que o Git seleciona um arquivo exatamente como ele era quando o comando git add foi executado. Se você comitar agora, a versão do benchmarks.rb como estava na última vez que você rodou o comando git add é que será incluída no commit, não a versão do arquivo que estará no seu diretório de trabalho quando rodar o comando git commit. Se você modificarum arquivo depois que rodou o comando `git add`, terá de rodar o `git add` denovo para selecionar a última versão do arquivo:
+Que diabos? Agora o arquivo benchmarks.rb aparece listado como selecionado e não selecionado. Como isso é possível? Acontece que o Git seleciona um arquivo exatamente como ele era quando o comando git add foi executado. Se você fizer o commit agora, a versão do benchmarks.rb como estava na última vez que você rodou o comando git add é que será incluída no commit, não a versão do arquivo que estará no seu diretório de trabalho quando rodar o comando git commit. Se você modificar um arquivo depois que rodou o comando `git add`, terá de rodar o `git add` denovo para selecionar a última versão do arquivo:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -150,7 +150,7 @@ Que diabos? Agora o arquivo benchmarks.rb aparece listado como selecionado e nã
 
 ### Ignorando Arquivos ###
 
-Muitas vezes, você terá uma classe de arquivos que não queira que o Git automaticamente adicione ou mostre como arquivos não monitorados. Normalmentes estes arquivos são gerados automaticamente como arquivos de log ou produzidos pelo seu sistema de build. Nestes casos, você pode criar um arquivo contendo uma lista de padrões a serem checados chamado .gitignore. Eis um exemplo de arquivo .gitignore:
+Muitas vezes, você terá uma classe de arquivos que não quer que o Git automaticamente adicione ou mostre como arquivos não monitorados. Normalmentes estes arquivos são gerados automaticamente como arquivos de log ou produzidos pelo seu sistema de build. Nestes casos, você pode criar um arquivo contendo uma lista de padrões a serem checados chamado .gitignore. Eis um exemplo de arquivo .gitignore:
 
 	$ cat .gitignore
 	*.[oa]
@@ -279,10 +279,10 @@ Agora pode utiliar o `git diff` para ver o que ainda não foi selecionado
 	          log = git.commits('master', 15)
 	          log.size
 
-### Commitando Suas Mudanças ###
+### Fazendo Commit de Suas Mudanças ###
 
-Agora que a sua área de seleção está do jeito que você quer, você pode commitar suas mudanças. Lembre-se que tudo aquilo que ainda não foi selecionado - qualquer arquivo que você criou ou modificou que você não tenha rodado o comando `git add` desde que editou - não fará parte deste commit. Estes arquivos permanecerão como arquivos modificados em seu disco.
-Neste caso, a última vez que você rodou `git status`, viu que tudo estava selecionado, portanto você está pronto para commitar suas mudanças. O jeito mais simples de commitar é digitar `git commit`:
+Agora que a sua área de seleção está do jeito que você quer, você pode fazer o commit de suas mudanças. Lembre-se que tudo aquilo que ainda não foi selecionado - qualquer arquivo que você criou ou modificou que você não tenha rodado o comando `git add` desde que editou - não fará parte deste commit. Estes arquivos permanecerão como arquivos modificados em seu disco.
+Neste caso, a última vez que você rodou `git status`, viu que tudo estava selecionado, portanto você está pronto para fazer o commit de suas mudanças. O jeito mais simples é digitar `git commit`:
 
 	$ git commit
 
@@ -312,7 +312,7 @@ Alternativamente, você pode digitar sua mensagem de commit junto ao comanto `co
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Agora você acabou de criar o seu primeiro commit! Você pode ver que o commit te mostrou uma saída sobre ele mesmo: qual o branch que recebeou o commit (master), qual o checksum SHA-1 que o commit teve (`463dc4f`), quantos arquivos foram alterados, e estatísticas a respeito das linhas adicionadas e removidas no commit.
+Agora você acabou de criar o seu primeiro commit! Você pode ver que o commit te mostrou uma saída sobre ele mesmo: qual o branch que recebeu o commit (master), qual o checksum SHA-1 que o commit teve (`463dc4f`), quantos arquivos foram alterados, e estatísticas a respeito das linhas adicionadas e removidas no commit.
 
 Lembre-se que o commit grava a captura da área de seleção. Qualquer coisa que não foi selecionada ainda permanece lá modificada; você pode fazer um outro commit para adicioná-la ao seu histórico. Toda vez que você faz um commit, está gravando a captura do seu projeto o qual poderá reverter ou comparar posteriormente.
 
@@ -331,13 +331,13 @@ Embora possa ser extraordinariamente útil para a elaboração de commits exatam
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Note que, neste caso, você não precisa rodar o `git add` no arquivo benchmarks.rb antes de commitar.
+Note que, neste caso, você não precisa rodar o `git add` no arquivo benchmarks.rb antes de fazer o commit.
 
-### Removing Files ###
+### Removendo Arquivos ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+Para remover um arquivo do Git, você tem que removê-lo dos arquivos que estão sendo monitorados (mais precisamente, removê-lo da sua área de seleção) e então fazer o commit. O comando `git rm` faz isso e também remove o arquivo do seu diretório para você não ver ele como arquivo não monitorado (untracked file) na próxima vez.
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+Se você simplesmente remover o arquivo do seu diretório, ele aparecerá em “Changed but not updated” (isto é, fora da sua área de seleção ou _unstaged_) na saida do seu `git status`:
 
 	$ rm grit.gemspec
 	$ git status
@@ -349,7 +349,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+Em seguida, se você rodar `git rm`, a remoção do arquivo é colocada na área de seleção:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -362,21 +362,21 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+Na próxima vez que você fizer o commit, o arquivo sumirá e não será mais monitorado. Se você modificou o arquivo e já o adicionou na área de seleção, você deve forçar a remoção com a opção `-f`. Essa é uma funcionalidade de segurança para prevenir remoções acidentais de dados que ainda não foram gravados em um snapshot e não podem ser recuperados do Git.
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+Outra coisa útil que você pode querer fazer é manter o arquivo no seu diretório mas apagá-lo da sua área de seleção. Em outras palavras, você quer manter o arquivo no seu disco rígido mas não quer que o Git o monitore mais. Isso é particularmente útil se você esqueceu de adicionar alguma coisa no seu arquivo `.gitignore` e acidentalmente o adicionou, como um grande arquivo de log ou muitos arquivos `.a` compilados. Para fazer isso, use a opção `--cached`:
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+Você pode remover arquivos, diretórios, e padrões de nomes de arquivos para o comando `git rm`. Isso significa que você pode coisas como
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+Note a barra invertida (`\`) na frente do `*`. Isso é necessário pois o Git faz sua própria expansão no nome do arquivo além da sua expansão no nome do arquivo no shell. Esse comando remove todos os arquivos que tem a extensão `.log` no diretório `log/`. Ou, você pode fazer algo como isso:
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+Esse comando remove todos os arquivos que terminam com `~`.
 
 ### Moving Files ###
 

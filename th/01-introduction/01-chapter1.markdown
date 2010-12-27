@@ -64,59 +64,59 @@ Insert 18333fig0103.png
 Insert 18333fig0104.png 
 รูปที่ 1-4. ระบบอื่น ๆ มักจะเก็บข้อมูลโดยอิงกับการแก้ไขที่เกิดขึ้นกับไฟล์
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git ไม่ได้มองและจัดเก็บข้อมูลในลักษณะนี้ แต่จะคิดว่าข้อมูลของมันเป็นเสมือนภาพถ่าย(snapshot)ของระบบไฟล์ขนาดเล็กๆ ทุกครั้งที่มีการ commit หรือบันทึกสถานะของโปรเจคลงใน Git มันจะทำการถ่ายภาพของไฟล์ทั้งหมดในตอนนั้นและบันทึกการอ้างอิงไปยัง snapshot นั้น เพื่อให้การจัดเก็บนั้นมีประสิทธิภาพ ถ้าไฟล์ใดที่ไม่ได้มีการเปลี่ยนแปลง Git ก็จะไม่บันทึกไฟล์นั้นอีกครั้ง เพียงแต่จะทำการเชื่อมโยงไปยังไฟล์เดิมที่เคยถูกบันทึกเอาไว้อยู่แล้ว Git จะมองข้อมูลดังรูปที่ 1-5
 
 Insert 18333fig0105.png 
 รูปที่ 1-5. Git เก็บข้อมูลเป็น snapshot ของโปรเจค
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+นี่คือความแตกต่างที่สำคัญระหว่าง Git กับ VCSs ตัวอื่นๆ มันทำให้ Git ทำได้เกือบทุกด้านของระบบ VCS อื่นๆ ซึ่งส่วนใหญ่ก็คัดลอกมาจากรุ่นก่อนๆ นี่ทำให้ Git เป็นเหมือนกับระบบไฟล์ขนาดเล็กที่มีเครื่องมือ(tools)อันทรงพลังอย่างน่าเหลือเชื่อครอบอยู่ แทนที่จะเป็น VCS แบบทั่วไป เราจะมาสำรวจข้อดีที่คุณจะได้รับจากแนวคิดแบบนี้เมื่อเรากล่าวถึงเรื่อง การแตกสาขา(Git branching) ในบทที่ 3
 
 ### การทำงานเกือบทุกอย่างเป็นการทำงานในเครื่องตัวเอง ###
 
-Most operations in Git only need local files and resources to operate – generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+การทำงานโดยส่วนใหญ่ของ Git จะใช้ไฟล์และทรัพยากรในเครื่องของเราเท่านั้น ปกติจะไม่มีข้อมูลใดๆ ที่จำเป็นต้องใช้จากคอมพิวเตอร์เครื่องอื่นๆ ในเน็ตเวิร์ก แต่หากคุณเคยใช้ CVCS อื่นที่การทำงานส่วนใหญ่ต้องใช้ข้อมูลบนเน็ตเวิร์กจำนวนมาก ในแง่นี้ก็จะทำให้คุณรู้สึกมีความสุขกับความเร็วในการทำงานของ Git เพราะว่าคุณจะมีประวัติการเปลี่ยนแปลงทั้งหมดของโปรเจคอยู่ในเครื่องของคุณอยู่แล้วและพร้อมที่จะทำงานได้ทันที
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+ตัวอย่างเช่น ถ้าจะดูประวัติย้อนหลังของโปรเจค Git ไม่จำเป็นที่จะต้องไปดึงข้อมูลจากเซิร์ฟเวอร์แล้วจึงแสดงผลให้คุณได้ มันแค่อ่านโดยตรงจากฐานข้อมูลในเครื่องของคุณ หมายความว่าคุณสามารที่จะดูประวัติของโปรเจคได้ทันที หากคุณจะดูความเปลี่ยนแปลงของไฟล์ในรุ่นปัจจุบันกับเมื่อหนึ่งเดือนที่แล้ว Git ก็สามารถค้นหาไฟล์เมื่อเดือนก่อนในเครื่องของเราแล้วทำการคำนวณความแตกต่าง แทนที่จะถามเครื่องเซิร์ฟเวอร์ให้ดึงไฟล์เก่ามาให้
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+ซึ่งก็มีโอกาสน้อยมากที่คุณไม่สามารถทำงานได้ถ้าหากออฟไลน์อยู่ หากคุณต้องเดินทางอยู่บนเครื่องหรือบนรถไฟและอยากจะทำงานสักหน่อย คุณก็สามารถ commit ได้อย่างมีความสุขจนกว่าจะเชื่อมต่อเน็ตเวิร์กได้แล้วอัพโหลด หากที่บ้านของคุณมีปัญหาเรื่องเน็ตเวิร์กคุณก็ยังคงทำงานได้ ถ้าเป็นระบบอื่นทำแบบนี้ไม่ได้แน่ และจะทำอะไรแทบจะไม่ได้เลยหากคุณเชื่อมต่อไปยังเซิร์ฟเวอร์ไม่ได้ ยิ่งในโปรแกรม Subversion และ CVS คุณสามารถแก้ไขไฟล์ต่างๆ ได้แต่จะไม่สามารถ commit ได้เพราะฐานข้อมูลมันออฟไล์อยู่ นี่อาจจะไม่ใช้เรื่องใหญ่อะไรแต่ก็ได้แต่คุณจะแปลกใจในความสามารถนี้ที่ Git ทำได้
 
-### Git Has Integrity ###
+### Git มีความเที่ยงตรง ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+ทุกอย่างที่ Git ทำการบันทึกเอาไว้จะถูกทำการ Checksum แล้วนำมาใช้เป็นตัวอ้างอิง นั่นทำให้ไม่มีทางที่เราจะแก้ไขข้อมูลของไฟล์และไดเร็กทอรี่ใดโดยที่ Git จะไม่รู้ ซึ่งฟังก์ชันนี้จะอยู่ในระดับล่างและเป็นหลักการของ Git คุณจะไม่มีทางที่จะทำข้อมูลสูญหายระหว่างการโยกย้ายหรือรับไฟล์ที่เสียหายโดย Git จะสามารถตรวจพบได้
 
-The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+กลไกที่ Git ใช้ในการทำ Checksum คือการแฮช(hash)แบบ SHA-1 ซึ่งผลลัพธ์จะได้ออกมาเป็นตัวอักษร 40 ตัวที่แทนเลขฐานสิบหก(0-9 และ a-f)จากการคำนวณเนื้อหาในไฟล์หรือโครงสร้างของไดเร็กทอรี่ของ Git ซึ่ง SHA-1 มีลักษณะดังนี้
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+คุณจะเห็นว่าผลของการแฮช(hash)เหล่านี้อยู่ในทุกที่ใน Git เพราะจะถูกใช้บ่อยครั้ง ซึ่งจริงๆแล้ว Git ไม่ได้เก็บบันทึกข้อมูลทุกอย่างตามชื่อไฟล์แต่เก็บในฐานข้อมูลของ Git แล้วสามารถอ้างถึงด้วยค่าแฮช(hash)ของข้อมูลของไฟล์
 
-### Git Generally Only Adds Data ###
+### Git เพียงแต่เพิ่มข้อมูล ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+เมื่อคุณกระทำอะไรสักอย่างใน Git เนื้อหาเกือบทั้งหมดนั้นก็จะถูกเพิ่มเข้าไปในฐานข้อมูลของ Git เท่านั้น มันเป็นเรื่องยากมากๆ ที่เราจะใช้ระบบที่ทำอะไรลงไปแล้วไม่สามารถย้อนคืนกลับมาได้หรือลบแล้วลบเลย เช่นเดียวกันกับ VCS ตัวอื่นๆ คุณสามารถสูญเสียข้อมูลหรือแก้ไขผิดพลาดได้โดยที่ยังไม่ทันได้ commit แต่ถ้าคุณ commit ลงใน snapshot ของ Git แล้วมันก็ยากที่จะสูญหายได้โดยเฉพาะอย่างยิ่งถ้าคุณทำการผลัก(push)ฐานข้อมูลของคุณไปไว้ที่อื่นๆ
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+สิ่งนี้ทำให้การใช้ Git ได้อย่างมีความสุข เพราะเรารู้ว่าเราสามารถทำการทดลองได้โดยที่ไม่มีอันตรายร้ายแรง เราจะดูเนื้อหาลึกๆว่า Git จัดเก็บข้อมูลอย่างไร และเราสามารถกู้ข้อมูลที่สูญหายไปได้อย่างไร ในบทที่ 9
 
-### The Three States ###
+### สามสถานะ ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+ทีนี้เราต้องให้ความสนใจหน่อย เพราะนี่คือสิ่งสำคัญของ Git ที่จะต้องจำให้ได้ ถ้าคุณต้องการจะศึกษาส่วนอื่นๆต่อไปของ Git อย่างราบรื่น ไฟล์ของคุณใน Git จะมีอยู่ 3 สถานะ คือ ยืนยันแล้ว(committed), ถูกแก้ไข(modified) และ อยู่ในขั้นตอน(staged) ซึ่ง Committed หมายถึงข้อมูลที่ถูกบันทึกเรียบร้อยแล้วในฐานข้อมูลในเครื่องของคุณ  Modified หมายถึงไฟล์ของคุณได้ถูกแก้ไขแล้วแต่ยังไม่ได้ยืนยัน(commit)ลงในฐานข้อมูลของคุณ Staged หมายถึงคุณได้ทำเครื่องหมายไว้ที่ไฟล์ที่ถูกแก้ไขในเวอร์ชันปัจจุบันเพื่อที่จะรอการ commit ใน snapshot ถัดไป
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+นี่ทำให้โปรเจคที่ใช้ Git มี 3 ส่วน คือ the Git directory, working directory, และ staging area.
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+Figure 1-6. Working directory, staging area, และ git directory.
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+Git directory เป็นที่ที่ Git ใช้เก็บ metadata และออปเจ็คของฐานข้อมูลของโปรเจคของคุณ นี่คือส่วนสำคัญที่สุดของ Git และเป็นส่วนที่จะถูกคัดลอกมาเมื่อคุณทำการโคลน(clone)คลังข้อมูลจากคอมพิวเตอร์เครื่องอื่น
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+working directory เป็นเวอร์ชันนึงของไฟล์ในโปรเจคที่ถูกดึงออกมาจากฐานข้อมูลที่ถูกบีบอัดไว้ใน Git directory แล้วเก็บไว้ในดิสก์เพื่อให้คุณนำไปใช้หรือเอามาแก้ไข
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+staging area เป็นไฟล์ธรรมดาไฟล์นึง โดยทั่วไปก็อยู่ใน Git directory ของคุณ ซึ่งเก็บข้อมูลส่วนที่คุณจะทำการ commit ในครั้งถัดไป บางครั้งก็เรียกว่าดัชนี(index) แต่ปกติก็จะเรียกว่า staging area
 
-The basic Git workflow goes something like this:
+กระบวนการขั้นตอนพื้นฐานของ Git มีลักษณะดังนี้
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	คุณทำการแก้ไขไฟล์ใน working directory ของคุณ
+2.	แล้วทำการ  stage ไฟล์เหล่านั้นเพื่อให้มีการใส่ snapshot ลงไปใน staging area ของคุณ
+3.	ทำการยืนยัน(commit)ซึ่งนำไฟล์ที่อยู่ใน staging area ไปเก็บอย่างถาวรใน Git directory
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+เมื่อไฟล์อยู่ใน Git directory มันจะถือว่าเป็นสถานะ committed ถ้าไฟล์ถูกแก้ไขแล้วถูกเพิ่มลงใน staging area สถานะจะเป็น staged และถ้าไฟล์ถูกแก้ไขแล้วหลังถูกดึงออกมาแต่ไม่ได้เป็นสถานะ staged ก็จะเป็นสถานะ modified ในบทที่ 2 คุณจะได้เรียนรู้เกี่ยวกับสถานะมากกว่านี้และวิธีการที่คุณสามารถใช้ประโยชน์จากสถานะเหล่านี้หรือการข้ามสถานะ staged ได้อย่างไร
 
 ## การติดตั้ง Git ##
 

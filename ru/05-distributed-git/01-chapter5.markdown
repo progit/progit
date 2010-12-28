@@ -12,7 +12,7 @@ In this chapter, you’ll see how to work with Git in a distributed environment 
 ## Распределенные рабочие процессы ##
 ## Distributed Workflows ##
 
-В отличии от централизованных систем контроля версий, распределенная природа Git-а позволяет вам быть гораздо более гибким в отношении участия разработчика в работе над проектом. В централизованных системах, каждый разработчик является узлом сети, работающим в более или менее равной степени на центральном хабе. В Git, однако, каждый разработчик потенциально является и узлом и хабом (концентратором) — то есть каждый разработчик может и вносить код в другие репозитории и содержать публичный репозиторий, основываясь на который могут работать другие разработчики и в который они могут вносить свои изменения. Это открывает широкие возможности по ведению рабочего процесса для вас и и/или для вашей команды, так что я рассмотрю несколько распространенных парадигм, которые используют преимущества такой гибкости. Я рассмотрю сильные стороны и возможные слабые места каждой из моделей; вы можете выбрать одну из них, а можете сочетать и совмещать особенности каждой.
+В отличии от централизованных систем контроля версий, распределенная природа Git-а позволяет вам быть гораздо более гибким в отношении участия разработчика в работе над проектом. В централизованных системах, каждый разработчик является узлом сети, работающим в более или менее равной степени на центральном хабе. В Git, однако, каждый разработчик потенциально является и узлом и хабом (концентратором) — то есть каждый разработчик может и вносить код в другие репозитории и содержать публичный репозиторий, основываясь на котором могут работать другие разработчики и в который они могут вносить свои изменения. Это открывает широкие возможности по ведению рабочего процесса для вас и и/или для вашей команды, так что я рассмотрю несколько распространенных парадигм, которые используют преимущества такой гибкости. Я рассмотрю сильные стороны и возможные слабые места каждой из моделей; вы можете выбрать одну из них, а можете сочетать и совмещать особенности каждой.
 
 Unlike Centralized Version Control Systems (CVCSs), the distributed nature of Git allows you to be far more flexible in how developers collaborate on projects. In centralized systems, every developer is a node working more or less equally on a central hub. In Git, however, every developer is potentially both a node and a hub — that is, every developer can both contribute code to other repositories and maintain a public repository on which others can base their work and which they can contribute to. This opens a vast range of workflow possibilities for your project and/or your team, so I’ll cover a few common paradigms that take advantage of this flexibility. I’ll go over the strengths and possible weaknesses of each design; you can choose a single one to use, or you can mix and match features from each.
 
@@ -96,23 +96,42 @@ This kind of workflow isn’t common but can be useful in very big projects or i
 
 These are some commonly used workflows that are possible with a distributed system like Git, but you can see that many variations are possible to suit your particular real-world workflow. Now that you can (I hope) determine which workflow combination may work for you, I’ll cover some more specific examples of how to accomplish the main roles that make up the different flows.
 
+## Содействие проекту ##
 ## Contributing to a Project ##
+
+Вы знаете различные рабочие процессы, также у вас должно быть достаточно хорошее понимание основ использования Git. В этом разделе вы узнаете о нескольких типичных способах содействия проекту.
 
 You know what the different workflows are, and you should have a pretty good grasp of fundamental Git usage. In this section, you’ll learn about a few common patterns for contributing to a project.
 
+Главная трудность в описании этого процесса в том, что существует огромное количество вариаций того, как это устроено. Поскольку Git очень гибок, люди могут делать совместную работу многими способами, и проблематично описать, как вы должны содействовать проекту - каждый проект немного отличается. Некоторые из вовлечённых переменных это количество активных участников, выбранный рабочий процесс, ваш доступ к внесению изменений, и, возможно, внешний способ сотрудничества.
+
 The main difficulty with describing this process is that there are a huge number of variations on how it’s done. Because Git is very flexible, people can and do work together many ways, and it’s problematic to describe how you should contribute to a project — every project is a bit different. Some of the variables involved are active contributor size, chosen workflow, your commit access, and possibly the external contribution method.
+
+Первая переменная это количество активных участников. Как много пользователей активно вносят свой вклад в проект и как часто? Во многих случаях это два-три разработчика с несколькими коммитами в день, возможно, меньше, для вялотекущих проектов. В по-настоящему больших компаниях или проектах число разработчиков может измеряться тысячами, с десятками или даже сотнями ежедневно поступающих патчей. Это важно, поскольку с увеличением числа разработчиков вам становится труднее убедиться, что ваш код ляжет чисто или может быть легко влит. Изменения, которые вы отправляете, могут оказаться устаревшими или частично сломанными той работой, которая была влита пока вы работали или пока ваши изменения ожидали утверждения или применения. Как вы можете сохранять ваш код согласованным и ваши патчи верными?
 
 The first variable is active contributor size. How many users are actively contributing code to this project, and how often? In many instances, you’ll have two or three developers with a few commits a day, or possibly less for somewhat dormant projects. For really large companies or projects, the number of developers could be in the thousands, with dozens or even hundreds of patches coming in each day. This is important because with more and more developers, you run into more issues with making sure your code applies cleanly or can be easily merged. Changes you submit may be rendered obsolete or severely broken by work that is merged in while you were working or while your changes were waiting to be approved or applied. How can you keep your code consistently up to date and your patches valid?
 
+Следующая переменная это рабочий процесс, используемый в проекте. Он централизован, и каждый разработчик имеет равные права на запись в главное хранилище? Есть у проекта хранитель или менеджер по интеграции кто проверяет патчи? Проверяются ли все патчи другими и утверждаются ли? Вы вовлечены в этот процесс? Присутствует ли система помощников и должны ли вы сначала отправлять свою работу им?
+
 The next variable is the workflow in use for the project. Is it centralized, with each developer having equal write access to the main codeline? Does the project have a maintainer or integration manager who checks all the patches? Are all the patches peer-reviewed and approved? Are you involved in that process? Is a lieutenant system in place, and do you have to submit your work to them first?
+
+Следующая проблема это доступ на отправку изменений. Рабочий процесс, требуемый для внесения вклада в проект сильно отличается в зависимости от того, имеете ли вы доступ на запись или нет. Если у вас нету доступа на запись, как в проекте принято принимать вклад в работу? Вообще, существует ли какая-либо политика? Как много работы вы вкладываете за раз? Как часто вы это делаете?
 
 The next issue is your commit access. The workflow required in order to contribute to a project is much different if you have write access to the project than if you don’t. If you don’t have write access, how does the project prefer to accept contributed work? Does it even have a policy? How much work are you contributing at a time? How often do you contribute?
 
+Все эти вопросы могу повлиять на то, как эффективно вы будете вносить вклад в проект и какой рабочий процесс предпочтителен или доступен вам. Я расскажу об аспектах каждого из них в серии примеров использования, продвигаясь от простых к более сложным; вы сможете создать специфический рабочий процесс, нужный вам, из этих примеров.
+
 All these questions can affect how you contribute effectively to a project and what workflows are preferred or available to you. I’ll cover aspects of each of these in a series of use cases, moving from simple to more complex; you should be able to construct the specific workflows you need in practice from these examples.
+
+### Руководства по созданию коммитов ###
 
 ### Commit Guidelines ###
 
+Прежде чем рассматривать специфичные примеры использования, вот короткая заметка о сообщениях к коммиту. Обладание хорошим руководством по созданию коммитов и следование ему делает работу с Git'ом и сотрудничество с другими намного проще. Проект Git предоставляет документ с хорошими советами по созданию коммитов, из которых можно делать патчи — вы можете прочитать его в исходном коде Git в файле `Documentation/SubmittingPatches`.
+
 Before you start looking at the specific use cases, here’s a quick note about commit messages. Having a good guideline for creating commits and sticking to it makes working with Git and collaborating with others a lot easier. The Git project provides a document that lays out a number of good tips for creating commits from which to submit patches — you can read it in the Git source code in the `Documentation/SubmittingPatches` file.
+
+Во-первых, не отсылайте никаких ошибочных пробелов. Git предоставляет простой способ проверки — перед коммитом, запустите `git diff --check`, это определит возможные проблемы и перечислит их вам. Вот пример, в котором я заменил красный цвет терминала символами `X`:
 
 First, you don’t want to submit any whitespace errors. Git provides an easy way to check for this — before you commit, run `git diff --check`, which identifies possible whitespace errors and lists them for you. Here is an example, where I’ve replaced a red terminal color with `X`s:
 
@@ -124,11 +143,36 @@ First, you don’t want to submit any whitespace errors. Git provides an easy wa
 	lib/simplegit.rb:26: trailing whitespace.
 	+    def command(git_cmd)XXXX
 
+Если вы запустите эту команду перед коммитом, вы сможете сказать, собираетесь ли вы отправить коммит с проблемными пробелами, что может раздражать других разработчиков.
+
 If you run that command before committing, you can tell if you’re about to commit whitespace issues that may annoy other developers.
+
+Затем, старайтесь делать каждый коммит логически отдельным набором изменений. Если можете, старайтесь делать ваши изменения обозримыми — не надо программировать все выходные или работать над пятью проблемами и затем отправлять их все массивным коммитом в понедельник. Даже если вы не коммитили в течение выходных, используйте индекс для разбиения вашей работы как минимум на один коммит для каждой проблемы, с полезным сообщением к каждому. Если некоторые из изменений затрагивают один и тот же файл, попробуйте использовать `git add --patch` чтобы частично проиндексировать файлы (рассмотрено в деталях в Главе 6). Слепок проекта на кончике ветки будет идентичным, сделаете ли вы пять коммитов или один, покуда все ваши изменения будут добавлены в какой-то момент, так что попытайтесь облегчить жизнь вашим коллегам разработчикам, когда они должны будут сделать ревю вашим изменениям.
 
 Next, try to make each commit a logically separate changeset. If you can, try to make your changes digestible — don’t code for a whole weekend on five different issues and then submit them all as one massive commit on Monday. Even if you don’t commit during the weekend, use the staging area on Monday to split your work into at least one commit per issue, with a useful message per commit. If some of the changes modify the same file, try to use `git add --patch` to partially stage files (covered in detail in Chapter 6). The project snapshot at the tip of the branch is identical whether you do one commit or five, as long as all the changes are added at some point, so try to make things easier on your fellow developers when they have to review your changes. This approach also makes it easier to pull out or revert one of the changesets if you need to later. Chapter 6 describes a number of useful Git tricks for rewriting history and interactively staging files — use these tools to help craft a clean and understandable history.
 
+Последняя вещь, которую стоит иметь в виду это сообщение коммита. Хорошая привычка создания качественных сообщений коммита делает использование и сотрудничество посредством Git гораздо проще. По общему правилу, ваши сообщения должны начинаться с единственной строки не длиннее 50 символов, лаконично описывающей набор изменений, затем пустая строка, затем более детальное описание. Проект Git требует, чтобы более детально объяснение включало вашу мотивацию на изменения и противопоставляло эту реализацию с предыдущим поведением — хорошее руководство к действию. Также хорошая идея использование  ??? 
+
 The last thing to keep in mind is the commit message. Getting in the habit of creating quality commit messages makes using and collaborating with Git a lot easier. As a general rule, your messages should start with a single line that’s no more than about 50 characters and that describes the changeset concisely, followed by a blank line, followed by a more detailed explanation. The Git project requires that the more detailed explanation include your motivation for the change and contrast its implementation with previous behavior — this is a good guideline to follow. It’s also a good idea to use the imperative present tense in these messages. In other words, use commands. Instead of "I added tests for" or "Adding tests for," use "Add tests for."
+
+Вот шаблон, изначально написанный Tim Pope на tpope.net:
+
+    Краткое (50 символов и менее) описание изменений
+
+    Более детальное объяснение, если необходимо. Перенос на 72 символе
+    или около того. В некоторых контекстах, первая строка считается
+    как тема письма, а остальное телом. Пустая строка, отделяющая сводку
+    от тела важна (если вы не опустили тело целиком); инструменты, такие
+    как rebase, могут воспринять неправильно, если вы оставите их вместе.
+
+    Дальнейшие параграфы идут после пустых строк
+
+     - также можно применять маркеры списков
+
+     - обычно дефис или звёздочка используются как маркер списка, с
+       одним пробелом перед и пустой строкой после каждого пункта, но
+       соглашения могут разниться
+
 Here is a template originally written by Tim Pope at tpope.net:
 
 	Short (50 chars or less) summary of changes
@@ -147,7 +191,11 @@ Here is a template originally written by Tim Pope at tpope.net:
 	 - Typically a hyphen or asterisk is used for the bullet, preceded by a
 	   single space, with blank lines in between, but conventions vary here
 
+Если все ваши сообщения о коммитах будут выглядеть как это, всё будет намного проще для вас и для разработчиков с которыми вы работаете. Проект Git содержит хорошо отформатированные сообщения о коммитах - я советую вам запустить `git log --no-merges` там, чтобы вы увидели, как красиво может выглядеть хорошо отформатированная история коммитов проекта.
+
 If all your commit messages look like this, things will be a lot easier for you and the developers you work with. The Git project has well-formatted commit messages — I encourage you to run `git log --no-merges` there to see what a nicely formatted project-commit history looks like.
+
+В последующих примерах и в большей части книги для краткости я не форматирую сообщения так красиво, как это; вместо этого я использую опцию `-m` команды `git commit`. Делайте как я говорю, а не как я делаю.
 
 In the following examples, and throughout most of this book, for the sake of brevity I don’t format messages nicely like this; instead, I use the `-m` option to `git commit`. Do as I say, not as I do.
 

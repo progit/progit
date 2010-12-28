@@ -1,133 +1,89 @@
 # Git на сервере #
 
-К этому моменту вы уже должны уметь делать большую часть ежедневных задач для которых вы будете использовать Git. Однако, для совместной работы в Git, вам необходим удаленный репозиторий. Несмотря на то что технически вы можете отправлять и забирать изменения непосредственно из личных репозиториев, это может крайне легко повредить то, над чем работают другие, если вы не достаточно аккуратны. К тому же, вам бы наверняка хотелось чтобы остальные имели доступ к репозиторию даже если ваш компьютер выключен, поэтому наличие более надежного репозитория обычно весьма полезно. Поэтому предпочтительный метод взаимодействие с кем-либо ― это создание промежуточного репозитория к которому вы оба будете иметь доступ и отправка и получение изменений через него. Мы будем называть этот репозиторий "сервер Git", но обычно размещение репозитория Git требует очень небольшого количества ресурсов, поэтому вряд ли вам будет нужен целый сервер для этого.
-
-At this point, you should be able to do most of the day-to-day tasks for which you’ll be using Git. However, in order to do any collaboration in Git, you’ll need to have a remote Git repository. Although you can technically push changes to and pull changes from individuals’ repositories, doing so is discouraged because you can fairly easily confuse what they’re working on if you’re not careful. Furthermore, you want your collaborators to be able to access the repository even if your computer is offline — having a more reliable common repository is often useful. Therefore, the preferred method for collaborating with someone is to set up an intermediate repository that you both have access to, and push to and pull from that. We’ll refer to this repository as a "Git server"; but you’ll notice that it generally takes a tiny amount of resources to host a Git repository, so you’ll rarely need to use an entire server for it.
+К этому моменту вы уже должны уметь делать большую часть повседневных задач, для которых вы будете использовать Git. Однако, для совместной работы в Git, вам необходим удаленный репозиторий. Несмотря на то, что технически вы можете отправлять и забирать изменения непосредственно из личных репозиториев, делать это не рекомендуется. Вы легко можете испортить то, над чем работают другие, если не будете аккуратны. К тому же, вам бы наверняка хотелось, чтобы остальные имели доступ к репозиторию даже если ваш компьютер выключен, поэтому наличие более надежного репозитория обычно весьма полезно. Поэтому предпочтительный метод взаимодействия с кем-либо ― это создание промежуточного репозитория, к которому вы оба будете иметь доступ, и отправка и получение изменений через него. Мы будем называть этот репозиторий "сервер Git", но обычно размещение репозитория Git требует очень небольшого количества ресурсов, поэтому вряд ли вам для этого будет нужен весь сервер.
 
 Запустить Git-сервер просто. Для начала вам следует выбрать протокол, который вы будете использовать для связи с сервером. Первая часть этой главы описывает доступные протоколы и их достоинства и недостатки. Следующие части освещают базовые конфигурации с использованием этих протоколов, а также настройку вашего сервера для работы с ними. Наконец, мы рассмотрим несколько вариантов готового хостинга, если вы не против разместить ваш код на чьем-то сервере и вы не хотите мучиться с настройками и поддержкой вашего собственного сервера.
 
-Running a Git server is simple. First, you choose which protocols you want your server to communicate with. The first section of this chapter will cover the available protocols and the pros and cons of each. The next sections will explain some typical setups using those protocols and how to get your server running with them. Last, we’ll go over a few hosted options, if you don’t mind hosting your code on someone else’s server and don’t want to go through the hassle of setting up and maintaining your own server.
-
 Если вас не интересует настройка собственного сервера, вы можете перейти сразу к последней части этой главы для настройки аккаунта на Git-хостинге, и затем перейти к следующей главе, где мы обсудим различные аспекты работы с распределенной системой контроля версий.
 
-If you have no interest in running your own server, you can skip to the last section of the chapter to see some options for setting up a hosted account and then move on to the next chapter, where we discuss the various ins and outs of working in a distributed source control environment.
-
-Удаленный репозиторий обычно _чистый (голый, bare) репозиторий_ ― репозиторий Git не имеющий рабочего каталога. Поскольку этот репозиторий используется только для обмена, нет причин создавать рабочую копию на диске, и он содержит только данные Git. Проще говоря чистый репозиторий содержит только каталог `.git` вашего проекта и ничего больше.
-
-A remote repository is generally a _bare repository_ — a Git repository that has no working directory. Because the repository is only used as a collaboration point, there is no reason to have a snapshot checked out on disk; it’s just the Git data. In the simplest terms, a bare repository is the contents of your project’s `.git` directory and nothing else.
+Удаленный репозиторий это обычно _голый (чистый, bare) репозиторий_ ― репозиторий Git не имеющий рабочего каталога. Поскольку этот репозиторий используется только для обмена, нет причин создавать рабочую копию на диске, и он содержит только данные Git. Проще говоря, голый репозиторий содержит только каталог `.git` вашего проекта и ничего больше.
 
 ## Протоколы ##
 
-Git умеет работать с четыремя сетевыми протоколами для передачи данных: локальный, Secure Shell (SSH), Git и HTTP. В этой части мы обсудим каждый из них и в каких случаях стоит (или не стоит) их использовать.
-
-Git can use four major network protocols to transfer data: Local, Secure Shell (SSH), Git, and HTTP. Here we’ll discuss what they are and in what basic circumstances you would want (or not want) to use them.
+Git умеет работать с четырьмя сетевыми протоколами для передачи данных: локальный, Secure Shell (SSH), Git и HTTP. В этой части мы обсудим каждый из них и в каких случаях стоит (или не стоит) их использовать.
 
 Важно понимать, что за исключением протокола HTTP, все эти протоколы требуют, чтобы Git был установлен и работал на сервере.
 
-It’s important to note that with the exception of the HTTP protocols, all of these require Git to be installed and working on the server.
-
 ### Локальный протокол ###
 
-Базовым протоколом является _Локальный протокол_, при использовании которого удаленный репозиторий ― другой каталог на диске. Наиболее часто он используется если все члены команды имеют доступ к общей файловой системе, например к NFS, или, что менее вероятно, когда все работают на одном компьютере. Последний вариант не столь хорош, поскольку все копии вашего репозитория находятся на одном компьютере, делая возможность потерять все более вероятной.
+Базовым протоколом является _Локальный протокол_, при использовании которого удаленный репозиторий ― другой каталог на диске. Наиболее часто он используется, если все члены команды имеют доступ к общей файловой системе, например к NFS, или, что менее вероятно, когда все работают на одном компьютере. Последний вариант не столь хорош, поскольку все копии вашего репозитория находятся на одном компьютере, делая возможность потерять все более вероятной.
 
-The most basic is the _Local protocol_, in which the remote repository is in another directory on disk. This is often used if everyone on your team has access to a shared filesystem such as an NFS mount, or in the less likely case that everyone logs in to the same computer. The latter wouldn’t be ideal, because all your code repository instances would reside on the same computer, making a catastrophic loss much more likely.
-
-Если у вас смонтирована общая файловая система, вы можете клонировать, отравлять и получать изменения из локального репозитория. Чтобы склонировать такой репозиторий или добавить его в качестве удаленного в существующий проект, используйте путь к репозиторию в качестве URL. Например для клонирования локального репозитория вы можете запустить что-то вроде этого:
-
-If you have a shared mounted filesystem, then you can clone, push to, and pull from a local file-based repository. To clone a repository like this or to add one as a remote to an existing project, use the path to the repository as the URL. For example, to clone a local repository, you can run something like this:
+Если у вас смонтирована общая файловая система, вы можете клонировать, отправлять и получать изменения из локального репозитория. Чтобы склонировать такой репозиторий или добавить его в качестве удаленного в существующий проект, используйте путь к репозиторию в качестве URL. Например, для клонирования локального репозитория вы можете выполнить что-то вроде этого:
 
 	$ git clone /opt/git/project.git
 
 Или этого:
 
-Or you can do this:
-
 	$ git clone file:///opt/git/project.git
 
-Git работает немного по-другому если вы укажете префикс `file://` для вашего URL. Когда вы просто указываете путь, Git пытается использовать жесткие ссылки и копировать файлы когда это нужно. Если вы указываете `file://`, Git работает с данными также, как при использовании сетевых протоколов, что в целом менее эффективный способ передачи данных. Причиной для использования `file://` может быть необходимость создания чистой копии репозитория содержащего внешние ссылки или ... Мы будем использовать обычные пути, поскольку это практически всегда быстрее.
-
-Git operates slightly differently if you explicitly specify `file://` at the beginning of the URL. If you just specify the path, Git tries to use hardlinks or directly copy the files it needs. If you specify `file://`, Git fires up the processes that it normally uses to transfer data over a network which is generally a lot less efficient method of transferring the data. The main reason to specify the `file://` prefix is if you want a clean copy of the repository with extraneous references or objects left out — generally after an import from another version-control system or something similar (see Chapter 9 for maintenance tasks). We’ll use the normal path here because doing so is almost always faster.
+Git работает немного по-другому если вы укажете префикс `file://` для вашего URL. Когда вы просто указываете путь, Git пытается использовать жесткие ссылки и копировать файлы, когда это нужно. Если вы указываете `file://`, Git работает с данными так же как при использовании сетевых протоколов, что в целом менее эффективный способ передачи данных. Причиной для использования `file://` может быть необходимость создания чистой копии репозитория без лишних внешних ссылок и объектов, обычно после импорта из другой СУВ или чего-то похожего (см. главу 9 о задачах поддержки). Мы будем использовать обычные пути, поскольку это практически всегда быстрее.
 
 Чтобы добавить локальный репозиторий в существующий проект, вы можете воспользоваться командой:
-
-To add a local repository to an existing Git project, you can run something like this:
 
 	$ git remote add local_proj /opt/git/project.git
 
 Теперь, вы можете отправлять и получать изменения из этого репозитория так как вы это делали по сети.
 
-Then, you can push to and pull from that remote as though you were doing so over a network.
+#### Преимущества ####
 
-#### The Pros ####
+Преимущества основанных на файлах хранилищ в том, что они просты и используют существующие разграничения прав на файлы и сетевой доступ. Если у вас уже есть общая файловая система, доступ к которой имеет вся команда, настройка репозитория очень проста. Вы помещаете голый репозиторий туда, куда все имеют доступ, и выставляете права на чтение и запись как вы бы это сделали для любого другого общего каталога. Мы обсудим, как экспортировать голую копию репозитория для этой цели в следующем разделе, "Установка Git на сервер".
 
-The pros of file-based repositories are that they’re simple and they use existing file permissions and network access. If you already have a shared filesystem to which your whole team has access, setting up a repository is very easy. You stick the bare repository copy somewhere everyone has shared access to and set the read/write permissions as you would for any other shared directory. We’ll discuss how to export a bare repository copy for this purpose in the next section, “Getting Git on a Server.”
+Также это хорошая возможность быстро получить наработки из чьего-то рабочего репозитория. Если вы и ваш коллега работаете над одним и тем же проектом и он хочет, чтобы вы проверили что-то, то запуск команды вроде `git pull /home/john/project` зачастую проще, чем если бы он отправил на удалённый сервер, а вы забрали бы оттуда.
 
-This is also a nice option for quickly grabbing work from someone else’s working repository. If you and a co-worker are working on the same project and they want you to check something out, running a command like `git pull /home/john/project` is often easier than them pushing to a remote server and you pulling down.
+#### Недостатки ####
 
-#### The Cons ####
+Недостаток этого метода в том, что общий доступ обычно сложнее настроить и получить из разных мест, чем простой сетевой доступ. Если вы хотите отправлять со своего ноутбука, когда вы дома, вы должны смонтировать удалённый диск, что может быть сложно и медленно по сравнению с сетевым доступом.
 
-The cons of this method are that shared access is generally more difficult to set up and reach from multiple locations than basic network access. If you want to push from your laptop when you’re at home, you have to mount the remote disk, which can be difficult and slow compared to network-based access.
-
-It’s also important to mention that this isn’t necessarily the fastest option if you’re using a shared mount of some kind. A local repository is fast only if you have fast access to the data. A repository on NFS is often slower than the repository over SSH on the same server, allowing Git to run off local disks on each system.
+Также важно упомянуть, что не всегда использование общей точки монтирования является быстрейшим вариантом. Локальный репозиторий быстрый, только если вы имеете быстрый доступ к данным. Репозиторий на NFS часто медленнее чем репозиторий через SSH на том же сервере, позволяя Git'у использовать на полную локальные диски на каждой системе.
 
 ### Протокол SSH ###
 
-Наверно наиболее часто используемый траснпортный протокол это SSH. Причина того в том что доступ по SSH уже есть на многих серверах, а если его нет, то его очень легко настроить. Кроме того SSH единственный из сетевых протоколов предоставляющий доступ и на чтение, и на запись. Два других сетевых протокола (HTTP и Git) в большинстве случаев дают доступ только на чтение, поэтому даже если они вам доступны, вам все равно понадобится SSH для записи. К тому же SSH протокол с аутентификацией, и благодаря его распространенности обычно его легко настроить и использовать.
+Наверное, наиболее часто используемый транспортный протокол это SSH. Причина этого в том, что доступ по SSH уже есть на многих серверах, а если его нет, то его очень легко настроить. Кроме того SSH единственный из сетевых протоколов предоставляющий доступ и на чтение, и на запись. Два других сетевых протокола (HTTP и Git) в большинстве случаев дают доступ только на чтение, поэтому даже если они вам доступны, вам все равно понадобится SSH для записи. К тому же SSH протокол с аутентификацией, и благодаря его распространенности обычно его легко настроить и использовать.
 
-Probably the most common transport protocol for Git is SSH. This is because SSH access to servers is already set up in most places — and if it isn’t, it’s easy to do. SSH is also the only network-based protocol that you can easily read from and write to. The other two network protocols (HTTP and Git) are generally read-only, so even if you have them available for the unwashed masses, you still need SSH for your own write commands. SSH is also an authenticated network protocol; and because it’s ubiquitous, it’s generally easy to set up and use.
-
-Чтобы склонировать репозиторий Git через SSH, вы должны указать префикс ssh:// в URL, например:
-
-To clone a Git repository over SSH, you can specify ssh:// URL like this:
+Чтобы склонировать Git-репозиторий по SSH, вы можете указать префикс ssh:// в URL, например:
 
 	$ git clone ssh://user@server:project.git
 
-Или вы можете не указывать протокол, Git подразумевает использование SSH если вы не указали протокол явно:
+Или вы можете не указывать протокол, Git подразумевает использование SSH, если вы не указали протокол явно:
 
-Or you can not specify a protocol — Git assumes SSH if you aren’t explicit:
-	
 	$ git clone user@server:project.git
 
 Также вы можете не указывать имя пользователя, Git будет использовать то, под которым вы вошли в систему.
 
-You can also not specify a user, and Git assumes the user you’re currently logged in as.
-
 #### Достоинства ####
 
-SSH имеет множество достоинств. Во-первых, вы должны его использовать когда вам нужен авторизованый доступ на запись к вашему репозиторию через сеть. Во-вторых, SSH достаточно легко настроить ― демоны SSH распространены, многие системные администраторы имеют опыт работы с ними, и многие дистрибутивы поставляются с ними или утилитами для управления ими. Также, доступ по SSH безопасен ― данные передаются зашифрованными по авторизованным каналам. Наконец, также как и Git-протокол и локальный протокол SSH эффективен, делая данные перед передачей максимально компактными.
-
-The pros of using SSH are many. First, you basically have to use it if you want authenticated write access to your repository over a network. Second, SSH is relatively easy to set up — SSH daemons are commonplace, many network admins have experience with them, and many OS distributions are set up with them or have tools to manage them. Next, access over SSH is secure — all data transfer is encrypted and authenticated. Last, like the Git and Local protocols, SSH is efficient, making the data as compact as possible before transferring it.
+SSH имеет множество достоинств. Во-первых, вы должны его использовать, когда вам нужен авторизованный доступ на запись к вашему репозиторию через сеть. Во-вторых, SSH достаточно легко настроить ― демоны SSH распространены, многие системные администраторы имеют опыт работы с ними, и во многих дистрибутивах они уже настроены или есть утилиты для управления ими. Также, доступ по SSH безопасен ― данные передаются зашифрованными по авторизованным каналам. Наконец, так же как и Git-протокол и локальный протокол SSH эффективен, делая данные перед передачей максимально компактными.
 
 #### Недостатки ####
 
-Недостаток SSH в том, что, используя его, вы не можете обеспечить анонимный доступ к репозиторию. Клиенты должны иметь доступ к машине по SSH, даже для работы в режиме только чтение, что делает SSH неподходящим для open source проектов. Если вы используйте Git только внутри корпоративной сети, то возможно SSH единственный протокол с которым вам придется иметь дело. Если же вам нужен анонимный доступ на чтение для ваших проектов, вам придется настроить SSH для себя, чтобы выкладывать изменения, и что-нибудь другое для других, для скачивания.
-
-The negative aspect of SSH is that you can’t serve anonymous access of your repository over it. People must have access to your machine over SSH to access it, even in a read-only capacity, which doesn’t make SSH access conducive to open source projects. If you’re using it only within your corporate network, SSH may be the only protocol you need to deal with. If you want to allow anonymous read-only access to your projects, you’ll have to set up SSH for you to push over but something else for others to pull over.
+Недостаток SSH в том, что, используя его, вы не можете обеспечить анонимный доступ к репозиторию. Клиенты должны иметь доступ к машине по SSH, даже для работы в режиме только на чтение, что делает SSH неподходящим для проектов с открытым исходным кодом. Если вы используете Git только внутри корпоративной сети, то возможно SSH единственный протокол, с которым вам придется иметь дело. Если же вам нужен анонимный доступ на чтение для ваших проектов, вам придется настроить SSH для себя, чтобы выкладывать изменения, и что-нибудь другое для других, для скачивания.
 
 ### Git-протокол ###
 
-Следующий протокол ― Git-протокол. Вместе с Git поставляется специальный демон который слушает порт 9418 и предоставляет сервис схожий с протоколом ssh, но абсолютно без аутентификации. Чтобы использовать Git-протокол для репозитория, вы должны создать файл `git-export-daemon-ok`, иначе демон не будет работать с этим репозиторием, но следует помнить, что в протоколе отсутствуют средства безопасности. Соответственно любой репозиторий в Git может быть либо доступен для клонирования всем, либо не доступен никому. Как следствие обычно вы не можете отгружать изменения по этому протоколу. Вы можете открыть доступ на запись, но из-за отсутствия авторизации в этом случае кто угодно зная URL вашего проекта сможет его изменить. В общем это редко используемая возможность.
-
-Next is the Git protocol. This is a special daemon that comes packaged with Git; it listens on a dedicated port (9418) that provides a service similar to the SSH protocol, but with absolutely no authentication. In order for a repository to be served over the Git protocol, you must create the `git-export-daemon-ok` file — the daemon won’t serve a repository without that file in it — but other than that there is no security. Either the Git repository is available for everyone to clone or it isn’t. This means that there is generally no pushing over this protocol. You can enable push access; but given the lack of authentication, if you turn on push access, anyone on the internet who finds your project’s URL could push to your project. Suffice it to say that this is rare.
+Следующий протокол ― Git-протокол. Вместе с Git поставляется специальный демон, который слушает порт 9418 и предоставляет сервис схожий с протоколом ssh, но абсолютно без аутентификации. Чтобы использовать Git-протокол для репозитория, вы должны создать файл `git-export-daemon-ok`, иначе демон не будет работать с этим репозиторием, но следует помнить, что в протоколе отсутствуют средства безопасности. Соответственно любой репозиторий в Git может быть либо доступен для клонирования всем, либо не доступен никому. Как следствие обычно вы не можете отправлять изменения по этому протоколу. Вы можете открыть доступ на запись, но из-за отсутствия авторизации в этом случае кто угодно зная URL вашего проекта сможет его изменить. В общем, это редко используемая возможность.
 
 #### Достоинства ####
 
 Git-протокол ― самый быстрый из доступных протоколов. Если у вас проект с публичным доступом и большой трафик, или у вас очень большой проект, для которого не требуется авторизация пользователей для чтения, вам стоит настроить демон Git для вашего проекта. Он использует тот же механизм передачи данных, что и протокол SSH, но без дополнительных затрат на кодирование и аутентификацию.
 
-The Git protocol is the fastest transfer protocol available. If you’re serving a lot of traffic for a public project or serving a very large project that doesn’t require user authentication for read access, it’s likely that you’ll want to set up a Git daemon to serve your project. It uses the same data-transfer mechanism as the SSH protocol but without the encryption and authentication overhead.
-
 #### Недостатки ####
 
-Недостатком Git-протокола является отсутствие аутентификации. Поэтому обычно не следует использовать этот протокол как единственный способ доступа к вашему проекту. Обычно он используется в паре с SSH разработчиков, имеющих доступ на запись, тогда как все остальные используют `git://` для доступа на чтение. Кроме того это вероятно самый сложный для настройки протокол. Вы должны запустить собственно демон, не являющийся стандартным. Мы рассмотрим его настройку в разделе "Gitosis" этой главы. К тому же ему необходим сервис `xinetd` или ему подобный, что не всегда легко сделать. Также для работы необходимо настроить фаервол, чтобы открыть нестандартный порт 9418, который обычно закрыт на корпоративных брандмауэрах. За крупными корпоративными фаерволами, этот неизвестный порт практически всегда заблокирован.
-
-The downside of the Git protocol is the lack of authentication. It’s generally undesirable for the Git protocol to be the only access to your project. Generally, you’ll pair it with SSH access for the few developers who have push (write) access and have everyone else use `git://` for read-only access.
-It’s also probably the most difficult protocol to set up. It must run its own daemon, which is custom — we’ll look at setting one up in the “Gitosis” section of this chapter — it requires `xinetd` configuration or the like, which isn’t always a walk in the park. It also requires firewall access to port 9418, which isn’t a standard port that corporate firewalls always allow. Behind big corporate firewalls, this obscure port is commonly blocked.
+Недостатком Git-протокола является отсутствие аутентификации. Поэтому обычно не следует использовать этот протокол как единственный способ доступа к вашему проекту. Обычно он используется в паре с SSH для разработчиков, имеющих доступ на запись, тогда как все остальные используют `git://` с доступом только на чтение.
+Кроме того это вероятно самый сложный для настройки протокол. Вы должны запустить собственно демон, не являющийся стандартным. Мы рассмотрим его настройку в разделе "Gitosis" этой главы. К тому же ему необходим сервис `xinetd` или ему подобный, что не всегда легко сделать. Также необходимо, чтобы сетевой экран позволял доступ на порт 9418, который не является стандартным портом, всегда разрешённым в корпоративных брандмауэрах. За сетевыми экранами крупных корпораций этот неизвестный порт обычно заблокирован.
 
 ### Протокол HTTP/S ###
 
-Последний доступный протокол ― HTTP. Прелесть протоколов HTTP и HTTPS в простоте их настройки. По сути, все что необходимо сделать ― поместить чистый репозиторий внутрь каталога с HTTP документами, установить обработчик `post-update` и все (подробнее об обработчиках рассказывается в главе 7). Теперь, каждый имеющий доступ к веб-серверу на котором был размещен репозиторий, может его клонировать. Таким образом, чтобы открыть доступ к вашему репозиторию на чтение через HTTP, нужно сделать что то наподобие этого:
-
-Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the simplicity of setting it up. Basically, all you have to do is put the bare Git repository under your HTTP document root and set up a specific `post-update` hook, and you’re done (See Chapter 7 for details on Git hooks). At that point, anyone who can access the web server under which you put the repository can also clone your repository. To allow read access to your repository over HTTP, do something like this:
+Последний доступный протокол ― HTTP. Прелесть протоколов HTTP и HTTPS в простоте их настройки. По сути, всё, что необходимо сделать ― поместить голый репозиторий внутрь каталога с HTTP документами, установить обработчик `post-update` и всё (подробнее об обработчиках рассказывается в главе 7). Теперь, каждый имеющий доступ к веб-серверу, на котором был размещен репозиторий, может его склонировать. Таким образом, чтобы открыть доступ к вашему репозиторию на чтение через HTTP, нужно сделать что-то наподобие этого:
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -135,142 +91,90 @@ Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the 
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Вот и все. Обработчик `post-update`, входящий в состав Git по умолчанию выполняет необходимую команду (`git update-server-info`), чтобы обеспечить правильное скачивание и клонирование репозитория. Эта команда выполняется когда вы обновляете репозиторий через SSH, благодаря чему его можно склонировать командой:
-
-That’s all. The `post-update` hook that comes with Git by default runs the appropriate command (`git update-server-info`) to make HTTP fetching and cloning work properly. This command is run when you push to this repository over SSH; then, other people can clone via something like
+Вот и всё. Обработчик `post-update`, входящий в состав Git по умолчанию выполняет необходимую команду (`git update-server-info`), чтобы извлечение (fetch) и клонирование (clone) по HTTP работали правильно. Эта команда выполняется, когда вы отправляете изменения в репозиторий по SSH. Затем остальные могут склонировать его командой:
 
 	$ git clone http://example.com/gitproject.git
 
-В рассмотренном примере, мы использовали каталог `var/www/htdocs`, обычно используемый сервером Apache, но вы можете использовать любой веб-сервер, отдающий статический контент, расположив чистый репозиторий в нужном каталоге. Данные Git представляют собой обычные файлы (в главе 9 предоставление данных рассматривается более подробно).
-
-In this particular case, we’re using the `/var/www/htdocs` path that is common for Apache setups, but you can use any static web server — just put the bare repository in its path. The Git data is served as basic static files (see Chapter 9 for details about exactly how it’s served).
+В рассмотренном примере, мы использовали каталог `/var/www/htdocs`, обычно используемый сервером Apache, но вы можете использовать любой веб-сервер, отдающий статические данные, расположив голый репозиторий в нужном каталоге. Данные Git представляют собой обычные файлы (в главе 9 предоставление данных рассматривается более подробно).
 
 Также возможна настройка Git, для доступа на запись через HTTP, однако этот способ мало распространен и требует от вас настройки WebDAV. Поскольку этот способ редко используется, мы не будем рассматривать его в рамках этой книги. Если вас интересует использование HTTP протокола с возможностью записи, вы можете почитать о подготовке репозитория в этой статье: `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. Положительным моментом настройки Git для записи через HTTP является то, что вы можете использовать любой WebDAV сервер, без поддержки каких-либо специфичных для Git возможностей. Таким образом если ваш хостинг предоставляет WebDAV, вы можете обеспечить запись обновлений репозитория на ваш веб-сайт.
 
-It’s possible to make Git push over HTTP as well, although that technique isn’t as widely used and requires you to set up complex WebDAV requirements. Because it’s rarely used, we won’t cover it in this book. If you’re interested in using the HTTP-push protocols, you can read about preparing a repository for this purpose at `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. One nice thing about making Git push over HTTP is that you can use any WebDAV server, without specific Git features; so, you can use this functionality if your web-hosting provider supports WebDAV for writing updates to your web site.
-
 #### Достоинства ####
 
-Положительным аспектом использования протокола HTTP является простота настройки. Запуск всего нескольких команд дает вам возможность предоставить миру доступ к вашему репозиторию Git. Вам понадобится всего несколько минут, чтобы сделать это. Кроме того использование протокола HTTP не потребует много ресурсов вашего сервера. Поскольку в основном используется статический HTTP сервер, обычный сервер Apache может обрабатывать в среднем тысячи файлов в секунду, трудно перегрузить даже не большой сервер.
-
-The upside of using the HTTP protocol is that it’s easy to set up. Running the handful of required commands gives you a simple way to give the world read access to your Git repository. It takes only a few minutes to do. The HTTP protocol also isn’t very resource intensive on your server. Because it generally uses a static HTTP server to serve all the data, a normal Apache server can serve thousands of files per second on average — it’s difficult to overload even a small server.
+Положительным аспектом использования протокола HTTP является простота настройки. Запуск всего нескольких команд дает вам возможность предоставить миру доступ к вашему Git-репозиторию. Вам понадобится всего несколько минут, чтобы сделать это. Кроме того использование протокола HTTP не потребует много ресурсов вашего сервера. Поскольку в основном используется статический HTTP сервер, обычный сервер Apache может обрабатывать в среднем тысячи файлов в секунду — трудно перегрузить даже небольшой сервер.
 
 Также вы можете выставлять ваши репозитории в режиме только для чтения через HTTPS, т.е. вы можете шифровать трафик, или вы даже можете авторизовать клиентов по SSL сертификату. Обычно для этих целей легче использовать публичные ключи SSH, но в некоторых конкретных случаях лучшим решением может оказаться использование подписанных SSL сертификатов или других методов аутентификации основанных на HTTP, для доступа на чтение через HTTPS.
 
-You can also serve your repositories read-only over HTTPS, which means you can encrypt the content transfer; or you can go so far as to make the clients use specific signed SSL certificates. Generally, if you’re going to these lengths, it’s easier to use SSH public keys; but it may be a better solution in your specific case to use signed SSL certificates or other HTTP-based authentication methods for read-only access over HTTPS.
-
-Другим плюсом является то, что HTTP настолько широко используемый простокол, что корпоративные фаерволы часто настроены на пропускание всего трафика проходящего через этот порт.
-
-Another nice thing is that HTTP is such a commonly used protocol that corporate firewalls are often set up to allow traffic through this port.
+Другим плюсом является то, что HTTP настолько широко используемый протокол, что корпоративные сетевые экраны часто настроены на пропускание трафика проходящего через этот порт.
 
 #### Недостатки ####
 
-Обратной стороной использования протокола HTTP является его относительно низкая эффективность для клиента. Обычно клонирование или скачивание изменений из репозитория при использовании HTTP гораздо продолжительнее, а объем данных и нагрузка на сеть намного больше, чем у любого другого имеющегося сетевого протокола. Поскольку он не заботится о том, чтобы передавались только необходимые вам данные ― никакой динамической обработке на стороне сервера в этом случае не происходит ― протокол HTTP часто называют _тупым_ (dumb) протоколом. Более подробно о разнице в эффективности протокола HTTP и других протоколов рассказывается в главе 9.
-
-The downside of serving your repository over HTTP is that it’s relatively inefficient for the client. It generally takes a lot longer to clone or fetch from the repository, and you often have a lot more network overhead and transfer volume over HTTP than with any of the other network protocols. Because it’s not as intelligent about transferring only the data you need — there is no dynamic work on the part of the server in these transactions — the HTTP protocol is often referred to as a _dumb_ protocol. For more information about the differences in efficiency between the HTTP protocol and the other protocols, see Chapter 9.
+Обратной стороной использования протокола HTTP является его относительно низкая эффективность для клиента. Обычно клонирование или извлечение изменений из репозитория при использовании HTTP гораздо продолжительнее, а объем данных и нагрузка на сеть намного больше, чем у любого другого имеющегося сетевого протокола. Поскольку он не заботится о том, чтобы передавались только необходимые вам данные ― никакой динамической обработки на стороне сервера в этом случае не происходит ― протокол HTTP часто называют _тупым_ (dumb) протоколом. Более подробно о разнице в эффективности протокола HTTP и других протоколов рассказывается в главе 9.
 
 ## Установка Git на сервер ##
 
-Для того чтобы приступить к установке любого сервера Git, вы должны экспортировать существующий репозиторий в новый "голый" репозиторий, т.е. репозиторий без рабочего каталога. Обычно это не сложно сделать.
-Чтобы склонировать ваш репозиторий и создать новый "голый" репозиторий, запустите команду clone с параметром `--bare`. По существующему соглашению, каталоги с "голыми" репозиториями должны заканчиваться на `.git`, например:
-
-In order to initially set up any Git server, you have to export an existing repository into a new bare repository — a repository that doesn’t contain a working directory. This is generally straightforward to do.
-In order to clone your repository to create a new bare repository, you run the clone command with the `--bare` option. By convention, bare repository directories end in `.git`, like so:
+Для того чтобы приступить к установке любого сервера Git, вы должны экспортировать существующий репозиторий в новый "голый" репозиторий, т.е. репозиторий без рабочего каталога. Обычно это несложно сделать.
+Чтобы склонировать ваш репозиторий и создать новый "голый" репозиторий, выполните команду clone с параметром `--bare`. По существующему соглашению, каталоги с голыми репозиториями заканчиваются на `.git`, например:
 
 	$ git clone --bare my_project my_project.git
 	Initialized empty Git repository in /opt/projects/my_project.git/
 
-Вывод это команды слегка обескураживает. Поскольку `clone` по сути это `git init`, а затем `git fetch`, мы видим вывод от `git init`, который создает пустой каталог. Реальное перемещение объектов не имеет вывода, однако оно происходит. Теперь у вас должна быть копия данных из каталога Git в каталоге `my_project.git`.
+Вывод этой команды слегка обескураживает. Поскольку `clone` по сути это `git init`, а затем `git fetch`, мы видим вывод от `git init`, который создает пустой каталог. Реальное перемещение объектов не имеет вывода, однако оно происходит. Теперь у вас должна быть копия данных из каталога Git в каталоге `my_project.git`.
 
-The output for this command is a little confusing. Since `clone` is basically a `git init` then a `git fetch`, we see some output from the `git init` part, which creates an empty directory. The actual object transfer gives no output, but it does happen. You should now have a copy of the Git directory data in your `my_project.git` directory.
-
-Грубо говоря, это что то наподобие этого:
-
-This is roughly equivalent to something like
+Грубо говоря, это что-то наподобие этого:
 
 	$ cp -Rf my_project/.git my_project.git
 
 Тут есть пара небольших различий в файле конфигурации, но в вашем случае эту разницу можно считать несущественной. Можно считать, что в этом случае берется собственно репозиторий Git без рабочего каталога, и создается каталог только для него.
 
-There are a couple of minor differences in the configuration file; but for your purpose, this is close to the same thing. It takes the Git repository by itself, without a working directory, and creates a directory specifically for it alone.
-
 ### Размещение "голого" репозитория на сервере ###
 
-Теперь, когда у вас есть голая копия вашего репозитория, все что вам нужно сделать это поместить ее на сервер и настроить протоколы. Условимся, что вы уже установили сервер `git.example.com`, имеете к нему доступ по SSH и хотите развешать все ваши репозитории Git в каталоге `/opt/git`. Вы можете добавить ваш новый репозиторий копированием голого репозитория:
-
-Now that you have a bare copy of your repository, all you need to do is put it on a server and set up your protocols. Let’s say you’ve set up a server called `git.example.com` that you have SSH access to, and you want to store all your Git repositories under the `/opt/git` directory. You can set up your new repository by copying your bare repository over:
+Теперь, когда у вас есть голая копия вашего репозитория, все что вам нужно сделать это поместить ее на сервер и настроить протоколы. Условимся, что вы уже настроили сервер `git.example.com`, имеете к нему доступ по SSH и хотите размещать все ваши репозитории Git в каталоге `/opt/git`. Вы можете добавить ваш новый репозиторий копированием голого репозитория:
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
-Теперь другие пользователи, имеющие доступ к серверу по SSH и право но чтение к каталогу `/opt/git` могут клонировать ваш репозиторий запустив:
-
-At this point, other users who have SSH access to the same server which has read-access to the `/opt/git` directory can clone your repository by running
+Теперь другие пользователи, имеющие доступ к серверу по SSH и право на чтение к каталогу `/opt/git`, могут склонировать ваш репозиторий выполнив:
 
 	$ git clone user@git.example.com:/opt/git/my_project.git
 
-Если у пользователя сервера есть право на запись в каталог `/opt/git/my_project.git`, он автоматически получает возможность отгрузки изменений в репозиторий. Git автоматически добавляет правильные права на запись в репозиторий, если вы запустите команду `git init` с параметром `--shared`.
-
-If a user SSHs into a server and has write access to the `/opt/git/my_project.git` directory, they will also automatically have push access.  Git will automatically add group write permissions to a repository properly if you run the `git init` command with the `--shared` option.
+Если у пользователя сервера есть право на запись в каталог `/opt/git/my_project.git`, он автоматически получает возможность отправки изменений в репозиторий. Git автоматически добавит право на запись в репозиторий для группы, если вы запустите команду `git init` с параметром `--shared`.
 
 	$ ssh user@git.example.com
 	$ cd /opt/git/my_project.git
 	$ git init --bare --shared
 
-Видите это просто взять репозиторий Git, создать "голую" версию и поместить ее на сервер, к которому вы и ваши коллеги имеете доступ по SSH. Теперь вы готовы работать вместе над одним проектом.
+Видите, это просто взять репозиторий Git, создать "голую" версию и поместить ее на сервер, к которому вы и ваши коллеги имеете доступ по SSH. Теперь вы готовы работать вместе над одним проектом.
 
-You see how easy it is to take a Git repository, create a bare version, and place it on a server to which you and your collaborators have SSH access. Now you’re ready to collaborate on the same project.
+Важно отметить, что это практически всё, что вам нужно сделать чтобы получить рабочий Git-сервер, к которому несколько человек имеют доступ ― просто добавьте учетные записи SSH на сервер, и положите голый репозиторий в место, к которому эти пользователи имеют доступ на чтение и запись. И всё.
 
-Важно отметить, что это практически все что вам нужно сделать чтобы получить рабочий сервер Git, к которому несколько человек имеют доступ ― просто добавьте учетные записи SSH на сервер, и положите голый репозиторий в место, к которому эти пользователи имеют доступ на чтение и запись. И все.
+Из нескольких последующих разделов вы узнаете, как получить более сложные конфигурации. В том числе как не создавать учетные записи для каждого пользователя, как сделать публичный доступ на чтение репозитория, как установить веб-интерфейс, как использовать Gitosis, и др. Однако, помните, что для совместной работы пары человек на закрытом проекте, всё, что вам _нужно_ ― это SSH-сервер и "голый" репозиторий.
 
-It’s important to note that this is literally all you need to do to run a useful Git server to which several people have access — just add SSH-able accounts on a server, and stick a bare repository somewhere that all those users have read and write access to. You’re ready to go — nothing else needed.
+### Малые установки ###
 
-Из нескольких последующий разделов вы узнаете как получить более сложные конфигурации. В том числе как не создавать учетные записи для каждого пользователя, как сделать публичный доступ на чтение репозитория, как установить веб-интерфейс, как использовать Gitosis, и др. Однако, помните, что для совместной работы пары человек на закрытом проекте, все что вам _нужно_ ― это сервер SSH и "голый" репозиторий.
+Если вы небольшая фирма, или вы только пробуете Git в вашей организации и у вас мало разработчиков, то все достаточно просто. Один из наиболее сложных аспектов настройки сервера Git ― управление пользователями. Если вы хотите чтобы некоторые репозитории были доступны некоторым пользователям только на чтение, а другие и на чтение и на запись, вам может быть не очень просто привести права доступа в порядок.
 
-In the next few sections, you’ll see how to expand to more sophisticated setups. This discussion will include not having to create user accounts for each user, adding public read access to repositories, setting up web UIs, using the Gitosis tool, and more. However, keep in mind that to collaborate with a couple of people on a private project, all you _need_ is an SSH server and a bare repository.
+#### SSH доступ ####
 
-### Small Setups ###
+Если у вас уже есть сервер, к которому все ваши разработчики имеют доступ по SSH, проще всего разместить ваш первый репозиторий там, поскольку вам не нужно практически ничего делать (как мы уже обсудили в предыдущем разделе). Если вы хотите более сложного управления правами доступа к вашим репозиториям, вы можете сделать это обычными правами файловой системы, предоставляемыми операционной системой вашего сервера.
 
-Если вы небольшая фирма, или вы только пробуете Git в вашей организации и у вас мало разработчиков, то все достаточно просто. Один из наиболее сложных аспектов настройки сервера Git ― управление пользователями. Если вы хотите чтобы некоторые репозитории было досутпны некоторым пользователям только на чтение, а другие и на чтение и на запись, вам может быть весьма непросто привести права доступа в порядок.
+Если вы хотите разместить ваши репозитории на сервер, на котором нет учетных записей для каждого в вашей команде, кому нужен доступ на запись, вы должны настроить доступ по SSH для них. Будем считать, что если у вас есть сервер, на котором вы хотите это сделать, то SSH-сервер на нем уже установлен, и через него вы имеете доступ к серверу.
 
-If you’re a small outfit or are just trying out Git in your organization and have only a few developers, things can be simple for you. One of the most complicated aspects of setting up a Git server is user management. If you want some repositories to be read-only to certain users and read/write to others, access and permissions can be a bit difficult to arrange.
+Есть несколько способов дать доступ каждому в вашей команде. Первый — настроить учетные записи для каждого. Это просто, но может быть весьма обременительно. Вероятно, вы не захотите для каждого пользователя выполнять `adduser` и задавать временные пароли.
 
-#### SSH Access ####
+Второй способ ― создать на машине одного пользователя 'git', попросить каждого пользователя, кому нужен доступ на запись, прислать вам публичный ключ SSH, и добавить эти ключи в файл `~/.ssh/authorized_keys` вашего нового пользователя 'git'. Теперь все будут иметь доступ к этой машине через пользователя 'git'. Это никак не повлияет на данные коммита ― пользователь, под которым вы соединяетесь с сервером по SSH, не затрагивает сделанные вами коммиты.
 
-Если у вас уже есть сервер, к которому все ваши разработчики имеют доступ по SSH проще всего разместить ваш первый репозиторий там, поскольку вам не нужно практически ничего делать (как мы уже обсудили в предыдущем разделе). Если вы хотите более сложного управления правами доступа в ваши репозитории, вы можете сделать это обычными правами файловой системы, предоставляемыми операционной системой вашего сервера.
+Другой способ сделать это ― использовать SSH-сервер, аутентифицирующий по LDAP-серверу или любому другому централизованному источнику, который у вас может быть уже настроен. Любой способ аутентификации по SSH, какой вы только сможете придумать, должен работать, если пользователь может получить доступ к консоли.
 
-If you already have a server to which all your developers have SSH access, it’s generally easiest to set up your first repository there, because you have to do almost no work (as we covered in the last section). If you want more complex access control type permissions on your repositories, you can handle them with the normal filesystem permissions of the operating system your server runs.
+## Создание публичного SSH-ключа ##
 
-Если вы хотите разместить ваши репозитории на сервер, на котором нет учетных записей для каждого в вашей команде кому нужен доступ на запись, вы должны настроить доступ по SSH для них. Будем считать что если у вас есть сервер, на котором вы хотите это сделать, то SSH сервер на нем уже установлен, и через него вы имеете доступ к серверу.
-
-If you want to place your repositories on a server that doesn’t have accounts for everyone on your team whom you want to have write access, then you must set up SSH access for them. We assume that if you have a server with which to do this, you already have an SSH server installed, and that’s how you’re accessing the server.
-
-Есть несколько путей, чтобы дать доступ всем в вашей команде. Первый - настроить учетные записи для каждого, это просто, но может быть весьма обременительно. Вероятно вы не захотите запускать `adduser` и задавать временные пароли для каждого пользователя.
-
-There are a few ways you can give access to everyone on your team. The first is to set up accounts for everybody, which is straightforward but can be cumbersome. You may not want to run `adduser` and set temporary passwords for every user.
-
-Второй способ ― создать на машине одного пользователя 'git', попросить каждого пользователя кому нужен доступ на запись прислать вам публичный ключ SSH, и добавить эти ключи в файл `~/.ssh/authorized_keys` вашего нового пользователя 'git'. Теперь все будут иметь доступ к этой машине через пользователя 'git'. Это не влияет на данные коммита, в любом случае имя пользователя SSH, под которым вы соединяетесь с сервером, не влияет на данные которые вы сохраняете.
-
-A second method is to create a single 'git' user on the machine, ask every user who is to have write access to send you an SSH public key, and add that key to the `~/.ssh/authorized_keys` file of your new 'git' user. At that point, everyone will be able to access that machine via the 'git' user. This doesn’t affect the commit data in any way — the SSH user you connect as doesn’t affect the commits you’ve recorded.
-
-Другой способ сделать это ― использовать сервер SSH, аутентифицирующий по серверу LDAP или любому другому централизованному источнику, который у вас может быть уже настроен. Пока пользователь может получить доступ к консоли, любой способ аутентификации по SSH, какой вы только сможете придумать, должен работать.
-
-Another way to do it is to have your SSH server authenticate from an LDAP server or some other centralized authentication source that you may already have set up. As long as each user can get shell access on the machine, any SSH authentication mechanism you can think of should work.
-
-## Generating Your SSH Public Key ##
-
-Как было уже сказано, многие сервера Git используют аутентификацию по открытым SSH ключам. Для того чтобы предоставить открытый ключ, пользователь должен его сгенерировать, если это не было сделано ранее. Это процесс похож во всех операционных системах. Сначала, вам стоит убедиться, что у вас уже нет ключа. По умолчанию пользовательские ключи SSH хранятся в каталоге `~/.ssh` этого пользователя. Вы можете легко проверить, есть ли у вас ключ, зайдя в этот каталог и посмотрев его содержимое:
-
-That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
-First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:
+Как было уже сказано, многие Git-серверы используют аутентификацию по открытым SSH-ключам. Для того чтобы предоставить открытый ключ, пользователь должен его сгенерировать, если только это не было сделано ранее. Этот процесс похож во всех операционных системах. Сначала, вам стоит убедиться, что у вас еще нет ключа. По умолчанию пользовательские SSH-ключи хранятся в каталоге `~/.ssh` этого пользователя. Вы можете легко проверить, есть ли у вас ключ, зайдя в этот каталог и посмотрев его содержимое:
 
 	$ cd ~/.ssh
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
 
-Ищите пару файлов с именами "что-нибудь" и "что-нибудь.pub", где "что-нибудь" обычно `id_dsa` или `id_rsq`. Файл с расширением `.pub` - это ваш открытый ключ, а второй файл - ваш закрытый ключ. Если у вас нет этих файлов (или даже нет каталога `.ssh`), вы можете создать их запустив программу `ssh-keygen`, которая входит в состав пакета SSH в системах Linux/Mac, а также поставляется в составе MSysGit для Windows:
-
-You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:
+Ищите пару файлов с именами "что-нибудь" и "что-нибудь.pub", где "что-нибудь" обычно `id_dsa` или `id_rsa`. Файл с расширением `.pub` - это ваш открытый ключ, а второй файл — ваш закрытый ключ. Если у вас нет этих файлов (или даже нет каталога `.ssh`), вы можете создать их запустив программу `ssh-keygen`, которая входит в состав пакета SSH в системах Linux/Mac, а также поставляется в составе MSysGit для Windows:
 
 	$ ssh-keygen 
 	Generating public/private rsa key pair.
@@ -282,13 +186,9 @@ You’re looking for a pair of files named something and something.pub, where th
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-Сначала необходимо ввести расположение, для сохранения ключа (`.ssh/id_rsa`), затем дважды ввести пароль, который вы можете оставить пустым, если не хотите его вводить каждый раз когда используете ключ.
+Сначала необходимо ввести расположение, для сохранения ключа (`.ssh/id_rsa`), затем дважды ввести пароль, который вы можете оставить пустым, если не хотите его вводить каждый раз, когда используете ключ.
 
-First it confirms where you want to save the key (`.ssh/id_rsa`), and then it asks twice for a passphrase, which you can leave empty if you don’t want to type a password when you use the key.
-
-Теперь, каждый пользователь должен послать свой открытый ключ вам, или тому кто администрирует сервер Git (предположим, что ваш сервер SSH уже настроен на работу с открытыми ключами). Для этого им нужно скопировать все содержимое файла с расширением `.pub` и отправить его по электронной почте. Открытый ключ выглядит как то так:
-
-Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:
+Теперь, каждый пользователь должен послать свой открытый ключ вам, или тому, кто администрирует Git-сервер (предположим, что ваш SSH-сервер уже настроен на работу с открытыми ключами). Для этого им нужно скопировать всё содержимое файла с расширением `.pub` и отправить его по электронной почте. Открытый ключ выглядит как-то так:
 
 	$ cat ~/.ssh/id_rsa.pub 
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -298,24 +198,18 @@ Now, each user that does this has to send their public key to you or whoever is 
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
-Более подробное руководство по созданию ключей SSH на различных системах вы можете найти в руководстве GitHub по ключам SSH на `http://github.com/guides/providing-your-ssh-key`.
-
-For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
+Более подробное руководство по созданию SSH-ключей на различных системах вы можете найти в руководстве GitHub по SSH-ключам на `http://github.com/guides/providing-your-ssh-key`.
 
 ## Настраиваем сервер ##
 
 Давайте рассмотрим настройку доступа по SSH на стороне сервера. В этом примере мы будем использовать метод `authorized_keys` для аутентификации пользователей. Мы подразумеваем, что вы используете стандартный дистрибутив Linux типа Ubuntu. Для начала, создадим пользователя 'git' и каталог `.ssh` для этого пользователя:
-
-Let’s walk through setting up SSH access on the server side. In this example, you’ll use the `authorized_keys` method for authenticating your users. We also assume you’re running a standard Linux distribution like Ubuntu. First, you create a 'git' user and a `.ssh` directory for that user.
 
 	$ sudo adduser git
 	$ su git
 	$ cd
 	$ mkdir .ssh
 
-Затем, вам нужно добавить открытые ключи SSH нескольких разработчиков в файл `authorized_keys` этого пользователя. Предположим, вы уже получили несколько ключей по электронной почте и сохранили их во временные файлы. Напомню, открытый ключ выглядит как то так:
-
-Next, you need to add some developer SSH public keys to the `authorized_keys` file for that user. Let’s assume you’ve received a few keys by e-mail and saved them to temporary files. Again, the public keys look something like this:
+Затем, вам нужно добавить открытый SSH-ключ некоторого разработчика в файл `authorized_keys` этого пользователя. Предположим, вы уже получили несколько ключей по электронной почте и сохранили их во временные файлы. Напомню, открытый ключ выглядит как-то так:
 
 	$ cat /tmp/id_rsa.john.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
@@ -325,26 +219,20 @@ Next, you need to add some developer SSH public keys to the `authorized_keys` fi
 	O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 	dAv8JggJICUvax2T9va5 gsg-keypair
 
-Вы просто добавляете их к вашему файлу `authorized_keys`:
-
-You just append them to your `authorized_keys` file:
+Вы просто добавляете их в ваш файл `authorized_keys`:
 
 	$ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
-Теперь, вы можете создать пустой репозиторий для них, запустив `git init` с параметром `--bare`, которая инициализирует репозиторий без рабочего каталога:
-
-Now, you can set up an empty repository for them by running `git init` with the `--bare` option, which initializes the repository without a working directory:
+Теперь, вы можете создать пустой репозиторий для них, запустив `git init` с параметром `--bare`, что инициализирует репозиторий без рабочего каталога:
 
 	$ cd /opt/git
 	$ mkdir project.git
 	$ cd project.git
 	$ git --bare init
 
-Затем Джон, Жоси или Джессика могут положить первую версию их проекта в этот репозиторий добавив его как удаленный и отправив бранч. Заметьте, что кто то всегда должен заходить на сервер и создавать голый репозиторий каждый раз, когда вы хотите добавить проект. Пусть `gitserver` ― имя хоста сервера, на котором вы создали пользователя 'git' и репозиторий. Если он находится в вашей внутренней сети, вы можете настроить запись DNS для `gitserver`, ссылающуюся на этот сервер, и использовать эти команды:
-
-Then, John, Josie, or Jessica can push the first version of their project into that repository by adding it as a remote and pushing up a branch. Note that someone must shell onto the machine and create a bare repository every time you want to add a project. Let’s use `gitserver` as the hostname of the server on which you’ve set up your 'git' user and repository. If you’re running it internally, and you set up DNS for `gitserver` to point to that server, then you can use the commands pretty much as is:
+Затем Джон, Джози или Джессика могут отправить первую версию их проекта в этот репозиторий добавив его как удаленный и отправив ветку. Заметьте, что кто-то всегда должен заходить на сервер и создавать голый репозиторий каждый раз, когда вы хотите добавить проект. Пусть `gitserver` ― имя хоста сервера, на котором вы создали пользователя 'git' и репозиторий. Если он находится в вашей внутренней сети, вы можете настроить запись DNS для `gitserver`, ссылающуюся на этот сервер, и использовать эти команды:
 
 	# на компьютере Джона 
 	$ cd myproject
@@ -354,40 +242,28 @@ Then, John, Josie, or Jessica can push the first version of their project into t
 	$ git remote add origin git@gitserver:/opt/git/project.git
 	$ git push origin master
 
-Теперь остальные легко могут клонировать его и выкладывать изменения:
-
-At this point, the others can clone it down and push changes back up just as easily:
+Теперь остальные могут склонировать его и отправлять (push) туда изменения также легко:
 
 	$ git clone git@gitserver:/opt/git/project.git
 	$ vim README
 	$ git commit -am 'fix for the README file'
 	$ git push origin master
 
-Этим способом вы можете быстро получить с сервер Git с доступом на чтение/запись для небольшой группы разработчиков.
-
-With this method, you can quickly get a read/write Git server up and running for a handful of developers.
+Этим способом вы можете быстро получить Git-сервер с доступом на чтение/запись для небольшой группы разработчиков.
 
 В качестве дополнительной меры предосторожности вы можете ограничить возможности пользователя 'git' только действиями связанными с Git с помощью ограниченной оболочки `git-shell` поставляемой вместе с Git. Если вы выставите ее в качестве командного интерпретатора пользователя 'git', то этот пользователь не сможет получить доступ к обычной командной оболочке на вашем сервере. Чтобы её использовать, укажите `git-shell`, вместо bash или csh в качестве командной оболочки пользователя. Для этого вы должны отредактировать файл `/etc/passwd`:
-
-As an extra precaution, you can easily restrict the 'git' user to only doing Git activities with a limited shell tool called `git-shell` that comes with Git. If you set this as your 'git' user’s login shell, then the 'git' user can’t have normal shell access to your server. To use this, specify `git-shell` instead of bash or csh for your user’s login shell. To do so, you’ll likely have to edit your `/etc/passwd` file:
 
 	$ sudo vim /etc/passwd
 
 В конце вы должны найти строку, похожую на эту:
 
-At the bottom, you should find a line that looks something like this:
-
 	git:x:1000:1000::/home/git:/bin/sh
 
-Замените `/bin/sh` на `/usr/bin/git-shell` (или запустите `which git-shell`, чтобы проверить куда она инсталирована). Отредактированная строка должна выглядеть как то так:
-
-Change `/bin/sh` to `/usr/bin/git-shell` (or run `which git-shell` to see where it’s installed). The line should look something like this:
+Замените `/bin/sh` на `/usr/bin/git-shell` (или запустите `which git-shell`, чтобы проверить, куда он установлен). Отредактированная строка должна выглядеть следующим образом:
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
 Теперь, пользователь 'git' может использовать SSH соединение только для работы с репозиториями Git, и не может зайти на машину. Вы можете попробовать и увидите, что вход в систему отклонен:
-
-Now, the 'git' user can only use the SSH connection to push and pull Git repositories and can’t shell onto the machine. If you try, you’ll see a login rejection like this:
 
 	$ ssh git@gitserver
 	fatal: What do you think I am? A shell?
@@ -395,41 +271,27 @@ Now, the 'git' user can only use the SSH connection to push and pull Git reposit
 
 ## Открытый доступ ##
 
-Что если вы хотите иметь анонимный доступ к вашему проекту на чтение? Возможно вместо размещения внутреннего закрытого проекта, вы хотите разместить проект open source. Или, может быть у вас есть автоматические билд-серверы или серверы непрерывной интеграции, которые часто изменяются, и вы не хотите постоянно перегенерировать ключи SSH, а вы просто хотите добавить анонимный доступ на чтение.
+Что если вы хотите иметь анонимный доступ к вашему проекту на чтение? Возможно вместо размещения внутреннего закрытого проекта, вы хотите разместить проект с открытым исходным кодом. Или, может быть, у вас есть автоматизированные серверы сборки или серверы непрерывной интеграции, которые часто изменяются, и вы не хотите постоянно перегенерировать SSH-ключи, а вы просто хотите добавить анонимный доступ на чтение.
 
-What if you want anonymous read access to your project? Perhaps instead of hosting an internal private project, you want to host an open source project. Or maybe you have a bunch of automated build servers or continuous integration servers that change a lot, and you don’t want to have to generate SSH keys all the time — you just want to add simple anonymous read access.
-
-Вероятно наиболее простой способ для небольших конфигураций ― запустить статический веб-сервер, указав в качестве корневого каталога для документов каталог в котором расположены ваши репозитории Git, и разрешив хук `post-update`, как было показано в первой части этой главы. Давайте продолжим работу с предыдущего примера. Допустим ваши репозитории расположены в каталоге `/opt/git`, и сервер Apache запущен на вашей машине. Повторюсь, вы можете использовать любой веб-сервер, но в качестве примера мы покажем несколько основных конфигураций Apache, которые покажут основную идею что нужно сделать.
-
-Probably the simplest way for smaller setups is to run a static web server with its document root where your Git repositories are, and then enable that `post-update` hook we mentioned in the first section of this chapter. Let’s work from the previous example. Say you have your repositories in the `/opt/git` directory, and an Apache server is running on your machine. Again, you can use any web server for this; but as an example, we’ll demonstrate some basic Apache configurations that should give you an idea of what you might need.
+Вероятно, наиболее простой способ для небольших конфигураций ― запустить статический веб-сервер, указав в качестве корневого каталога для документов каталог, в котором расположены ваши репозитории Git, и разрешив хук `post-update`, как было показано в первой части этой главы. Давайте продолжим работу с предыдущего примера. Допустим, ваши репозитории расположены в каталоге `/opt/git`, и сервер Apache запущен на вашей машине. Повторюсь, вы можете использовать любой веб-сервер, но в качестве примера мы покажем несколько основных конфигураций Apache, которые покажут основную идею что нужно сделать.
 
 Для начала вам следует включить хук:
-
-First you need to enable the hook:
 
 	$ cd project.git
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Если вы используете версию Git ниже 1.6, то команда `mv` не нужна ― именование примеров хуков с расширением .sample только недавно.
-
-If you’re using a version of Git earlier than 1.6, the `mv` command isn’t necessary — Git started naming the hooks examples with the .sample postfix only recently. 
+Если вы используете версию Git ниже 1.6, то команда `mv` не нужна ― добавление суффикса .sample к именам примеров хуков началось только недавно.
 
 Что делает хук `post-update`? Обычно он выглядит так:
-
-What does this `post-update` hook do? It looks basically like this:
 
 	$ cat .git/hooks/post-update 
 	#!/bin/sh
 	exec git-update-server-info
 
-Это означает, что когда вы отгружаете на сервер по SSH, Git будет запускать эту команду, чтобы обновить файлы необходимые для скачивания по HTTP.
+Это означает, что когда вы отправляете что-то с помощью `git push` на сервер по SSH, Git будет запускать эту команду, чтобы обновить файлы необходимые для скачивания по HTTP.
 
-This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.
-
-Затем, вы должны добавить запись VirtualHost в конфигурацию вашего Apache с корневым каталогом документов в каталоге с вашими проектами Git. Здесь мы подразумеваем, что у ваш DNS сервер настроен на отправку `*.gitserver` на машину, которую вы используете, чтобы запустить все это:
-
-Next, you need to add a VirtualHost entry to your Apache configuration with the document root as the root directory of your Git projects. Here, we’re assuming that you have wildcard DNS set up to send `*.gitserver` to whatever box you’re using to run all this:
+Затем, вы должны добавить запись VirtualHost в конфигурацию вашего Apache с корневым каталогом документов в каталоге с вашими проектами Git. Здесь мы подразумеваем, что ваш DNS сервер настроен на отправку `*.gitserver` на машину, на которую вы используете, чтобы запустить все это:
 
 	<VirtualHost *:80>
 	    ServerName git.gitserver
@@ -440,48 +302,34 @@ Next, you need to add a VirtualHost entry to your Apache configuration with the 
 	    </Directory>
 	</VirtualHost>
 
-Вам также понадобится задать Unix группу пользователей для каталога `/opt/git` в `www-data`, чтобы ваш веб-сервер получил доступ на чтение этих каталогов, поскольку (по умолчанию) Apache запускает CGI скрипты от имени такого пользователя:
-
-You’ll also need to set the Unix user group of the `/opt/git` directories to `www-data` so your web server can read-access the repositories, because the Apache instance running the CGI script will (by default) be running as that user:
+Вам также понадобится установить Unix-группу для каталога `/opt/git` в `www-data`, чтобы ваш веб-сервер получил доступ на чтение этих каталогов, поскольку (по умолчанию) Apache запускает CGI-сценарии от имени такого пользователя:
 
 	$ chgrp -R www-data /opt/git
 
-После перезапуска Apache, вы должны получить возможность склонировать ваши репозитории из того каталога указывая их в URL:
-
-When you restart Apache, you should be able to clone your repositories under that directory by specifying the URL for your project:
+После перезапуска Apache, вы должны получить возможность склонировать ваши репозитории из этого каталога указывая их в URL:
 
 	$ git clone http://git.gitserver/project.git
 
-Таким образом, вы можете настроить доступ на чтение по HTTP к любому из ваших проектов для значительно количества пользователей за несколько минут. Другой простой способ дать открытый неаутентифицируемый доступ ― использовать демон Git, однако это требует запуска процесса демона. Мы рассмотрим этот вариант в следующей секции, если вы предпочитаете этот вариант.
-
-This way, you can set up HTTP-based read access to any of your projects for a fair number of users in a few minutes. Another simple option for public unauthenticated access is to start a Git daemon, although that requires you to daemonize the process - we’ll cover this option in the next section, if you prefer that route.
+Таким образом, вы можете настроить доступ на чтение по HTTP к любому из ваших проектов для значительного количества пользователей за несколько минут. Другой простой способ дать открытый неаутентифицируемый доступ ― использовать Git-демон, однако это требует запуска процесса демона. Мы рассмотрим этот вариант в следующем разделе, если вы предпочитаете этот вариант.
 
 ## GitWeb ##
 
-Теперь, когда у вас есть основной доступ на чтение и запись и доступ только на чтение к вашему проекту, вероятно вы захотите настроить простой веб визуализатор. Git поставляется в комплекте с CGI скриптом, называющимся GitWeb, который обычно используется для этого. Вы можете увидеть GitWeb в действии на таких сайтах как `http://git.kernel.org` (рис. 4-1).
-
-Now that you have basic read/write and read-only access to your project, you may want to set up a simple web-based visualizer. Git comes with a CGI script called GitWeb that is commonly used for this. You can see GitWeb in use at sites like `http://git.kernel.org` (see Figure 4-1).
+Теперь, когда у вас есть основной доступ на чтение и запись и доступ только на чтение к вашему проекту, вероятно, вы захотите настроить простой веб-визуализатор. Git поставляется в комплекте с CGI-сценарием, называющимся GitWeb, который обычно используется для этого. Вы можете увидеть GitWeb в действии на таких сайтах как `http://git.kernel.org` (рис. 4-1).
 
 Insert 18333fig0401.png 
-Figure 4-1. Веб-интерфейс GitWeb.
+Рисунок 4-1. Веб-интерфейс GitWeb.
 
-Если вы хотите проверить как GitWeb будет выглядеть для вашего проекта, Git поставляется с командой для быстрой установки временного экземпляра, если в вашей системе есть легковесный веб-сервер, такой как `lighttpd` или `webrick`. На машинах с Linux `lighttpd` часто установлен, поэтому возможно вы сможете его запустить выполнив `git instaweb` в вашем каталоге с вашим проектом. Если вы используете Mac, Leopard поставляется с предустановленным Ruby, поэтому `webrick` может быть лучшим выбором. Чтобы запустить `instaweb` с не ligttpd вы можете запустить команду с параметром `-httpd`.
-
-If you want to check out what GitWeb would look like for your project, Git comes with a command to fire up a temporary instance if you have a lightweight server on your system like `lighttpd` or `webrick`. On Linux machines, `lighttpd` is often installed, so you may be able to get it to run by typing `git instaweb` in your project directory. If you’re running a Mac, Leopard comes preinstalled with Ruby, so `webrick` may be your best bet. To start `instaweb` with a non-lighttpd handler, you can run it with the `--httpd` option.
+Если вы хотите проверить, как GitWeb будет выглядеть для вашего проекта, Git поставляется с командой для быстрой установки временного экземпляра, если в вашей системе есть легковесный веб-сервер, такой как `lighttpd` или `webrick`. На машинах с Linux `lighttpd` часто установлен, поэтому возможно вы сможете его запустить, выполнив `git instaweb` в каталоге с вашим проектом. Если вы используете Mac, Leopard поставляется с предустановленным Ruby, поэтому `webrick` может быть лучшим выбором. Чтобы запустить `instaweb` с не ligttpd, вы можете запустить команду с параметром `--httpd`.
 
 	$ git instaweb --httpd=webrick
 	[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
 	[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 
-Это запустит HTTPD сервер на порту 1234 и затем запустить веб-браузер, открытый на этой странице. Это очень просто. Когда вы закончили и хотите остановить сервер, вы можете запустить ту же команду с параметром `--stop`.
-
-That starts up an HTTPD server on port 1234 and then automatically starts a web browser that opens on that page. It’s pretty easy on your part. When you’re done and want to shut down the server, you can run the same command with the `--stop` option:
+Это запустит сервер HTTPD на порту 1234 и затем запустит веб-браузер, открытый на этой странице. Это очень просто. Когда вы закончили и хотите остановить сервер, вы можете запустить ту же команду с параметром `--stop`:
 
 	$ git instaweb --httpd=webrick --stop
 
-Если вы хотите иметь постоянно работающий веб-интерфейс на сервере для вашей команды или для проекта с открытым кодом на хостинге, вам необходимо установить CGI скрипт на вашем веб-сервере. Некоторые дистрибутивы Linux имеют пакет `gitweb` который вы можете установить используя `apt` или `yum`, так что вы можете попробовать сначала этот способ. Мы рассмотрим установку GitWeb вручную очень вкратце. Для начала, вам нужно получить исходный код Git, с которым поставляется GitWeb и сгенерировать настроеный CGI скрипт:
-
-If you want to run the web interface on a server all the time for your team or for an open source project you’re hosting, you’ll need to set up the CGI script to be served by your normal web server. Some Linux distributions have a `gitweb` package that you may be able to install via `apt` or `yum`, so you may want to try that first. We’ll walk though installing GitWeb manually very quickly. First, you need to get the Git source code, which GitWeb comes with, and generate the custom CGI script:
+Если вы хотите иметь постоянно работающий веб-интерфейс на сервере для вашей команды или для проекта с открытым кодом на хостинге, вам необходимо установить CGI-сценарий на вашем веб-сервере. Некоторые дистрибутивы Linux имеют пакет `gitweb`, который вы можете установить используя `apt` или `yum`, так что вы можете попробовать сначала этот способ. Мы рассмотрим установку GitWeb вручную очень вкратце. Для начала, вам нужно получить исходный код Git, с которым поставляется GitWeb, и сгенерировать настроенный CGI-сценарий:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
@@ -489,9 +337,7 @@ If you want to run the web interface on a server all the time for your team or f
 	        prefix=/usr gitweb/gitweb.cgi
 	$ sudo cp -Rf gitweb /var/www/
 
-Помните, что вы должны указать команде где расположены ваши репозитории Git с помощью переменной `GITWEB_PROJECTROOT`. Теперь вы должно настроить Apache на использование этого скрипта, для чего вы можете добавить виртуальный хост:
-
-Notice that you have to tell the command where to find your Git repositories with the `GITWEB_PROJECTROOT` variable. Now, you need to make Apache use CGI for that script, for which you can add a VirtualHost:
+Помните, что вы должны указать команде, где расположены ваши репозитории Git с помощью переменной `GITWEB_PROJECTROOT`. Теперь вы должны настроить Apache на использование этого сценария, для чего вы можете добавить виртуальный хост:
 
 	<VirtualHost *:80>
 	    ServerName gitserver
@@ -506,67 +352,65 @@ Notice that you have to tell the command where to find your Git repositories wit
 	    </Directory>
 	</VirtualHost>
 
-Повторюсь, GitWeb может быть установлен на любой веб-сервер, совместимый с CGI. Если вы предпочитаете использовать что то другое, настройка не должна стать для вас проблемой. К этому моменту вы должны иметь возможность зайти на `http://gitserver/` для просмотра ваших репозиториев онлайн, а также использовать `http://git.gitserver` для клонирования и скачивания ваших репохиториев по HTTP.
-
-Again, GitWeb can be served with any CGI capable web server; if you prefer to use something else, it shouldn’t be difficult to set up. At this point, you should be able to visit `http://gitserver/` to view your repositories online, and you can use `http://git.gitserver` to clone and fetch your repositories over HTTP.
+Повторюсь, GitWeb может быть установлен на любой веб-сервер, совместимый с CGI. Если вы предпочитаете использовать что-то другое, настройка не должна стать для вас проблемой. К этому моменту вы должны иметь возможность зайти на `http://gitserver/` для просмотра ваших репозиториев онлайн, а также использовать `http://git.gitserver` для клонирования и извлечения данных для ваших репозиториев по HTTP.
 
 ## Gitosis ##
 
-Keeping all users’ public keys in the `authorized_keys` file for access works well only for a while. When you have hundreds of users, it’s much more of a pain to manage that process. You have to shell onto the server each time, and there is no access control — everyone in the file has read and write access to every project.
+Хранение публичных ключей всех пользователей в `authorized_keys` для предоставления доступа работает хорошо лишь на время. Когда у вас сотни пользователей это скорее похоже на пытку. Вы должны заходить на сервер каждый раз и нет никакого разграничения доступа — все перечисленные в файле имеют доступ на чтение и на запись к каждому проекту.
 
-At this point, you may want to turn to a widely used software project called Gitosis. Gitosis is basically a set of scripts that help you manage the `authorized_keys` file as well as implement some simple access controls. The really interesting part is that the UI for this tool for adding people and determining access isn’t a web interface but a special Git repository. You set up the information in that project; and when you push it, Gitosis reconfigures the server based on that, which is cool.
+На этой стадии вы можете захотеть обратиться к широко используемому ПО под названием Gitosis. Gitosis — это просто набор сценариев (скриптов), который поможет вам управляться с файлом `authorized_keys` и реализовать простой контроль доступа. Действительно интересно, что интерфейсом для этого инструмента для добавления людей и определения доступа для них является не веб-интерфейс, а специальный git-репозиторий. Вы настраиваете информацию в этом проекте и, когда вы отправляете её в репозиторий, Gitosis исходя из неё перенастраивает сервер, что круто.
 
-Installing Gitosis isn’t the simplest task ever, but it’s not too difficult. It’s easiest to use a Linux server for it — these examples use a stock Ubuntu 8.10 server.
+Установка Gitosis не простейшая задача всех времен, но она и не так сложна. Проще всего для этого использовать Linux-сервер — данные примеры используют обычный Ubuntu 8.10 server.
 
-Gitosis requires some Python tools, so first you have to install the Python setuptools package, which Ubuntu provides as python-setuptools:
+Gitosis'у нужны некоторые инструменты для Python, так что первым делом вы должны установить пакет Python'а setuptools, который в Ubuntu называется python-setuptools:
 
 	$ apt-get install python-setuptools
 
-Next, you clone and install Gitosis from the project’s main site:
+Затем вы клонируете и устанавливаете Gitosis с главного сайта проекта:
 
 	$ git clone git://eagain.net/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 
-That installs a couple of executables that Gitosis will use. Next, Gitosis wants to put its repositories under `/home/git`, which is fine. But you have already set up your repositories in `/opt/git`, so instead of reconfiguring everything, you create a symlink:
+Это установит несколько исполняемых файлов, которые Gitosis будет использовать. Затем Gitosis хочет расположить свои репозитории в каталоге `/home/git`, что неплохо. Но вы уже установили репозитории в `/opt/git`, так что вместо перенастройки всего на свете вы сделаете символическую ссылку:
 
 	$ ln -s /opt/git /home/git/repositories
 
-Gitosis is going to manage your keys for you, so you need to remove the current file, re-add the keys later, and let Gitosis control the `authorized_keys` file automatically. For now, move the `authorized_keys` file out of the way:
+Gitosis будет управлять ключами за вас, так что вы должны удалить текущий файл, добавить ключи снова позже и предоставить Gitosis'у управлять файлом `authorized_keys` автоматически. Сейчас просто уберите этот файл с дороги:
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
 
-Next you need to turn your shell back on for the 'git' user, if you changed it to the `git-shell` command. People still won’t be able to log in, but Gitosis will control that for you. So, let’s change this line in your `/etc/passwd` file
+Затем вы должны вернуть пользователю git его командную оболочку, если вы меняли её на команду `git-shell`. Люди всё так же не смогут выполнить вход, но для вас это будет контролировать Gitosis. Итак, давайте поменяем эту строку в файле '/etc/passwd'
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-back to this:
+обратно на эту:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-Now it’s time to initialize Gitosis. You do this by running the `gitosis-init` command with your personal public key. If your public key isn’t on the server, you’ll have to copy it there:
+Теперь самое время инициализировать Gitosis. Вы сделаете это выполнив команду `gitosis-init` с вашим персональным публичным ключом. Если вашего публичного ключа ещё нет на сервере вы должны будете скопировать его туда:
 
 	$ sudo -H -u git gitosis-init < /tmp/id_dsa.pub
 	Initialized empty Git repository in /opt/git/gitosis-admin.git/
 	Reinitialized existing Git repository in /opt/git/gitosis-admin.git/
 
-This lets the user with that key modify the main Git repository that controls the Gitosis setup. Next, you have to manually set the execute bit on the `post-update` script for your new control repository.
+Это позволит пользователю с таким ключом изменять главный Git-репозиторий, который управляет настройками Gitosis'а. Затем вы должны вручную установить бит исполнения на сценарий `post-update` в новом управляющем репозитории.
 
 	$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 
-You’re ready to roll. If you’re set up correctly, you can try to SSH into your server as the user for which you added the public key to initialize Gitosis. You should see something like this:
+Всё готово. Если вы всё настроили правильно, вы можете попытаться соединиться по SSH с вашим сервером под тем пользователем, для которого вы добавили публичный ключ чтобы инициализировать Gitosis. Вы должны увидеть что-то вроде этого:
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
 	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
 	  Connection to gitserver closed.
 
-That means Gitosis recognized you but shut you out because you’re not trying to do any Git commands. So, let’s do an actual Git command — you’ll clone the Gitosis control repository:
+Это означает, что Gitosis узнал вас, но не пустил, потому что вы не пытались выполнить ни одну из команд Git. Ну так давайте выполним настоящую команду Git — вы склонируете управляющий репозиторий Gitosis:
 
-	# on your local computer
+	# на вашем локальном компьютере
 	$ git clone git@gitserver:gitosis-admin.git
 
-Now you have a directory named `gitosis-admin`, which has two major parts:
+Теперь у вас есть каталог с именем `gitosis-admin`, в котором есть две главные части:
 
 	$ cd gitosis-admin
 	$ find .
@@ -574,9 +418,9 @@ Now you have a directory named `gitosis-admin`, which has two major parts:
 	./keydir
 	./keydir/scott.pub
 
-The `gitosis.conf` file is the control file you use to specify users, repositories, and permissions. The `keydir` directory is where you store the public keys of all the users who have any sort of access to your repositories — one file per user. The name of the file in `keydir` (in the previous example, `scott.pub`) will be different for you — Gitosis takes that name from the description at the end of the public key that was imported with the `gitosis-init` script.
+Файл `gitosis.conf` — файл настройки, который используется, чтобы указать пользователей, репозитории и права доступа. В каталоге `keydir` должны храниться публичные ключи всех пользователей, у которых есть какой-либо доступ к вашим репозиториям — по файлу на пользователя. Имя файла в `keydir` (в предыдущем примере `scott.pub`) у вас будет отличаться — Gitosis берёт это имя из описания в конце публичного ключа, который был импортирован сценарием `gitosis-init`.
 
-If you look at the `gitosis.conf` file, it should only specify information about the `gitosis-admin` project that you just cloned:
+Если вы посмотрите в файл `gitosis.conf`, там должна быть указана только информация о проекте `gitosis-admin`, который вы только что склонировали:
 
 	$ cat gitosis.conf 
 	[gitosis]
@@ -585,15 +429,15 @@ If you look at the `gitosis.conf` file, it should only specify information about
 	writable = gitosis-admin
 	members = scott
 
-It shows you that the 'scott' user — the user with whose public key you initialized Gitosis — is the only one who has access to the `gitosis-admin` project.
+Это показывает, что пользователь 'scott' — пользователь, чьим публичным ключом вы инициализировали Gitosis — единственный, кто имеет доступ к проекту `gitosis-admin`.
 
-Now, let’s add a new project for you. You’ll add a new section called `mobile` where you’ll list the developers on your mobile team and projects that those developers need access to. Because 'scott' is the only user in the system right now, you’ll add him as the only member, and you’ll create a new project called `iphone_project` to start on:
+А теперь давайте добавим новый проект. Вы добавите новую секцию с названием `mobile`, где вы перечислите всех разработчиков в вашей мобильной команде и проекты, к которым должны иметь доступ. Поскольку `scott` пока что единственный пользователь в системе, вы добавите его как единственного члена, и вы создадите новый проект под названием `iphone_project` чтобы начать:
 
 	[group mobile]
 	writable = iphone_project
 	members = scott
 
-Whenever you make changes to the `gitosis-admin` project, you have to commit the changes and push them back up to the server in order for them to take effect:
+Когда вы вносите изменения в проект `gitosis-admin`, вы должны зафиксировать изменения и отправить их на сервер, чтобы они возымели эффект:
 
 	$ git commit -am 'add iphone_project and mobile group'
 	[master]: created 8962da8: "changed name"
@@ -606,7 +450,7 @@ Whenever you make changes to the `gitosis-admin` project, you have to commit the
 	To git@gitserver:/opt/git/gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
-You can make your first push to the new `iphone_project` project by adding your server as a remote to your local version of the project and pushing. You no longer have to manually create a bare repository for new projects on the server — Gitosis creates them automatically when it sees the first push:
+Вы можете сделать ваш первый push в новый проект `iphone_project` добавив ваш сервер в качестве удалённого (remote) в локальную версию проекта и выполнив `git push`. Вам больше не нужно вручную создавать голые репозитории на сервере для новых проектов — Gitosis создаёт их сам автоматически когда видит первый push:
 
 	$ git remote add origin git@gitserver:iphone_project.git
 	$ git push origin master
@@ -617,23 +461,23 @@ You can make your first push to the new `iphone_project` project by adding your 
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
 
-Notice that you don’t need to specify the path (in fact, doing so won’t work), just a colon and then the name of the project — Gitosis finds it for you.
+Заметьте, что вам не нужно указывать путь (фактически, если вы это сделаете, то оно не сработает), только двоеточие и имя проекта — Gitosis найдёт его за вас.
 
-You want to work on this project with your friends, so you’ll have to re-add their public keys. But instead of appending them manually to the `~/.ssh/authorized_keys` file on your server, you’ll add them, one key per file, into the `keydir` directory. How you name the keys determines how you refer to the users in the `gitosis.conf` file. Let’s re-add the public keys for John, Josie, and Jessica:
+Вы хотите работать над проектом с вашими друзьями, так что вам нужно снова добавить их публичные ключи. Но вместо того, чтобы вручную добавлять их к файлу `~/.ssh/authorized_keys` на вашем сервере, добавьте их, один файл на ключ, в директорию `keydir`. Как вы назовёте ключи определит как вы будете ссылаться на пользователей в `gitosis.conf`. Давайте по-новому добавим публичные ключи для Джона, Джози и Джессики:
 
 	$ cp /tmp/id_rsa.john.pub keydir/john.pub
 	$ cp /tmp/id_rsa.josie.pub keydir/josie.pub
 	$ cp /tmp/id_rsa.jessica.pub keydir/jessica.pub
 
-Now you can add them all to your 'mobile' team so they have read and write access to `iphone_project`:
+Теперь вы можете добавить их всех в вашу 'мобильную' команду, чтобы они имели доступ на чтение и запись в `iphone_project`:
 
 	[group mobile]
 	writable = iphone_project
 	members = scott john josie jessica
 
-After you commit and push that change, all four users will be able to read from and write to that project.
+После того, как вы зафиксируете и отправите изменения, все четыре пользователя будут иметь возможность читать и писать в проект.
 
-Gitosis has simple access controls as well. If you want John to have only read access to this project, you can do this instead:
+В Gitosis также есть простой контроль доступа. Если вы хотите, чтобы Джон имел только доступ на чтение к этому проекту, вы можете вместо этого сделать:
 
 	[group mobile]
 	writable = iphone_project
@@ -643,7 +487,7 @@ Gitosis has simple access controls as well. If you want John to have only read a
 	readonly = iphone_project
 	members = john
 
-Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members (using `@` as prefix), to inherit all of its members automatically:
+Теперь Джон может клонировать проект и получать обновления, но Gitosis не позволит ему отправлять изменения обратно в проект. Вы можете создать таких групп сколько хотите, каждую содержащую разные проекты и пользователей. Вы также можете указать другую группу в качестве одного из пользователей (используя `@` как префикс), чтобы автоматически добавить всех её членов:
 
 	[group mobile_committers]
 	members = scott josie jessica
@@ -656,25 +500,184 @@ Now John can clone the project and get updates, but Gitosis won’t allow him to
 	writable  = another_iphone_project
 	members   = @mobile_committers john
 
-If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.
+Если у вас возникли какие-то проблемы, полезным может быть добавить `loglevel=DEBUG` в секции `[gitosis]`. Если вы потеряли доступ к отправке отправив неверную конфигурацию, вы можете вручную поправить файл `/home/git/.gitosis.conf` на сервере — файл, из которого Gitosis читает свою информацию. Отправка в проект берёт файл `gitosis.conf`, который вы только что отправили, и помещает его туда. Если вы отредактируете этот файл вручную, он останется таким до следующей успешной отправки в проект `gitosis-admin`.
 
-## Git Daemon ##
+## Gitolite ##
 
-For public, unauthenticated read access to your projects, you’ll want to move past the HTTP protocol and start using the Git protocol. The main reason is speed. The Git protocol is far more efficient and thus faster than the HTTP protocol, so using it will save your users time.
+Git начал становиться очень популярным в корпоративных средах, где обычно есть дополнительные требования в плане контроля доступа. Gitolite был создан, чтобы посодействовать в выполнении таких требований.
 
-Again, this is for unauthenticated read-only access. If you’re running this on a server outside your firewall, it should only be used for projects that are publicly visible to the world. If the server you’re running it on is inside your firewall, you might use it for projects that a large number of people or computers (continuous integration or build servers) have read-only access to, when you don’t want to have to add an SSH key for each.
+Gitolite позволяет указать права доступа не только для репозиториев (как Gitosis), но и для веток или имён меток внутри каждого репозитория. То есть, вы можете указать, что определённые люди (или группы людей) могут отправлять (push) определённые "ссылки" (ветки или метки), а остальные нет.
 
-In any case, the Git protocol is relatively easy to set up. Basically, you need to run this command in a daemonized manner:
+### Установка ###
+
+Установить Gitolite очень просто, даже если вы не читали обширную документацию, которая идёт с ним. Вам нужен аккаунт на каком-нибудь Unix сервере; были протестированы различные Linux-ы и Solaris 10. Вам не нужен root-доступ, если git, perl и openssh-совместимый сервер уже настроены. Далее в примерах мы будем использовать аккаунт `gitolite` на хосте с именем `gitserver`.
+
+Gitolite устанавливается с помощью выполения сценария *на рабочей станции*, так что на вашей рабочей станции должен быть доступен bash-шелл. Если вам интересно, даже тот bash, который идёт с msysgit достаточен.
+
+Начните с настройки доступа к вашему серверу с помощью открытого ключа, так, чтобы вы могли войти с вашей рабочей станции на сервер без ввода пароля. Следующий способ работает в Linux; для рабочих станций с другими ОС вам, возможно, нужно будет сделать это вручную. Мы полагаем, что у вас уже есть пара ключей сгенерированных с помощью `ssh-keygen`.
+
+	$ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
+
+Эта команда спросит у вас пароль к учётной записи 'gitolite', а затем настроит доступ по открытому ключу. Он **необходим** для сценария установки, так что убедитесь, что вы можете выполнять команды без ввода пароля:
+
+	$ ssh gitolite@gitserver pwd
+	/home/gitolite
+
+Затем склонируйте Gitolite с главного сайта проекта и выполните сценарий для лёгкой установки (третий аргумент это ваше имя в том виде, в котором вам бы хотелось его видеть в окончательном репозитории gitolite-admin):
+
+	$ git clone git://github.com/sitaramc/gitolite
+	$ cd gitolite/src
+	$ ./gl-easy-install -q gitolite gitserver sitaram
+
+Всё готово! Gitolite теперь установлен на сервере, и у вас в вашей домашней директории на рабочей станции теперь есть новый репозиторий, который называется `gitolite-admin`. Администрирование вашего установленнего gitolite осуществляется с помощью внесения изменений в этот репозиторий и их отправки (push) так же как и в Gitosis.
+
+[Кстати, *обновление* gitolite делается тем же способом. Кроме того, если интересно, можете запустить сценарий без аргументов и тогда получите справку по использованию.]
+
+Та последняя команда делает довольно большое количество вывода, который может быть интересно прочитать. Также, при первом её выполнении, создаётся новая пара ключей; вам придётся выбрать пароль или нажать enter, чтобы пароля не было. Зачем нужна вторая пара ключей и как она используется, описано в документе "ssh troubleshooting" поставляемым с Gitolite. (Ну должна же документация быть *хоть для чего-то* хороша!)
+
+### Изменение параметров установки ###
+
+Хотя быстрая установка с параметрами по умолчанию подходит для большинства людей, есть несколько способов изменения параметров установки если вам это нужно. Если опустить опцию `-q`, вы получите "подробную" установку с детальной информацией о том, что происходит на каждом шаге. Подробный режим также позволяет изменить некоторые параметры на стороне сервера, такие как расположение репозиториев, с помощью редактирования "rc" файла используемого сервером. Этот "rc" файл содержит развёрнутые комметарии так, чтобы вы легко смогли сделать любые изменения, сохранить их и продолжить. Этот файл также содержит различные настройки, которые вы можете изменить, чтобы активировать или выключить некоторые "продвинутые" функции gitolite.
+
+### Конфигурационный файл и правила контроля доступа ###
+
+Итак, когда установка завершена, вы переходите в репозиторий `gitolite-admin` (он находится в вашем домашнем каталоге) и осматриваетесь, чтобы выяснить что же вы получили:
+
+	$ cd ~/gitolite-admin/
+	$ ls
+	conf/  keydir/
+	$ find conf keydir -type f
+	conf/gitolite.conf
+	keydir/sitaram.pub
+	$ cat conf/gitolite.conf
+	#gitolite conf
+	# please see conf/example.conf for details on syntax and features
+
+	repo gitolite-admin
+	    RW+                 = sitaram
+
+	repo testing
+	    RW+                 = @all
+
+Заметьте, что "sitaram" (это последний аргумент при выполнении `gl-easy-install` ранее) имеет права на чтение и запись в репозиторий `gitolite-admin`, а также файл с открытым ключом с таким же именем.
+
+Синтаксис конфигурационного файла для Gitolite *сильно* отличается от того что у Gitosis. Снова, это всё подробно продокументированно в `conf/example.conf`, так что мы рассмотрим здесь только основные моменты.
+
+Вы можете сгруппировать пользователей или репозитории для удобства. Имена групп совсем как макросы; когда вы их определяете, даже не важно определяют ли они проекты или пользователей; это различие делается только, когда вы *используете* "макрос".
+
+	@oss_repos      = linux perl rakudo git gitolite
+	@secret_repos   = fenestra pear
+
+	@admins         = scott     # Adams, not Chacon, sorry :)
+	@interns        = ashok     # get the spelling right, Scott!
+	@engineers      = sitaram dilbert wally alice
+	@staff          = @admins @engineers @interns
+
+Вы можете контролировать права доступа на уровне "ссылок" (то, что находится в .git/refs/). В следующем примере стажёры (группа @interns) могут отправлять (push) только ветку "int". Инженеры (группа @engineers) могут отправлять любую ветку, чьё имя начинается с "eng-", а также метки начинающиеся с "rc" и затем цифры. И администраторы (группа @admins) могут делать всё (в том числе откатить назад) с любыми ссылками.
+
+	repo @oss_repos
+	    RW  int$                = @interns
+	    RW  eng-                = @engineers
+	    RW  refs/tags/rc[0-9]   = @engineers
+	    RW+                     = @admins
+
+Выражение после `RW` или `RW+` это регулярное выражение (regex), с которым сопоставляется имя отправляемой ссылки (ref). Поэтому мы называем его "refex"! Конечно, "refex" может быть гораздо более сильным, чем показанные здесь. Так что не переусердствуйте с ними, если вы не очень хорошо знакомы с регулярными выражениями perl.
+
+К тому же, как вы уже наверное догадались, Gitolite для удобства дописывает в начале регулярного выражения `refs/heads/` если оно не начинается с `refs/`.
+
+Важной особенностью синтаксиса конфигурационного файла является то, что все правила для репозитория не обязательно должны находиться в одном месте. Вы можете держать все общие вещи вместе, как, например, правила для всех `oss_repos` выше, а потом добавить уточняющие правила для отдельных случаев следующим образом:
+
+	repo gitolite
+	    RW+                     = sitaram
+
+Это правило будет добавлено к набору правил для репозитория `gitolite`.
+
+В данный момент вы, возможно, задаётесь вопросом: "Каким образом правила контроля доступа применяются на самом деле?" — так что давайте вкратце рассмотрим это.
+
+В gitolite есть два уровня контроля доступа. Первый — на уровне репозитория; если у вас есть доступ на чтение (или запись) к *любой* ссылке в репозитории, то у вас есть доступ на чтение (или запись) к этому репозиторию. Это тот единственный контроль доступа, который есть в Gitosis.
+
+Второй уровень применим только к доступу на запись и осуществляется по веткам или меткам внутри репозитория. Имя пользователя, запрашиваемый уровень доступа (`W` или `+`) и имя ссылки, которая будет обновлена, известны. Правила доступа проверяются в порядке их появления в конфигурационном файле, в поисках совпадений для этой комбинации (но помните, что имя ссылки сопоставляется с регулярным выражением, а не просто строкой). Если совпадение найдено, отправка (push) проходит успешно. При неудачном исходе доступ запрещается.
+
+### Продвинутый контроль доступа с запрещающими правилами ###
+
+До сих пор у нас были только права вида `R`, `RW`, или `RW+`. Однако, в gitolite есть другие права доступа: `-` означающий "запретить". Это даёт гораздо больше возможностей взамен большей сложности, так как теперь отсутствие разрешающего правила не *единственный* способ получить запрет доступа, так что *порядок правил теперь имеет значение*!
+
+Предположим, в описанной выше ситуации мы хотим, чтобы инженеры могли откатить назад любую ветку *кроме* master и integ. Вот как это сделать:
+
+	    RW  master integ    = @engineers
+	    -   master integ    = @engineers
+	    RW+                 = @engineers
+
+Снова, вы просто идёте по правилам сверху вниз пока не наткнётесь на соответствующее вашему режиму доступа или на запрет. Неоткатывающий push в master или integ разрешается первым правилом. Откатывающий push для этих ссылок не соответствует первому правилу, переходит ко второму и поэтому запрещается. Любой push (откатывающий или неоткатывающий) по ссылкам отличным от master и integ не совпадёт с первыми двумя правилами, а третье правило его разрешает.
+
+### Ограничение push-ей на основе изменённых файлов ###
+
+Вдобавок к ограничению веток, в которые пользователю можно отправлять изменения, вы можете также ограничить файлы, которые он может трогать. Например, возможно, Makefile (или какая-то другая программа) не предназначен для изменения кем угодно, так как многие вещи зависят от него или сломаются, если изменения не будут сделаны *правильно*. Вы можете сказать gitolite-у:
+
+    repo foo
+        RW                  =   @junior_devs @senior_devs
+
+        RW  NAME/           =   @senior_devs
+        -   NAME/Makefile   =   @junior_devs
+        RW  NAME/           =   @junior_devs
+
+Это мощное средство продокументировано в `conf/example.conf`.
+
+### Персональные ветки ###
+
+Gitolite также имеет средство, которое называется "персональные ветки" (или даже "персональное пространство имён веток"), которое может быть весьма полезным в корпоративных средах.
+
+Очень часто обмен кодом в мире git происходит через запросы "пожалуйста, заберите (pull)". В корпоративных средах, однако, неаутентифицированный доступ под строгим запретом, и рабочая станция разработчика не может выполнить аутентификацию. Так что вы вынуждены отправить (push) работу на центральный сервер и попросить кого-нибудь забрать (pull) её оттуда.
+
+Это обычно вызывает такой же беспорядок с именами веток, что и в централизованных СУВ, плюс настройка прав доступа для этого становится ежедневной обязанностью админа.
+
+Gitolite позволяет определить "персональный" или "рабочий" префикс пространства имён для каждого разработчика (например, `refs/personal/<devname>/*`), с полными правами только для этого разработчика, и доступом на чтение для всех остальных. Просто выберите подробный режим установки и задайте `refs/personal` в качестве значения переменной `$PERSONAL` в "rc"-файле. Это всё. По большому счёту это решение по принципу "сделал и забыл", по крайней мере что касается админа, даже при постоянной смене людей в составе команды проекта.
+
+### "Шаблонные" репозитории ###
+
+Gitolite позволяет указывать репозитории с помощью шаблонов (на самом деле регулярных выражений perl), таких как, например, `assignments/s[0-9][0-9]/a[0-9][0-9]`. Это *очень* мощная функция, которая включается с помощью установки `$GL_WILDREPOS = 1;` в rc файле. Она позволяет назначать новый режим доступа ("C"), который позволяет пользователям создавать репозитории на основе подобных шаблонов, автоматически назначает владельцем пользователя, который создал репозиторий, позволяет ему раздавать R и RW права другим пользователям и т.п. Эта функция описана в документе `doc/4-wildcard-repositories.mkd`.
+
+### Другие функции ###
+
+Мы закончим это обсуждение рассмотрением кучи других функций, все они описаны в мельчайших подробностях в документе "faqs, tips, etc".
+
+**Логирование**: Gitolite регистрирует все успешные доступы. Если вы несколько легкомысленно раздали людям права на откатывание изменений (`RW+`) и какая-то козлина снесла "master", лог-файл спасёт вам жизнь, и вы легко и быстро найдёте проёбаный SHA.
+
+**Git не в обычном PATH**: Одна крайне полезная и удобная функция в gitolite это поддержка git установленного вне обычного `$PATH` (это совсем не такая редкость как вы думаете; в некоторых корпоративных средах или даже у некоторых хостинг-провайдеров отказываются устанавливать что-либо в систему и всё заканчивается тем, что вы кладёте всё в свои личные директории). Обычно, вы вынуждены каким-то образом заставить git *на стороне клиента* учитывать это нестандартное расположение бинарников git-а. С gitolite, просто выберите "подробную" установку и задайте `$GIT_PATH` в "rc" файлах. Никаких изменений на стороне клиента после этого не требуется :-)
+
+**Уведомление о правах доступа**: Другая удобная функция проявляется в момент, когда вы просто проверяете и заходите по ssh на сервер. Ранние версии gitolite обычно ругались на то, что переменная окружения `SSH_ORIGINAL_COMMAND` пуста (если интересно, смотри документацию по ssh). Сейчас Gitolite появляется с сообщением вроде этого:
+
+	hello sitaram, the gitolite version here is v0.90-9-g91e1e9f
+	you have the following permissions:
+	  R     anu-wsd
+	  R     entrans
+	  R  W  git-notes
+	  R  W  gitolite
+	  R  W  gitolite-admin
+	  R     indic_web_input
+	  R     shreelipi_converter
+
+**Делегирование**: При действительно больших установках, вы можете делегировать ответственность за группы репозиториев различным людям, которые будут независимо управлять этими частями. Это уменьшает нагрузку на главного админа и делает его не таким критичным элементом. Эта функция описана в отдельном файле в каталоге `doc/`.
+
+** Поддержка Gitweb**: Gitolite имеет поддержку gitweb в нескольких аспектах. Вы можете указать какие репозитории видны через gitweb. Вы можете назначить "владельца" и "описание" для gitweb из конфигурационного файла для gitolite. В gitweb есть механизм организации контроля доступа через аутентификацию по HTTP, и вы можете заставить его использовать "скомпилированный" конфигурационный файл сделанный gitolite-ом, что означает действие одинаковых правил контроля доступа (для доступа на чтение) и для gitweb, и для gitolite.
+
+## Git-демон ##
+
+Для публичного, неаутентифицированного доступа на чтение к вашим проектам вы можете захотеть продвинуться дальше, чем HTTP протокол и начать использовать Git-протокол. Главная причина — скорость. Git-протокол гораздо эффективнее и поэтому быстрее чем HTTP, поэтому используя его вы можете сэкономить вашим пользователям время.
+
+Повторимся, это для доступа только на чтение без аутентификации. Если вы запустите его на сервере не за сетевым экраном, он должен использоваться только для проектов, которые публично видны внешнему миру. Если сервер, на котором вы его запускаете, находится за вашим сетевым экраном, вы можете использовать его для проектов, к которым большое число людей или компьютеров (серверов непрерывной интеграции или сборки) должно иметь доступ только на чтение, и если вы не хотите для каждого из них заводить SSH-ключ.
+
+В любом случае, протокол Git относительно просто настроить. Упрощённо, вам нужно запустить следующую команду в демонизированной форме:
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` allows the server to restart without waiting for old connections to time out, the `--base-path` option allows people to clone projects without specifying the entire path, and the path at the end tells the Git daemon where to look for repositories to export. If you’re running a firewall, you’ll also need to punch a hole in it at port 9418 on the box you’re setting this up on.
+`--reuseaddr` позволит серверу перезапуститься без ожидания истечения старых подключений, `--base-path` позволит людям не указывать полный путь, чтобы склонировать проект, а путь на конце говорит демону Git, где искать экспортируемые репозитории. Если у вас запущен сетевой экран, вы должны проколоть в нём дырочку, открыв порт 9418 на машине, на которой это всё запущено.
 
-You can daemonize this process a number of ways, depending on the operating system you’re running. On an Ubuntu machine, you use an Upstart script. So, in the following file
+Вы можете демонизировать этот процесс несколькими путями, в зависимости от операционной системы. На машине с Ubuntu используйте Upstart-сценарий. Итак, в этом файле
 
 	/etc/event.d/local-git-daemon
 
-you put this script:
+поместите такой сценарий:
 
 	start on startup
 	stop on shutdown
@@ -685,181 +688,181 @@ you put this script:
 	    /opt/git/
 	respawn
 
-For security reasons, it is strongly encouraged to have this daemon run as a user with read-only permissions to the repositories – you can easily do this by creating a new user 'git-ro' and running the daemon as them.  For the sake of simplicity we’ll simply run it as the same 'git' user that Gitosis is running as.
+По соображениям безопасности крайне приветствуется, если вы будете запускать этого демона как пользователя с правами только на чтение на репозитории — вы легко можете сделать это, создав пользователя 'git-ro' и запустив этого демона из-под него. Для простоты мы запустим его от того же пользователя 'git', от которого запущен Gitosis.
 
-When you restart your machine, your Git daemon will start automatically and respawn if it goes down. To get it running without having to reboot, you can run this:
+Когда вы перезапустите машину, Git-демон запустится автоматически, и возродится, если вдруг завершится. Чтобы запустить его без перезагрузки машины, выполните следующее:
 
 	initctl start local-git-daemon
 
-On other systems, you may want to use `xinetd`, a script in your `sysvinit` system, or something else — as long as you get that command daemonized and watched somehow.
+На других системах вы можете использовать `xinetd`, сценарий вашей системы `sysvinit`, или что-то другое — главное, чтобы вы могли эту команду как-либо демонизировать и перезапускать в случае завершения.
 
-Next, you have to tell your Gitosis server which repositories to allow unauthenticated Git server-based access to. If you add a section for each repository, you can specify the ones from which you want your Git daemon to allow reading. If you want to allow Git protocol access for your iphone project, you add this to the end of the `gitosis.conf` file:
+Затем, вы должны указать Gitosis-серверу, к каким репозиториям предоставить неаутентифицированный доступ через Git-сервер. Если вы добавили по секции для каждого репозитория, вы можете указать, из каких из них Git-демону позволено читать. Если вы хотите предоставить доступ через Git-протокол к вашему проекту iphone, добавьте это в конец вашего файла `gitosis.conf`:
 
 	[repo iphone_project]
 	daemon = yes
 
-When that is committed and pushed up, your running daemon should start serving requests for the project to anyone who has access to port 9418 on your server.
+Когда это зафиксировано и отправлено, ваш запущенный демон должен начать обслуживать запросы к проекту от всех, у кого есть доступ к порту 9418 на вашем сервере.
 
-If you decide not to use Gitosis, but you want to set up a Git daemon, you’ll have to run this on each project you want the Git daemon to serve:
+Если вы решили не использовать Gitosis, но хотите установить Git-демон, вы должны выполнить следующее в каждом проекте, который должен обслуживаться Git-демоном:
 
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok
 
-The presence of that file tells Git that it’s OK to serve this project without authentication.
+Наличие этого файла скажет Git'у, что можно обслуживать этот проект без аутентификации.
 
-Gitosis can also control which projects GitWeb shows. First, you need to add something like the following to the `/etc/gitweb.conf` file:
+Gitosis также может контролировать, какие проекты будет показывать GitWeb. Вам нужно добавить что-то вроде этого в файл `/etc/gitweb.conf`:
 
 	$projects_list = "/home/git/gitosis/projects.list";
 	$projectroot = "/home/git/repositories";
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
-You can control which projects GitWeb lets users browse by adding or removing a `gitweb` setting in the Gitosis configuration file. For instance, if you want the iphone project to show up on GitWeb, you make the `repo` setting look like this:
+Вы можете контролировать, какие проекты GitWeb будет позволять просматривать пользователям, добавляя или удаляя пункт настройки `gitweb` в конфигурационном файле Gitosis. Например, если вы хотите, чтобы ваш проект iphone просматривался в GitWeb, сделайте, чтобы секция настроек `repo` выглядела следующим образом:
 
 	[repo iphone_project]
 	daemon = yes
 	gitweb = yes
 
-Now, if you commit and push the project, GitWeb will automatically start showing your iphone project.
+Теперь, если вы зафиксируете и отправите изменения, GitWeb автоматически начнёт показывать ваш проект iphone.
 
-## Hosted Git ##
+## Git-хостинг ##
 
-If you don’t want to go through all of the work involved in setting up your own Git server, you have several options for hosting your Git projects on an external dedicated hosting site. Doing so offers a number of advantages: a hosting site is generally quick to set up and easy to start projects on, and no server maintenance or monitoring is involved. Even if you set up and run your own server internally, you may still want to use a public hosting site for your open source code — it’s generally easier for the open source community to find and help you with.
+Если вы не хотите связываться со всей работой по установке собственного Git-сервера, у вас есть несколько вариантов размещения ваших Git-проектов на внешних специальных хостинг сайтах. Это предоставляет множество преимуществ: на хостинг сайте обычно быстро настроить и запустить проект и нет никакого мониторинга или поддержки сервера. Даже если вы установили и запустили свой собственный внутренний сервер, вы можете захотеть использовать публичный хостинг сайт для вашего открытого кода — обычно сообществу открытого кода так будет проще вас найти и помочь.
 
-These days, you have a huge number of hosting options to choose from, each with different advantages and disadvantages. To see an up-to-date list, check out the GitHosting page on the main Git wiki:
+В наши дни у вас есть огромное количество вариантов хостинга чтобы выбирать, все со своими преимуществами и недостатками. Чтобы увидеть актуальный список, проверьте страницу GitHosting в главной вики Git:
 
 	http://git.or.cz/gitwiki/GitHosting
 
-Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved. 
+Поскольку мы не можем рассмотреть их все, и поскольку я работаю на один из них, мы в этом разделе рассмотрим процесс создания учётной записи и нового проекта на GitHub. Это даст вам представление о вовлечённых в него вещах.
 
-GitHub is by far the largest open source Git hosting site and it’s also one of the very few that offers both public and private hosting options so you can keep your open source and private commercial code in the same place. In fact, we used GitHub to privately collaborate on this book.
+GitHub пока что крупнейший Git-хостинг сайт открытого кода и также один из очень немногих, предоставляющих и публичный и приватный хостинг, так что вы можете хранить ваш открытый и коммерческий код в одном месте. На самом деле, мы использовали GitHub, чтобы закрыто совместно писать эту книгу (прим. переводчика: и открыто переводить после её издания).
 
 ### GitHub ###
 
-GitHub is slightly different than most code-hosting sites in the way that it namespaces projects. Instead of being primarily based on the project, GitHub is user centric. That means when I host my `grit` project on GitHub, you won’t find it at `github.com/grit` but instead at `github.com/schacon/grit`. There is no canonical version of any project, which allows a project to move from one user to another seamlessly if the first author abandons the project.
+GitHub немного отличается от других хостингов кода способом группировки проектов. Вместо того, чтобы быть основанным главным образом на проектах, он ориентируется на пользователей. Это значит, что когда я размещаю свой проект `grit` на GitHub, вы найдёте его как `github.com/schacon/grit` вместо `github.com/grit`. Нет никакой канонической версии проекта, что позволяет проекту беспрепятственно переходить от пользователя к другому пользователю, если первый забросил проект.
 
-GitHub is also a commercial company that charges for accounts that maintain private repositories, but anyone can quickly get a free account to host as many open source projects as they want. We’ll quickly go over how that is done.
+GitHub — это также коммерческая компания, которая взимает плату за аккаунты с приватными репозиториями, но кто угодно может быстро получить бесплатную учётную запись, чтобы разместить сколько угодно открытых проектов. Мы быстро рассмотрим, как это устроено.
 
-### Setting Up a User Account ###
+### Настройка учётной записи ###
 
-The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
+Первое, что вам нужно сделать, это настроить учётную запись. Если вы посетите страницу Тарифные планы по адресу `http://github.com/plans` и нажмёте на кнопку "Создать бесплатный аккаунт" (см. рисунок 4-2), вы попадёте на страницу регистрации.
 
 Insert 18333fig0402.png
-Figure 4-2. The GitHub plan page.
+Рисунок 4-2. Страница тарифных планов GitHub.
 
-Here you must choose a username that isn’t yet taken in the system and enter an e-mail address that will be associated with the account and a password (see Figure 4-3).
+Здесь вы должны выбрать имя пользователя, которое ещё не занято в системе, и ввести адрес электронной почты, который будет сопоставлен аккаунту, и пароль (см. рис. 4-3).
 
 Insert 18333fig0403.png 
-Figure 4-3. The GitHub user signup form.
+Рисунок 4-3. Страница регистрации пользователя GitHub.
 
-If you have it available, this is a good time to add your public SSH key as well. We covered how to generate a new key earlier, in the "Simple Setups" section. Take the contents of the public key of that pair, and paste it into the SSH Public Key text box. Clicking the "explain ssh keys" link takes you to detailed instructions on how to do so on all major operating systems.
-Clicking the "I agree, sign me up" button takes you to your new user dashboard (see Figure 4-4).
+Если есть возможность, сейчас также хорошее время добавить ваш публичный SSH-ключ. Мы рассмотрели, как создать ключ, ранее, в разделе "Создание публичного SSH-ключа". Возьмите содержимое публичного ключа из этой пары и вставьте в поле ввода публичного SSH-ключа. Ссылка "Нужна помощь с публичными ключами?" направит вас к детальным инструкциям как это сделать на всех основных операционных системах.
+Нажатие на кнопку "Создать учётную запись" откроет страницу "Что нового" вашего нового пользователя (см. рис. 4-4).
 
 Insert 18333fig0404.png 
-Figure 4-4. The GitHub user dashboard.
+Рисунок 4-4. Что нового на GitHub.
 
-Next you can create a new repository. 
+Затем вы можете создать новый репозиторий.
 
-### Creating a New Repository ###
+### Создание нового репозитория ###
 
-Start by clicking the "create a new one" link next to Your Repositories on the user dashboard. You’re taken to the Create a New Repository form (see Figure 4-5).
+Начните с клика на ссылку "Новый репозиторий" рядом с разделом "Твои репозитории" на странице "Что нового". Вы попадёте к форме "Создать новый репозиторий" (см. рис. 4-5).
 
 Insert 18333fig0405.png 
-Figure 4-5. Creating a new repository on GitHub.
+Рисунок 4-5. Создание нового репозитория на GitHub.
 
-All you really have to do is provide a project name, but you can also add a description. When that is done, click the "Create Repository" button. Now you have a new repository on GitHub (see Figure 4-6).
+Всё что вам действительно необходимо сделать, это указать имя проекта, но также можно добавить и описание. Когда это сделано, нажмите на кнопку "Создать репозиторий". Теперь у вас есть новый репозиторий на GitHub (см. рис. 4-6).
 
 Insert 18333fig0406.png 
-Figure 4-6. GitHub project header information.
+Рисунок 4-6. Заглавная информация проекта GitHub.
 
-Since you have no code there yet, GitHub will show you instructions for how create a brand-new project, push an existing Git project up, or import a project from a public Subversion repository (see Figure 4-7).
+Поскольку у вас ещё нет кода, GitHub покажет вам инструкцию, как создать совершенно новый проект, отправить существующий или импортировать проект из публичного репозитория Subversion (см. рис. 4-7). 
 
 Insert 18333fig0407.png 
-Figure 4-7. Instructions for a new repository.
+Рисунок 4-7. Инструкции для нового репозитория.
 
-These instructions are similar to what we’ve already gone over. To initialize a project if it isn’t already a Git project, you use
+Эти инструкции похожи на те, что мы уже прошли. Чтобы инициализировать проект, если это ещё не проект Git, используйте:
 
 	$ git init
 	$ git add .
 	$ git commit -m 'initial commit'
 
-When you have a Git repository locally, add GitHub as a remote and push up your master branch:
+Если у вас есть локальный Git-репозиторий, добавьте GitHub как удалённый сервер и отправьте вашу ветку master:
 
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
 
-Now your project is hosted on GitHub, and you can give the URL to anyone you want to share your project with. In this case, it’s `http://github.com/testinguser/iphone_project`. You can also see from the header on each of your project’s pages that you have two Git URLs (see Figure 4-8).
+Теперь ваш проект размещён на GitHub и вы можете дать ссылку на него любому, с кем вы захотите разделить проект. В этом случае, это `http://github.com/testinguser/iphone_project`. Вы также можете видеть в заголовке каждой страницы проекта, что у вас две Git-ссылки (см. рис. 4-8).
 
 Insert 18333fig0408.png 
-Figure 4-8. Project header with a public URL and a private URL.
+Рисунок 4-8. Заголовок проекта с публичной и приватной ссылками.
 
-The Public Clone URL is a public, read-only Git URL over which anyone can clone the project. Feel free to give out that URL and post it on your web site or what have you.
+Ссылка "Git, только чтение" это публичная ссылка только для чтения, через которую кто угодно может склонировать проект. Можете давать эту ссылку или размещать её на вашем сайте или делать с ней что угодно.
 
-The Your Clone URL is a read/write SSH-based URL that you can read or write over only if you connect with the SSH private key associated with the public key you uploaded for your user. When other users visit this project page, they won’t see that URL—only the public one.
+Ссылка SSH это основанная на SSH ссылка на чтение и запись, через которую вы можете читать и писать только если вы соединяетесь имея приватный ключ из пары публичного SSH ключа, загруженного вашим пользователем. Когда другие пользователи посещают страницу проекта, они не увидят этой ссылки — только публичную.
 
-### Importing from Subversion ###
+### Импорт из Subversion ###
 
-If you have an existing public Subversion project that you want to import into Git, GitHub can often do that for you. At the bottom of the instructions page is a link to a Subversion import. If you click it, you see a form with information about the import process and a text box where you can paste in the URL of your public Subversion project (see Figure 4-9).
+Если у вас есть существующий публичный Subversion-проект, который вы хотите импортировать в Git, GitHub часто может сделать это за вас. Внизу страницы инструкций есть ссылка на импорт из Subversion. Если вы кликнете по ней, вы увидите форму с информацией о процессе импорта и текстовое поле, где вы можете вставить ссылку на ваш публичный Subversion-проект (см. рис. 4-9).
 
 Insert 18333fig0409.png 
-Figure 4-9. Subversion importing interface.
+Рисунок 4-9. Интерфейс импорта из Subversion.
 
-If your project is very large, nonstandard, or private, this process probably won’t work for you. In Chapter 7, you’ll learn how to do more complicated manual project imports.
+Если ваш проект очень большой, нестандартный или приватный, этот процесс, возможно, не сработает для вас. В главе 7 вы узнаете, как делать более сложные импорты вручную.
 
-### Adding Collaborators ###
+### Добавление участников ###
 
-Let’s add the rest of the team. If John, Josie, and Jessica all sign up for accounts on GitHub, and you want to give them push access to your repository, you can add them to your project as collaborators. Doing so will allow pushes from their public keys to work.
+Давайте добавим остальную команду. Если Джон, Джози и Джессика зарегистрированы на GitHub, и вы хотите дать им доступ на отправку в ваш репозиторий, вы можете добавить их к вашему проекту как участников. Это позволит им отправлять изменения, используя их приватные ключи.
 
-Click the "edit" button in the project header or the Admin tab at the top of the project to reach the Admin page of your GitHub project (see Figure 4-10).
+Нажмите на кнопке "Редактировать" в заголовке проекта или вкладку "Администратор" вверху чтобы попасть на страницу администратора вашего проекта на GitHub (см. рис. 4-10).
 
 Insert 18333fig0410.png 
-Figure 4-10. GitHub administration page.
+Рисунок 4-10. Страница администратора на GitHub.
 
-To give another user write access to your project, click the “Add another collaborator” link. A new text box appears, into which you can type a username. As you type, a helper pops up, showing you possible username matches. When you find the correct user, click the Add button to add that user as a collaborator on your project (see Figure 4-11).
+Чтобы дать другому пользователю доступ на запись в ваш проект, кликните по ссылке “Добавить другого участника”. Появится новое текстовое поле, в котором вы можете набрать имя пользователя. По мере набора всплывёт подсказка, показывая вам возможные совпадения имён. Когда вы найдёте нужного пользователя, нажмите на кнопке Добавить чтобы добавить пользователя как участника вашего проекта (см. рис. 4-11).
 
 Insert 18333fig0411.png 
-Figure 4-11. Adding a collaborator to your project.
+Рисунок 4-11. Добавление участника в ваш проект.
 
-When you’re finished adding collaborators, you should see a list of them in the Repository Collaborators box (see Figure 4-12).
+Когда вы закончите добавлять участников, вы должны увидеть их список в разделе Участники (см. рис. 4-12).
 
 Insert 18333fig0412.png 
-Figure 4-12. A list of collaborators on your project.
+Рисунок 4-12. Список участников вашего проекта.
 
-If you need to revoke access to individuals, you can click the "revoke" link, and their push access will be removed. For future projects, you can also copy collaborator groups by copying the permissions of an existing project.
+Если вам нужно отозвать доступ, вы можете кликнуть на ссылке "отозвать", и их доступ на отправку будет удалён. Для будущих проектов вы можете также скопировать группы участников, копируя разрешения существующего проекта.
 
-### Your Project ###
+### Ваш проект ###
 
-After you push your project up or have it imported from Subversion, you have a main project page that looks something like Figure 4-13.
+После того как вы отправили ваш проект или импортировали его из Subversion, у вас есть главная страница проекта, которая выглядит как на рис. 4-13.
 
 Insert 18333fig0413.png 
-Figure 4-13. A GitHub main project page.
+Рисунок 4-13. Главная страница проекта на GitHub.
 
-When people visit your project, they see this page. It contains tabs to different aspects of your projects. The Commits tab shows a list of commits in reverse chronological order, similar to the output of the `git log` command. The Network tab shows all the people who have forked your project and contributed back. The Downloads tab allows you to upload project binaries and link to tarballs and zipped versions of any tagged points in your project. The Wiki tab provides a wiki where you can write documentation or other information about your project. The Graphs tab has some contribution visualizations and statistics about your project. The main Source tab that you land on shows your project’s main directory listing and automatically renders the README file below it if you have one. This tab also shows a box with the latest commit information.
+Когда люди посещают ваш проект, они видят эту страницу. Она содержит вкладки по различным аспектам вашего проекта. Вкладка Коммиты показывает список коммитов в обратном хронологическом порядке, похоже на вывод команды `git log`. Вкладка Сеть показывает всех людей отделивших ваш проект и возвративших свои наработки. Вкладка Файлы позволит вам выложить бинарные файлы проекта и ссылки на архивы любых помеченных точек вашего проекта. Вкладка Вики предоставляет вики, где вы можете писать документацию или другую информацию о вашем проекте. Вкладка Графики показывает некоторую информацию о вкладе участников и статистику о вашем проекте. Главная вкладка Исходный код показывает листинг корневого каталога проекта и автоматически отрисовывает README файл под ней, если он у вас есть. Эта вкладка также показывает информацию о последнем коммите.
 
-### Forking Projects ###
+### Ответвления проектов ###
 
-If you want to contribute to an existing project to which you don’t have push access, GitHub encourages forking the project. When you land on a project page that looks interesting and you want to hack on it a bit, you can click the "fork" button in the project header to have GitHub copy that project to your user so you can push to it.
+Если вы хотите внести вклад в существующий проект, в который у вас нет права на отправку изменений, GitHub приветствует ответвления. Когда вы смотрите на страницу проекта, который выглядит интересно, и вы непрочь немного поработать над ним, вы можете нажать на кнопку Форк в заголовке проекта, чтобы GitHub скопировал проект вашему пользователю, чтобы вы могли отправлять изменения туда.
 
-This way, projects don’t have to worry about adding users as collaborators to give them push access. People can fork a project and push to it, and the main project maintainer can pull in those changes by adding them as remotes and merging in their work.
+Таким образом, проектам не нужно беспокоиться о добавлении пользователей как участников для предоставления им доступа на отправку изменений. Люди могут ответвить проект и отправить в него, хранитель главного проекта может вернуть эти изменения, добавляя их как удалённые серверы и сливая их работу.
 
-To fork a project, visit the project page (in this case, mojombo/chronic) and click the "fork" button in the header (see Figure 4-14).
+Чтобы ответвить проект, посетите страницу проекта (в нашем случае mojombo/chronic) и нажмите на кнопку Форк в заголовке (см. рис. 4-14).
 
 Insert 18333fig0414.png 
-Figure 4-14. Get a writable copy of any repository by clicking the "fork" button.
+Рисунок 4-14. Получение доступной для записи копии любого репозитория.
 
-After a few seconds, you’re taken to your new project page, which indicates that this project is a fork of another one (see Figure 4-15).
+После нескольких секунд вы будете направлены на страницу вашего нового проекта, которая показывает, что данный проект является ответвлением другого (см. рис. 4-15).
 
 Insert 18333fig0415.png 
-Figure 4-15. Your fork of a project.
+Рисунок 4-15. Вы ответвили проект.
 
-### GitHub Summary ###
+### Заключение о GitHub ###
 
-That’s all we’ll cover about GitHub, but it’s important to note how quickly you can do all this. You can create an account, add a new project, and push to it in a matter of minutes. If your project is open source, you also get a huge community of developers who now have visibility into your project and may well fork it and help contribute to it. At the very least, this may be a way to get up and running with Git and try it out quickly.
+Это всё, что мы хотели бы рассказать про GitHub, но важно отметить, как быстро вы можете всё сделать. Вы можете создать аккаунт, добавить новый проект и отправить изменения в него за минуты. Если ваш проект с открытым исходным кодом, вы также можете получить огромное сообщество разработчиков, кто может увидеть ваш проект и ответвить его и помочь, внеся в него свой вклад. И наконец, это может быть способ начать с Git и быстро попробовать его.
 
-## Summary ##
+## Заключение ##
 
-You have several options to get a remote Git repository up and running so that you can collaborate with others or share your work.
+У вас есть несколько вариантов получения удалённого Git-репозитория так, чтобы вы могли принимать участие в проекте вместе с другими или поделиться работой.
 
-Running your own server gives you a lot of control and allows you to run the server within your own firewall, but such a server generally requires a fair amount of your time to set up and maintain. If you place your data on a hosted server, it’s easy to set up and maintain; however, you have to be able to keep your code on someone else’s servers, and some organizations don’t allow that.
+Запуск своего сервера даёт полный контроль и позволяет запускать сервер за вашим сетевым экраном, но такой сервер обычно требует значительной части вашего времени на настройку и поддержку. Если вы разместите ваши данные на хостинге, его просто настроить и поддерживать; однако вам необходимо иметь возможность хранить код на чужом сервере, а некоторые организации этого не позволяют.
 
-It should be fairly straightforward to determine which solution or combination of solutions is appropriate for you and your organization.
+Какое решение или комбинация решений подойдёт вам и вашей организации должно быть несложно определить.

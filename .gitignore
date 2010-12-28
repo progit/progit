@@ -2,12 +2,14 @@ progit.*.pdf
 progit.*.mobi
 progit.*.epub
 progit.*.html
+progit-*.epub
 *.swp
 latex/*
 !latex/makepdf
 !latex/README
 !latex/template.tex
 !latex/config.yml
+epub/temp
 *~
 .#*
 figures/*

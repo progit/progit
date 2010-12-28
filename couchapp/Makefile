@@ -20,7 +20,7 @@ de: figures docs
 	done;
 
 by: figures docs
-	@for file in `ls ../de/*/*.markdown`; do \
+	@for file in `ls ../by/*/*.markdown`; do \
 	  filename=`basename -s .markdown $$file`; \
 	  target=./_docs/$$filename; \
 	  mkdir -p $$target; \

@@ -21,7 +21,7 @@ Uma das ferramentas de VCS mais populares foi um sistema chamado RCS, que ainda 
 
 ### Sistemas de Controle de Versão Centralizado ###
 
-Outro grande problema que as pessoas encontram estava na necessidade de trabalhar em conjunto com outros desenvolvedores, que usam outros sistemas. Para lidar com isso, foram desenvolvidos Sistemas de Controle de Versão Centralizado (Centralized Version Control Systems ou CVCS). Esses sistemas - como por exemplo o CVS, Subversion e Perforce - possuem um único servidor central que contém todos os arquivos versionados e vários clients que podem resgatar (check out) os arquivos do servidor. Por muitos anos, esse foi o modelo padrão para controle de versão.
+Outro grande problema que as pessoas encontram estava na necessidade de trabalhar em conjunto com outros desenvolvedores, que usam outros sistemas. Para lidar com isso, foram desenvolvidos Sistemas de Controle de Versão Centralizado (Centralized Version Control Systems ou CVCS). Esses sistemas - como por exemplo o CVS, Subversion e Perforce - possuem um único servidor central que contém todos os arquivos versionados e vários clientes que podem resgatar (check out) os arquivos do servidor. Por muitos anos, esse foi o modelo padrão para controle de versão.
 
 Insert 18333fig0102.png 
 Figura 1-2. Diagrama de Controle de Versão Centralizado
@@ -104,11 +104,11 @@ Isso nos traz para as três seções principais de um projeto do Git: o diretór
 Insert 18333fig0106.png 
 Figura 1-6. Área de trabalho, área de seleção, e o diretório do Git.
 
-O diretório Git é o local onde o Git armazena os metadados e a base de dados de seu projeto. Esta é a parte mais importante do Git e, é a parte copiada quando você clona um repositório de outro computador.
+O diretório Git (git directory, repository) é o local onde o Git armazena os metadados e a base de dados de seu projeto. Esta é a parte mais importante do Git e, é a parte copiada quando você clona um repositório de outro computador.
 
-A área de trabalho é um único checkout de uma versão do projeto. Estes arquivos são obtidos a partir da base de dados comprimida no diretório Git e colocados em disco para que você possa utilizar ou modificar.
+A área de trabalho (working directory) é um único checkout de uma versão do projeto. Estes arquivos são obtidos a partir da base de dados comprimida no diretório Git e colocados em disco para que você possa utilizar ou modificar.
 
-A área de seleção é um simples arquivo, geralmente contido no seu diretório Git, que armazena informações sobre o que irá em seu próximo commit. É algumas vezes referenciado como índice, mas está se tornando padrão chamá-lo de área de seleção.
+A área de seleção (staging area) é um simples arquivo, geralmente contido no seu diretório Git, que armazena informações sobre o que irá em seu próximo commit. É algumas vezes referenciado como índice, mas está se tornando padrão chamá-lo de área de seleção.
 
 O workflow básico do Git pode ser descrito assim:
 
@@ -126,7 +126,7 @@ Vamos entender como utilizar o Git. Primeiramente você deve instalá-lo. Você 
 
 Caso você possa, é geralmente mais útil instalar o Git a partir do fonte, porque será obtida a versão mais recente. Cada versão do Git tende a incluir melhoras na UI, sendo assim, obter a última versão é, em geral, a melhor forma caso você sinta-se confortável em compilar o código a partir do fonte. É também o caso para diversas distribuições Linux que contêm pacotes muito antigos; sendo assim, a não ser que você tenha uma distro muito atualizada ou está utilizando backports, instalar a partir do fonte pode ser a melhor aposta.
 
-Para instalar o Git, você precisa ter as seguintes bibliotecas que o Git depende: curl, zlib, openssl, expat e libiconv. Por exemplo, se você um sistema que tem yum (tal como o Fedora) ou apt-get (tais como os sistemas baseados no Debian), você pode utlizar um desses comandos para instalar todas as dependências:
+Para instalar o Git, você precisa ter as seguintes bibliotecas que o Git depende: curl, zlib, openssl, expat e libiconv. Por exemplo, se você usa um sistema que tem yum (tal como o Fedora) ou apt-get (tais como os sistemas baseados no Debian), você pode utlizar um desses comandos para instalar todas as dependências:
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel

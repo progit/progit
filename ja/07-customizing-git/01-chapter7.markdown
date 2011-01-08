@@ -343,7 +343,7 @@ Git 1.6系では、バイナリファイルの差分を効果的に扱うため�
 
 Gitは正しく、追加した"Let’s see if this works"という文字列を首尾よく、かつ、簡潔に知らせてくれました。予想外の差分が表示されているので、完璧といえません。しかし、正しく動作しているとはいえます。あなたがWord文書をテキストファイルに変換するもっと良いプログラムを見付けられれば、よりよい結果を得られるでしょう。とはいえ、`strings`はほとんどのMacとLinuxで動作するので、様々なバイナリフォーマットに試してみるのに、最初の選択肢としては良いと思います。
 
-その他の興味深い問題としては画像ファイルの差分があります。JPEGファイルに対するひとつの方法としては、EXFI情報(多くのファイルでメタデータとして使われています)を抽出するフィルタを使う方法です。`exiftool`をダウンロードしインストールすれば、画像データをメタデータの形でテキストデータとして扱うことができます。従って、次のように設定すれば、画像データの差分をメタデータの差分という形で表示することができます。
+その他の興味深い問題としては画像ファイルの差分があります。JPEGファイルに対するひとつの方法としては、EXIF情報(多くのファイルでメタデータとして使われています)を抽出するフィルタを使う方法です。`exiftool`をダウンロードしインストールすれば、画像データをメタデータの形でテキストデータとして扱うことができます。従って、次のように設定すれば、画像データの差分をメタデータの差分という形で表示することができます。
 
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
@@ -406,7 +406,7 @@ Insert 18333fig0703.png
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
 
-このケースでは、`*.c`にマッチするファイルをcommitした時、Gitはcommit前にindentプログラムにファイルを通し、checkoutする前には`cat`を通すようにします。`cat`を基本的に何もしません。入力されたデータと同じデータを吐き出すだけです。この組み合わせでCのソースコードに対してcommit前に`indent`と通すことが効果的に行えます。
+このケースでは、`*.c`にマッチするファイルをcommitした時、Gitはcommit前にindentプログラムにファイルを通し、checkoutする前には`cat`を通すようにします。`cat`は基本的に何もしません。入力されたデータと同じデータを吐き出すだけです。この組み合わせでCのソースコードに対してcommit前に`indent`を通すことが効果的に行えます。
 
 RCSスタイルの`$Date$`キーワード展開もまた別の興味深い例です。満足のいく形でこれを行うには、ファイル名を受け取って、プロジェクトの最新のcommitの日付を見付けだし、その日付をファイルに挿入するちょっとしたスクリプトが必要になります。そのようなRubyスクリプトが以下です。
 
@@ -434,7 +434,7 @@ RCSスタイルの`$Date$`キーワード展開もまた別の興味深い例で
 	$ cat date_test.txt
 	# $Date: Tue Apr 21 07:26:52 2009 -0700$
 
-アプリケーションをカスタマイズするためのこのテクニックがどれほど強力か、おわかりいただけたと思います。しかし、注意が必要です。`.gitattributes`ファイルはcommitされ、プロジェクト内で共有されますが、ドライバ(このケースで言えば、`dater`)はそうはいきません。そう、すべての環境で動くとは限らないのです。あなたがこうしたフィルタをデザインする時、たとえフィルタが正常に動作しなかったしても、プロジェクトは適切に動き続けられるようにすべきです。
+アプリケーションをカスタマイズするためのこのテクニックがどれほど強力か、おわかりいただけたと思います。しかし、注意が必要です。`.gitattributes`ファイルはcommitされ、プロジェクト内で共有されますが、ドライバ(このケースで言えば、`dater`)はそうはいきません。そう、すべての環境で動くとは限らないのです。あなたがこうしたフィルタをデザインする時、たとえフィルタが正常に動作しなかったとしても、プロジェクトは適切に動き続けられるようにすべきです。
 
 ### リポジトリをエクスポートする ###
 
@@ -444,11 +444,11 @@ RCSスタイルの`$Date$`キーワード展開もまた別の興味深い例で
 
 アーカイヴを生成するとき、あるファイルやディレクトリをエクスポートしないように設定することができます。プロジェクトにはcheckinしたいがアーカイブファイルには含めたくないディレクトリやファイルがあるなら、それらに`export-ignore`を設定してやることができます。
 
-例えば、`test/`ディレクトリ以下にいくつかのテストファイルがあって、それらをプロジェクトをtarballには含めたくないとしましょう。その場合、次の1行をGitの属性ファイルに追加します。
+例えば、`test/`ディレクトリ以下にいくつかのテストファイルがあって、それらをプロジェクトのtarballには含めたくないとしましょう。その場合、次の1行をGitの属性ファイルに追加します。
 
 	test/ export-ignore
 
-これで、プロジェクトのtarballを作成ためにgitを実行した時、アーカイブには`test/`ディレクトリに含まれないようになります。
+これで、プロジェクトのtarballを作成するためにgitを実行した時、アーカイブには`test/`ディレクトリが含まれないようになります。
 
 #### export-subst ####
 
@@ -480,31 +480,31 @@ Git属性を使えば、プロジェクトにある指定したファイルに�
 
 この場合、database.xmlは元々のバージョンのまま、書き変わりません。
 
-## Git Hooks ##
+## Git フック ##
 
-Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
+他のバージョンコントロールシステムと同じように、Gitにも特定のアクションが発生した時にスクリプトを叩く方法があります。フックはクライアントサイドとサーバーサイドの二つのグループに分けられます。クライアントサイドフックはコミットやマージといったクライアントでの操作用に、サーバーサイドフックはプッシュされたコミットを受け取るといったサーバーでの操作用に利用されます。これらのフックをさまざまなな理由に用いることができます。ここではそのうちのいくつかをご紹介しましょう。
 
-### Installing a Hook ###
+### フックをインストールする ###
 
-The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
+フックはGitディレクトリの`hooks`サブディレクトリに格納されています。一般的なプロジェクトでは、`.git/hooks`がそれにあたります。Gitはデフォルトでこのディレクトリに例となるスクリプトを生成します。それらの多くはそのままでも十分有用ですし、引数も記載されています。全ての例は基本的にシェルスクリプトで書かれています。いくつかPerlを含むものもありますが、適切に命名されたそれらの実行可能スクリプトはうまく動きます。RubyやPython等で自作していただいてもかまいません。バージョン1.6以降のGitの場合、それらのフックファイルの末尾は.sampleとなっていますので適時リネームしてください。バージョン1.6以前のGitの場合ファイル名は適切ですが実行可能にはなっていません。
 
-To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
+フックスクリプトを有効にするには、Gitディレクトリの`hooks`サブディレクトリに適切な名前の実行可能なファイルを配置する必要があります。これによってファイルが呼び出されることになります。ここでは重要なフックファイル名をいくつか取り上げます。
 
-### Client-Side Hooks ###
+### クライアントサイドフック ###
 
-There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail–workflow scripts, and the rest of the client-side scripts.
+クライアントサイドフックにはたくさんの種類があります。ここではコミットワークフローフック、Eメールワークフロースクリプト、その他クライアントサイドフックに分類します。
 
-#### Committing-Workflow Hooks ####
+#### コミットワークフローフック ####
 
-The first four hooks have to do with the committing process. The `pre-commit` hook is run first, before you even type in a commit message. It’s used to inspect the snapshot that’s about to be committed, to see if you’ve forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Exiting non-zero from this hook aborts the commit, although you can bypass it with `git commit --no-verify`. You can do things like check for code style (run lint or something equivalent), check for trailing whitespace (the default hook does exactly that), or check for appropriate documentation on new methods.
+最初の4つのフックはコミットプロセスに関するものです。`pre-commit`フックはコミットメッセージが入力される前に実行されます。これはいまからコミットされるであろうスナップショットを検査したり、何かし忘れた事を確認したり、事前にテストを実行したり、何かしらコードを検査する目的で使用されます。`git commit --no-verify`で回避することもできますが、このフックから0でない値が返るとコミットが中断されます。コーディングスタイルの検査（lintを実行する等）や、空白文字の追跡（デフォルトのフックがまさにそうです）、新しく追加されたメソッドのドキュメントが正しいかどうかを検査したりといったことが可能です。
 
-The `prepare-commit-msg` hook is run before the commit message editor is fired up but after the default message is created. It lets you edit the default message before the commit author sees it. This hook takes a few options: the path to the file that holds the commit message so far, the type of commit, and the commit SHA-1 if this is an amended commit. This hook generally isn’t useful for normal commits; rather, it’s good for commits where the default message is auto-generated, such as templated commit messages, merge commits, squashed commits, and amended commits. You may use it in conjunction with a commit template to programmatically insert information.
+`prepare-commit-msg`フックは、コミットメッセージエディターが起動する直前、デフォルトメッセージが生成された直後に実行されます。コミットの作者がそれを目にする前にデフォルトメッセージを編集することができます。このフックはオプションを必要とします: 現在までのコミットメッセージを保存したファイルへのパス、コミットのタイプ、さらにamendされたコミットの場合はコミットSHA-1が必要です。このフックは普段のコミットにおいてあまり有用ではありませんが、テンプレートのコミットメッセージ・mergeコミット・squashコミット・amendコミットのようなデフォルトメッセージが自動で挿入されるコミットにおいて効果を発揮します。テンプレートのコミットメッセージと組み合わせて、動的な情報をプログラムで挿入することができます。
 
-The `commit-msg` hook takes one parameter, which again is the path to a temporary file that contains the current commit message. If this script exits non-zero, Git aborts the commit process, so you can use it to validate your project state or commit message before allowing a commit to go through. In the last section of this chapter, I’ll demonstrate using this hook to check that your commit message is conformant to a required pattern.
+`commit-msg`フックも、現在のコミットメッセージを保存した一時ファイルへのパスをパラメータに持つ必要があります。このスクリプトが0以外の値を返した場合Gitはコミットプロセスを中断しますので、プロジェクトの状態や許可待ちになっているコミットメッセージを有効にすることができます 。この章の最後のセクションでは、このフックを使用してコミットメッセージが要求された様式に沿っているか検査するデモンストレーションを行います。
 
-After the entire commit process is completed, the `post-commit` hook runs. It doesn’t take any parameters, but you can easily get the last commit by running `git log -1 HEAD`. Generally, this script is used for notification or something similar.
+コミットプロセスが全て完了した後に、`post-commit`フックが実行されます。パラメータは必要無く、`git log -1 HEAD`を実行することで直前のコミットを簡単に取り出すことができます。一般的にこのスクリプトは何かしらの通知といった目的に使用されます。
 
-The committing-workflow client-side scripts can be used in just about any workflow. They’re often used to enforce certain policies, although it’s important to note that these scripts aren’t transferred during a clone. You can enforce policy on the server side to reject pushes of commits that don’t conform to some policy, but it’s entirely up to the developer to use these scripts on the client side. So, these are scripts to help developers, and they must be set up and maintained by them, although they can be overridden or modified by them at any time.
+コミットワークフロークライアントサイドスクリプトはあらゆるワークフローに使用することができます。clone中にスクリプトが転送される事はありませんが、これらはしばしばサーバー側で決められたポリシーを強制する目的で使用されます。これらのスクリプトは開発者を支援するために存在するのですから、いつでもオーバーライドされたり変更されたりすることがありえるとしても開発者らによってセットアップされ、メンテナンスされてしかるべきです。
 
 #### E-mail Workflow Hooks ####
 

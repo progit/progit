@@ -1,8 +1,9 @@
 # Les bases de Git #
 
-Si vous ne devez lire qu'un chapitre avant de commencer à utiliser Git, c'est celui-ci.
+Si vous ne deviez lire qu'un chapitre avant de commencer à utiliser Git, c'est celui-ci.
 Ce chapitre couvre les commandes de base nécessaires pour réaliser la vaste majorité des activités avec Git.
-A la fin de ce chapitre, vous devriez être capable de configurer et initialiser un dépôt, commencer et stopper le suivi de version de fichiers, d'indexer et commiter des modifications.
+À la fin de ce chapitre, vous devriez être capable de configurer et initialiser
+un dépôt, commencer et arrêter le suivi de version de fichiers, d'indexer et commiter des modifications.
 Nous vous montrerons aussi comment paramétrer Git pour qu'il ignore certains fichiers ou patrons de fichiers, comment revenir sur les erreurs rapidement et facilement, comment parcourir l'historique de votre projet et voir les modifications entre deux commits, et comment pousser et tirer les modifications avec des dépôts distants.
 
 ## Démarrer un dépôt Git ##
@@ -13,15 +14,16 @@ La seconde consiste à cloner un dépôt Git existant sur un autre serveur.
 
 ### Initialisation d'un dépôt Git dans un répertoire existant ###
 
-Si vous commencer à suivre en version un projet existant dans Git, vous n'avez qu'à vous positionner dans le répertoire du projet et saisir
+Si vous commencer à suivre un projet existant dans Git, vous n'avez qu'à vous positionner dans le répertoire du projet et saisir
 
 	$ git init
 
-Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous vos fichiers d'archive — un squelette de dépôt Git.
-À ce point, rien n'est encore suivi en version.
+Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous les fichiers
+nécessaire au dépôt — un squelette de dépôt Git.
+Pour l'instant, rien n'est encore suivi en version.
 (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
 
-Si vous souhaitez commencer à suivre en version des fichiers existant ( contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire un commit initial.
+Si vous souhaitez mettre sous gestion de version des fichiers existants (contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire un commit initial.
 Vous pouvez réaliser ceci avec un poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'un commit :
 
 	$ git add *.c
@@ -29,7 +31,7 @@ Vous pouvez réaliser ceci avec un poignée de commandes Git qui spécifient les
 	$ git commit –m 'version initiale du projet'
 
 Nous allons passer en revue ce que ces commandes font dans une petite minute.
-Pour l'instant, vous avez un dépôt git avec des fichiers en suivi et un commit initial.
+Pour l'instant, vous avez un dépôt git avec des fichiers sous gestion de version et un commit initial.
 
 ### Cloner un dépôt existant ###
 
@@ -37,7 +39,8 @@ Si vous souhaitez obtenir une copie d'un dépôt Git existant — par exemple, 
 Si vous êtes familier avec d'autres systèmes de gestion de version tels que Subversion, vous noterez que la commande est 'clone' et non 'checkout'.
 C'est une distinction importante — Git reçoit une copie de quasiment toutes les données dont le serveur dispose.
 Toutes les versions de tous les fichiers pour l'historique du projet sont téléchargées quand vous lancez `git clone`.
-En fait, si le disque du serveur se corrompt, vous pouvez utiliser n'importe quel clone pour remonter le serveur dans l'état où il était au moment du clonage (vous pourriez perdre quelques paramètres du serveur, mais toutes les données en gestion de version seraient récupérées — Cf.
+En fait, si le disque du serveur se corrompt, vous pouvez utiliser n'importe
+quel clone pour remettre le serveur dans l'état où il était au moment du clonage (vous pourriez perdre quelques paramètres du serveur, mais toutes les données sous gestion de version serait récupérées — Cf.
 chapitre 4 pour de plus amples détails).
 
 Vous clonez un dépôt avec `git clone [url]`.
@@ -45,27 +48,27 @@ Par exemple, si vous voulez cloner la bibliothèque Git Ruby appelée Grit, vous
 
 	$ git clone git://github.com/schacon/grit.git
 
-Ceci crée un répertoire nommé "grit", initialise un répertoire `.git` à l'intérieur, récupère toutes les données pour ce dépôt, et extrait une copie de travail de la dernière version.
+Ceci crée un répertoire nommé "grit", initialise un répertoire `.git` à l'intérieur, récupère toutes les données de ce dépôt, et extrait une copie de travail de la dernière version.
 Si vous examinez le nouveau répertoire `grit`, vous y verrez les fichiers du projet, prêt à être modifiés ou utilisés.
-Si vous souhaitez cloner le dépôt dans un répertoire nommé différemment, vous pouvez spécifier le nom en option supplémentaire à la ligne de commande :
+Si vous souhaitez cloner le dépôt dans un répertoire nommé différemment, vous pouvez spécifier le nom dans une option supplémentaire de la ligne de commande :
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-Cette commande réalise la même chose que la précédent, mais le répertoire cible s'appelle mygrit.
+Cette commande réalise la même chose que la précédente, mais le répertoire cible s'appelle mygrit.
 
 Git dispose de différents protocoles de transfert que vous pouvez utiliser.
 L'exemple précédent utilise le protocole `git://`, mais vous pouvez aussi voir `http(s)://` ou `utilisateur@serveur:/chemin.git`, qui utilise le protocole de transfert SSH.
-Le chapitre 4 introduit toutes les options disponibles pour mettre en place un serveur Git et leurs avantages et inconvénients.
+Le chapitre 4 introduit toutes les options disponibles pour mettre en place un serveur Git, ainsi que leurs avantages et inconvénients.
 
 ## Enregistrer des modifications dans le dépôt ##
 
 Vous avez à présent un dépôt Git valide et une extraction ou copie de travail du projet.
 Vous devez faire quelques modifications et valider des instantanés de ces modifications dans votre dépôt chaque fois que votre projet atteint un état que vous souhaitez enregistrer.
 
-Souvenez-vous que chaque fichier de votre copie de travail peut avoir deux états : suivi en version ou non-suivi.
+Souvenez-vous que chaque fichier de votre copie de travail peut avoir deux états : sous suivi de version ou non suivi.
 Les fichiers suivis sont les fichiers qui appartenait déjà au dernier instantané ; ils peuvent être inchangés, modifiés ou indexés.
 Tous les autres fichiers sont non suivis — tout fichier de votre copie de travail qui n'appartenait pas à votre dernier instantané et n'a pas été indexé.
-Quand vous clonez un dépôt pour la première fois, tous les fichiers seront suivis en version et inchangés car vous venez tout juste de les enregistrer sans les avoir encore édités.
+Quand vous clonez un dépôt pour la première fois, tous les fichiers seront sous suivi de version et inchangés car vous venez tout juste de les enregistrer sans les avoir encore édités.
 
 Au fur et à mesure que vous éditez des fichiers, Git les considère comme modifiés, car vous les avez modifiés depuis le dernier instantané.
 Vous indexez ces fichiers modifiés et vous enregistrez toutes les modifications indexées, puis ce cycle se répète.
@@ -83,14 +86,14 @@ Si vous lancez cette commande juste après un clonage, vous devriez voir ce qui 
 	# On branch master
 	nothing to commit (working directory clean)
 
-Ce message signifie que votre copie de travail est propre — en d'autres mots, aucun fichier suivi n'a été modifié.
+Ce message signifie que votre copie de travail est propre, en d'autres mots, aucun fichier suivi n'a été modifié.
 Git ne voit pas non plus de fichiers non-suivis, sinon ils seraient listés ici.
 Enfin, la commande vous indique sur quelle branche vous êtes.
 Pour l'instant, c'est toujours master, qui correspond à la valeur par défaut ; nous ne nous en soucierons pas maintenant.
 Dans le chapitre suivant, nous parlerons plus en détail des branches et des références.
 
 Supposons que vous ajoutiez un nouveau fichier à votre projet, un simple fichier LISEZMOI.
-Si ce fichier n'existait pas auparavant, et vous lancez la commande `git status`, vous verrez votre fichier non suivi comme ceci :
+Si ce fichier n'existait pas auparavant, et que vous lancez la commande `git status`, vous verrez votre fichier non suivi comme ceci :
 
 	$ vim LISEZMOI
 	$ git status
@@ -102,11 +105,11 @@ Si ce fichier n'existait pas auparavant, et vous lancez la commande `git status`
 	nothing added to commit but untracked files present (use "git add" to track)
 
 Vous pouvez constater que votre nouveau fichier LISEZMOI n'est pas en suivi de version, car il apparaît dans la section "Untracked files" de l'état de la copie de travail.
-"Untracked" signifie simplement que Git détecte un fichier qui n'était pas présent dans le dernier instantané ; Git ne commence à le suivre en version que quand vous lui indiquer de le faire.
-Ce comportement permet de ne pas commencer à suivre accidentellement en version des fichiers binaires générés ou d'autres fichiers que vous ne voulez pas inclure.
+"Untracked" signifie simplement que Git détecte un fichier qui n'était pas présent dans le dernier instantané ; Git ne la placera sous suivi en version que quand vous lui indiquer de le faire.
+Ce comportement permet de ne pas placer accidentellement sous suivi de version des fichiers binaires générés ou d'autres fichiers que vous ne voulez pas inclure.
 Mais vous voulez inclure le fichier LISEZMOI dans l'instantané, alors commençons à suivre ce fichier.
 
-### Suivre des nouveaux fichiers en version ###
+### Placer de nouveaux fichiers sous suivi de version ###
 
 Pour commencer à suivre un nouveau fichier, vous utilisez la commande `git add`.
 Pour commencer à suivre le fichier LISEZMOI, vous pouvez entrer ceci :
@@ -124,13 +127,13 @@ Si vous lancez à nouveau le commande status, vous pouvez constater que votre fi
 	#
 
 Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à enregistrer).Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
-Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` — c'était bien sûr pour commencer à suivre en version les fichiers de votre répertoire de travail.
+Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` — c'était bien sur pour commencer à placer sous suivi de version les fichiers de votre répertoire de travail.
 La commande git add accepte en paramètre un chemin qui correspond à un fichier ou un répertoire ; dans le cas d'un répertoire, la commande ajoute récursivement tous les fichiers de ce répertoire.
 
 ### Indexer des fichiers modifiés ###
 
-Maintenant, modifions un fichiers qui a déjà été suivi en version.
-Si vous modifiez le fichier suivi en version appelé `benchmarks.rb` et lancez à nouveau votre commande `status`, vous verrez ceci :
+Maintenant, modifions un fichiers qui est déjà sous suivi de version.
+Si vous modifiez le fichier sous suivi de version appelé `benchmarks.rb` et que vous lancez à nouveau votre commande `status`, vous verrez ceci :
 
 	$ git status
 	# On branch master
@@ -145,8 +148,8 @@ Si vous modifiez le fichier suivi en version appelé `benchmarks.rb` et lancez �
 	#	modified:   benchmarks.rb
 	#
 
-Le fichier benchmarks.rb apparaît sous la section nommée « Changed but not updated » ce qui signifie que le fichier suivi en version a été modifié dans la copie de travail mais n'est pas encore indexé.
-Pour l'indexer, il faut lancer la commande `git add` (qui est une commande multi-usage — elle peut être utilisée pour commencer à suivre en version un fichier, pour indexer un fichier ou pour d'autres actions telles que marquer comme résolu des conflits de fusion de fichiers).
+Le fichier benchmarks.rb apparaît sous la section nommée « Changed but not updated » ce qui signifie que le fichier sous suivi de version a été modifié dans la copie de travail mais n'est pas encore indexé.
+Pour l'indexer, il faut lancer la commande `git add` (qui est une commande multi-usage — elle peut être utilisée pour placer un fichier sous suivi de version, pour indexer un fichier ou pour d'autres actions telles que marquer comme résolu des conflits de fusion de fichiers).
 Lançons maintenant `git add` pour indexer le fichier benchmarks.rb, et relançons la commande `git status` :
 
 	$ git add benchmarks.rb
@@ -212,7 +215,7 @@ Renseigner un fichier .gitignore avant de commencer à travailler est générale
 
 Les règles de construction des patrons à placer dans le fichier .gitignore sont les suivantes :
 
-* Les lignes vides ou commençant par # sont ignorées
+* Les lignes vides ou commençant par # sont ignorée
 * Les patrons standards de fichiers sont utilisables
 * Si le patron se termine par un slash (`/`), le patron dénote un répertoire
 * Un patron commençant par un point d'exclamation (`!`) est inversé.
@@ -232,7 +235,7 @@ Voici un autre exemple de fichier .gitignore :
 ### Inspecter les modifications indexées et non indexées ###
 
 Si le résultat de la commande `git status` est encore trop vague — lorsqu'on désire savoir non seulement quels fichiers ont changé mais aussi ce qui a changé dans ces fichiers — on peut utiliser la commande `git diff`.
-Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblablement utilisée le plus souvent pour répondre aux questions suivantes : qu'est-ce qui a été modifié mais pas encore indexé ? Quelle modification a été indexée et est prête pour la validation ? Là où `git status` répond de manière générale à ces questions, `git diff` montre les lignes exactes qui ont été ajoutées, modifiées ou effacées — le patch en somme.
+Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblablement utilisée le plus souvent pour répondre aux questions suivantes : qu'est-ce qui a été modifié mais pas encore indexé ? Quelle modifications a été indexée et est prête pour la validation ? Là où `git status` répond de manière générale à ces questions, `git diff` montre les lignes exactes qui ont été ajoutées, modifiées ou effacées — le patch en somme.
 
 Supposons que vous éditez et indexez le fichier LISEZMOI et que vous éditez le fichier benchmarks.rb sans l'indexer.
 Si vous lancez la commande `status`, vous verrez ceci :
@@ -452,7 +455,7 @@ Cela signifie que vous pouvez lancer des commandes telles que
 
 Notez bien l'antislash (`\`) devant `*`.
 Il est nécessaire d'échapper le caractère `*` car Git utilise sa propre expansion de nom de fichier en addition de l'expansion du shell.
-Cette commande efface tous les fichiers avec l'extension `.log` présents dans le répertoire `log/`.
+Cette commande efface tous le fichiers avec l'extension `.log` présents dans le répertoire `log/`.
 Vous pouvez aussi lancer une commande telle que :
 
 	$ git rm \*~

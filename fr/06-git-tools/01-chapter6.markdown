@@ -1,22 +1,22 @@
-# Git Tools #
+# Utilitaires Git #
 
-By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+A présent, vous avez appris les commandes et modes de fonctionnements de tous les jours requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source. Vous avez déroulés les routines de *tracking* et de *committing* de files, and vous avez exploité la puissance de la *staging area* et du départ en branches et des merges de branches locales de travail.
 
-Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
+Désormais, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous n'utiliserez que peu souvant mais dont vous pourriez avoir l'usage à un moment ou à un autre.
 
-## Revision Selection ##
+## Sélection des versions ##
 
-Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+Git vous permet d'adresser certains *commits* ou un ensemble de *commits* de différentes façons. Si elles ne sont pas toutes évidentes il est bon de les connaître.
 
-### Single Revisions ###
+### Révisions ponctuelles ###
 
-You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
+Naturellement, vous pouvez référencer un commit par le hash SHA-1, mais il existe des méthodes plus confortables pour le genre humain. Cette section présente les méthodes pour référencer un commit simple.
 
-### Short SHA ###
+### SHA court ###
 
-Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
+Git est capable de deviner de quel commit vous parlez si vous ne fournissez que quelques caractères du début du hash, pour autant que votre SHA-1 partiel comporte 4 caractères et ne génère pas de collision - dans ces conditions, un objet seulement verra son SHA-1 correspondre.
 
-For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
+Par exemple, pour afficher un commit préis, supposons que vous exécutiez `git log` et que vous identifiez le commit où vous avez introduit une fonctionnalité précise.
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,48 +38,49 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 	    added some blame and merge stuff
 
-In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
+Pour ce cas, choisissons `1c002dd....` Si vous affichez le contenu de ce commit via `git show`, les commandes suivantes sont équivalents (en partant du principe que les SHA-1 courts ne sont pas ambigüs).
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
+Git peut déterminer un SHA tout à la fois le plus court possible et non ambigü. Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut git retiendra 7 caractères et alongera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+En règle générale, entre 8 et 10 caractères sont largement suffisant pour assurer l'unicité dans un projet. Un des plus projets utilisant Git, le kernel Linux, nécessite de plus en plus fréquemment 12 sur les 40 caractères possible pour assurer l'unicité.
 
-### A SHORT NOTE ABOUT SHA-1 ###
+### QUELQUES MOTS SUR SHA-1 ###
 
 A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
 
 If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+Quoi qu'il en soit, vous devriez être conscient à quel point ce scnératio est ridiculement improbable. Un *digest* SHA-1 porte sur 20 octet soit 160bits. Le nombre d'objet aléatoires à hasher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`. 2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards. Cela représente 1200 fois le nombre de grains de sable présent sur terre.
 
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
-### Branch References ###
+### Références de branches ###
 
-The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
+La méthode la plus standard pour désigner un commit nécessite une branche y pointant. Dès lors, vous pouvez utiliser le nom de la branche dans toute commande utilisant un objet de type commit ou un SHA-1. Par exemple, si vous souhaitez afficher le dernier commit d'une branche, les commandes suivantes sont équivalentes, en supposant que la branche `sujet1` pointe sur `ca82a6d` :
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
-	$ git show topic1
+	$ git show sujet1
 
-If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
+Pour connaître le SHA sur lequel pointe une branche, ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`. Se référer au chapitre 9 pour plus d'informations sur les commandes de plombier ; sommairement, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour. Quoi qu'il en soit, cela peut se révéler utile pour comprendre ce qui se passe. Je vous invite à tester `rev-parse` sur votre propre branche.
 
-	$ git rev-parse topic1
+	$ git rev-parse sujet1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### RefLog Shortnames ###
+### Reccourcis RefLog ###
 
-One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+!- One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+Git maintient en arrière-plan un historique des références où sont passées HEAD et vos branches sur les dernieres mois - ceci s'appelle le reflog.
 
-You can see your reflog by using `git reflog`:
+Vous pouvez le consulter avec la commande `git reflog` :
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
@@ -90,17 +91,17 @@ You can see your reflog by using `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
+À chaque fois que l'extrémité de votre branche est modifiée, Git persiste cette information pour vous dans son historique temporaire. Vous pouvez référencer d'anciens commits avec cette donnée. Si vous souhaitez consulter le n-ième antécédent de votre HEAD, vous pouvez utiliser la référence `@{n}` du reflog, 5 dans cet exemple :
 
 	$ git show HEAD@{5}
 
-You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
+Vous pouvez également remonter le temps et savoir où en était une branche. Par exemple, pour savoir où en était la branche `master` hier (yesterday en anglais), tapez :
 
 	$ git show master@{yesterday}
 
-That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
+Cette technique fonctionne uniquement si l'information est encore présente dans le reflog, vous ne pourrez donc pas consulter les commits trop ancients.
 
-To see reflog information formatted like the `git log` output, you can run `git log -g`:
+Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -119,24 +120,24 @@ To see reflog information formatted like the `git log` output, you can run `git 
 
 	    Merge commit 'phedders/rdocs'
 
-It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
+Veuillez noter que le reflog ne stocke que l'information locale — c'est un historique de ce que vous avez fait dans votre dépôt. Les références ne sont pas dans une autre copie du dépôt ; et juste après le clone d'un dépôt, votre reflog sera vide, puisque qu'aucune activité ne s'y sera produite. Exécuter `git show` HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliqué ce projet depuis au moins 2 moins — si vous l'avez dupliqué il y a 5 minutes, vous n'obtiendrez rien.
 
-### Ancestry References ###
+### Références passées ###
 
-The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
-Suppose you look at the history of your project:
+Une solution fréquente de référencer un commit est d'utiliser son ancêtre. Si vous suffixez une référence par `^`, Git la résoudra comme étant le parent de cette référence.
+Supposons que vous consultiez votre historique :
 
 	$ git log --pretty=format:'%h %s' --graph
-	* 734713b fixed refs handling, added gc auto, updated tests
+	* 734713b fix sur la gestion des refs, ajout gc auto, mise à jour des tests
 	*   d921970 Merge commit 'phedders/rdocs'
 	|\  
-	| * 35cfb2b Some rdoc changes
-	* | 1c002dd added some blame and merge stuff
+	| * 35cfb2b modifs minor rdoc
+	* | 1c002dd ajout blame and merge
 	|/  
 	* 1c36188 ignore *.gem
-	* 9b29157 add open3_detach to gemspec file list
+	* 9b29157 ajout open3_detach à la liste des fichiers gemspcec
 
-Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD":
+Alors, vous pouvez consulter le commit précédent en spécifiant `HEAD^`, ce qui signifie "le parent de HEAD" :
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -146,23 +147,23 @@ Then, you can see the previous commit by specifying `HEAD^`, which means "the pa
 
 	    Merge commit 'phedders/rdocs'
 
-You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:
+Vous pouvez également spécifier un nombre après `^` — par exemple, `d921970^2` signifie "le second parent de d921970.". Cette syntaxe ne sert que pour les commits de fusion, qui ont plus d'un parent. Le premier parent est la branche où vous avez fusionné, et le second est le commit de la branche que vous avez fusionnée : 
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Thu Dec 11 14:58:32 2008 -0800
 
-	    added some blame and merge stuff
+	    ajout blame and merge
 
 	$ git show d921970^2
 	commit 35cfb2b795a55793d7cc56a6cc2060b4bb732548
 	Author: Paul Hedderly <paul+git@mjr.org>
 	Date:   Wed Dec 10 22:22:03 2008 +0000
 
-	    Some rdoc changes
+	    modifs minor rdoc
 
-The other main ancestry specification is the `~`. This also refers to the first parent, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means "the first parent of the first parent," or "the grandparent" — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
+Une autre solution courante pour spécifier une référence est le `~`. Il fait également référence au premier parent, donc `HEAD~` et `HEAD^` sont équivalents. La différence se fait sentir si vous spécifiez un nombre. `HEAD~2` signifie "le premier parent du premier parent," ou bien "le grandparent" — ça remonte les premiers parents autant de fois que demandé. Par exemple, dans l'historique précédemment présenté, `HEAD~3` serait :
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -171,7 +172,7 @@ The other main ancestry specification is the `~`. This also refers to the first 
 
 	    ignore *.gem
 
-This can also be written `HEAD^^^`, which again is the first parent of the first parent of the first parent:
+Cela aura bien pu être écrit `HEAD^^^`, qui là encore est le premier parent du premier parent du premier parent :
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -180,57 +181,57 @@ This can also be written `HEAD^^^`, which again is the first parent of the first
 
 	    ignore *.gem
 
-You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
+Vous pouvez également combiner ces syntaxes — vous pouvez obtenier le second parent de la référence précédent (en supposant que c'était un commit de fusion) en utilisant `HEAD~3^2`, etc.
 
-### Commit Ranges ###
+### Plages de commits ###
 
-Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
+A présent que vous pouvez spécifier des commits individuels, voyons comme spécifier une place de commits. Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour adresser des problèmes tels que "Quel activité sur cette branche n'ai-je pas encore fusionné sur ma branche principlae ?".
 
-#### Double Dot ####
+#### Double point ####
 
-The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
+La plus fréquente spécification de plage de commit est la syntaxe double-point. En gros, cela demande à Git de résoudre la plage des commits qui sont accessible depuis un commit mais ne le sont pas depuis un autre. Par exemple, disons que votre historique ressemble à celui de la Figure 6-1.
 
 Insert 18333fig0601.png 
-Figure 6-1. Example history for range selection.
+Figure 6-1. Exemple d'historique pour la sélection de plages de commits.
 
-You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
+Si vous voulez savoir ce que n'a pas encore été fusionné sur votre branche master depuis votre branche experiment, vous pouvez demandez à Git de vous montrer un listing des commits with `master..experiment` — ce qui signifie "tous les commits accessibles par experiment qui ne le sont pas par master.". Dans un souci de brièveté et de clarté de ces exemples, je vais utiliser les lettres des commits issus du diagramme à la place du vrai listing dans l'ordre où ils auraient dû être affichés :
 
 	$ git log master..experiment
 	D
 	C
 
-If, on the other hand, you want to see the opposite — all commits in `master` that aren’t in `experiment` — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:
+D'un autre côté, si vous souhaitez voir l'opposé — tous les commits dans `master` mais pas encore dans `experiment` — vous pouvez inverser les noms de branches, `experiment..master` vous montre tout ce à que `master` accède mais qu'experiment ne voit pas :
 
 	$ git log experiment..master
 	F
 	E
 
-This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge in. Another very frequent use of this syntax is to see what you’re about to push to a remote:
+C'est pratique si vous souhaitez maintenir `experiment` à jour et anticiper les fusions. Une autre cas d'utilisation fréquent et de voir ce que vous vous appréter à pousser sur une branche distante :
 
 	$ git log origin/master..HEAD
 
-This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
-You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.
+Cette commande vous affiche tous les commits de votre branche courante qui ne sont pas sur la branche `master` du dépôt distant `origin`. Si vous exécutez `git push` et que votre branche courante suit `origin/master`, les commits listés par `git log origin/master..HEAD` sont les commits qui seront transférés sur le serveur.
+Vous pouvez également laisser tomber une borne de la syntaxe pour faire comprendre à Git que vous parlez de HEAD. Par exemple, vous pouvez obtenir les mêmes résultats que précédemment en tapant `git log origin/master..` — Git utilise HEAD si une des bornes est manquante.
 
-#### Multiple Points ####
+#### Plusieurs points ####
 
-The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
+La syntaxe double-point est pratique comme raccourci ; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels commits sont dans plusieurs branches mais qui sont absents de la branche courante. Git vous permets cela avec `^` or `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les commits. Les 3 commandes ci-après sont équivalents :
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+C'est utile car cela vous permets de spécifier plus de 2 références dans votre requête, ce que vous ne pouvez accomplir avec la syntaxe double-point. Par exemple, si vous souhaitez voir les commits qui sont accessibles depuis `refA` et `refB` mais pas depuis `refC`, vous pouvez taper ces 2 commandes :
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-This makes for a very powerful revision query system that should help you figure out what is in your branches.
+Ceci vous prodigue un système de requêtage des révisions très puissant, pour vous aider à saisir ce qui se trouve sur vos branches.
 
-#### Triple Dot ####
+#### Triple point ####
 
-The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
-If you want to see what is in `master` or `experiment` but not any common references, you can run
+La dernière syntaxe majeure de sélection de plage de commits est la syntaxe triple-point, qui spécifie tous les commits accessible par l'une des deux référence, exclusivement. Retournez consulter l'exemple d'historique à la figure 6-1.
+Si vous voulez voir ce qui ce trouve sur `master` ou `experiment` mais pas sur les 2, exécutez :
 
 	$ git log master...experiment
 	F
@@ -238,9 +239,9 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
-Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.
+Encore une fois, cela vous donne un `log` normal mais ne vous montre les informations que pour ces quatre commits, dans l'ordre naturel des dates de commit.
 
-A common switch to use with the `log` command in this case is `--left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:
+Une option courante à utiliser avec la commande `log` dans ce ces est `--left-right` qui vous montre de quel borne de la plage ce commit fait partie. Cela rend les données plus utiles :
 
 	$ git log --left-right master...experiment
 	< F
@@ -248,12 +249,12 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 	> D
 	> C
 
-With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
+Avec ces outils, vous pourrez utiliser Git pour savoir quels commits inspecter.
 
-## Interactive Staging ##
+## Staging interactif ##
 
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+Git propose quelques scripts qui rendent les opérations en ligne de commande plus simple. Nous allons à présent découvrir des commandes interactives vous permettant de choisir les fichiers ou une partie d'un fichier à incorporer à un commit. Ces outils sont particulièrement pratiques si vous modifiez un large périmètre de fichiers et que vous souhaitez les commiter séparement plutôt que massivement. De la sorte, vous vous assurez que vos commits sont des ensembles cohérents et qu'ils peuvent être facilement revus par vos collaborateurs.
+Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en mode interactive, affichant quelque chose comme ceci :
 
 	$ git add -i
 	           staged     unstaged path
@@ -266,13 +267,13 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
+Vous vous apercevrez que cette commande propose une vue bien différente de votre espace de *staging* — sommairement la même information qu'obtenue avec `git status` mais en plus succint et instructif. Ça liste les modifications que vous avez *staged* à gauche, et *unstaged* à droite.
 
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+En dessous vient la section des commandes (*** Commands ***). Vous pourrez y faire bon nombre de choses, notamment *stager* des fichiers, les *unstager*, *stager* des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez *stagé*.
 
-### Staging and Unstaging Files ###
+### Stager and Unstager des fichiers ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+Si vous tapez `2` ou `u` au prompt `What now>`, le script vous demande quels fichiers vous voulez *stager* :
 
 	What now> 2
 	           staged     unstaged path
@@ -281,7 +282,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+Pour *stager* les fichiers TODO et index.html, vous pouvez taper ces nombres :
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -290,7 +291,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+Le caractère `*` pres de chaque fichier indique que celui-ci est sélectionné pour le *staging*. Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le *stage* pour vous :
 
 	Update>> 
 	updated 2 paths
@@ -304,7 +305,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+À présent, vous pouvez voir que les fichiers TODO et index.html sont *stagé* et que simplgit.rb ne l'est toujours pas. Si vous souhaitez *unstager* le fichier TODO, utilisez `3` (ou `r` pour revert en anglais) :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -322,7 +323,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez *unstagé* le fichier TODO :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -333,7 +334,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+Pour voir la modification que vous avez *stagé*, utilisez `6` ou `d` (pour diff en anglais). Cela vous affiche la liste des fichiers *stagé* et vous pouvez choisir ceux pour lesquels vous voulez consulter la différences. C'est équivalent à `git diff --cached` en ligne de commande :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -355,11 +356,11 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour manipuler votre espace de *staging* un peu plus facilement.
 
-### Staging Patches ###
+### Patches de Staging ###
 
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+Git est également capable de *stager* certaines parties d'un fichier. Par exemple, si vous modifiez en 2 endroits votre fichier simplegit.rb et que vous souhaitez *stager* l'une d'entre elles seulement, cela peut se faire très aisément avec Git. En mode interactif, tapez `5` ou `p` (pour patch en anglais). Git vous demandera quel fichier vous voulez *stager* partiellement, puis, pour chaque section des fichiers sélectionnés, il affichera les parties de fichiers en écart et vous demandera si vous souhaitez les *stager*, un par un :
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -376,7 +377,7 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
+A cette étape, vous disposez de bon nombre d'options. `?` vous liste les actions possibles :
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 	y - stage this hunk
@@ -393,7 +394,7 @@ You have a lot of options at this point. Typing `?` shows a list of what you can
 	e - manually edit the current hunk
 	? - print help
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+En règle générale, vous choisirez `y` ou `n` pour *stager* chacun des blocs, mais tout *stager* pour certains fichiers ou remettre à plus tard le choix pour un bloc peut également être utile. Si vous *stagez* un partie de fichier et laissez une autre partie non *stagée*, vous statut ressemblera à peu près à ceci :
 
 	What now> 1
 	           staged     unstaged path
@@ -401,9 +402,9 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+Le statut pour le fichier simplegit.rb est intéressant. Il vous mobre que quelques lignes sont *stagées* et d'autres non. Vous avez *stagé* partiellement ce fichier. Dès lors, vous pouvez quitter l'ajout interactif et exécuter `git commit` pour commiter les fichiers partiellement *stagés*.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
+Enfin, vous pouvez vous passer du mode interactif pour *stager* partiellement un fichier — vous pouvez faire de même avec `git add -p` ou `git add --patch` en ligne de commande.
 
 ## Stashing ##
 

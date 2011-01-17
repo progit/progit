@@ -178,7 +178,7 @@ Insert 18333fig0106.png
 Figure 1-6. Répertoire de travail, zone d'index et répertoire Git.
 
 Le répertoire Git est l'endroit où Git stocke les méta-données et la base de données des objets de votre projet.
-C'est la partie la plus importante de Git, et c'est ce qui est copié lorsque vous clonez une dépôt depuis un autre ordinateur.
+C'est la partie la plus importante de Git, et c'est ce qui est copié lorsque vous clonez un dépôt depuis un autre ordinateur.
 
 Le répertoire de travail est une extraction unique d'un version du projet.
 Ces fichiers sont extraits depuis la base de données compressée dans le répertoire Git et placés sur le disque pour pouvoir être utilisés ou modifiés.
@@ -357,7 +357,7 @@ Par exemple, vous pouvez obtenir la page de manuel pour la commande config en la
 	$ git help config
 
 Ces commandes sont vraiment sympathiques car vous pouvez y accéder depuis partout, y compris hors connexion.
-Si les pages de manuel et ce livre ne sont pas suffisant, vous pouvez essayer les canaux `#git` ou `#github` sur le serveur IRC Freenode (irc.freenode.net).
+Si les pages de manuel et ce livre ne sont pas suffisants, vous pouvez essayer les canaux `#git` ou `#github` sur le serveur IRC Freenode (irc.freenode.net).
 Ces canaux sont régulièrement peuplés de centaines de personnes qui ont une bonne connaissance de Git et sont souvent prêtes à aider.
 
 ## Résumé ##

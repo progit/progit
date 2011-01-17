@@ -22,7 +22,7 @@ Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous vos fichi
 (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
 
 Si vous souhaitez commencer à suivre en version des fichiers existant ( contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire un commit initial.
-Vous pouvez réaliser ceci avec un poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'un commit :
+Vous pouvez réaliser ceci avec une poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'un commit :
 
 	$ git add *.c
 	$ git add README

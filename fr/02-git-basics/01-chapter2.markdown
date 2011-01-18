@@ -23,8 +23,8 @@ nécessaire au dépôt — un squelette de dépôt Git.
 Pour l'instant, rien n'est encore suivi en version.
 (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
 
-Si vous souhaitez mettre sous gestion de version des fichiers existants (contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire un commit initial.
-Vous pouvez réaliser ceci avec un poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'un commit :
+Si vous souhaitez commencer à suivre en version des fichiers existants (contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire une validation initiale.
+Vous pouvez réaliser ceci avec une poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'un commit :
 
 	$ git add *.c
 	$ git add README

@@ -813,7 +813,7 @@ Le fichier benchmark.rb est modifié mais de retour à l'état non indexé.
 
 ### Réinitialiser un fichier modifié ###
 
-Que faire si vous réalisez que vous ne souhaitez pas conserver les modifications au fichier benchmark.rb ? Comment le réinitialiser facilement — le ramener à l'état qu'il avait dans le dernier instantané (ou lors clonage, ou dans l'état dans lequel vous l'avez obtenu dans votre copie de travail) ? Heureusement, `git status` est secourable.
+Que faire si vous réalisez que vous ne souhaitez pas conserver les modifications au fichier benchmark.rb ? Comment le réinitialiser facilement, le ramener à l'état qu'il avait dans le dernier instantané (ou lors clonage, ou dans l'état dans lequel vous l'avez obtenu dans votre copie de travail) ? Heureusement, `git status` est utile.
 Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :
 
 	# Changed but not updated:
@@ -823,7 +823,7 @@ Dans le résultat de la dernière commande, la zone de travail ressemble à ceci
 	#       modified:   benchmarks.rb
 	#
 
-Cela vous indique assez explicitement comment annuler des modifications que vous avez faites (du moins, les nouvelles version de Git, 1.6.1 et supérieures le font  — si vous avez une version plus ancienne, nous vous recommandons de la mettre à jour pour bénéficier de ces fonctionnalités d'utilisabilité).
+Cela vous indique de facon explique comment annuler des modifications que vous avez faites (du moins, les nouvelles version de Git, 1.6.1 et supérieures le font, si vous avez une version plus ancienne, nous vous recommandons de la mettre à jour pour bénéficier de ces fonctionnalités pratiques).
 Faisons comme indiqué :
 
 	$ git checkout -- benchmarks.rb
@@ -836,7 +836,7 @@ Faisons comme indiqué :
 	#
 
 Vous pouvez constater que les modifications ont été annulées.
-Vous devriez aussi vous apercevoir que c'est une commande dangereuse : toute modification que vous auriez réalisée sur ce fichier a disparu — vous venez tout juste de l'écraser avec un autre fichier.
+Vous devriez aussi vous apercevoir que c'est une commande dangereuse : toutes les modifications que vous auriez réalisée sur ce fichier ont disparu — vous venez tout juste de l'écraser avec un autre fichier.
 N'utilisez jamais cette commande à moins d'être vraiment sûr de ne pas vouloir de ces modifications.
 Si vous souhaitez seulement écarter momentanément cette modification, nous verrons comment mettre de côté et créer des branches dans le chapitre suivant ; ce sont de meilleures façons de procéder.
 Souvenez-vous, tout ce qui a été validé dans Git peut quasiment toujours être récupéré.
@@ -961,7 +961,7 @@ Si vous lancez cette commande avec un nom court particulier, tel que `origin`, v
 	    master
 	    ticgit
 
-Cela donne le liste des URL pour le dépot distant ainsi que l'information de suivi de branches.
+Cela donne la liste des URL pour le dépot distant ainsi que la liste des branches distantes suivi.
 Cette commande vous informe que si vous êtes sur la branch master et si vous lancez `git pull`, il va automatiquement fusionner la branche master du dépot distant après avoir récupéré toutes les références sur le serveur distant.
 Cela donne aussi la liste des autres références qu'il aura tirées.
 
@@ -991,7 +991,7 @@ Lors d'une utilisation plus intense de Git, la commande `git remote show` fourni
 	    master:master
 
 Cette commande affiche les branches poussées automatiquement lorsqu'on lance `git push` dessus.
-Elle montre aussi les branches distantes qui n'ont pas encore été rapatriées, les branches distantes présentes localement mais effacées sur le serveur, et toutes le branches qui seront fusionnées quand on lancera `git pull`.
+Elle montre aussi les branches distantes qui n'ont pas encore été rapatriées, les branches distantes présentes localement mais effacées sur le serveur, et toutes les branches qui seront fusionnées quand on lancera `git pull`.
 
 ### Retirer et déplacer des branches distantes ###
 
@@ -1043,7 +1043,7 @@ Si vous souhaitez ne visualiser que les série 1.4.2, vous pouvez lancer ceci :
 ### Créer des balises ###
 
 Git utilise deux types principaux de balises : légères et annotées.
-Une balise légère ressemble beaucoup à une branche qui ne change pas — c'est juste un pointeur sur un commit spécifique.
+Une balise légère ressemble beaucoup à une branche qui ne change pas, c'est juste un pointeur sur un commit spécifique.
 Les balises annotées, par contre sont stockées en tant qu'objets à part entière dans la base de données de Git.
 Elles ont une somme de contrôle, contiennent le nom et l'adresse e-mail du créateur, la date, un message de balisage et peuvent être signées et vérifiées avec GNU Privacy Guard (GPG).
 Il est généralement recommandé de créer des balises annotées pour générer toute cette information mais si la balise doit rester temporaire ou l'information supplémentaire n'est pas désirée, il reste toujours les balises légères.
@@ -1062,7 +1062,7 @@ Le plus simple est de spécifier l'option `-a` à la commande `tag` :
 L'option `-m` permet de spécifier le message de balisage qui sera stocké avec la balise.
 Si vous ne spécifiez pas de message en ligne pour une balise annotée, Git lance votre éditeur pour pouvoir le saisir.
 
-Vous pouvez visualiser les données de la balise au côté du commit qui a été marqué en utilisant la commande `git show` :
+Vous pouvez visualiser les données de la balise à côté du commit qui a été marqué en utilisant la commande `git show` :
 
 	$ git show v1.4
 	tag v1.4
@@ -1116,7 +1116,7 @@ Plus loin, nous verrons comment vérifier une balise signée.
 ### Les balises légères ###
 
 Une autre manière de baliser les commits est d'utiliser les balises légères.
-Celles-ci se réduisent à stocker la somme de contrôle d'un commit dans un fichier — aucune autre information n'est conservée.
+Celles-ci se réduisent à stocker la somme de contrôle d'un commit dans un fichier, aucune autre information n'est conservée.
 Pour créer une balise légère, il suffit de n'utiliser aucune des option `-a`, `-s` ou `-m` :
 
 	$ git tag v1.4-lw

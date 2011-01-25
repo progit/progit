@@ -1118,4 +1118,4 @@ Git semplicemente sostituisce il nuovo comando con quello che corrisponde nell'a
 
 ## Conclusione ##
 
-A questo punto, sei in grado di tutte le operazioni di Git base in locale — creare o clonare un repository, fare delle modifiche, parcheggiare ed inviare queste modifiche, vedere la storia di tutti i cambiamenti del repository fatti. Nel prossimo capitolo, vedremo una caratteristica di Git da suicidio: il suo modello di ramificazione.
+A questo punto, sei in grado di tutte le operazioni di Git base in locale — creare o clonare un repository, fare delle modifiche, parcheggiare ed inviare queste modifiche, vedere la storia di tutti i cambiamenti del repository fatti. Nel prossimo capitolo, vedremo una caratteristica di Git da suicidio (la killer feature): il suo modello di ramificazione.

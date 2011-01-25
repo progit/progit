@@ -846,7 +846,7 @@ Se vuoi rimuovere una referenza per una qualche ragione — hai spostato il serv
 
 ### Tagging ###
 
-Come la maggior parte dei VCSs, Git ha la possibilità di aggiungere dei tag, dei riferimenti, a dei punti specifici, che sono importanti, della storia. Generalmente, le persone usano questa funzionalità per marcare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare i tag disponibili, come crearne di nuovi, e i differenti di tag esistenti.
+Come la maggior parte dei VCS, Git ha la possibilità di aggiungere dei tag, dei riferimenti, a dei punti specifici, che sono importanti, della storia. Generalmente, le persone usano questa funzionalità per marcare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare i tag disponibili, come crearne di nuovi, e i differenti di tag esistenti.
 
 ### Elencare i propri tag ###
 

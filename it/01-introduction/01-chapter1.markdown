@@ -12,7 +12,7 @@ Se sei un grafico o un webdesigner e vuoi tenere tutte le versioni di un'immagin
 
 Alcuni metodi di controllo di versione scelti da alcune persone è di copiare i file in un'altra directory (magari una directory nominata con la data, se sono intelligenti). Questo approccio è molto comune perché è molto semplice, ma è anche incredibilmente soggetto ad errori. E' facile dimenticare in quale directory ci si trova e accidentalmente scrivere sul file sbagliato o copiare i file che non si intendevano copiare.
 
-Per far fronte a questo problema, i programmatori molto tempo fa svilupparono VCSs locali che avevano un semplice database che manteneva tutti i cambiamenti dei file sotto controllo di revisione (vedi Figura 1-1).
+Per far fronte a questo problema, i programmatori molto tempo fa svilupparono VCS locali che avevano un semplice database che manteneva tutti i cambiamenti dei file sotto controllo di revisione (vedi Figura 1-1).
 
 Insert 18333fig0101.png 
 Figure 1-1. Diagramma di controllo di versione locale.
@@ -21,17 +21,17 @@ Uno dei più popolari strumenti VCS era un sistema chiamato rcs, che è ancora o
 
 ### Sistemi di Controllo di Versione Centralizzati ###
 
-Il successivo maggior problema in cui incorrono le persone è che queste hanno bisogno di collaborare con gli sviluppatori su altri sistemi. Per far pronte a questo problema,sistemi di controllo di versione centralizzati (Centralized Version Control Systems, CVCSs) furono sviluppati. Questi sistemi, come CVS, Subversion e Perforce, hanno un singolo server che contiene tutte le versioni dei file e un numero di clienti che controllano i file dalla centrale. Per alcuni anni, questo fu lo standard per il controllo di versione (vedi Figura 1-2).
+Il successivo maggior problema in cui incorrono le persone è che queste hanno bisogno di collaborare con gli sviluppatori su altri sistemi. Per far pronte a questo problema,sistemi di controllo di versione centralizzati (Centralized Version Control Systems, CVCS) furono sviluppati. Questi sistemi, come CVS, Subversion e Perforce, hanno un singolo server che contiene tutte le versioni dei file e un numero di clienti che controllano i file dalla centrale. Per alcuni anni, questo fu lo standard per il controllo di versione (vedi Figura 1-2).
 
 Insert 18333fig0102.png 
 Figure 1-2. Diagramma controllo di versione centralizzato.
 
-Questo sistema offre alcuni vantaggi, specialmente sopra al VCSs locale.  Per esempio, chiunque sa ad un certo livello cosa fa qualsiasi altra persona nel progetto. Gli amministratori hanno un fine o grossolano controllo su cosa chi può fare cosa; ed è molto più facile amministrare un tale CVCS che un database locale su ogni client.
+Questo sistema offre alcuni vantaggi, specialmente sopra al VCS locale.  Per esempio, chiunque sa ad un certo livello cosa fa qualsiasi altra persona nel progetto. Gli amministratori hanno un fine o grossolano controllo su cosa chi può fare cosa; ed è molto più facile amministrare un tale CVCS che un database locale su ogni client.
 
 Tuttavia, questa configurazione ha alcuni lati negativi gravi. La più ovvia è il singolo punto di errore che il server centralizzato rappresenta. Se questo server va giù per un'ora, durante questo periodo nessuno può collaborare o salvare le modifiche di versione di qualsiasi cosa su cui sta lavorando. Se il disco rigido del database centrale è danneggiato, e copie di backup non sono state mantenute, si perde proprio tutta la storia del progetto, ad eccezione di singoli snapshot (istantanee) fatte dalle persone sulla propria macchina locale. Sistemi locali di VCS soffrono di questo stesso problema-ogni volta che si ha tutta la storia del progetto in un unico posto, si rischia di perdere.
 
 ### Sistemi di Controllo di Versione Distribuiti ###
-Qui è dove parlo dei Sistemi di Controllo di Versione Distribuiti (Distributed Version Control Systems, DVCSs). In un DVCS (come Git, Mercurial, Bazaar o Darcs), i client non solo possono avere tutti gli ultimi snapshot dei file: essi possono fare la copia completa del repository. Così, se un qualsiasi server muore, e questi sistemi collaborando tramite esso, qualsiasi repository di un client può essere copiato sul server per ripristinarlo. Ogni archivio è in realtà un backup completo di tutti i dati (vedi Figura 1-3).
+Qui è dove parlo dei Sistemi di Controllo di Versione Distribuiti (Distributed Version Control Systems, DVCS). In un DVCS (come Git, Mercurial, Bazaar o Darcs), i client non solo possono avere tutti gli ultimi snapshot dei file: essi possono fare la copia completa del repository. Così, se un qualsiasi server muore, e questi sistemi collaborando tramite esso, qualsiasi repository di un client può essere copiato sul server per ripristinarlo. Ogni archivio è in realtà un backup completo di tutti i dati (vedi Figura 1-3).
 
 Insert 18333fig0103.png 
 Figure 1-3. Diagramma controllo di versione distribuito.
@@ -69,7 +69,7 @@ Git non pensa ad immagazzinare i dati in questo modo. Invece, Git pensa ai dati 
 Insert 18333fig0105.png 
 Figure 1-5.  Git immagazzina i dati come snapshot del progetto nel tempo.
 
-Questa è una distinzione importante tra Git e gli altri VCSs. Git riconsidera tutti gli aspetti del controllo di versione mentre la maggior parte degli altri sistemi copiano dalle precedenti generazioni. Questo fa di Git più un qualche cosa di simile ad un mini filesystem con alcuni incredibili e potenti strumenti costruiti su di esso, invece che un semplice VCS. Esploreremo alcuni benefici che potrai avere immaginando i tuoi dati in questo modo quando vedremo il branching (le ramificazioni) con Git nel Capitolo 3.
+Questa è una distinzione importante tra Git e gli altri VCS. Git riconsidera tutti gli aspetti del controllo di versione mentre la maggior parte degli altri sistemi copiano dalle precedenti generazioni. Questo fa di Git più un qualche cosa di simile ad un mini filesystem con alcuni incredibili e potenti strumenti costruiti su di esso, invece che un semplice VCS. Esploreremo alcuni benefici che potrai avere immaginando i tuoi dati in questo modo quando vedremo il branching (le ramificazioni) con Git nel Capitolo 3.
 
 ### Circa Tutte le Operazioni Sono Locali ###
 

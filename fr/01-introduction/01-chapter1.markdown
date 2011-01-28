@@ -183,7 +183,7 @@ C'est la partie la plus importante de Git, et c'est ce qui est copié lorsque vo
 Le répertoire de travail est une extraction unique d'un version du projet.
 Ces fichiers sont extraits depuis la base de données compressée dans le répertoire Git et placés sur le disque pour pouvoir être utilisés ou modifiés.
 
-La zone d'index est un simple fichier, généralement situé sans le répertoire Git, qui stocke les informations concernant ce qui fera partie du prochain instantané.
+La zone d'index est un simple fichier, généralement situé dans le répertoire Git, qui stocke les informations concernant ce qui fera partie du prochain instantané.
 
 
 L'utilisation standard de Git se passe comme suit :

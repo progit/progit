@@ -143,7 +143,7 @@ Vous feriez les étapes suivantes :
 Vous feriez ce qui suit :
 
 1.	Revenir à la branche de production
-2.	Créer un branche et y développer le correctif
+2.	Créer une branche et y développer le correctif
 3.	Après qu'il a été testé, fusionner la branche de correctif et pousser le résultat à la production
 4.	Rebasculer à la branche initiale et continuer le travail
 

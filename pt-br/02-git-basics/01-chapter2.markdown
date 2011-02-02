@@ -286,7 +286,7 @@ Neste caso, a última vez que você rodou `git status`, viu que tudo estava sele
 
 	$ git commit
 
-Ao fazer isso, seu editor de escolha é acionado. (Isto é configurado através da variavel de ambiente `$EDITOR` de seu shell - normalmente vim ou emais, apesar de poder ser configurado o que você quiser utilizando o comando `git config --global core.editor` como visto no Capítulo 1).
+Ao fazer isso, seu editor de escolha é acionado. (Isto é configurado através da variavel de ambiente `$EDITOR` de seu shell - normalmente vim ou emacs, apesar de poder ser configurado o que você quiser utilizando o comando `git config --global core.editor` como visto no Capítulo 1).
 
 O editor mostra o seguinte texto (este é um exemplo da tela do Vim):
 
@@ -378,15 +378,15 @@ Note a barra invertida (`\`) na frente do `*`. Isso é necessário pois o Git fa
 
 Esse comando remove todos os arquivos que terminam com `~`.
 
-### Moving Files ###
+### Movendo Arquivos ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Diferente de muitos sistemas VCS, o Git não monitora explicitamente arquivos movidos. Se você renomeia um arquivo, nenhum metadado é armazenado no Git que identifique que você renomeou o arquivo. No entanto, o Git é inteligente e tenta descobrir isso depois do fato — lidaremos com detecção de arquivos movidos um pouco mais tarde.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+É um bit confuso que o Git tenha um comando `mv`. Se você quiser renomear um arquivo no Git, você pode fazer isso com
 
 	$ git mv file_from file_to
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+e funciona. De fato, se você fizer algo desse tipo e consultar o status, você verá que o Git considera que o arquivo foi renomeado:
 
 	$ git mv README.txt README
 	$ git status
@@ -399,13 +399,13 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+No entanto, isso é equivalente a rodar algo como:
 
 	$ mv README.txt README
 	$ git rm README.txt
-	$ git add README
+	$ git add README 
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+O Git descobre que o arquivo foi renomeado implicitamente, então ele não se importa se você renomeou por este caminho ou com o comando `mv`. A única diferença real é que o comando `mv` é mais conveniente, executa três passos de uma vez. O mais importante, você pode usar qualquer ferramenta para renomear um arquivo, e usar add/rm depois, antes de consolidar com o commit.
 
 ## Viewing the Commit History ##
 

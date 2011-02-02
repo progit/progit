@@ -478,75 +478,75 @@ Al fusionar con otra rama, en lugar de tener conflictos de fusión con el archiv
 
 Y el archivo database.xml permanecerá inalterado en cualquier que fuera la versión que tú tenias originalmente.
 
-## Git Hooks ##
+## Puntos de enganche Git ##
 
-Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
+Al igual que en otros sistemas de control de versiones, Git también cuenta con mecanismos para lanzar scrips de usuario cuando suceden ciertas acciones importantes. Hay dos grupos de esos puntos de lanzamiento: los del lado cliente y los del lado servidor. Los puntos del lado cliente están relacionados con operaciones tales como la confirmación de cambios (commit) o la fusión (merge). Los del lado servidor están relacionados con operaciones tales como la recepción de contenidos enviados (push) a un servidor. Estos puntos de enganche pueden utilizarse para multitud de aplicaciones. Vamos a ver unas pocas de ellas.
 
-### Installing a Hook ###
+### Instalando un punto de enganche ###
 
-The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
+Los puntos de enganche se guardan en la subcarpeta 'hooks' de la carpeta Git. En la mayoría de proyectos, estará en '.git/hooks'. Por defecto, esta carpeta contiene unos cuantos scripts de ejemplo. Algunos de ellos son útiles por sí mismos; pero su misión principal es la de documentar las variables de entrada para cada script. Todos los ejemplos se han escrito como scripts de shell, con algo de código Perl embebido en ellos. Pero cualquier tipo de script ejecutable que tenga el nombre adecuado puede servir igual de bien --los puedes escribir en Ruby o en Python o en cualquier lenguaje de scripting con el que trabajes--. En las versiones de Git posteriores a la 1.6, esos ejemplos tendrán un nombre acabado en .sample; y tendras que renombrarlos. Para las versiones anteriores a la 1.6, los ejemplos tienen el nombre correcto, pero les falta la marca de ejecutables.
 
-To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
+Para activar un punto de enganche para un script, pon el archivo correspondiente en la carpeta 'hooks'; con el nombre adecuado y con la marca de ejecutable. A partir de ese momento, será automáticamente lanzado cuando se dé la acción correspondiente. Vamos a ver la mayoría de nombres de puntos de enganche disponibles.
 
-### Client-Side Hooks ###
+### Puntos de enganche del lado cliente ###
 
-There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail–workflow scripts, and the rest of the client-side scripts.
+Hay muchos de ellos. En esta sección los dividiremos en puntos de enganche en el flujo de trabajo de confirmación de cambios, puntos en el flujo de trabajo de correo electrónico y resto de puntos de enganche del lado servidor. 
 
-#### Committing-Workflow Hooks ####
+#### Puntos en el flujo de trabajo de confirmación de cambios ####
 
-The first four hooks have to do with the committing process. The `pre-commit` hook is run first, before you even type in a commit message. It’s used to inspect the snapshot that’s about to be committed, to see if you’ve forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Exiting non-zero from this hook aborts the commit, although you can bypass it with `git commit --no-verify`. You can do things like check for code style (run lint or something equivalent), check for trailing whitespace (the default hook does exactly that), or check for appropriate documentation on new methods.
+Los primeros cuatro puntos de enganche están relacionados con el proceso de confirmación de cambios. Primero se activa el punto de enganche 'pre-commit', incluso antes de que teclees el mensaje de confirmación. Se suele utilizar para inspeccionar la instantánea (snapshot) que vas a confirmar, para ver si has olvidado algo, para asegurar que las pruebas se ejecutan, o para revisar cualquier aspecto que necesites inspeccionar en el codigo. Saliendo con un valor de retorno distinto de cero, se aborta la confirmación de cambios. Aunque siempre puedes saltartelo con la orden 'git commit --no-verify'. Puede ser util para realizar tareas tales como revisar el estilo del código (lanzando 'lint' o algo equivalente), revisar los espacios en blanco de relleno (el script de ejemplo hace exactamente eso), o revisar si todos los nuevos métodos llevan la adecuada documentación.
 
-The `prepare-commit-msg` hook is run before the commit message editor is fired up but after the default message is created. It lets you edit the default message before the commit author sees it. This hook takes a few options: the path to the file that holds the commit message so far, the type of commit, and the commit SHA-1 if this is an amended commit. This hook generally isn’t useful for normal commits; rather, it’s good for commits where the default message is auto-generated, such as templated commit messages, merge commits, squashed commits, and amended commits. You may use it in conjunction with a commit template to programmatically insert information.
+El punto de enganche 'prepare-commit-msg' se activa antes de arrancar el editor del mensaje de confirmación de cambios, pero después de crearse el mensaje por defecto. Te permite editar el mensaje por defecto, antes de que lo vea el autor de la confirmación de cambios. Este punto de enganche recibe varias entradas: la ubicación (path) del archivo temporal donde se almacena el mensaje de confirmación, el tipo de confirmación y la clave SHA-1 si estamos enmendando un commit existente. Este punto de enganche no tiene mucha utilidad para las confirmaciones de cambios normales; pero sí para las confirmaciones donde el mensaje por defecto es autogenerado, como en las confirmaciones de fusiones (merge), los mensajes con plantilla, las confirmaciones aplastadas (squash), o las confirmaciones de correccion (amend). Se puede utilizar combinandolo con una plantilla de confirmación, para poder insertar información automáticamente.
 
-The `commit-msg` hook takes one parameter, which again is the path to a temporary file that contains the current commit message. If this script exits non-zero, Git aborts the commit process, so you can use it to validate your project state or commit message before allowing a commit to go through. In the last section of this chapter, I’ll demonstrate using this hook to check that your commit message is conformant to a required pattern.
+El punto de enganche 'commit-msg' recibe un parámetro: la ubicación (path) del archivo temporal que contiene el mensaje de confirmación actual. Si este script termina con un código de salida distinto de cero, Git aborta el proceso de confirmación de cambios; permitiendo así validar el estado del proyecto o el mensaje de confirmación antes de permitir continuar. En la última parte de este capítulo, veremos cómo podemos utilizar este punto de enganche  para revisar si el mensaje de confirmación es conforme a un determinado patrón obligatorio.
 
-After the entire commit process is completed, the `post-commit` hook runs. It doesn’t take any parameters, but you can easily get the last commit by running `git log -1 HEAD`. Generally, this script is used for notification or something similar.
+Despues de completar todo el proceso de confirmación de cambios, es cuando se lanza el punto de enganche 'post-commit'. Este no recibe ningún parámetro, pero podemos obtener facilmente la última confirmación de cambios con el comando 'git log -1 HEAD'. Habitualmente, este script final se suele utilizar para realizar notificaciones o tareas similares.
 
-The committing-workflow client-side scripts can be used in just about any workflow. They’re often used to enforce certain policies, although it’s important to note that these scripts aren’t transferred during a clone. You can enforce policy on the server side to reject pushes of commits that don’t conform to some policy, but it’s entirely up to the developer to use these scripts on the client side. So, these are scripts to help developers, and they must be set up and maintained by them, although they can be overridden or modified by them at any time.
+Los scripts del lado cliente relacionados con la confirmación de cambios pueden ser utilizados en prácticamente cualquier flujo de trabajo. A menudo, se suelen utilizar para obligar a seguir ciertas reglas; aunque es importante indicar que estos script no se transfieren durante el clonado. Puedes implantar reglas en el lado servidor para rechazar envios (push) que no cumplan ciertos estandares, pero es completamente voluntario para los desarroladores el utilizar scripts en el lado cliente. Por tanto, estos scripts son para ayudar a los desarrolladores, y, como tales, han de ser configurados y mantenidos por ellos, pudiendo ser sobreescritos o modificados por ellos en cualquier momento.
 
-#### E-mail Workflow Hooks ####
+#### Puntos en el flujo de trabajo del correo electrónico ####
 
-You can set up three client-side hooks for an e-mail–based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
+Tienes disponibles tres puntos de enganche en el lado cliente para interactuar con el flujo de trabajo de correo electrónico. Todos ellos se invocan al utilizar el comando 'git am', por lo que si no utilizas dicho comando, puedes saltar directamente a la siguiente sección. Si recibes parches a través de corrreo-e preparados con 'git format-patch', es posible que parte de lo descrito en esta sección te pueda ser util.
 
-The first hook that is run is `applypatch-msg`. It takes a single argument: the name of the temporary file that contains the proposed commit message. Git aborts the patch if this script exits non-zero. You can use this to make sure a commit message is properly formatted or to normalize the message by having the script edit it in place.
+El primer punto de enganche que se activa es 'applypatch-msg'. Recibe un solo argumento: el nombre del archivo temporal que contiene el mensaje de confirmación propuesto. Git abortará la aplicación del parche si este script termina con un código de salida distinto de cero. Puedes utilizarlo para asegurarte de que el mensaje de confirmación esté correctamente formateado o para normalizar el mensaje permitiendo al script que lo edite sobre la marcha.
 
-The next hook to run when applying patches via `git am` is `pre-applypatch`. It takes no arguments and is run after the patch is applied, so you can use it to inspect the snapshot before making the commit. You can run tests or otherwise inspect the working tree with this script. If something is missing or the tests don’t pass, exiting non-zero also aborts the `git am` script without committing the patch.
+El siguiente punto de enganche que se activa al aplicar parches con 'git am' es el punto 'pre-applypatch'. No recibe ningún argumento de entrada y se lanza después de que el parche haya sido aplicado, por lo que puedes utilizarlo para revisar la situación (snapshot) antes de confirmarla. Con este script, puedes lanzar pruebas o similares para chequear el arbol de trabajo. Si falta algo o si alguna de las pruebas falla, saliendo con un código de salida distinto de cero abortará el comando 'git am' sin confirmar el parche.
 
-The last hook to run during a `git am` operation is `post-applypatch`. You can use it to notify a group or the author of the patch you pulled in that you’ve done so. You can’t stop the patching process with this script.
+El último punto de enganche que se activa durante una operación 'git am' es el punto 'post-applypatch'. Puedes utilizarlo para notificar de su aplicación al grupo o al autor del parche. No puedes detener el proceso de parcheo con este script.
 
-#### Other Client Hooks ####
+#### Otros puntos de enganche del lado cliente ####
 
-The `pre-rebase` hook runs before you rebase anything and can halt the process by exiting non-zero. You can use this hook to disallow rebasing any commits that have already been pushed. The example `pre-rebase` hook that Git installs does this, although it assumes that next is the name of the branch you publish. You’ll likely need to change that to whatever your stable, published branch is.
+El punto 'pre-rebase' se activa antes de cualquier reorganización y puede abortarla si retorna con un codigo de salida distinto de cero. Puedes usarlo para impedir reorganizaciones de cualquier confirmación de cambios ya enviada (push) a algún servidor.  El script de ejemplo para 'pre-rebase' hace precisamente eso, aunque asumiendo que 'next' es el nombre de la rama publicada. Si lo vas a utilizar, tendrás que modificarlo para que se ajuste al nombre que tenga tu rama publicada.
 
-After you run a successful `git checkout`, the `post-checkout` hook runs; you can use it to set up your working directory properly for your project environment. This may mean moving in large binary files that you don’t want source controlled, auto-generating documentation, or something along those lines.
+Tras completarse la ejecución de un comando 'git checkout', es cuando se activa el punto de enganche 'post-checkout. Lo puedes utilizar para ajustar tu carpeta de trabajo al entorno de tu proyecto. Entre otras cosas, puedes mover grandes archivos binarios de los que no quieras llevar control, puedes autogenerar documentación,.... 
 
-Finally, the `post-merge` hook runs after a successful `merge` command. You can use it to restore data in the working tree that Git can’t track, such as permissions data. This hook can likewise validate the presence of files external to Git control that you may want copied in when the working tree changes.
+Y, por último, el punto de enganche 'post-merge' se activa tras completarse la ejecución de un comando 'git merge'. Puedes utilizarlo para recuperar datos de tu carpeta de trabajo que Git no puede controlar, como por ejemplo datos relativos a permisos. Este punto de enganche puede utilizarse también para comprobar la presencia de ciertos archivos, externos al control de Git, que desees copiar cada vez que cambie la carpeta de trabajo.
 
-### Server-Side Hooks ###
+### Puntos de enganche del lado servidor ###
 
-In addition to the client-side hooks, you can use a couple of important server-side hooks as a system administrator to enforce nearly any kind of policy for your project. These scripts run before and after pushes to the server. The pre hooks can exit non-zero at any time to reject the push as well as print an error message back to the client; you can set up a push policy that’s as complex as you wish.
+Aparte de los puntos del lado cliente, como administrador de sistemas, puedes utilizar un par de puntos de enganche importantes en el lado servidor; para implementar prácticamente cualquier tipo de política que quieras mantener en tu proyecto. Estos scripts se lanzan antes y después de cada envio (push) al servidor. El script previo, puede terminar con un código de salida distinto de cero y abortar el envio, devolviendo el correspondiente mensaje de error al cliente. Este script puede implementar políticas de recepción tan complejas como desees.
 
-#### pre-receive and post-receive ####
+#### 'pre-receive' y 'post-receive' ####
 
-The first script to run when handling a push from a client is `pre-receive`. It takes a list of references that are being pushed from stdin; if it exits non-zero, none of them are accepted. You can use this hook to do things like make sure none of the updated references are non-fast-forwards; or to check that the user doing the pushing has create, delete, or push access or access to push updates to all the files they’re modifying with the push.
+El primer script que se activa al manejar un envio de un cliente es el correspondiente al punto de enganche 'pre-receive'. Recibe una lista de referencias que se están enviando (push) desde la entrada estandar (stdin); y, si termina con un codigo de salida distinto de cero, ninguna de ellas será aceptada. Puedes utilizar este punto de enganche para realizar tareas tales como la de comprobar que ninguna de las referencias actualizadas no son de avance directo (non-fast-forward); o para comprobar que el usuario que realiza el envio tiene realmente permisos para para crear, borrar o modificar cualquiera de los archivos que está tratando de cambiar.
 
-The `post-receive` hook runs after the entire process is completed and can be used to update other services or notify users. It takes the same stdin data as the `pre-receive` hook. Examples include e-mailing a list, notifying a continuous integration server, or updating a ticket-tracking system — you can even parse the commit messages to see if any tickets need to be opened, modified, or closed. This script can’t stop the push process, but the client doesn’t disconnect until it has completed; so, be careful when you try to do anything that may take a long time.
+El punto de enganche 'post-receive' se activa cuando termina todo el proceso, y se puede utilizar para actualizar otros servicios o para enviar notificaciones a otros usuarios. Recibe los mismos datos que 'pre-receive' desde la entrada estandar. Algunos ejemplos de posibles aplicaciones pueden ser la de alimentar una lista de correo-e, avisar a un servidor de integración continua, o actualizar un sistema de seguimiento de tickets de servicio --pudiendo incluso procesar el mensaje de confirmación para ver si hemos de abrir, modificar o dar por cerrado algún ticket--. Este script no puede detener el proceso de envio, pero el cliente no se desconecta hasta que no se completa su ejecución; por tanto, has de ser cuidadoso cuando intentes realizar con él tareas que puedan requerir mucho tiempo.
 
 #### update ####
 
-The update script is very similar to the `pre-receive` script, except that it’s run once for each branch the pusher is trying to update. If the pusher is trying to push to multiple branches, `pre-receive` runs only once, whereas update runs once per branch they’re pushing to. Instead of reading from stdin, this script takes three arguments: the name of the reference (branch), the SHA-1 that reference pointed to before the push, and the SHA-1 the user is trying to push. If the update script exits non-zero, only that reference is rejected; other references can still be updated.
+El punto de enganche 'update' es muy similar a 'pre-receive', pero con la diferencia de que se activa una vez por cada rama que se está intentando actualizar con el envio. Si la persona que realiza el envio intenta actualizar varias ramas, 'pre-receive' se ejecuta una sola vez, mientras que 'update' se ejecuta tantas veces como ramas se estén actualizando. El lugar de recibir datos desde la entrada estandar (stdin), este script recibe tres argumentos: el nombre de la rama, la clave SHA-1 a la que esta apuntada antes del envio, y la clave SHA-1 que el usuario está intentando enviar. Si el script 'update' termina con un código de salida distinto de cero, únicamente los cambios de esa rama son rechazados; el resto de ramas continuarán con sus actualizaciones.
 
-## An Example Git-Enforced Policy ##
+## Un ejemplo de implantación de una determinada política en Git ##
 
-In this section, you’ll use what you’ve learned to establish a Git workflow that checks for a custom commit message format, enforces fast-forward-only pushes, and allows only certain users to modify certain subdirectories in a project. You’ll build client scripts that help the developer know if their push will be rejected and server scripts that actually enforce the policies.
+En esta sección, utilizarás lo aprendido para establecer un flujo de trabajo en Git que: compruebe si los mensajes de confirmación de cambios encajan en un determinado formato, obligue a realizar solo envios de avance directo, y permita solo a ciertos usuarios modificar ciertas carpetas del proyecto. Para ello, has de preparar los correspondientes scripts de cliente (para ayudar a los desarrolladores a saber de antemano si sus envios van a ser rechazados o no), y los correspondientes scripts de servidor (para obligar a cumplir esas políticas).
 
-I used Ruby to write these, both because it’s my preferred scripting language and because I feel it’s the most pseudocode-looking of the scripting languages; thus you should be able to roughly follow the code even if you don’t use Ruby. However, any language will work fine. All the sample hook scripts distributed with Git are in either Perl or Bash scripting, so you can also see plenty of examples of hooks in those languages by looking at the samples.
+He usado Ruby para escribir los ejemplos, tanto porque es mi lenguaje preferido de scripting y porque creo que es el más parecido a pseudocódigo; de tal forma que puedas ser capaz de seguir el código, incluso si no conoces Ruby. Pero, puede ser igualmente válido cualquier otro lenguaje. Todos los script de ejemplo que vienen de serie con Git están escritos en Perl o en Bash shell, por lo que tienes bastantes ejemplos en esos lenguajes de scripting.
 
-### Server-Side Hook ###
+### Punto de enganche en el lado servidor ###
 
-All the server-side work will go into the update file in your hooks directory. The update file runs once per branch being pushed and takes the reference being pushed to, the old revision where that branch was, and the new revision being pushed. You also have access to the user doing the pushing if the push is being run over SSH. If you’ve allowed everyone to connect with a single user (like "git") via public-key authentication, you may have to give that user a shell wrapper that determines which user is connecting based on the public key, and set an environment variable specifying that user. Here I assume the connecting user is in the `$USER` environment variable, so your update script begins by gathering all the information you need:
+Todo el trabajo del lado servidor va en el script 'update' de la carpeta 'hooks'. El script 'update' se lanza una vez por cada rama que se envia (push) al servidor; y recibe la referencia de la rama a la que se envia, la antigua revisión en que estaba la rama y la nueva revisión que se está enviando. También puedes tener acceso al usuario que está enviando, si este los envia a través de SSH. Si has permitido a cualquiera conectarse con un mismo usuario (como "git", por ejemplo), has tenido que dar a dicho usuario una envoltura (shell wraper) que te permite determinar cual es el usuario que se conecta según sea su clave pública, permitiendote fijar una variable de entorno especificando dicho usuario. Aqui, asumiremos que el usuario conectado queda reflejado en la variable de entorno '$USER', de tal forma que el script 'update' comienza recogiendo toda la información que necesitas:
 
-	#!/usr/bin/env ruby
+	#!/usr/bin/env ruby#!/usr/bin/env ruby#!/usr/bin/env ruby
 
 	$refname = ARGV[0]
 	$oldrev  = ARGV[1]
@@ -555,13 +555,13 @@ All the server-side work will go into the update file in your hooks directory. T
 
 	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
 
-Yes, I’m using global variables. Don’t judge me — it’s easier to demonstrate in this manner.
+Sí, estoy usando variables globales. No me juzgues por ello, --es más sencillo mostrarlo de esta manera--.
 
-#### Enforcing a Specific Commit-Message Format ####
+#### Obligando a utilizar un formato específico en el mensaje de confirmación de cambios ####
 
-Your first challenge is to enforce that each commit message must adhere to a particular format. Just to have a target, assume that each message has to include a string that looks like "ref: 1234" because you want each commit to link to a work item in your ticketing system. You must look at each commit being pushed up, see if that string is in the commit message, and, if the string is absent from any of the commits, exit non-zero so the push is rejected.
+Tu primer reto es asegurarte que todos y cada uno de los mensajes de confirmación de cambios se ajustan a un determinado formato. Simplemente por fijar algo concreto, supongamos que cada mensaje ha de incluir un texto tal como "ref: 1234", porque quieres enlazar cada confirmación de cambios con una determinada entrada de trabajo en un sistema de control. Has de mirar en cada confirmación de cambios (commit) recibida, para ver si contiene ese texto; y, si no lo trae, salir con un código distinto de cero, de tal forma que el envio (push) sea rechazado.
 
-You can get a list of the SHA-1 values of all the commits that are being pushed by taking the `$newrev` and `$oldrev` values and passing them to a Git plumbing command called `git rev-list`. This is basically the `git log` command, but by default it prints out only the SHA-1 values and no other information. So, to get a list of all the commit SHAs introduced between one commit SHA and another, you can run something like this:
+Puedes obtener la lista de las claves SHA-1 de todos las confirmaciones de cambios enviadas cogiendo los valores de '$newrev' y de '$oldrev', y pasandolos a comando de mantenimiento de Git llamado 'git rev-list'. Este comando es básicamente el mismo que 'git log', pero por defecto, imprime solo los valores SHA-1 y nada más. Con él, puedes obtener la lista de todas las claves SHA que se han introducido entre una clave SHA y otra clave SHA dadas; obtendrás algo así como esto:
 
 	$ git rev-list 538c33..d14fc7
 	d14fc7c847ab946ec39590d87783c69b031bdfb7
@@ -570,9 +570,9 @@ You can get a list of the SHA-1 values of all the commits that are being pushed 
 	dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
 	17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475
 
-You can take that output, loop through each of those commit SHAs, grab the message for it, and test that message against a regular expression that looks for a pattern.
+Puedes coger esta salida, establecer un bucle para recorrer cada una de esas confirmaciones de cambios, coger el mensaje de cada una y comprobarlo contra una expresión regular de búsqueda del patrón deseado.
 
-You have to figure out how to get the commit message from each of these commits to test. To get the raw commit data, you can use another plumbing command called `git cat-file`. I’ll go over all these plumbing commands in detail in Chapter 9; but for now, here’s what that command gives you:
+Tienes que imaginarte cómo puedes obtener el mensaj ede cada una de esas confirmaciones de cambios a comprobar. Para obtener los datos "en crudo"  de una confirmación de cambios, puedes utilizar otro comando de mantenimiento de Git denominado 'git cat-file'. En el capítulo 9 volveremos en detalle sobre estos comandos de mantenimiento; pero, por ahora, esto es lo que obtienes con dicho comando:
 
 	$ git cat-file commit ca82a6
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -582,14 +582,14 @@ You have to figure out how to get the commit message from each of these commits 
 
 	changed the version number
 
-A simple way to get the commit message from a commit when you have the SHA-1 value is to go to the first blank line and take everything after that. You can do so with the `sed` command on Unix systems:
+Una vía sencilla para obtener el mensaje, es la de ir hasta la primera línea en blanco y luego coger todo lo que siga a esta. En los sistemas Unix, lo puedes realizar con el comando 'sed':
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
 	changed the version number
 
-You can use that incantation to grab the commit message from each commit that is trying to be pushed and exit if you see anything that doesn’t match. To exit the script and reject the push, exit non-zero. The whole method looks like this:
+Puedes usar este "hechizo mágico" para coger el mensaje de cada confirmación de cambios que se está enviando y salir si localizas algo que no cuadra en alguno de ellos. Para salir del script y rechazar el envio, recuerda que debes salir con un código distinto de cero. El método completo será algo así como:
 
-	$regex = /\[ref: (\d+)\]/
+	$regex = /\[ref: (\d+)\]/$regex = /\[ref: (\d+)\]/
 
 	# enforced custom commit message format
 	def check_message_format
@@ -604,22 +604,22 @@ You can use that incantation to grab the commit message from each commit that is
 	end
 	check_message_format
 
-Putting that in your `update` script will reject updates that contain commits that have messages that don’t adhere to your rule.
+Poniendo esto en tu script 'update', serán rechazadas todas las actualizaciones que contengan cambios con mensajes que no se ajusten a tus reglas.
 
-#### Enforcing a User-Based ACL System ####
+#### Implementando un sistema de control de accesos basado en usuario ####
 
-Suppose you want to add a mechanism that uses an access control list (ACL) that specifies which users are allowed to push changes to which parts of your projects. Some people have full access, and others only have access to push changes to certain subdirectories or specific files. To enforce this, you’ll write those rules to a file named `acl` that lives in your bare Git repository on the server. You’ll have the `update` hook look at those rules, see what files are being introduced for all the commits being pushed, and determine whether the user doing the push has access to update all those files.
+Imaginemos que deseas implementar un sistema de control de accesos (Access Control List, ACL). Para vigilar qué usuarios pueden enviar (push) cambios a qué partes de tus proyectos. Algunas personas tendrán acceso completo, y otras tan solo acceso a ciertas carpetas o a ciertos archivos. Para implementar esto, has de escribir esas reglas de acceso en un archivo denominado 'acl' ubicado en tu repositorio git básico en el servidor. Y tienes que preparar el enganche 'update' para hacerle consultar esas reglas, mirar los archivos que están siendo subidos en las confirmaciones de cambio (commit) enviadas (push), y determinar así si el usuario emisor del  envio tiene o no permiso para actualizar esos archivos.
 
-The first thing you’ll do is write your ACL. Here you’ll use a format very much like the CVS ACL mechanism: it uses a series of lines, where the first field is `avail` or `unavail`, the next field is a comma-delimited list of the users to which the rule applies, and the last field is the path to which the rule applies (blank meaning open access). All of these fields are delimited by a pipe (`|`) character.
+Como hemos dicho, el primer paso es escribir tu lista de control de accesos (ACL). Su formato es muy parecido al del mecanismo CVS ACL: utiliza una serie de líneas donde el primer campo es 'avail' o 'unavail' (permitido o no permitido), el segundo campo es una lista de usuarios separados por comas, y el último campo es la ubicación (path) sobre el que aplicar la regla (dejarlo en blanco equivale a un acceso abierto). Cada uno de esos campos se separan entre sí con el caracter barra vertical ('|').
 
-In this case, you have a couple of administrators, some documentation writers with access to the `doc` directory, and one developer who only has access to the `lib` and `tests` directories, and your ACL file looks like this:
+Por ejemplo, si tienes un par de administradores, algunos redactores técnicos con acceso a la carpeta 'doc', y un desarrollador que únicamente accede a las carpetas 'lib' y 'test', el archivo ACL resultante seria:
 
 	avail|nickh,pjhyett,defunkt,tpw
 	avail|usinclair,cdickens,ebronte|doc
 	avail|schacon|lib
 	avail|schacon|tests
 
-You begin by reading this data into a structure that you can use. In this case, to keep the example simple, you’ll only enforce the `avail` directives. Here is a method that gives you an associative array where the key is the user name and the value is an array of paths to which the user has write access:
+Para implementarlo, hemos de leer previamente estos datos en una estructura que podamos emplear. En este caso, por razones de simplicidad, vamos a mostrar únicamente la forma de implementar las directivas 'avail' (permitir). Este es un método que te devuelve un array asociativo cuya clave es el nombre del usuario y su valor es un array de ubicaciones (paths) donde ese usuario tiene acceso de escritura:
 
 	def get_acl_access_data(acl_file)
 	  # read in ACL data
@@ -636,7 +636,7 @@ You begin by reading this data into a structure that you can use. In this case, 
 	  access
 	end
 
-On the ACL file you looked at earlier, this `get_acl_access_data` method returns a data structure that looks like this:
+Si lo aplicamos sobre la lista ACL descrita anteriormente, este método 'get acl access_data' devolverá una estructura de datos similar a esta:
 
 	{"defunkt"=>[nil],
 	 "tpw"=>[nil],
@@ -647,16 +647,16 @@ On the ACL file you looked at earlier, this `get_acl_access_data` method returns
 	 "usinclair"=>["doc"],
 	 "ebronte"=>["doc"]}
 
-Now that you have the permissions sorted out, you need to determine what paths the commits being pushed have modified, so you can make sure the user who’s pushing has access to all of them.
+Una vez tienes los permisos en orden, necesitas averiguar las ubicaciones modificadas por las confirmaciones de cambios enviadas; de tal forma que puedas asegurarte de que el usuario que las está enviando tiene realmente permiso para modificarlas.
 
-You can pretty easily see what files have been modified in a single commit with the `--name-only` option to the `git log` command (mentioned briefly in Chapter 2):
+Puedes comprobar facilmente qué archivos han sido modificados en cada confirmación de cambios, utilizando la opción '--name-only' del comando 'git log' (citado brevemente en el capítulo 2):
 
 	$ git log -1 --name-only --pretty=format:'' 9f585d
 
 	README
 	lib/test.rb
 
-If you use the ACL structure returned from the `get_acl_access_data` method and check it against the listed files in each of the commits, you can determine whether the user has access to push all of their commits:
+Utilizando la estructura ACL devuelta por el método 'get_acl_access_data' y comprobandola sobre la lista de archivos de cada confirmación de cambios, puedes determinar si el usuario tiene o no permiso para enviar dichos cambios:
 
 	# only allows certain users to modify certain subdirectories in a project
 	def check_directory_perms
@@ -683,17 +683,17 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 	  end  
 	end
 
-	check_directory_perms
+	check_directory_permscheck_directory_perms
 
-Most of that should be easy to follow. You get a list of new commits being pushed to your server with `git rev-list`. Then, for each of those, you find which files are modified and make sure the user who’s pushing has access to all the paths being modified. One Rubyism that may not be clear is `path.index(access_path) == 0`, which is true if path begins with `access_path` — this ensures that `access_path` is not just in one of the allowed paths, but an allowed path begins with each accessed path. 
+La mayor parte de este código debería de ser sencillo de leer. Con 'git rev-list', obtienes una lista de las nuevas confirmaciones de cambio enviadas a tu servidor. Luego, para cada una de ellas, localizas los archivos modificados y te aseguras de que el usuario que las envia tiene realmente acceso a todas las ubicaciones que pretende modificar. Un "rubysmo" que posiblemente sea un tanto oscuro puede ser 'path.index(access_path) == 0' . Simplemente devuelve verdadero en el caso de que la ubicacion comience por 'access_path' ; de esta forma, nos aseguramos de que 'access_path' no esté solo contenido en una de las ubicaciones permitidas, sino sea una ubicación permitida la que comience con la ubicación accedida. 
 
-Now your users can’t push any commits with badly formed messages or with modified files outside of their designated paths.
+Una vez implementado todo esto, tus usuarios no podrán enviar confirmaciones de cambios con mensajes mal formados o con modificaciones sobre archivos fuera de las ubicaciones que les hayas designado.
 
-#### Enforcing Fast-Forward-Only Pushes ####
+#### Obligando a realizar envios solo-de-avance-rapido (Fast-Forward-Only pushes) ####
 
-The only thing left is to enforce fast-forward-only pushes. In Git versions 1.6 or newer, you can set the `receive.denyDeletes` and `receive.denyNonFastForwards` settings. But enforcing this with a hook will work in older versions of Git, and you can modify it to do so only for certain users or whatever else you come up with later.
+Lo único que nos queda por implementar es un mecanismo para limitar los envios a envios de avance rápido (Fast-Forward-Only pushes). En las versiones a partir de la 1.6, puedes ajustar las opciones 'receive.denyDeletes' (prohibir borrados) y 'receive.denyNonFastForwards' (prohibir envios que no sean avances-rápidos). Pero haciendolo a través de un enganche (hook), podrá funcionar también en versiones anteriores de Git, podrás modificarlo para que actue únicamente sobre ciertos usuarios, o podrás realizar cualquier otra acción que estimes oportuna.
 
-The logic for checking this is to see if any commits are reachable from the older revision that aren’t reachable from the newer one. If there are none, then it was a fast-forward push; otherwise, you deny it:
+La lógica para hacer así la comprobación es la de mirar por si alguna confirmación de cambios se puede alcanzar desde la versión más antigua pero no desde la más reciente. Si hay alguna, entonces es un envio de avance-rápido (fast-forward push); sino hay ninguna, es un envio a prohibir:
 
 	# enforces fast-forward only pushes 
 	def check_fast_forward
@@ -707,7 +707,7 @@ The logic for checking this is to see if any commits are reachable from the olde
 
 	check_fast_forward
 
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file you into which you should have put all this code, and then try to push a non-fast-forwarded reference, you get something like this:
+Una vez esté todo listo. Si lanzas el comando 'chmod u+x .git/hooks/update', siendo este el archivo donde has puesto todo este código; y luego intentas enviar una referencia que no sea de avance-rápido, obtendrás algo como esto:
 
 	$ git push -f origin master
 	Counting objects: 5, done.
@@ -722,72 +722,74 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
 	 ! [remote rejected] master -> master (hook declined)
+	error: failed to push some refs to 'git@gitserver:project.git'[remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-There are a couple of interesting things here. First, you see this where the hook starts running.
+Tenemos un para de aspectos interesantes aquí. Lo primero observado cuando el enganche (hook) arranca es:
 
 	Enforcing Policies... 
 	(refs/heads/master) (fb8c72) (c56860)
 
-Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
+Precisamente, lo enviado a la salida estandar stdout justo al principio del script de actualización. Cabe destacar que todo lo que se envie a la salida estandar stdout, será transferido al cliente.
 
-The next thing you’ll notice is the error message.
+Lo segundo que se puede apreciar es el mensaje de error:
 
 	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 
-The first line was printed out by you, the other two were Git telling you that the update script exited non-zero and that is what is declining your push. Lastly, you have this:
+La primera línea la has enviado tú, pero las otras dos son de Git. Indicando que el script de actualización ha terminado con código no-cero y, por tanto, ha rechazado la modificación. Y, por último, se ve:
 
 	To git@gitserver:project.git
 	 ! [remote rejected] master -> master (hook declined)
+	error: failed to push some refs to 'git@gitserver:project.git'[remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-You’ll see a remote rejected message for each reference that your hook declined, and it tells you that it was declined specifically because of a hook failure.
+Un mensaje por cada referencia rechazada por el enganche (hook) de actualización, especificando que ha sido rechazada precisamente por un fallo en el enganche.
 
-Furthermore, if the ref marker isn’t there in any of your commits, you’ll see the error message you’re printing out for that.
+Es más, si la referencia (ref marker) no se encuentra presente para alguna de las confirmaciones de cambio, verás el mensaje de error previsto para ello:
 
 	[POLICY] Your message is not formatted correctly
 
-Or if someone tries to edit a file they don’t have access to and push a commit containing it, they will see something similar. For instance, if a documentation author tries to push a commit modifying something in the `lib` directory, they see
+O si alguien intenta editar un archivo sobre el que no tiene acceso y luego envia una confirmación de cambios con ello, verá también algo similar. Por ejemplo, si un editor técnico intenta enviar una confirmación de cambios donde se haya modificado algo de la carpeta 'lib', verá:
 
 	[POLICY] You do not have access to push to lib/test.rb
 
-Y eso es todo. From now on, as long as that `update` script is there and executable, your repository will never be rewound and will never have a commit message without your pattern in it, and your users will be sandboxed.
+Y eso es todo. De ahora en adelante, en tanto en cuando el script 'update' este presente y sea ejecutable, tu repositorio nunca se verá perjudicado, nunca tendrá un mensaje de confirmación de cambios sin tu plantilla y tus usuarios estarán controlados.
 
-### Client-Side Hooks ###
+### Puntos de enganche del lado cliente ###
 
-The downside to this approach is the whining that will inevitably result when your users’ commit pushes are rejected. Having their carefully crafted work rejected at the last minute can be extremely frustrating and confusing; and furthermore, they will have to edit their history to correct it, which isn’t always for the faint of heart.
+Lo malo del sistema descrito en la sección anterior pueden ser los lamentos que inevitablemente se van a producir cuando los envios de tus usuarios sean rechazados. Ver rechazado en el último minuto su tan cuidadosamente preparado trabajo, puede ser realmente frustrante. Y, aún peor, tener que reescribir su histórico para corregirlo puede ser un auténtico calvario.
 
-The answer to this dilemma is to provide some client-side hooks that users can use to notify them when they’re doing something that the server is likely to reject. That way, they can correct any problems before committing and before those issues become more difficult to fix. Because hooks aren’t transferred with a clone of a project, you must distribute these scripts some other way and then have your users copy them to their `.git/hooks` directory and make them executable. You can distribute these hooks within the project or in a separate project, but there is no way to set them up automatically.
+La solución a este dilema es el proporcionarles algunos enganches (hook) del lado cliente, para que les avisen cuando están trabajando en algo que el servidor va a rechazarles. De esta forma, pueden corregir los problemas antes de confirmar cambios y antes de que se conviertan en algo realmente complicado de arreglar. Debido a que estos enganches no se transfieren junto con el clonado de un proyecto, tendrás que distribuirlos de alguna otra manera. Y luego pedir a tus usuarios que se los copien a sus carpetas '.git/hooks' y los hagan ejecutables. Puedes distribuir esos enganches dentro del mismo proyecto o en un proyecto separado. Pero no hay modo de implementarlos automáticamente.
 
-To begin, you should check your commit message just before each commit is recorded, so you know the server won’t reject your changes due to badly formatted commit messages. To do this, you can add the `commit-msg` hook. If you have it read the message from the file passed as the first argument and compare that to the pattern, you can force Git to abort the commit if there is no match:
+Para empezar, se necesita chequear el mensaje de confirmación inmediatamente antes de cada confirmación de cambios, para segurarse de que el servidor no los rechazará debido a un mensaje mal formateado. Para ello, se añade el enganche 'commit-msg'. Comparando el mensaje del archivo pasado como primer argumento con el mensaje patrón, puedes obligar a Git a abortar la confirmación de cambios (commit) en caso de no coincidir ambos:
 
 	#!/usr/bin/env ruby
 	message_file = ARGV[0]
 	message = File.read(message_file)
 
-	$regex = /\[ref: (\d+)\]/
+	$regex = /\[ref: (\d+)\]/$regex = /\[ref: (\d+)\]/
 
 	if !$regex.match(message)
 	  puts "[POLICY] Your message is not formatted correctly"
 	  exit 1
 	end
 
-If that script is in place (in `.git/hooks/commit-msg`) and executable, and you commit with a message that isn’t properly formatted, you see this:
+Si este script está en su sitio (el archivo '.git/hooks/commit-msg') y es ejecutable, al confirmar cambios con un mensaje inapropiado, verás algo asi como:
 
 	$ git commit -am 'test'
 	[POLICY] Your message is not formatted correctly
 
-No commit was completed in that instance. However, if your message contains the proper pattern, Git allows you to commit:
+Y la confirmación no se llevará a cabo. Sin embargo, si el mensaje está formateado adecuadamente, Git te permitirá confirmar cambios:
 
 	$ git commit -am 'test [ref: 132]'
 	[master e05c914] test [ref: 132]
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Next, you want to make sure you aren’t modifying files that are outside your ACL scope. If your project’s `.git` directory contains a copy of the ACL file you used previously, then the following `pre-commit` script will enforce those constraints for you:
+A continuación, se necesita también asegurarse de no estar modificando archivos fuera del alcance de tus permisos. Si la carpeta '.git' de tu proyecto contiene una copia del archivo de control de accesos (ACL) utilizada previamente, este script 'pre-commit' podrá comprobar los límites:
 
-	#!/usr/bin/env ruby
+	#!/usr/bin/env ruby#!/usr/bin/env ruby#!/usr/bin/env ruby
 
 	$user    = ENV['USER']
 
@@ -812,33 +814,33 @@ Next, you want to make sure you aren’t modifying files that are outside your A
 	  end
 	end
 
-	check_directory_perms
+	check_directory_permscheck_directory_perms
 
-This is roughly the same script as the server-side part, but with two important differences. First, the ACL file is in a different place, because this script runs from your working directory, not from your Git directory. You have to change the path to the ACL file from this
+Este es un script prácticamente igual al del lado servidor. Pero con dos importantes diferencias. La primera es que el archivo ACL está en otra ubicación, debido a que el script corre desde tu carpeta de trabajo y no desde la carpeta de Git. Esto obliga a cambiar la ubicación del archivo ACL de
 
 	access = get_acl_access_data('acl')
 
-to this:
+a 
 
 	access = get_acl_access_data('.git/acl')
 
-The other important difference is the way you get a listing of the files that have been changed. Because the server-side method looks at the log of commits, and, at this point, the commit hasn’t been recorded yet, you must get your file listing from the staging area instead. Instead of
+La segunda diferencia es la forma de listar los archivos modificados. Debido a que el metodo del lado servidor utiliza el registro de confirmaciones de cambio, pero, sin embargo, aquí la confirmación no se ha registrado aún, la lista de archivos se ha de obtener desde el área de preparación (staging area). En lugar de 
 
 	files_modified = `git log -1 --name-only --pretty=format:'' #{ref}`
 
-you have to use
+tenemos que utilizar 
 
 	files_modified = `git diff-index --cached --name-only HEAD`
 
-But those are the only two differences — otherwise, the script works the same way. One caveat is that it expects you to be running locally as the same user you push as to the remote machine. If that is different, you must set the `$user` variable manually.
+Estas dos son las únicas diferencias; en todo lo demás, el script funciona de la misma manera. Es necesario advertir de que se espera que trabajes localmente con el mismo usuario con el que enviarás (push) a la máquina remota. Si no fuera así, tendrás que ajustar manualmente la variable '$user'.
 
-The last thing you have to do is check that you’re not trying to push non-fast-forwarded references, but that is a bit less common. To get a reference that isn’t a fast-forward, you either have to rebase past a commit you’ve already pushed up or try pushing a different local branch up to the same remote branch.
+El último aspecto a comprobar es el de no intentar enviar referencias que no sean de avance-rápido. Pero esto es algo más raro que suceda. Para tener una referencia que no sea de avance-rápido, tienes que haber reorganizado (rebase) una confirmación de cambios (commit) ya enviada anteriormente, o tienes que estar tratando de enviar una rama local distinta sobre la misma rama remota.
 
-Because the server will tell you that you can’t push a non-fast-forward anyway, and the hook prevents forced pushes, the only accidental thing you can try to catch is rebasing commits that have already been pushed.
+De todas formas, el único aspecto accidental que puede interesante capturar son los intentos de reorganizar confirmaciones de cambios ya enviadas. El servidor te avisará de que no puedes enviar ningún no-avance-rapido, y el enganche te impedirá cualquier envio forzado
 
-Here is an example pre-rebase script that checks for that. It gets a list of all the commits you’re about to rewrite and checks whether they exist in any of your remote references. If it sees one that is reachable from one of your remote references, it aborts the rebase:
+Este es un ejemplo de script previo a reorganización que lo puede comprobar. Con la lista de confirmaciones de cambio que estás a punto de reescribir, las comprueba por si alguna de ellas existe en alguna de tus referencias remotas. Si encuentra alguna, aborta la reorganización:
 
-	#!/usr/bin/env ruby
+	#!/usr/bin/env ruby#!/usr/bin/env ruby#!/usr/bin/env ruby
 
 	base_branch = ARGV[0]
 	if ARGV[1]
@@ -860,14 +862,14 @@ Here is an example pre-rebase script that checks for that. It gets a list of all
 	  end
 	end
 
-This script uses a syntax that wasn’t covered in the Revision Selection section of Chapter 6. You get a list of commits that have already been pushed up by running this:
+Este script utiliza una sintaxis no contemplada en la sección de Selección de Revisiones del capítulo 6. La lista de confirmaciones de cambio previamente enviadas, se comprueba con:
 
 	git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 
-The `SHA^@` syntax resolves to all the parents of that commit. You’re looking for any commit that is reachable from the last commit on the remote and that isn’t reachable from any parent of any of the SHAs you’re trying to push up — meaning it’s a fast-forward.
+La sintaxis 'SHA^@' recupera todos los padres de esa confirmación de cambios (commit). Estas mirando por cualquier confirmación que se pueda alcanzar desde la última en la parte remota, pero que no se pueda alcanzar desde ninguno de los padres de cualquiera de las claves SHA que estás intentando enviar. Es decir, confirmaciones de avance-rápido.
 
-The main drawback to this approach is that it can be very slow and is often unnecessary — if you don’t try to force the push with `-f`, the server will warn you and not accept the push. However, it’s an interesting exercise and can in theory help you avoid a rebase that you might later have to go back and fix.
+La mayor pega de este sistema es el que puede llegar a ser muy lento; y muchas veces es innecesario, ya que el propio servidor te va a avisar y te impedirá el envio, siempre y cuando no intentes forzar dicho envio con la opción '-f'. De todas formas, es un ejercicio interesante. Y, en teoria al menos, pude ayudarte a evitar reorganizaciones que luego tengas de hechar para atras y arreglarlas.
 
 ## Recapitulación ##
 
-You’ve covered most of the major ways that you can customize your Git client and server to best fit your workflow and projects. You’ve learned about all sorts of configuration settings, file-based attributes, and event hooks, and you’ve built an example policy-enforcing server. You should now be able to make Git fit nearly any workflow you can dream up.
+Se han visto las principales vías por donde puedes personalizar tanto tu cliente como tu servidor Git para que se ajusten a tu forma de trabajar y a tus proyectos. Has aprendido todo tipo de ajustes de configuración, atributos basados en archivos e incluso enganches (hooks). Y has preparado un ejemplo de servidor con mecanismos para asegurar políticas determinadas. A partir de ahora estás listo para encajar Git en prácticamente cualquier flujo de trabajo que puedas imaginar.

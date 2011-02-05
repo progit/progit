@@ -1,41 +1,57 @@
-# Customizing Git #
+# Personnaliser Git #
 
-So far, I’ve covered the basics of how Git works and how to use it, and I’ve introduced a number of tools that Git provides to help you use it easily and efficiently. In this chapter, I’ll go through some operations that you can use to make Git operate in a more customized fashion by introducing several important configuration settings and the hooks system. With these tools, it’s easy to get Git to work exactly the way you, your company, or your group needs it to.
+Jusqu'ici, nous avons traité les bases du fonctionnement et de l'utilisation de Git et introduit un certain nombre d'outils fournis par Git pour travailler plus facilement et plus efficacement.
+Dans ce chapitre, nous traiterons quelques opérations permettant d'utiliser Git de manière plus personnalisée en vous présentant quelques paramètres de configuration importants et le système d'interceptions.
+Grâce à ces outils, il devient enfantin de faire fonctionner Git exactement comme vous, votre société ou votre communauté en avez besoin.
 
-## Git Configuration ##
+## La configuration de Git ##
 
-As you briefly saw in the Chapter 1, you can specify Git configuration settings with the `git config` command. One of the first things you did was set up your name and e-mail address:
+Comme vous avez pu l'entrevoir au Chapitre 1, vous pouvez spécifier les paramètres de configuration de Git avec la commande `git config`.
+Une des premières choses que vous avez faites a été de paramétrer votre nom et votre adresse e-mail :
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Now you’ll learn a few of the more interesting options that you can set in this manner to customize your Git usage.
+À présent, vous allez apprendre quelques unes des options similaires les plus intéressantes pour paramétrer votre usage de Git.
 
-You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically. 
+Vous avez vu des détails de configuration simple de Git dans le premier chapitre, mais nous allons les réviser.
+Git utilise une série de fichiers de configuration pour déterminer son comportement selon votre personnalisation.
+Le premier endroit que Git visite est le fichier `/etc/gitconfig` qui contient des valeurs pour tous les utilisateurs du système et tous leurs dépôts.
+Si vous passez l'option `--system` à `git config`, il lit et écrit ce fichier.
 
-The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option. 
+L'endroit suivant visité par Git est le fichier `~/.gitconfig` qui est spécifique à chaque utilisateur.
+Vous pouvez faire lire et écrire Git dans ce fichier au moyen de l'option `--global`.
 
-Finally, Git looks for configuration values in the config file in the Git directory (`.git/config`) of whatever repository you’re currently using. These values are specific to that single repository. Each level overwrites values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`, for instance. You can also set these values by manually editing the file and inserting the correct syntax, but it’s generally easier to run the `git config` command.
+Enfin, Git recherche des valeurs de configuration dans le fichier de configuration du répertoire Git (`.git/config`) du dépôt en cours d'utilisation.
+Ces valeurs sont spécifiques à un unique dépôt.
+Chaque niveau surcharge le niveau précédent, ce qui signifie que les valeurs dans `.git/config` écrasent celles dans `/etc/gitconfig`.
+Vous pouvez positionner ces valeurs manuellement en éditant le fichier et en utilisant la syntaxe correcte, mais il reste généralement plus facile de lancer la commande `git config`.
 
-### Basic Client Configuration ###
+### Configuration de base d'un client ###
 
-The configuration options recognized by Git fall into two categories: client side and server side. The majority of the options are client side—configuring your personal working preferences. Although tons of options are available, I’ll only cover the few that either are commonly used or can significantly affect your workflow. Many options are useful only in edge cases that I won’t go over here. If you want to see a list of all the options your version of Git recognizes, you can run
+Les options de configuration reconnues par Git tombent dans deux catégories : côté client et côté serveur.
+La grande majorité se situe côté client pour coller à vos préférences personnelles de travail.
+Parmi les tonnes d'options disponibles, seules les plus communes ou affectant significativement la manière de travailler seront traitées.
+De nombreuses options ne s'avèrent utiles que sur des cas rares et ne seront pas traitées.
+Pour voir la liste des toutes les options que votre version de Git reconnaît, vous pouvez lancer :
 
 	$ git config --help
 
-The manual page for `git config` lists all the available options in quite a bit of detail.
+La page de manuel pour `git config` liste aussi les options disponibles avec un bon niveau de détail.
 
 #### core.editor ####
 
-By default, Git uses whatever you’ve set as your default text editor or else falls back to the Vi editor to create and edit your commit and tag messages. To change that default to something else, you can use the `core.editor` setting:
+Par défaut, Git utilise votre éditeur par défaut ou se replie sur l'éditeur Vi pour la création et l'édition des messages de validation et de balisage.
+Pour modifier ce comportement par défaut pour un autre, vous pouvez utiliser le paramètre `core.editor` :
 
 	$ git config --global core.editor emacs
 
-Now, no matter what is set as your default shell editor variable, Git will fire up Emacs to edit messages.
+Maintenant, quelque soit votre éditeur par défaut, Git démarrera Emacs pour éditer les messages.
 
 #### commit.template ####
 
-If you set this to the path of a file on your system, Git will use that file as the default message when you commit. For instance, suppose you create a template file at `$HOME/.gitmessage.txt` that looks like this:
+Si vous réglez ceci sur le chemin d'un fichier sur votre système, Git utilisera ce fichier comme message par défaut quand vous validez.
+Par exemple, supposons que vous créez un fichier modèle dans `$HOME/.gitmessage.txt` qui ressemble à ceci :
 
 	subject line
 
@@ -43,12 +59,12 @@ If you set this to the path of a file on your system, Git will use that file as 
 
 	[ticket: X]
 
-To tell Git to use it as the default message that appears in your editor when you run `git commit`, set the `commit.template` configuration value:
+Pour indiquer à Git de l'utiliser pour le message par défaut qui apparaîtra dans votre éditeur quand vous lancerez `git commit`, réglez le paramètre de configuration `commit.template` :
 
 	$ git config --global commit.template $HOME/.gitmessage.txt
 	$ git commit
 
-Then, your editor will open to something like this for your placeholder commit message when you commit:
+Ainsi, votre éditeur ouvrira quelque chose ressemblant à ceci comme modèle de message de validation :
 
 	subject line
 
@@ -67,33 +83,38 @@ Then, your editor will open to something like this for your placeholder commit m
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-If you have a commit-message policy in place, then putting a template for that policy on your system and configuring Git to use it by default can help increase the chance of that policy being followed regularly.
+Si vous avez une règle de messages de validation, placer un modèle de cette règle sur votre système et configurer Git pour qu'il l'utiliser par défaut améliorera les chances que cette règle soit effectivement suivie.
 
 #### core.pager ####
 
-The core.pager setting determines what pager is used when Git pages output such as `log` and `diff`. You can set it to `more` or to your favorite pager (by default, it’s `less`), or you can turn it off by setting it to a blank string:
+Le paramètre `core.pager` détermine quel pager est utilisé lorsque des pages de Git sont émises, par exemple lors d'un `log` ou d'un `diff`.
+Vous pouvez le fixer à `more` ou à votre pager favori (par défaut, il vaut `less`) ou vous pouvez le désactiver en fixant sa valeur à une chaîne vide :
 
 	$ git config --global core.pager ''
 
-If you run that, Git will page the entire output of all commands, no matter how long they are.
+si vous lancez cela, Git affichera la totalité de le résultat de toutes les commandes d'une traite, quelque soit sa longueur.
 
 #### user.signingkey ####
 
-If you’re making signed annotated tags (as discussed in Chapter 2), setting your GPG signing key as a configuration setting makes things easier. Set your key ID like so:
+Si vous faîtes des balises annotées signées (comme décrit au Chapitre 2), simplifiez-vous la vie en définissant votre clé GPG de signature en paramètre de configuration.
+Définissez votre ID de clé ainsi :
 
 	$ git config --global user.signingkey <gpg-key-id>
 
-Now, you can sign tags without having to specify your key every time with the `git tag` command:
+Maintenant, vous pouvez signer vos balises sans devoir spécifier votre clé à chaque fois à la commande `git tag` :
 
-	$ git tag -s <tag-name>
+	$ git tag -s <nom-balise>
 
 #### core.excludesfile ####
 
-You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have.
+Comme décrit au Chapitre 2, vous pouvez ajouter des patrons dans le fichier `.gitignore` de votre projet pour indiquer à Git de ne pas considérer certains fichiers comme non suivis ou les indexer lorsque vous lancez `git add` sur eux.
+Cependant, si vous souhaitez qu'un autre fichier à l'extérieur du projet contiennent ces informations ou d'autres supplémentaires, vous pouvez indiquer à Git où se trouve se fichier grâce au paramètre `core.excludesfile`.
+Fixez le simplement sur le chemin du fichier qui contient les informations similaires à celles de `.gitignore`.
 
 #### help.autocorrect ####
 
-This option is available only in Git 1.6.1 and later. If you mistype a command in Git 1.6, it shows you something like this:
+Cette option n'est disponible qu'à partir de la version 1.6.1.
+Si vous avez fait une faute de frappe en tapant une commande dans Git 1.6, il vous affichera quelque chose une liste de commandes ressemblantes :
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -101,38 +122,49 @@ This option is available only in Git 1.6.1 and later. If you mistype a command i
 	Did you mean this?
 	     commit
 
-If you set `help.autocorrect` to 1, Git will automatically run the command if it has only one match under this scenario.
+Si vous positionnez le paramètre `help.autocorrect` à 1, Git lancera automatiquement de lui-même la commande si une seule commande ressemblante a été trouvée.
 
-### Colors in Git ###
+### Les couleurs dans Git ###
 
-Git can color its output to your terminal, which can help you visually parse the output quickly and easily. A number of options can help you set the coloring to your preference.
+Git peut coloriser ses affichages dans votre terminal, ce qui peut faciliter le parcours visuel des résultats.
+Un certain nombre d'options peuvent vous aider à régler la colorisation à votre goût.
 
 #### color.ui ####
 
-Git automatically colors most of its output if you ask it to. You can get very specific about what you want colored and how; but to turn on all the default terminal coloring, set `color.ui` to true:
+Git colorise automatiquement la plupart de ses affichages si vous le lui demandez.
+Vous pouvez néanmoins vouloir être plus précis sur ce que vous souhaitez voir colorié et comment vous le souhaitez.
+Pour activer toute la colorisation par défaut, fixez `color.ui` à `true` :
 
 	$ git config --global color.ui true
 
-When that value is set, Git colors its output if the output goes to a terminal. Other possible settings are false, which never colors the output, and always, which sets colors all the time, even if you’re redirecting Git commands to a file or piping them to another command. This setting was added in Git version 1.5.5; if you have an older version, you’ll have to specify all the color settings individually.
+Lorsque ce paramètre est fixé, Git colorie sa sortie si celle-ci est destinée à un terminal.
+D'autres réglages possibles sont `false` qui désactive complètement la colorisation et `always` qui active la colorisation, même si vous envoyez la commande Git dans un fichier ou l'entrée d'une autre commande.
+Ce réglage a été ajouté dans Git 1.5.5.
+Si vous avez une version antérieure, vous devrez spécifier les règles de colorisation individuellement.
 
-You’ll rarely want `color.ui = always`. In most scenarios, if you want color codes in your redirected output, you can instead pass a `--color` flag to the Git command to force it to use color codes. The `color.ui = true` setting is almost always what you’ll want to use.
+`color.ui = always` est rarement utile.
+Dans les plupart des cas, si vous tenez vraiment à colorer dans vos sorties redirigées, vous pourrez passer le drapeau `--color` à la commande Git pour la forcer à utiliser les codes de couleur.
+Le réglage `color.ui = true` est donc le plus utilisé.
 
 #### `color.*` ####
 
-If you want to be more specific about which commands are colored and how, or you have an older version, Git provides verb-specific coloring settings. Each of these can be set to `true`, `false`, or `always`:
+Si vous souhaitez être plus spécifique concernant les commandes colorisées ou si vous avez une ancienne version, Git propose des paramètres de colorisation par action.
+Chacun peut être fixé à `true`, `false` ou `always`.
 
 	color.branch
 	color.diff
 	color.interactive
 	color.status
 
-In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run
+De plus, chacun d'entre eux dispose d'un sous-ensemble de paramètres qui permettent de surcharger les couleurs pour des parties des affichages.
+Par exemple, pour régler les couleurs de méta-informations du diff avec une écriture en bleu gras (`bold` en anglais) sur fond noir :
 
 	$ git config --global color.diff.meta “blue black bold”
 
-You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse.
+La couleur peut prendre les valeurs suivantes : normal, black, red, green, yellow, blue, magenta, cyan ou white.
+Si vous souhaitez ajouter un attribut de casse, les valeurs disponibles sont bold, dim, ul, blink et reverse.
 
-See the `git config` manpage for all the subsettings you can configure, if you want to do that.
+Référez-vous à la page de manuel de `git config` pour tous les sous-réglages disponibles.
 
 ### External Merge and Diff Tools ###
 
@@ -873,3 +905,6 @@ The main drawback to this approach is that it can be very slow and is often unne
 ## Summary ##
 
 You’ve covered most of the major ways that you can customize your Git client and server to best fit your workflow and projects. You’ve learned about all sorts of configuration settings, file-based attributes, and event hooks, and you’ve built an example policy-enforcing server. You should now be able to make Git fit nearly any workflow you can dream up.
+
+<!--  LocalWords:  simplifiez-vous
+ -->

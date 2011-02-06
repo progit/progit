@@ -1,20 +1,20 @@
-# Git Internals #
+# Los entesijos internos de Git #
 
-You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.
+Puedes que hayas llegado a este capítulo saltando desde alguno previo o puede que hayas llegado tras leer todo el resto del libro. --En uno u otro caso, aquí es donde aprenderás acerca del funcionamiento interno y la implementación de Git--. Me parece que aprender esta información es realmente importante para entender cúan util y potente es Git. Pero otras personas me han argumentado que puede ser confuso e innecesariamente complejo para novatos. Por ello, lo he puesto al final del libro; de tal forma que puedas leerlo antes o después, a lo largo de tu proceso de aprendizaje. Lo dejo en tus manos.
 
-Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.
+Y, ahora que estamos aquí, comencemos con el tema. Ante todo, por si no estuviera ya suficientemente claro, Git es fundamentalmente un sistema de archivo (filesystem) con un interface de usuario (VCS) escrito sobre él. En breve veremos esto en más detalle.
 
-In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.
+El los primeros tiempos de Git (principalmente antes de la versión 1.5), el interface de usuario era mucho más complejo, por centrarse en el sistema de archivos en lugar de en el VCS. En los últimos años, el IU se ha refinado hasta llegar a ser tan limpio y sencillo de usar como el de cualquier otro sistema; pero frecuentemente, el estereotipo sigue mostrando a Git como complejo y dificil de aprender. 
 
-The content-addressable filesystem layer is amazingly cool, so I’ll cover that first in this chapter; then, you’ll learn about the transport mechanisms and the repository maintenance tasks that you may eventually have to deal with.
+La capa del sistema de archivos que almacena el contenido es increiblemente interesante; por lo que la desarrollaré en primer lugar, en este capítulo. A continuación mostraré los mecanismos de transporte y las tareas de mantenimiento del repositorio que es posible necesites usar alguna vez.
 
-## Plumbing and Porcelain ##
+## Fontaneria y porcelana ##
 
-This book covers how to use Git with 30 or so verbs such as `checkout`, `branch`, `remote`, and so on. But because Git was initially a toolkit for a VCS rather than a full user-friendly VCS, it has a bunch of verbs that do low-level work and were designed to be chained together UNIX style or called from scripts. These commands are generally referred to as "plumbing" commands, and the more user-friendly commands are called "porcelain" commands.
+Este libro habla acerca de como utilizar Git con más o menos 30 verbos, tales como 'checkout', 'branch', 'remote', etc. Pero, debido al origen de Git como una caja de herramientas para un VCS en lugar de como un completo y amigable sistema VCS, existen unos cuantos verbos para realizar tareas de bajo nivel y que se diseñaron para poder ser utilizados de forma encadenada al estilo UNIX o para ser utilizados en scripts. Estos comandos son conocidos como los "comandos de fontanería", mientras que los comandos más amigables son conocidos como los "comandos de porcelana".
 
-The book’s first eight chapters deal almost exclusively with porcelain commands. But in this chapter, you’ll be dealing mostly with the lower-level plumbing commands, because they give you access to the inner workings of Git and help demonstrate how and why Git does what it does. These commands aren’t meant to be used manually on the command line, but rather to be used as building blocks for new tools and custom scripts.
+Los primeros ocho capítulos de este libro se encargan casi exclusivamente de los comandos de porcelana. Pero en este capítulo ser tratará sobre todo con los comandos de fontaneria; comandos que te darán acceso a los entresijos internos de Git y que te ayudarán a comprender cómo y por qué hace Git lo que hace como lo hace. Estos comando no están pensados para ser utilizados manualmente, directamente desde la línea de comandos; sino más bien para ser utilizados como bloques de construcción para nuevas herramientas y scripts de usuario personalizados.
 
-When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:
+Cuando lanzas 'git init' sobre una carpeta nueva o sobre una que ya existia, Git crea la carpeta '.git'; carpeta esta donde se ubica prácticamente todo lo que Git almacena y manipula. Si deseas hacer una copia de seguridad de tu repositorio, tan solo con copiar esta carpeta a cualquier otro lugar, ya tienes todo lo que necesitas. Todo este capítulo se encarga de repasar el contenido en dicha carpeta. Que tiene un aspecto como este:
 
 	$ ls 
 	HEAD
@@ -27,9 +27,9 @@ When you run `git init` in a new or existing directory, Git creates the `.git` d
 	objects/
 	refs/
 
-You may see some other files in there, but this is a fresh `git init` repository — it’s what you see by default. The `branches` directory isn’t used by newer Git versions, and the `description` file is only used by the GitWeb program, so don’t worry about those. The `config` file contains your project-specific configuration options, and the `info` directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file. The `hooks` directory contains your client- or server-side hook scripts, which are discussed in detail in Chapter 6.
+Puede que veas algunos otros archivos en tu carpeta '.git', pero este es el contenido de un repositorio recién creado con 'git init', --es lo que ves por defecto--. La carpeta 'branches' ya no se utiliza en las últimas versiones de Git, y el archivo 'description' se utiliza tan solo en el programa GitWeb; por lo que no tendrás que preocuparte por ellos. El archivo 'config' contiene las opciones de configuración específicas de este proyecto concreto, y la carpeta 'info' guarda un archivo global de exclusión con los patrones a ignorar que hayas puesto en un archivo .gitignore. La carpeta 'hooks' contiene tus scripts, tanto de la parte cliente como de la parte servidor, tal y como se ha visto en detalle en el capítulo 6.
 
-This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.
+Esto nos deja con cuatro entradas importantes: los archivos 'HEAD' e 'index' y las carpetas 'objects' y 'refs'. Estas forman el núcleo de Git. La carpeta 'objects' guarda todo el contenido de tu base de datos, la carpeta 'refs' guarda los apuntadores a las confirmaciones de cambios (commits) en dicho contenido, el archivo 'HEAD' apunta a la rama que tengas activa (checked out) en este momento, y el archivo 'index' es donde Git almacena la información sobre tu area de preparación (staging area). Vamos a mirar en detalle cada una de esas secciones, para ver cómo trabaja Git.
 
 ## Git Objects ##
 
@@ -970,7 +970,7 @@ Let’s see how much space you saved.
 
 The packed repository size is down to 7K, which is much better than 2MB. You can see from the size value that the big object is still in your loose objects, so it’s not gone; but it won’t be transferred on a push or subsequent clone, which is what is important. If you really wanted to, you could remove the object completely by running `git prune --expire`.
 
-## Summary ##
+## Recapitulación ##
 
 You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.
 

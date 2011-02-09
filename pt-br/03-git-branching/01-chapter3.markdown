@@ -92,22 +92,20 @@ Isto está em nítido contraste com a forma coma a qual a maioria das ferramenta
 
 Vamos ver por que você deve fazê-lo.
 
-__BLABOS__PAUSED__HERE__
+## Básico de Branch e Merge ##
 
-## Basic Branching and Merging ##
+Vamos ver um exemplo simples de uso de branch e merge com um fluxo de trabalho que você pode usar no mundo real. Você seguirá esses passos:
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+1.	Trabalhar em um web site.
+2.	Criar um branch para uma história que está trabalhando.
+3.	Trabalhar nesse branch.
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+Nesse etapa, você receberá uma chamada que outro problema é crítico e precisa de correção. Você fará o seguinte:
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
-
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.	Voltar ao seu branch de produção.
+2.	Criar um branch para adicionar a correção.
+3.	Depois de testado, fazer o merge do branch da correção, e enviar para produção.
+4.	Retornar a sua história original e continuar trabalhando.
 
 ### Basic Branching ###
 

@@ -506,15 +506,15 @@ Git属性を使えば、プロジェクトにある指定したファイルに�
 
 コミットワークフロークライアントサイドスクリプトはあらゆるワークフローに使用することができます。clone中にスクリプトが転送される事はありませんが、これらはしばしばサーバー側で決められたポリシーを強制する目的で使用されます。これらのスクリプトは開発者を支援するために存在するのですから、いつでもオーバーライドされたり変更されたりすることがありえるとしても開発者らによってセットアップされ、メンテナンスされてしかるべきです。
 
-#### E-mail Workflow Hooks ####
+#### Eメールワークフローフック ####
 
-You can set up three client-side hooks for an e-mail–based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
+Eメールを使ったワークフロー用として、三種類のクライアントサイドフックを設定することができます。これらはすべて `git am` コマンドに対して起動されるものなので、ふだんの作業でこのコマンドを使っていない場合は次のセクションを読み飛ばしてもかまいません。`git format-patch` で作ったパッチを受け取ることがある場合は、ここで説明する内容が有用になるかもしれません。
 
-The first hook that is run is `applypatch-msg`. It takes a single argument: the name of the temporary file that contains the proposed commit message. Git aborts the patch if this script exits non-zero. You can use this to make sure a commit message is properly formatted or to normalize the message by having the script edit it in place.
+まず最初に実行されるフックは `applypatch-msg` です。これは引数をひとつだけ受け取ります。コミットメッセージを含む一時ファイル名です。このスクリプトがゼロ以外の値で終了した場合、Git はパッチの処理を強制終了させます。このフックを使うと、コミットメッセージの書式が正しいかどうかを確認したり、スクリプトで正しい書式に手直ししたりすることができます。
 
-The next hook to run when applying patches via `git am` is `pre-applypatch`. It takes no arguments and is run after the patch is applied, so you can use it to inspect the snapshot before making the commit. You can run tests or otherwise inspect the working tree with this script. If something is missing or the tests don’t pass, exiting non-zero also aborts the `git am` script without committing the patch.
+`git am` でパッチを適用するときに二番目に実行されるフックは `pre-applypatch` です。これは引数を受け取らず、パッチが適用された後に実行されます。このフックを使うと、パッチ適用後の状態をコミットする前に調べることができます。つまり、このスクリプトでテストを実行したり、その他の調査をしたりといったことができるということです。なにか抜けがあったりテストが失敗したりした場合はスクリプトをゼロ以外の値で終了させます。そうすれば、`git am` はパッチをコミットせずに強制終了します。
 
-The last hook to run during a `git am` operation is `post-applypatch`. You can use it to notify a group or the author of the patch you pulled in that you’ve done so. You can’t stop the patching process with this script.
+`git am` において最後に実行されるフックは `post-applypatch` です。これを使うと、グループのメンバーやそのパッチの作者に対して処理の完了を伝えることができます。このスクリプトでは、パッチの適用を中断させることはできません。
 
 #### Other Client Hooks ####
 

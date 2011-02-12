@@ -516,13 +516,13 @@ Eメールを使ったワークフロー用として、三種類のクライア�
 
 `git am` において最後に実行されるフックは `post-applypatch` です。これを使うと、グループのメンバーやそのパッチの作者に対して処理の完了を伝えることができます。このスクリプトでは、パッチの適用を中断させることはできません。
 
-#### Other Client Hooks ####
+#### その他のクライアントフック ####
 
-The `pre-rebase` hook runs before you rebase anything and can halt the process by exiting non-zero. You can use this hook to disallow rebasing any commits that have already been pushed. The example `pre-rebase` hook that Git installs does this, although it assumes that next is the name of the branch you publish. You’ll likely need to change that to whatever your stable, published branch is.
+`pre-rebase` フックは何かをリベースする前に実行され、ゼロ以外を返すとその処理を中断させることができます。このフックを使うと、既にプッシュ済みのコミットのリベースを却下することができます。Gitに含まれているサンプルの `pre-rebase` フックがちょうどこの働きをします。ただしこのサンプルは、公開ブランチの名前が next であることを想定したものです。実際に使っている安定版公開ブランチの名前に変更する必要があるでしょう。
 
-After you run a successful `git checkout`, the `post-checkout` hook runs; you can use it to set up your working directory properly for your project environment. This may mean moving in large binary files that you don’t want source controlled, auto-generating documentation, or something along those lines.
+`git checkout` が正常に終了すると、`post-checkout` フックが実行されます。これを使うと、作業ディレクトリを自分のプロジェクトの環境にあわせて設定することができます。たとえば、バージョン管理対象外の巨大なバイナリファイルや自動生成ドキュメントなどを作業ディレクトリに取り込むといった処理です。
 
-Finally, the `post-merge` hook runs after a successful `merge` command. You can use it to restore data in the working tree that Git can’t track, such as permissions data. This hook can likewise validate the presence of files external to Git control that you may want copied in when the working tree changes.
+最後に説明する `post-merge` フックは、`merge` コマンドが正常に終了したときに実行されます。これを使うと、Git では追跡できないパーミッション情報などを作業ツリーに復元することができます。作業ツリーに変更が加わったときに取り込みたい Git の管理対象外のファイルの存在確認などにも使えます。
 
 ### Server-Side Hooks ###
 

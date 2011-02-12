@@ -691,11 +691,11 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 
 これで、まずい形式のコミットメッセージや権利のないファイルの変更を含むコミットはプッシュできなくなりました。
 
-#### Enforcing Fast-Forward-Only Pushes ####
+#### Fast-Forward なプッシュへの限定 ####
 
-The only thing left is to enforce fast-forward-only pushes. In Git versions 1.6 or newer, you can set the `receive.denyDeletes` and `receive.denyNonFastForwards` settings. But enforcing this with a hook will work in older versions of Git, and you can modify it to do so only for certain users or whatever else you come up with later.
+最後は、fast-forward なプッシュに限るという仕組みです。Git バージョン 1.6 以降には `receive.denyDeletes` および `receive.denyNonFastForwards` という設定項目がありますが、これをフックで記述しておけば、古いバージョンの Git でも動作します。また、特定のユーザーにだけこの制約を加えたいなどといった変更にも対応できます。
 
-The logic for checking this is to see if any commits are reachable from the older revision that aren’t reachable from the newer one. If there are none, then it was a fast-forward push; otherwise, you deny it:
+これを調べるには、旧リビジョンからたどれるすべてのコミットについて、新リビジョンから到達できないものがないかどうかを探します。もしひとつもなければ、それは fast-forward なプッシュです。ひとつでも見つかれば、却下することになります。
 
 	# enforces fast-forward only pushes 
 	def check_fast_forward
@@ -709,7 +709,7 @@ The logic for checking this is to see if any commits are reachable from the olde
 
 	check_fast_forward
 
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file you into which you should have put all this code, and then try to push a non-fast-forwarded reference, you get something like this:
+これですべてがととのいました。これまでのコードを書き込んだファイルに対して `chmod u+x .git/hooks/update` を実行し、fast-forward ではない参照をプッシュしてみましょう。すると、こんなメッセージが表示されるでしょう。
 
 	$ git push -f origin master
 	Counting objects: 5, done.
@@ -726,36 +726,36 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	 ! [remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-There are a couple of interesting things here. First, you see this where the hook starts running.
+この中には、いくつか興味深い点があります。まず、フックの実行が始まったときの次の表示に注目しましょう。
 
 	Enforcing Policies... 
 	(refs/heads/master) (fb8c72) (c56860)
 
-Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
+これは、スクリプトの先頭で標準出力に表示した内容でした。ここで重要なのは「スクリプトから標準出力に送った内容は、すべてクライアントにも送られる」ということです。
 
-The next thing you’ll notice is the error message.
+次に注目するのは、エラーメッセージです。
 
 	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 
-The first line was printed out by you, the other two were Git telling you that the update script exited non-zero and that is what is declining your push. Lastly, you have this:
+最初の行はスクリプトから出力したもので、その他の 2 行は Git が出力したものです。この 2 行では、スクリプトがゼロ以外の値で終了したためにプッシュが却下されたということを説明しています。最後に、次の部分に注目します。
 
 	To git@gitserver:project.git
 	 ! [remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-You’ll see a remote rejected message for each reference that your hook declined, and it tells you that it was declined specifically because of a hook failure.
+フックで却下したすべての参照について、remote rejected メッセージが表示されます。これを見れば、フック内での処理のせいで却下されたのだというこｔがわかります。
 
-Furthermore, if the ref marker isn’t there in any of your commits, you’ll see the error message you’re printing out for that.
+さらに、もしコミットメッセージに適切な ref が含まれていなければ、それを示す次のようなエラーメッセージが表示されるでしょう。
 
 	[POLICY] Your message is not formatted correctly
 
-Or if someone tries to edit a file they don’t have access to and push a commit containing it, they will see something similar. For instance, if a documentation author tries to push a commit modifying something in the `lib` directory, they see
+また、変更権限のないファイルを変更してそれを含むコミットをプッシュしようとしたときも、同様にエラーが表示されます。たとえば、ドキュメント担当者が `lib` ディレクトリ内の何かを変更しようとした場合のメッセージは次のようになります。
 
 	[POLICY] You do not have access to push to lib/test.rb
 
-That’s all. From now on, as long as that `update` script is there and executable, your repository will never be rewound and will never have a commit message without your pattern in it, and your users will be sandboxed.
+以上です。この `update` スクリプトが動いてさえいれば、もう二度とリポジトリが汚されることはありません。コミットメッセージは決まりどおりのきちんとしたものになるし、ユーザーに変なところをさわられる心配もなくなります。
 
 ### Client-Side Hooks ###
 

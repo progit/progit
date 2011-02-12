@@ -528,11 +528,11 @@ Eメールを使ったワークフロー用として、三種類のクライア�
 
 クライアントサイドフックの他に、いくつかのサーバーサイドフックを使うこともできます。これは、システム管理者がプロジェクトのポリシーを強制させるために使うものです。これらのスクリプトは、サーバへのプッシュの前後に実行されます。pre フックをゼロ以外の値で終了させると、プッシュを却下してエラーメッセージをクライアントに返すことができます。つまり、プッシュに関するポリシーをここで設定することができるということです。
 
-#### pre-receive and post-receive ####
+#### pre-receive および post-receive ####
 
-The first script to run when handling a push from a client is `pre-receive`. It takes a list of references that are being pushed from stdin; if it exits non-zero, none of them are accepted. You can use this hook to do things like make sure none of the updated references are non-fast-forwards; or to check that the user doing the pushing has create, delete, or push access or access to push updates to all the files they’re modifying with the push.
+クライアントからのプッシュを処理するときに最初に実行されるスクリプトが `pre-receive` です。このスクリプトは、プッシュされた参照のリストを標準入力から受け取ります。ゼロ以外の値で終了させると、これらはすべて却下されます。このフックを使うと、更新内容がすべてfast-forwardであることをチェックしたり、プッシュしてきたユーザーがそれらのファイルに対する適切なアクセス権を持っているかを調べたりといったことができます。
 
-The `post-receive` hook runs after the entire process is completed and can be used to update other services or notify users. It takes the same stdin data as the `pre-receive` hook. Examples include e-mailing a list, notifying a continuous integration server, or updating a ticket-tracking system — you can even parse the commit messages to see if any tickets need to be opened, modified, or closed. This script can’t stop the push process, but the client doesn’t disconnect until it has completed; so, be careful when you try to do anything that may take a long time.
+`post-receive` フックは処理が終了した後で実行されるもので、他のサービスの更新やユーザーへの通知などに使えます。`pre-receive` フックと同様、データを標準入力から受け取ります。サンプルのスクリプトには、メーリングリストへの投稿や継続的インテグレーションサーバーへの通知、チケット追跡システムの更新などの処理が含まれています。コミットメッセージを解析して、チケットのオープン・修正・クローズなどの必要性を調べることだってできます。このスクリプトではプッシュの処理を中断させることはできませんが、クライアント側ではこのスクリプトが終了するまで接続を切断することができません。このスクリプトで時間のかかる処理をさせるときには十分注意しましょう。
 
 #### update ####
 

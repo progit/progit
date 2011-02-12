@@ -536,7 +536,7 @@ Eメールを使ったワークフロー用として、三種類のクライア�
 
 #### update ####
 
-The update script is very similar to the `pre-receive` script, except that it’s run once for each branch the pusher is trying to update. If the pusher is trying to push to multiple branches, `pre-receive` runs only once, whereas update runs once per branch they’re pushing to. Instead of reading from stdin, this script takes three arguments: the name of the reference (branch), the SHA-1 that reference pointed to before the push, and the SHA-1 the user is trying to push. If the update script exits non-zero, only that reference is rejected; other references can still be updated.
+update スクリプトは `pre-receive` スクリプトと似ていますが、プッシュしてきた人が更新しようとしているブランチごとに実行されるという点が異なります。複数のブランチへのプッシュがあったときに `pre-receive` が実行されるのは一度だけですが、update はブランチ単位でそれぞれ一度ずつ実行されます。このスクリプトは、標準入力を読み込むのではなく三つの引数を受け取ります。参照 (ブランチ) の名前、プッシュ前を指す参照の SHA-1、そしてプッシュしようとしている参照の SHA-1 です。update スクリプトをゼロ以外で終了させると、その参照のみが却下されます。それ以外の参照はそのまま更新を続行します。
 
 ## An Example Git-Enforced Policy ##
 

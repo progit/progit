@@ -757,13 +757,13 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 
 以上です。この `update` スクリプトが動いてさえいれば、もう二度とリポジトリが汚されることはありません。コミットメッセージは決まりどおりのきちんとしたものになるし、ユーザーに変なところをさわられる心配もなくなります。
 
-### Client-Side Hooks ###
+### クライアントサイドフック ###
 
-The downside to this approach is the whining that will inevitably result when your users’ commit pushes are rejected. Having their carefully crafted work rejected at the last minute can be extremely frustrating and confusing; and furthermore, they will have to edit their history to correct it, which isn’t always for the faint of heart.
+この方式の弱点は、プッシュが却下されたときにユーザーが泣き寝入りせざるを得なくなるということです。手間暇かけて仕上げた作業が最後の最後で却下されるというのは、非常にストレスがたまるし不可解です。プッシュするためには歴史を修正しなければならないのですが、気弱な人にとってそれはかなりつらいことです。
 
-The answer to this dilemma is to provide some client-side hooks that users can use to notify them when they’re doing something that the server is likely to reject. That way, they can correct any problems before committing and before those issues become more difficult to fix. Because hooks aren’t transferred with a clone of a project, you must distribute these scripts some other way and then have your users copy them to their `.git/hooks` directory and make them executable. You can distribute these hooks within the project or in a separate project, but there is no way to set them up automatically.
+このジレンマに対する答えとして、サーバーが却下するであろう作業をするときにそれをユーザーに伝えるためのクライアントサイドフックを用意します。そうすれば、何か問題があるときにそれをコミットする前に知ることができるので、取り返しのつかなくなる前に問題を修正することができます。プロジェクトをクローンしてもフックはコピーされないので、別の何らかの方法で各ユーザーにスクリプトを配布しなければなりません。各ユーザーはそれを `.git/hooks` にコピーし、実行可能にします。フックスクリプト自体をプロジェクトに含めたり別のプロジェクトにしたりすることはできますが、各自の環境でそれをフックとして自動的に設定することはできないのです。
 
-To begin, you should check your commit message just before each commit is recorded, so you know the server won’t reject your changes due to badly formatted commit messages. To do this, you can add the `commit-msg` hook. If you have it read the message from the file passed as the first argument and compare that to the pattern, you can force Git to abort the commit if there is no match:
+はじめに、コミットを書き込む直前にコミットメッセージをチェックしなければなりません。そして、サーバーに却下されないようにコミットメッセージの書式を調べるのです。そのためには `commit-msg` フックを使います。最初の引数で渡されたファイルからコミットメッセージを読み込んでパターンと比較し、もしマッチしなければ Git の処理を中断させます。
 
 	#!/usr/bin/env ruby
 	message_file = ARGV[0]
@@ -776,18 +776,18 @@ To begin, you should check your commit message just before each commit is record
 	  exit 1
 	end
 
-If that script is in place (in `.git/hooks/commit-msg`) and executable, and you commit with a message that isn’t properly formatted, you see this:
+このスクリプトを適切な場所 (`.git/hooks/commit-msg`) に置いて実行可能にしておくと、不適切なメッセージを書いてコミットしようとしたときに次のような結果となります。
 
 	$ git commit -am 'test'
 	[POLICY] Your message is not formatted correctly
 
-No commit was completed in that instance. However, if your message contains the proper pattern, Git allows you to commit:
+このとき、実際にはコミットされません。もしメッセージが適切な書式になっていれば、Git はコミットを許可します。
 
 	$ git commit -am 'test [ref: 132]'
 	[master e05c914] test [ref: 132]
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Next, you want to make sure you aren’t modifying files that are outside your ACL scope. If your project’s `.git` directory contains a copy of the ACL file you used previously, then the following `pre-commit` script will enforce those constraints for you:
+次に、ACL で決められた範囲以外のファイルを変更していないことを確認しましょう。先ほど使った ACL ファイルのコピーがプロジェクトの `.git` ディレクトリにあれば、次のような `pre-commit` スクリプトでチェックすることができます。
 
 	#!/usr/bin/env ruby
 
@@ -816,29 +816,29 @@ Next, you want to make sure you aren’t modifying files that are outside your A
 
 	check_directory_perms
 
-This is roughly the same script as the server-side part, but with two important differences. First, the ACL file is in a different place, because this script runs from your working directory, not from your Git directory. You have to change the path to the ACL file from this
+大まかにはサーバーサイドのスクリプトと同じですが、重要な違いがふたつあります。まず、ACL ファイルの場所が違います。このスクリプトは作業ディレクトリから実行するものであり、Git ディレクトリから実行するものではないからです。ACL ファイルの場所を、先ほどの
 
 	access = get_acl_access_data('acl')
 
-to this:
+から次のように変更しなければなりません。
 
 	access = get_acl_access_data('.git/acl')
 
-The other important difference is the way you get a listing of the files that have been changed. Because the server-side method looks at the log of commits, and, at this point, the commit hasn’t been recorded yet, you must get your file listing from the staging area instead. Instead of
+もうひとつの違いは、変更されたファイルの一覧を取得する方法です。サーバーサイドのメソッドではコミットログを調べていました。しかしこの時点ではまだコミットが記録されていないので、ファイルの一覧はステージング・エリアから取得しなければなりません。つまり、先ほどの
 
 	files_modified = `git log -1 --name-only --pretty=format:'' #{ref}`
 
-you have to use
+は次のようになります。
 
 	files_modified = `git diff-index --cached --name-only HEAD`
 
-But those are the only two differences — otherwise, the script works the same way. One caveat is that it expects you to be running locally as the same user you push as to the remote machine. If that is different, you must set the `$user` variable manually.
+しかし、違うのはこの二点だけ。それ以外はまったく同じように動作します。ただ、このスクリプトは、ローカルで実行しているユーザーとリモートマシンにプッシュするときのユーザーが同じであることを前提にしています。もし異なる場合は、変数 `$user` を手動で設定しなければなりません。
 
-The last thing you have to do is check that you’re not trying to push non-fast-forwarded references, but that is a bit less common. To get a reference that isn’t a fast-forward, you either have to rebase past a commit you’ve already pushed up or try pushing a different local branch up to the same remote branch.
+最後に残ったのは fast-forward でないプッシュを止めることですが、これは多少特殊です。fast-forward でない参照を取得するには、すでにプッシュした過去のコミットにリベースするか、別のローカルブランチにリモートブランチと同じところまでプッシュしなければなりません。
 
-Because the server will tell you that you can’t push a non-fast-forward anyway, and the hook prevents forced pushes, the only accidental thing you can try to catch is rebasing commits that have already been pushed.
+サーバーサイドでは fast-forward ではないプッシュをできないようにしているので、それ以外にあり得るのは、すでにプッシュ済みのコミットをリベースしようとするときくらいです。
 
-Here is an example pre-rebase script that checks for that. It gets a list of all the commits you’re about to rewrite and checks whether they exist in any of your remote references. If it sees one that is reachable from one of your remote references, it aborts the rebase:
+それをチェックする pre-rebase スクリプトの例を示します。これは書き換えようとしているコミットの一覧を取得し、それがリモート参照の中に存在するかどうかを調べます。リモート参照から到達可能なコミットがひとつでもあれば、リベースを中断します。
 
 	#!/usr/bin/env ruby
 
@@ -862,13 +862,13 @@ Here is an example pre-rebase script that checks for that. It gets a list of all
 	  end
 	end
 
-This script uses a syntax that wasn’t covered in the Revision Selection section of Chapter 6. You get a list of commits that have already been pushed up by running this:
+このスクリプトでは、第 6 章の「リビジョンの選択」ではカバーしていない構文を使っています。既にプッシュ済みのコミットの一覧を得るために、次のコマンドを実行します。
 
 	git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 
-The `SHA^@` syntax resolves to all the parents of that commit. You’re looking for any commit that is reachable from the last commit on the remote and that isn’t reachable from any parent of any of the SHAs you’re trying to push up — meaning it’s a fast-forward.
+`SHA^@` 構文は、そのコミットのすべての親を解決します。リモートの最後のコミットから到達可能で、これからプッシュしようとするコミットの親のいずれかからアクセスできないコミットを探します。
 
-The main drawback to this approach is that it can be very slow and is often unnecessary — if you don’t try to force the push with `-f`, the server will warn you and not accept the push. However, it’s an interesting exercise and can in theory help you avoid a rebase that you might later have to go back and fix.
+この方式の弱点は非常に時間がかかることで、多くの場合このチェックは不要です。`-f` つきで強制的にプッシュしようとしない限り、サーバーが警告を出してプッシュできないからです。しかし練習用の課題としてはおもしろいもので、あとでリベースを取り消してやりなおすはめになることを理屈上は防げるようになります。
 
 ## Summary ##
 

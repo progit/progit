@@ -2,7 +2,7 @@
 
 Questo capitolo spiegherà come iniziare ad usare Git.  Inizieremo con una introduzione sugli strumenti di controllo della versione,  per poi passare a come far funzionare Git sul proprio sistema  ed infine come configurarlo per lavorarci.  Alla fine di questo capitolo, si dovrebbe capire a cosa serve Git, perché lo si dovrebbe usare ed essere pronti per usarlo.
 
-## Il Controlo di Versione ##
+## Il Controllo di Versione ##
 
 Cos'è il controllo di versione, e perché si dovrebbe usare? Il controllo di versione è un sistema che registra i cambiamenti ad un file o ad una serie di file nel tempo, così da poter richiamare una versione specifica successivamente. Per gli esempi in questo libro, useremo i file del codice sorgente di un software per controllarne la versione, anche se in realtà si può fare con quasi ogni tipo di file sul computer.
 
@@ -32,7 +32,7 @@ Tuttavia, questa configurazione ha alcuni gravi lati negativi. La più ovvia è 
 
 ### Sistemi di Controllo di Versione Distribuiti ###
 
-E quì entrano in gioco i Sistemi di Controllo di Versione Distribuiti (Distributed Version Control Systems o DVCS). In un DVCS (come Git, Mercurial, Bazaar o Darcs), i client non solo controllano il recente snapshot dei file: essi fanno una copia completa del repository. In tal modo, se si blocca un server ed i sistemi interagiscono tramite un DVCS, un qualsiaisi repository di client può essere copiato sul server e quindi ripristinarlo. Ogni checkout, in realtà, è un backup completo di tutti i dati (vedi Figura 1-3).
+E qui entrano in gioco i Sistemi di Controllo di Versione Distribuiti (Distributed Version Control Systems o DVCS). In un DVCS (come Git, Mercurial, Bazaar o Darcs), i client non solo controllano il recente snapshot dei file: essi fanno una copia completa del repository. In tal modo, se si blocca un server ed i sistemi interagiscono tramite un DVCS, un qualsiasi repository di client può essere copiato sul server e quindi ripristinarlo. Ogni checkout, in realtà, è un backup completo di tutti i dati (vedi Figura 1-3).
 
 Insert 18333fig0103.png 
 Figura 1-3. Diagramma controllo di versione distribuito.
@@ -64,7 +64,7 @@ La principale differenza tra Git e gli altri VCS (Subversion e compagnia), è il
 Insert 18333fig0104.png 
 Figura 1-4. Gli altri sistemi tendono ad immagazzinare i dati come cambiamenti alla versione base di ogni file.
 
-Git non considera i dati in questo modo nè li immagazzina in questo modo. Invece, Git considera i propri dati più come una serie di istantanee (snapshot) di un mini filesystem.  Ogni volta che si fa un commit, o si salva lo stato del proprio progetto in Git, esso fondamentalmente fa un'immagine di tutti i file in quel momento, salvando un riferimento allo snapshot. Per essere efficiente, se alcuni file non sono cambiati, Git non li immagazzina nuovamente — semplicemente crea un collegamento agli stessi file, già immagazzinati, della versione precedente. Git considera i propri dati più come in Figura 1-5.
+Git non considera i dati in questo modo né li immagazzina in questo modo. Invece, Git considera i propri dati più come una serie di istantanee (snapshot) di un mini filesystem.  Ogni volta che si fa un commit, o si salva lo stato del proprio progetto in Git, esso fondamentalmente fa un'immagine di tutti i file in quel momento, salvando un riferimento allo snapshot. Per essere efficiente, se alcuni file non sono cambiati, Git non li immagazzina nuovamente — semplicemente crea un collegamento agli stessi file, già immagazzinati, della versione precedente. Git considera i propri dati più come in Figura 1-5.
 
 Insert 18333fig0105.png 
 Figura 1-5.  Git immagazzina i dati come snapshot del progetto nel tempo.
@@ -73,11 +73,11 @@ Questa è una distinzione importante tra Git e gli altri VCS. Git riconsidera tu
 
 ### Quasi tutte le operazioni sono locali ###
 
-La maggior parte delle operazioni in Git, necessitano solo di file e risorse locali per operare — generalmente non occorrono informazioni da altri computer nella rete. Se si era abituati ad un CVCS, in cui la maggior parte delle operazioni erano soggette alle latenze di rete, questo aspetto di Git vi farà pensare che gli dei della velocità abbiano benedetto Git con poteri soprannaturali. Giacchè l'intera storia del progetto sta quì, sul proprio disco locale, le operazioni sembrano quasi istantanee.
+La maggior parte delle operazioni in Git, necessitano solo di file e risorse locali per operare — generalmente non occorrono informazioni da altri computer nella rete. Se si era abituati ad un CVCS, in cui la maggior parte delle operazioni erano soggette alle latenze di rete, questo aspetto di Git vi farà pensare che gli dei della velocità abbiano benedetto Git con poteri soprannaturali. Giacché l'intera storia del progetto sta qui, sul proprio disco locale, le operazioni sembrano quasi istantanee.
 
-Per esempio, per scorrere la storia di un progetto, Git non ha bisogno di connettersi al server per scaricarla e per poi visualizzarla — la legge direttamente dal database locale. Questo significa che puoi vedere la storia del progetto quasi istantaneamente. Se vuoi vedere i cambiamenti introdotti tra la versione corrente di un file e la versione di un mese fa, Git può consultare il file di un mese fa e calcolare localmente le differenze, invece di  richiedere di farlo ad un server remoto o di estrarre una precedente versione del file dal server remoto, per poi farlo in locale.
+Per esempio, per scorrere la storia di un progetto, Git non ha bisogno di connettersi al server per scaricarla e per poi visualizzarla — la legge direttamente dal database locale. Questo significa che puoi vedere la storia del progetto quasi istantaneamente. Se vuoi vedere i cambiamenti introdotti tra la versione corrente di un file e la versione di un mese fa, Git può consultare il file di un mese fa e calcolare localmente le differenze, invece di richiedere di farlo ad un server remoto o di estrarre una precedente versione del file dal server remoto, per poi farlo in locale.
 
-Questo significa anche che sono minime le cose che non si possono fare se si è offline o non connesso alla VPN. Se sei in aereo o sul treno e vuoi fare un po' di lavoro, puoi eseguire tranquillamente il commit, anche non sei connesso alla rete per fare l'upload. Se tornando a casa, trovi che il tuo client VPN non funziona correttamente, puoi comunque lavorare. In molti altri sistemi, fare questo è quasi impossibile o penoso. Con Perforce, per esempio, puoi fare ben poco se non sei connesso al server; e con Subversion e CVS, puoi modificare i file, ma non puoi inviare i cambiamenti al tuo database (perché il database è offline). Tutto ciò non ti può sembrare una gran cosa, tuttavia potresti rimanere di stucco dalla differenza che Git può fare.
+Questo significa anche che sono minime le cose che non si possono fare se si è offline o non connesso alla VPN. Se sei in aereo o sul treno e vuoi fare un po' di lavoro, puoi eseguire tranquillamente il commit, anche se non sei connesso alla rete per fare l'upload. Se tornando a casa, trovi che il tuo client VPN non funziona correttamente, puoi comunque lavorare. In molti altri sistemi, fare questo è quasi impossibile o penoso. Con Perforce, per esempio, puoi fare ben poco se non sei connesso al server; e con Subversion e CVS, puoi modificare i file, ma non puoi inviare i cambiamenti al tuo database (perché il database è offline). Tutto ciò non ti può sembrare una gran cosa, tuttavia potresti rimanere di stucco dalla differenza che Git può fare.
 
 ### Git ha Integrità ###
 
@@ -91,13 +91,13 @@ in Git, questi valori di hash si vedono dappertutto, perché Git li usa tantissi
 
 ### Git generalmente aggiunge solo dati ###
 
-Quando si fanno delle azioni in Git, quasi tutte aggiungono solo dati al database di Git. E' piuttosto difficile che si porti il sistema a fare qualcosa che non sia annullabile o a cancellare i dati in una qualche maniera. Come in altri VCS, si possono perdere o confondere le modifiche, di cui non si è ancora fatto il committ; ma dopo aver fatto il commit di uno snapshot in Git, è veramente difficile perderle, specialmente se si esegue regolarmente, il push del proprio database sull'altro repository.
+Quando si fanno delle azioni in Git, quasi tutte aggiungono solo dati al database di Git. E' piuttosto difficile che si porti il sistema a fare qualcosa che non sia annullabile o a cancellare i dati in una qualche maniera. Come in altri VCS, si possono perdere o confondere le modifiche, di cui non si è ancora fatto il commit; ma dopo aver fatto il commit di uno snapshot in Git, è veramente difficile perderle, specialmente se si esegue regolarmente, il push del proprio database sull'altro repository.
 
 Questo rende l'uso di Git un piacere perché sappiamo che possiamo sperimentare senza il pericolo di perdere seriamente le cose. Per un maggior approfondimento su come Git salva i dati e come puoi recuperare i dati che sembrano persi, vedi "Sotto il Cofano" nel Capitolo 9.
 
 ### I tre stati ###
 
-Ora, prestare attenzione. Questa è la prima cosa da ricordare su Git se si vuole affrontare al meglio il processo di apprendimento. Git ha tre stati principali, in cui possono risiedere i file: committed, modified e staged. Committed significa che il file è immagazzinato al sicuro, nel database locale. Modified significa che il file è stato modificato, ma non è stato ancora eseguito il commit nel proprio database. Staged significa che un file modificato nella versione corrente, è stato contrassegnato per essere inserito nello snapshot, al commit successivo .
+Ora, prestare attenzione. Questa è la prima cosa da ricordare su Git se si vuole affrontare al meglio il processo di apprendimento. Git ha tre stati principali, in cui possono risiedere i file: committed, modified e staged. Committed significa che il file è immagazzinato al sicuro, nel database locale. Modified significa che il file è stato modificato, ma non è stato ancora eseguito il commit nel proprio database. Staged significa che un file modificato nella versione corrente, è stato contrassegnato per essere inserito nello snapshot, al commit successivo.
 
 Questo ci conduce alle tre sezioni principali di un progetto Git: la directory di Git, la directory di lavoro e l'area di stage.
 
@@ -108,7 +108,7 @@ La directory di Git è il luogo dove Git salva i metadati ed il database degli o
 
 La directory di lavoro è un singolo checkout di una versione del progetto. Questi file sono estratti dal database compresso, nella directory di Git, e posizionati nel disco per essere usati o modificati.
 
-L'area di stage è un semplice file, generalmente contenuto nella directory di Git, contenente le informazioni riguradanti il commit successvio. Qualche volta viene indicato come l'indice, ma sta diventando d'uso comune  riferirsi ad essa, come all'area di stage (sosta).
+L'area di stage è un semplice file, generalmente contenuto nella directory di Git, contenente le informazioni riguardanti il commit successivo. Qualche volta viene indicato come l'indice, ma sta diventando d'uso comune riferirsi ad essa, come all'area di stage (sosta).
 
 Il flusso base di lavoro in Git, scorre come segue:
 
@@ -124,7 +124,7 @@ Incominciamo ad usare un po' di Git! Per prima cosa — occorre installarlo. Puo
 
 ### Installazione da sorgenti ###
 
-Se puoi, è generalmente vantaggioso installare Git dai sorgenti, perchè così puoi usare la versione più recente. Ogni versione di Git, tende ad includere utili miglioramenti all'interfaccia utente, quindi, avere l'ultima versione disponibile è spesso la scelta migliore, se si ha familiarità con la compilazione dei sorgenti. Inoltre capita anche, che molte distribuzioni Linux contengano pacchetti molto vecchi; perciò, se non stai usando una distro aggiornata o dei backport, l'installazione da sorgente può essere la cosa migliore da fare.
+Se puoi, è generalmente vantaggioso installare Git dai sorgenti, perché così puoi usare la versione più recente. Ogni versione di Git, tende ad includere utili miglioramenti all'interfaccia utente, quindi, avere l'ultima versione disponibile è spesso la scelta migliore, se si ha familiarità con la compilazione dei sorgenti. Inoltre capita anche, che molte distribuzioni Linux contengano pacchetti molto vecchi; perciò, se non stai usando una distro aggiornata o dei backport, l'installazione da sorgente può essere la cosa migliore da fare.
 
 Per installare Git, hai bisogno delle seguenti librerie, da cui dipende Git: curl, zlib, openssl, expat e libiconv. Per esempio, se sei su un sistema che usa yum (come in Fedora), o apt-get (come nei sistemi Debian), puoi usare uno dei seguenti comandi per installare tutte le dipendenze:
 
@@ -196,16 +196,16 @@ Sui sistemi Windows, Git cerca il file `.gitconfig` nella directory `$HOME` (`C:
 
 ### La propria identità ###
 
-La prima cosa che occorrerebbe fare, quando si installa Git, è impostare il proprio nome utente e indirizzo e-mail. Ciò è importante, perché ogni commit di Git usa queste informazioni, che vengono incapuslate nei commit che si fanno:
+La prima cosa che occorrerebbe fare, quando si installa Git, è impostare il proprio nome utente e indirizzo e-mail. Ciò è importante, perché ogni commit di Git usa queste informazioni, che vengono incapsulate nei commit che si fanno:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Di nuovo, passando l'opzione `--global`, occorre fare ciò solo una volta, dopodichè Git userà sempre queste informazioni, per qualsiasi operazione fatta sul sistema. Se si vuole sovrascriverle con un nome o una e-mail per  progetti specifici, basta eseguire il comando senza l'opzione `--global`, quando si è in uno di quei progetti.
+Di nuovo, passando l'opzione `--global`, occorre fare ciò solo una volta, dopo di che Git userà sempre queste informazioni, per qualsiasi operazione fatta sul sistema. Se si vuole sovrascriverle con un nome o una e-mail per progetti specifici, basta eseguire il comando senza l'opzione `--global`, quando si è in uno di quei progetti.
 
 ### Il proprio editor ###
 
-Ora che è configurata la propria identità, si può configurare l'editor di testo predefinito, da usare quando Git avrà bisogno di inserire un messaggi. Per impostazione predefinita, Git usa l'editor di testo predefinito del  sistema, che generalmente è Vi o Vim. Se vuoi usare un editor di testo differente, come Emacs, puoi fare come segue:
+Ora che è configurata la propria identità, si può configurare l'editor di testo predefinito, da usare quando Git avrà bisogno di inserire un messaggio. Per impostazione predefinita, Git usa l'editor di testo predefinito del sistema, che generalmente è Vi o Vim. Se vuoi usare un editor di testo differente, come Emacs, puoi fare come segue:
 
 	$ git config --global core.editor emacs
 	
@@ -249,7 +249,7 @@ Per esempio, puoi avere la manpage di aiuto, per il comando config, lanciando
 
 	$ git help config
 
-Questi comandi sono carini, perché puoi accedere ad essi da ognidove, anche se sei offline.
+Questi comandi sono carini, perché puoi accedere ad essi da ogni dove, anche se sei offline.
 Se il manpage e questo libro non sono sufficienti e hai bisogno di un aiuto più diretto da una persona, puoi provare i canali `#git` o `#github`, sul server IRC di Freenode (irc.freenode.com). Questi canali sono regolarmente frequentati da centinaia di persone che conoscono molto bene Git e saranno davvero felici di aiutarti.
 
 ## Riassumendo ##

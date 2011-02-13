@@ -870,6 +870,6 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 
 この方式の弱点は非常に時間がかかることで、多くの場合このチェックは不要です。`-f` つきで強制的にプッシュしようとしない限り、サーバーが警告を出してプッシュできないからです。しかし練習用の課題としてはおもしろいもので、あとでリベースを取り消してやりなおすはめになることを理屈上は防げるようになります。
 
-## Summary ##
+## まとめ ##
 
-You’ve covered most of the major ways that you can customize your Git client and server to best fit your workflow and projects. You’ve learned about all sorts of configuration settings, file-based attributes, and event hooks, and you’ve built an example policy-enforcing server. You should now be able to make Git fit nearly any workflow you can dream up.
+Git クライアントとサーバーをカスタマイズして自分たちのプロジェクトやワークフローにあてはめるための主要な方法を説明しました。あらゆる設定項目やファイルベースの属性、そしてイベントフックについて学び、特定のポリシーを実現するサーバーを構築するサンプルを示しました。これで、あなたが思い描くであろうほぼすべてのワークフローにあわせて Git を調整できるようになったはずです。

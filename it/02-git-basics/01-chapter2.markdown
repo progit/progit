@@ -14,7 +14,7 @@ Se stai iniziando a tracciare un progetto esistente con Git, devi posizionarti n
 
 Questo creerà una nuova sottodirectory chiamata .git che conterrà tutti i file necessari per il repository — uno scheletro del repository Git. A questo punto, niente del tuo progetto è tracciato ancora. (Vedi il Capitolo 9 per avere maggiori informazioni esatte sui file che sono contenuti nella directory `.git` che hai appena creato.)
 
-Se vuoi iniziare a tracciare i file esistenti (al contrario di una directory vuota), dovresti iniziare a monitorare questi file eseguendo un commit iniziale. Lo puoi fare con pochi comandi che specificano quali file vuoi controllare, seguiti dal un commit: 
+Se vuoi iniziare a tracciare i file esistenti (al contrario di una directory vuota), dovresti iniziare a monitorare questi file eseguendo un commit iniziale. Lo puoi fare con pochi comandi che specificano quali file vuoi controllare, seguiti da un commit: 
 
 	$ git add *.c
 	$ git add README
@@ -24,11 +24,11 @@ Vedremo in seguito velocemente cosa fanno questi comandi. A questo punto hai un 
 
 ### Clonare un repository esistente ###
 
-Se vuoi avere la copia di un repository Git esistente — per esempio, un progetto a cui vuoi contribuire — il comando di cui hai bisogno è git clone. Se hai famigliarità con altri sistemi VCS come Subversion, noterai che il comando è clone e non checkout. Questa è una distinzione importante — Git riceve una copia di circa tutti i dati che un server possiede. Ogni versione di ogni file della storia del progetto sono scaricate quando lanci `git clone`. Infatti, se il disco del tuo server è corrotto, puoi usare qualsiasi clonazione di qualsiasi client per ripristinare il server allo stato in cui era quando è stato clonato (puoi perdere alcuni agganci server, ma tutte le versioni dei dati saranno presenti — vedi il Capitolo 4 per maggiori dettagli).
+Se vuoi avere la copia di un repository Git esistente — per esempio, un progetto a cui vuoi contribuire — il comando di cui hai bisogno è git clone. Se hai familiarità con altri sistemi VCS come Subversion, noterai che il comando è clone e non checkout. Questa è una distinzione importante — Git riceve una copia di circa tutti i dati che un server possiede. Ogni versione di ogni file della storia del progetto sono scaricate quando lanci `git clone`. Infatti, se il disco del tuo server è corrotto, puoi usare qualsiasi clonazione di qualsiasi client per ripristinare il server allo stato in cui era quando è stato clonato (puoi perdere alcuni agganci server, ma tutte le versioni dei dati saranno presenti — vedi il Capitolo 4 per maggiori dettagli).
 
 Clona un repository con `git clone [url]`. Per esempio, se vuoi clonare la libreria Ruby Git chiamata Grit, puoi farlo così:
 
-	$ git clone git://github.com/schacon/grit.git mygrit
+	$ git clone git://github.com/schacon/grit.git
 
 Questo comando crea un directory "grit", inizializza una directory `.git` dentro di essa, scarica tutti i dati per questo repository ed imposta la copia di lavoro dell'ultima versione. Se entri nella nuova directory `grit`, vedrai i file del progetto, pronti per essere modificati o usati.  Se vuoi clonare il repository in una directory con un nome diverso da grit, puoi specificarlo come opzione successiva al comando da terminale:
 
@@ -42,7 +42,7 @@ Git può usare differenti protocolli di trasferimento. L'esempio precedente usa 
 
 In buona fede hai copiato un repository Git e hai la copia di lavoro dei file di questo progetto. Ora puoi apportare alcune modifiche ed inviare gli snapshots di questi cambiamenti nel tuo repository ogni volta che il progetto raggiunge uno stato che vuoi registrare.
 
-Ricorda che ogni file nella tua directory di lavoro è in una dei due stati seguenti: tracciato o non tracciato. I file tracciati sono sono i file presenti nell'ultimo snapshot; possono essere non modificati, modificati o parcheggiati (stage). I file non tracciati sono tutti gli altri - qualsiasi file nella tua directory di lavoro che non è presente nel tuo ultimo snapshot o nella tua area di staging. Quando cloni per la prima volta un repository, tutti i tuoi file sono tracciati e non modificati perché li hai appena prelevati e non hai modificato ancora niente.
+Ricorda che ogni file nella tua directory di lavoro è in una dei due stati seguenti: tracciato o non tracciato. I file tracciati sono i file presenti nell'ultimo snapshot; possono essere non modificati, modificati o parcheggiati (stage). I file non tracciati sono tutti gli altri - qualsiasi file nella tua directory di lavoro che non è presente nel tuo ultimo snapshot o nella tua area di staging. Quando cloni per la prima volta un repository, tutti i tuoi file sono tracciati e non modificati perché li hai appena prelevati e non hai modificato ancora niente.
 
 Quando modifichi i file, Git li vede come cambiati, perché li hai modificati rispetto all'ultimo commit. Parcheggi questi file e poi esegui il commit di tutti i cambiamenti presenti nell'area di stage, ed il ciclo si ripete. Questo ciclo di vita è illustrato nella Figura 2-1.
 
@@ -158,7 +158,7 @@ Spesso, si ha una classe di file che non si vuole automaticamente aggiungere o f
 
 La prima linea dice a Git di ignorare qualsiasi file che finisce con .o o .a — file di oggetti o archivi che possono essere il prodotto di una compilazione del tuo codice. La seconda linea dice a Git di ignorare tutti i file che finiscono con la tilde (`~`), che è usata da alcuni editor di testo come Emacs per marcare i file temporanei. Puoi anche includere directory di log, tmp o pid; documentazioni generate automaticamente; e così via. Imposta un file .gitignore prima di di procedere è generalmente una buona idea, così si evita il rischio di eseguire accidentalmente dei commit dei file che non vuoi nel tuo repository Git.
 
-Le regole per il per i pattern che puoi mettere nel file .gitignore sono le seguenti:
+Le regole per i pattern che puoi mettere nel file .gitignore sono le seguenti:
 
 *	Linee nere o linee che iniziano con # sono ignorate.
 *	Standard glob pattern funziona.
@@ -407,11 +407,11 @@ Ovviamente, questo è equivalente a lanciare qualcosa come:
 	$ git rm README.txt
 	$ git add README
 
-Git capisce implicitamente che è stato rinominato, così non è un problema rinominare un file in questo modo o con il comando `mv`. L'unica reale differenza è che `mv` è un solo comando invece di tre — non è conveniente.  Più importante è che tu puoi usare qualsiasi strumenti per rinominare un file, ed aggiungere/togliere poi prima di un commit.
+Git capisce implicitamente che è stato rinominato, così non è un problema rinominare un file in questo modo o con il comando `mv`. L'unica reale differenza è che `mv` è un solo comando invece di tre — non è conveniente.  Più importante è che tu puoi usare qualsiasi strumento per rinominare un file, ed aggiungere/togliere poi prima di un commit.
 
 ## Vedere la storia dei commit ##
 
-Dpo che hai creato un po' di commit, o se hai clonato un repository che contiene una storia di commit, probabilmente vuoi guardare indietro per vedere cosa è successo. Lo strumento base e più potente per farlo è il comando `git log`.
+Dopo che hai creato un po' di commit, o se hai clonato un repository che contiene una storia di commit, probabilmente vuoi guardare indietro per vedere cosa è successo. Lo strumento base e più potente per farlo è il comando `git log`.
 
 Questi esempi usano un progetto veramente semplice chiamato simplegit che è spesso usato per le dimostrazioni. Per ottenere il progetto, lancia:
 
@@ -516,7 +516,7 @@ Puoi anche usare una serie di opzioni di riassunto con `git log`. Per esempio, s
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
 Come puoi vedere, l'opzione `--stat` stampa sotto ogni voce di commit una lista dei file modificati, quanti file sono stati modificati, e quante linee in questi file sono state aggiunte o rimosse. Inoltre aggiunge un resoconto delle informazioni alla fine.
-Un'altra opzione veramente utile è `--pretty`. Questa opzione modifica gli output di log per la formattazione rispetto a quella predefinita. Alcune opzioni pre-costruite sono pronte all'uso. L'opzione  `oneline` stampa ogni commit in una singola linea, che è utile se stai guardando una lunga serie di commit. I aggiunta le opzioni `sort`, `full` e `fuller` mostrano l'output pressapoco nello stesso modo ma con più o meno informazioni, rispettivamente:
+Un'altra opzione veramente utile è `--pretty`. Questa opzione modifica gli output di log per la formattazione rispetto a quella predefinita. Alcune opzioni pre-costruite sono pronte all'uso. L'opzione  `oneline` stampa ogni commit in una singola linea, che è utile se stai guardando una lunga serie di commit. In aggiunta le opzioni `sort`, `full` e `fuller` mostrano l'output pressapoco nello stesso modo ma con più o meno informazioni, rispettivamente:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
@@ -590,9 +590,9 @@ Questo comando funziona con molti formati —  puoi specificare una data (“200
 
 Puoi inoltre filtrare l'elenco dei commit che corrispondono a dei criteri di ricerca. L'opzione `--author` ti permette di filtrare uno specifico autore e l'opzione `--grep` permette di cercare fra delle parole chiavi nei messaggi dei commit. (Nota che se vuoi specificare sia le opzioni author e grep, devi aggiungere `--all-match` o il comando ricercherà i commit sia di uno sia di quell'altro.)
 
-L'ultima opzione di filtro veramente utile da passare a `git log` è path.  Se specificih una directory o un nome di file, puoi limitare l'output del log ai commit che introducono modifiche a questi file. E' sempre l'ultima opzione fornita ed è generalmente preceduta dal doppio meno (`--`) per separare i path dalle opzioni.
+L'ultima opzione di filtro veramente utile da passare a `git log` è path.  Se specifichi una directory o un nome di file, puoi limitare l'output del log ai commit che introducono modifiche a questi file. E' sempre l'ultima opzione fornita ed è generalmente preceduta dal doppio meno (`--`) per separare i path dalle opzioni.
 
-NElla tabella 2-3 vediamo una lista di riferimento di queste e di altre opzioni comuni.
+Nella tabella 2-3 vediamo una lista di riferimento di queste e di altre opzioni comuni.
 
 	Opzioni	Descrizione
 	-(n)	Vedi solo gli ultimi n commit
@@ -619,7 +619,7 @@ Ci sono circa 20,000 commit nella storia del codice sorgente di git, questo coma
 Se vuoi usare uno strumento più grafico per visualizzare la storia dei tuoi commit, puoi vedere un programma in Tck/Tk chiamato gitk che è distribuito con Git. Gitk è fondamentalmente uno strumento visuale come `git log`, e accetta circa tutte le opzioni di filtro che `git log` ha. Se digiti gitk dalla riga di comando del tuo progetto, dovresti vedere qualcosa di simile alla Figura 2-2.
 
 Insert 18333fig0202.png
-Figure 2-2. The gitk history visualizer.
+Figure 2-2. Il visualizzatore della storia gitk.
 
 Puoi vedere la storia dei commit nella metà alta della finestra con un grafico genealogico. La finestra di diff nella metà inferiore mostra i cambiamenti introdotti ad ogni commit che selezioni.
 
@@ -637,7 +637,7 @@ Questo commando prende la tua area di parcheggio e la usa per il commit. Se non 
 
 L'editor per il messaggio del commit apparirà, ma già contiene il messaggio del commit precedente. Puoi modificare il messaggio come sempre, ma sovrascriverà il commit precedente.
 
-Come ad esempio, se fai il commit e poi realizzi di aver dimenticato un cambiamento nella tua area di stage di un file e vuoi aggiungerlo a questo commit, puoi farlo così:
+Come esempio, se fai il commit e poi realizzi di aver dimenticato un cambiamento nella tua area di stage di un file e vuoi aggiungerlo a questo commit, puoi farlo così:
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
@@ -645,7 +645,7 @@ Come ad esempio, se fai il commit e poi realizzi di aver dimenticato un cambiame
 
 Tutti e tre i comandi finisco in un singolo commit —  il secondo commit riscrive il risultato del primo.
 
-### Disimpegna un file parcheggiato ###
+### Disimpegnare un file parcheggiato ###
 
 Le prossime due sezioni mostrano come gestire le modifiche della tua area di parcheggio (area di stage) e della directory di lavoro. La parte divertente è che il comando che usi per determinare lo stato di queste due aree ricorda come annullare i cambiamenti fatti. Per esempio, supponiamo che hai modificato due file e vuoi inviarli come modifiche separate, ma accidentalmente digiti `git add *` e li parcheggi entrambi. Come puoi disimpegnare uno dei due? Il comando `git status` ti ricorda:
 
@@ -703,12 +703,12 @@ Ci dice abbastanza esplicitamente come annullare le modifiche fatte (al limite, 
 
 Puoi vedere come le modifiche sono state annullate. Dovresti inoltre realizzare che è un comando pericoloso: ogni cambiamento fatto al file è sparito — semplicemente hai copiato un altro file su di esso. Non usare mai questo comando a meno che non sai assolutamente cosa stai facendo. Se hai bisogno di riprenderlo in qualche modo, vai nei capitoli successivi sullo stashing e branching; queste sono generalmente le vie migliori da seguire.
 
-Ricorda, qualsiasi cosa che è stata affidata a Git può essere recuperata.  Tutti i commit che sono sui rami che sono stati cancellati o inviati con una sovra-scrizione tramite un commit `--amend` possono essere recuperati (vedi il Capitolo 9 per il recupero dei dati). Ovviamente, qualsiasi cosa che perdi e che non è stata affidata a Git non sarà più vista in futuro.
+Ricorda, qualsiasi cosa che è stata affidata a Git può essere recuperata. Tutti i commit che sono sui rami che sono stati cancellati o inviati con una sovra-scrizione tramite un commit `--amend` possono essere recuperati (vedi il Capitolo 9 per il recupero dei dati). Ovviamente, qualsiasi cosa che perdi e che non è stata affidata a Git non sarà più vista in futuro.
 
 ## Lavorare con sorgenti remote ##
 
 Per essere in grado di collaborare con un qualsiasi progetto Git, hai bisogno di sapere come amministrare il tuo repository remoto. I repository remoti sono versioni di progetti che sono ospitati in Internet o su una rete da qualche parte. Puoi averne più di uno, molti dei quali possono essere di sola lettura o di scrittura e lettura per te. Collaborare con altri implica di sapere amministrare questi repository remoti e mettere e togliere i dati a e da questi quando hai necessità di condividerli per lavoro.
-Amministrare repository remoti include il sapere aggiungere repository remoti, rimuovere quelli che non sono validi, amministrare vari rami remoti e definire quando sono tracciati o meno, e altro. In questa sezione, vedremo le techiniche di amministrazione remota.
+Amministrare repository remoti include il sapere aggiungere repository remoti, rimuovere quelli che non sono validi, amministrare vari rami remoti e definire quando sono tracciati o meno, e altro. In questa sezione, vedremo le tecniche di amministrazione remota.
 
 ### Visualizzare il sorgente remoto ###
 
@@ -764,7 +764,7 @@ Ora puoi usare la stringa pb dalla linea di comando al posto dell'intero URL. Pe
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Il ramo master di Paul è accessibile localmente come `pv/master` —  puoi unirlo in uno dei tuoi rami, o puoi caricare un tuo ramo locale a questo punto per ispezionarlo.
+Il ramo master di Paul è accessibile localmente come `pb/master` —  puoi unirlo in uno dei tuoi rami, o puoi caricare un tuo ramo locale a questo punto per ispezionarlo.
 
 ### Prelevare ed attirare da sorgenti in remoto ###
 
@@ -776,7 +776,7 @@ Il comando va sul progetto remoto e si tira giù tutti i dati dal progetto remot
 
 Se hai clonato un repository, il comando automaticamente aggiunge un repository remoto sotto il nome origin. Così, `git fetch origin` preleva ogni lavoro che è stato inserito su quel server da quando hai fatto la clonazione (o dall'ultimo prelievo). E' importante notare che il comando fetch mette i dati nel tuo repository locale — non unisce automaticamente e non modifica alcun file su cui tu stai lavorando. Devi eseguire la fusione manualmente nel tuo lavoro, quando sei pronto.
 
-Se hai un ramo impostato per tracciare un ramo remoto (vedi la prossima sezione e il Capitolo 3 per maggiori informazioni), puoi usare il comando `git pull` per prelevare automaticamente e poi fondere un ramo remoto nel ramo corrente. Questo è un modo più facile e comodo di lavorare; e in modo predefinito, il comando `git clone` automaticamente imposta il tuo ramo locale master per tracciare il ramo remoto master del server che hai clonato (assumento che il sorgente remoto ha un ramo master). Lanciare `git pull` generalmente preleva i dati dal server di origine clonato e automaticamente prova a fondere il codice con il codice su cui stai lavorando.
+Se hai un ramo impostato per tracciare un ramo remoto (vedi la prossima sezione e il Capitolo 3 per maggiori informazioni), puoi usare il comando `git pull` per prelevare automaticamente e poi fondere un ramo remoto nel ramo corrente. Questo è un modo più facile e comodo di lavorare; e in modo predefinito, il comando `git clone` automaticamente imposta il tuo ramo locale master per tracciare il ramo remoto master del server che hai clonato (assumendo che il sorgente remoto ha un ramo master). Lanciare `git pull` generalmente preleva i dati dal server di origine clonato e automaticamente prova a fondere il codice con il codice su cui stai lavorando.
 
 ### Buttare nel sorgente remoto ###
 
@@ -846,7 +846,7 @@ Se vuoi rimuovere una referenza per una qualche ragione — hai spostato il serv
 
 ### Tagging ###
 
-Come la maggior parte dei VCS, Git ha la possibilità di aggiungere dei tag, dei riferimenti, a dei punti specifici, che sono importanti, della storia. Generalmente, le persone usano questa funzionalità per marcare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare i tag disponibili, come crearne di nuovi, e i differenti di tag esistenti.
+Come la maggior parte dei VCS, Git ha la possibilità di aggiungere dei tag, dei riferimenti, a dei punti specifici, che sono importanti, della storia. Generalmente, le persone usano questa funzionalità per marcare i punti di rilascio (v1.0, e così via). In questa sezione, imparerai come elencare i tag disponibili, come crearne di nuovi, e i differenti tipi di tag esistenti.
 
 ### Elencare i propri tag ###
 
@@ -872,7 +872,7 @@ Git usa due principali tipi di tag: lightweight (semplificati) e annotated (comm
 
 ### Annotated tag (tag commentati) ###
 
-Creare un tag annotated in Git è semplice. La via più facile è di specificare `-a` quando si lancia il comando `tag`:
+Creare un tag annotated in Git è semplice. La via più facile è specificare `-a` quando si lancia il comando `tag`:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -1059,7 +1059,7 @@ Se usi una shell Bash, Git fornisce un piacevole script di auto completamento ch
 
 	source ~/.git-completion.bash
 
-Se vuoi impostare Git per avere l'auto completamento della shell Bash per tutti gli utenti, copia lo script nella directory `/opt/local/etc/bash_completion.d` sui sistemi MAc o in `/etc/bash_completion.d/` sui sistemi Linux. Questa è una directory degli script che Bash automaticamente carica per fornire l'auto completamento da shell.
+Se vuoi impostare Git per avere l'auto completamento della shell Bash per tutti gli utenti, copia lo script nella directory `/opt/local/etc/bash_completion.d` sui sistemi Mac o in `/etc/bash_completion.d/` sui sistemi Linux. Questa è una directory degli script che Bash automaticamente carica per fornire l'auto completamento da shell.
 
 Se stai usando Windows con Git Bash, che è l'installazione di base per Git su Windows con msysGit, l'auto completamento dovrebbe essere preconfigurato.
 
@@ -1118,4 +1118,4 @@ Git semplicemente sostituisce il nuovo comando con quello che corrisponde nell'a
 
 ## Conclusione ##
 
-A questo punto, sei in grado di tutte le operazioni di Git base in locale — creare o clonare un repository, fare delle modifiche, parcheggiare ed inviare queste modifiche, vedere la storia di tutti i cambiamenti del repository fatti. Nel prossimo capitolo, vedremo una caratteristica di Git da suicidio (la killer feature): il suo modello di ramificazione.
+A questo punto, sei in grado di fare tutte le operazioni di Git base in locale — creare o clonare un repository, fare delle modifiche, parcheggiare ed inviare queste modifiche, vedere la storia di tutti i cambiamenti del repository fatti. Nel prossimo capitolo, vedremo una caratteristica di Git da suicidio (la killer feature): il suo modello di ramificazione.

@@ -43,7 +43,7 @@
 
 那么，Git 是如何知道你当前在哪个分支上工作的呢？其实答案也很简单，它保存着一个名为 HEAD 的特别指针。请注意它和你熟知的许多其他版本控制系统（比如 Subversion 或 CVS）里的 HEAD 概念大不相同。在 Git 中，它是一个指向你正在工作中的本地分支的指针。运行 `git branch` 命令，仅仅是建立了一个新的分支，但不会自动切换到这个分支中去，所以在这个例子中，我们依然还在 master 分支里工作（参考图 3-5）。
 
-Insert 18333fig0305.png 
+![03-5](http://progit.org/figures/ch3/18333fig0305-tn.png)   
 图 3-5. HEAD 指向当前所在的分支
 
 要切换到其他分支，可以执行 `git checkout` 命令。我们现在转换到新建的 testing 分支：
@@ -52,7 +52,7 @@ Insert 18333fig0305.png
 
 这样 HEAD 就指向了 testing 分支（见图3-6）。
 
-Insert 18333fig0306.png
+![03-6](http://progit.org/figures/ch3/18333fig0306-tn.png)  
 图 3-6. HEAD 在你转换分支时指向新的分支
 
 这样的实现方式会给我们带来什么好处呢？好吧，现在不妨再提交一次：
@@ -62,7 +62,7 @@ Insert 18333fig0306.png
 
 图 3-7 展示了提交后的结果。
 
-Insert 18333fig0307.png 
+![03-7](http://progit.org/figures/ch3/18333fig0307-tn.png)  
 图 3-7. 每次提交后 HEAD 随着分支一起向前移动
 
 非常有趣，现在 testing 分支向前移动了一格，而 master 分支仍然指向原先 `git checkout` 时所在的 commit 对象。现在我们回到 master 分支看看：
@@ -71,7 +71,7 @@ Insert 18333fig0307.png
 
 图 3-8 显示了结果。
 
-Insert 18333fig0308.png 
+![03-8](http://progit.org/figures/ch3/18333fig0308-tn.png)   
 图 3-8. HEAD 在一次 checkout 之后移动到了另一个分支
 
 这条命令做了两件事。它把 HEAD 指针移回到 master 分支，并把工作目录中的文件换成了 master 分支所指向的快照内容。也就是说，现在开始所做的改动，将始于本项目中一个较老的版本。它的主要作用是将 testing 分支里作出的修改暂时取消，这样你就可以向另一个方向进行开发。
@@ -83,7 +83,7 @@ Insert 18333fig0308.png
 
 现在我们的项目提交历史产生了分叉（如图 3-9 所示），因为刚才我们创建了一个分支，转换到其中进行了一些工作，然后又回到原来的主分支进行了另外一些工作。这些改变分别孤立在不同的分支里：我们可以在不同分支里反复切换，并在时机成熟时把它们合并到一起。而所有这些工作，仅仅需要 `branch` 和 `checkout` 这两条命令就可以完成。
 
-Insert 18333fig0309.png 
+![03-9](http://progit.org/figures/ch3/18333fig0309-tn.png)  
 图 3-9. 分叉了的分支历史
 
 由于 Git 中的分支实际上仅是一个包含所指对象校验和（40 个字符长度 SHA-1 字串）的文件，所以创建和销毁一个分支就变得非常廉价。说白了，新建一个分支就是向一个文件写入 41 个字节（外加一个换行符）那么简单，当然也就很快了。
@@ -111,7 +111,7 @@ Insert 18333fig0309.png
 
 首先，我们假设你正在项目中愉快地工作，并且已经提交了几次更新（见图 3-10）。
 
-Insert 18333fig0310.png 
+![03-10](http://progit.org/figures/ch3/18333fig0310-tn.png)  
 图 3-10. 一部分简短的提交历史
 
 现在，你决定要修补问题追踪系统上的 #53 问题。顺带说明下，Git 并不同任何特定的问题追踪系统打交道。这里为了说明要解决的问题，才把新建的分支取名为 iss53。要新建并切换到该分支，运行 `git checkout` 并加上 `-b` 参数：
@@ -126,7 +126,7 @@ Insert 18333fig0310.png
 
 图 3-11 示意该命令的结果。
 
-Insert 18333fig0311.png 
+![03-11](http://progit.org/figures/ch3/18333fig0311-tn.png)  
 图 3-11. 创建了一个新的分支指针
 
 接下来，你在网站项目上继续工作并作了一次提交。这会使 `iss53` 分支的指针随着提交向前推进，因为它处于检出状态（或者说，你的 HEAD 指针目前正指向它，见图3-12）：
@@ -134,7 +134,7 @@ Insert 18333fig0311.png
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
-Insert 18333fig0312.png 
+![03-12](http://progit.org/figures/ch3/18333fig0312-tn.png)   
 图 3-12. iss53 分支随工作进展向前推进
 
 现在你就接到了那个网站问题的紧急电话，需要马上修补。有了 Git ，我们就不需要同时发布这个补丁和 `iss53` 里作出的修改，也不需要在创建和发布该补丁到服务器之前花费很多努力来复原这些修改。唯一需要的仅仅是切换回 master 分支。
@@ -155,7 +155,7 @@ Insert 18333fig0312.png
 	[hotfix]: created 3a0874c: "fixed the broken email address"
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Insert 18333fig0313.png 
+![03-13](http://progit.org/figures/ch3/18333fig0313-tn.png)   
 图 3-13. hotfix 分支是从 master 分支所在点分化出来的
 
 有必要作些测试，确保修补是成功的，然后把它合并到 master 分支并发布到生产服务器。用 `git merge` 命令来进行合并：
@@ -171,7 +171,7 @@ Insert 18333fig0313.png
 
 现在的目录变为当前 master 分支指向的 commit 所对应的快照，可以发布了（见图 3-14）。
 
-Insert 18333fig0314.png 
+![03-14](http://progit.org/figures/ch3/18333fig0314-tn.png)   
 图 3-14. 合并之后，master 分支和 hotfix 分支指向同一位置。
 
 在那个超级重要的修补发布以后，你想要回到被打扰之前的工作。因为现在 `hotfix` 分支和 `master` 指向相同的提交，现在没什么用了，可以先删掉它。使用 `git branch` 的 `-d` 选项表示删除：
@@ -188,7 +188,7 @@ Insert 18333fig0314.png
 	[iss53]: created ad82d7a: "finished the new footer [issue 53]"
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Insert 18333fig0315.png 
+![03-15](http://progit.org/figures/ch3/18333fig0315-tn.png)   
 图 3-15. iss53 分支可以不受影响继续推进。
 
 不用担心 `hotfix` 分支的内容还没包含在 `iss53` 中。如果确实需要纳入此次修补，可以用 `git merge master` 把 master 分支合并到 `iss53`，或者等完成后，再将 `iss53` 分支中的更新并入 `master`。
@@ -205,14 +205,14 @@ Insert 18333fig0315.png
 
 请注意，这次合并的实现，并不同于之前 `hotfix` 的并入方式。这一次，你的开发历史是从更早的地方开始分叉的。由于当前 master 分支所指向的 commit (C4)并非想要并入分支（iss53）的直接祖先，Git 不得不进行一些处理。就此例而言，Git 会用两个分支的末端（C4 和 C5）和它们的共同祖先（C2）进行一次简单的三方合并计算。图 3-16 标出了 Git 在用于合并的三个更新快照：
 
-Insert 18333fig0316.png 
+![03-16](http://progit.org/figures/ch3/18333fig0316-tn.png)   
 图 3-16. Git 为分支合并自动识别出最佳的同源合并点。
 
 Git 没有简单地把分支指针右移，而是对三方合并的结果作一新的快照，并自动创建一个指向它的 commit（C6）（见图 3-17）。我们把这个特殊的 commit 称作合并提交（merge commit），因为它的祖先不止一个。
 
 值得一提的是 Git 可以自己裁决哪个共同祖先才是最佳合并基础；这和 CVS 或 Subversion（1.5 以后的版本）不同，它们需要开发者手工指定合并基础。所以此特性让 Git 的合并操作比其他系统都要简单不少。
 
-Insert 18333fig0317.png 
+![03-17](http://progit.org/figures/ch3/18333fig0317-tn.png)   
 图 3-17. Git 自动创建了一个包含了合并结果的 commit 对象。
 
 既然你的工作成果已经合并了，`iss53` 也就没用了。你可以就此删除它，并在问题追踪系统里把该问题关闭。
@@ -346,12 +346,12 @@ Git 作了合并，但没有提交，它会停下来等你解决冲突。要看�
 
 本质上我们刚才谈论的，是随着 commit 不停前移的指针。稳定分支的指针总是在提交历史中落后一大截，而前沿分支总是比较靠前（见图 3-18）。
 
-Insert 18333fig0318.png 
+![03-18](http://progit.org/figures/ch3/18333fig0318-tn.png)  
 图 3-18. 稳定分支总是比较老旧。
 
 或者把它们想象成工作流水线可能会比较容易理解，经过测试的 commit 集合被遴选到更稳定的流水线（见图 3-19）。
 
-Insert 18333fig0319.png 
+![03-19](http://progit.org/figures/ch3/18333fig0319-tn.png)  
 图 3-19. 想象成流水线可能会容易点。
 
 你可以用这招维护不同层次的稳定性。某些大项目还会有个 `proposed`（建议）或 `pu`（proposed updates，建议更新）分支，它包含着那些可能还没有成熟到进入 `next` 或 `master` 的内容。这么做的目的是拥有不同层次的稳定性：当这些分支进入到更稳定的水平时，再把它们合并到更高层分支中去。再次说明下，使用多个长期分支的做法并非必需，不过一般来说，对于特大型项目或特复杂的项目，这么做确实更容易管理。
@@ -364,12 +364,12 @@ Insert 18333fig0319.png
 
 现在我们来看一个实际的例子。请看图 3-20，起先我们在 `master` 工作到 C1，然后开始一个新分支 `iss91` 尝试修复 91 号缺陷，提交到 C6 的时候，又冒出一个新的解决问题的想法，于是从之前 C4 的地方又分出一个分支 `iss91v2`，干到 C8 的时候，又回到主干中提交了 C9 和 C10，再回到 `iss91v2` 继续工作，提交 C11，接着，又冒出个不太确定的想法，从 `master` 的最新提交 C10 处开了个新的分支 `dumbidea` 做些试验。
 
-Insert 18333fig0320.png 
+![03-20](http://progit.org/figures/ch3/18333fig0320-tn.png)   
 图 3-20. 拥有多个特性分支的提交历史。
 
 现在，假定两件事情：我们最终决定使用第二个解决方案，即 `iss91v2` 中的办法；另外，我们把 `dumbidea` 分支拿给同事们看了以后，发现它竟然是个天才之作。所以接下来，我们抛弃原来的 `iss91` 分支（即丢弃 C5 和 C6），直接在主干中并入另外两个分支。最终的提交历史将变成图 3-21 这样：
 
-Insert 18333fig0321.png 
+![03-21](http://progit.org/figures/ch3/18333fig0321-tn.png)   
 图 3-21. 合并了 dumbidea 和 iss91v2 以后的历史。
 
 请务必牢记这些分支全部都是本地分支，这一点很重要。当你在使用分支及合并的时候，一切都是在你自己的 Git 仓库中进行的 —— 完全不涉及与服务器的交互。
@@ -382,27 +382,27 @@ Insert 18333fig0321.png
 
 可能有点乱，我们不妨举例说明。假设你们团队有个地址为 `git.ourcompany.com` 的 Git 服务器。如果你从这里克隆，Git 会自动为你将此远程仓库命名为 `origin`，并下载其中所有的数据，建立一个指向它的 `master` 分支的指针，在本地命名为 `origin/master`，但你无法在本地更改其数据。接着，Git 建立一个属于你自己的本地 `master` 分支，始于 `origin` 上 `master` 分支相同的位置，你可以就此开始工作（见图 3-22）：
 
-Insert 18333fig0322.png 
+![03-22](http://progit.org/figures/ch3/18333fig0322-tn.png)   
 图 3-22. 一次 Git 克隆会建立你自己的本地分支 master 和远程分支 origin/master，它们都指向 origin/master 分支的最后一次提交。
 
 要是你在本地 `master` 分支做了会儿事情，与此同时，其他人向 `git.ourcompany.com` 推送了内容，更新了上面的 `master` 分支，那么你的提交历史会开始朝不同的方向发展。不过只要你不和服务器通讯，你的 `origin/master` 指针不会移动（见图 3-23）。
 
-Insert 18333fig0323.png 
+![03-23](http://progit.org/figures/ch3/18333fig0323-tn.png)  
 图 3-23. 在本地工作的同时有人向远程仓库推送内容会让提交历史发生分歧。
 
 可以运行 `git fetch origin` 来进行同步。该命令首先找到 `origin` 是哪个服务器（本例为 `git.ourcompany.com`），从上面获取你尚未拥有的数据，更新你本地的数据库，然后把 `origin/master` 的指针移到它最新的位置（见图 3-24）。
 
-Insert 18333fig0324.png 
+![03-24](http://progit.org/figures/ch3/18333fig0324-tn.png)   
 图 3-24. git fetch 命令会更新 remote 索引。
 
 为了演示拥有多个远程分支（不同的远程服务器）的项目是个什么样，我们假设你还有另一个仅供你的敏捷开发小组使用的内部服务器 `git.team1.ourcompany.com`。可以用第二章中提到的 `git remote add` 命令把它加为当前项目的远程分支之一。我们把它命名为 `teamone`，表示那一整串 Git 地址（见图 3-25）。
 
-Insert 18333fig0325.png 
+![03-25](http://progit.org/figures/ch3/18333fig0325-tn.png)   
 图 3-25. 把另一个服务器加为远程仓库
 
 现在你可以用 `git fetch teamone` 来获取小组服务器上你还没有的数据了。由于当前该服务器上的内容是你 `origin` 服务器上的子集，Git 不会下载任何数据，而只是简单地创建一个名为 `teamone/master` 的分支来指向 `teamone` 服务器上 `master` 所指向的更新 `31b8e`（见图 3-26）。
 
-Insert 18333fig0326.png 
+![03-26](http://progit.org/figures/ch3/18333fig0326-tn.png)   
 图 3-26. 你在本地有了一个指向 teamone 服务器上 master 分支的索引。
 
 ### 推送 ###
@@ -477,12 +477,12 @@ Insert 18333fig0326.png
 
 请回顾之前有关合并的一节（见图 3-27），你会看到开发进程分叉到两个不同分支，又各自提交了更新。
 
-Insert 18333fig0327.png 
+![03-27](http://progit.org/figures/ch3/18333fig0327-tn.png)   
 图 3-27. 最初分叉的提交历史。
 
 之前介绍过，最容易的整合分支的方法是 `merge` 命令，它会把两个分支最新的快照（C3 和 C4）以及二者最新的共同祖先（C2）进行三方合并。如图 3-28 所示：
 
-Insert 18333fig0328.png 
+![03-28](http://progit.org/figures/ch3/18333fig0328-tn.png)   
 图 3-28. 通过合并一个分支来整合分叉了的历史。
 
 其实，还有另外一个选择：你可以把在 C3 里产生的变化补丁重新在 C4 的基础上打一遍。在 Git 里，这种操作叫做_衍合（rebase）_。有了 `rebase` 命令，就可以把在一个分支里提交的改变在另一个分支里重放一遍。
@@ -496,12 +496,12 @@ Insert 18333fig0328.png
 
 它的原理是回到两个分支（你所在的分支和你想要衍合进去的分支）的共同祖先，提取你所在分支每次提交时产生的差异（diff），把这些差异分别保存到临时文件里，然后从当前分支转换到你需要衍合入的分支，依序施用每一个差异补丁文件。图 3-29 演示了这一过程：
 
-Insert 18333fig0329.png 
+![03-29](http://progit.org/figures/ch3/18333fig0329-tn.png)   
 图 3-29. 把 C3 里产生的改变衍合到 C4 中。
 
 现在，你可以回到 master 分支然后进行一次快进合并（见图 3-30）：
 
-Insert 18333fig0330.png 
+![03-30](http://progit.org/figures/ch3/18333fig0330-tn.png)   
 图 3-30. master 分支的快进。
 
 现在，合并后的 C3（即现在的 C3'）所指的快照，同三方合并例子中的 C5 所指的快照内容一模一样了。最后整合得到的结果没有任何区别，但衍合能产生一个更为整洁的提交历史。如果视察一个衍合过的分支的历史记录，看起来更清楚：仿佛所有修改都是先后进行的，尽管实际上它们原来是同时发生的。
@@ -514,7 +514,7 @@ Insert 18333fig0330.png
 
 你还可以在衍合分支以外的地方衍合。以图 3-31 的历史为例。你创建了一个特性分支 `server` 来给服务器端代码添加一些功能，然后提交 C3 和 C4。然后从 C3 的地方再增加一个 `client` 分支来对客户端代码进行一些修改，提交 C8 和 C9。最后，又回到 `server` 分支提交了 C10。
 
-Insert 18333fig0331.png 
+![03-31](http://progit.org/figures/ch3/18333fig0331-tn.png)  
 图 3-31. 从一个特性分支里再分出一个特性分支的历史。
 
 假设在接下来的一次软件发布中，你决定把客户端的修改先合并到主线中，而暂缓并入服务端软件的修改（因为还需要进一步测试）。你可以仅提取对客户端的改变（C8 和 C9），然后通过使用 `git rebase` 的 `--onto` 选项来把它们在 master 分支上重演：
@@ -523,7 +523,7 @@ Insert 18333fig0331.png
 
 这基本上等于在说“检出 client 分支，找出 `client` 分支和 `server` 分支的共同祖先之后的变化，然后把它们在 `master` 上重演一遍”。是不是有点复杂？不过它的结果，如图 3-32 所示，非常酷：
 
-Insert 18333fig0332.png 
+![03-32](http://progit.org/figures/ch3/18333fig0332-tn.png)   
 图 3-32. 衍合一个特性分支上的另一个特性分支。
 
 现在可以快进 master 分支了（见图 3-33）：
@@ -531,7 +531,7 @@ Insert 18333fig0332.png
 	$ git checkout master
 	$ git merge client
 
-Insert 18333fig0333.png 
+![03-33](http://progit.org/figures/ch3/18333fig0333-tn.png)   
 图 3-33. 快进 master 分支，使之包含 client 分支的变化。
 
 现在你决定把 `server` 分支的变化也包含进来。可以直接把 `server` 分支衍合到 `master` 而不用手工转到 `server` 分支再衍合。`git rebase [主分支] [特性分支]` 命令会先检出特性分支 `server`，然后在主分支 `master` 上重演：
@@ -540,7 +540,7 @@ Insert 18333fig0333.png
 
 于是 `server` 的进度应用到 `master` 的基础上，如图 3-34：
 
-Insert 18333fig0334.png 
+![03-34](http://progit.org/figures/ch3/18333fig0334-tn.png)   
 图 3-34. 在 master 分支上衍合 server 分支。
 
 然后快进主分支 `master`：
@@ -553,7 +553,7 @@ Insert 18333fig0334.png
 	$ git branch -d client
 	$ git branch -d server
 
-Insert 18333fig0335.png 
+![03-35](http://progit.org/figures/ch3/18333fig0335-tn.png)   
 图 3-35. 最终的提交历史
 
 ### 衍合的风险 ###
@@ -568,22 +568,22 @@ Insert 18333fig0335.png
 
 下面我们用一个实际例子来说明为什么公开的衍合会带来问题。假设你从一个中央服务器克隆然后在它的基础上搞了一些开发，提交历史类似图 3-36：
 
-Insert 18333fig0336.png 
+![03-36](http://progit.org/figures/ch3/18333fig0336-tn.png)   
 图 3-36. 克隆一个仓库，在其基础上工作一番。
 
 现在，其他人进行了一些包含一次合并的工作（得到结果 C6），然后把它推送到了中央服务器。你获取了这些数据并把它们合并到你本地的开发进程里，让你的历史变成类似图 3-37 这样：
 
-Insert 18333fig0337.png 
+![03-37](http://progit.org/figures/ch3/18333fig0337-tn.png)  
 图 3-37. 获取更多提交，并入你的开发进程。
 
 接下来，那个推送 C6 上来的人决定用衍合取代那次合并；他们用 `git push --force` 覆盖了服务器上的历史，得到 C4'。然后你再从服务器上获取更新：
 
-Insert 18333fig0338.png 
+![03-38](http://progit.org/figures/ch3/18333fig0338-tn.png)   
 图 3-38. 有人推送了衍合过的 C4'，丢弃了你作为开发基础的 C6。
 
 这时候，你需要再次合并这些内容，尽管之前已经做过一次了。衍合会改变这些 commit 的 SHA-1 校验值，这样 Git 会把它们当作新的 commit，然而这时候在你的提交历史早就有了 C4 的内容（见图 3-39）:
 
-Insert 18333fig0339.png 
+![03-39](http://progit.org/figures/ch3/18333fig0339-tn.png)   
 图 3-39. 你把相同的内容又合并了一遍，生成一个新的提交 C8。
 
 你迟早都是要并入其他协作者提交的内容的，这样才能保持同步。当你做完这些，你的提交历史里会同时包含 C4 和 C4'，两者有着不同的 SHA-1 校验值，但却拥有一样的作者日期与提交说明，令人费解！更糟糕的是，当你把这样的历史推送到服务器，会再次把这些衍合的提交引入到中央服务器，进一步迷惑其他人。

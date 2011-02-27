@@ -107,7 +107,7 @@ Nesse etapa, você receberá uma chamada que outro problema é crítico e precis
 3.	Depois de testado, fazer o merge do branch da correção, e enviar para produção.
 4.	Retornar a sua história original e continuar trabalhando.
 
-### Básico de Branch ###
+### Branch Básico ###
 
 Primeiro, digamos que você esteja trabalhando no seu projeto e já tem alguns commits (veja Figura 3-10).
 
@@ -193,7 +193,7 @@ Figura 3-15. Seu branch iss53 pode avançar de forma independente.
 
 Vale a pena lembrar aqui que o trabalho feito no seu branch `hotfix` não existe nos arquivos do seu branch `iss53`. Se você precisa incluí-lo, você pode fazer o merge do seu branch `master` no seu branch `iss53` executando o comando `git merge master`, ou você pode esperar para integrar essas mudanças até você decidir fazer o pull do branch `iss53` no `master` mais tarde.
 
-### Básico de Merge ###
+### Merge Básico ###
 
 Suponha que você decidiu que o trabalho na tarefa #53 está completo e pronto para ser feito o merge no branch `master`. Para fazer isso, você fará o merge do seu branch `iss53`, bem como o merge do branch `hotfix` de antes. Tudo que você tem a fazer é executar o checkout do branch para onde deseja fazer o merge e então rodar o comando `git merge`:
 
@@ -219,16 +219,16 @@ Agora que foi feito o merge no seu trabalho, você não precisa mais do branch `
 
 	$ git branch -d iss53
 
-### Basic Merge Conflicts ###
+### Conflitos de Merge Básico ###
 
-Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
+As vezes, esse processo não é fácil. Se você alterou a mesma parte do mesmo arquivo de forma diferente nos dois branchs que está fazendo o merge, Git não será capaz de executar o merge de forma clara. Se sua correção para o erro #53 alterou a mesma parte de um arquivo que `hotfix`, você terá um conflito de merge parecido com isso:
 
 	$ git merge iss53
 	Auto-merging index.html
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
+Git não criou automaticamente um novo commit para o merge. Ele fez uma pausa no processo enquanto você resolve o conflito. Se você quer ver quais arquivos não foi feito o merge, em qualquer momento depois do conflito, você pode executar `git status`:
 
 	[master*]$ git status
 	index.html: needs merge
@@ -240,7 +240,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
-Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
+Qualquer coisa que tem conflito no merge e não foi resolvido é listado como "unmerged". Git adiciona marcadores padrão de resolução de conflitos nos arquivos que têm conflitos, para que você possa abri-los manualmente e resolver esses conflitos. Seu arquivo terá uma seção parecida com isso:
 
 	<<<<<<< HEAD:index.html
 	<div id="footer">contact : email.support@github.com</div>
@@ -250,14 +250,13 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
-This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
+Isso significa que a versão em HEAD (seu branch master, pois era isso que você tinha feito o checkout quando executou o comando merge) é a parte superior desse bloco (tudo acima de `=======`), enquanto a versão no seu branch `iss53` é toda a parte inferior. Para resolver esse conflito, você tem que optar entre um lado ou outro, ou fazer o merge do conteúdo você mesmo. Por exemplo, você pode resolver esse conflito através da substituição do bloco inteiro por isso:
 
 	<div id="footer">
 	please contact us at email.support@github.com
 	</div>
 
-This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
-If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:
+Esta solução tem um pouco de cada seção, e eu removi completamente as linhas `<<<<<<<`, `=======`, e `>>>>>>>`. Depois que você resolveu cada uma dessas seções em cada arquivo com conflito, rode `git add` em cada arquivo para marcá-lo como resolvido. Colocar o arquivo na área de seleção o marca como resolvido no Git. Se você quer usar uma ferramenta gráfica para resolver esses problemas, você pode executar `git mergetool`, que abre uma ferramenta visual de merge adequada e percorre os conflitos:
 
 	$ git mergetool
 	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
@@ -268,11 +267,11 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
+Se você quer usar uma ferramenta de merge diferente da padrão (Git escolheu `opendiff` para mim neste caso porque eu rodei o comando em um Mac), você pode ver todas as ferramentas disponíveis listadas no topo depois de “merge tool candidates”. Digite o nome da ferramenta que você prefere usar. No capítulo 7, discutiremos como você pode alterar esse valor para o seu ambiente.
 
-After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
+Depois de sair da ferramenta de merge, Git pergunta se o merge foi concluído com sucesso. Se você disser ao script que foi, ele colocar o arquivo na área de seleção para marcá-lo como resolvido pra você.
 
-You can run `git status` again to verify that all conflicts have been resolved:
+Se você rodar `git status` novamente para verificar que todos os conflitos foram resolvidos:
 
 	$ git status
 	# On branch master
@@ -282,7 +281,7 @@ You can run `git status` again to verify that all conflicts have been resolved:
 	#	modified:   index.html
 	#
 
-If you’re happy with that, and you verify that everything that had conflicts has been staged, you can type `git commit` to finalize the merge commit. The commit message by default looks something like this:
+Se você está satisfeito com isso, e verificou que tudo que havia conflito foi colocado na área de seleção, você pode digitar `git commit` para concluir o commit do merge. A mensagem de commit padrão é algo semelhante a isso:
 
 	Merge branch 'iss53'
 
@@ -295,7 +294,7 @@ If you’re happy with that, and you verify that everything that had conflicts h
 	# and try again.
 	#
 
-You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
+Você pode modificar essa mensagem com detalhes sobre como você resolveu o merge se você acha que isso seria útil para outros quando olharem esse merge no futuro — por que você fez o que fez, se não é óbvio.
 
 ## Gerenciamento de ramos ##
 

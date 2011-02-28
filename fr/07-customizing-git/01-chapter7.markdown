@@ -469,44 +469,59 @@ Si vous remplacez une images dans votre projet et lancez `git diff`, vous verrez
 
 Vous pouvez réaliser rapidement que la taille du fichier et les dimensions des images ont toutes deux changé.
 
-### Keyword Expansion ###
+### Expansion des mots-clés###
 
-SVN- or CVS-style keyword expansion is often requested by developers used to those systems. The main problem with this in Git is that you can’t modify a file with information about the commit after you’ve committed, because Git checksums the file first. However, you can inject text into a file when it’s checked out and remove it again before it’s added to a commit. Git attributes offers you two ways to do this.
+L'expansion de mots-clés dans le style de CVS ou de SVN est souvent une fonctionnalité demandée par les développeurs habitués.
+Le problème principal de ce système avec Git et que vous ne pouvez pas modifier un fichier avec l'information concernant le commit après la validation parce que Git calcule justement la somme de contrôle sur son contenu.
+Cependant, vous pouvez injecter des informations textuelles dans un fichier au moment où il est extrait et la retirer avant qu'il ne soit ajouté à une validation.
+Les attributs Git vous fournissent deux manière de le faire.
 
-First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the file automatically. If you set this attribute on a file or set of files, then the next time you check out that branch, Git will replace that field with the SHA-1 of the blob. It’s important to notice that it isn’t the SHA of the commit, but of the blob itself:
+Premièrement, vous pouvez injecter automatiquement la somme de contrôle SHA-1 d'un blob dans un champ `$Id$` d'un fichier.
+Si vous positionnez cet attribut pour un fichier ou un ensemble de fichiers, la prochaine fois que vous extrairez cette branche, Git remplacera chaque champ avec le SHA-1 du blob.
+Il est à noter que ce n'est pas le SHA du commit mais celui du blob lui-même :
 
 	$ echo '*.txt ident' >> .gitattributes
 	$ echo '$Id$' > test.txt
 
-The next time you check out this file, Git injects the SHA of the blob:
+À la prochain extraction de ce fichier, Git injecte le SHA du blob :
 
 	$ rm text.txt
 	$ git checkout -- text.txt
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
+Néanmoins, ce résultat n'a que peu d'intérêt.
+Si vous avez utilisé la substitution avec CVS ou Subversion, il est possible d'inclure la date.
+Le code SHA n'est pas des plus utiles car il est plutôt aléatoire et ne vous permet pas de distinguer si tel SHA est plus récent ou ancien que tel autre.
 
-It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
+Il apparaît que vous pouvez écrire vos propres filtres pour réaliser des substitutions dans les fichiers lors des validations/extractions.
+Ces filtres s'appellent « clean » et « smudge ».
+Dans le fichier `.gitattributes`, vous pouvez indiquer un filtre pour des chemins particuliers puis créer des scripts qui traiterons ces fichiers avant qu'ils soient validés (« clean », voir figure 7-2) et juste avant qu'il soient extraits (« smudge », voir figure 7-3).
+Ces filtres peuvent servir à faire toutes sortes de choses sympa.
 
 Insert 18333fig0702.png 
-Figure 7-2. The “smudge” filter is run on checkout.
+Figure 7-2. Le filtre « smudge » est lancé lors d'une extraction.
 
 Insert 18333fig0703.png 
-Figure 7-3. The “clean” filter is run when files are staged.
+Figure 7-3. Le filtre « clean » est lancé lorsque les fichiers sont indexés.
 
-The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
+Le message de validation d'origine pour cette fonctionnalité donne un exemple simple permettant de passer tout votre code C par le programme `indent` avant de valider.
+Vous pouvez le faire en réglant l'attribut `filter` dans votre fichier `.gitattributes` pour filtrer les fichiers `*.c` avec le filtre « indent » :
 
 	*.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+Ensuite, indiquez à Git ce que le filtre « indent » fait sur smudge et clean :
 
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
 
-In this case, when you commit files that match `*.c`, Git will run them through the indent program before it commits them and then run them through the `cat` program before it checks them back out onto disk. The `cat` program is basically a no-op: it spits out the same data that it gets in. This combination effectively filters all C source code files through `indent` before committing.
+Dans ce cas, quand vous validez des fichiers qui correspondent à `*.c`, Git les fera passer par le programme indent avant de les valider et les fera passer par le programme « cat » avant de les extraire sur votre disque.
+Le programme `cat` ne  fait rien : il se contente de régurgiter les données tels qu'il les a lues.
+Cette combinaison filtre effectivement tous le fichiers de code source C par `indent` avant leur validation.
 
-Another interesting example gets `$Date$` keyword expansion, RCS style. To do this properly, you need a small script that takes a filename, figures out the last commit date for this project, and inserts the date into the file. Here is a small Ruby script that does that:
+Un autre exemple intéressant fournit l'expansion du mot-clé `$Date$` dans le style RCS.
+Pour le réaliser correctement, vous avez besoin d'un petit script qui prend un nom de fichier, calcule la date de la dernière validation pour le projet, et l'insère la date dans le fichier.
+Voici un petit script Ruby qui le fait :
 
 	#! /usr/bin/env ruby
 	data = STDIN.read

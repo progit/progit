@@ -366,7 +366,7 @@ Poi, se lanci `git rm`, parcheggia il file rimosso:
 
 La prossima volta che fai il commit, il file se ne andrà e non sarà più tracciato. Se modifichi il file e lo aggiungi nuovamente all'indice, devi forzarne la rimozione con l'opzione `-f`. Questa è una caratteristica di sicurezza per prevenire la rimozione accidentale dei dati che non sono ancora stati registrati in uno snapshot e che non possono essere recuperati da Git.
 
-Un'altra cosa utile che vorresti fare è di mantenere il file nel tuo albero di lavoro ma rimuoverlo dall'area di staging. In altre parole, vuoi mantenere il file sul tuo disco ma non vuoi che Git ne mantenga ancora traccia. Questo è particolarmente utile se ti dimentichi di aggiungere qualcosa al tuo file `.gitignore` ed accidentalmente lo aggiungi, come un lungo file di log od un gruppo di file `.a` compilati. Per fare questo, usa l'opzione `--cached`:
+Un'altra cosa utile che potresti voler fare è mantenere il file nel tuo albero di lavoro ma rimuoverlo dall'area di staging. In altre parole, vuoi mantenere il file sul tuo disco ma non vuoi che Git ne mantenga ancora traccia. Questo è particolarmente utile se ti dimentichi di aggiungere qualcosa al tuo file `.gitignore` ed accidentalmente lo aggiungi, come un lungo file di log od un gruppo di file `.a` compilati. Per fare questo, usa l'opzione `--cached`:
 
 	$ git rm --cached readme.txt
 
@@ -384,7 +384,7 @@ Questo comando rimuove tutti i file che finiscono con `~`.
 
 A differenza di altri sistemi VCS, Git non traccia esplicitamente i movimenti di file. Se rinomini un file in Git, nessun metadata è immagazzinato in Git che ti dirà che hai rinominato il file. Come sempre, Git è abbastanza intelligente da capire il fatto — ci occuperemo di rilevare il movimento dei file dopo.
 
-Così un po' confonde e Git ha il comando `mv`. Se vuoi rinominare un file in Git, puoi lanciare qualcosa come
+Perciò crea un pò di confusione il fatto che Git  abbia un comando `mv`. Se vuoi rinominare un file in Git, puoi lanciare qualcosa come
 
 	$ git mv file_from file_to
 
@@ -677,7 +677,7 @@ Ora il testo sotto “Changes to be committed”, dice di usare `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-Il comando è un po' strano, ma funziona. Il file benchmarks.rv è modificato ma non parcheggiato.
+Il comando è un po' strano, ma funziona. Il file benchmarks.rb è modificato ma non parcheggiato.
 
 ### Annullare la modifica ad un file ###
 
@@ -1051,7 +1051,7 @@ Ora, quando qualcun altro clona o scarica dal tuo repository, avrà anche tutti 
 
 ## Tips and Tricks ##
 
-Prima di finire questo capitolo sulle basi di Git, ecco alcuni suggerimenti e trucchi per rendere l'esperienza nell'uso di Git più semplice, facile e famigliare. Molte persone usano Git senza usare questi consigli e non vogliamo riferirci a loro o presumere di usarli successivamente nel libro; ma si dovrebbero conoscere.
+Prima di finire questo capitolo sulle basi di Git, ecco alcuni suggerimenti e trucchi per rendere l'esperienza nell'uso di Git più semplice, facile e familiare. Molte persone usano Git senza usare questi consigli e non vogliamo riferirci a loro o presumere di usarli successivamente nel libro; ma si dovrebbero conoscere.
 
 ### Auto completamento ###
 
@@ -1070,7 +1070,7 @@ Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti avere una se
 
 In questo caso, scrivendo git co a poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
 
-Questo funziona anche con le opzioni, che forse è molto più utile. Per esempio, se si lancia il comando `git log` e non si ricorda una opzione, si può iniziare a pigiare il tasto Tab per vedere le corrispondenze:
+Questo funziona anche con le opzioni, cosa che forse è molto più utile. Per esempio, se si lancia il comando `git log` e non si ricorda una opzione, si può iniziare a pigiare il tasto Tab per vedere le corrispondenze:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary

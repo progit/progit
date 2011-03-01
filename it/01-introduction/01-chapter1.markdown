@@ -190,7 +190,7 @@ Git è rilasciato con uno strumento che si chiama git config che ti permetterà 
 
 *	file `/etc/gitconfig`: Contiene i valori per ogni utente sul sistema e per tutti i loro repository. Se si passa l'opzione` --system` a `git config`, lui legge e scrive da questo specifico file. 
 *	file `~/.gitconfig`: Specifico per il tuo utente. Puoi far leggere e scrivere a Git questo file passando l'opzione `--global`. 
-*	file di configurazione nella directory git (che è, `.git/config`) di ogni repository che si sta usando: Specifico per ogni singolo repository. Ogni livello sovrascrive i valori del livello precedente, così i valori in `.git/config` vincono su quelli in `/etc/gitconfig`.
+*	file di configurazione nella directory git (che è `.git/config`) di ogni repository che si sta usando. Specifico per ogni singolo repository. Ogni livello sovrascrive i valori del livello precedente, così i valori in `.git/config` vincono su quelli in `/etc/gitconfig`.
 
 Sui sistemi Windows, Git cerca il file `.gitconfig` nella directory `$HOME` (`C:\Documents and Settings\$USER` per la maggior parte delle persone). Inoltre per quanto riguarda /etc/gitconfig, sarà relativo alla radice di MSys, che è in dipendenza a dove si vorrà installare Git sul sistema Windows quando si lancia l'installazione.
 
@@ -249,7 +249,7 @@ Per esempio, puoi avere la manpage di aiuto, per il comando config, lanciando
 
 	$ git help config
 
-Questi comandi sono carini, perché puoi accedere ad essi da ogni dove, anche se sei offline.
+Questi comandi sono utili, perché puoi accedere ad essi da ogni dove, anche se sei offline.
 Se il manpage e questo libro non sono sufficienti e hai bisogno di un aiuto più diretto da una persona, puoi provare i canali `#git` o `#github`, sul server IRC di Freenode (irc.freenode.com). Questi canali sono regolarmente frequentati da centinaia di persone che conoscono molto bene Git e saranno davvero felici di aiutarti.
 
 ## Riassumendo ##

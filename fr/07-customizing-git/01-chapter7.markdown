@@ -469,12 +469,12 @@ Si vous remplacez une images dans votre projet et lancez `git diff`, vous verrez
 
 Vous pouvez réaliser rapidement que la taille du fichier et les dimensions des images ont toutes deux changé.
 
-### Expansion des mots-clés###
+### L'expansion des mots-clés###
 
-L'expansion de mots-clés dans le style de CVS ou de SVN est souvent une fonctionnalité demandée par les développeurs habitués.
+L'expansion de mots-clés dans le style de CVS ou de SVN est souvent une fonctionnalité demandée par les développeurs qui y sont habitués.
 Le problème principal de ce système avec Git et que vous ne pouvez pas modifier un fichier avec l'information concernant le commit après la validation parce que Git calcule justement la somme de contrôle sur son contenu.
 Cependant, vous pouvez injecter des informations textuelles dans un fichier au moment où il est extrait et la retirer avant qu'il ne soit ajouté à une validation.
-Les attributs Git vous fournissent deux manière de le faire.
+Les attributs Git vous fournissent deux manières de le faire.
 
 Premièrement, vous pouvez injecter automatiquement la somme de contrôle SHA-1 d'un blob dans un champ `$Id$` d'un fichier.
 Si vous positionnez cet attribut pour un fichier ou un ensemble de fichiers, la prochaine fois que vous extrairez cette branche, Git remplacera chaque champ avec le SHA-1 du blob.
@@ -517,10 +517,10 @@ Ensuite, indiquez à Git ce que le filtre « indent » fait sur smudge et clean 
 
 Dans ce cas, quand vous validez des fichiers qui correspondent à `*.c`, Git les fera passer par le programme indent avant de les valider et les fera passer par le programme « cat » avant de les extraire sur votre disque.
 Le programme `cat` ne  fait rien : il se contente de régurgiter les données tels qu'il les a lues.
-Cette combinaison filtre effectivement tous le fichiers de code source C par `indent` avant leur validation.
+Cette combinaison filtre effectivement tous les fichiers de code source C par `indent` avant leur validation.
 
 Un autre exemple intéressant fournit l'expansion du mot-clé `$Date$` dans le style RCS.
-Pour le réaliser correctement, vous avez besoin d'un petit script qui prend un nom de fichier, calcule la date de la dernière validation pour le projet, et l'insère la date dans le fichier.
+Pour le réaliser correctement, vous avez besoin d'un petit script qui prend un nom de fichier, calcule la date de la dernière validation pour le projet, et l'insère dans le fichier.
 Voici un petit script Ruby qui le fait :
 
 	#! /usr/bin/env ruby
@@ -531,7 +531,7 @@ Voici un petit script Ruby qui le fait :
 Tout ce que le script fait, c'est récupérer la date de la dernière validation à partir de la commande `git log`, la coller dans toutes les chaînes `$Date$` qu'il trouve et afficher le résultat.
 Ce devrait être simple dans n'importe quel langage avec lequel vous êtes à l'aise.
 Si vous appelez ce fichier `expand_date` et que vous le placez dans votre chemin.
-À présent, il faut paramétrer un filtre dans Git (appelons le `dater`) et le lui indiquer d'utiliser le filtre `expand_date` en tant que `smudge` sur les fichiers à extraire.
+À présent, il faut paramétrer un filtre dans Git (appelons le `dater`) et lui indiquer d'utiliser le filtre `expand_date` en tant que `smudge` sur les fichiers à extraire.
 Nous utiliserons une expression Perl pour nettoyer lors d'une validation :
 
 	$ git config filter.dater.smudge expand_date
@@ -553,7 +553,7 @@ S vous validez ces modifications et extrayez le fichier à nouveau, vous remarqu
 	# $Date: Tue Apr 21 07:26:52 2009 -0700$
 
 Vous pouvez voir à quel point cette technique peut être puissante pour des applications personnalisées.
-Il rester néanmoins vigilant car le fichier `.gitattributes` est validé et inclus dans le projet tandis que le gestionnaire (ici, `dater`) ne l'est pas.
+Il faut rester néanmoins vigilant car le fichier `.gitattributes` est validé et inclus dans le projet tandis que le gestionnaire (ici, `dater`) ne l'est pas.
 Du coup, ça ne marchera pas partout.
 Lorsque vous créez ces filtres, ils devraient pouvoir avoir un mode dégradé qui n'empêche pas le projet de fonctionner.
 
@@ -584,38 +584,52 @@ Par exemple, si vous voulez inclure un fichier appelé `LAST_COMMIT` dans votre 
 	$ git add LAST_COMMIT .gitattributes
 	$ git commit -am 'adding LAST_COMMIT file for archives'
 
-Quand vous lancez `git archive`, le contenu de ce fichier inclus dans le fichiers ressemblera à ceci :
+Quand vous lancez `git archive`, le contenu de ce fichier inclus dans l'archive ressemblera à ceci :
 
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Merge Strategies ###
+### Les stratégies de fusion ###
 
-You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
+Vous pouvez aussi utiliser les attributs Git pour indiquer à Git d'utiliser des stratégies de fusion différenciées pour des fichiers spécifiques dans votre projet.
+Une option très utile est d'indiquer à Git de ne pas essayer de fusionner des fichiers spécifiques quand ils rencontrent des conflits mais plutôt d'utiliser prioritairement votre version du fichier.
 
-This is helpful if a branch in your project has diverged or is specialized, but you want to be able to merge changes back in from it, and you want to ignore certain files. Say you have a database settings file called database.xml that is different in two branches, and you want to merge in your other branch without messing up the database file. You can set up an attribute like this:
+C'est très utile si une branche de votre projet a divergé ou s'est spécialisée, mais que vous souhaitez pouvoir fusionner les modifications qu'elle porte et vous voulez ignorer certains fichiers.
+Supposons que vous avez un fichier de paramètres de base de données appelé database.xml différent sur deux branches et vous voulez les fusionner sans corrompre le fichier de base de données.
+Vous pouvez déclarer un attribut comme ceci :
 
 	database.xml merge=ours
 
-If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
+Si vous fusionnez dans une autre branche, plutôt que de rencontrer des conflits de fusion avec le fichier database.xml, vous verrez quelque chose comme :
 
 	$ git merge topic
 	Auto-merging database.xml
 	Merge made by recursive.
 
-In this case, database.xml stays at whatever version you originally had.
+Dans ce cas, database.xml reste dans l'état d'origine, quel qu'il soit.
 
-## Git Hooks ##
+## Les crochets Git ##
 
-Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
+Comme de nombreux autres systèmes de gestion de version, Git dispose d'un moyen de lancer des scripts personnalisés quand certaines actions importantes ont lieu.
+Il y a deux groupes de crochets : ceux côté client et ceux côté serveur.
+Les crochets côté client concernent les opérations de client telles que la validation et la fusion.
+Les crochets côté serveur concernent les opérations de serveur Git telles que la réception de commits.
+Vous pouvez utiliser ces crochets pour toutes sortes de raisons dont nous allons détailler quelques unes.
 
-### Installing a Hook ###
+### Installer un crochet ###
 
-The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
+Les crochets sont tous stockés dans le sous-répertoire `hooks` du répertoire Git.
+Dans la plupart des projets, c'est `.git/hooks`.
+Par défaut, Git popule ce répertoire avec quelques scripts d'exemple déjà utiles par eux-mêmes ; mais ils servent aussi de documentation sur les paramètres de chaque script.
+Tous les exemples sont des scripts shell avec un peu de Perl mais n'importe quel script exécutable nommé correctement fonctionnera. Vous pouvez les écrire en Ruby ou Python ou ce que vous voudrez.
+Pour les versions de Git postérieures à 1.6, ces fichiers crochet d'exemple se terminent en `.sample` et il faudra les renommer.
+Pour les versions de Git antérieures à 1.6, les fichiers d'exemple sont nommés correctement mais ne sont pas exécutables.
 
-To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
+Pour activer un script de crochet, placez un fichier dans le sous-répertoire `hook` de votre répertoire Git, nommé correctement et exécutable.
+À partir de ce moment, il devrait être appelé.
+Abordons donc les noms de fichiers hooks les plus importants.
 
-### Client-Side Hooks ###
+### Les crochets côté client ###
 
 There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail–workflow scripts, and the rest of the client-side scripts.
 

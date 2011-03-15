@@ -39,7 +39,7 @@ O que acontece se você criar um novo branch? Bem, isso cria um novo ponteiro pa
 Isso cria um novo ponteiro para o mesmo commit em que você está no momento (ver a Figura 3-4).
 
 Insert 18333fig0304.png 
-Figura 3-4. Múltiplos ramos apontando para o histórico de commits
+Figura 3-4. Múltiplos branches apontando para o histórico de commits
 
 Como o Git sabe o branch em que você está atualmente? Ele mantém um ponteiro especial chamado HEAD. Observe que isso é muito diferente do conceito de HEAD em outros VCSs que você possa ter usado, como Subversion e CVS. No Git, este é um ponteiro para o branch local em que você está no momento. Neste caso, você ainda está no master. O comando git branch só criou um novo branch — ele não mudou para esse branch (veja Figura 3-5).
 
@@ -296,117 +296,116 @@ Se você está satisfeito com isso, e verificou que tudo que havia conflito foi 
 
 Você pode modificar essa mensagem com detalhes sobre como você resolveu o merge se você acha que isso seria útil para outros quando olharem esse merge no futuro — por que você fez o que fez, se não é óbvio.
 
-## Gerenciamento de ramos ##
+## Gerenciamento de branches ##
 
-Agora que você criou, mesclou (merge) e apagou alguns ramos, vamos ver algumas ferramentas de gerenciamento de ramos que serão úteis quando você começar a usar ramos o tempo todo.
+Agora que você criou, fez merge e apagou alguns branches, vamos ver algumas ferramentas de gerenciamento de branches que serão úteis quando você começar a usá-los o tempo todo.
 
-O comando `git branch` faz mais do que criar e apagar ramos. Se você executá-lo sem argumentos, você verá uma lista simples dos seus ramos atuais:
+O comando `git branch` faz mais do que criar e apagar branches. Se você executá-lo sem argumentos, você verá uma lista simples dos seus branches atuais:
 
 	$ git branch
 	  iss53
 	* master
 	  testing
 
-Note o caractere `*` que vem antes do ramo principal (`master`): ele indica o ramo que você está atualmente (fez o checkout). Isso significa que se você fizer uma submissão (commit) nesse momento, o ramo principal (`master`) irá mover adiante com seu novo trabalho. Para ver a última submissão em cada ramo, você pode executar o comando `git branch –v`:
+Note o caractere `*` que vem antes do branch `master`: ele indica o branch que você está atualmente (fez o checkout). Isso significa que se você fizer um commit nesse momento, o branch `master` irá mover adiante com seu novo trabalho. Para ver o último commit em cada branch, você pode executar o comando `git branch –v`:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Outra opção útil para saber em que estado estão seus ramos é filtrar na lista somente ramos que você já mesclou ou não no ramo que você está atualmente. As opções `--merged` e `--no-merged` estão disponíveis no Git desde a versão 1.5.6 para esse propósito. Para ver quais ramos já foram mesclados no ramo que você está, você pode executar `git branch –merged`:
+Outra opção útil para saber em que estado estão seus branches é filtrar na lista somente branches que você já fez ou não o merge no branch que você está atualmente. As opções `--merged` e `--no-merged` estão disponíveis no Git desde a versão 1.5.6 para esse propósito. Para ver quais branches já foram mesclados no branch que você está, você pode executar `git branch –merged`:
 
 	$ git branch --merged
 	  iss53
 	* master
 
-Por você já ter mesclado o ramo `iss53` antes, você o verá na sua lista. Os ramos nesta lista sem o `*` na frente em geral podem ser apagados com `git branch -d`; você já incorporou o trabalho que existia neles em outro ramo, sendo assim você não perderá nada.
+Por você já ter feito o merge do branch `iss53` antes, você o verá na sua lista. Os branches nesta lista sem o `*` na frente em geral podem ser apagados com `git branch -d`; você já incorporou o trabalho que existia neles em outro branch, sendo assim você não perderá nada.
 
-Para ver todos os ramos que contém trabalho que você ainda não mesclou, você pode executar `git branch --no-merged`:
+Para ver todos os branches que contém trabalho que você ainda não fez o merge, você pode executar `git branch --no-merged`:
 
 	$ git branch --no-merged
 	  testing
 
-Isso mostra seu outro ramo. Por ele conter trabalho que ainda não foi mesclado, tentar apagá-lo com `git branch -d` irá falhar:
+Isso mostra seu outro branch. Por ele conter trabalho que ainda não foi feito o merge, tentar apagá-lo com `git branch -d` irá falhar:
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run `git branch -D testing`.
 
-Se você quer realmente apagar o ramo e perder o trabalho que existe nele, você pode forçar com `-D`, como é apontado na mensagem útil.
+Se você quer realmente apagar o branch e perder o trabalho que existe nele, você pode forçar com `-D`, como a útil mensagem aponta.
 
-## Fluxos de trabalho com Ramos ##
+## Fluxos de trabalho com Branches ##
 
-Agora que você sabe o básico sobre criação e mesclagem (merge) de ramos, o que você pode ou deve fazer com eles? Nessa seção, nós vamos abordar alguns fluxos de trabalhos comuns que esse tipo de criação leve de ramos torna possível, então você pode decidir se você quer incorporá-lo no seu próprio ciclo de desenvolvimento.
+Agora que você sabe o básico sobre criação e merge de branches, o que você pode ou deve fazer com eles? Nessa seção, nós vamos abordar alguns fluxos de trabalhos comuns que esse tipo de criação leve de branches torna possível, então você pode decidir se você quer incorporá-lo no seu próprio ciclo de desenvolvimento.
 
-### Ramos de longa duração ###
+### Branches de longa duração ###
 
-Por o Git usar uma mesclagem de três vias, mesclar um ramo em outro várias vezes em um período longo é geralmente fácil de fazer. Isto significa que você pode ter vários ramos que ficam sempre abertos e que são usados em diferentes estágios do seu ciclo de desenvolvimento; você pode regularmente mesclar alguns deles em outros.
+Por o Git usar um merge de três vias, fazer o merge de um branch em outro várias vezes em um período longo é geralmente fácil de fazer. Isto significa que você pode ter vários branches que ficam sempre abertos e que são usados em diferentes estágios do seu ciclo de desenvolvimento; você pode regularmente fazer o merge de alguns deles em outros.
 
-Muitos desenvolvedores Git tem um fluxo de trabalho que adotam essa abordagem, como ter somente código completamente estável em seus ramos principais
-(`master`) — possivelmente somente código que já foi ou será liberado. Eles tem outro ramo paralelo chamado develop ou algo parecido em que eles trabalham ou usam para testar estabilidade — ele não é necessariamente sempre estável, mas quando ele chega a tal estágio, pode ser mesclado com o ramo principal (`master`). Ele é usado para puxar (pull) ramos tópicos (topic, ramos de curta duração, como o seu ramo `iss53` anteriormente) quando eles estão prontos, para ter certeza que eles passam em todos os testes e não acresentam erros.
+Muitos desenvolvedores Git tem um fluxo de trabalho que adotam essa abordagem, como ter somente código completamente estável em seus branches `master` — possivelmente somente código que já foi ou será liberado. Eles têm outro branch paralelo chamado develop ou algo parecido em que eles trabalham ou usam para testar estabilidade — ele não é necessariamente sempre estável, mas quando ele chega a tal estágio, pode ser feito o merge com o branch `master`. Ele é usado para puxar (pull) branches tópicos (topic, branches de curta duração, como o seu branch `iss53` anteriormente) quando eles estão prontos, para ter certeza que eles passam em todos os testes e não acresentam erros.
 
-Na realidade, nós estamos falando de ponteiros se movendo adiante na linha de submissões (commits) que você está fazendo. Os ramos estáveis estão muito atrás na linha histórica de submissões, e os ramos de ponta (que estão sendo trabalhados) estão a frente no histórico (veja Figura 3-18).
+Na realidade, nós estamos falando de ponteiros avançando na linha de commits que você está fazendo. Os branches estáveis estão muito atrás na linha histórica de commits, e os branches de ponta (que estão sendo trabalhados) estão a frente no histórico (veja Figura 3-18).
 
 Insert 18333fig0318.png 
-Figura 3-18. Ramos mais estáveis geralmente ficam atrás no histórico de submissões.
+Figura 3-18. Branches mais estáveis geralmente ficam atrás no histórico de commits.
 
-Normalmente é mais fácil pensar neles como um contêiner de trabalho, onde conjuntos de submissões são promovidos a um contêiner mais estável quando eles são completamente testados (veja figura 3-19).
+Normalmente é mais fácil pensar neles como um contêiner de trabalho, onde conjuntos de commits são promovidos a um contêiner mais estável quando eles são completamente testados (veja figura 3-19).
 
 Insert 18333fig0319.png 
-Figura 3-19. Pode ser mais útil pensar em seus ramos como contêineres.
+Figura 3-19. Pode ser mais útil pensar em seus branches como contêineres.
 
-Você pode continuar fazendo isso em vários níveis de estabilidade. Alguns projetos grandes podem ter um ramo 'sugerido' (`proposed`) ou 'sugestões atualizadas' (`pu`, proposed updates) que contém outros ramos integrados que podem não estar prontos para ir para o próximo (`next`) ou ramo principal (`master`). A ideia é que seus ramos estejam em vários níveis de estabilidade; quando eles atigem um nível mais estável, eles são mesclados no ramo acima deles.
-Repetindo, ter muitos ramos de longa duração não é necessário, mas geralmente é útil, especialmente quando você está lidando com projetos muito grandes ou complexos.
+Você pode continuar fazendo isso em vários níveis de estabilidade. Alguns projetos grandes podem ter um branch 'sugerido' (`proposed`) ou 'sugestões atualizadas' (`pu`, proposed updates) que contém outros branches integrados que podem não estar prontos para ir para o próximo (`next`) ou branch `master`. A ideia é que seus branches estejam em vários níveis de estabilidade; quando eles atigem um nível mais estável, é feito o merge no branch acima deles.
+Repetindo, ter muitos branches de longa duração não é necessário, mas geralmente é útil, especialmente quando você está lidando com projetos muito grandes ou complexos.
 
-### Ramos tópicos (topic) ###
+### Branches tópicos (topic) ###
 
-Ramos tópicos, entretanto, são úteis em projetos de qualquer tamanho. Um ramo tópico é um ramo de curta duração que você cria e usa para uma funcionalidade ou trabalho relacionado. Isso é algo que você provavelmente nunca fez com um controle de versão antes porque é geralmente muito custoso criar e mesclar ramos. Mas no Git é comum criar, trabalhar, mesclar e apagar ramos muitas vezes ao dia.
+Branches tópicos, entretanto, são úteis em projetos de qualquer tamanho. Um branch tópico é um branch de curta duração que você cria e usa para uma funcionalidade ou trabalho relacionado. Isso é algo que você provavelmente nunca fez com um controle de versão antes porque é geralmente muito custoso criar e fazer merge de branches. Mas no Git é comum criar, trabalhar, mesclar e apagar branches muitas vezes ao dia.
 
-Você viu isso na seção anterior com os ramos `iss53` e o `hotfix` que você criou. Você fez submissões (commits) neles e os apagou depois que os mesclou (merge) com seu ramo principal (master). Tecnicamente isso lhe permite mudar completamente e rapidamente o contexto — por seu trabalho estar separado em contêineres onde todas as modificações naquele ramo estarem relacionadas ao tópico, é fácil ver o que aconteceu durante a revisão de código. Você pode manter as mudanças la por minutos, dias, ou meses, e mesclá-las quando estivem prontas, não importando a ordem que foram criadas ou trabalhadas.
+Você viu isso na seção anterior com os branches `iss53` e o `hotfix` que você criou. Você fez commits neles e os apagou depois que fez o merge com seu branch principal. Tecnicamente isso lhe permite mudar completamente e rapidamente o contexto — por seu trabalho estar separado em contêineres onde todas as modificações naquele branch estarem relacionadas ao tópico, é fácil ver o que aconteceu durante a revisão de código. Você pode manter as mudanças la por minutos, dias, ou meses, e mesclá-las quando estivem prontas, não importando a ordem que foram criadas ou trabalhadas.
 
-Condisere um exemplo onde você está fazendo um trabalho no ramo principal (`master`), cria um ramo para um erro (`iss91`), trabalha nele um pouco, cria um segundo ramo para testar uma nova maneira de resolver o mesmo problema (`iss91v2`), volta ao seu ramo principal e trabalha nele por um tempo, e cria um novo ramo para trabalhar em algo que você não certeza se é uma boa ideia (`dumbidea`). Seu histórico de submissões (commits) irá se parecer com a Figura 3-20.
+Condisere um exemplo onde você está fazendo um trabalho (no `master`), cria um branch para um erro (`iss91`), trabalha nele um pouco, cria um segundo branch para testar uma nova maneira de resolver o mesmo problema (`iss91v2`), volta ao seu branch principal e trabalha nele por um tempo, e cria um novo branch para trabalhar em algo que você não tem certeza se é uma boa ideia (`dumbidea`). Seu histórico de commits irá se parecer com a Figura 3-20.
 
 Insert 18333fig0320.png 
-Figura 3-20. Seu histórico de submissões com multiplos ramos tópicos.
+Figura 3-20. Seu histórico de commits com multiplos branches tópicos.
 
-Agora, vamos dizer que você decidiu que sua segunda solução é a melhor para resolver o erro (`iss91v2`); e você mostrou seu ramo `dumbidea` para seus colegas de trabalho, e ele é genial. Agora você pode jogar fora o ramo original `iss91` (perdendo as submissões C5 e C6) e mesclar os dois restantes. Seu histórico irá se parecer com a Figura 3-21.
+Agora, vamos dizer que você decidiu que sua segunda solução é a melhor para resolver o erro (`iss91v2`); e você mostrou seu branch `dumbidea` para seus colegas de trabalho, e ele é genial. Agora você pode jogar fora o branch original `iss91` (perdendo os commits C5 e C6) e fazer o merge dos dois restantes. Seu histórico irá se parecer com a Figura 3-21.
 
 Insert 18333fig0321.png 
-Figura 3-21. Seu histórico depois de mesclar dumbidea e iss91v2.
+Figura 3-21. Seu histórico depois de fazer o merge de dumbidea e iss91v2.
 
-É importante lembrar que você esta fazendo tudo isso com seus ramos localmente. Quando você cria e mescla ramos, tudo está sendo feito somente no seu repositório Git - nenhuma comunicação com o servidor esta sendo feita.
+É importante lembrar que você esta fazendo tudo isso com seus branches localmente. Quando você cria e faz o merge de branches, tudo está sendo feito somente no seu repositório Git - nenhuma comunicação com o servidor esta sendo feita.
 
-## Ramos Remotos ##
+## Branches Remotos ##
 
-Ramos remotos são referências ao estado de seus ramos no seu repositório remoto. São ramos locais que você não pode mover, eles se movem automaticamente sempre que você faz alguma comunicação via rede. Ramos remotos agem como marcadores para lembrá-lo onde estavam seus ramos no seu repositório remoto na última vez que você se conectou a eles.
+Branch remotos são referências ao estado de seus branches no seu repositório remoto. São branches locais que você não pode mover, eles se movem automaticamente sempre que você faz alguma comunicação via rede. Branches remotos agem como marcadores para lembrá-lo onde estavam seus branches no seu repositório remoto na última vez que você se conectou a eles.
 
-Eles seguem o padrão `(remoto)/(ramo)`. Por exemplo, se você quer ver como o ramo principal (`master`) no seu repositório remoto (`origin`) estava na última vez que você se comunicou com ele, você deveria ver o ramo `origin/master`. Se você estivesse trabalhando em um problema com um colega e eles colocassem o ramo `iss53` no repositório, você poderia ter seu próprio ramo `iss53`; mas o ramo no servidor iria fazer referência ao commit em `origin/iss53`.
+Eles seguem o padrão `(remoto)/(branch)`. Por exemplo, se você quer ver como o branch `master` estava no seu repositório remoto `origin` na última vez que você se comunicou com ele, você deve ver o branch `origin/master`. Se você estivesse trabalhando em um problema com um colega e eles colocassem o branch `iss53` no repositório, você poderia ter seu próprio branch `iss53`; mas o branch no servidor iria fazer referência ao commit em `origin/iss53`.
 
-Isso pode parecer um pouco confuso, então vamos ver um exemplo. Digamos que você tem um servidor Git na sua rede em `git.ourcompany.com`. Se você cloná-lo, Git automaticamente dá o nome `origin` para ele, baixa todo o seu conteúdo, cria uma referência para onde o ramo principal dele está (`master`), e dá o nome `origin/master` para ele localmente; e você não pode movê-lo. O Git também dá seu próprio ramo principal (`master`) com ponto de partida no mesmo local onde o ramo principal remoto está, a partir de onde você pode trabalhar (veja Figura 3-22).
+Isso pode parecer um pouco confuso, então vamos ver um exemplo. Digamos que você tem um servidor Git na sua rede em `git.ourcompany.com`. Se você cloná-lo, Git automaticamente dá o nome `origin` para ele, baixa todo o seu conteúdo, cria uma referência para onde o branch `master` dele está, e dá o nome `origin/master` para ele localmente; e você não pode movê-lo. O Git também dá seu próprio branch `master` com ponto de partida no mesmo local onde o branch `master` remoto está, a partir de onde você pode trabalhar (veja Figura 3-22).
 
 Insert 18333fig0322.png 
-Figura 3-22. Um comando clone do Git dá a você seu próprio ramo principal (master) e origin/master faz referência ao ramo principal original.
+Figura 3-22. Um comando clone do Git dá a você seu próprio branch master e origin/master faz referência ao branch master original.
 
-Se você estiver trabalhando no seu ramo local, e, ao mesmo tempo, alguem envia algo para `git.ourcompany.com` atualizando o ramo principal, seu histórico se moverá adiante de forma diferente. Além disso, enquanto você não fizer contado com seu servidor original, seu `origin/master` não se moverá (veja Figura 3-23).
+Se você estiver trabalhando no seu branch master local, e, ao mesmo tempo, alguem envia algo para `git.ourcompany.com` atualizando o branch master, seu histórico avançará de forma diferente. Além disso, enquanto você não fizer contado com seu servidor original, seu `origin/master` não se moverá (veja Figura 3-23).
 
 Insert 18333fig0323.png 
-Figura 3-23. Ao trabalhar local e alguém enviar coisas para seu servidor remoto faz cada histórico se mover adiante de forma diferente.
+Figura 3-23. Ao trabalhar local e alguém enviar coisas para seu servidor remoto faz cada histórico avançar de forma diferente.
 
-Para sincronizar suas coisas, você executa o comando `git fetch origin`. Esse comando verifica qual servidor origin representa (nesse caso, é `git.ourcompany.com`), obtém todos os dados que você ainda não tem, e atualiza o seu banco de dados local, movendo o seu `origin/master` para a posição mais recente e atualizada (veja Figura 3-24).
+Para sincronizar suas coisas, você executa o comando `git fetch origin`. Esse comando verifica qual servidor "origin" representa (nesse caso, é `git.ourcompany.com`), obtém todos os dados que você ainda não tem, e atualiza o seu banco de dados local, movendo o seu `origin/master` para a posição mais recente e atualizada (veja Figura 3-24).
 
 Insert 18333fig0324.png 
 Figura 3-24. O comando git fetch atualiza suas referências remotas.
 
-Para demostrar o uso de multiplos servidores remotos e como os ramos remotos desses projetos remotos parecem, vamos assumir que você tem outro servidor Git interno que é usado somente para desenvolvimento por um de seus times. Este servidor está em `git.team1.ourcompany.com`. Você pode adicioná-lo como uma nova referência remota ao projeto que você está atualmente trabalhando executando o comando `git remote add` como discutimos no capítulo 2. Dê o nome de `teamone`, que será o apelido para aquela URL (veja Figura 3-25).
+Para demostrar o uso de multiplos servidores remotos e como os branches remotos desses projetos remotos parecem, vamos assumir que você tem outro servidor Git interno que é usado somente para desenvolvimento por um de seus times. Este servidor está em `git.team1.ourcompany.com`. Você pode adicioná-lo como uma nova referência remota ao projeto que você está atualmente trabalhando executando o comando `git remote add` como discutimos no capítulo 2. Dê o nome de `teamone`, que será o apelido para aquela URL (veja Figura 3-25).
 
 Insert 18333fig0325.png 
 Figura 3-25. Adicionando outro servidor remoto.
 
-Agora, você pode executar o comando `git fetch teamone` para obter tudo que o servidor tem e você ainda não. Por esse servidor ter um subcojunto dos dados que seu servidor `origin` tem, Git não obtém nenhum dados, somente cria um ramo chamado `teamone/master` que faz referência ao commit que `teamone` tem no `master` dele (veja Figura 3-26).
+Agora, você pode executar o comando `git fetch teamone` para obter tudo que o servidor tem e você ainda não. Por esse servidor ter um subcojunto dos dados que seu servidor `origin` tem, Git não obtém nenhum dados, somente cria um branch chamado `teamone/master` que faz referência ao commit que `teamone` tem no `master` dele (veja Figura 3-26).
 
 Insert 18333fig0326.png 
-Figura 3-26. Você consegue uma referência local para a posição do ramo principal do teamone.
+Figura 3-26. Você consegue uma referência local para a posição do branch master do teamone.
 
 ### Enviando (Pushing) ###
 
@@ -436,7 +435,7 @@ Na próxima vez que um dos seus colaboradores obter dados do servidor, eles irã
 
 É importante notar que quando você obtém dados que traz novos branches remotos, você não tem automaticamente copias locais e editáveis. Em outras palavras, nesse caso, você não tem um novo branch `serverfix` — você tem somente uma referência a `origin/serverfix` que você não pode modificar.
 
-Para mesclar (merge) esses dados no branch que você está trabalhando, você pode executar o comando `git merge origin/serverfix`. Se você quer seu próprio branch `serverfix` para trabalhar, você pode se basear no seu branch remoto:
+Para fazer o merge desses dados no branch que você está trabalhando, você pode executar o comando `git merge origin/serverfix`. Se você quer seu próprio branch `serverfix` para trabalhar, você pode se basear no seu branch remoto:
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.

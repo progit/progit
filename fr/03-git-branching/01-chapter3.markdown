@@ -1,6 +1,6 @@
 # Les branches avec Git #
 
-Quasiment tous les VCSs ont une forme ou une autre de gestion de branche.
+Quasiment tous les VCS ont une forme ou une autre de gestion de branche.
 Faire une branche signifie diverger de la ligne principale de développement et continuer à travailler sans se préoccuper de cette ligne principale.
 Dans de nombreux outils de gestion de version, cette fonctionnalité est souvent chère en ressources, et nécessite souvent de créer une nouvelle copie du répertoire de travail, ce qui peut prendre longtemps dans le cas de grands projets.
 
@@ -21,7 +21,7 @@ zéro parent pour la première validation, un parent pour un commit normal, et d
 Pour visualiser ce concept, supposons un répertoire contenant trois fichiers, ces trois fichiers étant indexés puis validés.
 Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépôt Git (Git les nomme blobs), et ajouter la somme de contrôle à la zone d'index :
 
-	$ git add LISEZMOI test.rb LICENSE
+	$ git add LISEZMOI test.rb LICENCE
 	$ git commit -m 'commit initial de mon projet'
 
 Lorsque vous créez le commit en lançant la commande `git commit`, Git calcule la somme de contrôle de chaque répertoire (ici, seulement pour le répertoire racine) et stocke ces objets arbres dans le dépôt Git.
@@ -62,7 +62,7 @@ Figure 3-4. Branches multiples pointant dans l'historique des données de commit
 
 Comment Git connaît-il la branche sur laquelle vous vous trouvez ?
 Il conserve un pointeur spécial appelé HEAD.
-Remarquez que sous cette appellation se cache un concept très différent de celui utilisé dans les autres VCSs tels que Subversion ou CVS.
+Remarquez que sous cette appellation se cache un concept très différent de celui utilisé dans les autres VCS tels que Subversion ou CVS.
 Dans Git, c'est un pointeur sur la branche locale où vous vous trouvez.
 Dans notre cas, vous vous trouvez toujours sur master.
 La commande git branch n'a fait que créer une nouvelle branche — elle n'a pas fait basculer la copie de travail vers cette branche (Cf. figure 3-5).
@@ -70,7 +70,7 @@ La commande git branch n'a fait que créer une nouvelle branche — elle n'a pa
 Insert 18333fig0305.png 
 Figure 3-5. fichier HEAD pointant sur la branche active
 
-Pour basculer vers une branche existant, il suffit de lancer la commande `git checkout`.
+Pour basculer vers une branche existante, il suffit de lancer la commande `git checkout`.
 Basculons vers la nouvelle branche testing :
 
 	$ git checkout testing
@@ -123,7 +123,7 @@ Figure 3-9. Les historiques de branche ont divergé.
 Parce que dans Git, une branche n'est en fait qu'un simple fichier contenant les 40 caractères de la somme de contrôle SHA-1 du commit sur lequel elle pointe, les branches ne coûtent rien à créer et détruire.
 Créer une branche est aussi rapide qu'écrire un fichier de 41 caractères (40 caractères plus un retour chariot).
 
-C'est une différence de taille avec la manière dont la plupart des VCSs gèrent les branches, qui implique de copier tous les fichiers du projet dans un second répertoire.
+C'est une différence de taille avec la manière dont la plupart des VCS gèrent les branches, qui implique de copier tous les fichiers du projet dans un second répertoire.
 Cela peut durer plusieurs secondes ou même quelques minutes selon la taille du projet, alors que pour Git, le processus est toujours instantané.
 De plus, comme nous enregistrons les parents quand nous validons les modifications, la détermination de l'ancêtre commun pour la fusion est réalisée automatiquement, et de manière très facile.
 Ces fonctionnalités encouragent naturellement les développeurs à créer et utiliser souvent des branches. 
@@ -236,7 +236,7 @@ Vous pouvez l'effacer avec l'option `-d` de la commande `git branch` :
 	$ git branch -d correctif
 	Deleted branch correctif (3a0874c).
 
-Maintenant, il est temps de basculer sur la branch "travaux en cours" sur le problème #53 et de continuer à travailler dessus (voir figure 3-15) :
+Maintenant, il est temps de basculer sur la branche "travaux en cours" sur le problème #53 et de continuer à travailler dessus (voir figure 3-15) :
 
 	$ git checkout prob53
 	Switched to branch "prob53"
@@ -426,9 +426,9 @@ Si vous souhaitez réellement effacer cette branche et perdre ainsi le travail r
 
 ## Travailler avec les branches ##
 
-Maintenant que vous détenez les bases des branches et fusions, que pouvez ou devez vous faire avec ? Dans cette section, nous aborderons certaines des façons de travailler les plus courantes, rendues possible par cette gestion légère des branches, afin que vous puissiez décider si vous désirez l'intégrer dans votre propre cycle de dévelopement logiciel.
+Maintenant que vous détenez les bases des branches et fusions, que pouvez ou devez vous faire avec ? Dans cette section, nous aborderons certaines des façons de travailler les plus courantes, rendues possible par cette gestion légère des branches, afin que vous puissiez décider si vous désirez l'intégrer dans votre propre cycle de développement logiciel.
 
-### Branches au long-cours###
+### Branches au long cours###
 
 Parce que Git utilise une simple fusion à 3 participants, fusionner une branche dans une autre de façon répété sur une longue période se fait générale facilement. Cela veut donc dire que vous pouvez avoir plusieurs branches ouvertes, utilisées à différentes étapes de votre cycle de développement logiciel; vous pouvez fusionner régulièrement certaines d'entre elles dans d'autres.
 

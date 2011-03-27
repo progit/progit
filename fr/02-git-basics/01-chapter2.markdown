@@ -105,7 +105,7 @@ Si ce fichier n'existait pas auparavant, et que vous lancez la commande `git sta
 	nothing added to commit but untracked files present (use "git add" to track)
 
 Vous pouvez constater que votre nouveau fichier LISEZMOI n'est pas en suivi de version, car il apparaît dans la section "Untracked files" de l'état de la copie de travail.
-"Untracked" signifie simplement que Git détecte un fichier qui n'était pas présent dans le dernier instantané ; Git ne la placera sous suivi en version que quand vous lui indiquer de le faire.
+"Untracked" signifie simplement que Git détecte un fichier qui n'était pas présent dans le dernier instantané ; Git ne le placera sous suivi en version que quand vous lui indiquerez de le faire.
 Ce comportement permet de ne pas placer accidentellement sous suivi de version des fichiers binaires générés ou d'autres fichiers que vous ne voulez pas inclure.
 Mais vous voulez inclure le fichier LISEZMOI dans l'instantané, alors commençons à suivre ce fichier.
 
@@ -373,7 +373,7 @@ L'éditeur affiche le texte suivant :
 Vous constatez que le message de validation par défaut contient une ligne vide suivie en commentaire le résultat de la commande `git status`.
 Vous pouvez effacer ces lignes de commentaire et saisir votre propre message de validation, ou vous pouvez les laisser en place vous aider à vous rappeler de ce que vous êtes en train de valider (pour un rappel plus explicite de ce que vous avez modifié, vous pouvez aussi passer l'option `-v` à la commande `git commit`.
 Cette option place le résultat du diff en commentaire dans l'éditeur pour vous permettre de visualiser exactement ce que vous avez modifié).
-Quand vous quittez l'éditeur (après avoir sauvegardé le message), Git crée votre validation avec ce message de validation (après avoir retiré les commentaires et le diff).
+Quand vous quittez l'éditeur (après avoir sauvegardé le message), Git crée votre commit avec ce message de validation (après avoir retiré les commentaires et le diff).
 
 D'une autre manière, vous pouvez spécifier votre message de validation en ligne avec la commande `commit` en le saisissant après l'option `-m`, de cette manière :
 
@@ -455,7 +455,7 @@ Cela signifie que vous pouvez lancer des commandes telles que
 
 Notez bien l'antislash (`\`) devant `*`.
 Il est nécessaire d'échapper le caractère `*` car Git utilise sa propre expansion de nom de fichier en addition de l'expansion du shell.
-Cette commande efface tous le fichiers avec l'extension `.log` présents dans le répertoire `log/`.
+Cette commande efface tous les fichiers avec l'extension `.log` présents dans le répertoire `log/`.
 Vous pouvez aussi lancer une commande telle que :
 
 	$ git rm \*~
@@ -614,7 +614,7 @@ Par exemple, si vous souhaitez visualiser des statistiques résumées pour chaqu
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
 Comme vous pouvez le voir, l'option `--stat` affiche sous chaque entrée de validation une liste des fichiers modifiés, combien de fichiers ont été changés et combien de lignes ont été ajoutées ou retirées dans ces fichiers.
-Elle ajoute un résumé des information en fin de sortie.
+Elle ajoute un résumé des informations en fin de sortie.
 Une autre option utile est `--pretty`.
 Cette option modifie le journal vers un format différent.
 Quelques options incluses sont disponibles.
@@ -634,13 +634,13 @@ C'est spécialement utile pour générer des sorties dans un format facile à an
 	085bb3b — Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 — Scott Chacon, 11 months ago : first commit
 
-Le tableau 2-1 liste les options de formattage les plus utiles.
+Le tableau 2-1 liste les options de formatage les plus utiles.
 
-	Option	Description du formattage
+	Option	Description du formatage
 	%H	Somme de contrôle du commit
 	%h	Somme de contrôle abrégée du commit
 	%T	Somme de contrôle de l'arborescence
-	%t	Somme de contrôle abrégée de l'aborescence
+	%t	Somme de contrôle abrégée de l'arborescence
 	%P	Sommes de contrôle des parents
 	%p	Sommes de contrôle abrégées des parents
 	%an	Nom de l'auteur
@@ -679,7 +679,7 @@ Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'
 	Option	Description
 	-p	Affiche le patch appliqué par chaque commit
 	--stat	Affiche les statistiques de chaque fichier pour chaque commit
-	--shortstat	N'affiche que la ligne des modifiées/insérées/effacées le l'option --stat
+	--shortstat	N'affiche que les ligne modifiées/insérées/effacées de l'option --stat
 	--name-only	Affiche la liste des fichiers modifiés après les informations du commit
 	--name-status	Affiche la liste des fichiers affectés accompagnés des informations d'ajout/modification/suppression
 	--abbrev-commit	N'affiche que les premiers caractères de la somme de contrôle SHA-1
@@ -689,7 +689,7 @@ Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'
 
 ### Limiter la longueur de l'historique ###
 
-En complément des options de formattage de sortie, git log est pourvu de certaines options de limitation utiles — des options qui permettent de restreindre la liste à un sous-ensemble de commits.
+En complément des options de formatage de sortie, git log est pourvu de certaines options de limitation utiles — des options qui permettent de restreindre la liste à un sous-ensemble de commits.
 Vous avez déjà vu une de ces options — l'option `-2` qui ne montre que le deux derniers commits.
 En fait, on peut utiliser `-<n>`, ou `n` correspond au nombre de commits que l'on cherche à visualiser en partant des plus récents.
 En vérité, il est peu probable que vous utilisiez cette option, parce que Git injecte par défaut sa sortie dans un outil de pagination qui permet de la visualiser page à page.
@@ -889,12 +889,12 @@ Par exemple, mon dépôt Grit ressemble à ceci.
 	origin    git@github.com:mojombo/grit.git
 
 Cela signifie que nous pouvons tirer très facilement des contributions depuis certains utilisateurs.
-Mais il est à noter que seul le dépot distant origin utilise une URL SSH, ce qui signifie que c'est le seul sur lequel je peux pousser (nous traiterons de ceci au chapitre 4).
+Mais il est à noter que seul le dépôt distant origin utilise une URL SSH, ce qui signifie que c'est le seul sur lequel je peux pousser (nous traiterons de ceci au chapitre 4).
 
 ### Ajouter des dépôts distants ###
 
 J'ai expliqué et donné des exemples d'ajout de dépôts distants dans les chapitres précédents, mais voici spécifiquement comment faire.
-Pour ajouter un nouveau dépot distant Git comme nom court auquel il est facile de faire référence, lancez `git remote add [nomcourt] [url]` :
+Pour ajouter un nouveau dépôt distant Git comme nom court auquel il est facile de faire référence, lancez `git remote add [nomcourt] [url]` :
 
 	$ git remote
 	origin
@@ -940,18 +940,18 @@ Lancer `git pull` récupère généralement les données depuis le serveur qui a
 
 Lorsque votre dépôt vous semble prêt à être partagé, il faut le pousser en amont.
 La commande pour le faire est simple : `git push [nom-distant] [nom-de-branche]`.
-Si vous souhaitez pousser votre branche master vers le serveur `origin` (pour rappel, cloner un dépot définit automatiquement ces noms pour vous), alors vous pouvez lancez ceci pour pousser votre travail vers le serveur amont :
+Si vous souhaitez pousser votre branche master vers le serveur `origin` (pour rappel, cloner un dépôt définit automatiquement ces noms pour vous), alors vous pouvez lancez ceci pour pousser votre travail vers le serveur amont :
 
 	$ git push origin master
 
 Cette commande ne fonctionne que si vous avez cloné depuis un serveur sur lequel vous avez des droits d'accès en écriture et si personne n'a poussé dans l'intervalle.
-Si vous et quelqu'un d'autre clonez un dépot au même moment et que cette autre personne pousse ses modifications et qu'après vous tentez de pousser les votres, votre poussée sera rejetée à juste titre.
-Vous devrez tout d'abord tirer les modifications de l'autre personne et les fusionner avec les votres avant de pouvoir pousser.
+Si vous et quelqu'un d'autre clonez un dépôt au même moment et que cette autre personne pousse ses modifications et qu'après vous tentez de pousser les vôtres, votre poussée sera rejetée à juste titre.
+Vous devrez tout d'abord tirer les modifications de l'autre personne et les fusionner avec les vôtres avant de pouvoir pousser.
 Référez-vous au chapitre 3 pour de plus amples informations sur les techniques pour pousser vers un serveur distant.
 
 ### Inspecter un dépôt distant ###
 
-Si vous souhaitez visualiser plus d'information à propos d'un dépôt distant particulier, vous pouvez utiliser le commande `git remote show [nom-distant]`.
+Si vous souhaitez visualiser plus d'informations à propos d'un dépôt distant particulier, vous pouvez utiliser la commande `git remote show [nom-distant]`.
 Si vous lancez cette commande avec un nom court particulier, tel que `origin`, vous obtenez quelque chose comme :
 
 	$ git remote show origin
@@ -965,10 +965,10 @@ Si vous lancez cette commande avec un nom court particulier, tel que `origin`, v
 
 
 Cela donne le liste des URL pour le dépôt distant ainsi que la liste des branches distantes suivies.
-Cette commande vous informe que si vous êtes sur la branch master et si vous lancez `git pull`, il va automatiquement fusionner la branche master du dépot distant après avoir récupéré toutes les références sur le serveur distant.
+Cette commande vous informe que si vous êtes sur la branche master et si vous lancez `git pull`, il va automatiquement fusionner la branche master du dépôt distant après avoir récupéré toutes les références sur le serveur distant.
 Cela donne aussi la liste des autres références qu'il aura tirées.
 
-Le résutat ci-dessus est un exemple simple mais réaliste de dépot distant.
+Le résultat ci-dessus est un exemple simple mais réaliste de dépôt distant.
 Lors d'une utilisation plus intense de Git, la commande `git remote show` fournira beaucoup d'information :
 
 	$ git remote show origin
@@ -998,7 +998,7 @@ Elle montre aussi les branches distantes qui n'ont pas encore été rapatriées,
 
 ### Retirer et déplacer des branches distantes ###
 
-Si vous souhaitez renommer une référence, dans les versions récentes de Git, vous pouvez lancer `git remote rename` pour modifier le nom court d'un dépot distant.
+Si vous souhaitez renommer une référence, dans les versions récentes de Git, vous pouvez lancer `git remote rename` pour modifier le nom court d'un dépôt distant.
 Par exemple, si vous souhaitez renommer `pb` en `paul`, vous pouvez le faire avec `git remote rename` :
 
 	$ git remote rename pb paul
@@ -1017,7 +1017,7 @@ Si vous souhaitez retirer une référence pour certaines raisons — vous avez 
 
 ## Balisage ##
 
-À l'instar de la plupart des VCSs, Git donne la possibilité de baliser un certain état dans l'historique comme important.
+À l'instar de la plupart des VCS, Git donne la possibilité de baliser un certain état dans l'historique comme important.
 Généralement, les gens utilisent cette fonctionnalité pour marquer les états de publication (v1.0 et ainsi de suite).
 Dans cette section, nous apprendrons comment lister les différentes balises, comment créer de nouvelles balises et les différents types de balises.
 
@@ -1030,7 +1030,7 @@ Tapez juste `git tag` :
 	v0.1
 	v1.3
 
-Cette commande liste les balises dans l'ordre alphabetique.
+Cette commande liste les balises dans l'ordre alphabétique.
 L'ordre dans lequel elles apparaissent n'a aucun rapport avec l'historique.
 
 Vous pouvez aussi rechercher les balises correspondant à un motif particulier.
@@ -1228,7 +1228,7 @@ Ce processus s'apparente à pousser des branches distantes – vous pouvez lanc
 	* [new tag]         v1.5 -> v1.5
 
 Si vous avez de nombreuses balises que vous souhaitez pousser en une fois, vous pouvez aussi utiliser l'option `--tags` avec la commande `git push`.
-Ceci transferera tous les nouveaux tags vers le serveur distant.
+Ceci transférera toutes les nouvelles balises vers le serveur distant.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1246,8 +1246,8 @@ A présent, lorsqu'une autre personne clone ou tire depuis votre dépôt, elle o
 
 ## Trucs et astuces ##
 
-Avant de clore ce chapitre sur les bases de Git, voici quelques trucs et astuces qui peuvent rendre votre apprentissage de Git plus simple, facile ou famillier.
-De nombreuses personnes utilisent parfaitement Git sans connaître aucun de ces trucs, et nous n'y ferons pas référence, ni ne considérerons leur connaissance comme des prérequis pour la suite de ce livre, mais il est préférable de les connaître.
+Avant de clore ce chapitre sur les bases de Git, voici quelques trucs et astuces qui peuvent rendre votre apprentissage de Git plus simple, facile ou familier.
+De nombreuses personnes utilisent parfaitement Git sans connaître aucun de ces trucs, et nous n'y ferons pas référence, ni ne considérerons leur connaissance comme des pré-requis pour la suite de ce livre, mais il est préférable de les connaître.
 
 
 ### Auto-Complétion ###
@@ -1262,7 +1262,7 @@ Copiez ce fichier dans votre répertoire personnel et ajoutez cette ligne à vot
 Si vous souhaitez paramétrer Bash pour activer la complétion automatique de Git pour tous les utilisateur, copiez le script dans le répertoire `/opt/local/etc/bash_completion.d` sur les systèmes Mac ou dans le répertoire `/etc/bash_completion.d` sur les systèmes Linux.
 C'est le répertoire dans lequel Bash lit pour fournir automatiquement la complétion en ligne de commande.
 
-Si vous utilisez Windows avec le Bash Git, qui est installé par défaut avec Git en msysGit, l'auto-complétion est préconfigurée.
+Si vous utilisez Windows avec le Bash Git, qui est installé par défaut avec Git en msysGit, l'auto-complétion est pré-configurée.
 
 Pressez la touche Tab lorsque vous écrivez une commande Git, et le shell devrait vous indiquer une liste de suggestions pour continuer la commande :
 
@@ -1296,7 +1296,7 @@ Au fur et à mesure de votre utilisation de git, vous utiliserez probablement d'
 Dans ce cas, n'hésitez pas à créer de nouveaux alias.
 
 Cette technique peut aussi être utile pour créer des commandes qui vous manquent.
-Par exemple, pour corriger le problème d'ergonomie que vous avez rencontré lors de la désindexation d'un fichier, vous pourriez créer un alias pour desindexer :
+Par exemple, pour corriger le problème d'ergonomie que vous avez rencontré lors de la désindexation d'un fichier, vous pourriez créer un alias pour désindexer :
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
@@ -1330,7 +1330,7 @@ On peut par exemple aliaser `git visual` pour lancer `gitk` :
 
 ## Résumé ##
 
-A présent, vous pouvez réaliser toutes les opérations locales de base de Git — créer et cloner un dépôt, faire des modifications, les indéxer et les valider, visualiser l'historique de ces modifications.
+A présent, vous pouvez réaliser toutes les opérations locales de base de Git — créer et cloner un dépôt, faire des modifications, les indexer et les valider, visualiser l'historique de ces modifications.
 Au prochain chapitre, nous traiterons de la fonctionnalité unique de Git : son modèle de branches.
 
 <!--  LocalWords:  Junio

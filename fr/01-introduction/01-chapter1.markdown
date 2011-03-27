@@ -123,8 +123,8 @@ La plupart des opérations de Git ne nécessite que des fichiers et ressources l
 Si vous êtes habitué à un CVCS où toutes les opérations sont ralenties par la latence des échanges réseau, cet aspect de Git vous fera penser que les dieux de la vitesse ont octroyé leurs pouvoirs à Git.
 Comme vous disposez de l'historique complet du projet localement sur votre disque dur, la plupart des opérations semblent instantanées.
 
-Par exemple, pour parcourir l'historique d'un projet, Git n'a pas besoin d'aller la chercher sur un serveur pour vous l'afficher ;
-il n'a qu'à simplement la lire directement dans votre base de donnée locale.
+Par exemple, pour parcourir l'historique d'un projet, Git n'a pas besoin d'aller le chercher sur un serveur pour vous l'afficher ;
+il n'a qu'à simplement le lire directement dans votre base de donnée locale.
 Cela signifie que vous avez quasi-instantanément accès à l'historique du projet.
 Si vous souhaitez connaître les modifications introduites entre la version actuelle d'un fichier et son état un mois auparavant, Git peut rechercher l'état du fichier un mois auparavant et réaliser le calcul de différence, au lieu d'avoir à demander cette différence à un serveur ou à devoir récupérer l'ancienne version sur le serveur pour calculer la différence localement.
 
@@ -180,7 +180,7 @@ Figure 1-6. Répertoire de travail, zone d'index et répertoire Git.
 Le répertoire Git est l'endroit où Git stocke les méta-données et la base de données des objets de votre projet.
 C'est la partie la plus importante de Git, et c'est ce qui est copié lorsque vous clonez un dépôt depuis un autre ordinateur.
 
-Le répertoire de travail est une extraction unique d'un version du projet.
+Le répertoire de travail est une extraction unique d'une version du projet.
 Ces fichiers sont extraits depuis la base de données compressée dans le répertoire Git et placés sur le disque pour pouvoir être utilisés ou modifiés.
 
 La zone d'index est un simple fichier, généralement situé dans le répertoire Git, qui stocke les informations concernant ce qui fera partie du prochain instantané.
@@ -306,8 +306,8 @@ Si vous souhaitez surcharger ces valeurs avec un nom ou une adresse e-mail diff�
 
 ### Votre éditeur de texte ###
 
-À présent que votre identité est renseignée, vous pouvez configurer l'éditeur de texte qui sera utilisé par défaut quand Git vous demande de saisir un message.
-Par défaut, Git utilise l'éditeur par défaut au niveau système, qui est généralement Vi ou Vim.
+À présent que votre identité est renseignée, vous pouvez configurer l'éditeur de texte qui sera utilisé quand Git vous demande de saisir un message.
+Par défaut, Git utilise l'éditeur configuré au niveau système, qui est généralement Vi ou Vim.
 Si vous souhaitez utiliser un éditeur de texte différent, comme Emacs, vous pouvez entrer ce qui suit :
 
 	$ git config --global core.editor emacs

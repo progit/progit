@@ -815,7 +815,7 @@ Le fichier benchmark.rb est modifié mais de retour à l'état non indexé.
 Que faire si vous réalisez que vous ne souhaitez pas conserver les modifications au fichier benchmark.rb ?
 Comment le réinitialiser facilement, le ramener à l'état qu'il avait dans le dernier instantané (ou lors du clonage, ou dans l'état dans lequel vous l'avez obtenu dans votre copie de travail) ?
 Heureusement, `git status` est secourable.
- Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :
+Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)

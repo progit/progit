@@ -814,9 +814,9 @@ Le fichier benchmark.rb est modifié mais de retour à l'état non indexé.
 ### Réinitialiser un fichier modifié ###
 
 Que faire si vous réalisez que vous ne souhaitez pas conserver les modifications au fichier benchmark.rb ?
-Comment le réinitialiser facilement, le ramener à l'état qu'il avait dans le dernier instantané (ou lors clonage, ou dans l'état dans lequel vous l'avez obtenu dans votre copie de travail) ?
+Comment le réinitialiser facilement, le ramener à l'état qu'il avait dans le dernier instantané (ou lors du clonage, ou dans l'état dans lequel vous l'avez obtenu dans votre copie de travail) ?
 Heureusement, `git status` est secourable.
-Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :
+ Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -825,7 +825,7 @@ Dans le résultat de la dernière commande, la zone de travail ressemble à ceci
 	#       modified:   benchmarks.rb
 	#
 
-Cela vous indique de façon explicite comment annuler des modifications que vous avez faites (du moins, les nouvelles version de Git, 1.6.1 et supérieures le font  — si vous avez une version plus ancienne, nous vous recommandons de la mettre à jour pour bénéficier de ces fonctionnalités d'utilisabilité).
+Cela vous indique de façon explicite comment annuler des modifications que vous avez faites (du moins, les nouvelles versions de Git, 1.6.1 et supérieures le font, si vous avez une version plus ancienne, nous vous recommandons de la mettre à jour pour bénéficier de ces fonctionnalités pratiques).
 Faisons comme indiqué :
 
 	$ git checkout -- benchmarks.rb
@@ -838,7 +838,7 @@ Faisons comme indiqué :
 	#
 
 Vous pouvez constater que les modifications ont été annulées.
-Vous devriez aussi vous apercevoir que c'est une commande dangereuse : toutes les modifications que vous auriez réalisées sur ce fichier ont disparu, vous venez tout juste de l'écraser avec un autre fichier.
+Vous devriez aussi vous apercevoir que c'est une commande dangereuse : toutes les modifications que vous auriez réalisées sur ce fichier ont disparu — vous venez tout juste de l'écraser avec un autre fichier.
 N'utilisez jamais cette commande à moins d'être vraiment sûr de ne pas vouloir de ces modifications.
 Si vous souhaitez seulement écarter momentanément cette modification, nous verrons comment mettre de côté et créer des branches dans le chapitre suivant ; ce sont de meilleures façons de procéder.
 Souvenez-vous, tout ce qui a été validé dans Git peut quasiment toujours être récupéré.
@@ -963,7 +963,8 @@ Si vous lancez cette commande avec un nom court particulier, tel que `origin`, v
 	    master
 	    ticgit
 
-Cela donne le liste des URL pour le dépot distant ainsi que la liste des branches distantes suivies.
+
+Cela donne le liste des URL pour le dépôt distant ainsi que la liste des branches distantes suivies.
 Cette commande vous informe que si vous êtes sur la branch master et si vous lancez `git pull`, il va automatiquement fusionner la branche master du dépot distant après avoir récupéré toutes les références sur le serveur distant.
 Cela donne aussi la liste des autres références qu'il aura tirées.
 
@@ -1118,7 +1119,7 @@ Plus loin, nous verrons comment vérifier une balise signée.
 ### Les balises légères ###
 
 Une autre manière de baliser les commits est d'utiliser les balises légères.
-Celles-ci se réduisent à stocker la somme de contrôle d'un commit dans un fichier — aucune autre information n'est conservée.
+Celles-ci se réduisent à stocker la somme de contrôle d'un commit dans un fichier, aucune autre information n'est conservée.
 Pour créer une balise légère, il suffit de n'utiliser aucune des option `-a`, `-s` ou `-m` :
 
 	$ git tag v1.4-lw

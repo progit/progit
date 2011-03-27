@@ -1,6 +1,6 @@
 # De Basis van Git #
 
-Als je slechts één hoofdstuk kunt lezen om met Git aan de slag te gaan, dan is dit het. Dit hoofdstuk behandelt elk van de basiscommando's, die je nodig hebt om het leeuwendeel van de dingen te doen waarmee je uiteindelijk je tijd met Git zult doorbrengen. zul je een repository kunnen configureren en initialiseren, bestanden beginnen en stoppen te volgen en veranderingen te ‘stagen’ en ‘committen’. We laten ook zien hoe je Git kunt instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe je vergissingen snel en gemakkelijk ongedaan kunt maken, hoe je de geschiedenis van je project kan doorlopen en wijzigingen tussen commits kunt zien, en hoe je kan pushen en pullen van en naar andere repositories.
+Als je slechts één hoofdstuk kunt lezen om met Git aan de slag te gaan, dan is dit het. Dit hoofdstuk behandelt elk van de basiscommando's, die je nodig hebt om het leeuwendeel van de dingen te doen waarmee je uiteindelijk je tijd met Git zult doorbrengen. Als je dit hoofdstuk doorgenomen hebt, zul je een repository kunnen configureren en initialiseren, bestanden beginnen en stoppen te volgen en veranderingen te ‘stagen’ en ‘committen’. We laten ook zien hoe je Git kunt instellen zodat het bepaalde bestanden en bestandspatronen negeert, hoe je vergissingen snel en gemakkelijk ongedaan kunt maken, hoe je de geschiedenis van je project kan doorlopen en wijzigingen tussen commits kunt zien, en hoe je kan pushen en pullen van en naar andere repositories.
 
 ## Een Git Repository Verkrijgen ##
 
@@ -24,7 +24,7 @@ We zullen zodadelijk beschrijven wat deze commando's doen. Op dit punt heb je ee
 
 ### Een Bestaand Repository Clonen ###
 
-Als je een kopie wilt van een bestaande Git repository — bijvoorbeeld een project waaraan je wilt bijdragen — dan is het git clone commando wat je nodig hebt. Als je bekend bent met andere versie-beheersystemen zoals Subversion, dan valt je op dat het commando 'clone' is en niet 'checkout'. Dit is een belangrijk verschil — Git ontvangt een kopie van bijna alle data die de server heeft. Iedere versie van ieder bestand van de hele geschiedenis van een project wordt binnengehaald als je `git clone` doet. In feite kun je, als je disk kapot gaat, iedere clone van iedere client gebruiken om de server terug in de status te brengen op het moment van clonen (al zou je wel wat hooks en dergelijke verliezen, maar alle versies van alle bestanden zouden er zijn-zie Hoofdstuk 4 voor meer informatie).
+Als je een kopie wilt van een bestaande Git repository — bijvoorbeeld een project waaraan je wilt bijdragen — dan is het `git clone` commando wat je nodig hebt. Als je bekend bent met andere versie-beheersystemen zoals Subversion, dan valt je op dat het commando 'clone' is en niet 'checkout'. Dit is een belangrijk verschil — Git ontvangt een kopie van bijna alle data die de server heeft. Iedere versie van ieder bestand van de hele geschiedenis van een project wordt binnengehaald als je `git clone` doet. In feite kun je, als je disk kapot gaat, iedere clone van iedere client gebruiken om de server terug in de status te brengen op het moment van clonen (al zou je wel wat hooks en dergelijke verliezen, maar alle versies van alle bestanden zouden er zijn-zie Hoofdstuk 4 voor meer informatie).
 
 Je cloned een repository met `git clone [url]`. Bijvoorbeeld, als je de Ruby Git bibliotheek genaamd Grit wilt clonen, kun je dit als volgt doen:
 
@@ -57,9 +57,9 @@ Het hoofdcommando dat je zult gebruiken om te bepalen welk bestand zich in welke
 	# On branch master
 	nothing to commit (working directory clean)
 
-Dit betekend dat je een schone werkmap hebt-met andere woorden, er zijn geen gevolgde en gewijzigde bestanden. Git ziet ook geen ongevolgde bestanden, anders zouden ze hier getoond worden. Als laatste verteld het commando op welke tak (branch) je nu zit. Voor nu is dit altijd de master, dat is de standaard; maak je je hier nog niet druk om. Het volgende hoofdstuk gaat in detail over takken en referenties.
+Dit betekent dat je een schone werkmap hebt-met andere woorden, er zijn geen gevolgde en gewijzigde bestanden. Git ziet ook geen ongevolgde bestanden, anders zouden ze hier getoond worden. Als laatste vertelt het commando op welke tak (branch) je nu zit. Voor nu is dit altijd de master, dat is de standaard; maak je je hier nog niet druk om. Het volgende hoofdstuk gaat in detail over takken en referenties.
 
-Stel dat je een nieuw bestand toevoegd aan je project, en simpel README bestand. Als het bestand voorheen nog niet bestond, en je doet `git status`, dan zul je je ongevolgde bestand zo zien:
+Stel dat je een nieuw bestand toevoegt aan je project, en simpel README bestand. Als het bestand voorheen nog niet bestond, en je doet `git status`, dan zul je je ongevolgde bestand zo zien:
 
 	$ vim README
 	$ git status
@@ -70,7 +70,7 @@ Stel dat je een nieuw bestand toevoegd aan je project, en simpel README bestand.
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-Je kunt zien dat je nieuwe README bestand ongevolgd is, omdat het onder de “Untracked files” kop staat in je status output. Ongevolgd betekend eigenlijk dat Git een bestand ziet dat je niet in het vorige snapshot (commit) had; Git zal het niet in je commit snapshots toevoegen totdat jij haar er expliciet om vraagt. Ze doet dit zodat jij niet per ongeluk gegenereerde binaire bestanden toevoegd, of andere bestanden die je niet wou toevoegen. Je wilt dit README bestand wel toevoegen, dus laten we het gaan volgen.
+Je kunt zien dat je nieuwe README bestand ongevolgd is, omdat het onder de “Untracked files” kop staat in je status output. Ongevolgd betekent eigenlijk dat Git een bestand ziet dat je niet in het vorige snapshot (commit) had; Git zal het niet in je commit snapshots toevoegen totdat jij haar er expliciet om vraagt. Ze doet dit zodat jij niet per ongeluk gegenereerde binaire bestanden toevoegt, of andere bestanden die je niet wou toevoegen. Je wilt dit README bestand wel toevoegen, dus laten we het gaan volgen.
 
 ### Nieuwe Bestanden Volgen (Tracking) ###
 
@@ -88,11 +88,11 @@ Als je je status commando nogmaals uitvoert, zie je dat je README bestand nu gev
 	#	new file:   README
 	#
 
-Je kunt zien dat het ge-staged is, omdat het onder de kop “Changes to be committed” staat. Als je op dit punt een commit doet, zal de versie van het bestand zoals het wat ten tijde van je git add commando in de historische snapshot toegevoegd worden. Je zult je misschien herinneren dat, toen je git init eerder uitvoerde, je daarna git add (bestanden) uitvoerde — dat was om bestanden in je map te beginnen te volgden. Het git add commando neemt een padnaam voor een bestand of een map; als het een map is, dan voegt het commando alle bestanden in die map recursief toe.
+Je kunt zien dat het ge-staged is, omdat het onder de kop “Changes to be committed” staat. Als je op dit punt een commit doet, zal de versie van het bestand zoals het wat ten tijde van je `git add` commando in de historische snapshot toegevoegd worden. Je zult je misschien herinneren dat, toen je `git init` eerder uitvoerde, je daarna `git add` (bestanden) uitvoerde — dat was om bestanden in je map te beginnen te volgen. Het `git add` commando neemt een padnaam voor een bestand of een map; als het een map is, dan voegt het commando alle bestanden in die map recursief toe.
 
 ### Gewijzigde Bestanden Stagen ###
 
-Laten we een gevolgd bestand wijzigen. Als je een voorheen gewijzigd bestand genaamd `benchmarks.rb` wijzigd, en dan je `status` commando nog eens uitvoerd, krijg je iets dat er zo uitziet:
+Laten we een gevolgd bestand wijzigen. Als je een voorheen gewijzigd bestand genaamd `benchmarks.rb` wijzigt, en dan je `status` commando nog eens uitvoert, krijg je iets dat er zo uitziet:
 
 	$ git status
 	# On branch master
@@ -107,7 +107,7 @@ Laten we een gevolgd bestand wijzigen. Als je een voorheen gewijzigd bestand gen
 	#	modified:   benchmarks.rb
 	#
 
-Het benchmarks.rb bestand verschijnt onder een sectie genaamd “Changed but not updated” — wat betekend dat een bestand dat gevolgd wordt gewijzigd is in de werkmap, maar nog niet ge-staged. Om het te stagen, voer je het `git add` commando uit (het is een veelzijdig commando — je gebruikt het om bestanden te volgen, om bestanden te stagen, en andere dingen zoals een bestand met een mergeconflict als opgelost te markeren). Laten we `git add` nu uitvoeren om het benchmarks.rb bestand nu te stagen, en dan nog eens `git status`:
+Het benchmarks.rb bestand verschijnt onder een sectie genaamd “Changed but not updated” — wat betekent dat een bestand dat gevolgd wordt gewijzigd is in de werkmap, maar nog niet ge-staged. Om het te stagen, voer je het `git add` commando uit (het is een veelzijdig commando — je gebruikt het om bestanden te volgen, om bestanden te stagen, en andere dingen zoals een bestand met een mergeconflict als opgelost te markeren). Laten we `git add` nu uitvoeren om het benchmarks.rb bestand nu te stagen, en dan nog eens `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -136,7 +136,7 @@ Beide bestanden zijn ge-staged en zullen in je volgende commit gaan. Stel dat je
 	#	modified:   benchmarks.rb
 	#
 
-Hé! Nu staat benchmarks.rb zowel bij de staged en unstaged. Hoe kan dat? Het blijkt dat Git een bestand staged precies zoals het is wanneer je het git add commando uitvoerd. Als je nu commit, dan zal de versie van benchmarks.rb zoals het was toen je voor 't laatst git add uitvoerde worden toegevoegd in de commit, en niet de versie van het bestand zoals ie eruit zit in je map wanneer je git commit uitvoerd. Als je een bestand wijzigd nadat je `git add` uitvoert, dan moet je `git add` nogmaals uitvoeren om de laatste versie van het bestand te stagen:
+Hé! Nu staat benchmarks.rb zowel bij de staged en unstaged. Hoe kan dat? Het blijkt dat Git een bestand staged precies zoals het is wanneer je het `git add` commando uitvoert. Als je nu commit, dan zal de versie van benchmarks.rb zoals het was toen je voor 't laatst `git add` uitvoerde worden toegevoegd in de commit, en niet de versie van het bestand zoals ie eruit ziet in je map wanneer je git commit uitvoert. Als je een bestand wijzigt nadat je `git add` uitvoert, dan moet je `git add` nogmaals uitvoeren om de laatste versie van het bestand te stagen:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -150,13 +150,13 @@ Hé! Nu staat benchmarks.rb zowel bij de staged en unstaged. Hoe kan dat? Het bl
 
 ### Bestanden Negeren ###
 
-Vaak zul je een klasse bestanden hebben waarvan je niet wilt dat Git deze automatisch toevoegd of zelfs maar als ongevolgd toont. Dit zijn doorgaans automatisch gegenereerde bestanden zoals logbestanden of bestanden die geproduceerd worden door je bouwsysteem. In die gevallen kun je een bestand genaamd .gitignore maken, waarin patronen staan die die bestanden passen. Hier is een voorbeeld .gitignore bestand:
+Vaak zul je een klasse bestanden hebben waarvan je niet wilt dat Git deze automatisch toevoegt of zelfs maar als ongevolgd toont. Dit zijn doorgaans automatisch gegenereerde bestanden zoals logbestanden of bestanden die geproduceerd worden door je bouwsysteem. In die gevallen kun je een bestand genaamd .gitignore maken, waarin patronen staan die die bestanden passen. Hier is een voorbeeld .gitignore bestand:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-De eerste regel verteld Git om ieder bestand dat eindigt op een .o of .a – object en archief bestanden die het product kunnen zijn van het bouwen van je code. De tweede regel verteld Git dat ze alle bestanden die eindigen op een tilde (`~`), wat gebruikt wordt door editors zoals Emacs om tijdelijke bestanden te markeren, mag negeren. Je mag ook log, tmp of een pid map toevoegen; automatisch gegenereerde documentatie; enzovoort. Een .gitignore bestand aanmaken voordat je gaat beginnen is over 't algemeen een goed idee, zodat je niet per ongelijk bestanden commit die je echt niet in je repository wilt hebben.
+De eerste regel verteld Git om ieder bestand dat eindigt op een .o of .a – object en archief bestanden die het product kunnen zijn van het bouwen van je code. De tweede regel vertelt Git dat ze alle bestanden die eindigen op een tilde (`~`), wat gebruikt wordt door editors zoals Emacs om tijdelijke bestanden te markeren, mag negeren. Je mag ook log, tmp of een pid map toevoegen, automatisch gegenereerde documentatie, enzovoort. Een .gitignore bestand aanmaken voordat je gaat beginnen is over 't algemeen een goed idee, zodat je niet per ongeluk bestanden commit die je echt niet in je repository wilt hebben.
 
 De regels voor patronen die je in het .gitignore bestand kunt zetten zijn als volgt:
 
@@ -165,7 +165,7 @@ De regels voor patronen die je in het .gitignore bestand kunt zetten zijn als vo
 *	Je mag patronen laten eindigen op een slash (`\`) om een map te specificeren.
 *	Je mag een patroon ontkennend maken door het te laten beginnen met een uitroepteken (`!`).
 
-Expansie (`glob`) patronen zijn vereenvoudigde reguliere expressies die shell omgevingen gebruiken. Een sterretje (`*`) komt overeen met nul of meer karakters; `[abc]` komt overeen met ieder karakter dat tussen de blokhaken staat (in dit geval a, b of c); een vraagteken (`?`) komt overeen met een enkel karakter; en blokhaken waar tussen karakters staan die gescheiden zijn door een streepje (`[0-9]`) komen overeen met ieder karakter wat tussen die karakters zit (in dit geval 0 tot en met 9).
+Expansie (`glob`) patronen zijn vereenvoudigde reguliere expressies die shell omgevingen gebruiken. Een asterisk (`*`) komt overeen met nul of meer karakters; `[abc]` komt overeen met ieder karakter dat tussen de blokhaken staat (in dit geval a, b of c); een vraagteken (`?`) komt overeen met een enkel karakter, en blokhaken waar tussen karakters staan die gescheiden zijn door een streepje (`[0-9]`) komen overeen met ieder karakter wat tussen die karakters zit (in dit geval 0 tot en met 9).
 
 Hier is nog een voorbeeld van een .gitignore bestand:
 
@@ -180,7 +180,7 @@ Hier is nog een voorbeeld van een .gitignore bestand:
 
 Als het `git status` commando te vaag is voor je – je wilt precies weten wat je veranderd hebt, niet alleen welke bestanden veranderd zijn – dan kun je het `git diff` commando gebruiken. We zullen `git diff` later in meer detail bespreken; maar je zult het het meest gebruiken om deze twee vragen te beantwoorden: Wat heb je veranderd maar nog niet gestaged? En wat heb je gestaged en sta je op het punt te committen? Alhoewel `git status` deze vragen heel algemeen beantwoordt, laat `git diff` je de exacte toegevoegde en verwijderde regels zien – de patch, als het ware.
 
-Stel dat je het README bestand opnieuw veranderd en staged, en dan het benchmarks.rb bestand veranderd zonder het te stagen. Als je je `status` commando uitvoert, dan zie je nogmaals zoiets als dit:
+Stel dat je het README bestand opnieuw verandert en staged, en dan het benchmarks.rb bestand verandert zonder het te stagen. Als je je `status` commando uitvoert, dan zie je nogmaals zoiets als dit:
 
 	$ git status
 	# On branch master
@@ -233,7 +233,7 @@ Als je wilt zien wat je gestaged hebt en in je volgende commit zal zitten, dan k
 
 Het is belangrijk om te zien dat `git diff` zelf niet alle wijzigingen sinds je laatste commit laat zien – alleen wijzigingen die nog niet gestaged zijn. Dit kan verwarrend zijn, omdat als je al je wijzigingen gestaged hebt, `git diff` geen output zal geven.
 
-Nog een voorbeeld. Als je het benchmarks.rb bestand staged, en vervolgens veranderd, dan kun je `git diff` gebruiken om de wijzigingen in het bestand te zien dat gestaged is en de wijzigingen die niet gestaged zijn:
+Nog een voorbeeld. Als je het benchmarks.rb bestand staged, en vervolgens verandert, dan kun je `git diff` gebruiken om de wijzigingen in het bestand te zien dat gestaged is en de wijzigingen die niet gestaged zijn:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -305,7 +305,7 @@ De editor laat de volgende tekst zien (dit voorbeeld is een Vim scherm):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-Je kunt zien dat de standaard commit boodschap de laatste output van het `git status` commando in commentaar bevat en een lege regel bovenaan. Je kunt deze commentaren verwijderen en je eigen commit boodschap intypen, of je kunt ze laten staan om je eraan te helpe herinneren wat je aan het committen bent. (Om een meer expliciete herinnering van je wijzigingen te zien kun je de `-v` optie meegeven aan `git commit`. Als je dit doet zet git de diff van je verandering in je editor zodat je precies kunt zien wat je gedaan hebt.) Als je de editor verlaat, crëeert Git je commit boodschap (zonder de commentaren of de diff).
+Je kunt zien dat de standaard commit boodschap de laatste output van het `git status` commando in commentaar bevat en een lege regel bovenaan. Je kunt deze commentaren verwijderen en je eigen commit boodschap intypen, of je kunt ze laten staan om je eraan te helpen herinneren wat je aan het committen bent. (Om een meer expliciete herinnering van je wijzigingen te zien kun je de `-v` optie meegeven aan `git commit`. Als je dit doet zet git de diff van je verandering in je editor zodat je precies kunt zien wat je gedaan hebt.) Als je de editor verlaat, crëeert Git je commit boodschap (zonder de commentaren of de diff).
 
 Als alternatief kun je je commit boodschap met het `commit` commando meegeven door hem achter de -m optie te specificeren, zoals hier:
 
@@ -314,7 +314,7 @@ Als alternatief kun je je commit boodschap met het `commit` commando meegeven do
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Nu heb je je eerste commit gemaakt! Je kunt zien dat de commit je wat output over zichzelf heeft gegeven: op welke branch je gecommit hebt (master), welke SHA-1 checksum de commit heeft (`463dc4f`), hoeveel bestandend er veranderd zijn, en statistieken over toegevoegde en verwijderde regels in de commit.
+Nu heb je je eerste commit gemaakt! Je kunt zien dat de commit je wat output over zichzelf heeft gegeven: op welke branch je gecommit hebt (master), welke SHA-1 checksum de commit heeft (`463dc4f`), hoeveel bestanden er veranderd zijn, en statistieken over toegevoegde en verwijderde regels in de commit.
 
 Onthoud dat de commit de snapshot, die je in je staging gebied ingesteld hebt, opslaat. Alles wat je niet gestaged hebt staat daar nog steeds gewijzigd; je kunt een volgende commit doen om het aan je geschiedenis toe te voegen. Iedere keer dat je een commit doet, leg je een snapshot van je project vast dat je later terug kunt draaien of mee kunt vergelijken.
 
@@ -337,9 +337,9 @@ Let op dat je nu geen `git add` op het benchmarks.rb bestand hoeft te doen voord
 
 ### Bestanden Verwijderen ###
 
-Om een bestand van Git te verwijderen, moet je het van de tracked bestanden verwijderen (om precies te zijn, verwijderen van je staging gebied) en dan een commit doen. Het `git rm` commando doet dat, en verwijderd het bestand ook van je werkmap zodat je het de volgende keer niet als een untracked bestand ziet.
+Om een bestand van Git te verwijderen, moet je het van de tracked bestanden verwijderen (om precies te zijn, verwijderen van je staging gebied) en dan een commit doen. Het `git rm` commando doet dat, en verwijdert het bestand ook van je werkmap zodat je het de volgende keer niet als een untracked bestand ziet.
 
-Als je het bestand simpelweg verwijderd uit je werkmap, zal het te zien zijn onder het "Changed but not updated" (dat wil zeggen, _unstaged_) gedeelte van je `git status` output:
+Als je het bestand simpelweg verwijdert uit je werkmap, zal het te zien zijn onder het "Changed but not updated" (dat wil zeggen, _unstaged_) gedeelte van je `git status` output:
 
 	$ rm grit.gemspec
 	$ git status
@@ -351,7 +351,7 @@ Als je het bestand simpelweg verwijderd uit je werkmap, zal het te zien zijn ond
 	#       deleted:    grit.gemspec
 	#
 
-Als je daarna `git rm` uitvoerd, zal de verwijdering van het bestand gestaged worden:
+Als je daarna `git rm` uitvoert, zal de verwijdering van het bestand gestaged worden:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -370,11 +370,11 @@ Een ander handigheidje wat je misschien wilt doen is het bestand in je werkmap h
 
 	$ git rm --cached readme.txt
 
-Je kunt bestanden, mappen en bestandspatronen aan het `git rm` commando meegeven. Dat betekend dat je zoiets als dit kunt doen
+Je kunt bestanden, mappen en bestandspatronen aan het `git rm` commando meegeven. Dat betekent dat je zoiets als dit kunt doen
 
 	$ git rm log/\*.log
 
-Let op de backslash (`\`) voor de `*`. Dit is nodig omdat Git zijn eigen bestandsnaam expansie doet, naast die van je shell. Dit commando verwijderd alle bestanden die de `.log` extensie hebben in de `log/` map. Of, je kunt zoiets als dit doen:
+Let op de backslash (`\`) voor de `*`. Dit is nodig omdat Git zijn eigen bestandsnaam expansie doet, naast die van je shell. Dit commando verwijdert alle bestanden die de `.log` extensie hebben in de `log/` map. Of, je kunt zoiets als dit doen:
 
 	$ git rm \*~
 
@@ -382,13 +382,13 @@ Dit commando verwijderd alle bestanden die eindigen met `~`.
 
 ### Bestanden Verplaatsen ###
 
-Anders dan vele andere VCS systemen, traceert Git niet expliciete verplaatsingen van bestanden. Als je een bestand een nieuwe naam geeft in Git, is er geen metadata opgeslagen in Git die verteld dat je het bestand hernoemt hebt. Maar, Git is slim genoeg om dit alsnog te zien – we zullen bestandsverplaatsing detectie wat later behandelen.
+Anders dan vele andere VCS systemen, traceert Git niet expliciete verplaatsingen van bestanden. Als je een bestand een nieuwe naam geeft in Git, is er geen metadata opgeslagen in Git die vertelt dat je het bestand hernoemd hebt. Maar, Git is slim genoeg om dit alsnog te zien – we zullen bestandsverplaatsing detectie wat later behandelen.
 
 Het is daarom een beetje verwarrend dat Git een `mv` commando heeft. Als je een bestand wilt hernoemen in Git, kun je zoiets als dit doen
 
 	$ git mv file_from file_to
 
-en dat werkt prima. Sterker nog, als je zoiets als dit uitvoert en naar de status kijkt, zul je zien dat Git het als een hernoemd bestand beschouwd:
+en dat werkt prima. Sterker nog, als je zoiets als dit uitvoert en naar de status kijkt, zul je zien dat Git het als een hernoemd bestand beschouwt:
 
 	$ git mv README.txt README
 	$ git status
@@ -407,7 +407,7 @@ Maar, dat is gelijk aan het volgende uitvoeren:
 	$ git rm README.txt
 	$ git add README
 
-Git komt er impliciet achter dat het om een hernoemd bestand gaat, dus het maakt niet uit of je een bestand op deze manier hernoemd of met het `mv` commando. Het enige echte verschil is dat het `mv` commando slechts één commando is in plaats van drie. En belangrijker nog is dat je iedere applicatie kunt gebruiken om een bestand te hernoemen, en de add/rm later kunt behandelen, voordat je commit.
+Git komt er impliciet achter dat het om een hernoemd bestand gaat, dus het maakt niet uit of je een bestand op deze manier hernoemt of met het `mv` commando. Het enige echte verschil is dat het `mv` commando slechts één commando is in plaats van drie. En belangrijker nog is dat je iedere applicatie kunt gebruiken om een bestand te hernoemen, en de add/rm later kunt behandelen, voordat je commit.
 
 ## De Commit Geschiedenis Bekijken ##
 
@@ -590,7 +590,7 @@ Dit commando werkt met veel formaten – je kunt een specifieke datum kiezen ("2
 
 Je kunt ook de lijst met commits filteren op bepaalde criteria. De `--author` optie laat je filteren op een specifieke auteur, en de `--grep` optie laat je op bepaalde zoekwoorden filteren in de commit boodschappen. (Let op dat als je zowel auteur als grep opties wilt specificeren, je `--all-match` moet toevoegen of anders zal het commando beiden matchen.)
 
-De laatste echt handige optie om aan `git log` als filter mee te geven is een pad. Als je een map of bestandsnaam op geeft, kun je de log output limiteren tot commits die een verandering introduceren op die bestanden. Dit is altijd de laatste optie en wordt over het algemeen vooraf gegaan door dubbele streepjes (`--`) om de paden van de opties te scheiden.
+De laatste echt handige optie om aan `git log` als filter mee te geven is een pad. Als je een map of bestandsnaam opgeeft, kun je de log output limiteren tot commits die een verandering introduceren op die bestanden. Dit is altijd de laatste optie en wordt over het algemeen vooraf gegaan door dubbele streepjes (`--`) om de paden van de opties te scheiden.
 
 In Tabel 2-3 laten we deze en een paar andere veel voorkomende opties zien als referentie.
 
@@ -625,15 +625,15 @@ Je kunt de commit historie in de bovenste helft van het scherm zien, samen met e
 
 ## Dingen Ongedaan Maken ##
 
-Op ieder moment wil je misschien iets ongedaan maken. Hier zullen we een aantal basis applicaties laten zien om veranderingen die je gemaakt hebt weer ongedaan te maken. Let op, je kunt niet altijd het ongedaan maken weer ongedaan maken. Dit is één van de weinige gedeeltes in Git waarbij je werk kwijt kunt raken als je het verkeerd doet.
+Op enig moment wil je misschien iets ongedaan maken. Hier zullen we een aantal basis toepassingen laten zien om veranderingen die je gemaakt hebt weer ongedaan te maken. Let op, je kunt niet altijd het ongedaan maken weer ongedaan maken. Dit is één van de weinige gedeeltes in Git waarbij je werk kwijt kunt raken als je het verkeerd doet.
 
 ### Je Laatste Commit Veranderen ###
 
-Een van de veel voorkomende ongedaan maak acties vindt plaats als je te vroeg commit en misschien vergeet een aantal bestanden toe te voegen, of je verknald je commit boodschap. Als je opnieuw wilt proberen te committen, dan kun je commit met de `--ammend` optie uitvoeren:
+Een van de veel voorkomende ongedaan maak acties vindt plaats als je te vroeg commit en misschien vergeet een aantal bestanden toe te voegen, of je verknalt je commit boodschap. Als je opnieuw wilt proberen te committen, dan kun je commit met de `--amend` optie uitvoeren:
 
 	$ git commit --amend
 
-Dit commando neemt je staging gebied en gebruikt dit voor de commit. Als je geen veranderingen sinds je laatste commit hebt gedaan (bijvoorbeeld, je voert dit commando meteen na je laatste commit uit), dan zal je snapshot er precies hetzelfde uitzien en zal je commit boodschap het enige zijn dat je veranderd.
+Dit commando neemt je staging gebied en gebruikt dit voor de commit. Als je geen veranderingen sinds je laatste commit hebt gedaan (bijvoorbeeld, je voert dit commando meteen na je laatste commit uit), dan zal je snapshot er precies hetzelfde uitzien en zal je commit boodschap het enige zijn dat je verandert.
 
 Dezelfde commit-boodschap editor start op, maar het bevat meteen de boodschap van je vorige commit. Je kunt de boodschap net als andere keren aanpassen, maar het overschrijft je vorige commit.
 
@@ -643,11 +643,11 @@ Als voorbeeld, als je commit en je dan realiseert dat je vergeten bent de verand
 	$ git add forgotten_file
 	$ git commit --amend 
 
-Alledrie van deze commando's eindigen met één commit – de tweede commit vervangd de resultaten van de eerste.
+Alledrie van deze commando's eindigen met één commit – de tweede commit vervangt de resultaten van de eerste.
 
 ### Een Staged Bestand Unstagen ###
 
-De volgende twee paragrafen laten zien hoe je je staging gebied en veranderingen in je werkmappen aanpakt. Het leuke gedeelte is dat het commando dat je gebruikt om de status van die gebieden te bepalen, je ook herinnerd hoe je de veranderingen eraan ongedaan kunt maken. Bijvoorbeeld, stel dat je twee bestanden gewijzigd hebt en je wilt ze committen als twee aparte veranderingen, maar je typed per ongeluk `git add *` en staged ze allebei. Hoe kun je één van de twee nu unstagen? Het `git status` commando herinnerd je eraan:
+De volgende twee paragrafen laten zien hoe je je staging gebied en veranderingen in je werkmappen aanpakt. Het leuke gedeelte is dat het commando dat je gebruikt om de status van die gebieden te bepalen, je ook herinnert hoe je de veranderingen eraan ongedaan kunt maken. Bijvoorbeeld, stel dat je twee bestanden gewijzigd hebt en je wilt ze committen als twee aparte veranderingen, maar je typed per ongeluk `git add *` en staged ze allebei. Hoe kun je één van de twee nu unstagen? Het `git status` commando herinnert je eraan:
 
 	$ git add .
 	$ git status
@@ -681,7 +681,7 @@ Het commando is een beetje vreemd, maar het werkt. Het benchmarks.rb bestand is 
 
 ### Een Gewijzigd Bestand Ongedaan Maken ###
 
-Wat als je je realiseert dat je je wijzigingen aan het benchmarks.rb bestand niet wilt houden? Hoe kun je dit makkelijk ongedaan maken – terug brengen in de staat waarin het was toen je voor het laatst gecommit hebt (of initieel gecloned, of hoe je het ook in je werkmap gekregen hebt)? Gelukkig verteld `git status` je ook hoe je dat moet doen. In de laatse voorbeeld output, ziet het unstaged gebied er zo uit:
+Wat als je je realiseert dat je je wijzigingen aan het benchmarks.rb bestand niet wilt houden? Hoe kun je dit makkelijk ongedaan maken – terug brengen in de staat waarin het was toen je voor het laatst gecommit hebt (of initieel gecloned, of hoe je het ook in je werkmap gekregen hebt)? Gelukkig vertelt `git status` je ook hoe je dat moet doen. In de laatse voorbeeld output, ziet het unstaged gebied er zo uit:
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -703,7 +703,7 @@ Het vertelt je behoorlijk expliciet hoe je je veranderingen moet weggooien (tenm
 
 Je kunt zien dat de veranderingen teruggedraaid zijn. Je moet je ook realiseren dat dit een gevaarlijk commando is: alle veranderingen die je aan dat bestand gedaan hebt zijn weg – je hebt er zojuist een ander bestand overheen gezet. Gebruik dit commando dan ook nooit, tenzij je heel zeker weet dat je het bestand niet wilt. Als je het alleen maar uit de weg wilt hebben, gebruik dan branching of stashing wat we behandelen in het volgende hoofdstuk; dit zijn vaak de betere opties.
 
-Onthoud, alles dat in Git gecommit is kan bijna altijd weer hersteld worden. Zelfs commits die op reeds verwijderde branges gedaan zijn, of commits die zijn overschreven door een `--amend` commit, kunnen weer hersteld worden (zie Hoofdstuk 9 voor data herstel). Maar, alles wat je verliest dan nog nooit was gecommit is waarschijnlijk voor altijd verloren.
+Onthoud, alles dat in Git gecommit is kan bijna altijd weer hersteld worden. Zelfs commits die op reeds verwijderde branches gedaan zijn, of commits die zijn overschreven door een `--amend` commit, kunnen weer hersteld worden (zie Hoofdstuk 9 voor data herstel). Maar, alles wat je verliest dat nog nooit was gecommit is waarschijnlijk voor altijd verloren.
 
 ## Werken Met Remotes ##
 
@@ -712,7 +712,7 @@ Remote repositories beheren houdt ook in hoe je ze moet toevoegen, ongeldige rep
 
 ### Laat Je Remotes Zien ###
 
-Om te zien welke remote servers je geconfigureerd hebt, kun je het git remote commando uitvoern. Het laat de verkorte namen van iedere remote alias zien die je gespecificeerd hebt. Als je je repository gecloned hebt, dan zul je op z'n minst de origin zien – dat is de standaard naam die Git aan de server geeft waarvan je gecloned hebt:
+Om te zien welke remote servers je geconfigureerd hebt, kun je het `git remote` commando uitvoeren. Het laat de verkorte namen van iedere remote alias zien die je gespecificeerd hebt. Als je je repository gecloned hebt, dan zul je op z'n minst de origin zien – dat is de standaard naam die Git aan de server geeft waarvan je gecloned hebt:
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -740,7 +740,7 @@ Als je meer dan één remote hebt, dan laat het commande ze allemaal zien. Bijvo
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-Dit betekend dat we vrij gemakkelijk de bijdragen van ieder van deze gebruikers naar binnen kunnen pullen. Let op dat alleen de origin een SSH URL is, dus dat is de enige waar ik naartoe kan pushen (we laten het waarom zien in Hoofdstuk 4).
+Dit betekent dat we vrij gemakkelijk de bijdragen van ieder van deze gebruikers naar binnen kunnen pullen. Let op dat alleen de origin een SSH URL is, dus dat is de enige waar ik naartoe kan pushen (we laten het waarom zien in Hoofdstuk 4).
 
 ### Remote Repositories Toevoegen ###
 
@@ -774,7 +774,7 @@ Zoals je zojuist gezien hebt, kun je om data van je remote projecten te halen di
 
 Het commando gaat naar het remote project en haalt alle data van dat remote project dat jij nog niet hebt. Nadat je dit gedaan hebt, zou je references (referenties) naar alle branches van dat remote moeten hebben, die je op ieder tijdstip kunt mergen en bekijken. (We zullen zien wat branches precies zijn, en hoe je ze moet gebruiken in meer detail in Hoofstuk 3.) 
 
-Als je een repository cloned, voegt dat commando dat remote repository automatisch toe onder de naam origin. Dus `git fetch origin` fetched (haalt) ieder nieuw werk dat gepushed is naar die server sinds je gecloned hebt (of voor het laatst ge-fetched hebt). Het is belangrijk om te weten dat het fetch commando de data naar je locale repository haalt – het merged niet automatisch met je werk of veranderd waar je momenteel aan zit te werken. Je kunt het handmatig in je werk mergen als je er klaar voor bent.
+Als je een repository cloned, voegt dat commando dat remote repository automatisch toe onder de naam origin. Dus `git fetch origin` fetched (haalt) ieder nieuw werk dat gepushed is naar die server sinds je gecloned hebt (of voor het laatst ge-fetched hebt). Het is belangrijk om te weten dat het fetch commando de data naar je locale repository haalt – het merged niet automatisch met je werk of verandert waar je momenteel aan zit te werken. Je kunt het handmatig in je werk mergen als je er klaar voor bent.
 
 Als je een branch geconfigureerd hebt om een remote branch te tracken (volgen) (zie de volgende sectie en Hoofdstuk 3 voor meer informatie), dan kun je het `git pull` commando gebruiken om automatisch een remote branch te fetchen en mergen in je huidige branch. Dit kan makkelijker of meer comfortabel zijn voor je werkwijze; en standaard stelt het `git clone` commando je lokale master branch zo in dat het de remote master branch van de server waarvan je gecloned hebt volgt (aangenomen dat de remote een master branch heeft). Over het algemeen zal een `git pull` dat van de server waarvan je origineel gecloned hebt halen en proberen het automatisch in de code waar je op dat moment aan zit te werken te mergen.
 
@@ -784,7 +784,7 @@ Wanneer je je project op een punt krijgt dat je het wilt delen, dan moet je het 
 
 	$ git push origin master
 
-Dit commando werkt alleen als je gecloned hebt van een server waarop je schrijf toegang hebt, en als niemand in de tussentijd gepushed heeft. Als jij en iemand anders op hetzelfde tijdstip gecloned hebben en zij pushen stroomopwaarts en dan jij, dan zal je push terecht geweigerd worden. Je zult eerst hun werk moeten pullen en in jouw werk verwerken voordat je toegestaand wordt te pushen. Zie Hoofstuk 3 voor meer gedetaileerde informatie over hoe je naar remote servers moet pushen.
+Dit commando werkt alleen als je gecloned hebt van een server waarop je schrijf toegang hebt, en als niemand in de tussentijd gepushed heeft. Als jij en iemand anders op hetzelfde tijdstip gecloned hebben en zij pushen stroomopwaarts en dan jij, dan zal je push terecht geweigerd worden. Je zult eerst hun werk moeten pullen en in jouw werk verwerken voordat je toegestaan wordt te pushen. Zie Hoofstuk 3 voor meer gedetaileerde informatie over hoe je naar remote servers moet pushen.
 
 ### Een Remote Inspecteren ###
 
@@ -799,9 +799,9 @@ Als je meer informatie over een bepaalde remote wilt zien, kun je het `git remot
 	    master
 	    ticgit
 
-Het toont de URL voor de remote repository, samen met de tracking branch informatie. Het commando verteld je behulpzaam dat als je op de master branch zit, en je voert `git pull` uit, dan zal het automatisch de master branch op de remote mergen nadat het alle remote references gehaald heeft. Het toont ook alle remote referenties die het gepulled heeft.
+Het toont de URL voor de remote repository, samen met de tracking branch informatie. Het commando vertelt je behulpzaam dat als je op de master branch zit, en je voert `git pull` uit, dan zal het automatisch de master branch op de remote mergen nadat het alle remote references opgehaald heeft. Het toont ook alle remote referenties die het gepulled heeft.
 
-Dat is een eenvoudig voorbeeld dat je vaak tegenkomt. Als je Git meer intens gebruikt, zul je veel meer informatie van `git remote show` krijgen:
+Dat is een eenvoudig voorbeeld dat je vaak tegenkomt. Als je Git meer intensief gebruikt, zul je veel meer informatie van `git remote show` krijgen:
 
 	$ git remote show origin
 	* remote origin
@@ -825,7 +825,7 @@ Dat is een eenvoudig voorbeeld dat je vaak tegenkomt. Als je Git meer intens geb
 	  Local branch pushed with 'git push'
 	    master:master
 
-Dit commando toont welke branch automatisch gepushed wordt als je `git push` uitvoert op bepaalde branches. Het toont je ook welke remote branches op de server je nog niet hebt, welke remote branches je hebt die verwijderd zijn van de server, en meerdere branches die automatisch gemerged worden als je `git pull` uitvoerd.
+Dit commando toont welke branch automatisch gepushed wordt als je `git push` uitvoert op bepaalde branches. Het toont je ook welke remote branches op de server je nog niet hebt, welke remote branches je hebt die verwijderd zijn van de server, en meerdere branches die automatisch gemerged worden als je `git pull` uitvoert.
 
 ### Remotes Verwijderen En Hernoemen ###
 
@@ -836,7 +836,7 @@ Als je een referentie wilt hernoemen, dan kun je in nieuwere versie van Git `git
 	origin
 	paul
 
-Het is de moeite om te melden dat dit ook je remote branch naam veranderd. Wat voorheen gerefereerd werd als `pb/master` is nu `paul/master`.
+Het is de moeite om te melden dat dit ook je remote branch naam verandert. Wat voorheen gerefereerd werd als `pb/master` is nu `paul/master`.
 
 Als je om een of andere reden een referentie wilt verwijderen – je hebt de server verplaatst of je gebruikt een bepaalde spiegel niet meer, of een medewerker doet niet meer mee – dan kun je `git remote rm` gebruiken:
 
@@ -868,7 +868,7 @@ Je kunt ook zoeken op tags met een bepaald patroon. De Git bron repository, bijv
 
 ### Tags Crëeren ###
 
-Git gebruikt twee soorten tags: lightweight (lichtgewicht) en annotated (beschreven). Een lichtgewicht tag komt overeen met een branch die niet veranderd – het is slechts een wijzer naar een specifieke commit. Beschreven tags daarentegen, zijn als volwaardige objecten in de Git database opgeslagen. Ze worden gechecksummed; bevatten de naam van de tagger, e-mail en datum; hebben een tag boodschap; en kunnen gesigneerd en geverifieerd worden met GNU Privacy Guard (GPG). Het wordt over het algemeen aangeraden om beschreven tags te maken zodat je deze informatie hebt; maar als je een tijdelijke tag wilt of om een of andere reden de andere informatie niet wilt houden, dan zijn er ook lichtgewicht tags.
+Git gebruikt twee soorten tags: lightweight (lichtgewicht) en annotated (beschreven). Een lichtgewicht tag komt overeen met een branch die niet verandert – het is slechts een wijzer naar een specifieke commit. Beschreven tags daarentegen, zijn als volwaardige objecten in de Git database opgeslagen. Ze worden gechecksummed, bevatten de naam van de tagger, e-mail en datum, hebben een tag boodschap, en kunnen gesigneerd en geverifieerd worden met GNU Privacy Guard (GPG). Het wordt over het algemeen aangeraden om beschreven tags te maken zodat je deze informatie hebt; maar als je een tijdelijke tag wilt of om een of andere reden de andere informatie niet wilt houden, dan zijn er ook lichtgewicht tags.
 
 ### Beschreven Tags ###
 
@@ -880,7 +880,7 @@ Een beschreven tag in Git maken is eenvoudig. Het makkelijkst is om de `-a` opti
 	v1.3
 	v1.4
 
-De `-m` specificeerd een tag boodschap, die bij de tag opgeslagen wordt. Als je geen boodschap voor een beschreven tag opgeeft, dan opent Git je editor zodat je hem in kunt typen.
+De `-m` specificeert een tag boodschap, die bij de tag opgeslagen wordt. Als je geen boodschap voor een beschreven tag opgeeft, dan opent Git je editor zodat je hem in kunt typen.
 
 Je kunt de tag data zien, samen met de commit die getagged was, door het `git show` commando te gebruiken:
 
@@ -1033,7 +1033,7 @@ Standaard zal het `git push` commando geen tags naar remote servers versturen. J
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-Als je veel tags hebt die je ineens wilt pushen, kun je ook de `--tags` optie aan het `git push` commando toevoegen. Dit zal al je tags, die nog niet op de remote server zijn, ineens ernaartoe sturen.
+Als je veel tags hebt die je ineens wilt pushen, kun je ook de `--tags` optie aan het `git push` commando toevoegen. Dit zal al je tags, die nog niet op de remote server zijn, in een keer er naartoe sturen.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1061,7 +1061,7 @@ Als je de Bash shell gebruikt, heeft Git een fijn auto-aanvulling script dat je 
 
 Als je Git wilt instellen dat het automatische Bash shell aanvulling heeft voor alle gebruikers, kopieer dit script dan naar de `/opt/local/etc/bash_completion.d` map op Mac systemen, of naar de `/etc/bash_completion.d/` map op Linux systemen. Dit is een map met scripts dat Bash automatisch zal laden om shell aanvullingen aan te bieden.
 
-Als je Windows gebruikt met Git Bash, wat de standaard is als je Git op Windows installeerd met msysGit, dan zou auto-aanvulling voorgeconfigureerd moeten zijn.
+Als je Windows gebruikt met Git Bash, wat de standaard is als je Git op Windows installeert met msysGit, dan zou auto-aanvulling voorgeconfigureerd moeten zijn.
 
 Druk de Tab toets als je een Git commando aan het typen bent, en het zou een set suggesties voor je moeten teruggeven:
 
@@ -1086,9 +1086,9 @@ Git zal geen commando's raden als je het gedeeltelijk intyped. Als je niet de he
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-Dit betekend dat je, bijvoorbeeld, in plaats van `git commit` je alleen `git ci` hoeft in te typen. Als je verder gaat met Git, zul je waarschijnlijk andere commando's ook vaker gaan gebruiken; in dat geval, schroom je niet om nieuwe aliassen te maken.
+Dit betekent dat je, bijvoorbeeld, in plaats van `git commit` je alleen `git ci` hoeft in te typen. Als je verder gaat met Git, zul je waarschijnlijk andere commando's ook vaker gaan gebruiken; in dat geval, schroom je niet om nieuwe aliassen te maken.
 
-Deze techniek kan ook makkelijk zijn om commando's te maken waarvan je vind dat ze moeten bestaand. Bijvoorbeeld, om het bruikbaarheidsprobleem wat je met het unstagen van een bestand hebt op te lossen, kun je je eigen unstage alias aan Git toevoegen:
+Deze techniek kan ook makkelijk zijn om commando's te maken waarvan je vindt dat ze moeten bestaan. Bijvoorbeeld, om het bruikbaarheidsprobleem wat je met het unstagen van een bestand hebt op te lossen, kun je je eigen unstage alias aan Git toevoegen:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
@@ -1118,4 +1118,4 @@ Zoals je kunt zien, vervangt Git eenvoudigweg het nieuwe commando met waarvoor j
 
 ## Samenvatting ##
 
-Op dit punt kun je alle basis locale Git operaties doen – een repository crëeeren of clonen, wijzigingen maken, de wijzigingen stagen en committen, en de historie van alle veranderingen waardoor het repository gegaan is zien. Als volgende gaan we Gits beste optie bekijken: het branching model. 
+Op dit punt kun je alle basis locale Git operaties doen – een repository crëeeren of clonen, wijzigingen maken, de wijzigingen stagen en committen, en de historie van alle veranderingen die de repository ondergaan heeft is zien. Als volgende gaan we Gits beste optie bekijken: het branching model. 

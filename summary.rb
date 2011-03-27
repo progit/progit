@@ -8,7 +8,7 @@ data = []
 original_lines=`grep -r -h '^[^[:space:]#]' en/[0]* | grep -v '^Insert'| wc -l`.to_i
 Dir.glob("*").each do |dir|
   if !File.file?(dir) && !exclude.include?(dir)
-    lines = `git diff-tree -r -p --diff-filter=M master:en master:#{dir} | grep '^-[^[:space:]#-]' | wc -l`.strip.to_i
+    lines = `git diff-tree -r -p --diff-filter=M master:en master:#{dir} | grep '^-[^[:space:]#-]' | grep -v '^-Insert' | wc -l`.strip.to_i
     last_commit = `git log -1 --no-merges --format="%ar" #{dir}`.chomp
     authors = ""
     if command == 'authors'

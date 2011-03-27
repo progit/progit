@@ -3,8 +3,8 @@
 Si vous ne deviez lire qu'un chapitre avant de commencer à utiliser Git, c'est celui-ci.
 Ce chapitre couvre les commandes de base nécessaires pour réaliser la vaste majorité des activités avec Git.
 À la fin de ce chapitre, vous devriez être capable de configurer et initialiser
-un dépôt, commencer et arrêter le suivi de version de fichiers, d'indexer et commiter des modifications.
-Nous vous montrerons aussi comment paramétrer Git pour qu'il ignore certains fichiers ou patrons de fichiers, comment revenir sur les erreurs rapidement et facilement, comment parcourir l'historique de votre projet et voir les modifications entre deux commits, et comment pousser et tirer les modifications avec des dépôts distants.
+un dépôt, commencer et arrêter le suivi de version de fichiers, d'indexer et valider des modifications.
+Nous vous montrerons aussi comment paramétrer Git pour qu'il ignore certains fichiers ou patrons de fichiers, comment revenir sur les erreurs rapidement et facilement, comment parcourir l'historique de votre projet et voir les modifications entre deux validations, et comment pousser et tirer les modifications avec des dépôts distants.
 
 ## Démarrer un dépôt Git ##
 
@@ -18,8 +18,7 @@ Si vous commencer à suivre un projet existant dans Git, vous n'avez qu'à vous 
 
 	$ git init
 
-Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous les fichiers
-nécessaire au dépôt — un squelette de dépôt Git.
+Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous les fichiers nécessaire au dépôt — un squelette de dépôt Git.
 Pour l'instant, rien n'est encore suivi en version.
 (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
 
@@ -1282,7 +1281,7 @@ C'est une astuce qui peut clairement vous éviter de perdre du temps ou de lire 
 
 ### Les alias Git ###
 
-Git n'infère pas votre commande si vous ne la tapez que partiellement.
+Git ne complète pas votre commande si vous ne la tapez que partiellement.
 Si vous ne voulez pas avoir à taper l'intégralité du texte de chaque commande, vous pouvez facilement définir un alias pour chaque commande en utilisant `git config`.
 Voici quelques exemples qui pourraient vous intéresser :
 

@@ -697,29 +697,52 @@ Enfin, le crochet `post-merge` s'exécute à la suite d'une commande `merge` ré
 Vous pouvez l'utiliser pour restaurer certaines données non gérées par Git dans le copie de travail telles que les informations de permission.
 Ce crochet permet de même de valider la présence de fichiers externes au contrôle de Git que vous souhaitez voir recopiés lorsque la copie de travail change.
 
-### Server-Side Hooks ###
+### Crochets côté serveur ###
 
-In addition to the client-side hooks, you can use a couple of important server-side hooks as a system administrator to enforce nearly any kind of policy for your project. These scripts run before and after pushes to the server. The pre hooks can exit non-zero at any time to reject the push as well as print an error message back to the client; you can set up a push policy that’s as complex as you wish.
+En complément des crochets côté client, vous pouvez utiliser comme administrateur système quelques crochets côté serveur pour appliquer quasiment toutes les règles de votre projet.
+Ces scripts s'exécutent avant et après chaque poussées sur le serveur.
+Les crochets `pre` peuvent rendre un code d'erreur non nul à tout moment pour rejeter la poussée et afficher un message d'erreur au client.
+Vous pouvez mettre en place des règles aussi complexes que nécessaire.
 
-#### pre-receive and post-receive ####
+#### pre-receive et post-receive ####
 
-The first script to run when handling a push from a client is `pre-receive`. It takes a list of references that are being pushed from stdin; if it exits non-zero, none of them are accepted. You can use this hook to do things like make sure none of the updated references are non-fast-forwards; or to check that the user doing the pushing has create, delete, or push access or access to push updates to all the files they’re modifying with the push.
+Le premier script lancé lors de la gestion d'une poussée depuis un client est `pre-receive`.
+Il accepte une liste de références lues sur stdin.
+S'il sort avec un code d'erreur non nul, aucune n'est acceptée.
+Vous pouvez utiliser ce crochet pour réaliser des tests tels que s'assurer que toutes les références mises à jour le sont en avance rapide ou pour s'assurer que l'utilisateur dispose bien des droits de création, poussée, destruction ou de lecture des mises à jour pour tous les fichiers qu'il cherche à mettre à jour dans cette poussée.
 
-The `post-receive` hook runs after the entire process is completed and can be used to update other services or notify users. It takes the same stdin data as the `pre-receive` hook. Examples include e-mailing a list, notifying a continuous integration server, or updating a ticket-tracking system — you can even parse the commit messages to see if any tickets need to be opened, modified, or closed. This script can’t stop the push process, but the client doesn’t disconnect until it has completed; so, be careful when you try to do anything that may take a long time.
+Le crochet `post-receive` est lancé après l'exécution complète du processus et peut être utilisé pour mettre à jour d'autres services ou pour notifier des utilisateurs.
+Il accepte les même données sur stdin que `pre-receive`.
+Il peut par exemple envoyer un e-mail à une liste de diffusion, notifier un serveur d'intégration continue ou mettre à jour un système de suivi de tickets.
+Il peut aussi analyser les messages de validation à la recherche d'ordres de  mise à jour de l'état des tickets.
+Ce script ne peut pas arrêter le processus de poussée mais le client n'est pas déconnecté tant qu'il n'a pas terminé.
+Il faut donc être prudent à ne peut essayer de lui faire réaliser des actions qui peuvent durer longtemps.
 
 #### update ####
 
-The update script is very similar to the `pre-receive` script, except that it’s run once for each branch the pusher is trying to update. If the pusher is trying to push to multiple branches, `pre-receive` runs only once, whereas update runs once per branch they’re pushing to. Instead of reading from stdin, this script takes three arguments: the name of the reference (branch), the SHA-1 that reference pointed to before the push, and the SHA-1 the user is trying to push. If the update script exits non-zero, only that reference is rejected; other references can still be updated.
+Le script `update` est très similaire au script `pre-receive`, à la différence qu'il est lancé une fois par branche qui doit être modifiée lors de la poussée.
+Si la poussée s'applique à plusieurs branches, `pre-receive` n'est lancé qu'une fois, tandis qu'`update` est lancé une fois par branche impactée.
+Au lieu de lire à partir de stdin, ce script accepte trois arguments : le nom de la référence (branche), le SHA-1 du commit pointé par la référence avant la poussée et le SHA-1 que l'utilisateur est en train de pousser.
+Si le script `update` se termine avec un code d'erreur non nul, seule la référence est rejetée.
+Les autres références pourront être mises à jour.
 
-## An Example Git-Enforced Policy ##
+## Exemple de politique gérée par Git ##
 
-In this section, you’ll use what you’ve learned to establish a Git workflow that checks for a custom commit message format, enforces fast-forward-only pushes, and allows only certain users to modify certain subdirectories in a project. You’ll build client scripts that help the developer know if their push will be rejected and server scripts that actually enforce the policies.
+Dans ce chapitre, nous allons utiliser ce que nous venons d'apprendre pour installer une gestion Git qui vérifie la présence d'un format personnalisé de message de validation, n'autorise que les poussées en avance rapide et autorise seulement certains utilisateurs à modifier certains sous-répertoires dans un projet.
+Nous construirons des scripts client pour informer les développeurs que leurs poussées vont être rejetées et des scripts sur le serveur pour mettre effectivement en place ces règles.
 
-I used Ruby to write these, both because it’s my preferred scripting language and because I feel it’s the most pseudocode-looking of the scripting languages; thus you should be able to roughly follow the code even if you don’t use Ruby. However, any language will work fine. All the sample hook scripts distributed with Git are in either Perl or Bash scripting, so you can also see plenty of examples of hooks in those languages by looking at the samples.
+J'ai utilisé Ruby pour les écrire, d'abord parce que c'est mon langage de script favori, ensuite parce que je pense que c'est le langage de script qui s'apparente le plus à du pseudo-code.
+Ainsi, il devrait être simple de suivre grossièrement le code même sans connaître le langage Ruby.
+Cependant, tout langage peut être utilisé.
+Tous les scripts d'exemple distribués avec Git sont soit en Perl soit en Bash, ce qui donne de nombreux autres exemples de crochets dans ces langages.
 
-### Server-Side Hook ###
+### Crochets côté serveur ###
 
-All the server-side work will go into the update file in your hooks directory. The update file runs once per branch being pushed and takes the reference being pushed to, the old revision where that branch was, and the new revision being pushed. You also have access to the user doing the pushing if the push is being run over SSH. If you’ve allowed everyone to connect with a single user (like "git") via public-key authentication, you may have to give that user a shell wrapper that determines which user is connecting based on the public key, and set an environment variable specifying that user. Here I assume the connecting user is in the `$USER` environment variable, so your update script begins by gathering all the information you need:
+Toutes les actions côté serveur seront contenues dans le fichier `update` dans le répertoire `hooks`.
+Le fichier `update` s'exécute une fois par branche poussée et accepte comme paramètre la référence sur laquelle on pousse, l'ancienne révision de la branche et la nouvelle révision de la branche.
+Vous pouvez aussi avoir accès à l'utilisateur qui pousse si la poussée est réalisée par SSH.
+Si vous avez permis à tout le monde de se connecter avec un utilisateur unique (comme « git ») avec une authentification à clef publique, il vous faudra fournir à cet utilisateur une enveloppe de shell qui déterminera l'identité de l'utilisateur à partir de sa clef publique et positionnera une variable d'environnement spécifiant cette identité.
+Ici, je considère que la variable d'environnement `$USER` indique l'utilisateur connecté, donc le script update commence par rassembler toutes les informations nécessaires :
 
 	#!/usr/bin/env ruby
 
@@ -730,13 +753,18 @@ All the server-side work will go into the update file in your hooks directory. T
 
 	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
 
-Yes, I’m using global variables. Don’t judge me — it’s easier to demonstrate in this manner.
+Et oui, j'utilise des variables globales.
+C'est seulement pour simplifier la démonstration.
 
-#### Enforcing a Specific Commit-Message Format ####
+#### Appliquer une politique de format du message de validation ####
 
-Your first challenge is to enforce that each commit message must adhere to a particular format. Just to have a target, assume that each message has to include a string that looks like "ref: 1234" because you want each commit to link to a work item in your ticketing system. You must look at each commit being pushed up, see if that string is in the commit message, and, if the string is absent from any of the commits, exit non-zero so the push is rejected.
+Notre première tâche consiste à forcer que chaque message de valide adhère à un format particulier.
+En guise d'objectif, obligeons chaque message à contenir une chaîne de caractère qui ressemble à « ref: 1234 » parce que nous souhaitons que chaque validation soit liée à une tâche de notre système de tickets.
+Nous devons donc inspecter chaque commit poussé, vérifier la présence de la chaîne et sortir avec un code non-nul en cas d'absence pour rejeter la poussée.
 
-You can get a list of the SHA-1 values of all the commits that are being pushed by taking the `$newrev` and `$oldrev` values and passing them to a Git plumbing command called `git rev-list`. This is basically the `git log` command, but by default it prints out only the SHA-1 values and no other information. So, to get a list of all the commit SHAs introduced between one commit SHA and another, you can run something like this:
+Vous pouvez obtenir une liste des valeurs SHA-1 de tous les commits en cours de poussée en passant les valeurs `$newref` et `$oldrev` à une commande de plomberie Git appelée `git-rev-list`.
+C'est comme la commande `git log` mais elle n'affiche par défaut que les valeurs SHA-1, sans autre information.
+Donc, pour obtenir une liste de tous les SHA des commits introduits entre un SHA de commit et un autre, il suffit de lancer quelque chose comme :
 
 	$ git rev-list 538c33..d14fc7
 	d14fc7c847ab946ec39590d87783c69b031bdfb7

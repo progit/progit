@@ -763,8 +763,7 @@ The downside to this approach is the whining that will inevitably result when yo
 
 The answer to this dilemma is to provide some client-side hooks that users can use to notify them when they’re doing something that the server is likely to reject. That way, they can correct any problems before committing and before those issues become more difficult to fix. Because hooks aren’t transferred with a clone of a project, you must distribute these scripts some other way and then have your users copy them to their `.git/hooks` directory and make them executable. You can distribute these hooks within the project or in a separate project, but there is no way to set them up automatically.
 
-To begin, you should check your commit message just before each commit is recorded, so you know the server won’t reject your changes due to badly formatted commit messages. To do this, you can add the `commit-msg` hook. If you have it read the message from the file passed as the first argument and compare that to the pattern, you can force Git to abort the commit if there is no match:
-
+首先，你应该在每次提交前核查你的提交注释信息，这样你才能确保服务器不会因为不合条件的提交注释信息而拒绝你的更改。为了达到这个目的，你可以增加'commit-msg'挂钩。如果你使用该挂钩来阅读作为第一个参数传递给git的提交注释信息，并且与规定的模式作对比，你就可以使git在提交注释信息不符合条件的情况下，拒绝执行提交。
 	#!/usr/bin/env ruby
 	message_file = ARGV[0]
 	message = File.read(message_file)
@@ -776,12 +775,12 @@ To begin, you should check your commit message just before each commit is record
 	  exit 1
 	end
 
-If that script is in place (in `.git/hooks/commit-msg`) and executable, and you commit with a message that isn’t properly formatted, you see this:
+如果这个脚本放在这个位置 (`.git/hooks/commit-msg`) 并且是可执行的, 并且你的提交注释信息不是符合要求的，你会看到：
 
 	$ git commit -am 'test'
 	[POLICY] Your message is not formatted correctly
 
-No commit was completed in that instance. However, if your message contains the proper pattern, Git allows you to commit:
+在这个实例中，提交没有成功。然而如果你的提交注释信息是符合要求的，git会允许你提交：
 
 	$ git commit -am 'test [ref: 132]'
 	[master e05c914] test [ref: 132]

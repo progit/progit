@@ -854,22 +854,22 @@ Doing so automatically runs `test-error.sh` on each checked-out commit until Git
 ## Подмодули (Submodules) ##
 ## Submodules ##
 
-Часто бывает, что во время работы над одним проектом, вам необходимо использовать другой изнутри первого. Возможно, это независимо разработанная библиотека или разрабатываемая вами независимо и используемая в нескольких родительских проектах. Обычной задачей появляющейся в этих сценариях является то, что вы желаете иметь возможность рассматривать эти два проекта как независимые, тем не менее по-прежнему имея возможность использовать один внутри другого.
+Часто бывает так, что во время работы над одним проектом, вам необходимо использовать другой изнутри первого. Возможно, это библиотека сторонних разработчиков или разрабатываемая вами обособленно и используемая в нескольких родительских проектах. Обычной задачей появляющейся в этих сценариях является то, что вы желаете иметь возможность рассматривать эти два проекта как независимые, тем не менее, по-прежнему имея возможность использовать один проект внутри другого.
 
 It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
 
-Вот пример. Предположим, вы разрабатываете вебсайт и создаете ленты (каналы) Atom. Вместо того чтобы писать собственный Atom-генерирующий код, вы решили использовать библиотеку. Вы вероятно должны либо включить этот код из разделяемой библиотеки, такой как устанавливаемый модуль CPAN или пакет RubyGem, либо скопировать исходный код в дерево собственного проекта. Проблема включения библиотеки в том, что в любом случае сложно настраивать библиотеку, и часто более сложно ее распространять, потому что вы вынуждены удостоверится, что эта библиотека доступна каждому клиенту. Проблема с включением кода в ваш собственный проект в том, что любые изменения, произведенные вами, сложно слить когда становятся доступными дальнейшие изменения основного проекта.
+Вот пример. Предположим, вы разрабатываете вебсайт и создаете ленты (каналы) Atom. И вместо того, чтобы писать собственный Atom-генерирующий код, вы решили использовать библиотеку. Вы вероятно должны либо подключить код разделяемой библиотеки, такой как устанавливаемый модуль CPAN или пакет RubyGem, либо скопировать исходный код в дерево собственного проекта. Проблема подключения библиотеки в том, что в общем случае сложно настраивать библиотеку, и, зачастую, более сложно ее распространять. Ведь вы вынуждены удостоверится в том, что эта библиотека доступна каждому клиенту. Проблема с включением кода в ваш собственный проект в том, что любые изменения, произведенные вами, сложно слить, когда становятся доступными дальнейшие изменения основного проекта.
 
 Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
 
-Git решает эту задачу используя подмодули (submodules). Подмодули позволяют вам держать репозиторий Git как подкаталог другого репозитория Git. Это дает возможность клонировать другой репозиторий в ваш проект и держать ваши фиксации (коммиты) отдельно.
+Git решает эту задачу используя подмодули (submodules). Подмодули позволяют вам держать репозиторий Git как подкаталог другого репозитория Git. Это дает возможность клонировать другой репозиторий в ваш проект и держать ваши коммиты отдельно.
 
 Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
 
 ### Начало использования подмодулей ###
 ### Starting with Submodules ###
 
-Предположим, вы хотите добавить библиотеку Rack (интерфейс шлюза веб-сервера Ruby) в ваш проект, возможно внося ваши собственные изменения в него, но продолжая сливать их с изменениями основного проекта. Первое, что вам требуется сделать, это клонировать внешний репозиторий в ваш подкаталог. Вы добавляете внешние проекты как подмодули командой `git submodule add`:
+Предположим, вы хотите добавить библиотеку Rack (интерфейс шлюза веб-сервера Ruby) в ваш проект, возможно внося ваши собственные изменения в него, но продолжая сливать их с изменениями основного проекта. Первое что вам требуется сделать, это клонировать внешний репозиторий в ваш подкаталог. Вы добавляете внешние проекты как подмодули командой `git submodule add`:
 
 Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
 
@@ -881,7 +881,7 @@ Suppose you want to add the Rack library (a Ruby web server gateway interface) t
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 
-Теперь у вас есть проект Rack в подкаталоге названом `rack` внутри вашего проекта. Вы можете перейти в этот репозиторий, выполнить изменения, добавить ваш собственный внешний репозиторий в который можно писать для отправки ваших изменений в него, доставать и сливать из внешнего репозитория, и многое другое. Если вы выполните `git status` сразу после добавления подмодуля, то увидите две вещи:
+Теперь у вас есть проект Rack в подкаталоге названом `rack` внутри вашего проекта. Вы можете перейти в этот репозиторий, внести изменения, добавить ваш собственный доступный для записи внешний репозиторий для отправки ваших изменений в него, извлекать и сливать из исходного репозитория, и многое другое. Если вы выполните `git status` сразу после добавления подмодуля, то увидите две вещи:
 	
 Now you have the Rack project under a subdirectory named rack within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run git status right after you add the submodule, you see two things:
 
@@ -894,7 +894,7 @@ Now you have the Rack project under a subdirectory named rack within your projec
 	#      new file:   rack
 	#
 
-Вначале вы заметите файл `.gitmodules`. Это - конфигурационный файл, который содержит соответствие между адресом (URL) проекта и локальным подкаталогом в который вы его вытянули: 
+Вначале вы заметите файл `.gitmodules`. Это - конфигурационный файл, который содержит соответствие между адресом (URL) проекта и локальным подкаталогом в который вы его получили: 
 	
 First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
 
@@ -903,11 +903,11 @@ First you notice the `.gitmodules` file. This is a configuration file that store
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-Если у вас несколько подмодулей, то в этом файле будет несколько записей. Важно обратить внимание на то, что этот файл версионирован вместе с другими вашими файлами, так же как и ваш файл `.gitignore`. Он проталкивается и вытягивается вместе с остальным вашим проектом. Это дает знать другим людям, которые клонируют этот проект, где взять проект подмодуля.
+Если у вас несколько подмодулей, то в этом файле будет несколько записей. Важно обратить внимание на то, что этот файл версионирован вместе с другими вашими файлами, так же как и ваш файл `.gitignore`. Он отправляется и получается вместе с остальным вашим проектом. Так другие люди, которые  клонируют этот проект, узнают где взять проект подмодуля.
 
 If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
 
-В другом листинге вывода `git status` присутствует элемент `rack`. Если вы запустите `git diff` для него, то увидите что-то интересное:
+В следующем листинге вывода `git status` присутствует элемент `rack`. Если вы запустите `git diff` для него, то увидите что-то интересное:
 
 The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
 
@@ -920,15 +920,15 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Хотя `rack` является подкаталогом в вашем рабочем каталоге, Git видит ее как подмодуль и не отслеживает его содержимое когда вы не в нем. Вместо этого, Git записывает его как одиночный (специфический) комит из этого репозитория. Когда вы делаете изменения и фиксацию (комитите - прим. переводчика) в том каталоге, основной проект отмечает что HEAD в ней был изменен, и записывает конкретный коммит над которым вы в данный момент завершили работу; таким образом, когда другие клонируют этот проект, они могут воссоздать точное окружение.
+Хотя `rack` является подкаталогом в вашем рабочем каталоге, Git видит ее как подмодуль и не отслеживает его содержимое когда вы не в нем. Вместо этого, Git записывает его как одиночный специфический коммит этого репозитория. Когда вы делаете изменения и фиксацию (создаете коммит - прим. переводчика) в этом подкаталоге, основной проект отмечает что HEAD в подмодуле был изменен, и регистрирует только SHA-1 хеш коммита над которым вы в данный момент завершили работу в подмодуле. Таким образом, когда другие клонируют этот проект, они могут воссоздать окружение точно.
 	
 Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
 
-Вот важная особенность подмодулей: вы запоминаете их как определенный коммит (состояние) в котором они находятся. Вы не можете записать подмодуль как `master` или какую-либо другую символическую ссылку.
+Это важная особенность подмодулей – вы запоминаете их как определенный коммит (состояние) в котором они находятся. Вы не можете записать подмодуль как `master` или какую-либо другую символическую ссылку.
 
 This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
 
-Когда вы фиксируете (комитите), то увидите что-то вроде этого:
+Когда вы фиксируете изменения (создаете коммит), то увидите что-то вроде этого:
 
 When you commit, you see something like this:
 
@@ -938,11 +938,11 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
-Обратите внимание на 160000 режим для элемента rack. Это специальный режим в Git который по существу означает, что вы записываете комит (фиксацию) как запись о каталоге а не подкаталоге или файле.
+Обратите внимание на режим 160000 для элемента rack. Это специальный режим в Git который, по существу, означает, что коммит сохраняется как запись о каталоге, а не подкаталоге или файле.
 	 
 Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
 
-Вы можете расценивать каталог `rack` как отдельный проект и обновлять ваш основной проект время от времени с указателем на самый последний комит в данном подпроекте. Все команды Git работают независимо в двух каталогах.
+Вы можете расценивать каталог `rack` как отдельный проект и обновлять ваш основной проект время от времени с указателем на самый последний коммит в данном подпроекте. Все команды Git работают независимо в двух каталогах.
 
 You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
 
@@ -963,7 +963,7 @@ You can treat the `rack` directory as a separate project and then update your su
 ### Клонирование проекта с подмодулями ###
 ### Cloning a Project with Submodules ###
 
-Тут вы клонируете проект содержащий подмодуль. Когда вы получаете такой проект, то получаете каталоги содержащие подмодули, но все же, не получаете ни одного файла из подмодулей.
+Клонируем проект содержащий подмодуль. Когда вы получаете такой проект, то получаете каталоги содержащие подмодули, но, все же, не получаете ни одного файла из подмодулей.
 
 Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
 
@@ -981,7 +981,7 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
-Каталог `rack` присутствует, но он пустой. Необходимо выполнить две команды: `git submodule init` для инициализации вашего локального файла конфигурации, и `git submodule update` для получения всех данных их этого проекта (удаленного хранилища - прим. перев.) и взятия соответствующего коммита указаного в вашем основном проекте.
+Каталог `rack` присутствует, но он пустой. Необходимо выполнить две команды: `git submodule init` для инициализации вашего локального файла конфигурации, и `git submodule update` для получения всех данных их этого проекта (подмодуля) и перехода к соответствующему коммиту, указанному в вашем основном проекте.
 	
 The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
 
@@ -996,7 +996,7 @@ The `rack` directory is there, but empty. You must run two commands: `git submod
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Теперь ваша подпапка `rack` точно в том состоянии, в котором она была ранее, когда вы ее фиксировали. Если другой разработчик сделает изменения в коде rack и зафиксирует их, и вы затяните эту ссылку и сольете ее, то получите нечто немного странное:
+Теперь ваш подкаталог `rack` точно в том состоянии, в котором он был ранее, когда вы его фиксировали. Если другой разработчик сделает изменения в коде rack и зафиксирует их, а вы затяните ссылку на них и сольете, то получите нечто немного странное:
 
 Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
 
@@ -1014,7 +1014,7 @@ Now your `rack` subdirectory is at the exact state it was in when you committed 
 	#      modified:   rack
 	#
 
-По существу, вы слили то, что было изменено в указателе на ваш подмодуль, но это не обновило код в каталоге подмодуля, так что он выглядит как будто, вы имеете грязное состояние в вашем рабочем каталоге:
+По существу, вы слили то, изменения в указателе на ваш подмодуль, но это не обновило код в каталоге подмодуля, так что он выглядит так, как будто вы имеете грязное состояние в вашем рабочем каталоге:
 
 You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory:
 
@@ -1027,7 +1027,7 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Это так потому, что ваш указатель для подмодуля не является тем, что фактически находится в каталоге подмодуля. (Причина в том, что указатель на подмодуль не является каталогом. - прим. переводчика) Для исправления этого, вы должны выполнить `git submodule update` заново: 
+Это так потому, что ваш указатель для подмодуля не соответствует тому, что фактически находится в каталоге подмодуля. (Причина в том, что указатель на подмодуль не является каталогом. - прим. переводчика) Для исправления этого, вы должны выполнить `git submodule update` заново: 
 
 This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
 
@@ -1040,11 +1040,11 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-Вы должны делать это каждый раз, когда вы вытягиваете измене подмодуля в главный проект. Это странно, но работает.
+Вы должны делать это каждый раз, когда вы получаете изменения подмодуля в главный проект. Это странно, но работает.
 
 You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
 
-Одна распространенная проблема возникает, когда разработчик делает изменения в подмодуле (имеется в виду его локальная копия - прим. переводчика), но не проталкивает их на общественный сервер. Затем он фиксирует указатель на это непубличное состояние и проталкивает его в основной проект. Когда другие разработчики пытаются выполнить `git submodule update`, система подмодуля не может найти указанный коммит, потому что он существует только в системе первого разработчика. Если это случается, вы увидите ошибку вроде этой:
+Распространенная проблема возникает когда разработчик делает изменения в подмодуле (имеется в виду его локальная копия - прим. переводчика), но не отправляет их на общественный сервер. Затем он фиксирует указатель на это непубличное состояние и отправляет его в основной проект. Когда другие разработчики пытаются выполнить `git submodule update`, система работы с подмодулями не может найти указанный коммит потому. что он существует только в системе первого разработчика. Если это случается, вы увидите ошибку вроде этой:
 
 One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
 
@@ -1063,33 +1063,33 @@ You have to see who last changed the submodule:
 
 	    added a submodule reference I will never make public. hahahahaha!
 
-Затем вы отправляете этому человеку мейл, в котором кричите на него.
+Затем вы отправляете этому человеку имейл со своими возмущениями.
 
 Then, you e-mail that guy and yell at him.
 
 ### Суперпроекты ###
 ### Superprojects ###
 
-Иногда, разработчики хотят получить комбинацию подкаталогов крупного проекта, в зависимости от того, в какой они команде. Это привычно если вы пришли из CVS или Subversion, где вы определяли модуль или набор подкаталогов, и вы хотите сохранить данный тип рабочего процесса.
+Иногда, разработчики хотят получить комбинацию подкаталогов крупного проекта, в зависимости от того, в какой они команде. Это привычно если вы пришли из CVS или Subversion, где вы определили модуль или набор подкаталогов, и вы хотите сохранить данный тип рабочего процесса.
 
 Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
 
-Хорошим способом выполнить это в Git является сделать каждый из подкаталогов отдельным Git репозиторием, и затем, создать репозиторий Git для суперпроекта который содержал бы несколько подмодулей. Преимущество такого подхода в том, что вы можете более гибко определять отношения между проектами при помощи тегов (ярлыков) и ветвей в суперпроектах.
+Хорошим способом выполнить это в Git является сделать каждый из подкаталогов отдельным Git репозиторием, и создать репозиторий Git для суперпроекта который содержал бы несколько подмодулей. Преимущество такого подхода в том, что вы можете более гибко определять отношения между проектами при помощи тегов (ярлыков) и ветвей в суперпроектах.
 
 A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
 
 ### Проблемы с подмодулями ###
 ### Issues with Submodules ###
 
-Однако, использование подмодулей не обходится без загвоздок. Во-первых, вы должны быть относительно осторожны работая в каталоге подмодуля. Когда вы выполняете команду `git submodule update` она возвращает определенную версию проекта, но не содержимое ветви, содержащее этоу версию (коммит). Это называется получением изолированной головы - это означает, что файл HEAD указывает точно на коммит, а не на символическую ссылку. Проблема в том, что вы, как правило, не хотите работать в окружении с "изолированной головой", потому что так легко потерять изменения. Если вы сделаете первоначальный `submodule update`, произведете фиксацию в каталоге этого подмодуля без создания ветви для работы в ней, и затем, вновь выполните `git submodule update` из основного проекта, между тем без фиксации, Git перетрет ваши изменения без предупреждения. Технически вы не потеряете проделанную работу, но у вас не будет ветки указывающую на нее, так что будет несколько сложно ее восстановить.
+Однако, использование подмодулей не обходится без загвоздок. Во-первых, вы должны быть относительно осторожны работая в каталоге подмодуля. Когда вы выполняете команду `git submodule update` она возвращает определенную версию проекта, но не внутри ветви. Это называется получением изолированной головы - это означает, что файл HEAD указывает на конкретный коммит, а не на символическую ссылку. Проблема в том, что вы, как правило, не хотите работать в окружении с "изолированной головой", потому что так легко потерять изменения. Если вы сделаете первоначальный `submodule update`, произведете фиксацию в каталоге этого подмодуля без создания ветви для работы в ней, и затем, вновь выполните `git submodule update` из основного проекта, без создания коммита в суперпроекте, Git перетрет ваши изменения без предупреждения. Технически вы не потеряете проделанную работу, но у вас не будет ветки указывающей на нее, так что будет несколько сложно ее восстановить.
 
 Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
 
-Для предотвращения этой проблемы, создавайте ветвь, когда работаете в каталоге подмодуля с использованием команды `git checkout -b` или чем-нибудь аналогичным. Когда вы делаете обновление подмодуля командой `submodule update` в следующий раз, она все же откатит вашу работу, но, по крайней мере, у вас будет указатель для возврата назад.
+Для предотвращения этой проблемы, создавайте ветвь, когда работаете в каталоге подмодуля с использованием команды `git checkout -b` или какой-нибудь аналогичной. Когда вы сделаете обновление подмодуля командой `submodule update` в следующий раз, она все же откатит вашу работу, но, по крайней мере, у вас будет указатель для возврата назад.
 
 To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b` work or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
 
-Переключение ветвей с подмодулями в них так же может быть мудреным. Если вы создаете новую ветвь, добавляете туда подмодуль и, затем, переключаетесь обратно к верви без этого подмодуля, вы все еще имеете каталог подмодуля в виде неверсионированного каталога:
+Переключение ветвей с подмодулями в них так же может быть мудреным. Если вы создадите новую ветвь, добавите туда подмодуль и, затем, переключитесь обратно, туда где не было этого подмодуля, вы все еще будите иметь каталог подмодуля в виде неверсионированного каталога:
 
 Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
 
@@ -1114,7 +1114,7 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	#
 	#      rack/
 
-Вы будете вынуждены либо переместить каталог подмодуля в другое место, либо удалить его, в случае чего, вам потребуется клонировать его опять когда переключитесь обратно, и вы можете потерять локальные изменения или ветви, которые вы не протолкнули в оригинальное хранилище командой push.
+Вы будете вынуждены либо переместить каталог подмодуля в другое место, либо удалить его. В этом случае вам потребуется клонировать его опять когда переключитесь обратно, и вы можете потерять локальные изменения или ветви, которые вы не отправили в оригинальное хранилище.
 
 You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up.
 
@@ -1126,7 +1126,7 @@ The last main caveat that many people run into involves switching from subdirect
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
 
-Вам следует вначале убрать каталог `rack` из индекса (деверсионировать). Затем вы сможете добавить подмодуль.
+Вначале вам следует убрать каталог `rack` из индекса (деверсионировать). Затем вы сможете добавить подмодуль.
 
 You have to unstage the `rack` directory first. Then you can add the submodule:
 
@@ -1139,14 +1139,14 @@ You have to unstage the `rack` directory first. Then you can add the submodule:
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
 	Resolving deltas: 100% (1952/1952), done.
 
-Теперь, предположим, вы сделали это в ветви. Если вы попытаетесь переключиться обратно в ветвь, где эти файлы все еще в актуальном дереве, а не в подмодуле - вы получите такую ошибку:
+Теперь, предположим, вы сделали это в ветви. Если вы попытаетесь переключиться обратно в ветвь, где эти файлы все еще в актуальном дереве, а не в подмодуле – вы получите такую ошибку:
 
 Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
 
-Вам следует переместить каталог модуля `rack`, перед тем как вы сможете переключиться на вервь, которая не содержит его.
+Вам следует переместить каталог подмодуля `rack`, перед тем, как вы сможете переключиться на ветвь, которая не содержит его.
 	
 You have to move the `rack` submodule directory out of the way before you can switch to a branch that doesn’t have it:
 
@@ -1156,26 +1156,26 @@ You have to move the `rack` submodule directory out of the way before you can sw
 	$ ls
 	README	rack
 
-Затем, когда вы переключитесь обратно, вы получите пустой каталог `rack`. Вы сможете либо выполнить `git submodule update` для повторного клонирования, или вернуть ваш каталог `/tmp/rack` обратно в пустой каталог.
+Затем, когда вы переключитесь обратно, вы получите пустой каталог `rack`. Вы сможете либо выполнить `git submodule update` для повторного клонирования, или вернуть содержимое вашего каталога `/tmp/rack` обратно в пустой каталог.
 
 Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
 
 ## Слияние поддеревьев ##
 ## Subtree Merging ##
 
-Теперь, когда вы увидели сложности системы подмодулей, давайте посмотрим на альтернативный путь решения той же проблемы. Когда Git выполняет слияние, он смотрит на то, что требуется слить вместе и затем выбирает подходящую стратегию слияния. Если вы сливаете две ветви, Git использует _рекурсивную (recursive)_ стратегию. Если вы объединяете более двух ветвей, Git выбирает стратегию _осьминога (octopus)_. Эти стратегии выбираются для вас автоматически потому, что рекурсивная стратегия может обрабатывать сложные трехсторонние ситуации слияния - например, более чем один общий предок - но она может объединять только две ветви. Объединение осьминогом может обрабатывать множество ветвей, но является более осторожным, чтобы предотвратить сложные конфликты, так что, она выбирается стратегией по умолчанию, если вы пытаетесь объединить более двух ветвей.
+Теперь, когда вы увидели сложности системы подмодулей, давайте посмотрим на альтернативный путь решения той же проблемы. Когда Git выполняет слияние, он смотрит на то, что требуется слить вместе и затем выбирает подходящую стратегию слияния. Если вы сливаете две ветви, Git использует _рекурсивную (recursive)_ стратегию. Если вы объединяете более двух ветвей, Git выбирает стратегию _осьминога (octopus)_. Эти стратегии выбираются для вас автоматически потому, что рекурсивная стратегия может обрабатывать сложные трехсторонние ситуации слияния - например, более чем один общий предок - но она может объединять только две ветви. Объединение методом осьминога может обрабатывать множество ветвей, но является более осторожным, чтобы предотвратить сложные конфликты, так что, он выбирается стратегией по умолчанию, если вы пытаетесь объединить более двух ветвей.
 
 Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
 
-Однако, существуют другие стратегии которые вы так же можете выбрать. Одна из них - объединение _поддеревьев_, и вы можете использовать ее для решения задачи подпроектов. Тут вы увидите как выполнить то же внедрение rack как и в предыдущем разделе, но с использованием стратегии слияний поддеревьев.
+Однако, существуют другие стратеги, которые вы так же можете выбрать. Одна из них - объединение _поддеревьев_, и вы можете использовать ее для решения задачи с подпроектами. Тут вы увидите как выполнить то же внедрение rack как и в предыдущем разделе, но с использованием стратегии слияний поддеревьев.
 
 However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
 
-Идея объединения поддеревьев в том, что вы имеете два проекта, и один из проектов отображается в подкаталог другого и наоборот. Когда вы задаете слияние поддеревьев, Git достаточно умен, чтобы понять то, что один является поддеревом другого и слить правильно - это довольно удивительно.
+Идея объединения поддеревьев в том, что вы имеете два проекта, и один из проектов отображается в подкаталог другого и наоборот. Когда вы задаете слияние поддеревьев, Git достаточно умен, чтобы понять то, что один проект является поддеревом другого и слить правильно - это довольно удивительно.
 
 The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
 
-Вы сначала добавляете приложение Rack в ваш проект. Вы добавляете проект Rack как внешнюю ссылку в вашем собственном проекте и затем, переводите его в собственную ветку:
+Сначала вы добавляете приложение Rack в ваш проект. Вы добавляете проект Rack как внешнюю ссылку в вашем собственном проекте, и затем переводите его в собственную ветку:
 
 You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
 
@@ -1208,20 +1208,20 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	$ ls
 	README
 
-Вы хотите вытянуть проект Rack в ваш `master`-проект как подкаталог. Вы можете сделать это в Git-те командой `git read-tree`. Вы узнаете больше про команду `read-tree` и ее друзей в Главе 9, но пока знайте, что она читает корень дерева одной ветки в вашу текущую рабочую область и рабочий каталог. Вам достаточно переключиться обратно в вашу ветвь `master`, и вытянуть ветвь `rack` в подкаталог `rack` ветви `master` вашего основного проекта:
+Допустим, вы хотите получить проект Rack в ваш `master`-проект как подкаталог. Вы можете сделать это в Git-те командой `git read-tree`. Вы узнаете больше про команду `read-tree` и ее друзей в Главе 9, но пока знайте, что она читает корень дерева одной ветки в вашу текущую рабочую область и рабочий каталог. Вам достаточно переключиться обратно в вашу ветвь `master`, и вытянуть ветвь `rack` в подкаталог `rack` ветви `master` вашего основного проекта:
 
 You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-Когда произведете фиксацию (командой `commit`), все будет выглядеть так, что у вас все файлы Rack в этом подкаталоге - будто вы скопировали их туда из архива. Что вызывает интерес, так это то, что вы можете достаточно просто объединять изменения их одной из ветвей в другую. Так, что если проект Rack изменится, вы сможете вытянуть ведущие изменения путем переключение в эту ветку и извлечения:
+Когда произведете фиксацию (командой `commit`), все будет выглядеть так, как-будто у вас все файлы Rack в этом подкаталоге - будто вы скопировали их туда из архива. Вызывает интерес то, что вы можете достаточно просто объединять изменения их одной ветвей в другую. Так, что если проект Rack изменится, вы сможете вытянуть ведущие изменения путем переключение в эту ветку и извлечения:
 
 When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
 
 	$ git checkout rack_branch
 	$ git pull
 
-Затем, вы можете слить те изменения обратно в вашу главную ветвь. Можете использовать `git merge -s subtree` и это сработает правильно; но Git также объединит истории вместе, чего вы возможно не желаете. Для вытягивания изменений и подстановки сообщения коммита, используйте опциями `--squash` и `--no-commit` вместе с опцией стратегии `-s subtree`:
+Затем, вы можете слить эти изменения обратно в вашу главную ветвь. Можете использовать `git merge -s subtree` и это сработает правильно; но Git также объединит истории вместе, чего вы возможно не желаете. Для вытягивания изменений и подстановки сообщения коммита, используйте опции `--squash` и `--no-commit` вместе с опцией стратегии `-s subtree`:
 
 Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
 
@@ -1234,13 +1234,13 @@ Then, you can merge those changes back into your master branch. You can use `git
 
 All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
 
-Для получения разности между тем, что у вас есть в подкаталоге `rack` и кодом в вашей ветке `rack_branch`, чтобы увидеть, нужно ли вам объединять их, вы не можете использовать нормальную команду `diff`. Вместо этого вы должны выполнить `git diff-tree` с веткой, с которой вы хотите сравнить:
+Для получения разности между тем, что у вас есть в подкаталоге `rack` и кодом в вашей ветке `rack_branch`, чтобы увидеть нужно ли вам объединять их, вы не можете использовать нормальную команду `diff`. Вместо этого вы должны выполнить `git diff-tree` с веткой, с которой вы хотите сравнить:
 
 To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
 
 	$ git diff-tree -p rack_branch
 
-Или, для сравнения того, что в вашем подкаталоге `rack` с тем что в ветви `master` на сервере, с которого вы в последний раз выбирали (фетчили), можете выполнить:
+Или, для сравнения того, что в вашем подкаталоге `rack` с тем, что в ветви `master` на сервере, из которого вы в последний раз извлекали, можете выполнить:
 
 Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
 
@@ -1249,6 +1249,6 @@ Or, to compare what is in your `rack` subdirectory with what the `master` branch
 ## Итоги ##
 ## Summary ##
 
-Вы увидели ряд продвинутых инструментов, которые позволяют вам манипулировать вашими фиксациями и рабочей областью более совершенно. Когда вы замечаете проблему, то сможете легко выяснить, каким коммитом они внесены, когда и кем. Если вы хотите использовать подпроекты в вашем проекте - вы узнали несколько путей, как приспособить его для данных нужд. С этого момента, вы должны быть в состоянии делать большинство вещей в Git, которые вам повседневно будут необходимы в командной строке, и будете чувствовать себя при этом комфортно.
+Вы увидели ряд продвинутых инструментов, которые позволяют вам манипулировать вашими коммитами и рабочей областью более совершенно. Когда вы замечаете проблему, то сможете легко выяснить, каким коммитом она внесена, когда и кем. Если вы хотите использовать подпроекты в вашем проекте - вы узнали несколько путей, как приспособится к этим нуждам. С этого момента, вы должны быть в состоянии делать большинство вещей в Git, которые вам будут необходимы повседневно в командной строке, и будете чувствовать себя при этом комфортно.
 
 You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.

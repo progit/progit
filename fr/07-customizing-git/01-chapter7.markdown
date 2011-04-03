@@ -746,23 +746,23 @@ Ici, je considère que la variable d'environnement `$USER` indique l'utilisateur
 
 	#!/usr/bin/env ruby
 
-	$refname = ARGV[0]
-	$oldrev  = ARGV[1]
-	$newrev  = ARGV[2]
-	$user    = ENV['USER']
+	$nomref       = ARGV[0]
+	$anciennerev  = ARGV[1]
+	$nouvellerev  = ARGV[2]
+	$utilisateur  = ENV['USER']
 
-	puts "Enforcing Policies... \n(#{$refname}) (#{$oldrev[0,6]}) (#{$newrev[0,6]})"
+	puts "Vérification des règles... \n(#{$nomref}) (#{$anciennerev[0,6]}) (#{$nouvellerev[0,6]})"
 
 Et oui, j'utilise des variables globales.
 C'est seulement pour simplifier la démonstration.
 
 #### Appliquer une politique de format du message de validation ####
 
-Notre première tâche consiste à forcer que chaque message de valide adhère à un format particulier.
+Notre première tâche consiste à forcer que chaque message de validation adhère à un format particulier.
 En guise d'objectif, obligeons chaque message à contenir une chaîne de caractère qui ressemble à « ref: 1234 » parce que nous souhaitons que chaque validation soit liée à une tâche de notre système de tickets.
 Nous devons donc inspecter chaque commit poussé, vérifier la présence de la chaîne et sortir avec un code non-nul en cas d'absence pour rejeter la poussée.
 
-Vous pouvez obtenir une liste des valeurs SHA-1 de tous les commits en cours de poussée en passant les valeurs `$newref` et `$oldrev` à une commande de plomberie Git appelée `git-rev-list`.
+Vous pouvez obtenir une liste des valeurs SHA-1 de tous les commits en cours de poussée en passant les valeurs `$nouvellerev` et `$anciennerev` à une commande de plomberie Git appelée `git-rev-list`.
 C'est comme la commande `git log` mais elle n'affiche par défaut que les valeurs SHA-1, sans autre information.
 Donc, pour obtenir une liste de tous les SHA des commits introduits entre un SHA de commit et un autre, il suffit de lancer quelque chose comme :
 
@@ -773,9 +773,11 @@ Donc, pour obtenir une liste de tous les SHA des commits introduits entre un SHA
 	dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
 	17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475
 
-You can take that output, loop through each of those commit SHAs, grab the message for it, and test that message against a regular expression that looks for a pattern.
+Vous pouvez récupérer la sortie, boucler sur chacun de ces SHA de commit, en extraire le message et tester la conformance du message avec une structure au moyen d'une expression rationnelle.
 
-You have to figure out how to get the commit message from each of these commits to test. To get the raw commit data, you can use another plumbing command called `git cat-file`. I’ll go over all these plumbing commands in detail in Chapter 9; but for now, here’s what that command gives you:
+Vous devez trouver comment extraire le message de validation à partir de chacun des commits à tester.
+Pour accéder aux données brutes du commit, vous pouvez utiliser une autre commande de plomberie appelée `git cat-file`.
+Nous traiterons en détail toutes ces commandes de plomberie au chapitre 9 mais pour l'instant, voici ce que cette commande affiche:
 
 	$ git cat-file commit ca82a6
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -785,61 +787,73 @@ You have to figure out how to get the commit message from each of these commits 
 
 	changed the version number
 
-A simple way to get the commit message from a commit when you have the SHA-1 value is to go to the first blank line and take everything after that. You can do so with the `sed` command on Unix systems:
+Un moyen simple d'extraire le message de validation d'un commit à partir de son SHA-1 consiste à rechercher la première ligne vide et à sélectionner tout ce qui suit.
+Cela peut être facilement réalisé avec la commande `sed` sur les systèmes Unix :
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
 	changed the version number
 
-You can use that incantation to grab the commit message from each commit that is trying to be pushed and exit if you see anything that doesn’t match. To exit the script and reject the push, exit non-zero. The whole method looks like this:
+Vous pouvez utiliser cette ligne pour récupérer le message de validation de chaque commit en cours de poussée et sortir si quelque chose ne correspond à ce qui est attendu.
+Pour sortir du script et rejeter la poussée, il faut sortir avec un code non nul.
+La fonction complète ressemble à ceci :
 
 	$regex = /\[ref: (\d+)\]/
 
-	# enforced custom commit message format
-	def check_message_format
-	  missed_revs = `git rev-list #{$oldrev}..#{$newrev}`.split("\n")
-	  missed_revs.each do |rev|
+	# vérification du format des messages de validation
+	def verif_format_message
+	  revs_manquees = `git rev-list #{$anciennerev}..#{$nouvellerev}`.split("\n")
+	  revs_manquees.each do |rev|
 	    message = `git cat-file commit #{rev} | sed '1,/^$/d'`
 	    if !$regex.match(message)
-	      puts "[POLICY] Your message is not formatted correctly"
+	      puts "[REGLE] Le message de validation ne suit pas le format"
 	      exit 1
 	    end
 	  end
 	end
-	check_message_format
+	verif_format_message
 
-Putting that in your `update` script will reject updates that contain commits that have messages that don’t adhere to your rule.
+Placer ceci dans un script `update` rejettera les mises à jour contenant des commits dont les messages ne suivent pas la règle.
 
-#### Enforcing a User-Based ACL System ####
+#### Mettre en place un système d'ACL par utilisateur ####
 
-Suppose you want to add a mechanism that uses an access control list (ACL) that specifies which users are allowed to push changes to which parts of your projects. Some people have full access, and others only have access to push changes to certain subdirectories or specific files. To enforce this, you’ll write those rules to a file named `acl` that lives in your bare Git repository on the server. You’ll have the `update` hook look at those rules, see what files are being introduced for all the commits being pushed, and determine whether the user doing the push has access to update all those files.
+Supposons que vous souhaitiez ajouter un mécanisme à base de liste de contrôle d'accès (access control list : ACL) qui permette de spécifier quel utilisateur a le droit de pousser des modifications vers quelle partie du projet.
+Certains personnes ont un accès complet tandis que d'autres n'ont accès que pour mettre à jour certains sous-répertoires ou certains fichiers.
+Pour faire appliquer ceci, nous allons écrire ces règles dans un fichier appelé `acl` situé dans le dépôt brut Git sur le serveur.
+Le crochet `update` examinera ces règles, listera les fichiers impactés par la poussée et déterminera si l'utilisateur qui pousse a effectivement les droits nécessaires sur ces fichiers.
 
-The first thing you’ll do is write your ACL. Here you’ll use a format very much like the CVS ACL mechanism: it uses a series of lines, where the first field is `avail` or `unavail`, the next field is a comma-delimited list of the users to which the rule applies, and the last field is the path to which the rule applies (blank meaning open access). All of these fields are delimited by a pipe (`|`) character.
+Écrivons en premier le fichier d'ACL.
+Nous allons utiliser un format très proche de celui des ACL de CVS.
+Le fichier est composé de lignes dont le premier champ est `avail` ou `unavail`, le second est une liste des utilisateurs concernés séparés par des virgules t le dernier champ indique le chemin pour lequel la règle s'applique (le champ vide indiquant une règle générale).
+Tous les champs sont délimités par un caractère pipe « | ».
 
-In this case, you have a couple of administrators, some documentation writers with access to the `doc` directory, and one developer who only has access to the `lib` and `tests` directories, and your ACL file looks like this:
+Dans notre cas, il y a quelques administrateurs, des auteurs de documentation avec un accès au répertoire `doc` et un développeur qui n'a accès qu'aux répertoires `lib` et `tests`.
+Le fichier ACL ressemble donc à ceci :
 
 	avail|nickh,pjhyett,defunkt,tpw
 	avail|usinclair,cdickens,ebronte|doc
 	avail|schacon|lib
 	avail|schacon|tests
 
-You begin by reading this data into a structure that you can use. In this case, to keep the example simple, you’ll only enforce the `avail` directives. Here is a method that gives you an associative array where the key is the user name and the value is an array of paths to which the user has write access:
+Le traitement consiste à lire le fichier dans une structure utilisable.
+Dans notre cas, pour simplifier, nous ne traiterons que les directives `avail`.
+Voici une fonction qui crée à partir du fichier un tableau associatif dont la clé est l'utilisateur et la valeur une liste des chemins pour lesquels l'utilisateur a les droits en écriture :
 
-	def get_acl_access_data(acl_file)
-	  # read in ACL data
-	  acl_file = File.read(acl_file).split("\n").reject { |line| line == '' }
-	  access = {}
-	  acl_file.each do |line|
-	    avail, users, path = line.split('|')
+	def get_acl_access_data(nom_fichier_acl)
+	  # lire le fichier ACL
+	  fichier_acl = File.read(nom_fichier_acl).split("\n").reject { |ligne| ligne == '' }
+	  acces = {}
+	  fichier_acl.each do |ligne|
+	    avail, utilisateurs, chemin = ligne.split('|')
 	    next unless avail == 'avail'
-	    users.split(',').each do |user|
-	      access[user] ||= []
-	      access[user] << path
+	    utilisateurs.split(',').each do |utilisateur|
+	      acces[utilisateur] ||= []
+	      acces[utilisateur] << chemin
 	    end
 	  end
-	  access
+	  acces
 	end
 
-On the ACL file you looked at earlier, this `get_acl_access_data` method returns a data structure that looks like this:
+Pour le fichier d'ACL décrit plus haut, le fonction `get_acl_access_data` retourne une structure de données qui ressemble à ceci :
 
 	{"defunkt"=>[nil],
 	 "tpw"=>[nil],
@@ -850,67 +864,75 @@ On the ACL file you looked at earlier, this `get_acl_access_data` method returns
 	 "usinclair"=>["doc"],
 	 "ebronte"=>["doc"]}
 
-Now that you have the permissions sorted out, you need to determine what paths the commits being pushed have modified, so you can make sure the user who’s pushing has access to all of them.
+En plus des permissions, il faut déterminer les chemins impactés par la poussée pour s'assurer que l'utilisateur a bien droit d'y toucher.
 
-You can pretty easily see what files have been modified in a single commit with the `--name-only` option to the `git log` command (mentioned briefly in Chapter 2):
+La liste des fichiers modifiés est assez simplement obtenue par la commande `git log` complétée par l'option `--name-only` mentionnée au chapitre 2.
 
 	$ git log -1 --name-only --pretty=format:'' 9f585d
 
 	README
 	lib/test.rb
 
-If you use the ACL structure returned from the `get_acl_access_data` method and check it against the listed files in each of the commits, you can determine whether the user has access to push all of their commits:
+Chaque fichier des commits doit être vérifié par rapport à la structure ACL retournée par la fonction `get_acl_access_data` pour déterminer si l'utilisateur a le droit de pousser tous ses commits :
 
-	# only allows certain users to modify certain subdirectories in a project
-	def check_directory_perms
-	  access = get_acl_access_data('acl')
+	# permission à certains utilisateurs de modifier certains sous-répertoires du projet
+	def verif_perms_repertoire
+	  acces = get_acl_access_data('acl')
 
-	  # see if anyone is trying to push something they can't
-	  new_commits = `git rev-list #{$oldrev}..#{$newrev}`.split("\n")
-	  new_commits.each do |rev|
-	    files_modified = `git log -1 --name-only --pretty=format:'' #{rev}`.split("\n")
-	    files_modified.each do |path|
-	      next if path.size == 0
-	      has_file_access = false
-	      access[$user].each do |access_path|
-	        if !access_path  # user has access to everything
-	          || (path.index(access_path) == 0) # access to this path
-	          has_file_access = true 
+	  # verifier si quelqu'un chercher à pousser où il n'a pas le droit
+	  nouveaux_commits = `git rev-list #{$anciennerev}..#{$nouvellerev}`.split("\n")
+	  nouveaux_commits.each do |rev|
+	    fichiers_modifies = `git log -1 --name-only --pretty=format:'' #{rev}`.split("\n")
+	    fichiers_modifies.each do |chemin|
+	      next if chemin.size == 0
+	      acces_permis = false
+	      acces[$utilisateur].each do |chemin_acces|
+	        if !chemin_acces  # l'utilisateur a un accès complet
+	          || (chemin.index(chemin_acces) == 0) # acces à ce chemin
+	          acces_permis = true 
 	        end
 	      end
-	      if !has_file_access
-	        puts "[POLICY] You do not have access to push to #{path}"
+	      if !acces_permis
+	        puts "[ACL] Vous n'avez pas le droit de pousser sur #{path}"
 	        exit 1
 	      end
 	    end
 	  end  
 	end
 
-	check_directory_perms
+	verif_perms_repertoire
 
-Most of that should be easy to follow. You get a list of new commits being pushed to your server with `git rev-list`. Then, for each of those, you find which files are modified and make sure the user who’s pushing has access to all the paths being modified. One Rubyism that may not be clear is `path.index(access_path) == 0`, which is true if path begins with `access_path` — this ensures that `access_path` is not just in one of the allowed paths, but an allowed path begins with each accessed path. 
+L'algorithme ci-dessus reste simple.
+Pour chaque élément de la liste des nouveaux commits à pousser obtenue au moyen de `git rev-list`, on vérifie que l'utilisateur qui pousse a accès au chemin de chacun des fichiers modifiés.
+L'expression `chemin.index(chemin_acces) == 0` est un Rubyisme qui n'est vrai que si `chemin` commence comme `chemin_acces`.
+Ce script s'assure non pas qu'un `chemin` fait partie des chemins permis, mais que tous les chemins accédés font bien partie des chemins permis.
 
-Now your users can’t push any commits with badly formed messages or with modified files outside of their designated paths.
+À présent, les utilisateurs ne peuvent plus pousser de commits comprenant un message incorrectement formaté ou des modifications à des fichiers hors de leur zone réservée.
 
-#### Enforcing Fast-Forward-Only Pushes ####
+#### Application des poussées en avance rapide ####
 
-The only thing left is to enforce fast-forward-only pushes. In Git versions 1.6 or newer, you can set the `receive.denyDeletes` and `receive.denyNonFastForwards` settings. But enforcing this with a hook will work in older versions of Git, and you can modify it to do so only for certain users or whatever else you come up with later.
+Il ne reste plus qu'à forcer les poussées en avance rapide uniquement.
+À partir de la version 1.6, les paramètres `receive.denyDeletes` et `receive.denyNonFastForwards` règlent le problème.
+Cependant, l'utilisation d'un crochet permet de fonctionner avec des versions antérieures de Git et même après modification, des permissions par utilisateur ou toute autre évolution.
 
-The logic for checking this is to see if any commits are reachable from the older revision that aren’t reachable from the newer one. If there are none, then it was a fast-forward push; otherwise, you deny it:
+L'algorithme consiste à vérifier s'il y a des commits accessibles depuis l'ancienne révision qui ne sont pas accessibles depuis la nouvelle.
+S'il n'y en a aucun alors la poussée est effectivement en avance rapide.
+Sinon, il faut le rejeter :
 
-	# enforces fast-forward only pushes 
-	def check_fast_forward
-	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
-	  missed_ref_count = missed_refs.split("\n").size
-	  if missed_ref_count > 0
-	    puts "[POLICY] Cannot push a non fast-forward reference"
+	# Forcer les poussées qu'en avance rapide
+	def verif_avance_rapide
+	  refs_manquees = `git rev-list #{$nouvellerev}..#{$anciennerev}`
+	  nb_refs_manquees = refs_manquees.split("\n").size
+	  if nb_refs_manquees > 0
+	    puts "[REGLE] Poussée en avance rapide uniquement"
 	    exit 1
 	  end
 	end
 
-	check_fast_forward
+	verif_avance_rapide
 
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file you into which you should have put all this code, and then try to push a non-fast-forwarded reference, you get something like this:
+Tout est en place.
+En lançant `chmod u+x .git/hooks/update`, `update` étant le fichier dans lequel tout le code précédent réside, puis en essayant de pousser une référence qui n'est pas en avance rapide, on obtient ceci :
 
 	$ git push -f origin master
 	Counting objects: 5, done.
@@ -918,162 +940,192 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	Writing objects: 100% (3/3), 323 bytes, done.
 	Total 3 (delta 1), reused 0 (delta 0)
 	Unpacking objects: 100% (3/3), done.
-	Enforcing Policies... 
+	Vérification des règles...
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[REGLE] Poussée en avance rapide uniquement
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
 	 ! [remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-There are a couple of interesting things here. First, you see this where the hook starts running.
+Il y a plusieurs point à relever ici.
+Premièrement, une ligne indique l'endroit où le crochet est appelé.
 
-	Enforcing Policies... 
+	Vérification des règles... 
 	(refs/heads/master) (fb8c72) (c56860)
 
-Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
+Le script update affiche ces lignes sur stdout au tout début.
+Tout ce que le script écrit sur stdout sera transmis au client.
 
-The next thing you’ll notice is the error message.
+La ligne suivante à remarquer est le message d'erreur.
 
-	[POLICY] Cannot push a non fast-forward reference
+	[REGLE] Poussée en avance rapide uniquement
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 
-The first line was printed out by you, the other two were Git telling you that the update script exited non-zero and that is what is declining your push. Lastly, you have this:
+Le première ligne a été écrite par le script, les deux autres l'ont été par Git pour indiquer que le script `update` a rendu un code de sortie non nul, ce qui a causé l'échec de la poussée.
+Enfin, il y a ces lignes :
 
 	To git@gitserver:project.git
 	 ! [remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-You’ll see a remote rejected message for each reference that your hook declined, and it tells you that it was declined specifically because of a hook failure.
+Il y a un message d'échec distant pour chaque référence que le crochet a rejeté et une indication que l'échec est dû spécifiquement à un échec du crochet.
 
-Furthermore, if the ref marker isn’t there in any of your commits, you’ll see the error message you’re printing out for that.
+Par ailleurs, si la marque ref n'est pas présente dans le message de validation, le message d'erreur spécifique est affiché :
 
-	[POLICY] Your message is not formatted correctly
+	[REGLE] Le message de validation ne suit pas le format
 
-Or if someone tries to edit a file they don’t have access to and push a commit containing it, they will see something similar. For instance, if a documentation author tries to push a commit modifying something in the `lib` directory, they see
+Ou si quelqu'un cherche à modifier un fichier auquel il n'a pas les droits d'accès lors d'une poussée, il verra quelque chose de similaire.
+Par exemple, si un auteur de documentation essaie de pousser un commit qui modifie quelque chose dans le répertoire `lib`, il verra
 
-	[POLICY] You do not have access to push to lib/test.rb
+	[ACL] Vous n'avez pas le droit de pousser sur lib/test.rb
 
-That’s all. From now on, as long as that `update` script is there and executable, your repository will never be rewound and will never have a commit message without your pattern in it, and your users will be sandboxed.
+c'est tout.
+À partir de maintenant, tant que le script `update` est en place et exécutable, votre dépôt ne peut plus subir de poussées hors avancée rapide, n'accepte plus de messages sans format et vos utilisateurs sont bridés.
 
-### Client-Side Hooks ###
+### Crochets côté client ###
 
-The downside to this approach is the whining that will inevitably result when your users’ commit pushes are rejected. Having their carefully crafted work rejected at the last minute can be extremely frustrating and confusing; and furthermore, they will have to edit their history to correct it, which isn’t always for the faint of heart.
+Le problème de cette approche, ce sont les plaintes des utilisateurs qui résulteront inévitablement des échecs de leurs poussées.
+Leur frustration et leur confusion devant le rejet à la dernière minute d'un travail minutieux est tout à fait compréhensible.
+De plus, la correction nécessitera  une modification de leur historique, ce qui n'est pas une partie de plaisir.
 
-The answer to this dilemma is to provide some client-side hooks that users can use to notify them when they’re doing something that the server is likely to reject. That way, they can correct any problems before committing and before those issues become more difficult to fix. Because hooks aren’t transferred with a clone of a project, you must distribute these scripts some other way and then have your users copy them to their `.git/hooks` directory and make them executable. You can distribute these hooks within the project or in a separate project, but there is no way to set them up automatically.
+Pour éviter ce scénario, il faut pouvoir fournir aux utilisateurs des crochets côté client qui leur permettront de vérifier que leurs validations seront effectivement acceptées par le serveur.
+Ainsi, ils pourront corriger les problèmes avant de valider et avant que ces difficultés ne deviennent des casse-têtes.
+Ces scripts n'étant pas diffusés lors du clonage du projet, il vous faudra les distribuer d'une autre manière, puis indiquer aux utilisateurs de les copier dans leur répertoire `.git/hooks` et de les rendre exécutables.
+Vous pouvez distribuer ces crochets au sein du projet ou dans un projet annexe mais il n'y a aucun moyen de les mettre en place automatiquement.
 
-To begin, you should check your commit message just before each commit is recorded, so you know the server won’t reject your changes due to badly formatted commit messages. To do this, you can add the `commit-msg` hook. If you have it read the message from the file passed as the first argument and compare that to the pattern, you can force Git to abort the commit if there is no match:
+Premièrement, pour éviter le rejet du serveur au motif d'un mauvais format du message de validation, il faut vérifier celui-ci avant que chaque commit ne soit enregistré.
+Pour ce faire, utilisons le crochet `commit-msg`.
+En lisant le message à partir du fichier passé en premier argument et en le comparant au format attendu, on peut forcer Git à abandonner la validation en cas d'absence de correspondance :
 
 	#!/usr/bin/env ruby
-	message_file = ARGV[0]
-	message = File.read(message_file)
+	fichier_message = ARGV[0]
+	message = File.read(fichier_message)
 
 	$regex = /\[ref: (\d+)\]/
 
 	if !$regex.match(message)
-	  puts "[POLICY] Your message is not formatted correctly"
+	  puts "[REGLE] Le message de validation ne suit pas le format"
 	  exit 1
 	end
 
-If that script is in place (in `.git/hooks/commit-msg`) and executable, and you commit with a message that isn’t properly formatted, you see this:
+Avec ce fichier exécutable et à sa place dans `.git/hooks/commit-msg`, si une validation avec un message incorrect est tentée, voici le résultat :
 
 	$ git commit -am 'test'
-	[POLICY] Your message is not formatted correctly
+	[REGLE] Le message de validation ne suit pas le format
 
-No commit was completed in that instance. However, if your message contains the proper pattern, Git allows you to commit:
+La validation n'a pas abouti.
+Néanmoins, si le message contient la bonne forme, Git accepte la validation :
 
 	$ git commit -am 'test [ref: 132]'
 	[master e05c914] test [ref: 132]
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Next, you want to make sure you aren’t modifying files that are outside your ACL scope. If your project’s `.git` directory contains a copy of the ACL file you used previously, then the following `pre-commit` script will enforce those constraints for you:
+Ensuite, il faut s'assurer des droits sur les fichiers modifiés.
+Si le répertoire `.git` du projet contient une copie du fichier d'ACL précédemment utilisé, alors le script `pre-commit` suivant appliquera ses règles :
 
 	#!/usr/bin/env ruby
 
-	$user    = ENV['USER']
+	$utilisateur    = ENV['USER']
 
-	# [ insert acl_access_data method from above ]
+	# [ insérer la fonction acl_access_data method ci-dessus ]
 
-	# only allows certain users to modify certain subdirectories in a project
-	def check_directory_perms
-	  access = get_acl_access_data('.git/acl')
+	# Ne permet qu'à certains utilisateurs de modifier certains sous-répertoires
+	def verif_perms_repertoire
+	  acces = get_acl_access_data('.git/acl')
 
-	  files_modified = `git diff-index --cached --name-only HEAD`.split("\n")
-	  files_modified.each do |path|
-	    next if path.size == 0
-	    has_file_access = false
-	    access[$user].each do |access_path|
-	    if !access_path || (path.index(access_path) == 0)
-	      has_file_access = true
+	  fichiers_modifies = `git diff-index --cached --name-only HEAD`.split("\n")
+	  fichiers_modifies.each do |chemin|
+	    next if chemin.size == 0
+	    acces_permis = false
+	    acces[$utilisateur].each do |chemin_acces|
+	    if !chemin_acces || (chemin.index(chemin_acces) == 0)
+	      acces_permis = true
 	    end
-	    if !has_file_access
-	      puts "[POLICY] You do not have access to push to #{path}"
+	    if !acces_permis
+	      puts "[ACL] Vous n'avez pas le droit de pousser sur #{path}"
 	      exit 1
 	    end
 	  end
 	end
 
-	check_directory_perms
+	verif_perms_repertoire
 
-This is roughly the same script as the server-side part, but with two important differences. First, the ACL file is in a different place, because this script runs from your working directory, not from your Git directory. You have to change the path to the ACL file from this
+C'est grossièrement le même script que celui côté serveur, mais avec deux différences majeures.
+Premièrement, le fichier ACL est à un endroit différent parce que le script s'exécute depuis le copie de travail et non depuis le répertoire Git.
+Il faut donc changer le chemin vers le fichier d'ACL de 
 
-	access = get_acl_access_data('acl')
+	acces = get_acl_access_data('acl')
 
-to this:
+pour
 
-	access = get_acl_access_data('.git/acl')
+	acces = get_acl_access_data('.git/acl')
 
-The other important difference is the way you get a listing of the files that have been changed. Because the server-side method looks at the log of commits, and, at this point, the commit hasn’t been recorded yet, you must get your file listing from the staging area instead. Instead of
+L'autre différence majeure réside dans la manière d'obtenir la liste des fichiers modifiés.
+La fonction sur le serveur la recherche dans le journal des commits mais comme dans le cas actuel, le commit n'a pas encore été enregistré, il faut chercher la liste dans la zone d'index.
+Donc au lieu de
 
-	files_modified = `git log -1 --name-only --pretty=format:'' #{ref}`
+	fichiers_modifies = `git log -1 --name-only --pretty=format:'' #{ref}`
 
-you have to use
+on utilise
 
-	files_modified = `git diff-index --cached --name-only HEAD`
+	fichiers_modifies = `git diff-index --cached --name-only HEAD`
 
-But those are the only two differences — otherwise, the script works the same way. One caveat is that it expects you to be running locally as the same user you push as to the remote machine. If that is different, you must set the `$user` variable manually.
+Mais à ces deux différences près, le script fonctionne de manière identique.
+Ce script a aussi une autre limitation : il s'attend à ce que l'utilisateur qui le lance localement soit identique à celui sur le serveur distant.
+S'ils sont différents, il faudra positionner manuellement la variable `$utilisateur`.
 
-The last thing you have to do is check that you’re not trying to push non-fast-forwarded references, but that is a bit less common. To get a reference that isn’t a fast-forward, you either have to rebase past a commit you’ve already pushed up or try pushing a different local branch up to the same remote branch.
+La dernière vérification à réaliser consiste à vérifier que les références poussées sont bien en avance rapide, mais l'inverse est plutôt rare.
+Pour obtenir une référence qui n'est pas en avance rapide, il faut soit rebaser après un commit qui a déjà été poussé, soit essayer de pousser une branche locale différente vers la même branche distante.
 
-Because the server will tell you that you can’t push a non-fast-forward anyway, and the hook prevents forced pushes, the only accidental thing you can try to catch is rebasing commits that have already been pushed.
+Comme le serveur indiquera qu'on ne peut pas pousser sans avance rapide de toute façon et que le crochet empêche les poussées forcées, la seule action accidentelle qu'il faut intercepter reste le rebasage de commits qui ont déjà été poussés.
 
-Here is an example pre-rebase script that checks for that. It gets a list of all the commits you’re about to rewrite and checks whether they exist in any of your remote references. If it sees one that is reachable from one of your remote references, it aborts the rebase:
+Voici un exemple de script `pre-rebase` qui fait cette vérification.
+Ce script récupère une liste de tous les commits qu'on est sur le point de réécrire et vérifie s'ils existent dans une référence distante.
+S'il en trouve un accessible depuis une des références distantes, il interrompt le rebasage :
 
 	#!/usr/bin/env ruby
 
-	base_branch = ARGV[0]
+	branche_base = ARGV[0]
 	if ARGV[1]
-	  topic_branch = ARGV[1]
+	  branche_thematique = ARGV[1]
 	else
-	  topic_branch = "HEAD"
+	  branche_thematique = "HEAD"
 	end
 
-	target_shas = `git rev-list #{base_branch}..#{topic_branch}`.split("\n")
-	remote_refs = `git branch -r`.split("\n").map { |r| r.strip }
+	sha_cibles = `git rev-list #{branche_base}..#{branche_thematique}`.split("\n")
+	refs_distantes = `git branch -r`.split("\n").map { |r| r.strip }
 
-	target_shas.each do |sha|
-	  remote_refs.each do |remote_ref|
-	    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
-	    if shas_pushed.split(“\n”).include?(sha)
-	      puts "[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"
+	shas_cibles.each do |sha|
+	  refs_distantes.each do |ref_distante|
+	    shas_pousses = `git rev-list ^#{sha}^@ refs/remotes/#{ref_distante}`
+	    if shas_pousses.split(“\n”).include?(sha)
+	      puts "[REGLE] Le commit #{sha} a déjà été poussé sur #{ref_distante}"
 	      exit 1
 	    end
 	  end
 	end
 
-This script uses a syntax that wasn’t covered in the Revision Selection section of Chapter 6. You get a list of commits that have already been pushed up by running this:
+Ce script utilise une syntaxe qui n'a pas été abordée à la section « sélection de révision » du chapitre 6.
+La liste des commits déjà poussés est obtenue est obtenues avec cette commande :
 
-	git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
+	git rev-list ^#{sha}^@ refs/remotes/#{ref_distante}
 
-The `SHA^@` syntax resolves to all the parents of that commit. You’re looking for any commit that is reachable from the last commit on the remote and that isn’t reachable from any parent of any of the SHAs you’re trying to push up — meaning it’s a fast-forward.
+La syntaxe `SHA^@` fait référence à tous le parents du commit.
+Les commits recherchés sont accessibles depuis le dernier commit distant et inaccessibles depuis n'importe quel parent de n'importe quel SHA qu'on cherche à pousser.
+C'est la définition d'avance rapide.
 
-The main drawback to this approach is that it can be very slow and is often unnecessary — if you don’t try to force the push with `-f`, the server will warn you and not accept the push. However, it’s an interesting exercise and can in theory help you avoid a rebase that you might later have to go back and fix.
+La limitation de cette approche reste qu'elle peut s'avérer très lente et non nécessaire.
+Si vous n'essayez pas de forcer à pousser avec l'option `-f`, le serveur vous avertira et n'acceptera pas la poussée.
+Cependant, cela reste un exercice intéressant qui peut aider théoriquement à éviter un rebasage qui devra être annulé plus tard.
 
-## Summary ##
+## Résumé ##
 
-You’ve covered most of the major ways that you can customize your Git client and server to best fit your workflow and projects. You’ve learned about all sorts of configuration settings, file-based attributes, and event hooks, and you’ve built an example policy-enforcing server. You should now be able to make Git fit nearly any workflow you can dream up.
+Nous avons traité la plupart des moyens principaux de personnaliser le client et le serveur Git pour mieux l'adapter à toutes les méthodes et les projets.
+Nous avons couvert toutes sortes de réglages de configurations, d'attributs dans des fichiers et de crochets d'évènement et nous avons construit un exemple de politique de gestion de serveur.
+Vous voilà prêt à régler Git à s'adapter à quasiment toutes les gestions dont vous avez rêvé.
 
 <!--  LocalWords:  simplifiez-vous
  -->

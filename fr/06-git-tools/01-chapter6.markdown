@@ -1,9 +1,9 @@
 # Utilitaires Git #
 
-A présent, vous avez appris les commandes et modes de fonctionnements de tous les jours requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
-Vous avez déroulés les routines de *tracking* et de *committing* de files, and vous avez exploité la puissance de la *staging area* et du départ en branches et des merges de branches locales de travail.
+A présent, vous avez appris les commandes et modes de fonctionnements usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
+Vous avez déroulé les routines de suivi (*tracking*) et de consignation (*committing*) de fichiers, vous avez exploité la puissance de la zone d'attente (*staging area*), de la création et de la fusion de branches locales de travail.
 
-Désormais, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous n'utiliserez que peu souvant mais dont vous pourriez avoir l'usage à un moment ou à un autre.
+Maintenant, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous n'utiliserez que rarement mais dont vous pourriez avoir l'usage à un moment ou à un autre.
 
 ## Sélection des versions ##
 
@@ -12,12 +12,13 @@ Si elles ne sont pas toutes évidentes il est bon de les connaître.
 
 ### Révisions ponctuelles ###
 
-Naturellement, vous pouvez référencer un commit par le hash SHA-1, mais il existe des méthodes plus confortables pour le genre humain.
+Naturellement, vous pouvez référencer un commit par la signature SHA-1, mais il existe des méthodes plus confortables pour le genre humain.
 Cette section présente les méthodes pour référencer un commit simple.
 
-### SHA court ###
+### Empreinte SHA courte ###
 
-Git est capable de deviner de quel commit vous parlez si vous ne fournissez que quelques caractères du début du hash, pour autant que votre SHA-1 partiel comporte 4 caractères et ne génère pas de collision - dans ces conditions, un objet seulement verra son SHA-1 correspondre.
+Git est capable de deviner de quel commit vous parlez si vous ne fournissez que quelques caractères au début de la signature, tant que votre SHA-1 partiel comporte au moins 4 caractères et ne génère pas de collision.
+Dans ces conditions, un seul objet correspondra à ce SHA-1.
 
 Par exemple, pour afficher un commit précis, supposons que vous exécutiez `git log` et que vous identifiez le commit où vous avez introduit une fonctionnalité précise.
 
@@ -41,7 +42,7 @@ Par exemple, pour afficher un commit précis, supposons que vous exécutiez `git
 
 	    added some blame and merge stuff
 
-Pour ce cas, choisissons `1c002dd....`
+Pour cet exemple, choisissons `1c002dd....`
 Si vous affichez le contenu de ce commit via `git show`, les commandes suivantes sont équivalentes (en partant du principe que les SHA-1 courts ne sont pas ambigüs).
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -49,7 +50,7 @@ Si vous affichez le contenu de ce commit via `git show`, les commandes suivantes
 	$ git show 1c002d
 
 Git peut déterminer un SHA tout à la fois le plus court possible et non ambigü.
-Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques; par défaut git retiendra 7 caractères et alongera au besoin :
+Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques; par défaut git retiendra 7 caractères et augmentera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
@@ -57,7 +58,7 @@ Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affi
 	a11bef0 first commit
 
 En règle générale, entre 8 et 10 caractères sont largement suffisant pour assurer l'unicité dans un projet.
-Un des plus projets utilisant Git, le kernel Linux, nécessite de plus en plus fréquemment 12 sur les 40 caractères possible pour assurer l'unicité.
+Un des plus gros projets utilisant Git, le kernel Linux, nécessite de plus en plus fréquemment 12 caractères sur les 40 possibles pour assurer l'unicité.
 
 ### QUELQUES MOTS SUR SHA-1 ###
 

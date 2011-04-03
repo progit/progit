@@ -251,7 +251,7 @@ Si vous exécutez `git push` et que votre branche courante suit `origin/master`,
 Vous pouvez également laisser tomber une borne de la syntaxe pour faire comprendre à Git que vous parlez de HEAD.
 Par exemple, vous pouvez obtenir les mêmes résultats que précédemment en tapant `git log origin/master..` — Git utilise HEAD si une des bornes est manquante.
 
-#### Plusieurs points ####
+#### Emplacements multiples ####
 
 La syntaxe double-point est pratique comme raccourci; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels commits sont dans plusieurs branches mais qui sont absents de la branche courante.
 Git vous permets cela avec `^` or `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les commits.
@@ -562,11 +562,11 @@ Pour la supprimer, vous pouvez exécuter `git stash drop` avec le nom de la remi
 
 Vous pouvez également exécutez `git stash pop` pour appliquer et supprimer immédiatement la remise de votre pile.
 
-### Creating a Branch from a Stash ###
+### Créer une branche depuis une remise ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work.
-If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it.
-If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+Si vous remiser votre travail, l'oubliez pendant un temps en continuant sur la branche où vous avez créé la remise, vous pouvez avoir un problème en réappliquant le travail.
+Si l'application de la remise essaye de modifier un fichier que vous avez modifié depuis, vous allez obtenir des conflits de fusion et vous devrez essayer de les résoudre.
+Si vous voulez un moyen plus facile de tester une nouvelle fois les modifications remisées, vous pouvez exécuter `git stash branch`, qui créera une nouvelle branche à votre place, récupérant le commit où vous étiez lorsque vous avez créé la remise, réappliquera votre travail dedans, et supprimera finalement votre remise si cela a réussi :
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -583,7 +583,7 @@ If you want an easier way to test the stashed changes again, you can run `git st
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+C'est un bon raccourci pour récupérer du travail remisé facilement et de pouvoir travailler dessus dans une nouvelle branche.
 
 ## Rewriting History ##
 

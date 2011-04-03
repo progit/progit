@@ -1,22 +1,25 @@
 # Utilitaires Git #
 
-A présent, vous avez appris les commandes et modes de fonctionnements de tous les jours requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source. Vous avez déroulés les routines de *tracking* et de *committing* de files, and vous avez exploité la puissance de la *staging area* et du départ en branches et des merges de branches locales de travail.
+A présent, vous avez appris les commandes et modes de fonctionnements de tous les jours requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
+Vous avez déroulés les routines de *tracking* et de *committing* de files, and vous avez exploité la puissance de la *staging area* et du départ en branches et des merges de branches locales de travail.
 
 Désormais, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous n'utiliserez que peu souvant mais dont vous pourriez avoir l'usage à un moment ou à un autre.
 
 ## Sélection des versions ##
 
-Git vous permet d'adresser certains *commits* ou un ensemble de *commits* de différentes façons. Si elles ne sont pas toutes évidentes il est bon de les connaître.
+Git vous permet d'adresser certains *commits* ou un ensemble de *commits* de différentes façons.
+Si elles ne sont pas toutes évidentes il est bon de les connaître.
 
 ### Révisions ponctuelles ###
 
-Naturellement, vous pouvez référencer un commit par le hash SHA-1, mais il existe des méthodes plus confortables pour le genre humain. Cette section présente les méthodes pour référencer un commit simple.
+Naturellement, vous pouvez référencer un commit par le hash SHA-1, mais il existe des méthodes plus confortables pour le genre humain.
+Cette section présente les méthodes pour référencer un commit simple.
 
 ### SHA court ###
 
 Git est capable de deviner de quel commit vous parlez si vous ne fournissez que quelques caractères du début du hash, pour autant que votre SHA-1 partiel comporte 4 caractères et ne génère pas de collision - dans ces conditions, un objet seulement verra son SHA-1 correspondre.
 
-Par exemple, pour afficher un commit préis, supposons que vous exécutiez `git log` et que vous identifiez le commit où vous avez introduit une fonctionnalité précise.
+Par exemple, pour afficher un commit précis, supposons que vous exécutiez `git log` et que vous identifiez le commit où vous avez introduit une fonctionnalité précise.
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,39 +41,55 @@ Par exemple, pour afficher un commit préis, supposons que vous exécutiez `git 
 
 	    added some blame and merge stuff
 
-Pour ce cas, choisissons `1c002dd....` Si vous affichez le contenu de ce commit via `git show`, les commandes suivantes sont équivalents (en partant du principe que les SHA-1 courts ne sont pas ambigüs).
+Pour ce cas, choisissons `1c002dd....`
+Si vous affichez le contenu de ce commit via `git show`, les commandes suivantes sont équivalentes (en partant du principe que les SHA-1 courts ne sont pas ambigüs).
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git peut déterminer un SHA tout à la fois le plus court possible et non ambigü. Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut git retiendra 7 caractères et alongera au besoin :
+Git peut déterminer un SHA tout à la fois le plus court possible et non ambigü.
+Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques; par défaut git retiendra 7 caractères et alongera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-En règle générale, entre 8 et 10 caractères sont largement suffisant pour assurer l'unicité dans un projet. Un des plus projets utilisant Git, le kernel Linux, nécessite de plus en plus fréquemment 12 sur les 40 caractères possible pour assurer l'unicité.
+En règle générale, entre 8 et 10 caractères sont largement suffisant pour assurer l'unicité dans un projet.
+Un des plus projets utilisant Git, le kernel Linux, nécessite de plus en plus fréquemment 12 sur les 40 caractères possible pour assurer l'unicité.
 
 ### QUELQUES MOTS SUR SHA-1 ###
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
+A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value.
+What then?
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written.
+If you try to check out that object again at some point, you’ll always get the data of the first object.
 
-Quoi qu'il en soit, vous devriez être conscient à quel point ce scnératio est ridiculement improbable. Un *digest* SHA-1 porte sur 20 octet soit 160bits. Le nombre d'objet aléatoires à hasher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`. 2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards. Cela représente 1200 fois le nombre de grains de sable présent sur terre.
+Quoi qu'il en soit, vous devriez être conscient à quel point ce scénario est ridiculement improbable.
+Un *digest* SHA-1 porte sur 20 octet soit 160bits.
+Le nombre d'objet aléatoires à hasher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`.
+2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards.
+Cela représente 1200 fois le nombre de grains de sable présents sur terre.
 
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+Here’s an example to give you an idea of what it would take to get a SHA-1 collision.
+If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision.
+A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
 ### Références de branches ###
 
-La méthode la plus standard pour désigner un commit nécessite une branche y pointant. Dès lors, vous pouvez utiliser le nom de la branche dans toute commande utilisant un objet de type commit ou un SHA-1. Par exemple, si vous souhaitez afficher le dernier commit d'une branche, les commandes suivantes sont équivalentes, en supposant que la branche `sujet1` pointe sur `ca82a6d` :
+La méthode la plus standard pour désigner un commit nécessite une branche y pointant.
+Dès lors, vous pouvez utiliser le nom de la branche dans toute commande utilisant un objet de type commit ou un SHA-1.
+Par exemple, si vous souhaitez afficher le dernier commit d'une branche, les commandes suivantes sont équivalentes, en supposant que la branche `sujet1` pointe sur `ca82a6d` :
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show sujet1
 
-Pour connaître le SHA sur lequel pointe une branche, ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`. Se référer au chapitre 9 pour plus d'informations sur les commandes de plombier ; sommairement, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour. Quoi qu'il en soit, cela peut se révéler utile pour comprendre ce qui se passe. Je vous invite à tester `rev-parse` sur votre propre branche.
+Pour connaître le SHA sur lequel pointe une branche, ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`.
+Se référer au chapitre 9 pour plus d'informations sur les commandes de plombier; sommairement, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
+Quoi qu'il en soit, cela peut se révéler utile pour comprendre ce qui se passe.
+Je vous invite à tester `rev-parse` sur votre propre branche.
 
 	$ git rev-parse sujet1
 	ca82a6dff817ec66f44342007202690a93763949
@@ -91,15 +110,18 @@ Vous pouvez le consulter avec la commande `git reflog` :
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-À chaque fois que l'extrémité de votre branche est modifiée, Git persiste cette information pour vous dans son historique temporaire. Vous pouvez référencer d'anciens commits avec cette donnée. Si vous souhaitez consulter le n-ième antécédent de votre HEAD, vous pouvez utiliser la référence `@{n}` du reflog, 5 dans cet exemple :
+À chaque fois que l'extrémité de votre branche est modifiée, Git persiste cette information pour vous dans son historique temporaire.
+Vous pouvez référencer d'anciens commits avec cette donnée.
+Si vous souhaitez consulter le n-ième antécédent de votre HEAD, vous pouvez utiliser la référence `@{n}` du reflog, 5 dans cet exemple :
 
 	$ git show HEAD@{5}
 
-Vous pouvez également remonter le temps et savoir où en était une branche. Par exemple, pour savoir où en était la branche `master` hier (yesterday en anglais), tapez :
+Vous pouvez également remonter le temps et savoir où en était une branche.
+Par exemple, pour savoir où en était la branche `master` hier (yesterday en anglais), tapez :
 
 	$ git show master@{yesterday}
 
-Cette technique fonctionne uniquement si l'information est encore présente dans le reflog, vous ne pourrez donc pas consulter les commits trop ancients.
+Cette technique fonctionne uniquement si l'information est encore présente dans le reflog, vous ne pourrez donc pas consulter les commits trop anciens.
 
 Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 
@@ -120,11 +142,14 @@ Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 
 	    Merge commit 'phedders/rdocs'
 
-Veuillez noter que le reflog ne stocke que l'information locale — c'est un historique de ce que vous avez fait dans votre dépôt. Les références ne sont pas dans une autre copie du dépôt ; et juste après le clone d'un dépôt, votre reflog sera vide, puisque qu'aucune activité ne s'y sera produite. Exécuter `git show` HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliqué ce projet depuis au moins 2 moins — si vous l'avez dupliqué il y a 5 minutes, vous n'obtiendrez rien.
+Veuillez noter que le reflog ne stocke que l'information locale — c'est un historique de ce que vous avez fait dans votre dépôt.
+Les références ne sont pas dans une autre copie du dépôt; et juste après le clone d'un dépôt, votre reflog sera vide, puisque qu'aucune activité ne s'y sera produite.
+Exécuter `git show` HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliqué ce projet depuis au moins 2 mois — si vous l'avez dupliqué il y a 5 minutes, vous n'obtiendrez rien.
 
 ### Références passées ###
 
-Une solution fréquente de référencer un commit est d'utiliser son ancêtre. Si vous suffixez une référence par `^`, Git la résoudra comme étant le parent de cette référence.
+Une solution fréquente de référencer un commit est d'utiliser son ancêtre.
+Si vous suffixez une référence par `^`, Git la résoudra comme étant le parent de cette référence.
 Supposons que vous consultiez votre historique :
 
 	$ git log --pretty=format:'%h %s' --graph
@@ -147,7 +172,9 @@ Alors, vous pouvez consulter le commit précédent en spécifiant `HEAD^`, ce qu
 
 	    Merge commit 'phedders/rdocs'
 
-Vous pouvez également spécifier un nombre après `^` — par exemple, `d921970^2` signifie "le second parent de d921970.". Cette syntaxe ne sert que pour les commits de fusion, qui ont plus d'un parent. Le premier parent est la branche où vous avez fusionné, et le second est le commit de la branche que vous avez fusionnée : 
+Vous pouvez également spécifier un nombre après `^` — par exemple, `d921970^2` signifie "le second parent de d921970.".
+Cette syntaxe ne sert que pour les commits de fusion, qui ont plus d'un parent.
+Le premier parent est la branche où vous avez fusionné, et le second est le commit de la branche que vous avez fusionnée : 
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -163,7 +190,11 @@ Vous pouvez également spécifier un nombre après `^` — par exemple, `d921970
 
 	    modifs minor rdoc
 
-Une autre solution courante pour spécifier une référence est le `~`. Il fait également référence au premier parent, donc `HEAD~` et `HEAD^` sont équivalents. La différence se fait sentir si vous spécifiez un nombre. `HEAD~2` signifie "le premier parent du premier parent," ou bien "le grandparent" — ça remonte les premiers parents autant de fois que demandé. Par exemple, dans l'historique précédemment présenté, `HEAD~3` serait :
+Une autre solution courante pour spécifier une référence est le `~`.
+Il fait également référence au premier parent, donc `HEAD~` et `HEAD^` sont équivalents.
+La différence se fait sentir si vous spécifiez un nombre.
+`HEAD~2` signifie "le premier parent du premier parent," ou bien "le grandparent" — ça remonte les premiers parents autant de fois que demandé.
+Par exemple, dans l'historique précédemment présenté, `HEAD~3` serait :
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -181,56 +212,67 @@ Cela aura bien pu être écrit `HEAD^^^`, qui là encore est le premier parent d
 
 	    ignore *.gem
 
-Vous pouvez également combiner ces syntaxes — vous pouvez obtenier le second parent de la référence précédent (en supposant que c'était un commit de fusion) en utilisant `HEAD~3^2`, etc.
+Vous pouvez également combiner ces syntaxes — vous pouvez obtenir le second parent de la référence précédente (en supposant que c'était un commit de fusion) en utilisant `HEAD~3^2`, etc.
 
 ### Plages de commits ###
 
-A présent que vous pouvez spécifier des commits individuels, voyons comme spécifier une place de commits. Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour adresser des problèmes tels que "Quel activité sur cette branche n'ai-je pas encore fusionné sur ma branche principlae ?".
+A présent que vous pouvez spécifier des commits individuels, voyons comme spécifier une place de commits.
+Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour adresser des problèmes tels que "Quel activité sur cette branche n'ai-je pas encore fusionné sur ma branche principlae ?".
 
 #### Double point ####
 
-La plus fréquente spécification de plage de commit est la syntaxe double-point. En gros, cela demande à Git de résoudre la plage des commits qui sont accessible depuis un commit mais ne le sont pas depuis un autre. Par exemple, disons que votre historique ressemble à celui de la Figure 6-1.
+La plus fréquente spécification de plage de commit est la syntaxe double-point.
+En gros, cela demande à Git de résoudre la plage des commits qui sont accessible depuis un commit mais ne le sont pas depuis un autre.
+Par exemple, disons que votre historique ressemble à celui de la Figure 6-1.
 
 Insert 18333fig0601.png 
 Figure 6-1. Exemple d'historique pour la sélection de plages de commits.
 
-Si vous voulez savoir ce que n'a pas encore été fusionné sur votre branche master depuis votre branche experiment, vous pouvez demandez à Git de vous montrer un listing des commits with `master..experiment` — ce qui signifie "tous les commits accessibles par experiment qui ne le sont pas par master.". Dans un souci de brièveté et de clarté de ces exemples, je vais utiliser les lettres des commits issus du diagramme à la place du vrai listing dans l'ordre où ils auraient dû être affichés :
+Si vous voulez savoir ce que n'a pas encore été fusionné sur votre branche master depuis votre branche `experiment`, vous pouvez demandez à Git de vous montrer un listing des commits avec `master..experiment` — ce qui signifie "tous les commits accessibles par experiment qui ne le sont pas par master.".
+Dans un souci de brièveté et de clarté de ces exemples, je vais utiliser les lettres des commits issus du diagramme à la place du vrai listing dans l'ordre où ils auraient dû être affichés :
 
 	$ git log master..experiment
 	D
 	C
 
-D'un autre côté, si vous souhaitez voir l'opposé — tous les commits dans `master` mais pas encore dans `experiment` — vous pouvez inverser les noms de branches, `experiment..master` vous montre tout ce à que `master` accède mais qu'experiment ne voit pas :
+D'un autre côté, si vous souhaitez voir l'opposé — tous les commits dans `master` mais pas encore dans `experiment` — vous pouvez inverser les noms de branches, `experiment..master` vous montre tout ce que `master` accède mais qu'experiment ne voit pas :
 
 	$ git log experiment..master
 	F
 	E
 
-C'est pratique si vous souhaitez maintenir `experiment` à jour et anticiper les fusions. Une autre cas d'utilisation fréquent et de voir ce que vous vous appréter à pousser sur une branche distante :
+C'est pratique si vous souhaitez maintenir `experiment` à jour et anticiper les fusions.
+Une autre cas d'utilisation fréquent et de voir ce que vous vous appréter à pousser sur une branche distante :
 
 	$ git log origin/master..HEAD
 
-Cette commande vous affiche tous les commits de votre branche courante qui ne sont pas sur la branche `master` du dépôt distant `origin`. Si vous exécutez `git push` et que votre branche courante suit `origin/master`, les commits listés par `git log origin/master..HEAD` sont les commits qui seront transférés sur le serveur.
-Vous pouvez également laisser tomber une borne de la syntaxe pour faire comprendre à Git que vous parlez de HEAD. Par exemple, vous pouvez obtenir les mêmes résultats que précédemment en tapant `git log origin/master..` — Git utilise HEAD si une des bornes est manquante.
+Cette commande vous affiche tous les commits de votre branche courante qui ne sont pas sur la branche `master` du dépôt distant `origin`.
+Si vous exécutez `git push` et que votre branche courante suit `origin/master`, les commits listés par `git log origin/master..HEAD` sont les commits qui seront transférés sur le serveur.
+Vous pouvez également laisser tomber une borne de la syntaxe pour faire comprendre à Git que vous parlez de HEAD.
+Par exemple, vous pouvez obtenir les mêmes résultats que précédemment en tapant `git log origin/master..` — Git utilise HEAD si une des bornes est manquante.
 
 #### Plusieurs points ####
 
-La syntaxe double-point est pratique comme raccourci ; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels commits sont dans plusieurs branches mais qui sont absents de la branche courante. Git vous permets cela avec `^` or `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les commits. Les 3 commandes ci-après sont équivalents :
+La syntaxe double-point est pratique comme raccourci; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels commits sont dans plusieurs branches mais qui sont absents de la branche courante.
+Git vous permets cela avec `^` or `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les commits.
+Les 3 commandes ci-après sont équivalentes :
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-C'est utile car cela vous permets de spécifier plus de 2 références dans votre requête, ce que vous ne pouvez accomplir avec la syntaxe double-point. Par exemple, si vous souhaitez voir les commits qui sont accessibles depuis `refA` et `refB` mais pas depuis `refC`, vous pouvez taper ces 2 commandes :
+C'est utile car cela vous permets de spécifier plus de 2 références dans votre requête, ce que vous ne pouvez accomplir avec la syntaxe double-point.
+Par exemple, si vous souhaitez voir les commits qui sont accessibles depuis `refA` et `refB` mais pas depuis `refC`, vous pouvez taper ces 2 commandes :
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-Ceci vous prodigue un système de requêtage des révisions très puissant, pour vous aider à saisir ce qui se trouve sur vos branches.
+Ceci vous fournit un système de requêtage des révisions très puissant, pour vous aider à saisir ce qui se trouve sur vos branches.
 
 #### Triple point ####
 
-La dernière syntaxe majeure de sélection de plage de commits est la syntaxe triple-point, qui spécifie tous les commits accessible par l'une des deux référence, exclusivement. Retournez consulter l'exemple d'historique à la figure 6-1.
+La dernière syntaxe majeure de sélection de plage de commits est la syntaxe triple-point, qui spécifie tous les commits accessible par l'une des deux référence, exclusivement.
+Retournez consulter l'exemple d'historique à la figure 6-1.
 Si vous voulez voir ce qui ce trouve sur `master` ou `experiment` mais pas sur les 2, exécutez :
 
 	$ git log master...experiment
@@ -241,7 +283,8 @@ Si vous voulez voir ce qui ce trouve sur `master` ou `experiment` mais pas sur l
 
 Encore une fois, cela vous donne un `log` normal mais ne vous montre les informations que pour ces quatre commits, dans l'ordre naturel des dates de commit.
 
-Une option courante à utiliser avec la commande `log` dans ce ces est `--left-right` qui vous montre de quel borne de la plage ce commit fait partie. Cela rend les données plus utiles :
+Une option courante à utiliser avec la commande `log` dans ce cas est `--left-right` qui vous montre de quelle borne de la plage ce commit fait partie.
+Cela rend les données plus utiles :
 
 	$ git log --left-right master...experiment
 	< F
@@ -253,7 +296,10 @@ Avec ces outils, vous pourrez utiliser Git pour savoir quels commits inspecter.
 
 ## Staging interactif ##
 
-Git propose quelques scripts qui rendent les opérations en ligne de commande plus simple. Nous allons à présent découvrir des commandes interactives vous permettant de choisir les fichiers ou une partie d'un fichier à incorporer à un commit. Ces outils sont particulièrement pratiques si vous modifiez un large périmètre de fichiers et que vous souhaitez les commiter séparement plutôt que massivement. De la sorte, vous vous assurez que vos commits sont des ensembles cohérents et qu'ils peuvent être facilement revus par vos collaborateurs.
+Git propose quelques scripts qui rendent les opérations en ligne de commande plus simple.
+Nous allons à présent découvrir des commandes interactives vous permettant de choisir les fichiers ou une partie d'un fichier à incorporer à un commit.
+Ces outils sont particulièrement pratiques si vous modifiez un large périmètre de fichiers et que vous souhaitez les commiter séparement plutôt que massivement.
+De la sorte, vous vous assurez que vos commits sont des ensembles cohérents et qu'ils peuvent être facilement revus par vos collaborateurs.
 Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en mode interactive, affichant quelque chose comme ceci :
 
 	$ git add -i
@@ -267,9 +313,11 @@ Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
-Vous vous apercevrez que cette commande propose une vue bien différente de votre espace de *staging* — sommairement la même information qu'obtenue avec `git status` mais en plus succint et instructif. Ça liste les modifications que vous avez *staged* à gauche, et *unstaged* à droite.
+Vous vous apercevrez que cette commande propose une vue bien différente de votre espace de *staging* — sommairement la même information qu'obtenue avec `git status` mais en plus succint et instructif.
+Ça liste les modifications que vous avez *staged* à gauche, et *unstaged* à droite.
 
-En dessous vient la section des commandes (*** Commands ***). Vous pourrez y faire bon nombre de choses, notamment *stager* des fichiers, les *unstager*, *stager* des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez *stagé*.
+En dessous vient la section des commandes (*** Commands ***).
+Vous pourrez y faire bon nombre de choses, notamment *stager* des fichiers, les *unstager*, *stager* des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez *stagé*.
 
 ### Stager and Unstager des fichiers ###
 
@@ -291,7 +339,8 @@ Pour *stager* les fichiers TODO et index.html, vous pouvez taper ces nombres :
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-Le caractère `*` pres de chaque fichier indique que celui-ci est sélectionné pour le *staging*. Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le *stage* pour vous :
+Le caractère `*` pres de chaque fichier indique que celui-ci est sélectionné pour le *staging*.
+Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le *stage* pour vous :
 
 	Update>> 
 	updated 2 paths
@@ -305,7 +354,8 @@ Le caractère `*` pres de chaque fichier indique que celui-ci est sélectionné 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-À présent, vous pouvez voir que les fichiers TODO et index.html sont *stagé* et que simplgit.rb ne l'est toujours pas. Si vous souhaitez *unstager* le fichier TODO, utilisez `3` (ou `r` pour revert en anglais) :
+À présent, vous pouvez voir que les fichiers TODO et index.html sont *stagé* et que simplgit.rb ne l'est toujours pas.
+Si vous souhaitez *unstager* le fichier TODO, utilisez `3` (ou `r` pour revert en anglais) :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -334,7 +384,9 @@ Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez *unstag�
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Pour voir la modification que vous avez *stagé*, utilisez `6` ou `d` (pour diff en anglais). Cela vous affiche la liste des fichiers *stagé* et vous pouvez choisir ceux pour lesquels vous voulez consulter la différences. C'est équivalent à `git diff --cached` en ligne de commande :
+Pour voir la modification que vous avez *stagé*, utilisez `6` ou `d` (pour diff en anglais).
+Cela vous affiche la liste des fichiers *stagé* et vous pouvez choisir ceux pour lesquels vous voulez consulter la différences.
+C'est équivalent à `git diff --cached` en ligne de commande :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -360,7 +412,10 @@ Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour 
 
 ### Patches de Staging ###
 
-Git est également capable de *stager* certaines parties d'un fichier. Par exemple, si vous modifiez en 2 endroits votre fichier simplegit.rb et que vous souhaitez *stager* l'une d'entre elles seulement, cela peut se faire très aisément avec Git. En mode interactif, tapez `5` ou `p` (pour patch en anglais). Git vous demandera quel fichier vous voulez *stager* partiellement, puis, pour chaque section des fichiers sélectionnés, il affichera les parties de fichiers en écart et vous demandera si vous souhaitez les *stager*, un par un :
+Git est également capable de *stager* certaines parties d'un fichier.
+Par exemple, si vous modifiez en 2 endroits votre fichier simplegit.rb et que vous souhaitez *stager* l'une d'entre elles seulement, cela peut se faire très aisément avec Git.
+En mode interactif, tapez `5` ou `p` (pour patch en anglais).
+Git vous demandera quel fichier vous voulez *stager* partiellement, puis, pour chaque section des fichiers sélectionnés, il affichera les parties de fichiers en écart et vous demandera si vous souhaitez les *stager*, un par un :
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -377,7 +432,8 @@ Git est également capable de *stager* certaines parties d'un fichier. Par exemp
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
-A cette étape, vous disposez de bon nombre d'options. `?` vous liste les actions possibles :
+A cette étape, vous disposez de bon nombre d'options.
+`?` vous liste les actions possibles :
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 	y - stage this hunk
@@ -394,7 +450,8 @@ A cette étape, vous disposez de bon nombre d'options. `?` vous liste les action
 	e - manually edit the current hunk
 	? - print help
 
-En règle générale, vous choisirez `y` ou `n` pour *stager* chacun des blocs, mais tout *stager* pour certains fichiers ou remettre à plus tard le choix pour un bloc peut également être utile. Si vous *stagez* un partie de fichier et laissez une autre partie non *stagée*, vous statut ressemblera à peu près à ceci :
+En règle générale, vous choisirez `y` ou `n` pour *stager* chacun des blocs, mais tout *stager* pour certains fichiers ou remettre à plus tard le choix pour un bloc peut également être utile.
+Si vous *stagez* un partie de fichier et laissez une autre partie non *stagée*, vous statut ressemblera à peu près à ceci :
 
 	What now> 1
 	           staged     unstaged path
@@ -402,19 +459,25 @@ En règle générale, vous choisirez `y` ou `n` pour *stager* chacun des blocs, 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-Le statut pour le fichier simplegit.rb est intéressant. Il vous mobre que quelques lignes sont *stagées* et d'autres non. Vous avez *stagé* partiellement ce fichier. Dès lors, vous pouvez quitter l'ajout interactif et exécuter `git commit` pour commiter les fichiers partiellement *stagés*.
+Le statut pour le fichier simplegit.rb est intéressant.
+Il vous mobre que quelques lignes sont *stagées* et d'autres non.
+Vous avez *stagé* partiellement ce fichier.
+Dès lors, vous pouvez quitter l'ajout interactif et exécuter `git commit` pour commiter les fichiers partiellement *stagés*.
 
 Enfin, vous pouvez vous passer du mode interactif pour *stager* partiellement un fichier — vous pouvez faire de même avec `git add -p` ou `git add --patch` en ligne de commande.
 
 ## Stashing ##
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
+Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else.
+The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later.
+The answer to this issue is the `git stash` command.
 
 Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
 
 ### Stashing Your Work ###
 
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
+To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes.
+If you run `git status`, you can see your dirty state:
 
 	$ git status
 	# On branch master
@@ -429,7 +492,8 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#      modified:   lib/simplegit.rb
 	#
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes.
+To push a new stash onto your stack, run `git stash`:
 
 	$ git stash
 	Saved working directory and index state \
@@ -443,14 +507,18 @@ Your working directory is clean:
 	# On branch master
 	nothing to commit (working directory clean)
 
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack.
+To see which stashes you’ve stored, you can use `git stash list`:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+In this case, two stashes were done previously, so you have access to three different stashed works.
+You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`.
+If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`.
+If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
 
 	$ git stash apply
 	# On branch master
@@ -461,9 +529,14 @@ In this case, two stashes were done previously, so you have access to three diff
 	#      modified:   lib/simplegit.rb
 	#
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+You can see that Git re-modifies the files you uncommitted when you saved the stash.
+In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash.
+You can save a stash on one branch, switch to another branch later, and try to reapply the changes.
+You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
 
-The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+The changes to your files were reapplied, but the file you staged before wasn’t restaged.
+To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes.
+If you had run that instead, you’d have gotten back to your original position:
 
 	$ git stash apply --index
 	# On branch master
@@ -478,7 +551,8 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#      modified:   lib/simplegit.rb
 	#
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
+The apply option only tries to apply the stashed work — you continue to have it on your stack.
+To remove it, you can run `git stash drop` with the name of the stash to remove:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
@@ -491,7 +565,9 @@ You can also run `git stash pop` to apply the stash and then immediately drop it
 
 ### Creating a Branch from a Stash ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work.
+If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it.
+If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -512,33 +588,46 @@ This is a nice shortcut to recover stashed work easily and work on it in a new b
 
 ## Rewriting History ##
 
-Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
+Many times, when working with Git, you may want to revise your commit history for some reason.
+One of the great things about Git is that it allows you to make decisions at the last possible moment.
+You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way.
+This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
 
 In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.
 
 ### Changing the Last Commit ###
 
-Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
+Changing your last commit is probably the most common rewriting of history that you’ll do.
+You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
 
 If you only want to modify your last commit message, it’s very simple:
 
 	$ git commit --amend
 
-That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.
+That drops you into your text editor, which has your last commit message in it, ready for you to modify the message.
+When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.
 
-If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way. You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit.
+If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way.
+You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit.
 
-You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
+You need to be careful with this technique because amending changes the SHA-1 of the commit.
+It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
 
 ### Changing Multiple Commit Messages ###
 
-To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
+To modify a commit that is farther back in your history, you must move to more complex tools.
+Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one.
+With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish.
+You can run rebase interactively by adding the `-i` option to `git rebase`.
+You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
 
-For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
+For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`.
+It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
 
 	$ git rebase -i HEAD~3
 
-Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
+Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not.
+Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
 
 Running this command gives you a list of commits in your text editor that looks something like this:
 
@@ -557,16 +646,22 @@ Running this command gives you a list of commits in your text editor that looks 
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
+It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command.
+If you run a `log`, you see something like this:
 
 	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
 	a5f4a0d added cat-file
 	310154e updated README formatting and added blame
 	f7f3f6d changed my name a bit
 
-Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
+Notice the reverse order.
+The interactive rebase gives you a script that it’s going to run.
+It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom.
+It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
 
-You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:
+You need to edit the script so that it stops at the commit you want to edit.
+To do so, change the word pick to the word edit for each of the commits you want the script to stop after.
+For example, to modify only the third commit message, you change the file to look like this:
 
 	edit f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -584,19 +679,24 @@ When you save and exit the editor, Git rewinds you back to the last commit in th
 
 	       git rebase --continue
 
-These instructions tell you exactly what to do. Type
+These instructions tell you exactly what to do.
+Type
 
 	$ git commit --amend
 
-Change the commit message, and exit the editor. Then, run
+Change the commit message, and exit the editor.
+Then, run
 
 	$ git rebase --continue
 
-This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.
+This command will apply the other two commits automatically, and then you’re done.
+If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit.
+Each time, Git will stop, let you amend the commit, and continue when you’re finished.
 
 ### Reordering Commits ###
 
-You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this
+You can also use interactive rebases to reorder or remove commits entirely.
+If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -607,11 +707,13 @@ to this:
 	pick 310154e updated README formatting and added blame
 	pick f7f3f6d changed my name a bit
 
-When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.
+When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops.
+You effectively change the order of those commits and remove the "added cat-file" commit completely.
 
 ### Squashing a Commit ###
 
-It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:
+It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool.
+The script puts helpful instructions in the rebase message:
 
 	#
 	# Commands:
@@ -623,7 +725,8 @@ It’s also possible to take a series of commits and squash them down into a sin
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:
+If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together.
+So, if you want to make a single commit from these three commits, you make the script look like this:
 
 	pick f7f3f6d changed my name a bit
 	squash 310154e updated README formatting and added blame
@@ -647,13 +750,19 @@ When you save that, you have a single commit that introduces the changes of all 
 
 ### Splitting a Commit ###
 
-Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":
+Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with.
+For example, suppose you want to split the middle commit of your three commits.
+Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second.
+You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":
 
 	pick f7f3f6d changed my name a bit
 	edit 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-Then, when the script drops you to the command line, you reset that commit, take the changes that have been reset, and create multiple commits out of them. When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can stage and commit files until you have several commits, and run `git rebase --continue` when you’re done:
+Then, when the script drops you to the command line, you reset that commit, take the changes that have been reset, and create multiple commits out of them.
+When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console.
+There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged.
+Now you can stage and commit files until you have several commits, and run `git rebase --continue` when you’re done:
 
 	$ git reset HEAD^
 	$ git add README
@@ -674,33 +783,48 @@ Once again, this changes the SHAs of all the commits in your list, so make sure 
 
 ### The Nuclear Option: filter-branch ###
 
-There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit. The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite. However, it can be very useful. You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
+There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit.
+The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite.
+However, it can be very useful.
+You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
 
 #### Removing a File from Every Commit ####
 
-This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
+This occurs fairly commonly.
+Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere.
+Perhaps you accidentally committed a file that contained a password, and you want to make your project open source.
+`filter-branch` is the tool you probably want to use to scrub your entire history.
+To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
 
 	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results.
+In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not.
+If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
-You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
+You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end.
+It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want.
+To run `filter-branch` on all your branches, you can pass `--all` to the command.
 
 #### Making a Subdirectory the New Root ####
 
-Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
+Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on).
+If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
-Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. 
+Now your new project root is what was in the `trunk` subdirectory each time.
+Git will also automatically remove commits that did not affect the subdirectory.
 
 #### Changing E-Mail Addresses Globally ####
 
-Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
+Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address.
+In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well.
+You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
 
 	$ git filter-branch --commit-filter '
 	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
@@ -712,15 +836,20 @@ Another common case is that you forgot to run `git config` to set your name and 
 	                git commit-tree "$@";
 	        fi' HEAD
 
-This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
+This goes through and rewrites every commit to have your new address.
+Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
 
 ## Debugging with Git ##
 
-Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
+Git also provides a couple of tools to help you debug issues in your projects.
+Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
 
 ### File Annotation ###
 
-If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool. It shows you what commit was the last to modify each line of any file. So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom. This example uses the `-L` option to limit the output to lines 12 through 22:
+If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool.
+It shows you what commit was the last to modify each line of any file.
+So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom.
+This example uses the `-L` option to limit the output to lines 12 through 22:
 
 	$ git blame -L 12,22 simplegit.rb 
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
@@ -735,9 +864,19 @@ If you track down a bug in your code and want to know when it was introduced and
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
 
-Notice that the first field is the partial SHA-1 of the commit that last modified that line. The next two fields are values extracted from that commit—the author name and the authored date of that commit — so you can easily see who modified that line and when. After that come the line number and the content of the file. Also note the `^4832fe2` commit lines, which designate that those lines were in this file’s original commit. That commit is when this file was first added to this project, and those lines have been unchanged since. This is a tad confusing, because now you’ve seen at least three different ways that Git uses the `^` to modify a commit SHA, but that is what it means here.
+Notice that the first field is the partial SHA-1 of the commit that last modified that line.
+The next two fields are values extracted from that commit—the author name and the authored date of that commit — so you can easily see who modified that line and when.
+After that come the line number and the content of the file.
+Also note the `^4832fe2` commit lines, which designate that those lines were in this file’s original commit.
+That commit is when this file was first added to this project, and those lines have been unchanged since.
+This is a tad confusing, because now you’ve seen at least three different ways that Git uses the `^` to modify a commit SHA, but that is what it means here.
 
-Another cool thing about Git is that it doesn’t track file renames explicitly. It records the snapshots and then tries to figure out what was renamed implicitly, after the fact. One of the interesting features of this is that you can ask it to figure out all sorts of code movement as well. If you pass `-C` to `git blame`, Git analyzes the file you’re annotating and tries to figure out where snippets of code within it originally came from if they were copied from elsewhere. Recently, I was refactoring a file named `GITServerHandler.m` into multiple files, one of which was `GITPackUpload.m`. By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of the code originally came from:
+Another cool thing about Git is that it doesn’t track file renames explicitly.
+It records the snapshots and then tries to figure out what was renamed implicitly, after the fact.
+One of the interesting features of this is that you can ask it to figure out all sorts of code movement as well.
+If you pass `-C` to `git blame`, Git analyzes the file you’re annotating and tries to figure out where snippets of code within it originally came from if they were copied from elsewhere.
+Recently, I was refactoring a file named `GITServerHandler.m` into multiple files, one of which was `GITPackUpload.m`.
+By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of the code originally came from:
 
 	$ git blame -C -L 141,153 GITPackUpload.m 
 	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
@@ -754,13 +893,21 @@ Another cool thing about Git is that it doesn’t track file renames explicitly.
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 
-This is really useful. Normally, you get as the original commit the commit where you copied the code over, because that is the first time you touched those lines in this file. Git tells you the original commit where you wrote those lines, even if it was in another file.
+This is really useful.
+Normally, you get as the original commit the commit where you copied the code over, because that is the first time you touched those lines in this file.
+Git tells you the original commit where you wrote those lines, even if it was in another file.
 
 ### Binary Search ###
 
-Annotating a file helps if you know where the issue is to begin with. If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help. The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.
+Annotating a file helps if you know where the issue is to begin with.
+If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help.
+The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.
 
-Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that. You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong. You can bisect the code to find out. First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken. Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:
+Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that.
+You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong.
+You can bisect the code to find out.
+First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken.
+Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:
 
 	$ git bisect start
 	$ git bisect bad
@@ -768,19 +915,24 @@ Let’s say you just pushed out a release of your code to a production environme
 	Bisecting: 6 revisions left to test after this
 	[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
 
-Git figured out that about 12 commits came between the commit you marked as the last good commit (v1.0) and the current bad version, and it checked out the middle one for you. At this point, you can run your test to see if the issue exists as of this commit. If it does, then it was introduced sometime before this middle commit; if it doesn’t, then the problem was introduced sometime after the middle commit. It turns out there is no issue here, and you tell Git that by typing `git bisect good` and continue your journey:
+Git figured out that about 12 commits came between the commit you marked as the last good commit (v1.0) and the current bad version, and it checked out the middle one for you.
+At this point, you can run your test to see if the issue exists as of this commit.
+If it does, then it was introduced sometime before this middle commit; if it doesn’t, then the problem was introduced sometime after the middle commit.
+It turns out there is no issue here, and you tell Git that by typing `git bisect good` and continue your journey:
 
 	$ git bisect good
 	Bisecting: 3 revisions left to test after this
 	[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing
 
-Now you’re on another commit, halfway between the one you just tested and your bad commit. You run your test again and find that this commit is broken, so you tell Git that with `git bisect bad`:
+Now you’re on another commit, halfway between the one you just tested and your bad commit.
+You run your test again and find that this commit is broken, so you tell Git that with `git bisect bad`:
 
 	$ git bisect bad
 	Bisecting: 1 revisions left to test after this
 	[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
 
-This commit is fine, and now Git has all the information it needs to determine where the issue was introduced. It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:
+This commit is fine, and now Git has all the information it needs to determine where the issue was introduced.
+It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:
 
 	$ git bisect good
 	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
@@ -797,24 +949,39 @@ When you’re finished, you should run `git bisect reset` to reset your HEAD to 
 
 	$ git bisect reset
 
-This is a powerful tool that can help you check hundreds of commits for an introduced bug in minutes. In fact, if you have a script that will exit 0 if the project is good or non-0 if the project is bad, you can fully automate `git bisect`. First, you again tell it the scope of the bisect by providing the known bad and good commits. You can do this by listing them with the `bisect start` command if you want, listing the known bad commit first and the known good commit second:
+This is a powerful tool that can help you check hundreds of commits for an introduced bug in minutes.
+In fact, if you have a script that will exit 0 if the project is good or non-0 if the project is bad, you can fully automate `git bisect`.
+First, you again tell it the scope of the bisect by providing the known bad and good commits.
+You can do this by listing them with the `bisect start` command if you want, listing the known bad commit first and the known good commit second:
 
 	$ git bisect start HEAD v1.0
 	$ git bisect run test-error.sh
 
-Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit. You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
+Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit.
+You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
 
 ## Submodules ##
 
-It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
+It often happens that while working on one project, you need to use another project from within it.
+Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects.
+A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
 
-Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
+Here’s an example.
+Suppose you’re developing a web site and creating Atom feeds.
+Instead of writing your own Atom-generating code, you decide to use a library.
+You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree.
+The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available.
+The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
 
-Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
+Git addresses this issue using submodules.
+Submodules allow you to keep a Git repository as a subdirectory of another Git repository.
+This lets you clone another repository into your project and keep your commits separate.
 
 ### Starting with Submodules ###
 
-Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
+Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes.
+The first thing you should do is clone the external repository into your subdirectory.
+You add external projects as submodules with the `git submodule add` command:
 
 	$ git submodule add git://github.com/chneukirchen/rack.git rack
 	Initialized empty Git repository in /opt/subtest/rack/.git/
@@ -824,7 +991,9 @@ Suppose you want to add the Rack library (a Ruby web server gateway interface) t
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 
-Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things:
+Now you have the Rack project under a subdirectory named `rack` within your project.
+You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more.
+If you run `git status` right after you add the submodule, you see two things:
 
 	$ git status
 	# On branch master
@@ -835,16 +1004,21 @@ Now you have the Rack project under a subdirectory named `rack` within your proj
 	#      new file:   rack
 	#
 
-First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
+First you notice the `.gitmodules` file.
+This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
 
 	$ cat .gitmodules 
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
+If you have multiple submodules, you’ll have multiple entries in this file.
+It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file.
+It’s pushed and pulled with the rest of your project.
+This is how other people who clone this project know where to get the submodule projects from.
 
-The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
+The other listing in the `git status` output is the rack entry.
+If you run `git diff` on that, you see something interesting:
 
 	$ git diff --cached rack
 	diff --git a/rack b/rack
@@ -855,9 +1029,12 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
+Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory.
+Instead, Git records it as a particular commit from that repository.
+When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
 
-This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
+This is an important point with submodules: you record them as the exact commit they’re at.
+You can’t record a submodule at `master` or some other symbolic reference.
 
 When you commit, you see something like this:
 
@@ -867,9 +1044,11 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
-Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
+Notice the 160000 mode for the rack entry.
+That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
 
-You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
+You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject.
+All the Git commands work independently in the two directories:
 
 	$ git log -1
 	commit 0550271328a0038865aad6331e620cd7238601bb
@@ -887,7 +1066,8 @@ You can treat the `rack` directory as a separate project and then update your su
 
 ### Cloning a Project with Submodules ###
 
-Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
+Here you’ll clone a project with a submodule in it.
+When you receive such a project, you get the directories that contain submodules, but none of the files yet:
 
 	$ git clone git://github.com/schacon/myproject.git
 	Initialized empty Git repository in /opt/myproject/.git/
@@ -903,7 +1083,8 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
-The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
+The `rack` directory is there, but empty.
+You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
 
 	$ git submodule init
 	Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
@@ -916,7 +1097,8 @@ The `rack` directory is there, but empty. You must run two commands: `git submod
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
+Now your `rack` subdirectory is at the exact state it was in when you committed earlier.
+If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -943,7 +1125,8 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
+This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory.
+To fix this, you must run `git submodule update` again:
 
 	$ git submodule update
 	remote: Counting objects: 5, done.
@@ -954,9 +1137,13 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
+You have to do this every time you pull down a submodule change in the main project.
+It’s strange, but it works.
 
-One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
+One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server.
+Then, they commit a pointer to that non-public state and push up the superproject.
+When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system.
+If that happens, you see an error like this:
 
 	$ git submodule update
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
@@ -975,17 +1162,27 @@ Then, you e-mail that guy and yell at him.
 
 ### Superprojects ###
 
-Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
+Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on.
+This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
 
-A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
+A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules.
+A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
 
 ### Issues with Submodules ###
 
-Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
+Using submodules isn’t without hiccups, however.
+First, you must be relatively careful when working in the submodule directory.
+When you run `git submodule update`, it checks out the specific version of the project, but not within a branch.
+This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference.
+The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes.
+If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.
+ Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent.
+When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
 
-Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
+Switching branches with submodules in them can also be tricky.
+If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
 
 	$ git checkout -b rack
 	Switched to a new branch "rack"
@@ -1010,13 +1207,17 @@ Switching branches with submodules in them can also be tricky. If you create a n
 
 You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up.
 
-The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you:
+The last main caveat that many people run into involves switching from subdirectories to submodules.
+If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you.
+Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule.
+If you delete the subdirectory and then run `submodule add`, Git yells at you:
 
 	$ rm -Rf rack/
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
 
-You have to unstage the `rack` directory first. Then you can add the submodule:
+You have to unstage the `rack` directory first.
+Then you can add the submodule:
 
 	$ git rm -r rack
 	$ git submodule add git@github.com:schacon/rack.git rack
@@ -1027,7 +1228,8 @@ You have to unstage the `rack` directory first. Then you can add the submodule:
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
 	Resolving deltas: 100% (1952/1952), done.
 
-Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
+Now suppose you did that in a branch.
+If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
@@ -1040,17 +1242,27 @@ You have to move the `rack` submodule directory out of the way before you can sw
 	$ ls
 	README	rack
 
-Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
+Then, when you switch back, you get an empty `rack` directory.
+You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
 
 ## Subtree Merging ##
 
-Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
+Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem.
+When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use.
+If you’re merging two branches, Git uses a _recursive_ strategy.
+If you’re merging more than two branches, Git picks the _octopus_ strategy.
+These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches.
+The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
 
-However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
+However, there are other strategies you can choose as well.
+One of them is the _subtree_ merge, and you can use it to deal with the subproject issue.
+Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
 
-The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
+The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa.
+When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
 
-You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
+You first add the Rack application to your project.
+You add the Rack project as a remote reference in your own project and then check it out into its own branch:
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
@@ -1069,7 +1281,8 @@ You first add the Rack application to your project. You add the Rack project as 
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
-Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch. If you check out one and then the other, you can see that they have different project roots:
+Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch.
+If you check out one and then the other, you can see that they have different project roots:
 
 	$ ls
 	AUTHORS	       KNOWN-ISSUES   Rakefile      contrib	       lib
@@ -1079,25 +1292,34 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	$ ls
 	README
 
-You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
+You want to pull the Rack project into your `master` project as a subdirectory.
+You can do that in Git with `git read-tree`.
+You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory.
+You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
+When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball.
+What gets interesting is that you can fairly easily merge changes from one of the branches to the other.
+So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
 
 	$ git checkout rack_branch
 	$ git pull
 
-Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
+Then, you can merge those changes back into your master branch.
+You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want.
+To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+All the changes from your Rack project are merged in and ready to be committed locally.
+You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
 
-To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
+To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command.
+Instead, you must run `git diff-tree` with the branch you want to compare to:
 
 	$ git diff-tree -p rack_branch
 
@@ -1107,4 +1329,7 @@ Or, to compare what is in your `rack` subdirectory with what the `master` branch
 
 ## Summary ##
 
-You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.
+You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely.
+When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom.
+If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs.
+At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.

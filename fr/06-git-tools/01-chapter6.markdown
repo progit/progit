@@ -782,50 +782,50 @@ Git applique le dernier commit (`a5f4a0d`) de votre script, et votre historique 
 
 Une fois encore, ceci modifie les empreintes SHA de tous les commits dans votre liste, soyez donc sûr qu'aucun commit de cette liste ait été poussé dans un dépôt partagé.
 
-### The Nuclear Option: filter-branch ###
+### L'option nucléaire : filter-branch ###
 
-There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit.
-The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite.
-However, it can be very useful.
-You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
+Il existe une autre option de la réécriture d'historique que vous pouvez utiliser si vous avez besoin de réécrire un grand nombre de commits d'une manière scriptable; par exemple, modifier globalement votre adresse mail ou supprimer un fichier de tous les commits.
+La commande est `filter-branch`, et elle peut réécrire des pans entiers de votre historique, vous ne devriez donc pas l'utiliser à moins que votre projet ne soit pas encore public ou que personne n'a encore travaillé sur les commits que vous allez réécrire.
+Cependant, cela peut être très utile.
+Vous allez maintenant apprendre quelques usages communs pour vous donner une idée de ses capacités.
 
-#### Removing a File from Every Commit ####
+#### Supprimer un fichier de chaque commit ####
 
-This occurs fairly commonly.
-Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere.
-Perhaps you accidentally committed a file that contained a password, and you want to make your project open source.
-`filter-branch` is the tool you probably want to use to scrub your entire history.
-To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
+Cela arrive asser fréquemment.
+Quelqu'un a accidentellement commité un énorme fichier binaire avec une commande `git add .` irréfléchie, and vous voulez le supprimer partout.
+Vous avez peut-être consigné un fichier contenant un mot de passe, et que vous voulez rendre votre projet open source.
+`filter-branch` est l'outil que vous voulez probablement utiliser pour nettoyer votre historique entier.
+Pour supprimer un fichier nommé "passwords.txt" de tout votre historique, vous pouvez utiliser l'option `--tree-filter` de `filter-branch` :
 
 	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results.
-In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not.
-If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+L'option `--tree-filter` exécute la commande spécifiée pour chaque commit et les reconsigne ensuite
+Dans le cas présent, vous supprimez le fichier nommé "passwords.txt" de chaque contenu, qu'il existait ou non.
+Si vous voulez supprimez tous les fichiers temporaires des éditeurs consignés accidentellement, vous pouvez exécuter une commande telle que `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
-You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end.
-It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want.
-To run `filter-branch` on all your branches, you can pass `--all` to the command.
+Vous pourrez alors regarder Git réécrire l'arbre des commits et reconsigner à chaque fois, pour finir en modifiant la référence de la branche.
+C'est généralement une bonne idée de le faire dans un branche de test puis de faire une forte réinitialisation (hard-reset) de votre branche `master` si le résultat vous convient.
+Pour exécuter `filter-branch` sur toutes vos branches, vous pouvez ajouter `--all` à la commande.
 
-#### Making a Subdirectory the New Root ####
+#### Faire d'un sous-répertoire la nouvelle racine ####
 
-Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on).
-If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
+Supposons que vous avez importer votre projet depuis un autre système de gestion de configuration et que vous avez des sous-répertoires qui n'ont aucun sens (trunk, tags, etc).
+Si vous voulez faire en sorte que le sous-répertoire `trunk` soit la nouvelle racine de votre projet pour tous les commits, `filter-branch` peut aussi vous aider à le faire :
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
-Now your new project root is what was in the `trunk` subdirectory each time.
-Git will also automatically remove commits that did not affect the subdirectory.
+Maintenant votre nouvelle racine est remplacé par le contenu du répertoire `trunk`.
+De plus, Git supprimera automatiquement les commits qui n'affectent pas ce sous-répertoire.
 
-#### Changing E-Mail Addresses Globally ####
+#### Modifier globalement l'adresse mail ####
 
-Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address.
-In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well.
-You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
+Un autre cas habituel est que vous oubliez d'exécuter `git config` pour configurer votre nom et votre adresse mail avant de commencer à travailler, ou vous voulez peut-être rendre un projet du boulot open source et donc changer votre adresse professionnelle pour celle personnelle.
+Dans tous les cas, vous pouvez modifier l'adresse mail dans plusieurs commits avec un script `filter-branch`
+Vous devez faire attention de ne changer que votre adresse mail, utilisez donc `--commit-filter` :
 
 	$ git filter-branch --commit-filter '
 	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
@@ -837,8 +837,8 @@ You need to be careful to change only the e-mail addresses that are yours, so yo
 	                git commit-tree "$@";
 	        fi' HEAD
 
-This goes through and rewrites every commit to have your new address.
-Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
+Cela passe et réécrit chaque commit pour avoir votre nouvelle adresse.
+Mais puisque les commits contiennent l'empreinte SHA-1 de leur parent, cette commande modifie tous les commits dans votre historique, pas seulement ceux correspondant à votre adresse mail.
 
 ## Debugging with Git ##
 

@@ -62,42 +62,41 @@ Un des plus gros projets utilisant Git, le kernel Linux, nécessite de plus en p
 
 ### QUELQUES MOTS SUR SHA-1 ###
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value.
-What then?
+Beaucoup de gens se soucient qu'à un moment donné ils auront, par des circonstances hasardeuses, deux objets dans leur référentiel de hachage de même empreinte SHA-1.
+Qu'en est-il réellement ?
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written.
-If you try to check out that object again at some point, you’ll always get the data of the first object.
+S'il vous arrivait de consigner (*commit*) un objet qui se hache de la même empreinte SHA-1 d'un objet existant dans votre référentiel, Git verrez l'objet existant déjà dans votre base de données et Git présumera qu'il était déjà enregistré.
+Si vous essayez de récupérer l'objet de nouveau à un moment donné, vous aurez toujours les données du premier objet.
 
 Quoi qu'il en soit, vous devriez être conscient à quel point ce scénario est ridiculement improbable.
-Un *digest* SHA-1 porte sur 20 octet soit 160bits.
+Une empreinte SHA-1 porte sur 20 octets soit 160bits.
 Le nombre d'objet aléatoires à hasher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`.
 2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards.
-Cela représente 1200 fois le nombre de grains de sable présents sur terre.
+Cela représente 1200 fois le nombre de grains de sable sur terre.
 
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision.
-If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision.
-A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+Voici un exemple pour vous donner une idée de ce qui pourrait provoquer une collision du SHA-1.
+Si tous les 6,5 milliards d'humains sur Terre programmait et que chaque seconde, chacun produisait du code équivalent à l'historique entier du noyaux Linux (1 million d'objets Git) et le poussait sur un énorme dépôt Git, cela prendrait 5 ans pour que ce dépôt contienne assez d'objets pour avoir une probabilité de 50% qu'une seule collision SHA-1 existe.
+Il y a une probabilité plus grande que tous les membres de votre équipe de programmation serait attaqués et tués par des loups dans des incidents sans relation la même nuit.
 
 ### Références de branches ###
 
-La méthode la plus standard pour désigner un commit nécessite une branche y pointant.
+La méthode la plus commune pour désigner un commit est une branche y pointant.
 Dès lors, vous pouvez utiliser le nom de la branche dans toute commande utilisant un objet de type commit ou un SHA-1.
 Par exemple, si vous souhaitez afficher le dernier commit d'une branche, les commandes suivantes sont équivalentes, en supposant que la branche `sujet1` pointe sur `ca82a6d` :
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show sujet1
 
-Pour connaître le SHA sur lequel pointe une branche, ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`.
-Se référer au chapitre 9 pour plus d'informations sur les commandes de plombier; sommairement, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
+Pour connaître l'empreinte SHA sur lequel pointe une branche, ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`.
+Se référer au chapitre 9 pour plus d'informations sur les commandes de plomberie; en résumé, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
 Quoi qu'il en soit, cela peut se révéler utile pour comprendre ce qui se passe.
 Je vous invite à tester `rev-parse` sur votre propre branche.
 
 	$ git rev-parse sujet1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### Reccourcis RefLog ###
+### Raccourcis RefLog ###
 
-!- One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
 Git maintient en arrière-plan un historique des références où sont passées HEAD et vos branches sur les dernieres mois - ceci s'appelle le reflog.
 
 Vous pouvez le consulter avec la commande `git reflog` :
@@ -111,13 +110,13 @@ Vous pouvez le consulter avec la commande `git reflog` :
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-À chaque fois que l'extrémité de votre branche est modifiée, Git persiste cette information pour vous dans son historique temporaire.
+À chaque fois que l'extrémité de votre branche est modifiée, Git enregistre cette information pour vous dans son historique temporaire.
 Vous pouvez référencer d'anciens commits avec cette donnée.
 Si vous souhaitez consulter le n-ième antécédent de votre HEAD, vous pouvez utiliser la référence `@{n}` du reflog, 5 dans cet exemple :
 
 	$ git show HEAD@{5}
 
-Vous pouvez également remonter le temps et savoir où en était une branche.
+Vous pouvez également remonter le temps et savoir où en était une branche à un moment donné.
 Par exemple, pour savoir où en était la branche `master` hier (yesterday en anglais), tapez :
 
 	$ git show master@{yesterday}
@@ -143,8 +142,8 @@ Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 
 	    Merge commit 'phedders/rdocs'
 
-Veuillez noter que le reflog ne stocke que l'information locale — c'est un historique de ce que vous avez fait dans votre dépôt.
-Les références ne sont pas dans une autre copie du dépôt; et juste après le clone d'un dépôt, votre reflog sera vide, puisque qu'aucune activité ne s'y sera produite.
+Veuillez noter que le reflog ne stocke que des informations locales, c'est un historique de ce que vous avez fait dans votre dépôt.
+Les références ne sont pas copiées dans un autre dépôt; et juste après le clone d'un dépôt, votre reflog sera vide, puisque qu'aucune activité ne s'y sera produite.
 Exécuter `git show` HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliqué ce projet depuis au moins 2 mois — si vous l'avez dupliqué il y a 5 minutes, vous n'obtiendrez rien.
 
 ### Références passées ###
@@ -194,7 +193,7 @@ Le premier parent est la branche où vous avez fusionné, et le second est le co
 Une autre solution courante pour spécifier une référence est le `~`.
 Il fait également référence au premier parent, donc `HEAD~` et `HEAD^` sont équivalents.
 La différence se fait sentir si vous spécifiez un nombre.
-`HEAD~2` signifie "le premier parent du premier parent," ou bien "le grandparent" — ça remonte les premiers parents autant de fois que demandé.
+`HEAD~2` signifie "le premier parent du premier parent," ou bien "le grand-parent"; ça remonte les premiers parents autant de fois que demandé.
 Par exemple, dans l'historique précédemment présenté, `HEAD~3` serait :
 
 	$ git show HEAD~3
@@ -218,7 +217,7 @@ Vous pouvez également combiner ces syntaxes — vous pouvez obtenir le second p
 ### Plages de commits ###
 
 A présent que vous pouvez spécifier des commits individuels, voyons comme spécifier une place de commits.
-Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour adresser des problèmes tels que "Quel activité sur cette branche n'ai-je pas encore fusionné sur ma branche principlae ?".
+Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour adresser des problèmes tels que "Quelle activité sur cette branche n'ai-je pas encore fusionné sur ma branche principale ?".
 
 #### Double point ####
 
@@ -273,8 +272,7 @@ Ceci vous fournit un système de requêtage des révisions très puissant, pour 
 #### Triple point ####
 
 La dernière syntaxe majeure de sélection de plage de commits est la syntaxe triple-point, qui spécifie tous les commits accessible par l'une des deux référence, exclusivement.
-Retournez consulter l'exemple d'historique à la figure 6-1.
-Si vous voulez voir ce qui ce trouve sur `master` ou `experiment` mais pas sur les 2, exécutez :
+Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qui ce trouve sur `master` ou `experiment` mais pas sur les 2, exécutez :
 
 	$ git log master...experiment
 	F
@@ -295,13 +293,13 @@ Cela rend les données plus utiles :
 
 Avec ces outils, vous pourrez utiliser Git pour savoir quels commits inspecter.
 
-## Staging interactif ##
+## Mise en attente interactive ##
 
 Git propose quelques scripts qui rendent les opérations en ligne de commande plus simple.
 Nous allons à présent découvrir des commandes interactives vous permettant de choisir les fichiers ou une partie d'un fichier à incorporer à un commit.
 Ces outils sont particulièrement pratiques si vous modifiez un large périmètre de fichiers et que vous souhaitez les commiter séparement plutôt que massivement.
 De la sorte, vous vous assurez que vos commits sont des ensembles cohérents et qu'ils peuvent être facilement revus par vos collaborateurs.
-Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en mode interactive, affichant quelque chose comme ceci :
+Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en mode interactif, affichant quelque chose comme :
 
 	$ git add -i
 	           staged     unstaged path
@@ -314,15 +312,15 @@ Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
-Vous vous apercevrez que cette commande propose une vue bien différente de votre espace de *staging* — sommairement la même information qu'obtenue avec `git status` mais en plus succint et instructif.
-Ça liste les modifications que vous avez *staged* à gauche, et *unstaged* à droite.
+Vous vous apercevrez que cette commande propose une vue bien différente de votre zone d'attente; en gros, c'est la même information que vous auriez obtenue avec `git status` mais en plus succint et plus instructif.
+Cela liste les modifications que vous avez mises en attente à gauche, et celles en cours à droite.
 
 En dessous vient la section des commandes (*** Commands ***).
-Vous pourrez y faire bon nombre de choses, notamment *stager* des fichiers, les *unstager*, *stager* des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez *stagé*.
+Vous pourrez y faire bon nombre de choses, notamment mettre en attente des fichiers, les enlever de la zone d'attente, mettre en attente des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez mis en attente.
 
-### Stager and Unstager des fichiers ###
+### Mettre en attente des fichiers ###
 
-Si vous tapez `2` ou `u` au prompt `What now>`, le script vous demande quels fichiers vous voulez *stager* :
+Si vous tapez `2` ou `u` au prompt `What now>`, le script vous demande quels fichiers vous voulez mettre en attente :
 
 	What now> 2
 	           staged     unstaged path
@@ -331,7 +329,7 @@ Si vous tapez `2` ou `u` au prompt `What now>`, le script vous demande quels fic
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-Pour *stager* les fichiers TODO et index.html, vous pouvez taper ces nombres :
+Pour mettre en attente les fichiers TODO et index.html, vous pouvez taper ces nombres :
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -340,8 +338,8 @@ Pour *stager* les fichiers TODO et index.html, vous pouvez taper ces nombres :
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-Le caractère `*` pres de chaque fichier indique que celui-ci est sélectionné pour le *staging*.
-Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le *stage* pour vous :
+Le caractère `*` au début de la ligne de chaque fichier indique que celui-ci est sélectionné.
+Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le met en attente pour vous :
 
 	Update>> 
 	updated 2 paths
@@ -355,8 +353,8 @@ Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-À présent, vous pouvez voir que les fichiers TODO et index.html sont *stagé* et que simplgit.rb ne l'est toujours pas.
-Si vous souhaitez *unstager* le fichier TODO, utilisez `3` (ou `r` pour revert en anglais) :
+À présent, vous pouvez voir que les fichiers TODO et index.html sont mis en attente (staged en anglais) et que simplgit.rb ne l'est toujours pas.
+Si vous souhaitez enlever de la zone d'attente le fichier TODO, utilisez `3` (ou `r` pour revert en anglais) :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -374,7 +372,7 @@ Si vous souhaitez *unstager* le fichier TODO, utilisez `3` (ou `r` pour revert e
 	Revert>> [enter]
 	reverted one path
 
-Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez *unstagé* le fichier TODO :
+Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez enlever de la zone d'attente le fichier TODO :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -385,8 +383,8 @@ Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez *unstag�
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Pour voir la modification que vous avez *stagé*, utilisez `6` ou `d` (pour diff en anglais).
-Cela vous affiche la liste des fichiers *stagé* et vous pouvez choisir ceux pour lesquels vous voulez consulter la différences.
+Pour voir la modification que vous avez mise en attente, utilisez `6` ou `d` (pour diff en anglais).
+Cela vous affiche la liste des fichiers en attente et vous pouvez choisir ceux pour lesquels vous voulez consulter la différence.
 C'est équivalent à `git diff --cached` en ligne de commande :
 
 	*** Commands ***
@@ -409,14 +407,14 @@ C'est équivalent à `git diff --cached` en ligne de commande :
 
 	 <script type="text/javascript">
 
-Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour manipuler votre espace de *staging* un peu plus facilement.
+Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour manipuler votre zone d'attente un peu plus facilement.
 
 ### Patches de Staging ###
 
-Git est également capable de *stager* certaines parties d'un fichier.
-Par exemple, si vous modifiez en 2 endroits votre fichier simplegit.rb et que vous souhaitez *stager* l'une d'entre elles seulement, cela peut se faire très aisément avec Git.
+Git est également capable de mettre en attente certaines parties d'un fichier.
+Par exemple, si vous modifiez en 2 endroits votre fichier simplegit.rb et que vous souhaitez mettre en attente l'une d'entre elles seulement, cela peut se faire très aisément avec Git.
 En mode interactif, tapez `5` ou `p` (pour patch en anglais).
-Git vous demandera quel fichier vous voulez *stager* partiellement, puis, pour chaque section des fichiers sélectionnés, il affichera les parties de fichiers en écart et vous demandera si vous souhaitez les *stager*, un par un :
+Git vous demandera quels fichiers vous voulez mettre en attente partiellement, puis, pour chaque section des fichiers sélectionnés, il affichera les parties de fichiers où il y a des différences et vous demandera si vous souhaitez les mettre en attente, un par un :
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -434,25 +432,25 @@ Git vous demandera quel fichier vous voulez *stager* partiellement, puis, pour c
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
 A cette étape, vous disposez de bon nombre d'options.
-`?` vous liste les actions possibles :
+`?` vous liste les actions possibles, voici une traduction :
 
-	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
-	y - stage this hunk
-	n - do not stage this hunk
-	a - stage this and all the remaining hunks in the file
-	d - do not stage this hunk nor any of the remaining hunks in the file
-	g - select a hunk to go to
-	/ - search for a hunk matching the given regex
-	j - leave this hunk undecided, see next undecided hunk
-	J - leave this hunk undecided, see next hunk
-	k - leave this hunk undecided, see previous undecided hunk
-	K - leave this hunk undecided, see previous hunk
-	s - split the current hunk into smaller hunks
-	e - manually edit the current hunk
-	? - print help
+	Mettre en attente cette partie [y,n,a,d,/,j,J,g,e,?]? ?
+	y - mettre en attente cette partie
+	n - ne pas mettre en attente cette partie
+	a - mettre en attente cette partie et toutes celles restantes dans ce fichier
+	d - ne pas mettre en attente cette partie ni aucune de celles restantes dans ce fichier
+	g - sélectionner un partie à voir
+	/ - chercher une partie correspondant à la regexp donnée
+	j - laisser cette partie non décidée, voir la prochaine partie non encore décidée
+	J - laisser cette partie non décidée, voir la prochaine partie
+	k - laisser cette partie non décidée, voir la partie non encore décidée précendente
+	K - laisser cette partie non décidée, voir la partie précédente
+	s - couper la partie courante en parties plus petites
+	e - modifier manuellement la partie courante
+	? - afficher l'aide
 
-En règle générale, vous choisirez `y` ou `n` pour *stager* chacun des blocs, mais tout *stager* pour certains fichiers ou remettre à plus tard le choix pour un bloc peut également être utile.
-Si vous *stagez* un partie de fichier et laissez une autre partie non *stagée*, vous statut ressemblera à peu près à ceci :
+En règle générale, vous choisirez `y` ou `n` pour mettre en attente ou non chacun des blocs, mais tout mettre en attente pour certains fichiers ou remettre à plus tard le choix pour un bloc peut également être utile.
+Si vous mettez en attente une partie d'un fichier et laissez une autre partie non en attente, vous statut ressemblera à peu près à ceci :
 
 	What now> 1
 	           staged     unstaged path
@@ -461,24 +459,24 @@ Si vous *stagez* un partie de fichier et laissez une autre partie non *stagée*,
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
 Le statut pour le fichier simplegit.rb est intéressant.
-Il vous mobre que quelques lignes sont *stagées* et d'autres non.
-Vous avez *stagé* partiellement ce fichier.
-Dès lors, vous pouvez quitter l'ajout interactif et exécuter `git commit` pour commiter les fichiers partiellement *stagés*.
+Il vous montre que quelques lignes sont en attente et d'autres non.
+Vous avez mis partiellement ce fichier en attente.
+Dès lors, vous pouvez quitter l'ajout interactif et exécuter `git commit` pour commiter les fichiers partiellement en attente.
 
-Enfin, vous pouvez vous passer du mode interactif pour *stager* partiellement un fichier — vous pouvez faire de même avec `git add -p` ou `git add --patch` en ligne de commande.
+Enfin, vous pouvez vous passer du mode interactif pour mettre partiellement un fichier en attente; vous pouvez faire de même avec `git add -p` ou `git add --patch` en ligne de commande.
 
-## Stashing ##
+## La remise ##
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else.
-The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later.
-The answer to this issue is the `git stash` command.
+Souvent, lorsque vous avez travaillé sur une partie de votre projet, les choses sont dans un état instable mais vous voulez changer de branches pour un peu de travailler sur autre chose.
+Le problème est que vous ne voulez pas consigner (commit) un travail à moitié fait seulement pour pouvoir y revenir plus tard.
+La réponse à cette problématique est la commande `git stash`.
 
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+Remiser prend l'état en cours de votre répertoire de travail, c'est-à-dire les fichiers modifiés et la zone d'attente, et l'enregistre dans la pile des modifications non finies que vous pouvez réappliquer à n'importe quel moment.
 
-### Stashing Your Work ###
+### Remiser votre travail ###
 
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes.
-If you run `git status`, you can see your dirty state:
+Pour démontrer cette possibilité, vous allez dans votre projet et commencez à travailler sur quelques fichiers et mettre en zone d'attente l'un de ces changements.
+Si vous exécutez `git status`, vous pouvez voir votre état instable:
 
 	$ git status
 	# On branch master
@@ -493,8 +491,8 @@ If you run `git status`, you can see your dirty state:
 	#      modified:   lib/simplegit.rb
 	#
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes.
-To push a new stash onto your stack, run `git stash`:
+À ce moment là, vous voulez changer de branche, mais vous ne voulez pas encore consigner ce travail; vous allez donc remiser vos modifications.
+Pour créer une nouvelle remise sur votre pile, exécutez `git stash` :
 
 	$ git stash
 	Saved working directory and index state \
@@ -502,24 +500,24 @@ To push a new stash onto your stack, run `git stash`:
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
-Your working directory is clean:
+Votre répertoire de travail est propre :
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack.
-To see which stashes you’ve stored, you can use `git stash list`:
+À ce moment, vous pouvez facilement changer de branche et travailler autre part; vos modifications sont conservées dans votre pile.
+Pour voir quelles remises vous avez sauvegardées, vous pouvez utiliser la commande `git stash list` :
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-In this case, two stashes were done previously, so you have access to three different stashed works.
-You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`.
-If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`.
-If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+Dans ce cas, deux remises on été créées précédemment, vous avez donc accès à trois travaux remisés différents.
+Vous pouvez réappliquer celui que vous venez juste de remisé en utilisant la commande affichée dans la sortie d'aide de la première commande de remise : `git stash apply`.
+Si vous voulez appliquer une remise plus ancienne, vous pouvez la spécifier en la nommant, comme ceci : `git stash apply stash@{2}`.
+Si vous ne spécifier pas une remise, Git présume que vous voulez la remise la plus récente et essayes de l'appliquer.
 
 	$ git stash apply
 	# On branch master
@@ -530,14 +528,14 @@ If you don’t specify a stash, Git assumes the most recent stash and tries to a
 	#      modified:   lib/simplegit.rb
 	#
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash.
-In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash.
-You can save a stash on one branch, switch to another branch later, and try to reapply the changes.
-You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+Vous pouvez observer que Git remodifie les fichiers non consignés lorsque vous avez créé la remise.
+Dans ce cas, vous aviez un répertoire de travail propre lorsque vous avez essayer d'appliquer la remise, et vous l'avez fait sur la même branche que celle où vous l'aviez créée; mais avoir un répertoire de travail propre et l'appliquer sur la même branche n'est pas nécessaire pour réussir à appliquer une remise.
+Vous pouvez très bien créer une remise sur une branche, changer de branche et essayer d'appliquer les modifications.
+Vous pouvez même avoir des fichiers modifiés et non consignés dans votre répertoire de travail quand vous appliquez une remise, Git vous fournit les conflits de fusions si quoique ce soit ne s'applique pas proprement.
 
-The changes to your files were reapplied, but the file you staged before wasn’t restaged.
-To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes.
-If you had run that instead, you’d have gotten back to your original position:
+Par défaut, les modifications de vos fichiers sont réappliqués, mais pas les mises en attente.
+Pour cela, vous devez exécutez la commande `git stash apply` avec l'option `--index` pour demandez à Git d'essayer de réappliquer les modifications de votre zone d'attente.
+Si vous exécutez cela à la place de la commande précédente, vous vous retrouvez dans la position d'origine de la remise :
 
 	$ git stash apply --index
 	# On branch master
@@ -552,8 +550,8 @@ If you had run that instead, you’d have gotten back to your original position:
 	#      modified:   lib/simplegit.rb
 	#
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack.
-To remove it, you can run `git stash drop` with the name of the stash to remove:
+L'option `apply` essaye seulement d'appliquer le travail remisé, vous aurez toujours la remise dans votre pile.
+Pour la supprimer, vous pouvez exécuter `git stash drop` avec le nom de la remise à supprimer :
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
@@ -562,7 +560,7 @@ To remove it, you can run `git stash drop` with the name of the stash to remove:
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
+Vous pouvez également exécutez `git stash pop` pour appliquer et supprimer immédiatement la remise de votre pile.
 
 ### Creating a Branch from a Stash ###
 

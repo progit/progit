@@ -837,20 +837,20 @@ Vous devez faire attention de ne changer que votre adresse mail, utilisez donc `
 	                git commit-tree "$@";
 	        fi' HEAD
 
-Cela passe et réécrit chaque commit pour avoir votre nouvelle adresse.
+Cela passe sur chaque commit et le réécrit pour avoir votre nouvelle adresse.
 Mais puisque les commits contiennent l'empreinte SHA-1 de leur parent, cette commande modifie tous les commits dans votre historique, pas seulement ceux correspondant à votre adresse mail.
 
-## Debugging with Git ##
+## Deboguer avec Git ##
 
-Git also provides a couple of tools to help you debug issues in your projects.
-Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
+Git fournit aussi quelques outils pour vous aider à déboguer votre projet.
+Puisque Git est conçu pour fonctionner avec pratiquement tout type de projet, ces outils sont plutôt génériques, mais ils peuvent souvent vous aider à traquer un bogue ou au moins cerner où cela tourne mal.
 
-### File Annotation ###
+### Fichier annoté ###
 
-If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool.
-It shows you what commit was the last to modify each line of any file.
-So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom.
-This example uses the `-L` option to limit the output to lines 12 through 22:
+Si vous traquez un bogue dans votre code et que vous voulez savoir quand il est apparu et pourquoi, annoter les fichiers est souvent le meilleur moyen.
+Cela vous montre le dernier commit qui a modifié chaque ligne de votre fichier.
+Donc, si vous voyez une méthode dans votre code qui est boguée, vous pouvez annoter le fichier avec `git blame` pour voir quand chaque ligne de la méthode a été modifiée pour la dernière fois et par qui.
+Cet exemple utilise l'option `-L` pour limiter la sortie des lignes 12 à 22 :
 
 	$ git blame -L 12,22 simplegit.rb 
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
@@ -865,19 +865,19 @@ This example uses the `-L` option to limit the output to lines 12 through 22:
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
 
-Notice that the first field is the partial SHA-1 of the commit that last modified that line.
-The next two fields are values extracted from that commit—the author name and the authored date of that commit — so you can easily see who modified that line and when.
-After that come the line number and the content of the file.
-Also note the `^4832fe2` commit lines, which designate that those lines were in this file’s original commit.
-That commit is when this file was first added to this project, and those lines have been unchanged since.
-This is a tad confusing, because now you’ve seen at least three different ways that Git uses the `^` to modify a commit SHA, but that is what it means here.
+Remarquez que le premier champ est le SHA-1 partiel du dernier commit a avoir modifié la ligne.
+Les deux champs suivants sont des valeurs extraites du commit : l'auteur et la date du commit, vous pouvez donc facilement voir qui a modifié la ligne et quand.
+Ensuite arrive le numéro de ligne et son contenu.
+Remarquez également les lignes dont le commit est `^4832fe2`, elles désignent les lignes qui étaient dans la version du fichier lors du premier commit de ce fichier.
+Ce commit contient le premier ajout de ce fichier, et ces lignes n'ont pas été modifiées depuis.
+Tout ça est un peu confus, parce que vous connaissez maintenant au moins trois façons différentes que Git interprète `^` pour modifier l'empreinte SHA, mais au moins, vous savez ce qu'il signifie ici.
 
-Another cool thing about Git is that it doesn’t track file renames explicitly.
-It records the snapshots and then tries to figure out what was renamed implicitly, after the fact.
-One of the interesting features of this is that you can ask it to figure out all sorts of code movement as well.
-If you pass `-C` to `git blame`, Git analyzes the file you’re annotating and tries to figure out where snippets of code within it originally came from if they were copied from elsewhere.
-Recently, I was refactoring a file named `GITServerHandler.m` into multiple files, one of which was `GITPackUpload.m`.
-By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of the code originally came from:
+Une autre chose sympa sur Git, c'est qu'il ne suit pas explicitement les renommages de fichier.
+Il enregistre les contenus puis essaye de deviner ce qui a été renommé implicitement, après coup.
+Ce qui nous permet d'utiliser cette fonctionnalité intéressante pour suivre toute sorte de mouvement de code.
+Si vous passez `-C` à `git blame`, Git analyse le fichier que vous voulez annoter et essaye de devenir d'où les bouts de code proviennent par copie ou déplacement.
+Récemment, j'ai remanié un fichier nommé `GITServerHandler.m` en le divisant en plusieurs fichiers, dont le fichier `GITPackUpload.m`.
+En annotant `GITPackUpload.m` avec l'option `-C`, je peux voir quelles sections de code en est originaire :
 
 	$ git blame -C -L 141,153 GITPackUpload.m 
 	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
@@ -894,21 +894,21 @@ By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 
-This is really useful.
-Normally, you get as the original commit the commit where you copied the code over, because that is the first time you touched those lines in this file.
-Git tells you the original commit where you wrote those lines, even if it was in another file.
+C'est vraiment utile, non ?
+Normalement, vous obtenez comme commit original, celui dont votre code a été copié, puisque ce fut la première fois que vous avez touché à ces lignes dans ce fichier.
+Git vous montre le commit d'origine, celui où vous avez écrit ces lignes, même si c'était dans un autre fichier.
 
-### Binary Search ###
+### La recherche dichotomique ###
 
-Annotating a file helps if you know where the issue is to begin with.
-If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help.
-The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.
+Annoter un fichier peut aider si vous savez déjà où le problème se situe.
+Si vous ne savez pas ce qui a cassé le code, il peut y avoir des douzaines, voire des centaines de commits depuis le dernier état où votre code fonctionnait, et vous aimeriez certainement exécuter `git bisect` pour l'aide qu'il procure.
+La commande `bisect` effectue une recherche par dichotomie dans votre historique pour vous aider à identifier aussi vite que possible quel commit a vu le bogue naitre.
 
-Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that.
-You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong.
-You can bisect the code to find out.
-First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken.
-Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:
+Disons que vous venez juste de pousser une version finale de votre code en production, vous récupérez un rapport de bogue à propos de quelque chose qui n'arrivait pas dans votre environnement de développement, et vous n'arrivez pas à trouver pourquoi votre code le fait.
+Vous retournez sur votre code, et il apparait que vous pouvez reproduire le bogue, mais vous ne savez pas ce qui se passe mal.
+Vous pouvez faire une recherche par dichotomie pour trouver ce qui ne va pas.
+D'abord, exécutez `git bisect start` pour démarrer la procédure, puis utilisez la commande `git bisect bad` pour dire que le commit courant est bogué.
+Ensuite, dites à `bisect` quand le code fonctionnait, en utilisant `git bisect good [bonne_version]` :
 
 	$ git bisect start
 	$ git bisect bad
@@ -916,24 +916,24 @@ Then, you must tell bisect when the last known good state was, using `git bisect
 	Bisecting: 6 revisions left to test after this
 	[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
 
-Git figured out that about 12 commits came between the commit you marked as the last good commit (v1.0) and the current bad version, and it checked out the middle one for you.
-At this point, you can run your test to see if the issue exists as of this commit.
-If it does, then it was introduced sometime before this middle commit; if it doesn’t, then the problem was introduced sometime after the middle commit.
-It turns out there is no issue here, and you tell Git that by typing `git bisect good` and continue your journey:
+Git trouve qu'il y a environ 12 commits entre celui que vous avez marqué comme le dernier bon connu (v1.0) et la version courante qui n'est pas bonne, et il a récupéré le commit au milieu à votre place.
+À ce moment, vous pouvez dérouler vos tests pour voir si le bogue existait dans ce commit.
+Si c'est le cas, il a été introduit quelque part avant ce commit médian, sinon, il l'a été évidemment introduit après.
+Il apparait que le bogue ne se reproduit pas ici, vous le dites à Git en tapant `git bisect good` et continuez votre périple :
 
 	$ git bisect good
 	Bisecting: 3 revisions left to test after this
 	[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing
 
-Now you’re on another commit, halfway between the one you just tested and your bad commit.
-You run your test again and find that this commit is broken, so you tell Git that with `git bisect bad`:
+Vous êtes maintenant sur un autre commit, à mi-chemin entre celui que vous venez de tester et votre commit bogué.
+Vous exécutez une nouvelle fois votre test et trouvez que ce commit est bogué, vous le dites à Git avec `git bisect bad` :
 
 	$ git bisect bad
 	Bisecting: 1 revisions left to test after this
 	[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
 
-This commit is fine, and now Git has all the information it needs to determine where the issue was introduced.
-It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:
+Ce commit-ci est bon, et Git a maintenant toutes les informations dont il a besoin pour déterminer où le bogue a été créé.
+Il vous affiche le SHA-1 du premier commit bogué, quelques informations du commit et quels fichiers ont été modifiés dans celui-ci, vous pouvez donc trouver ce qui s'est passé pour créer ce bogue :
 
 	$ git bisect good
 	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
@@ -946,20 +946,20 @@ It tells you the SHA-1 of the first bad commit and show some of the commit infor
 	:040000 040000 40ee3e7821b895e52c1695092db9bdc4c61d1730
 	f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config
 
-When you’re finished, you should run `git bisect reset` to reset your HEAD to where you were before you started, or you’ll end up in a weird state:
+Lorsque vous avez fini, vous devez exécuter `git bisect reset` pour réinitialiser votre HEAD où vous étiez avant de commencer, ou vous travaillerez dans un répertoire de travail non clairement défini :
 
 	$ git bisect reset
 
-This is a powerful tool that can help you check hundreds of commits for an introduced bug in minutes.
-In fact, if you have a script that will exit 0 if the project is good or non-0 if the project is bad, you can fully automate `git bisect`.
-First, you again tell it the scope of the bisect by providing the known bad and good commits.
-You can do this by listing them with the `bisect start` command if you want, listing the known bad commit first and the known good commit second:
+C'est un outil puissant qui vous aidera à vérifier des centaines de commits en quelques minutes.
+En réalité, si vous avez un script qui sort avec une valeur 0 s'il est bon et autre chose sinon, vous pouvez même automatiser `git bisect`.
+Premièrement vous lui spécifiez l'intervalle en lui fournissant les bon et mauvais commits connus.
+Vous pouvez faire cela en une ligne en les entrant à la suite de la commande `bisect start`, le mauvais commit d'abord :
 
 	$ git bisect start HEAD v1.0
 	$ git bisect run test-error.sh
 
-Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit.
-You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
+Cela exécute automatiquement `test-error.sh` sur chaque commit jusqu'à ce que Git trouve le premier commit bogué.
+Vous pouvez également exécuter des commandes comme `make` ou `make tests` ou quoique ce soit qui exécute des tests automatisés à votre place.
 
 ## Submodules ##
 

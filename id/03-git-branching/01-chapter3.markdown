@@ -593,6 +593,6 @@ You have to merge that work in at some point so you can keep up with the other d
 
 If you treat rebasing as a way to clean up and work with commits before you push them, and if you only rebase commits that have never been available publicly, then you’ll be fine. If you rebase commits that have already been pushed publicly, and people may have based work on those commits, then you may be in for some frustrating trouble.
 
-## Summary ##
+## Kesimpulan ##
 
-We’ve covered basic branching and merging in Git. You should feel comfortable creating and switching to new branches, switching between branches and merging local branches together.  You should also be able to share your branches by pushing them to a shared server, working with others on shared branches and rebasing your branches before they are shared.
+Kita telah membahas dasar branching dan merging di Git. Anda seharusnya sudah merasa nyaman membuat dan beralih ke branch baru, beralih antara branch dan melakukan merge pada branch lokal bersama-sama. Anda juga seharusnya sudah bisa membagikan branch anda dengan melakukan push ke sebuah server bersama, bekerja dengan orang lain pada branch bersama dan melakukan rebase pada branch anda sebelum mereka dibagikan.

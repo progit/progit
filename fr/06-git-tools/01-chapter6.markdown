@@ -1249,24 +1249,25 @@ Vous devez déplacer le répertoire du sous-module `rack` en dehors de votre dé
 Puis, lorsque vous recommutez, vous aurez un répertoire `rack` vide.
 Vous pouvez soit exécuter `git submodule update` pour clôner une nouvelle fois, ou vous pouvez remettre votre répertoire `/tmp/rack` dans votre répertoire vide.
 
-## Subtree Merging ##
+## Fusion de sous-arborescence ##
 
-Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem.
-When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use.
-If you’re merging two branches, Git uses a _recursive_ strategy.
-If you’re merging more than two branches, Git picks the _octopus_ strategy.
-These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches.
-The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
+Maintenant que vous avez vu les difficultés qu'il peut y avoir avec le système de sous-module, voyons une alternative pour résoudre la même problématique.
+Lorsque Git fusionne, il regarde ce qu'il doit fusionner et choisit alors une stratégie de fusion appropriée.
+Si vous fusionnez deux branches, Git utilise une stratégie _récursive_ (_recursive_ strategy).
+Si vous fusionnez plus de deux branches, Git choisit la stratégie de la _pieuvre_ (_octopus_ strategy).
+Ces stratégies sont choisies automatiquement car la stratégie récursive peut gérer des problèmes comples de fusions à trois entrées, par exemple, plus d'un ancêtre commun, mais il ne peut gérer que deux branches.
+La fusion de la pieuvre peut gérer plusieurs branches mais il est plus prudent afin d'éviter les conflits difficiles, il est donc choisi comme stratégie par défaut si vous essayez de fusionner plus de deux branches.
 
-However, there are other strategies you can choose as well.
-One of them is the _subtree_ merge, and you can use it to deal with the subproject issue.
-Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
+Cependant, il existe d'autres stratégies que vous pouvez tout aussi bien choisir.
+L'une d'elles est la fusion de sous-arborescence, et vous pouvez l'utiliser pour gérer la problématique de sous-projet.
+Nous allons donc voir comme gérer l'inclusion de rack comme dans la section précédente, mais en utilisant cette fois-ci les fusion de sous-arborescence.
 
-The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa.
-When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
+La fusion de sous-arborescence suppose que vous avez deux projets et que l'un s'identifie à un sous-répertoire de l'autre.
+Lorsque vous spécifiez une fusion de sous-arborescence, Git est assez intellignet pour deviner lequel est un sous-répertoire de l'autre et fusionne en conséquence, 
+When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — c'est assez bluffant.
 
-You first add the Rack application to your project.
-You add the Rack project as a remote reference in your own project and then check it out into its own branch:
+Premièrement, vous ajoutez l'application Rack à votre projet.
+Vous ajoutez le projet Rack comme une référence distante dans votre propre projet et récupérez dans un branche personnelle :
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
@@ -1285,8 +1286,8 @@ You add the Rack project as a remote reference in your own project and then chec
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
-Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch.
-If you check out one and then the other, you can see that they have different project roots:
+Vous avez maintenant la racine du projet Rack dans votre branche `rack_branch` et votre propre projet dans la branche `master`.
+Si vous récupérez l'une puis l'autre branche, vous pouvez voir que vous avez différentes racines de projet :
 
 	$ ls
 	AUTHORS	       KNOWN-ISSUES   Rakefile      contrib	       lib
@@ -1296,44 +1297,43 @@ If you check out one and then the other, you can see that they have different pr
 	$ ls
 	README
 
-You want to pull the Rack project into your `master` project as a subdirectory.
-You can do that in Git with `git read-tree`.
-You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory.
-You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
+Pour tirer le projet Rack dans votre projet `master` comme un sous répertoire, vous pouvez utiliser la commande `git read-tree`.
+Vous apprendrez d'avantage sur `read-tree` et compagnie dans le Chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branche et l'inscrit dans votre zone d'attente et votre répertoire de travail.
+Vous venez juste de commuter vers votre branche `master`, et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal : 
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball.
-What gets interesting is that you can fairly easily merge changes from one of the branches to the other.
-So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
+Au moment de consigner, vous verrez tout les fichiers de Rack de ce sous-répertoire, comme si vous les aviez copié depuis une archive.
+Ce qui est intéressant, c'est que vous pouvez assez facilement fusionner les changements d'une branche à l'autre.
+Par conséquence, s'il y a des mises à jour pour le projet Rack, vous pouvez les tirez depuis le dépôt principal en commutant dans cette branche et tirant les modifications :
 
 	$ git checkout rack_branch
 	$ git pull
 
-Then, you can merge those changes back into your master branch.
-You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want.
-To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
+Puis, vous pouvez fusionner ces changements dans votre branche principale.
+Vous pouvez utiliser `git merge -s subtree` et cela fonctionnera, mais Git fusionnera également les historiques ensemble, ce que vous ne voulez probablement pas.
+Pour tirer les changements et préremplir le message de consignation, utilisez les options `--squash` et `--no-commit` avec l'option de stratégie `-s subtree` :
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-All the changes from your Rack project are merged in and ready to be committed locally.
-You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+Toutes les modifications de votre projet Rack sont fusionné et prêtes à être consignées localement.
+Vous pouvez également faire le contraire, faire des modifications dans le sous-répertoire `rack` de votre branche principale et les fusionner plus tard dans votre branche `rack_branch` pour les envoyer aux mainteneurs du projet Rack ou les pousser dans le dépôt principal.
 
-To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command.
-Instead, you must run `git diff-tree` with the branch you want to compare to:
+Pour voir les différences entre ce que vous avez dans le sous-répertoire `rack` et le code de la branche `rack_branch` (pour savoir si vous devez les fusionner),  vous ne pouvez pas utiliser la commande `diff` habituelle.
+Vous devez plutôt exécutez `git diff-tree` en renseignant la branche avec laquelle vous voulez comparer :
 
 	$ git diff-tree -p rack_branch
 
-Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
+Ou, pour comparer ce qu'il y a dans votre répertoire `rack` avec ce qu'il y avait sur le server la dernière fois que vous avez vérifié, vous pouvez exécuter :
 
 	$ git diff-tree -p rack_remote/master
 
-## Summary ##
+## Résumé ##
 
-You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely.
-When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom.
-If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs.
-At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.
+Vous venez de voir certains des outils avancés vous permettant de manipuler vos consignations et votre zone d'attente plus précisemment.
+Lorsque vous remarquez des bogues, vous devriez être capable de facilement trouver quelle consignation les a introduits, quand et par qui.
+Si vous voulez utiliser des sous-projets dans votre projet, vous avez appris plusieurs façons de les gérer.
+À partir de maintenant, vous devez être capable de faire la majorité de ce que vous avez besoin avec Git en ligne de commande et de vous y sentir à l'aise.

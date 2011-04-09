@@ -1,7 +1,7 @@
-# Personnaliser Git #
+# Personnalisation de Git #
 
 Jusqu'ici, nous avons traité les bases du fonctionnement et de l'utilisation de Git et introduit un certain nombre d'outils fournis par Git pour travailler plus facilement et plus efficacement.
-Dans ce chapitre, nous traiterons quelques opérations permettant d'utiliser Git de manière plus personnalisée en vous présentant quelques paramètres de configuration importants et le système d'interceptions.
+Dans ce chapitre, nous aborderons quelques opérations permettant d'utiliser Git de manière plus personnalisée en vous présentant quelques paramètres de configuration importants et le système d'interceptions.
 Grâce à ces outils, il devient enfantin de faire fonctionner Git exactement comme vous, votre société ou votre communauté en avez besoin.
 
 ## Configuration de Git ##
@@ -87,12 +87,12 @@ Si vous avez une règle de messages de validation, placer un modèle de cette r�
 
 #### core.pager ####
 
-Le paramètre `core.pager` détermine quel pager est utilisé lorsque des pages de Git sont émises, par exemple lors d'un `log` ou d'un `diff`.
-Vous pouvez le fixer à `more` ou à votre pager favori (par défaut, il vaut `less`) ou vous pouvez le désactiver en fixant sa valeur à une chaîne vide :
+Le paramètre `core.pager` détermine quel *pager* est utilisé lorsque des pages de Git sont émises, par exemple lors d'un `log` ou d'un `diff`.
+Vous pouvez le fixer à `more` ou à votre *pager* favori (par défaut, il vaut `less`) ou vous pouvez le désactiver en fixant sa valeur à une chaîne vide :
 
 	$ git config --global core.pager ''
 
-si vous lancez cela, Git affichera la totalité de le résultat de toutes les commandes d'une traite, quelque soit sa longueur.
+si vous lancez cela, Git affichera la totalité du résultat de toutes les commandes d'une traite, quelle que soit sa longueur.
 
 #### user.signingkey ####
 
@@ -108,13 +108,13 @@ Maintenant, vous pouvez signer vos balises sans devoir spécifier votre clé à 
 #### core.excludesfile ####
 
 Comme décrit au chapitre 2, vous pouvez ajouter des patrons dans le fichier `.gitignore` de votre projet pour indiquer à Git de ne pas considérer certains fichiers comme non suivis ou les indexer lorsque vous lancez `git add` sur eux.
-Cependant, si vous souhaitez qu'un autre fichier à l'extérieur du projet contiennent ces informations ou d'autres supplémentaires, vous pouvez indiquer à Git où se trouve se fichier grâce au paramètre `core.excludesfile`.
+Cependant, si vous souhaitez qu'un autre fichier à l'extérieur du projet contiennent ces informations ou d'autres supplémentaires, vous pouvez indiquer à Git où se trouve ce fichier grâce au paramètre `core.excludesfile`.
 Fixez le simplement sur le chemin du fichier qui contient les informations similaires à celles de `.gitignore`.
 
 #### help.autocorrect ####
 
 Cette option n'est disponible qu'à partir de la version 1.6.1.
-Si vous avez fait une faute de frappe en tapant une commande dans Git 1.6, il vous affichera quelque chose une liste de commandes ressemblantes :
+Si vous avez fait une faute de frappe en tapant une commande dans Git 1.6, il vous affichera une liste de commandes ressemblantes :
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -124,7 +124,7 @@ Si vous avez fait une faute de frappe en tapant une commande dans Git 1.6, il vo
 
 Si vous positionnez le paramètre `help.autocorrect` à 1, Git lancera automatiquement de lui-même la commande si une seule commande ressemblante a été trouvée.
 
-### Les couleurs dans Git ###
+### Couleurs dans Git ###
 
 Git peut coloriser ses affichages dans votre terminal, ce qui peut faciliter le parcours visuel des résultats.
 Un certain nombre d'options peuvent vous aider à régler la colorisation à votre goût.
@@ -132,18 +132,18 @@ Un certain nombre d'options peuvent vous aider à régler la colorisation à vot
 #### color.ui ####
 
 Git colorise automatiquement la plupart de ses affichages si vous le lui demandez.
-Vous pouvez néanmoins vouloir être plus précis sur ce que vous souhaitez voir colorié et comment vous le souhaitez.
+Vous pouvez néanmoins vouloir être plus précis sur ce que vous souhaitez voir colorisé et comment vous le souhaitez.
 Pour activer toute la colorisation par défaut, fixez `color.ui` à `true` :
 
 	$ git config --global color.ui true
 
-Lorsque ce paramètre est fixé, Git colorie sa sortie si celle-ci est destinée à un terminal.
+Avec cette valeur du paramètre, Git colorise sa sortie si celle-ci est destinée à un terminal.
 D'autres réglages possibles sont `false` qui désactive complètement la colorisation et `always` qui active la colorisation, même si vous envoyez la commande Git dans un fichier ou l'entrée d'une autre commande.
 Ce réglage a été ajouté dans Git 1.5.5.
 Si vous avez une version antérieure, vous devrez spécifier les règles de colorisation individuellement.
 
 `color.ui = always` est rarement utile.
-Dans les plupart des cas, si vous tenez vraiment à colorer dans vos sorties redirigées, vous pourrez passer le drapeau `--color` à la commande Git pour la forcer à utiliser les codes de couleur.
+Dans les plupart des cas, si vous tenez vraiment à coloriser vos sorties redirigées, vous pourrez passer le drapeau `--color` à la commande Git pour la forcer à utiliser les codes de couleur.
 Le réglage `color.ui = true` est donc le plus utilisé.
 
 #### color.* ####
@@ -157,16 +157,16 @@ Chacun peut être fixé à `true`, `false` ou `always`.
 	color.status
 
 De plus, chacun d'entre eux dispose d'un sous-ensemble de paramètres qui permettent de surcharger les couleurs pour des parties des affichages.
-Par exemple, pour régler les couleurs de méta-informations du diff avec une écriture en bleu gras (`bold` en anglais) sur fond noir :
+Par exemple, pour régler les couleurs de méta-informations du diff avec une écriture en bleu gras (*bold* en anglais) sur fond noir :
 
 	$ git config --global color.diff.meta “blue black bold”
 
-La couleur peut prendre les valeurs suivantes : normal, black, red, green, yellow, blue, magenta, cyan ou white.
-Si vous souhaitez ajouter un attribut de casse, les valeurs disponibles sont bold, dim, ul, blink et reverse.
+La couleur peut prendre les valeurs suivantes : *normal*, *black*, *red*, *green*, *yellow*, *blue*, *magenta*, *cyan* ou *white*.
+Si vous souhaitez ajouter un attribut de casse, les valeurs disponibles sont *bold* (gras), *dim* (léger), *ul* (*underlined*, souligné), *blink* (clignotant) et *reverse* (inversé).
 
 Référez-vous à la page de manuel de `git config` pour tous les sous-réglages disponibles.
 
-### Les outils externes de fusion et de différence ###
+### Outils externes de fusion et de différence ###
 
 Bien que Git ait une implémentation interne de diff que vous avez déjà utilisée, vous pouvez sélectionner à la place un outil externe.
 Vous pouvez aussi sélectionner un outil graphique pour la fusion et la résolution de conflit au lieu de devoir résoudre les conflits manuellement.
@@ -180,7 +180,7 @@ Vous pouvez télécharger P4Merge ici :
 
 	http://www.perforce.com/perforce/downloads/component.html
 
-Pour commencer, vous créerez un script d'appel externe pour lancer vos commandes.
+Pour commencer, créez un script d'appel externe pour lancer vos commandes.
 Je vais utiliser le chemin Mac pour l'exécutable ; dans d'autres systèmes, il résidera où votre binaire `p4merge` a été installé.
 Créez un script enveloppe nommé `extMerge` qui appelle votre binaire avec tous les arguments fournis :
 
@@ -204,8 +204,8 @@ Vous devez aussi vous assurer que ces outils sont exécutables :
 	$ sudo chmod +x /usr/local/bin/extMerge 
 	$ sudo chmod +x /usr/local/bin/extDiff
 
-À présent, vous pouvez régler votre fichier de config pour utiliser vos outils personnalisés de résolution de fusion et de différence.
-Pour cela, il faut un certain nombre de personnalisation : `merge.tool` pour indiquer à Git quelle stratégie utiliser, `mergetool.*.cmd` pour spécifier comment lancer cette commande, `mergetool.trustExitCode` pour indiquer à Git si le code de sortie du programme indique une résolution de fusion réussie ou non et `diff.external` pour indiquer à Git quelle commander lancer pour les différences.
+À présent, vous pouvez régler votre fichier de configuration pour utiliser vos outils personnalisés de résolution de fusion et de différence.
+Pour cela, il faut un certain nombre de personnalisations : `merge.tool` pour indiquer à Git quelle stratégie utiliser, `mergetool.*.cmd` pour spécifier comment lancer cette commande, `mergetool.trustExitCode` pour indiquer à Git si le code de sortie du programme indique une résolution de fusion réussie ou non et `diff.external` pour indiquer à Git quelle commande lancer pour les différences.
 Ainsi, vous pouvez lancer les quatre commandes
 
 	$ git config --global merge.tool extMerge
@@ -214,7 +214,7 @@ Ainsi, vous pouvez lancer les quatre commandes
 	$ git config --global mergetool.trustExitCode false
 	$ git config --global diff.external extDiff
 
-Ou vous pouvez éditer votre fichier `~/.gitconfig` pour y ajouter ces lignes :
+ou vous pouvez éditer votre fichier `~/.gitconfig` pour y ajouter ces lignes :
 
 	[merge]
 	  tool = extMerge
@@ -224,7 +224,7 @@ Ou vous pouvez éditer votre fichier `~/.gitconfig` pour y ajouter ces lignes :
 	[diff]
 	  external = extDiff
 
-Après avoir régler tout ceci, si vous lancez des commandes de diff telles que celle-ci :
+Après avoir réglé tout ceci, si vous lancez des commandes de diff telles que celle-ci :
 	
 	$ git diff 32d1776b1^ 32d1776b1
 
@@ -244,8 +244,8 @@ Par exemple, pour changer vos outils `extDiff` et `extMerge` pour une utilisatio
 
 À présent, Git va utiliser l'outil KDiff3 pour visualiser les différences et résoudre les conflits de fusion.
 
-Git est livré préréglé avec un certain nombre d'autre outils de résolution de fusion pour vous éviter d'avoir à régler la configuration cmd.
-Vous pouvez sélectionner votre outil de fusion parmi kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff ou gvimdiff.
+Git est livré préréglé avec un certain nombre d'autres outils de résolution de fusion pour vous éviter d'avoir à gérer la configuration cmd.
+Vous pouvez sélectionner votre outil de fusion parmi `kdiff3`, `opendiff`, `tkdiff`, `meld`, `xxdiff`, `emerge`, `vimdiff` ou `gvimdiff`.
 Si KDiff3 ne vous intéresse pas pour gérer les différences mais seulement pour la résolution de fusion et qu'il est présent dans votre chemin d'exécution, vous pouvez lancer
 
 	$ git config --global merge.tool kdiff3
@@ -254,20 +254,20 @@ Si vous lancez ceci au lieu de modifier les fichiers `extMerge` ou `extDiff`, Gi
 
 ### Formatage and espaces blancs ###
 
-Les problèmes de formatage et de blancs font partie des plus subtiles et frustrants des problèmes que les développeurs rencontrent lorsqu'ils collabore, spécifiquement sur plusieurs plate-formes.
+Les problèmes de formatage et de blancs font partie des plus subtiles et frustrants que les développeurs rencontrent lorsqu'ils collaborent, spécifiquement sur plusieurs plates-formes.
 Il est très facile d'introduire des modifications subtiles de blancs lors de soumission de patchs ou d'autres modes de collaboration car les éditeurs de textes les insèrent silencieusement ou les programmeurs Windows ajoutent de retour chariot à la fin des lignes qu'il modifient.
 Git dispose de quelques options de configuration pour traiter ces problèmes.
 
 #### core.autocrlf ####
 
 Si vous programmez vous-même sous Windows ou si vous utilisez un autre système d'exploitation mais devez travailler avec des personnes travaillant sous Windows, vous rencontrerez à un moment ou à un autre des problèmes de caractères de fin de ligne.
-Ceci est du au fait que Windows utilise pour marquer les fins de ligne dans ses fichiers  un caractère « retour chariot » (carriage return, CR)suivi d'un caractère « saut de ligne » (line feed, LF), tandis que Mac et Linux utilisent seulement le caractère « saut de ligne ».
+Ceci est dû au fait que Windows utilise pour marquer les fins de ligne dans ses fichiers  un caractère « retour chariot » (*carriage return*, CR) suivi d'un caractère « saut de ligne » (*line feed*, LF), tandis que Mac et Linux utilisent seulement le caractère « saut de ligne ».
 C'est un cas subtile mais incroyablement ennuyeux de problème généré par la collaboration inter plate-forme.
 
 Git peut gérer ce cas en convertissant automatiquement les fins de ligne CRLF en LF lorsque vous validez, et inversement lorsqu'il extrait des fichiers sur votre système.
 Vous pouvez activer cette fonctionnalité au moyen du paramètre `core.autcrlf`.
 Si vous avez une machine Windows, positionnez-le à `true`.
-Git convertira les fins de de ligne de LF en CRLF lorsque vous extrayez votre code :
+Git convertira les fins de ligne de LF en CRLF lorsque vous extrayerez votre code :
 
 	$ git config --global core.autocrlf true
 
@@ -300,9 +300,9 @@ Par exemple, si vous souhaiter activer tout sauf `cr-at-eol`, vous pouvez lancer
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
-Git va détecter ces problèmes quand vous lancez une commande `git diff` et essayer de les colorer pour vous permettre de les régler avant de valider.
-Il utilisera aussi ces paramètres pour vous aider quand vous appliquez des patchs avec `git apply`.
-Quand vous appliquez des patchs, vous pouvez paramétrer Git pour qu'il vous avertisse s'il doit appliquer des patchs qui présente les défauts de blancs :
+Git va détecter ces problèmes quand vous lancez une commande `git diff` et essayer de les coloriser pour vous permettre de les régler avant de valider.
+Il utilisera aussi ces paramètres pour vous aider quand vous appliquerez des patchs avec `git apply`.
+Quand vous appliquez des patchs, vous pouvez paramétrer Git pour qu'il vous avertisse s'il doit appliquer des patchs qui présentent les défauts de blancs :
 
 	$ git apply --whitespace=warn <patch>
 
@@ -310,7 +310,7 @@ Ou vous pouvez indiquer à Git d'essayer de corriger automatiquement le problèm
 
 	$ git apply --whitespace=fix <patch>
 
-Ces option s'appliquent aussi à `git rebase`.
+Ces options s'appliquent aussi à `git rebase`.
 Si vous avez validé avec des problèmes de blancs mais n'avez pas encore poussé en amont, vous pouvez lancer un `rebase` avec l'option `--whitespace=fix` pour faire corriger à Git les erreurs de blancs pendant qu'il réécrit les patchs.
 
 ### Configuration du serveur ###
@@ -321,7 +321,7 @@ Il n'y a pas autant d'options de configuration de Git côté serveur, mais en vo
 
 Par défaut, Git ne vérifie pas la cohérence entre les objets qu'on lui pousse.
 Bien que Git puisse vérifier que chaque objet correspond bien à sa somme de contrôle et pointe vers des objets valides, il ne le fait pas par défaut sur chaque poussée.
-C'est opération relativement lourde qui peut énormément allonger les poussées selon la taille du dépôt ou de la poussée.
+C'est une opération relativement lourde qui peut énormément allonger les poussées selon la taille du dépôt ou de la poussée.
 Si vous voulez que Git vérifie la cohérence des objets à chaque poussée, vous pouvez le forcer en fixant le paramètre `receive.fsckObjects` à true :
 
 	$ git config --system receive.fsckObjects true
@@ -337,7 +337,7 @@ Pour désactiver la possibilité de forcer la mise à jour des branches distante
 
 	$ git config --system receive.denyNonFastForwards true
 
-L'autre moyen d'obtenir ce résultat réside dans les crochets de réception côté-serveur, qui seront abordés en partie.
+L'autre moyen d'obtenir ce résultat réside dans les crochets de réception côté-serveur, qui seront abordés en seconde partie.
 Cette approche vous permet de faire des choses plus complexes tel qu'interdire les modifications sans avance rapide à un certain groupe d'utilisateurs.
 
 #### receive.denyDeletes ####
@@ -352,7 +352,7 @@ Aucun utilisateur n'en a le droit.
 Pour pouvoir effacer des branches distantes, vous devez effacer manuellement les fichiers de référence sur le serveur.
 Il existe aussi des moyens plus intéressants de gérer cette politique utilisateur par utilisateur au moyen des listes de contrôle d'accès, point qui sera abordé à la fin de ce chapitre.
 
-## Les attributs Git ##
+## Attributs Git ##
 
 Certains de ces réglages peuvent aussi s'appliquer sur un chemin, de telle sorte que Git ne les applique que sur un sous-répertoire ou un sous-ensemble de fichiers.
 Ces réglages par chemin sont appelés attributs Git et sont définis soit dans une fichier `.gitattributes` dans un répertoire (normalement la racine du projet), soit dans un fichier `.git/info/attributes` si vous ne souhaitez pas que la fichier de description des attributs fasse partie du projet.
@@ -360,13 +360,13 @@ Ces réglages par chemin sont appelés attributs Git et sont définis soit dans 
 Les attributs permettent de spécifier des stratégies de fusion différentes pour certains fichiers ou répertoires dans votre projet, d'indiquer à Git la manière de calculer les différences pour certains fichiers non-texte, ou de faire filtrer à Git le contenu avant qu'il ne soit validé ou extrait.
 Dans ce chapitre, nous traiterons certains attributs applicables aux chemins et détaillerons quelques exemples de leur utilisation en pratique.
 
-### Les fichiers binaires ###
+### Fichiers binaires ###
 
 Un des trucs malins auxquels les attributs Git sont utilisés est d'indiquer à Git quels fichiers sont binaires (dans les cas où il ne pourrait pas le deviner par lui-même) et de lui donner les instructions spécifiques pour les traiter.
 Par exemple, certains fichiers peuvent être générés par machine et impossible à traiter par diff, tandis que pour certains autres fichiers binaires, les différences peuvent être calculées.
 Nous détaillerons comment indiquer à Git l'un et l'autre.
 
-#### Identifier les fichiers binaires ####
+#### Identification des fichiers binaires ####
 
 Certains fichiers ressemblent à des fichiers texte mais doivent en tout état de cause être traités comme des fichiers binaires.
 Par exemple, les projets Xcode sous Mac contiennent un fichier finissant en `.pbxproj`, qui est en fait un jeu de données JSON (format de données en texte javascript) enregistré par l'application EDI pour y sauver les réglages entre autres de compilation.
@@ -375,7 +375,7 @@ Il est impossible de fusionner les contenus si deux utilisateurs le modifient et
 Ce fichier n'est destiné qu'à être manipulé par un programme
 En résumé, ce fichier doit être considéré comme un fichier binaire.  
 
-Pour indiquer à Git de traiter tous le fichiers `pbxproj` comme binaires, ajoutez la ligne suivante à votre fichier `.gitattributes` :
+Pour indiquer à Git de traiter tous les fichiers `pbxproj` comme binaires, ajoutez la ligne suivante à votre fichier `.gitattributes` :
 
 	*.pbxproj -crlf -diff
 
@@ -384,7 +384,7 @@ Dans la branche 1.6 de Git, vous pouvez aussi utiliser une macro fournie qui sig
 
 	*.pbxproj binary
 
-#### Comparer les fichiers binaires ####
+#### Comparaison de fichiers binaires ####
 
 Dans la branche 1.6 de Git, vous pouvez utiliser la fonctionnalité des attributs Git pour effectivement comparer les fichiers binaires.
 Pour ce faire, indiquez à Git comment convertir vos données binaires en format texte qui peut être comparé via un diff normal.
@@ -392,7 +392,7 @@ Pour ce faire, indiquez à Git comment convertir vos données binaires en format
 Comme c'est une fonctionnalité plutôt cool et peu connue, nous allons en voir quelques exemples.
 Premièrement, nous utiliserons cette technique pour résoudre un des problèmes les plus ennuyeux de l'humanité : gérer en contrôle de version les document Word.
 Tout le monde convient que Word est l'éditeur de texte le plus horrible qui existe, mais bizarrement, tout le monde persiste à l'utiliser.
-Si vous voulez gérer en version des documents Word, vous pouvez les coller dans un dépôt Git et les valider de temps à autres.
+Si vous voulez gérer en version des documents Word, vous pouvez les coller dans un dépôt Git et les valider de temps à autre.
 Mais qu'est-ce que ça vous apporte ?
 Si vous lancez `git diff` normalement, vous verrez quelque chose comme :
 
@@ -403,7 +403,7 @@ Si vous lancez `git diff` normalement, vous verrez quelque chose comme :
 
 Vous ne pouvez pas comparer directement les versions à moins de les extraire et de les parcourir manuellement.
 En fait, vous pouvez faire la même chose plutôt bien en utilisant les attributs Git.
-ajoutez la ligne suivante dans votre fichier `.gitattributes` :
+Ajoutez la ligne suivante dans votre fichier `.gitattributes` :
 
 	*.doc diff=word
 
@@ -415,7 +415,7 @@ Vous allez configurer Git à utiliser le programme `strings` pour convertir les 
 	$ git config diff.word.textconv strings
 
 À présent, Git sait que s'il essaie de faire un diff entre deux instantanés et qu'un des fichiers finit en `.doc`, il devrait faire passer ces fichiers par le filtre `word` définit comme le programme `strings`.
-Cette méthode fait effectivement des jolie versions texte de vos fichiers Word avant d'essayer de les comparer.
+Cette méthode fait effectivement des jolies versions texte de vos fichiers Word avant d'essayer de les comparer.
 
 Voici un exemple.
 J'ai mis le chapitre 1 de ce livre dans Git, ajouté du texte à un paragraphe et sauvegardé le document.
@@ -434,8 +434,8 @@ Puis, j'ai lancé `git diff` pour visualiser ce qui a changé :
 	+s going on, modify stuff and contribute changes. If the book spontaneously 
 	+Let's see if this works.
 
-Git réussit à m'indiquer succinctement que j'ai ajouté la chaîne « Let's see if this works », ce qui est correct.
-Ce n'est pas parfait, car il y a toujours un tas de données aléatoire à la fin, mais c'est suffisant.
+Git réussit à m'indiquer succinctement que j'ai ajouté la chaîne « *Let's see if this works* », ce qui est correct.
+Ce n'est pas parfait, car il y a toujours un tas de données aléatoires à la fin, mais c'est suffisant.
 Si vous êtes capable d'écrire un convertisseur Word vers texte qui fonctionne suffisamment bien, cette solution peut s'avérer très efficace.
 Cependant, `strings` est disponible sur la plupart des systèmes Mac et Linux et peut donc constituer un bon début pour de nombreux formats binaires.
 
@@ -446,7 +446,7 @@ Si vous téléchargez et installez le programme `exiftool`, vous pouvez l'utilis
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
 
-Si vous remplacez une images dans votre projet et lancez `git diff`, vous verrez ceci :
+Si vous remplacez une image dans votre projet et lancez `git diff`, vous verrez ceci :
 
 	diff --git a/image.png b/image.png
 	index 88839c4..4afcb7c 100644
@@ -469,11 +469,11 @@ Si vous remplacez une images dans votre projet et lancez `git diff`, vous verrez
 
 Vous pouvez réaliser rapidement que la taille du fichier et les dimensions des images ont toutes deux changé.
 
-### L'expansion des mots-clés###
+### Expansion des mots-clés ###
 
 L'expansion de mots-clés dans le style de CVS ou de SVN est souvent une fonctionnalité demandée par les développeurs qui y sont habitués.
 Le problème principal de ce système avec Git et que vous ne pouvez pas modifier un fichier avec l'information concernant le commit après la validation parce que Git calcule justement la somme de contrôle sur son contenu.
-Cependant, vous pouvez injecter des informations textuelles dans un fichier au moment où il est extrait et la retirer avant qu'il ne soit ajouté à une validation.
+Cependant, vous pouvez injecter des informations textuelles dans un fichier au moment où il est extrait et les retirer avant qu'il ne soit ajouté à une validation.
 Les attributs Git vous fournissent deux manières de le faire.
 
 Premièrement, vous pouvez injecter automatiquement la somme de contrôle SHA-1 d'un blob dans un champ `$Id$` d'un fichier.
@@ -483,7 +483,7 @@ Il est à noter que ce n'est pas le SHA du commit mais celui du blob lui-même 
 	$ echo '*.txt ident' >> .gitattributes
 	$ echo '$Id$' > test.txt
 
-À la prochain extraction de ce fichier, Git injecte le SHA du blob :
+À la prochaine extraction de ce fichier, Git injecte le SHA du blob :
 
 	$ rm text.txt
 	$ git checkout -- text.txt
@@ -495,15 +495,15 @@ Si vous avez utilisé la substitution avec CVS ou Subversion, il est possible d'
 Le code SHA n'est pas des plus utiles car il est plutôt aléatoire et ne vous permet pas de distinguer si tel SHA est plus récent ou ancien que tel autre.
 
 Il apparaît que vous pouvez écrire vos propres filtres pour réaliser des substitutions dans les fichiers lors des validations/extractions.
-Ces filtres s'appellent « clean » et « smudge ».
-Dans le fichier `.gitattributes`, vous pouvez indiquer un filtre pour des chemins particuliers puis créer des scripts qui traiterons ces fichiers avant qu'ils soient validés (« clean », voir figure 7-2) et juste avant qu'il soient extraits (« smudge », voir figure 7-3).
-Ces filtres peuvent servir à faire toutes sortes de choses sympa.
+Ces filtres s'appellent « *clean* » et « *smudge* ».
+Dans le fichier `.gitattributes`, vous pouvez indiquer un filtre pour des chemins particuliers puis créer des scripts qui traiterons ces fichiers avant qu'ils soient validés (« *clean* », voir figure 7-2) et juste avant qu'il soient extraits (« *smudge* », voir figure 7-3).
+Ces filtres peuvent servir à faire toutes sortes de choses attrayantes.
 
 Insert 18333fig0702.png 
-Figure 7-2. Le filtre « smudge » est lancé lors d'une extraction.
+Figure 7-2. Le filtre « *smudge* » est lancé lors d'une extraction.
 
 Insert 18333fig0703.png 
-Figure 7-3. Le filtre « clean » est lancé lorsque les fichiers sont indexés.
+Figure 7-3. Le filtre « *clean* » est lancé lorsque les fichiers sont indexés.
 
 Le message de validation d'origine pour cette fonctionnalité donne un exemple simple permettant de passer tout votre code C par le programme `indent` avant de valider.
 Vous pouvez le faire en réglant l'attribut `filter` dans votre fichier `.gitattributes` pour filtrer les fichiers `*.c` avec le filtre « indent » :
@@ -515,12 +515,12 @@ Ensuite, indiquez à Git ce que le filtre « indent » fait sur smudge et clea
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
 
-Dans ce cas, quand vous validez des fichiers qui correspondent à `*.c`, Git les fera passer par le programme indent avant de les valider et les fera passer par le programme « cat » avant de les extraire sur votre disque.
-Le programme `cat` ne  fait rien : il se contente de régurgiter les données tels qu'il les a lues.
+Dans ce cas, quand vous validez des fichiers qui correspondent à `*.c`, Git les fera passer par le programme `indent` avant de les valider et les fera passer par le programme `cat` avant de les extraire sur votre disque.
+Le programme `cat` ne  fait rien : il se contente de régurgiter les données telles qu'il les a lues.
 Cette combinaison filtre effectivement tous les fichiers de code source C par `indent` avant leur validation.
 
 Un autre exemple intéressant fournit l'expansion du mot-clé `$Date$` dans le style RCS.
-Pour le réaliser correctement, vous avez besoin d'un petit script qui prend un nom de fichier, calcule la date de la dernière validation pour le projet, et l'insère dans le fichier.
+Pour le réaliser correctement, vous avez besoin d'un petit script qui prend un nom de fichier, calcule la date de la dernière validation pour le projet et l'insère dans le fichier.
 Voici un petit script Ruby qui le fait :
 
 	#! /usr/bin/env ruby
@@ -538,12 +538,12 @@ Nous utiliserons une expression Perl pour nettoyer lors d'une validation :
 	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
 Cette commande Perl extrait tout ce qu'elle trouve dans une chaîne `$Date$` et la réinitialise.
-Le filtre prêt, on peut le tester en écrivant le mot-clé `$Date$` dans un fichier, puis créer un attribut Git pour ce fichier qui fait référence au nouveau filtre :
+Le filtre prêt, on peut le tester en écrivant le mot-clé `$Date$` dans un fichier, puis en créant un attribut Git pour ce fichier qui fait référence au nouveau filtre :
 
 	$ echo '# $Date$' > date_test.txt
 	$ echo 'date*.txt filter=dater' >> .gitattributes
 
-S vous validez ces modifications et extrayez le fichier à nouveau, vous remarquez le mot-clé correctement substitué :
+Si vous validez ces modifications et extrayez le fichier à nouveau, vous remarquez le mot-clé correctement substitué :
 
 	$ git add date_test.txt .gitattributes
 	$ git commit -m "Testing date expansion in Git"
@@ -557,21 +557,21 @@ Il faut rester néanmoins vigilant car le fichier `.gitattributes` est validé e
 Du coup, ça ne marchera pas partout.
 Lorsque vous créez ces filtres, ils devraient pouvoir avoir un mode dégradé qui n'empêche pas le projet de fonctionner.
 
-### Exporter votre dépôt ###
+### Export d'un dépôt ###
 
 Les données d'attribut Git permettent aussi de faire des choses intéressantes quand vous exportez une archive du projet.
 
 #### export-ignore ####
 
 Vous pouvez dire à Git de ne pas exporter certains fichiers ou répertoires lors de la génération d'archive.
-S'il y a un sous-répertoire ou un fichier que vous ne souhaitez pas inclure dans le fichier archive mais que vous souhaitez extraire dans votre projet, vous pouvez indiquer ces fichiers via l'attribut `export-ignore`.
+S'il y a un sous-répertoire ou un fichier que vous ne souhaitez pas inclure dans le fichier archive mais que vous souhaitez extraire dans votre projet, vous pouvez indiquer ce fichier via l'attribut `export-ignore`.
 
 Par exemple, disons que vous avez des fichiers de test dans le sous-répertoire `test/` et que ce n'est pas raisonnable de les inclure dans l'archive d'export de votre projet.
 Vous pouvez ajouter la ligne suivante dans votre fichier d'attribut Git :
 
 	test/ export-ignore
 
-À présent, quand vous lancez git archive pour créer une archive tar de votre projet, ce répertoire ne sera plus inclus dans l'archive.
+À présent, quand vous lancez git archive pour créer une archive `tar` de votre projet, ce répertoire ne sera plus inclus dans l'archive.
 
 #### export-subst ####
 
@@ -589,7 +589,7 @@ Quand vous lancez `git archive`, le contenu de ce fichier inclus dans l'archive 
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Les stratégies de fusion ###
+### Stratégies de fusion ###
 
 Vous pouvez aussi utiliser les attributs Git pour indiquer à Git d'utiliser des stratégies de fusion différenciées pour des fichiers spécifiques dans votre projet.
 Une option très utile est d'indiquer à Git de ne pas essayer de fusionner des fichiers spécifiques quand ils rencontrent des conflits mais plutôt d'utiliser prioritairement votre version du fichier.
@@ -608,7 +608,7 @@ Si vous fusionnez dans une autre branche, plutôt que de rencontrer des conflits
 
 Dans ce cas, database.xml reste dans l'état d'origine, quel qu'il soit.
 
-## Les crochets Git ##
+## Crochets Git ##
 
 Comme de nombreux autres systèmes de gestion de version, Git dispose d'un moyen de lancer des scripts personnalisés quand certaines actions importantes ont lieu.
 Il y a deux groupes de crochets : ceux côté client et ceux côté serveur.
@@ -616,7 +616,7 @@ Les crochets côté client concernent les opérations de client telles que la va
 Les crochets côté serveur concernent les opérations de serveur Git telles que la réception de commits.
 Vous pouvez utiliser ces crochets pour toutes sortes de raisons dont nous allons détailler quelques unes.
 
-### Installer un crochet ###
+### Installation d'un crochet ###
 
 Les crochets sont tous stockés dans le sous-répertoire `hooks` du répertoire Git.
 Dans la plupart des projets, c'est `.git/hooks`.
@@ -629,12 +629,12 @@ Pour activer un script de crochet, placez un fichier dans le sous-répertoire `h
 À partir de ce moment, il devrait être appelé.
 Abordons donc les noms de fichiers hooks les plus importants.
 
-### Les crochets côté client ###
+### Crochets côté client ###
 
 Il y a de nombreux crochets côté client.
 Ce chapitre les classe entre crochets de traitement de validation, scripts de traitement par e-mail et le reste des scripts côté client.
 
-#### Les crochets de traitement de validation ####
+#### Crochets de traitement de validation ####
 
 Les quatre premiers crochets ont trait au processus de validation.
 Le crochet `pre-commit` est lancé en premier, avant même que vous ne saisissiez le message de validation.
@@ -716,7 +716,7 @@ Il accepte les même données sur stdin que `pre-receive`.
 Il peut par exemple envoyer un e-mail à une liste de diffusion, notifier un serveur d'intégration continue ou mettre à jour un système de suivi de tickets.
 Il peut aussi analyser les messages de validation à la recherche d'ordres de mise à jour de l'état des tickets.
 Ce script ne peut pas arrêter le processus de poussée mais le client n'est pas déconnecté tant qu'il n'a pas terminé.
-Il faut donc être prudent à ne peut essayer de lui faire réaliser des actions qui peuvent durer longtemps.
+Il faut donc être prudent à ne pas essayer de lui faire réaliser des actions qui peuvent durer longtemps.
 
 #### update ####
 
@@ -756,7 +756,7 @@ Ici, je considère que la variable d'environnement `$USER` indique l'utilisateur
 Et oui, j'utilise des variables globales.
 C'est seulement pour simplifier la démonstration.
 
-#### Appliquer une politique de format du message de validation ####
+#### Application d'une politique de format du message de validation ####
 
 Notre première tâche consiste à forcer que chaque message de validation adhère à un format particulier.
 En guise d'objectif, obligeons chaque message à contenir une chaîne de caractère qui ressemble à « ref: 1234 » parce que nous souhaitons que chaque validation soit liée à une tâche de notre système de tickets.
@@ -814,7 +814,7 @@ La fonction complète ressemble à ceci :
 
 Placer ceci dans un script `update` rejettera les mises à jour contenant des commits dont les messages ne suivent pas la règle.
 
-#### Mettre en place un système d'ACL par utilisateur ####
+#### Mise en place d'un système d'ACL par utilisateur ####
 
 Supposons que vous souhaitiez ajouter un mécanisme à base de liste de contrôle d'accès (access control list : ACL) qui permette de spécifier quel utilisateur a le droit de pousser des modifications vers quelle partie du projet.
 Certains personnes ont un accès complet tandis que d'autres n'ont accès que pour mettre à jour certains sous-répertoires ou certains fichiers.

@@ -151,3 +151,10 @@ namespace :epub do
 	CLEAN << TMP_DIR
 	CLOBBER << TARGET_FILEPATH
 end
+
+namespace :pdf do
+        desc "generate a pdf"
+        task :generate  do
+                system("ruby makepdfs")
+        end
+end

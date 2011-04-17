@@ -143,9 +143,9 @@ Git と Subversion の橋渡しをするコマンド群のベースとなるコ�
 
 元のコミットの SHA チェックサムが `97031e5` で始まっていたのに対して今は `938b1a5` に変わっていることに注目しましょう。Git と Subversion の両方のサーバーにプッシュしたい場合は、まず Subversion サーバーにプッシュ (`dcommit`) してから Git のほうにプッシュしなければなりません。dcommit でコミットデータが書き換わるからです。
 
-### Pulling in New Changes ###
+### 新しい変更の取り込み ###
 
-If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
+複数の開発者と作業をしていると、遅かれ早かれ、誰かがプッシュしたあとに他の人がプッシュしようとして衝突を起こすということが発生します。他の人の作業をマージするまで、その変更は却下されます。`git svn` では、このようになります。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -153,7 +153,7 @@ If you’re working with other developers, then at some point one of you will pu
 	out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
 	core/git-svn line 482
 
-To resolve this situation, you can run `git svn rebase`, which pulls down any changes on the server that you don’t have yet and rebases any work you have on top of what is on the server:
+この状態を解決するには `git svn rebase` を実行します。これは、サーバー上の変更のうちまだ取り込んでいない変更をすべて取り込んでから、自分の作業をリベースします。
 
 	$ git svn rebase
 	       M      README.txt
@@ -161,7 +161,7 @@ To resolve this situation, you can run `git svn rebase`, which pulls down any ch
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
 
-Now, all your work is on top of what is on the Subversion server, so you can successfully `dcommit`:
+これで手元の作業が Subversion サーバー上の最新状態の上でなされたことになったので、無事に `dcommit` することができます。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -172,7 +172,7 @@ Now, all your work is on top of what is on the Subversion server, so you can suc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-It’s important to remember that unlike Git, which requires you to merge upstream work you don’t yet have locally before you can push, `git svn` makes you do that only if the changes conflict. If someone else pushes a change to one file and then you push a change to another file, your `dcommit` will work fine:
+ここで注意すべき点は、Git の場合は上流での変更をすべてマージしてからでなければプッシュできないけれど、`git svn` の場合は衝突さえしなければマージしなくてもプッシュできるということです。だれかがあるファイルを変更した後で自分が別のファイルを変更してプッシュしても、`dcommit` は正しく動作します。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -189,9 +189,9 @@ It’s important to remember that unlike Git, which requires you to merge upstre
 	First, rewinding head to replay your work on top of it...
 	Nothing to do.
 
-This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.
+これは忘れずに覚えておきましょう。というのも、プッシュした後の結果はどの開発者の作業環境にも存在しない状態になっているからです。たまたま衝突しなかっただけで互換性のない変更をプッシュしてしまったときに、その問題を見つけるのが難しくなります。これが、Git サーバーを使う場合と異なる点です。Git の場合はクライアントの状態をチェックしてからでないと変更を公開できませんが、SVN の場合はコミットの直前とコミット後の状態が同等であるかどうかすら確かめられないのです。
 
-You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits.
+もし自分のコミット準備がまだできていなくても、Subversion から変更を取り込むときにもこのコマンドを使わなければなりません。`git svn fetch` でも新しいデータを取得することはできますが、`git svn rebase` はデータを取得するだけでなくローカルのコミットの更新も行います。
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh
@@ -199,7 +199,7 @@ You should also run this command to pull in changes from the Subversion server, 
 	First, rewinding head to replay your work on top of it...
 	Fast-forwarded master to refs/remotes/trunk.
 
-Running `git svn rebase` every once in a while makes sure your code is always up to date. You need to be sure your working directory is clean when you run this, though. If you have local changes, you must either stash your work or temporarily commit it before running `git svn rebase` — otherwise, the command will stop if it sees that the rebase will result in a merge conflict.
+`git svn rebase` をときどき実行しておけば、手元のコードを常に最新の状態に保っておけます。しかし、このコマンドを実行するときには作業ディレクトリがクリーンな状態であることを確認しておく必要があります。手元で変更をしている場合は、stash で作業を退避させるか一時的にコミットしてからでないと `git svn rebase` を実行してはいけません。さもないと、もしリベースの結果としてマージが衝突すればコマンドの実行が止まってしまいます。
 
 ### Git Branching Issues ###
 

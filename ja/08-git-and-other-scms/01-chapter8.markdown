@@ -201,11 +201,11 @@ Git と Subversion の橋渡しをするコマンド群のベースとなるコ�
 
 `git svn rebase` をときどき実行しておけば、手元のコードを常に最新の状態に保っておけます。しかし、このコマンドを実行するときには作業ディレクトリがクリーンな状態であることを確認しておく必要があります。手元で変更をしている場合は、stash で作業を退避させるか一時的にコミットしてからでないと `git svn rebase` を実行してはいけません。さもないと、もしリベースの結果としてマージが衝突すればコマンドの実行が止まってしまいます。
 
-### Git Branching Issues ###
+### Git でのブランチに関する問題 ###
 
-When you’ve become comfortable with a Git workflow, you’ll likely create topic branches, do work on them, and then merge them in. If you’re pushing to a Subversion server via git svn, you may want to rebase your work onto a single branch each time instead of merging branches together. The reason to prefer rebasing is that Subversion has a linear history and doesn’t deal with merges like Git does, so git svn follows only the first parent when converting the snapshots into Subversion commits.
+Git のワークフローに慣れてくると、トピックブランチを作ってそこで作業を行い、それをマージすることもあるでしょう。git svn を使って Subversion サーバーにプッシュする場合は、それらのブランチをまとめてプッシュするのではなく一つのブランチ上にリベースしてからプッシュしたくなるかもしれません。リベースしたほうがよい理由は、Subversion はリニアに歴史を管理していて Git のようなマージができないからです。git svn がスナップショットを Subversion のコミットに変換するときには、最初の親だけに続けます。
 
-Suppose your history looks like the following: you created an `experiment` branch, did two commits, and then merged them back into `master`. When you `dcommit`, you see output like this:
+歴史が次のような状態になっているものとしましょう。`experiment` ブランチを作ってそこで 2 回のコミットを済ませ、それを `master` にマージしたところです。ここで `dcommit` すると、出力はこのようになります。
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -226,9 +226,9 @@ Suppose your history looks like the following: you created an `experiment` branc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-Running `dcommit` on a branch with merged history works fine, except that when you look at your Git project history, it hasn’t rewritten either of the commits you made on the `experiment` branch — instead, all those changes appear in the SVN version of the single merge commit.
+歴史をマージしたブランチで `dcommit` を実行してもうまく動作します。ただし、Git プロジェクト上での歴史を見ると、`experiment` ブランチ上でのコミットは書き換えられていません。そこでのすべての変更は、SVN 上での単一のマージコミットとなっています。
 
-When someone else clones that work, all they see is the merge commit with all the work squashed into it; they don’t see the commit data about where it came from or when it was committed.
+他の人がその作業をクローンしたときには、すべての作業をひとまとめにしたマージコミットしか見ることができません。そのコミットがどこから来たのか、そしていつコミットされたのかを知ることができないのです。
 
 ### Subversion Branching ###
 

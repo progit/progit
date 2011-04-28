@@ -384,7 +384,7 @@ Diferente de muitos sistemas VCS, o Git não monitora explicitamente arquivos mo
 
 É um bit confuso que o Git tenha um comando `mv`. Se você quiser renomear um arquivo no Git, você pode fazer isso com
 
-	$ git mv file_from file_to
+	$ git mv arquivo_origem arquivo_destino
 
 e funciona. De fato, se você fizer algo desse tipo e consultar o status, você verá que o Git considera que o arquivo foi renomeado:
 
@@ -643,9 +643,9 @@ Como exemplo, se você fez um commit e esqueceu de adicionar na área de seleç�
 
 Todos esses três comandos resultam em um único commit — o segundo comando substitui os resultados do primeiro.
 
-### Unstaging a Staged File ###
+### Tirando um arquivo da área de seleção ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+As duas próximas seções mostram como trabalhar nas suas modificações na área de seleção e diretório de trabalho. A parte boa é que o comando que você usa para ver a situação nessas duas áreas também lembra como desfazer suas alterações. Por exemplo, vamos dizer que você alterou dois arquivos e quer fazer o commit deles como duas modificações separadas, mas você acidentalmente digitou `git add *` e colocou os dois na área de seleção. Como você pode retirar um deles? O comando `git status` lembra você:
 
 	$ git add .
 	$ git status
@@ -657,7 +657,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+Logo abaixo do texto “Changes to be committed”, ele diz use `git reset HEAD <file>...` para retirar (use `git reset HEAD <file>...` to unstage). Então, vamos usar esse conselho para retirar o arquivo benchmarks.rb:
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -675,7 +675,7 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
+O comando é um pouco estranho, mas funciona. O arquivo benchmarks.rb está modificado mas mais uma vez fora da área de seleção.
 
 ### Unmodifying a Modified File ###
 

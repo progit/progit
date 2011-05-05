@@ -13,6 +13,15 @@ http://tinyurl.com/amazonprogit
 訳注: 上のtinyurlは、amazon.comのアフィリエイトIDつきのURLにリダイレクトされます。
 
 
+Ebookのつくりかた
+=====================
+
+Fedora なら、たとえばこのようにします。
+
+    $ yum install ruby calibre rubygems ruby-devel rubygem-ruby-debug 
+    $ gem install rdiscount
+    $ makeebooks en  # これで mobi ファイルができあがります
+
 不具合
 =====================
 技術的な間違いやその他の修正を要する点を発見した場合は、schacon at gmail dot com

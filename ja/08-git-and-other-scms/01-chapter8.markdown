@@ -344,13 +344,13 @@ Subversion に慣れているので SVN が出力する形式で歴史を見た�
 
 これらのガイドラインを守れば、Subversion サーバーでの作業にも耐えられることでしょう。しかし、もし本物の Git サーバーに移行できるのなら、そうしたほうがチームにとってずっと利益になります。
 
-## Migrating to Git ##
+## Git への移行 ##
 
-If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.
+別の VCS で管理している既存のコードベースを Git で管理しようと思ったら、何らかの方法でそのプロジェクトを移行しなければなりません。この節では、一般的なシステム上の Git に含まれているインポートツールについて説明します。そして、インポートツールを自作する方法も扱います。
 
-### Importing ###
+### インポート ###
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+ここでは、業務のソースコード管理に使われる2大ツールである Subversion と Perforce からデータをインポートする方法を説明します。現在 Git への移行を考えている人たちの多くがこれらを使っていると聞いています。そのため、これらからのインポート要に、Git には高品質のツールが付属しています。
 
 ### Subversion ###
 

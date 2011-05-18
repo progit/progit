@@ -84,7 +84,7 @@ A lot of people become concerned at some point that they will, by random happens
 
 Если вы вдруг закоммитите объект, SHA-1 хэш которого такой же, как у некоторого предыдущего объекта в вашем репозитории, Git обнаружит предыдущий объект в вашей базе данных Git, и посчитает, что он был уже записан. Если Вы в какой-то момент попытаетесь получить этот объект опять, вы всегда будете получать данные первого объекта.
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, Git will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object.
 
 Однако, вы должны осозновать то, как смехотворно маловероятен этот сценарий. Длина SHA-1 составляет 20 байт или 160 бит. Количество случайно хэшированных объектов, необходимое для того, чтобы получить 50% вероятность одиночного совпадения составляет порядка 2^80 (формула для определения вероятности совпадения - `p = (n(n-1)/2) * (1/2^160))`). 2^80 это 1.2 x 10^24 или один миллион миллиарда миллиардов. Это в 1200 раз больше количества песчинок на земле.
 
@@ -526,6 +526,23 @@ The apply option only tries to apply the stashed work — you continue to have i
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
 You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
+
+### Un-applying a Stash ###
+
+In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came form the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+
+    $ git stash show -p stash@{0} | git apply -R
+
+Again, if you don’t specify a stash, Git assumes the most recent stash:
+
+    $ git stash show -p | git apply -R
+
+You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
+
+    $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
+    $ git stash
+    $ #... work work work
+    $ git stash-unapply
 
 ### Creating a Branch from a Stash ###
 
@@ -1083,11 +1100,11 @@ A good way to do this in Git is to make each of the subfolders a separate Git re
 
 Однако, использование подмодулей не обходится без загвоздок. Во-первых, вы должны быть относительно осторожны работая в каталоге подмодуля. Когда вы выполняете команду `git submodule update` она возвращает определенную версию проекта, но не внутри ветви. Это называется получением изолированной головы - это означает, что файл HEAD указывает на конкретный коммит, а не на символическую ссылку. Проблема в том, что вы, как правило, не хотите работать в окружении с "изолированной головой", потому что так легко потерять изменения. Если вы сделаете первоначальный `submodule update`, произведете фиксацию в каталоге этого подмодуля без создания ветви для работы в ней, и затем, вновь выполните `git submodule update` из основного проекта, без создания коммита в суперпроекте, Git перетрет ваши изменения без предупреждения. Технически вы не потеряете проделанную работу, но у вас не будет ветки указывающей на нее, так что будет несколько сложно ее восстановить.
 
-Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
+Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieve.
 
-Для предотвращения этой проблемы, создавайте ветвь, когда работаете в каталоге подмодуля с использованием команды `git checkout -b` или какой-нибудь аналогичной. Когда вы сделаете обновление подмодуля командой `submodule update` в следующий раз, она все же откатит вашу работу, но, по крайней мере, у вас будет указатель для возврата назад.
+Для предотвращения этой проблемы, создавайте ветвь, когда работаете в каталоге подмодуля с использованием команды `git checkout -b work` или какой-нибудь аналогичной. Когда вы сделаете обновление подмодуля командой `submodule update` в следующий раз, она все же откатит вашу работу, но, по крайней мере, у вас будет указатель для возврата назад.
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b` work or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
 
 Переключение ветвей с подмодулями в них так же может быть мудреным. Если вы создадите новую ветвь, добавите туда подмодуль и, затем, переключитесь обратно, туда где не было этого подмодуля, вы все еще будите иметь каталог подмодуля в виде неверсионированного каталога:
 

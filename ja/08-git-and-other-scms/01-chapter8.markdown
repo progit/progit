@@ -681,6 +681,6 @@ Git のディレクトリにインポートするにはまず、これらのデ�
 
 `fast-import` ツールにはさらに多くの機能があります。さまざまなモードを処理したりバイナリデータを扱ったり、複数のブランチやそのマージ、タグ、進捗状況表示などです。より複雑なシナリオのサンプルは Git のソースコードの `contrib/fast-import` ディレクトリにあります。先ほど取り上げた `git-p4` スクリプトがよい例となるでしょう。
 
-## Summary ##
+## まとめ ##
 
-You should feel comfortable using Git with Subversion or importing nearly any existing repository into a new Git one without losing data. The next chapter will cover the raw internals of Git so you can craft every single byte, if need be.
+Git を Subversion と組み合わせて使う方法を説明しました。また、既存のリポジトリのほぼすべてを、データを失うことなく新たな Git リポジトリにインポートできるようになりました。次章では、Git の内部に踏み込みます。必要とあらばバイト単位での操作もできることでしょう。

@@ -345,7 +345,11 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 
 With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
 
+## Интерактивное индексирование ##
 ## Interactive Staging ##
+
+Вместе с Git поставляется пара сценариев (script), которые облегчают выполнение некоторых задач в командной строке. Сейчас мы посмотрим на несколько интерактивных команд, которые помогут вам просто смастерить ваши коммиты так, чтобы включить в них только определённые части файлов. Эти инструменты сильно помогают в случае, когда вы поменяли кучу файлов, а потом решили, что вы хотите, чтобы эти изменения были в нескольких сфокусированных коммитах, а не в одном большом путанном коммите. Так вы сможете убедиться, что ваши коммиты это логически разделённые наборы изменений, которые будет легко просматривать другим разработчикам работающими с вами.
+Если вы выполните `git add` с опцией `-i` или `--interactive`, Git перейдёт в режим интерактивной оболочки, и покажет что-то похожее на это:
 
 Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
 If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
@@ -361,11 +365,18 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
+Как видите, эта команда показывает содержимое вашего индекса в другом виде — по сути, ту же информацию вы получили бы при вызове `git status`, но здесь она в более сжатом и информативном виде. `git add -i` показывает проиндексированные изменения слева, а непроиндексированные — справа.
+
 You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
+
+Затем идёт раздел Commands (команды). Здесь вы можете сделать многие вещи, включая добавление файлов в индекс, удаление файлов из индекса, индексирование файлов частями, добавление неотслеживаемых файлов и просмотр дельт (diff) проиндексированных изменений.
 
 After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
 
+### Добавление и удаление файлов из индекса ###
 ### Staging and Unstaging Files ###
+
+Если вы наберёте `2` или `u` в приглашении `What now>`, сценарий спросит какие файлы вы хотите добавить в индекс:
 
 If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
 
@@ -376,6 +387,8 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
+Чтобы проиндексировать файлы TODO и index.html, нужно набрать их номера:
+
 To stage the TODO and index.html files, you can type the numbers:
 
 	Update>> 1,2
@@ -384,6 +397,8 @@ To stage the TODO and index.html files, you can type the numbers:
 	* 2:    unchanged        +1/-1 index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
+
+Символ `*` рядом с каждым файлом означает, что файл выбран для индексирования. Если вы ничего не будете набирать и нажмёте Enter в приглашении `Update>>`, то Git возьмёт всё, что уже выбрано и добавит в индекс:
 
 The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
 
@@ -398,6 +413,8 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  1:        +0/-1      nothing TODO
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
+
+Как видите, теперь файлы TODO и index.html проиндексированы (staged), а файл simplegit.rb всё ещё нет. Если в этот момент вы хотите удалить файл TODO из индекса, используйте опцию `3` или `r` (revert):
 
 Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
 
@@ -417,6 +434,8 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
+Взглянув на статус снова, вы увидите, что файл TODO удалён из индекса:
+
 Looking at your Git status again, you can see that you’ve unstaged the TODO file:
 
 	*** Commands ***
@@ -427,6 +446,8 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  1:    unchanged        +0/-1 TODO
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
+
+Чтобы посмотреть дельту для проиндексированных изменения, используйте команду `6` или `d` (diff). Она покажет вам список проиндексированных файлов, а вы можете выбрать те, для которых хотите посмотреть дельту. Это почти то же, что указать `git diff --cached` в командной строке:
 
 To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
 
@@ -450,9 +471,14 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
+С помощью этих базовых команд, вы можете использовать интерактивный режим для `git add`, чтобы немного проще работать со своим индексом.
+
 With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
 
+### Индексирование по частям ###
 ### Staging Patches ###
+
+Для Git также возможно индексировать определённые части файлов, а не всё сразу. Например, если вы сделали несколько изменений в файле simplegit.rb и хотите проиндексировать одно из них, а другое — нет, то сделать такое в Git очень легко. В строке приглашения интерактивного режима наберите `5` или `p` (patch). Git спросит какие файлы вы хотите индексировать частями; затем для каждой части изменений в выбранных файлах, один за другим будут показываться куски дельт файла и вас будут спрашивать, хотите ли вы занести их в индекс:
 
 It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
 
@@ -471,22 +497,26 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
+На этой стадии у вас много вариантов действий. Набрав `?` вы получите список того, что вы можете сделать:
+
 You have a lot of options at this point. Typing `?` shows a list of what you can do:
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
-	y - stage this hunk
-	n - do not stage this hunk
-	a - stage this and all the remaining hunks in the file
-	d - do not stage this hunk nor any of the remaining hunks in the file
-	g - select a hunk to go to
-	/ - search for a hunk matching the given regex
-	j - leave this hunk undecided, see next undecided hunk
-	J - leave this hunk undecided, see next hunk
-	k - leave this hunk undecided, see previous undecided hunk
-	K - leave this hunk undecided, see previous hunk
-	s - split the current hunk into smaller hunks
-	e - manually edit the current hunk
-	? - print help
+	y - stage this hunk (добавить этот кусок в индекс)
+	n - do not stage this hunk (не добавлять этот кусок в индекс)
+	a - stage this and all the remaining hunks in the file (добавить этот и все оставшиеся куски в этом файле в индекс)
+	d - do not stage this hunk nor any of the remaining hunks in the file (не добавлять в индекс ни этот, ни последующие куски в этом файле)
+	g - select a hunk to go to (выбрать кусок и перейти к нему)
+	/ - search for a hunk matching the given regex (поиск куска по регулярному выражению)
+	j - leave this hunk undecided, see next undecided hunk (отложить решение для этого куска, перейти к следующему отложенному куску)
+	J - leave this hunk undecided, see next hunk (отложить решение для этого куска, перейти к следующему куску)
+	k - leave this hunk undecided, see previous undecided hunk (отложить решение для этого куска, перейти к предыдущему отложенному куску)
+	K - leave this hunk undecided, see previous hunk (отложить решение для этого куска, перейти к предыдущему куску)
+	s - split the current hunk into smaller hunks (разбить текущий кусок на меньшие части)
+	e - manually edit the current hunk (отредактировать текущий кусок вручную)
+	? - print help (вывести справку)
+
+Как правило, вы будете использовать `y` или `n` для индексирования каждого куска, но индексирование всех кусков сразу в некоторых файлах или откладывание решения на потом также может оказаться полезным. Если вы добавите в индекс одну часть файла, а другую часть — нет, вывод статуса будет выглядеть так:
 
 Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
 
@@ -496,7 +526,11 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
+Статус файла simplegit.rb выглядит любопытно. Он показывает, что часть строк в индексе, а часть — не в индексе. Мы частично проиндексировали этот файл. Теперь вы можете выйти из интерактивного сценария и выполнить `git commit`, чтобы создать коммит из этих частично проиндексированных файлов.
+
 The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+
+В заключение скажем, что нет необходимости входить в интерактивный режим `git add`, чтобы выполнять индексирование частями — вы можете запустить тот же сценарий набрав `git add -p` или `git add --patch` в командной строке.
 
 Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
 

@@ -50,7 +50,7 @@ Insert 18333fig0103.png
 
 如同許多生命中美好的事物一樣，Git從有一點創意的破壞及激烈的討論中誕生。 Linux kernel 是開放原始碼中相當大的專案。 在 Linux kernel 大部份的維護時間內（1991～2002），修改該軟體的方式通常以多個修補檔及壓縮檔流通。 在2002年，Linux kernel 開始採用名為 BitKeeper 的商業分散式版本控制系統。
 
-在 2005年，開發 Linux kernel 的社群與開發 BitKeeper 的商業公司的關係走向決裂，也無法再免費使用該工具。 這告訴了 Linux 社群及 Linux 之父 Linux Torvalds，該是基於使用 BitKeeper 得到的經驗，開發自有的工具的時候。 這個系統必須達成下列目標：
+在 2005年，開發 Linux kernel 的社群與開發 BitKeeper 的商業公司的關係走向決裂，也無法再免費使用該工具。 這告訴了 Linux 社群及 Linux 之父 Linus Torvalds，該是基於使用 BitKeeper 得到的經驗，開發自有的工具的時候。 這個系統必須達成下列目標：
 
 *	快速
 *	簡潔的設計

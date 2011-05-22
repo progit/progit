@@ -534,13 +534,21 @@ The status of the simplegit.rb file is interesting. It shows you that a couple o
 
 Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
 
+## Прятанье ##
 ## Stashing ##
+
+Часто возникает такая ситуация, что пока вы работаете над частью вашего проекта, всё находится в беспорядочном состоянии, а вам нужно переключить ветки, чтобы немного поработать над чем-то другим. Проблема в том, что вы не хотите делать коммит с наполовину доделанной работой, только для того, чтобы позже можно было вернуться в это же состояние. Ответ на эту проблему — команда `git stash`.
 
 Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
 
+Прятанье поглощает грязное состояние вашего рабочего каталога, то есть ваши изменённые отслеживаемые файлы и изменения в индексе, и сохраняет их в стек незавершённых изменений, которые вы потом в любое время можете снова применить.
+
 Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
 
+### Прятанье своих трудов ###
 ### Stashing Your Work ###
+
+Чтобы продемонстрировать как это работает, предположим, что вы идёте к своему проекту и начинаете работать над парой файлов и, возможно, добавляете в индекс одно из изменений. Если вы выполните `git status`, вы увидите грязное состояние проекта:
 
 To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
 
@@ -557,6 +565,8 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#      modified:   lib/simplegit.rb
 	#
 
+Теперь вы хотите поменять ветку, но не хотите делать коммит с тем, над чем вы ещё работаете; тогда вы прячете эти изменения. Чтобы создать новую "заначку", выполните `git stash`:
+
 Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
 
 	$ git stash
@@ -565,11 +575,15 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
+Ваш рабочий каталог чист:
+
 Your working directory is clean:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
+
+В этот момент, вы легко можете перейти на другую ветку и работать где-то ещё; ваши изменения сохранены в стеке. Чтобы посмотреть что у вас есть припрятанного, используйте `git stash list`:
 
 At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
 
@@ -577,6 +591,8 @@ At this point, you can easily switch branches and do work elsewhere; your change
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
+
+В нашем случае, две "заначки" были сделаны ранее, так что у вас теперь три разных припрятанных работы. Вы можете снова применить ту, которую вы только что спрятали, с помощью команды показанной в справке в выводе первоначальной команды `stash`: `git stash apply`. Если вы хотите применить одну из старых заначек, вы можете сделать это указав её имя так: `git stash apply stash@{2}`. Если вы не укажете ничего, Git будет подразумевать, что вы хотите применить последнюю спрятанную работу:
 
 In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
 
@@ -589,7 +605,11 @@ In this case, two stashes were done previously, so you have access to three diff
 	#      modified:   lib/simplegit.rb
 	#
 
+Как видите, Git восстановил изменения в файлах, которые вы отменили, когда использовали команду `stash`. В нашем случае, у вас был чистый рабочий каталог, когда вы восстанавливали спрятанные изменения, и к тому же вы делали это на той же ветке, на которой находились во время прятанья. Но наличие чистого рабочего каталога и применение на той же ветке не обязательны для `git stash apply`. Вы можете спрятать изменения на одной ветке, переключиться позже на другую ветку и попытаться восстановить изменения. У вас также могут быть изменённые и недокоммиченные файлы в вашем рабочем каталоге, во время применения спрятанного — Git выдаст вам конфликты слияния, если что-то уже не может быть применено чисто.
+
 You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+
+Изменения в файлах были восстановлены, но файлы в индексе — нет. Чтобы добиться такого, необходимо выполнить команду `git stash apply` с опцией `--index`, тогда команда попытается применить изменения в индексе. Если бы вы выполнили команду так, а не как раньше, то вы бы получили исходное состояние:
 
 The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
 
@@ -606,6 +626,8 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#      modified:   lib/simplegit.rb
 	#
 
+Всё что делает опция apply это пытается применить спрятанную работу — то, что вы спрятали, всё ещё будет находиться в стеке. Чтобы удалить спрятанное, выполните `git stash drop` с именем "заначки", которую нужно удалить:
+
 The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
 
 	$ git stash list
@@ -615,17 +637,26 @@ The apply option only tries to apply the stashed work — you continue to have i
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
+Также можно выполнить `git stash pop`, чтобы применить спрятанные изменения и сразу же удалить их из стека.
+
 You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
 
+### Откат применения спрятанных изменений ###
 ### Un-applying a Stash ###
+
+При некоторых сценариях использования, вы можете захотеть применить спрятанные изменения, поработать, а потом отменить изменения, внесённые командой `stash apply`. Git не предоставляет команды `stash unapply`, но можно добиться того же эффекта получив сначала патч для спрятанных изменений, а потом применив его в перевёрнутом виде.
 
 In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came form the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
 
     $ git stash show -p stash@{0} | git apply -R
 
+Снова, если вы не указываете параметр для stash, Git подразумевает то, что было спрятано последним:
+
 Again, if you don’t specify a stash, Git assumes the most recent stash:
 
     $ git stash show -p | git apply -R
+
+Если хотите, сделайте псевдоним и добавьте в свой git команду `stash-unapply`. Например, так:
 
 You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
 
@@ -634,7 +665,10 @@ You may want to create an alias and effectively add a `stash-unapply` command to
     $ #... work work work
     $ git stash-unapply
 
+### Создание ветки из спрятанных изменений ###
 ### Creating a Branch from a Stash ###
+
+Если вы спрятали какие-то наработки и оставили их на время, а в это время продолжили работать на той же ветке, то у вас могут возникнуть трудности с восстановлением спрятанной работы. Если apply попытается изменить файл, который вы редактировали после прятанья, у вас возникнет конфликт слияния, который надо будет разрешить. Если вам нужен более простой способ снова потестировать спрятанную работу, можно выполнить команду `git stash branch`, которая создаст вам новую ветку с началом из того коммита, на котором вы находились во время прятанья, восстановит в ней вашу работу и затем удалит спрятанное, если оно применилось успешно:
 
 If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
 
@@ -652,6 +686,8 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#      modified:   lib/simplegit.rb
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
+
+Это сокращение удобно для того, чтобы легко восстановить свою работу, а затем поработать над ней в новой ветке.
 
 This is a nice shortcut to recover stashed work easily and work on it in a new branch.
 

@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'rake/clean'
 
 
@@ -59,7 +61,7 @@ namespace :epub do
 		
 		mk_file = File.open(mk_filename, 'r') do |mk|
 			html_file = File.open(html_filename, 'w') do |html|
-				code = Maruku.new(mk.read).to_html
+				code = Maruku.new(mk.read.encode("UTF-8")).to_html
 				code.gsub!(/^(<h.) (id='[^']+?')/, '\1')
 				html << code
 				html << "\n"
@@ -148,4 +150,11 @@ namespace :epub do
 	CLEAN << INDEX_FILEPATH
 	CLEAN << TMP_DIR
 	CLOBBER << TARGET_FILEPATH
+end
+
+namespace :pdf do
+        desc "generate a pdf"
+        task :generate  do
+                system("ruby makepdfs")
+        end
 end

@@ -740,9 +740,9 @@ Se você tem mais de um remoto, o comando lista todos. Por exemplo, meu reposit�
 
 Isso significa que podemos puxar contribuições de qualquer um desses usuários muito facilmente. Mas note que somente o remoto origin é uma URL SSH, é o único pra onde eu posso fazer o push (vamos ver o motivo disso no Capítulo 4).
 
-### Adding Remote Repositories ###
+### Adicionando Repositórios Remotos ###
 
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+Eu mencionei e deu algumas demonstrações de adição de repositórios remotos nas seções anteriores, mas aqui está como fazê-lo explicitamente. Para adicionar um novo repositório remto no Git com um nome curto para que você possa fazer referência facilmente, execute `git remote add [nomecurto] [url]`:
 
 	$ git remote
 	origin
@@ -751,7 +751,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+Agora você pode usar a string pb na linha de comando em lugar da URL completa. Por exemplo, se você quer fazer o fetch de todos os dados que Paul que você ainda não tem no seu repositório, você pode executar git fetch pb:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -762,7 +762,7 @@ Now you can use the string pb on the command line in lieu of the whole URL. For 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+O branch master de Paul é localmente acessível como `pb/master` — você pode fazer o merge dele em um de seus branches, ou fazer o check out de um branch local a partir deste ponto se você quiser inspecioná-lo.
 
 ### Fetching and Pulling from Your Remotes ###
 

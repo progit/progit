@@ -47,7 +47,7 @@ Ricorda che ogni file nella tua directory di lavoro è in una dei due stati segu
 Quando modifichi i file, Git li vede come cambiati, perché li hai modificati rispetto all'ultimo commit. Parcheggi questi file e poi esegui il commit di tutti i cambiamenti presenti nell'area di stage, ed il ciclo si ripete. Questo ciclo di vita è illustrato nella Figura 2-1.
 
 Insert 18333fig0201.png
-Figure 2-1. Il ciclo di vita dello stato dei tuoi file.
+Figura 2-1. Il ciclo di vita dello stato dei tuoi file.
 
 ### Controlla lo stato dei tuoi file ###
 
@@ -619,7 +619,7 @@ Ci sono circa 20,000 commit nella storia del codice sorgente di git, questo coma
 Se vuoi usare uno strumento più grafico per visualizzare la storia dei tuoi commit, puoi vedere un programma in Tck/Tk chiamato gitk che è distribuito con Git. Gitk è fondamentalmente uno strumento visuale come `git log`, e accetta circa tutte le opzioni di filtro che `git log` ha. Se digiti gitk dalla riga di comando del tuo progetto, dovresti vedere qualcosa di simile alla Figura 2-2.
 
 Insert 18333fig0202.png
-Figure 2-2. Il visualizzatore della storia gitk.
+Figura 2-2. Il visualizzatore della storia gitk.
 
 Puoi vedere la storia dei commit nella metà alta della finestra con un grafico genealogico. La finestra di diff nella metà inferiore mostra i cambiamenti introdotti ad ogni commit che selezioni.
 

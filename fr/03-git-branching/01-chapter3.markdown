@@ -589,7 +589,7 @@ Si vous avez Git version 1.6.2 ou plus, vous pouvez aussi utiliser l'option cour
 
 	$ git checkout --track origin/correctionserveur
 	Branch correctionserveur set up to track remote branch refs/remotes/origin/correctionserveur.
-	Switched to a new branch "serverfix"
+	Switched to a new branch "correctionserveur"
 
 Pour créer une branche locale avec un nom différent de celui de la branche distante, vous pouvez simplement utiliser la première version avec un nom de branch locale différent :
 

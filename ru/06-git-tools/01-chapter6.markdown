@@ -1,38 +1,22 @@
 # Инструменты Git #
-Git Tools
 
 К этому времени вы уже изучили большинство повседневных команд и способы организации рабочего процесса, необходимые для того, чтобы поддерживать Git-репозиторий для управления версиями вашего исходного кода. Вы выполнили основные задания связанные с добавлением файлов под версионный контроль и записью сделанных изменений, и вы вооружились мощью подготовительной области (staging area), легковесного ветвления и слияния.
 
-By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
-
 Сейчас вы познакомитесь с множеством весьма сильных возможностей Git. Вы совсем не обязательно будете использовать их каждый день, но, возможно, в какой-то момент они вам понадобятся.
 
-Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
-
 ## Выбор ревизии ##
-## Revision Selection ##
 
 Git позволяет вам указывать конкретные коммиты или их последовательности несколькими способами. Они не всегда очевидны, но иногда их полезно знать.
 
-Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
-
 ### Одиночные ревизии ###
-### Single Revisions ###
 
 Вы можете просто сослаться на коммит по его SHA-1 хэшу, но также существуют более понятные для человека способы ссылаться на коммиты. В этом разделе кратко описаны различные способы обратиться к одному определённому коммиту.
 
-You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
-
 ### Сокращенный SHA ###
-### Short SHA ###
 
 Git достаточно умён для того, чтобы понять какой коммит вы имеете в виду по первым нескольким символам (частичному хэшу), конечно, если их не меньше четырёх и они однозначны, то есть если хэш только одного объекта в вашем репозитории начинается с этих символов.
 
-Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
-
 Например, предположим, что вы хотите посмотреть содержимое какого-то конкретного коммита. Вы выполняете команду `git log` и находите этот коммит (например тот, в котором вы добавили какую-то функциональность):
-
-For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -56,70 +40,46 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 В нашем случае, выберем коммит `1c002dd....`. Если вы будете использовать `git show`, чтобы посмотреть содержимое этого коммита следующие команды эквивалентны (предполагая, что сокращенные версии однозначны):
 
-In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
-
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
 Git может показать короткие, уникальные сокращения ваших SHA-1 хэшей. Если вы передадите опцию `--abbrev-commit` команде `git log`, то её вывод будет использовать сокращённые значения, сохраняя их уникальными; по умолчанию будут использоваться семь символов, но при необходимости длина будет увеличена для сохранения однозначности хэшей:
 
-Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
-
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-В общем случае, восемь-десять символов более чем достаточно для уникальности внутри проекта. В одном из самых больших проектов на Git, ядре Linux только начинает появляться необходимость использовать 12 символов из 40 возможных для сохранения однозначности.
-
-Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+В общем случае, восемь-десять символов более чем достаточно для уникальности внутри проекта. В одном из самых больших проектов на Git, ядре Linux только начинает появляться необходимость использовать 12 символов из 40 возможных для сохранения уникальности.
 
 ### Небольшое замечание о SHA-1 ###
-### A SHORT NOTE ABOUT SHA-1 ###
 
-Многие люди интересуются что произойдет, если они в какой-то момент, по некоторой случайности, получат два объекта в репозитории, которые будут иметь два одинаковых значения SHA-1 хэша. Что тогда?
+Многие люди интересуются, что произойдет, если они в какой-то момент, по некоторой случайности, получат два объекта в репозитории, которые будут иметь два одинаковых значения SHA-1 хэша. Что тогда?
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
-
-Если вы вдруг закоммитите объект, SHA-1 хэш которого такой же, как у некоторого предыдущего объекта в вашем репозитории, Git обнаружит предыдущий объект в вашей базе данных Git, и посчитает, что он был уже записан. Если Вы в какой-то момент попытаетесь получить этот объект опять, вы всегда будете получать данные первого объекта.
-
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, Git will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object.
+Если вы вдруг закоммитите объект, SHA-1 хэш которого такой же, как у некоторого предыдущего объекта в вашем репозитории, Git обнаружит предыдущий объект в вашей базе данных Git, и посчитает, что он был уже записан. Если вы в какой-то момент попытаетесь получить этот объект опять, вы всегда будете получать данные первого объекта.
 
 Однако, вы должны осознавать то, как смехотворно маловероятен этот сценарий. Длина SHA-1 составляет 20 байт или 160 бит. Количество случайно хэшированных объектов, необходимое для того, чтобы получить 50% вероятность одиночного совпадения составляет порядка 2^80 (формула для определения вероятности совпадения: `p = (n(n-1)/2) * (1/2^160))`). 2^80 это 1.2 x 10^24 или один миллион миллиарда миллиардов. Это в 1200 раз больше количества песчинок на земле.
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
-
-Вот пример для того, чтобы вы поняли, что необходимо, чтобы получить SHA-1 коллизию. Если бы все 6.5 миллиардов людей на Земле программировали, и каждую секунду каждый из них производил количество кода, эквивалентное всей истории ядра Linux (1 миллион Git объектов) и отправлял его в один огромный Git-репозиторий, то потребовалось бы 5 лет для того, чтобы заполнить репозиторий достаточно для того, чтобы получить 50% вероятность единичной SHA-1 коллизии. Существует более высокая вероятность того, что каждый член вашей команды программистов будет атакован и убит волками в несвязанных друг с другом случаях в одну и ту же ночь.
-
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+Вот пример для того, чтобы вы поняли, что необходимо, чтобы получить SHA-1 коллизию. Если бы все 6.5 миллиардов людей на Земле программировали, и каждую секунду каждый из них производил количество кода, эквивалентное всей истории ядра Linux (1 миллион Git объектов) и отправлял его в один огромный Git-репозиторий, то потребовалось бы 5 лет для того, чтобы заполнить репозиторий достаточно для того, чтобы получить 50% вероятность единичной SHA-1 коллизии. Более вероятно, что каждый член вашей команды программистов будет атакован и убит волками в несвязанных друг с другом случаях в одну и ту же ночь.
 
 ### Ссылки на ветки ###
 
 Для самого прямого метода указать коммит необходимо, чтобы этот коммит имел ветку ссылающуюся на него. Тогда, вы можете использовать имя ветки в любой команде Git, которая ожидает коммит или значение SHA-1. Например, если вы хотите посмотреть последний коммит в ветке, следующие команды эквивалентны, предполагая, что ветка `topic1` ссылается на `ca82a6d`:
 
-The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
-
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-Если вы хотите посмотреть на какой SHA указывает ветка, или, если вы хотите понять для какого-то из приведённых примеров к каким SHA он сводится, вы можете использовать низкоуровневую (plumbing) утилиту Git, которая называется `rev-parse`. Вы можете заглянуть в Главу 9 для получения большей информации о низкоуровневых утилитах; в основном `rev-parse` нужна для выполнения низкоуровневых операций и не предназначена для использования в повседневной работе. Однако, она может пригодиться, если вам необходимо разобраться, что у вас происходит на самом деле. Сейчас вы можете попробовать применить `rev-parse` к вашей ветке.
-
-If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
+Чтобы посмотреть на какой именно SHA указывает ветка, или понять для какого-то из приведённых примеров к каким SHA он сводится, можно использовать служебную (plumbing) утилиту Git, которая называется `rev-parse`. Вы можете заглянуть в Главу 9 для получения большей информации о служебных утилитах; в основном `rev-parse` нужна для выполнения низкоуровневых операций и не предназначена для использования в повседневной работе. Однако, она может пригодиться, если вам необходимо разобраться, что происходит на самом деле. Сейчас вы можете попробовать применить `rev-parse` к своей ветке.
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
 ### RefLog-сокращения ###
-### RefLog Shortnames ###
 
 Одна из вещей, которую Git делает в фоновом режиме, пока вы работаете, это запоминание ссылочного лога — лога того, где находились HEAD и ветки в течение последних нескольких месяцев.
 
-One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
-
 Ссылочный лог можно просмотреть с помощью `git reflog`:
-
-You can see your reflog by using `git reflog`:
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
@@ -130,25 +90,17 @@ You can see your reflog by using `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Каждый раз, когда верхушка ветки обновляется по какой-либо причине, Git сохраняет эту информацию в эту временную историю. И вы можете использовать и эти данные, чтобы задать прошлый коммит. Если вы хотите посмотреть значение HEAD в вашем репозитории пять шагов назад, вы можете использовать ссылку вида `@{n}`, такую как вы видите в выводе команды `reflog`:
-
-Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
+Каждый раз, когда верхушка ветки обновляется по какой-либо причине, Git сохраняет эту информацию в эту временную историю. И вы можете использовать и эти данные, чтобы задать прошлый коммит. Если вы хотите посмотреть какое значение HEAD имел пять шагов назад для своего репозитория, вы можете использовать ссылку вида `@{n}`, как показано в выводе команды `reflog`:
 
 	$ git show HEAD@{5}
 
-Также вы можете использовать эту команду, чтобы увидеть, где ветка была некоторое время назад. Например, чтобы увидеть, где была ваша ветка `master` вчера, наберите
-
-You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
+Также вы можете использовать эту команду, чтобы увидеть, где ветка была некоторое время назад. Например, чтобы увидеть, где была ветка `master` вчера, наберите
 
 	$ git show master@{yesterday}
 
-Эта команда покажет, где верхушка ветки находилась вчера. Такой подход работает только для данных, которые всё ещё находятся в вашем ссылочном логе. Так что вы не сможете использовать его для коммитов с давностью в несколько месяцев.
-
-That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
+Эта команда покажет, где верхушка ветки находилась вчера. Такой подход работает только для данных, которые всё ещё находятся в ссылочном логе. Так что вы не сможете использовать его для коммитов с давностью в несколько месяцев.
 
 Чтобы просмотреть информацию ссылочного лога в таком же формате как вывод `git log`, можно выполнить `git log -g`:
-
-To see reflog information formatted like the `git log` output, you can run `git log -g`:
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -167,18 +119,12 @@ To see reflog information formatted like the `git log` output, you can run `git 
 
 	    Merge commit 'phedders/rdocs'
 
-Важно отметить, что информация в ссылочном логе строго локальная — это лог того, чем вы занимались со своим репозиторием. Ссылки не будут теми же самыми в чьей-то чужой копии репозитория; и после того как вы только что склонировали репозиторий, ваш ссылочный лог будет пустым, так как вы ещё ничего не делали с вашим репозиторием. Команда `git show HEAD@{2.months.ago}` сработает только если вы склонировали ваш проект как минимум два месяца назад. Если вы склонировали его пять минут назад, то вы ничего не получите.
-
-It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
+Важно отметить, что информация в ссылочном логе строго локальная — это лог того, чем вы занимались со своим репозиторием. Ссылки не будут теми же самыми в чьей-то чужой копии репозитория; и после того как вы только что склонировали репозиторий, ссылочный лог будет пустым, так как вы ещё ничего не делали со своим репозиторием. Команда `git show HEAD@{2.months.ago}` сработает только если вы склонировали свой проект как минимум два месяца назад. Если вы склонировали его пять минут назад, то вы ничего не получите.
 
 ### Ссылки на предков ###
-### Ancestry References ###
 
-Ещё один основной способ указать коммит — указать коммит через его предков. Если вы поставите `^` в конце ссылки, для Git это будет означать родителя этого коммита.
+Ещё один основной способ указать коммит — указать коммит через его предков. Если поставить `^` в конце ссылки, для Git это будет означать родителя этого коммита.
 Допустим история вашего проекта выглядит следующим образом:
-
-The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
-Suppose you look at the history of your project:
 
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
@@ -192,8 +138,6 @@ Suppose you look at the history of your project:
 
 В этом случае вы можете посмотреть предыдущий коммит указав `HEAD^`, что означает "родитель HEAD":
 
-Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD":
-
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
 	Merge: 1c002dd... 35cfb2b...
@@ -202,9 +146,7 @@ Then, you can see the previous commit by specifying `HEAD^`, which means "the pa
 
 	    Merge commit 'phedders/rdocs'
 
-Вы также можете указать число после `^`. Например, `d921970^2` означает "второй родитель коммита d921970". Такой синтаксис полезен только для коммитов-слияний, которые имеют больше, чем одного родителя. Первый родитель это ветка, на которой вы находились во время слияния, а второй — коммит на ветке, которая была слита:
-
-You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:
+Вы также можете указать некоторое число после `^`. Например, `d921970^2` означает "второй родитель коммита d921970". Такой синтаксис полезен только для коммитов-слияний, которые имеют больше, чем одного родителя. Первый родитель это ветка, на которой вы находились во время слияния, а второй — коммит на ветке, которая была слита:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -222,8 +164,6 @@ You can also specify a number after the `^` — for example, `d921970^2` means "
 
 Другое основное обозначение для указания на предков это `~`. Это тоже ссылка на первого родителя, поэтому `HEAD~` и `HEAD^` эквивалентны. Различия становятся очевидными, только когда вы указываете число. `HEAD~2` означает первого родителя первого родителя HEAD или прародителя — это переход по первым родителям указанное количество раз. Например, для показанной выше истории, `HEAD~3` будет
 
-The other main ancestry specification is the `~`. This also refers to the first parent, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means "the first parent of the first parent," or "the grandparent" — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
-
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
 	Author: Tom Preston-Werner <tom@mojombo.com>
@@ -233,8 +173,6 @@ The other main ancestry specification is the `~`. This also refers to the first 
 
 То же самое можно записать как `HEAD^^^`, что опять же означает первого родителя первого родителя первого родителя:
 
-This can also be written `HEAD^^^`, which again is the first parent of the first parent of the first parent:
-
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
 	Author: Tom Preston-Werner <tom@mojombo.com>
@@ -242,37 +180,26 @@ This can also be written `HEAD^^^`, which again is the first parent of the first
 
 	    ignore *.gem
 
-Кроме этого вы можете комбинировать эти обозначения — вы можете получить второго родителя для предыдущей ссылки (мы предполагаем, что это коммит-слияние) написав `HEAD~3^2`, ну и так далее.
+Кроме того, можно комбинировать эти обозначения. Например, можно получить второго родителя для предыдущей ссылки (мы предполагаем, что это коммит-слияние) написав `HEAD~3^2`, ну и так далее.
 
-You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
+### Диапазон коммитов ###
 
-### Несколько коммитов ###
-### Commit Ranges ###
-
-Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
+Теперь, когда вы умеете задавать отдельные коммиты, разберёмся как указать диапазон коммитов. Это особенно полезно при управлении ветками — если у вас много веток, вы можете использовать обозначения диапазонов, чтобы ответить на вопросы типа "Какие в этой ветке есть коммиты, которые не были слиты в основную ветку?"
 
 #### Две точки ####
-#### Double Dot ####
 
-Наиболее распространённый способ задать диапазон коммитов это запись с двумя точками. По существу, таким образом вы просите Git взять набор коммитов достижимых из одного коммита, но не достижимых из другого. Например, пускай ваша история коммитов выглядит так как показано на Рисунке 6-1.
-
-The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
+Наиболее распространённый способ задать диапазон коммитов — это запись с двумя точками. По существу, таким образом вы просите Git взять набор коммитов достижимых из одного коммита, но не достижимых из другого. Например, пускай ваша история коммитов выглядит так как показано на Рисунке 6-1.
 
 Insert 18333fig0601.png
 Рисунок 6-1. Пример истории для выбора набора коммитов.
-Figure 6-1. Example history for range selection.
 
 Допустим, вы хотите посмотреть что в вашей ветке `experiment` ещё не было слито в ветку `master`. Можно попросить Git показать вам лог только таких коммитов с помощью `master..experiment` — эта запись означает "все коммиты достижимые из experiment, которые недостижимы из master". Для краткости и большей понятности в примерах мы будем использовать буквы для обозначения коммитов на диаграмме вместо настоящего вывода лога в том порядке в каком они будут отображены:
-
-You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
 
 	$ git log master..experiment
 	D
 	C
 
-С другой стороны, если вы хотите получить обратное — все коммиты в `master`, которых нет в `experiment`, можно переставить имена веток. Запись `experiment..master` покажет вам всё, что есть в `master`, но недостижимо из `experiment`:
-
-If, on the other hand, you want to see the opposite — all commits in `master` that aren’t in `experiment` — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:
+С другой стороны, если вы хотите получить обратное — все коммиты в `master`, которых нет в `experiment`, можно переставить имена веток. Запись `experiment..master` покажет всё, что есть в `master`, но недостижимо из `experiment`:
 
 	$ git log experiment..master
 	F
@@ -280,46 +207,30 @@ If, on the other hand, you want to see the opposite — all commits in `master` 
 
 Такое полезно если вы хотите, чтобы ветка `experiment` была обновлённой, и хотите посмотреть, что вы собираете в неё слить. Ещё один частый случай использования этого синтаксиса — посмотреть, что вы собираетесь отправить на удалённый сервер:
 
-This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge in. Another very frequent use of this syntax is to see what you’re about to push to a remote:
-
 	$ git log origin/master..HEAD
 
-Эта команда покажет вам все коммиты в вашей текущей ветке, которых нет в ветке `master` на сервере `origin`. Если бы вы выполнили `git push`, при условии, что ваша текущая ветка отслеживает `origin/master`, то коммиты, которые перечислены в выводе `git log origin/master..HEAD` это те коммиты, которые были бы отправлены на сервер.
-Кроме этого, вы можете опустить одну из сторон в такой записи — Git подставит туда HEAD. Например, вы можете получить такой же результат как и в предыдущем примере, набрав `git log origin/master..` — Git подставит HEAD сам если одна из сторон отсутствует.
-
-This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
-You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.
+Эта команда покажет вам все коммиты в текущей ветке, которых нет в ветке `master` на сервере `origin`. Если бы вы выполнили `git push`, при условии, что текущая ветка отслеживает `origin/master`, то коммиты, которые перечислены в выводе `git log origin/master..HEAD` это те коммиты, которые были бы отправлены на сервер.
+Кроме того, можно опустить одну из сторон в такой записи — Git подставит туда HEAD. Например, вы можете получить такой же результат как и в предыдущем примере, набрав `git log origin/master..` — Git подставит HEAD сам если одна из сторон отсутствует.
 
 #### Множество вершин ####
-#### Multiple Points ####
 
-Запись с двумя точками полезна как сокращение, но, возможно, вы захотите указать больше двух веток, чтобы указать нужную ревизию. Например, чтобы посмотреть, какие коммиты находятся в одной из нескольких веток, но не в текущей. Git позволяет сделать это с помощью использования либо символа `^`, либо `--not` перед любыми ссылками, коммиты достижимые из которых вы не хотите видеть. Таким образом следующие три команды эквивалентны:
-
-The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
+Запись с двумя точками полезна как сокращение, но, возможно, вы захотите указать больше двух веток, чтобы указать нужную ревизию. Например, чтобы посмотреть, какие коммиты находятся в одной из нескольких веток, но не в текущей. Git позволяет сделать это с помощью использования либо символа `^`, либо `--not` перед любыми ссылками, коммиты достижимые из которых вы не хотите видеть. Таким образом, следующие три команды эквивалентны:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-Это удобно, потому что с помощью такого синтаксиса вы можете указать более двух ссылок в своём запросе, чего вы не сможете сделать с помощью двух точек. Например, если вы хотите увидеть все коммиты достижимые из `refA` или `refB`, но не из `refC`, вы можете набрать одно из этого:
-
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+Это удобно, потому что с помощью такого синтаксиса можно указать более двух ссылок в своём запросе, чего вы не сможете сделать с помощью двух точек. Например, если вы хотите увидеть все коммиты достижимые из `refA` или `refB`, но не из `refC`, можно набрать одну из таких команд:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-Это делает систему выбора ревизий очень мощной, что должно помочь вам определять, что содержится в ваших ветках.
-
-This makes for a very powerful revision query system that should help you figure out what is in your branches.
+Всё это делает систему выбора ревизий очень мощной, что должно помочь вам определять, что содержится в ваших ветках.
 
 #### Три точки ####
-#### Triple Dot ####
 
 Последняя основная запись для выбора диапазона коммитов — это запись с тремя точками, которая означает те коммиты, которые достижимы по одной из двух ссылок, но не по обеим одновременно. Вернёмся к примеру истории коммитов на Рисунке 6-1.
 Если вы хотите увидеть, что находится в `master` или `experiment`, но не в обоих сразу, выполните
-
-The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
-If you want to see what is in `master` or `experiment` but not any common references, you can run
 
 	$ git log master...experiment
 	F
@@ -327,13 +238,9 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
-Повторимся, что это даст вам стандартный `log`-вывод, но покажет вам только информацию об этих четырёх коммитах упорядоченных по дате коммита как и обычно.
-
-Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.
+Повторимся, что это даст вам стандартный `log`-вывод, но покажет только информацию об этих четырёх коммитах упорядоченных по дате коммита как и обычно.
 
 В этом случае вместе с командой `log` обычно используют параметр `--left-right`, который показывает, на какой стороне диапазона находится каждый коммит. Это помогает сделать данные полезнее:
-
-A common switch to use with the `log` command in this case is `--left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:
 
 	$ git log --left-right master...experiment
 	< F
@@ -343,16 +250,10 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 
 С помощью этих инструментов, вы можете намного легче объяснить Git, какой коммит или коммиты вы хотите изучить.
 
-With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
-
 ## Интерактивное индексирование ##
-## Interactive Staging ##
 
-Вместе с Git поставляется пара сценариев (script), которые облегчают выполнение некоторых задач в командной строке. Сейчас мы посмотрим на несколько интерактивных команд, которые помогут вам просто смастерить ваши коммиты так, чтобы включить в них только определённые части файлов. Эти инструменты сильно помогают в случае, когда вы поменяли кучу файлов, а потом решили, что вы хотите, чтобы эти изменения были в нескольких сфокусированных коммитах, а не в одном большом путанном коммите. Так вы сможете убедиться, что ваши коммиты это логически разделённые наборы изменений, которые будет легко просматривать другим разработчикам работающими с вами.
+Вместе с Git поставляется пара сценариев (script), облегчающих выполнение некоторых задач в командной строке. Сейчас мы посмотрим на несколько интерактивных команд, которые помогут вам легко смастерить свои коммиты так, чтобы включить в них только определённые части файлов. Эти инструменты сильно помогают в случае, когда вы поменяли кучу файлов, а потом решили, что хотите, чтобы эти изменения были в нескольких сфокусированных коммитах, а не в одном большом путанном коммите. Так вы сможете убедиться, что ваши коммиты это логически разделённые наборы изменений, которые будет легко просматривать другим разработчикам работающими с вами.
 Если вы выполните `git add` с опцией `-i` или `--interactive`, Git перейдёт в режим интерактивной оболочки, и покажет что-то похожее на это:
-
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
 
 	$ git add -i
 	           staged     unstaged path
@@ -365,20 +266,13 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
-Как видите, эта команда показывает содержимое вашего индекса в другом виде — по сути, ту же информацию вы получили бы при вызове `git status`, но здесь она в более сжатом и информативном виде. `git add -i` показывает проиндексированные изменения слева, а непроиндексированные — справа.
+Как видите, эта команда показывает содержимое индекса, но в другом виде — по сути, ту же информацию вы получили бы при вызове `git status`, но здесь она в более сжатом и информативном виде. `git add -i` показывает проиндексированные изменения слева, а непроиндексированные — справа.
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
-
-Затем идёт раздел Commands (команды). Здесь вы можете сделать многие вещи, включая добавление файлов в индекс, удаление файлов из индекса, индексирование файлов частями, добавление неотслеживаемых файлов и просмотр дельт (diff) проиндексированных изменений.
-
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+Затем идёт раздел Commands (команды). Тут можно сделать многие вещи, включая добавление файлов в индекс, удаление файлов из индекса, индексирование файлов частями, добавление неотслеживаемых файлов и просмотр дельт (diff) проиндексированных изменений.
 
 ### Добавление и удаление файлов из индекса ###
-### Staging and Unstaging Files ###
 
-Если вы наберёте `2` или `u` в приглашении `What now>`, сценарий спросит какие файлы вы хотите добавить в индекс:
-
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+Если набрать `2` или `u` в приглашении `What now>`, сценарий спросит какие файлы вы хотите добавить в индекс:
 
 	What now> 2
 	           staged     unstaged path
@@ -389,8 +283,6 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 
 Чтобы проиндексировать файлы TODO и index.html, нужно набрать их номера:
 
-To stage the TODO and index.html files, you can type the numbers:
-
 	Update>> 1,2
 	           staged     unstaged path
 	* 1:    unchanged        +0/-1 TODO
@@ -398,9 +290,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-Символ `*` рядом с каждым файлом означает, что файл выбран для индексирования. Если вы ничего не будете набирать и нажмёте Enter в приглашении `Update>>`, то Git возьмёт всё, что уже выбрано и добавит в индекс:
-
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+Символ `*` рядом с каждым файлом означает, что файл выбран для индексирования. Если вы сейчас ничего не будете вводить, а нажмёте Enter в приглашении `Update>>`, то Git возьмёт всё, что уже выбрано, и добавит в индекс:
 
 	Update>> 
 	updated 2 paths
@@ -415,8 +305,6 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
 Как видите, теперь файлы TODO и index.html проиндексированы (staged), а файл simplegit.rb всё ещё нет. Если в этот момент вы хотите удалить файл TODO из индекса, используйте опцию `3` или `r` (revert):
-
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -436,8 +324,6 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 
 Взглянув на статус снова, вы увидите, что файл TODO удалён из индекса:
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
-
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
 	  5: patch      6: diff        7: quit       8: help
@@ -447,9 +333,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Чтобы посмотреть дельту для проиндексированных изменения, используйте команду `6` или `d` (diff). Она покажет вам список проиндексированных файлов, а вы можете выбрать те, для которых хотите посмотреть дельту. Это почти то же, что указать `git diff --cached` в командной строке:
-
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+Чтобы посмотреть дельту для проиндексированных изменений, используйте команду `6` или `d` (diff). Она покажет вам список проиндексированных файлов, и вы можете выбрать те, для которых хотите посмотреть дельту. Это почти то же, что указать `git diff --cached` в командной строке:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -473,14 +357,9 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 С помощью этих базовых команд, вы можете использовать интерактивный режим для `git add`, чтобы немного проще работать со своим индексом.
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
-
 ### Индексирование по частям ###
-### Staging Patches ###
 
-Для Git также возможно индексировать определённые части файлов, а не всё сразу. Например, если вы сделали несколько изменений в файле simplegit.rb и хотите проиндексировать одно из них, а другое — нет, то сделать такое в Git очень легко. В строке приглашения интерактивного режима наберите `5` или `p` (patch). Git спросит какие файлы вы хотите индексировать частями; затем для каждой части изменений в выбранных файлах, один за другим будут показываться куски дельт файла и вас будут спрашивать, хотите ли вы занести их в индекс:
-
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+Для Git также возможно индексировать определённые части файлов, а не всё сразу. Например, если вы сделали несколько изменений в файле simplegit.rb и хотите проиндексировать одно из них, а другое — нет, то сделать такое в Git очень легко. В строке приглашения интерактивного режима наберите `5` или `p` (patch). Git спросит, какие файлы вы хотите индексировать частями; затем для каждой части изменений в выбранных файлах, один за другим будут показываться куски дельт файла и вас будут спрашивать, хотите ли вы занести их в индекс:
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -499,8 +378,6 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 
 На этой стадии у вас много вариантов действий. Набрав `?` вы получите список того, что вы можете сделать:
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
-
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 	y - stage this hunk (добавить этот кусок в индекс)
 	n - do not stage this hunk (не добавлять этот кусок в индекс)
@@ -518,8 +395,6 @@ You have a lot of options at this point. Typing `?` shows a list of what you can
 
 Как правило, вы будете использовать `y` или `n` для индексирования каждого куска, но индексирование всех кусков сразу в некоторых файлах или откладывание решения на потом также может оказаться полезным. Если вы добавите в индекс одну часть файла, а другую часть — нет, вывод статуса будет выглядеть так:
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
-
 	What now> 1
 	           staged     unstaged path
 	  1:    unchanged        +0/-1 TODO
@@ -528,29 +403,17 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 
 Статус файла simplegit.rb выглядит любопытно. Он показывает, что часть строк в индексе, а часть — не в индексе. Мы частично проиндексировали этот файл. Теперь вы можете выйти из интерактивного сценария и выполнить `git commit`, чтобы создать коммит из этих частично проиндексированных файлов.
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
-
 В заключение скажем, что нет необходимости входить в интерактивный режим `git add`, чтобы выполнять индексирование частями — вы можете запустить тот же сценарий набрав `git add -p` или `git add --patch` в командной строке.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
-
 ## Прятанье ##
-## Stashing ##
 
-Часто возникает такая ситуация, что пока вы работаете над частью вашего проекта, всё находится в беспорядочном состоянии, а вам нужно переключить ветки, чтобы немного поработать над чем-то другим. Проблема в том, что вы не хотите делать коммит с наполовину доделанной работой, только для того, чтобы позже можно было вернуться в это же состояние. Ответ на эту проблему — команда `git stash`.
+Часто возникает такая ситуация, что пока вы работаете над частью своего проекта, всё находится в беспорядочном состоянии, а вам нужно переключить ветки, чтобы немного поработать над чем-то другим. Проблема в том, что вы не хотите делать коммит с наполовину доделанной работой, только для того, чтобы позже можно было вернуться в это же состояние. Ответ на эту проблему — команда `git stash`.
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
-
-Прятанье поглощает грязное состояние вашего рабочего каталога, то есть ваши изменённые отслеживаемые файлы и изменения в индексе, и сохраняет их в стек незавершённых изменений, которые вы потом в любое время можете снова применить.
-
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+Прятанье поглощает грязное состояние рабочего каталога, то есть изменённые отслеживаемые файлы и изменения в индексе, и сохраняет их в стек незавершённых изменений, которые вы потом в любое время можете снова применить.
 
 ### Прятанье своих трудов ###
-### Stashing Your Work ###
 
 Чтобы продемонстрировать как это работает, предположим, что вы идёте к своему проекту и начинаете работать над парой файлов и, возможно, добавляете в индекс одно из изменений. Если вы выполните `git status`, вы увидите грязное состояние проекта:
-
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
 
 	$ git status
 	# On branch master
@@ -567,8 +430,6 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 
 Теперь вы хотите поменять ветку, но не хотите делать коммит с тем, над чем вы ещё работаете; тогда вы прячете эти изменения. Чтобы создать новую "заначку", выполните `git stash`:
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
-
 	$ git stash
 	Saved working directory and index state \
 	  "WIP on master: 049d078 added the index file"
@@ -577,24 +438,18 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 
 Ваш рабочий каталог чист:
 
-Your working directory is clean:
-
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-В этот момент, вы легко можете перейти на другую ветку и работать где-то ещё; ваши изменения сохранены в стеке. Чтобы посмотреть что у вас есть припрятанного, используйте `git stash list`:
-
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+В данный момент, вы легко можете переключить ветки и поработать где-то ещё; ваши изменения сохранены в стеке. Чтобы посмотреть, что у вас есть припрятанного, используйте `git stash list`:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-В нашем случае, две "заначки" были сделаны ранее, так что у вас теперь три разных припрятанных работы. Вы можете снова применить ту, которую вы только что спрятали, с помощью команды показанной в справке в выводе первоначальной команды `stash`: `git stash apply`. Если вы хотите применить одну из старых заначек, вы можете сделать это указав её имя так: `git stash apply stash@{2}`. Если вы не укажете ничего, Git будет подразумевать, что вы хотите применить последнюю спрятанную работу:
-
-In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+В нашем случае, две "заначки" были сделаны ранее, так что у вас теперь три разных припрятанных работы. Вы можете снова применить ту, которую только что спрятали, с помощью команды показанной в справке в выводе первоначальной команды `stash`: `git stash apply`. Если вы хотите применить одну из старых заначек, можете сделать это указав её имя так: `git stash apply stash@{2}`. Если не указывать ничего, Git будет подразумевать, что вы хотите применить последнюю спрятанную работу:
 
 	$ git stash apply
 	# On branch master
@@ -605,13 +460,9 @@ In this case, two stashes were done previously, so you have access to three diff
 	#      modified:   lib/simplegit.rb
 	#
 
-Как видите, Git восстановил изменения в файлах, которые вы отменили, когда использовали команду `stash`. В нашем случае, у вас был чистый рабочий каталог, когда вы восстанавливали спрятанные изменения, и к тому же вы делали это на той же ветке, на которой находились во время прятанья. Но наличие чистого рабочего каталога и применение на той же ветке не обязательны для `git stash apply`. Вы можете спрятать изменения на одной ветке, переключиться позже на другую ветку и попытаться восстановить изменения. У вас также могут быть изменённые и недокоммиченные файлы в вашем рабочем каталоге, во время применения спрятанного — Git выдаст вам конфликты слияния, если что-то уже не может быть применено чисто.
+Как видите, Git восстановил изменения в файлах, которые вы отменили, когда использовали команду `stash`. В нашем случае, у вас был чистый рабочий каталог, когда вы восстанавливали спрятанные изменения, и к тому же вы делали это на той же ветке, на которой находились во время прятанья. Но наличие чистого рабочего каталога и применение на той же ветке не обязательны для `git stash apply`. Вы можете спрятать изменения на одной ветке, переключиться позже на другую ветку и попытаться восстановить изменения. У вас в рабочем каталоге также могут быть изменённые и недокоммиченные файлы во время применения спрятанного — Git выдаст вам конфликты слияния, если что-то уже не может быть применено чисто.
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
-
-Изменения в файлах были восстановлены, но файлы в индексе — нет. Чтобы добиться такого, необходимо выполнить команду `git stash apply` с опцией `--index`, тогда команда попытается применить изменения в индексе. Если бы вы выполнили команду так, а не как раньше, то вы бы получили исходное состояние:
-
-The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+Изменения в файлах были восстановлены, но файлы в индексе — нет. Чтобы добиться такого, необходимо выполнить команду `git stash apply` с опцией `--index`, тогда команда попытается применить изменения в индексе. Если бы вы выполнили команду так, а не как раньше, то получили бы исходное состояние:
 
 	$ git stash apply --index
 	# On branch master
@@ -628,8 +479,6 @@ The changes to your files were reapplied, but the file you staged before wasn’
 
 Всё что делает опция apply это пытается применить спрятанную работу — то, что вы спрятали, всё ещё будет находиться в стеке. Чтобы удалить спрятанное, выполните `git stash drop` с именем "заначки", которую нужно удалить:
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
-
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
@@ -639,26 +488,17 @@ The apply option only tries to apply the stashed work — you continue to have i
 
 Также можно выполнить `git stash pop`, чтобы применить спрятанные изменения и сразу же удалить их из стека.
 
-You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
-
 ### Откат применения спрятанных изменений ###
-### Un-applying a Stash ###
 
-При некоторых сценариях использования, вы можете захотеть применить спрятанные изменения, поработать, а потом отменить изменения, внесённые командой `stash apply`. Git не предоставляет команды `stash unapply`, но можно добиться того же эффекта получив сначала патч для спрятанных изменений, а потом применив его в перевёрнутом виде.
-
-In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came form the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+При некоторых сценариях использования, может понадобиться применить спрятанные изменения, поработать, а потом отменить изменения, внесённые командой `stash apply`. Git не предоставляет команды `stash unapply`, но можно добиться того же эффекта получив сначала патч для спрятанных изменений, а потом применив его в перевёрнутом виде:
 
     $ git stash show -p stash@{0} | git apply -R
 
 Снова, если вы не указываете параметр для stash, Git подразумевает то, что было спрятано последним:
 
-Again, if you don’t specify a stash, Git assumes the most recent stash:
-
     $ git stash show -p | git apply -R
 
 Если хотите, сделайте псевдоним и добавьте в свой git команду `stash-unapply`. Например, так:
-
-You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
     $ git stash
@@ -666,11 +506,8 @@ You may want to create an alias and effectively add a `stash-unapply` command to
     $ git stash-unapply
 
 ### Создание ветки из спрятанных изменений ###
-### Creating a Branch from a Stash ###
 
-Если вы спрятали какие-то наработки и оставили их на время, а в это время продолжили работать на той же ветке, то у вас могут возникнуть трудности с восстановлением спрятанной работы. Если apply попытается изменить файл, который вы редактировали после прятанья, у вас возникнет конфликт слияния, который надо будет разрешить. Если вам нужен более простой способ снова потестировать спрятанную работу, можно выполнить команду `git stash branch`, которая создаст вам новую ветку с началом из того коммита, на котором вы находились во время прятанья, восстановит в ней вашу работу и затем удалит спрятанное, если оно применилось успешно:
-
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+Если вы спрятали какие-то наработки и оставили их на время, а в это время продолжили работать на той же ветке, то у вас могут возникнуть трудности с восстановлением спрятанной работы. Если apply попытается изменить файл, который вы редактировали после прятанья, то возникнет конфликт слияния, который надо будет разрешить. Если нужен более простой способ снова потестировать спрятанную работу, можно выполнить команду `git stash branch`, которая создаст вам новую ветку с началом из того коммита, на котором вы находились во время прятанья, восстановит в ней вашу работу и затем удалит спрятанное, если оно применилось успешно:
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -689,64 +526,37 @@ If you stash some work, leave it there for a while, and continue on the branch f
 
 Это сокращение удобно для того, чтобы легко восстановить свою работу, а затем поработать над ней в новой ветке.
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
-
 ## Перезапись истории ##
-## Rewriting History ##
 
-Неоднократно, во время работы с Git, вам может захотеться по какой-либо причине исправить свою историю коммитов. Одна из чудесных особенностей Git заключается в том, что он даёт возможность принять решение в самый последний момент. Вы можете решить какие файлы пойдут в какие коммиты перед тем как сделать коммит используя индекс, вы можете решить, что над чем-то вам ещё не стоило начинать работать и использовать команду `stash`. А также вы можете переписать уже сделанные коммиты так, как-будто они были сделаны как-то по-другому. В частности это может быть изменение порядка следования коммитов, изменение сообщений или изменение файлов в коммите, уплотнение и разделение коммитов, а также полное удаление некоторых коммитов — но только до того как вы поделитесь наработками с другими.
+Неоднократно, во время работы с Git, вам может захотеться по какой-либо причине исправить свою историю коммитов. Одна из чудесных особенностей Git заключается в том, что он даёт возможность принять решение в самый последний момент. Вы можете решить какие файлы пойдут в какие коммиты перед тем как сделать коммит используя индекс, вы можете решить, что над чем-то ещё не стоило начинать работать и использовать команду `stash`. А также вы можете переписать уже сделанные коммиты так, как-будто они были сделаны как-то по-другому. В частности это может быть изменение порядка следования коммитов, изменение сообщений или изменение файлов в коммите, уплотнение и разделение коммитов, а также полное удаление некоторых коммитов — но только до того как вы поделитесь наработками с другими.
 
-Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
-
-В этом разделе вы узнаете как выполнять подобные полезные задачи и как сделать так, чтобы ваша история коммитов выглядела так как вам хочется перед тем как вы её опубликуете.
-
-In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.
+В этом разделе вы узнаете как выполнять подобные полезные задачи и как сделать так, чтобы история коммитов выглядела так как вам хочется перед тем, как вы её опубликуете.
 
 ### Изменение последнего коммита ###
-### Changing the Last Commit ###
 
-Изменение последнего коммита это, вероятно, наиболее типичный случай переписывания истории, который вы будете делать. Как правило, вам от вашего последнего коммита понадобятся две основные вещи: изменить сообщение коммита, или изменить снимок состояния, который вы только что записали добавив, изменив или удалив из него файлы.
-
-Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
+Изменение последнего коммита это, вероятно, наиболее типичный случай переписывания истории, который вы будете делать. Как правило, вам от вашего последнего коммита понадобятся две основные вещи: изменить сообщение коммита, или изменить только что записанный снимок состояния, добавив, изменив или удалив из него файлы.
 
 Если вы всего лишь хотите изменить сообщение последнего коммита — это очень просто:
 
-If you only want to modify your last commit message, it’s very simple:
-
 	$ git commit --amend
 
-Выполнив это, вы попадёте в свой текстовый редактор, в котором будет находиться сообщение последнего коммита, готовое к тому, чтобы вы его отредактировали. Когда вы сохраните текст и закроете редактор, Git создаст новый коммит с вашим сообщением и сделает его новым последним коммитом.
+Выполнив это, вы попадёте в свой текстовый редактор, в котором будет находиться сообщение последнего коммита, готовое к тому, чтобы его отредактировали. Когда вы сохраните текст и закроете редактор, Git создаст новый коммит с вашим сообщением и сделает его новым последним коммитом.
 
-That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.
-
-Если вы сделали коммит и затем хотите изменить снимок состояния в коммите, добавив или изменив файлы, допустим, потому что вы забыли добавить только что созданный файл, когда делали коммит, то процесс выглядит в основном так же. Вы добавляете в индекс изменения, которые хотите, редактируя файл и выполняя для него `git add` или выполняя `git rm` для отслеживаемого файла, и затем `git commit --amend` возьмёт ваш текущий индекс и сделает его снимком состояния нового коммита.
-
-If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way. You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit.
+Если вы сделали коммит и затем хотите изменить снимок состояния в коммите, добавив или изменив файлы, допустим, потому что вы забыли добавить только что созданный файл, когда делали коммит, то процесс выглядит в основном так же. Вы добавляете в индекс изменения, которые хотите, редактируя файл и выполняя для него `git add` или выполняя `git rm` для отслеживаемого файла, и затем `git commit --amend` возьмёт текущий индекс и сделает его снимком состояния нового коммита.
 
 Будьте осторожны используя этот приём, потому что `git commit --amend` меняет SHA-1 коммита. Тут как с маленьким перемещением (rebase) — не правьте последний коммит, если вы его уже куда-то отправили.
 
-You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
-
 ### Изменение сообщений нескольких коммитов ###
-### Changing Multiple Commit Messages ###
 
-Чтобы изменить коммит, находящийся глубоко в истории, вам придётся перейти к использованию более сложных инструментов. В Git нет специального инструмента для редактирования истории, но вы можете использовать `rebase` для перемещения ряда коммитов на то же самое место, где они были изначально, а не куда-то в другое место. Используя инструмент для интерактивного перемещения, вы можете останавливаться на каждом коммите, который вы хотите изменить, и отредактировать сообщение, добавить файлы или сделать что-то ещё. Интерактивное перемещение можно запустить добавив опцию `-i` к `git rebase`. Необходимо указать насколько далекие в истории коммиты вы хотите переписать, сообщив команде на какой коммит выполняется перемещение.
+Чтобы изменить коммит, находящийся глубоко в истории, вам придётся перейти к использованию более сложных инструментов. В Git нет специального инструмента для редактирования истории, но вы можете использовать `rebase` для перемещения ряда коммитов на то же самое место, где они были изначально, а не куда-то в другое место. Используя инструмент для интерактивного перемещения, вы можете останавливаться на каждом коммите, который хотите изменить, и редактировать сообщение, добавлять файлы или делать что-то ещё. Интерактивное перемещение можно запустить добавив опцию `-i` к `git rebase`. Необходимо указать насколько далекие в истории коммиты вы хотите переписать, сообщив команде на какой коммит выполняется перемещение.
 
-To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
-
-Например, если вы хотите изменить сообщения последних трёх коммитов, или сообщения для только некоторых коммитов в этой группе, вам надо передать в `git rebase -i` в качестве аргумента родителя последнего коммита, который вы хотите изменить, то есть `HEAD~2^` или `HEAD~3`. Наверное проще запомнить `~3`, потому что вы пытаетесь отредактировать три последних коммита, но имейте в виду, что вы на самом деле обозначили четвёртый сверху коммит — родительский коммит, для того, который вы хотите отредактировать:
-
-For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
+Например, если вы хотите изменить сообщения последних трёх коммитов, или сообщения для только некоторых коммитов в этой группе, вам надо передать в `git rebase -i` в качестве аргумента родителя последнего коммита, который вы хотите изменить, то есть `HEAD~2^` или `HEAD~3`. Наверное проще запомнить `~3`, потому что вы пытаетесь отредактировать три последних коммита, но имейте в виду, что на самом деле вы обозначили четвёртый сверху коммит — родительский коммит, для того, который хотите отредактировать:
 
 	$ git rebase -i HEAD~3
 
-Снова напомним, что эта команда для перемещения — все коммиты в диапазоне `HEAD~3..HEAD` будут переписаны, вне зависимости от того меняли ли вы в них сообщение или нет. Не трогайте те коммиты, которые вы уже отправили на центральный сервер — сделав так, вы запутаете других разработчиков дав им разные версии одних и тех же изменений.
-
-Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
+Снова напомним, что эта команда для перемещения, то есть все коммиты в диапазоне `HEAD~3..HEAD` будут переписаны, вне зависимости от того меняли ли вы в них сообщение или нет. Не трогайте те коммиты, которые вы уже отправили на центральный сервер — сделав так, вы запутаете других разработчиков дав им разные версии одних и тех же изменений.
 
 Запуск этой команды выдаст вам в текстовом редакторе список коммитов, который будет выглядеть как-нибудь так:
-
-Running this command gives you a list of commits in your text editor that looks something like this:
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -763,9 +573,7 @@ Running this command gives you a list of commits in your text editor that looks 
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-Важно отметить, что эти коммиты выведены в обратном порядке по сравнению с тем, как вы их обычно видите используя команду `log`. Если выполнить `log`, то вы получите что-то типа следующего:
-
-It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
+Важно отметить, что эти коммиты выведены в обратном порядке по сравнению с тем, как вы их обычно видите используя команду `log`. Запустив `log`, вы получите что-то типа следующего:
 
 	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
 	a5f4a0d added cat-file
@@ -774,19 +582,13 @@ It’s important to note that these commits are listed in the opposite order tha
 
 Обратите внимание на обратный порядок. Интерактивное перемещение выдаёт сценарий, который будет выполнен. Он начнётся с коммита, который вы указали в командной строке (`HEAD~3`), и воспроизведёт изменения сделанные каждым из этих коммитов сверху вниз. Наверху указан самый старый коммит, а не самый новый, потому что он будет воспроизведён первым.
 
-Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
-
 Вам надо отредактировать сценарий так, чтобы он останавливался на коммитах, которые вы хотите отредактировать. Чтобы сделать это, замените слово pick на слово edit для каждого коммита, на котором сценарий должен остановиться. Например, чтобы изменить сообщение только для третьего коммита, отредактируйте файл так, чтобы он выглядел следующим образом:
-
-You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:
 
 	edit f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
 Когда вы сохраните и выйдете из редактора, Git откатит вас назад к последнему коммиту в списке и выкинет вас в командную строку выдав следующее сообщение:
-
-When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -798,28 +600,19 @@ When you save and exit the editor, Git rewinds you back to the last commit in th
 
 	       git rebase --continue
 
-В этой инструкции в точности сказано что вам надо сделать. Наберите
-
-These instructions tell you exactly what to do. Type
+В этой инструкции в точности сказано что надо сделать. Наберите
 
 	$ git commit --amend
 
 Измените сообщение коммита и выйдите из редактора. Теперь выполните
 
-Change the commit message, and exit the editor. Then, run
-
 	$ git rebase --continue
 
 Эта команда применит оставшиеся два коммита автоматически, и тогда всё. Если вы измените pick на edit для большего количества строк, то вы повторите эти шаги для каждого коммита, где вы напишите edit. Каждый раз Git будет останавливаться, давая вам исправить коммит, а потом, когда вы закончите, будет продолжать.
 
-This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.
-
 ### Переупорядочение коммитов ###
-### Reordering Commits ###
 
-Интерактивное перемещение можно также использовать для изменения порядка следования или полного удаления коммитов. Если вы хотите удалить коммит "added cat-file" и поменять порядок, в котором идут два других коммита, измените сценарий для rebase с такого
-
-You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this
+Интерактивное перемещение можно также использовать для изменения порядка следования и для полного удаления коммитов. Если вы хотите удалить коммит "added cat-file" и поменять порядок, в котором идут два других коммита, измените сценарий для rebase с такого
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -827,21 +620,14 @@ You can also use interactive rebases to reorder or remove commits entirely. If y
 
 на такой:
 
-to this:
-
 	pick 310154e updated README formatting and added blame
 	pick f7f3f6d changed my name a bit
 
-Когда вы сохраните и выйдите из редактора, Git откатит вашу ветку к родительскому для этих трёх коммиту, применит `310154e`, затем `f7f3f6d`, а потом остановится. Вы действительно поменяли порядок следования коммитов и полностью удалили коммит "added cat-file".
-
-When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.
+Когда вы сохраните и выйдите из редактора, Git откатит вашу ветку к родительскому для этих трёх коммиту, применит `310154e`, затем `f7f3f6d`, а потом остановится. Вы фактически поменяли порядок следования коммитов и полностью удалили коммит "added cat-file".
 
 ### Уплотнение коммитов ###
-### Squashing a Commit ###
 
 С помощью интерактивного перемещения также возможно взять несколько коммитов и сплющить их в один коммит. Сценарий выдаёт полезное сообщение с инструкциями для перемещения:
-
-It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:
 
 	#
 	# Commands:
@@ -853,17 +639,13 @@ It’s also possible to take a series of commits and squash them down into a sin
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-Если вместо "pick" или "edit" указать "squash", Git применит изменения и из этого коммита, и из предыдущего, а затем даст вам объединить сообщения для коммитов. Итак, если вы хотите сделать один коммит из трёх наших коммитов, надо сделать так, чтобы сценарий выглядел следующим образом:
-
-If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:
+Если вместо "pick" или "edit" указать "squash", Git применит изменения и из этого коммита, и из предыдущего, а затем даст вам объединить сообщения для коммитов. Итак, чтобы сделать один коммит из трёх наших коммитов, надо сделать так, чтобы сценарий выглядел следующим образом:
 
 	pick f7f3f6d changed my name a bit
 	squash 310154e updated README formatting and added blame
 	squash a5f4a0d added cat-file
 
-Когда вы сохраните и выйдите из редактора, Git применит все три изменения, а затем опять выдаст вам редактор для того, чтобы объединить три сообщения коммитов:
-
-When you save and exit the editor, Git applies all three changes and then puts you back into the editor to merge the three commit messages:
+Когда вы сохраните и выйдите из редактора, Git применит все три изменения, а затем опять выдаст вам редактор для того, чтобы объединить сообщения трёх коммитов:
 
 	# This is a combination of 3 commits.
 	# The first commit's message is:
@@ -879,22 +661,15 @@ When you save and exit the editor, Git applies all three changes and then puts y
 
 Когда вы это сохраните, у вас будет один коммит, который вносит изменения такие же как три бывших коммита.
 
-When you save that, you have a single commit that introduces the changes of all three previous commits.
-
 ### Разбиение коммита ###
-### Splitting a Commit ###
 
-Разбиение коммита — это отмена коммита, а затем индексирование изменений частями и добавление коммитов столько раз, сколько коммитов вы хотите получить. Например, предположим, что вы хотите разбить средний из наших трёх коммитов. Вместо "updated README formatting and added blame", вы хотите получить два отдельных коммита: "updated README formatting" в качестве первого и "added blame" в качестве второго. Вы можете сделать это в сценарии `rebase -i` поставив "edit" в инструкции для коммита, который вы хотите разбить:
-
-Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":
+Разбиение коммита — это отмена коммита, а затем индексирование изменений частями и добавление коммитов столько раз, сколько коммитов вы хотите получить. Например, предположим, что вы хотите разбить средний из наших трёх коммитов. Вместо "updated README formatting and added blame", вы хотите получить два отдельных коммита: "updated README formatting" в качестве первого и "added blame" в качестве второго. Вы можете сделать это в сценарии `rebase -i` поставив "edit" в инструкции для коммита, который хотите разбить:
 
 	pick f7f3f6d changed my name a bit
 	edit 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-Теперь, когда сценарий выбросит вас в командную строку, отмените этот коммит с помощью `reset`, возьмите изменения, которые были сброшены и создайте из них несколько коммитов. Когда вы сохраните и выйдите из редактора, Git откатится к родителю первого коммита в вашем списке, применит первый коммит (`f7f3f6d`), применит второй (`310154e`) и выбросит вас в консоль. Здесь вы можете сбросить этот коммит в смешанном режиме с помощью `git reset HEAD^` — это эффективно отменит этот коммит и оставит изменённые файлы непроиндексированными. Теперь вы можете добавлять файлы в индекс и делать коммиты, пока не получите несколько штук. Затем, когда закончите, выполните `git rebase --continue`:
-
-Then, when the script drops you to the command line, you reset that commit, take the changes that have been reset, and create multiple commits out of them. When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can stage and commit files until you have several commits, and run `git rebase --continue` when you’re done:
+Теперь, когда сценарий выбросит вас в командную строку, отмените этот коммит с помощью `reset`, возьмите изменения, которые были сброшены и создайте из них несколько коммитов. Когда вы сохраните и выйдите из редактора, Git откатится к родителю первого коммита в списке, применит первый коммит (`f7f3f6d`), применит второй (`310154e`) и выбросит вас в консоль. Здесь вы можете сбросить этот коммит в смешанном режиме с помощью `git reset HEAD^` — это эффективно отменит этот коммит и оставит изменённые файлы непроиндексированными. Теперь вы можете добавлять файлы в индекс и делать коммиты, пока не получите несколько штук. Затем, когда закончите, выполните `git rebase --continue`:
 
 	$ git reset HEAD^
 	$ git add README
@@ -903,9 +678,7 @@ Then, when the script drops you to the command line, you reset that commit, take
 	$ git commit -m 'added blame'
 	$ git rebase --continue
 
-Когда Git применит последний коммит (`a5f4a0d`) в вашем сценарии, ваша история будет выглядеть так:
-
-Git applies the last commit (`a5f4a0d`) in the script, and your history looks like this:
+Когда Git применит последний коммит (`a5f4a0d`) в сценарии, история будет выглядеть так:
 
 	$ git log -4 --pretty=format:"%h %s"
 	1c002dd added cat-file
@@ -915,21 +688,13 @@ Git applies the last commit (`a5f4a0d`) in the script, and your history looks li
 
 Повторимся ещё раз, что эта операция меняет SHA всех коммитов в списке, так что убедитесь, что ни один из коммитов в этом списке вы не успели уже отправить в общий репозиторий.
 
-Once again, this changes the SHAs of all the commits in your list, so make sure no commit shows up in that list that you’ve already pushed to a shared repository.
-
 ### Крайнее средство: filter-branch ###
-### The Nuclear Option: filter-branch ###
 
 Есть ещё один вариант переписывания истории, который можно использовать если надо переписать большое количество коммитов в автоматизируемой форме — например, везде поменять свой e-mail адрес или удалить файл из каждого коммита — это команда `filter-branch`. Она может переписать огромные периоды вашей истории, так что, возможно, вообще не стоит использовать её, если только ваш проект не успел ещё стать публичным и другие люди не успели ещё проделать работу на основе коммитов, которые вы собрались переписать. Однако, она может быть весьма полезной. Мы посмотрим на некоторые типичные варианты использования команды так, чтобы вы получили представление о тех вещах, на которые она способна.
 
-There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit. The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite. However, it can be very useful. You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
-
 #### Удаление файла изо всех коммитов ####
-#### Removing a File from Every Commit ####
 
-Такое случается довольно часто. Кто-нибудь случайно добавляет в коммит огромный бинарный файл необдуманно выполнив `git add .`, и вы хотите удалить его отовсюду. Или, может быть, вы нечаянно добавили в коммит файл содержащий пароль, а теперь вы хотите сделать код этого проекта открытым. `filter-branch` это тот инструмент, который вы наверняка захотите использовать, чтобы прочесать всю историю. Чтобы удалить файл с именем passwords.txt изо всей истории, используйте опцию `--tree-filter` для `filter-branch`:
-
-This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
+Такое случается довольно часто. Кто-нибудь случайно добавляет в коммит огромный бинарный файл необдуманно выполнив `git add .`, и вы хотите удалить его отовсюду. Или, может быть, вы нечаянно добавили в коммит файл содержащий пароль, а теперь хотите сделать код этого проекта открытым. `filter-branch` — это тот инструмент, который вы наверняка захотите использовать, чтобы прочесать всю историю. Чтобы удалить файл с именем passwords.txt изо всей истории, используйте опцию `--tree-filter` для `filter-branch`:
 
 	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
@@ -937,18 +702,11 @@ This occurs fairly commonly. Someone accidentally commits a huge binary file wit
 
 Опция `--tree-filter` выполняет указанную команду после выгрузки каждой версии проекта и затем заново делает коммит из результата. В нашем случае, мы удалили файл с именем passwords.txt из каждого снимка состояния независимо от того существовал ли он там или нет. Если вы хотите удалить все случайно добавленные резервные копии сделанные вашим текстовым редактором, выполните что-то типа `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
-The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter 'rm -f *~' HEAD`.
-
-Вы увидите как Git переписывает деревья и коммиты, а в конце переставляет указатель ветки. Как правило, хороший вариант — делать это в тестовой ветке, а затем жёстко сбрасывать ветку master с помощью `reset --hard`, когда вы поймёте, что результат это то чего вы действительно добивались. Чтобы запустить `filter-branch` для всех веток, можно передать команде параметр `--all`.
-
-You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
+Вы увидите как Git переписывает деревья и коммиты, а в конце переставляет указатель ветки. Как правило, хороший вариант — делать это в тестовой ветке, а затем жёстко сбрасывать ветку master с помощью `reset --hard`, когда вы поймёте, что результат это то, чего вы действительно добивались. Чтобы запустить `filter-branch` для всех веток, можно передать команде параметр `--all`.
 
 #### Сделать подкаталог новым корнем ####
-#### Making a Subdirectory the New Root ####
 
 Предположим, вы импортировали репозиторий из другой системы управления версиями и в нём есть бессмысленные каталоги (trunk, tags, и др.). Если вы хотите сделать `trunk` новым корнем проекта, команда `filter-branch` может помочь вам сделать и это:
-
-Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
@@ -956,14 +714,9 @@ Suppose you’ve done an import from another source control system and have subd
 
 Теперь всюду корневой каталог проекта будет в подкаталоге `trunk`. Git также автоматически удалит все коммиты, которые не затрагивают данный подкаталог.
 
-Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. 
-
 #### Глобальное именение e-mail адреса ####
-#### Changing E-Mail Addresses Globally ####
 
-Ещё один типичный случай это, когда вы забыли выполнить `git config`, чтобы задать своё имя и e-mail адрес перед тем как начать работать. Или, возможно, вы хотите открыть код своего проекта с работы и поменять все ваши рабочие e-mail'ы на ваш личный адрес. В любом случае, с помощью `filter-branch` вы с таким же успехом можете поменять адреса почты в нескольких коммитах за один раз. Вам надо быть аккуратным, чтобы не поменять и чужие адреса, поэтому используйте `--commit-filter`:
-
-Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
+Ещё один типичный случай это, когда вы забыли выполнить `git config`, чтобы задать своё имя и e-mail адрес перед тем как начать работать. Или, возможно, вы хотите открыть код своего проекта с работы и поменять все свои рабочие e-mail'ы на свой личный адрес. В любом случае, с помощью `filter-branch` вы с таким же успехом можете поменять адреса почты в нескольких коммитах за один раз. Вам надо быть аккуратным, чтобы не поменять и чужие адреса, поэтому используйте `--commit-filter`:
 
 	$ git filter-branch --commit-filter '
 	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
@@ -976,8 +729,6 @@ Another common case is that you forgot to run `git config` to set your name and 
 	        fi' HEAD
 
 Эта команда проходит по всем коммитам и переписывает их так, чтобы там был указан новый адрес. Так как коммиты содержат значения SHA-1 своих родителей, эта команда поменяет все SHA в вашей истории, а не только те, в которых есть указанный e-mail адрес.
-
-This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
 
 ## Отладка с помощью Git ##
 ## Debugging with Git ##

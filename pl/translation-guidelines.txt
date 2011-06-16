@@ -1,0 +1,19 @@
+
+Here's a list of agreed translation of the main concepts. Every concepts has
+several translations sorted by accuracy. Generally prefer the first
+translations.
+
+
+version control system - system kontroli wersji
+
+revision control - śledzenie plików, śledzenie zmian
+
+snapshot - migawka, wersja plików
+
+workflow - schemat pracy
+
+commit - commit, zatwierdzenie
+
+staging area - przechowalnia
+
+staged - w przechowalni, śledzony

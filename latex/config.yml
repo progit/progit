@@ -76,11 +76,15 @@ cs:
   fig: "Obrázek "
   tab: "Tabulka "
 fr:
-  langrule: "\\frenchspacing"
   prechap: "Chapitre "
   presect: "Section "
   fig: "Figure "
   tab: "Tableau "
+  font: Linux Libertine
+  mono: Courier New
+  con: "Table des matières"
+  langrule: "\\frenchspacing\\usepackage{fontspec}\n\\fontspec[Ligatures={Common}]{Linux Libertine}\n"
+  thanks: "Ce fichier PDF est la traduction française du livre Pro Git. Il est publié sous license Creative Commons Attribution-Non Commercial-Share Alike 3.0. J'espère que vous l'apprécierez, qu'il vous permettra d'apprendre à utiliser Git et que vous aiderez Apress en achetant le livre original sur Amazon : \\url{http://tinyurl.com/amazonprogit}"
   dql: "«\\,"
   dqr: "\\,»"
 mk:
@@ -107,3 +111,9 @@ ko:
   con: "목차"
   fig: "그림"
   tab: "표"
+by:
+  prechap: "Глава "
+  presect: "Раздзел "
+  con: "Змест"
+  fig: "Малюнак "
+  tab: "Табліца "

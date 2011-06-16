@@ -1,6 +1,6 @@
 # Podstawy Gita #
 
-Jeśli chcesz ograniczyć się do czytania jednego rozdziału, dobrze trafiłeś. Niniejszy rozdział obejmuje wszystkie podstawowe komendy, które musisz znać, aby wykonać przeważającą część zadań, z którymi przyjdzie ci spędzić czas podczas pracy z Gitem. Po zapoznaniu się z rozdziałem powinieneś umieć samodzielnie tworzyć i konfigurować repozytoria, rozpoczynać i kończyć śledzenie plików, umieszczać zmiany w poczekalni oraz je zatwierdzać. Pokażemy ci także, jak skonfigurować Gita tak, aby ignorował pewne pliki oraz całe ich grupy według zadanego wzorca, szybko i łatwo cofać błędne zmiany, przeglądać historię swojego projektu, podglądać zmiany pomiędzy rewizjami, oraz jak wypychać je na serwer i stamtąd pobierać.
+Jeśli chcesz ograniczyć się do czytania jednego rozdziału, dobrze trafiłeś. Niniejszy rozdział obejmuje wszystkie podstawowe polecenia, które musisz znać, aby wykonać przeważającą część zadań, z którymi przyjdzie ci spędzić czas podczas pracy z Gitem. Po zapoznaniu się z rozdziałem powinieneś umieć samodzielnie tworzyć i konfigurować repozytoria, rozpoczynać i kończyć śledzenie plików, umieszczać zmiany w poczekalni oraz je zatwierdzać. Pokażemy ci także, jak skonfigurować Gita tak, aby ignorował pewne pliki oraz całe ich grupy według zadanego wzorca, szybko i łatwo cofać błędne zmiany, przeglądać historię swojego projektu, podglądać zmiany pomiędzy rewizjami, oraz jak wypychać je na serwer i stamtąd pobierać.
 
 ## Pierwsze repozytorium Gita ##
 
@@ -8,13 +8,13 @@ Projekt Gita możesz rozpocząć w dwojaki sposób. Pierwsza metoda używa istni
 
 ### Inicjalizacja Gita w istniejącym katalogu ###
 
-Jeśli chcesz rozpocząć śledzenie zmian w plikach istniejącego projektu, musisz przejść do katalogu projektu i wykonać
+Jeśli chcesz rozpocząć śledzenie zmian w plikach istniejącego projektu, musisz przejść do katalogu projektu i wykonać polecenie
 
 	$ git init
 
-Powyższa komenda stworzy nowy podkatalog o nazwie .git, zawierający wszystkie niezbędne pliki — szkielet repozytorium Gita. W tym momencie żadna część twojego projektu nie jest jeszcze śledzona. (Zajrzyj do Rozdziału 9. aby dowiedzieć się, jakie dokładnie pliki są przechowywane w podkatalogu `.git`, który właśnie utworzyłeś).
+To polecenie stworzy nowy podkatalog o nazwie .git, zawierający wszystkie niezbędne pliki — szkielet repozytorium Gita. W tym momencie żadna część twojego projektu nie jest jeszcze śledzona. (Zajrzyj do Rozdziału 9. aby dowiedzieć się, jakie dokładnie pliki są przechowywane w podkatalogu `.git`, który właśnie utworzyłeś).
 
-Aby rozpocząć kontrolę wersji istniejących plików (w przeciwieństwie do pustego katalogu), najprawdopodobniej powinieneś rozpocząć ich śledzenie i utworzyć początkową rewizję. Możesz tego dokonać kilkoma komendami add (dodaj) wybierając pojedyncze pliki, które chcesz śledzić, a następnie zatwierdzając zmiany poleceniem `commit`:
+Aby rozpocząć kontrolę wersji istniejących plików (w przeciwieństwie do pustego katalogu), najprawdopodobniej powinieneś rozpocząć ich śledzenie i utworzyć początkową rewizję. Możesz tego dokonać kilkoma poleceniami add (dodaj) wybierając pojedyncze pliki, które chcesz śledzić, a następnie zatwierdzając zmiany poleceniem `commit`:
 
 	$ git add *.c
 	$ git add README
@@ -24,7 +24,7 @@ Za chwilę zobaczymy dokładnie, co wymienione polecenia robią. W tym jednak mo
 
 ### Klonowanie istniejącego repozytorium ###
 
-Jeżeli chcesz uzyskać kopię istniejącego już repozytorium Gita — na przykład projektu, w którym chciałbyś zacząć się udzielać i wprowadzać własne zmiany — komenda, której potrzebujesz to `clone`. Jeżeli znasz już inne systemy kontroli wersji, jak np. Subversion, zauważysz z pewnością, że w przypadku Gita używana komenda to `clone` a nie `checkout`. Jest to istotne rozróżnienie — Git pobiera kopię niemalże wszystkich danych posiadanych przez serwer. Po wykonaniu polecenia `git clone` zostanie pobrana każda rewizja, każdego pliku w historii projektu. W praktyce nawet jeśli dysk serwera zostanie uszkodzony, możesz użyć któregokolwiek z dostępnych klonów aby przywrócić serwer do stanu w jakim był w momencie klonowania (możesz utracić pewne hooki skonfigurowane na serwerze i tym podobne, ale wszystkie poddane kontroli wersji pliki będą spójne — zajrzyj do Rozdziału 4. aby poznać więcej szczegółów).
+Jeżeli chcesz uzyskać kopię istniejącego już repozytorium Gita — na przykład projektu, w którym chciałbyś zacząć się udzielać i wprowadzać własne zmiany — polecenie, którego potrzebujesz to `clone`. Jeżeli znasz już inne systemy kontroli wersji, jak np. Subversion, zauważysz z pewnością, że w przypadku Gita używane polecenie to `clone` a nie `checkout`. Jest to istotne rozróżnienie — Git pobiera kopię niemalże wszystkich danych posiadanych przez serwer. Po wykonaniu polecenia `git clone` zostanie pobrana każda rewizja, każdego pliku w historii projektu. W praktyce nawet jeśli dysk serwera zostanie uszkodzony, możesz użyć któregokolwiek z dostępnych klonów aby przywrócić serwer do stanu w jakim był w momencie klonowania (możesz utracić pewne hooki skonfigurowane na serwerze i tym podobne, ale wszystkie poddane kontroli wersji pliki będą spójne — zajrzyj do Rozdziału 4. aby poznać więcej szczegółów).
 
 Repozytorium klonujesz używając polecenia `git clone [URL]`. Na przykład jeśli chcesz sklonować bibliotekę Rubiego do Gita o nazwie Grit, możesz to zrobić wywołując:
 
@@ -34,7 +34,7 @@ Tworzony jest katalog o nazwie „grit”, następnie wewnątrz niego inicjowany
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-Powyższa komenda robi dokładnie to samo, co poprzednia, ale wszystkie pliki umieszcza w katalogu `mygrit`.
+Powyższe polecenie robi dokładnie to samo, co poprzednia, ale wszystkie pliki umieszcza w katalogu `mygrit`.
 
 Git oferuje do wyboru zestaw różnych protokołów transmisji. Poprzedni przykład używa protokołu `git://`, ale możesz także spotkać `http(s)://` lub `uzytkownik@serwer:/sciezka.git`, używające protokołu SSH. W Rozdziale 4. omówimy wszystkie dostępne możliwości konfiguracji dostępu do repozytorium Gita na serwerze oraz zalety i wady każdej z nich.
 
@@ -340,7 +340,7 @@ Zauważ, że w tym wypadku przed zatwierdzeniem zmian i wykonaniem rewizji nie m
 
 Aby usunąć plik z Gita, należy go najpierw wyrzucić ze zbioru plików śledzonych, a następnie zatwierdzić zmiany. Służy do tego polecenie `git -rm`, które dodatkowo usuwa plik z katalogu roboczego. Nie zobaczysz go już zatem w sekcji plików nieśledzonych przy następnej okazji.
 
-Jeżeli po prostu usuniesz plik z katalogu roboczego i uruchomisz komendę `git status` zobaczysz go w sekcji "Zmienione ale nie zaktualizowane" (Changed but not updated) (czyli, poza poczekalnią):
+Jeżeli po prostu usuniesz plik z katalogu roboczego i wykonasz polecenie `git status` zobaczysz go w sekcji "Zmienione ale nie zaktualizowane" (Changed but not updated) (czyli, poza poczekalnią):
 
 	$ rm grit.gemspec
 	$ git status
@@ -371,11 +371,11 @@ Kolejną przydatną funkcją jest możliwość zachowywania plików w drzewie ro
 
 	$ git rm --cached readme.txt
 
-Do komendy `git -rm` możesz przekazywać pliki, katalogi lub wyrażenia glob - możesz na przykład napisać coś takiego:
+Do polecenia `git -rm` możesz przekazywać pliki, katalogi lub wyrażenia glob - możesz na przykład napisać coś takiego:
 
 	$ git rm log/\*.log
 
-Zwróć uwagę na odwrotny ukośnik (`\`) na początku `*`. Jest on niezbędny gdyż Git dodatkowo do tego co robi powłoka, sam ewaluuje sobie nazwy plików. Przywołane polecenie usuwa wszystkie pliki z rozszerzeniem `.log`, znajdujące się w katalogu `log/`. Możesz także wywołać następującą komendę:
+Zwróć uwagę na odwrotny ukośnik (`\`) na początku `*`. Jest on niezbędny gdyż Git dodatkowo do tego co robi powłoka, sam ewaluuje sobie nazwy plików. Przywołane polecenie usuwa wszystkie pliki z rozszerzeniem `.log`, znajdujące się w katalogu `log/`. Możesz także wywołać następujące polecenie:
 
 	$ git rm \*~
 
@@ -572,7 +572,7 @@ Są to jedynie podstawowe opcje formatowania wyjścia polecenia `git log` - jest
 	Opcja	Opis
 	-p	Pokaż pod każdą zmianą powiązaną łatkę
 	--stat	Pokaż pod każdą zmianą statystyki zmodyfikowanych plików
-	--shortstat	Pokaż wyłącznie zmienione/wstawione/usunięte linie z komendy --stat
+	--shortstat	Pokaż wyłącznie zmienione/wstawione/usunięte linie z polecenia --stat
 	--name-only	Pokaż pod każdą zmianą listę zmodyfikowanych plików
 	--name-status	Pokaż listę plików o dodanych/zmodyfikowanych/usuniętych informacjach.
 	--abbrev-commit	Pokaż tylko pierwsze kilka znaków (zamiast 40-tu) sumy kontrolnej SHA-1.
@@ -614,7 +614,7 @@ Na przykład, żeby zobaczyć wyłącznie rewizje modyfikujące pliki testowe w 
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Z prawie 20000 rewizji w historii kodu Gita, podana komenda wyłowiła jedynie 6 spełniających zadane kryteria.
+Z prawie 20000 rewizji w historii kodu Gita, podane polecenie wyłowiło jedynie 6 spełniających zadane kryteria.
 
 ### Wizualizacja historii w interfejsie graficznym ###
 
@@ -635,7 +635,7 @@ Jeden z częstych przypadków to zbyt pochopne wykonanie rewizji i pominięcie w
 
 	$ git commit --amend
 
-Komenda bierze zawartość poczekalni i zatwierdza jako dodatkowe zmiany. Jeśli niczego nie zmieniłeś od ostatniej rewizji (np. uruchomiłeś komendę zaraz po poprzednim zatwierdzeniu zmian) wówczas twoja migawka się nie zmieni ale będziesz miał możliwość modyfikacji notki.
+Polecenie bierze zawartość poczekalni i zatwierdza jako dodatkowe zmiany. Jeśli niczego nie zmieniłeś od ostatniej rewizji (np. uruchomiłeś polecenie zaraz po poprzednim zatwierdzeniu zmian) wówczas twoja migawka się nie zmieni ale będziesz miał możliwość modyfikacji notki.
 
 Jak zwykle zostanie uruchomiony edytor z załadowaną treścią poprzedniego komentarza. Edycja przebiega dokładnie tak samo jak zawsze, z tą różnicą, że na końcu zostanie nadpisana oryginalna treść notki.
 
@@ -645,11 +645,11 @@ Czas na przykład. Zatwierdziłeś zmiany a następnie zdałeś sobie sprawę, �
 	$ git add forgotten_file
 	$ git commit --amend 
 
-Wszystkie trzy komendy zakończą się jedną rewizją - druga operacja commit, zastąpi wynik pierwszej.
+Wszystkie trzy polecenia zakończą się jedną rewizją - druga operacja commit zastąpi wynik pierwszej.
 
 ### Usuwanie pliku z poczekalni ###
 
-Następne dwie sekcje pokazują jak zarządzać poczekalnią i zmianami w katalogu roboczym. Dobra wiadomość jest taka, że komenda używana do określenia stanu obu obszarów przypomina sama jak cofnąć wprowadzone w nich zmiany. Na przykład, powiedzmy, że zmieniłeś dwa pliki i chcesz teraz zatwierdzić je jako dwie osobne rewizje, ale odruchowo wpisałeś `git add *` co spowodowało umieszczenie obu plików w poczekalni. Jak w takiej sytuacji usunąć stamtąd jeden z nich? Polecenie `git status` przypomni ci, że:
+Następne dwie sekcje pokazują jak zarządzać poczekalnią i zmianami w katalogu roboczym. Dobra wiadomość jest taka, że polecenie używane do określenia stanu obu obszarów przypomina samo jak cofnąć wprowadzone w nich zmiany. Na przykład, powiedzmy, że zmieniłeś dwa pliki i chcesz teraz zatwierdzić je jako dwie osobne rewizje, ale odruchowo wpisałeś `git add *` co spowodowało umieszczenie obu plików w poczekalni. Jak w takiej sytuacji usunąć stamtąd jeden z nich? Polecenie `git status` przypomni ci, że:
 
 	$ git add .
 	$ git status
@@ -703,7 +703,7 @@ Git konkretnie wskazuje jak pozbyć się dokonanych zmian (w każdym bądź razi
 	#       modified:   README.txt
 	#
 
-Możesz teraz przeczytać, że zmiany zostały cofnięte. Powinieneś sobie już także zdawać sprawę, że jest to dość niebezpieczne polecenie: wszelkie zmiany jakie wykonałeś w pliku przepadają - w rzeczy samej został on nadpisany poprzednią wersją. Nigdy nie używaj tego polecenia dopóki nie jesteś absolutnie pewny, że nie chcesz i nie potrzebujesz już danego pliku. Jeśli jedynie chcesz się go chwilowo pozbyć przyjrzymy się specjalnej komendzie schowka (stash) oraz gałęziom w kolejnych rozdziałach - są to generalnie znacznie lepsze sposoby.
+Możesz teraz przeczytać, że zmiany zostały cofnięte. Powinieneś sobie już także zdawać sprawę, że jest to dość niebezpieczne polecenie: wszelkie zmiany jakie wykonałeś w pliku przepadają - w rzeczy samej został on nadpisany poprzednią wersją. Nigdy nie używaj tego polecenia dopóki nie jesteś absolutnie pewny, że nie chcesz i nie potrzebujesz już danego pliku. Jeśli jedynie chcesz się go chwilowo pozbyć przyjrzymy się specjalnemu poleceniu schowka (stash) oraz gałęziom w kolejnych rozdziałach - są to generalnie znacznie lepsze sposoby.
 
 Pamiętaj, że wszystko co zatwierdzasz do repozytorium Gita może zostać w niemalże dowolnym momencie odtworzone. Nawet rewizje, które znajdowały się w usuniętych gałęziach, albo rewizje nadpisane zatwierdzeniem poprawiającym `--amend` mogą być odtworzone (odzyskiwanie danych opisujemy w rozdziale 9). Jednakże, cokolwiek utraciłeś a nie było to nigdy wcześniej zatwierdzane do repozytorium, prawdopodobnie odeszło na zawsze.
 
@@ -838,7 +838,7 @@ Aby zmienić nazwę odnośnika, czyli skrótu przypisanego do repozytorium, w no
 	origin
 	paul
 
-Warto wspomnieć, że komenda zmienia także nazwy zdalnych gałęzi. To co do tej pory było określane jako `pb/master` od teraz powinno być adresowane jako `paul/master`.
+Warto wspomnieć, że polecenie zmienia także nazwy zdalnych gałęzi. To co do tej pory było określane jako `pb/master` od teraz powinno być adresowane jako `paul/master`.
 
 Jeśli z jakiegoś powodu chcesz usunąć odnośnik - przeniosłeś serwer czy dłużej nie korzystasz z konkretnego mirror-a, albo współpracownik nie udziela się już dłużej w projekcie - możesz skorzystać z `git remote rm`:
 
@@ -874,7 +874,7 @@ Git używa 2 głównych rodzajów etykiet: lekkich i opisanych. Pierwsze z nich 
 
 ### Etykiety opisane ###
 
-Tworzenie etykiety opisanej, jak większość rzeczy w Gitcie, jest proste. Wystarczy podać parametr `-a` podczas uruchamiania komendy `tag`:
+Tworzenie etykiety opisanej, jak większość rzeczy w Gitcie, jest proste. Wystarczy podać parametr `-a` podczas uruchamiania polecenia `tag`:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -1065,7 +1065,7 @@ Jeśli chcesz ustawić Gita tak, żeby automatycznie pozwalał na auto-uzupełni
 
 Jeśli używasz Windows wraz z narzędziem Git Bash, które jest domyślnie instalowane wraz wraz z msysGit, auto-uzupełnianie powinno być pre-konfigurowane i dostępne od razu.
 
-Wciśnij klawisz Tab podczas wpisywania komendy Gita, a powinieneś ujrzeć zestaw podpowiedzi do wyboru:
+Wciśnij klawisz Tab podczas wpisywania polecenia Gita, a powinieneś ujrzeć zestaw podpowiedzi do wyboru:
 
 	$ git co<tab><tab>
 	commit config
@@ -1088,18 +1088,18 @@ Git nie wydedukuje sam polecenia jeśli wpiszesz je częściowo i wciśniesz Ent
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-Oznacza to, że na przykład, zamiast wpisywać `git commit`, wystarczy, że wpiszesz `git ci`. Z czasem zaczniesz też stosować także inne komendy regularnie, nie wahaj się wówczas tworzyć sobie dla nich nowych aliasów.
+Oznacza to, że na przykład, zamiast wpisywać `git commit`, wystarczy, że wpiszesz `git ci`. Z czasem zaczniesz też stosować także inne polecenia regularnie, nie wahaj się wówczas tworzyć sobie dla nich nowych aliasów.
 
 Technika ta jest także bardzo przydatna do tworzenia poleceń, które uważasz, że powinny istnieć a których brakuje ci w zwięzłej formie. Na przykład, aby skorygować problem z intuicyjnością obsługi usuwania plików z poczekalni, możesz dodać do Gita własny, ułatwiający to alias:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-W ten sposób dwie poniższe komendy są sobie równoważne:
+W ten sposób dwa poniższe polecenia są sobie równoważne:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-Od razu polecenie wygląda lepiej. Dość częstą praktyką jest także dodawanie komendy `last`:
+Od razu polecenie wygląda lepiej. Dość częstą praktyką jest także dodawanie polecenia `last`:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
@@ -1114,7 +1114,7 @@ Możesz dzięki niemu łatwo zobaczyć ostatnią rewizję:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-Jak można zauważyć, Git zastępuje nową komendę czymkolwiek co do niej przypiszesz. Jednakże, możesz chcieć także uruchomić zewnętrzne polecenie zamiast komendy Gita. Rozpocznij je wówczas znakiem wykrzyknika `!`. Przydaje się to podczas tworzenia własnego narzędzia, które współpracuje z repozytorium Gita. Możemy pokazać to na przykładzie aliasu `git visual` uruchamiającego `gitk`:
+Jak można zauważyć, Git zastępuje nowe polecenie czymkolwiek co do niego przypiszesz. Jednakże, możesz chcieć także uruchomić zewnętrzne polecenie zamiast polecenia Gita. Rozpocznij je wówczas znakiem wykrzyknika `!`. Przydaje się to podczas tworzenia własnego narzędzia, które współpracuje z repozytorium Gita. Możemy pokazać to na przykładzie aliasu `git visual` uruchamiającego `gitk`:
 
 	$ git config --global alias.visual "!gitzk"
 

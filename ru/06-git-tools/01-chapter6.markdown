@@ -1,11 +1,11 @@
 # Инструменты Git #
-# Git Tools #
+Git Tools
 
-К этой главе вы уже выучили большинство ежедневных команд и действий, которые необходимы для того чтобы поддерживать Git-репозиторий как средство версионного контроля вашего кода. Вы изучили простые задачи добавления файлов под контроль версий и фиксации сделанных изменений, и у вас есть мощь подготовительной (stage) области и легковесного ветвления и слияния.
+К этому времени вы уже изучили большинство повседневных команд и способы организации рабочего процесса, необходимые для того, чтобы поддерживать Git-репозиторий для управления версиями вашего исходного кода. Вы выполнили основные задания связанные с добавлением файлов под версионный контроль и записью сделанных изменений, и вы вооружились мощью подготовительной области (staging area), легковесного ветвления и слияния.
 
 By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
 
-Сейчас вы встретитесь с множеством более сложных возможностей Git. Вы совсем не обязательно будете использовать их каждый день, но, возможно, в какой-то момент они вам понадобятся.
+Сейчас вы познакомитесь с множеством весьма сильных возможностей Git. Вы совсем не обязательно будете использовать их каждый день, но, возможно, в какой-то момент они вам понадобятся.
 
 Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
 
@@ -19,14 +19,14 @@ Git allows you to specify specific commits or a range of commits in several ways
 ### Одиночные ревизии ###
 ### Single Revisions ###
 
-Вы можете просто сослаться на коммит по его SHA-1 хэшу, но также существуют более дружественные для человека способы ссылаться на коммиты. В этой секции обозреваются различные способы, которыми вы можете сослаться на одиночный коммит.
+Вы можете просто сослаться на коммит по его SHA-1 хэшу, но также существуют более понятные для человека способы ссылаться на коммиты. В этом разделе кратко описаны различные способы обратиться к одному определённому коммиту.
 
 You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
 
 ### Сокращенный SHA ###
 ### Short SHA ###
 
-Git достаточно умен для того, чтобы понять какой коммит вы имеете в виду по первым нескольким символам (частичному хэшу), конечно если их не меньше 4-х и они однозначны - то есть если хэш только одного объекта в вашем репозитории начинается с этих символов.
+Git достаточно умён для того, чтобы понять какой коммит вы имеете в виду по первым нескольким символам (частичному хэшу), конечно, если их не меньше четырёх и они однозначны, то есть если хэш только одного объекта в вашем репозитории начинается с этих символов.
 
 Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
 
@@ -54,7 +54,7 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 	    added some blame and merge stuff
 
-В этом случае, это коммит `1c002dd....`. Если вы будете использовать `git show`, чтобы посмотреть содержимое этого коммита следующие команды эквивалентны (предполагая, что сокращенные версии однозначны):
+В нашем случае, выберем коммит `1c002dd....`. Если вы будете использовать `git show`, чтобы посмотреть содержимое этого коммита следующие команды эквивалентны (предполагая, что сокращенные версии однозначны):
 
 In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
 
@@ -62,7 +62,7 @@ In this case, choose `1c002dd....` If you `git show` that commit, the following 
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git может может показать короткие, уникальные сокращения ваших SHA-1 хэшей. Если вы передадите опцию `--abbrev-commit` в команду `git log`, то ее вывод будет использовать сокращенные значения, но сохранит их уникальными; по умолчанию будут использоваться семь символов, но при необходимости длина будет увеличена для сохранения однозначности хэшей:
+Git может показать короткие, уникальные сокращения ваших SHA-1 хэшей. Если вы передадите опцию `--abbrev-commit` команде `git log`, то её вывод будет использовать сокращённые значения, сохраняя их уникальными; по умолчанию будут использоваться семь символов, но при необходимости длина будет увеличена для сохранения однозначности хэшей:
 
 Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
 
@@ -75,7 +75,7 @@ Git can figure out a short, unique abbreviation for your SHA-1 values. If you pa
 
 Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
 
-### Небольшое замечание о SHA-1###
+### Небольшое замечание о SHA-1 ###
 ### A SHORT NOTE ABOUT SHA-1 ###
 
 Многие люди интересуются что произойдет, если они в какой-то момент, по некоторой случайности, получат два объекта в репозитории, которые будут иметь два одинаковых значения SHA-1 хэша. Что тогда?
@@ -84,35 +84,40 @@ A lot of people become concerned at some point that they will, by random happens
 
 Если вы вдруг закоммитите объект, SHA-1 хэш которого такой же, как у некоторого предыдущего объекта в вашем репозитории, Git обнаружит предыдущий объект в вашей базе данных Git, и посчитает, что он был уже записан. Если Вы в какой-то момент попытаетесь получить этот объект опять, вы всегда будете получать данные первого объекта.
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, Git will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object.
 
-Однако, вы должны осозновать то, как смехотворно маловероятен этот сценарий. Длина SHA-1 составляет 20 байт или 160 бит. Количество случайно хэшированных объектов, необходимое для того, чтобы получить 50% вероятность одиночного совпадения составляет порядка 2^80 (формула для определения вероятности совпадения - `p = (n(n-1)/2) * (1/2^160))`). 2^80 это 1.2 x 10^24 или один миллион миллиарда миллиардов. Это в 1200 раз больше количества песчинок на земле.
+Однако, вы должны осознавать то, как смехотворно маловероятен этот сценарий. Длина SHA-1 составляет 20 байт или 160 бит. Количество случайно хэшированных объектов, необходимое для того, чтобы получить 50% вероятность одиночного совпадения составляет порядка 2^80 (формула для определения вероятности совпадения: `p = (n(n-1)/2) * (1/2^160))`). 2^80 это 1.2 x 10^24 или один миллион миллиарда миллиардов. Это в 1200 раз больше количества песчинок на земле.
 
 However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
 
-Вот пример для того, чтобы дать вам понимание того, что необходимо чтобы получить SHA-1 коллизию. Если бы все 6.5 миллиардов людей на Земле программировали, и каждую секунду каждую из них производил количество кода, эквивалентное всей истории ядра Linux (1 миллион Git объектов) и выкладывал его в один огромный Git-репозиторий, то потребовалось бы 5 лет для того, чтобы заполнить репозиторий достаточно для того, чтобы получить 50% вероятность единичной SHA-1 коллизии. Существует более высокая вероятность того, что кто-то из вашей команды программистов одной ночью будет атакован и убит волками при невыясненных обстоятельствах.
+Вот пример для того, чтобы вы поняли, что необходимо, чтобы получить SHA-1 коллизию. Если бы все 6.5 миллиардов людей на Земле программировали, и каждую секунду каждый из них производил количество кода, эквивалентное всей истории ядра Linux (1 миллион Git объектов) и отправлял его в один огромный Git-репозиторий, то потребовалось бы 5 лет для того, чтобы заполнить репозиторий достаточно для того, чтобы получить 50% вероятность единичной SHA-1 коллизии. Существует более высокая вероятность того, что каждый член вашей команды программистов будет атакован и убит волками в несвязанных друг с другом случаях в одну и ту же ночь.
 
 Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
 
 ### Ссылки на ветки ###
 
-Самый прямой метод указать коммит требует, чтобы он имел ветку ссылающуюся на него. Тогда, вы можете использовать имя ветки в любой команде Git, которая ожидает коммит или значение SHA-1. Например, если вы хотите посмотреть последний коммит в ветке, следующие команды эквивалентны, предполагая, что ветка `topic1` ссылается на `ca82a6d`:
+Для самого прямого метода указать коммит необходимо, чтобы этот коммит имел ветку ссылающуюся на него. Тогда, вы можете использовать имя ветки в любой команде Git, которая ожидает коммит или значение SHA-1. Например, если вы хотите посмотреть последний коммит в ветке, следующие команды эквивалентны, предполагая, что ветка `topic1` ссылается на `ca82a6d`:
 
 The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-Если вы хотите увидеть SHA, на который указывет ветка, или, если вы хотите чтобы любые из этих примеров свелись к SHA, вы можете использовать низкоуровневую (plumbing) утилиту Git, называемую `rev-parse`. Вы можете заглянуть в Главу 9 для получения большей информации о низкоуровневых утилитах; упрощенно, `rev-parse` существует для низкоуровневых операци и не предназначена для использования в ежедневных операциях. Однако, она может быть полезна, когда вам необходимо увидеть что в действительности происходит. В данном случае, вы можете применить `rev-parse` к вашей ветке.
+Если вы хотите посмотреть на какой SHA указывает ветка, или, если вы хотите понять для какого-то из приведённых примеров к каким SHA он сводится, вы можете использовать низкоуровневую (plumbing) утилиту Git, которая называется `rev-parse`. Вы можете заглянуть в Главу 9 для получения большей информации о низкоуровневых утилитах; в основном `rev-parse` нужна для выполнения низкоуровневых операций и не предназначена для использования в повседневной работе. Однако, она может пригодиться, если вам необходимо разобраться, что у вас происходит на самом деле. Сейчас вы можете попробовать применить `rev-parse` к вашей ветке.
 
 If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
+### RefLog-сокращения ###
 ### RefLog Shortnames ###
 
+Одна из вещей, которую Git делает в фоновом режиме, пока вы работаете, это запоминание ссылочного лога — лога того, где находились HEAD и ветки в течение последних нескольких месяцев.
+
 One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+
+Ссылочный лог можно просмотреть с помощью `git reflog`:
 
 You can see your reflog by using `git reflog`:
 
@@ -125,16 +130,23 @@ You can see your reflog by using `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
+Каждый раз, когда верхушка ветки обновляется по какой-либо причине, Git сохраняет эту информацию в эту временную историю. И вы можете использовать и эти данные, чтобы задать прошлый коммит. Если вы хотите посмотреть значение HEAD в вашем репозитории пять шагов назад, вы можете использовать ссылку вида `@{n}`, такую как вы видите в выводе команды `reflog`:
+
 Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
 
 	$ git show HEAD@{5}
 
-Вы также можете использовать эту команду, чтобы увидеть ветку, которая была в прошлом. Например, чтобы увидеть состояние вашей `master`-ветки вчера, наберите команду
+Также вы можете использовать эту команду, чтобы увидеть, где ветка была некоторое время назад. Например, чтобы увидеть, где была ваша ветка `master` вчера, наберите
+
 You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
 
 	$ git show master@{yesterday}
 
+Эта команда покажет, где верхушка ветки находилась вчера. Такой подход работает только для данных, которые всё ещё находятся в вашем ссылочном логе. Так что вы не сможете использовать его для коммитов с давностью в несколько месяцев.
+
 That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
+
+Чтобы просмотреть информацию ссылочного лога в таком же формате как вывод `git log`, можно выполнить `git log -g`:
 
 To see reflog information formatted like the `git log` output, you can run `git log -g`:
 
@@ -155,9 +167,15 @@ To see reflog information formatted like the `git log` output, you can run `git 
 
 	    Merge commit 'phedders/rdocs'
 
+Важно отметить, что информация в ссылочном логе строго локальная — это лог того, чем вы занимались со своим репозиторием. Ссылки не будут теми же самыми в чьей-то чужой копии репозитория; и после того как вы только что склонировали репозиторий, ваш ссылочный лог будет пустым, так как вы ещё ничего не делали с вашим репозиторием. Команда `git show HEAD@{2.months.ago}` сработает только если вы склонировали ваш проект как минимум два месяца назад. Если вы склонировали его пять минут назад, то вы ничего не получите.
+
 It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
 
+### Ссылки на предков ###
 ### Ancestry References ###
+
+Ещё один основной способ указать коммит — указать коммит через его предков. Если вы поставите `^` в конце ссылки, для Git это будет означать родителя этого коммита.
+Допустим история вашего проекта выглядит следующим образом:
 
 The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
 Suppose you look at the history of your project:
@@ -172,6 +190,8 @@ Suppose you look at the history of your project:
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
+В этом случае вы можете посмотреть предыдущий коммит указав `HEAD^`, что означает "родитель HEAD":
+
 Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD":
 
 	$ git show HEAD^
@@ -181,6 +201,8 @@ Then, you can see the previous commit by specifying `HEAD^`, which means "the pa
 	Date:   Thu Dec 11 15:08:43 2008 -0800
 
 	    Merge commit 'phedders/rdocs'
+
+Вы также можете указать число после `^`. Например, `d921970^2` означает "второй родитель коммита d921970". Такой синтаксис полезен только для коммитов-слияний, которые имеют больше, чем одного родителя. Первый родитель это ветка, на которой вы находились во время слияния, а второй — коммит на ветке, которая была слита:
 
 You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:
 
@@ -198,6 +220,8 @@ You can also specify a number after the `^` — for example, `d921970^2` means "
 
 	    Some rdoc changes
 
+Другое основное обозначение для указания на предков это `~`. Это тоже ссылка на первого родителя, поэтому `HEAD~` и `HEAD^` эквивалентны. Различия становятся очевидными, только когда вы указываете число. `HEAD~2` означает первого родителя первого родителя HEAD или прародителя — это переход по первым родителям указанное количество раз. Например, для показанной выше истории, `HEAD~3` будет
+
 The other main ancestry specification is the `~`. This also refers to the first parent, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means "the first parent of the first parent," or "the grandparent" — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
 
 	$ git show HEAD~3
@@ -206,6 +230,8 @@ The other main ancestry specification is the `~`. This also refers to the first 
 	Date:   Fri Nov 7 13:47:59 2008 -0500
 
 	    ignore *.gem
+
+То же самое можно записать как `HEAD^^^`, что опять же означает первого родителя первого родителя первого родителя:
 
 This can also be written `HEAD^^^`, which again is the first parent of the first parent of the first parent:
 
@@ -216,8 +242,11 @@ This can also be written `HEAD^^^`, which again is the first parent of the first
 
 	    ignore *.gem
 
+Кроме этого вы можете комбинировать эти обозначения — вы можете получить второго родителя для предыдущей ссылки (мы предполагаем, что это коммит-слияние) написав `HEAD~3^2`, ну и так далее.
+
 You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
 
+### Несколько коммитов ###
 ### Commit Ranges ###
 
 Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
@@ -225,10 +254,15 @@ Now that you can specify individual commits, let’s see how to specify ranges o
 #### Две точки ####
 #### Double Dot ####
 
+Наиболее распространённый способ задать диапазон коммитов это запись с двумя точками. По существу, таким образом вы просите Git взять набор коммитов достижимых из одного коммита, но не достижимых из другого. Например, пускай ваша история коммитов выглядит так как показано на Рисунке 6-1.
+
 The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
 
-Insert 18333fig0601.png 
+Insert 18333fig0601.png
+Рисунок 6-1. Пример истории для выбора набора коммитов.
 Figure 6-1. Example history for range selection.
+
+Допустим, вы хотите посмотреть что в вашей ветке `experiment` ещё не было слито в ветку `master`. Можно попросить Git показать вам лог только таких коммитов с помощью `master..experiment` — эта запись означает "все коммиты достижимые из experiment, которые недостижимы из master". Для краткости и большей понятности в примерах мы будем использовать буквы для обозначения коммитов на диаграмме вместо настоящего вывода лога в том порядке в каком они будут отображены:
 
 You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
 
@@ -236,21 +270,30 @@ You want to see what is in your experiment branch that hasn’t yet been merged 
 	D
 	C
 
+С другой стороны, если вы хотите получить обратное — все коммиты в `master`, которых нет в `experiment`, можно переставить имена веток. Запись `experiment..master` покажет вам всё, что есть в `master`, но недостижимо из `experiment`:
+
 If, on the other hand, you want to see the opposite — all commits in `master` that aren’t in `experiment` — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:
 
 	$ git log experiment..master
 	F
 	E
 
+Такое полезно если вы хотите, чтобы ветка `experiment` была обновлённой, и хотите посмотреть, что вы собираете в неё слить. Ещё один частый случай использования этого синтаксиса — посмотреть, что вы собираетесь отправить на удалённый сервер:
+
 This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge in. Another very frequent use of this syntax is to see what you’re about to push to a remote:
 
 	$ git log origin/master..HEAD
 
+Эта команда покажет вам все коммиты в вашей текущей ветке, которых нет в ветке `master` на сервере `origin`. Если бы вы выполнили `git push`, при условии, что ваша текущая ветка отслеживает `origin/master`, то коммиты, которые перечислены в выводе `git log origin/master..HEAD` это те коммиты, которые были бы отправлены на сервер.
+Кроме этого, вы можете опустить одну из сторон в такой записи — Git подставит туда HEAD. Например, вы можете получить такой же результат как и в предыдущем примере, набрав `git log origin/master..` — Git подставит HEAD сам если одна из сторон отсутствует.
+
 This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
 You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.
 
-#### Множество точек ####
+#### Множество вершин ####
 #### Multiple Points ####
+
+Запись с двумя точками полезна как сокращение, но, возможно, вы захотите указать больше двух веток, чтобы указать нужную ревизию. Например, чтобы посмотреть, какие коммиты находятся в одной из нескольких веток, но не в текущей. Git позволяет сделать это с помощью использования либо символа `^`, либо `--not` перед любыми ссылками, коммиты достижимые из которых вы не хотите видеть. Таким образом следующие три команды эквивалентны:
 
 The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
 
@@ -258,15 +301,22 @@ The double-dot syntax is useful as a shorthand; but perhaps you want to specify 
 	$ git log ^refA refB
 	$ git log refB --not refA
 
+Это удобно, потому что с помощью такого синтаксиса вы можете указать более двух ссылок в своём запросе, чего вы не сможете сделать с помощью двух точек. Например, если вы хотите увидеть все коммиты достижимые из `refA` или `refB`, но не из `refC`, вы можете набрать одно из этого:
+
 This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
+Это делает систему выбора ревизий очень мощной, что должно помочь вам определять, что содержится в ваших ветках.
+
 This makes for a very powerful revision query system that should help you figure out what is in your branches.
 
 #### Три точки ####
 #### Triple Dot ####
+
+Последняя основная запись для выбора диапазона коммитов — это запись с тремя точками, которая означает те коммиты, которые достижимы по одной из двух ссылок, но не по обеим одновременно. Вернёмся к примеру истории коммитов на Рисунке 6-1.
+Если вы хотите увидеть, что находится в `master` или `experiment`, но не в обоих сразу, выполните
 
 The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
 If you want to see what is in `master` or `experiment` but not any common references, you can run
@@ -277,7 +327,11 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
+Повторимся, что это даст вам стандартный `log`-вывод, но покажет вам только информацию об этих четырёх коммитах упорядоченных по дате коммита как и обычно.
+
 Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.
+
+В этом случае вместе с командой `log` обычно используют параметр `--left-right`, который показывает, на какой стороне диапазона находится каждый коммит. Это помогает сделать данные полезнее:
 
 A common switch to use with the `log` command in this case is `--left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:
 
@@ -287,9 +341,15 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 	> D
 	> C
 
+С помощью этих инструментов, вы можете намного легче объяснить Git, какой коммит или коммиты вы хотите изучить.
+
 With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
 
+## Интерактивное индексирование ##
 ## Interactive Staging ##
+
+Вместе с Git поставляется пара сценариев (script), которые облегчают выполнение некоторых задач в командной строке. Сейчас мы посмотрим на несколько интерактивных команд, которые помогут вам просто смастерить ваши коммиты так, чтобы включить в них только определённые части файлов. Эти инструменты сильно помогают в случае, когда вы поменяли кучу файлов, а потом решили, что вы хотите, чтобы эти изменения были в нескольких сфокусированных коммитах, а не в одном большом путанном коммите. Так вы сможете убедиться, что ваши коммиты это логически разделённые наборы изменений, которые будет легко просматривать другим разработчикам работающими с вами.
+Если вы выполните `git add` с опцией `-i` или `--interactive`, Git перейдёт в режим интерактивной оболочки, и покажет что-то похожее на это:
 
 Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
 If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
@@ -305,11 +365,18 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
+Как видите, эта команда показывает содержимое вашего индекса в другом виде — по сути, ту же информацию вы получили бы при вызове `git status`, но здесь она в более сжатом и информативном виде. `git add -i` показывает проиндексированные изменения слева, а непроиндексированные — справа.
+
 You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
+
+Затем идёт раздел Commands (команды). Здесь вы можете сделать многие вещи, включая добавление файлов в индекс, удаление файлов из индекса, индексирование файлов частями, добавление неотслеживаемых файлов и просмотр дельт (diff) проиндексированных изменений.
 
 After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
 
+### Добавление и удаление файлов из индекса ###
 ### Staging and Unstaging Files ###
+
+Если вы наберёте `2` или `u` в приглашении `What now>`, сценарий спросит какие файлы вы хотите добавить в индекс:
 
 If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
 
@@ -320,6 +387,8 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
+Чтобы проиндексировать файлы TODO и index.html, нужно набрать их номера:
+
 To stage the TODO and index.html files, you can type the numbers:
 
 	Update>> 1,2
@@ -328,6 +397,8 @@ To stage the TODO and index.html files, you can type the numbers:
 	* 2:    unchanged        +1/-1 index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
+
+Символ `*` рядом с каждым файлом означает, что файл выбран для индексирования. Если вы ничего не будете набирать и нажмёте Enter в приглашении `Update>>`, то Git возьмёт всё, что уже выбрано и добавит в индекс:
 
 The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
 
@@ -342,6 +413,8 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  1:        +0/-1      nothing TODO
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
+
+Как видите, теперь файлы TODO и index.html проиндексированы (staged), а файл simplegit.rb всё ещё нет. Если в этот момент вы хотите удалить файл TODO из индекса, используйте опцию `3` или `r` (revert):
 
 Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
 
@@ -361,6 +434,8 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
+Взглянув на статус снова, вы увидите, что файл TODO удалён из индекса:
+
 Looking at your Git status again, you can see that you’ve unstaged the TODO file:
 
 	*** Commands ***
@@ -371,6 +446,8 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  1:    unchanged        +0/-1 TODO
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
+
+Чтобы посмотреть дельту для проиндексированных изменения, используйте команду `6` или `d` (diff). Она покажет вам список проиндексированных файлов, а вы можете выбрать те, для которых хотите посмотреть дельту. Это почти то же, что указать `git diff --cached` в командной строке:
 
 To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
 
@@ -394,9 +471,14 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
+С помощью этих базовых команд, вы можете использовать интерактивный режим для `git add`, чтобы немного проще работать со своим индексом.
+
 With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
 
+### Индексирование по частям ###
 ### Staging Patches ###
+
+Для Git также возможно индексировать определённые части файлов, а не всё сразу. Например, если вы сделали несколько изменений в файле simplegit.rb и хотите проиндексировать одно из них, а другое — нет, то сделать такое в Git очень легко. В строке приглашения интерактивного режима наберите `5` или `p` (patch). Git спросит какие файлы вы хотите индексировать частями; затем для каждой части изменений в выбранных файлах, один за другим будут показываться куски дельт файла и вас будут спрашивать, хотите ли вы занести их в индекс:
 
 It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
 
@@ -415,22 +497,26 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
+На этой стадии у вас много вариантов действий. Набрав `?` вы получите список того, что вы можете сделать:
+
 You have a lot of options at this point. Typing `?` shows a list of what you can do:
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
-	y - stage this hunk
-	n - do not stage this hunk
-	a - stage this and all the remaining hunks in the file
-	d - do not stage this hunk nor any of the remaining hunks in the file
-	g - select a hunk to go to
-	/ - search for a hunk matching the given regex
-	j - leave this hunk undecided, see next undecided hunk
-	J - leave this hunk undecided, see next hunk
-	k - leave this hunk undecided, see previous undecided hunk
-	K - leave this hunk undecided, see previous hunk
-	s - split the current hunk into smaller hunks
-	e - manually edit the current hunk
-	? - print help
+	y - stage this hunk (добавить этот кусок в индекс)
+	n - do not stage this hunk (не добавлять этот кусок в индекс)
+	a - stage this and all the remaining hunks in the file (добавить этот и все оставшиеся куски в этом файле в индекс)
+	d - do not stage this hunk nor any of the remaining hunks in the file (не добавлять в индекс ни этот, ни последующие куски в этом файле)
+	g - select a hunk to go to (выбрать кусок и перейти к нему)
+	/ - search for a hunk matching the given regex (поиск куска по регулярному выражению)
+	j - leave this hunk undecided, see next undecided hunk (отложить решение для этого куска, перейти к следующему отложенному куску)
+	J - leave this hunk undecided, see next hunk (отложить решение для этого куска, перейти к следующему куску)
+	k - leave this hunk undecided, see previous undecided hunk (отложить решение для этого куска, перейти к предыдущему отложенному куску)
+	K - leave this hunk undecided, see previous hunk (отложить решение для этого куска, перейти к предыдущему куску)
+	s - split the current hunk into smaller hunks (разбить текущий кусок на меньшие части)
+	e - manually edit the current hunk (отредактировать текущий кусок вручную)
+	? - print help (вывести справку)
+
+Как правило, вы будете использовать `y` или `n` для индексирования каждого куска, но индексирование всех кусков сразу в некоторых файлах или откладывание решения на потом также может оказаться полезным. Если вы добавите в индекс одну часть файла, а другую часть — нет, вывод статуса будет выглядеть так:
 
 Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
 
@@ -440,17 +526,29 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
+Статус файла simplegit.rb выглядит любопытно. Он показывает, что часть строк в индексе, а часть — не в индексе. Мы частично проиндексировали этот файл. Теперь вы можете выйти из интерактивного сценария и выполнить `git commit`, чтобы создать коммит из этих частично проиндексированных файлов.
+
 The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+
+В заключение скажем, что нет необходимости входить в интерактивный режим `git add`, чтобы выполнять индексирование частями — вы можете запустить тот же сценарий набрав `git add -p` или `git add --patch` в командной строке.
 
 Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
 
+## Прятанье ##
 ## Stashing ##
+
+Часто возникает такая ситуация, что пока вы работаете над частью вашего проекта, всё находится в беспорядочном состоянии, а вам нужно переключить ветки, чтобы немного поработать над чем-то другим. Проблема в том, что вы не хотите делать коммит с наполовину доделанной работой, только для того, чтобы позже можно было вернуться в это же состояние. Ответ на эту проблему — команда `git stash`.
 
 Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
 
+Прятанье поглощает грязное состояние вашего рабочего каталога, то есть ваши изменённые отслеживаемые файлы и изменения в индексе, и сохраняет их в стек незавершённых изменений, которые вы потом в любое время можете снова применить.
+
 Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
 
+### Прятанье своих трудов ###
 ### Stashing Your Work ###
+
+Чтобы продемонстрировать как это работает, предположим, что вы идёте к своему проекту и начинаете работать над парой файлов и, возможно, добавляете в индекс одно из изменений. Если вы выполните `git status`, вы увидите грязное состояние проекта:
 
 To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
 
@@ -467,6 +565,8 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#      modified:   lib/simplegit.rb
 	#
 
+Теперь вы хотите поменять ветку, но не хотите делать коммит с тем, над чем вы ещё работаете; тогда вы прячете эти изменения. Чтобы создать новую "заначку", выполните `git stash`:
+
 Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
 
 	$ git stash
@@ -475,11 +575,15 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
+Ваш рабочий каталог чист:
+
 Your working directory is clean:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
+
+В этот момент, вы легко можете перейти на другую ветку и работать где-то ещё; ваши изменения сохранены в стеке. Чтобы посмотреть что у вас есть припрятанного, используйте `git stash list`:
 
 At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
 
@@ -487,6 +591,8 @@ At this point, you can easily switch branches and do work elsewhere; your change
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
+
+В нашем случае, две "заначки" были сделаны ранее, так что у вас теперь три разных припрятанных работы. Вы можете снова применить ту, которую вы только что спрятали, с помощью команды показанной в справке в выводе первоначальной команды `stash`: `git stash apply`. Если вы хотите применить одну из старых заначек, вы можете сделать это указав её имя так: `git stash apply stash@{2}`. Если вы не укажете ничего, Git будет подразумевать, что вы хотите применить последнюю спрятанную работу:
 
 In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
 
@@ -499,7 +605,11 @@ In this case, two stashes were done previously, so you have access to three diff
 	#      modified:   lib/simplegit.rb
 	#
 
+Как видите, Git восстановил изменения в файлах, которые вы отменили, когда использовали команду `stash`. В нашем случае, у вас был чистый рабочий каталог, когда вы восстанавливали спрятанные изменения, и к тому же вы делали это на той же ветке, на которой находились во время прятанья. Но наличие чистого рабочего каталога и применение на той же ветке не обязательны для `git stash apply`. Вы можете спрятать изменения на одной ветке, переключиться позже на другую ветку и попытаться восстановить изменения. У вас также могут быть изменённые и недокоммиченные файлы в вашем рабочем каталоге, во время применения спрятанного — Git выдаст вам конфликты слияния, если что-то уже не может быть применено чисто.
+
 You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+
+Изменения в файлах были восстановлены, но файлы в индексе — нет. Чтобы добиться такого, необходимо выполнить команду `git stash apply` с опцией `--index`, тогда команда попытается применить изменения в индексе. Если бы вы выполнили команду так, а не как раньше, то вы бы получили исходное состояние:
 
 The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
 
@@ -516,6 +626,8 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#      modified:   lib/simplegit.rb
 	#
 
+Всё что делает опция apply это пытается применить спрятанную работу — то, что вы спрятали, всё ещё будет находиться в стеке. Чтобы удалить спрятанное, выполните `git stash drop` с именем "заначки", которую нужно удалить:
+
 The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
 
 	$ git stash list
@@ -525,9 +637,38 @@ The apply option only tries to apply the stashed work — you continue to have i
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
+Также можно выполнить `git stash pop`, чтобы применить спрятанные изменения и сразу же удалить их из стека.
+
 You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
 
+### Откат применения спрятанных изменений ###
+### Un-applying a Stash ###
+
+При некоторых сценариях использования, вы можете захотеть применить спрятанные изменения, поработать, а потом отменить изменения, внесённые командой `stash apply`. Git не предоставляет команды `stash unapply`, но можно добиться того же эффекта получив сначала патч для спрятанных изменений, а потом применив его в перевёрнутом виде.
+
+In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came form the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+
+    $ git stash show -p stash@{0} | git apply -R
+
+Снова, если вы не указываете параметр для stash, Git подразумевает то, что было спрятано последним:
+
+Again, if you don’t specify a stash, Git assumes the most recent stash:
+
+    $ git stash show -p | git apply -R
+
+Если хотите, сделайте псевдоним и добавьте в свой git команду `stash-unapply`. Например, так:
+
+You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
+
+    $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
+    $ git stash
+    $ #... work work work
+    $ git stash-unapply
+
+### Создание ветки из спрятанных изменений ###
 ### Creating a Branch from a Stash ###
+
+Если вы спрятали какие-то наработки и оставили их на время, а в это время продолжили работать на той же ветке, то у вас могут возникнуть трудности с восстановлением спрятанной работы. Если apply попытается изменить файл, который вы редактировали после прятанья, у вас возникнет конфликт слияния, который надо будет разрешить. Если вам нужен более простой способ снова потестировать спрятанную работу, можно выполнить команду `git stash branch`, которая создаст вам новую ветку с началом из того коммита, на котором вы находились во время прятанья, восстановит в ней вашу работу и затем удалит спрятанное, если оно применилось успешно:
 
 If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
 
@@ -545,6 +686,8 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#      modified:   lib/simplegit.rb
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
+
+Это сокращение удобно для того, чтобы легко восстановить свою работу, а затем поработать над ней в новой ветке.
 
 This is a nice shortcut to recover stashed work easily and work on it in a new branch.
 
@@ -851,15 +994,25 @@ This is a powerful tool that can help you check hundreds of commits for an intro
 
 Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit. You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
 
+## Подмодули (Submodules) ##
 ## Submodules ##
+
+Часто бывает так, что во время работы над одним проектом, вам необходимо использовать другой изнутри первого. Возможно, это библиотека сторонних разработчиков или разрабатываемая вами обособленно и используемая в нескольких родительских проектах. Обычной задачей появляющейся в этих сценариях является то, что вы желаете иметь возможность рассматривать эти два проекта как независимые, тем не менее, по-прежнему имея возможность использовать один проект внутри другого.
 
 It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
 
+Вот пример. Предположим, вы разрабатываете вебсайт и создаете ленты (каналы) Atom. И вместо того, чтобы писать собственный Atom-генерирующий код, вы решили использовать библиотеку. Вы вероятно должны либо подключить код разделяемой библиотеки, такой как устанавливаемый модуль CPAN или пакет RubyGem, либо скопировать исходный код в дерево собственного проекта. Проблема подключения библиотеки в том, что в общем случае сложно настраивать библиотеку, и, зачастую, более сложно ее распространять. Ведь вы вынуждены удостоверится в том, что эта библиотека доступна каждому клиенту. Проблема с включением кода в ваш собственный проект в том, что любые изменения, произведенные вами, сложно слить, когда становятся доступными дальнейшие изменения основного проекта.
+
 Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
+
+Git решает эту задачу используя подмодули (submodules). Подмодули позволяют вам держать репозиторий Git как подкаталог другого репозитория Git. Это дает возможность клонировать другой репозиторий в ваш проект и держать ваши коммиты отдельно.
 
 Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
 
+### Начало использования подмодулей ###
 ### Starting with Submodules ###
+
+Предположим, вы хотите добавить библиотеку Rack (интерфейс шлюза веб-сервера Ruby) в ваш проект, возможно внося ваши собственные изменения в него, но продолжая сливать их с изменениями основного проекта. Первое что вам требуется сделать, это клонировать внешний репозиторий в ваш подкаталог. Вы добавляете внешние проекты как подмодули командой `git submodule add`:
 
 Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
 
@@ -871,7 +1024,9 @@ Suppose you want to add the Rack library (a Ruby web server gateway interface) t
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 
-Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things:
+Теперь у вас есть проект Rack в подкаталоге названом `rack` внутри вашего проекта. Вы можете перейти в этот репозиторий, внести изменения, добавить ваш собственный доступный для записи внешний репозиторий для отправки ваших изменений в него, извлекать и сливать из исходного репозитория, и многое другое. Если вы выполните `git status` сразу после добавления подмодуля, то увидите две вещи:
+	
+Now you have the Rack project under a subdirectory named rack within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run git status right after you add the submodule, you see two things:
 
 	$ git status
 	# On branch master
@@ -882,6 +1037,8 @@ Now you have the Rack project under a subdirectory named `rack` within your proj
 	#      new file:   rack
 	#
 
+Вначале вы заметите файл `.gitmodules`. Это - конфигурационный файл, который содержит соответствие между адресом (URL) проекта и локальным подкаталогом в который вы его получили: 
+	
 First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
 
 	$ cat .gitmodules 
@@ -889,7 +1046,11 @@ First you notice the `.gitmodules` file. This is a configuration file that store
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
+Если у вас несколько подмодулей, то в этом файле будет несколько записей. Важно обратить внимание на то, что этот файл версионирован вместе с другими вашими файлами, так же как и ваш файл `.gitignore`. Он отправляется и получается вместе с остальным вашим проектом. Так другие люди, которые  клонируют этот проект, узнают где взять проект подмодуля.
+
 If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
+
+В следующем листинге вывода `git status` присутствует элемент `rack`. Если вы запустите `git diff` для него, то увидите что-то интересное:
 
 The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
 
@@ -902,9 +1063,15 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
+Хотя `rack` является подкаталогом в вашем рабочем каталоге, Git видит ее как подмодуль и не отслеживает его содержимое когда вы не в нем. Вместо этого, Git записывает его как одиночный специфический коммит этого репозитория. Когда вы делаете изменения и фиксацию (создаете коммит - прим. переводчика) в этом подкаталоге, основной проект отмечает что HEAD в подмодуле был изменен, и регистрирует только SHA-1 хеш коммита над которым вы в данный момент завершили работу в подмодуле. Таким образом, когда другие клонируют этот проект, они могут воссоздать окружение точно.
+	
 Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
 
+Это важная особенность подмодулей – вы запоминаете их как определенный коммит (состояние) в котором они находятся. Вы не можете записать подмодуль как `master` или какую-либо другую символическую ссылку.
+
 This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
+
+Когда вы фиксируете изменения (создаете коммит), то увидите что-то вроде этого:
 
 When you commit, you see something like this:
 
@@ -914,7 +1081,11 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
+Обратите внимание на режим 160000 для элемента rack. Это специальный режим в Git который, по существу, означает, что коммит сохраняется как запись о каталоге, а не подкаталоге или файле.
+	 
 Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
+
+Вы можете расценивать каталог `rack` как отдельный проект и обновлять ваш основной проект время от времени с указателем на самый последний коммит в данном подпроекте. Все команды Git работают независимо в двух каталогах.
 
 You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
 
@@ -932,7 +1103,10 @@ You can treat the `rack` directory as a separate project and then update your su
 
 	    Document version change
 
+### Клонирование проекта с подмодулями ###
 ### Cloning a Project with Submodules ###
+
+Клонируем проект содержащий подмодуль. Когда вы получаете такой проект, то получаете каталоги содержащие подмодули, но, все же, не получаете ни одного файла из подмодулей.
 
 Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
 
@@ -950,6 +1124,8 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
+Каталог `rack` присутствует, но он пустой. Необходимо выполнить две команды: `git submodule init` для инициализации вашего локального файла конфигурации, и `git submodule update` для получения всех данных их этого проекта (подмодуля) и перехода к соответствующему коммиту, указанному в вашем основном проекте.
+	
 The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
 
 	$ git submodule init
@@ -962,6 +1138,8 @@ The `rack` directory is there, but empty. You must run two commands: `git submod
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 173 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
+
+Теперь ваш подкаталог `rack` точно в том состоянии, в котором он был ранее, когда вы его фиксировали. Если другой разработчик сделает изменения в коде rack и зафиксирует их, а вы затяните ссылку на них и сольете, то получите нечто немного странное:
 
 Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
 
@@ -979,6 +1157,8 @@ Now your `rack` subdirectory is at the exact state it was in when you committed 
 	#      modified:   rack
 	#
 
+По существу, вы слили то, изменения в указателе на ваш подмодуль, но это не обновило код в каталоге подмодуля, так что он выглядит так, как будто вы имеете грязное состояние в вашем рабочем каталоге:
+
 You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory:
 
 	$ git diff
@@ -989,6 +1169,8 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	@@ -1 +1 @@
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
+
+Это так потому, что ваш указатель для подмодуля не соответствует тому, что фактически находится в каталоге подмодуля. (Причина в том, что указатель на подмодуль не является каталогом. - прим. переводчика) Для исправления этого, вы должны выполнить `git submodule update` заново: 
 
 This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
 
@@ -1001,7 +1183,11 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
+Вы должны делать это каждый раз, когда вы получаете изменения подмодуля в главный проект. Это странно, но работает.
+
 You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
+
+Распространенная проблема возникает когда разработчик делает изменения в подмодуле (имеется в виду его локальная копия - прим. переводчика), но не отправляет их на общественный сервер. Затем он фиксирует указатель на это непубличное состояние и отправляет его в основной проект. Когда другие разработчики пытаются выполнить `git submodule update`, система работы с подмодулями не может найти указанный коммит потому. что он существует только в системе первого разработчика. Если это случается, вы увидите ошибку вроде этой:
 
 One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
 
@@ -1009,6 +1195,8 @@ One common problem happens when a developer makes a change locally in a submodul
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
 
+Вы вынуждены посмотреть кто последним менял подмодуль:
+	
 You have to see who last changed the submodule:
 
 	$ git log -1 rack
@@ -1018,19 +1206,33 @@ You have to see who last changed the submodule:
 
 	    added a submodule reference I will never make public. hahahahaha!
 
+Затем вы отправляете этому человеку имейл со своими возмущениями.
+
 Then, you e-mail that guy and yell at him.
 
+### Суперпроекты ###
 ### Superprojects ###
+
+Иногда, разработчики хотят получить комбинацию подкаталогов крупного проекта, в зависимости от того, в какой они команде. Это привычно если вы пришли из CVS или Subversion, где вы определили модуль или набор подкаталогов, и вы хотите сохранить данный тип рабочего процесса.
 
 Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
 
+Хорошим способом выполнить это в Git является сделать каждый из подкаталогов отдельным Git репозиторием, и создать репозиторий Git для суперпроекта который содержал бы несколько подмодулей. Преимущество такого подхода в том, что вы можете более гибко определять отношения между проектами при помощи тегов (ярлыков) и ветвей в суперпроектах.
+
 A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
 
+### Проблемы с подмодулями ###
 ### Issues with Submodules ###
 
-Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
+Однако, использование подмодулей не обходится без загвоздок. Во-первых, вы должны быть относительно осторожны работая в каталоге подмодуля. Когда вы выполняете команду `git submodule update` она возвращает определенную версию проекта, но не внутри ветви. Это называется получением изолированной головы - это означает, что файл HEAD указывает на конкретный коммит, а не на символическую ссылку. Проблема в том, что вы, как правило, не хотите работать в окружении с "изолированной головой", потому что так легко потерять изменения. Если вы сделаете первоначальный `submodule update`, произведете фиксацию в каталоге этого подмодуля без создания ветви для работы в ней, и затем, вновь выполните `git submodule update` из основного проекта, без создания коммита в суперпроекте, Git перетрет ваши изменения без предупреждения. Технически вы не потеряете проделанную работу, но у вас не будет ветки указывающей на нее, так что будет несколько сложно ее восстановить.
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b` work or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieve.
+
+Для предотвращения этой проблемы, создавайте ветвь, когда работаете в каталоге подмодуля с использованием команды `git checkout -b work` или какой-нибудь аналогичной. Когда вы сделаете обновление подмодуля командой `submodule update` в следующий раз, она все же откатит вашу работу, но, по крайней мере, у вас будет указатель для возврата назад.
+
+To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+
+Переключение ветвей с подмодулями в них так же может быть мудреным. Если вы создадите новую ветвь, добавите туда подмодуль и, затем, переключитесь обратно, туда где не было этого подмодуля, вы все еще будите иметь каталог подмодуля в виде неверсионированного каталога:
 
 Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
 
@@ -1055,13 +1257,19 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	#
 	#      rack/
 
+Вы будете вынуждены либо переместить каталог подмодуля в другое место, либо удалить его. В этом случае вам потребуется клонировать его опять когда переключитесь обратно, и вы можете потерять локальные изменения или ветви, которые вы не отправили в оригинальное хранилище.
+
 You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up.
+
+Последним главным предостережением является то, что многие люди запутываются с переключениями из подкаталогов к подмодулям. Если вы отслеживали файлы в подкаталоге вашего проекта, и хотите перенести их в подмодуль, вы должны быть осторожны или Git разозлится на вас. Допустим, что вы держите rack файлы в подкаталоге вашего проекта, и вы хотите переключить его на подмодуль. Если вы удалите подкаталог и затем выполните `submodule add`, Git наорет на вас:
 
 The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you:
 
 	$ rm -Rf rack/
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
+
+Вначале вам следует убрать каталог `rack` из индекса (деверсионировать). Затем вы сможете добавить подмодуль.
 
 You have to unstage the `rack` directory first. Then you can add the submodule:
 
@@ -1074,11 +1282,15 @@ You have to unstage the `rack` directory first. Then you can add the submodule:
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
 	Resolving deltas: 100% (1952/1952), done.
 
+Теперь, предположим, вы сделали это в ветви. Если вы попытаетесь переключиться обратно в ветвь, где эти файлы все еще в актуальном дереве, а не в подмодуле – вы получите такую ошибку:
+
 Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
 
+Вам следует переместить каталог подмодуля `rack`, перед тем, как вы сможете переключиться на ветвь, которая не содержит его.
+	
 You have to move the `rack` submodule directory out of the way before you can switch to a branch that doesn’t have it:
 
 	$ mv rack /tmp/
@@ -1087,15 +1299,26 @@ You have to move the `rack` submodule directory out of the way before you can sw
 	$ ls
 	README	rack
 
+Затем, когда вы переключитесь обратно, вы получите пустой каталог `rack`. Вы сможете либо выполнить `git submodule update` для повторного клонирования, или вернуть содержимое вашего каталога `/tmp/rack` обратно в пустой каталог.
+
 Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
 
+## Слияние поддеревьев ##
 ## Subtree Merging ##
+
+Теперь, когда вы увидели сложности системы подмодулей, давайте посмотрим на альтернативный путь решения той же проблемы. Когда Git выполняет слияние, он смотрит на то, что требуется слить вместе и затем выбирает подходящую стратегию слияния. Если вы сливаете две ветви, Git использует _рекурсивную (recursive)_ стратегию. Если вы объединяете более двух ветвей, Git выбирает стратегию _осьминога (octopus)_. Эти стратегии выбираются для вас автоматически потому, что рекурсивная стратегия может обрабатывать сложные трехсторонние ситуации слияния - например, более чем один общий предок - но она может объединять только две ветви. Объединение методом осьминога может обрабатывать множество ветвей, но является более осторожным, чтобы предотвратить сложные конфликты, так что, он выбирается стратегией по умолчанию, если вы пытаетесь объединить более двух ветвей.
 
 Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
 
+Однако, существуют другие стратеги, которые вы так же можете выбрать. Одна из них - объединение _поддеревьев_, и вы можете использовать ее для решения задачи с подпроектами. Тут вы увидите как выполнить то же внедрение rack как и в предыдущем разделе, но с использованием стратегии слияний поддеревьев.
+
 However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
 
+Идея объединения поддеревьев в том, что вы имеете два проекта, и один из проектов отображается в подкаталог другого и наоборот. Когда вы задаете слияние поддеревьев, Git достаточно умен, чтобы понять то, что один проект является поддеревом другого и слить правильно - это довольно удивительно.
+
 The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
+
+Сначала вы добавляете приложение Rack в ваш проект. Вы добавляете проект Rack как внешнюю ссылку в вашем собственном проекте, и затем переводите его в собственную ветку:
 
 You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
 
@@ -1116,6 +1339,8 @@ You first add the Rack application to your project. You add the Rack project as 
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
+Теперь у вас есть корень проекта Rack в вашей ветке `rack_branch` и ваш проект в ветке `master`. Если вы переключитесь на одну, а затем на другую, то увидете, что содержимое их корневых каталогов различно:
+	
 Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch. If you check out one and then the other, you can see that they have different project roots:
 
 	$ ls
@@ -1126,14 +1351,20 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	$ ls
 	README
 
+Допустим, вы хотите получить проект Rack в ваш `master`-проект как подкаталог. Вы можете сделать это в Git-те командой `git read-tree`. Вы узнаете больше про команду `read-tree` и ее друзей в Главе 9, но пока знайте, что она читает корень дерева одной ветки в вашу текущую рабочую область и рабочий каталог. Вам достаточно переключиться обратно в вашу ветвь `master`, и вытянуть ветвь `rack` в подкаталог `rack` ветви `master` вашего основного проекта:
+
 You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
+
+Когда произведете фиксацию (командой `commit`), все будет выглядеть так, как-будто у вас все файлы Rack в этом подкаталоге - будто вы скопировали их туда из архива. Вызывает интерес то, что вы можете достаточно просто объединять изменения их одной ветвей в другую. Так, что если проект Rack изменится, вы сможете вытянуть ведущие изменения путем переключение в эту ветку и извлечения:
 
 When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
 
 	$ git checkout rack_branch
 	$ git pull
+
+Затем, вы можете слить эти изменения обратно в вашу главную ветвь. Можете использовать `git merge -s subtree` и это сработает правильно; но Git также объединит истории вместе, чего вы возможно не желаете. Для вытягивания изменений и подстановки сообщения коммита, используйте опции `--squash` и `--no-commit` вместе с опцией стратегии `-s subtree`:
 
 Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
 
@@ -1142,16 +1373,25 @@ Then, you can merge those changes back into your master branch. You can use `git
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
+Все изменения из проекта Rack слиты и готовы для локальной фиксации. Вы так же можете сделать наоборот - внести изменения в подкаталог `rack` вашей главной ветви, и затем, слить их в вашу ветку `rack_branch` чтобы позже отправить их персоналу сопровождения или вытолкнуть их в основную ветвь разработки стороннего проекта.
+
 All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+
+Для получения разности между тем, что у вас есть в подкаталоге `rack` и кодом в вашей ветке `rack_branch`, чтобы увидеть нужно ли вам объединять их, вы не можете использовать нормальную команду `diff`. Вместо этого вы должны выполнить `git diff-tree` с веткой, с которой вы хотите сравнить:
 
 To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
 
 	$ git diff-tree -p rack_branch
 
+Или, для сравнения того, что в вашем подкаталоге `rack` с тем, что в ветви `master` на сервере, из которого вы в последний раз извлекали, можете выполнить:
+
 Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
 
 	$ git diff-tree -p rack_remote/master
 
+## Итоги ##
 ## Summary ##
+
+Вы увидели ряд продвинутых инструментов, которые позволяют вам манипулировать вашими коммитами и рабочей областью более совершенно. Когда вы замечаете проблему, то сможете легко выяснить, каким коммитом она внесена, когда и кем. Если вы хотите использовать подпроекты в вашем проекте - вы узнали несколько путей, как приспособится к этим нуждам. С этого момента, вы должны быть в состоянии делать большинство вещей в Git, которые вам будут необходимы повседневно в командной строке, и будете чувствовать себя при этом комфортно.
 
 You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.

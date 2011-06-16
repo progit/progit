@@ -226,8 +226,8 @@ Quand vous avez toutes les dépendances nécessaires, vous pouvez poursuivre et 
 	
 Puis, compiler et installer :
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.2.2.tar.gz
+	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 

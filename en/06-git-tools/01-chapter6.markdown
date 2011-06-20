@@ -490,7 +490,7 @@ You can also run `git stash pop` to apply the stash and then immediately drop it
 
 ### Un-applying a Stash ###
 
-In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came form the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
 
     $ git stash show -p stash@{0} | git apply -R
 

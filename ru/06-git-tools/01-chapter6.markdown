@@ -731,18 +731,12 @@ Insert 18333fig0601.png
 Эта команда проходит по всем коммитам и переписывает их так, чтобы там был указан новый адрес. Так как коммиты содержат значения SHA-1 своих родителей, эта команда поменяет все SHA в вашей истории, а не только те, в которых есть указанный e-mail адрес.
 
 ## Отладка с помощью Git ##
-## Debugging with Git ##
 
 Git также предоставляет несколько инструментов призванных помочь вам в отладке ваших проектов. Так как Git сконструирован так, чтобы работать с практически любыми типами проектов, эти инструменты довольно общие, но зачастую они могут помочь отловить ошибку или её виновника, если что-то пошло не так.
 
-Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
-
 ### Аннотация файла ###
-### File Annotation ###
 
-Если вы отловили ошибку в коде и хотите узнать, когда и по какой причине она была внесена, то аннотация файла — лучший инструмент для этого случая. Он покажет вам какие коммиты модифицировали каждую строку файла в последний раз. Так что, если вы выдите, что какой-то метод в коде глючный, то можно сделать аннотацию нужного файла с помощью `git blame`, чтобы посмотреть когда и кем каждая строка метода была в последний раз отредактирована. В этом примере используется опция `-L`, чтобы ограничить вывод строками с 12ой по 22ую:
-
-If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool. It shows you what commit was the last to modify each line of any file. So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom. This example uses the `-L` option to limit the output to lines 12 through 22:
+Если вы отловили ошибку в коде и хотите узнать, когда и по какой причине она была внесена, то аннотация файла — лучший инструмент для этого случая. Он покажет вам какие коммиты модифицировали каждую строку файла в последний раз. Так что, если вы видите, что какой-то метод в коде глючный, то можно сделать аннотацию нужного файла с помощью `git blame`, чтобы посмотреть когда и кем каждая строка метода была в последний раз отредактирована. В этом примере используется опция `-L`, чтобы ограничить вывод строками с 12ой по 22ую:
 
 	$ git blame -L 12,22 simplegit.rb 
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
@@ -759,11 +753,7 @@ If you track down a bug in your code and want to know when it was introduced and
 
 Заметьте, что первое поле это частичная SHA-1 коммита, в котором последний раз менялась строка. Следующие два поля это значения полученные из этого коммита — имя автора и дата создания коммита. Так что вы легко можете понять кто и когда менял данную строку. Затем идут номера строк и содержимое файла. Также обратите внимание на строки с `^4832fe2`, это те строки, которые находятся здесь со времён первого коммита для этого файла. Это коммит, в котором этот файл был впервые добавлен в проект, и с тех пор те строки не менялись. Это всё несколько сбивает с толку, потому что только что вы увидели по крайней мере три разных способа изменить SHA коммита с помощью `^`, но тут вот такое значение.
 
-Notice that the first field is the partial SHA-1 of the commit that last modified that line. The next two fields are values extracted from that commit—the author name and the authored date of that commit — so you can easily see who modified that line and when. After that come the line number and the content of the file. Also note the `^4832fe2` commit lines, which designate that those lines were in this file’s original commit. That commit is when this file was first added to this project, and those lines have been unchanged since. This is a tad confusing, because now you’ve seen at least three different ways that Git uses the `^` to modify a commit SHA, but that is what it means here.
-
-Ещё одна крутая вещь в Git это то, что он не отслеживает переименования файлов в явном виде. Он записывает снимки состояний, а затем пытается выяснить что было переименовано неявно уже после того как это случилось. Одна из интересных функций возможная благодаря этому заключается в том, что вы можете попросить дополнительно выявить все виды перемещений кода. Если вы передадите `-C` в `git blame`, Git проанализирует аннотируемый файл и попытается выявить откуда фрагменты кода в нём появились изначально, если они были скопированы откуда-то. Недавно я занимался реструктуризацией файла `GITServerHandler.m` в несколько файлов, один из которых был `GITPackUpload.m`. Вызвав `blame` с опцией `-C` для `GITPackUpload.m`, я могу понять откуда части кода здесь появились:
-
-Another cool thing about Git is that it doesn’t track file renames explicitly. It records the snapshots and then tries to figure out what was renamed implicitly, after the fact. One of the interesting features of this is that you can ask it to figure out all sorts of code movement as well. If you pass `-C` to `git blame`, Git analyzes the file you’re annotating and tries to figure out where snippets of code within it originally came from if they were copied from elsewhere. Recently, I was refactoring a file named `GITServerHandler.m` into multiple files, one of which was `GITPackUpload.m`. By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of the code originally came from:
+Ещё одна крутая вещь в Git это то, что он не отслеживает переименования файлов в явном виде. Он записывает снимки состояний, а затем пытается выяснить что было переименовано неявно уже после того как это случилось. Одна из интересных функций возможная благодаря этому заключается в том, что вы можете попросить дополнительно выявить все виды перемещений кода. Если вы передадите `-C` в `git blame`, Git проанализирует аннотируемый файл и попытается выявить откуда фрагменты кода в нём появились изначально, если они были скопированы откуда-то. Недавно я занимался разбиением файла `GITServerHandler.m` на несколько файлов, один из которых был `GITPackUpload.m`. Вызвав `blame` с опцией `-C` для `GITPackUpload.m`, я могу понять откуда части кода здесь появились:
 
 	$ git blame -C -L 141,153 GITPackUpload.m 
 	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
@@ -780,20 +770,13 @@ Another cool thing about Git is that it doesn’t track file renames explicitly.
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 
-Это действительно полезно. Стандартно, вам бы выдали в качестве начального коммита тот коммит, в котором вы скопировали код, так как это первый коммит, в котором вы поменяли эти строки в данном файле. Git выдаст вам изначальный коммит, когда вы написали эти строки, даже если они были в другом файле.
-
-This is really useful. Normally, you get as the original commit the commit where you copied the code over, because that is the first time you touched those lines in this file. Git tells you the original commit where you wrote those lines, even if it was in another file.
+Это действительно удобно. Стандартно, вам бы выдали в качестве начального коммита тот коммит, в котором вы скопировали код, так как это первый коммит, в котором вы поменяли эти строки в данном файле. А сейчас Git выдал вам изначальный коммит, в котором эти строки были написаны, не смотря на то, что это было в другом файле.
 
 ### Бинарный поиск ###
-### Binary Search ###
 
-Аннотирование файла помогает, когда вы знаете, где у вас ошибка, чтобы было с чего начинать. Если вы не знаете что у вас сломалось, и с тех пор, когда код работал, были сделаны десятки или сотни коммитов, вы наверняка обратитесь за помощью к `git bisect`. Команда `bisect` выполняет бинарный поиск по вашей истории коммитов, чтобы помочь как можно быстрее определить в каком коммите была внесена ошибка.
+Аннотирование файла помогает, когда вы знаете, где у вас ошибка, и есть с чего начинать. Если вы не знаете что у вас сломалось, и с тех пор, когда код работал, были сделаны десятки или сотни коммитов, вы наверняка обратитесь за помощью к `git bisect`. Команда `bisect` выполняет бинарный поиск по истории коммитов, и призвана помочь как можно быстрее определить в каком коммите была внесена ошибка.
 
-Annotating a file helps if you know where the issue is to begin with. If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help. The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.
-
-Положим вы только что отправили новую версию вашего кода в производство, и теперь вы периодически получаете отчёты об какой-то ошибках, которая не проявлялась, когда вы работали над кодом, и вы не представляете почему код ведёт себя так. Вы возвращаетесь к своему коду, и у вас получается воспроизвести ошибку, но вы не понимаете что не так. Вы можете использовать `bisect`, чтобы выяснить это. Сначала выполните `git bisect start`, чтобы запустить процесс, а затем `git bisect bad`, чтобы сказать системе, что текущий коммит, на котором вы сейчас находитесь, — сломан. Затем, необходимо сказать `bisect`, когда было последнее известное хорошее состояние с помощью `git bisect good [хороший_коммит]`:
-
-Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that. You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong. You can bisect the code to find out. First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken. Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:
+Положим, вы только что отправили новую версию вашего кода в производство, и теперь вы периодически получаете отчёты о какой-то ошибке, которая не проявлялась, пока вы работали над кодом, и вы не представляете почему код ведёт себя так. Вы возвращаетесь к своему коду, и у вас получается воспроизвести ошибку, но вы не понимаете что не так. Вы можете использовать `bisect`, чтобы выяснить это. Сначала выполните `git bisect start`, чтобы запустить процесс, а затем `git bisect bad`, чтобы сказать системе, что текущий коммит, на котором вы сейчас находитесь, — сломан. Затем, необходимо сказать `bisect`, когда было последнее известное хорошее состояние с помощью `git bisect good [хороший_коммит]`:
 
 	$ git bisect start
 	$ git bisect bad
@@ -801,25 +784,19 @@ Let’s say you just pushed out a release of your code to a production environme
 	Bisecting: 6 revisions left to test after this
 	[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
 
-Git выяснил, что между коммитом, который вы указали как последний хороший коммит (v1.0), и текущей плохой версией было сделано примерно 12 коммитов, и он выгрузил вам версию из середины. В этот момент, вы можете провести свои тесты и посмотреть проявляется ли проблема в этом коммите. Если да, то она была внесена где-то раньше этого среднего коммита; если нет, то проблема появилась когда-то позже коммита в середине. Положим, что оказывается, что проблема здесь не проявилась, вы говорите Git об этом набрав `git bisect good` и продолжаете свой путь:
-
-Git figured out that about 12 commits came between the commit you marked as the last good commit (v1.0) and the current bad version, and it checked out the middle one for you. At this point, you can run your test to see if the issue exists as of this commit. If it does, then it was introduced sometime before this middle commit; if it doesn’t, then the problem was introduced sometime after the middle commit. It turns out there is no issue here, and you tell Git that by typing `git bisect good` and continue your journey:
+Git выяснил, что между коммитом, который вы указали как последний хороший коммит (v1.0), и текущей плохой версией было сделано примерно 12 коммитов, и он выгрузил вам версию из середины. В этот момент, вы можете провести свои тесты и посмотреть проявляется ли проблема в этом коммите. Если да, то она была внесена где-то раньше этого среднего коммита; если нет, то проблема появилась где-то после коммита в середине. Положим, что оказывается, что проблема здесь не проявилась, вы говорите Git об этом набрав `git bisect good` и продолжаете свой путь:
 
 	$ git bisect good
 	Bisecting: 3 revisions left to test after this
 	[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing
 
-Теперь вы на другом коммите, посередине между тем, который вы только что протестировали и вашим плохим коммитом. Вы снова проводите тесты и выясняете, что текущий коммит сломан. Так что вы говорите об этом Git с помощью `git bisect bad`:
-
-Now you’re on another commit, halfway between the one you just tested and your bad commit. You run your test again and find that this commit is broken, so you tell Git that with `git bisect bad`:
+Теперь вы на другом коммите, посередине между тем, который только что был протестирован и вашим плохим коммитом. Вы снова проводите тесты и выясняете, что текущий коммит сломан. Так что вы говорите об этом Git с помощью `git bisect bad`:
 
 	$ git bisect bad
 	Bisecting: 1 revisions left to test after this
 	[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
 
-Этот коммит хороший, и теперь у Git есть вся необходимая информация, чтобы определить где проблема была внесена впервые. Он выдаёт вам SHA-1 первого плохого коммита и некоторую информацию о нём, а также какие файлы были изменены в этом коммите, так что вы сможете поянть что случилось, что могло внести эту ошибку:
-
-This commit is fine, and now Git has all the information it needs to determine where the issue was introduced. It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:
+Этот коммит хороший, и теперь у Git есть вся необходимая информация, чтобы определить где проблема была внесена впервые. Он выдаёт вам SHA-1 первого плохого коммита и некоторую информацию о нём, а также какие файлы были изменены в этом коммите, так что вы сможете понять что случилось, что могло внести эту ошибку:
 
 	$ git bisect good
 	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
@@ -834,42 +811,26 @@ This commit is fine, and now Git has all the information it needs to determine w
 
 Если вы закончили, необходимо выполнить `git bisect reset`, чтобы сбросить HEAD туда где он был до начала бинарного поиска, иначе вы окажетесь в странном состоянии:
 
-When you’re finished, you should run `git bisect reset` to reset your HEAD to where you were before you started, or you’ll end up in a weird state:
-
 	$ git bisect reset
 
-Это мощный инструмент, который поможет вам проверить сотни коммитов на появившиеся ошибки за считанные минуты. На самом деле, если у вас есть сценарий (script), который возвращает на выходе 0, если проект хороший и не 0, если проект плохой, то вы можете полностью автоматизировать `git bisect`. Сначала вы снова задаёте ему область бинарного поиска задавая известный хороший и плохой коммиты. Если хотите, можете сделать это указав их команде `bisect start`, указав известный плохой коммит первым, а хороший вторым:
-
-This is a powerful tool that can help you check hundreds of commits for an introduced bug in minutes. In fact, if you have a script that will exit 0 if the project is good or non-0 if the project is bad, you can fully automate `git bisect`. First, you again tell it the scope of the bisect by providing the known bad and good commits. You can do this by listing them with the `bisect start` command if you want, listing the known bad commit first and the known good commit second:
+Это мощный инструмент, который поможет вам за считанные минуты проверить сотни коммитов в поисках появившейся ошибки. На самом деле, если у вас есть сценарий (script), который возвращает на выходе 0, если проект хороший и не 0, если проект плохой, то вы можете полностью автоматизировать `git bisect`. Для начала ему снова надо задать область бинарного поиска задав известные хороший и плохой коммиты. Если хотите, можете сделать это указав их команде `bisect start`, указав известный плохой коммит первым, а хороший вторым:
 
 	$ git bisect start HEAD v1.0
 	$ git bisect run test-error.sh
 
-Сделав это вы получите, что `test-error.sh` будет автоматически запускаться на каждом выгруженном коммите, пока Git не найдёт первый сломанный коммит. Вы также можете выполнить что-нибудь типа `make` или `make tests` или что-то там ещё, что запускает ваши автоматические тесты.
+Сделав так, вы получите, что `test-error.sh` будет автоматически запускаться на каждом выгруженном коммите, пока Git не найдёт первый сломанный коммит. Вы также можете запускать что-нибудь типа `make` или `make tests` или что-то там ещё, что запускает ваши автоматические тесты.
 
-Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit. You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
+## Подмодули ##
 
-## Подмодули (Submodules) ##
-## Submodules ##
+Зачастую случается так, что во время работы над некоторым проектом, появляется необходимость использовать внутри него ещё какой-то проект. Возможно, библиотеку разрабатываемую сторонними разработчиками или разрабатываемую вами обособленно и используемую в нескольких родительских проектах. Типичная проблема возникающая при использовании подобного сценария это, как сделать так, чтобы иметь возможность рассматривать эти два проекта как отдельные, всё же имея возможность использовать один проект внутри другого.
 
-Часто бывает так, что во время работы над одним проектом, вам необходимо использовать другой изнутри первого. Возможно, это библиотека сторонних разработчиков или разрабатываемая вами обособленно и используемая в нескольких родительских проектах. Обычной задачей появляющейся в этих сценариях является то, что вы желаете иметь возможность рассматривать эти два проекта как независимые, тем не менее, по-прежнему имея возможность использовать один проект внутри другого.
+Вот пример. Предположим, вы разрабатываете веб-сайт и создаёте Atom-ленты. И вместо того, чтобы писать собственный код генерирующий Atom, вы решили использовать библиотеку. Вы, вероятно, должны либо подключить нужный код с помощью разделяемой библиотеки, такой как устанавливаемый модуль CPAN или пакет RubyGem, либо скопировать исходный код в дерево собственного проекта. Проблема с подключением библиотеки в том, что библиотеку сложно хоть как-то модифицировать под свои нужды, и зачастую её сложнее распространять. Ведь вы вынуждены удостовериться в том, что эта библиотека доступна на каждом клиенте. Проблема с включением кода в ваш собственный проект в том, что любые изменения, вносимые вами, могут конфликтовать с изменениями, которые появятся в основном проекте, и эти изменения будет сложно слить.
 
-It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
-
-Вот пример. Предположим, вы разрабатываете вебсайт и создаете ленты (каналы) Atom. И вместо того, чтобы писать собственный Atom-генерирующий код, вы решили использовать библиотеку. Вы вероятно должны либо подключить код разделяемой библиотеки, такой как устанавливаемый модуль CPAN или пакет RubyGem, либо скопировать исходный код в дерево собственного проекта. Проблема подключения библиотеки в том, что в общем случае сложно настраивать библиотеку, и, зачастую, более сложно ее распространять. Ведь вы вынуждены удостоверится в том, что эта библиотека доступна каждому клиенту. Проблема с включением кода в ваш собственный проект в том, что любые изменения, произведенные вами, сложно слить, когда становятся доступными дальнейшие изменения основного проекта.
-
-Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
-
-Git решает эту задачу используя подмодули (submodules). Подмодули позволяют вам держать репозиторий Git как подкаталог другого репозитория Git. Это дает возможность клонировать другой репозиторий в ваш проект и держать ваши коммиты отдельно.
-
-Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
+Git решает эту задачу используя подмодули (submodule). Подмодули позволяют содержать репозиторий Git как подкаталог другого репозитория Git. Это даёт возможность клонировать ещё один репозиторий внутрь проекта и держать коммиты для этого репозитория отдельно.
 
 ### Начало использования подмодулей ###
-### Starting with Submodules ###
 
-Предположим, вы хотите добавить библиотеку Rack (интерфейс шлюза веб-сервера Ruby) в ваш проект, возможно внося ваши собственные изменения в него, но продолжая сливать их с изменениями основного проекта. Первое что вам требуется сделать, это клонировать внешний репозиторий в ваш подкаталог. Вы добавляете внешние проекты как подмодули командой `git submodule add`:
-
-Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
+Предположим, вы хотите добавить библиотеку Rack (интерфейс шлюза веб-сервера Ruby) в свой проект, возможно внося свои собственные изменения в него, но продолжая сливать их с изменениями основного проекта. Первое что вам требуется сделать, это клонировать внешний репозиторий в подкаталог. Добавление внешних проектов в качестве подмодулей делается командой `git submodule add`:
 
 	$ git submodule add git://github.com/chneukirchen/rack.git rack
 	Initialized empty Git repository in /opt/subtest/rack/.git/
@@ -879,9 +840,7 @@ Suppose you want to add the Rack library (a Ruby web server gateway interface) t
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 
-Теперь у вас есть проект Rack в подкаталоге названом `rack` внутри вашего проекта. Вы можете перейти в этот репозиторий, внести изменения, добавить ваш собственный доступный для записи внешний репозиторий для отправки ваших изменений в него, извлекать и сливать из исходного репозитория, и многое другое. Если вы выполните `git status` сразу после добавления подмодуля, то увидите две вещи:
-	
-Now you have the Rack project under a subdirectory named rack within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run git status right after you add the submodule, you see two things:
+Теперь у вас внутри проекта в подкаталоге с именем `rack` находится проект Rack. Вы можете переходить в этот подкаталог, вносить изменения, добавить ваш собственный доступный для записи внешний репозиторий для отправки в него своих изменений, извлекать и сливать из исходного репозитория, и многое другое. Если вы выполните `git status` сразу после добавления подмодуля, то увидите две вещи:
 
 	$ git status
 	# On branch master
@@ -892,22 +851,16 @@ Now you have the Rack project under a subdirectory named rack within your projec
 	#      new file:   rack
 	#
 
-Вначале вы заметите файл `.gitmodules`. Это - конфигурационный файл, который содержит соответствие между адресом (URL) проекта и локальным подкаталогом в который вы его получили: 
-	
-First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
+Вначале вы заметите файл `.gitmodules`. Это конфигурационный файл, который содержит соответствие между URL проекта и локальным подкаталогом, в который был загружен подмодуль:
 
 	$ cat .gitmodules 
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-Если у вас несколько подмодулей, то в этом файле будет несколько записей. Важно обратить внимание на то, что этот файл версионирован вместе с другими вашими файлами, так же как и ваш файл `.gitignore`. Он отправляется и получается вместе с остальным вашим проектом. Так другие люди, которые  клонируют этот проект, узнают где взять проект подмодуля.
+Если у вас несколько подмодулей, то в этом файле будет несколько записей. Важно обратить внимание на то, что этот файл находится под версионным контролем вместе с другими вашими файлами, так же как и файл `.gitignore`. Он отправляется при выполнении `push` и загружается при выполнении `pull` вместе с остальными файлами проекта. Так другие люди, которые клонируют этот проект, узнают откуда взять проекты-подмодули.
 
-If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
-
-В следующем листинге вывода `git status` присутствует элемент `rack`. Если вы запустите `git diff` для него, то увидите что-то интересное:
-
-The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
+В следующем листинге вывода `git status` присутствует элемент `rack`. Если вы выполните `git diff` для него, то увидите кое-что интересное:
 
 	$ git diff --cached rack
 	diff --git a/rack b/rack
@@ -918,17 +871,11 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Хотя `rack` является подкаталогом в вашем рабочем каталоге, Git видит ее как подмодуль и не отслеживает его содержимое когда вы не в нем. Вместо этого, Git записывает его как одиночный специфический коммит этого репозитория. Когда вы делаете изменения и фиксацию (создаете коммит - прим. переводчика) в этом подкаталоге, основной проект отмечает что HEAD в подмодуле был изменен, и регистрирует только SHA-1 хеш коммита над которым вы в данный момент завершили работу в подмодуле. Таким образом, когда другие клонируют этот проект, они могут воссоздать окружение точно.
-	
-Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
+Хотя `rack` является подкаталогом в вашем рабочем каталоге, Git видит его как подмодуль и не отслеживает его содержимое, если вы не находитесь в нём. Вместо этого, Git записывает его как один конкретный коммит из этого репозитория. Если вы производите изменения в этом подкаталоге и делаете коммит, основной проект замечает, что HEAD в подмодуле был изменён, и регистрирует тот хеш коммита, над которым вы в данный момент завершили работу в подмодуле. Таким образом, если кто-то склонирует этот проект, он сможет воссоздать окружение в точности.
 
-Это важная особенность подмодулей – вы запоминаете их как определенный коммит (состояние) в котором они находятся. Вы не можете записать подмодуль как `master` или какую-либо другую символическую ссылку.
+Это важная особенность подмодулей – вы запоминаете их как определенный коммит (состояние), в котором они находятся. Вы не можете записать подмодуль под ссылкой `master` или какой-либо другой символьной ссылкой.
 
-This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
-
-Когда вы фиксируете изменения (создаете коммит), то увидите что-то вроде этого:
-
-When you commit, you see something like this:
+Если вы создадите коммит, то увидите что-то вроде этого:
 
 	$ git commit -m 'first commit with submodule rack'
 	[master 0550271] first commit with submodule rack
@@ -936,13 +883,9 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
-Обратите внимание на режим 160000 для элемента rack. Это специальный режим в Git который, по существу, означает, что коммит сохраняется как запись о каталоге, а не подкаталоге или файле.
-	 
-Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
+Обратите внимание на режим 160000 для элемента rack. Это специальный режим в Git, который по существу означает, что в качестве записи в каталоге сохраняется коммит, а не подкаталог или файл.
 
-Вы можете расценивать каталог `rack` как отдельный проект и обновлять ваш основной проект время от времени с указателем на самый последний коммит в данном подпроекте. Все команды Git работают независимо в двух каталогах.
-
-You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
+Вы можете расценивать каталог `rack` как отдельный проект и обновлять ваш основной проект время от времени с указателем на самый последний коммит в данном подпроекте. Все команды Git работают независимо в двух каталогах:
 
 	$ git log -1
 	commit 0550271328a0038865aad6331e620cd7238601bb
@@ -959,11 +902,8 @@ You can treat the `rack` directory as a separate project and then update your su
 	    Document version change
 
 ### Клонирование проекта с подмодулями ###
-### Cloning a Project with Submodules ###
 
-Клонируем проект содержащий подмодуль. Когда вы получаете такой проект, то получаете каталоги содержащие подмодули, но, все же, не получаете ни одного файла из подмодулей.
-
-Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
+Сейчас мы склонируем проект содержащий подмодуль. После получения такого проекта, в вашей копии будут каталоги содержащие подмодули, но пока что без единого файла в них:
 
 	$ git clone git://github.com/schacon/myproject.git
 	Initialized empty Git repository in /opt/myproject/.git/
@@ -979,9 +919,7 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
-Каталог `rack` присутствует, но он пустой. Необходимо выполнить две команды: `git submodule init` для инициализации вашего локального файла конфигурации, и `git submodule update` для получения всех данных их этого проекта (подмодуля) и перехода к соответствующему коммиту, указанному в вашем основном проекте.
-	
-The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
+Каталог `rack` присутствует, но он пустой. Необходимо выполнить две команды: `git submodule init` для инициализации вашего локального файла конфигурации, и `git submodule update` для получения всех данных из подмодуля и перехода к соответствующему коммиту, указанному в вашем основном проекте:
 
 	$ git submodule init
 	Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
@@ -994,9 +932,7 @@ The `rack` directory is there, but empty. You must run two commands: `git submod
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Теперь ваш подкаталог `rack` точно в том состоянии, в котором он был ранее, когда вы его фиксировали. Если другой разработчик сделает изменения в коде rack и зафиксирует их, а вы затяните ссылку на них и сольете, то получите нечто немного странное:
-
-Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
+Теперь ваш подкаталог `rack` точно в том состоянии, в котором он был, когда вы раньше делали коммит. Если другой разработчик внесёт изменения в код rack и затем сделает коммит, а вы потом обновите эту ссылку и сольёте её, то вы получите что-то странное:
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -1012,9 +948,7 @@ Now your `rack` subdirectory is at the exact state it was in when you committed 
 	#      modified:   rack
 	#
 
-По существу, вы слили то, изменения в указателе на ваш подмодуль, но это не обновило код в каталоге подмодуля, так что он выглядит так, как будто вы имеете грязное состояние в вашем рабочем каталоге:
-
-You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory:
+Вы слили то, что по существу является изменением указателя на подмодуль. Но при этом обновления кода в каталоге подмодуля не произошло, так что всё выглядит так, как будто вы имеете грязное состояние в своём рабочем каталоге:
 
 	$ git diff
 	diff --git a/rack b/rack
@@ -1025,9 +959,7 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Это так потому, что ваш указатель для подмодуля не соответствует тому, что фактически находится в каталоге подмодуля. (Причина в том, что указатель на подмодуль не является каталогом. - прим. переводчика) Для исправления этого, вы должны выполнить `git submodule update` заново: 
-
-This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
+Это всё из-за того, что ваш указатель на подмодуль не соответствует тому, что на самом деле находится в каталоге подмодуля. Чтобы исправить это, необходимо снова выполнить `git submodule update`:
 
 	$ git submodule update
 	remote: Counting objects: 5, done.
@@ -1038,21 +970,15 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-Вы должны делать это каждый раз, когда вы получаете изменения подмодуля в главный проект. Это странно, но работает.
+Вы вынуждены делать так каждый раз, когда вы получаете изменения подмодуля в главном проекте. Это странно, но это работает.
 
-You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
-
-Распространенная проблема возникает когда разработчик делает изменения в подмодуле (имеется в виду его локальная копия - прим. переводчика), но не отправляет их на общественный сервер. Затем он фиксирует указатель на это непубличное состояние и отправляет его в основной проект. Когда другие разработчики пытаются выполнить `git submodule update`, система работы с подмодулями не может найти указанный коммит потому. что он существует только в системе первого разработчика. Если это случается, вы увидите ошибку вроде этой:
-
-One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
+Распространённая проблема возникает, когда разработчик делает изменения в своей локальной копии подмодуля, но не отправляет их на общий сервер. Затем он создаёт коммит содержащий указатель на это непубличное состояние и отправляет его в основной проект. Когда другие разработчики пытаются выполнить `git submodule update`, система работы с подмодулями не может найти указанный коммит, потому что он существует только в системе первого разработчика. Если такое случится, вы увидите ошибку вроде этой:
 
 	$ git submodule update
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
 
-Вы вынуждены посмотреть кто последним менял подмодуль:
-	
-You have to see who last changed the submodule:
+Вам надо посмотреть, кто последним менял подмодуль:
 
 	$ git log -1 rack
 	commit 85a3eee996800fcfa91e2119372dd4172bf76678
@@ -1061,35 +987,21 @@ You have to see who last changed the submodule:
 
 	    added a submodule reference I will never make public. hahahahaha!
 
-Затем вы отправляете этому человеку имейл со своими возмущениями.
-
-Then, you e-mail that guy and yell at him.
+А затем отправить этому человеку письмо со своими возмущениями.
 
 ### Суперпроекты ###
-### Superprojects ###
 
-Иногда, разработчики хотят получить комбинацию подкаталогов крупного проекта, в зависимости от того, в какой они команде. Это привычно если вы пришли из CVS или Subversion, где вы определили модуль или набор подкаталогов, и вы хотите сохранить данный тип рабочего процесса.
+Иногда, разработчики хотят объединить подкаталоги крупного проекта в нечто связанное, в зависимости от того, в какой они команде. Это типично для людей перешедших с CVS или Subversion, где они определяли модуль или набор подкаталогов, и они хотят сохранить данный тип рабочего процесса.
 
-Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
-
-Хорошим способом выполнить это в Git является сделать каждый из подкаталогов отдельным Git репозиторием, и создать репозиторий Git для суперпроекта который содержал бы несколько подмодулей. Преимущество такого подхода в том, что вы можете более гибко определять отношения между проектами при помощи тегов (ярлыков) и ветвей в суперпроектах.
-
-A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
+Хороший способ сделать такое в Git — это сделать каждый из подкаталогов отдельным Git-репозиторием, и создать Git-репозиторий для суперпроекта, который будет содержать несколько подмодулей. Преимущество такого подхода в том, что вы можете более гибко определять отношения между проектами при помощи меток и ветвей в суперпроектах.
 
 ### Проблемы с подмодулями ###
-### Issues with Submodules ###
 
-Однако, использование подмодулей не обходится без загвоздок. Во-первых, вы должны быть относительно осторожны работая в каталоге подмодуля. Когда вы выполняете команду `git submodule update` она возвращает определенную версию проекта, но не внутри ветви. Это называется получением изолированной головы - это означает, что файл HEAD указывает на конкретный коммит, а не на символическую ссылку. Проблема в том, что вы, как правило, не хотите работать в окружении с "изолированной головой", потому что так легко потерять изменения. Если вы сделаете первоначальный `submodule update`, произведете фиксацию в каталоге этого подмодуля без создания ветви для работы в ней, и затем, вновь выполните `git submodule update` из основного проекта, без создания коммита в суперпроекте, Git перетрет ваши изменения без предупреждения. Технически вы не потеряете проделанную работу, но у вас не будет ветки указывающей на нее, так что будет несколько сложно ее восстановить.
-
-Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieve.
+Однако, использование подмодулей не обходится без загвоздок. Во-первых, вы должны быть относительно осторожны работая в каталоге подмодуля. Когда вы выполняете команду `git submodule update`, она возвращает определённую версию проекта, но не внутри ветви. Это называется состоянием с отделённым HEAD (detached HEAD) — это означает, что файл HEAD указывает на конкретный коммит, а не на символическую ссылку. Проблема в том, что вы, скорее всего, не хотите работать в окружении с отделённым HEAD, потому что так легко потерять изменения. Если вы сделаете первоначальный `submodule update`, сделаете коммит в каталоге подмодуля не создавая ветки для работы в ней, и затем вновь выполните `git submodule update` из основного проекта, без создания коммита в суперпроекте, Git затрёт ваши изменения без предупреждения. Технически вы не потеряете проделанную работу, но у вас не будет ветки указывающей на неё, так что будет несколько сложновато её восстановить.
 
 Для предотвращения этой проблемы, создавайте ветвь, когда работаете в каталоге подмодуля с использованием команды `git checkout -b work` или какой-нибудь аналогичной. Когда вы сделаете обновление подмодуля командой `submodule update` в следующий раз, она все же откатит вашу работу, но, по крайней мере, у вас будет указатель для возврата назад.
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
-
-Переключение ветвей с подмодулями в них так же может быть мудреным. Если вы создадите новую ветвь, добавите туда подмодуль и, затем, переключитесь обратно, туда где не было этого подмодуля, вы все еще будите иметь каталог подмодуля в виде неверсионированного каталога:
-
-Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
+Переключение веток с подмодулями в них также может быть мудрёным. Если вы создадите новую ветку, добавите туда подмодуль и затем переключитесь обратно, туда где не было этого подмодуля, вы все ещё будете иметь каталог подмодуля в виде неотслеживаемого каталога:
 
 	$ git checkout -b rack
 	Switched to a new branch "rack"
@@ -1112,21 +1024,15 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	#
 	#      rack/
 
-Вы будете вынуждены либо переместить каталог подмодуля в другое место, либо удалить его. В этом случае вам потребуется клонировать его опять когда переключитесь обратно, и вы можете потерять локальные изменения или ветви, которые вы не отправили в оригинальное хранилище.
+Вы будете вынуждены либо переместить каталог подмодуля в другое место, либо удалить его. В случае удаления вам потребуется клонировать его снова при переключении обратно, и тогда вы можете потерять локальные изменения или ветки, которые не были отправлены в основной репозиторий.
 
-You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up.
-
-Последним главным предостережением является то, что многие люди запутываются с переключениями из подкаталогов к подмодулям. Если вы отслеживали файлы в подкаталоге вашего проекта, и хотите перенести их в подмодуль, вы должны быть осторожны или Git разозлится на вас. Допустим, что вы держите rack файлы в подкаталоге вашего проекта, и вы хотите переключить его на подмодуль. Если вы удалите подкаталог и затем выполните `submodule add`, Git наорет на вас:
-
-The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you:
+Последняя проблема, которая возникает у многих, и о которой стоит предостеречь, возникает при переходе от подкаталогов к подмодулям. Если вы держали некоторые файлы под версионным контролем в своём проекте, а сейчас хотите перенести их в подмодуль, вам надо быть осторожным, иначе Git разозлится на вас. Допустим, вы держите файлы rack в подкаталоге проекта, и вы хотите вынести его в подмодуль. Если вы просто удалите подкаталог и затем выполните `submodule add`, Git наорёт на вас:
 
 	$ rm -Rf rack/
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
 
-Вначале вам следует убрать каталог `rack` из индекса (деверсионировать). Затем вы сможете добавить подмодуль.
-
-You have to unstage the `rack` directory first. Then you can add the submodule:
+Вначале вам следует убрать каталог `rack` из индекса (убрать из под версионного контроля). Потом можете добавить подмодуль:
 
 	$ git rm -r rack
 	$ git submodule add git@github.com:schacon/rack.git rack
@@ -1137,16 +1043,12 @@ You have to unstage the `rack` directory first. Then you can add the submodule:
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
 	Resolving deltas: 100% (1952/1952), done.
 
-Теперь, предположим, вы сделали это в ветви. Если вы попытаетесь переключиться обратно в ветвь, где эти файлы все еще в актуальном дереве, а не в подмодуле – вы получите такую ошибку:
-
-Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
+Теперь, предположим, вы сделали это в ветке. Если вы попытаетесь переключиться обратно на ту ветку, где эти файлы всё еще в актуальном дереве, а не в подмодуле, то вы получите такую ошибку:
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
 
-Вам следует переместить каталог подмодуля `rack`, перед тем, как вы сможете переключиться на ветвь, которая не содержит его.
-	
-You have to move the `rack` submodule directory out of the way before you can switch to a branch that doesn’t have it:
+Вам следует переместить каталог подмодуля `rack`, перед тем, как вы сможете переключиться на ветку, которая не содержит его:
 
 	$ mv rack /tmp/
 	$ git checkout master
@@ -1156,26 +1058,15 @@ You have to move the `rack` submodule directory out of the way before you can sw
 
 Затем, когда вы переключитесь обратно, вы получите пустой каталог `rack`. Вы сможете либо выполнить `git submodule update` для повторного клонирования, или вернуть содержимое вашего каталога `/tmp/rack` обратно в пустой каталог.
 
-Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
-
 ## Слияние поддеревьев ##
-## Subtree Merging ##
 
-Теперь, когда вы увидели сложности системы подмодулей, давайте посмотрим на альтернативный путь решения той же проблемы. Когда Git выполняет слияние, он смотрит на то, что требуется слить вместе и затем выбирает подходящую стратегию слияния. Если вы сливаете две ветви, Git использует _рекурсивную (recursive)_ стратегию. Если вы объединяете более двух ветвей, Git выбирает стратегию _осьминога (octopus)_. Эти стратегии выбираются для вас автоматически потому, что рекурсивная стратегия может обрабатывать сложные трехсторонние ситуации слияния - например, более чем один общий предок - но она может объединять только две ветви. Объединение методом осьминога может обрабатывать множество ветвей, но является более осторожным, чтобы предотвратить сложные конфликты, так что, он выбирается стратегией по умолчанию, если вы пытаетесь объединить более двух ветвей.
+Теперь, когда вы увидели сложности системы подмодулей, давайте посмотрим на альтернативный путь решения той же проблемы. Когда Git выполняет слияние, он смотрит на то, что требуется слить воедино и потом выбирает подходящую стратегию слияния. Если вы сливаете две ветви, Git использует _рекурсивную_ (recursive) стратегию. Если вы объединяете более двух ветвей, Git выбирает стратегию _осьминога_ (octopus). Эти стратегии выбираются за вас автоматически потому, что рекурсивная стратегия может обрабатывать сложные трёхсторонние ситуации слияния — например, более чем один общий предок — но она может сливать только две ветви. Слияние методом осьминога может справиться с множеством веток, но является более осторожным, чтобы предотвратить сложные конфликты, так что этот метод является стратегией по умолчанию при слиянии более двух веток.
 
-Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
+Однако, существуют другие стратегии, которые вы также можете выбрать. Одна из них — слияние _поддеревьев_ (subtree), и вы можете использовать его для решения задачи с подпроектами. Сейчас вы увидите как выполнить то же встраивание rack как и в предыдущем разделе, но с использованием стратегии слияния поддеревьев.
 
-Однако, существуют другие стратеги, которые вы так же можете выбрать. Одна из них - объединение _поддеревьев_, и вы можете использовать ее для решения задачи с подпроектами. Тут вы увидите как выполнить то же внедрение rack как и в предыдущем разделе, но с использованием стратегии слияний поддеревьев.
+Идея слияния поддеревьев в том, что вы имеете два проекта, и один из проектов отображается в подкаталог другого и наоборот. Если вы зададите в качестве стратегии слияния метод subtree, то Git будет достаточно умным, чтобы понять, что один из проектов является поддеревом другого и выполнит слияние в соответствии с этим. И это довольно удивительно.
 
-However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
-
-Идея объединения поддеревьев в том, что вы имеете два проекта, и один из проектов отображается в подкаталог другого и наоборот. Когда вы задаете слияние поддеревьев, Git достаточно умен, чтобы понять то, что один проект является поддеревом другого и слить правильно - это довольно удивительно.
-
-The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
-
-Сначала вы добавляете приложение Rack в ваш проект. Вы добавляете проект Rack как внешнюю ссылку в вашем собственном проекте, и затем переводите его в собственную ветку:
-
-You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
+Сначала добавьте приложение Rack в свой проект. Добавьте проект Rack как внешнюю ссылку в свой собственный проект, и затем поместите его в собственную ветку:
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
@@ -1194,9 +1085,7 @@ You first add the Rack application to your project. You add the Rack project as 
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
-Теперь у вас есть корень проекта Rack в вашей ветке `rack_branch` и ваш проект в ветке `master`. Если вы переключитесь на одну, а затем на другую, то увидете, что содержимое их корневых каталогов различно:
-	
-Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch. If you check out one and then the other, you can see that they have different project roots:
+Теперь у вас есть корень проекта Rack в ветке `rack_branch` и ваш проект в ветке `master`. Если вы переключитесь на одну ветку, а затем на другую, то увидете, что содержимое их корневых каталогов различно:
 
 	$ ls
 	AUTHORS	       KNOWN-ISSUES   Rakefile      contrib	       lib
@@ -1206,47 +1095,32 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	$ ls
 	README
 
-Допустим, вы хотите получить проект Rack в ваш `master`-проект как подкаталог. Вы можете сделать это в Git-те командой `git read-tree`. Вы узнаете больше про команду `read-tree` и ее друзей в Главе 9, но пока знайте, что она читает корень дерева одной ветки в вашу текущую рабочую область и рабочий каталог. Вам достаточно переключиться обратно в вашу ветвь `master`, и вытянуть ветвь `rack` в подкаталог `rack` ветви `master` вашего основного проекта:
-
-You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
+Допустим, вы хотите поместить проект Rack в подкаталог своего проекта в ветке `master`. Вы можете сделать это в Git'е командой `git read-tree`. Вы узнаете больше про команду `read-tree` и её друзей в Главе 9, а пока достаточно знать, что она считывает корень дерева одной ветки в индекс и рабочий каталог. Вам достаточно переключиться обратно на ветку `master`, и вытянуть ветвь `rack` в подкаталог `rack` вашего основного проекта из ветки `master`:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-Когда произведете фиксацию (командой `commit`), все будет выглядеть так, как-будто у вас все файлы Rack в этом подкаталоге - будто вы скопировали их туда из архива. Вызывает интерес то, что вы можете достаточно просто объединять изменения их одной ветвей в другую. Так, что если проект Rack изменится, вы сможете вытянуть ведущие изменения путем переключение в эту ветку и извлечения:
-
-When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
+После того как вы сделаете коммит, все файлы проекта Rack будут находиться в этом подкаталоге — будто вы скопировали их туда из архива. Интересно то, что вы можете довольно легко слить изменения из одной ветки в другую. Так, что если проект Rack изменится, вы сможете вытянуть изменения из основного проекта, переключившись в его ветку и выполнив `git pull`:
 
 	$ git checkout rack_branch
 	$ git pull
 
-Затем, вы можете слить эти изменения обратно в вашу главную ветвь. Можете использовать `git merge -s subtree` и это сработает правильно; но Git также объединит истории вместе, чего вы возможно не желаете. Для вытягивания изменений и подстановки сообщения коммита, используйте опции `--squash` и `--no-commit` вместе с опцией стратегии `-s subtree`:
-
-Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
+Затем, вы можете слить эти изменения обратно в вашу главную ветку. Можно использовать `git merge -s subtree` — это сработает правильно, но тогда Git кроме того объединит вместе истории, чего вы, вероятно, не хотите. Чтобы получить изменения и заполнить сообщение коммита, используйте опции `--squash` и `--no-commit` вместе с опцией стратегии `-s subtree`:
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-Все изменения из проекта Rack слиты и готовы для локальной фиксации. Вы так же можете сделать наоборот - внести изменения в подкаталог `rack` вашей главной ветви, и затем, слить их в вашу ветку `rack_branch` чтобы позже отправить их персоналу сопровождения или вытолкнуть их в основную ветвь разработки стороннего проекта.
-
-All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+Все изменения из проекта Rack слиты и готовы для локальной фиксации. Вы также можете сделать наоборот — внести изменения в подкаталог `rack` вашей ветки `master`, и затем слить их в ветку `rack_branch`, чтобы позже представить их мейнтейнерам или отправить их в основной репозиторий проекта с помощью `git push`.
 
 Для получения разности между тем, что у вас есть в подкаталоге `rack` и кодом в вашей ветке `rack_branch`, чтобы увидеть нужно ли вам объединять их, вы не можете использовать нормальную команду `diff`. Вместо этого вы должны выполнить `git diff-tree` с веткой, с которой вы хотите сравнить:
 
-To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
-
 	$ git diff-tree -p rack_branch
 
-Или, для сравнения того, что в вашем подкаталоге `rack` с тем, что в ветви `master` на сервере, из которого вы в последний раз извлекали, можете выполнить:
-
-Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
+Или, для сравнения того, что в вашем подкаталоге `rack` с тем, что было в ветке `master` на сервере во время последнего обновления, можно выполнить:
 
 	$ git diff-tree -p rack_remote/master
 
 ## Итоги ##
-## Summary ##
 
-Вы увидели ряд продвинутых инструментов, которые позволяют вам манипулировать вашими коммитами и рабочей областью более совершенно. Когда вы замечаете проблему, то сможете легко выяснить, каким коммитом она внесена, когда и кем. Если вы хотите использовать подпроекты в вашем проекте - вы узнали несколько путей, как приспособится к этим нуждам. С этого момента, вы должны быть в состоянии делать большинство вещей в Git, которые вам будут необходимы повседневно в командной строке, и будете чувствовать себя при этом комфортно.
-
-You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.
+Вы познакомились с рядом продвинутых инструментов, которые позволяют вам манипулировать вашими коммитами и индексом более совершенно. Когда вы замечаете проблему, то сможете легко выяснить, каким коммитом она внесена, когда и кем. Если вы хотите использовать подпроекты в вашем проекте — вы узнали несколько путей, как приспособится к этим нуждам. С этого момента, вы должны быть в состоянии делать большинство вещей в Git, которые вам будут необходимы повседневно в командной строке, и будете чувствовать себя при этом комфортно.

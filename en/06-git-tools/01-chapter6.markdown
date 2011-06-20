@@ -625,7 +625,7 @@ to this:
 
 When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.
 
-### Squashing a Commit ###
+### Squashing Commits ###
 
 It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:
 

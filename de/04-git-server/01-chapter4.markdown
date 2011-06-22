@@ -202,19 +202,30 @@ Die Unterseite vom Servieren von deinem Repository über HTTP ist, dass es recht
 
 ## Getting Git on a Server ##
 
+## Git auf einen Server bekommen ##
+
 In order to initially set up any Git server, you have to export an existing repository into a new bare repository — a repository that doesn’t contain a working directory. This is generally straightforward to do.
 In order to clone your repository to create a new bare repository, you run the clone command with the `--bare` option. By convention, bare repository directories end in `.git`, like so:
+
+Um zunächst einen beliebigen Git Server einzurichten, musst du ein existierendes Repository in ein neues einfaches Repository exportieren - ein Repository, dass kein Arbeitsverzeichnis enthält. Das ist im Allgemeinen einfach zu erledigen.
+Um zunächst dein Repository zu klonen, um ein neues einfaches Repository anzulegen, führst du den Klonen-Befehl mit der `--bare` Option aus. Per Konvention haben einfache Repository Verzeichnisse die Endung `.git`, wie hier:
 
 	$ git clone --bare my_project my_project.git
 	Initialized empty Git repository in /opt/projects/my_project.git/
 
 The output for this command is a little confusing. Since `clone` is basically a `git init` then a `git fetch`, we see some output from the `git init` part, which creates an empty directory. The actual object transfer gives no output, but it does happen. You should now have a copy of the Git directory data in your `my_project.git` directory.
 
+Die Ausgabe für diesen Befehl ist etwas verwirrend. Weil `clone` im Grunde ein `git init` und ein `git fetch` ist, sehen wir eine Ausgabe vom `git init`-Teil, der ein leeres Verzeichnis anlegt. Die eigentliche Objekt-Übertragung erzeugt keine Ausgabe, aber sie findet statt. Du solltest jetzt eine Kopie von den Git-Verzeichnis Daten in deinem `my_project.git` Verzeichnis haben.
+
 This is roughly equivalent to something like
+
+Dies ist entsprechend zu etwas wie
 
 	$ cp -Rf my_project/.git my_project.git
 
 There are a couple of minor differences in the configuration file; but for your purpose, this is close to the same thing. It takes the Git repository by itself, without a working directory, and creates a directory specifically for it alone.
+
+Es gibt ein paar kleine Unterschiede in der Konfigurationsdatei, aber für deine Zwecke ist es nahezu dasselbe. Es nimmt das Git-Repository von selbst, ohne einem Arbeitsverzeichnis, und erzeugt ein Verzeichnis speziell für sich allein.
 
 ### Putting the Bare Repository on a Server ###
 

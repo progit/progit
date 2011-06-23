@@ -273,15 +273,27 @@ Wenn du eine kleine Ausrüstung hast oder Git gerade in deinem Unternehmen auspr
 
 #### SSH Access ####
 
+#### SSH-Zugriff ####
+
 If you already have a server to which all your developers have SSH access, it’s generally easiest to set up your first repository there, because you have to do almost no work (as we covered in the last section). If you want more complex access control type permissions on your repositories, you can handle them with the normal filesystem permissions of the operating system your server runs.
+
+Wenn du bereits einen Server hast, zu dem alle Entwickler SSH-Zugriff haben, ist es generell einfach, dein erstes Repository einzurichten, weil du fast keine Arbeit zu erledigen hast (wie wir im letzen Abschnitt abgedeckt haben). Wenn du komplexere Zugriffskontroll-Berechtigungen auf deine Repositories willst, kannst du diese mit normalen Dateisystem-Berechtigungen des Betriebssystems deines Servers bewältigen.
 
 If you want to place your repositories on a server that doesn’t have accounts for everyone on your team whom you want to have write access, then you must set up SSH access for them. We assume that if you have a server with which to do this, you already have an SSH server installed, and that’s how you’re accessing the server.
 
+Wenn du deine Repositories auf einem Server platzieren möchtest, der keine Accounts für jeden aus deinem Team hat, der Schreibzugriff haben soll, dann musst du SSH-Zugriff für diese Personen einrichten. Wir nehmen an, wenn du einen Server hast, mit welchem du dies tun möchtest, du bereits einen SSH-Server installiert hast und so greifst du auf den Server zu.
+
 There are a few ways you can give access to everyone on your team. The first is to set up accounts for everybody, which is straightforward but can be cumbersome. You may not want to run `adduser` and set temporary passwords for every user.
+
+Es gibt ein paar Wege allen Mitgliedern deines Teams Zugriff zu geben. Der erste ist einen Account für jeden einzurichten, was unkompliziert aber mühsam sein kann. Du möchtest vielleicht nicht für jeden Benutzer `adduser` ausführen und ein temporäres Passwort setzen.
 
 A second method is to create a single 'git' user on the machine, ask every user who is to have write access to send you an SSH public key, and add that key to the `~/.ssh/authorized_keys` file of your new 'git' user. At that point, everyone will be able to access that machine via the 'git' user. This doesn’t affect the commit data in any way — the SSH user you connect as doesn’t affect the commits you’ve recorded.
 
+Eine zweite Methode ist, einen einzigen 'git'-Benutzer auf der Maschine zu erstellen und jeden Benutzer, der Schreibzugriff haben soll, nach einem öffentliche SSH-Schlüssel zu fragen und diesen Schlüssel zu der `~/.ssh/authorized_keys`-Datei deines neuen 'git' Benutzers hinzuzufügen. Das beeinflusst die Commit-Daten in keiner Weise - der SSH-Benutzer, mit dem du dich verbindest, beeinflusst die von dir aufgezeichneten Commits nicht.
+
 Another way to do it is to have your SSH server authenticate from an LDAP server or some other centralized authentication source that you may already have set up. As long as each user can get shell access on the machine, any SSH authentication mechanism you can think of should work.
+
+Ein anderer Weg ist, einen LDAP-Server zur Authentifizierung zu benutzen oder eine andere zentrale Authentifizierungsquelle, die du vielleicht bereits eingerichtet hast. Solange jeder Benutzer Shell-Zugriff zu der Maschine hat, sollte jede SSH-Authentifizierungsmethode funktionieren, die du dir vorstellen kannst.
 
 ## Generating Your SSH Public Key ##
 

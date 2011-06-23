@@ -229,15 +229,23 @@ Es gibt ein paar kleine Unterschiede in der Konfigurationsdatei, aber für deine
 
 ### Putting the Bare Repository on a Server ###
 
+## Inbetriebnahme des einfachen Repository auf einem Server ##
+
 Now that you have a bare copy of your repository, all you need to do is put it on a server and set up your protocols. Let’s say you’ve set up a server called `git.example.com` that you have SSH access to, and you want to store all your Git repositories under the `/opt/git` directory. You can set up your new repository by copying your bare repository over:
+
+Da du jetzt eine einfache Kopie deines Repository hast, ist alles was du tun musst das Aufsetzen auf einem Server und das Einrichten deiner Protokolle. Angenommen, du hast einen Server mit dem Namen `git.example.com`, zu dem du SSH-Zugang hast, und du möchtest alle deine Git Repositories im Verzeichnis `/opt/git` speichern. Du kannst dein neues Repository einrichten, indem du dein einfaches Repository dorthin kopierst:
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
 At this point, other users who have SSH access to the same server which has read-access to the `/opt/git` directory can clone your repository by running
 
+An diesem Punkt können andere Benutzer, die SSH-Zugang zu dem gleichen Server und Lesezugriff auf das `/opt/git` Verzeichnis haben, dein Repository klonen:
+
 	$ git clone user@git.example.com:/opt/git/my_project.git
 
 If a user SSHs into a server and has write access to the `/opt/git/my_project.git` directory, they will also automatically have push access.  Git will automatically add group write permissions to a repository properly if you run the `git init` command with the `--shared` option.
+
+Wenn sich ein Benutzer per SSH mit dem Server verbindet und Schreibzugriff zu dem Verzeichnis `/opt/git/my_project.git` hat, wird er automatisch auch Push-Zugriff haben. Git wird automatisch die richtigen Gruppenschreibrechte zu einem Repository hinzufügen, wenn du den `git init` Befehl mit der `--shared` Option ausführst:
 
 	$ ssh user@git.example.com
 	$ cd /opt/git/my_project.git
@@ -245,9 +253,15 @@ If a user SSHs into a server and has write access to the `/opt/git/my_project.gi
 
 You see how easy it is to take a Git repository, create a bare version, and place it on a server to which you and your collaborators have SSH access. Now you’re ready to collaborate on the same project.
 
+Du siehst wie einfach es ist ein Git Repository zu nehmen, eine einfache Version zu erzeugen, es auf einen Server zu platzieren zu dem du und deine Mitarbeiter SSH-Zugriff haben.
+
 It’s important to note that this is literally all you need to do to run a useful Git server to which several people have access — just add SSH-able accounts on a server, and stick a bare repository somewhere that all those users have read and write access to. You’re ready to go — nothing else needed.
 
+Es ist wichtig zu beachten, dass dies wortwörtlich alles ist, was du tun musst, um einen nützlichen Git-Server laufen zu lassen, zu dem mehrere Personen Zugriff haben - füge auf dem Server einfach SSH-fähige Konten und irgendwo ein einfaches Repository hinzu, zu dem alle Benutzer Schreib- und Lesezugriff haben.
+
 In the next few sections, you’ll see how to expand to more sophisticated setups. This discussion will include not having to create user accounts for each user, adding public read access to repositories, setting up web UIs, using the Gitosis tool, and more. However, keep in mind that to collaborate with a couple of people on a private project, all you _need_ is an SSH server and a bare repository.
+
+In den nächsten Abschnitten wirst du sehen, wie man auf anspruchsvollere Konfigurationen erweitert. Diese Diskussion wird beinhalten nicht Benutzerkonten für jeden Benutzer hinzufügen zu müssen, öffentlichen Lese-Zugriff auf Repositories hinzuzufügen, die Einrichtung von Web-UIs, die Benutzung des Gitosis-Tools und weiteres. Aber denke daran, zur Zusammenarbeit mit ein paar Personen an einem privaten Projekt, ist alles was du _brauchst_ ein SSH-Server und ein einfaches Repository.
 
 ### Small Setups ###
 

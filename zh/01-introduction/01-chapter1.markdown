@@ -131,8 +131,8 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
 
-	$ apt-get install curl-devel expat-devel gettext-devel \
-	  openssl-devel zlib-devel
+	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+	  libz-dev libssl-dev
 	
 之后，从下面的 Git 官方站点下载最新版本源代码：
 
@@ -140,8 +140,8 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 
 然后编译并安装：
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.2.2.tar.gz
+	$ cd git-1.7.2.2
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
@@ -157,7 +157,7 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 
 在 Ubuntu 这类 Debian 体系的系统上，可以用 apt-get 安装：
 
-	$ apt-get instal git-core
+	$ apt-get install git-core
 
 ### 在 Mac 上安装 ###
 
@@ -166,9 +166,9 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-图 1-7. Git OS X 安装工具体
+图 1-7. Git OS X 安装工具
 
-另一种是通过 MacPorts (http://www.macports.org) 安装。如果已经装好了 MacPorts，用下面的命令安装 Git：
+另一种是通过 MacPorts (`http://www.macports.org`) 安装。如果已经装好了 MacPorts，用下面的命令安装 Git：
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
@@ -176,7 +176,7 @@ Insert 18333fig0107.png
 
 ### 在 Windows 上安装 ###
 
-在 Windows 上安装 Git 同样轻松，有个叫做 msysGit 的项目提供了安装包，可以从 Google Code 的页面上下载安装文件（.exe）：
+在 Windows 上安装 Git 同样轻松，有个叫做 msysGit 的项目提供了安装包，可以到 Google Code 的页面上下载 exe 安装文件并运行：
 
 	http://code.google.com/p/msysgit
 
@@ -192,7 +192,7 @@ Git 提供了一个叫做 git config 的工具（译注：实际是 git-config �
 * `~/.gitconfig`文件：用户目录下的配置文件只适用于该用户。若使用 `git config` 时用 ` --global` 选项，读写的就是这个文件。
 * 当前项目的 git 目录中的配置文件（也就是工作目录中的 `.git/config` 文件）：这里的配置仅仅针对当前项目有效。每一个级别的配置都会覆盖上层的相同配置，所以 `.git/config` 里的配置会覆盖 `/etc/gitconfig` 中的同名变量。
 
-在 Windows 系统上，Git 会找寻用户主目录下的 `.gitconfig` 文件。主目录即 `$HOME` 变量指定的目录，一般都是 `C:\Documents and Settings\$USER`。此外，Git 还会尝试找寻 /etc/gitconfig 文件，只不过看当初 Git 装在什么目录，就以此作为根目录来定位。
+在 Windows 系统上，Git 会找寻用户主目录下的 `.gitconfig` 文件。主目录即 `$HOME` 变量指定的目录，一般都是 `C:\Documents and Settings\$USER`。此外，Git 还会尝试找寻 `/etc/gitconfig` 文件，只不过看当初 Git 装在什么目录，就以此作为根目录来定位。
 
 ### 用户信息 ###
 

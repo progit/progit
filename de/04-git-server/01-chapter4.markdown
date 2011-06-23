@@ -229,7 +229,7 @@ Es gibt ein paar kleine Unterschiede in der Konfigurationsdatei, aber für deine
 
 ### Putting the Bare Repository on a Server ###
 
-## Inbetriebnahme des einfachen Repository auf einem Server ##
+### Inbetriebnahme des einfachen Repository auf einem Server ###
 
 Now that you have a bare copy of your repository, all you need to do is put it on a server and set up your protocols. Let’s say you’ve set up a server called `git.example.com` that you have SSH access to, and you want to store all your Git repositories under the `/opt/git` directory. You can set up your new repository by copying your bare repository over:
 

@@ -265,7 +265,11 @@ In den nächsten Abschnitten wirst du sehen, wie man auf anspruchsvollere Konfig
 
 ### Small Setups ###
 
+### Kleine Konfigurationen ###
+
 If you’re a small outfit or are just trying out Git in your organization and have only a few developers, things can be simple for you. One of the most complicated aspects of setting up a Git server is user management. If you want some repositories to be read-only to certain users and read/write to others, access and permissions can be a bit difficult to arrange.
+
+Wenn du eine kleine Ausrüstung hast oder Git gerade in deinem Unternehmen ausprobierst und nur ein paar Entwickler hast, sind die Dinge einfach für dich. Einer der kompliziertesten Aspekte der Einrichtung eines Git-Servers ist die Benutzerverwaltung. Wenn einige Repositories für bestimmte Benutzer nur lesend zugänglich sein sollen und andere Benutzer Lese/Schreib-Zugriff haben sollen, können Zugriff und Berechtigungen ein bisschen schwierig zu organisieren sein.
 
 #### SSH Access ####
 

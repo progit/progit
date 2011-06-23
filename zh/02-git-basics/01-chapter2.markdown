@@ -30,7 +30,7 @@
 
 	$ git clone git://github.com/schacon/grit.git
 
-这会在当前目录下创建一个名为 “grit” 的目录，其中内含一个 `.git` 的目录，并从同步后的仓库中拉出所有的数据，取出最新版本的文件拷贝。如果进入这个新建的 `grit` 目录，你会看到项目中的所有文件已经在里边了，准备好后续的开发和使用。如果希望在克隆的时候，自己定义要新建的项目目录名称，可以在上面的命令最后指定：
+这会在当前目录下创建一个名为“grit”的目录，其中内含一个 `.git` 的目录，并从同步后的仓库中拉出所有的数据，取出最新版本的文件拷贝。如果进入这个新建的 `grit` 目录，你会看到项目中的所有文件已经在里边了，准备好后续的开发和使用。如果希望在克隆的时候，自己定义要新建的项目目录名称，可以在上面的命令最后指定：
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
@@ -46,7 +46,7 @@ Git 支持许多数据传输协议。之前的例子使用的是 `git://` 协议
 
 在编辑过某些文件之后，Git 将这些文件标为已修改。我们逐步把这些修改过的文件放到暂存区域，然后等最后一次性提交暂存区域的所有文件更新，如此重复。所以使用 Git 时的文件状态变化周期如图 2-1 所示。
 
-Insert 18333fig0201.png 
+Insert 18333fig0201.png
 图 2-1. 文件的状态变化周期
 
 ### 检查当前文件状态 ###
@@ -251,17 +251,19 @@ Insert 18333fig0201.png
 
 现在运行 `git diff` 看暂存前后的变化：
 
-	$ git diff 
+	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index e445e28..86b2f7c 100644
 	--- a/benchmarks.rb
 	+++ b/benchmarks.rb
 	@@ -127,3 +127,4 @@ end
 	 main()
-
-	 ##pp Grit::GitRuby.cache_client.stats 
+	 
+	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
-	and git diff --cached to see what you’ve staged so far:
+
+然后用 `git diff --cached` 查看已经暂存起来的变化：
+
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index 3cb747f..e445e28 100644
@@ -274,7 +276,7 @@ Insert 18333fig0201.png
 	+        run_code(x, 'commits 1') do
 	+          git.commits.size
 	+        end
-	+              
+	+
 	        run_code(x, 'commits 2') do
 	          log = git.commits('master', 15)
 	          log.size
@@ -296,7 +298,7 @@ Insert 18333fig0201.png
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
 	#       new file:   README
-	#       modified:   benchmarks.rb 
+	#       modified:   benchmarks.rb
 	~
 	~
 	~
@@ -421,7 +423,7 @@ Insert 18333fig0201.png
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
 
-	    changed the verison number
+	    changed the version number
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -446,7 +448,7 @@ Insert 18333fig0201.png
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
 
-	    changed the verison number
+	    changed the version number
 
 	diff --git a/Rakefile b/Rakefile
 	index a874b73..8f94139 100644
@@ -486,7 +488,7 @@ Insert 18333fig0201.png
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
 
-	    changed the verison number
+	    changed the version number
 
 	 Rakefile |    2 +-
 	 1 files changed, 1 insertions(+), 1 deletions(-)
@@ -516,14 +518,14 @@ Insert 18333fig0201.png
 还有个常用的 `--pretty` 选项，可以指定使用完全不同于默认格式的方式展示提交历史。比如用 `oneline` 将每个提交放在一行显示，这在提交数很大时非常有用。另外还有 `short`，`full` 和 `fuller` 可以用，展示的信息或多或少有些不同，请自己动手实践一下看看效果如何。
 
 	$ git log --pretty=oneline
-	ca82a6dff817ec66f44342007202690a93763949 changed the verison number
+	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
 但最有意思的是 `format`，可以定制要显示的记录格式，这样的输出便于后期编程提取分析，像这样：
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
-	ca82a6d - Scott Chacon, 11 months ago : changed the verison number
+	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
@@ -553,12 +555,12 @@ Insert 18333fig0201.png
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
 	*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit
-	|\  
+	|\
 	| * 420eac9 Added a method for getting the current branch.
 	* | 30e367c timeout code and tests
 	* | 5a09431 add timeout protection to grit
 	* | e1193f8 support for heads with slashes in them
-	|/  
+	|/
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
@@ -600,7 +602,7 @@ Insert 18333fig0201.png
 
 来看一个实际的例子，如果要查看 Git 仓库中，2008 年 10 月期间，Junio Hamano 提交的但未合并的测试脚本（位于项目的 t/ 目录下的文件），可以用下面的查询命令：
 
-	$ git log --pretty="%h:%s" --author=gitster --since="2008-10-01" \
+	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
 	5610e3b - Fix testcase failure when extended attribute
 	acd3b9e - Enhance hold_lock_file_for_{update,append}()
@@ -615,7 +617,7 @@ Git 项目有 20,000 多条提交，但我们给出搜索选项后，仅列出�
 
 有时候图形化工具更容易展示历史提交的变化，随 Git 一同发布的 gitk 就是这样一种工具。它是用 Tcl/Tk 写成的，基本上相当于 `git log` 命令的可视化版本，凡是 `git log` 可以用的选项也都能用在 gitk 上。在项目工作目录中输入 gitk 命令后，就会启动图 2-2 所示的界面。
 
-Insert 18333fig0202.png 
+Insert 18333fig0202.png
 图 2-2. gitk 的图形界面
 
 上半个窗口显示的是历次提交的分支祖先图谱，下半个窗口显示当前点选的提交对应的具体差异。
@@ -638,7 +640,7 @@ Insert 18333fig0202.png
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
-	$ git commit --amend 
+	$ git commit --amend
 
 上面的三条命令最终得到一个提交，第二个提交命令修正了第一个的提交内容。
 
@@ -658,7 +660,7 @@ Insert 18333fig0202.png
 
 就在 “Changes to be committed” 下面，括号中有提示，可以使用 `git reset HEAD <file>...` 的方式取消暂存。好吧，我们来试试取消暂存 benchmarks.rb 文件：
 
-	$ git reset HEAD benchmarks.rb 
+	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
 	$ git status
 	# On branch master
@@ -718,7 +720,7 @@ Insert 18333fig0202.png
 	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
 	Resolving deltas: 100% (255/255), done.
 	$ cd ticgit
-	$ git remote 
+	$ git remote
 	origin
 
 也可以加上 `-v` 选项（译注：此为 --verbose 的简写，取首字母），显示对应的克隆地址：
@@ -996,7 +998,7 @@ Git 使用的标签有两种类型：轻量级的（lightweight）和含附注�
 
 可以看到我们已经补上了标签：
 
-	$ git tag 
+	$ git tag
 	v0.1
 	v1.2
 	v1.3
@@ -1098,7 +1100,7 @@ Git 并不会推断你输入的几个字符将会是哪条命令，不过如果�
 	$ git config --global alias.last 'log -1 HEAD'
 
 然后要看最后一次的提交信息，就变得简单多了：
-	
+
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
 	Author: Josh Goebel <dreamer3@example.com>

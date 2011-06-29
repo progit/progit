@@ -1,44 +1,44 @@
-# Git and Other Systems #
+# Git 與其他系統 #
 
-The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
+世界不是完美的。大多數時候，將所有接觸到的專案全部轉向 Git 是不可能的。有時我們不得不為某個專案使用其他的版本控制系統（VCS, Version Control System ），其中比較常見的是 Subversion 。你將在本章的第一部分學習使用 `git svn`，這是 Git 為 Subversion 附帶的雙向橋接工具。 
 
-At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case. 
+或許現在你已經在考慮將先前的專案轉向 Git 。本章的第二部分將介紹如何將專案遷移到 Git：先介紹從 Subversion 的遷移，然後是 Perforce，最後介紹如何使用自訂的腳本進行非標準的導入。
 
-## Git and Subversion ##
+## Git 與 Subversion ##
 
-Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.
+當前，大多數開發中的開源專案以及大量的商業專案都使用 Subversion 來管理源碼。作為最流行的開源版本控制系統，Subversion 已經存在了接近十年的時間。它在許多方面與 CVS 十分類似，後者是前者出現之前代碼控制世界的霸主。 
 
-One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.
+Git 最為重要的特性之一是名為 `git svn` 的 Subversion 雙向橋接工具。該工具把 Git 變成了 Subversion 服務的用戶端，從而讓你在本地享受到 Git 所有的功能，而後直接向 Subversion 伺服器推送內容，仿佛在本地使用了 Subversion 用戶端。也就是說，在其他人忍受古董的同時，你可以在本地享受分支合併，使用暫存區域，衍合以及單項挑揀(cherry-picking)等等。這是個讓 Git 偷偷潛入合作開發環境的好東西，在幫助你的開發同伴們提高效率的同時，它還能幫你勸說團隊讓整個專案框架轉向對 Git 的支持。這個 Subversion 之橋是通向分散式版本控制系統（DVCS, Distributed VCS ）世界的神奇隧道。 
 
 ### git svn ###
 
-The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.
+Git 中所有 Subversion 橋接命令的基礎是 `git svn` 。所有的命令都從它開始。相關的命令數目不少，你將通過幾個簡單的工作流程瞭解到其中常見的一些。
 
-It’s important to note that when you’re using `git svn`, you’re interacting with Subversion, which is a system that is far less sophisticated than Git. Although you can easily do local branching and merging, it’s generally best to keep your history as linear as possible by rebasing your work and avoiding doing things like simultaneously interacting with a Git remote repository.
+值得注意的是，在使用 `git svn` 的時候，你實際是在與 Subversion 互動，Git 比它要高級複雜的多。儘管可以在本地隨意的進行分支和合併，最好還是通過衍合保持線性的提交歷史，儘量避免類似「與遠端 Git 倉庫同步互動」這樣的操作。 
 
-Don’t rewrite your history and try to push again, and don’t push to a parallel Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate — doing so will make your life easier.
+避免修改歷史再重新推送的做法，也不要同時推送到並行的 Git 倉庫來試圖與其他 Git 用戶合作。Subersion 只能保存單一的線性提交歷史，一不小心就會被搞糊塗。合作團隊中同時有人用 SVN 和 Git，一定要確保所有人都使用 SVN 服務來協作——這會讓生活輕鬆很多。 
 
-### Setting Up ###
+### 初始設定 ###
 
-To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
+為了展示功能，先要一個具有寫入許可權的 SVN 倉庫。如果想嘗試這個範例，你必須複製一份其中的測試倉庫。比較簡單的做法是使用一個名為 `svnsync` 的工具。較新的 Subversion 版本中都帶有該工具，它將資料編碼為用於網路傳輸的格式。 
 
-To follow along, you first need to create a new local Subversion repository:
+要嘗試本例，先在本地新建一個 Subversion 倉庫：
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:
+然後，允許所有用戶修改 revprop —— 簡單的做法是添加一個總是以 0 作為傳回值的 pre-revprop-change 腳本： 
 
 	$ cat /tmp/test-svn/hooks/pre-revprop-change 
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.
+現在可以呼叫 `svnsync init`，參數加目標倉庫，再加來源倉庫，就可以把該專案同步到本地了： 
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
 
-This sets up the properties to run the sync. You can then clone the code by running
+這將建立進行同步所需的屬性(property)。可以通過執行以下命令來 clone 程式碼：
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -48,11 +48,11 @@ This sets up the properties to run the sync. You can then clone the code by runn
 	Committed revision 3.
 	...
 
-Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.
+別看這個操作只花掉幾分鐘，要是你想把源倉庫複製到另一個遠端倉庫，而不是本地倉庫，那將花掉接近一個小時，儘管專案中只有不到 100 次的提交。 Subversion 每次只複製一次修改，把它推送到另一個倉庫裡，然後周而復始——驚人的低效率，但是我們別無選擇。 
 
-### Getting Started ###
+### 入門 ###
 
-Now that you have a Subversion repository to which you have write access, you can go through a typical workflow. You’ll start with the `git svn clone` command, which imports an entire Subversion repository into a local Git repository. Remember that if you’re importing from a real hosted Subversion repository, you should replace the `file:///tmp/test-svn` here with the URL of your Subversion repository:
+有了可以寫入的 Subversion 倉庫以後，就可以嘗試一下典型的工作流程了。我們從 `git svn clone` 命令開始，它會把整個 Subversion 倉庫導入到一個本地的 Git 倉庫中。提醒一下，這裡導入的是一個貨真價實的 Subversion 倉庫，所以應該把下面的 `file:///tmp/test-svn` 換成你所用的 Subversion 倉庫的 URL： 
 
 	$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
 	Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
@@ -70,13 +70,13 @@ Now that you have a Subversion repository to which you have write access, you ca
 	Checked out HEAD:
 	 file:///tmp/test-svn/branches/my-calc-branch r76
 
-This runs the equivalent of two commands — `git svn init` followed by `git svn fetch` — on the URL you provide. This can take a while. The test project has only about 75 commits and the codebase isn’t that big, so it takes just a few minutes. However, Git has to check out each version, one at a time, and commit it individually. For a project with hundreds or thousands of commits, this can literally take hours or even days to finish.
+這相當於針對所提供的 URL 運行了兩條命令—— `git svn init` 加上 `gitsvn fetch` 。可能會花上一段時間。我們所用的測試專案僅僅包含 75 次提交並且它的代碼量不算大，所以只有幾分鐘而已。不過，Git 仍然需要提取每一個版本，每次一個，再逐個提交。對於一個包含成百上千次提交的專案，花掉的時間則可能是幾小時甚至數天。 
 
-The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:
+`-T trunk -b branches -t tags` 告訴 Git 該 Subversion 倉庫遵循了基本的分支和標籤命名法則。如果你的主幹(譯注：trunk，相當於非分散式版本控制裡的 master 分支，代表開發的主線）分支或者標籤以不同的方式命名，則應做出相應改變。由於該法則的常見性，可以使用 `-s` 來代替整條命令，它意味著標準佈局（s 是 Standard layout 的首字母），也就是前面選項的內容。下面的命令有相同的效果： 
 
 	$ git svn clone file:///tmp/test-svn -s
 
-At this point, you should have a valid Git repository that has imported your branches and tags:
+現在，你有了一個有效的 Git 倉庫，包含著導入的分支和標籤： 
 
 	$ git branch -a
 	* master
@@ -87,7 +87,7 @@ At this point, you should have a valid Git repository that has imported your bra
 	  tags/release-2.0.2rc1
 	  trunk
 
-It’s important to note how this tool namespaces your remote references differently. When you’re cloning a normal Git repository, you get all the branches on that remote server available locally as something like `origin/[branch]` - namespaced by the name of the remote. However, `git svn` assumes that you won’t have multiple remotes and saves all its references to points on the remote server with no namespacing. You can use the Git plumbing command `show-ref` to look at all your full reference names:
+值得注意的是，該工具分配命名空間時和遠端參照的方式不盡相同。clone 普通的 Git 倉庫時，可以用 `origin/[branch]` 的形式獲取遠端伺服器上所有可用的分支——分配到遠端服務的名稱下。然而 `git svn` 假定不存在多個遠端伺服器，所以把所有指向遠端服務的引用不加區分(no namespacing)的保存下來。可以用 Git 底層(plumbing)命令 `show-ref` 來查看所有引用的全名：
 
 	$ git show-ref
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/heads/master
@@ -98,7 +98,7 @@ It’s important to note how this tool namespaces your remote references differe
 	1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk
 
-A normal Git repository looks more like this:
+而普通的 Git 倉庫應該是這個模樣：
 
 	$ git show-ref
 	83e38c7a0af325a9722f2fdc56b10188806d83a1 refs/heads/master
@@ -106,19 +106,19 @@ A normal Git repository looks more like this:
 	0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
 	25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 
-You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`. 
+這裡有兩個遠端伺服器：一個名為 `gitserver` ，具有一個 `master` 分支；另一個叫 `origin`，具有 `master` 和 `testing` 兩個分支。 
 
-Notice how in the example of remote references imported from `git svn`, tags are added as remote branches, not as real Git tags. Your Subversion import looks like it has a remote named tags with branches under it.
+注意本例中通過 `git svn` 導入的遠端參照，（Subversion 的)標籤是當作遠端分支添加的，而不是真正的 Git 標籤。導入的 Subversion 倉庫仿佛是有一個帶有不同分支的 tags 遠端伺服器。
 
-### Committing Back to Subversion ###
+### 提交到 Subversion ###
 
-Now that you have a working repository, you can do some work on the project and push your commits back upstream, using Git effectively as a SVN client. If you edit one of the files and commit it, you have a commit that exists in Git locally that doesn’t exist on the Subversion server:
+有了可以開展工作的（本地）倉庫以後，你可以開始對該專案做出貢獻並向上游倉庫提交內容了，Git 這時相當於一個 SVN 用戶端。假如編輯了一個檔並進行提交，那麼這次提交僅存在於本地的 Git 而非 Subversion 伺服器上：
 
 	$ git commit -am 'Adding git-svn instructions to the README'
 	[master 97031e5] Adding git-svn instructions to the README
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Next, you need to push your change upstream. Notice how this changes the way you work with Subversion — you can do several commits offline and then push them all at once to the Subversion server. To push to a Subversion server, you run the `git svn dcommit` command:
+接下來，可以將作出的修改推送到上游。值得注意的是，Subversion 的使用流程也因此改變了——你可以在離線狀態下進行多次提交然後一次性的推送到 Subversion 的伺服器上。向 Subversion 伺服器推送的命令是 `git svn dcommit`： 
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -129,7 +129,7 @@ Next, you need to push your change upstream. Notice how this changes the way you
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-This takes all the commits you’ve made on top of the Subversion server code, does a Subversion commit for each, and then rewrites your local Git commit to include a unique identifier. This is important because it means that all the SHA-1 checksums for your commits change. Partly for this reason, working with Git-based remote versions of your projects concurrently with a Subversion server isn’t a good idea. If you look at the last commit, you can see the new `git-svn-id` that was added:
+所有在原 Subversion 資料基礎上提交的 commit 會一一提交到 Subversion，然後你本地 Git 的 commit 將被重寫，加入一個特別標識。這一步很重要，因為它意味著所有 commit 的 SHA-1 指都會發生變化。這也是同時使用 Git 和 Subversion 兩種服務作為遠端服務不是個好主意的原因之一。檢視以下最後一個 commit，你會找到新添加的 `git-svn-id` （譯注：即本段開頭所說的特別標識）： 
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -140,11 +140,12 @@ This takes all the commits you’ve made on top of the Subversion server code, d
 
 	    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 
-Notice that the SHA checksum that originally started with `97031e5` when you committed now begins with `938b1a5`. If you want to push to both a Git server and a Subversion server, you have to push (`dcommit`) to the Subversion server first, because that action changes your commit data.
+注意看，原本以 `97031e5` 開頭的 SHA-1 校驗值在提交完成以後變成了 `938b1a5` 。如果既要向 Git 遠端伺服器推送內容，又要推送到 Subversion 遠端伺服器，則必須先向 Subversion 推送（`dcommit`），因為該操作會改變所提交的資料內容。 
 
-### Pulling in New Changes ###
+### 拉取最新進展 ###
 
 If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
+如果要與其他開發者協作，總有那麼一天你推送完畢之後，其他人發現他們推送自己修改的時候（與你推送的內容）產生衝突。這些修改在你合併之前將一直被拒絕。在 `git svn` 裡這種情況像這樣： 
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -152,7 +153,7 @@ If you’re working with other developers, then at some point one of you will pu
 	out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
 	core/git-svn line 482
 
-To resolve this situation, you can run `git svn rebase`, which pulls down any changes on the server that you don’t have yet and rebases any work you have on top of what is on the server:
+為了解決該問題，可以執行 `git svn rebase` ，它會拉取伺服器上所有最新的改變，再於此基礎上衍合你的修改： 
 
 	$ git svn rebase
 	       M      README.txt
@@ -160,7 +161,7 @@ To resolve this situation, you can run `git svn rebase`, which pulls down any ch
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
 
-Now, all your work is on top of what is on the Subversion server, so you can successfully `dcommit`:
+現在，你做出的修改都在 Subversion 伺服器上，所以可以順利的運行 `dcommit` ：
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -171,7 +172,7 @@ Now, all your work is on top of what is on the Subversion server, so you can suc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-It’s important to remember that unlike Git, which requires you to merge upstream work you don’t yet have locally before you can push, `git svn` makes you do that only if the changes conflict. If someone else pushes a change to one file and then you push a change to another file, your `dcommit` will work fine:
+需要牢記的一點是，Git 要求我們在推送之前先合併上游倉庫中最新的內容，而 `git svn` 只要求存在衝突的時候才這樣做。假如有人向一個檔推送了一些修改，這時你要向另一個文件推送一些修改，那麼 `dcommit` 將正常工作：
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -188,9 +189,9 @@ It’s important to remember that unlike Git, which requires you to merge upstre
 	First, rewinding head to replay your work on top of it...
 	Nothing to do.
 
-This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.
+這一點需要牢記，因為它的結果是推送之後專案處於一個不完整存在於任何主機上的狀態。如果做出的修改無法相容但沒有產生衝突，則可能造成一些很難確診的難題。這和使用 Git 伺服器是不同的——在 Git 世界裡，發佈之前，你可以在用戶端系統裡完整的測試專案的狀態，而在 SVN 永遠都沒法確保提交前後專案的狀態完全一樣。 
 
-You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits.
+即使還沒打算進行提交，你也應該用這個命令從 Subversion 伺服器拉取最新修改。你可以執行 `git svn fetch` 獲取最新的資料，不過 `git svn rebase` 才會在獲取之後在本地進行更新 。 
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh
@@ -198,13 +199,13 @@ You should also run this command to pull in changes from the Subversion server, 
 	First, rewinding head to replay your work on top of it...
 	Fast-forwarded master to refs/remotes/trunk.
 
-Running `git svn rebase` every once in a while makes sure your code is always up to date. You need to be sure your working directory is clean when you run this, though. If you have local changes, you must either stash your work or temporarily commit it before running `git svn rebase` — otherwise, the command will stop if it sees that the rebase will result in a merge conflict.
+不時地執行一下 `git svn rebase` 可以確保你的代碼沒有過時。不過，執行該命令時需要確保工作目錄的整潔。如果在本地做了修改，則必須在執行 `git svn rebase` 之前暫存工作、或暫時提交內容——否則，該命令會發現衍合的結果包含著衝突因而終止。 
 
-### Git Branching Issues ###
+### Git 分支問題 ###
 
-When you’ve become comfortable with a Git workflow, you’ll likely create topic branches, do work on them, and then merge them in. If you’re pushing to a Subversion server via git svn, you may want to rebase your work onto a single branch each time instead of merging branches together. The reason to prefer rebasing is that Subversion has a linear history and doesn’t deal with merges like Git does, so git svn follows only the first parent when converting the snapshots into Subversion commits.
+習慣了 Git 的工作流程以後，你可能會創建一些特性分支，完成相關的開發工作，然後合併他們。如果要用 git svn 向 Subversion 推送內容，那麼最好是每次用衍合來併入一個單一分支，而不是直接合併。使用衍合的原因是 Subversion 只有一個線性的歷史而不像 Git 那樣處理合併，所以 Git svn 在把快照轉換為 Subversion 的 commit 時只能包含第一個祖先。 
 
-Suppose your history looks like the following: you created an `experiment` branch, did two commits, and then merged them back into `master`. When you `dcommit`, you see output like this:
+假設分支歷史如下：創建一個 `experiment` 分支，進行兩次提交，然後合併到 `master` 。在 `dcommit` 的時候會得到如下輸出： 
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -225,17 +226,17 @@ Suppose your history looks like the following: you created an `experiment` branc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-Running `dcommit` on a branch with merged history works fine, except that when you look at your Git project history, it hasn’t rewritten either of the commits you made on the `experiment` branch — instead, all those changes appear in the SVN version of the single merge commit.
+在一個包含了合併歷史的分支上使用 `dcommit` 可以成功運行，不過在 Git 專案的歷史中，它沒有重寫你在 `experiment` 分支中的兩個 commit ——取而代之的是，這些改變出現在了 SVN 版本中同一個合併 commit 中。 
 
-When someone else clones that work, all they see is the merge commit with all the work squashed into it; they don’t see the commit data about where it came from or when it was committed.
+在別人 clone 該專案的時候，只能看到這個合併 commit 包含了所有發生過的修改；他們無法獲知修改的作者和時間等提交資訊。 
 
-### Subversion Branching ###
+### Subversion 分支 ###
 
-Branching in Subversion isn’t the same as branching in Git; if you can avoid using it much, that’s probably best. However, you can create and commit to branches in Subversion using git svn.
+Subversion 的分支和 Git 中的不盡相同；避免過多的使用可能是最好方案。不過，用 git svn 創建和提交不同的 Subversion 分支仍是可行的。 
 
-#### Creating a New SVN Branch ####
+#### 創建新的 SVN 分支 ####
 
-To create a new branch in Subversion, you run `git svn branch [branchname]`:
+要在 Subversion 中建立一個新分支，可以執行 `git svn branch [分支名]`: 
 
 	$ git svn branch opera
 	Copying file:///tmp/test-svn/trunk at r87 to file:///tmp/test-svn/branches/opera...
@@ -246,27 +247,27 @@ To create a new branch in Subversion, you run `git svn branch [branchname]`:
 	Successfully followed parent
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
-This does the equivalent of the `svn copy trunk branches/opera` command in Subversion and operates on the Subversion server. It’s important to note that it doesn’t check you out into that branch; if you commit at this point, that commit will go to `trunk` on the server, not `opera`.
+這相當於在 Subversion 中的 `svn copy trunk branches/opera` 命令並且對 Subversion 伺服器進行了相關操作。值得提醒的是它沒有檢出(check out)並轉換到那個分支；如果現在進行提交，將提交到伺服器上的 `trunk`， 而非 `opera`。 
 
-### Switching Active Branches ###
+### 切換當前分支 ###
 
-Git figures out what branch your dcommits go to by looking for the tip of any of your Subversion branches in your history — you should have only one, and it should be the last one with a `git-svn-id` in your current branch history. 
+Git 通過搜尋提交歷史中 Subversion 分支的頭部(tip)來決定 dcommit 的目的地——而它應該只有一個，那就是當前分支歷史中最近一次包含 `git-svn-id` 的提交。 
 
-If you want to work on more than one branch simultaneously, you can set up local branches to `dcommit` to specific Subversion branches by starting them at the imported Subversion commit for that branch. If you want an `opera` branch that you can work on separately, you can run
+如果需要同時在多個分支上提交，可以通過導入 Subversion 上某個其他分支的 commit 來建立以該分支為 `dcommit` 目的地的本地分支。比如你想擁有一個並行維護的 `opera` 分支，可以執行
 
 	$ git branch opera remotes/opera
 
-Now, if you want to merge your `opera` branch into `trunk` (your `master` branch), you can do so with a normal `git merge`. But you need to provide a descriptive commit message (via `-m`), or the merge will say "Merge branch opera" instead of something useful.
+然後，如果要把 `opera` 分支併入 `trunk` （本地的 `master` 分支），可以使用普通的 `git merge`。不過最好提供一條描述提交的資訊（通過 `-m`），否則這次合併的記錄會是「Merge branch opera」，而不是任何有用的東西。 
 
-Remember that although you’re using `git merge` to do this operation, and the merge likely will be much easier than it would be in Subversion (because Git will automatically detect the appropriate merge base for you), this isn’t a normal Git merge commit. You have to push this data back to a Subversion server that can’t handle a commit that tracks more than one parent; so, after you push it up, it will look like a single commit that squashed in all the work of another branch under a single commit. After you merge one branch into another, you can’t easily go back and continue working on that branch, as you normally can in Git. The `dcommit` command that you run erases any information that says what branch was merged in, so subsequent merge-base calculations will be wrong — the dcommit makes your `git merge` result look like you ran `git merge --squash`. Unfortunately, there’s no good way to avoid this situation — Subversion can’t store this information, so you’ll always be crippled by its limitations while you’re using it as your server. To avoid issues, you should delete the local branch (in this case, `opera`) after you merge it into trunk.
+記住，雖然使用了 `git merge` 來進行這次操作，並且合併過程可能比使用 Subversion 簡單一些（因為 Git 會自動找到適合的合併基礎），這並不是一次普通的 Git 合併提交。最終它將被推送回Subversion 伺服器上，而 Subversion 伺服器上無法處理包含多個祖先的 commit；因而在推送之後，它將變成一個包含了所有在其他分支上做出的改變的單一 commit。把一個分支合併到另一個分支以後，你沒法像在 Git 中那樣輕易的回到那個分支上繼續工作。提交時執行的 `dcommit` 命令擦掉了所有關於哪個分支被併入的資訊，因而以後的合併基礎計算將是不正確的—— dcommit 讓 `git merge` 的結果變得類似於 `git merge --squash`。不幸的是，我們沒有什麼好辦法來避免該情況—— Subversion 無法儲存這個資訊，所以在使用它作為伺服器的時候你將永遠為這個缺陷所困。為了不出現這種問題，在把本地分支（本例中的 `opera`）併入 trunk 以後應該立即將其刪除。 
 
-### Subversion Commands ###
+### 對應 Subversion 的命令 ###
 
-The `git svn` toolset provides a number of commands to help ease the transition to Git by providing some functionality that’s similar to what you had in Subversion. Here are a few commands that give you what Subversion used to.
+`git svn` 工具集合了若干個與 Subversion 類似的功能，對應的命令可以簡化向 Git 的轉化過程。下面這些命令能實現 Subversion 的這些功能。 
 
-#### SVN Style History ####
+#### SVN 風格的歷史紀錄 ####
 
-If you’re used to Subversion and want to see your history in SVN output style, you can run `git svn log` to view your commit history in SVN formatting:
+習慣了 Subversion 的人可能想以 SVN 的風格顯示歷史，運行 `git svn log` 可以讓提交歷史顯示為 SVN 格式： 
 
 	$ git svn log
 	------------------------------------------------------------------------
@@ -284,11 +285,11 @@ If you’re used to Subversion and want to see your history in SVN output style,
 	
 	updated the changelog
 
-You should know two important things about `git svn log`. First, it works offline, unlike the real `svn log` command, which asks the Subversion server for the data. Second, it only shows you commits that have been committed up to the Subversion server. Local Git commits that you haven’t dcommited don’t show up; neither do commits that people have made to the Subversion server in the meantime. It’s more like the last known state of the commits on the Subversion server.
+關於 `git svn log` ，有兩點需要注意。首先，它可以離線工作，不像 `svn log 命令`，需要向 Subversion 伺服器索取資料。其次，它僅僅顯示已經提交到 Subversion 伺服器上的 commit。在本地尚未 dcommit 的 Git 資料不會出現在這裡；其他人向 Subversion 伺服器新提交的資料也不會顯示。等於說是顯示了最近已知 Subversion 伺服器上的狀態。 
 
 #### SVN Annotation ####
 
-Much as the `git svn log` command simulates the `svn log` command offline, you can get the equivalent of `svn annotate` by running `git svn blame [FILE]`. The output looks like this:
+類似 `git svn log` 命令模擬了 `svn log` 命令的離線操作，`svn annotate` 的等效命令是 `git svn blame [檔案名]`。其輸出如下： 
 
 	$ git svn blame README.txt 
 	 2   temporal Protocol Buffers - Google's data interchange format
@@ -304,11 +305,11 @@ Much as the `git svn log` command simulates the `svn log` command offline, you c
 	 2   temporal Buffer compiler (protoc) execute the following:
 	 2   temporal 
 
-Again, it doesn’t show commits that you did locally in Git or that have been pushed to Subversion in the meantime.
+同樣，它不顯示本地的 Git 提交以及 Subversion 上後來更新的內容。
 
-#### SVN Server Information ####
+#### SVN 伺服器資訊 ####
 
-You can also get the same sort of information that `svn info` gives you by running `git svn info`:
+還可以使用 `git svn info` 來獲取與執行 `svn info` 類似的資訊： 
 
 	$ git svn info
 	Path: .
@@ -322,56 +323,56 @@ You can also get the same sort of information that `svn info` gives you by runni
 	Last Changed Rev: 87
 	Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)
 
-This is like `blame` and `log` in that it runs offline and is up to date only as of the last time you communicated with the Subversion server.
+它與 blame 和 log 的相同點在於離線運行以及只更新到最後一次與 Subversion 伺服器通信的狀態。 
 
-#### Ignoring What Subversion Ignores ####
+#### 忽略 Subversion 所忽略的 ####
 
-If you clone a Subversion repository that has `svn:ignore` properties set anywhere, you’ll likely want to set corresponding `.gitignore` files so you don’t accidentally commit files that you shouldn’t. `git svn` has two commands to help with this issue. The first is `git svn create-ignore`, which automatically creates corresponding `.gitignore` files for you so your next commit can include them.
+假如 clone 了一個包含了 `svn:ignore` 屬性的 Subversion 倉庫，就有必要建立對應的 `.gitignore` 文件來防止意外提交一些不應該提交的文件。`git svn` 有兩個有助於改善該問題的命令。第一個是 `git svn create-ignore`，它自動建立對應的 `.gitignore` 檔，以便下次提交的時候可以包含它。 
 
-The second command is `git svn show-ignore`, which prints to stdout the lines you need to put in a `.gitignore` file so you can redirect the output into your project exclude file:
+第二個命令是 `git svn show-ignore`，它把需要放進 `.gitignore` 檔中的內容列印到標準輸出，方便我們把輸出重定向到專案的黑名單檔(exclude file)： 
 
 	$ git svn show-ignore > .git/info/exclude
 
-That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.
+這樣一來，避免了 `.gitignore` 對專案的干擾。如果你是一個 Subversion 團隊裡唯一的 Git 用戶，而其他隊友不喜歡專案裏出現 `.gitignore` 檔案，該方法是你的不二之選。 
 
-### Git-Svn Summary ###
+### Git-Svn 總結 ###
 
-The `git svn` tools are useful if you’re stuck with a Subversion server for now or are otherwise in a development environment that necessitates running a Subversion server. You should consider it crippled Git, however, or you’ll hit issues in translation that may confuse you and your collaborators. To stay out of trouble, try to follow these guidelines:
+`git svn` 工具集在當前不得不使用 Subversion 伺服器或者開發環境要求使用 Subversion 伺服器的時候格外有用。不妨把它看成一個跛腳的 Git，然而，你還是有可能在轉換過程中碰到一些困惑你和合作者們的謎題。為了避免麻煩，試著遵守如下守則： 
 
-* Keep a linear Git history that doesn’t contain merge commits made by `git merge`. Rebase any work you do outside of your mainline branch back onto it; don’t merge it in.
-* Don’t set up and collaborate on a separate Git server. Possibly have one to speed up clones for new developers, but don’t push anything to it that doesn’t have a `git-svn-id` entry. You may even want to add a `pre-receive` hook that checks each commit message for a `git-svn-id` and rejects pushes that contain commits without it.
+* 保持一個不包含由 `git merge` 產生的 commit 的線性提交歷史。將在主線分支外進行的開發通通衍合回主線；避免直接合併。 
+* 不要單獨建立和使用一個 Git 服務來搞合作。可以為了加速新開發者的 clone 進程建立一個，但是不要向它提供任何不包含 `git-svn-id` 條目的內容。甚至可以添加一個 `pre-receive` 掛鉤，在每一個提交資訊中檢查 `git-svn-id`，並拒絕提交那些不包含它的 commit。 
 
-If you follow those guidelines, working with a Subversion server can be more bearable. However, if it’s possible to move to a real Git server, doing so can gain your team a lot more.
+如果遵循這些守則，在 Subversion 上工作還可以接受。然而，如果能遷徙到真正的 Git 伺服器，則能為團隊帶來更多好處。 
 
-## Migrating to Git ##
+## 遷移到 Git ##
 
-If you have an existing codebase in another VCS but you’ve decided to start using Git, you must migrate your project one way or another. This section goes over some importers that are included with Git for common systems and then demonstrates how to develop your own custom importer.
+如果在其他版本控制系統(VCS)中保存了某專案的代碼而後決定轉而使用 Git，那麼該專案必須經歷某種形式的遷移。本節將介紹 Git 中包含的一些針對常見系統的導入腳本(importer)，並將展示編寫自訂的導入腳本的方法。
 
-### Importing ###
+### 導入 ###
 
-You’ll learn how to import data from two of the bigger professionally used SCM systems — Subversion and Perforce — both because they make up the majority of users I hear of who are currently switching, and because high-quality tools for both systems are distributed with Git.
+你將學習到如何從專業重量級的版本控制系統(SCM)中匯入資料—— Subversion 和 Perforce —— 因為據我所知這二者的用戶是（向 Git）轉換的主要群體，而且 Git 為此二者附帶了高品質的轉換工具。
 
 ### Subversion ###
 
-If you read the previous section about using `git svn`, you can easily use those instructions to `git svn clone` a repository; then, stop using the Subversion server, push to a new Git server, and start using that. If you want the history, you can accomplish that as quickly as you can pull the data out of the Subversion server (which may take a while).
+讀過前一節有關 `git svn` 的內容以後，你應該能輕而易舉的根據其中的指導來 `git svn clone` 一個倉庫了；然後，停止 Subversion 的使用，向一個新 Git server 推送，並開始使用它。想保留歷史記錄，所花的時間應該不過就是從 Subversion 伺服器拉取資料的時間（可能要等上好一會就是了）。 
 
-However, the import isn’t perfect; and because it will take so long, you may as well do it right. The first problem is the author information. In Subversion, each person committing has a user on the system who is recorded in the commit information. The examples in the previous section show `schacon` in some places, such as the `blame` output and the `git svn log`. If you want to map this to better Git author data, you need a mapping from the Subversion users to the Git authors. Create a file called `users.txt` that has this mapping in a format like this:
+然而，這樣的匯入並不完美；而且還要花那麼多時間，不如乾脆一次把它做對！首當其衝的任務是作者資訊。在 Subversion，每個提交者都在主機上有一個用戶名，記錄在提交資訊中。上節例子中多處顯示了 schacon ，比如 `blame` 的輸出以及 `git svn log`。如果想讓這條資訊更好的映射到 Git 作者資料裡，則需要從 Subversion 用戶名到 Git 作者的一個映射關係。建立一個叫做 `user.txt` 的檔，用如下格式表示映射關係： 
 
 	schacon = Scott Chacon <schacon@geemail.com>
 	selse = Someo Nelse <selse@geemail.com>
 
-To get a list of the author names that SVN uses, you can run this:
+通過以下命令可以獲得 SVN 作者的列表： 
 
 	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
 
-That gives you the log output in XML format — you can look for the authors, create a unique list, and then strip out the XML. (Obviously this only works on a machine with `grep`, `sort`, and `perl` installed.) Then, redirect that output into your users.txt file so you can add the equivalent Git user data next to each entry.
+它將輸出 XML 格式的日誌——你可以找到作者，建立一個單獨的列表，然後從 XML 中抽取出需要的資訊。（顯而易見，本方法要求主機上安裝了`grep`，`sort` 和 `perl`.）然後把輸出重定向到 user.txt 檔，然後就可以在每一項的後面添加相應的 Git 使用者資料。 
 
-You can provide this file to `git svn` to help it map the author data more accurately. You can also tell `git svn` not to include the metadata that Subversion normally imports, by passing `--no-metadata` to the `clone` or `init` command. This makes your `import` command look like this:
+為 `git svn` 提供該檔可以讓它更精確的映射作者資料。你還可以在 `clone` 或者 `init` 後面添加 `--no-metadata` 來阻止 `git svn` 包含那些 Subversion 的附加資訊。這樣 `import` 命令就變成了：
 
 	$ git-svn clone http://my-project.googlecode.com/svn/ \
 	      --authors-file=users.txt --no-metadata -s my_project
 
-Now you should have a nicer Subversion import in your `my_project` directory. Instead of commits that look like this
+現在 `my_project` 目錄下導入的 Subversion 應該比原來整潔多了。原來的 commit 看上去是這樣： 
 
 	commit 37efa680e8473b615de980fa935944215428a35a
 	Author: schacon <schacon@4c93b258-373f-11de-be05-5f7a86268029>
@@ -381,7 +382,8 @@ Now you should have a nicer Subversion import in your `my_project` directory. In
 
 	    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
 	    be05-5f7a86268029
-they look like this:
+
+現在是這樣： 
 
 	commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
 	Author: Scott Chacon <schacon@geemail.com>
@@ -389,40 +391,40 @@ they look like this:
 
 	    fixed install - go to trunk
 
-Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.
+不僅作者一項乾淨了不少，`git-svn-id` 也就此消失了。 
 
-You need to do a bit of `post-import` cleanup. For one thing, you should clean up the weird references that `git svn` set up. First you’ll move the tags so they’re actual tags rather than strange remote branches, and then you’ll move the rest of the branches so they’re local.
+你還需要一點 post-import（導入後） 清理工作。最起碼的，應該清理一下 `git svn` 創建的那些怪異的索引結構。首先要移動標籤，把它們從奇怪的遠端分支變成實際的標籤，然後把剩下的分支移動到本地。 
 
-To move the tags to be proper Git tags, run
+要把標籤變成合適的 Git 標籤，執行 
 
 	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
 	$ rm -Rf .git/refs/remotes/tags
 
-This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.
+該命令將原本以 `tag/` 開頭的遠端分支的索引變成真正的 (lightweight) 標籤。 
 
-Next, move the rest of the references under `refs/remotes` to be local branches:
+接下來，把 `refs/remotes` 下面剩下的索引(reference)變成本地分支： 
 
 	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
 	$ rm -Rf .git/refs/remotes
 
-Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Because you want all your branches and tags to go up, you can run this:
+現在所有的舊分支都變成真正的 Git 分支，所有的舊標籤也變成真正的 Git 標籤。最後一項工作就是把新建的 Git 伺服器添加為遠端伺服器並且向它推送。為了讓所有的分支和標籤都得到上傳，我們使用這條命令： 
 
 	$ git push origin --all
 
-All your branches and tags should be on your new Git server in a nice, clean import.
+所有的分支和標籤現在都應該整齊乾淨的躺在新的 Git 伺服器裡了。 
 
 ### Perforce ###
 
-The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git, but only in the `contrib` section of the source code — it isn’t available by default like `git svn`. To run it, you must get the Git source code, which you can download from git.kernel.org:
+你將瞭解到的下一個被導入的系統是 Perforce. Git 發行的時候同時也附帶了一個 Perforce 導入腳本，不過它是包含在源碼的 `contrib` 部分——而不像 `git svn` 那樣預設就可以使用。執行它之前必須獲取 Git 的源碼，可以在 git.kernel.org 下載： 
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:
+在這個 `fast-import` 目錄下，應該有一個叫做 `git-p4` 的 Python 可執行腳本。主機上必須裝有 Python 和 `p4` 工具該導入才能正常進行。例如，你要從 Perforce 公共代碼倉庫（譯注： Perforce Public Depot，Perforce 官方提供的代碼寄存服務）導入 Jam 專案。為了設定用戶端，我們要把 P4PORT 環境變數 export 到 Perforce 倉庫： 
 
 	$ export P4PORT=public.perforce.com:1666
 
-Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:
+執行 `git-p4 clone` 命令將從 Perforce 伺服器導入 Jam 專案，我們需要給出倉庫和專案的路徑以及導入的目標路徑： 
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
 	Importing from //public/jam/src@all into /opt/p4import
@@ -430,7 +432,7 @@ Run the `git-p4 clone` command to import the Jam project from the Perforce serve
 	Import destination: refs/remotes/p4/master
 	Importing revision 4409 (100%)
 
-If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:
+現在去 `/opt/p4import` 目錄執行一下 `git log` ，就能看到導入的成果： 
 
 	$ git log -2
 	commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
@@ -452,7 +454,7 @@ If you go to the `/opt/p4import` directory and run `git log`, you can see your i
 
 	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
 
-You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:
+每一個 commit 裡都有一個 `git-p4` 識別字。這個識別字可以保留，以防以後需要引用 Perforce 的修改版本號。然而，如果想刪除這些識別字，現在正是時候——開始在新倉庫上工作之前。可以通過 `git filter-branch` 來批量刪除這些識別字： 
 
 	$ git filter-branch --msg-filter '
 	        sed -e "/^\[git-p4:/d"
@@ -460,7 +462,7 @@ You can see the `git-p4` identifier in each commit. It’s fine to keep that ide
 	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
 	Ref 'refs/heads/master' was rewritten
 
-If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:
+現在執行一下 `git log`，你會發現這些 commit 的 SHA-1 校驗值都發生了改變，而那些 `git-p4` 字串則從提交資訊裡消失了： 
 
 	$ git log -2
 	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
@@ -478,13 +480,13 @@ If you run `git log`, you can see that all the SHA-1 checksums for the commits h
 
 	    Update derived jamgram.c
 
-Your import is ready to push up to your new Git server.
+至此導入已經完成，可以開始向新的 Git 伺服器推送了。 
 
-### A Custom Importer ###
+### 自定導入腳本 ###
 
-If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`.
+如果你的系統不是 Subversion 或 Perforce 之一，先上網找一下有沒有與之對應的導入腳本——導入 CVS，Clear Case，Visual Source Safe，甚至存檔目錄的導入腳本已經存在。假如這些工具都不適用，或者使用的工具很少見，抑或你需要導入過程具有更多可制定性，則應該使用 `git fast-import`。該命令從標準輸入讀取簡單的指令來寫入具體的 Git 資料。這樣創建 Git 物件比執行純 Git 命令或者手動寫物件要簡單的多（更多相關內容見第九章）。通過它，你可以編寫一個導入腳本來從導入來源讀取必要的資訊，同時在標準輸出直接輸出相關指令(instructions)。你可以執行該腳本並把它的輸出管道連接(pipe)到 `git fast-import`。 
 
-To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:
+下面演示一下如何編寫一個簡單的導入腳本。假設你在進行一項工作，並且按時通過把工作目錄複寫為以時間戳記 back_YY_MM_DD 命名的目錄來進行備份，現在你需要把它們導入 Git 。目錄結構如下： 
 
 	$ ls /opt/import_from
 	back_2009_01_02
@@ -493,11 +495,11 @@ To quickly demonstrate, you’ll write a simple importer. Suppose you work in cu
 	back_2009_02_03
 	current
 
-In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one.
+為了導入到一個 Git 目錄，我們首先回顧一下 Git 儲存資料的方式。你可能還記得，Git 本質上是一個 commit 物件的鏈表，每一個物件指向一個內容的快照。而這裡需要做的工作就是告訴 `fast-import` 內容快照的位置，什麼樣的 commit 資料指向它們，以及它們的順序。我們採取一次處理一個快照的策略，為每一個內容目錄建立對應的 commit ，每一個 commit 與前一個 commit 建立連結。 
 
-As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout. And, if you are running on Windows, this means you'll need to take special care to not introduce carriage returns at the end your lines — git fast-import is very particular about just wanting line feeds (LF) not the carriage return line feeds (CRLF) that Windows uses.
+正如在第七章 “Git 執行策略一例” 一節中一樣，我們將使用 Ruby 來編寫這個腳本，因為它是我日常使用的語言而且閱讀起來簡單一些。你可以用任何其他熟悉的語言來重寫這個例子——它僅需要把必要的資訊列印到標準輸出而已。同時，如果你在使用 Windows，這意味著你要特別留意不要在換行的時候引入回車符（譯注：carriage returns，Windows 換行時加入的符號，通常說的 \r ）—— Git 的 fast-import 對僅使用分行符號（LF）而非 Windows 的回車符（CRLF）要求非常嚴格。 
 
-To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this:
+首先，進入目標目錄並且找到所有子目錄，每一個子目錄將作為一個快照被導入為一個 commit。我們將依次進入每一個子目錄並列印所需的命令來匯出它們。腳本的主迴圈大致是這樣： 
 
 	last_mark = nil
 
@@ -513,11 +515,11 @@ To begin, you’ll change into the target directory and identify every subdirect
 	  end
 	end
 
-You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:
+我們在每一個目錄裡執行 `print_export`，它會取出上一個快照的索引和標記並返回本次快照的索引和標記；由此我們就可以正確的把二者連接起來。”標記（mark）” 是 `fast-import` 中對 commit 識別字的叫法；在創建 commit 的同時，我們逐一賦予一個標記以便以後在把它連接到其他 commit 時使用。因此，在 `print_export` 方法中要做的第一件事就是根據目錄名產生一個標記： 
 
 	mark = convert_dir_to_mark(dir)
 
-You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:
+實現該函數的方法是建立一個目錄的陣列序列並使用陣列的索引值作為標記，因為標記必須是一個整數。這個方法大致是這樣的： 
 
 	$marks = []
 	def convert_dir_to_mark(dir)
@@ -527,11 +529,11 @@ You’ll do this by creating an array of directories and using the index value a
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is
+有了整數來代表每個 commit，我們現在需要提交附加資訊中的日期。由於日期是用目錄名表示的，我們就從中解析出來。`print_export` 文件的下一行將是： 
 
 	date = convert_dir_to_date(dir)
 
-where `convert_dir_to_date` is defined as
+而 `convert_dir_to_date` 則定義為 
 
 	def convert_dir_to_date(dir)
 	  if dir == 'current'
@@ -543,11 +545,11 @@ where `convert_dir_to_date` is defined as
 	  end
 	end
 
-That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable:
+它為每個目錄回傳一個 integer。提交附加資訊裡最後一項所需的是提交者資料，我們在一個全域變數中直接定義之： 
 
 	$author = 'Scott Chacon <schacon@example.com>'
 
-Now you’re ready to begin printing out the commit data for your importer. The initial information states that you’re defining a commit object and what branch it’s on, followed by the mark you’ve generated, the committer information and commit message, and then the previous commit, if any. The code looks like this:
+我們差不多可以開始為導入腳本輸出提交資料了。第一項資訊指明我們定義的是一個 commit 物件以及它所在的分支，隨後是我們產生的標記、提交者資訊以及提交備註，然後是前一個 commit 的索引，如果有的話。程式碼大致像這樣： 
 
 	# print the import information
 	puts 'commit refs/heads/master'
@@ -556,18 +558,17 @@ Now you’re ready to begin printing out the commit data for your importer. The 
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset. 
-The commit message must be expressed in a special format:
+為了簡化，時區寫死(hardcode)為（-0700）。如果是從其他版本控制系統導入，則必須以變數的形式指明時區。提交訊息必須以特定格式給出： 
 
 	data (size)\n(contents)
 
-The format consists of the word data, the size of the data to be read, a newline, and finally the data. Because you need to use the same format to specify the file contents later, you create a helper method, `export_data`:
+該格式包含了「data」這個字、所讀取資料的大小、一個分行符號，最後是資料本身。由於隨後指明檔案內容的時候要用到相同的格式，我們寫一個輔助方法，`export_data`： 
 
 	def export_data(string)
 	  print "data #{string.size}\n#{string}"
 	end
 
-All that’s left is to specify the file contents for each snapshot. This is easy, because you have each one in a directory — you can print out the `deleteall` command followed by the contents of each file in the directory. Git will then record each snapshot appropriately:
+唯一剩下的就是每一個快照的內容了。這簡單的很，因為它們分別處於一個目錄——你可以輸出 `deleeall` 命令，隨後是目錄中每個檔的內容。Git 會正確的記錄每一個快照： 
 
 	puts 'deleteall'
 	Dir.glob("**/*").each do |file|
@@ -575,15 +576,15 @@ All that’s left is to specify the file contents for each snapshot. This is eas
 	  inline_data(file)
 	end
 
-Note:	Because many systems think of their revisions as changes from one commit to another, fast-import can also take commands with each commit to specify which files have been added, removed, or modified and what the new contents are. You could calculate the differences between snapshots and provide only this data, but doing so is more complex — you may as well give Git all the data and let it figure it out. If this is better suited to your data, check the `fast-import` man page for details about how to provide your data in this manner.
+注意：由於很多系統把每次修訂看作一個 commit 到另一個 commit 的變化量，fast-import 也可以依據每次提交獲取一個命令來指出哪些檔被添加，刪除或者修改過，以及修改的內容。我們將需要計算快照之間的差別並且僅僅給出這項資料，不過該做法要複雜很多——還不如直接把所有資料丟給 Git 讓它自己搞清楚。假如前面這個方法更適用於你的資料，參考 `fast-import` 的 man 説明頁面來瞭解如何以這種方式提供資料。 
 
-The format for listing the new file contents or specifying a modified file with the new contents is as follows:
+列舉新檔內容或者指明帶有新內容的已修改檔的格式如下： 
 
 	M 644 inline path/to/file
 	data (size)
 	(file contents)
 
-Here, 644 is the mode (if you have executable files, you need to detect and specify 755 instead), and inline says you’ll list the contents immediately after this line. Your `inline_data` method looks like this:
+這裡，644 是許可權模式（如果有執行檔，則需要偵測之並設定為 755），而 inline 說明我們在本行結束之後立即列出檔的內容。我們的 `inline_data` 方法大致是： 
 
 	def inline_data(file, code = 'M', mode = '644')
 	  content = File.read(file)
@@ -591,17 +592,17 @@ Here, 644 is the mode (if you have executable files, you need to detect and spec
 	  export_data(content)
 	end
 
-You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data. 
+我們再次使用了前面定義過的 `export_data`，因為這裡和指明提交注釋的格式如出一轍。 
 
-The last thing you need to do is to return the current mark so it can be passed to the next iteration:
+最後一項工作是回傳當前的標記以便下次迴圈的使用。 
 
 	return mark
 
-NOTE: If you are running on Windows you'll need to make sure that you add one extra step. As metioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF:
+注意：如果你是在 Windows 上執行，一定記得添加一項額外的步驟。前面提過，Windows 使用 CRLF 作為換行字元而 Git fast-import 只接受 LF。為了避開這個問題來滿足 git fast-import，你需要讓 ruby 用 LF 取代 CRLF： 
 
 	$stdout.binmode
 
-That’s it. If you run this script, you’ll get content that looks something like this:
+搞定了。現在執行該腳本，你將得到如下內容： 
 
 	$ ruby import.rb /opt/import_from 
 	commit refs/heads/master
@@ -626,7 +627,7 @@ That’s it. If you run this script, you’ll get content that looks something l
 	new version one
 	(...)
 
-To run the importer, pipe this output through `git fast-import` while in the Git directory you want to import into. You can create a new directory and then run `git init` in it for a starting point, and then run your script:
+要執行導入腳本，在需要導入的目錄把該內容用管道定向(pipe)到 `git fast-import`。你可以建立一個空目錄然後執行 `git init` 作為起點，然後執行該腳本： 
 
 	$ git init
 	Initialized empty Git repository in /opt/import_to/.git/
@@ -655,7 +656,7 @@ To run the importer, pipe this output through `git fast-import` while in the Git
 	pack_report: pack_mapped              =       1356 /       1356
 	---------------------------------------------------------------------
 
-As you can see, when it completes successfully, it gives you a bunch of statistics about what it accomplished. In this case, you imported 18 objects total for 5 commits into 1 branch. Now, you can run `git log` to see your new history:
+你會發現，在它成功執行完畢以後，會給出一堆有關已完成工作的資料。上例在一個分支導入了5次提交資料，包含了18個物件。現在可以執行 `git log` 來檢視新的歷史： 
 
 	$ git log -2
 	commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
@@ -670,7 +671,7 @@ As you can see, when it completes successfully, it gives you a bunch of statisti
 
 	    imported from back_2009_02_03
 
-There you go — a nice, clean Git repository. It’s important to note that nothing is checked out — you don’t have any files in your working directory at first. To get them, you must reset your branch to where `master` is now:
+就這樣——一個乾淨整潔的 Git 倉庫。需要注意的是此時沒有任何內容被檢出(checked out)——剛開始目前的目錄裡沒有任何檔。要獲取它們，你得轉到 `master` 分支的所在： 
 
 	$ ls
 	$ git reset --hard master
@@ -678,8 +679,8 @@ There you go — a nice, clean Git repository. It’s important to note that not
 	$ ls
 	file.rb  lib
 
-You can do a lot more with the `fast-import` tool — handle different modes, binary data, multiple branches and merging, tags, progress indicators, and more. A number of examples of more complex scenarios are available in the `contrib/fast-import` directory of the Git source code; one of the better ones is the `git-p4` script I just covered.
+`fast-import` 還可以做更多——處理不同的檔案模式、二進位檔案、多重分支與合併、標籤、進展標識(progress indicators)等等。一些更加複雜的實例可以在 Git 源碼的 `contib/fast-import` 目錄裡找到；較佳的其中之一是前面提過的 `git-p4` 腳本。 
 
-## Summary ##
+## 總結 ##
 
-You should feel comfortable using Git with Subversion or importing nearly any existing repository into a new Git one without losing data. The next chapter will cover the raw internals of Git so you can craft every single byte, if need be.
+現在的你應該掌握了在 Subversion 上使用 Git，以及把幾乎任何現存倉庫在不遺漏資料的情況下導入為 Git 倉庫。下一章將介紹 Git 內部的原始資料格式，從而使你能親手鍛造其中的每一個位元組，如果需要的話。 

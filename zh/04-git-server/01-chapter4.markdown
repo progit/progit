@@ -680,23 +680,23 @@ We'll round off this discussion with a sampling of other features, all of which,
 
 **Mirroring**: Gitolite can help you maintain multiple mirrors, and switch between them easily if the primary server goes down.
 
-## Git 进程 ##
+## Git 守护进程 ##
 
-公共，非授权的只读访问要求我们在 HTTP 协议的基础上使用 Git 协议。主因在于速度。Git 协议更为高效，进而比 HTTP 协议更迅速，所以它能节省很多时间。
+对于提供公共的，非授权的只读访问，我们可以抛弃 HTTP 协议，改用 Git 自己的协议，这主要是出于性能和速度的考虑。Git 协议远比 HTTP 协议高效，因而访问速度也快，所以它能节省很多用户的时间。
 
-重申一下，这一点只适用于非授权、只读的访问。如果在防火墙之外的服务器上，该服务的使用应该局限于公诸于世的项目。假如是在防火墙之内，它也可以用于具有大量参与人员或者主机（长期整合资源或编译的服务器）的只读访问的项目，可以省去为逐一添加 SSH 公钥的麻烦。
+重申一下，这一点只适用于非授权的只读访问。如果建在防火墙之外的服务器上，那么它所提供的服务应该只是那些公开的只读项目。如果是在防火墙之内的服务器上，可用于支撑大量参与人员或自动系统（用于持续集成或编译的主机）只读访问的项目，这样可以省去逐一配置 SSH 公钥的麻烦。
 
-无论哪种情况，Git 协议的设定都相对简单。基本上，只要以长期守护进程的形式运行该命令：
+但不管哪种情形，Git 协议的配置设定都很简单。基本上，只要以守护进程的形式运行该命令即可：
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` 使得服务无须等到旧的连接尝试过期以后再重启，`--base-path` 选项使得克隆项目的时候不用给出完整的路径，而最后面的路径告诉 Git 进程导出仓库的位置。假如有防火墙，则需要为该主机的 9418 端口打个允许通信的洞。
+这里的 `--reuseaddr` 选项表示在重启服务前，不等之前的连接超时就立即重启。而 `--base-path` 选项则允许克隆项目时不必给出完整路径。最后面的路径告诉 Git 守护进程允许开放给用户访问的仓库目录。假如有防火墙，则需要为该主机的 9418 端口设置为允许通信。
 
-有几个不同的办法可以让该进程长期驻留，取决于不同的操作系统。在 Ubuntu 主机上，可以用 Upstart 脚本来完成。于是，在下面这个文件
+以守护进程的形式运行该进程的方法有很多，但主要还得看用的是什么操作系统。在 Ubuntu 主机上，可以用 Upstart 脚本达成。编辑该文件：
 
 	/etc/event.d/local-git-daemon
 
-加入该脚本内容：
+加入以下内容：
 
 	start on startup
 	stop on shutdown
@@ -707,42 +707,42 @@ We'll round off this discussion with a sampling of other features, all of which,
 	    /opt/git/
 	respawn
 
-出于安全考虑，强烈建议用一个对仓库只有读取权限的用户身份来运行该进程——只需要简单的新创建一个 `git-ro` 用户（译注：并将它对仓库的权限设为只读），用它来运行进程。为了简化，下面我们将依旧使用运行了 Gitosis 的 'git' 用户。
+出于安全考虑，强烈建议用一个对仓库只有读取权限的用户身份来运行该进程 — 只需要简单地新建一个名为 `git-ro` 的用户（译注：新建用户默认对仓库文件不具备写权限，但这取决于仓库目录的权限设定。务必确认 `git-ro` 对仓库只能读不能写。），并用它的身份来启动进程。这里为了简化，后面我们还是用之前运行 Gitosis 的用户 'git'。
 
-重启主机的时候，Git 进程会自行启动，一旦关闭了也会自行重启。要不重启就开启它，可以运行这个命令：
+这样一来，当你重启计算机时，Git 进程也会自动启动。要是进程意外退出或者被杀掉，也会自行重启。在设置完成后，不重启计算机就启动该守护进程，可以运行：
 
 	initctl start local-git-daemon
 
-在其他系统上，或许应该使用 `xinetd`，`sysinit` 的一个脚本，或者其他的——只要能让那个命令进程化和可监控。
+而在其他操作系统上，可以用 `xinetd`，或者 `sysvinit` 系统的脚本，或者其他类似的脚本 — 只要能让那个命令变为守护进程并可监控。
 
-然后，必须告诉 Gitosis 服务那些仓库允许基于 Git 协议的非授权访问。如果为每一个仓库设立了自己的节段，就可以指定想让 Git 进程给予可读权限的仓库。假如要允许通过 Git 协议访问前面的 iphone 项目，可以把如下内容加到 `gitosis.conf` 文件的结尾：
+接下来，我们必须告诉 Gitosis 哪些仓库允许通过 Git 协议进行匿名只读访问。如果每个仓库都设有各自的段落，可以分别指定是否允许 Git 进程开放给用户匿名读取。比如允许通过 Git 协议访问 iphone_project，可以把下面两行加到 `gitosis.conf` 文件的末尾：
 
 	[repo iphone_project]
 	daemon = yes
 
-在提交和推送完成以后，运行中的进程将开始相应所有能访问主机 9418 端口的人发来的项目请求。
+在提交和推送完成后，运行中的 Git 守护进程就会响应来自 9418 端口对该项目的访问请求。
 
-假如不想使用 Gitosis，而又想架设一个 Git 协议进程，则必须为每一个想使用 Git 进程的项目运行如下命令：
+如果不考虑 Gitosis，单单起了 Git 守护进程的话，就必须到每一个允许匿名只读访问的仓库目录内，创建一个特殊名称的空文件作为标志：
 
 	$ cd /path/to/project.git
 	$ touch git-daemon-export-ok
 
-该文件（译注：指空文件 git-deamon-export-ok）告诉 Git 允许对该项目的非授权访问。
+该文件的存在，表明允许 Git 守护进程开放对该项目的匿名只读访问。
 
-Gitosis 还能控制 GitWeb 显示哪些项目。首先，在 `/etc/gitweb.conf` 添加如下内容：
+Gitosis 还能设定哪些项目允许放在 GitWeb 上显示。先打开 GitWeb 的配置文件 `/etc/gitweb.conf`，添加以下四行：
 
 	$projects_list = "/home/git/gitosis/projects.list";
 	$projectroot = "/home/git/repositories";
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
-通过在 Gitosis 的设置文件里添加或删除 `gitweb` 设定，就能控制 GitWeb 允许用户浏览哪些项目。比如，我们想让 iphone 项目在 GitWeb 里出现，把 `repo` 的设定改成下面的样子：
+接下来，只要配置各个项目在 Gitosis 中的 `gitweb` 参数，便能达成是否允许 GitWeb 用户浏览该项目。比如，要让 iphone_project 项目在 GitWeb 里出现，把 `repo` 的设定改成下面的样子：
 
 	[repo iphone_project]
 	daemon = yes
 	gitweb = yes
 
-如果现在提交和推送该项目，GitWeb 会自动开始展示我们的 iphone 项目。
+在提交并推送过之后，GitWeb 就会自动开始显示 iphone_project 项目的细节和历史。
 
 ## Git 托管服务 ##
 

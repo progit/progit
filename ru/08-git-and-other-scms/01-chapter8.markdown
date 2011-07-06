@@ -1,32 +1,54 @@
 # Git и другие системы управления версиями #
 Git and Other Systems
 
+Наш мир несовершенен. Как правило, вы не сможете моментально перевести любой проект, в котором вы участвуете, на использование Git. Иногда вам придется иметь дело с проектами, использующими другую систему контроля версий, и, в большинстве случаев, этой системой будет Subversion. Первая часть этого раздела научит вас обращаться с `git svn` — встроенным в Git двухсторонним интерфейсом обмена с Subversion.
+
 The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
+
+В какой-то момент, вы возможно захотите перевести свой существующий проект на Git. Вторая часть раздела расскажет о том, как провести миграцию: сначала с Subversion, потом с Perforce, и наконец, с помощью написания собственного сценария для нестандартных вариантов миграции.
 
 At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case. 
 
+## Git и Subversion ##
 ## Git and Subversion ##
 
+В настоящее время, большинство проектов с открытым исходным кодом, а также большое число корпоративных проектов, используют Subversion в качестве системы управления кодом. Это самая популярная на текущий момент система контроля версий с открытым исходным кодом, история её использования насчитывает около 10 лет. Кроме того, она очень похожа на CVS, систему, которая была самой популярной до Subversion.
+
 Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.
+
+Одна из замечательных особенностей Git — возможность двустороннего обмена с Subversion, через интерфейс, называемый `git svn`. Этот инструмент позволяет вам использовать Git в качестве корректного клиента при работе с сервером Subversion, таким образом, что вы можете пользоваться всеми локальными возможностями Git, а затем сохранять изменения на сервере Subversion, так, как если бы использовали Subversion локально. То есть, вы можете делать локальное ветвление и слияние, использовать индекс, перемещение и отбор патчей для переноса из одной ветви в другую и т.д., в то время, как ваши коллеги будут продолжать использовать в разработке подход времён каменного века. Это может быть хорошим способом протащить Git в рабочее окружение вашей компании и помочь вашим разработчикам стать более эффективными в то время, как вы будете лоббировать переход на Git полностью. Интерфейс обмена с Subversion это панацея в мире распределённых систем управлением версиями.
 
 One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.
 
 ### git svn ###
 
+Основной командой Git для соединения со всеми командами Subversion является `git svn`. С неё вы будете начинать любую команду.
+
 The base command in Git for all the Subversion bridging commands is `git svn`. You preface everything with that. It takes quite a few commands, so you’ll learn about the common ones while going through a few small workflows.
+
+Важно отметить, что при использовании `git svn`, вы взаимодействуете с Subversion, системой, которая намного менее «продвинута», чем Git. Хотя вы и можете с лёгкостью делать локальное ветвление и слияние версий, но лучше всего будет сохранять историю действий в как можно более линейном виде с помощью перемещения кода и избегая таких действий, как одновременный обмен с удалённым репозиторием Git.
 
 It’s important to note that when you’re using `git svn`, you’re interacting with Subversion, which is a system that is far less sophisticated than Git. Although you can easily do local branching and merging, it’s generally best to keep your history as linear as possible by rebasing your work and avoiding doing things like simultaneously interacting with a Git remote repository.
 
+Не переписывайте историю действий, попробуйте отправить изменения ещё раз, а также не отправляйте одновременно изменения в параллельный репозиторий Git для совместной работы с разработчиками, использующими Git. Subversion имеет только одномерную, линейную историю изменений, сбить с толку которую очень и очень просто. Если вы работаете в команде, в которой некоторые разработчики используют Git, а другие Subversion, убедитесь, что для совместной работы все используют только сервер SVN — это сильно упростит вам жизнь.
+
 Don’t rewrite your history and try to push again, and don’t push to a parallel Git repository to collaborate with fellow Git developers at the same time. Subversion can have only a single linear history, and confusing it is very easy. If you’re working with a team, and some are using SVN and others are using Git, make sure everyone is using the SVN server to collaborate — doing so will make your life easier.
 
+### Настройка ###
 ### Setting Up ###
 
+Для того, чтобы попробовать этот функционал в действии, вам понадобится доступ с правом записи к обычному репозиторию SVN. Если вы хотите получить рассматриваемые примеры, вы должны скопировать мой тестовый каталог с правом на запись в него. Для того, чтобы сделать это самым простым способом, вам потребуется утилита `svnsync`, входящая в состав последних версий Subversion (по крайней мере после версии 1.4). Для этих примеров, я создал новый репозиторий Subversion на Google Code, который был частичной копией проекта `protobuf` (утилита шифрования структурированных данных для их передачи по сети).
+
 To demonstrate this functionality, you need a typical SVN repository that you have write access to. If you want to copy these examples, you’ll have to make a writeable copy of my test repository. In order to do that easily, you can use a tool called `svnsync` that comes with more recent versions of Subversion — it should be distributed with at least 1.4. For these tests, I created a new Subversion repository on Google code that was a partial copy of the `protobuf` project, which is a tool that encodes structured data for network transmission. 
+
+Чтобы мы могли продолжить, прежде всего создайте новый локальный репозиторий Subversion:
 
 To follow along, you first need to create a new local Subversion repository:
 
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
+
+Затем разрешите всем пользователям изменять `revprops` — самым простым способом сделать это будет добавление сценария `pre-revprop-change`, с кодом завершения, всегда равным 0:
 
 Then, enable all users to change revprops — the easy way is to add a pre-revprop-change script that always exits 0:
 
@@ -35,9 +57,13 @@ Then, enable all users to change revprops — the easy way is to add a pre-revpr
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
+Теперь вы можете синхронизировать проект со своей локальной машиной, вызвав `svnsync init` с параметрами, задающими исходный и целевой репозиторий:
+
 You can now sync this project to your local machine by calling `svnsync init` with the to and from repositories.
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
+
+Эта команда подготовит процесс синхронизации. После неё склонируйте код с помощью команды:
 
 This sets up the properties to run the sync. You can then clone the code by running
 
@@ -49,9 +75,14 @@ This sets up the properties to run the sync. You can then clone the code by runn
 	Committed revision 3.
 	...
 
+Хотя выполнение этой операции и может занять всего несколько минут, однако, если вы попробуете скопировать свой исходный репозиторий в другой, удалённый репозиторий, процесс займёт примерно час, даже если в проекте будет менее ста изменений. Subversion клонирует каждое изменение последовательно, одно за другим, а затем вносит изменения в другой репозиторий — чудовищно неэффективно, однако это единственный простой способ выполнить это действие.
+
 Although this operation may take only a few minutes, if you try to copy the original repository to another remote repository instead of a local one, the process will take nearly an hour, even though there are fewer than 100 commits. Subversion has to clone one revision at a time and then push it back into another repository — it’s ridiculously inefficient, but it’s the only easy way to do this.
 
+### Приступим к работе ###
 ### Getting Started ###
+
+Теперь, когда в вашем распоряжении имеется репозиторий Subversion, для которого вы имеете право на запись, вы можете перейти к обычному набору действий. Вы начнёте работу с команды `git svn clone`, которая импортирует весь репозиторий Subversion в локальный репозиторий Git. Помните, что если вы производите импорт из реального удалённого репозитория Subversion, вы должны заменить строку `file:///tmp/test-svn` на реальный адрес вашего репозитория Subversion.
 
 Now that you have a Subversion repository to which you have write access, you can go through a typical workflow. You’ll start with the `git svn clone` command, which imports an entire Subversion repository into a local Git repository. Remember that if you’re importing from a real hosted Subversion repository, you should replace the `file:///tmp/test-svn` here with the URL of your Subversion repository:
 
@@ -71,11 +102,17 @@ Now that you have a Subversion repository to which you have write access, you ca
 	Checked out HEAD:
 	 file:///tmp/test-svn/branches/my-calc-branch r76
 
+Эта команда эквивалентна выполнению для указанного вами URL двух команд — `git svn init` и следующей за ней `git svn fetch`. Процесс может занять некоторое время. Тестовый проект имеет всего лишь около 75 изменений, и кода там не очень много, так что скорее всего, вам придётся подождать всего несколько минут. Однако, Git должен по-отдельности проверить и выполнить коммит для каждой версии. Для проектов, имеющих историю с сотнями и тысячами изменений, этот процесс может занять несколько часов, или даже дней.
+
 This runs the equivalent of two commands — `git svn init` followed by `git svn fetch` — on the URL you provide. This can take a while. The test project has only about 75 commits and the codebase isn’t that big, so it takes just a few minutes. However, Git has to check out each version, one at a time, and commit it individually. For a project with hundreds or thousands of commits, this can literally take hours or even days to finish.
+
+Часть команды `-T trunk -b branches -t tags` сообщает Git, что этот репозиторий Subversion следует стандартным соглашениям о ветвлении и назначении меток. Если вы именуете основную ветвь разработки, ветви и метки по-другому, то должны соответственно изменить эти параметры. В связи с тем, что эти соглашения являются общепринятыми, вы можете использовать короткий формат, заменив всю эту часть на `-s`, заменяющую собой все эти параметры. Следующая команда является полным эквивалентом предшествующей:
 
 The `-T trunk -b branches -t tags` part tells Git that this Subversion repository follows the basic branching and tagging conventions. If you name your trunk, branches, or tags differently, you can change these options. Because this is so common, you can replace this entire part with `-s`, which means standard layout and implies all those options. The following command is equivalent:
 
 	$ git svn clone file:///tmp/test-svn -s
+
+Таким образом вы должны получить корректный репозиторий Git с импортированными ветвями и метками:
 
 At this point, you should have a valid Git repository that has imported your branches and tags:
 
@@ -88,6 +125,8 @@ At this point, you should have a valid Git repository that has imported your bra
 	  tags/release-2.0.2rc1
 	  trunk
 
+Важно отметить, как эта утилита именует ваши ссылки на удалённые ресурсы. Когда вы клонируете обычный репозиторий Git, вы получаете все ветви с удалённого сервера на локальный компьютер в подобном виде: `origin/[branch]` — именуемые по имени удалённого сервера. Однако, `git svn` полагает, что у вас нет множества удалённых источников данных и сохраняет всю ссылочную информацию на удалённые источники без именования. Для просмотра всех имён ссылок вы можете использовать команду Git `show-ref`.
+
 It’s important to note how this tool namespaces your remote references differently. When you’re cloning a normal Git repository, you get all the branches on that remote server available locally as something like `origin/[branch]` - namespaced by the name of the remote. However, `git svn` assumes that you won’t have multiple remotes and saves all its references to points on the remote server with no namespacing. You can use the Git plumbing command `show-ref` to look at all your full reference names:
 
 	$ git show-ref
@@ -99,6 +138,8 @@ It’s important to note how this tool namespaces your remote references differe
 	1c4cb508144c513ff1214c3488abe66dcb92916f refs/remotes/tags/release-2.0.2rc1
 	1cbd4904d9982f386d87f88fce1c24ad7c0f0471 refs/remotes/trunk
 
+Обычный репозиторий Git как правило выглядит подобным образом:
+
 A normal Git repository looks more like this:
 
 	$ git show-ref
@@ -107,17 +148,26 @@ A normal Git repository looks more like this:
 	0a30dd3b0c795b80212ae723640d4e5d48cabdff refs/remotes/origin/master
 	25812380387fdd55f916652be4881c6f11600d6f refs/remotes/origin/testing
 
+Вы имеете два удалённых сервера: один именуемый `gitserver` с ветвью `master`; и другой, именуемый `origin` с двумя ветвями, `master` и `testing`.
+
 You have two remote servers: one named `gitserver` with a `master` branch; and another named `origin` with two branches, `master` and `testing`. 
+
+Обратите внимание, что в этом примере метки добавлены так, как будто они являются ветвями, а не так, как настоящие метки Git. Импортированные вами из Subversion данные выглядят так, как будто имеют метки по имени удалённого ресурса, с ветвями, находящимися уровнем ниже.
 
 Notice how in the example of remote references imported from `git svn`, tags are added as remote branches, not as real Git tags. Your Subversion import looks like it has a remote named tags with branches under it.
 
+### Коммит в Subversion ###
 ### Committing Back to Subversion ###
+
+Теперь, когда вы имеете рабочий репозиторий, вы можете выполнить какую-либо работу с кодом и выполнить коммит в апстрим, эффективно используя Git в качестве клиента SVN. Если вы редактировали один из файлов и закоммитили его, то вы внесли изменение в локальный репозиторий Git, которое пока не существует на сервере Subversion:
 
 Now that you have a working repository, you can do some work on the project and push your commits back upstream, using Git effectively as a SVN client. If you edit one of the files and commit it, you have a commit that exists in Git locally that doesn’t exist on the Subversion server:
 
 	$ git commit -am 'Adding git-svn instructions to the README'
 	[master 97031e5] Adding git-svn instructions to the README
 	 1 files changed, 1 insertions(+), 1 deletions(-)
+
+После этого, вам надо отправить изменения в апстрим. Обратите внимание, как Git изменяет способ работы с Subversion — вы можете сделать несколько коммитов оффлайн, а затем отправить их разом на сервер Subversion. Для передачи изменений на сервер Subversion требуется выполнить команду `git svn dcommit`:
 
 Next, you need to push your change upstream. Notice how this changes the way you work with Subversion — you can do several commits offline and then push them all at once to the Subversion server. To push to a Subversion server, you run the `git svn dcommit` command:
 
@@ -130,6 +180,8 @@ Next, you need to push your change upstream. Notice how this changes the way you
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
+Это действие соберёт вместе все коммиты, сделанные вами в коде репозитория Subversion, выполнит коммит для каждого из них, а затем перепишет ваш локальный коммит Git для того, чтобы он имел уникальный идентификатор. Это момент очень важен, поскольку это означает, что изменятся все SHA-1 контрольные суммы ваших коммитов. Частично по этой причине одновременная совместная работа с удалёнными версиями проекта, расположенными на серверах Git и серверах Subversion не очень хорошая идея. Если вы посмотрите на детали последнего коммита, вы увидите, что добавился новый `git-svn-id`.
+
 This takes all the commits you’ve made on top of the Subversion server code, does a Subversion commit for each, and then rewrites your local Git commit to include a unique identifier. This is important because it means that all the SHA-1 checksums for your commits change. Partly for this reason, working with Git-based remote versions of your projects concurrently with a Subversion server isn’t a good idea. If you look at the last commit, you can see the new `git-svn-id` that was added:
 
 	$ git log -1
@@ -141,9 +193,14 @@ This takes all the commits you’ve made on top of the Subversion server code, d
 
 	    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 
+Обратите внимание — контрольная сумма SHA, которая начиналась с `97031e5` когда вы делали коммит, теперь начинается с `938b1a5`. Если вы хотите отправить изменения как на сервер Git, так и на сервер Subversion, вы должны отправить их (`dcommit`) сначала на сервер Subversion, поскольку это действие изменит отправляемые данные.
+
 Notice that the SHA checksum that originally started with `97031e5` when you committed now begins with `938b1a5`. If you want to push to both a Git server and a Subversion server, you have to push (`dcommit`) to the Subversion server first, because that action changes your commit data.
 
+### Получение новых изменений ###
 ### Pulling in New Changes ###
+
+Если вы работаете совместно с другими разработчиками, значит когда-нибудь вам придётся столкнуться с ситуацией, когда кто-либо из вас будет отправлять изменения, а другой, в свою очередь, будет отправлять свои изменения, которые будут конфликтовать с первыми. Это изменение не будет принято до тех пор, пока вы не сольёте их вместе. В `git svn` эта ситуация будет выглядеть следующим образом:
 
 If you’re working with other developers, then at some point one of you will push, and then the other one will try to push a change that conflicts. That change will be rejected until you merge in their work. In `git svn`, it looks like this:
 
@@ -153,6 +210,8 @@ If you’re working with other developers, then at some point one of you will pu
 	out-of-date: resource out of date; try updating at /Users/schacon/libexec/git-\
 	core/git-svn line 482
 
+Для разрешения этой проблемы, вам нужно выполнить команду `git svn rebase`, которая получит все изменения, имеющиеся на сервере, которых ещё нет на вашей локальной машине и переместит все ваши недавние изменения на их место на сервере:
+
 To resolve this situation, you can run `git svn rebase`, which pulls down any changes on the server that you don’t have yet and rebases any work you have on top of what is on the server:
 
 	$ git svn rebase
@@ -160,6 +219,8 @@ To resolve this situation, you can run `git svn rebase`, which pulls down any ch
 	r80 = ff829ab914e8775c7c025d741beb3d523ee30bc4 (trunk)
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
+
+Теперь все ваши изменения заняли место на сервере Subversion, так что вы можете спокойно выполнить `dcommit`:
 
 Now, all your work is on top of what is on the Subversion server, so you can successfully `dcommit`:
 
@@ -171,6 +232,8 @@ Now, all your work is on top of what is on the Subversion server, so you can suc
 	r81 = 456cbe6337abe49154db70106d1836bc1332deed (trunk)
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
+
+Следует помнить, что в отличие от Git, при работе с которым вы должны до отправки своих изменений совершать слияние с изменениями в апстриме, которые вы не имеете в настоящий момент локально, `git svn` требует делать это только в случае конфликта правок. Если кто-либо внесёт изменения в один файл, а вы внесёте изменения в другой, команда `dcommit` сработает без ошибок.
 
 It’s important to remember that unlike Git, which requires you to merge upstream work you don’t yet have locally before you can push, `git svn` makes you do that only if the changes conflict. If someone else pushes a change to one file and then you push a change to another file, your `dcommit` will work fine:
 
@@ -189,7 +252,11 @@ It’s important to remember that unlike Git, which requires you to merge upstre
 	First, rewinding head to replay your work on top of it...
 	Nothing to do.
 
+Это важно запомнить, поскольку последствием таких действий может стать неопределённое состояние проекта на всех компьютерах. Если изменения несовместимы, но не ведут к конфликту изменений у вас могут возникнуть проблемы, которые трудно будет диагностировать. Это отличается от работы с сервером Git — там вы можете полностью проверить состояние проекта на клиентских машинах до публикации, в то время, как в SVN вы не можете даже быть уверены в том, что состояние проекта непосредственно перед коммитом и после него идентично.
+
 This is important to remember, because the outcome is a project state that didn’t exist on either of your computers when you pushed. If the changes are incompatible but don’t conflict, you may get issues that are difficult to diagnose. This is different than using a Git server — in Git, you can fully test the state on your client system before publishing it, whereas in SVN, you can’t ever be certain that the states immediately before commit and after commit are identical.
+
+Кроме того, вам нужно выполнить следующую команду для получения изменений с сервера Subversion, даже если вы не готовы сами вносить изменения. Вы можете выполнить `git svn fetch` для получения новых данных, но `git svn rebase` одновременно делает проверку и обновляет ваши локальные коммиты.
 
 You should also run this command to pull in changes from the Subversion server, even if you’re not ready to commit yourself. You can run `git svn fetch` to grab the new data, but `git svn rebase` does the fetch and then updates your local commits.
 
@@ -199,11 +266,18 @@ You should also run this command to pull in changes from the Subversion server, 
 	First, rewinding head to replay your work on top of it...
 	Fast-forwarded master to refs/remotes/trunk.
 
+Выполняйте команду `git svn rebase` периодически, чтобы быть уверенным в том, что ваш код имеет самую свежую версию. Однако перед выполнением этой команды вы должны быть уверены, что в рабочем каталоге нет невнесённых изменений. В противном случае, вы должны либо «спрятать» свои изменения, либо временно закоммитить их до выполнения `git svn rebase`, в противном случае, выполнение команды прекратится, если возникнет угроза конфликта слияния.
+
 Running `git svn rebase` every once in a while makes sure your code is always up to date. You need to be sure your working directory is clean when you run this, though. If you have local changes, you must either stash your work or temporarily commit it before running `git svn rebase` — otherwise, the command will stop if it sees that the rebase will result in a merge conflict.
 
+### Проблемы создания веток в Git ###
 ### Git Branching Issues ###
 
+Теперь, когда вы привыкли к рабочему процессу в Git, вам скорее всего захочется создать ветки для работы над конкретными заданиями, а затем слить изменения вместе. Если вы отправляете изменения на сервер Subversion через `git svn`, вам скорее всего потребуется перемещать свою работу каждый раз в одну ветку, а не сливать вместе изменения из нескольких. Причина, по которой предпочтение должно быть отдано именно такому подходу, заключается в том, что Subversion имеет линейную историю изменений и не может обрабатывать слияния так, как это делает Git, таким образом `git svn` следует только за первым родительским элементом при конвертации снимков состояния в коммиты Subversion.
+
 When you’ve become comfortable with a Git workflow, you’ll likely create topic branches, do work on them, and then merge them in. If you’re pushing to a Subversion server via git svn, you may want to rebase your work onto a single branch each time instead of merging branches together. The reason to prefer rebasing is that Subversion has a linear history and doesn’t deal with merges like Git does, so git svn follows only the first parent when converting the snapshots into Subversion commits.
+
+Допустим, что история изменений выглядит следующим образом: вы создали ветку `experiment`, сделали два коммита, а затем слили их вместе в ветку `master`. Если вы выполните `dcommit`, результат будет следующим:
 
 Suppose your history looks like the following: you created an `experiment` branch, did two commits, and then merged them back into `master`. When you `dcommit`, you see output like this:
 
@@ -226,15 +300,25 @@ Suppose your history looks like the following: you created an `experiment` branc
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
+Выполнение `dcommit` для ветви с объединённой историей не вызовет никаких проблем, однако, если вы посмотрите на историю проекта в Git, то увидите, что она не была переписана ни одним из коммитов, которые вы сделали в ветви `experiment` — вместо этого, все эти изменения появятся в едином коммите SVN, в котором они будут слиты все вместе.
+
 Running `dcommit` on a branch with merged history works fine, except that when you look at your Git project history, it hasn’t rewritten either of the commits you made on the `experiment` branch — instead, all those changes appear in the SVN version of the single merge commit.
+
+Когда кто-нибудь склонирует себе эту работу, всё, что они увидят — это коммит, в котором все изменения слиты воедино; они не увидят данных о том, откуда пришли изменения и когда они были внесены.
 
 When someone else clones that work, all they see is the merge commit with all the work squashed into it; they don’t see the commit data about where it came from or when it was committed.
 
+### Работа с ветвями в Subversion ###
 ### Subversion Branching ###
+
+Работа с ветвями в Subversion отличается от таковой в Git; если вы можете её избежать, делайте так при первом удобном случае. Однако, вы можете создавать и вносить изменения в ветви Subversion используя `git svn`.
 
 Branching in Subversion isn’t the same as branching in Git; if you can avoid using it much, that’s probably best. However, you can create and commit to branches in Subversion using git svn.
 
+#### Создание новой ветви SVN ####
 #### Creating a New SVN Branch ####
+
+Для того, чтобы создать новую ветвь в Subversion, выполните `git svn branch [имя ветви]`
 
 To create a new branch in Subversion, you run `git svn branch [branchname]`:
 
@@ -247,25 +331,42 @@ To create a new branch in Subversion, you run `git svn branch [branchname]`:
 	Successfully followed parent
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
+Эта команда эквивалентна команде Subversion `svn copy trunk branches/opera` и выполняется на сервере Subversion. Важно отметить, что эта команда не устанавливает активную ветвь как `opera`, так что, если вы совершите коммит после выполнения этой команды, он будет применён к ветви `trunk` на сервере, а не к `opera`.
+
 This does the equivalent of the `svn copy trunk branches/opera` command in Subversion and operates on the Subversion server. It’s important to note that it doesn’t check you out into that branch; if you commit at this point, that commit will go to `trunk` on the server, not `opera`.
 
+### Переключение активных ветвей ###
 ### Switching Active Branches ###
 
+Git определяет ветвь, куда вносятся ваши коммиты, путём выбора самой последней ветви Subversion в вашей истории — она должна быть единственной и она должна быть последней в текущей истории ветвей, имеющей метку `git-svn-id`.
+
 Git figures out what branch your dcommits go to by looking for the tip of any of your Subversion branches in your history — you should have only one, and it should be the last one with a `git-svn-id` in your current branch history. 
+
+Если вы хотите работать одновременно с несколькими ветвями, вы можете настроить локальные ветви на внесение изменений через `dcommit` в конкретные ветви Subversion, начав их на основе импортированного коммита Subversion для каждой этой ветви. Если вам требуется отдельно работать в ветви `opera`, вы можете выполнить:
 
 If you want to work on more than one branch simultaneously, you can set up local branches to `dcommit` to specific Subversion branches by starting them at the imported Subversion commit for that branch. If you want an `opera` branch that you can work on separately, you can run
 
 	$ git branch opera remotes/opera
 
+Теперь, если вы захотите слить ветвь `opera` с ветвью `trunk` (вашей ветвью `master`), вы можете сделать это с помощью обычной команды `git merge`, однако вам потребуется добавить подробное описание к коммиту (через параметр `-m`), иначе при слиянии комментарий будет иметь вид «Merge branch opera», что не является особенно полезной информацией.
+
 Now, if you want to merge your `opera` branch into `trunk` (your `master` branch), you can do so with a normal `git merge`. But you need to provide a descriptive commit message (via `-m`), or the merge will say "Merge branch opera" instead of something useful.
+
+Помните, что хотя вы и используете `git merge` для этой операции, и слияние скорее всего произойдёт намного проще, чем было бы в Subversion (потому, что Git автоматически определяет подходящую основу для слияния), это не является обычным коммитом-слиянием Git. Вы должны передать данные обратно на сервер Subversion, который не способен обрабатывать коммит, относящийся более, чем к одному родителю, так что после передачи этот коммит будет выглядеть как единый коммит, в котором смешаны все изменения по другой ветви. После того, как вы сольёте одну ветвь с другой, вы не сможете просто так вернуться к работе над ней, как вы могли бы в Git. Команда `dcommit` удаляет всю информацию о том, какая ветвь была влита, так что последующие вычисления базы слияния будут неверными — команда `dcommit` сделает результаты выполнения `git merge` такими же, какими они были бы после выполнения `git merge --squash`. К сожалению избежать подобной ситуации вряд ли удастся — Subversion не способен сохранять подобную информацию, так что вы всегда будете связаны этими ограничениями. Во избежание проблем вы должны удалить локальную ветвь (в нашем случае `opera`) после того, как вы вольёте её в `trunk`.
 
 Remember that although you’re using `git merge` to do this operation, and the merge likely will be much easier than it would be in Subversion (because Git will automatically detect the appropriate merge base for you), this isn’t a normal Git merge commit. You have to push this data back to a Subversion server that can’t handle a commit that tracks more than one parent; so, after you push it up, it will look like a single commit that squashed in all the work of another branch under a single commit. After you merge one branch into another, you can’t easily go back and continue working on that branch, as you normally can in Git. The `dcommit` command that you run erases any information that says what branch was merged in, so subsequent merge-base calculations will be wrong — the dcommit makes your `git merge` result look like you ran `git merge --squash`. Unfortunately, there’s no good way to avoid this situation — Subversion can’t store this information, so you’ll always be crippled by its limitations while you’re using it as your server. To avoid issues, you should delete the local branch (in this case, `opera`) after you merge it into trunk.
 
+### Команды Subversion ###
 ### Subversion Commands ###
+
+Набор утилит `git svn` предоставляет в ваше распоряжение несколько команд для облегчения перехода на Git, путём предоставления функциональности, подобной той, которую вы имеете в Subversion. Ниже приведены несколько команд, которые дают вам то, что вы имели в Subversion.
 
 The `git svn` toolset provides a number of commands to help ease the transition to Git by providing some functionality that’s similar to what you had in Subversion. Here are a few commands that give you what Subversion used to.
 
+#### Просмотр истории изменений в стиле SVN ####
 #### SVN Style History ####
+
+Если вы до этого использовали Subversion и хотите просмотреть историю изменений в стиле SVN, выполните команду `git svn log`:
 
 If you’re used to Subversion and want to see your history in SVN output style, you can run `git svn log` to view your commit history in SVN formatting:
 
@@ -285,9 +386,14 @@ If you’re used to Subversion and want to see your history in SVN output style,
 	
 	updated the changelog
 
+Вы должны знать две важные вещи о команде `git svn log`. Во-первых, она работает в оффлайне, в отличие от оригинальной команды `svn log`, которая запрашивает информацию с сервера Subversion. Во-вторых, эта команда отображает только те коммиты, которые были переданы на сервер Subversion. Локальные коммиты Git, которые вы ещё не отправили с помощью `dcommit` не будут отображаться, равно как и те коммиты, которые были отправлены на сервер Subversion в то же самое время. Результат действия этой команды более всего похож на последнее известное состояние изменений на сервере Subversion.
+
 You should know two important things about `git svn log`. First, it works offline, unlike the real `svn log` command, which asks the Subversion server for the data. Second, it only shows you commits that have been committed up to the Subversion server. Local Git commits that you haven’t dcommited don’t show up; neither do commits that people have made to the Subversion server in the meantime. It’s more like the last known state of the commits on the Subversion server.
 
+#### Аннотации SVN ####
 #### SVN Annotation ####
+
+Также, как команда `git svn log` симулирует в оффлайне команду `svn log`, эквивалентом команды `svn annotate` является команда `git svn blame [FILE]`. Результатом её выполнения будет:
 
 Much as the `git svn log` command simulates the `svn log` command offline, you can get the equivalent of `svn annotate` by running `git svn blame [FILE]`. The output looks like this:
 
@@ -305,9 +411,14 @@ Much as the `git svn log` command simulates the `svn log` command offline, you c
 	 2   temporal Buffer compiler (protoc) execute the following:
 	 2   temporal 
 
+Опять таки, эта команда не показывает те коммиты, которые вы сделали локально в Git или те, которые были отправлены на сервер Subversion во время её выполнения.
+
 Again, it doesn’t show commits that you did locally in Git or that have been pushed to Subversion in the meantime.
 
+#### Информация о сервере SVN ####
 #### SVN Server Information ####
+
+Вы можете получить ту же информацию, которую даёт выполнение команды `svn info` выполнив команду `git svn info`:
 
 You can also get the same sort of information that `svn info` gives you by running `git svn info`:
 
@@ -323,24 +434,41 @@ You can also get the same sort of information that `svn info` gives you by runni
 	Last Changed Rev: 87
 	Last Changed Date: 2009-05-02 16:07:37 -0700 (Sat, 02 May 2009)
 
+Так же, как `blame` и `log`, эта команда выполняется оффлайн и выводит информацию, актуальную на момент последнего вашего обращения к серверу Subversion.
+
 This is like `blame` and `log` in that it runs offline and is up to date only as of the last time you communicated with the Subversion server.
 
+#### Игнорируем то, что игнорирует Subversion ####
 #### Ignoring What Subversion Ignores ####
 
+Если вы клонируете репозиторий Subversion, который имеет установленное повсюду свойство `svn:ignore`, скорее всего вы захотите создать соответствующие им файлы `.gitignore`, чтобы не изменить ненароком те файлы, которые вы не должны менять. Для этого, в `git svn` имеется две команды. Первая, `git svn create-ignore`, автоматически создаёт соответствующие файлы `.gitignore`, так что ваши последующие коммиты смогут их учитывать.
+
 If you clone a Subversion repository that has `svn:ignore` properties set anywhere, you’ll likely want to set corresponding `.gitignore` files so you don’t accidentally commit files that you shouldn’t. `git svn` has two commands to help with this issue. The first is `git svn create-ignore`, which automatically creates corresponding `.gitignore` files for you so your next commit can include them.
+
+Вторая команда — `git svn show-ignore`, которая выводит на стандартный вывод строки, которые вы должны включить в файл `.gitignore`, таким образом вы можете перенаправить её вывод в файл исключений вашего проекта:
 
 The second command is `git svn show-ignore`, which prints to stdout the lines you need to put in a `.gitignore` file so you can redirect the output into your project exclude file:
 
 	$ git svn show-ignore > .git/info/exclude
 
+Поступая таким образом, вы не захламляете проект файлами `.gitignore`. Это отличный подход, если вы являетесь единственным пользователем Git в вашей команде, использующей Subversion, и ваши коллеги выступают против наличия файлов `.gitignore` в проекте.
+
 That way, you don’t litter the project with `.gitignore` files. This is a good option if you’re the only Git user on a Subversion team, and your teammates don’t want `.gitignore` files in the project.
 
+### Заключение по Git-Svn ###
 ### Git-Svn Summary ###
+
+Утилиты `git svn` полезны в том случае, если вы привязаны к серверу Subversion. Этот сервер можно рассматривать как увечный  Git, однако, чтобы избежать возможных проблем для себя и своих коллег следует придерживаться следующих правил:
 
 The `git svn` tools are useful if you’re stuck with a Subversion server for now or are otherwise in a development environment that necessitates running a Subversion server. You should consider it crippled Git, however, or you’ll hit issues in translation that may confuse you and your collaborators. To stay out of trouble, try to follow these guidelines:
 
+* Сохраняйте историю изменений Git линейной, чтобы она не содержала коммитов, сделанных с помощью `git merge`. Перемещайте всю работу, которую вы выполняете вне основной ветви обратно в неё; не выполняйте слияние изменений.
+* Не устанавливайте и не работайте совместно на отдельном сервере Git. Возможно иметь один такой сервер для того, чтобы ускорить клонирование для новых разработчиков, но не отправляйте на него ничего, не имеющего записи `git-svn-id`. Возможно, вы захотите даже добавить перехватчик `pre-receive`, который будет проверять каждый коммит на наличие `git-svn-id` и отклонять передачи, коммиты в которых не имеют этой записи.
+
 * Keep a linear Git history that doesn’t contain merge commits made by `git merge`. Rebase any work you do outside of your mainline branch back onto it; don’t merge it in.
 * Don’t set up and collaborate on a separate Git server. Possibly have one to speed up clones for new developers, but don’t push anything to it that doesn’t have a `git-svn-id` entry. You may even want to add a `pre-receive` hook that checks each commit message for a `git-svn-id` and rejects pushes that contain commits without it.
+
+При следовании этим правилам, работа с сервером Subversion может быть более-менее сносной. Однако, если возможен перенос проекта на реальный сервер Git, преимущества от этого перехода дадут вашему проекту намного больше.
 
 If you follow those guidelines, working with a Subversion server can be more bearable. However, if it’s possible to move to a real Git server, doing so can gain your team a lot more.
 

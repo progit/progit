@@ -81,9 +81,9 @@ O protocolo Git é o mais rápido entre os disponíveis. Se você está servindo
 O lado ruim do protocolo Git é a falta de autenticação. É geralmente indesejável que o protocolo Git seja o único acesso ao seu projeto. Geralmente, você o usará em par com um acesso SSH para os poucos desenvolvedores com acesso de envio (push) e todos os outros usariam `git://` para acesso somente leitura.
 É também provavelmente o protocolo mais difícil de configurar. Ele precisa rodar seu próprio daemon, que é específico — iremos olhar como configurar um na seção “Gitosis” deste capítulo — ele requer a configuração `xinetd` ou algo similar, o que não é sempre um passeio. Ele requer também acesso a porta 9418 via firewall, o que não é uma porta padrão que firewalls corporativas sempre permitem. Por trás de grandes firewalls corporativas, esta porta obscura está comumente bloqueada.
 
-### The HTTP/S Protocol ###
+### O Protocolo HTTP/S Protocol ###
 
-Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the simplicity of setting it up. Basically, all you have to do is put the bare Git repository under your HTTP document root and set up a specific `post-update` hook, and you’re done (See Chapter 7 for details on Git hooks). At that point, anyone who can access the web server under which you put the repository can also clone your repository. To allow read access to your repository over HTTP, do something like this:
+Por último temos o protocolo HTTP. A beleza do protocolo HTTP ou HTTPS é a simplicidade em configurar. Basicamente, tudo o que você precisa fazer é colocar o repósitor Git do jeito que ele é no Servidor HTTP document root e configurar um específico gancho (hook) `post-update`, e você está pronto (veja Capítulo 7 para detalhes on Git Ganchos (Hooks)). Neste ponto, qualquer um com acesso ao servidor web no qual você colocou o repositório também pode clonar o repositório. Para permitir acesso de leitura ao seu repositório usando HTTP, execute o seguinte:
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -91,25 +91,25 @@ Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the 
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-That’s all. The `post-update` hook that comes with Git by default runs the appropriate command (`git update-server-info`) to make HTTP fetching and cloning work properly. This command is run when you push to this repository over SSH; then, other people can clone via something like
+E pronto. O gancho `post-update` que vem com Git executa o comando apropriado (`git update-server-info`) para que fetch e clone via HTTP funcione corretamente. Este comando é executado quando você envia para o repositório usando `push` via SSH; então, outros podem clonar via algo como
 
 	$ git clone http://example.com/gitproject.git
 
-In this particular case, we’re using the `/var/www/htdocs` path that is common for Apache setups, but you can use any static web server — just put the bare repository in its path. The Git data is served as basic static files (see Chapter 9 for details about exactly how it’s served).
+Neste caso particular, estamos usando o caminho `/var/www/htdocs` que é comum para configurações Apache, mas você pode usar qualquer servidor web estático — apenas coloque o caminho do repositório. Os dados no Git são servidos como arquivos estáticos basicos (veja Capítulo 9 para mais detalhes sobre como exatamente eles são servidos).
 
-It’s possible to make Git push over HTTP as well, although that technique isn’t as widely used and requires you to set up complex WebDAV requirements. Because it’s rarely used, we won’t cover it in this book. If you’re interested in using the HTTP-push protocols, you can read about preparing a repository for this purpose at `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. One nice thing about making Git push over HTTP is that you can use any WebDAV server, without specific Git features; so, you can use this functionality if your web-hosting provider supports WebDAV for writing updates to your web site.
+É possível fazer Git enviar via HTTP também, embora esta técnica não é muito usada e requer que você configure WebDav com parâmetros complexos. Pelo fato de ser usado raramente, não iremos cobrir neste livro. Se você está interessado em usar os protocolos HTTP-push, você pode ler sobre preparação de um repositório para este propósito na `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. Uma coisa legal sobre fazer Git enviar via HTTP é que você pode usar qualquer servidor WebDAV, sem quaisquer características Git; então, você pode usar esta funcionalidade se o seu provedor web suporta WebDAV com permissão de escrita para o seu web site.
 
-#### The Pros ####
+#### Os Prós ####
 
-The upside of using the HTTP protocol is that it’s easy to set up. Running the handful of required commands gives you a simple way to give the world read access to your Git repository. It takes only a few minutes to do. The HTTP protocol also isn’t very resource intensive on your server. Because it generally uses a static HTTP server to serve all the data, a normal Apache server can serve thousands of files per second on average — it’s difficult to overload even a small server.
+O lado bom de usar protoclo HTTP é que ele é fácil de configurar. Executar o punhado de comandos obrigatórios lhe provém um jeito simples de fornecer ao mundo acesso ao seu repositório Git. Você só precisa de alguns minutos. O protoclo HTTP também não é consume muitos recursos no servidor. Pelo fato de usar apenas um servidor HTTP estático para todo o dado, um servidor Apache normal pode servir em média milhares de arquivos por segundo — é difícil sobrecarregar até mesmo um servidor pequeno.
 
-You can also serve your repositories read-only over HTTPS, which means you can encrypt the content transfer; or you can go so far as to make the clients use specific signed SSL certificates. Generally, if you’re going to these lengths, it’s easier to use SSH public keys; but it may be a better solution in your specific case to use signed SSL certificates or other HTTP-based authentication methods for read-only access over HTTPS.
+Você também pode servir seus repositórios com apenas acesso de leitura via HTTPS, o que significa que você pode encriptar o conteúdo transferido; ou pode ir até o ponto de fazer seus usuários usarem certificados SSL assinados. Geralmente, se você está indo até este ponto, é mais fácil usar as chaves públicas SSH; mas pode ser uma solução melhor em casos específicos usar certificados SSL assinados ou outro método de autenticação HTTP para acesso de leitura via HTTPS.
 
-Another nice thing is that HTTP is such a commonly used protocol that corporate firewalls are often set up to allow traffic through this port.
+Outra coisa legal é que HTTP é um protocolo tão comumente usado que firewalls corporativos são normalmente configurados para permitir tráfego por esta porta.
 
-#### The Cons ####
+#### Os Contras ####
 
-The downside of serving your repository over HTTP is that it’s relatively inefficient for the client. It generally takes a lot longer to clone or fetch from the repository, and you often have a lot more network overhead and transfer volume over HTTP than with any of the other network protocols. Because it’s not as intelligent about transferring only the data you need — there is no dynamic work on the part of the server in these transactions — the HTTP protocol is often referred to as a _dumb_ protocol. For more information about the differences in efficiency between the HTTP protocol and the other protocols, see Chapter 9.
+O lado ruim de servidr seu repositório via HTTP é que ele é relativamente ineficiente para o usuário. Geralmente demora muito mais para clonar ou fetch do repositório, e você frequentemente tem mais sobrecarga de rede e volume de transferência via HTTP do que com outros protocolos de rede. Pelo fato de não ser inteligente sobre os dados que você precisa — não tem um trabalho dinâmico por parte do servidor nestas transações — o protocolo HTTP é frequentemente referido como o protocolo _burro_. Para mais informações sobre as diferenças em eficiência entre o protocolo HTTP e outros protocolos, veja o Capítulo 9.
 
 ## Getting Git on a Server ##
 

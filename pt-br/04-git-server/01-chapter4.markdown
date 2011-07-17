@@ -165,17 +165,17 @@ Um segundo método é criar um único usuário 'git' na máquina, pedir a cada u
 
 Outro método é ter o seu servidor SSH autenticando de um servidor LDAP ou outro autenticador central que você talvez já tenha previamente configurado. Contato que cada usuário tenha acesso shell à máquina, qualquer mecanismo de autenticação SSH que você pense deve funcionar.
 
-## Generating Your SSH Public Key ##
+## Gerando Sua Chave Pública SSH ##
 
-That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
-First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:
+Sendo o que foi dito, vários servidores Git autenticam usando chaves públicas SSH. Para fornecer uma chave pública, cada usuário no seu sistema devem gerar uma se eles ainda não a possuem. Este processo é similar dentre os vários sistemas operacionais.
+Primeiro, você deve checar para ter certeza que você ainda não possui um chave. Por padrão, as chaves SSH de um usuário são armazenadas no diretório `~/.ssh`. Você pode facilmente verificar se você tem uma chave indo para aquele diretório e listando o seu conteúdo:
 
 	$ cd ~/.ssh
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
 
-You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:
+Você está procurando por um par de arquivos chamados _algo_ e _algo.pub_, onde _algo_ é normalmente `id_dsa` ou `id_rsa`. O arquivo `.pub` é a sua chave pública, e o outro arquivo é a sua chave privada. Se você não tem estes arquivos (ou não tem nem mesmo o diretório `.ssh`), você pode criá-los executando um programa chamado `ssh-keygen`, que é fornecido com o pacote SSH em sistemas Linux/Mac e vem com o pacote MSysGit no Windows:
 
 	$ ssh-keygen 
 	Generating public/private rsa key pair.
@@ -187,9 +187,9 @@ You’re looking for a pair of files named something and something.pub, where th
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-First it confirms where you want to save the key (`.ssh/id_rsa`), and then it asks twice for a passphrase, which you can leave empty if you don’t want to type a password when you use the key.
+Primeiro ele confirma onde você quer salvar a chave (`.ssh/id_rsa`), e então pergunta duas vezes por uma frase de acesso, que você pode deixar em branco se você não quiser digitar uma senha quando usar a chave.
 
-Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:
+Agora, cada usuário que executar o comando acima precisa enviar a chave pública para você ou para o administrador do seu servidor Git (assumindo que você está usando um servidor SSH cuja configuração necessita de chaves públicas). Tudo o que eles precisam fazer é copiar o conteúdo do arquivo `.pub` e enviar para você via e-mail. As chaves públicas são parecidas com isso.
 
 	$ cat ~/.ssh/id_rsa.pub 
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -199,7 +199,7 @@ Now, each user that does this has to send their public key to you or whoever is 
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
-For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
+Para um tutorial mais detalhado em criar chaves SSH on vários sistemas operacionais, veja o guia do GitHub em chaves SSH no endereço `http://github.com/guides/providing-your-ssh-key`.
 
 ## Setting Up the Server ##
 

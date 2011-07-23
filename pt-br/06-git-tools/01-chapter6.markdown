@@ -53,15 +53,15 @@ Git pode descobrir uma abreviação curta, única para seus valores SHA-1. Se vo
 
 Geralmente, entre oito e dez caracteres são mais que suficientes para ser único em um projeto. Um dos maiores projetos no Git, o kernel do Linux, está começando a ter a necessidade de 12 caracteres dos 40 possíveis para ser único.
 
-### A SHORT NOTE ABOUT SHA-1 ###
+### UMA NOTA SOBRE SHA-1 ###
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
+Muitas pessoas ficam preocupadas que em algum momento elas terão, por coincidência aleatória, dois objetos em seus repósitorios com hash com o mesmo valor de SHA-1. O que fazer?
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+Se acontecer de você fazer um commit de um objeto que tem o hash com o mesmo valor de SHA-1 de um objeto existente no seu repositório, GIt notará o primeiro objeto existente no seu banco de dados e assumirá que ele já foi gravado. Se você tentar fazer o checkout desse objeto novamente em algum momento, sempre receberá os dados do primeiro objeto.
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+Porém, você deve estar ciente de quão ridiculamente improvável é esse cenário. O código SHA-1 tem 20 bytes ou 160 bits. O número de objetos com hashes aleatórios necessários para garantir a probabilidade de 50% de uma única colisão é cerca de 2^80 (a fórmula para determinar a probabilidade de colisão é `p = (n(n-1)/2) * (1/2^160))`. 2^80 é 1.2 x 10^24 ou 1 milhão de bilhões de bilhões. Isso é 1.200 vezes o número de grãos de areia na Terra.
 
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+Aqui está um exemplo para lhe dar uma idéia do que seria necessário para obter uma colisão de SHA-1. Se todos os 6,5 bilhões de humanos na Terra estivessem programando, e a cada segundo, cada um estivesse produzindo código que é equivalente ao histórico inteiro do kernel do Linux (1 milhão de objetos Git) e fazendo o push para um enorme repositório Git, levaria 5 anos até que esse repositório tenha objetos suficientes para ter uma probabilidade de 50% de uma única colisão de objetos SHA-1. Existe uma probabilidade maior de cada membro do seu time de programação ser atacado e morto por lobos na mesma noite em incidentes sem relação.
 
 ### Branch References ###
 

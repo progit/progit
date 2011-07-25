@@ -1,0 +1,29 @@
+Pro Git 책의 내용
+=====================
+
+이 것은 Pro Git의 source code이고 라이센스는 Creative Commons Attribution-Non Commercial-Share Alike 3.0를 따름니다. 나는 여러분이 즐겁게 git을 배웠으면 좋겠습니다. 또 나와 Apress를 위해 Amazon에서 책을 구입해주시면 감사하겠습니다:
+
+http://tinyurl.com/amazonprogit
+
+Ebook을 만드는 법
+=====================
+
+페도라에서는 다음과 같이 하면 됩니다:
+
+    $ yum install ruby calibre rubygems ruby-devel rubygem-ruby-debug 
+    $ gem install rdiscount
+    $ makeebooks en  # will produce a mobi
+
+오류
+=====================
+틀린 부분이나 개선 해야 할 부분을 발견하면 주저 없이 나에게 메일을 보내주세요.
+(schacon at gmail dot com)
+
+번역
+=====================
+이 책을 번역해서 알려주면 제가 progit.org에 번역본을 올릴 것입니다. 적당히(예를 들어: 이탈리어어 디렉토리로 'it') 하위 디렉토리를 만들어 번역을 완성한 후 나에게 pull 요청을 보내주세요.
+
+역자 정보
+=====================
+번역, 박창우(Changwoo Park), pismute at gmail dot com, https://github.com/pismute/ 
+번역, 이성환(Sean Lee), lethee at gmail dot comt, https://github.com/lethee

@@ -377,7 +377,11 @@ That’s it — you’ve created a valid Git blob object. All Git objects are st
 
 You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.
 
+Для просмотра всей истории можно выполнить команду вроде `git log 1a410e`, но, опять же, требуется помнить, что именно `1a410e` коммит является последним. Необходим файл-указатель, который бы содержал это значение хеша SHA-1, чтобы можно было пользоваться им вместо хеша.
+
 In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:
+
+В Git такие файлы называются ссылками ("refs"), они располагаются в каталоге `.git/refs`. В нашем проекте там пока пусто, но уже существует некоторая структура каталогов:
 
 	$ find .git/refs
 	.git/refs
@@ -388,9 +392,13 @@ In Git, these are called "references" or "refs"; you can find the files that con
 
 To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:
 
+Чтобы создать новую ссылку, по сути, необходимо выполнить следующее действие:
+
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
 Now, you can use the head reference you just created instead of the SHA-1 value in your Git commands:
+
+Теперь можно использовать ссылку head вместо хеша в командах Git:
 
 	$ git log --pretty=oneline  master
 	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
@@ -399,13 +407,19 @@ Now, you can use the head reference you just created instead of the SHA-1 value 
 
 You aren’t encouraged to directly edit the reference files. Git provides a safer command to do this if you want to update a reference called `update-ref`:
 
+Тем не менее, редактировать данные файлы напрямую не рекомендуется. Git предоставляет безопасную команду `update-ref` для изменения ссылки:
+
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
 That’s basically what a branch in Git is: a simple pointer or reference to the head of a line of work. To create a branch back at the second commit, you can do this:
 
+Вот что такое, по сути ветка в Git -- ссылка на последнюю версию в работе. Для создания ветки, соответствующей состоянию второго коммита, можно выполнить следующее:
+
 	$ git update-ref refs/heads/test cac0ca
 
 Your branch will contain only work from that commit down:
+
+Данная ветка содержит только коммиты, предшествующие выбранному:
 
 	$ git log --pretty=oneline test
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
@@ -413,31 +427,47 @@ Your branch will contain only work from that commit down:
 
 Now, your Git database conceptually looks something like Figure 9-4.
 
+Теперь база данных Git выглядит примерно так (см. рис. 9.4):
+
 Insert 18333fig0904.png 
-Figure 9-4. Git directory objects with branch head references included.
+Figure 9-4. Объекты каталоги Git с включенными привязками веток.
 
 When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
 
+Когда выполняется команда `git branch (ветка)`, Git выполняет `update-ref` для добавления хеша последнего коммита текущей ветки под выбранным именем в виде новой ссылки.
+
 ### The HEAD ###
 
+### Файл HEAD ###
+
 The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:
+
+Вопрос в том, как же Git получает хеш последнего коммита при выполнении `git branch (ветка)`? Ответ содержится в файле HEAD. Данный файл является символической ссылкой на текущую ветку. Символическая ссылка отличается от обычной тем, что непосредственно не содержит хеш SHA-1, а лишь ссылается на него. В текстовом виде это выглядит так:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/master
 
 If you run `git checkout test`, Git updates the file to look like this:
 
+Если выполнить `git checkout test`, то содержимое файла изменится:
+
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
 When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.
 
+При выполнении `git commit`, создаётся коммит-объект, определяющий, что родителем его является тот объект, хеш которого содержится в файле, на который ссылается HEAD.
+
 You can also manually edit this file, but again a safer command exists to do so: `symbolic-ref`. You can read the value of your HEAD via this command:
+
+Данный файл, конечно, можно редактировать вручную, но безопаснее использовать команду `symbolic-ref`. Получить значение HEAD данной командой можно так:
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
 
 You can also set the value of HEAD:
+
+Изменить значение HEAD можно так:
 
 	$ git symbolic-ref HEAD refs/heads/test
 	$ cat .git/HEAD 
@@ -445,27 +475,39 @@ You can also set the value of HEAD:
 
 You can’t set a symbolic reference outside of the refs style:
 
+Символическую ссылку на файл вне refs поставить нельзя:
+
 	$ git symbolic-ref HEAD test
 	fatal: Refusing to point HEAD outside of refs/
 
-### Tags ###
+### Метки ###
 
 You’ve just gone over Git’s three main object types, but there is a fourth. The tag object is very much like a commit object — it contains a tagger, a date, a message, and a pointer. The main difference is that a tag object points to a commit rather than a tree. It’s like a branch reference, but it never moves — it always points to the same commit but gives it a friendlier name.
 
+Мы рассмотрели три основных типа объектов в Git, но есть четвёртый. Объект-метка очень похож на коммит-объект: он содержит имя выполнившего метку, дату, сообщение и ссылку. Разница же в том, что тег указывает на коммит, а не на дерево. Он похож на ветку, которая никогда не меняется.
+
 As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:
+
+Как указано в главе 2, метки бывают двух типов: аннотированные и простые. Простую метку можно сделать следующей командой:
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
 That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
 
+Простая метка, по сути своей, — неизменяемая ветка. Аннотированная метка имеет более сложную структуру. Для неё Git создаёт специальный объект, указывающий на саму метку, а не на соответствующий коммит:
+
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 -m 'test tag'
 
 Here’s the object SHA-1 value it created:
+
+Мы получили следующее значение SHA-1:
 
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
 Now, run the `cat-file` command on that SHA-1 value:
+
+Теперь выполним `cat-file` для данного хеша:
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -477,13 +519,21 @@ Now, run the `cat-file` command on that SHA-1 value:
 
 Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running
 
+Заметьте, секция object указывает на хеш, метку которого мы делали. Также стоит заметить, что он не обязательно указывает на коммит, но на любой объект Git. В исходном коде Git, например, разработчик добавил метку для своего публичного ключа. Просмотреть его можно, выполнив команду
+
 	$ git cat-file blob junio-gpg-pub
 
 in the Git source code repository. The Linux kernel repository also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
 
+в репозитории Git. В репозитории ядра Linux также есть метка, указывающая не на коммит — первая метка указывает на дерево первичного импорта.
+
 ### Remotes ###
 
+### Удалённые репозитории ###
+
 The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:
+
+Третий тип ссылок, который мы рассмотрим — ссылка на удалённый репозиторий. Если добавить удалённый репозиторий и выложить на него изменения, Git сохраняет его для каждой ветки из каталога `refs/remotes`. Например, можно добавить удалённый репозиторий `origin` и выложить на него ветку `master`:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -496,14 +546,22 @@ The third type of reference that you’ll see is a remote reference. If you add 
 
 Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:
 
+Далее, можно заметить, что ветка `master` в удалённом репозитории `origin` — последняя, с которой производилось взаимодействие:
+
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
 
 Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers.
 
+Удалённые ссылки отличаются от веток (ссылки в `refs/heads`) тем, что на них нельзя переключиться. Git работает с ними как с закладками, указывающими на последнее состояние соответствующих веток на выбранных серверах.
+
 ## Packfiles ##
 
+## Сжатые файлы ##
+
 Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag:
+
+Вернёмся к базе объектов в нашем тестовом репозитории. Их должно быть 11: 4 блоба, 3 дерева, 3 коммита и одна метка:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -520,6 +578,8 @@ Let’s go back to the objects database for your test Git repository. At this po
 
 Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file:
 
+Git сжимает содержимое данных файлов при помощи zlib и для хранения остаётся немного данных, всего 925 байт. Для того, чтобы показать интересную особенность Git, добавим файл побольше. Файл repo.rb из библиотеки Grit, с которой мы работали ранее, занимает примерно 12 килобайт:
+
 	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb 
 	$ git commit -m 'added repo.rb'
@@ -531,6 +591,8 @@ Git compresses the contents of these files with zlib, and you’re not storing m
 
 If you look at the resulting tree, you can see the SHA-1 value your repo.rb file got for the blob object:
 
+Если рассмотреть полученное дерево, можно заметить хеш файла repo.rb:
+
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
@@ -538,10 +600,14 @@ If you look at the resulting tree, you can see the SHA-1 value your repo.rb file
 
 You can then use `git cat-file` to see how big that object is:
 
+Для определения размера объекта можно воспользоваться командой `git cat-file`:
+
 	$ git cat-file -s 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 	12898
 
 Now, modify that file a little, and see what happens:
+
+Теперь, изменим немного данный файл и посмотрим на результат:
 
 	$ echo '# testing' >> repo.rb 
 	$ git commit -am 'modified repo a bit'
@@ -550,6 +616,8 @@ Now, modify that file a little, and see what happens:
 
 Check the tree created by that commit, and you see something interesting:
 
+Рассмотрим итоговое дерево:
+
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 05408d195263d853f09dca71d55116663690c27c      repo.rb
@@ -557,12 +625,18 @@ Check the tree created by that commit, and you see something interesting:
 
 The blob is now a different blob, which means that although you added only a single line to the end of a 400-line file, Git stored that new content as a completely new object:
 
+Теперь файлу repo.rb соответствует другой блоб-объект, т.е., даже одна добавленная строка в конце 400-строчного файла требует создания нового объекта:
+
 	$ git cat-file -s 05408d195263d853f09dca71d55116663690c27c
 	12908
 
 You have two nearly identical 12K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first?
 
+Итак, имеем два почти одинаковых объекта по 12 килобайт. Было бы неплохо, если бы Git сохранял только один объект целиком, а в другом хранил разницу между ним и исходным.
+
 It turns out that it can. The initial format in which Git saves objects on disk is called a loose object format. However, occasionally Git packs up several of these objects into a single binary file called a packfile in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server. To see what happens, you can manually ask Git to pack up the objects by calling the `git gc` command:
+
+Так и есть. Исходный формат для сохранения объектов в Git называется свободным форматом объектов. Однако, иногда Git упаковывает несколько объектов в один файл, называемый сжатым для сохранения места на диске и повышения эффективности. Это случается, если свободных объектов становится слишком много, либо при вызове `git gc`, либо при отправке изменения на удалённый сервер. Для понимания того, что происходит, можно выполнить команду `git gc`:
 
 	$ git gc
 	Counting objects: 17, done.
@@ -573,6 +647,8 @@ It turns out that it can. The initial format in which Git saves objects on disk 
 
 If you look in your objects directory, you’ll find that most of your objects are gone, and a new pair of files has appeared:
 
+Если посмотреть на файлы в каталоге объектов, теперь можно заметить, что большая часть объектов отсутствует, зато появились новые файлы .idx и .pack:
+
 	$ find .git/objects -type f
 	.git/objects/71/08f7ecb345ee9d0084193f147cdad4d2998293
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
@@ -582,9 +658,15 @@ If you look in your objects directory, you’ll find that most of your objects a
 
 The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile.
 
+Оставшиеся объекты — блобы, на которые не указывает ни один коммит (в данном случае это объекты, содержащие строки "Есть проблемы, шеф?" и "test content"). В силу того, что ни в одном коммите данные файлы не присутствуют, они считаются "висячими" и не упаковываются.
+
 The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 12K in size, the new packfile is only 6K. You’ve halved your disk usage by packing your objects.
 
+Другие файлы — сжатый файл и его индекс. Сжатый файл содержит все объекты, которые были удалены, а индекс — их смещения в файле, для удобства извлечения. Упаковка данных положительно повлияла на общий размер файлов, если до этого они занимали примерно 12 килобайт, сжатый файл занимает 6. Места на диске занято теперь в два раза меньше.
+
 How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
+
+Как Git это делает? При упаковке Git ищет файлы, которые похожи по имени и размеру и сохраняет разницу между версиями. Можно рассмотреть сжатый файл подробнее и понять, какие действия были выполнены для сжатия. Для этого существует "сантехническая" команда `git verify-pack`:
 
 	$ git verify-pack -v \
 	  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
@@ -611,7 +693,11 @@ How does Git do this? When Git packs objects, it looks for files that are named 
 
 Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object in the pack, so you can see that `05408` takes up 12K of the file but that `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file.
 
+Здесь блоб `9b1cd`, который, как мы помним, был первой версией файла repo.rb, ссылается на `05408`, который был второй его версией. Третья колонка в полученных данных — размер объекта, можно заметить, что `9bc1d` занимает всего 7 килобайт. Что интересно, вторая версия сохраняется "как есть", а исходная — в виде изменений, т.к. более вероятно получение последней версии.
+
 The really nice thing about this is that it can be repacked at any time. Git will occasionally repack your database automatically, always trying to save more space. You can also manually repack at any time by running `git gc` by hand.
+
+Так же здорово, что переупаковку можно выполнять в любое время. Иногда она выполняется автоматически, если вдруг этого недостаточно, всегда можно выполнить `git gc` вручную.
 
 ## The Refspec ##
 

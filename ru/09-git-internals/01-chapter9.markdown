@@ -211,7 +211,7 @@ Your staging area now has the new version of test.txt as well as the new file ne
 
 Notice that this tree has both file entries and also that the test.txt SHA is the "version 2" SHA from earlier (`1f7a7a`). Just for fun, you’ll add the first tree as a subdirectory into this one. You can read trees into your staging area by calling `read-tree`. In this case, you can read an existing tree into your staging area as a subtree by using the `--prefix` option to `read-tree`:
 
-Заметьте, в данном дереве есть записи обоих файлов, а хеш второй версии файла отличается от ранней (`1f7a7a`). Для интереса, добавим первое дерево как поддерево текущего. Подключить дерево к индексу можно командой `read-tree`. Это можно сделать подключив его как поддерево, задав префикс опцией `--prefix`:
+Заметьте, в данном дереве есть записи обоих файлов, а хеш второй версии файла отличается от ранней (`1f7a7a`). Для интереса, добавим первое дерево как поддерево текущего. Подключить дерево к индексу можно командой `read-tree`. Это можно сделать, задав префикс опцией `--prefix`:
 
 	$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git write-tree
@@ -701,20 +701,29 @@ The really nice thing about this is that it can be repacked at any time. Git wil
 
 ## The Refspec ##
 
+## Спецификации ссылок ##
+
 Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.
 Suppose you add a remote like this:
+
+Во всей книге использовались простые связи между ветками в удалённых репозиториях и локальными ветками, но они могут быть и более сложными.
+Предположим, мы добавили следующую удалённую ветку:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
 It adds a section to your `.git/config` file, specifying the name of the remote (`origin`), the URL of the remote repository, and the refspec for fetching:
 
+Данный вызов добавляет секцию в файл `.git/config`, определяющую имя удалённого репозитория (`origin`), адрес и спецификацию ссылки:
+
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
-The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.
+Формат спецификации следующий: опциональный `+`, далее пара `<src>:<dst>`, где `<src>` — шаблон ссылок в удалённом репозитории, а `<dst>` — соответствующий шаблон локальных ссылок. Символ `+` сообщает Git, что обновление необходимо выполнять даже в том случае, если оно не fast-forward.
 
 In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via
+
+В случае настроек по умолчанию, которые задаются при вызове `git remote add`, Git выбирает все ссылки из `refs/heads/` на стороне сервера, и записывает их в каталог `refs/remotes/origin/`. Поэтому, если на сервере есть ветка `master`, журнал данной ветки можно получить, вызвав:
 
 	$ git log origin/master
 	$ git log remotes/origin/master
@@ -722,15 +731,23 @@ In the default case that is automatically written by a `git remote add` command,
 
 They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.
 
+Данные команды эквивалентны, любая запись разворачивается до `refs/remotes/origin/master`.
+
 If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to
+
+Если хочется, чтобы Git забирал при обновлении только ветку `master`, а не все возможные, можно изменить соответствующую строку в конфигурации:
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
 This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run
 
+Данный refspec выбирается по умолчанию при вызове `git fetch` для данного удалённого репозитория. Если хочется выполнить единоразовое действие, можно задать refspec в командной строке. Например, чтобы забрать ветку `master` из удалённого репозитория в локальную `origin/mymaster`, можно выполнить
+
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
 You can also specify multiple refspecs. On the command line, you can pull down several branches like so:
+
+Конечно, можно задать несколько спецификаций. Забрать несколько веток из командной строки можно так:
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic
@@ -740,7 +757,11 @@ You can also specify multiple refspecs. On the command line, you can pull down s
 
 In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.
 
+В данном случае, слияние ветки master выполнить не удалось, поскольку данная ветка новее, чем исходная в локальном репозитории. Данное поведение можно отключить, добавив перед спецификацией знак `+`.
+
 You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:
+
+Также можно задавать несколько спецификаций для получения обновлений в конфигурационном файле. Если хочется каждый раз получать обновления веток master и experiment (по умолчанию), это можно задать так:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
@@ -749,9 +770,13 @@ You can also specify multiple refspecs for fetching in your configuration file. 
 
 You can’t use partial globs in the pattern, so this would be invalid:
 
+Задавать сложные регулярные выражения в спецификации нельзя, следующая запись неверна:
+
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
 However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:
+
+Однако, можно использовать пространства имён для получения ожидаемого результата. Если имеется команда QA, которая имеет несколько веток, и необходимо получать основную ветку проекта и все ветки QA, можно добавить в конфигурацию следующее:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
@@ -760,15 +785,23 @@ However, you can use namespacing to accomplish something like that. If you have 
 
 If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.
 
-### Pushing Refspecs ###
+Если рабочий процесс является сложным, и разные команды комитят в разные ветки одного и того же проекта, пространства имён могут помочь с лёгкостью это организовать.
+
+### Выгрузка в удалённые репозитории ###
 
 It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push.
 
+Итак, мы можем извлекать данные по спецификациям ссылок, содержащим пространства имён, но как загружать туда правки?
+
 If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run
+
+Если разработчик из команды QA хочет добавить изменения из локальной ветки `master` в `qa/master` на удалённом сервере, он может выполнить команду
 
 	$ git push origin master:refs/heads/qa/master
 
 If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:
+
+Если хочется, чтобы Git автоматически выполнял это действие при вызове `git push origin`, можно добавить в конфигурацию параметр push:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
@@ -777,41 +810,65 @@ If they want Git to do that automatically each time they run `git push origin`, 
 
 Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.
 
+Это также приведёт к тому, что при вызове `git push origin` локальная ветка `master` будет по умолчанию реплицироваться в удалённую `qa/master`.
+
 ### Deleting References ###
 
+### Удаление ссылок ###
+
 You can also use the refspec to delete references from the remote server by running something like this:
+
+Спецификации ссылок также можно использовать для удаления на удалённом сервере следующим образом:
 
 	$ git push origin :topic
 
 Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. 
 
+Т.к. спецификация ссылки задаётся в виде `<src>:<dst>`, опускание `<src>` означает, что тематическая ветка на удалённом сервере пуста, что приводит к её удалению.
+
 ## Transfer Protocols ##
+
+## Протоколы передачи ##
 
 Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
 
+Git может передавать данные между репозиториями одним из двух основных способов: через HTTP или через "умные" протоколы с транспортами `file://`, `ssh://`, `git://`. В этой главе будут рассмотрены данные способы передачи.
+
 ### The Dumb Protocol ###
 
+### Простой протокол ###
+
 Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:
+
+Транспорт Git через HTTP называют также простым протоколом потому что со стороны сервера не требуется никакого кода Git. Процесс клонирования — последовательность запросов GET, клиент обращается к стандартной структуре каталогов Git.
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
 The first thing this command does is pull down the `info/refs` file. This file is written by the `update-server-info` command, which is why you need to enable that as a `post-receive` hook in order for the HTTP transport to work properly:
+
+Первое действие, выполняемое данной командой — загрузка файла `info/refs`. Данный файл записывается командой `update-server-info`, поэтому для использования HTTP транспорта необходимо включить `post-receive` хук:
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 
 Now you have a list of the remote references and SHAs. Next, you look for what the HEAD reference is so you know what to check out when you’re finished:
 
+Теперь у нас имеется список удалённых веток и их хеши. Далее, Git смотрит куда ссылается HEAD, после этого можно получать данные.
+
 	=> GET HEAD
 	ref: refs/heads/master
 
 You need to check out the `master` branch when you’ve completed the process. 
+В итоге необходимо получить ветку `master.
 At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
+На данном этапе можно начать обход дерева. Начальной точкой является коммит-объект `ca82a6`, полученный из файла `info/refs`, его можно загрузить так:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
 	(179 bytes of binary data)
 
 You get an object back — that object is in loose format on the server, and you fetched it over a static HTTP GET request. You can zlib-uncompress it, strip off the header, and look at the commit content:
+
+Объект получен, он был в свободном формате, необходимо разархивировать его и удалить заголовок:
 
 	$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -823,37 +880,53 @@ You get an object back — that object is in loose format on the server, and you
 
 Next, you have two more objects to retrieve — `cfda3b`, which is the tree of content that the commit we just retrieved points to; and `085bb3`, which is the parent commit:
 
+Далее, необходимо загрузить ещё два объекта: `cfda3b`, объект-дерево на который ссылается найденный коммит и `085bb3`, родительский:
+
 	=> GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	(179 bytes of data)
 
 That gives you your next commit object. Grab the tree object:
+
+Таким образом, мы получаем следующий коммит-объект.
 
 	=> GET objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
 	(404 - Not Found)
 
 Oops — it looks like that tree object isn’t in loose format on the server, so you get a 404 response back. There are a couple of reasons for this — the object could be in an alternate repository, or it could be in a packfile in this repository. Git checks for any listed alternates first:
 
+Кажется, объекта-дерева в свободном формате нет на сервере, получаем ответ 404. У этого могут быть разные причины: объект в другом репозитории, или в упакованном файле текущего репозитория. Сперва Git обращается к списку альтернатив:
+
 	=> GET objects/info/http-alternates
 	(empty file)
 
 If this comes back with a list of alternate URLs, Git checks for loose files and packfiles there — this is a nice mechanism for projects that are forks of one another to share objects on disk. However, because no alternates are listed in this case, your object must be in a packfile. To see what packfiles are available on this server, you need to get the `objects/info/packs` file, which contains a listing of them (also generated by `update-server-info`):
+
+Если в данном списке есть адреса, Git обращается по ним в поиске свободных файлов и упакованных файлов, это такой способ для компактификации места на диске для форков. Так как в данном случае альтернатив нет, объект должен быть упакован. Для того, чтобы узнать, какие упакованные файлы есть на сервере, необходимо загрузить файл `objects/info/packs` (который также генерируется `update-server-info`):
 
 	=> GET objects/info/packs
 	P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 
 There is only one packfile on the server, so your object is obviously in there, but you’ll check the index file to make sure. This is also useful if you have multiple packfiles on the server, so you can see which packfile contains the object you need:
 
+На сервере имеется только один упакованный файл, поэтому объект точно там, но необходимо проверить индексный файл для ясности:
+
 	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
 	(4k of binary data)
 
 Now that you have the packfile index, you can see if your object is in it — because the index lists the SHAs of the objects contained in the packfile and the offsets to those objects. Your object is there, so go ahead and get the whole packfile:
+
+Теперь, когда мы получили индекс упакованных файлов, можно определить, в каком из них находится объект. Индексный файл содержит хеши объектов в упакованном файле и их смещения. Необходимый объект там присутствует, получим файл:
 
 	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 	(13k of binary data)
 
 You have your tree object, so you continue walking your commits. They’re all also within the packfile you just downloaded, so you don’t have to do any more requests to your server. Git checks out a working copy of the `master` branch that was pointed to by the HEAD reference you downloaded at the beginning.
 
+Итак, мы получаем объект-дерево, можно продолжить обход дерева. Все они внутри упакованного файла, так что более обращаться к серверу не надо. Git извлекает рабочую копию ветки `master`, на которую ссылается HEAD.
+
 The entire output of this process looks like this:
+
+Вывод данного процесса выглядит так:
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 	Initialized empty Git repository in /private/tmp/simplegit-progit/.git/
@@ -870,13 +943,23 @@ The entire output of this process looks like this:
 
 ### The Smart Protocol ###
 
+### Умный протокол ###
+
 The HTTP method is simple but a bit inefficient. Using smart protocols is a more common method of transferring data. These protocols have a process on the remote end that is intelligent about Git — it can read local data and figure out what the client has or needs and generate custom data for it. There are two sets of processes for transferring data: a pair for uploading data and a pair for downloading data.
+
+Метод HTTP прост, но неэффективен, поэтому чаще используются "умные" протоколы. Эти протоколы обслуживаются процессом на стороне сервера, который учитывает логику работы Git и генерирует специальные наборы данных. Существует два набора процессов передачи данных: процессы загрузки и выгрузки.
 
 #### Uploading Data ####
 
+#### Выгрузка данных ####
+
 To upload data to a remote process, Git uses the `send-pack` and `receive-pack` processes. The `send-pack` process runs on the client and connects to a `receive-pack` process on the remote side.
 
+Для выгрузки данных на удалённый сервер используются процессы `send-pack` и `receive-pack`. Процесс `send-pack` запускается на стороне клиента и подключается к `receive-pack` на стороне сервера.
+
 For example, say you run `git push origin master` in your project, and `origin` is defined as a URL that uses the SSH protocol. Git fires up the `send-pack` process, which initiates a connection over SSH to your server. It tries to run a command on the remote server via an SSH call that looks something like this:
+
+Например, выполяется команда `git push origin master` и `origin` определяется как URL с префиксом SSH. Git вызывает процесс `send-pack`, который создаёт подключение по протоколу SSH.
 
 	$ ssh -x git@github.com "git-receive-pack 'schacon/simplegit-progit.git'"
 	005bca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status delete-refs
@@ -885,9 +968,15 @@ For example, say you run `git push origin master` in your project, and `origin` 
 
 The `git-receive-pack` command immediately responds with one line for each reference it currently has — in this case, just the `master` branch and its SHA. The first line also has a list of the server’s capabilities (here, `report-status` and `delete-refs`).
 
+Команда `git-receive-pack` отвечает строками, каждая из которых соответствует ссылке в наличии, в данном случае есть только ветка `master`. Первая строка также содержит возможности сервера (here, `report-status`, `delete-references`).
+
 Each line starts with a 4-byte hex value specifying how long the rest of the line is. Your first line starts with 005b, which is 91 in hex, meaning that 91 bytes remain on that line. The next line starts with 003e, which is 62, so you read the remaining 62 bytes. The next line is 0000, meaning the server is done with its references listing.
 
+Каждая строка начинается с 4-байтового значения, содержащего длину следующей строки. Первая строка начинается с 005b, 91 в 16-ричном виде, значит осталось прочитать 91 байт. Следующая строка начинается с 003e, что означает 62. Далее следует 0000, листинг закончился.
+
 Now that it knows the server’s state, your `send-pack` process determines what commits it has that the server doesn’t. For each reference that this push will update, the `send-pack` process tells the `receive-pack` process that information. For instance, if you’re updating the `master` branch and adding an `experiment` branch, the `send-pack` response may look something like this:
+
+Теперь процесс `send-pack` определяет коммиты, которые есть локально, но которых нет на сервере. Для каждой ссылки, которая будет обновленая, процесс `send-pack` передаёт процессу `receive-pack` данные. Например, если обновляется ветка `master`, а новые коммиты берутся из ветки `experiment`, `ответ `send-pack` выглядит следующим образом:
 
 	0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
 	00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
@@ -895,7 +984,11 @@ Now that it knows the server’s state, your `send-pack` process determines what
 
 The SHA-1 value of all '0's means that nothing was there before — because you’re adding the experiment reference. If you were deleting a reference, you would see the opposite: all '0's on the right side.
 
+Значение с множеством нулей означает, что ранее ветка была пустой, т.е., её не существовало. Если производится удаление ветки, нули будут справа.
+
 Git sends a line for each reference you’re updating with the old SHA, the new SHA, and the reference that is being updated. The first line also has the client’s capabilities. Next, the client uploads a packfile of all the objects the server doesn’t have yet. Finally, the server responds with a success (or failure) indication:
+
+Git отправляет строку для каждой ссылки, для которой производится обновление. В строке содержится старый хеш, новый хеш и имя сссылки. Первая строка также содержит возможности клиента. Далее, клиент загружает упакованный файл со всеми объектами, которые сервер ещё не содержит. В конце, сервер отвечает статусным сообщением:
 
 	000Aunpack ok
 
@@ -903,17 +996,27 @@ Git sends a line for each reference you’re updating with the old SHA, the new 
 
 When you download data, the `fetch-pack` and `upload-pack` processes are involved. The client initiates a `fetch-pack` process that connects to an `upload-pack` process on the remote side to negotiate what data will be transferred down.
 
+Если выполняется загрузка данных, используются процессы `fetch-pack` и `upload-pack`. Клиент запускает процесс `fetch-pack`, подключающийся к удалённому процессу `upload-pack` для определения, какие данные будут переданы.
+
 There are different ways to initiate the `upload-pack` process on the remote repository. You can run via SSH in the same manner as the `receive-pack` process. You can also initiate the process via the Git daemon, which listens on a server on port 9418 by default. The `fetch-pack` process sends data that looks like this to the daemon after connecting:
+
+Существует два способа запуска `upload-pack` на удалённом репозитории. Можно выполнить его через SSH так же, как и `receive-pack`. Ещё можно вызвать процесс через демон Gitm работающий на порту 9418 по умолчанию. Процесс `fetch-pack` отправляет при подключении данные примерно следующего вида:
 
 	003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 
 It starts with the 4 bytes specifying how much data is following, then the command to run followed by a null byte, and then the server’s hostname followed by a final null byte. The Git daemon checks that the command can be run and that the repository exists and has public permissions. If everything is cool, it fires up the `upload-pack` process and hands off the request to it.
 
+Начало размером 4 байта задаёт размер следующей строки, далее следует команда, завершаемая нулевым байтом, потом имя сервера и нулевой байт.  Демон Git проверяет возможность выполнения команды, существование репозитория и права доступа. Если всё хорошо, запускается процесс `upload-pack`, и запрос передаётся ему.
+
 If you’re doing the fetch over SSH, `fetch-pack` instead runs something like this:
+
+Если выборка производится через SSH, `fetch-pack` выполняет следующее:
 
 	$ ssh -x git@github.com "git-upload-pack 'schacon/simplegit-progit.git'"
 
 In either case, after `fetch-pack` connects, `upload-pack` sends back something like this:
+
+В обоих случаях, после подключения `fetch-pack`, `upload-pack` передаёт следующее:
 
 	0088ca82a6dff817ec66f44342007202690a93763949 HEAD\0multi_ack thin-pack \
 	  side-band side-band-64k ofs-delta shallow no-progress include-tag
@@ -923,7 +1026,11 @@ In either case, after `fetch-pack` connects, `upload-pack` sends back something 
 
 This is very similar to what `receive-pack` responds with, but the capabilities are different. In addition, it sends back the HEAD reference so the client knows what to check out if this is a clone.
 
+Это очень похоже на ответ `receive-pack`, но возможности другие. Также, он отправляет ссылку на HEAD, чтобы клиент понимал, какую ветку выбирать, если выполняется клонирование.
+
 At this point, the `fetch-pack` process looks at what objects it has and responds with the objects that it needs by sending "want" and then the SHA it wants. It sends all the objects it already has with "have" and then the SHA. At the end of this list, it writes "done" to initiate the `upload-pack` process to begin sending the packfile of the data it needs:
+
+На данном этапе процесс `fetch-pack` смотрит на объекты, имеющиеся в наличии и отвечает словом "want" с хешем для необходимых объектов. Далее, процесс отправляет хеши имеющихся объектов со словом "have". В конце списка идёт запись "done", которая инициирует `upload-pack`:
 
 	0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
 	0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
@@ -932,21 +1039,33 @@ At this point, the `fetch-pack` process looks at what objects it has and respond
 
 That is a very basic case of the transfer protocols. In more complex cases, the client supports `multi_ack` or `side-band` capabilities; but this example shows you the basic back and forth used by the smart protocol processes.
 
+Это простой случай передачи данных. В более сложных данных, клиент поддерживает функции `multi_ack` или `side-band`.
+
 ## Обслуживание и восстановление данных ##
 
 Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.
+
+Иногда, требуется выполнить очистку — сделать репозиторий более компактным, почистить импортированный репозиторий или восстановить потерянную работу. В этой главе содержатся некоторые сценарии.
 
 ### Обслуживание ###
 
 Occasionally, Git automatically runs a command called "auto gc". Most of the time, this command does nothing. However, if there are too many loose objects (objects not in a packfile) or too many packfiles, Git launches a full-fledged `git gc` command. The `gc` stands for garbage collect, and the command does a number of things: it gathers up all the loose objects and places them in packfiles, it consolidates packfiles into one big packfile, and it removes objects that aren’t reachable from any commit and are a few months old.
 
+Иногда Git автоматически выполняет команду "auto gc". Чаще всего, эта команда ничего не делает. Однако, если неупакованных объектов  довольно много, или упакованных файлов довольно много, запускается команда `git gc`. Здесь `gc` означает "сборка мусора", эта команда выполняет несколько действий: сборка всех несжатых объектов и размещение их в упакованные файлы, консолидация упакованных файлов, удаление недостижимых объектов определённого возраста.
+
 You can run auto gc manually as follows:
+
+Также можно выполнить сборку мусора вручную:
 
 	$ git gc --auto
 
 Again, this generally does nothing. You must have around 7,000 loose objects or more than 50 packfiles for Git to fire up a real gc command. You can modify these limits with the `gc.auto` and `gc.autopacklimit` config settings, respectively.
 
+Опять же, как правило, эта команда ничего не делает. Необходимо иметь 7000 несжатых объектов или более 50 упакованных файлов. Данные пределы можно изменить в параметрах `gc.auto` и `gc.autopacklimit` конфигурационного файла.
+
 The other thing `gc` will do is pack up your references into a single file. Suppose your repository contains the following branches and tags:
+
+Другое действие, выполняемое `gc` — упаковка ссылок в единый файл. Предположим, репозиторий содержит следующие ветки и теги:
 
 	$ find .git/refs -type f
 	.git/refs/heads/experiment
@@ -955,6 +1074,8 @@ The other thing `gc` will do is pack up your references into a single file. Supp
 	.git/refs/tags/v1.1
 
 If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:
+
+Если выполнить `git gc`, данные файлы в каталоге `refs` перестанут существовать. Git перенесёт их в файл `.git/packed-refs` в угоду эффективности. Файл будет иметь следующий вид:
 
 	$ cat .git/packed-refs 
 	# pack-refs with: peeled 
@@ -966,7 +1087,11 @@ If you run `git gc`, you’ll no longer have these files in the `refs` directory
 
 If you update a reference, Git doesn’t edit this file but instead writes a new file to `refs/heads`. To get the appropriate SHA for a given reference, Git checks for that reference in the `refs` directory and then checks the `packed-refs` file as a fallback. However, if you can’t find a reference in the `refs` directory, it’s probably in your `packed-refs` file.
 
+Если выполнить обновление ссылки, Git не будет обновлять этот файл, а добавит новый в `refs/heads`. Для получения хеша для данной ссылки, Git проверит наличие ссылки в каталоге `refs`, а к файлу `packed-refs` обратится только в случае ошибки. Однако, если в каталоге `refs` файла нет, скорее всего, он в `packed-refs`.
+
 Notice the last line of the file, which begins with a `^`. This means the tag directly above is an annotated tag and that line is the commit that the annotated tag points to.
+
+Заметьте, последняя строка файла начинается на `^`. Это означает, что тег непосредственно над ним аннотирован и данная строка на него указывает.
 
 ### Восстановление данных ###
 

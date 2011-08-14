@@ -43,7 +43,7 @@ Insert 18333fig0103.png
 
 Як і шмат іншых вялікіх рэчаў у жыцці, Git пачынаўся з стваральнага разбурэння і палымяных спрэчак. Ядро Linux — праграмны праект з адкрытымі зыходнікамі даволі вялікага аб'ёму. На пряцягу большай часткі перыяду існавання ядра Linux змены ў ім распаўсюджваліся у выглядзе патчаў і архіваваных файлаў. У 2002 годзе праект распрацоўкі ядра Linux пачаў карыстацца BitKeeper — прапрыетарнай РСКВ
 
-У 2005 годзе адносіны паміж суполкай распрацоўшчыкаў ядра Linux і камерцыйнай кампаніяй, што распрацоўвала BitKeeper сапсаваліся і бясплатна карыстацца гэтай утылітай стала немагчыма. Гэта запатрабавала ад суполкі распрацоўшчыкаў Linux (і, ў прыватнасці, Лінуса Торвальдса (Linus Torvalds), стваральніка Linux'а) ствараць іх уласную сістэму, заснаваную на некаторых з урокаў, якія яны вынеслі для сябе з досведу карыстання BitKeeper. Некаторыя з мэтаў новай сітэмы ніжэй:
+У 2005 годзе адносіны паміж суполкай распрацоўшчыкаў ядра Linux і камерцыйнай кампаніяй, што распрацоўвала BitKeeper сапсаваліся і бясплатна карыстацца гэтай утылітай стала немагчыма. Гэта запатрабавала ад суполкі распрацоўшчыкаў Linux (і, ў прыватнасці, Лінуса Торвальдса (Linus Torvalds), стваральніка Linux'а) стварыць іх уласную сістэму, заснаваную на некаторых з урокаў, якія яны вынеслі для сябе з досведу карыстання BitKeeper. Некаторыя з мэтаў новай сітэмы ніжэй:
 
 *	Хуткасць
 *	Просты дызайн
@@ -53,31 +53,31 @@ Insert 18333fig0103.png
 
 З часу свайго з'яўлення ў 2005 годзе Git развіваўся і сталеў каб быць лёгкім у выкарыстанні і пры гэтым захоўваць гэтыя першапачатковыя якасці. Ён неверагодна хуткі, вельмі эфектыўны ў працы з вялікімі праектамі і мае неверагодную сістэму кіравання галінамі для нелінейных праектаў (гл. главу 3).
 
-## Git Basics ##
+## Асновы Git ##
 
-So, what is Git in a nutshell? This is an important section to absorb, because if you understand what Git is and the fundamentals of how it works, then using Git effectively will probably be much easier for you. As you learn Git, try to clear your mind of the things you may know about other VCSs, such as Subversion and Perforce; doing so will help you avoid subtle confusion when using the tool. Git stores and thinks about information much differently than these other systems, even though the user interface is fairly similar; understanding those differences will help prevent you from becoming confused while using it.
+Такім чынам, што ж такое Git, калі ў двух словах? Гета вельмі важны для засваення раздзел, таму што калі вы зразумееце што такое Git і фундаментальныя асновы таго як ён працуе, то  эфектыўнае выкарыстанне Git можа стаць значна больш простым для вас. Пад час вывучэння Git пастарайцеся не абапірацца на ўспаміны пра іншыя СКВ, кшталту Subversion і Perforce, гэта дапаможа пазбегнуць памылак і разгубленасці пад час выкарыстання гэтай прылады. Git захоўвае інфармацыю і успрымае яе вельмі непадобна на іншыя сістэмы, нават не гледзячы на даволі блізкае падабенства карыстальніцкага інтэрфейсу. Разуменне гэтых адрозненняў дапаможа прадухіліць памылкі і разгубленасць пад час работы з Git.
 
-### Snapshots, Not Differences ###
+### Здымкі, а не адрозненні ###
 
-The major difference between Git and any other VCS (Subversion and friends included) is the way Git thinks about its data. Conceptually, most other systems store information as a list of file-based changes. These systems (CVS, Subversion, Perforce, Bazaar, and so on) think of the information they keep as a set of files and the changes made to each file over time, as illustrated in Figure 1-4.
+Асноўнае адрозненне Git ад любой іншай СКВ (уключаючы Subversion і кампанію) — тое як Git ўяўляе сабе дадзеныя, якіе захоўвае. Канцэптуальна, большасць іншых сістэмы захоўвае інфармацыю ў выглядзе набор змяненнеў. Гэтыя сістэмы (CVS, Subversion, Perforce, Bazaar і гэтай далей) ставяцца да інфармацыі, якую яны захозваюць, як да набора адрозненняў для кожнага з файлаў у параўнанні з папярэднім станам, як гэта паказана на Малюнку 1-4.
 
 Insert 18333fig0104.png 
-Figure 1-4. Other systems tend to store data as changes to a base version of each file.
+Малюнак 1-4. Іншыя сістэмы звычайна захоўваюць дадзеныя ў выглядзе набора зменаў для базавай версіі кожнага файла.
 
-Git doesn’t think of or store its data this way. Instead, Git thinks of its data more like a set of snapshots of a mini filesystem. Every time you commit, or save the state of your project in Git, it basically takes a picture of what all your files look like at that moment and stores a reference to that snapshot. To be efficient, if files have not changed, Git doesn’t store the file again—just a link to the previous identical file it has already stored. Git thinks about its data more like Figure 1-5. 
+Git ўспрымае данныя ў сховішчы інакш. Замест таго, каб успрымаць іх як наборы зменаў, Git ставіцца да дадзеных хутчэй як да набора здымкаў стану невялікай файлавай стэмы. Кожны раз, калі вы захоўваеце дадзеныя вашага праекду ў Git, ён па-сутнасці, робіць здымак таго, як вашыя файлы выглядаюць ў гэты момант і спасылку на гэты здымак. Для павышэння эфектыўнасці, калі файл не змяняўся, то Git не захоўвае яго яшчэ раз, а проста робіць спасылку на яго папярэдні стан, які ўжо быў захаваны. Гіт успрымае дадзеныя больш падобна на тое, што паказана на Малюнку 1-5.
 
 Insert 18333fig0105.png 
-Figure 1-5. Git stores data as snapshots of the project over time.
+Малюнак 1-5. Git захоўвае дадзеныя як здымкі стану праекта пэўнага часу.
 
-This is an important distinction between Git and nearly all other VCSs. It makes Git reconsider almost every aspect of version control that most other systems copied from the previous generation. This makes Git more like a mini filesystem with some incredibly powerful tools built on top of it, rather than simply a VCS. We’ll explore some of the benefits you gain by thinking of your data this way when we cover Git branching in Chapter 3.
+Гэта вельмі сур'ёзна адрознівае Git ад практычна ўсіх іншых СКВ. Гэта вымушае Git пераглядзець амаль усе аспекты кіравання версіямі, які большасць іншых сістэм узялі з сістэм папярэдняга пакалення. Гэта робіць Git больш падобным на невялікую файлавую сістэму з неверагодна магутнымі інструмантамі, створанымі каб працаваць павер яе, чымсці на звычайную СКВ. Некаторыя з пераваг, які дае такі падыход да захоўвання дадзеных, мы разгледзім ў Раздзеле 3, пад час вывучэння працы з галінамі.
 
-### Nearly Every Operation Is Local ###
+### Практычна ўсе аперацыі выконваюцца лакальна ###
 
-Most operations in Git only need local files and resources to operate — generally no information is needed from another computer on your network.  If you’re used to a CVCS where most operations have that network latency overhead, this aspect of Git will make you think that the gods of speed have blessed Git with unworldly powers. Because you have the entire history of the project right there on your local disk, most operations seem almost instantaneous.
+Большасць аперацый у Git патрабуюць для працы толькі лакальныя файлы і рэсурсы, бо звычайна інфармацыя з іншых кампутараў у сетцы не патрэбныя. Калі вы карысталіся ЦСКВ, дзе большасць аперацый маюць дадатковыя затрымкі, звязаныя з працай праз сець, то гэты аспект Git прымусіць думаць, што богі хуткасці блаславілі гэтую сістэмы неверагоднымі здольнасцямі. Большасць аперацыі выглядае практычна імгненнымі, паколькі ўся гісторыя праекта захоўваецца непасрэдна на вашым лакальным дыску.
 
-For example, to browse the history of the project, Git doesn’t need to go out to the server to get the history and display it for you—it simply reads it directly from your local database. This means you see the project history almost instantly. If you want to see the changes introduced between the current version of a file and the file a month ago, Git can look up the file a month ago and do a local difference calculation, instead of having to either ask a remote server to do it or pull an older version of the file from the remote server to do it locally.
+Напрыклад, каб паглядзець гісторыю праекта Git не трэба звяртацца да сервера, каб атрымаць гісторыю і адлюстраваць яе для вас — можна проста прачытаць яе непасрэдна з вашай лакальнай базы дадзеных. Гэта значыць, што вы убачыце гісторыю праекта практычна імгненна. Калі вы захацелі ўбачыць розніцу паміж бягучай версіяй файла і той, што была месяц таму, Git можа праглядзець файл месячнай даўніны і вылічыць розніцу паміж версіямі лакальна, замест таго капрасіць у сервера зрабіць гэта, альбо выцягваць старую версію з сервера і потым зноўку ж вылічваць розніцу лакальна.
 
-This also means that there is very little you can’t do if you’re offline or off VPN. If you get on an airplane or a train and want to do a little work, you can commit happily until you get to a network connection to upload. If you go home and can’t get your VPN client working properly, you can still work. In many other systems, doing so is either impossible or painful. In Perforce, for example, you can’t do much when you aren’t connected to the server; and in Subversion and CVS, you can edit files, but you can’t commit changes to your database (because your database is offline). This may not seem like a huge deal, but you may be surprised what a big difference it can make.
+Да таго ж, гэта значыць што вельмі няшмат чаго нельга зрабіць калі вы па-за сеткай ці VPN. Калі вы ў самалёце ці ў цягніку і хочаце крыху папрацаваць, то вы можаце захоўваць праект ў СКВ (ці рабіць каміты, як яшчэ кажуць) без аніякіх праблем і перашкод ажно пакуль не з'явіцца сетка, з дапамогай якой вы зможаць выгрузіць змены. Калі вы прыйшлі дадому не і здолелі наладзіць VPN, вы ўсё яшчэ ў стане працаваць. У многіх іншых сістэмах вельмі цяжка, калі наогул магчыма рабіць так. У Perforce, напрыклад, вы няшмат што можаць зрабіць, калі няма сувязі з серверам, а ў Subversion і CVS вы можаце рэдактаваць файлы, але не будзеце ў стане захаваць змены ў сваю базу дадзеных (паколькі сувязі з базай дадзеных няма). Можа гэта і не выглядае вялікім дасягненнем, але вы будзеце здзіўленыя, убачыўшы наколькі гэта можа змяніць справу.
 
 ### Git Has Integrity ###
 

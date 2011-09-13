@@ -832,7 +832,7 @@ Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basi
 
 Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
 
-Git может передавать данные между репозиториями одним из двух основных способов: через HTTP или через "умные" протоколы с транспортами `file://`, `ssh://`, `git://`. В этой главе будут рассмотрены данные способы передачи.
+Git может передавать данные между репозиториями одним из двух основных способов: через HTTP или через "умные" протоколы с транспортами `file://`, `ssh://`, `git://`. В данной секции будут рассмотрены данные способы передачи.
 
 ### The Dumb Protocol ###
 
@@ -1045,7 +1045,7 @@ That is a very basic case of the transfer protocols. In more complex cases, the 
 
 Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.
 
-Иногда, требуется выполнить очистку — сделать репозиторий более компактным, почистить импортированный репозиторий или восстановить потерянную работу. В этой главе содержатся некоторые сценарии.
+Иногда, требуется выполнить очистку — сделать репозиторий более компактным, почистить импортированный репозиторий или восстановить потерянную работу. В данной секции содержатся некоторые сценарии.
 
 ### Обслуживание ###
 
@@ -1097,7 +1097,11 @@ Notice the last line of the file, which begins with a `^`. This means the tag di
 
 At some point in your Git journey, you may accidentally lose a commit. Generally, this happens because you force-delete a branch that had work on it, and it turns out you wanted the branch after all; or you hard-reset a branch, thus abandoning commits that you wanted something from. Assuming this happens, how can you get your commits back?
 
+В каком-то случае коммит в Git может оказаться потерянным. Как правило, это случается при удалении ветки, изменения из которой не были импортированы в другую, либо после отмены локальных коммитов. Как же в таком случае заполучить их обратно?
+
 Here’s an example that hard-resets the master branch in your test repository to an older commit and then recovers the lost commits. First, let’s review where your repository is at this point:
+
+В данном примере после отмены локальных коммитов основная ветка будет восстановлена, а коммиты возвращены. Для начала, рассмотрим репозиторий на данном этапе:
 
 	$ git log --pretty=oneline
 	ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
@@ -1108,6 +1112,8 @@ Here’s an example that hard-resets the master branch in your test repository t
 
 Now, move the `master` branch back to the middle commit:
 
+Теперь, перенесём ветку `master` на несколько коммитов назад:
+
 	$ git reset --hard 1a410efbd13591db07496601ebc7a059dd55cfe9
 	HEAD is now at 1a410ef third commit
 	$ git log --pretty=oneline
@@ -1117,13 +1123,19 @@ Now, move the `master` branch back to the middle commit:
 
 You’ve effectively lost the top two commits — you have no branch from which those commits are reachable. You need to find the latest commit SHA and then add a branch that points to it. The trick is finding that latest commit SHA — it’s not like you’ve memorized it, right?
 
+Итак, теперь два коммита стали недоступны, потому что их нет ни в одной ветке. Необходимо найти хеш последнего коммита и добавить ветку, указывающую на него. Как же его найти, если не удалось его запомнить?
+
 Often, the quickest way is to use a tool called `git reflog`. As you’re working, Git silently records what your HEAD is every time you change it. Each time you commit or change branches, the reflog is updated. The reflog is also updated by the `git update-ref` command, which is another reason to use it instead of just writing the SHA value to your ref files, as we covered in the "Git References" section of this chapter earlier.  You can see where you’ve been at any time by running `git reflog`:
+
+Самый быстрый способ — использовать инструмент под названием `git reflog`. По ходу работы, Git записывает изменения ветки HEAD. Каждый раз при изменении веток или коммите, добавляется запись в reflog. Также обновление производится при вызове `git update-ref`, это, в частности, является причиной необходимости использования этой команды вместо записи значения хеша в ref-файл, как было рассмотрено в секции про ссылки данной главы. Итак, изменения в хронологическом порядке можно увидеть, вызвав `git reflog`:
 
 	$ git reflog
 	1a410ef HEAD@{0}: 1a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD
 	ab1afef HEAD@{1}: ab1afef80fac8e34258ff41fc1b867c702daa24b: updating HEAD
 
 Here we can see the two commits that we have had checked out, however there is not much information here.  To see the same information in a much more useful way, we can run `git log -g`, which will give you a normal log output for your reflog.
+
+Здесь мы видимо два коммита, которые были получены, однако информации не так много. Более интересный вывод можно получить, используя `git log -g`, что даст стандартный вывод лога для записей из reflog:
 
 	$ git log -g
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -1144,6 +1156,8 @@ Here we can see the two commits that we have had checked out, however there is n
 
 It looks like the bottom commit is the one you lost, so you can recover it by creating a new branch at that commit. For example, you can start a branch named `recover-branch` at that commit (ab1afef):
 
+Похоже, что потерян самый нижний коммит, он может быть восстановлен созданием ветки, указывающей на него. Например, можно создать ветку `recover-branch`, указывающую на данный коммит (ab1afef):
+
 	$ git branch recover-branch ab1afef
 	$ git log --pretty=oneline recover-branch
 	ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
@@ -1155,10 +1169,14 @@ It looks like the bottom commit is the one you lost, so you can recover it by cr
 Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again. 
 Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:
 
+Здорово, теперь у нас есть ветка `recover-branch`, указывающая туда, куда ранее указывала `master`, и потерянные коммиты вновь доступны. Теперь, положим, потерянная ветка по какой-то причине не попала в reflog, для этого удалим восстановленную ветку и весь reflog. Теперь два этих коммита совсем недоступны:
+
 	$ git branch -D recover-branch
 	$ rm -Rf .git/logs/
 
 Because the reflog data is kept in the `.git/logs/` directory, you effectively have no reflog. How can you recover that commit at this point? One way is to use the `git fsck` utility, which checks your database for integrity. If you run it with the `--full` option, it shows you all objects that aren’t pointed to by another object:
+
+Теперь данные из `.git/logs/` удалены, а значит и reflog больше нет. Как восстановить коммиты теперь? Один способ — использовать утилиту `git fsck`, проверяющую базу на целостность. Если выполнить её с ключом `--full`, будут показаны все недостижимые объекты:
 
 	$ git fsck --full
 	dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
@@ -1168,15 +1186,25 @@ Because the reflog data is kept in the `.git/logs/` directory, you effectively h
 
 In this case, you can see your missing commit after the dangling commit. You can recover it the same way, by adding a branch that points to that SHA.
 
+В данном случае потерянный коммит находится после "висячего" коммита. Его можно восстановить аналогичным образом, добавляя ветку, указывающую на данный хеш.
+
 ### Удаление объектов ###
 
 There are a lot of great things about Git, but one feature that can cause issues is the fact that a `git clone` downloads the entire history of the project, including every version of every file. This is fine if the whole thing is source code, because Git is highly optimized to compress that data efficiently. However, if someone at any point in the history of your project added a single huge file, every clone for all time will be forced to download that large file, even if it was removed from the project in the very next commit. Because it’s reachable from the history, it will always be there.
 
+У Git есть много замечательных особенностей, одна из них, способная вызывать проблемы — команда `git clone`, загружающая проект вместе со всей историей и всем версиями всех файлов. Это здорово, если в репозитории хранится только исходный код, Git оптимизирован именно под него. Однако, если когда-то в проект был добавлен большой файл, этот файл будет скачиваться всегда, даже если в следующем же коммите он был удалён. Просто потому, что он доступен в истории.
+
 This can be a huge problem when you’re converting Subversion or Perforce repositories into Git. Because you don’t download the whole history in those systems, this type of addition carries few consequences. If you did an import from another system or otherwise find that your repository is much larger than it should be, here is how you can find and remove large objects.
+
+С такой проблемой можно столкнуться, например, при конвертации репозиториев Subversion или Perforce в Git. В данных системах контроля версий вся история не загружается, что приводит к некоторым последствиям. Если при импорте с другой машины или каким-либо другим образом стало ясно, что репозиторий сильно больше, чем ожидается, можно воспользоваться способом поиска и удаления ненужных объектов.
 
 Be warned: this technique is destructive to your commit history. It rewrites every commit object downstream from the earliest tree you have to modify to remove a large file reference. If you do this immediately after an import, before anyone has started to base work on the commit, you’re fine — otherwise, you have to notify all contributors that they must rebase their work onto your new commits.
 
+Будьте внимательны, данный способ разрушителен по отношению к истории коммитов. Каждый коммит будет переписан начиная с того, в котором был добавлен данный файл. Если это выполнить непосредственно после импорта, когда никто ещё не работал с репозиторием, всё хорошо, иначе придётся сообщать всем участникам о необходимости перебазирования их правок в новое дерево.
+
 To demonstrate, you’ll add a large file into your test repository, remove it in the next commit, find it, and remove it permanently from the repository. First, add a large object to your history:
+
+Для примера, добавим большой файл в дерево, удалим его в следующем коммите, найдём и удалим его полностью. Сперва добавим файл:
 
 	$ curl http://kernel.org/pub/software/scm/git/git-1.6.3.1.tar.bz2 > git.tbz2
 	$ git add git.tbz2
@@ -1187,6 +1215,8 @@ To demonstrate, you’ll add a large file into your test repository, remove it i
 
 Oops — you didn’t want to add a huge tarball to your project. Better get rid of it:
 
+Упс, кажется, этот файл нам не нужен. Удалим его:
+
 	$ git rm git.tbz2 
 	rm 'git.tbz2'
 	$ git commit -m 'oops - removed large tarball'
@@ -1196,6 +1226,8 @@ Oops — you didn’t want to add a huge tarball to your project. Better get rid
 
 Now, `gc` your database and see how much space you’re using:
 
+Теперь, "соберём мусор" в базе, и узнаем её размер:
+
 	$ git gc
 	Counting objects: 21, done.
 	Delta compression using 2 threads.
@@ -1204,6 +1236,8 @@ Now, `gc` your database and see how much space you’re using:
 	Total 21 (delta 3), reused 15 (delta 1)
 
 You can run the `count-objects` command to quickly see how much space you’re using:
+
+Для удобства, можно воспользоваться командой `count-objects`:
 
 	$ git count-objects -v
 	count: 4
@@ -1216,7 +1250,11 @@ You can run the `count-objects` command to quickly see how much space you’re u
 
 The `size-pack` entry is the size of your packfiles in kilobytes, so you’re using 2MB. Before the last commit, you were using closer to 2K — clearly, removing the file from the previous commit didn’t remove it from your history. Every time anyone clones this repository, they will have to clone all 2MB just to get this tiny project, because you accidentally added a big file. Let’s get rid of it.
 
+Запись `size-pack` — размер упакованных файлов в килобайтах, то есть, занято всего 2MB. Перед последним коммитом, было около 2К, то есть, удаление файла не удалило его из истории. При каждом клонировании придётся загружать эти 2MB заново, просто для того, чтобы начать работу над проектом. Попробуем избавиться от него.
+
 First you have to find it. In this case, you already know what file it is. But suppose you didn’t; how would you identify what file or files were taking up so much space? If you run `git gc`, all the objects are in a packfile; you can identify the big objects by running another plumbing command called `git verify-pack` and sorting on the third field in the output, which is file size. You can also pipe it through the `tail` command because you’re only interested in the last few largest files:
+
+Сперва найдём его. В данном случае, мы знаем, что это за файл. Но если бы не знали, можно было бы определить, какие файлы занимают место? При вызове `git gc` все объекты упаковываются в файл, поэтому определить самые крупные файлы можно командой `git verify-pack`, отсортировав её вывод по третьей колонке, в которой записан размер файла. Далее можно получить последние 3 значения, передав вывод команде `tail`:
 
 	$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
@@ -1225,16 +1263,22 @@ First you have to find it. In this case, you already know what file it is. But s
 
 The big object is at the bottom: 2MB. To find out what file it is, you’ll use the `rev-list` command, which you used briefly in Chapter 7. If you pass `--objects` to `rev-list`, it lists all the commit SHAs and also the blob SHAs with the file paths associated with them. You can use this to find your blob’s name:
 
+Большой объект внизу, его размер — примерно 2MB. Для того, чтобы узнать, что это за файл, воспользуемся командой `rev-list`, которая описана в главе 7. Если передать ей ключ `--objects`, полученный список будет содержать хеши объектов и соответствующие им имена файлов. Воспользуемся этим для определения имени выбранного объекта:
+
 	$ git rev-list --objects --all | grep 7a9eb2fb
 	7a9eb2fba2b1811321254ac360970fc169ba2330 git.tbz2
 
 Now, you need to remove this file from all trees in your past. You can easily see what commits modified this file:
+
+Теперь необходимо удалить данный файл из всех деревьев в прошлом по истории. Лего получить все коммиты, которые меняли данный файл:
 
 	$ git log --pretty=oneline -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 
 You must rewrite all the commits downstream from `6df76` to fully remove this file from your Git history. To do so, you use `filter-branch`, which you used in Chapter 6:
+
+Необходимо переписать все коммиты, начинная с `6df76` для полного удаления данного файла. Для этого воспользуемся командой `filter-branch`, которая приводилась в главе 6:
 
 	$ git filter-branch --index-filter \
 	   'git rm --cached --ignore-unmatch git.tbz2' -- 6df7640^..
@@ -1244,7 +1288,11 @@ You must rewrite all the commits downstream from `6df76` to fully remove this fi
 
 The `--index-filter` option is similar to the `--tree-filter` option used in Chapter 6, except that instead of passing a command that modifies files checked out on disk, you’re modifying your staging area or index each time. Rather than remove a specific file with something like `rm file`, you have to remove it with `git rm --cached` — you must remove it from the index, not from disk. The reason to do it this way is speed — because Git doesn’t have to check out each revision to disk before running your filter, the process can be much, much faster. You can accomplish the same task with `--tree-filter` if you want. The `--ignore-unmatch` option to `git rm` tells it not to error out if the pattern you’re trying to remove isn’t there. Finally, you ask `filter-branch` to rewrite your history only from the `6df7640` commit up, because you know that is where this problem started. Otherwise, it will start from the beginning and will unnecessarily take longer.
 
+Опция `--index-filter` похожа на `--tree-filter` из главы 6, за исключением того, что вместо передачи команды, модифицирующей файлы на диске, изменяются файлы в индексе или подготовительной области. Вместо удаления файла чем-то вроде `rm file`, стоит удалить его командой `rm --cached` только из индекса, сохранив на диске. Причина, по которой данные действия выполняются — скорость, нет необходимости извлекать каждую ревизию на диск перед фильтрацией. Можно использовать и `tree-filter` для аналогичного действия. Опция `--ignore-unmatch` команды `git rm` отключает вывод сообщения об ошибке в случае отсутствия файлов, соответствующих маске. И последнее, команда `filter-branch` переписывает историю начиная с коммита `6df7640` потому, что известно, на каком коммите выявилась проблема. По умолчанию перезапись начинается с самого первого коммита, что потребует гораздо больше времени.
+
 Your history no longer contains a reference to that file. However, your reflog and a new set of refs that Git added when you did the `filter-branch` under `.git/refs/original` still do, so you have to remove them and then repack the database. You need to get rid of anything that has a pointer to those old commits before you repack:
+
+Теперь, история не содержит ссылки на данный файл. Однако, в reflog и новом наборе ссылок, добавленном Git после выполнения `filter-branch` по пути `.git/refs/original`, ссылки на него всё ещё присутствуют, поэтому необходимо их удалить, а потом переупаковать базу. Необходимо избавиться от всех возможных ссылок на старые коммиты перед переупаковкой:
 
 	$ rm -Rf .git/refs/original
 	$ rm -Rf .git/logs/
@@ -1257,6 +1305,8 @@ Your history no longer contains a reference to that file. However, your reflog a
 
 Let’s see how much space you saved.
 
+Посмотрим, сколько места удалось сохранить:
+
 	$ git count-objects -v
 	count: 8
 	size: 2040
@@ -1268,8 +1318,14 @@ Let’s see how much space you saved.
 
 The packed repository size is down to 7K, which is much better than 2MB. You can see from the size value that the big object is still in your loose objects, so it’s not gone; but it won’t be transferred on a push or subsequent clone, which is what is important. If you really wanted to, you could remove the object completely by running `git prune --expire`.
 
+Упакованный репозиторий весит 7К, что намного лучше, чем 2M. Можно заметить, что объект всё ещё хранится в несжатом виде, но при любой передаче наружу и последующем клонировании он будет опущен, что важно. Если очень хочется, можно удалить его локально, выполнив `git prune --expire`.
+
 ## Итоги ##
 
 You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.
 
+Теперь вы довольно хорошо понимаете, что Git делает в фоне и, в некоторой степени, как он работает. В данной главе рассмотрены также "сантехнические" команды, находящиеся на уровень ниже остальных с точки зрения реализации. Понимание принципов работы Git на низком уровне упрощает понимание работы Git в целом и дает возможность написания собственных команд и сценариев для организации специфического процесса работы с Git.
+
 Git as a content-addressable filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.
+
+Git — контентно-адресуемая файловая система, очень мощный инструмент, который можно использовать не только как систему контроля версий. Надеюсь, полученное знание особенностей реализации Git поможет вам в реализации интересных приложений данной технологии и продвинутом её использовании.

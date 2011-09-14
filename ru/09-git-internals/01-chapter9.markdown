@@ -47,7 +47,7 @@ You may see some other files in there, but this is a fresh `git init` repository
 
 This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.
 
-Итак, осталось четыре важных записи: файлы `HEAD`, `index` и каталоги `objects`, `refs`. Это ключевые элементы хранилища Git. В каталоге `objects` находится, собственно, база данных, в `refs` -- ссылки на элементы базы (ветки), файл `HEAD` указывает на текущую ветку, в файле `index` хранится индекс. В последующих секциях данные элементы будут рассмотрены более подробно.
+Итак, осталось четыре важных записи: файлы `HEAD`, `index` и каталоги `objects`, `refs`. Это ключевые элементы хранилища Git. В каталоге `objects` находится, собственно, база данных, в `refs` -- ссылки на элементы базы (ветки), файл `HEAD` указывает на текущую ветку, в файле `index` хранится индекс. В последующих разделах данные элементы будут рассмотрены более подробно.
 
 ## Объекты Git ##
 
@@ -832,7 +832,7 @@ Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basi
 
 Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
 
-Git может передавать данные между репозиториями одним из двух основных способов: через HTTP или через "умные" протоколы с транспортами `file://`, `ssh://`, `git://`. В данной секции будут рассмотрены данные способы передачи.
+Git может передавать данные между репозиториями одним из двух основных способов: через HTTP или через "умные" протоколы с транспортами `file://`, `ssh://`, `git://`. В данном разделе будут рассмотрены данные способы передачи.
 
 ### The Dumb Protocol ###
 
@@ -1045,7 +1045,7 @@ That is a very basic case of the transfer protocols. In more complex cases, the 
 
 Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.
 
-Иногда, требуется выполнить очистку — сделать репозиторий более компактным, почистить импортированный репозиторий или восстановить потерянную работу. В данной секции содержатся некоторые сценарии.
+Иногда, требуется выполнить очистку — сделать репозиторий более компактным, почистить импортированный репозиторий или восстановить потерянную работу. В данном разделе содержатся некоторые сценарии.
 
 ### Обслуживание ###
 
@@ -1127,7 +1127,7 @@ You’ve effectively lost the top two commits — you have no branch from which 
 
 Often, the quickest way is to use a tool called `git reflog`. As you’re working, Git silently records what your HEAD is every time you change it. Each time you commit or change branches, the reflog is updated. The reflog is also updated by the `git update-ref` command, which is another reason to use it instead of just writing the SHA value to your ref files, as we covered in the "Git References" section of this chapter earlier.  You can see where you’ve been at any time by running `git reflog`:
 
-Самый быстрый способ — использовать инструмент под названием `git reflog`. По ходу работы, Git записывает изменения ветки HEAD. Каждый раз при изменении веток или коммите, добавляется запись в reflog. Также обновление производится при вызове `git update-ref`, это, в частности, является причиной необходимости использования этой команды вместо записи значения хеша в ref-файл, как было рассмотрено в секции про ссылки данной главы. Итак, изменения в хронологическом порядке можно увидеть, вызвав `git reflog`:
+Самый быстрый способ — использовать инструмент под названием `git reflog`. По ходу работы, Git записывает изменения ветки HEAD. Каждый раз при изменении веток или коммите, добавляется запись в reflog. Также обновление производится при вызове `git update-ref`, это, в частности, является причиной необходимости использования этой команды вместо записи значения хеша в ref-файл, как было рассмотрено в разделе про ссылки данной главы. Итак, изменения в хронологическом порядке можно увидеть, вызвав `git reflog`:
 
 	$ git reflog
 	1a410ef HEAD@{0}: 1a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD

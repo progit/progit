@@ -20,11 +20,11 @@ The content-addressable filesystem layer is amazingly cool, so I’ll cover that
 
 This book covers how to use Git with 30 or so verbs such as `checkout`, `branch`, `remote`, and so on. But because Git was initially a toolkit for a VCS rather than a full user-friendly VCS, it has a bunch of verbs that do low-level work and were designed to be chained together UNIX style or called from scripts. These commands are generally referred to as "plumbing" commands, and the more user-friendly commands are called "porcelain" commands.
 
-В основной части этой книги описано примерно три десятка команд, например, `checkout`, `branch`, `remote` и т.п. Но т.к. Git в начале развития был простой системой управления версиями для непростых пользователей, хакеров, существуют и другие команды, выполняющие низкоуровневые операции, т.н. "сантехнические" команды.
+В основной части этой книги описано примерно три десятка команд, например, `checkout`, `branch`, `remote` и т.п. Но т.к. Git в начале развития был простой системой управления версиями для непростых пользователей, хакеров, существуют и другие команды, выполняющие низкоуровневые операции, служебные ("plumbing") команды.
 
 The book’s first eight chapters deal almost exclusively with porcelain commands. But in this chapter, you’ll be dealing mostly with the lower-level plumbing commands, because they give you access to the inner workings of Git and help demonstrate how and why Git does what it does. These commands aren’t meant to be used manually on the command line, but rather to be used as building blocks for new tools and custom scripts.
 
-Рассмотренные ранее (в первых восьми главах) команды, в отличие от "сантехнических", именуются "фарфоровыми". В данной главе же рассматриваются именно низкоуровневые команды, дающие контроль над внутренними процессами Git и показывающие, как он работает и почему он работает так, а не иначе. Предполагается, что данные команды не будут использоваться напрямую из командной строки, а будут служить в качестве строительных блоков для новых команд или сценариев.
+Рассмотренные ранее (в первых восьми главах) команды, в отличие от служебных, именуются "фарфоровыми". В данной главе же рассматриваются именно низкоуровневые команды, дающие контроль над внутренними процессами Git и показывающие, как он работает и почему он работает так, а не иначе. Предполагается, что данные команды не будут использоваться напрямую из командной строки, а будут служить в качестве строительных блоков для новых команд или сценариев.
 
 When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:
 
@@ -55,7 +55,7 @@ Git is a content-addressable filesystem. Great. What does that mean?
 It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:
 
 Git -- контентно-адресуемая файловая система. Но что это означает?
-А означает это, что внутри Git -- простое хранилище ключ-значение. Можно добавить любой объект, в ответ будет выдан ключ, по которому этот объект можно извлечь. Для примера, можно воспользоваться "сантехнической" командой `hash-object`, которая добавляет данные в каталог `.git` и возвращает ключ. Сперва необходимо создать репозиторий и убедиться, что каталог `objects` пуст:
+А означает это, что внутри Git -- простое хранилище ключ-значение. Можно добавить любой объект, в ответ будет выдан ключ, по которому этот объект можно извлечь. Для примера, можно воспользоваться служебной командой `hash-object`, которая добавляет данные в каталог `.git` и возвращает ключ. Сперва необходимо создать репозиторий и убедиться, что каталог `objects` пуст:
 
 	$ mkdir test
 	$ cd test
@@ -666,7 +666,7 @@ The other files are your new packfile and an index. The packfile is a single fil
 
 How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
 
-Как Git это делает? При упаковке Git ищет файлы, которые похожи по имени и размеру и сохраняет разницу между версиями. Можно рассмотреть сжатый файл подробнее и понять, какие действия были выполнены для сжатия. Для этого существует "сантехническая" команда `git verify-pack`:
+Как Git это делает? При упаковке Git ищет файлы, которые похожи по имени и размеру и сохраняет разницу между версиями. Можно рассмотреть сжатый файл подробнее и понять, какие действия были выполнены для сжатия. Для этого существует служебная команда `git verify-pack`:
 
 	$ git verify-pack -v \
 	  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
@@ -1324,7 +1324,7 @@ The packed repository size is down to 7K, which is much better than 2MB. You can
 
 You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.
 
-Теперь вы довольно хорошо понимаете, что Git делает в фоне и, в некоторой степени, как он работает. В данной главе рассмотрены также "сантехнические" команды, находящиеся на уровень ниже остальных с точки зрения реализации. Понимание принципов работы Git на низком уровне упрощает понимание работы Git в целом и дает возможность написания собственных команд и сценариев для организации специфического процесса работы с Git.
+Теперь вы довольно хорошо понимаете, что Git делает в фоне и, в некоторой степени, как он работает. В данной главе рассмотрены также служебные команды, находящиеся на уровень ниже остальных с точки зрения реализации. Понимание принципов работы Git на низком уровне упрощает понимание работы Git в целом и дает возможность написания собственных команд и сценариев для организации специфического процесса работы с Git.
 
 Git as a content-addressable filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.
 

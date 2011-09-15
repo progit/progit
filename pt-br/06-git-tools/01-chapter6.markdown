@@ -250,10 +250,10 @@ Uma opção comum para usar com o comando `log` nesse caso é `--left-right`, qu
 
 Com essas ferramentas, você pode informar o Git mais facilmente qual ou quais commits você quer inspecionar. 
 
-## Interactive Staging ##
+## Área de Seleção Interativa ##
 
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+Git vem com alguns scripts que facilitam algumas tarefas de linha de comando. Aqui, você verá alguns comandos interativos que podem ajudar você a facilmente escolher combinações ou partes de arquivos para incorporar em um commit. Essas ferramentas são muito úteis se você modificou vários arquivos e decidiu que quer essas modificações em commits separados em vez de um grande e bagunçado commit. Desta maneira, você pode ter certeza que seus commits estão logicamente separados e podem ser facilmente revisados pelos outros desenvolvedores trabalhando com você.
+Se você executar `git add` com a opção `-i` ou `--interactive`, Git entra em um modo interativo de shell, exibindo algo desse tipo:
 
 	$ git add -i
 	           staged     unstaged path
@@ -266,13 +266,13 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	  5: patch      6: diff        7: quit       8: help
 	What now> 
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
+Você pode ver que esse comando lhe mostra uma visão muito diferente da sua área de seleção — basicamente a mesma informação que você recebe com `git status` mas um pouco mais sucinto e informativo. Ele lista as modificações que você colocou na área de seleção à esquerda e as modificações que estão fora à direita. 
 
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+Depois disso vem a seção Commands. Aqui você pode fazer uma série de coisas, incluindo adicionar arquivos na área de seleção, retirar arquivos, adicionar partes de arquivos, adicionar arquivos não rastreados, e ver diffs de o que já foi adicionado.
 
-### Staging and Unstaging Files ###
+### Adicionando e Retirando Arquivos ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+Se você digitar `2` ou `u` em `What now>`, o script perguntará quais arquivos você quer adicionar:
 
 	What now> 2
 	           staged     unstaged path
@@ -281,7 +281,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+Para adicionar os arquivos TODO e index.html, você pode digitar os números:
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -290,7 +290,7 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+O `*` ao lado de cada arquivos significa que o arquivo está selecionado para ser adicionado. Se você pressionar Enter sem digitar nada em `Update>>`, Git pega tudo que esta selecionado e adiciona na área de seleção para você:
 
 	Update>> 
 	updated 2 paths
@@ -304,7 +304,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+Agora você pode ver que os arquivos TODO e index.html estão na área de seleção e o arquivo simplegit.rb ainda está fora. Se você quer retirar o arquivo TODO nesse momento, você usa a opção `3` ou `r` (para reverter):
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -322,7 +322,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+Olhando o seu Git status novamente, você pode ver que você retirou o arquivo TODO:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -333,7 +333,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+Para ver o diff do que você adicionou, você pode usar o comando `6` ou `d` (para diff). Ele exibe uma lista dos seus arquivos adicionados, e você pode selecionar aqueles que você gostaria de ver a diferença. Isso é muito parecido como informar o comando `git diff --cached`:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -355,11 +355,11 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+Com esses comandos básicos, você pode usar o modo interativo para lidar com sua área de seleção um pouco mais facilmente.
 
-### Staging Patches ###
+### Adicionando Patches ###
 
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+No Git também é possível adicionar certas partes de arquivos e deixar o resto fora. Por exemplo, se você faz duas mudanças no seu arquivo simplegit.rb e quer adicionar uma delas mas não a outra, fazer isso é muito fácil no Git. A partir do prompt interativo, digite `5` ou `p` (para patch). Git irá perguntar quais arquivos você gostaria de adicionar parcialmente; então, para cada seção dos arquivos selecionados, ele irá exibir partes do diff do arquivo e perguntar se você gostaria de adicioná-los, um por um:
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -376,7 +376,7 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
+Você tem várias opções neste momento. Digitando `?` exibe uma lista do que você pode fazer:
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 	y - stage this hunk
@@ -393,7 +393,7 @@ You have a lot of options at this point. Typing `?` shows a list of what you can
 	e - manually edit the current hunk
 	? - print help
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+Geralmente, você informará `y` ou `n` se você quer adicionar cada parte, mas adicionar todos eles em determinados arquivos ou deixar a decisão de uma parte para depois pode ser útil também. Se você adiconar uma parte do arquivo e deixar outra parte de fora, a saída do status será parecido com isso:
 
 	What now> 1
 	           staged     unstaged path
@@ -401,9 +401,9 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+O status do arquivo simplegit.rb é interessante. Ele lhe mostra que algumas linhas foram adicionadas e algumas estão fora. Você adicionou esse arquivo parcialmente. Neste momento, você pode sair do script de modo interativo e executar `git commit` para fazer o commit parcial dos arquivos adicionados.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
+Finalmente, você não precisa estar no modo interativo para adicionar um arquivo parcialmente — você pode executar o mesmo script usando `git add -p` ou `git add --patch` na linha de comando. 
 
 ## Stashing ##
 

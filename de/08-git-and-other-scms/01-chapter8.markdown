@@ -537,7 +537,7 @@ sehen sie jetzt so aus:
 
 <!--Not only does the Author field look a lot better, but the `git-svn-id` is no longer there, either.-->
 
-Nicht nur das Autoren-Feld sieht jetzt wesentlich besser aus. Auch die `git-svn-id wird jetzt nicht mehr gebraucht.
+Nicht nur das Autoren-Feld sieht jetzt wesentlich besser aus. Auch die `git-svn-id` wird jetzt nicht mehr gebraucht.
 
 <!--You need to do a bit of `post-import` cleanup. For one thing, you should clean up the weird references that `git svn` set up. First you’ll move the tags so they’re actual tags rather than strange remote branches, and then you’ll move the rest of the branches so they’re local.-->
 

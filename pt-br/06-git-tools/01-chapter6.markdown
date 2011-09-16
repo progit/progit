@@ -488,26 +488,26 @@ A opção apply somente tenta aplicar o stash armazenado — ele continua na sua
 
 Você também pode executar `git stash pop` para aplicar o stash e logo em seguida apagá-lo da sua pilha.
 
-### Un-applying a Stash ###
+### Revertendo um Stash ###
 
-In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came form the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+Em alguns cenários você pode querer aplicar alterações de um stash, trabalhar, mas desfazer essas alterações que originalmente vieram do stash. Git não fornece um comando como `stash unapply`, mas é possível fazer o mesmo simplesmente recuperando o patch associado com um stash e aplicá-lo em sentido inverso:
 
     $ git stash show -p stash@{0} | git apply -R
 
-Again, if you don’t specify a stash, Git assumes the most recent stash:
+Novamente, se você não especificar um stash, Git assume que é o stash mais recente:
 
     $ git stash show -p | git apply -R
 
-You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
+Você pode querer criar um alias e adicionar explicitamente um comando `stash-unapply` no seu git. Por exemplo:
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
     $ git stash
     $ #... work work work
     $ git stash-unapply
 
-### Creating a Branch from a Stash ###
+### Criando um Branch de um Stash ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+Se você criar um stash, deixá-lo lá por um tempo, e continuar no branch de onde criou o stash, você pode ter problemas em reaplicar o trabalho. Se o apply tentar modificar um arquivo que você alterou, você vai ter um conflito de merge e terá que tentar resolvê-lo. Se você quer uma forma mais fácil de testar as modificações do stash novamente, você pode executar `git stash branch`, que cria um novo branch para você, faz o checkout do commit que você estava quando criou o stash, reaplica seu trabalho nele, e então apaga o stash se ele é aplicado com sucesso:
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -524,7 +524,7 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+Este é um bom atalho para recuperar facilmente as modificações em um stash e trabalhar nele em um novo branch.
 
 ## Rewriting History ##
 

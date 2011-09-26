@@ -820,17 +820,17 @@ Essa é uma ferramenta poderosa que pode ajudar você a verificar centenas de co
 
 Ao fazer isso, é executado automaticamente `test-error.sh` em cada commit até o Git encontrar o primeiro commit quebrado. Você também pode executar algo como `make` ou `make tests` ou qualquer coisa que executa testes automatizados para você.
 
-## Submodules ##
+## Submódulos ##
 
-It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
+Freqüentemente enquanto você está trabalhando em um projeto, você precisa usar um outro projeto dentro dele. Talvez seja uma biblioteca desenvolvida por terceiros ou que você está desenvolvendo separadamente e usando em vários projetos pai. Um problema comum surge nestes cenários: você quer tratar os dois projetos em separado mas ainda ser capaz de usar um dentro do outro.
 
-Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
+Aqui vai um exemplo. Digamos que você está desenvolvendo um site e criando Atom feeds. Em vez de criar seu próprio gerador de Atom, você decide usar uma biblioteca. Provavelmente você terá que incluir esse código de uma biblioteca compartilhada, como um instalação CPAN ou Ruby gem, ou copiar o código fonte na árvore do seu projeto. O problema com a inclusão da biblioteca é que é difícil de personalizar livremente e muitas vezes difícil de fazer o deploy dela, porque você precisa ter certeza de que cada cliente tem essa biblioteca disponível. O problema com a inclusão do código no seu projeto é que é difícil de fazer o merge de qualquer alteração que você faz quando existem modificações do desenvolvedor da biblioteca.
 
-Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
+Git resolve esses problemas usando submódulos. Submódulos permitem que você mantenha um repositório Git como um subdiretório de outro repositório Git. Isso permite que você faça o clone de outro repositório dentro do seu projeto e mantenha seus commits separados.
 
-### Starting with Submodules ###
+### Começando com submódulos ###
 
-Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
+Digamos que você quer adicionar a biblioteca Rack (um servidor de aplicação web em Ruby) ao seu projeto, manter suas próprias alterações nela, mas continuar fazendo o merge do branch principal. A primeira coisa que você deve fazer é fazer o clone do repositório externo dentro do seu subdiretório. Você adiciona projetos externos como submódulos com o comando `git submodule add`:
 
 	$ git submodule add git://github.com/chneukirchen/rack.git rack
 	Initialized empty Git repository in /opt/subtest/rack/.git/
@@ -840,7 +840,7 @@ Suppose you want to add the Rack library (a Ruby web server gateway interface) t
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 
-Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things:
+Agora você tem um projeto do Rack no subdiretório `rack` dentro do seu projeto. Você pode ir nesse subdiretório, fazer alterações, adicionar seus próprios repositórios remotos para fazer o push de suas modificações, fazer o fetch e o merge do repositório original, e mais. Se você execurar `git status` logo depois de adicionar o submódulo, você verá duas coisas:
 
 	$ git status
 	# On branch master
@@ -851,16 +851,16 @@ Now you have the Rack project under a subdirectory named `rack` within your proj
 	#      new file:   rack
 	#
 
-First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
+Primeiro você percebe o arquivo `.gitmodules`. Esse é um arquivo de configuração que guarda o mapeamento entre a URL do projeto e o subdiretório local que você usou:
 
 	$ cat .gitmodules 
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
+Se você tem vários submódulos, você terá várias entradas nesse arquivo. É importante notar que esse arquivo está no controle de versão como os outros, como o seu arquivo `.gitignore`. É feito o push e pull com o resto do seu projeto. É como as outras pessoas que fazem o clone do projeto sabem onde pegar os projetos dos submódulos.
 
-The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
+O outro ítem na saída do `git status` é sobre o rack. Se você executar `git diff` nele, você vê uma coisa interessante:
 
 	$ git diff --cached rack
 	diff --git a/rack b/rack
@@ -871,11 +871,11 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
+Apesar de `rack` ser um subdiretório no seu diretório de trabalho, Git vê ele como um submódulo e não rastreia seu conteúdo quando você não está no diretório. Em vez disso, Git o grava como um commit especial desse repositório. Quando você altera e faz commit nesse subdiretório, o projeto-pai nota que o HEAD mudou e grava o commit que você está atualmente; dessa forma, quando outros fizerem o clone desse projeto, eles podem recriar o mesmo ambiente.
 
-This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
+Esse é um ponto importanse sobre submódulos: você os salva como o commit exato onde eles estão. Você não pode salvar um submódulo no `master` ou em outra referência simbólica.
 
-When you commit, you see something like this:
+Quando você faz o commit, você vê algo assim:
 
 	$ git commit -m 'first commit with submodule rack'
 	[master 0550271] first commit with submodule rack
@@ -883,9 +883,9 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
-Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
+Note o modo 160000 para a entrada do rack. Esse é um modo especial no Git qua basicamente significa que você está salvando um commit como um diretório em vez de um subdiretório ou um arquivo.
 
-You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
+Você pode tratar o diretório `rack` como um projeto separado e atualizar seu projeto-pai de vez em quando com um ponteiro para o último commit nesse subprojeto. Todos os comando do Git funcionam independente nos dois diretórios:
 
 	$ git log -1
 	commit 0550271328a0038865aad6331e620cd7238601bb

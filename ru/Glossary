@@ -12,6 +12,7 @@ committer — коммитер
 diff — дельта
 fast forward — перемотка
 fetch — извлекать
+hook — перехватчик
 merge — сливать
 push — отправить
 pull — получать

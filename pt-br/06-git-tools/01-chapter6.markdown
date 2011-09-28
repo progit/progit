@@ -828,7 +828,7 @@ Aqui vai um exemplo. Digamos que você está desenvolvendo um site e criando Ato
 
 Git resolve esses problemas usando submódulos. Submódulos permitem que você mantenha um repositório Git como um subdiretório de outro repositório Git. Isso permite que você faça o clone de outro repositório dentro do seu projeto e mantenha seus commits separados.
 
-### Começando com submódulos ###
+### Começando com Submódulos ###
 
 Digamos que você quer adicionar a biblioteca Rack (um servidor de aplicação web em Ruby) ao seu projeto, manter suas próprias alterações nela, mas continuar fazendo o merge do branch principal. A primeira coisa que você deve fazer é fazer o clone do repositório externo dentro do seu subdiretório. Você adiciona projetos externos como submódulos com o comando `git submodule add`:
 
@@ -885,7 +885,7 @@ Quando você faz o commit, você vê algo assim:
 
 Note o modo 160000 para a entrada do rack. Esse é um modo especial no Git qua basicamente significa que você está salvando um commit como um diretório em vez de um subdiretório ou um arquivo.
 
-Você pode tratar o diretório `rack` como um projeto separado e atualizar seu projeto-pai de vez em quando com um ponteiro para o último commit nesse subprojeto. Todos os comando do Git funcionam independente nos dois diretórios:
+Você pode tratar o diretório `rack` como um projeto separado e atualizar seu projeto-pai de vez em quando com uma referência para o último commit nesse subprojeto. Todos os comando do Git funcionam independente nos dois diretórios:
 
 	$ git log -1
 	commit 0550271328a0038865aad6331e620cd7238601bb
@@ -901,9 +901,9 @@ Você pode tratar o diretório `rack` como um projeto separado e atualizar seu p
 
 	    Document version change
 
-### Cloning a Project with Submodules ###
+### Fazendo Clone de um Projeto com Submódulos ###
 
-Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
+Aqui você vai fazer o clone de um projeto com um submódulo dentro. Quando você recebe um projeto como este, você tem os diretórios que contêm os submódulos, mas nenhum dos arquivos ainda:
 
 	$ git clone git://github.com/schacon/myproject.git
 	Initialized empty Git repository in /opt/myproject/.git/
@@ -919,7 +919,7 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
-The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
+O diretório `rack` está lá, mas vazio. Você precisa executar dois comandos: `git submodule init` para inicializar seu arquivo local de configuração, e `git submodule update` para buscar todos os dados do projeto e recuperar o commit apropriado conforme descrito em seu projeto-pai:
 
 	$ git submodule init
 	Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
@@ -932,7 +932,7 @@ The `rack` directory is there, but empty. You must run two commands: `git submod
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
+Agora seu subdiretório `rack` está na mesma situação que estava quando você fez o commit antes. Se outro desenvolvedor alterar o código de "rack" e fizer o commit, e você faz o pull e o merge, você vê algo um pouco estranho:
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -948,7 +948,7 @@ Now your `rack` subdirectory is at the exact state it was in when you committed 
 	#      modified:   rack
 	#
 
-You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory:
+Você fez o merge do que é basicamente um mudança para a referência do seu submódulo; mas isso não atualiza o código no diretório do submódulo, parece que você tem um estado sujo no seu diretório de trabalho:
 
 	$ git diff
 	diff --git a/rack b/rack
@@ -959,7 +959,7 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
+A causa disso é que a referência que você tem para o submódulo não é exatamente o que está no diretório do submódulo. Para corrigir isso, você precisa executat `git submodule update` novamente:
 
 	$ git submodule update
 	remote: Counting objects: 5, done.
@@ -970,15 +970,15 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
+Você tem que fazer isso toda as vezes que pegar uma alteração de um submódulo no projeto principal. É estranho, mas funciona.
 
-One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
+Um problema comum acontece quando um desenvolvedor faz uma alteração local em submódulo mas não a envia para um servidor público. Em seguida, ele faz o commit de uma referência para esse estado que não é publico e faz o push do projeto-pai. Quando outros desenvolvedores tentam executar `git submodule update`, o sistema do submódulo não consegue achar o commit para essa referência, porque ela só existe no sistema daquele primeiro desenvolvedor. Se isso acontecer, você verá um erro como este:
 
 	$ git submodule update
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
 
-You have to see who last changed the submodule:
+Você tem que ver quem alterou o submódulo pela última vez:
 
 	$ git log -1 rack
 	commit 85a3eee996800fcfa91e2119372dd4172bf76678
@@ -987,7 +987,7 @@ You have to see who last changed the submodule:
 
 	    added a submodule reference I will never make public. hahahahaha!
 
-Then, you e-mail that guy and yell at him.
+Em seguida, você envia um e-mail para esse cara e grita com ele.
 
 ### Superprojects ###
 

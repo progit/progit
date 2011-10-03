@@ -199,9 +199,16 @@ If all your commit messages look like this, things will be a lot easier for you 
 
 In the following examples, and throughout most of this book, for the sake of brevity I don’t format messages nicely like this; instead, I use the `-m` option to `git commit`. Do as I say, not as I do.
 
+### Отдельная маленькая команда ###
+
 ### Private Small Team ###
 
+Наиболее простая задача, с которой вы легко можете столкнуться — отдельный проект с одним или двумя другими разработчиками. Под термином отдельный я подразумеваю закрытый код, недоступный для чтения остальному миру. Вы, вместе с другими разработчиками, имеете право записи в репозиторий.
+
 The simplest setup you’re likely to encounter is a private project with one or two other developers. By private, I mean closed source — not read-accessible to the outside world. You and the other developers all have push access to the repository.
+
+В этом окружении вы можете последовать рабочему процессу, похожему на тот, который вы использовали бы в Subversion или другой централизованной системе. Вы по-прежнему получаете такие преимущества, как локальные коммиты (коммиты в offline) и возможность гораздо более простого ветвления и слияния, но сам рабочий процесс может оставаться очень похожим; главное отличие — во время выполнения коммита слияние происходит на стороне клиента, а не на сервере.
+Давайте посмотрим, как это может выглядеть, когда два разработчика начинают работать вместе с общим репозиторием. Первый разработчик, Джон, клонирует репозиторий, делает изменения, выполняет локальный коммит. (Я заменяю служебные сообщения знаком `...` в этих примерах, чтобы немного их сократить.)
 
 In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.
 Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)
@@ -216,6 +223,8 @@ Let’s see what it might look like when two developers start to work together w
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
+Второй разработчик, Джессика, выполняет тоже самое — клонирует репозиторий и делает коммит с изменениями:
+
 The second developer, Jessica, does the same thing — clones the repository and commits a change:
 
 	# Jessica's Machine
@@ -228,6 +237,8 @@ The second developer, Jessica, does the same thing — clones the repository and
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
+Теперь Джессика выкладывает свою работу на сервер:
+
 Now, Jessica pushes her work up to the server:
 
 	# Jessica's Machine
@@ -235,6 +246,8 @@ Now, Jessica pushes her work up to the server:
 	...
 	To jessica@githost:simplegit.git
 	   1edee6b..fbff5bc  master -> master
+
+Джон также пытается выложить свои изменения:
 
 John tries to push his change up, too:
 
@@ -244,6 +257,8 @@ John tries to push his change up, too:
 	 ! [rejected]        master -> master (non-fast forward)
 	error: failed to push some refs to 'john@githost:simplegit.git'
 
+Джон не может выполнить отправку изменений, так как за это время Джессика уже отправила свои. Очень важно это понимать, если вы использовали Subversion, так как вы видите, что два разработчика не редактировали один и тот же файл. Хотя Subversion и выполняет автоматическое слияние на сервере, если были отредактированы разные файлы, используя Git вы должны слить коммиты локально. Прежде чем Джон сможет отправить свои изменения на сервер, он должен извлечь наработки Джессики и выполнить слияние:
+
 John isn’t allowed to push because Jessica has pushed in the meantime. This is especially important to understand if you’re used to Subversion, because you’ll notice that the two developers didn’t edit the same file. Although Subversion automatically does such a merge on the server if different files are edited, in Git you must merge the commits locally. John has to fetch Jessica’s changes and merge them in before he will be allowed to push:
 
 	$ git fetch origin
@@ -251,10 +266,16 @@ John isn’t allowed to push because Jessica has pushed in the meantime. This is
 	From john@githost:simplegit
 	 + 049d078...fbff5bc master     -> origin/master
 
+На этот момент, локальный репозиторий Джона выглядит так, как показано на Рисунке 5-4.
+
 At this point, John’s local repository looks something like Figure 5-4.
 
-Insert 18333fig0504.png 
+Insert 18333fig0504.png
+Рисунок 5-4. Начальный репозиторий Джона.
+ 
 Figure 5-4. John’s initial repository.
+
+Джон имеет ссылку на изменения, выложенные Джессикой, и он должен слить их вместе со своей работой до того, как сможет отправить ее на сервер:
 
 John has a reference to the changes Jessica pushed up, but he has to merge them into his own work before he is allowed to push:
 
@@ -263,10 +284,16 @@ John has a reference to the changes Jessica pushed up, but he has to merge them 
 	 TODO |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
+Слияние происходит без проблем — история коммитов Джона теперь выглядит как на Рисунке 5-5.
+
 The merge goes smoothly — John’s commit history now looks like Figure 5-5.
 
-Insert 18333fig0505.png 
+Insert 18333fig0505.png
+Рисунок 5-5. Репозиторий Джона после слияния с версией origin/master.
+ 
 Figure 5-5. John’s repository after merging origin/master.
+
+Теперь Джон может протестировать его код, дабы удостовериться, что он по-прежнему работает нормально, а затем выложить свою работу, уже объединенную с работой Джессики, на сервер:
 
 Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
 
@@ -275,15 +302,25 @@ Now, John can test his code to make sure it still works properly, and then he ca
 	To john@githost:simplegit.git
 	   fbff5bc..72bbc59  master -> master
 
+В результате, история коммитов Джона выглядит как на Рисунке 5-6.
+
 Finally, John’s commit history looks like Figure 5-6.
 
 Insert 18333fig0506.png 
+Рисунок 5-6. История коммитов Джона после отправки изменений на сервер.
+
 Figure 5-6. John’s history after pushing to the origin server.
+
+Тем временем, Джессика работала над тематической веткой. Она создала тематическую ветку с названием `issue54` и сделала три коммита в этой ветке. Она еще не извлекала изменения Джонна, так что ее история коммитов выглядит как на Рисунке 5-7.
 
 In the meantime, Jessica has been working on a topic branch. She’s created a topic branch called `issue54` and done three commits on that branch. She hasn’t fetched John’s changes yet, so her commit history looks like Figure 5-7.
 
 Insert 18333fig0507.png 
+Рисунок 5-7. Начальная история коммитов Джессики.
+
 Figure 5-7. Jessica’s initial commit history.
+
+Джессика хочет синхронизировать свою работу с Джоном, так что она извлекает изменения с сервера:
 
 Jessica wants to sync up with John, so she fetches:
 
@@ -293,10 +330,16 @@ Jessica wants to sync up with John, so she fetches:
 	From jessica@githost:simplegit
 	   fbff5bc..72bbc59  master     -> origin/master
 
+Эта команда извлекает наработки Джона, которые он успел выложить. История коммитов Джессики теперь выглядит как на Рисунке 5-8.
+
 That pulls down the work John has pushed up in the meantime. Jessica’s history now looks like Figure 5-8.
 
-Insert 18333fig0508.png 
+Insert 18333fig0508.png
+Рисунок 5-8. История коммитов Джессики после извлечения изменений Джона.
+ 
 Figure 5-8. Jessica’s history after fetching John’s changes.
+
+Джессика полагает, что ее тематическая ветка закончена, но она хочет узнать, как выполнить слияние своей работы, чтобы она могла выложить ее на сервер. Она выполняет команду `git log` чтобы выяснить это:
 
 Jessica thinks her topic branch is ready, but she wants to know what she has to merge her work into so that she can push. She runs `git log` to find out:
 
@@ -307,11 +350,15 @@ Jessica thinks her topic branch is ready, but she wants to know what she has to 
 
 	    removed invalid default value
 
+Теперь Джессика может слить свою тематическую ветку с ее основной веткой, слить работу Джона (`origin/master`) с ее веткой `master` и, затем, отправить изменения на сервер. Сначала она переключается на свою основную ветку, чтобы объединить всю эту работу:
+
 Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:
 
 	$ git checkout master
 	Switched to branch "master"
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
+
+Сначала она может слить ветку `origin/master` или `issue54` — обе они находятся выше в истории коммитов, так что не важно какой порядок слияния она выберет. Конечное состояние репозитория должно быть идентично независимо от того, какой порядок слияния она выбрала; только история коммитов будет немного разная. Сначала она выполняет слияние для ветки `issue54`:
 
 She can merge either `origin/master` or `issue54` first — they’re both upstream, so the order doesn’t matter. The end snapshot should be identical no matter which order she chooses; only the history will be slightly different. She chooses to merge in `issue54` first:
 
@@ -322,6 +369,8 @@ She can merge either `origin/master` or `issue54` first — they’re both upstr
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
+Никаких проблем не возникает; как вы видите, это был обычный fast-forward. Теперь Джессика выполняет слияние с работой Джона (`origin/master`):
+
 No problems occur; as you can see it, was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
 
 	$ git merge origin/master
@@ -330,10 +379,16 @@ No problems occur; as you can see it, was a simple fast-forward. Now Jessica mer
 	 lib/simplegit.rb |    2 +-
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
+Слияние проходит нормально, и теперь история коммитов Джессики выглядит как на Рисунке 5-9.
+
 Everything merges cleanly, and Jessica’s history looks like Figure 5-9.
 
-Insert 18333fig0509.png 
+Insert 18333fig0509.png
+Рисунок 5-9. История коммитов Джессики после слияния с изменениями Джона.
+ 
 Figure 5-9. Jessica’s history after merging John’s changes.
+
+Теперь указатель `origin/master` доступен из ветки `master` Джессики, так что она может спокойно выкладывать свои изменения (полагая, что Джон не выкладывал свои изменения в это время):
 
 Now `origin/master` is reachable from Jessica’s `master` branch, so she should be able to successfully push (assuming John hasn’t pushed again in the meantime):
 
@@ -342,14 +397,22 @@ Now `origin/master` is reachable from Jessica’s `master` branch, so she should
 	To jessica@githost:simplegit.git
 	   72bbc59..8059c15  master -> master
 
+Каждый разработчик несколько раз выполнял коммиты и успешно сливал свою работу с работой другого; смотри Рисунок 5-10.
+
 Each developer has committed a few times and merged each other’s work successfully; see Figure 5-10.
 
-Insert 18333fig0510.png 
+Insert 18333fig0510.png
+Рисунок 5-10. История коммитов Джессики после отправки всех изменений обратно на сервер.
+ 
 Figure 5-10. Jessica’s history after pushing all changes back to the server.
+
+Это один из простейших рабочих процессов. Вы работаете некоторое время, преимущественно в тематической ветке, и, когда приходит время, сливаете ее в вашу ветку master. Когда вы готовы поделиться этой работой с другими, вы сливаете ее в вашу ветку master, извлекаете изменения из `origin/master` и выполняете слияние (если за это время произошли изменения), и, наконец, отправляете изменения в ветку `master` на сервер. Общая последовательность действий выглядит так, как показано на Рисунке 5-11.
 
 That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
 
-Insert 18333fig0511.png 
+Insert 18333fig0511.png
+Рисунок 5-11. Общая последовательность событий для простого рабочего процесса в Git'е с несколькими разработчиками.
+ 
 Figure 5-11. General sequence of events for a simple multiple-developer Git workflow.
 
 ### Private Managed Team ###

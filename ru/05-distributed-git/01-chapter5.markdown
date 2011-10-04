@@ -415,11 +415,19 @@ Insert 18333fig0511.png
  
 Figure 5-11. General sequence of events for a simple multiple-developer Git workflow.
 
+### Отдельная команда с менеджером ###
+
 ### Private Managed Team ###
+
+В этом сценарии мы рассмотрим роли участников проекта, являющихся членами больших отдельных групп. Вы научитесь работе в окружении, где маленькие группы совместно работают над задачами, результаты деятельности которых, впоследствии, объединяется отдельной группой лиц.
 
 In this next scenario, you’ll look at contributor roles in a larger private group. You’ll learn how to work in an environment where small groups collaborate on features and then those team-based contributions are integrated by another party.
 
+Давайте представим, что Джон и Джессика работают вместе над одной задачей, в то время как Джессика и Джози работают над другой. В этом случае компания использует рабочий процесс с менеджером по интеграции, когда работа частных групп объединяется только определенными инженерами (обновление ветки `master` главного репозитория может осуществляться только этими инженерами). В этом случае вся работа выполняется в ветках отдельных команд разработчиков и, впоследствии, объединяется вместе менеджерами по интеграции.
+
 Let’s say that John and Jessica are working together on one feature, while Jessica and Josie are working on a second. In this case, the company is using a type of integration-manager workflow where the work of the individual groups is integrated only by certain engineers, and the `master` branch of the main repo can be updated only by those engineers. In this scenario, all work is done in team-based branches and pulled together by the integrators later.
+
+Давайте рассмотрим рабочий процесс Джессики, которая работает над двумя задачами и, таким образом, одновременно принимает участие в работе с двумя другими разработчиками. Полагая, что она уже имеет ее собственную копию репозитория, Джессика решает сначала взяться за задачу `featureA`. Для этого она создает новую ветку и выполняет на ней некоторую работу:
 
 Let’s follow Jessica’s workflow as she works on her two features, collaborating in parallel with two different developers in this environment. Assuming she already has her repository cloned, she decides to work on `featureA` first. She creates a new branch for the feature and does some work on it there:
 
@@ -431,6 +439,8 @@ Let’s follow Jessica’s workflow as she works on her two features, collaborat
 	[featureA 3300904] add limit to log function
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
+На этом этапе ей требуется поделиться своей работой с Джоном, так что она отправляет коммиты, выполненные на ветке `featureA`, на сервер. Так как Джессика не имеет право на изменения ветки `master` на сервере — только менеджеры по интеграции могут делать это — она вынуждена отправлять изменения в другую ветку, чтобы иметь возможность работать вместе с Джоном:
+
 At this point, she needs to share her work with John, so she pushes her `featureA` branch commits up to the server. Jessica doesn’t have push access to the `master` branch — only the integrators do — so she has to push to another branch in order to collaborate with John:
 
 	$ git push origin featureA
@@ -438,12 +448,16 @@ At this point, she needs to share her work with John, so she pushes her `feature
 	To jessica@githost:simplegit.git
 	 * [new branch]      featureA -> featureA
 
+Джессика сообщает по электронной почте Джону, что она выложила некоторые наработки в ветку `featureA`, и что он может проверить их. Пока Джессика ждет ответа от Джона, она решает начать работу над веткой `featureB` вместе с Джози. Для начала она создает новую ветку для этой задачи, используя в качестве основы ветку `master` на сервере:
+
 Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch:
 
 	# Jessica's Machine
 	$ git fetch origin
 	$ git checkout -b featureB origin/master
 	Switched to a new branch "featureB"
+
+Теперь Джессика выполняет пару коммитов в ветке `featureB`:
 
 Now, Jessica makes a couple of commits on the `featureB` branch:
 
@@ -456,10 +470,16 @@ Now, Jessica makes a couple of commits on the `featureB` branch:
 	[featureB 8512791] add ls-files
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
+Репозиторий Джессики выглядит как на Рисунке 5-12.
+
 Jessica’s repository looks like Figure 5-12.
 
 Insert 18333fig0512.png 
+Рисунок 5-12. Начальная история коммитов Джессики.
+
 Figure 5-12. Jessica’s initial commit history.
+
+Джессика уже готова выложить на сервер свою работу, но получает сообщение от Джози, говорящее о том, что некоторые наработки уже были выложены на сервер в ветку `featureBee`. Поэтому Джессика должна сначала слить эти изменения со своими, прежде чем она сможет отправить свою работу на сервер. Она может извлечь изменения Джози командой `git fetch`:
 
 She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`:
 
@@ -467,6 +487,8 @@ She’s ready to push up her work, but gets an e-mail from Josie that a branch w
 	...
 	From jessica@githost:simplegit
 	 * [new branch]      featureBee -> origin/featureBee
+
+Теперь Джессика может слить эти изменения со своими наработками командой `git merge`:
 
 Jessica can now merge this into the work she did with `git merge`:
 
@@ -476,6 +498,8 @@ Jessica can now merge this into the work she did with `git merge`:
 	 lib/simplegit.rb |    4 ++++
 	 1 files changed, 4 insertions(+), 0 deletions(-)
 
+Есть небольшая проблема — ей нужно выложить изменения из ее ветки `featureB` в ветку `featureBee` на сервере. Она может сделать это при помощи команды `git push`, последовательно указывая название локальной и удаленной веток, разделенные знаком двоеточия:
+
 There is a bit of a problem — she needs to push the merged work in her `featureB` branch to the `featureBee` branch on the server. She can do so by specifying the local branch followed by a colon (:) followed by the remote branch to the `git push` command:
 
 	$ git push origin featureB:featureBee
@@ -483,7 +507,11 @@ There is a bit of a problem — she needs to push the merged work in her `featur
 	To jessica@githost:simplegit.git
 	   fba9af8..cd685d1  featureB -> featureBee
 
+Это называется _refspec_. Смотри Главу 9, где более детально обсуждаются спецификации ссылок и различные вещи, которые вы можете делать с ними.
+
 This is called a _refspec_. See Chapter 9 for a more detailed discussion of Git refspecs and different things you can do with them.
+
+Далее, Джон сообщает Джессике по почте, что он добавил некоторые изменения в ветку `featureA` и просит ее проверить их. Она выполняет `git fetch` чтобы получить внесенные Джоном изменения:
 
 Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` branch and ask her to verify them. She runs a `git fetch` to pull down those changes:
 
@@ -491,6 +519,8 @@ Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` b
 	...
 	From jessica@githost:simplegit
 	   3300904..aad881d  featureA   -> origin/featureA
+
+Затем, применяя команду `git log` она смотрит, что же было изменено:
 
 Then, she can see what has been changed with `git log`:
 
@@ -500,6 +530,8 @@ Then, she can see what has been changed with `git log`:
 	Date:   Fri May 29 19:57:33 2009 -0700
 
 	    changed log output to 30 from 25
+
+Наконец, она сливает работу Джона в свою собственную ветку `featureA`:
 
 Finally, she merges John’s work into her own `featureA` branch:
 
@@ -511,6 +543,8 @@ Finally, she merges John’s work into her own `featureA` branch:
 	 lib/simplegit.rb |   10 +++++++++-
 	1 files changed, 9 insertions(+), 1 deletions(-)
 
+Джессика хочет кое-что подправить, так что она опять делает коммит и затем выкладывает изменения на сервер:
+
 Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
 
 	$ git commit -am 'small tweak'
@@ -521,19 +555,31 @@ Jessica wants to tweak something, so she commits again and then pushes this back
 	To jessica@githost:simplegit.git
 	   3300904..ed774b3  featureA -> featureA
 
+История коммитов Джессики теперь выглядит так, как показано на Рисунке 5-13.
+
 Jessica’s commit history now looks something like Figure 5-13.
 
 Insert 18333fig0513.png 
+Рисунок 5-13. История Джессики после внесения коммитов в ветку с решаемой задачей.
+
 Figure 5-13. Jessica’s history after committing on a feature branch.
 
-Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14.
+Джессика, Джози и Джон информируют менеджеров по интеграции, что ветки `featureA` и `featureBee` на сервере готовы к внесению в основную версию разработки. После того, как они внесут эти ветки в основную версию, извлечение данных с сервера (fetch) приведет к появлению новых коммитов слияния. Таким образом, история коммитов станет выглядеть как на Рисунке 5-14.
+
+Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14. 
 
 Insert 18333fig0514.png 
+Рисунок 5-14. История коммитов Джессики после слияния двух тематических веток.
+
 Figure 5-14. Jessica’s history after merging both her topic branches.
+
+Множество групп переходят на Git именно из-за возможности работы нескольких команд в параллели с последующим объединением разных линий разработки. Огромное преимущество Git'а  — возможность маленьких подгрупп большой команды работать вместе через удаленные ветки, не мешая при этом всей команде. Последовательность событий в рассмотренном здесь рабочем процессе представлена на Рисунке 5-15.
 
 Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
 
 Insert 18333fig0515.png 
+Рисунок 5-15. Основная последовательность действий для рабочего процесса в команде с менеджером по интеграции.
+
 Figure 5-15. Basic sequence of this managed-team workflow.
 
 ### Public Small Project ###

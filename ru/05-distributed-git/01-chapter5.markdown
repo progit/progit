@@ -573,7 +573,7 @@ Insert 18333fig0514.png
 
 Figure 5-14. Jessica’s history after merging both her topic branches.
 
-Множество групп переходят на Git именно из-за возможности работы нескольких команд в параллели с последующим объединением разных линий разработки. Огромное преимущество Git'а  — возможность маленьких подгрупп большой команды работать вместе через удаленные ветки, не мешая при этом всей команде. Последовательность событий в рассмотренном здесь рабочем процессе представлена на Рисунке 5-15.
+Множество групп переходят на Git именно из-за возможности работы нескольких команд в параллели с последующим объединением разных линий разработки. Огромное преимущество Git'а — возможность маленьких подгрупп большой команды работать вместе через удаленные ветки, не мешая при этом всей команде. Последовательность событий в рассмотренном здесь рабочем процессе представлена на Рисунке 5-15.
 
 Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
 
@@ -582,9 +582,15 @@ Insert 18333fig0515.png
 
 Figure 5-15. Basic sequence of this managed-team workflow.
 
+### Небольшой открытый проект ###
+
 ### Public Small Project ###
 
+Работа в открытом проекте является несколько иной задачей. Так как вы не имеете права на прямое изменение веток проекта, требуется некоторый другой путь для обмена наработками с мейнтейнерами. Первый пример описывает участие в проекте через разветвление (fork) на хосте Git'а, выполнять которое достаточно просто. Оба сайта, repo.or.cz и Github, поддерживают такую возможность, и большая часть мейнтейнеров проектов придерживаются такого способа содействия. В следующем разделе рассматриваются проекты, в которых патчи принимаются по e-mail.
+
 Contributing to public projects is a bit different. Because you don’t have the permissions to directly update branches on the project, you have to get the work to the maintainers some other way. This first example describes contributing via forking on Git hosts that support easy forking. The repo.or.cz and GitHub hosting sites both support this, and many project maintainers expect this style of contribution. The next section deals with projects that prefer to accept contributed patches via e-mail.
+
+Сначала вы скорее всего захотите клонировать основной репозиторий, создать тематическую ветку одного или нескольких патчей, которые вы собираетесь внести в проект, и выполнить здесь некоторую работу. Последовательность действий выглядит следующим образом:
 
 First, you’ll probably want to clone the main repository, create a topic branch for the patch or patch series you’re planning to contribute, and do your work there. The sequence looks basically like this:
 
@@ -596,17 +602,27 @@ First, you’ll probably want to clone the main repository, create a topic branc
 	$ (work)
 	$ git commit
 
+Возможно вы захотите использовать `rebase -i`, чтобы сжать ваши наработки в единый коммит, или таким образом реорганизовать наработки в коммитах, чтобы их было проще воспринимать мейнтейнерам проекта. Смотри Главу 6 для более детальной информации об интерактивном перемещении.
+
 You may want to use `rebase -i` to squash your work down to a single commit, or rearrange the work in the commits to make the patch easier for the maintainer to review — see Chapter 6 for more information about interactive rebasing.
+
+Когда вы закончили работу с веткой и готовы поделиться наработками с мейнтейнерами, перейдите на страницу исходного проекта и нажмите кнопку "Fork", создав таким образом вашу собственную ветвь проекта с правами записи в нее. Далее вы должны добавить URL этого нового репозитория в список удаленных репозиториев, назвав его, например как в этом случае, `myfork`:  
 
 When your branch work is finished and you’re ready to contribute it back to the maintainers, go to the original project page and click the "Fork" button, creating your own writable fork of the project. You then need to add in this new repository URL as a second remote, in this case named `myfork`:
 
 	$ git remote add myfork (url)
 
+Свои наработки вы должны выкладывать в этот репозиторий. Гораздо проще добавить в ваш репозиторий ветку, над которой вы работаете, как удаленную, чем сливать ее в вашу ветку master и выкладывать. Это объясняется тем следующим образом — если ваша работа не принята или частично отобрана вы не должны перематывать вашу ветку master. Если мейнтейнеры выполняют слияние, перемещение или частично отбирают вашу работу, вы, в конечном счете, можете получить ее обратно скачивая (pulling) из их репозитория:
+
 You need to push your work up to it. It’s easiest to push the remote branch you’re working on up to your repository, rather than merging into your master branch and pushing that up. The reason is that if the work isn’t accepted or is cherry picked, you don’t have to rewind your master branch. If the maintainers merge, rebase, or cherry-pick your work, you’ll eventually get it back via pulling from their repository anyhow:
 
 	$ git push myfork featureA
 
+Когда ваши наработки были отправлены в ваш репозиторий, вы должны уведомить мейнтейнера. Часто это называется запросом на включение (pull request) и вы можете либо сгенерировать его через сайт — на GitHub'е есть кнопка "pull request", автоматически уведомляющая мейнтейнера — либо выполнить команду `git request-pull` и вручную отправить ее вывод по почте мейнтейнеру.
+
 When your work has been pushed up to your fork, you need to notify the maintainer. This is often called a pull request, and you can either generate it via the website — GitHub has a "pull request" button that automatically messages the maintainer — or run the `git request-pull` command and e-mail the output to the project maintainer manually.
+
+Команда `request-pull` принимает в качестве аргумента название базовой ветки, в которую вы хотите включить вашу работу, и URL репозитория, из которого эти наработки могут быть получены. Команда выводит в список всех изменений, которые вы просите включить в проект. Например, если Джессика хочет послать Джону pull request когда она сделала пару коммитов в тематической ветке, которую она только что выложила, ей следует выполнить:
 
 The `request-pull` command takes the base branch into which you want your topic branch pulled and the Git repository URL you want them to pull from, and outputs a summary of all the changes you’re asking to be pulled in. For instance, if Jessica wants to send John a pull request, and she’s done two commits on the topic branch she just pushed up, she can run this:
 
@@ -626,7 +642,11 @@ The `request-pull` command takes the base branch into which you want your topic 
 	 lib/simplegit.rb |   10 +++++++++-
 	 1 files changed, 9 insertions(+), 1 deletions(-)
 
+Вывод может быть отправлен мейнтейнеру — он содержит список коммитов, информацию о том, где начинается ветка с изменениями, указывает, откуда забрать эти изменения.
+
 The output can be sent to the maintainer—it tells them where the work was branched from, summarizes the commits, and tells where to pull this work from.
+
+Для проекта, мейнтейнером которого вы не являетесь, проще иметь ветку `master`, которая отслеживает ветку `origin/master`, и выполнять работу в тематических ветках, которые вы легко можете удалить, если они были отклонены. Если вы распределяете свои наработки по различным темам внутри тематических веток, вам проще выполнить перемещение своей работы, в случае если верхушка главного репозитория была передвинута за это время и ваши коммиты уже не получается применить без конфликтов. Например, если вы хотите выполнить работу по второй теме, не продолжайте работу внутри тематической ветки, которую вы только что отправили - начните снова с ветки `master` главного репозитория:
 
 On a project for which you’re not the maintainer, it’s generally easier to have a branch like `master` always track `origin/master` and to do your work in topic branches that you can easily discard if they’re rejected.  Having work themes isolated into topic branches also makes it easier for you to rebase your work if the tip of the main repository has moved in the meantime and your commits no longer apply cleanly. For example, if you want to submit a second topic of work to the project, don’t continue working on the topic branch you just pushed up — start over from the main repository’s `master` branch:
 
@@ -637,10 +657,16 @@ On a project for which you’re not the maintainer, it’s generally easier to h
 	$ (email maintainer)
 	$ git fetch origin
 
+Теперь каждая из ваших тем представляет собой нечто похожее на очередь из патчей, которую вы можете перезаписывать, перемещать, модифицировать без взаимного влияния одной на другую, как показано на Рисунке 5-16.
+
 Now, each of your topics is contained within a silo — similar to a patch queue — that you can rewrite, rebase, and modify without the topics interfering or interdepending on each other as in Figure 5-16.
 
-Insert 18333fig0516.png 
+Insert 18333fig0516.png
+Рисунок 5-16. Начальная история коммитов при работе в featureB.
+ 
 Figure 5-16. Initial commit history with featureB work.
+
+Давайте представим, что мейнтейнер проекта включил в основную версию группу патчей. Далее он попытается включить вашу первую ветку, но слияние уже не проходит гладко. В этом случае вы можете попробовать переместить эту ветку на верхушку ветки `origin/master`, разрешить конфликты для мейнтейнера и, затем, заново предложить ваши изменения:
 
 Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes:
 
@@ -648,12 +674,20 @@ Let’s say the project maintainer has pulled in a bunch of other patches and tr
 	$ git rebase origin/master
 	$ git push -f myfork featureA
 
+Это изменит вашу историю коммитов, и она станет выглядеть как на Рисунке 5-17.
+
 This rewrites your history to now look like Figure 5-17.
 
 Insert 18333fig0517.png 
+Рисунок 5-17. История коммитов после работы в featureA.
+
 Figure 5-17. Commit history after featureA work.
 
+Так как вы переместили ветку, в команде push вы должны указать опцию `-f`, чтобы иметь возможность заменить ветку `featureA` на сервере. Есть альтернатива — выложить новую работу в другую ветку на сервере (возможно, назвав ее `featureAv2`).
+
 Because you rebased the branch, you have to specify the `-f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
+
+Давайте рассмотрим более возможный сценарий: мейнтейнер просмотрел на вашу работу во второй ветке и ему понравилась идея, но он хотел бы, чтобы вы изменили некоторые детали реализации. Также вы используете эту возможность для того, чтобы переместить вашу работу так, чтобы она базировалась на текущей версии ветки `master` проекта. Вы создадите новую ветку, базирующуюся на текущей ветке `origin/master`, сожмете изменения из ветки `featureB`, решите все конфликты, которые могут возникнуть, выполните требуемые изменения в реализации вашей идеи и, затем, выложите все это в виде новой ветки:
 
 Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
 
@@ -663,11 +697,17 @@ Let’s look at one more possible scenario: the maintainer has looked at work in
 	$ git commit
 	$ git push myfork featureBv2
 
+Опция `--squash` берет все работу на сливаемой ветке (featureB) и сжимает ее в non-merge коммит (коммит без слияния) на верхушку ветки, на которой вы сейчас находитесь. Опция `--no-commit` сообщает Git'у, что не нужно автоматически записывать коммит в историю. Это позволяет вам внести все изменения с другой ветки и, затем, сделать еще ряд изменений перед записыванием нового коммита.
+
 The `--squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `--no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit.
+
+Теперь вы можете отправить мейнтейнеру сообщение о том, что вы сделали требуемые изменения и они могут быть найдены в вашей ветке `featureBv2` (смотри Рисунок 5-18).
 
 Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `featureBv2` branch (see Figure 5-18).
 
-Insert 18333fig0518.png 
+Insert 18333fig0518.png
+Рисунок 5-18. История коммитов после работы на featureBv2.
+ 
 Figure 5-18. Commit history after featureBv2 work.
 
 ### Public Large Project ###

@@ -620,7 +620,7 @@ The second level, applicable only to "write" access, is by branch or tag within 
 
 ### Advanced Access Control with "deny" rules ###
 
-So far, we've only seen permissions to be one or `R`, `RW`, or `RW+`.  However, gitolite allows another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
+So far, we've only seen permissions to be one of `R`, `RW`, or `RW+`.  However, gitolite allows another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
 
 Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  Here's how to do that:
 

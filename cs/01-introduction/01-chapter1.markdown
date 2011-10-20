@@ -14,9 +14,9 @@ jakýkoli druh souborů.
 
 Pokud jste grafik nebo web-designer a chcete si schovat každou verzi obrázku nebo
 rozvržení stránky (což zcela jistě budete chtít), je velmi moudré rozhodnutí použít
-systém pro správu verzí (CSV).[^1] Umožňuje vám vrátit jednotlivé soubory nebo celý projekt
+systém pro správu verzí (SSV).[^1] Umožňuje vám vrátit jednotlivé soubory nebo celý projekt
 do nějakého z předchozích stavů, porovnávat změny, vidět, kdo naposledy změnil soubor, ve kterém
-se objevil nějaký problém, kdo napsal chybový kód a mnohé další ... Používat CSV také obecně
+se objevil nějaký problém, kdo napsal chybový kód a mnohé další ... Používat SSV také obecně
 znamená, že pokud něco zkazíte nebo přijdete o nějaké soubory, můžete se jed\-no\-du\-še vrátit.
 Navíc s minimálními režijními náklady.
 
@@ -29,28 +29,28 @@ např. datem, pokud jsou chytřejší. Tento přístup je oblíbený pro svoji j
 je neskutečně chybový. Je tak jednoduché zapomenout, ve kterém adresáři se zrovna nacházíte,
 a omylem zapsat do špatného souboru nebo chybně kopírovat.
 
-Kdysi dávno právě z těchto důvodů vznikly místní CSV, které v jednoduché databázi udržovaly
+Kdysi dávno právě z těchto důvodů vznikly místní SSV, které v jednoduché databázi udržovaly
 všechny změny spravovaných souborů (obr. 1-1).
 
 Insert 18333fig0101.png 
-Obrázek 1-1. Místní CSV
+Obrázek 1-1. Místní SSV
 
-Jeden z populárnějších CSV byl program rcs, který je stále ještě dodáván i s mnoha dnešními počítači.
+Jeden z populárnějších SSV byl program rcs, který je stále ještě dodáván i s mnoha dnešními počítači.
 Zvláště populární operační systém Mac OS X obsahuje příkaz rcs, když instalujete Developer Tools.
 Funguje v podstatě na principu uchovávání patchů mezi jednotlivými změnami ve speciálním formátu
 na disku, takže může obnovit jakýkoli bod v minulosti aplikováním všech těchto patchů v sérii.
 
 ### Centralizované systémy správy verzí ###
 
-Další požadavek na CSV je, aby umožnil spolupráci více vývojářů z různých koutů světa. Proto byly vytvořeny
-centralizované systémy správy verzí (CCSV). Tyto systémy, jako např. CVS, Subversion nebo Perforce,
+Další požadavek na SSV je, aby umožnil spolupráci více vývojářů z různých koutů světa. Proto byly vytvořeny
+centralizované systémy správy verzí (SSV). Tyto systémy, jako např. CVS, Subversion nebo Perforce,
 mají vždy jeden server, který obsahuje všechny spravované soubory ve všech verzích, a množství klientů,
 již stahují soubory z tohoto jednoho centrálního místa. Po mnoho let byl toto standard ve správě verzí (obr. 1-2).
 
 Insert 18333fig0102.png 
-Obrázek 1-2. Centralizovaný CSV
+Obrázek 1-2. Centralizovaný SSV
 
-Toto uspořádání přináší mnoho výhod, zvláště proti místním CSV. Třeba všichni ví do jisté míry, kdo další
+Toto uspořádání přináší mnoho výhod, zvláště proti místním SSV. Třeba všichni ví do jisté míry, kdo další
 se ještě na projektu podílí. Administrátoři mají přesnou kontrolu nad tím, kdo co dělá -- je to daleko jednodušší
 než spravovat místní databáze u každého klienta zvlášť.
 
@@ -58,18 +58,18 @@ Samozřejmě to má i vážná úskalí. Nejviditelnější je asi ten jeden jed
 serverem. Když má server hodinový výpadek, pak samozřejmě behem této hodiny nikdo nepřispěje, nikdo nemůže uložit
 své provedené změny na projektu, na kterém právě pracuje. Pokud dojde k poruše harddisku centrální databáze a nikdo dostatečně nezálohoval,
 pak ztratíte absolutně všechno. Kompletní historii projektu kromě nějakých osamělých kopií, které mají uživatelé a vývojáři na svém
-vlastním počítači. Tím mimochodem trpí i místní CSV -- jakmile máte všechno na jednom místě, riskujete,
+vlastním počítači. Tím mimochodem trpí i místní SSV -- jakmile máte všechno na jednom místě, riskujete,
 že při neopatrnosti nebo poruše jednoduše přijdete o všechno.
 
 ### Distribuované systémy správy verzí ###
 
-Proto nastoupily na scénu distribuované CSV (DCSV). V takovém systému (Git, Mercurial, Bazaar, Darcs apod.)
+Proto nastoupily na scénu distribuované SSV (DSSV). V takovém systému (Git, Mercurial, Bazaar, Darcs apod.)
 klient neuchovává jen poslední verzi souborů, nýbrž vytváří kompletní duplikát repozitáře. Pak pokud nějaký
 server v těchto podmínkách odejde do počítačového nebe, nic se vlastně nestane. Jakýkoli repozitář u klienta
 je možno nahrát zpět na server a jede se dál. Každý checkout je v podstatě kompletní záloha všech dat (obr. 1-3)
 
 Insert 18333fig0103.png 
-Obrázek 1-3. Distribuovaný CSV
+Obrázek 1-3. Distribuovaný SSV
 
 Navíc mnoho těchto systémů umí slušně pracovat s více vzdálenými repozitáři najednou, takže můžete spolupracovat
 s různými skupinami lidí na různých částech téhož projektu. To umožňuje mít různé způsoby organizace práce,
@@ -79,11 +79,11 @@ které v centralizovaných systémech vůbec nejsou možné, jako je hierarchick
 
 Stejně jako mnoho velkých událostí i historie Gitu začíná trochou tvořivé destrukce a prudké kontroverze.
 Linuxové jádro je dosti rozsáhlý open-source softwarový projekt. Nejprve docela dlouho (1991-2002) byly
-změny kódu prováděny jako patche a archivované soubory. V roce 2002 pak projekt přešel na proprietární DCSV
+změny kódu prováděny jako patche a archivované soubory. V roce 2002 pak projekt přešel na proprietární DSSV
 BitKeeper.
 
 Po třech letech (2005) ochladly vztahy mezi vývojáři jádra a firmou, která BitKepper vyvinula, už neměl být zdarma,
-a tak se komunita vývojářů jádra (zvláště Linus Torvalds, tvůrce Linuxu) rozhodla vytvořit vlastní DCSV
+a tak se komunita vývojářů jádra (zvláště Linus Torvalds, tvůrce Linuxu) rozhodla vytvořit vlastní DSSV
 postavený na získaných zkušenostech z BitKeeperu. Požadované vlastnosti nového systému byly:
 
 *	Rychlost
@@ -99,13 +99,13 @@ pro nelineární vývoj.
 ## Základy Gitu ##
 Takže v kostce, co je to Git? Tohle je důležité vědět, protože pokud budete rozumět, co to Git je a jak zhruba funguje,
 bude pro vás pravděpodobně výrazně jednodušší ho používat efektivně. Až se Git naučíte, zkuste zapomenout všechno,
-co jste věděli o ostatních CSV jako Subversion nebo Perforce. Git ukládá informace a přemýšlí o nich naprosto
+co jste věděli o ostatních SSV jako Subversion nebo Perforce. Git ukládá informace a přemýšlí o nich naprosto
 odlišným způsobem i přesto, že uživatelské rozhraní je dosti podobné. Porozumět těmto drobným rozdílům pomůže
 překonat možnou prvotní zmatenost z přechodu na Git.
 
 ### Snapshoty, ne rozdíly ###
 
-Hlavní rozdíl mezi Gitem a ostatními CSV (Subversion a jeho přátelé) je způsob, jakým Git přemýšlí nad svými daty.
+Hlavní rozdíl mezi Gitem a ostatními SSV (Subversion a jeho přátelé) je způsob, jakým Git přemýšlí nad svými daty.
 Koncepcí většiny ostatních systémů je ukládat informace jako seznam změn v jednotlivých souborech. Udržují si sadu souborů
 a změny v nich provedené (obr. 1-4).
 
@@ -113,7 +113,7 @@ Insert 18333fig0104.png
 Obrázek 1-4. Ostatní systémy ukládají data jako změny každého souboru.
 
 Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho snapshotů malého filesystému. Pokaždé, když commitnete[^2]
-stav svého projektu do Gitu, jednoduše si udělá obraz, o tom jak právě teď vypadají všechny soubory, a uloží ho. Pro úsporu
+stav svého projektu do Gitu, jednoduše si udělá snímek, o tom jak právě teď vypadají všechny soubory, a uloží ho. Pro úsporu
 si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor. Git přemýšlí nad daty asi jako na obrázku 1-5.
 
 [^2]: Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
@@ -121,14 +121,14 @@ si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor
 Insert 18333fig0105.png 
 Obrázek 1-5. Git ukládá data jako snapshoty projektu.
 
-To je důležitý rozdíl mezi Gitem a skoro všemi ostatními CSV. Nutí to Git znovu uvážit téměř každý aspekt správy verzí, které většina
+To je důležitý rozdíl mezi Gitem a skoro všemi ostatními SSV. Nutí to Git znovu uvážit téměř každý aspekt správy verzí, které většina
 ostatních systémů převzala z předchozí generace. To dělá z Gitu spíše malý filesystém s několika neuvěřitelně mocnými nástroji
-nad sebou než prostě CSV. K některým výhodám tohoto přístupu dojdeme v kapitole 3, kde se budeme zabývat větvením vývojového stromu.
+nad sebou než prostě SSV. K některým výhodám tohoto přístupu dojdeme v kapitole 3, kde se budeme zabývat větvením vývojového stromu.
 
 ### Většině operací stačí váš stroj ###
 
 Drtivá většina operací v Gitu nepotřebuje víc než místní soubory a zdroje. Obecně nepotřebuje žádnou informaci z jiného než vašeho stroje.
-Pokud jste zvyklí na CCSV, kde téměř všechny operace mají režijní náklady zvýšené o zpoždění na síti, pak si budete myslet, že božstvo rychlosti
+Pokud jste zvyklí na CSSV, kde téměř všechny operace mají režijní náklady zvýšené o zpoždění na síti, pak si budete myslet, že božstvo rychlosti
 požehnalo Gitu a udělilo mu nadzemskou moc. Protože máte celou historii projektu právě u sebe na místním disku, vypadá většina operací,
 že jsou vykonány okamžitě.
 
@@ -161,7 +161,7 @@ hashe jeho obsahu.
 ### Git obecně jen přidává data ###
 
 Pokud něco v Gitu děláte, téměř cokoli z toho jen přidá data do jeho databáze. Je opravdu obtížné donutit systém udělat něco, co by se nedalo vrátit,
-nebo donutit ho nějakým způsobem smazat svoje data. Jako v každém CSV můžete samozřejmě ztratit změny provedené od posledního commitu,
+nebo donutit ho nějakým způsobem smazat svoje data. Jako v každém SSV můžete samozřejmě ztratit změny provedené od posledního commitu,
 ale jakmile jsou commitnuty, je velmi obtížné o ně přijít, zvláště pak pokud pravidelně zálohujete databázi do jiného repozitáře.
 
 Je pak radost používat Git, protože víte, že můžete experimentovat bez nebezpečí, že byste si něco vážně poškodili. Pro hlubší náhled do problematiky,
@@ -187,7 +187,7 @@ Obrázek 1-6. Git directory, working directory a staging area
 Git directory je místo, kde Git skladuje svoje vnitřní data a databázi objektů vašeho projektu. To je ta nejdůležitější část Gitu,
 která se kopíruje, pokud si stahujete repozitář z jiného počítače.
 
-Working directory je samotný obraz jedné verze spravovaného projektu. Jsou to soubory vytažené z databáze v Git directory
+Working directory je samotný snímek jedné verze spravovaného projektu. Jsou to soubory vytažené z databáze v Git directory
 a umístěné na disk, abyste je použili nebo měnili.
 
 Staging area je jednoduchý soubor, obvykle uložený ve vašem Git directory, který ukládá informace o tom, co bude součástí nejbližšího commitu.
@@ -197,7 +197,7 @@ Základní pracovní postup Gitu je pak zhruba takovýto:
 
 1.	Změníte soubory ve svém working directory.
 2.	Vložíte soubory do staging area.
-3.	Vytvoříte commit, který vezme všechny soubory tak, jak jsou ve staging area, a uloží tento obraz permanentně do Git directory.
+3.	Vytvoříte commit, který vezme všechny soubory tak, jak jsou ve staging area, a uloží tento snímek permanentně do Git directory.
 
 Pokud je nějaká verze souboru v Git directory, je označována jako commited, pokud je upravena a vložena do staging area, je staged. A konečně
 pokud byla změněna a není staged, pak je modified. V kapitole 2 se dozvíte více o těchto stavech a jak můžete využít jejich výhod, nebo
@@ -350,4 +350,4 @@ Pokud by ani manuálové stránky, ani tato kniha neposkytly to, co potřebujete
 
 ## Shrnutí ##
 
-Měli byste v základu vědět, co to je Git a v jakém směru je odlišný od CCSV, který možná zrovna používáte. Měli byste mít na svém systému funkční Git nastavený podle vás. Nyní je čas na naučení se základů Gitu.
+Měli byste v základu vědět, co to je Git a v jakém směru je odlišný od CSSV, který možná zrovna používáte. Měli byste mít na svém systému funkční Git nastavený podle vás. Nyní je čas na naučení se základů Gitu.

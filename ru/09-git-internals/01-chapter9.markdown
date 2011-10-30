@@ -1,34 +1,20 @@
-# Особенности реализации Git #
+# Git изнутри #
 
-You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.
+Вы могли прочитать почти всю книгу перед тем, как приступить к этой главе, а могли только часть. Так или иначе, в данной главе рассматриваются внутренние процессы Git и особенности его реализации. На мой взгляд, изучение этих вещей это основа понимания того насколько Git полезный и мощный инструмент. Хотя некоторые утверждают, что изложение этого материал может сбить новичков с толку и оказаться для них неоправданно сложным. Именно поэтому эта глава отнесена в конец, давая возможность заинтересованным освоить её раньше, а сомневающимся — позже.
 
-Вы могли прочитать почти всю книгу перед тем, как приступить к этой главе, а могли только часть. Так или иначе, в данной главе рассматриваются внутренние процессы Git и особенности его реализации. На мой взгляд, изучение этих процессов довольно важно для понимания полезности и мощи Git, несмотря на то, насколько запутанным и неоправданно сложным оно может показаться новичку. Именно поэтому эта глава отнесена в конец, давая возможность заинтересованным освоить её раньше, а сомневающимся — позже.
+Итак, приступим. Во-первых, напомню, что Git это по сути контентно-адресуемая файловая система с пользовательским СУВ-интерфейсом поверх неё. Довольно скоро станет понятнее, что это значит.
 
-Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.
+На заре развития Git (примерно до версии 1.5), интерфейс был значительно сложнее, поскольку был более похож на интерфейс доступа к файловой системе, чем на законченную СУВ. За последние годы, интерфейс значительно улучшился и по удобству не уступает аналогам; у некоторых, тем не менее, с тех пор сохранился стереотип о том, что интерфейс у Git чересчур сложный и труден для изучения.
 
-Итак, приступим. Во-первых, напомню, что Git — контентно-адресуемая файловая система с интерфейсом системы управления версиями. Довольно скоро станет понятнее, что это значит.
-
-In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.
-
-На заре развития Git (примерно до версии 1.5), интерфейс был значительно сложнее, посколько был более похож на интерфейс доступа к файловой системе, нежели к системе управления версиями. За последние годы, интерфейс значительно улучшился и по удобству не уступает аналогам; некоторые, тем не менее, до сих пор считают, что интерфейс у Git был чересчур сложным, в т.ч. и для обучения.
-
-The content-addressable filesystem layer is amazingly cool, so I’ll cover that first in this chapter; then, you’ll learn about the transport mechanisms and the repository maintenance tasks that you may eventually have to deal with.
-
-Контентно-адресуемая файловая система — основа Git, очень интересна, именно её мы рассмотрим в начале данной главы; далее будут рассмотрены транспортные механизмы и инструменты обслуживания репозитория, с которыми так или иначе придется столкнуться.
+Контентно-адресуемая файловая система — основа Git, очень интересна, именно её мы сначала рассмотрим в этой главе; далее будут рассмотрены транспортные механизмы и инструменты обслуживания репозитория, с которыми вам в своё время возможно придётся столкнуться.
 
 ## Сантехника и фарфор ##
 
-This book covers how to use Git with 30 or so verbs such as `checkout`, `branch`, `remote`, and so on. But because Git was initially a toolkit for a VCS rather than a full user-friendly VCS, it has a bunch of verbs that do low-level work and were designed to be chained together UNIX style or called from scripts. These commands are generally referred to as "plumbing" commands, and the more user-friendly commands are called "porcelain" commands.
+В этой книге было описано как пользоваться Git используя примерно три десятка команд, например, `checkout`, `branch`, `remote` и т.п. Но так как сначала Git был скорее инструментарием для создания СУВ, чем СУВ удобной для пользователей, в нём полно команд, выполняющих низкоуровневые операции, которые спроектированы так, чтобы их можно было использовать в цепочку в стиле UNIX, а также использовать в сценариях. Эти команды как правило называют служебными ("plumbing" — трубопровод), а более ориентированные на пользователя называют пользовательскими ("porcelain" — фарфор).
 
-В основной части этой книги описано примерно три десятка команд, например, `checkout`, `branch`, `remote` и т.п. Но т.к. Git в начале развития был простой системой управления версиями для непростых пользователей, хакеров, существуют и другие команды, выполняющие низкоуровневые операции, служебные ("plumbing") команды.
+Первые восемь глав книги были посвящены практически только пользовательским командам. В данной главе же рассматриваются именно низкоуровневые служебные команды, дающие контроль над внутренними процессами Git и показывающие, как он работает и почему он работает так, а не иначе. Предполагается, что данные команды не будут использоваться напрямую из командной строки, а будут служить в качестве строительных блоков для новых команд и пользовательских сценариев.
 
-The book’s first eight chapters deal almost exclusively with porcelain commands. But in this chapter, you’ll be dealing mostly with the lower-level plumbing commands, because they give you access to the inner workings of Git and help demonstrate how and why Git does what it does. These commands aren’t meant to be used manually on the command line, but rather to be used as building blocks for new tools and custom scripts.
-
-Рассмотренные ранее (в первых восьми главах) команды, в отличие от служебных, именуются "фарфоровыми". В данной главе же рассматриваются именно низкоуровневые команды, дающие контроль над внутренними процессами Git и показывающие, как он работает и почему он работает так, а не иначе. Предполагается, что данные команды не будут использоваться напрямую из командной строки, а будут служить в качестве строительных блоков для новых команд или сценариев.
-
-When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:
-
-Когда вы выполняете `git init` в новом или существовавшем ранее каталоге, Git создаёт подкаталог `.git`, в котором располагается почти всё, чем он заправляет. Если требуется выполнить резервное копирование или клонирования репозитория, почти всегда достаточно скопировать данный подкаталог. И в данной главе, в основном, работа ведётся над его содержимым. Вот как он выглядит:
+Когда вы выполняете `git init` в новом или существовавшем ранее каталоге, Git создаёт подкаталог `.git`, в котором располагается почти всё, чем он заправляет. Если требуется выполнить резервное копирование или клонирование репозитория, достаточно скопировать всего лишь один этот каталог, чтобы получить почти всё необходимое. И данная глава почти полностью посвящена его содержимому. Вот так он выглядит:
 
 	$ ls 
 	HEAD
@@ -41,21 +27,14 @@ When you run `git init` in a new or existing directory, Git creates the `.git` d
 	objects/
 	refs/
 
-You may see some other files in there, but this is a fresh `git init` repository — it’s what you see by default. The `branches` directory isn’t used by newer Git versions, and the `description` file is only used by the GitWeb program, so don’t worry about those. The `config` file contains your project-specific configuration options, and the `info` directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file. The `hooks` directory contains your client- or server-side hook scripts, which are discussed in detail in Chapter 6.
+Там могут быть и другие файлы, но непосредственно после `git init` вы увидите именно это. Каталог `branches` не используется новыми версиями Git, а файл `description` требуется только программе GitWeb, на них не стоит обращать особого внимания. Файл `config` содержит настройки проекта, а каталог `info` — файл с глобальным фильтром, игнорирующим те файлы, которые вы не хотите поместить в .gitignore. В каталоге `hooks` располагаются клиентские и серверные хуки, подробно рассмотренные в главе 7.
 
-Там могут быть и другие файлы, но непосредственно после `git init` вы увидите именно это. Каталог `branches` не используется новыми версиями Git, а файл `description` требуется только программе GitWeb, на них не стоит обращать особого внимания. Файл `config` содержит настройки проекта, а каталог `info` — глобальнуй фильтр игнорируемых файлов, отличный от размещённого в .gitignore. В каталоге `hooks` располагаются клиентские и серверные хуки, рассмотренные подробно в главе 6.
+Итак, осталось четыре важных элемента: файлы `HEAD`, `index` и каталоги `objects`, `refs`. Это ключевые элементы хранилища Git. В каталоге `objects` находится, собственно, база данных, в `refs` — ссылки на объекты коммитов в этой базе (ветки). Файл `HEAD` указывает на текущую ветку, и в файле `index` хранится информация индекса. В последующих разделах данные элементы будут рассмотрены более подробно.
 
-This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.
+## Объекты в Git ##
 
-Итак, осталось четыре важных записи: файлы `HEAD`, `index` и каталоги `objects`, `refs`. Это ключевые элементы хранилища Git. В каталоге `objects` находится, собственно, база данных, в `refs` -- ссылки на элементы базы (ветки), файл `HEAD` указывает на текущую ветку, в файле `index` хранится индекс. В последующих разделах данные элементы будут рассмотрены более подробно.
-
-## Объекты Git ##
-
-Git is a content-addressable filesystem. Great. What does that mean?
-It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:
-
-Git -- контентно-адресуемая файловая система. Но что это означает?
-А означает это, что внутри Git -- простое хранилище ключ-значение. Можно добавить любой объект, в ответ будет выдан ключ, по которому этот объект можно извлечь. Для примера, можно воспользоваться служебной командой `hash-object`, которая добавляет данные в каталог `.git` и возвращает ключ. Сперва необходимо создать репозиторий и убедиться, что каталог `objects` пуст:
+Git — контентно-адресуемая файловая система. Здорово. Но что это означает?
+А означает это, что в своей основе Git — простое хранилище ключ-значение. Можно добавить туда любое содержимое, в ответ будет выдан ключ, по которому это содержимое можно извлечь. Для примера, можно воспользоваться служебной командой `hash-object`, которая добавляет данные в каталог `.git` и возвращает ключ. Для начала создадим новый Git-репозиторий и убедимся, что каталог `objects` пуст:
 
 	$ mkdir test
 	$ cd test
@@ -68,140 +47,104 @@ Git -- контентно-адресуемая файловая система. 
 	$ find .git/objects -type f
 	$
 
-Git has initialized the `objects` directory and created `pack` and `info` subdirectories in it, but there are no regular files. Now, store some text in your Git database:
-
-Git инициализировал каталог `objects` с подкаталогами `pack` и `info`, пока без файлов. Теперь добавим текстовое содержимое в базу:
+Git проинициализировал каталог `objects` и создал в нём подкаталоги `pack` и `info`, пока без файлов. Теперь добавим кое-какое текстовое содержимое в базу Git'а:
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
-
-Ключ `-w` команды `hash-object` указывает, что объект необходимо сохранить, иначе будет выведен ключ без сохранения. Флаг `--stdin` указывает, что данные необходимо считать со стандартного вывода, в противном случае `hash-object` ожидает имя файла. Вывод команды — 40-символьная контрольная сумма. Это хеш SHA-1 — контрольная сумма содержимого и заголовка, который будет рассмотрен позднее. Теперь можно увидеть, в каком виде будут сохранены данные:
+Ключ `-w` команды `hash-object` указывает, что объект необходимо сохранить, иначе команда просто выведет ключ и всё. Флаг `--stdin` указывает, что данные необходимо считать со стандартного ввода, в противном случае `hash-object` ожидает имя файла. Вывод команды — 40-символьная контрольная сумма. Это хеш SHA-1 — контрольная сумма содержимого и заголовка, который будет рассмотрен позднее. Теперь можно увидеть, в каком виде будут сохранены ваши данные:
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-You can see a file in the `objects` directory. This is how Git stores the content initially — as a single file per piece of content, named with the SHA-1 checksum of the content and its header. The subdirectory is named with the first 2 characters of the SHA, and the filename is the remaining 38 characters.
+В каталоге `objects` появился файл. Это и есть начальное внутреннее представление данных в Git — один файл на единицу хранения с именем, являющимся контрольной суммой содержимого и заголовка. Первые два символа SHA определяют подкаталог файла, остальные 38 — собственно, имя.
 
-В каталоге `objects` появился файл. Это и есть внутреннее представление данных Git — один файл на единицу хранения с именем, являющимся контрольной суммой. Первые два символа определяют подкаталог файла, остальные 38 — собственно, имя.
-
-You can pull the content back out of Git with the `cat-file` command. This command is sort of a Swiss army knife for inspecting Git objects. Passing `-p` to it instructs the `cat-file` command to figure out the type of content and display it nicely for you:
-
-Получить содержимое объекта можно командой `cat-file`. Это своеобразный шведский армейский нож в мире Git. Ключ `-p` означает автоматическое определение типа содержимого:
+Получить обратно содержимое объекта можно командой `cat-file`. Это своеобразный шведский армейский нож для проверки объектов в Git. Ключ `-p` означает автоматическое определение типа содержимого и вывод содержимого на печать в удобном виде:
 
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content
 
-Now, you can add content to Git and pull it back out again. You can also do this with content in files. For example, you can do some simple version control on a file. First, create a new file and save its contents in your database:
-
-Теперь можно добавить данные в Git и извлечь их. Это можно делать и с файлами. Наиболее простой контроль версий файла можно осуществить, создав его и сохранив в базе:
+Теперь вы умеете добавлять данные в Git и извлекать их обратно. То же самое можно делать и с файлами. Рассмотрим пример. Наиболее простой контроль версий файла можно осуществить, создав его и сохранив в базе:
 
 	$ echo 'version 1' > test.txt
 	$ git hash-object -w test.txt 
 	83baae61804e65cc73a7201a7252750c76066a30
 
-Теперь изменим файл и сохраним его в базе вновь:
+Теперь изменим файл и сохраним его в базе ещё раз:
 
 	$ echo 'version 2' > test.txt
 	$ git hash-object -w test.txt 
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
-Your database contains the two new versions of the file as well as the first content you stored there:
-
-Теперь в базе содержится исходный файл, изменённый и самый первый добавленный объект.
+Теперь в базе содержатся две версии файла test.txt, а также самый первый сохранённый объект:
 
 	$ find .git/objects -type f 
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-Now you can revert the file back to the first version
-
-Теперь можно переключиться на исходную версию файла:
+Теперь можно откатить файл к его первой версии:
 
 	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
 	$ cat test.txt 
 	version 1
 
-or the second version:
-
-Или на вторую:
+или второй:
 
 	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
 	$ cat test.txt 
 	version 2
 
-But remembering the SHA-1 key for each version of your file isn’t practical; plus, you aren’t storing the filename in your system — just the content. This object type is called a blob. You can have Git tell you the object type of any object in Git, given its SHA-1 key, with `cat-file -t`:
-
-Однако запоминать хеш для каждой версии неудобно, ещё теряется само имя файла, сохраняется лишь содержимое. Такой объект называется блобом (Binary Large OBject). Можно получить тип объекта с заданным хешем, пользуюясь командой `cat-file -t`:
+Однако запоминать хеш для каждой версии неудобно, к тому же теряется само имя файла, сохраняется лишь содержимое. Объекты такого типа называют блобами (англ. binary large object). Имея SHA-1 объекта, можно попросить Git показать нам его тип с помощью команды `cat-file -t`:
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
 
 ### Объекты-деревья ###
 
-The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:
-
-Рассмотрим другой тип объектов Git — деревья, решающие проблему хранения имён файлов и совместного хранения файлов. Система хранения данных Git подобна файловым системам UNIX, в упрощённом виде. Содержимое хранится в объектах-деревьях и блобах, дерево соответствует записи каталога в ФС, а хеш и блоб — inode и содержимому файла. Объект-дерево может содержать одну и более записей, каждая из которых содержит хеш SHA-1, соответствующий блобу или поддереву, а также режим доступа к файлу, его тип и имя. Например, в проекте simplegit дерево на момент написания выглядит так:
+Рассмотрим другой тип объектов Git — деревья. Они решают проблему хранения имён файлов, а также позволяют хранить группы файлов вместе. Система хранения данных Git подобна файловым системам UNIX в упрощённом виде. Содержимое хранится в объектах-деревьях и блобах, дерево соответствует записи каталога в ФС, а блоб более или менее соответствует inode или содержимому файла. Объект-дерево может содержать одну и более записей, каждая из которых представляет собой набор из SHA-1 хеша, соответствующего блобу или поддереву, режима доступа к файлу, типа и имени файла. Например, в проекте simplegit дерево на момент написания выглядит так:
 
 	$ git cat-file -p master^{tree}
 	100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
 	100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
 	040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib
 
-The `master^{tree}` syntax specifies the tree object that is pointed to by the last commit on your `master` branch. Notice that the `lib` subdirectory isn’t a blob but a pointer to another tree:
-
-Запись `master^{tree}` означает "объект-дерево, соответствующий последнему коммиту ветки `master`". Заметьте, что подкаталог — не блоб, а указатель на другое поддерево:
+Запись `master^{tree}` означает объект-дерево, на который указывает последний коммит ветки `master`. Заметьте, что подкаталог `lib` — не блоб, а указатель на другое дерево:
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
 
-Conceptually, the data that Git is storing is something like Figure 9-1.
-
-Данные, которые хранятся в Git, выглядят примерно так, как это изображено на рисунке 9-1.
+Схематически, данные, которые хранятся в Git, выглядят примерно так, как это изображено на рисунке 9-1.
 
 Insert 18333fig0901.png 
 Рисунок 9-1. Упрощённая модель данных Git.
 
-You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your text.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `--add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `--cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:
-
-Вручную можно создавать не только блобы, но и деревья. Git обычно создаёт дерево сообразно состоянию индекса и сохраняет соответствующий объект-дерево. Поэтому для создания объекта-дерева необходимо проиндексировать один или несколько файлов. Для создания индекса из одной записи — первой версии файла text.txt, необходимо воспользоваться командой `update-index`. Данная команда может искуственно добавить более раннюю версию test.txt в новый индекс. Необходимо передать опции `--add`, т.к. файл ещё не существует в индексе (да и самого индекса ещё нет), и `--cacheinfo`, т.к. добавляемого файла нет в рабочем каталоге, но он есть в базе. Также необходимо передать режим доступа, хеш и имя:
+Вручную можно создавать не только блобы, но и деревья. Git обычно создаёт дерево исходя из состояния индекса и затем сохраняет соответствующий объект-дерево. Поэтому для создания объекта-дерева необходимо проиндексировать какие-нибудь файлы. Для создания индекса из одной записи — первой версии файла text.txt, воспользуемся командой `update-index`. Данная команда может искусственно добавить более раннюю версию test.txt в новый индекс. Необходимо передать опции `--add`, т.к. файл ещё не существует в индексе (да и самого индекса ещё нет), и `--cacheinfo`, т.к. добавляемого файла нет в рабочем каталоге, но он есть в базе данных. Также необходимо передать режим доступа, хеш и имя файла:
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
 
-In this case, you’re specifying a mode of `100644`, which means it’s a normal file. Other options are `100755`, which means it’s an executable file; and `120000`, which specifies a symbolic link. The mode is taken from normal UNIX modes but is much less flexible — these three modes are the only ones that are valid for files (blobs) in Git (although other modes are used for directories and submodules).
+В данном случае режим доступа — `100644`, что означает обычный файл. Другие возможные варианты: `100755` — исполняемый файл, `120000` — символическая ссылка. Режимы доступа в Git сделаны по аналогии с режимами доступа в UNIX, но они гораздо менее гибки: данные три режима — единственные доступные для файлов (блобов) в Git (хотя существуют и другие режимы используемые для каталогов и подмодулей).
 
-В данном случае режим доступа — `100644`, что означает обычный файл. `100755` — исполняемый файл, `120000` — символическая ссылка. Режимы доступа в Git сделаны по аналогии с режимами доступа в UNIX, но гораздо менее гибки: данные три режима — единственные доступные для блобов (существуют и другие для каталогов и подмодулей).
-
-Now, you can use the `write-tree` command to write the staging area out to a tree object. No `-w` option is needed — calling `write-tree` automatically creates a tree object from the state of the index if that tree doesn’t yet exist:
-
-Теперь можно воспользоваться командой `write-tree` для сохранения индекса в объект-дерево. Здесь опция `-w` не требуется — вызов `write-tree` автоматически создаст объект-дерево по состоянию индекса, если дерево ещё не создано:
+Теперь можно воспользоваться командой `write-tree` для сохранения индекса в объект-дерево. Здесь опция `-w` не требуется — вызов `write-tree` автоматически создаст объект-дерево по состоянию индекса, если такого дерева ещё не существует:
 
 	$ git write-tree
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt
 
-You can also verify that this is a tree object:
-
 Также можно проверить, что мы действительно создали объект-дерево:
 
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
 
-You’ll now create a new tree with the second version of test.txt and a new file as well:
-
-Создадим новое дерево со второй версией файла test-txt и ещё одним файлом:
+Создадим новое дерево со второй версией файла test.txt и ещё одним файлом:
 
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt 
 	$ git update-index --add new.txt 
 
-Your staging area now has the new version of test.txt as well as the new file new.txt. Write out that tree (recording the state of the staging area or index to a tree object) and see what it looks like:
-
-Теперь в индексе содержится новая версия файла test.txt и файл new.txt. Запишем это дерево (сохранив состояние индекса в объект-дерево) и выведем его:
+Теперь в индексе содержится новая версия файла test.txt и новый файл new.txt. Запишем это дерево (сохранив состояние индекса в объект-дерево) и посмотрим, что из этого получилось:
 
 	$ git write-tree
 	0155eb4229851634a0f03eb265b69f5a2d56f341
@@ -209,9 +152,7 @@ Your staging area now has the new version of test.txt as well as the new file ne
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-Notice that this tree has both file entries and also that the test.txt SHA is the "version 2" SHA from earlier (`1f7a7a`). Just for fun, you’ll add the first tree as a subdirectory into this one. You can read trees into your staging area by calling `read-tree`. In this case, you can read an existing tree into your staging area as a subtree by using the `--prefix` option to `read-tree`:
-
-Заметьте, в данном дереве есть записи обоих файлов, а хеш второй версии файла отличается от ранней (`1f7a7a`). Для интереса, добавим первое дерево как поддерево текущего. Подключить дерево к индексу можно командой `read-tree`. Это можно сделать, задав префикс опцией `--prefix`:
+Заметьте, что в данном дереве находятся записи для обоих файлов, а также, что хеш файла test.txt это хеш "второй версии" этого файла (`1f7a7a`). Для интереса, добавим первое дерево как подкаталог для текущего. Зачитать дерево в индекс можно командой `read-tree`. В нашем случае, чтобы прочитать уже существующее дерево в индекс и сделать его поддеревом, необходимо использовать опцию `--prefix`:
 
 	$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git write-tree
@@ -221,29 +162,21 @@ Notice that this tree has both file entries and also that the test.txt SHA is th
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like рисунок 9-2.
-
-Если бы вы создали рабочий каталог, соответствующий вновь созданному дереву, вы бы получили два файла в корне и подкаталог `bak` со старой версией файла test.txt. Данные, которые хранит Git для такой структуры, представлены на рисунке 9-2.
+Если бы вы создали рабочий каталог, соответствующий только что созданному дереву, вы бы получили два файла в корне и подкаталог `bak` со старой версией файла test.txt. Данные, которые хранит Git для такой структуры, представлены на рисунке 9-2.
 
 Insert 18333fig0902.png 
 Рисунок 9-2. Структура данных Git для текущего дерева.
 
-### Коммит-объекты ###
+### Объекты-коммиты ###
 
-You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.
+У нас есть три дерева, соответствующих разным состояниям проекта, но предыдущая проблема с необходимостью запоминать все три значения SHA-1, чтобы иметь возможность восстановить какое-либо из этих состояний, ещё не решена. К тому же у нас нет никакой информации о том, кто, когда и почему сохранил их. Такие данные — основная информация, которая хранится в объекте-коммите.
 
-У вас есть три дерева, соответствующих разным состояниям проекта, но предыдущая проблема, необходимость запоминать все три значения SHA-1, ещё не решена. Также нет информации о том, кто, когда и зачем выполнял фиксацию. Это основная информация, которая должна сохраняться в коммит-объекте.
-
-To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:
-
-Для создания коммит-объекта необходимо вызвать `commit-tree` и задать SHA-1 и, если необходимо, предыдущие коммит-объекты. Для начала создадим объект для самого первого дерева:
+Для создания объекта-коммита необходимо вызвать `commit-tree` и задать SHA-1 нужного дерева и, если необходимо, родительские объекты-коммиты. Для начала создадим коммит для самого первого дерева:
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
-Now you can look at your new commit object with `cat-file`:
-
-Просмотреть вновь созданный коммит-объект можно командой `cat-file`:
+Просмотреть вновь созданный объект-коммит можно командой `cat-file`:
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -252,22 +185,16 @@ Now you can look at your new commit object with `cat-file`:
 
 	first commit
 
-The format for a commit object is simple: it specifies the top-level tree for the snapshot of the project at that point; the author/committer information pulled from your `user.name` and `user.email` configuration settings, with the current timestamp; a blank line, and then the commit message.
+Формат объекта-коммита прост: в нём указано дерево верхнего уровня, соответствующее состоянию проекта на некоторый момент; имя автора и коммитера берутся из полей конфигурации `user.name` и `user.email`; также добавляется текущая временная метка, пустая строка и затем сообщение коммита.
 
-Формат коммит-объекта прост: он отмечает дерево верхнего уровня, соответствующее выбранному состоянию проекта на некоторый момент, имя автора и коммитера из полей конфигурации `user.name`, `user.email`, временную метку, перевод строки и описание коммита.
-
-Next, you’ll write the other two commit objects, each referencing the commit that came directly before it:
-
-Далее, создадим ещё два коммит-объекта, каждый из которых ссылается на предыдущий:
+Далее, создадим ещё два объекта-коммита, каждый из которых будет ссылаться на предыдущий коммит:
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
 	cac0cab538b970a37ea1e769cbbde608743bc96d
 	$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
 	1a410efbd13591db07496601ebc7a059dd55cfe9
 
-Each of the three commit objects points to one of the three snapshot trees you created. Oddly enough, you have a real Git history now that you can view with the `git log` command, if you run it on the last commit SHA-1:
-
-Каждый из трёх коммит-объектов отмечает одно из состояний проекта. Теперь у нас есть полноценная история Git, которую можно посмотреть командой `git log`, указав хеш последнего коммита:
+Каждый из трёх объектов-коммитов указывает на одно из состояний проекта. Может показаться странным, но теперь у нас есть полноценная Git-история, которую можно посмотреть командой `git log`, указав хеш последнего коммита:
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -298,9 +225,7 @@ Each of the three commit objects points to one of the three snapshot trees you c
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Amazing. You’ve just done the low-level operations to build up a Git history without using any of the front ends. This is essentially what Git does when you run the `git add` and `git commit` commands — it stores blobs for the files that have changed, updates the index, writes out trees, and writes commit objects that reference the top-level trees and the commits that came immediately before them. These three main Git objects — the blob, the tree, and the commit — are initially stored as separate files in your `.git/objects` directory. Here are all the objects in the example directory now, commented with what they store:
-
-Отлично. Мы только что выполнили низкоуровевые операции для построения истории без использования высокоуровневых интерфейсов. По существу, именно это делает Git, когда выполняются команды `git add` или `git commit` — сохраняет блобы для изменённых файлов, обновляет индекс, записывает объекты-деревья и коммит-объекты, ссылающиеся на объекты-деревья верхнего уровня и предшествующие коммиты.
+Поразительно. Мы только что выполнили низкоуровневые операции для построения истории без использования высокоуровневых интерфейсов. По существу, именно это делает Git, когда выполняются команды `git add` и `git commit` — сохраняет блобы для изменённых файлов, обновляет индекс, записывает объекты-деревья и коммит-объекты, ссылающиеся на объекты-деревья верхнего уровня и предшествующие коммиты. Эти три основных вида объектов в Git: блоб, дерево и коммит — сначала сохраняются как отдельные файлы в каталоге `.git/objects`. Вот все объекты, которые сейчас лежат в каталоге с примером (в комментариях написано чему объекты соответствует):
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -314,31 +239,25 @@ Amazing. You’ve just done the low-level operations to build up a Git history w
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-Если перейти по всем внутренним ссылкам, получится дерево, примерно как на рисунке 9-3.
+Если пройти по всем внутренним ссылкам, получится граф объектов такой, как на рисунке 9-3.
 
 Insert 18333fig0903.png 
 Рисунок 9-3. Все объекты в репозитории Git.
 
 ### Хранение объектов ###
 
-I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:
-
-Ранее я упоминал, что заголовок сохраняется вместе с содержимым. Давайте посмотрим, как сохраняются объекты Git на диске. Мы рассмотрим сохранение блоб-объекта, в в данном случае это будет строка "Есть проблемы, шеф?". Пример будет выполнен на языке Ruby. Для запуска интерактивного интерпретатора воспользуйтесь командой `irb`:
+Ранее я упоминал, что заголовок сохраняется вместе с содержимым. Давайте посмотрим, как сохраняются объекты Git на диске. Мы рассмотрим сохранение блоб-объекта, в данном случае это будет строка "есть проблемы, шеф?". Пример будет выполнен на языке Ruby. Для запуска интерактивного интерпретатора воспользуйтесь командой `irb`:
 
 	$ irb
-	>> content = "Есть проблемы, шеф?"
-	=> "Есть проблемы, шеф?"
+	>> content = "есть проблемы, шеф?"
+	=> "есть проблемы, шеф?"
 
-Git constructs a header that starts with the type of the object, in this case a blob. Then, it adds a space followed by the size of the content and finally a null byte:
-
-Git создаёт заголовок, начинающийся с типа объекта, в данном случае это блоб. Далее добавляется пробел, размер содержимого и нулевой байт:
+Git создаёт заголовок, начинающийся с типа объекта, в данном случае это блоб. Далее добавляется пробел, размер содержимого и в конце нулевой байт:
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 34\000"
 
-Git concatenates the header and the original content and then calculates the SHA-1 checksum of that new content. You can calculate the SHA-1 value of a string in Ruby by including the SHA1 digest library with the `require` command and then calling `Digest::SHA1.hexdigest()` with the string:
-
-Git склеивает заголовок и содержимое и вычисляет хеш SHA-1 полученного результата. Значение SHA1 для строки можно получить, подключив соответствующую библиотеку командой `require` и далее воспользовавшись вызовом `Digest::SHA1.hexdigest()`:
+Git дописывает содержимое после заголовка и вычисляет SHA-1 сумму для полученного результата. В Ruby значение SHA-1 для строки можно получить, подключив соответствующую библиотеку командой `require` и затем воспользовавшись вызовом `Digest::SHA1.hexdigest()`:
 
 	>> store = header + content
 	=> "blob 34\000\320\225\321\201\321\202\321\214 \320\277\321\200\320\276\320\261\320\273\320\265\320\274\321\213, \321\210\320\265\321\204?"
@@ -347,18 +266,14 @@ Git склеивает заголовок и содержимое и вычис�
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "d8a734f44240bdf766c8df342664fde23d421d64"
 
-Git compresses the new content with zlib, which you can do in Ruby with the zlib library. First, you need to require the library and then run `Zlib::Deflate.deflate()` on the content:
-
-Git сжимает полученный результат при помощи zlib, что решается в Ruby соответствующей библиотекой. Сперва, необходимо подключить её, после вызвать `Zlib::Deflate.deflate()` со строкой store в качестве параметра:
+Git сжимает новые данные при помощи zlib, что решается в Ruby соответствующей библиотекой. Сперва, необходимо подключить её, а после вызвать `Zlib::Deflate.deflate()` с данными в качестве параметра:
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234\001*\000\325\377blob 34\000\320\225\321\201\321\202\321\214 \320\277\321\200\320\276\320\261\320\273\320\265\320\274\321\213, \321\210\320\265\321\204?\3453\030S"
 
-Finally, you’ll write your zlib-deflated content to an object on disk. You’ll determine the path of the object you want to write out (the first two characters of the SHA-1 value being the subdirectory name, and the last 38 characters being the filename within that directory). In Ruby, you can use the `FileUtils.mkdir_p()` function to create the subdirectory if it doesn’t exist. Then, open the file with `File.open()` and write out the previously zlib-compressed content to the file with a `write()` call on the resulting file handle:
-
-После этого, запишем сжатую строку на диск. Определим путь к файлу, который будет записан (первые два символа хеша в качестве названия подкаталога, оставшиеся 38 — в качестве имени). В Ruby для этого можно использовать функцию `FileUtils.mkdir_p` для создания подкаталога, если он не существует. Далее, откроем файл вызовом `File.open` и запишем данные вызовом `write`:
+После этого, запишем сжатую zlib'ом строку в объект на диск. Определим путь к файлу, который будет записан (первые два символа хеша используются в качестве названия подкаталога, оставшиеся 38 — в качестве имени файла в этом каталоге). В Ruby для этой задачи можно использовать функцию `FileUtils.mkdir_p()` для создания подкаталога, если он не существует. Далее, откроем файл вызовом `File.open()` и запишем наши сжатые данные вызовом `write()` для полученного файлового дескриптора:
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/d8/a734f44240bdf766c8df342664fde23d421d64"
@@ -369,19 +284,13 @@ Finally, you’ll write your zlib-deflated content to an object on disk. You’l
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-That’s it — you’ve created a valid Git blob object. All Git objects are stored the same way, just with different types — instead of the string blob, the header will begin with commit or tree. Also, although the blob content can be nearly anything, the commit and tree content are very specifically formatted.
-
-Вот и всё, мы создали корректный объект Git. Все другие объекты создаются аналогично, меняется только тип (blob, commit, tree). Формат объектов-деревьев и коммит-объектов задаётся более строго, нежели блоб, который может содержать что угодно.
+Вот и всё, мы создали корректный объект-блоб для Git. Все другие объекты создаются аналогично, меняется только запись о типе в заголовке (blob, commit, tree). Стоит добавить, что хотя в блобе может храниться почти любое содержимое, содержимое объектов-деревьев и объектов-коммитов записывается в очень строгом формате.
 
 ## Ссылки в Git ##
 
-You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.
+Для просмотра всей истории можно выполнить команду вроде `git log 1a410e`, но, опять же, требуется помнить, что именно коммит `1a410e` является последним, чтобы иметь возможность найти все наши объекты. Нам нужен файл-указатель с простым именем, который бы содержал это значение хеша SHA-1, чтобы можно было пользоваться этим файлом вместо хеша.
 
-Для просмотра всей истории можно выполнить команду вроде `git log 1a410e`, но, опять же, требуется помнить, что именно `1a410e` коммит является последним. Необходим файл-указатель, который бы содержал это значение хеша SHA-1, чтобы можно было пользоваться им вместо хеша.
-
-In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:
-
-В Git такие файлы называются ссылками ("refs"), они располагаются в каталоге `.git/refs`. В нашем проекте там пока пусто, но уже существует некоторая структура каталогов:
+В Git такие файлы, содержащие SHA-1, называются ссылками ("refs") и располагаются в каталоге `.git/refs`. В нашем проекте этот каталог пока пуст, но в нём уже существует некоторая структура каталогов:
 
 	$ find .git/refs
 	.git/refs
@@ -390,90 +299,62 @@ In Git, these are called "references" or "refs"; you can find the files that con
 	$ find .git/refs -type f
 	$
 
-To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:
-
-Чтобы создать новую ссылку, по сути, необходимо выполнить следующее действие:
+Чтобы создать новую ссылку, которая поможет вам вспомнить, какой коммит последний, по сути, необходимо сделать всего лишь следующее:
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
-Now, you can use the head reference you just created instead of the SHA-1 value in your Git commands:
-
-Теперь можно использовать ссылку head вместо хеша в командах Git:
+Теперь можно использовать только что созданную ссылку из каталога heads вместо хеша в командах Git:
 
 	$ git log --pretty=oneline  master
 	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-You aren’t encouraged to directly edit the reference files. Git provides a safer command to do this if you want to update a reference called `update-ref`:
-
-Тем не менее, редактировать данные файлы напрямую не рекомендуется. Git предоставляет безопасную команду `update-ref` для изменения ссылки:
+Тем не менее, редактировать данные файлы напрямую не рекомендуется. Git предоставляет безопасную команду `update-ref` для изменения ссылок:
 
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
-That’s basically what a branch in Git is: a simple pointer or reference to the head of a line of work. To create a branch back at the second commit, you can do this:
-
-Вот что такое, по сути ветка в Git -- ссылка на последнюю версию в работе. Для создания ветки, соответствующей состоянию второго коммита, можно выполнить следующее:
+Вот что такое по сути ветка в Git — простой указатель или ссылка на последнюю версию в работе. Для создания ветки, соответствующей состоянию второго коммита, можно выполнить следующее:
 
 	$ git update-ref refs/heads/test cac0ca
 
-Your branch will contain only work from that commit down:
-
-Данная ветка содержит только коммиты, предшествующие выбранному:
+Данная ветка будет содержать только коммиты, предшествующие выбранному:
 
 	$ git log --pretty=oneline test
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Now, your Git database conceptually looks something like Figure 9-4.
-
-Теперь база данных Git выглядит примерно так (см. рис. 9.4):
+Теперь наша база данных Git схематично выглядит так, как показано на рисунке 9.4.
 
 Insert 18333fig0904.png 
-Figure 9-4. Объекты каталоги Git с включенными привязками веток.
+Рисунок 9-4. Объекты в каталоге .git, а также указатели на вершины веток.
 
-When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
+Когда выполняется команда `git branch (имя ветки)`, Git, по сути, выполняет `update-ref` для добавления хеша последнего коммита текущей ветки под указанным именем в виде новой ссылки.
 
-Когда выполняется команда `git branch (ветка)`, Git выполняет `update-ref` для добавления хеша последнего коммита текущей ветки под выбранным именем в виде новой ссылки.
+### HEAD ###
 
-### The HEAD ###
-
-### Файл HEAD ###
-
-The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:
-
-Вопрос в том, как же Git получает хеш последнего коммита при выполнении `git branch (ветка)`? Ответ содержится в файле HEAD. Данный файл является символической ссылкой на текущую ветку. Символическая ссылка отличается от обычной тем, что непосредственно не содержит хеш SHA-1, а лишь ссылается на него. В текстовом виде это выглядит так:
+Вопрос в том, как же Git получает хеш последнего коммита при выполнении `git branch (имя ветки)`? Ответ содержится в файле HEAD. Данный файл является символической ссылкой на текущую ветку. Символическая ссылка отличается от обычной тем, что она содержит не сам хеш SHA-1, а указатель на другую ссылку. Если вы загляните в этот файл, то увидите что-то такое:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/master
-
-If you run `git checkout test`, Git updates the file to look like this:
 
 Если выполнить `git checkout test`, то содержимое файла изменится:
 
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.
-
-При выполнении `git commit`, создаётся коммит-объект, определяющий, что родителем его является тот объект, хеш которого содержится в файле, на который ссылается HEAD.
-
-You can also manually edit this file, but again a safer command exists to do so: `symbolic-ref`. You can read the value of your HEAD via this command:
+При выполнении `git commit`, Git создаёт объект-коммит, указывая его родителем тот объект, SHA-1 которого содержится в файле, на который ссылается HEAD.
 
 Данный файл, конечно, можно редактировать вручную, но безопаснее использовать команду `symbolic-ref`. Получить значение HEAD данной командой можно так:
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
 
-You can also set the value of HEAD:
-
 Изменить значение HEAD можно так:
 
 	$ git symbolic-ref HEAD refs/heads/test
 	$ cat .git/HEAD 
 	ref: refs/heads/test
-
-You can’t set a symbolic reference outside of the refs style:
 
 Символическую ссылку на файл вне refs поставить нельзя:
 
@@ -482,32 +363,22 @@ You can’t set a symbolic reference outside of the refs style:
 
 ### Метки ###
 
-You’ve just gone over Git’s three main object types, but there is a fourth. The tag object is very much like a commit object — it contains a tagger, a date, a message, and a pointer. The main difference is that a tag object points to a commit rather than a tree. It’s like a branch reference, but it never moves — it always points to the same commit but gives it a friendlier name.
+Мы рассмотрели три основных типа объектов в Git, но есть и четвёртый. Объект-метка очень похож на объект-коммит: он содержит имя поставившего метку, дату, сообщение и указатель. Разница же в том, что метка указывает на коммит, а не на дерево. Она похожа на ветку, которая никогда не перемещается — она всегда указывает на один и тот же коммит, она просто даёт ему понятное имя.
 
-Мы рассмотрели три основных типа объектов в Git, но есть четвёртый. Объект-метка очень похож на коммит-объект: он содержит имя выполнившего метку, дату, сообщение и ссылку. Разница же в том, что тег указывает на коммит, а не на дерево. Он похож на ветку, которая никогда не меняется.
-
-As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:
-
-Как указано в главе 2, метки бывают двух типов: аннотированные и простые. Простую метку можно сделать следующей командой:
+Как было сказано в главе 2, метки бывают двух типов: аннотированные и легковесные. Легковесную метку можно сделать следующей командой:
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
-That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
-
-Простая метка, по сути своей, — неизменяемая ветка. Аннотированная метка имеет более сложную структуру. Для неё Git создаёт специальный объект, указывающий на саму метку, а не на соответствующий коммит:
+Вот и всё! Легковесная метка — это ветка, которая никогда не перемещается. Аннотированная метка имеет более сложную структуру. При создании аннотированной метки, Git создаёт специальный объект, на который будет указывать ссылка, а не просто указатель на коммит. Мы можем увидеть это создав аннотированную метку (`-a` задаёт аннотированные метки):
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 -m 'test tag'
 
-Here’s the object SHA-1 value it created:
-
-Мы получили следующее значение SHA-1:
+Вот значение SHA-1 созданного объекта:
 
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
-Now, run the `cat-file` command on that SHA-1 value:
-
-Теперь выполним `cat-file` для данного хеша:
+Теперь выполним `cat-file` для этого хеша:
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -517,23 +388,15 @@ Now, run the `cat-file` command on that SHA-1 value:
 
 	test tag
 
-Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running
-
-Заметьте, секция object указывает на хеш, метку которого мы делали. Также стоит заметить, что он не обязательно указывает на коммит, но на любой объект Git. В исходном коде Git, например, разработчик добавил метку для своего публичного ключа. Просмотреть его можно, выполнив команду
+Заметьте, в поле object записан SHA-1 коммита, для которого мы делали метку. Также стоит отметить, что это поле не обязательно указывает на коммит, но на любой объект в Git. Например, в исходный код Git мейнтейнер добавил свой публичный GPG-ключ в качестве блоба и поставил для него метку. Увидеть этот ключ можно, выполнив команду
 
 	$ git cat-file blob junio-gpg-pub
 
-in the Git source code repository. The Linux kernel repository also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
+в репозитории с исходным кодом Git. В репозитории ядра Linux также есть метка, указывающая не на коммит — первая метка указывает на дерево первичного импорта.
 
-в репозитории Git. В репозитории ядра Linux также есть метка, указывающая не на коммит — первая метка указывает на дерево первичного импорта.
+### Ссылки на удалённые ветки ###
 
-### Remotes ###
-
-### Удалённые репозитории ###
-
-The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:
-
-Третий тип ссылок, который мы рассмотрим — ссылка на удалённый репозиторий. Если добавить удалённый репозиторий и выложить на него изменения, Git сохраняет его для каждой ветки из каталога `refs/remotes`. Например, можно добавить удалённый репозиторий `origin` и выложить на него ветку `master`:
+Третий тип ссылок, который мы рассмотрим — ссылка на удалённую ветку. Если вы добавили удалённый репозиторий и отправили (push) на него изменения, Git сохранит последнее отправленное значение SHA-1 в каталоге `refs/remotes` для всех отправленных веток. Например, можно добавить удалённый репозиторий `origin` и отправить туда ветку `master`:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -544,16 +407,12 @@ The third type of reference that you’ll see is a remote reference. If you add 
 	To git@github.com:schacon/simplegit-progit.git
 	   a11bef0..ca82a6d  master -> master
 
-Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:
-
-Далее, можно заметить, что ветка `master` в удалённом репозитории `origin` — последняя, с которой производилось взаимодействие:
+Позже, вы сможете посмотреть где находилась ветка `master` с сервера `origin` во время последнего соединения с сервером заглянув в файл `refs/remotes/origin/master`:
 
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
 
-Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers.
-
-Удалённые ссылки отличаются от веток (ссылки в `refs/heads`) тем, что на них нельзя переключиться. Git работает с ними как с закладками, указывающими на последнее состояние соответствующих веток на выбранных серверах.
+Ссылки на удалённые ветки отличаются от обычных веток (ссылки в `refs/heads`) тем, что на них нельзя переключиться с помощью `git checkout`. Git работает с ними как с закладками, указывающими на последнее состояние соответствующих веток на ваших серверах.
 
 ## Packfiles ##
 

@@ -562,6 +562,25 @@ Pour la supprimer, vous pouvez exécuter `git stash drop` avec le nom de la remi
 
 Vous pouvez également exécutez `git stash pop` pour appliquer et supprimer immédiatement la remise de votre pile.
 
+### Défaire l'effet d'une remise ###
+
+Dans certains cas, il est souhaitable de pouvoir appliquer une modification remisée, réaliser d'autres modifications, puis défaire les modifications de la remise.
+Git ne fournit pas de commande `stash unapply` mais il est possible d'obtenir le même effet en extrayant les modifications qui constituent la remise et en appliquant leur inverse :
+
+    $ git stash show -p stash@{0} | git apply -R
+
+Ici aussi, si la remise n'est pas indiquée, Git utilise la plus récente.
+
+    $ git stash show -p | git apply -R
+
+La création d'un alias permettra d'ajouter effectivement la commande `stash-unapply` à votre Git.
+Par exemple :
+
+    $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
+    $ git stash
+    $ #... work work work
+    $ git stash-unapply
+
 ### Créer une branche depuis une remise ###
 
 Si vous remiser votre travail, l'oubliez pendant un temps en continuant sur la branche où vous avez créé la remise, vous pouvez avoir un problème en réappliquant le travail.

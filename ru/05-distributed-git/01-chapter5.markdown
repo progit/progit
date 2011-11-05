@@ -1159,6 +1159,6 @@ It’s time to e-mail your mailing list of people who want to know what’s happ
 
 You get a clean summary of all the commits since v1.0.1, grouped by author, that you can e-mail to your list.
 
-## Summary ##
+## Итоги ##
 
 You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.

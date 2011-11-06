@@ -544,7 +544,7 @@ Insert 18333fig0321.png
 Abbildung 3-21. Dein Verlauf nach Zusammenführung von `dumbidea` und `iss91v2`.
 Figure 3-21. Your history after merging in dumbidea and iss91v2
 
-Es ist wichtig sich daran zu erinnern, dass all diese Branches komplett lokal sind. Wenn du verzweigst (branchst) und zusammenführst (mergest), findet dies nur in deinem Git-Repository statt - es findet keine Server-Kommunikation statt.
+Es ist wichtig sich daran zu erinnern, dass alle diese Branches nur lokal existieren. Wenn du Verzweigungen schaffst (branchst) und wieder zusammenführst (mergest), findet dies nur in deinem Git-Repository statt - es findet keine Server-Kommunikation statt.
 
 It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
 

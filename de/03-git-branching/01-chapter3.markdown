@@ -479,7 +479,7 @@ Now that you have the basics of branching and merging down, what can or should y
 ### Langfristige Branches ###
 ### Long-Running Branches ###
 
-Da Git das einfachen 3-Wege-'merge' verwendet, ist häufiges Zusammenführen von einer Branch in eine andere über einen langen Zeitraum generell einfach zu bewerkstelligen. Das heisst, du kann mehrere Branches haben, die alle offen sind und auf unterschiedlichen Ebenen deines Entwicklungszyklus verwendung finden, und diese regelmäßig ineinander zusammenführen.
+Da Git den einfachen 3-Wege-'merge' verwendet, ist häufiges Zusammenführen von einem Branch in einen anderen über einen langen Zeitraum generell einfach zu bewerkstelligen. Das heisst, du kann mehrere Branches haben, die alle offen sind und auf unterschiedlichen Ebenen deines Entwicklungszyklus verwendung finden, und diese regelmäßig ineinander zusammenführen.
 Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
 
 Viele Git Entwickler verwenden einen Workflow, der den Ansatz unterstützt, der nur stabilen Code in der `master` Branch hält - möglicherweise nur Code, der released wurde oder werden kann. Sie führen parallel eine andere Branch zum Arbeiten oder Testen. Wenn diese einen stabilen Status erreicht, kann sie mit der `master` Branch zusammengeführt werden. Dies findet bei Themen bezogenen Branchen (kurzfristige Branches, wie die zuvor genante `iss53` Branch) Anwendung, um sicherzustellen, dass diese die Tests bestehen und keine Fehler verursachen.

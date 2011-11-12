@@ -677,63 +677,90 @@ Si vous éditez ce fichier à la main, il restera dans cet état jusqu'à la pro
 
 ## Gitolite ##
 
-Note: the latest copy of this section of the ProGit book is always available within the [gitolite documentation][gldpg].  The author would also like to humbly state that, while this section is accurate, and *can* (and often *has*) been used to install gitolite without reading any other documentation, it is of necessity not complete, and cannot completely replace the enormous amount of documentation that gitolite comes with.
+Note: la dernière copie de cette section du livre ProGit est toujours disponible dans la [documentation de gitolite][gldpg].
+L'auteur souhaite aussi humblement ajouter que, bien que cette section soit juste et *puisse* (et a pu) être utilisée pour installer gitolite sans lire d'autre documentation, elle est nécessairement incomplète et ne peut pas remplacer à elle seule la documentation volumineuse qui accompagne gitolite.
 
 [gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
 
-Git has started to become very popular in corporate environments, which tend to have some additional requirements in terms of access control.  Gitolite was originally created to help with those requirements, but it turns out that it's equally useful in the open source world: the Fedora Project controls access to their package management repositories (over 10,000 of them!) using gitolite, and this is probably the largest gitolite installation anywhere too.
+Git a commencé à être utilisé dans les sociétés, ce qui tend à ajouter des besoins en terme de contrôle d'accès.
+Gitolite a été initialement créé pour gérer ces besoins mais il apparaît qu'il est aussi utile dans la monde du logiciel libre : le projet Fedora gère les accès à ses dépôts de gestion de paquets (plus de 10 000 !) au moyen de gitolite, ce qui en fait le déploiement public de gitolite le plus important.
 
-Gitolite allows you to specify permissions not just by repository, but also by branch or tag names within each repository.  That is, you can specify that certain people (or groups of people) can only push certain "refs" (branches or tags) but not others.
+Gitolite permet de spécifier des permissions non seulement pour chaque dépôt, mais aussi par branche et par étiquettes pour chaque dépôt.
+En d'autres termes, il devient possible d'indiquer que certaines personnes (ou groupes de personnes) ne peuvent pousser que sur certaines refs (branches ou étiquettes).
 
-### Installing ###
+### Installation ###
 
-Installing Gitolite is very easy, even if you don't read the extensive documentation that comes with it.  You need an account on a Unix server of some kind; various Linux flavours, and Solaris 10, have been tested.  You do not need root access, assuming git, perl, and an openssh compatible ssh server are already installed.  In the examples below, we will use the `gitolite` account on a host called `gitserver`.
+L'installation de Gitolite est très simple, même sans lire la documentation extensive qui l'accompagne.
+Vous n'avez besoin que d'un compte sur un serveur de type Unix ; plusieurs distributions Linux et Solaris 10 sont compatibles.
+Vous n'avez pas besoin d'accès root si git, perl et un<serveur compatible openssh sont déjà installés.
+Dans les exemples qui suivent, un compte `gitolite` sur un serveur `gitserver` sera utilisé.
 
-Gitolite is somewhat unusual as far as "server" software goes -- access is via ssh, and so every userid on the server is a potential "gitolite host".  As a result, there is a notion of "installing" the software itself, and then "setting up" a user as a "gitolite host".
+Par rapport au concept de logiciel serveur, Gitolite est plutôt inhabituel : l'accès se fait via ssh et donc tout utilisateur du système est potentiellement un « hôte Gitolite ».
+De ce fait, il n'y a pas réellement d'installation du logiciel serveur ou de paramétrage d'un utilisateur comme « hôte gitolite ».
 
-Gitolite has 4 methods of installation.  People using Fedora or Debian systems can obtain an RPM or a DEB and install that.  People with root access can install it manually.  In these two methods, any user on the system can then become a "gitolite host".
+Gitolite dispose de 4 méthodes d'installation.
+Les personnes utilisant Fedora ou Debian peuvent utiliser un paquet RPM ou DEB à installer.
+Les personnes disposant d'un accès root peuvent l'installer manuellement.
+Par ces deux méthodes, tout utilisateur du système peut ainsi devenir un « hôte gitolite ».
 
-People without root access can install it within their own userids.  And finally, gitolite can be installed by running a script *on the workstation*, from a bash shell.  (Even the bash that comes with msysgit will do, in case you're wondering.)
+Les personnes sans accès root peuvent l'installer avec leur propre utilisateur.
+Finalement, gitolite peut s'installer en lançant un script *sur une station de travail*, à partir d'un shell bash (et pour ceux qui se demandent, même le bash livré avec msysgit fonctionne).
 
-We will describe this last method in this article; for the other methods please see the documentation.
+Nous allons décrire cette dernière méthode par la suite.
+Pour les autres méthodes, référez-vous à la documentation.
 
-You start by obtaining public key based access to your server, so that you can log in from your workstation to the server without getting a password prompt.  The following method works on Linux; for other workstation OSs you may have to do this manually.  We assume you already had a key pair generated using `ssh-keygen`.
+Commençons par définir une accès par clé publique au notre serveur, de manière à pouvoir se connecter au serveur depuis notre station de travail sans passer par un mot de passe.
+La méthode suivante fonctionne sous Linux.
+Pour les stations sous un autre OS, il se peut que vous deviez le faire manuellement.
+Supposons que vous avez déjà une paire de clés générées via `ssh-keygen`.
 
 	$ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
 
-This will ask you for the password to the gitolite account, and then set up public key access.  This is **essential** for the install script, so check to make sure you can run a command without getting a password prompt:
+Ceci va vous demander un mot de passe pour le compte gitolite et définir l'accès par clé publique.
+C'est une étape **essentielle** du script d'installation et il est conseillé de bien vérifier qu'on peut ensuite lancer la commande suivante sans obtenir une demande de mot de passe :
 
 	$ ssh gitolite@gitserver pwd
 	/home/gitolite
 
-Next, you clone Gitolite from the project's main site and run the "easy install" script (the third argument is your name as you would like it to appear in the resulting gitolite-admin repository):
+Ensuite, clonons Gitolite depuis le site principal du projet et lançons le script "easy-install".
+Le troisième argument est le nom que nous souhaitons avoir dans le dépôt gitolite-admin ainsi créé.
 
 	$ git clone git://github.com/sitaramc/gitolite
 	$ cd gitolite/src
 	$ ./gl-easy-install -q gitolite gitserver sitaram
 
-And you're done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in the home directory of your workstation.  You administer your gitolite setup by making changes to this repository and pushing.
+C'est fini !
+Gitolite est à présent installé sur le serveur ainsi qu'un nouveau dépôt appelé `gitolite-admin` dans le dossier personnel de la station de travail.
+L'administration de gitolite passe par des modifications dans ce dépôt.
 
-That last command does produce a fair amount of output, which might be interesting to read.  Also, the first time you run this, a new keypair is created; you will have to choose a passphrase or hit enter for none.  Why a second keypair is needed, and how it is used, is explained in the "ssh troubleshooting" document that comes with Gitolite.  (Hey the documentation has to be good for *something*!)
+La dernière commande produit une certaine quantité d'informations intéressantes.
+La première fois qu'elle est lancée, une nouvelle paire de clés cryptographiques est créée.
+Il faudra la protéger par un mot de passe ou appuyer simplement sur la touche entrée pour ne pas en définir.
+La raison de la définition de cette seconde paire de clé ainsi que son utilisation sont expliquées dans le document « ssh troubleshooting » accompagnant Gitolite.
 
-Repos named `gitolite-admin` and `testing` are created on the server by default. If you wish to clone either of these locally (from an account that has SSH console access to the gitolite account via *authorized_keys*), type:
+Les dépôts appelés `gitolite-admin`et `testing` sont créés par défaut sur le serveur.
+Si vous souhaitez cloner l'un d'eux localement (depuis un compte ayant accès SSH console au compte gitolite via *authorized_keys*), il suffit de saisir :
 
 	$ git clone gitolite:gitolite-admin
 	$ git clone gitolite:testing
 	
-To clone these same repos from any other account:
+Pour cloner ces mêmes dépôts depuis n'importe quel compte :
 
 	$ git clone gitolite@servername:gitolite-admin
 	$ git clone gitolite@servername:testing
 
 
-### Customising the Install ###
+### Personnalisation de l'installation ###
 
-While the default, quick, install works for most people, there are some ways to customise the install if you need to.  If you omit the `-q` argument, you get a "verbose" mode install -- detailed information on what the install is doing at each step.  The verbose mode also allows you to change certain server-side parameters, such as the location of the actual repositories, by editing an "rc" file that the server uses.  This "rc" file is liberally commented so you should be able to make any changes you need quite easily, save it, and continue.  This file also contains various settings that you can change to enable or disable some of gitolite's advanced features.
+L'installation rapide par défaut suffit à la majorité des besoins, mais il existe des moyens de la paramétrer plus finement.
+Si on retire l'option `-q`, l'installation passe en mode bavard et trace des informations indiquant chaque étape.
+Le mode bavard permet aussi de modifier certains paramètres côté serveur, tels que la localisation réelle des dépôts, en éditant un fichier "rc" utilisé par le serveur.
+Ce fichier "rc" est richement commenté, ce qui devrait facilement permettre de le modifier, de le sauver et de passer à autre chose.
+Ce fichier contient aussi différents paramètres qui peuvent être changés pour activer ou désactiver certaines fonctionnalités avancées de gitolite.
 
-### Config File and Access Control Rules ###
+### Fichier de configuration et règles de contrôle d'accès ###
 
-Once the install is done, you switch to the `gitolite-admin` repository (placed in your HOME directory) and poke around to see what you got:
+Une fois l'installation terminée, vous pouvez basculer vers le dépôt `gitolite-admin` présent dans votre dossier personnel et inspecter ce qui s'y trouve :
 
 	$ cd ~/gitolite-admin/
 	$ ls
@@ -751,11 +778,14 @@ Once the install is done, you switch to the `gitolite-admin` repository (placed 
 	repo testing
 	    RW+                 = @all
 
-Notice that "sitaram" (the last argument in the `gl-easy-install` command you gave earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.
+Notez que "sitaram" (le dernier argument de la commande `gl-easy-install` précédente) détient les permissions en lecture-écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
 
-The config file syntax for gitolite is liberally documented in `conf/example.conf`, so we'll only mention some highlights here.
+Le fichier de configuration de gitolite présent dans `conf/example.conf` est extensivement commenté et nous n'en mentionnerons que quelque points cruciaux.
 
-You can group users or repos for convenience.  The group names are just like macros; when defining them, it doesn't even matter whether they are projects or users; that distinction is only made when you *use* the "macro".
+Pour vous simplifier la tâche, vous pouvez grouper les utilisateurs et les dépôts.
+Les noms de groupes sont juste comme des macros.
+À leur définition, il importe peu que ce soient des projets ou de utilisateurs.
+Cette distinction ne sert que lors de *l'utilisation* de la « macro ».
 
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
@@ -765,7 +795,10 @@ You can group users or repos for convenience.  The group names are just like mac
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
-You can control permissions at the "ref" level.  In the following example, interns can only push the "int" branch.  Engineers can push any branch whose name starts with "eng-", and tags that start with "rc" followed by a digit.  And the admins can do anything (including rewind) to any ref.
+Vous pouvez contrôler les permissions au niveau "ref".
+Dans l'exemple suivant, les stagiaires (intern) ne peuvent pousser que sur la branche "int".
+Les ingénieurs peuvent pousser toutes les branches dont le nom commence par "eng" et les étiquettes qui commencent par "rc" suivi d'un chiffre.
+Les administrateurs ont tous les droits (y compris le rembobinage) sur toutes les réfs.
 
 	repo @oss_repos
 	    RW  int$                = @interns
@@ -773,38 +806,55 @@ You can control permissions at the "ref" level.  In the following example, inter
 	    RW  refs/tags/rc[0-9]   = @engineers
 	    RW+                     = @admins
 
-The expression after the `RW` or `RW+` is a regular expression (regex) that the refname (ref) being pushed is matched against.  So we call it a "refex"!  Of course, a refex can be far more powerful than shown here, so don't overdo it if you're not comfortable with perl regexes.
+L'expression après les `RW` ou les `RW+` est une expression rationnelle (ou regex) qui filtre le nom de la référence (ref).
+Elle s'appelle donc une « refex » !
+Bien entendu, une « refex » peut être bien plus puissante que celles montrées ci-dessus et il est inutile de trop chercher si vous n'êtes pas à l'aise avec les regex perl.
 
-Also, as you probably guessed, Gitolite prefixes `refs/heads/` as a syntactic convenience if the refex does not begin with `refs/`.
+De plus, logiquement, Gitolite préfixe les refex qui ne commencent pas par `refs/` avec la chaîne `refs/heads/`.
 
-An important feature of the config file's syntax is that all the rules for a repository need not be in one place.  You can keep all the common stuff together, like the rules for all `oss_repos` shown above, then add specific rules for specific cases later on, like so:
+Une autre particularité importante de la syntaxe du fichier de configuration est que toutes les règles ne sont pas nécessairement à un seul endroit.
+On peut conserver toute la configuration commune, telle que l'ensemble des règles pour tous les dépôts `oss_repo` ci-dessus au début puis ajouter des règles spécifiques plus loin, comme :
 
 	repo gitolite
 	    RW+                     = sitaram
 
-That rule will just get added to the ruleset for the `gitolite` repository.
+Cette règle sera juste ajoutée à l'ensemble des règles préexistantes du dépôt `gitolite`.
 
-At this point you might be wondering how the access control rules are actually applied, so let's go over that briefly.
+Du coup, il est nécessaire d'expliciter la politique d'application des règles de contrôle d'accès.
 
-There are two levels of access control in gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.
+Il existe deux niveaux de contrôle d'accès dans gitolite.
+Le premier réside au niveau du dépôt.
+Si vous avez un droit d'accès en lecture (resp. en écriture) à *n'importe quelle* ref du dépôt, alors vous avez accès en lecture (resp. en écriture) au dépôt.
 
-The second level, applicable only to "write" access, is by branch or tag within a repository.  The username, the access being attempted (`W` or `+`), and the refname being updated are known.  The access rules are checked in order of appearance in the config file, looking for a match for this combination (but remember that the refname is regex-matched, not merely string-matched).  If a match is found, the push succeeds.  A fallthrough results in access being denied.
+Le second niveau, applicable seulement pour l'accès en écriture se focalise sur les branches et les étiquettes dans un dépôt.
+L'utilisateur, le type d'accès en cours (`W`ou `+`) et le nom de la référence permettent de définir les critères.
+La règles d'accès sont vérifiées par ordre d'apparition dans le fichier de configuration, par recherche d'une correspondance sur cette combinaison (en se souvenant que la correspondance de référence est une refex, non une simple comparaison).
+Si une correspondance est trouvée, l'accès en poussée est accepté.
+Si aucune correspondance n'est trouvée, l'accès est refusé.
 
-### Advanced Access Control with "deny" rules ###
+### Contrôle d'accès avancé avec les règles "deny" ###
 
-So far, we've only seen permissions to be one or `R`, `RW`, or `RW+`.  However, gitolite allows another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
+Jusqu'ici, les seuls types de permissions rencontrés ont été `R`, `RW` ou `RW+`.
+Néanmoins, gitolite connaît une autre permission : `-` qui signifie "deny", accès refusé.
+Cela vous donne bien plus de possibilités, au prix d'une complexité accrue car à présent l'absence de correspondance n'est plus la *seule* manière de refuser l'accès, mais il devient nécessaire de faire attention à l'ordre des règles !
 
-Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  Here's how to do that:
+Supposons que dans la situation ci-dessus, nous souhaitons que les ingénieurs soient capables de rembobiner n'importe quelle branche *excepté* master et integ.
+Voici comment faire :
 
 	    RW  master integ    = @engineers
 	    -   master integ    = @engineers
 	    RW+                 = @engineers
 
-Again, you simply follow the rules top down until you hit a match for your access mode, or a deny.  Non-rewind push to master or integ is allowed by the first rule.  A rewind push to those refs does not match the first rule, drops down to the second, and is therefore denied.  Any push (rewind or non-rewind) to refs other than master or integ won't match the first two rules anyway, and the third rule allows it.
+Une fois encore, il suffit de suivre simplement les règles de haut en bas jusqu'à rencontrer une correspondance pour votre mode d'accès ou de refus.
+Les poussées en non-rembobinage sur master ou integ sont permises par la première règle.
+Les poussées en rembobinage à ces références n'ont pas de correspondance dans la première règle et se poursuivent par la seconde qui les refuse.
+Toute poussée (en rembobinage ou non) à des refs autres que master ou integ ne correspondra pas aux deux premières règles et sera permise par la troisième.
 
-### Restricting pushes by files changed ###
+### Restriction des poussées sur les fichiers modifiés ###
 
-In addition to restricting what branches a user can push changes to, you can also restrict what files they are allowed to touch.  For example, perhaps the Makefile (or some other program) is really not supposed to be changed by just anyone, because a lot of things depend on it or would break if the changes are not done *just right*.  You can tell gitolite:
+En sus de la restriction sur les branches utilisables par un utilisateur, il est possible de mettre en place des restrictions sur les fichiers qu'il aura droit de toucher.
+Par exemple, un Makefile (ou tout autre script) n'est pas supposé être modifié par n'importe qui, du fait que de nombreuses choses en dépendent et qu'une modification non maîtrisée pourrait casser beaucoup de choses.
+Vous pouvez indiquer à gitolite :
 
     repo foo
         RW                  =   @junior_devs @senior_devs
@@ -813,31 +863,41 @@ In addition to restricting what branches a user can push changes to, you can als
         -   NAME/Makefile   =   @junior_devs
         RW  NAME/           =   @junior_devs
 
-This powerful feature is documented in `conf/example.conf`.
+Cette fonctionnalité puissante est documentée dans `conf/example.conf`.
 
-### Personal Branches ###
+### Branches personnelles ###
 
-Gitolite also has a feature called "personal branches" (or rather, "personal branch namespace") that can be very useful in a corporate environment.
+Gitolite a aussi une fonction appelée "branches personnelles" (ou plutôt "espace de branches personnelles") qui peuvent s'avérer très utiles en environnement professionnel.
 
-A lot of code exchange in the git world happens by "please pull" requests.  In a corporate environment, however, unauthenticated access is a no-no, and a developer workstation cannot do authentication, so you have to push to the central server and ask someone to pull from there.
+Dans le monde de git, une grande quantité d'échange de code se passe par requêtes de tirage.
+En environnement professionnel, cependant, les accès non-authentifiés sont inimaginables et une authentification poste à poste est impossible.
+Il est donc nécessaire de pousser sur le serveur central et demander à quelqu'un d'en tirer.
 
-This would normally cause the same branch name clutter as in a centralised VCS, plus setting up permissions for this becomes a chore for the admin.
+Cela provoquerait normalement le même bazar de branches que dans les VCS centralisés, avec en plus la surcharge pour l'administrateur de la gestion des permissions.
 
-Gitolite lets you define a "personal" or "scratch" namespace prefix for each developer (for example, `refs/personal/<devname>/*`); see the "personal branches" section in `doc/3-faq-tips-etc.mkd` for details.
+Gitolite permet de définir un préfixe d'espace de nom "personnel" ou "brouillon" pour chaque développeur (par exemple, `refs/personnel/<nom du dev>`).
+Référez-vous au chapitre "branches personnelles" du fichier `doc/3-faq-tips-etc.mkd` pour plus de détails.
 
-### "Wildcard" repositories ###
+### Dépôts "joker" ###
 
-Gitolite allows you to specify repositories with wildcards (actually perl regexes), like, for example `assignments/s[0-9][0-9]/a[0-9][0-9]`, to pick a random example.  This is a *very* powerful feature, which has to be enabled by setting `$GL_WILDREPOS = 1;` in the rc file.  It allows you to assign a new permission mode ("C") which allows users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out R and RW permissions to other users to collaborate, etc.  This feature is documented in `doc/4-wildcard-repositories.mkd`.
+Gitolite permet de spécifier des dépôts avec jokers (en fait des regex perl), comme par exemple, au hasard, `devoirs/s[0-9][0-9]/a[0-9][0-9]`.
+Ceci est une fonctionnalité *très* puissante qui doit être activée en positionnant `$GL_WILDREPOS = 1;` dans le fichier rc.
+Un nouveau mode de permission devient accessible (« C »).
+En suivant ces schémas de nommage, les utilisateurs peuvent alors créer des branches dont ils seront automatiquement propriétaires, leur permettant ainsi de leur assigner des droits en lecture ou lecture-écriture pour d'autres utilisateurs avec lesquels ils souhaitent collaborer.
+Cette fonctionnalité est documentée dans `doc/4-wildcard-repositories.mkd`.
 
-### Other Features ###
+### Autres fonctionnalités ###
 
-We'll round off this discussion with a sampling of other features, all of which, and many more, are described in great detail in the "faqs, tips, etc" and other documents.
+Nous terminerons cette section avec quelques échantillons d'autres fonctions qui sont toutes décrites, ainsi que d'autres dans les documents faq, trucs et astuces, etc.
 
-**Logging**: Gitolite logs all successful accesses.  If you were somewhat relaxed about giving people rewind permissions (`RW+`) and some kid blew away "master", the log file is a life saver, in terms of easily and quickly finding the SHA that got hosed.
+**Journalisation** : Gitolite enregistre tous les accès réussis.
+Si vous étiez réticent à donner aux utilisateurs des droits de rembobiner (`RW+`) et qu'un plaisantin a complètement cassé "master", le journal des activités est là pour vous aider à trouver facilement et rapidement le SHA qui a tout déclenché.
 
-**Git outside normal PATH**: One extremely useful convenience feature in gitolite is support for git installed outside the normal `$PATH` (this is more common than you think; some corporate environments or even some hosting providers refuse to install things system-wide and you end up putting them in your own directories).  Normally, you are forced to make the *client-side* git aware of this non-standard location of the git binaries in some way.  With gitolite, just choose a verbose install and set `$GIT_PATH` in the "rc" files.  No client-side changes are required after that :-)
+** Git hors du PATH normal** : une fonctionnalité d'usage très utile consiste à supporter que git n'est pas installé dans le ̀$PATH` normal. Cette situation est beaucoup plus commune que l'on croit, des environnements professionnels ou même des fournisseurs d'hébergement refusent d'installer des outils au niveau système et on se retrouve à devoir les placer dans son propre répertoire. Normalement, il est nécessaire d'avertir d'une manière ou d'une autre la partie cliente de git de cette localisation non-standard des binaires de git. Avec gitolite, il suffit de choisir une installation verbeuse et de régler ̀$GIT_PATH` dans les fichiers "rc". Aucun réglage spécifique côté client n'est à réaliser.
 
-**Access rights reporting**: Another convenient feature is what happens when you try and just ssh to the server.  Gitolite shows you what repos you have access to, and what that access may be.  Here's an example:
+** Rapport sur les droits d'accès** : une autre fonctionnalité très utile concerne la prise en charge de la connexion ssh au serveur.
+Gitolite vous affiche quels dépôts vous pouvez accéder et avec quels droits.
+Ci-dessous un exemple :
 
         hello sitaram, the gitolite version here is v1.5.4-19-ga3397d4
         the gitolite config gives you the following access:
@@ -849,11 +909,16 @@ We'll round off this discussion with a sampling of other features, all of which,
              R     indic_web_input
              R     shreelipi_converter
 
-**Delegation**: For really large installations, you can delegate responsibility for groups of repositories to various people and have them manage those pieces independently.  This reduces the load on the main admin, and makes him less of a bottleneck.  This feature has its own documentation file in the `doc/` directory.
+**Délégation** : Pour les grands déploiements, il est possible de déléguer la responsabilité de groupes de dépôts à différentes personnes en leur permettant de les gérer de manière autonome.
+Cela permet de réduire la charge de travail de l'administrateur principal et évite d'en faire un goulet d'étranglement.
+Cette fonctionnalité est documentée dans le répertoire `doc/`.
 
-**Gitweb support**: Gitolite supports gitweb in several ways.  You can specify which repos are visible via gitweb.  You can set the "owner" and "description" for gitweb from the gitolite config file.  Gitweb has a mechanism for you to implement access control based on HTTP authentication, so you can make it use the "compiled" config file that gitolite produces, which means the same access control rules (for read access) apply for gitweb and gitolite.
+**Support de gitweb** : Gitolite supporte gitweb de différentes manières.
+Il est possible de spécifier quels dépôts sont visibles via gitweb.
+Il est surtout possible de renseigner le « propriétaire » et la « description » affichés par gitweb dans le fichier de configuration de gitolite.
+Gitweb permet la mise en place d'un mécanisme de contrôle d'accès basé sur l'authentification HTTP, et il est possible de lui faire utiliser un fichier de configuration compilé par gitolite, ce qui signifie que les mêmes règles d'accès (en lecture) s'appliquent à gitweb et à gitolite.
 
-**Mirroring**: Gitolite can help you maintain multiple mirrors, and switch between them easily if the primary server goes down.
+** Miroirs** : Gitolite peut vous aider à maintenir de multiples miroirs et à basculer simplement entre eux si le miroir principal tombe en panne.
 
 ## Le daemon Git ##
 

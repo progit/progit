@@ -6,9 +6,9 @@ Bu bölümde Git kullanımı hakında temel bilgileri bulabilirsiniz. İlk olara
 
 Versiyon kontrolü nedir ve neden kullanmamız gerekir? Versiyon kontrol sistemi bir dosya veya dosyalar bütünü üzerinde zaman içerisinde yapmış olduğumuz değişikliği kaydeder ve bu sayede gerektiğinde belirli bir versiyona geri dönebilmemizi sağlar. Örneğin bu kitapta bir yazılımın kaynak kodununun versiyon kontrolünü yapacağız, ayrıca bu kontrolü bilgisayarınızda bulunan hemen her dosya türü için yapabilirsiniz.
 
-Eğer bir grafik veya web tasarımcısı iseniz ve tasarımınızın her versiyonuna erişebilmek istiyorsanız, bir Versiyon Kontrol Sistemi (VKS) kullanmak çok akıllıca bir davranış olacaktır. It allows you to revert files back to a previous state, revert the entire project back to a previous state, compare changes over time, see who last modified something that might be causing a problem, who introduced an issue and when, and more. Using a VCS also generally means that if you screw things up or lose files, you can easily recover. In addition, you get all this for very little overhead.
+Eğer bir grafik veya web tasarımcısı iseniz ve tasarımınızın her versiyonuna erişebilmek istiyorsanız, bir Versiyon Kontrol Sistemi (VKS) kullanmak çok akıllıca bir davranış olacaktır. Bu sayede dosyalarınızı veya projenizin tamamını daha önceki haline getirebilir, yaptığınız değişiklikleri karşılaştırabilir, probleme sebep olan bir değişikliği kimin yaptığını görebilir, bir hatayı kimin rapor ettiğini ve çok daha fazlasını yaşabilirsiniz. Kısacası VKS kullanmak problemin içinden çıkamadığınızda veya dosya kaybına uğradığınızda herşeyi eski haline kolaylıkla getirmek demektir. Ek olarak, bu özellikleri kullanmanın size önemli bir ek yükü yoktur.
 
-### Local Version Control Systems ###
+### Yerel Versiyon Kontrol Sistemleri ###
 
 Many people’s version-control method of choice is to copy files into another directory (perhaps a time-stamped directory, if they’re clever). This approach is very common because it is so simple, but it is also incredibly error prone. It is easy to forget which directory you’re in and accidentally write to the wrong file or copy over files you don’t mean to.
 

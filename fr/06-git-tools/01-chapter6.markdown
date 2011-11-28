@@ -409,7 +409,7 @@ C'est équivalent à `git diff --cached` en ligne de commande :
 
 Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour manipuler votre zone d'attente un peu plus facilement.
 
-### Patches de Staging ###
+### Patches de l'index ###
 
 Git est également capable de mettre en attente certaines parties d'un fichier.
 Par exemple, si vous modifiez en 2 endroits votre fichier simplegit.rb et que vous souhaitez mettre en attente l'une d'entre elles seulement, cela peut se faire très aisément avec Git.

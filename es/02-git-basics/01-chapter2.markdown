@@ -902,38 +902,18 @@ Puedes ver los datos de la etiqueta junto con la confirmación que fue etiquetad
 
 	    Merge branch 'experiment'
 
-<<<<<<< HEAD:es-es/02-git-basics/01-chapter2.markdown
-Esto muestra la información del autor de la etiqueta, la fecha en la que la confirmación fue etiquetada, y el mensaje de anotación antes de mostrar la información del a confirmación.
+Esto muestra la información del autor de la etiqueta, la fecha en la que la confirmación fue etiquetada, y el mensaje de anotación antes de mostrar la información de la confirmación.
 
 ### Etiquetas firmadas ###
-
-También puedes firmar tus etiquetas con GPG, asumiendo que tienes una clave privada. Todo lo que tienes que hacer es usar el parámetro `-s` en lugar de `-a`.
-=======
-Esto muestra la información del etiquetador, la fecha en el que el commit fue etiquetado y el mensaje de anotación antes de mostrar la información del commit.
-
-> That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
-
-
-### Etiquetas firmadas ###
-> ### Signed Tags ###
 
 También puedes firmar tus etiquetas con GPG, siempre que tengas una clave privada. Lo único que debes hacer es usar `-s` en vez de `-a`:
-
-> You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
->>>>>>> progit/master:es/02-git-basics/01-chapter2.markdown
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-<<<<<<< HEAD:es-es/02-git-basics/01-chapter2.markdown
-Si ejecutas `git show` en esta etiqueta, puedes ser tu firma GPG adjuntada:
-=======
 Si ejecutas `git show` en esa etiqueta, puedes ver la firma GPG adjunta a ella:
-
-> If you run `git show` on that tag, you can see your GPG signature attached to it:
->>>>>>> progit/master:es/02-git-basics/01-chapter2.markdown
 
 	$ git show v1.5
 	tag v1.5
@@ -955,25 +935,11 @@ Si ejecutas `git show` en esa etiqueta, puedes ver la firma GPG adjunta a ella:
 
 	    Merge branch 'experiment'
 
-<<<<<<< HEAD:es-es/02-git-basics/01-chapter2.markdown
-Un poco más tarde aprenderás como verificar etiquetas firmadas.
+Más tarde, aprenderás cómo verificar etiquetas firmadas.
 
 ### Etiquetas ligeras ###
 
 Otra forma de etiquetar confirmaciones es con una etiqueta ligera. Esto es básicamente la suma de comprobación de la confirmación almacenada en un archivo —ninguna otra información es guardada—. Para crear una etiqueta ligera no añadas las opciones `-a`, `-s` o `-m`:
-=======
-Un poco después aprenderás como verificar etiquetas firmadas.
-
-> A bit later, you’ll learn how to verify signed tags.
-
-### Etiquetas ligeras ###
-
->### Lightweight Tags ###
-
-Otra forma de etiquetar commits es con etiquetas ligeras. Esto es básicamente el checksum del commit almacenado en un fichero - no se guarda ninguna otra información. Para crear una etiqueta ligera, no hay que añadir ninguna de las opciones `-a`, `-s`, or `-m`:
-
-> Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
->>>>>>> progit/master:es/02-git-basics/01-chapter2.markdown
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1011,7 +977,7 @@ Para verificar una etiqueta firmada, debes usar `git tag -v [tag-name]`. Este co
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-Si no tienes la clave pública del autor de la firma, se obtiene algo así:
+Si no tienes la clave pública del autor de la firma, se obtiene algo parecido a:
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
@@ -1086,7 +1052,7 @@ Si tienes un montón de etiquetas que quieres enviar a la vez, también puedes u
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Ahora, cuando alguien clone o reciba de tu repositorio, cogerá también todas tus etiquetas.
+Ahora, cuando alguien clone o reciba de tu repositorio, obtendrá también todas tus etiquetas.
 
 ## Consejos y trucos ##
 

@@ -1,12 +1,10 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 require 'fileutils'
-require 'open3'
 require 'erb'
 require 'yaml'
 
-include FileUtils, Open3
-alias :pipe :popen3
+include FileUtils
 
 $here = File.expand_path(File.dirname(__FILE__))
 $root = File.join($here, '..')
@@ -37,8 +35,12 @@ USAGE
 end
 
 def command_exists?(command)
-	ENV['PATH'].split(/:/).map do |path|
-		File.executable?("#{path}/#{command}")
+	if File.executable?(command) then
+		return command
+	end
+	ENV['PATH'].split(File::PATH_SEPARATOR).map do |path|
+		cmd = "#{path}/#{command}"
+		File.executable?(cmd) || File.executable?("#{cmd}.exe") || File.executable?("#{cmd}.cmd")
 	end.inject{|a, b| a || b}
 end
 
@@ -133,10 +135,10 @@ figures do
 		end.join("\n\n")
 
 		print "\tParsing markdown... "
-		latex = pipe('pandoc -p --no-wrap -f markdown -t latex') do |stdin, stdout|
-			stdin.write(pre_pandoc(markdown, config))
-			stdin.close
-			post_pandoc(stdout.read, config)
+		latex = IO.popen('pandoc -p --no-wrap -f markdown -t latex', 'w+') do |pipe|
+			pipe.write(pre_pandoc(markdown, config))
+			pipe.close_write
+			post_pandoc(pipe.read, config)
 		end
 		puts "done"
 
@@ -154,15 +156,15 @@ figures do
 		cd($root)
 		3.times do |i|
 			print "\t\tPass #{i + 1}... "
-			pipe("xelatex -output-directory='#{dir}' '#{dir}/main.tex' 2>&1") do |_, stdout|
+			IO.popen("xelatex -output-directory=\"#{dir}\" \"#{dir}/main.tex\" 2>&1") do |pipe|
 				unless $DEBUG
 					if ~ /^!\s/
 						puts "failed with:\n\t\t\t#{$_.strip}"
 						puts "\tConsider running this again with --debug."
 						abort = true
-					end while stdout.gets and not abort
+					end while pipe.gets and not abort
 				else
-					STDERR.print while stdout.gets rescue abort = true
+					STDERR.print while pipe.gets rescue abort = true
 				end
 			end
 			break if abort

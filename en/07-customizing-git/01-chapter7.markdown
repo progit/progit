@@ -709,7 +709,7 @@ The logic for checking this is to see if any commits are reachable from the olde
 
 	check_fast_forward
 
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file you into which you should have put all this code, and then try to push a non-fast-forwarded reference, you get something like this:
+Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file into which you should have put all this code, and then try to push a non-fast-forwarded reference, you get something like this:
 
 	$ git push -f origin master
 	Counting objects: 5, done.

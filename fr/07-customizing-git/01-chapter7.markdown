@@ -231,7 +231,7 @@ Après avoir réglé tout ceci, si vous lancez des commandes de diff telles que 
 Au lieu d'obtenir la sortie du diff dans le terminal, Git lance P4Merge, ce qui ressemble à la Figure 7-1.
 
 Insert 18333fig0701.png 
-Figure 7-1. P4Merge.
+Figure 7-1. L'outil de fusion P4Merge.
 
 Si vous essayez de fusionner deux branches et créez des conflits de fusion, vous pouvez lancer la commande `git mergetool` qui démarrera P4Merge pour vous laisser résoudre les conflits au moyen d'un outil graphique.
 

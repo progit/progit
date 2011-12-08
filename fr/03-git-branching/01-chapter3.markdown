@@ -429,7 +429,7 @@ Si vous souhaitez réellement effacer cette branche et perdre ainsi le travail r
 Après avoir acquis les bases pour brancher et fusionner, que pouvons-nous ou devons-nous en faire ?
 Ce chapitre traite des différents styles de développement que cette gestion de branche légère permet de mettre en place, pour vous aider à décider d'en incorporer une dans votre cycle de développement.
 
-### Branches au long cours###
+### Branches au long cours ###
 
 Comme Git utilise une fusion à 3 branches, fusionner une branche dans une autre plusieurs fois sur une longue période est généralement facile.
 Cela signifie que vous pouvez travailler sur plusieurs branches ouvertes en permanence pendant plusieurs étapes de votre cycle de développement ; vous pouvez fusionner régulièrement certaines dans d'autres.
@@ -522,7 +522,7 @@ Nommez ce serveur distant `equipeun` qui sera le raccourci pour l'URL complète 
 Insert 18333fig0325.png 
 Figure 3-25. Ajouter un autre serveur comme accès distant.
 
-Maintenant, lancez `git fetch equipeun` pour récupérer l'ensemble des informations du serveur que vous ne possédez pas.
+Maintenant, lancez `git fetch equipeun` pour récupérer l'ensemble des informations du serveur distant `equipeun` que vous ne possédez pas.
 Comme ce serveur contient déjà un sous-ensemble des données du serveur `origin`, Git ne récupère aucune donnée mais positionne une branche distante appelée `equipeun/master` qui pointe sur le commit que `equipeun` a comme branche `master` (voir figure 3-26).
 
 Insert 18333fig0326.png 
@@ -589,7 +589,7 @@ Si vous avez Git version 1.6.2 ou plus, vous pouvez aussi utiliser l'option cour
 
 	$ git checkout --track origin/correctionserveur
 	Branch correctionserveur set up to track remote branch refs/remotes/origin/correctionserveur.
-	Switched to a new branch "serverfix"
+	Switched to a new branch "correctionserveur"
 
 Pour créer une branche locale avec un nom différent de celui de la branche distante, vous pouvez simplement utiliser la première version avec un nom de branch locale différent :
 
@@ -657,7 +657,7 @@ Figure 3-29. Rebaser les modifications introduites par C3 sur C4.
 Insert 18333fig0330.png 
 Figure 3-30. Avance rapide sur la branche master.
 
-À présent, l'instantané pointé par C3 est exactement le même que celui pointé par C5 dans l'exemple de fusion.
+À présent, l'instantané pointé par C3' est exactement le même que celui pointé par C5 dans l'exemple de fusion.
 Il n'y a pas de différence entre les résultats des deux types d'intégration, mais rebaser rend l'historique plus clair.
 Si vous examinez le journal de la branche rebasée, elle est devenue linéaire : toutes les modifications apparaissent en série même si elles ont eu lieu en parallèle.
 

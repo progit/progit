@@ -473,7 +473,7 @@ Wenn du den Branch trotzdem löschen willst - und damit alle Änderungen dieses 
 
 ## Branching Workflows ##
 
-Jetzt da du die Grundlagen von 'branching' und 'merging' kennst, fragst du dich sicher, was du damit anfangen kannst. In diesem Abschnitt werden wir uns typische Workflows anschauen, die dieses leichtgewichtige 'branching' möglich macht. Und somit kannst du dann entscheiden, ob du es in deinem eigene Entwicklungszyklus verwenden willst.
+Jetzt da du die Grundlagen von 'branching' und 'merging' kennst, fragst du dich sicher, was du damit anfangen kannst. In diesem Abschnitt werden wir uns typische Workflows anschauen, die dieses leichtgewichtige 'branching' möglich machen. Und somit kannst du dann entscheiden, ob du es in deinem eigene Entwicklungszyklus verwenden willst.
 Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
 
 ### Langfristige Branches ###

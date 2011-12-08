@@ -43,7 +43,7 @@ na disku, takže může obnovit jakýkoli bod v minulosti aplikováním všech t
 ### Centralizované systémy správy verzí ###
 
 Další požadavek na SSV je, aby umožnil spolupráci více vývojářů z různých koutů světa. Proto byly vytvořeny
-centralizované systémy správy verzí (CSSV). Tyto systémy, jako např. CVS, Subversion nebo Perforce,
+centralizované systémy správy verzí (SSV). Tyto systémy, jako např. CVS, Subversion nebo Perforce,
 mají vždy jeden server, který obsahuje všechny spravované soubory ve všech verzích, a množství klientů,
 již stahují soubory z tohoto jednoho centrálního místa. Po mnoho let byl toto standard ve správě verzí (obr. 1-2).
 
@@ -64,14 +64,14 @@ vlastním počítači. Tím mimochodem trpí i místní SSV -- jakmile máte vš
 ### Distribuované systémy správy verzí ###
 
 Proto nastoupily na scénu distribuované SSV (DSSV). V takovém systému (Git, Mercurial, Bazaar, Darcs apod.)
-klient neuchovává jen poslední verzi souborů, nýbrž vytváří kompletní duplikát repositáře. Pak pokud nějaký
-server v těchto podmínkách odejde do počítačového nebe, nic se vlastně nestane. Jakýkoli repositář u klienta
+klient neuchovává jen poslední verzi souborů, nýbrž vytváří kompletní duplikát repozitáře. Pak pokud nějaký
+server v těchto podmínkách odejde do počítačového nebe, nic se vlastně nestane. Jakýkoli repozitář u klienta
 je možno nahrát zpět na server a jede se dál. Každý checkout je v podstatě kompletní záloha všech dat (obr. 1-3)
 
 Insert 18333fig0103.png 
 Obrázek 1-3. Distribuovaný SSV
 
-Navíc mnoho těchto systémů umí slušně pracovat s více vzdálenými repositáři najednou, takže můžete spolupracovat
+Navíc mnoho těchto systémů umí slušně pracovat s více vzdálenými repozitáři najednou, takže můžete spolupracovat
 s různými skupinami lidí na různých částech téhož projektu. To umožňuje mít různé způsoby organizace práce,
 které v centralizovaných systémech vůbec nejsou možné, jako je hierarchický model.
 
@@ -98,7 +98,7 @@ pro nelineární vývoj.
 
 ## Základy Gitu ##
 Takže v kostce, co je to Git? Tohle je důležité vědět, protože pokud budete rozumět, co to Git je a jak zhruba funguje,
-bude pro vás pravděpodobně výrazně jednodušší ho používat efektivně. Až se Git naůčíte, zkuste zapomenout všechno,
+bude pro vás pravděpodobně výrazně jednodušší ho používat efektivně. Až se Git naučíte, zkuste zapomenout všechno,
 co jste věděli o ostatních SSV jako Subversion nebo Perforce. Git ukládá informace a přemýšlí o nich naprosto
 odlišným způsobem i přesto, že uživatelské rozhraní je dosti podobné. Porozumět těmto drobným rozdílům pomůže
 překonat možnou prvotní zmatenost z přechodu na Git.
@@ -113,7 +113,7 @@ Insert 18333fig0104.png
 Obrázek 1-4. Ostatní systémy ukládají data jako změny každého souboru.
 
 Gitu je takovýto přístup cizí. Místo toho jsou pro něj data spíše mnoho snapshotů malého filesystému. Pokaždé, když commitnete[^2]
-stav svého projektu do Gitu, jednoduše si udělá obrázek, jak teď právě vypadají všechny soubory, a uloží to. Pro úsporu
+stav svého projektu do Gitu, jednoduše si udělá snímek, o tom jak právě teď vypadají všechny soubory, a uloží ho. Pro úsporu
 si nezměněné soubory ukládá jen jako odkaz na předchozí identický soubor. Git přemýšlí nad daty asi jako na obrázku 1-5.
 
 [^2]: Pozn. překl.: Český ekvivalent "předáte" se v podstatě neužívá.
@@ -127,7 +127,7 @@ nad sebou než prostě SSV. K některým výhodám tohoto přístupu dojdeme v k
 
 ### Většině operací stačí váš stroj ###
 
-Drtivá většina operací v Gitu nepotřebuje víc než místní soubory a zdroje. Obecně nepotřebuje žádnou informawci z jiného než vašeho stroje.
+Drtivá většina operací v Gitu nepotřebuje víc než místní soubory a zdroje. Obecně nepotřebuje žádnou informaci z jiného než vašeho stroje.
 Pokud jste zvyklí na CSSV, kde téměř všechny operace mají režijní náklady zvýšené o zpoždění na síti, pak si budete myslet, že božstvo rychlosti
 požehnalo Gitu a udělilo mu nadzemskou moc. Protože máte celou historii projektu právě u sebe na místním disku, vypadá většina operací,
 že jsou vykonány okamžitě.
@@ -138,7 +138,7 @@ a verzí měsíc starou, Git najde soubor v místní databázi a spočítá rozd
 stáhl starou verzi.
 
 To také znamená, že je velmi málo toho, co nemůžete dělat, pokud jste offline. Sedíte-li na palubě letadla nebo ve vlaku a chcete udělat trochu práce,
-můžete vesele commitovat, i když zrovna nemáte připojení k síti. Pokud jste doma a nemůžete se připojit k repositáři,
+můžete vesele commitovat, i když zrovna nemáte připojení k síti. Pokud jste doma a nemůžete se připojit k repozitáři,
 můžete stále pracovat. U mnoha jiných systému je to dosti bolestivý proces, ne-li zhola nemožný.
 V Perforce např. nemůžete dělat skoro nic; v Subversion nebo CVS můžete upravovat soubory, ale
 předat je nejde (logicky -- databáze je offline). To nemusí vypadat jako velká změna, ale může vás příjemně překvapit, jak výrazný rozdíl to může být.
@@ -162,9 +162,9 @@ hashe jeho obsahu.
 
 Pokud něco v Gitu děláte, téměř cokoli z toho jen přidá data do jeho databáze. Je opravdu obtížné donutit systém udělat něco, co by se nedalo vrátit,
 nebo donutit ho nějakým způsobem smazat svoje data. Jako v každém SSV můžete samozřejmě ztratit změny provedené od posledního commitu,
-ale jakmile jsou commitnuty, je velmi obtížné o ně přijít, zvláště pak pokud pravidelně zálohujete databázi do jiného repositáře.
+ale jakmile jsou commitnuty, je velmi obtížné o ně přijít, zvláště pak pokud pravidelně zálohujete databázi do jiného repozitáře.
 
-Je pak radost používat Git, protože víme, že můžeme experimentovat bez nebezpečí, že bychom si něco vážně poškodili. Pro hlubší náhled do problematiky,
+Je pak radost používat Git, protože víte, že můžete experimentovat bez nebezpečí, že byste si něco vážně poškodili. Pro hlubší náhled do problematiky,
 jak Git ukládá data a jak se můžete vrátit k datům, která vypadají, že jsou ztracena, si přečtěte kapitolu 9.
 
 ### Tři stavy ###
@@ -182,12 +182,12 @@ To nás vede ke třem hlavním sekcím projektu v Gitu: Git directory, working d
 [^4]: Pozn. překl.: Jako u předchozího. Tyto výrazy nemá nejmenší smysl překládat do češtiny.
 
 Insert 18333fig0106.png 
-Figure 1-6. Git directory, working directory a staging area
+Obrázek 1-6. Git directory, working directory a staging area
 
 Git directory je místo, kde Git skladuje svoje vnitřní data a databázi objektů vašeho projektu. To je ta nejdůležitější část Gitu,
-která se kopíruje, pokud si stahujete repositář z jiného počítače.
+která se kopíruje, pokud si stahujete repozitář z jiného počítače.
 
-Working directory je samotný obraz jedné verze spravovaného projektu. Jsou to soubory vytažené z databáze v Git directory
+Working directory je samotný snímek jedné verze spravovaného projektu. Jsou to soubory vytažené z databáze v Git directory
 a umístěné na disk, abyste je použili nebo měnili.
 
 Staging area je jednoduchý soubor, obvykle uložený ve vašem Git directory, který ukládá informace o tom, co bude součástí nejbližšího commitu.
@@ -265,8 +265,8 @@ Druhá základní možnost je přes MacPorts (`http://www.macports.org`). Když 
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
-Nemusíte samozřejmě přidávat všechny extra balíčky, ale určitě si vyberete naapř. +svn, pokud musíte ještě
-používat Git s repoozitáři Subversion (více v kapitole 8).
+Nemusíte samozřejmě přidávat všechny extra balíčky, ale určitě si vyberete např. +svn, pokud musíte ještě
+používat Git s repozitáři Subversion (více v kapitole 8).
 
 ### Instalujeme na Windows ###
 
@@ -288,7 +288,7 @@ Git obsahuje nástroj zvaný git config, který umožňuje nastavovat konfigura�
 
 Každá další vrstva překrývá tu předchozí, takže hodnoty v `.git/config` přebijí hodnoty z `/etc/gitconfig`.
 
-Na Windows hledá Git soubor `.gitconfig` v `$HOME` (obvykle `C:\Documents and Settings\$USER`). Samozřejmě pořád uvažuje /etc/gitconfig, přestože tato cesta je relativní ke kořenu MSys, což je místo, kam jste se rozhodli instalovat Git ve vašem systému Windows.
+Na Windows hledá Git soubor `.gitconfig` v `$HOME` (pro Windows 7 v `C:\Users\$USER` jinak obvykle `C:\Documents and Settings\$USER`). Samozřejmě pořád uvažuje /etc/gitconfig, přestože tato cesta je relativní ke kořenu MSys, což je místo, kam jste se rozhodli instalovat Git ve vašem systému Windows.
 
 ### Vaše identita ###
 

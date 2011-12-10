@@ -309,6 +309,8 @@ Git の属性を使ってできるちょっとした技として、どのファ�
 
 Git 1.6系では、バイナリファイルの差分を効果的に扱うためにGitの属性機能を使うことができます。通常のdiff機能を使って比較を行うことができるように、バイナリデータをテキストデータに変換する方法をGitに教えればいいのです。
 
+##### MS Word ファイル #####
+
 これは素晴らしい機能ですがほとんど知られていないので、少し例をあげてみたいと思います。あなたはまず最初に人類にとっても最も厄介な問題のひとつを解決するためにこのテクニックを使いたいと思うでしょう。そう、Wordで作成した文書のバージョン管理です。奇妙なことに、Wordは最悪のエディタだと全ての人が知ってるいるにも係わらず、全ての人がWordを使っています。Word文書をバージョン管理したいと思ったなら、Gitのリポジトリにそれらを追加して、まとめてcommitすればいいのです。しかし、それでいいのでしょうか？ あなたが'git diff'をいつも通りに実行すると、次のように表示されるだけです。
 
 	$ git diff 
@@ -323,6 +325,13 @@ Git 1.6系では、バイナリファイルの差分を効果的に扱うため�
 これは、指定したパターン(.doc)にマッチした全てのファイルに対して、差分を表示する時には"word"というフィルタを使うべきであるとGitに教えているのです。"word"フィルタとは何でしょうか？ それはあなたが用意しなければなりません。Word文書をテキストファイルに変換するプログラムとして `strings` を使うように次のようにGitを設定してみましょう。
 
 	$ git config diff.word.textconv strings
+
+このコマンドは、`.git/config` に次のようなセクションを追加します。
+
+	[diff "word"]
+		textconv = strings
+
+補足: `.doc` ファイルにもさまざまな種類があります。中には UTF-16 エンコーディングやその他の "コードページ" を使っているものもあり、`strings` では有効な結果を得られないかもしれません。有用性も落ちる可能性があります。
 
 これで、`.doc`という拡張子をもったファイルはそれぞれのファイルに`strings`というプログラムとして定義された"word"フィルタを通してからdiffを取るべきだということをGitは知っていることになります。こうすることで、Wordファイルに対して直接差分を取るのではなく、より効果的なテキストベースでの差分を取ることができるようになります。
 
@@ -342,6 +351,59 @@ Git 1.6系では、バイナリファイルの差分を効果的に扱うため�
 	+Let's see if this works.
 
 Gitは正しく、追加した"Let’s see if this works"という文字列を首尾よく、かつ、簡潔に知らせてくれました。予想外の差分が表示されているので、完璧といえません。しかし、正しく動作しているとはいえます。あなたがWord文書をテキストファイルに変換するもっと良いプログラムを見付けられれば、よりよい結果を得られるでしょう。とはいえ、`strings`はほとんどのMacとLinuxで動作するので、様々なバイナリフォーマットに試してみるのに、最初の選択肢としては良いと思います。
+
+##### OpenDocument Text ファイル #####
+
+MS Word ファイル (`*.doc`) と同じ考えかたで、OpenOffice.org の OpenDocument Text ファイル (`*.odt`) も扱えます。
+
+次の行を `.gitattributes` ファイルに追加しましょう。
+
+	*.odt diff=odt
+
+そして、`odt` diff フィルタを `.git/config` に追加します。
+
+	[diff "odt"]
+		binary = true
+		textconv = /usr/local/bin/odt-to-txt
+
+OpenDocument ファイルの正体は zip で、複数のファイル (XML 形式のコンテンツやスタイルシート、画像など) を含むディレクトリをまとめたものです。このコンテンツを展開し、プレーンテキストとして返すスクリプトが必要です。`/usr/local/bin/odt-to-txt` というファイルを作って (ディレクトリはどこでもかまいません)、次のような内容を書きましょう。
+
+	#! /usr/bin/env perl
+	# Simplistic OpenDocument Text (.odt) to plain text converter.
+	# Author: Philipp Kempgen
+	
+	if (! defined($ARGV[0])) {
+		print STDERR "No filename given!\n";
+		print STDERR "Usage: $0 filename\n";
+		exit 1;
+	}
+	
+	my $content = '';
+	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+	{
+		local $/ = undef;  # slurp mode
+		$content = <$fh>;
+	}
+	close $fh;
+	$_ = $content;
+	s/<text:span\b[^>]*>//g;           # remove spans
+	s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
+	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
+	s/<text:list\b[^>]*>/\n\n/g;       # lists
+	s/<text:p\b[^>]*>/\n  /g;          # paragraphs
+	s/<[^>]+>//g;                      # remove all XML tags
+	s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+	s/\A\n+//;                         # remove leading blank lines
+	print "\n", $_, "\n\n";
+
+そして実行権限をつけます。
+
+	chmod +x /usr/local/bin/odt-to-txt
+
+これで、`git diff` で `.odt` ファイルの変更点を確認できるようになりました。
+
+
+##### 画像ファイル #####
 
 その他の興味深い問題としては画像ファイルの差分があります。JPEGファイルに対するひとつの方法としては、EXIF情報(多くのファイルでメタデータとして使われています)を抽出するフィルタを使う方法です。`exiftool`をダウンロードしインストールすれば、画像データをメタデータの形でテキストデータとして扱うことができます。従って、次のように設定すれば、画像データの差分をメタデータの差分という形で表示することができます。
 

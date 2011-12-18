@@ -1,7 +1,7 @@
 default:
-  font: Liberation Serif
+  font: Helvetica
   bold: "{* Bold}"
-  mono: Liberation Mono
+  mono: Andale Mono
   prechap: "Chapter "
   postchap: ""
   presect: "Section "

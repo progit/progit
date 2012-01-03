@@ -381,33 +381,33 @@ Insert 18333fig0321.png
 
 지금까지 했던 작업은 전부 로컬에서만 처리된다는 것을 꼭 기억해야 한다. 로컬 저장소에서만 브랜치를 만들고 Merge했으며 서버와 통신을 주고받는 일은 없었다.
 
-## 원격 브랜치 ##
+## 리모트 브랜치 ##
 
-원격 브랜치란 원격 저장소에 있는 브랜치를 말한다. 사실 원격 브랜치도 로컬에 있지만 멋대로 옮기거나 할 수 없고 원격 저장소와 통신하면 자동으로 업데이트된다. 원격 브랜치는 원격 저장소에서 마지막으로 데이터를 가져온 시점의 브랜치 상태를 알려주는 책갈피라고 볼 수 있다.
+리모트 브랜치란 리모트 저장소에 있는 브랜치를 말한다. 사실 리모트 브랜치도 로컬에 있지만 멋대로 옮기거나 할 수 없고 리모트 저장소와 통신하면 자동으로 업데이트된다. 리모트 브랜치는 리모트 저장소에서 마지막으로 데이터를 가져온 시점의 브랜치 상태를 알려주는 책갈피라고 볼 수 있다.
 
-원격 브랜치의 이름은 (remote)/(branch) 형식으로 되어 있다. 예를 들어 원격 저장소 origin의 master 브랜치를 보고 싶다면 origin/master라는 이름으로 브랜치를 확인하면 된다. 다른 팀원과 함께 어떤 이슈를 구현할 때 그 팀원이 iss53 브랜치를 서버로 Push했고 당신도 로컬에 iss53 브랜치가 있다고 가정하자. 이때 서버가 가리키는 iss53 브랜치는 로컬에서 origin/iss53이 가리키는 커밋이다.
+리모트 브랜치의 이름은 (remote)/(branch) 형식으로 되어 있다. 예를 들어 리모트 저장소 origin의 master 브랜치를 보고 싶다면 origin/master라는 이름으로 브랜치를 확인하면 된다. 다른 팀원과 함께 어떤 이슈를 구현할 때 그 팀원이 iss53 브랜치를 서버로 Push했고 당신도 로컬에 iss53 브랜치가 있다고 가정하자. 이때 서버가 가리키는 iss53 브랜치는 로컬에서 origin/iss53이 가리키는 커밋이다.
 
 다소 헷갈릴 수 있으니 예제를 좀 더 살펴보자. `git.ourcompany.com` 이라는 Git 서버가 있고 이 서버의 저장소를 하나 Clone하면 Git은 자동으로 origin이라는 이름을 붙인다. origin으로부터 저장소 데이터를 모두 내려받고 나서 master 브랜치를 가리키는 포인터를 만든다. 이 포인터는 origin/master라고 부르고 멋대로 조종할 수 없다. 그리고 Git은 로컬의 master 브랜치가 origin/master를 가리키게 한다. 이제 이 master 브랜치에서 작업을 시작할 수 있다.
 
 Insert 18333fig0322.png
-그림 3-22. 저장소를 Clone하면 로컬 master 브랜치, 원격 저장소의 master 브랜치를 가리키는 origin/master 브랜치가 생김
+그림 3-22. 저장소를 Clone하면 로컬 master 브랜치, 리모트 저장소의 master 브랜치를 가리키는 origin/master 브랜치가 생김
 
 로컬 저장소에서 어떤 작업을 하고 있는데 동시에 다른 팀원이 `git.ourcompany.com` 서버에 Push하고 master 브랜치를 업데이트한다. 그러면 이제 팀원 간의 히스토리는 서로 달라진다. 또한, 서버 저장소로부터 어떤 데이터도 주고받지 않으면 origin/master 포인터는 항상 그대로다.
 
 Insert 18333fig0323.png
 그림 3-24. 로컬과 서버의 커밋 히스토리는 독립적임.
 
-원격 서버로부터 저장소 정보를 동기화하려면 `git fetch origin` 명령을 사용한다. 명령을 실행하면 우선 origin 서버의 주소 정보(이 예에서는 `git.ourcompany.com`)를 찾아서, 현재 로컬의 저장소가 갖고 있지 않은 새로운 정보가 있다면 모두 내려받고, 받은 데이터를 로컬 저장소에 업데이트하고 나서, origin/master 포인터의 위치를 최신 커밋으로 이동시킨다.
+리모트 서버로부터 저장소 정보를 동기화하려면 `git fetch origin` 명령을 사용한다. 명령을 실행하면 우선 origin 서버의 주소 정보(이 예에서는 `git.ourcompany.com`)를 찾아서, 현재 로컬의 저장소가 갖고 있지 않은 새로운 정보가 있다면 모두 내려받고, 받은 데이터를 로컬 저장소에 업데이트하고 나서, origin/master 포인터의 위치를 최신 커밋으로 이동시킨다.
 
 Insert 18333fig0324.png
-그림 3-24. Git의 Fetch 명령은 원격 브랜치 정보를 업데이트한다.
+그림 3-24. Git의 Fetch 명령은 리모트 브랜치 정보를 업데이트한다.
 
-원격 저장소를 여러 개 운영하는 상황을 이해할 수 있도록 개발용으로 사용할 Git 저장소를 팀 내부에 하나 추가해 보자.
+리모트 저장소를 여러 개 운영하는 상황을 이해할 수 있도록 개발용으로 사용할 Git 저장소를 팀 내부에 하나 추가해 보자.
 
 이 저장소의 주소가 `git.team1.ourcompany.com` 이면 2장에서 살펴본 `git remote add` 명령으로 현재 작업 중인 프로젝트에 팀의 저장소를 추가한다. 긴 서버 주소 대신 사용할 이름을 teamone으로 짓는다.
 
 Insert 18333fig0325.png
-그림 3-25. 서버를 원격 저장소로 추가하기
+그림 3-25. 서버를 리모트 저장소로 추가하기
 
 서버를 추가하고 나면 `git fetch teamone` 명령으로 teamone 서버의 데이터를 내려받는다. 명령을 실행해도 teamone 서버의 데이터는 모두 origin 서버에도 있는 것들이라서 아무것도 내려받지 않는다. 하지만, 이 명령을 실행하면 teamone/master 브랜치의 포인터가 temone의 master 브랜치와 가리키는 것을 가리키게 한다.
 
@@ -416,7 +416,7 @@ Insert 18333fig0326.png
 
 ### Push하기 ###
 
-로컬의 브랜치를 서버로 전송하려면 쓰기 권한이 있는 원격 저장소에 Push해야 한다. 로컬 저장소의 브랜치는 자동으로 원격 저장소로 전송되지 않는다. 명시적으로 브랜치를 Push해야 정보가 전송된다. 따라서 원격 저장소에 전송하지 않고 로컬 브랜치에만 두는 비공개 브랜치를 만들 수 있다. 또 다른 사람과 협업하기 위해 토픽 브랜치만 전송할 수도 있다.
+로컬의 브랜치를 서버로 전송하려면 쓰기 권한이 있는 리모트 저장소에 Push해야 한다. 로컬 저장소의 브랜치는 자동으로 리모트 저장소로 전송되지 않는다. 명시적으로 브랜치를 Push해야 정보가 전송된다. 따라서 리모트 저장소에 전송하지 않고 로컬 브랜치에만 두는 비공개 브랜치를 만들 수 있다. 또 다른 사람과 협업하기 위해 토픽 브랜치만 전송할 수도 있다.
 
 serverfix라는 브랜치를 다른 사람과 공유할 때에도 브랜치를 처음 Push하는 것과 같은 방법으로 Push한다. 다음과 같이 `git push (remote) (branch)` 명령을 사용한다:
 
@@ -430,7 +430,7 @@ serverfix라는 브랜치를 다른 사람과 공유할 때에도 브랜치를 �
 
 이 메시지에는 숨겨진 내용이 많다. 
 
-Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serverfix`로 확장한다. 이것은 serverfix라는 로컬 브랜치를 서버로 Push하는데 리모트의 serverfix 브랜치로 업데이트한다는 것을 의미한다. 나중에 9장에서 `refs/heads/`의 뜻을 자세히 알아볼 것이기 때문에 일단 넘어가도록 한다. `git push origin serverfix:serverfix`라고 Push하는 것도 같은 의미인데 이것은 '로컬의 serverfix 브랜치를 원격 저장소의 serverfix 브랜치로 Push하라'라는 뜻이다. 로컬 브랜치의 이름과 원격 서버의 브랜치 이름이 다를 때 필요하다. 원격 저장소에 serverfix라는 이름 대신 다른 이름을 사용하려면 `git push origin serverfix:awesomebranch`처럼 사용한다.
+Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serverfix`로 확장한다. 이것은 serverfix라는 로컬 브랜치를 서버로 Push하는데 리모트의 serverfix 브랜치로 업데이트한다는 것을 의미한다. 나중에 9장에서 `refs/heads/`의 뜻을 자세히 알아볼 것이기 때문에 일단 넘어가도록 한다. `git push origin serverfix:serverfix`라고 Push하는 것도 같은 의미인데 이것은 '로컬의 serverfix 브랜치를 리모트 저장소의 serverfix 브랜치로 Push하라'라는 뜻이다. 로컬 브랜치의 이름과 리모트 서버의 브랜치 이름이 다를 때 필요하다. 리모트 저장소에 serverfix라는 이름 대신 다른 이름을 사용하려면 `git push origin serverfix:awesomebranch`처럼 사용한다.
 
 나중에 누군가 저장소를 Fetch하고 나서 서버에 있는 serverfix 브랜치에 접근할 때 origin/serverfix라는 이름으로 접근할 수 있다:
 
@@ -442,9 +442,9 @@ Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serv
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-여기서 짚고 넘어가야 할 게 있다. Fetch 명령으로 원격 브랜치를 내려받는다고 해서 로컬 저장소에 수정할 수 있는 브랜치가 새로 생기는 것이 아니다. 다시 말해서 serverfix라는 브랜치가 생기는 것이 아니라 그저 수정 못 하는 origin/serverfix 브랜치 포인터가 생기는 것이다. 
+여기서 짚고 넘어가야 할 게 있다. Fetch 명령으로 리모트 브랜치를 내려받는다고 해서 로컬 저장소에 수정할 수 있는 브랜치가 새로 생기는 것이 아니다. 다시 말해서 serverfix라는 브랜치가 생기는 것이 아니라 그저 수정 못 하는 origin/serverfix 브랜치 포인터가 생기는 것이다. 
 
-새로 받은 브랜치의 내용을 Merge하려면 `git merge origin/serverfix` 명령을 사용한다. Merge하지 않고 원격 브랜치에서 시작하는 새 브랜치를 만들려면 아래와 같은 명령을 사용한다.
+새로 받은 브랜치의 내용을 Merge하려면 `git merge origin/serverfix` 명령을 사용한다. Merge하지 않고 리모트 브랜치에서 시작하는 새 브랜치를 만들려면 아래와 같은 명령을 사용한다.
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
@@ -454,7 +454,7 @@ Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serv
 
 ### 브랜치 추적(Tracking) ###
 
-원격 브랜치를 로컬 브랜치로 Checkout하면 자동으로 추적 브랜치(Tracking Branch)가 만들어진다. 추적 브랜치는 원격 브랜치와 직접적인 연결고리가 있는 로컬 브랜치이다. 추적 브랜치에서 `git push` 명령을 내려도 Git은 연결고리가 있어서 어떤 원격 저장소에 Push해야 하는지 알 수 있다. 또한 `git pull` 명령을 내리면 원격 저장소로부터 데이터를 내려받아 연결된 원격 브랜치와 자동으로 Merge한다.
+리모트 브랜치를 로컬 브랜치로 Checkout하면 자동으로 추적 브랜치(Tracking Branch)가 만들어진다. 추적 브랜치는 리모트 브랜치와 직접적인 연결고리가 있는 로컬 브랜치이다. 추적 브랜치에서 `git push` 명령을 내려도 Git은 연결고리가 있어서 어떤 리모트 저장소에 Push해야 하는지 알 수 있다. 또한 `git pull` 명령을 내리면 리모트 저장소로부터 데이터를 내려받아 연결된 리모트 브랜치와 자동으로 Merge한다.
 
 서버로부터 저장소를 Clone해올 때도 Git은 자동으로 master 브랜치를 origin/master 브랜치의 추적 브랜치로 만든다. 그래서 `git push`, `git pull` 명령이 추가적인 인자 없이도 동작할 수 있다. 추적 브랜치를 직접 만들 수 있는데 origin/master뿐만 아니라 다른 저장소의 다른 브랜치도 추적하게 할 수 있다. `git checkout -b [branch] [remotename]/[branch]` 명령으로 간단히 추적 브랜치를 만들 수 있다. Git 1.6.2 버전 이상을 사용하는 경우에는  --track 옵션도 사용할 수 있다.
 
@@ -462,7 +462,7 @@ Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serv
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch 'serverfix'
 
-원격 브랜치와 다른 이름으로 브랜치를 만들려면 로컬 브랜치의 이름을 아래와 같이 다르게 지정한다:
+리모트 브랜치와 다른 이름으로 브랜치를 만들려면 로컬 브랜치의 이름을 아래와 같이 다르게 지정한다:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
@@ -470,15 +470,15 @@ Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serv
 
 이제 sf 브랜치에서 Push나 Pull하면 자동으로 origin/serverfix에 데이터를 보내거나 가져온다.
 
-### 원격 브랜치 삭제 ###
+### 리모트 브랜치 삭제 ###
 
-동료와 협업하기 위해 원격 브랜치를 만들었다가 작업을 마치고 master 브랜치로 Merge했다. 협업하는 데 사용했던 그 원격 브랜치는 이제 안정화됐으므로 삭제할 수 있다. `git push [remotename] :[branch]`라고 실행해서 삭제할 수 있는데 이 명령은 좀 특이하게 생겼다. serverfix라는 원격 브랜치를 삭제하려면 다음과 같이 실행한다:
+동료와 협업하기 위해 리모트 브랜치를 만들었다가 작업을 마치고 master 브랜치로 Merge했다. 협업하는 데 사용했던 그 리모트 브랜치는 이제 안정화됐으므로 삭제할 수 있다. `git push [remotename] :[branch]`라고 실행해서 삭제할 수 있는데 이 명령은 좀 특이하게 생겼다. serverfix라는 리모트 브랜치를 삭제하려면 다음과 같이 실행한다:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-위 명령을 실행하고 나면 서버의 브랜치는 삭제된다. 이 명령을 잊어버릴 경우를 대비해서 페이지 귀퉁이를 접어놓고 필요할 때 펴보는 게 좋을지도 모르겠다. 이 명령은 앞서 살펴본 `git push [remotename] [localbranch]:[remotebranch]` 형식으로 기억하는 것이 좋다. [localbranch] 부분에 비워 둔 채로 실행하면 '로컬에서 빈 내용을 원격의 [remotebranch]에 채워 넣어라' 라는 뜻이 되기 때문이다.
+위 명령을 실행하고 나면 서버의 브랜치는 삭제된다. 이 명령을 잊어버릴 경우를 대비해서 페이지 귀퉁이를 접어놓고 필요할 때 펴보는 게 좋을지도 모르겠다. 이 명령은 앞서 살펴본 `git push [remotename] [localbranch]:[remotebranch]` 형식으로 기억하는 것이 좋다. [localbranch] 부분에 비워 둔 채로 실행하면 '로컬에서 빈 내용을 리모트의 [remotebranch]에 채워 넣어라' 라는 뜻이 되기 때문이다.
 
 ## Rebase하기 ##
 
@@ -517,7 +517,7 @@ Insert 18333fig0330.png
 
 C3'로 표시된 커밋에서의 내용은 Merge 예제에서 살펴본 C5 커밋에서의 내용과 같을 것이다. Merge이든 Rebase든 둘 다 합치는 관점에서는 서로 다를 게 없다. 하지만, Rebase가 좀 더 깨끗한 히스토리를 만든다. Rebase한 브랜치의 Log를 살펴보면 히스토리가 선형적이다. 일을 병렬로 동시에 진행해도 Rebase하고 나면 모든 작업이 차례대로 수행된 것처럼 보인다. 
 
-Rebase는 보통 원격 브랜치에 커밋을 깔끔하게 적용하고 싶을 때 사용한다. 아마 이렇게 Rebase하는 원격 브랜치는 직접 관리하는 것이 아니라 그냥 참여하는 브랜치일 것이다. 메인 프로젝트에 패치를 보낼 준비가 되면 하는 것이 Rebase이니까 브랜치에서 하던 일을 완전히 마치고 origin/master로 Rebase한다. 프로젝트 관리자는 어떠한 통합작업도 필요 없다. 그냥 master 브랜치를 Fast-forward 시키면 된다.
+Rebase는 보통 리모트 브랜치에 커밋을 깔끔하게 적용하고 싶을 때 사용한다. 아마 이렇게 Rebase하는 리모트 브랜치는 직접 관리하는 것이 아니라 그냥 참여하는 브랜치일 것이다. 메인 프로젝트에 패치를 보낼 준비가 되면 하는 것이 Rebase이니까 브랜치에서 하던 일을 완전히 마치고 origin/master로 Rebase한다. 프로젝트 관리자는 어떠한 통합작업도 필요 없다. 그냥 master 브랜치를 Fast-forward 시키면 된다.
 
 Rebase를 하든지, Merge를 하든지 최종 결과물은 같고 커밋 히스토리만 다르다는 것이 중요하다. Rebase의 경우는 브랜치의 변경사항을 순서대로 다른 브랜치에 적용하면서 합치고 Merge의 경우는 두 브랜치의 최종결과만을 가지고 합친다.
 
@@ -582,7 +582,7 @@ Rebase는 기존의 커밋을 그대로 사용하는 것이 아니라 내용은 
 Insert 18333fig0336.png
 그림 3-36. 저장소를 Clone하고 일부 수정함.
 
-이제 팀원 중 누군가 커밋, Merge하고 나서 서버에 Push 한다. 이 원격 브랜치를 Fetch, Merge하면 그림 3-47과 같이 된다.
+이제 팀원 중 누군가 커밋, Merge하고 나서 서버에 Push 한다. 이 리모트 브랜치를 Fetch, Merge하면 그림 3-47과 같이 된다.
 
 Insert 18333fig0337.png
 그림 3-37. Fetch한 후 Merge함.

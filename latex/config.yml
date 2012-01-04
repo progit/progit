@@ -111,6 +111,7 @@ ko:
   con: "목차"
   fig: "그림"
   tab: "표"
+  thanks: "지금 보시는 문서는 Pro Git 책에 대한 PDF 파일입니다. 본 문서는 Creative Commons 저작자표시-비영리조건-동일조건변경허락 3.0(Creative Commons Attribution-Non Commercial-Share Alike 3.0) 라이센스를 따릅니다. 여러분이 Git을 이해하는데 도움이 되기를 희망합니다. 종이로 출판된 책을 Amazon 웹사이트 \\url{http://tinyurl.com/amazonprogit} 에서 구입하여 저를 비롯한 Apress에도 도움을 주시기를 기대하겠습니다.\\newline한국어 번역은 박창우(pismute@gmail.com), 이성환(lethee@gmail.com)이 하였습니다. 오역 등의 개선 사항은 역자의 메일로 보내주시거나 한국어 번역 게시판에 \\url{https://github.com/dogfeet/progit/issues} 남겨주시기 바랍니다. 직접 개선해서 패치나 Pull Request를 보내주셔도 됩니다."
 be:
   prechap: "Глава "
   presect: "Раздзел "

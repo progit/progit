@@ -2,7 +2,7 @@
 
 Quasiment tous les VCS ont une forme ou une autre de gestion de branche.
 Faire une branche signifie diverger de la ligne principale de développement et continuer à travailler sans se préoccuper de cette ligne principale.
-Dans de nombreux outils de gestion de version, cette fonctionnalité est souvent chère en ressources et nécessite souvent de créer une nouvelle copie du répertoire de travail, ce qui peut prendre longtemps dans le cas de grands projets.
+Dans de nombreux outils de gestion de version, cette fonctionnalité est souvent chère en ressources et nécessite de créer une nouvelle copie du répertoire de travail, ce qui peut prendre longtemps dans le cas de gros projets.
 
 De nombreuses personnes font référence au modèle de gestion de branche de Git comme LA fonctionnalité et c'est sûrement la spécificité de Git par rapport à la communauté des gestionnaires de version.
 Pourquoi est-elle si spéciale ?
@@ -13,7 +13,7 @@ Bien comprendre et maîtriser cette fonctionnalité est un atout pour faire de G
 ## Ce qu'est une branche ##
 
 Pour réellement comprendre comment Git gère les branches, nous devons revenir en arrière et examiner de plus près comment Git stocke ses données.
-Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données comme une série de changesets ou deltas, mais comme une série d'instantanés.
+Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données comme une série de d'ensembles de modifications ou différences, mais comme une série d'instantanés.
 
 Lorsqu'on valide dans Git, Git stocke un objet commit qui contient un pointeur vers l'instantané du contenu qui a été indexé, les méta-données d'auteur et de message et zéro ou plusieurs pointeurs vers le ou les commits qui sont les parents directs de ce commit :
 zéro parent pour la première validation, un parent pour un commit normal et des parents multiples pour des commits qui sont le résultat de la fusion d'une ou plusieurs branches.
@@ -28,7 +28,7 @@ Lorsque vous créez le commit en lançant la commande `git commit`, Git calcule 
 Git crée alors un objet commit qui contient les méta-données et un pointeur vers l'arbre projet d'origine de manière à pouvoir recréer l'instantané si besoin.
 
 Votre dépôt Git contient à présent cinq objets :
-un blob pour le contenu de chacun des trois fichiers, un arbre qui liste les contenus des répertoires et spécifie quels noms de fichier sont attachés à quels blobs et un objet commit avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au commit.
+un blob pour le contenu de chacun des trois fichiers, un arbre qui liste le contenu du répertoire et spécifie quels noms de fichier sont attachés à quels blobs et un objet commit avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au commit.
 Conceptuellement, les données contenues dans votre dépôt git ressemblent à la Figure 3-1.
 
 Insert 18333fig0301.png 
@@ -50,10 +50,10 @@ Figure 3-3. Branche pointant dans l'historique des données de commit.
 
 Que se passe-t-il si vous créez une nouvelle branche ?
 Et bien, cela crée un nouveau pointeur à déplacer.
-Supposons que vous créez une nouvelle branche nommée testing.
+Supposons que vous créez une nouvelle branche nommée test.
 Vous utilisez la commande `git branch` :
 
-	$ git branch testing
+	$ git branch test
 
 Cela crée un nouveau pointeur vers le commit actuel (Cf. figure 3-4).
 
@@ -71,11 +71,11 @@ Insert 18333fig0305.png
 Figure 3-5. fichier HEAD pointant sur la branche active
 
 Pour basculer vers une branche existante, il suffit de lancer la commande `git checkout`.
-Basculons vers la nouvelle branche testing :
+Basculons vers la nouvelle branche test :
 
-	$ git checkout testing
+	$ git checkout test
 
-Cela déplace HEAD pour le faire pointer vers la branche testing (voir figure 3-6)
+Cela déplace HEAD pour le faire pointer vers la branche test (voir figure 3-6)
 
 Insert 18333fig0306.png
 Figure 3-6. HEAD pointe vers une autre branche quand on bascule de branche
@@ -91,7 +91,7 @@ La figure 3-7 illustre le résultat.
 Insert 18333fig0307.png 
 Figure 3-7. La branche sur laquelle HEAD pointe avance avec chaque nouveau commit.
 
-C'est intéressant parce qu'à présent, votre branche testing a avancé, tandis que la branche master pointe toujours sur le commit sur lequel vous étiez lorsque vous avez lancé `git checkout` pour basculer de branche.
+C'est intéressant parce qu'à présent, votre branche test a avancé, tandis que la branche master pointe toujours sur le commit sur lequel vous étiez lorsque vous avez lancé `git checkout` pour basculer de branche.
 Retournons sur la branche master :
 
 	$ git checkout master
@@ -104,7 +104,7 @@ Figure 3-8. HEAD se déplace sur une autre branche lors d'un checkout.
 Cette commande a réalisé deux actions.
 Elle a remis le pointeur HEAD sur la branche master et elle a replacé les fichiers de la copie de travail dans l'état pointé par master.
 Cela signifie aussi que les modifications que vous réalisez à partir de maintenant divergeront de l'ancienne version du projet.
-Cette commande retire les modifications réalisées dans la branche testing pour vous permettre de repartir dans une autre direction de développement.
+Cette commande retire les modifications réalisées dans la branche test pour vous permettre de repartir dans une autre direction de développement.
 
 Réalisons quelques autres modifications et validons à nouveau :
 
@@ -185,9 +185,9 @@ Maintenant vous recevez un appel qui vous apprend qu'il y a un problème sur le 
 Avec Git, vous n'avez pas besoin de déployer les modifications déjà validée pour `prob53` avec les correctifs du problème et vous n'avez pas non plus à suer pour éliminer ces modifications avant de pouvoir appliquer les correctifs du problème en production.
 Tout ce que vous avez à faire, c'est simplement rebasculer sur la branche `master`.
 
-Cependant, avant de le faire, notez que si votre copie de travail ou votre zone de préparation contient des modifications non validées qui sont en conflit avec la branche que vous extrayez, Git ne vous laissera pas basculer de branche.
+Cependant, avant de le faire, notez que si votre copie de travail ou votre zone d'index contiennent des modifications non validées qui sont en conflit avec la branche que vous extrayez, Git ne vous laissera pas basculer de branche.
 Le mieux est d'avoir votre copie de travail dans un état propre au moment de basculer de branche.
-Il y a des moyens de contourner ceci (précisément par la planque et l'amendement de commit) dont nous parlerons plus loin.
+Il y a des moyens de contourner ceci (précisément par la remise et l'amendement de commit) dont nous parlerons plus loin.
 Pour l'instant, vous avez validé tous vos changements dans la branche `prob53` et vous pouvez donc rebasculer vers la branche `master` : 
 
 	$ git checkout master
@@ -271,7 +271,7 @@ La figure 3-16 illustre les trois instantanés que Git utilise pour réaliser la
 Insert 18333fig0316.png 
 Figure 3-16. Git identifie automatiquement la meilleure base d'ancêtre commun pour réaliser la fusion.
 
-Au lieu de simplement d'avancer le pointeur de branche, Git crée un nouvel instantané qui résulte de la fusion à trois branches et crée automatiquement un nouveau commit qui pointe dessus (voir figure 3-17).
+Au lieu d'avancer simplement le pointeur de branche, Git crée un nouvel instantané qui résulte de la fusion à trois branches et crée automatiquement un nouveau commit qui pointe dessus (voir figure 3-17).
 On appelle ceci un commit de fusion, qui est spécial en ce qu'il comporte plus d'un parent.
 
 Il est à noter que Git détermine par lui-même le meilleur ancêtre commun à utiliser comme base de fusion ; ce comportement est très différent de celui de CVS ou Subversion (antérieur à la version 1.5), où le développeur en charge de la fusion doit trouver par lui-même la meilleure base de fusion.
@@ -332,7 +332,7 @@ Par exemple, vous pourriez choisir de résoudre ce conflit en remplaçant tout l
 
 Cette résolution comporte des parties de chaque section et les lignes `<<<<<<<`, `=======` et `>>>>>>>` ont été complètement effacées.
 Après avoir résolu chacune de ces sections dans chaque fichier comportant un conflit, lancez `git add` sur chaque fichier pour le marquer comme résolu.
-Préparer le fichier en zone de préparation suffit à le marquer résolu pour Git.
+Préparer le fichier en zone d'index suffit à le marquer résolu pour Git.
 Si vous souhaitez utiliser un outil graphique pour résoudre ces problèmes, vous pouvez lancer `git mergetool` qui démarre l'outil graphique de fusion approprié et vous permet de naviguer dans les conflits :
 
 	$ git mergetool
@@ -387,7 +387,7 @@ Si vous la lancez sans argument, vous obtenez la liste des branches courantes :
 	$ git branch
 	  prob53
 	* master
-	  testing
+	  test
 
 Notez le caractère `*` qui préfixe la branche `master`.
 Ce caractère indique la branche qui a été extraite.
@@ -396,11 +396,11 @@ Pour visualiser les dernières validations sur chaque branche, vous pouvez lance
 
 	$ git branch -v
 	  prob53   93b412c fix javascript issue
-	* master  7a98805 Merge branch 'prob53'
-	  testing 782fd34 add scott to the author list in the readmes
+	* master   7a98805 Merge branch 'prob53'
+	  test     782fd34 add scott to the author list in the readmes
 
 Une autre option permettant de voir l'état des branches permet de filtrer cette liste par les branches qui ont ou n'ont pas encore été fusionnées dans la branche courante.
-Les options `--merged` et `--no-merge` sont disponibles depuis la version 1.5.6 de Git.
+Les options `--merged` et `--no-merged` sont disponibles depuis la version 1.5.6 de Git.
 Pour voir quelles branches ont déjà été fusionnées dans votre branche actuelle, lancez `git branch --merged` :
 
 	$ git branch --merged
@@ -413,14 +413,14 @@ Les branches de cette liste qui ne comportent pas l'étoile en préfixe peuvent 
 Lancez `git branch --no-merged` pour visualiser les branches qui contiennent des travaux qui n'ont pas encore été fusionnés :
 
 	$ git branch --no-merged
-	  testing
+	  test
 
 Ceci montre votre autre branche.
 Comme elle contient des modifications qui n'ont pas encore été fusionnées, un essai d'effacement par `git branch -d` se solde par un échec :
 
-	$ git branch -d testing
-	error: The branch 'testing' is not an ancestor of your current HEAD.
-	If you are sure you want to delete it, run 'git branch -D testing'.
+	$ git branch -d test
+	error: The branch 'test' is not an ancestor of your current HEAD.
+	If you are sure you want to delete it, run 'git branch -D test'.
 
 Si vous souhaitez réellement effacer cette branche et perdre ainsi le travail réalisé, vous pouvez forcer l'effacement avec l'option `-D`, comme l'indique justement le message.
 
@@ -454,10 +454,10 @@ Des projets plus gros ont aussi une branche `proposed` ou `pu` (proposed updates
 L'idée reste que les branches évoluent à différents niveaux de stabilité ; quand elles atteignent un niveau plus stable, elles peuvent être fusionnées dans la branche de stabilité supérieure.
 Une fois encore, les branches au long cours ne sont pas nécessaires, mais s'avèrent souvent utiles, spécialement dans le cadre de projets gros ou complexes.
 
-### Les branches de sujet ###
+### Les branches thématiques ###
 
-Les branches de sujet sont tout de même utiles quelle que soit la taille du projet.
-Une branche de sujet est une branche de courte durée de vie créée et utilisée pour une fonctionnalité ou une tâche particulière.
+Les branches thématiques sont tout de même utiles quelle que soit la taille du projet.
+Une branche thématique est une branche de courte durée de vie créée et utilisée pour une fonctionnalité ou une tâche particulière.
 C'est une manière d'opérer que vous n'avez vraisemblablement jamais utilisée avec un autre VCS parce qu'il est généralement trop lourd de créer et fusionner des branches.
 Mais dans Git, créer, développer, fusionner et effacer des branches plusieurs fois par jour est monnaie courante.
 
@@ -471,7 +471,7 @@ Supposons un exemple où pendant un travail (sur `master`), vous branchiez pour 
 Votre historique de commit pourrait ressembler à la figure 3-20.
 
 Insert 18333fig0320.png 
-Figure 3-20. Votre historique de commit avec de multiples branches de sujet.
+Figure 3-20. Votre historique de commit avec de multiples branches thématiques.
 
 Maintenant, supposons que vous décidiez que vous préférez la seconde solution pour le problème (`prob91v2`) et que vous ayez montré la branche `ideeidiote` à vos collègues qui vous ont dit qu'elle était géniale.
 Vous pouvez jeter la branche `prob91` originale (en effaçant les commits C5 et C6) et fusionner les deux autres.
@@ -550,7 +550,7 @@ En fait, Git étend le nom de branche `correctionserveur` en `refs/heads/correct
 Nous traiterons plus en détail la partie `refs/heads/` au chapitre 9, mais vous pouvez généralement l'oublier.
 Vous pouvez aussi lancer `git push origin correctionserveur:correctionserveur`, qui réalise la même chose — ce qui signifie « Prendre ma branche correctionserveur et en faire la branche correctionserveur distante ».
 Vous pouvez utiliser ce format pour pousser une branche locale vers une branche distante nommée différemment.
-Si vous ne souhaitez pas l'appeler `correctionserveur` sur le serveur distant, vous pouvez lancer à la place `git push origin correctionserveur:branchegeniale` pour pousser votre branche locale `correctionserveur` sur la branche `branchegeniale` sur le projet distant.
+Si vous ne souhaitez pas l'appeler `correctionserveur` sur le serveur distant, vous pouvez lancer à la place `git push origin correctionserveur:branchegeniale` pour pousser votre branche locale `correctionserveur` sur la branche `branchegeniale` sur le dépôt distant.
 
 La prochaine fois qu'un de vos collaborateurs récupère les données depuis le serveur, il récupérera une référence à l'état de la branche distante `origin/correctionserveur` :
 
@@ -613,7 +613,7 @@ Si vous souhaitez effacer votre branche `correctionserveur` du serveur, vous pou
 Boum !
 Plus de branche sur le serveur.
 Vous souhaiterez sûrement corner cette page parce que vous aurez besoin de cette commande et il y a de fortes chances que vous en oubliez la syntaxe.
-Un moyen mnémotechnique est de l'associer à la syntaxe de la commande `git push [nomdistant] [branchelocale]:[branchedistante]` que nous avons utilisé précédemment.
+Un moyen mnémotechnique est de l'associer à la syntaxe de la commande `git push [nomdistant] [branchelocale]:[branchedistante]` que nous avons utilisée précédemment.
 Si vous éliminez la partie `[branchelocale]`, cela signifie « ne rien prendre de mon côté et en faire `[branchedistante]` ».
 
 ## Rebaser ##
@@ -672,23 +672,23 @@ Rebaser rejoue les modifications d'une ligne de commits sur une autre dans l'ord
 
 Vous pouvez aussi faire rejouer votre rebasage sur autre chose qu'une branche.
 Prenez l'historique de la figure 3-31 par exemple.
-Vous avez créé une branche pour un sujet spécifique (`server`) pour ajouter des fonctionnalités côté serveur à votre projet et avez réalisé un commit.
+Vous avez créé une branche pour un sujet spécifique (`serveur`) pour ajouter des fonctionnalités côté serveur à votre projet et avez réalisé un commit.
 Ensuite, vous avez créé une branche pour ajouter des modifications côté client (`client`) et avez validé plusieurs fois.
-Finalement, vous avez rebasculé sur la branche `server` et avez réalisé quelques commits supplémentaires.
+Finalement, vous avez rebasculé sur la branche `serveur` et avez réalisé quelques commits supplémentaires.
 
 Insert 18333fig0331.png 
-Figure 3-31. Un historique avec une branche qui sort d'une autre branche de sujet.
+Figure 3-31. Un historique avec une branche qui sort d'une autre branche thématique.
 
 Supposons que vous décidez que vous souhaitez fusionner vos modifications pour le côté client dans votre ligne principale pour une publication mais vous souhaitez retenir les modifications pour la partie serveur jusqu'à ce qu'elles soient un peu plus testées.
 Vous pouvez récupérer les modifications pour le côté client qui ne sont pas sur le serveur (C8 et C9) et les rejouer sur la branche master en utilisant l'option `--onto` de `git rebase` :
 
-	$ git rebase --onto master server client
+	$ git rebase --onto master serveur client
 
-Cela signifie en essence « Extrait la branche client, détermine les patchs depuis l'ancêtre commun des branches `client` et `server` puis rejoue les sur `master` ».
+Cela signifie en essence « Extrait la branche client, détermine les patchs depuis l'ancêtre commun des branches `client` et `serveur` puis rejoue les sur `master` ».
 C'est assez complexe, mais le résultat visible sur la figure 3-32 est assez impressionnant.
 
 Insert 18333fig0332.png 
-Figure 3-32. Rebaser une branche de sujet sur une autre branche.
+Figure 3-32. Rebaser une branche thématique sur une autre branche.
 
 Maintenant, vous pouvez faire une avance rapide sur votre branche master (voir figure 3-33) :
 
@@ -698,25 +698,25 @@ Maintenant, vous pouvez faire une avance rapide sur votre branche master (voir f
 Insert 18333fig0333.png 
 Figure 3-33. Avance rapide sur votre branche master pour inclure les modifications de la branche client.
 
-Supposons que vous décidiez de tirer de votre branche server aussi.
-Vous pouvez rebaser la branche server sur la branche master sans avoir à l'extraire avant en utilisant `git rebase [branchedebase] [branchedesujet]` — qui extrait la branche de sujet (dans notre cas, `server`) pour vous et la rejoue sur la branche de base (`master`) :
+Supposons que vous décidiez de tirer de votre branche serveur aussi.
+Vous pouvez rebaser la branche serveur sur la branche master sans avoir à l'extraire avant en utilisant `git rebase [branchedebase] [branchedesujet]` — qui extrait la branche thématique (dans notre cas, `serveur`) pour vous et la rejoue sur la branche de base (`master`) :
 
-	$ git rebase master server
+	$ git rebase master serveur
 
-Cette commande rejoue les modifications de `server` sur le sommet de la branche `master`, comme indiqué dans la figure 3-34.
+Cette commande rejoue les modifications de `serveur` sur le sommet de la branche `master`, comme indiqué dans la figure 3-34.
 
 Insert 18333fig0334.png 
-Figure 3-34. Rebaser la branche server sur le sommet de la branche master.
+Figure 3-34. Rebaser la branche serveur sur le sommet de la branche master.
 
 Ensuite, vous pouvez faire une avance rapide sur la branche de base (`master`) :
 
 	$ git checkout master
-	$ git merge server
+	$ git merge serveur
 
-Vous pouvez effacer les branches `client` et `server` une fois que tout le travail est intégré et que vous n'en avez plus besoin, éliminant tout l'historique de ce processus, comme visible sur la figure 3-35 :
+Vous pouvez effacer les branches `client` et `serveur` une fois que tout le travail est intégré et que vous n'en avez plus besoin, éliminant tout l'historique de ce processus, comme visible sur la figure 3-35 :
 
 	$ git branch -d client
-	$ git branch -d server
+	$ git branch -d serveur
 
 Insert 18333fig0335.png 
 Figure 3-35. L'historique final des commits.
@@ -771,6 +771,6 @@ Si vous tentez de rebaser des commits déjà publiés sur lesquels les gens ont 
 
 ## Résumé ##
 
-Nous avons traité les bases des branches et de fusions dans Git.
+Nous avons traité les bases des branches et des fusions dans Git.
 Vous devriez être à l'aise pour le création et le basculement sur de nouvelles branches, le basculement entre branches et la fusion de branches locales.
 Vous devriez aussi être capable de partager vos branches en les poussant sur une serveur partagé, travailler avec d'autres personnes sur des branches partagées et rebaser vos branches avant de les partager.

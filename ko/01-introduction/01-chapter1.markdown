@@ -108,7 +108,7 @@ Git Directory는 Git이 프로젝트의 메타데이터와 객체 데이터베�
 
 Working Directory는 프로젝트의 특정 버전을 Checkout 한 것이다. Git Directory는 지금 작업하는 디스크에 있고 그 Directory에 압축된 데이터베이스에서 파일을 가져와서 Working Directory를 만든다.
 
-Staging Area는 Git Directory에 있다. 단순한 파일이고 곧 Commit 할 파일에 대한 정보를 저장한다. 인덱스처럼 단순히 Staging Area는 파일을 가리키는 것에 불과하다.
+Staging Area는 Git Directory에 있다. 단순한 파일이고 곧 Commit 할 파일에 대한 정보를 저장한다. 종종 인덱스라고 불리기도 하지만, Staging Area라는 명칭이 표준이 되어가고 있다.
 
 Git으로 하는 일은 기본적으로 다음과 같다:
 

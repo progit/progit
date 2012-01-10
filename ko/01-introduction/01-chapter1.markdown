@@ -116,8 +116,6 @@ Git으로 하는 일은 기본적으로 다음과 같다:
 - Staging Area에 파일을 Stage 해서 Commit 할 Snapshot을 만든다.
 - Staging Area에 있는 파일들을 Commit 해서 Git Directory에 영구적인 Snapshot으로 저장한다.
 
-해당 작업이 독립적인 의미가 되면 Commit 한다. 파일을 수정하고 Staging Area에 추가했다면 단지 Staged 상태만 된 것이다. Checkout 한 후에 파일을 수정하고 Staged 상태로 만들지 않았다면 그냥 Modified 상태이다. 2장에서 이 상태들에 대해서 좀 더 배울 것이다. 2장에서는 이 상태들의 활용법과 Staged 단계를 사용하지 않는 방법도 배운다.
-
 Git directory에 있는 파일들은 Committed 상태이다. 파일을 수정하고 Staging Area에 추가했다면 Staged이다. 그리고 Checkout하고 나서 수정했지만, 아직 Staging Area에 추가하지 않았으면 Modified이다. 2장에서 이 상태에 대해 좀 더 자세히 배운다. 특히 Staging Area를 어떻게 이용하는지 혹은 아예 생략하는 방법도 설명한다.
 
 ## Git 설치 ##

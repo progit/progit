@@ -103,7 +103,7 @@ ko:
   langrule: "\\XeTeXlinebreakskip=0em plus 0.1em minus 0.01em\n\\XeTeXlinebreakpenalty=0"
   font: NanumMyeongjo
   bold: "{* Bold}"
-  mono: Liberation Mono
+  mono: NanumGothicCoding 
   prechap: ""
   postchap: "장"
   presect: ""

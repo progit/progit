@@ -71,7 +71,7 @@ Si vous souhaitez pousser depuis votre portable à la maison, vous devez monter 
 
 Il est aussi à mentionner que ce n'est pas nécessairement l'option la plus rapide à l'utilisation si un partage réseau est utilisé.
 Un dépôt local n'est rapide que si l'accès aux fichiers est rapide.
-Un dépôt accessible sur un montage NFS est souvent plus lent qu'un dépôt accessible via SSH sur le même serveur qui ferait tourner Git avec un accès au disques locaux.
+Un dépôt accessible sur un montage NFS est souvent plus lent qu'un dépôt accessible via SSH sur le même serveur qui ferait tourner Git avec un accès aux disques locaux.
 
 ### Protocole SSH ###
 
@@ -79,7 +79,7 @@ Le protocole SSH est probablement le protocole de transport de Git le plus utili
 Cela est dû au fait que l'accès SSH est déjà en place à de nombreux endroits et que si ce n'est pas le cas, cela reste très facile à faire.
 Cela est aussi dû au fait que SSH est le seul protocole permettant facilement de lire et d'écrire à distance.
 Les deux autres protocoles réseau (HTTP et Git) sont généralement en lecture seule et s'ils peuvent être utiles pour la publication, le protocole SSH est nécessaire pour les mises à jour de par ce qu'il permet l'écriture.
-SSH est un protocole authentifié suffisamment répandu et sa mise œuvre est simplifiée.
+SSH est un protocole authentifié suffisamment répandu et sa mise œuvre est simple.
 
 Pour cloner une dépôt Git à travers SSH, spécifiez le préfixe `ssh://` dans l'URL comme ceci :
 
@@ -94,7 +94,7 @@ Vous pouvez aussi ne pas spécifier de nom d'utilisateur et Git utilisera par d�
 #### Avantages ####
 
 Les avantages liés à l'utilisation de SSH sont nombreux.
-Primo, vous ne pourrez pas faire autrement si vous souhaitez gérer un accès authentifié en écriture à votre dépôt au travers le réseau.
+Primo, vous ne pourrez pas faire autrement si vous souhaitez gérer un accès authentifié en écriture à votre dépôt à travers le réseau.
 Secundo, SSH est relativement simple à mettre en place, les daemons SSH sont facilement disponibles, les administrateurs réseaux sont habitués à les gérer et de nombreuses distributions de systèmes d'exploitation en disposent et proposent des outils de gestion.
 Ensuite, l'accès distant à travers SSH est sécurisé, toutes les données sont chiffrées et authentifiées.
 Enfin, comme les protocoles Git et local, SSH est efficace et permet de comprimer autant que possible les données avant de les transférer.
@@ -102,7 +102,7 @@ Enfin, comme les protocoles Git et local, SSH est efficace et permet de comprime
 #### Inconvénients ####
 
 Le point négatif avec SSH est qu'il est impossible de proposer un accès anonyme au dépôt.
-Les accès sont régis par les permission SSH, même pour un accès en lecture seule, ce qui s'oppose à une optique open-source.
+Les accès sont régis par les permissions SSH, même pour un accès en lecture seule, ce qui s'oppose à une optique open-source.
 Si vous souhaitez utiliser Git dans un environnement d'entreprise, SSH peut bien être le seul protocole nécessaire.
 Si vous souhaitez proposer de l'accès anonyme en lecture seule à vos projets, vous aurez besoin de SSH pour vous permettre de pousser mais un autre protocole sera nécessaire pour permettre à d'autres de tirer.
 
@@ -111,7 +111,7 @@ Si vous souhaitez proposer de l'accès anonyme en lecture seule à vos projets, 
 Vient ensuite le protocole Git. Celui-ci est géré par un *daemon* spécial livré avec Git. Ce démon écoute sur un port dédié (9418) et propose un service similaire au protocole SSH, mais sans aucune sécurisation.
 Pour qu'un dépôt soit publié via le protocole Git, le fichier `git-export-daemon-ok` doit exister mais mise à part cette condition sans laquelle le daemon refuse de publier un projet, il n'y a aucune sécurité.
 Soit le dépôt Git est disponible sans restriction en lecture, soit il n'est pas publié.
-Cela signifie qu'il ne permet de pousser des modifications.
+Cela signifie qu'il ne permet pas de pousser des modifications.
 Vous pouvez activer la capacité à pousser mais étant donné l'absence d'authentification, n'importe qui sur internet peut pousser sur le dépôt.
 Autant dire que ce mode est rarement recherché.
 
@@ -185,7 +185,7 @@ Pour plus d'information sur les différences d'efficacité entre le protocole HT
 
 ## Installation de Git sur un serveur ##
 
-Pour réaliser l'installation initiale d'un serveur Git, il faut exporter une dépôt existant dans un nouveau dépôt nu — un dépôt qui ne contient pas de copie de répertoire de travail.
+Pour réaliser l'installation initiale d'un serveur Git, il faut exporter un dépôt existant dans un nouveau dépôt nu — un dépôt qui ne contient pas de copie de répertoire de travail.
 C'est généralement simple à faire.
 Pour cloner votre dépôt en créant un nouveau dépôt nu, lancez la commande clone avec l'option `--bare`.
 Par convention, les répertoires de dépôt nu finissent en `.git`, de cette manière :
@@ -195,7 +195,7 @@ Par convention, les répertoires de dépôt nu finissent en `.git`, de cette man
 
 La sortie de cette commande est un peu déroutante.
 Comme `clone` est un `git init` de base, suivi d'un `git fetch`, nous voyons les messages du `git init` qui crée un répertoire vide.
-Le transfert effectif d'objet ne fournit aucune sortie, mais il a tout de même lieu.
+Le transfert effectif d'objets ne fournit aucune sortie, mais il a tout de même lieu.
 Vous devriez maintenant avoir une copie des données de Git dans votre répertoire `mon_project.git`.
 
 C'est grossièrement équivalent à 
@@ -525,7 +525,7 @@ Mais vous avez déjà installé vos dépôts sous `/opt/git`, donc au lieu de to
 
 	$ ln -s /opt/git /home/git/repositories
 
-Comme Gitosis gérera vos clefs pour vous, il faut effacer le fichier `authorized_keys`, ré-ajouter les clefs plus tard et laisser Gitosis contrôler le fichier automatiquement.
+Comme Gitosis gérera vos clefs pour vous, il faut effacer le fichier `authorized_keys`, réintroduire les clefs plus tard en laissant Gitosis contrôler le fichier automatiquement.
 Pour l'instant, déplacez le fichier `authorized_keys` ailleurs :
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
@@ -682,10 +682,10 @@ L'auteur souhaite aussi humblement ajouter que, bien que cette section soit just
 
 [gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
 
-Git a commencé à être utilisé dans les sociétés, ce qui tend à ajouter des besoins en terme de contrôle d'accès.
+Git a commencé à être utilisé dans les entreprises, ce qui tend à ajouter des besoins en terme de contrôle d'accès.
 Gitolite a été initialement créé pour gérer ces besoins mais il apparaît qu'il est aussi utile dans la monde du logiciel libre : le projet Fedora gère les accès à ses dépôts de gestion de paquets (plus de 10 000 !) au moyen de gitolite, ce qui en fait le déploiement public de gitolite le plus important.
 
-Gitolite permet de spécifier des permissions non seulement pour chaque dépôt, mais aussi par branche et par étiquettes pour chaque dépôt.
+Gitolite permet de spécifier des permissions non seulement pour chaque dépôt, mais aussi par branche et par étiquette pour chaque dépôt.
 En d'autres termes, il devient possible d'indiquer que certaines personnes (ou groupes de personnes) ne peuvent pousser que sur certaines refs (branches ou étiquettes).
 
 ### Installation ###
@@ -738,7 +738,7 @@ La première fois qu'elle est lancée, une nouvelle paire de clés cryptographiq
 Il faudra la protéger par un mot de passe ou appuyer simplement sur la touche entrée pour ne pas en définir.
 La raison de la définition de cette seconde paire de clé ainsi que son utilisation sont expliquées dans le document « ssh troubleshooting » accompagnant Gitolite.
 
-Les dépôts appelés `gitolite-admin`et `testing` sont créés par défaut sur le serveur.
+Les dépôts appelés `gitolite-admin` et `testing` sont créés par défaut sur le serveur.
 Si vous souhaitez cloner l'un d'eux localement (depuis un compte ayant accès SSH console au compte gitolite via *authorized_keys*), il suffit de saisir :
 
 	$ git clone gitolite:gitolite-admin
@@ -780,7 +780,7 @@ Une fois l'installation terminée, vous pouvez basculer vers le dépôt `gitolit
 
 Notez que "sitaram" (le dernier argument de la commande `gl-easy-install` précédente) détient les permissions en lecture-écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
 
-Le fichier de configuration de gitolite présent dans `conf/example.conf` est extensivement commenté et nous n'en mentionnerons que quelque points cruciaux.
+Le fichier de configuration de gitolite présent dans `conf/example.conf` est extensivement commenté et nous n'en mentionnerons que quelques points cruciaux.
 
 Pour vous simplifier la tâche, vous pouvez grouper les utilisateurs et les dépôts.
 Les noms de groupes sont juste comme des macros.
@@ -827,7 +827,7 @@ Le premier réside au niveau du dépôt.
 Si vous avez un droit d'accès en lecture (resp. en écriture) à *n'importe quelle* ref du dépôt, alors vous avez accès en lecture (resp. en écriture) au dépôt.
 
 Le second niveau, applicable seulement pour l'accès en écriture se focalise sur les branches et les étiquettes dans un dépôt.
-L'utilisateur, le type d'accès en cours (`W`ou `+`) et le nom de la référence permettent de définir les critères.
+L'utilisateur, le type d'accès en cours (`W` ou `+`) et le nom de la référence permettent de définir les critères.
 La règles d'accès sont vérifiées par ordre d'apparition dans le fichier de configuration, par recherche d'une correspondance sur cette combinaison (en se souvenant que la correspondance de référence est une refex, non une simple comparaison).
 Si une correspondance est trouvée, l'accès en poussée est accepté.
 Si aucune correspondance n'est trouvée, l'accès est refusé.
@@ -883,7 +883,7 @@ Référez-vous au chapitre "branches personnelles" du fichier `doc/3-faq-tips-et
 Gitolite permet de spécifier des dépôts avec jokers (en fait des regex perl), comme par exemple, au hasard, `devoirs/s[0-9][0-9]/a[0-9][0-9]`.
 Ceci est une fonctionnalité *très* puissante qui doit être activée en positionnant `$GL_WILDREPOS = 1;` dans le fichier rc.
 Un nouveau mode de permission devient accessible (« C »).
-En suivant ces schémas de nommage, les utilisateurs peuvent alors créer des branches dont ils seront automatiquement propriétaires, leur permettant ainsi de leur assigner des droits en lecture ou lecture-écriture pour d'autres utilisateurs avec lesquels ils souhaitent collaborer.
+En suivant ces schémas de nommage, les utilisateurs peuvent alors créer des dépôts dont ils seront automatiquement propriétaires, leur permettant ainsi de leur assigner des droits en lecture ou lecture-écriture pour d'autres utilisateurs avec lesquels ils souhaitent collaborer.
 Cette fonctionnalité est documentée dans `doc/4-wildcard-repositories.mkd`.
 
 ### Autres fonctionnalités ###
@@ -893,9 +893,9 @@ Nous terminerons cette section avec quelques échantillons d'autres fonctions qu
 **Journalisation** : Gitolite enregistre tous les accès réussis.
 Si vous étiez réticent à donner aux utilisateurs des droits de rembobiner (`RW+`) et qu'un plaisantin a complètement cassé "master", le journal des activités est là pour vous aider à trouver facilement et rapidement le SHA qui a tout déclenché.
 
-** Git hors du PATH normal** : une fonctionnalité d'usage très utile consiste à supporter que git n'est pas installé dans le ̀$PATH` normal. Cette situation est beaucoup plus commune que l'on croit, des environnements professionnels ou même des fournisseurs d'hébergement refusent d'installer des outils au niveau système et on se retrouve à devoir les placer dans son propre répertoire. Normalement, il est nécessaire d'avertir d'une manière ou d'une autre la partie cliente de git de cette localisation non-standard des binaires de git. Avec gitolite, il suffit de choisir une installation verbeuse et de régler ̀$GIT_PATH` dans les fichiers "rc". Aucun réglage spécifique côté client n'est à réaliser.
+**Git hors du PATH normal** : une fonctionnalité d'usage très utile consiste à supporter que git n'est pas installé dans le ̀PATH` normal. Cette situation est beaucoup plus commune que l'on croit, des environnements professionnels ou même des fournisseurs d'hébergement refusent d'installer des outils au niveau système et on se retrouve à devoir les placer dans son propre répertoire. Normalement, il est nécessaire d'avertir d'une manière ou d'une autre la partie cliente de git de cette localisation non-standard des binaires de git. Avec gitolite, il suffit de choisir une installation verbeuse et de régler ̀$GIT_PATH` dans les fichiers "rc". Aucun réglage spécifique côté client n'est à réaliser.
 
-** Rapport sur les droits d'accès** : une autre fonctionnalité très utile concerne la prise en charge de la connexion ssh au serveur.
+**Rapport sur les droits d'accès** : une autre fonctionnalité très utile concerne la prise en charge de la connexion ssh au serveur.
 Gitolite vous affiche quels dépôts vous pouvez accéder et avec quels droits.
 Ci-dessous un exemple :
 
@@ -918,7 +918,7 @@ Il est possible de spécifier quels dépôts sont visibles via gitweb.
 Il est surtout possible de renseigner le « propriétaire » et la « description » affichés par gitweb dans le fichier de configuration de gitolite.
 Gitweb permet la mise en place d'un mécanisme de contrôle d'accès basé sur l'authentification HTTP, et il est possible de lui faire utiliser un fichier de configuration compilé par gitolite, ce qui signifie que les mêmes règles d'accès (en lecture) s'appliquent à gitweb et à gitolite.
 
-** Miroirs** : Gitolite peut vous aider à maintenir de multiples miroirs et à basculer simplement entre eux si le miroir principal tombe en panne.
+**Miroirs** : Gitolite peut vous aider à maintenir de multiples miroirs et à basculer simplement entre eux si le miroir principal tombe en panne.
 
 ## Le daemon Git ##
 
@@ -1103,7 +1103,7 @@ En le cliquant, vous accédez à un formulaire contenant des informations sur le
 Insert 18333fig0409.png 
 Figure 4-9. Interface d'import depuis Subversion.
 
-Si votre projet est très gros, ne suit pas les standards de nommage ou est privé, cette méthone risque de ne pas fonctionner.
+Si votre projet est très gros, ne suit pas les standards de nommage ou est privé, cette méthode risque de ne pas fonctionner.
 Au chapitre 7, nous traiterons des imports manuels plus compliqués de projets.
 
 ### Ajout des collaborateurs ###

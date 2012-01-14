@@ -81,7 +81,7 @@ Insert 18333fig0105.png
 
 ### Git Has Integrity ###
 
-Everything in Git is check-summed before it is stored and is then referred to by that checksum. This means it’s impossible to change the contents of any file or directory without Git knowing about it. This functionality is built into Git at the lowest levels and is integral to its philosophy. You can’t lose information in transit or get file corruption without Git being able to detect it.
+Для ўсяго ў Git'е вылічваецца кантрольная сума перад тым, як захаваць і затым гэтая кантрольная сума выкарыстоўваецца як імя. Гэта значыць, што немагчыма змяніць змест якога-небудзь файла ці папкі, каб Git не даведаўся пра гэта. Гэты функцыянал убудаваны ў Git на самых нізкіх узроўнях і з'яўляецца неад'емнай часткай яго філасофіі. Вы не можаце згубіць інфармацыю пры перадачы ці атрыманні пашкоджаннага файла без таго, габ Git не змог выявіць гэтага.
 
 The mechanism that Git uses for this checksumming is called a SHA-1 hash. This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
 

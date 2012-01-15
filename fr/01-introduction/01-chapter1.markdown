@@ -104,7 +104,7 @@ Figure 1-4. D'autres systèmes sauvent l'information comme des modifications sur
 
 Git ne gère pas et ne stocke pas les informations de cette manière.
 À la place, Git pense ses données plus comme un instantané d'un mini système de fichiers.
-A chaque fois que vous commitez ou enregistrez l'état du projet dans Git, il prend effectivement un instantané du contenu de votre espace de travail à ce moment et enregistre une référence à cet instantané.
+À chaque fois que vous commitez ou enregistrez l'état du projet dans Git, il prend effectivement un instantané du contenu de votre espace de travail à ce moment et enregistre une référence à cet instantané.
 Pour être efficace, si les fichiers n'ont pas changé, Git ne stocke pas le fichier à nouveau, juste une référence vers le fichier original qui n'a pas été modifié.
 Git pense ses données plus à la manière de la figure 1-5.
 

@@ -1282,7 +1282,7 @@ L'une d'elles est la fusion de sous-arborescence, et vous pouvez l'utiliser pour
 Nous allons donc voir comme gérer l'inclusion de rack comme dans la section précédente, mais en utilisant cette fois-ci les fusion de sous-arborescence.
 
 La fusion de sous-arborescence suppose que vous avez deux projets et que l'un s'identifie à un sous-répertoire de l'autre.
-Lorsque vous spécifiez une fusion de sous-arborescence, Git est assez intellignet pour deviner lequel est un sous-répertoire de l'autre et fusionne en conséquence, 
+Lorsque vous spécifiez une fusion de sous-arborescence, Git est assez intelligent pour deviner lequel est un sous-répertoire de l'autre et fusionne en conséquence,
 When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — c'est assez bluffant.
 
 Premièrement, vous ajoutez l'application Rack à votre projet.

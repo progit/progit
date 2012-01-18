@@ -265,7 +265,7 @@ Ceci est dû au fait que Windows utilise pour marquer les fins de ligne dans ses
 C'est un cas subtile mais incroyablement ennuyeux de problème généré par la collaboration inter plate-forme.
 
 Git peut gérer ce cas en convertissant automatiquement les fins de ligne CRLF en LF lorsque vous validez, et inversement lorsqu'il extrait des fichiers sur votre système.
-Vous pouvez activer cette fonctionnalité au moyen du paramètre `core.autcrlf`.
+Vous pouvez activer cette fonctionnalité au moyen du paramètre `core.autocrlf`.
 Si vous avez une machine Windows, positionnez-le à `true`.
 Git convertira les fins de ligne de LF en CRLF lorsque vous extrayerez votre code :
 

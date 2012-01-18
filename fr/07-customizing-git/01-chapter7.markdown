@@ -83,7 +83,7 @@ Ainsi, votre éditeur ouvrira quelque chose ressemblant à ceci comme modèle de
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-Si vous avez une règle de messages de validation, placer un modèle de cette règle sur votre système et configurer Git pour qu'il l'utiliser par défaut améliorera les chances que cette règle soit effectivement suivie.
+Si vous avez une règle de messages de validation, placer un modèle de cette règle sur votre système et configurer Git pour qu'il l'utilise par défaut, cela améliorera les chances que cette règle soit effectivement suivie.
 
 #### core.pager ####
 

@@ -252,7 +252,7 @@ Si KDiff3 ne vous intéresse pas pour gérer les différences mais seulement pou
 
 Si vous lancez ceci au lieu de modifier les fichiers `extMerge` ou `extDiff`, Git utilisera KDif3 pour les résolutions de fusion et l'outil diff normal de Git pour les différences.
 
-### Formatage and espaces blancs ###
+### Formatage et espaces blancs ###
 
 Les problèmes de formatage et de blancs font partie des plus subtiles et frustrants que les développeurs rencontrent lorsqu'ils collaborent, spécifiquement sur plusieurs plates-formes.
 Il est très facile d'introduire des modifications subtiles de blancs lors de soumission de patchs ou d'autres modes de collaboration car les éditeurs de textes les insèrent silencieusement ou les programmeurs Windows ajoutent de retour chariot à la fin des lignes qu'il modifient.

@@ -1181,7 +1181,7 @@ Vous devez regarder qui a modifié le sous-module en dernier :
 
 Envoyez-lui un mail pour lui gueuler dessus.
 
-### Superprojects ###
+### Super-projets ###
 
 Parfois, les développeurs désirent séparer un gros projet en sous-répertoires en fonction de l'équipe qui travaille dessus.
 C'est logique que si vous venez de CVS ou de Subversion, où vous aviez l'habitude de définir un module ou un ensemble de sous-répertoires, que vous vouliez garder ce type de workflow.

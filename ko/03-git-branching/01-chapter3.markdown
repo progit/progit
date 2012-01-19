@@ -582,7 +582,7 @@ Rebase는 기존의 커밋을 그대로 사용하는 것이 아니라 내용은 
 Insert 18333fig0336.png
 그림 3-36. 저장소를 Clone하고 일부 수정함.
 
-이제 팀원 중 누군가 커밋, Merge하고 나서 서버에 Push 한다. 이 리모트 브랜치를 Fetch, Merge하면 그림 3-47과 같이 된다.
+이제 팀원 중 누군가 커밋, Merge하고 나서 서버에 Push 한다. 이 리모트 브랜치를 Fetch, Merge하면 그림 3-37과 같이 된다.
 
 Insert 18333fig0337.png
 그림 3-37. Fetch한 후 Merge함.

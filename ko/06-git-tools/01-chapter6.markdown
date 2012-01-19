@@ -192,7 +192,7 @@ reflog의 일은 모두 로컬의 일이기 때문에 내 reflog가 동료의 �
 Insert 18333fig0601.png
 그림 6-1. 범위를 설명하는 데 사용할 예제
 
-experiment 브랜치의 커밋들 중에서 아직 master 브랜치에 Merge하지 않은 것들만 보고 싶으면 `master..experiment`라고 사용한다. 이 표현은 "master에는 있지만, experiment에는 없는 커밋"을 의미한다. 여기에서는 설명을 쉽게 하려고 실제 조회 결과가 아니라 그림 6-1의 문자를 사용한다:
+experiment 브랜치의 커밋들 중에서 아직 master 브랜치에 Merge하지 않은 것들만 보고 싶으면 `master..experiment`라고 사용한다. 이 표현은 "master에는 없지만, experiment에는 있는 커밋"을 의미한다. 여기에서는 설명을 쉽게 하려고 실제 조회 결과가 아니라 그림 6-1의 문자를 사용한다:
 
 	$ git log master..experiment
 	D

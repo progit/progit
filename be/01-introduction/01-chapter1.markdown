@@ -1,4 +1,4 @@
-# Першыя крокі #
+﻿# Першыя крокі #
 
 Гэтая глава прысвечана пачатку працы з Git. Мы пачнем з тлумачэння асноў працы прылад кантролю версій, затым пяройдзем да таго як атрымаць працуючы Git ў сваёй сістэме і, урэшце, як наладзіць яго так, каб з ім можна было пачаць працаваць. Напрыканцы гэтай главы вы будзеце мець разуменне для чаго наогул прызначаны Git, чаму ім варта карыстацца і мець усе неабходныя наладкі дзеля гэтага.
 
@@ -79,54 +79,54 @@ Insert 18333fig0105.png
 
 Да таго ж, гэта значыць што вельмі няшмат чаго нельга зрабіць калі вы па-за сеткай ці VPN. Калі вы ў самалёце ці ў цягніку і хочаце крыху папрацаваць, то вы можаце захоўваць праект ў СКВ (ці рабіць каміты, як яшчэ кажуць) без аніякіх праблем і перашкод ажно пакуль не з'явіцца сетка, з дапамогай якой вы зможаць выгрузіць змены. Калі вы прыйшлі дадому не і здолелі наладзіць VPN, вы ўсё яшчэ ў стане працаваць. У многіх іншых сістэмах вельмі цяжка, калі наогул магчыма рабіць так. У Perforce, напрыклад, вы няшмат што можаць зрабіць, калі няма сувязі з серверам, а ў Subversion і CVS вы можаце рэдактаваць файлы, але не будзеце ў стане захаваць змены ў сваю базу дадзеных (паколькі сувязі з базай дадзеных няма). Можа гэта і не выглядае вялікім дасягненнем, але вы будзеце здзіўленыя, убачыўшы наколькі гэта можа змяніць справу.
 
-### Git Has Integrity ###
+### Git падтрымлівае цэласнасць ###
 
-Для ўсяго ў Git'е вылічваецца кантрольная сума перад тым, як захаваць і затым гэтая кантрольная сума выкарыстоўваецца як спалылка на аб'ект. Гэта значыць, што немагчыма змяніць змест якога-небудзь файла ці папкі, каб Git не даведаўся пра гэта. Гэты функцыянал убудаваны ў Git на самых нізкіх узроўнях і з'яўляецца неад'емнай часткай яго філасофіі. Вы не можаце згубіць інфармацыю пры перадачы ці атрыманні пашкоджаннага файла без таго, габ Git не змог выявіць гэтага.
+Для ўсяго ў Git'е вылічваецца кантрольная сума перад тым, як захаваць і затым гэтая кантрольная сума выкарыстоўваецца як спалылка на аб'ект. Гэта значыць, што немагчыма змяніць змест якога-небудзь файла ці тэчкі, каб Git не даведаўся пра гэта. Гэты функцыянал убудаваны ў Git на самых нізкіх узроўнях і з'яўляецца неад'емнай часткай яго філасофіі. Вы не можаце згубіць інфармацыю пры перадачы ці атрыманні пашкоджаннага файла без таго, габ Git не змог выявіць гэтага.
 
-Механізм, які выкарыстоўвае Git для вылічэнне кантрольнай сумы называецца SHA-1 хэш. Гэта страка з 40 знакаў, складаючаяся з шастнадцацірычных знакаў (0-9 і a-f) і вылічваецца па зместу файла ці папкі This is a 40-character string composed of hexadecimal characters (0–9 and a–f) and calculated based on the contents of a file or directory structure in Git. A SHA-1 hash looks something like this:
+Механізм, які выкарыстоўвае Git для вылічэнне кантрольнай сумы называецца SHA-1 хэш. Гэта страка з 40 знакаў, складаючаяся з шастнадцацірычных знакаў (0-9 і a-f) і вылічваецца па зместу файла ці тэчкі, знаходзячыхся ў Git'е. SHA-1 хэш выглядае прыкладна так:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
-You will see these hash values all over the place in Git because it uses them so much. In fact, Git stores everything not by file name but in the Git database addressable by the hash value of its contents.
+Вы будзеце бачыць гэтыя хэшы паўсюль у Git'е тамушта ён выкарыстоўвае іх так шмат. Фактычна, Git захоўвае ўсё не па імені, у базе дадзеных адрасацыя адбываецца па значэнні хэша кантэнту. 
 
-### Git Generally Only Adds Data ###
+### Git як правіла, толькі дадае дадзеныя ###
 
-When you do actions in Git, nearly all of them only add data to the Git database. It is very difficult to get the system to do anything that is not undoable or to make it erase data in any way. As in any VCS, you can lose or mess up changes you haven’t committed yet; but after you commit a snapshot into Git, it is very difficult to lose, especially if you regularly push your database to another repository.
+Калі вы робіце дзеянні ў Git, амаль усе з іх толькі дадаюць дадзеныя ў базу дадзеных. Вельмі цяжка як-небуць прымусіць сістэму зрабіць нешта, што немагчыма адмяніць або прымусіць яе сцерці дадзеныя. Як і ў любой СКВ, вы можаце страціць або сапсаваць змены, якія вы яшчэ не зафіксавалі; але пасля таго як вы зафіксавалі здымак ў Git, вельмі цяжка страціць, асабліва калі вы рэгулярна змяшчаеце вашу базу дадзеных на іншы рэпазітар.
 
-This makes using Git a joy because we know we can experiment without the danger of severely screwing things up. For a more in-depth look at how Git stores its data and how you can recover data that seems lost, see “Under the Covers” in Chapter 9.
+Гэта робіць працу з Git радасцю, таму што мы ведаем, што можам эксперыментаваць без небяспекі моцна сапсаваць становішча. Для больш глыбокага погляд на тое, як Git захоўвае свае дадзеныя і як вы можаце аднавіць дадзеныя, якія здаюцца страчанымі, глядзіце "Пад вокладкай" у главе 9.
 
-### The Three States ###
+### Тры станы ###
 
-Now, pay attention. This is the main thing to remember about Git if you want the rest of your learning process to go smoothly. Git has three main states that your files can reside in: committed, modified, and staged. Committed means that the data is safely stored in your local database. Modified means that you have changed the file but have not committed it to your database yet. Staged means that you have marked a modified file in its current version to go into your next commit snapshot.
+Цяпер, звярніце ўвагу. Гэта галоўнае, што вам трэба памятаць аб Git, калі вы хочаце, каб астатак вашага навучальнага працэсу прайшоў гладка. У Git ёсць тры асноўныя станы, у якіх вашы файлы могуць знаходзіцца: зафіксаваны, зменены, і падрыхтаваныя. Зафіксаваны значыць, што дадзеныя бяспечна захаваны ў вашу лакальную базу дадзеных. Зменены значыць, што вы змянілі файл, але яшчэ не зафіксавалі ў вашай базе дадзеных. Падрыхтаваны значыць, што вы адзначылі зменены файл для ўключэння ў наступны каміт. 
 
-This leads us to the three main sections of a Git project: the Git directory, the working directory, and the staging area.
+Такім чынам ёсць тры часткі у праекце з выкарыстаннем Git: каталог Git (the Git directory), працоўны катлог (the working directory), і вобласць падрыхтаваных файлаў (the staging area).
 
 Insert 18333fig0106.png 
-Figure 1-6. Working directory, staging area, and git directory.
+Малюнак 1-6. Працоўны каталог (the working directory), вобласць падрыхтаваных файлаў(the staging area), і каталог Git(the Git directory).
 
-The Git directory is where Git stores the metadata and object database for your project. This is the most important part of Git, and it is what is copied when you clone a repository from another computer.
+У каталозе Git захоўваюцца метаданныя і аб'екты базы дадзеных вашага праекту. Гэта найбольшая важная частка Git, і гэта менавіта тое, што капіруецца, калі вы кланіруеце рэпазітар з другога кампутара. 
 
-The working directory is a single checkout of one version of the project. These files are pulled out of the compressed database in the Git directory and placed on disk for you to use or modify.
+Працоўны каталог - гэта копія пэўная версіі праекта. Гэтыя файлы вымаюцца з сціснутай базы дадзеных у каталогу Git і размяшчаюцца на дыску, каб вы карысталіся імі ці змянялі.
 
-The staging area is a simple file, generally contained in your Git directory, that stores information about what will go into your next commit. It’s sometimes referred to as the index, but it’s becoming standard to refer to it as the staging area.
+Вобласць падрыхтаваных файлаў - гэта проста файл, звычайна змешчаны у каталогу Git, які захоўвае інфармацыю аб тым, што будзе выкарастана ў наступным каміце. Яго часам называюць індэксам, але становіцца стандартам называць яго вобласць падрыхтаваных файлаў.
 
-The basic Git workflow goes something like this:
+Стандартня праца з Git выглядае прыкладна так:
 
-1.	You modify files in your working directory.
-2.	You stage the files, adding snapshots of them to your staging area.
-3.	You do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+1.	Вы змяняеце файлы ў вашым працоўным каталогу.
+2.	Вы падрыхтоўваеце файлы, дабаўляючы іх здымак у вашу вобласць падрыхтаваных файлаў.
+3.	Вы робіце каміт(фіксуеце), у выніку чаго здымак з вобласці падрыхтаваных файлаў захоўваецца ў вашым каталогу Git.
 
-If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.
+Калі бягучая версія файла супадае с той, што ў каталогу Git, файл знаходзіцца ў зафіксаваным стане. Калі файл зменены, але толькі дададзены ў вобласць падрыхтаваных файлаў, такі файл знаходзіцца ў падрыхтаваным стане. І калі файл был зменены пасля выгрузкі с базы дадзеных, але не дадзены ў вобласць падрыхтаваных файлаў, ён знаходзіцца ў змененым стане. У главе 2 вы даведаецеся больш аб гэтых станах і як выкарыстаць іх перавагі ці прапусціць частку падрытоўкі ўвогуле.
 
-## Installing Git ##
+## Усталёўка Git ##
 
-Let’s get into using some Git. First things first—you have to install it. You can get it a number of ways; the two major ones are to install it from source or to install an existing package for your platform.
+Давайце пачнем выкарыстоўваць Git. Першае, што вам трэба зрабіць - гэта ўсталяваць яго.Вы можаце зрабіць гэта двумя спосабамі; ёсць два асноўных - усталяваць з зыходных файлаў ці ўсталяваць існуючы пакет для вашай платформы.
 
-### Installing from Source ###
+### Усталёўка з зыходных файлаў ###
 
-If you can, it’s generally useful to install Git from source, because you’ll get the most recent version. Each version of Git tends to include useful UI enhancements, so getting the latest version is often the best route if you feel comfortable compiling software from source. It is also the case that many Linux distributions contain very old packages; so unless you’re on a very up-to-date distro or are using backports, installing from source may be the best bet.
+Калі ў вас ёсць магчымасць, звычайна лепша ўсталяваць Git з зыходных файлаў, таму што вы атрымаеце найноўшую версію. Кожная версія Git звычайна ўключае карысныя паляпшэнні ітэрфейса карытсальніка, таму ўсталёўка з зыходных файлаў - найлепшы шлях, калі вы не маеце праблем з кампіляцыяй праграм з зыходных фалаў. Таксама многія дыстрыбутывы Linux змяшчаюць вельмі старыя пакеты; такім чынам толькі калі вы не выкарыстоўваеце вельмы свежы дыстрыбутыў ці вы на эксперэментальнай ветцы, усталёўка з зыходных файлаў - лепшы выбар.
 
-To install Git, you need to have the following libraries that Git depends on: curl, zlib, openssl, expat, and libiconv. For example, if you’re on a system that has yum (such as Fedora) or apt-get (such as a Debian based system), you can use one of these commands to install all of the dependencies:
+Каб усталяваць Git, вам неабходна мець наступныя бібліятэкі, ад якіх Git залежыць: curl, zlib, openssl, expat, і libiconv. На прыклад, калі вы карыстаецеся сістэмай, якая змяшчае yum (як Fedora) ці apt-get (як сістэмы заснаваныя на Denian), вы можаце выкарыстаць адну з наступных каманд для ўсталёўкі ўсіх залежнасцей: 
 
 	$ yum install curl-devel expat-devel gettext-devel \
 	  openssl-devel zlib-devel
@@ -134,41 +134,41 @@ To install Git, you need to have the following libraries that Git depends on: cu
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev
 	
-When you have all the necessary dependencies, you can go ahead and grab the latest snapshot from the Git web site:
+Калі ў вас ёсць усе неабходныя залежнасці, вы можаце ісці далей і спампаваць найноўшы здымак з вэб сайту Git:
 
 	http://git-scm.com/download
 	
-Then, compile and install:
+Затым скампіляваць і ўсталяваць:
 
 	$ tar -zxf git-1.6.0.5.tar.gz
 	$ cd git-1.6.0.5
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
-After this is done, you can also get Git via Git itself for updates:
+Пасля гэтага вы можаце атрымаць пракет Git праз ваш усталяваны Git для атрымання абнаўленняў:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	
-### Installing on Linux ###
+### Усталёўка на Linux ###
 
-If you want to install Git on Linux via a binary installer, you can generally do so through the basic package-management tool that comes with your distribution. If you’re on Fedora, you can use yum:
+Калі вы жадаеце ўсталяваць Git на Linux праз бінарны ўстаноўшчык, вы можаце зрабіць гэта з дапамогай звычайнага менеджэра пакетаў вашага дыстрыбутыву. Калі ў вас Fedora, вы можаце скарыстацца yum:
 
 	$ yum install git-core
 
-Or if you’re on a Debian-based distribution like Ubuntu, try apt-get:
+Ці калі ў вас дыстрыбутыў на базе Debian, напрыклад Ubuntu, паспрабуйце apt-get:
 
 	$ apt-get install git-core
 
-### Installing on Mac ###
+### Усталёўка на Mac ###
 
-There are two easy ways to install Git on a Mac. The easiest is to use the graphical Git installer, which you can download from the Google Code page (see Figure 1-7):
+Ёсць два лёгкіх пуці ўсталёкі Git на Mac. Самы лёгкі - выкарыстаць графічны ўсталёўшчык, які вы можаце спампаваць са старонкі Google Code(гл. Малюнак 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer.
+Малюнак 1-7. Усталёўчшык Git на OS X.
 
-The other major way is to install Git via MacPorts (`http://www.macports.org`). If you have MacPorts installed, install Git via
+Іншы распаўсюджаны спосаб - гэта ўсталёука праз MacPorts (`http://www.macports.org`). Калі ў вас ёсць MacPorts, усталюйце Git гэтак:
 
 	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 

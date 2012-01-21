@@ -944,7 +944,7 @@ Dans le contexte de la commande `diff`, vous pouvez placer trois points après u
 	$ git diff master...contrib
 
 Cette commande ne vous montre que les modifications que votre branche thématique a introduites depuis son ancêtre commun avec master.
-C'est une syntaxe très utile à se souvenir.
+C'est une syntaxe très simple à retenir.
 
 ### Intégration des contributions ###
 

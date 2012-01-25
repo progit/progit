@@ -230,9 +230,7 @@ iss53 브랜치를 master에 Merge하고 나면 iss53 브랜치는 더는 필요
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git은 Merge하지 못했다. 충돌을 개발자가 해결하지 않는 한 Merge할 수 없다. 일단 충돌이 일어나면 `git status` 명령으로 어떤 파일에 충돌이 일어났는지 확인한다:
-
-Git은 성공적으로 Merge된 새 커밋을 만들어낼 수 없다. 변경사항의 충돌을 개발자가 해결하지 않는 한 Merge 과정을 진행할 수 없다. Merge 충돌이 일어났을 때 Git이 어떤 파일을 Merge 할 수 없었는지 살펴보려면 `git status` 명령을 이용한다:
+Git은 자동으로 Merge된 새 커밋을 만들어내지 못했다. 변경사항의 충돌을 개발자가 해결하지 않는 한 Merge 과정을 진행할 수 없다. Merge 충돌이 일어났을 때 Git이 어떤 파일을 Merge 할 수 없었는지 살펴보려면 어느 시점에서든 `git status` 명령을 이용한다:
 
 	[master*]$ git status
 	index.html: needs merge

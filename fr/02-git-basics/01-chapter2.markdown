@@ -214,7 +214,7 @@ Renseigner un fichier .gitignore avant de commencer à travailler est générale
 
 Les règles de construction des patrons à placer dans le fichier .gitignore sont les suivantes :
 
-* Les lignes vides ou commençant par # sont ignorée
+* Les lignes vides ou commençant par # sont ignorées
 * Les patrons standards de fichiers sont utilisables
 * Si le patron se termine par un slash (`/`), le patron dénote un répertoire
 * Un patron commençant par un point d'exclamation (`!`) est inversé.
@@ -293,7 +293,7 @@ Cette commande compare les fichiers indexés et le dernier instantané :
 Il est important de noter que `git diff` ne montre pas les modifications réalisées depuis la dernière validation — seulement les modifications qui sont non indexées.
 Cela peut introduire une confusion car si tous les fichiers modifiés ont été indexés, `git diff` n'indiquera aucun changement.
 
-Par exemple, si vous indexez le fichier benchmarks.rb et l'éditez en suite, vous pouvez utiliser `git diff` pour visualiser les modifications indexées et non indexées de ce fichier :
+Par exemple, si vous indexez le fichier benchmarks.rb et l'éditez ensuite, vous pouvez utiliser `git diff` pour visualiser les modifications indexées et non indexées de ce fichier :
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -348,7 +348,7 @@ Souvenez-vous que tout ce qui encore non indexé — tous les fichiers qui ont 
 Ils resteront en tant que fichiers modifiés sur votre disque.
 
 Dans notre cas, la dernière fois que vous avez lancé `git status`, vous avez vérifié que tout était indexé, et vous êtes donc prêt à valider vos modifications.
-La manière la plus simple de valider est de taper `git commit` :
+La manière la plus simple de valider est de taper `git commit :
 
 	$ git commit
 
@@ -371,10 +371,10 @@ L'éditeur affiche le texte suivant :
 
 Vous constatez que le message de validation par défaut contient une ligne vide suivie en commentaire le résultat de la commande `git status`.
 Vous pouvez effacer ces lignes de commentaire et saisir votre propre message de validation, ou vous pouvez les laisser en place vous aider à vous rappeler de ce que vous êtes en train de valider (pour un rappel plus explicite de ce que vous avez modifié, vous pouvez aussi passer l'option `-v` à la commande `git commit`.
-Cette option place le résultat du diff en commentaire dans l'éditeur pour vous permettre de visualiser exactement ce que vous avez modifié).
+Cette option place le résultat du diff en commentaire dans l'éditeur pour vous permettre de visualiser exactement ce que vous avez modifié.
 Quand vous quittez l'éditeur (après avoir sauvegardé le message), Git crée votre commit avec ce message de validation (après avoir retiré les commentaires et le diff).
 
-D'une autre manière, vous pouvez spécifier votre message de validation en ligne avec la commande `commit` en le saisissant après l'option `-m`, de cette manière :
+D'une autre manière, vous pouvez spécifier votre message de validation en ligne avec la commande `commit` en le saisissant après l'option `-m`, comme ceci :
 
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
@@ -390,7 +390,7 @@ A chaque validation, vous enregistrez un instantané du projet en forme de jalon
 
 ### Éliminer la phase d'indexation ###
 
-Bien qu'il soit incroyablement utile de pouvoir organiser les commits exactement comme on l'entend, la gestion de la zone d'index est parfois plus complexe que nécessaire dans une utilisation normale.
+Bien qu'il soit incroyablement utile de pouvoir organiser les commits exactement comme on l'entend, la gestion de la zone d'index est parfois plus complexe que nécessaire dans le cadre d'une utilisation normale.
 Si vous souhaitez éviter la phase de placement des fichiers dans la zone d'index, Git fournit un raccourcis très simple.
 L'ajout de l'option `-a` à la commande `git commit` ordonne à Git de placer automatiquement tout fichier déjà en suivi de version dans la zone d'index avant de réaliser la validation, évitant ainsi d'avoir à taper les commandes `git add` :
 
@@ -673,7 +673,7 @@ Cette option ajoute un joli graphe en caractères ASCII pour décrire l'historiq
 	*  11d191e Merge branch 'defunkt' into local
 
 Les options ci-dessus ne sont que des options simples de format de sortie de `git log` — il y en a de nombreuses autres.
-Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'autres options communément utilisées accompagnées de la manière dont elles modifient le résultat de la commande log.
+Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'autres options communément utilisées accompagnées de la manière dont elles modifient le résultat de la commande `log`.
 
 	Option	Description
 	-p	Affiche le patch appliqué par chaque commit
@@ -856,7 +856,7 @@ Dans cette section, nous traiterons des commandes de gestion distante.
 
 ### Afficher les dépôts distants ###
 
-Pour visualiser les serveur distants que vous avez enregistrés, vous pouvez lancer le commande git remote.
+Pour visualiser les serveurs distants que vous avez enregistrés, vous pouvez lancer la commande git remote.
 Elle liste les noms des différentes étiquettes distantes que vous avez spécifiées.
 Si vous avez cloné un dépôt, vous devriez au moins voir l'origine origin — c'est-à-dire le nom par défaut que Git donne au serveur à partir duquel vous avez cloné :
 

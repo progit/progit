@@ -12,7 +12,7 @@ In this chapter, you’ll see how to work with Git in a distributed environment 
 ## Распределенные рабочие процессы ##
 ## Distributed Workflows ##
 
-В отличии от централизованных систем контроля версий, распределенная природа Git-а позволяет вам быть гораздо более гибким в отношении участия разработчика в работе над проектом. В централизованных системах, каждый разработчик является узлом сети, работающим в более или менее равной степени на центральном хабе. В Git, однако, каждый разработчик потенциально является и узлом и хабом (концентратором) — то есть каждый разработчик может и вносить код в другие репозитории и содержать публичный репозиторий, основываясь на котором могут работать другие разработчики и в который они могут вносить свои изменения. Это открывает широкие возможности по ведению рабочего процесса для вас и и/или для вашей команды, так что я рассмотрю несколько распространенных парадигм, которые используют преимущества такой гибкости. Я рассмотрю сильные стороны и возможные слабые места каждой из моделей; вы можете выбрать одну из них, а можете сочетать и совмещать особенности каждой.
+В отличии от централизованных систем контроля версий, распределенная природа Git-а позволяет вам быть гораздо более гибким в отношении участия разработчика в работе над проектом. В централизованных системах, каждый разработчик является узлом сети, работающим в более или менее равной степени на центральном хабе. В Git, однако, каждый разработчик потенциально является и узлом и хабом (концентратором) — то есть каждый разработчик может и вносить код в другие репозитории и содержать публичный репозиторий, основываясь на котором могут работать другие разработчики и в который они могут вносить свои изменения. Это открывает широкие возможности по ведению рабочего процесса для вас и/или для вашей команды, так что я рассмотрю несколько распространенных парадигм, которые используют преимущества такой гибкости. Я рассмотрю сильные стороны и возможные слабые места каждой из моделей; вы можете выбрать одну из них, а можете сочетать и совмещать особенности каждой.
 
 Unlike Centralized Version Control Systems (CVCSs), the distributed nature of Git allows you to be far more flexible in how developers collaborate on projects. In centralized systems, every developer is a node working more or less equally on a central hub. In Git, however, every developer is potentially both a node and a hub — that is, every developer can both contribute code to other repositories and maintain a public repository on which others can base their work and which they can contribute to. This opens a vast range of workflow possibilities for your project and/or your team, so I’ll cover a few common paradigms that take advantage of this flexibility. I’ll go over the strengths and possible weaknesses of each design; you can choose a single one to use, or you can mix and match features from each.
 
@@ -32,14 +32,14 @@ Figure 5-1. Centralized workflow.
 
 This means that if two developers clone from the hub and both make changes, the first developer to push their changes back up can do so with no problems. The second developer must merge in the first one’s work before pushing changes up, so as not to overwrite the first developer’s changes. This concept is true in Git as it is in Subversion (or any CVCS), and this model works perfectly in Git.
 
-Если вы имеете небольшую команду или уже комфортно чувствуете себя при применении централизованного рабочего процесса в вашей компании или команде, вы можете запросто продолжить использовать такой рабочий процесс в Git. Просто настройте один репозиторий и дайте каждому в вашей команде право записи (push access); Git не позволить пользователям перезаписывать наработки друг-друга. Если один разработчик выполняет клонирование, делает изменения, а затем пытается выложить эти изменения, в то время как другой разработчик уже успел выложить свои, сервер отклонит изменения этого разработчика. Ему будет сказано, что он пытается выложить изменения, для которых невозможно выполнить fast-forward и что надо сначала извлечь данные с сервера, выполнить слияние, а уже потом выкладывать свои изменения. Этот рабочий процесс привлекателен для большого количества людей, так как это та парадигма, с которой многие знакомы и которая многим понятна.
+Если вы имеете небольшую команду или уже комфортно чувствуете себя при применении централизованного рабочего процесса в вашей компании или команде, вы можете запросто продолжить использовать такой рабочий процесс в Git. Просто настройте один репозиторий и дайте каждому в вашей команде право записи (push access); Git не позволит пользователям перезаписывать наработки друг-друга. Если один разработчик выполняет клонирование, делает изменения, а затем пытается выложить эти изменения, в то время как другой разработчик уже успел выложить свои, сервер отклонит изменения этого разработчика. Ему будет сказано, что он пытается выложить изменения, для которых невозможно выполнить fast-forward и что надо сначала извлечь данные с сервера, выполнить слияние, а уже потом выкладывать свои изменения. Этот рабочий процесс привлекателен для большого количества людей, так как это та парадигма, с которой многие знакомы и которая многим понятна.
 
 If you have a small team or are already comfortable with a centralized workflow in your company or team, you can easily continue using that workflow with Git. Simply set up a single repository, and give everyone on your team push access; Git won’t let users overwrite each other. If one developer clones, makes changes, and then tries to push their changes while another developer has pushed in the meantime, the server will reject that developer’s changes. They will be told that they’re trying to push non-fast-forward changes and that they won’t be able to do so until they fetch and merge. This workflow is attractive to a lot of people because it’s a paradigm that many are familiar and comfortable with.
 
 ### Рабочий процесс с менеджером по интеграции ###
 ### Integration-Manager Workflow ###
 
-Так как Git позволяет вам иметь несколько удаленных репозиториев, существует возможность ведения рабочего процесса, когда каждый разработчик имеет право записи на свой собственный публичный репозиторий и право на чтение для всех остальных. Этот сценарий часто подразумевает существование канонического (основного) репозитория, который представляет "официальный" проект. Чтобы поучаствовать этом проекте, вы создаете вашу собственную публичную копию этого проекта и выкладываете туда свои изменения. Потом вы можете отправить запрос владельцу основного проекта на внесение в него ваших изменений. Он может добавить ваш репозиторий как удаленный, протестировать локально ваши изменения, слить их со своей веткой и затем выложить обратно в публичный репозиторий. Этот процесс работает как описано далее (смотри Рисунок 5-2):
+Так как Git позволяет вам иметь несколько удаленных репозиториев, существует возможность ведения рабочего процесса, когда каждый разработчик имеет право записи на свой собственный публичный репозиторий и право на чтение для всех остальных. Этот сценарий часто подразумевает существование канонического (основного) репозитория, который представляет "официальный" проект. Чтобы поучаствовать в этом проекте, вы создаете вашу собственную публичную копию этого проекта и выкладываете туда свои изменения. Потом вы можете отправить запрос владельцу основного проекта на внесение в него ваших изменений. Он может добавить ваш репозиторий как удаленный, протестировать локально ваши изменения, слить их со своей веткой и затем выложить обратно в публичный репозиторий. Этот процесс работает как описано далее (смотри Рисунок 5-2):
 
 Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2):
 
@@ -199,9 +199,16 @@ If all your commit messages look like this, things will be a lot easier for you 
 
 In the following examples, and throughout most of this book, for the sake of brevity I don’t format messages nicely like this; instead, I use the `-m` option to `git commit`. Do as I say, not as I do.
 
+### Отдельная маленькая команда ###
+
 ### Private Small Team ###
 
+Наиболее простая задача, с которой вы легко можете столкнуться — отдельный проект с одним или двумя другими разработчиками. Под термином отдельный я подразумеваю закрытый код, недоступный для чтения остальному миру. Вы, вместе с другими разработчиками, имеете право записи в репозиторий.
+
 The simplest setup you’re likely to encounter is a private project with one or two other developers. By private, I mean closed source — not read-accessible to the outside world. You and the other developers all have push access to the repository.
+
+В этом окружении вы можете последовать рабочему процессу, похожему на тот, который вы использовали бы в Subversion или другой централизованной системе. Вы по-прежнему получаете такие преимущества, как локальные коммиты (коммиты в offline) и возможность гораздо более простого ветвления и слияния, но сам рабочий процесс может оставаться очень похожим; главное отличие — во время выполнения коммита слияние происходит на стороне клиента, а не на сервере.
+Давайте посмотрим, как это может выглядеть, когда два разработчика начинают работать вместе с общим репозиторием. Первый разработчик, Джон, клонирует репозиторий, делает изменения, выполняет локальный коммит. (Я заменяю служебные сообщения знаком `...` в этих примерах, чтобы немного их сократить.)
 
 In this environment, you can follow a workflow similar to what you might do when using Subversion or another centralized system. You still get the advantages of things like offline committing and vastly simpler branching and merging, but the workflow can be very similar; the main difference is that merges happen client-side rather than on the server at commit time.
 Let’s see what it might look like when two developers start to work together with a shared repository. The first developer, John, clones the repository, makes a change, and commits locally. (I’m replacing the protocol messages with `...` in these examples to shorten them somewhat.)
@@ -216,6 +223,8 @@ Let’s see what it might look like when two developers start to work together w
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
+Второй разработчик, Джессика, выполняет тоже самое — клонирует репозиторий и делает коммит с изменениями:
+
 The second developer, Jessica, does the same thing — clones the repository and commits a change:
 
 	# Jessica's Machine
@@ -228,6 +237,8 @@ The second developer, Jessica, does the same thing — clones the repository and
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
+Теперь Джессика выкладывает свою работу на сервер:
+
 Now, Jessica pushes her work up to the server:
 
 	# Jessica's Machine
@@ -235,6 +246,8 @@ Now, Jessica pushes her work up to the server:
 	...
 	To jessica@githost:simplegit.git
 	   1edee6b..fbff5bc  master -> master
+
+Джон также пытается выложить свои изменения:
 
 John tries to push his change up, too:
 
@@ -244,6 +257,8 @@ John tries to push his change up, too:
 	 ! [rejected]        master -> master (non-fast forward)
 	error: failed to push some refs to 'john@githost:simplegit.git'
 
+Джон не может выполнить отправку изменений, так как за это время Джессика уже отправила свои. Очень важно это понимать, если вы использовали Subversion, так как вы видите, что два разработчика не редактировали один и тот же файл. Хотя Subversion и выполняет автоматическое слияние на сервере, если были отредактированы разные файлы, используя Git вы должны слить коммиты локально. Прежде чем Джон сможет отправить свои изменения на сервер, он должен извлечь наработки Джессики и выполнить слияние:
+
 John isn’t allowed to push because Jessica has pushed in the meantime. This is especially important to understand if you’re used to Subversion, because you’ll notice that the two developers didn’t edit the same file. Although Subversion automatically does such a merge on the server if different files are edited, in Git you must merge the commits locally. John has to fetch Jessica’s changes and merge them in before he will be allowed to push:
 
 	$ git fetch origin
@@ -251,10 +266,16 @@ John isn’t allowed to push because Jessica has pushed in the meantime. This is
 	From john@githost:simplegit
 	 + 049d078...fbff5bc master     -> origin/master
 
+На этот момент, локальный репозиторий Джона выглядит так, как показано на Рисунке 5-4.
+
 At this point, John’s local repository looks something like Figure 5-4.
 
-Insert 18333fig0504.png 
+Insert 18333fig0504.png
+Рисунок 5-4. Начальный репозиторий Джона.
+ 
 Figure 5-4. John’s initial repository.
+
+Джон имеет ссылку на изменения, выложенные Джессикой, и он должен слить их вместе со своей работой до того, как сможет отправить ее на сервер:
 
 John has a reference to the changes Jessica pushed up, but he has to merge them into his own work before he is allowed to push:
 
@@ -263,10 +284,16 @@ John has a reference to the changes Jessica pushed up, but he has to merge them 
 	 TODO |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
+Слияние происходит без проблем — история коммитов Джона теперь выглядит как на Рисунке 5-5.
+
 The merge goes smoothly — John’s commit history now looks like Figure 5-5.
 
-Insert 18333fig0505.png 
+Insert 18333fig0505.png
+Рисунок 5-5. Репозиторий Джона после слияния с версией origin/master.
+ 
 Figure 5-5. John’s repository after merging origin/master.
+
+Теперь Джон может протестировать его код, дабы удостовериться, что он по-прежнему работает нормально, а затем выложить свою работу, уже объединенную с работой Джессики, на сервер:
 
 Now, John can test his code to make sure it still works properly, and then he can push his new merged work up to the server:
 
@@ -275,15 +302,25 @@ Now, John can test his code to make sure it still works properly, and then he ca
 	To john@githost:simplegit.git
 	   fbff5bc..72bbc59  master -> master
 
+В результате, история коммитов Джона выглядит как на Рисунке 5-6.
+
 Finally, John’s commit history looks like Figure 5-6.
 
 Insert 18333fig0506.png 
+Рисунок 5-6. История коммитов Джона после отправки изменений на сервер.
+
 Figure 5-6. John’s history after pushing to the origin server.
+
+Тем временем, Джессика работала над тематической веткой. Она создала тематическую ветку с названием `issue54` и сделала три коммита в этой ветке. Она еще не извлекала изменения Джонна, так что ее история коммитов выглядит как на Рисунке 5-7.
 
 In the meantime, Jessica has been working on a topic branch. She’s created a topic branch called `issue54` and done three commits on that branch. She hasn’t fetched John’s changes yet, so her commit history looks like Figure 5-7.
 
 Insert 18333fig0507.png 
+Рисунок 5-7. Начальная история коммитов Джессики.
+
 Figure 5-7. Jessica’s initial commit history.
+
+Джессика хочет синхронизировать свою работу с Джоном, так что она извлекает изменения с сервера:
 
 Jessica wants to sync up with John, so she fetches:
 
@@ -293,10 +330,16 @@ Jessica wants to sync up with John, so she fetches:
 	From jessica@githost:simplegit
 	   fbff5bc..72bbc59  master     -> origin/master
 
+Эта команда извлекает наработки Джона, которые он успел выложить. История коммитов Джессики теперь выглядит как на Рисунке 5-8.
+
 That pulls down the work John has pushed up in the meantime. Jessica’s history now looks like Figure 5-8.
 
-Insert 18333fig0508.png 
+Insert 18333fig0508.png
+Рисунок 5-8. История коммитов Джессики после извлечения изменений Джона.
+ 
 Figure 5-8. Jessica’s history after fetching John’s changes.
+
+Джессика полагает, что ее тематическая ветка закончена, но она хочет узнать, как выполнить слияние своей работы, чтобы она могла выложить ее на сервер. Она выполняет команду `git log` чтобы выяснить это:
 
 Jessica thinks her topic branch is ready, but she wants to know what she has to merge her work into so that she can push. She runs `git log` to find out:
 
@@ -307,11 +350,15 @@ Jessica thinks her topic branch is ready, but she wants to know what she has to 
 
 	    removed invalid default value
 
+Теперь Джессика может слить свою тематическую ветку с ее основной веткой, слить работу Джона (`origin/master`) с ее веткой `master` и, затем, отправить изменения на сервер. Сначала она переключается на свою основную ветку, чтобы объединить всю эту работу:
+
 Now, Jessica can merge her topic work into her master branch, merge John’s work (`origin/master`) into her `master` branch, and then push back to the server again. First, she switches back to her master branch to integrate all this work:
 
 	$ git checkout master
 	Switched to branch "master"
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
+
+Сначала она может слить ветку `origin/master` или `issue54` — обе они находятся выше в истории коммитов, так что не важно какой порядок слияния она выберет. Конечное состояние репозитория должно быть идентично независимо от того, какой порядок слияния она выбрала; только история коммитов будет немного разная. Сначала она выполняет слияние для ветки `issue54`:
 
 She can merge either `origin/master` or `issue54` first — they’re both upstream, so the order doesn’t matter. The end snapshot should be identical no matter which order she chooses; only the history will be slightly different. She chooses to merge in `issue54` first:
 
@@ -322,6 +369,8 @@ She can merge either `origin/master` or `issue54` first — they’re both upstr
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
+Никаких проблем не возникает; как вы видите, это был обычный fast-forward. Теперь Джессика выполняет слияние с работой Джона (`origin/master`):
+
 No problems occur; as you can see it, was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
 
 	$ git merge origin/master
@@ -330,10 +379,16 @@ No problems occur; as you can see it, was a simple fast-forward. Now Jessica mer
 	 lib/simplegit.rb |    2 +-
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
+Слияние проходит нормально, и теперь история коммитов Джессики выглядит как на Рисунке 5-9.
+
 Everything merges cleanly, and Jessica’s history looks like Figure 5-9.
 
-Insert 18333fig0509.png 
+Insert 18333fig0509.png
+Рисунок 5-9. История коммитов Джессики после слияния с изменениями Джона.
+ 
 Figure 5-9. Jessica’s history after merging John’s changes.
+
+Теперь указатель `origin/master` доступен из ветки `master` Джессики, так что она может спокойно выкладывать свои изменения (полагая, что Джон не выкладывал свои изменения в это время):
 
 Now `origin/master` is reachable from Jessica’s `master` branch, so she should be able to successfully push (assuming John hasn’t pushed again in the meantime):
 
@@ -342,21 +397,37 @@ Now `origin/master` is reachable from Jessica’s `master` branch, so she should
 	To jessica@githost:simplegit.git
 	   72bbc59..8059c15  master -> master
 
+Каждый разработчик несколько раз выполнял коммиты и успешно сливал свою работу с работой другого; смотри Рисунок 5-10.
+
 Each developer has committed a few times and merged each other’s work successfully; see Figure 5-10.
 
-Insert 18333fig0510.png 
+Insert 18333fig0510.png
+Рисунок 5-10. История коммитов Джессики после отправки всех изменений обратно на сервер.
+ 
 Figure 5-10. Jessica’s history after pushing all changes back to the server.
+
+Это один из простейших рабочих процессов. Вы работаете некоторое время, преимущественно в тематической ветке, и, когда приходит время, сливаете ее в вашу ветку master. Когда вы готовы поделиться этой работой с другими, вы сливаете ее в вашу ветку master, извлекаете изменения из `origin/master` и выполняете слияние (если за это время произошли изменения), и, наконец, отправляете изменения в ветку `master` на сервер. Общая последовательность действий выглядит так, как показано на Рисунке 5-11.
 
 That is one of the simplest workflows. You work for a while, generally in a topic branch, and merge into your master branch when it’s ready to be integrated. When you want to share that work, you merge it into your own master branch, then fetch and merge `origin/master` if it has changed, and finally push to the `master` branch on the server. The general sequence is something like that shown in Figure 5-11.
 
-Insert 18333fig0511.png 
+Insert 18333fig0511.png
+Рисунок 5-11. Общая последовательность событий для простого рабочего процесса в Git'е с несколькими разработчиками.
+ 
 Figure 5-11. General sequence of events for a simple multiple-developer Git workflow.
+
+### Отдельная команда с менеджером ###
 
 ### Private Managed Team ###
 
+В этом сценарии мы рассмотрим роли участников проекта, являющихся членами больших отдельных групп. Вы научитесь работе в окружении, где маленькие группы совместно работают над задачами, результаты деятельности которых, впоследствии, объединяется отдельной группой лиц.
+
 In this next scenario, you’ll look at contributor roles in a larger private group. You’ll learn how to work in an environment where small groups collaborate on features and then those team-based contributions are integrated by another party.
 
+Давайте представим, что Джон и Джессика работают вместе над одной задачей, в то время как Джессика и Джози работают над другой. В этом случае компания использует рабочий процесс с менеджером по интеграции, когда работа частных групп объединяется только определенными инженерами (обновление ветки `master` главного репозитория может осуществляться только этими инженерами). В этом случае вся работа выполняется в ветках отдельных команд разработчиков и, впоследствии, объединяется вместе менеджерами по интеграции.
+
 Let’s say that John and Jessica are working together on one feature, while Jessica and Josie are working on a second. In this case, the company is using a type of integration-manager workflow where the work of the individual groups is integrated only by certain engineers, and the `master` branch of the main repo can be updated only by those engineers. In this scenario, all work is done in team-based branches and pulled together by the integrators later.
+
+Давайте рассмотрим рабочий процесс Джессики, которая работает над двумя задачами и, таким образом, одновременно принимает участие в работе с двумя другими разработчиками. Полагая, что она уже имеет ее собственную копию репозитория, Джессика решает сначала взяться за задачу `featureA`. Для этого она создает новую ветку и выполняет на ней некоторую работу:
 
 Let’s follow Jessica’s workflow as she works on her two features, collaborating in parallel with two different developers in this environment. Assuming she already has her repository cloned, she decides to work on `featureA` first. She creates a new branch for the feature and does some work on it there:
 
@@ -368,6 +439,8 @@ Let’s follow Jessica’s workflow as she works on her two features, collaborat
 	[featureA 3300904] add limit to log function
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
+На этом этапе ей требуется поделиться своей работой с Джоном, так что она отправляет коммиты, выполненные на ветке `featureA`, на сервер. Так как Джессика не имеет право на изменения ветки `master` на сервере — только менеджеры по интеграции могут делать это — она вынуждена отправлять изменения в другую ветку, чтобы иметь возможность работать вместе с Джоном:
+
 At this point, she needs to share her work with John, so she pushes her `featureA` branch commits up to the server. Jessica doesn’t have push access to the `master` branch — only the integrators do — so she has to push to another branch in order to collaborate with John:
 
 	$ git push origin featureA
@@ -375,12 +448,16 @@ At this point, she needs to share her work with John, so she pushes her `feature
 	To jessica@githost:simplegit.git
 	 * [new branch]      featureA -> featureA
 
+Джессика сообщает по электронной почте Джону, что она выложила некоторые наработки в ветку `featureA`, и что он может проверить их. Пока Джессика ждет ответа от Джона, она решает начать работу над веткой `featureB` вместе с Джози. Для начала она создает новую ветку для этой задачи, используя в качестве основы ветку `master` на сервере:
+
 Jessica e-mails John to tell him that she’s pushed some work into a branch named `featureA` and he can look at it now. While she waits for feedback from John, Jessica decides to start working on `featureB` with Josie. To begin, she starts a new feature branch, basing it off the server’s `master` branch:
 
 	# Jessica's Machine
 	$ git fetch origin
 	$ git checkout -b featureB origin/master
 	Switched to a new branch "featureB"
+
+Теперь Джессика выполняет пару коммитов в ветке `featureB`:
 
 Now, Jessica makes a couple of commits on the `featureB` branch:
 
@@ -393,10 +470,16 @@ Now, Jessica makes a couple of commits on the `featureB` branch:
 	[featureB 8512791] add ls-files
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
+Репозиторий Джессики выглядит как на Рисунке 5-12.
+
 Jessica’s repository looks like Figure 5-12.
 
 Insert 18333fig0512.png 
+Рисунок 5-12. Начальная история коммитов Джессики.
+
 Figure 5-12. Jessica’s initial commit history.
+
+Джессика уже готова выложить на сервер свою работу, но получает сообщение от Джози, говорящее о том, что некоторые наработки уже были выложены на сервер в ветку `featureBee`. Поэтому Джессика должна сначала слить эти изменения со своими, прежде чем она сможет отправить свою работу на сервер. Она может извлечь изменения Джози командой `git fetch`:
 
 She’s ready to push up her work, but gets an e-mail from Josie that a branch with some initial work on it was already pushed to the server as `featureBee`. Jessica first needs to merge those changes in with her own before she can push to the server. She can then fetch Josie’s changes down with `git fetch`:
 
@@ -404,6 +487,8 @@ She’s ready to push up her work, but gets an e-mail from Josie that a branch w
 	...
 	From jessica@githost:simplegit
 	 * [new branch]      featureBee -> origin/featureBee
+
+Теперь Джессика может слить эти изменения со своими наработками командой `git merge`:
 
 Jessica can now merge this into the work she did with `git merge`:
 
@@ -413,6 +498,8 @@ Jessica can now merge this into the work she did with `git merge`:
 	 lib/simplegit.rb |    4 ++++
 	 1 files changed, 4 insertions(+), 0 deletions(-)
 
+Есть небольшая проблема — ей нужно выложить изменения из ее ветки `featureB` в ветку `featureBee` на сервере. Она может сделать это при помощи команды `git push`, последовательно указывая название локальной и удаленной веток, разделенные знаком двоеточия:
+
 There is a bit of a problem — she needs to push the merged work in her `featureB` branch to the `featureBee` branch on the server. She can do so by specifying the local branch followed by a colon (:) followed by the remote branch to the `git push` command:
 
 	$ git push origin featureB:featureBee
@@ -420,7 +507,11 @@ There is a bit of a problem — she needs to push the merged work in her `featur
 	To jessica@githost:simplegit.git
 	   fba9af8..cd685d1  featureB -> featureBee
 
+Это называется _refspec_. Смотри Главу 9, где более детально обсуждаются спецификации ссылок и различные вещи, которые вы можете делать с ними.
+
 This is called a _refspec_. See Chapter 9 for a more detailed discussion of Git refspecs and different things you can do with them.
+
+Далее, Джон сообщает Джессике по почте, что он добавил некоторые изменения в ветку `featureA` и просит ее проверить их. Она выполняет `git fetch` чтобы получить внесенные Джоном изменения:
 
 Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` branch and ask her to verify them. She runs a `git fetch` to pull down those changes:
 
@@ -428,6 +519,8 @@ Next, John e-mails Jessica to say he’s pushed some changes to the `featureA` b
 	...
 	From jessica@githost:simplegit
 	   3300904..aad881d  featureA   -> origin/featureA
+
+Затем, применяя команду `git log` она смотрит, что же было изменено:
 
 Then, she can see what has been changed with `git log`:
 
@@ -437,6 +530,8 @@ Then, she can see what has been changed with `git log`:
 	Date:   Fri May 29 19:57:33 2009 -0700
 
 	    changed log output to 30 from 25
+
+Наконец, она сливает работу Джона в свою собственную ветку `featureA`:
 
 Finally, she merges John’s work into her own `featureA` branch:
 
@@ -448,6 +543,8 @@ Finally, she merges John’s work into her own `featureA` branch:
 	 lib/simplegit.rb |   10 +++++++++-
 	1 files changed, 9 insertions(+), 1 deletions(-)
 
+Джессика хочет кое-что подправить, так что она опять делает коммит и затем выкладывает изменения на сервер:
+
 Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
 
 	$ git commit -am 'small tweak'
@@ -458,24 +555,42 @@ Jessica wants to tweak something, so she commits again and then pushes this back
 	To jessica@githost:simplegit.git
 	   3300904..ed774b3  featureA -> featureA
 
+История коммитов Джессики теперь выглядит так, как показано на Рисунке 5-13.
+
 Jessica’s commit history now looks something like Figure 5-13.
 
 Insert 18333fig0513.png 
+Рисунок 5-13. История Джессики после внесения коммитов в ветку с решаемой задачей.
+
 Figure 5-13. Jessica’s history after committing on a feature branch.
 
-Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14.
+Джессика, Джози и Джон информируют менеджеров по интеграции, что ветки `featureA` и `featureBee` на сервере готовы к внесению в основную версию разработки. После того, как они внесут эти ветки в основную версию, извлечение данных с сервера (fetch) приведет к появлению новых коммитов слияния. Таким образом, история коммитов станет выглядеть как на Рисунке 5-14.
+
+Jessica, Josie, and John inform the integrators that the `featureA` and `featureBee` branches on the server are ready for integration into the mainline. After they integrate these branches into the mainline, a fetch will bring down the new merge commits, making the commit history look like Figure 5-14. 
 
 Insert 18333fig0514.png 
+Рисунок 5-14. История коммитов Джессики после слияния двух тематических веток.
+
 Figure 5-14. Jessica’s history after merging both her topic branches.
+
+Множество групп переходят на Git именно из-за возможности работы нескольких команд в параллели с последующим объединением разных линий разработки. Огромное преимущество Git'а — возможность маленьких подгрупп большой команды работать вместе через удаленные ветки, не мешая при этом всей команде. Последовательность событий в рассмотренном здесь рабочем процессе представлена на Рисунке 5-15.
 
 Many groups switch to Git because of this ability to have multiple teams working in parallel, merging the different lines of work late in the process. The ability of smaller subgroups of a team to collaborate via remote branches without necessarily having to involve or impede the entire team is a huge benefit of Git. The sequence for the workflow you saw here is something like Figure 5-15.
 
 Insert 18333fig0515.png 
+Рисунок 5-15. Основная последовательность действий для рабочего процесса в команде с менеджером по интеграции.
+
 Figure 5-15. Basic sequence of this managed-team workflow.
+
+### Небольшой открытый проект ###
 
 ### Public Small Project ###
 
+Работа в открытом проекте является несколько иной задачей. Так как вы не имеете права на прямое изменение веток проекта, требуется некоторый другой путь для обмена наработками с мейнтейнерами. Первый пример описывает участие в проекте через разветвление (fork) на хосте Git'а, выполнять которое достаточно просто. Оба сайта, repo.or.cz и Github, поддерживают такую возможность, и большая часть мейнтейнеров проектов придерживаются такого способа содействия. В следующем разделе рассматриваются проекты, в которых патчи принимаются по e-mail.
+
 Contributing to public projects is a bit different. Because you don’t have the permissions to directly update branches on the project, you have to get the work to the maintainers some other way. This first example describes contributing via forking on Git hosts that support easy forking. The repo.or.cz and GitHub hosting sites both support this, and many project maintainers expect this style of contribution. The next section deals with projects that prefer to accept contributed patches via e-mail.
+
+Сначала вы скорее всего захотите клонировать основной репозиторий, создать тематическую ветку одного или нескольких патчей, которые вы собираетесь внести в проект, и выполнить здесь некоторую работу. Последовательность действий выглядит следующим образом:
 
 First, you’ll probably want to clone the main repository, create a topic branch for the patch or patch series you’re planning to contribute, and do your work there. The sequence looks basically like this:
 
@@ -487,17 +602,27 @@ First, you’ll probably want to clone the main repository, create a topic branc
 	$ (work)
 	$ git commit
 
+Возможно вы захотите использовать `rebase -i`, чтобы сжать ваши наработки в единый коммит, или таким образом реорганизовать наработки в коммитах, чтобы их было проще воспринимать мейнтейнерам проекта. Смотри Главу 6 для более детальной информации об интерактивном перемещении.
+
 You may want to use `rebase -i` to squash your work down to a single commit, or rearrange the work in the commits to make the patch easier for the maintainer to review — see Chapter 6 for more information about interactive rebasing.
+
+Когда вы закончили работу с веткой и готовы поделиться наработками с мейнтейнерами, перейдите на страницу исходного проекта и нажмите кнопку "Fork", создав таким образом вашу собственную ветвь проекта с правами записи в нее. Далее вы должны добавить URL этого нового репозитория в список удаленных репозиториев, назвав его, например как в этом случае, `myfork`:  
 
 When your branch work is finished and you’re ready to contribute it back to the maintainers, go to the original project page and click the "Fork" button, creating your own writable fork of the project. You then need to add in this new repository URL as a second remote, in this case named `myfork`:
 
 	$ git remote add myfork (url)
 
+Свои наработки вы должны выкладывать в этот репозиторий. Гораздо проще добавить в ваш репозиторий ветку, над которой вы работаете, как удаленную, чем сливать ее в вашу ветку master и выкладывать. Это объясняется тем следующим образом — если ваша работа не принята или частично отобрана вы не должны перематывать вашу ветку master. Если мейнтейнеры выполняют слияние, перемещение или частично отбирают вашу работу, вы, в конечном счете, можете получить ее обратно скачивая (pulling) из их репозитория:
+
 You need to push your work up to it. It’s easiest to push the remote branch you’re working on up to your repository, rather than merging into your master branch and pushing that up. The reason is that if the work isn’t accepted or is cherry picked, you don’t have to rewind your master branch. If the maintainers merge, rebase, or cherry-pick your work, you’ll eventually get it back via pulling from their repository anyhow:
 
 	$ git push myfork featureA
 
+Когда ваши наработки были отправлены в ваш репозиторий, вы должны уведомить мейнтейнера. Часто это называется запросом на включение (pull request) и вы можете либо сгенерировать его через сайт — на GitHub'е есть кнопка "pull request", автоматически уведомляющая мейнтейнера — либо выполнить команду `git request-pull` и вручную отправить ее вывод по почте мейнтейнеру.
+
 When your work has been pushed up to your fork, you need to notify the maintainer. This is often called a pull request, and you can either generate it via the website — GitHub has a "pull request" button that automatically messages the maintainer — or run the `git request-pull` command and e-mail the output to the project maintainer manually.
+
+Команда `request-pull` принимает в качестве аргумента название базовой ветки, в которую вы хотите включить вашу работу, и URL репозитория, из которого эти наработки могут быть получены. Команда выводит в список всех изменений, которые вы просите включить в проект. Например, если Джессика хочет послать Джону pull request когда она сделала пару коммитов в тематической ветке, которую она только что выложила, ей следует выполнить:
 
 The `request-pull` command takes the base branch into which you want your topic branch pulled and the Git repository URL you want them to pull from, and outputs a summary of all the changes you’re asking to be pulled in. For instance, if Jessica wants to send John a pull request, and she’s done two commits on the topic branch she just pushed up, she can run this:
 
@@ -517,7 +642,11 @@ The `request-pull` command takes the base branch into which you want your topic 
 	 lib/simplegit.rb |   10 +++++++++-
 	 1 files changed, 9 insertions(+), 1 deletions(-)
 
+Вывод может быть отправлен мейнтейнеру — он содержит список коммитов, информацию о том, где начинается ветка с изменениями, указывает, откуда забрать эти изменения.
+
 The output can be sent to the maintainer—it tells them where the work was branched from, summarizes the commits, and tells where to pull this work from.
+
+Для проекта, мейнтейнером которого вы не являетесь, проще иметь ветку `master`, которая отслеживает ветку `origin/master`, и выполнять работу в тематических ветках, которые вы легко можете удалить, если они были отклонены. Если вы распределяете свои наработки по различным темам внутри тематических веток, вам проще выполнить перемещение своей работы, в случае если верхушка главного репозитория была передвинута за это время и ваши коммиты уже не получается применить без конфликтов. Например, если вы хотите выполнить работу по второй теме, не продолжайте работу внутри тематической ветки, которую вы только что отправили - начните снова с ветки `master` главного репозитория:
 
 On a project for which you’re not the maintainer, it’s generally easier to have a branch like `master` always track `origin/master` and to do your work in topic branches that you can easily discard if they’re rejected.  Having work themes isolated into topic branches also makes it easier for you to rebase your work if the tip of the main repository has moved in the meantime and your commits no longer apply cleanly. For example, if you want to submit a second topic of work to the project, don’t continue working on the topic branch you just pushed up — start over from the main repository’s `master` branch:
 
@@ -528,10 +657,16 @@ On a project for which you’re not the maintainer, it’s generally easier to h
 	$ (email maintainer)
 	$ git fetch origin
 
+Теперь каждая из ваших тем представляет собой нечто похожее на очередь из патчей, которую вы можете перезаписывать, перемещать, модифицировать без взаимного влияния одной на другую, как показано на Рисунке 5-16.
+
 Now, each of your topics is contained within a silo — similar to a patch queue — that you can rewrite, rebase, and modify without the topics interfering or interdepending on each other as in Figure 5-16.
 
-Insert 18333fig0516.png 
+Insert 18333fig0516.png
+Рисунок 5-16. Начальная история коммитов при работе в featureB.
+ 
 Figure 5-16. Initial commit history with featureB work.
+
+Давайте представим, что мейнтейнер проекта включил в основную версию группу патчей. Далее он попытается включить вашу первую ветку, но слияние уже не проходит гладко. В этом случае вы можете попробовать переместить эту ветку на верхушку ветки `origin/master`, разрешить конфликты для мейнтейнера и, затем, заново предложить ваши изменения:
 
 Let’s say the project maintainer has pulled in a bunch of other patches and tried your first branch, but it no longer cleanly merges. In this case, you can try to rebase that branch on top of `origin/master`, resolve the conflicts for the maintainer, and then resubmit your changes:
 
@@ -539,12 +674,20 @@ Let’s say the project maintainer has pulled in a bunch of other patches and tr
 	$ git rebase origin/master
 	$ git push -f myfork featureA
 
+Это изменит вашу историю коммитов, и она станет выглядеть как на Рисунке 5-17.
+
 This rewrites your history to now look like Figure 5-17.
 
 Insert 18333fig0517.png 
+Рисунок 5-17. История коммитов после работы в featureA.
+
 Figure 5-17. Commit history after featureA work.
 
+Так как вы переместили ветку, в команде push вы должны указать опцию `-f`, чтобы иметь возможность заменить ветку `featureA` на сервере. Есть альтернатива — выложить новую работу в другую ветку на сервере (возможно, назвав ее `featureAv2`).
+
 Because you rebased the branch, you have to specify the `-f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`).
+
+Давайте рассмотрим более возможный сценарий: мейнтейнер просмотрел на вашу работу во второй ветке и ему понравилась идея, но он хотел бы, чтобы вы изменили некоторые детали реализации. Также вы используете эту возможность для того, чтобы переместить вашу работу так, чтобы она базировалась на текущей версии ветки `master` проекта. Вы создадите новую ветку, базирующуюся на текущей ветке `origin/master`, сожмете изменения из ветки `featureB`, решите все конфликты, которые могут возникнуть, выполните требуемые изменения в реализации вашей идеи и, затем, выложите все это в виде новой ветки:
 
 Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch:
 
@@ -554,16 +697,28 @@ Let’s look at one more possible scenario: the maintainer has looked at work in
 	$ git commit
 	$ git push myfork featureBv2
 
+Опция `--squash` берет все работу на сливаемой ветке (featureB) и сжимает ее в non-merge коммит (коммит без слияния) на верхушку ветки, на которой вы сейчас находитесь. Опция `--no-commit` сообщает Git'у, что не нужно автоматически записывать коммит в историю. Это позволяет вам внести все изменения с другой ветки и, затем, сделать еще ряд изменений перед записыванием нового коммита.
+
 The `--squash` option takes all the work on the merged branch and squashes it into one non-merge commit on top of the branch you’re on. The `--no-commit` option tells Git not to automatically record a commit. This allows you to introduce all the changes from another branch and then make more changes before recording the new commit.
+
+Теперь вы можете отправить мейнтейнеру сообщение о том, что вы сделали требуемые изменения и они могут быть найдены в вашей ветке `featureBv2` (смотри Рисунок 5-18).
 
 Now you can send the maintainer a message that you’ve made the requested changes and they can find those changes in your `featureBv2` branch (see Figure 5-18).
 
-Insert 18333fig0518.png 
+Insert 18333fig0518.png
+Рисунок 5-18. История коммитов после работы на featureBv2.
+ 
 Figure 5-18. Commit history after featureBv2 work.
+
+### Большой открытый проект ###
 
 ### Public Large Project ###
 
+Много более крупных проектов уже установили некоторый алгоритм принятия патчей — вам потребуется выяснять точные правила для каждого проекта, так как они будут отличаться. Однако, много крупных открытых проектов принимают патчи через список адресов разработчиков, так что сейчас мы рассмотрим пример такого приема.
+
 Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now.
+
+Рабочий процесс похож на описанный ранее — вы создаете тематическую ветку для каждой серии патчей, над которой вы работаете. Отличие состоит в процессе внесения этих изменений в проект. Вместо того, чтобы создавать ответвление от проекта (forking) и отправлять наработки в ваш собственный репозиторий (для которого вы имеете право записи), вы генерируете e-mail версию каждой серии коммитов и отправляете ее по списку адресов разработчиков:
 
 The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list:
 
@@ -573,11 +728,15 @@ The workflow is similar to the previous use case — you create topic branches f
 	$ (work)
 	$ git commit
 
+Теперь у вас есть два коммита, которые вы хотите отправить по списку адресов. Вы используете команду `git format-patch`, чтобы сгенерировать файлы в формате mbox, которые вы можете отправить по почте по списку адресов. Эта команда превращает каждый коммит в электронное сообщение, темой которого является первая строка сообщения коммита, а оставшаяся часть сообщения коммита и патч, который он представляет, являются телом электронного сообщения. Хорошей особенностью является то, что применение патча из сгенерированного командой `format-patch` электронного сообщения сохраняет всю информацию о коммите. Вы увидите это в следующей части, когда будете применять эти коммиты:
+
 Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these commits:
 
 	$ git format-patch -M origin/master
 	0001-add-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
+
+Команда `format-patch` создает файлы с патчами и выводит их названия. Опция `-M` сообщает Git'у, что переименования нужно отслеживать. В итоге файлы выглядят так: 
 
 The `format-patch` command prints out the names of the patch files it creates. The `-M` switch tells Git to look for renames. The files end up looking like this:
 
@@ -609,9 +768,15 @@ The `format-patch` command prints out the names of the patch files it creates. T
 	-- 
 	1.6.2.rc1.20.g8c5b.dirty
 
+Вы также можете отредактировать эти файлы патчей, чтобы добавить в электронное сообщение некую информацию, которую вы не хотите показывать в сообщении коммита. Если вы добавляете текст между строкой `--` и началом патча (строка `lib/simplegit.rb`), то разработчик сможет ее прочитать, но в применении патча она участвовать не будет.
+
 You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it.
 
+Чтобы отправить эти файлы по списку адресов вы можете вставить файл в сообщение в вашем почтовом клиенте или отправить его через программу в командной строке. Вставка текста часто приводит к ошибкам форматирования, особенно в "умных" клиентах, которые не защищают символы перевода строки и пробельные символы. К счастью, Git предоставляет инструмент, позволяющий вам передавать через IMAP правильно отформатированные патчи. Для вас, применение этого инструмента может быть легче. Я покажу как отсылать патчи через Gmail, так как именно этот агент я и использую; вы можете прочесть подробные инструкции для большого числа почтовых программ в вышеупомянутом файле `Documentation/SubmittingPatches`, находящемся в исходном коде Git'а.
+
 To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code.
+
+Для начала вам следует внести секцию imap в файл `~/.gitconfig`. Вы можете добавлять каждое значение отдельно серией команд `git config`, или же добавить их все сразу вручную; но, в итоге, ваш файл конфигурации должен выглядеть примерно так:
 
 First, you need to set up the imap section in your `~/.gitconfig` file. You can set each value separately with a series of `git config` commands, or you can add them manually; but in the end, your config file should look something like this:
 
@@ -623,6 +788,8 @@ First, you need to set up the imap section in your `~/.gitconfig` file. You can 
 	  port = 993
 	  sslverify = false
 
+Если ваш IMAP сервер не использует SSL, две последние строки могут отсутствовать, а параметр host примет значение `imap://` вместо `imaps://`. Когда необходимые параметры внесены в ваш файл конфигурации, вы можете использовать команду `git send-email` для перемещение серии патчей в папку Drafts на указанном IMAP сервере:
+
 If your IMAP server doesn’t use SSL, the last two lines probably aren’t necessary, and the host value will be `imap://` instead of `imaps://`.
 When that is set up, you can use `git send-email` to place the patch series in the Drafts folder of the specified IMAP server:
 
@@ -633,6 +800,8 @@ When that is set up, you can use `git send-email` to place the patch series in t
 	Emails will be sent from: Jessica Smith <jessica@example.com>
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
+
+Затем Git выдает группу служебных сообщений, выглядящую примерно следующим образом, для каждого патча, который вы отсылаете: 
 
 Then, Git spits out a bunch of log information looking something like this for each patch you’re sending:
 
@@ -651,9 +820,15 @@ Then, Git spits out a bunch of log information looking something like this for e
 
 	Result: OK
 
+Теперь вы должны иметь возможности перейти в вашу папку Drafts, заполнить поле 'To' в соответствии со списком адресов, по которым вы рассылаете патчи, указать, если нужно, адрес мейнтейнера или ответственного за эту секцию лица в поле 'CC', и отправить сообщение.
+
 At this point, you should be able to go to your Drafts folder, change the To field to the mailing list you’re sending the patch to, possibly CC the maintainer or person responsible for that section, and send it off.
 
+### Итоги ###
+
 ### Summary ###
+
+В этом разделе был рассмотрен ряд общепринятых рабочих процессов, применяемых в нескольких непохожих друг на друга типах проектов (использующих Git), c которыми вы вероятно столкнетесь. Также здесь были представлены два новых инструмента, призванных помочь вам в организации этих процессов. Далее вы увидите рабочий процесс совсем с другой стороны: управление проектом в Git. Вы научитесь роли благосклонного диктатора или роли менеджера по интеграции.
 
 This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process. Next, you’ll see how to work the other side of the coin: maintaining a Git project. You’ll learn how to be a benevolent dictator or integration manager.
 
@@ -984,6 +1159,6 @@ It’s time to e-mail your mailing list of people who want to know what’s happ
 
 You get a clean summary of all the commits since v1.0.1, grouped by author, that you can e-mail to your list.
 
-## Summary ##
+## Итоги ##
 
 You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.

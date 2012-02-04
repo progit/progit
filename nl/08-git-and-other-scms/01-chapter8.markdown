@@ -110,7 +110,7 @@ Je kunt twee remote servers hebben: een genaamd `gitserver` met een master branc
 
 Zie hoe in het voorbeeld van geimporteerde remote referenties van `git svn`, de tags toegevoegd zijn als remote branches, niet als echte Git tags. Je Subversion import ziet eruit alsof het een remote heeft dat tags heet waaronder branches zitten.
 
-### Teug naar Subversion Committen ###
+### Terug naar Subversion Committen ###
 
 Nu dat je een werkend repository hebt, kun je wat werken aan het project en je commits stroomopwaarts pushen, waarbij je Git effectief als een SVN gebruiker toepast. Als je een van de bestanden aanpast en het commit, heb je een commit dat lokaal in Git bestaat, die niet op de Subversion server bestaat:
 

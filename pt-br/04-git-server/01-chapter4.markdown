@@ -81,9 +81,9 @@ O protocolo Git é o mais rápido entre os disponíveis. Se você está servindo
 O lado ruim do protocolo Git é a falta de autenticação. É geralmente indesejável que o protocolo Git seja o único acesso ao seu projeto. Geralmente, você o usará em par com um acesso SSH para os poucos desenvolvedores com acesso de envio (push) e todos os outros usariam `git://` para acesso somente leitura.
 É também provavelmente o protocolo mais difícil de configurar. Ele precisa rodar seu próprio daemon, que é específico — iremos olhar como configurar um na seção “Gitosis” deste capítulo — ele requer a configuração `xinetd` ou algo similar, o que não é sempre um passeio. Ele requer também acesso a porta 9418 via firewall, o que não é uma porta padrão que firewalls corporativas sempre permitem. Por trás de grandes firewalls corporativas, esta porta obscura está comumente bloqueada.
 
-### The HTTP/S Protocol ###
+### O Protocolo HTTP/S Protocol ###
 
-Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the simplicity of setting it up. Basically, all you have to do is put the bare Git repository under your HTTP document root and set up a specific `post-update` hook, and you’re done (See Chapter 7 for details on Git hooks). At that point, anyone who can access the web server under which you put the repository can also clone your repository. To allow read access to your repository over HTTP, do something like this:
+Por último temos o protocolo HTTP. A beleza do protocolo HTTP ou HTTPS é a simplicidade em configurar. Basicamente, tudo o que você precisa fazer é colocar o repósitor Git do jeito que ele é no Servidor HTTP document root e configurar um específico gancho (hook) `post-update`, e você está pronto (veja Capítulo 7 para detalhes on Git Ganchos (Hooks)). Neste ponto, qualquer um com acesso ao servidor web no qual você colocou o repositório também pode clonar o repositório. Para permitir acesso de leitura ao seu repositório usando HTTP, execute o seguinte:
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -91,91 +91,91 @@ Last we have the HTTP protocol. The beauty of the HTTP or HTTPS protocol is the 
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-That’s all. The `post-update` hook that comes with Git by default runs the appropriate command (`git update-server-info`) to make HTTP fetching and cloning work properly. This command is run when you push to this repository over SSH; then, other people can clone via something like
+E pronto. O gancho `post-update` que vem com Git executa o comando apropriado (`git update-server-info`) para que fetch e clone via HTTP funcione corretamente. Este comando é executado quando você envia para o repositório usando `push` via SSH; então, outros podem clonar via algo como
 
 	$ git clone http://example.com/gitproject.git
 
-In this particular case, we’re using the `/var/www/htdocs` path that is common for Apache setups, but you can use any static web server — just put the bare repository in its path. The Git data is served as basic static files (see Chapter 9 for details about exactly how it’s served).
+Neste caso particular, estamos usando o caminho `/var/www/htdocs` que é comum para configurações Apache, mas você pode usar qualquer servidor web estático — apenas coloque o caminho do repositório. Os dados no Git são servidos como arquivos estáticos basicos (veja Capítulo 9 para mais detalhes sobre como exatamente eles são servidos).
 
-It’s possible to make Git push over HTTP as well, although that technique isn’t as widely used and requires you to set up complex WebDAV requirements. Because it’s rarely used, we won’t cover it in this book. If you’re interested in using the HTTP-push protocols, you can read about preparing a repository for this purpose at `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. One nice thing about making Git push over HTTP is that you can use any WebDAV server, without specific Git features; so, you can use this functionality if your web-hosting provider supports WebDAV for writing updates to your web site.
+É possível fazer Git enviar via HTTP também, embora esta técnica não é muito usada e requer que você configure WebDav com parâmetros complexos. Pelo fato de ser usado raramente, não iremos cobrir neste livro. Se você está interessado em usar os protocolos HTTP-push, você pode ler sobre preparação de um repositório para este propósito na `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. Uma coisa legal sobre fazer Git enviar via HTTP é que você pode usar qualquer servidor WebDAV, sem quaisquer características Git; então, você pode usar esta funcionalidade se o seu provedor web suporta WebDAV com permissão de escrita para o seu web site.
 
-#### The Pros ####
+#### Os Prós ####
 
-The upside of using the HTTP protocol is that it’s easy to set up. Running the handful of required commands gives you a simple way to give the world read access to your Git repository. It takes only a few minutes to do. The HTTP protocol also isn’t very resource intensive on your server. Because it generally uses a static HTTP server to serve all the data, a normal Apache server can serve thousands of files per second on average — it’s difficult to overload even a small server.
+O lado bom de usar protoclo HTTP é que ele é fácil de configurar. Executar o punhado de comandos obrigatórios lhe provém um jeito simples de fornecer ao mundo acesso ao seu repositório Git. Você só precisa de alguns minutos. O protoclo HTTP também não é consume muitos recursos no servidor. Pelo fato de usar apenas um servidor HTTP estático para todo o dado, um servidor Apache normal pode servir em média milhares de arquivos por segundo — é difícil sobrecarregar até mesmo um servidor pequeno.
 
-You can also serve your repositories read-only over HTTPS, which means you can encrypt the content transfer; or you can go so far as to make the clients use specific signed SSL certificates. Generally, if you’re going to these lengths, it’s easier to use SSH public keys; but it may be a better solution in your specific case to use signed SSL certificates or other HTTP-based authentication methods for read-only access over HTTPS.
+Você também pode servir seus repositórios com apenas acesso de leitura via HTTPS, o que significa que você pode encriptar o conteúdo transferido; ou pode ir até o ponto de fazer seus usuários usarem certificados SSL assinados. Geralmente, se você está indo até este ponto, é mais fácil usar as chaves públicas SSH; mas pode ser uma solução melhor em casos específicos usar certificados SSL assinados ou outro método de autenticação HTTP para acesso de leitura via HTTPS.
 
-Another nice thing is that HTTP is such a commonly used protocol that corporate firewalls are often set up to allow traffic through this port.
+Outra coisa legal é que HTTP é um protocolo tão comumente usado que firewalls corporativos são normalmente configurados para permitir tráfego por esta porta.
 
-#### The Cons ####
+#### Os Contras ####
 
-The downside of serving your repository over HTTP is that it’s relatively inefficient for the client. It generally takes a lot longer to clone or fetch from the repository, and you often have a lot more network overhead and transfer volume over HTTP than with any of the other network protocols. Because it’s not as intelligent about transferring only the data you need — there is no dynamic work on the part of the server in these transactions — the HTTP protocol is often referred to as a _dumb_ protocol. For more information about the differences in efficiency between the HTTP protocol and the other protocols, see Chapter 9.
+O lado ruim de servidr seu repositório via HTTP é que ele é relativamente ineficiente para o usuário. Geralmente demora muito mais para clonar ou fetch do repositório, e você frequentemente tem mais sobrecarga de rede e volume de transferência via HTTP do que com outros protocolos de rede. Pelo fato de não ser inteligente sobre os dados que você precisa — não tem um trabalho dinâmico por parte do servidor nestas transações — o protocolo HTTP é frequentemente referido como o protocolo _burro_. Para mais informações sobre as diferenças em eficiência entre o protocolo HTTP e outros protocolos, veja o Capítulo 9.
 
-## Getting Git on a Server ##
+## Configurando Git no Servidor ##
 
-In order to initially set up any Git server, you have to export an existing repository into a new bare repository — a repository that doesn’t contain a working directory. This is generally straightforward to do.
-In order to clone your repository to create a new bare repository, you run the clone command with the `--bare` option. By convention, bare repository directories end in `.git`, like so:
+Antes de configurar qualquer Git server, você tem que exportar um repositório existente em um novo repositório limpo — um repositório que não contém um diretório sendo trabalhado. Isto é geralmente fácil de fazer.
+Para clonar seu repositório para criar um novo repositório limpo, você pode executar o comando clone com a opção `--bare`. Por convenção, diretórios de repositórios limpos terminam em `.git`, assim:
 
 	$ git clone --bare my_project my_project.git
 	Initialized empty Git repository in /opt/projects/my_project.git/
 
-The output for this command is a little confusing. Since `clone` is basically a `git init` then a `git fetch`, we see some output from the `git init` part, which creates an empty directory. The actual object transfer gives no output, but it does happen. You should now have a copy of the Git directory data in your `my_project.git` directory.
+O resultado deste comando é um pouco confuso. Já que `clone` é basicamente um `git init` seguido de um `git fetch`, nós vemos um pouco do resultado de `git init`, que cria um diretório vazio. A transferência real de objetos não dá nenhum resultado, mas ocorre. Você deve ter agora uma cópia dos dados do diretório Git no seu diretório `my_project.git`.
 
-This is roughly equivalent to something like
+Isto é mais ou menos equivalente a algo assim
 
 	$ cp -Rf my_project/.git my_project.git
 
-There are a couple of minor differences in the configuration file; but for your purpose, this is close to the same thing. It takes the Git repository by itself, without a working directory, and creates a directory specifically for it alone.
+Existem algumas diferenças menores no arquivo de configuração caso você siga este caminho; mas para o propósito, isto é perto da mesma coisa.  Ele copia o repositório Git, sem um diretório de trabalho, e cria um diretório especificamente para ele sozinho.
 
-### Putting the Bare Repository on a Server ###
+### Colocando o Repositório Limpo no Servidor ###
 
-Now that you have a bare copy of your repository, all you need to do is put it on a server and set up your protocols. Let’s say you’ve set up a server called `git.example.com` that you have SSH access to, and you want to store all your Git repositories under the `/opt/git` directory. You can set up your new repository by copying your bare repository over:
+Agora que você tem uma cópia limpar do seu repositório, tudo o que você precisa fazer é colocar ele num servidor e configurar os protocolos. Vamos dizer que você configurou um servidor chamado `git.example.com` que você tem acesso via SSH, e você quer armazenar todos os seus repositórios Git no diretório `/opt/git`. Você pode configurar o seu novo repositório apenas copiando o seu repositório limpo:
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
-At this point, other users who have SSH access to the same server which has read-access to the `/opt/git` directory can clone your repository by running
+Neste ponto, outros usuários com acesso SSH para o mesmo servidor e que possuam acesso de leitura para o diretório `/opt/git` podem clonar o seu repositório executando
 
 	$ git clone user@git.example.com:/opt/git/my_project.git
 
-If a user SSHs into a server and has write access to the `/opt/git/my_project.git` directory, they will also automatically have push access.  Git will automatically add group write permissions to a repository properly if you run the `git init` command with the `--shared` option.
+Se um usuário SSH em um servidor e tem acesso de escrita para o diretório `/opt/git/my_project.git`, ele também terá acesso para envio (push) automaticamente. Git irá automaticamente adicionar permissões de escrita apropriadas para o grupo se o comando `git init` com a opçao `--shared` for executada em um repositório.
 
 	$ ssh user@git.example.com
 	$ cd /opt/git/my_project.git
 	$ git init --shared
 
-You see how easy it is to take a Git repository, create a bare version, and place it on a server to which you and your collaborators have SSH access. Now you’re ready to collaborate on the same project.
+Você pode ver como é fácil pegar um repositório Git, criar uma versão limpa, e colocar num servidor onde você e seus colaboradores têm acesso SSH. Agora vocês estão prontos para colaborar no mesmo projeto.
 
-It’s important to note that this is literally all you need to do to run a useful Git server to which several people have access — just add SSH-able accounts on a server, and stick a bare repository somewhere that all those users have read and write access to. You’re ready to go — nothing else needed.
+Ẽ importante notar que isso é literalmente tudo que você precisa fazer para rodar um servidor Git útil no qual várias pessoas possam acessar — apenas adicione as contas com acesso SSH ao servidor, coloque um repositório Git em algum lugar do servidor no qual todos os usuários tenham acesso de leitura e escrita. Você está pronto — nada mais é necessário.
 
-In the next few sections, you’ll see how to expand to more sophisticated setups. This discussion will include not having to create user accounts for each user, adding public read access to repositories, setting up web UIs, using the Gitosis tool, and more. However, keep in mind that to collaborate with a couple of people on a private project, all you _need_ is an SSH server and a bare repository.
+Nas próximas seções, você verá como expandir para configurações mais sofisticas. Essa discussão irá incluir a característica de não precisar criar contas para cada usuário, adicionar acesso de leitura público para os seus repositórios, configurar Web UIs, usando a ferramenta Gitosis, e mais. Entretanto, mantenha em mente que colaborar com algumas pessoas em um projeto privado, tudo o que você _precisa_ é um servidor SSH e um repositório limpo.
 
-### Small Setups ###
+### Setups Pequenos ###
 
-If you’re a small outfit or are just trying out Git in your organization and have only a few developers, things can be simple for you. One of the most complicated aspects of setting up a Git server is user management. If you want some repositories to be read-only to certain users and read/write to others, access and permissions can be a bit difficult to arrange.
+Se você for uma pequena empresa or apenas testando Git na sua organização e tem alguns desenvolvedores, as coisas podem ser simples para você. Um dos aspectos mais complicados de configurar um servidor Git é gerenciamento de usuários. Se você quer que alguns repositórios sejam apenas de leitura para alguns usuários e leitura/escrita para outros, acesso e permissões podem ser um pouco difícil de arranjar.
 
-#### SSH Access ####
+#### Acesso SSH ####
 
-If you already have a server to which all your developers have SSH access, it’s generally easiest to set up your first repository there, because you have to do almost no work (as we covered in the last section). If you want more complex access control type permissions on your repositories, you can handle them with the normal filesystem permissions of the operating system your server runs.
+Se você já tem um servidor ao qual todos os seus desenvolvedores tem acesso SSH, é geralmente mais fácil configurar o seu primeiro repositório lá, pelo fato de vc não precisar fazer praticamente nenhum trabalho extra (como cobrimos na última seção). Se você quiser um controle de acesso mais complexo nos seus repositórios, você pode gerenciá-los com o sistema de permissão de arquivos do sistema operacional que o seu servidor roda.
 
-If you want to place your repositories on a server that doesn’t have accounts for everyone on your team whom you want to have write access, then you must set up SSH access for them. We assume that if you have a server with which to do this, you already have an SSH server installed, and that’s how you’re accessing the server.
+Se você quiser colocar seus repositórios num servidor que não possui contas para todos no seu time que você quer dar permissão de acesso, então você deve configurar acesso SSH para eles. Assumimos que se você tem um servidor com o qual fazer isso, você já tem um servidor SSH instalado, e é assim que você está acessando o servidor.
 
-There are a few ways you can give access to everyone on your team. The first is to set up accounts for everybody, which is straightforward but can be cumbersome. You may not want to run `adduser` and set temporary passwords for every user.
+Existem algumas alternativas para dar acesso a todos no seu time. A primeira é configurar contas para todos, o que é simples mas pode se tornar complicado. Você provavelmente n"ao quer executar `adduser` e definir e senhas temporárias para cada usuário.
 
-A second method is to create a single 'git' user on the machine, ask every user who is to have write access to send you an SSH public key, and add that key to the `~/.ssh/authorized_keys` file of your new 'git' user. At that point, everyone will be able to access that machine via the 'git' user. This doesn’t affect the commit data in any way — the SSH user you connect as doesn’t affect the commits you’ve recorded.
+Um segundo método é criar um único usuário 'git' na máquina, pedir a cada usuário que é para possuir acesso de escrita para enviar chave pública SSH, e adicionar estas chaves para o arquivo `~/.ssh/authorized_keys` do seu novo usuário 'git'. Neste ponto, todos poderão acessar aquela máquina usando o usuário 'git'. Isto não afeta os dados em commit de maneira alguma — o usuário SSH que você se conecta não afeta os commits que você gravou previamente.
 
-Another way to do it is to have your SSH server authenticate from an LDAP server or some other centralized authentication source that you may already have set up. As long as each user can get shell access on the machine, any SSH authentication mechanism you can think of should work.
+Outro método é ter o seu servidor SSH autenticando de um servidor LDAP ou outro autenticador central que você talvez já tenha previamente configurado. Contato que cada usuário tenha acesso shell à máquina, qualquer mecanismo de autenticação SSH que você pense deve funcionar.
 
-## Generating Your SSH Public Key ##
+## Gerando Sua Chave Pública SSH ##
 
-That being said, many Git servers authenticate using SSH public keys. In order to provide a public key, each user in your system must generate one if they don’t already have one. This process is similar across all operating systems.
-First, you should check to make sure you don’t already have a key. By default, a user’s SSH keys are stored in that user’s `~/.ssh` directory. You can easily check to see if you have a key already by going to that directory and listing the contents:
+Sendo o que foi dito, vários servidores Git autenticam usando chaves públicas SSH. Para fornecer uma chave pública, cada usuário no seu sistema devem gerar uma se eles ainda não a possuem. Este processo é similar dentre os vários sistemas operacionais.
+Primeiro, você deve checar para ter certeza que você ainda não possui um chave. Por padrão, as chaves SSH de um usuário são armazenadas no diretório `~/.ssh`. Você pode facilmente verificar se você tem uma chave indo para aquele diretório e listando o seu conteúdo:
 
 	$ cd ~/.ssh
 	$ ls
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
 
-You’re looking for a pair of files named something and something.pub, where the something is usually `id_dsa` or `id_rsa`. The `.pub` file is your public key, and the other file is your private key. If you don’t have these files (or you don’t even have a `.ssh` directory), you can create them by running a program called `ssh-keygen`, which is provided with the SSH package on Linux/Mac systems and comes with the MSysGit package on Windows:
+Você está procurando por um par de arquivos chamados _algo_ e _algo.pub_, onde _algo_ é normalmente `id_dsa` ou `id_rsa`. O arquivo `.pub` é a sua chave pública, e o outro arquivo é a sua chave privada. Se você não tem estes arquivos (ou não tem nem mesmo o diretório `.ssh`), você pode criá-los executando um programa chamado `ssh-keygen`, que é fornecido com o pacote SSH em sistemas Linux/Mac e vem com o pacote MSysGit no Windows:
 
 	$ ssh-keygen 
 	Generating public/private rsa key pair.
@@ -187,9 +187,9 @@ You’re looking for a pair of files named something and something.pub, where th
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-First it confirms where you want to save the key (`.ssh/id_rsa`), and then it asks twice for a passphrase, which you can leave empty if you don’t want to type a password when you use the key.
+Primeiro ele confirma onde você quer salvar a chave (`.ssh/id_rsa`), e então pergunta duas vezes por uma frase de acesso, que você pode deixar em branco se você não quiser digitar uma senha quando usar a chave.
 
-Now, each user that does this has to send their public key to you or whoever is administrating the Git server (assuming you’re using an SSH server setup that requires public keys). All they have to do is copy the contents of the `.pub` file and e-mail it. The public keys look something like this:
+Agora, cada usuário que executar o comando acima precisa enviar a chave pública para você ou para o administrador do seu servidor Git (assumindo que você está usando um servidor SSH cuja configuração necessita de chaves públicas). Tudo o que eles precisam fazer é copiar o conteúdo do arquivo `.pub` e enviar para você via e-mail. As chaves públicas são parecidas com isso.
 
 	$ cat ~/.ssh/id_rsa.pub 
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -199,18 +199,18 @@ Now, each user that does this has to send their public key to you or whoever is 
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
-For a more in-depth tutorial on creating an SSH key on multiple operating systems, see the GitHub guide on SSH keys at `http://github.com/guides/providing-your-ssh-key`.
+Para um tutorial mais detalhado em criar chaves SSH on vários sistemas operacionais, veja o guia do GitHub em chaves SSH no endereço `http://github.com/guides/providing-your-ssh-key`.
 
-## Setting Up the Server ##
+## Configurando o Servidor ##
 
-Let’s walk through setting up SSH access on the server side. In this example, you’ll use the `authorized_keys` method for authenticating your users. We also assume you’re running a standard Linux distribution like Ubuntu. First, you create a 'git' user and a `.ssh` directory for that user.
+Vamos agora configurar acesso SSH no lado do servidor. Neste exemplo, você irá autenticar seus usuários pelo método das `authorized_keys`. Também assumimos que você esteja rodando uma distribuição padrão do Linux como o Ubuntu. Primeiramente, crie um usuário 'git' e um diretório `.ssh` para ele.
 
 	$ sudo adduser git
 	$ su git
 	$ cd
 	$ mkdir .ssh
 
-Next, you need to add some developer SSH public keys to the `authorized_keys` file for that user. Let’s assume you’ve received a few keys by e-mail and saved them to temporary files. Again, the public keys look something like this:
+A seguir, você precisará adicionar uma chave pública de algum desenvolvedor para o arquivo `authorized_keys` do usuário 'git'. Vamos assumir que você recebeu algumas chaves por e-mail e as salvou em arquivos temporários. Novamente, as chaves públicas são algo parecido com isso aqui:
 
 	$ cat /tmp/id_rsa.john.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCB007n/ww+ouN4gSLKssMxXnBOvf9LGt4L
@@ -220,20 +220,20 @@ Next, you need to add some developer SSH public keys to the `authorized_keys` fi
 	O7TCUSBdLQlgMVOFq1I2uPWQOkOWQAHukEOmfjy2jctxSDBQ220ymjaNsHT4kgtZg2AYYgPq
 	dAv8JggJICUvax2T9va5 gsg-keypair
 
-You just append them to your `authorized_keys` file:
+Você tem apenas que concatenar as chaves públicas salves ao arquivo `authorized_keys`:
 
 	$ cat /tmp/id_rsa.john.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.josie.pub >> ~/.ssh/authorized_keys
 	$ cat /tmp/id_rsa.jessica.pub >> ~/.ssh/authorized_keys
 
-Now, you can set up an empty repository for them by running `git init` with the `--bare` option, which initializes the repository without a working directory:
+Agora, você pode configurar um repositório vazio para eles executando o comando `git init` com a opção `--bare`, que inicializa o repositório sem um diretório de trabalho:
 
 	$ cd /opt/git
 	$ mkdir project.git
 	$ cd project.git
 	$ git --bare init
 
-Then, John, Josie, or Jessica can push the first version of their project into that repository by adding it as a remote and pushing up a branch. Note that someone must shell onto the machine and create a bare repository every time you want to add a project. Let’s use `gitserver` as the hostname of the server on which you’ve set up your 'git' user and repository. If you’re running it internally, and you set up DNS for `gitserver` to point to that server, then you can use the commands pretty much as is:
+Assim, John, Josie ou Jessica podem enviar a primeira versão dos seus projetos para o repositório simplesmente adicionado-o como um remoto e enviando (push) uma branch. Atente que alguém deve acessar o servidor e criar um repositório limpo toda vez que eles queiram adicionar um projeto. Vamos usar `gitserver` como o nome do servidor no qual você configurou o usuário 'git' e o repositório. Se você estiver rodando ele internamente, e você configurou uma entrada DNS para `gitserver` apontando para esta máquina, então você pode simplesmente seguir os comandos abaixo:
 
 	# on Johns computer
 	$ cd myproject
@@ -243,56 +243,57 @@ Then, John, Josie, or Jessica can push the first version of their project into t
 	$ git remote add origin git@gitserver:/opt/git/project.git
 	$ git push origin master
 
-At this point, the others can clone it down and push changes back up just as easily:
+Neste ponto, os outros podem clonar e enviar as mudanças facinho:
 
 	$ git clone git@gitserver:/opt/git/project.git
 	$ vim README
 	$ git commit -am 'fix for the README file'
 	$ git push origin master
 
-With this method, you can quickly get a read/write Git server up and running for a handful of developers.
+Com este método, você pode rapidamente ter um servidor com acesso de leitura e escrita rodando para os desenvolvedores.
 
-As an extra precaution, you can easily restrict the 'git' user to only doing Git activities with a limited shell tool called `git-shell` that comes with Git. If you set this as your 'git' user’s login shell, then the 'git' user can’t have normal shell access to your server. To use this, specify `git-shell` instead of bash or csh for your user’s login shell. To do so, you’ll likely have to edit your `/etc/passwd` file:
+Como uma precaução extra, você pode facilmente restringir o usuário 'git' para executar apenas atividades Git com uma shell limitada chamada `git-shell` que vem com o Git. Se você configurar ela como a shell do seu usuário 'git', logo o usuário não poderá ter acesso shell normal ao seu servidor. Para usar esta característica, especifique `git-shell` ao invés de bash ou csh para o o login shell do usuário. Para fazê-lo, você provavelmente vai ter que editar o arquivo `/etc/passwd`:
+likely have to edit your `/etc/passwd` file:
 
 	$ sudo vim /etc/passwd
 
-At the bottom, you should find a line that looks something like this:
+No final, você deve encontrar uma linha parecida com essa:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-Change `/bin/sh` to `/usr/bin/git-shell` (or run `which git-shell` to see where it’s installed). The line should look something like this:
+Modifique `/bin/sh` para `/usr/bin/git-shell` (ou execute `which git-shell` para ver onde está instalado). A linha modificada deve se parecer com a abaixo:
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-Now, the 'git' user can only use the SSH connection to push and pull Git repositories and can’t shell onto the machine. If you try, you’ll see a login rejection like this:
+Agora, o usuário 'git' pode apenas usar a conexão SSH para enviar e puxar repositórios Git e não pode se conectar via SSH na máquina. Se você tentar, você verá uma mensagem de rejeição parecida com a seguinte:
 
 	$ ssh git@gitserver
 	fatal: What do you think I am? A shell?
 	Connection to gitserver closed.
 
-## Public Access ##
+## Acesso Público ##
 
-What if you want anonymous read access to your project? Perhaps instead of hosting an internal private project, you want to host an open source project. Or maybe you have a bunch of automated build servers or continuous integration servers that change a lot, and you don’t want to have to generate SSH keys all the time — you just want to add simple anonymous read access.
+E se você quiser acesso anônimo de leitura ao seu projeto? Talvez ao invés de armazenar um projeto privado interno, você queira armazenar um projeto de código aberto. Ou talvez você tenha alguns servidores de criação automatizados ou servidores de  integração contínua que estão sempre sendo modificados, e você não queira gerar chaves SSH o tempo todo — você simplesmente quer permitir acesso de leitura anônimo.
 
-Probably the simplest way for smaller setups is to run a static web server with its document root where your Git repositories are, and then enable that `post-update` hook we mentioned in the first section of this chapter. Let’s work from the previous example. Say you have your repositories in the `/opt/git` directory, and an Apache server is running on your machine. Again, you can use any web server for this; but as an example, we’ll demonstrate some basic Apache configurations that should give you an idea of what you might need.
+Provavelmente o jeito mais fácil para pequenas configurações é rodar um servidor web estático com o documento raiz onde os seus repositórios Git estão, e então ativar o gancho `post-update` que mencionamos na primeira seção deste capítulo. Vamos trabalhar a partir do exemplo anterior. Vamos dizer que você tenha seus repositórios no diretório `/opt/git`, e um servidor Apache rodando na máquina. Novamente, você pode usar qualquer servidor web para fazer isso; mas para esse exemplo, vamos demonstrar algumas configurações básicas do Apache para te dar uma idéia do que você vai precisar:
 
-First you need to enable the hook:
+Primeiro você tem que habilitar o gancho:
 
 	$ cd project.git
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-If you’re using a version of Git earlier than 1.6, the `mv` command isn’t necessary — Git started naming the hooks examples with the .sample postfix only recently. 
+Se você estiver usando uma versão do Git anterior à 1.6, o comando `mv` não é necessário — o Git começou a nomear os examples de gancho com o sufixo .sample apenas recentemente.
 
-What does this `post-update` hook do? It looks basically like this:
+O que este gancho `post-update` faz? Ele se parece basicamente com isso aqui:
 
 	$ cat .git/hooks/post-update 
 	#!/bin/sh
 	exec git-update-server-info
 
-This means that when you push to the server via SSH, Git will run this command to update the files needed for HTTP fetching.
+Isto significa que quando você enviar para o servidor via SSH, o Git irá executar este comando para atualizar os arquivos necessários para fetch via HTTP.
 
-Next, you need to add a VirtualHost entry to your Apache configuration with the document root as the root directory of your Git projects. Here, we’re assuming that you have wildcard DNS set up to send `*.gitserver` to whatever box you’re using to run all this:
+Em seguida, você precisa adicionar uma entrada VirtualHost para a sua configuração no Apache com a opção DocumentRoot apontando para o diretório raiz dos seus projetos Git. Aqui, assumimos que você tem uma entrada DNS geral com asterisco para enviar `*.gitserver` para a máquina que você está usando para rodar tudo isso:
 
 	<VirtualHost *:80>
 	    ServerName git.gitserver
@@ -303,15 +304,15 @@ Next, you need to add a VirtualHost entry to your Apache configuration with the 
 	    </Directory>
 	</VirtualHost>
 
-You’ll also need to set the Unix user group of the `/opt/git` directories to `www-data` so your web server can read-access the repositories, because the Apache instance running the CGI script will (by default) be running as that user:
+Você também precisará configurar o grupo de usuários dos diretórios em `/opt/git` para `www-data` para que o seu servidor web possa ler os repositórios, pelo fato do script CGI do Apache rodar (padrão) como este usuário:
 
 	$ chgrp -R www-data /opt/git
 
-When you restart Apache, you should be able to clone your repositories under that directory by specifying the URL for your project:
+Quando você reiniciar o Apache, você deve poder clonar o repositórios dentro daquele diretório especificando a URL para o projeto:
 
 	$ git clone http://git.gitserver/project.git
 
-This way, you can set up HTTP-based read access to any of your projects for a fair number of users in a few minutes. Another simple option for public unauthenticated access is to start a Git daemon, although that requires you to daemonize the process - we’ll cover this option in the next section, if you prefer that route.
+Deste jeito, você pode configurar um servidor HTTP com acesso de leitura para os seus projetos para um sem número de usuários em minutos. Outra opção simples para acesso público sem autenticação é iniciar um daemon Git, embora isso necessite que você daemonize o processo - iremos cobrir esta opção na próxima seção, se você preferir esta rota.
 
 ## GitWeb ##
 

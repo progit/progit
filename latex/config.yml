@@ -1,7 +1,7 @@
 default:
-  font: Helvetica
+  font: Liberation Serif
   bold: "{* Bold}"
-  mono: Andale Mono
+  mono: Liberation Mono
   prechap: "Chapter "
   postchap: ""
   presect: "Section "
@@ -111,7 +111,7 @@ ko:
   con: "목차"
   fig: "그림"
   tab: "표"
-by:
+be:
   prechap: "Глава "
   presect: "Раздзел "
   con: "Змест"

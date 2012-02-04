@@ -144,7 +144,7 @@ Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 
 Veuillez noter que le reflog ne stocke que des informations locales, c'est un historique de ce que vous avez fait dans votre dépôt.
 Les références ne sont pas copiées dans un autre dépôt; et juste après le clone d'un dépôt, votre reflog sera vide, puisque qu'aucune activité ne s'y sera produite.
-Exécuter `git show` HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliqué ce projet depuis au moins 2 mois — si vous l'avez dupliqué il y a 5 minutes, vous n'obtiendrez rien.
+Exécuter `git show HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliqué ce projet depuis au moins 2 mois — si vous l'avez dupliqué il y a 5 minutes, vous n'obtiendrez rien.
 
 ### Références passées ###
 
@@ -315,7 +315,7 @@ Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en
 Vous vous apercevrez que cette commande propose une vue bien différente de votre zone d'attente; en gros, c'est la même information que vous auriez obtenue avec `git status` mais en plus succint et plus instructif.
 Cela liste les modifications que vous avez mises en attente à gauche, et celles en cours à droite.
 
-En dessous vient la section des commandes (*** Commands ***).
+En dessous vient la section des commandes (*Commands*).
 Vous pourrez y faire bon nombre de choses, notamment mettre en attente des fichiers, les enlever de la zone d'attente, mettre en attente des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez mis en attente.
 
 ### Mettre en attente des fichiers ###

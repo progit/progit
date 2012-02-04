@@ -703,7 +703,7 @@ En ligne de commande, vous pouvez tirer plusieurs branches de cette façon :
 	 ! [rejected]        master     -> origin/mymaster  (non fast forward)
 	 * [new branch]      topic      -> origin/topic
 
-Dans ce cas, la récupération /* pull */ de la branche `master` a été refusée car ce n'était pas une avance rapide.
+Dans ce cas, la récupération *pull* de la branche `master` a été refusée car ce n'était pas une avance rapide.
 On peut surcharger ce comportement en précisant un `+` devant la spécification de la référence.
 
 On peut aussi indiquer plusieurs spécifications de référence pour la récupération, dans le fichier de configuration.

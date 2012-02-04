@@ -692,7 +692,7 @@ En d'autres termes, il devient possible d'indiquer que certaines personnes (ou g
 
 L'installation de Gitolite est très simple, même sans lire la documentation extensive qui l'accompagne.
 Vous n'avez besoin que d'un compte sur un serveur de type Unix ; plusieurs distributions Linux et Solaris 10 sont compatibles.
-Vous n'avez pas besoin d'accès root si git, perl et un<serveur compatible openssh sont déjà installés.
+Vous n'avez pas besoin d'accès root si git, perl et un serveur compatible openssh sont déjà installés.
 Dans les exemples qui suivent, un compte `gitolite` sur un serveur `gitserver` sera utilisé.
 
 Par rapport au concept de logiciel serveur, Gitolite est plutôt inhabituel : l'accès se fait via ssh et donc tout utilisateur du système est potentiellement un « hôte Gitolite ».

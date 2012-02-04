@@ -146,7 +146,7 @@ Si vous avez une version antérieure, vous devrez spécifier les règles de colo
 Dans les plupart des cas, si vous tenez vraiment à coloriser vos sorties redirigées, vous pourrez passer le drapeau `--color` à la commande Git pour la forcer à utiliser les codes de couleur.
 Le réglage `color.ui = true` est donc le plus utilisé.
 
-#### color.* ####
+#### `color.*` ####
 
 Si vous souhaitez être plus spécifique concernant les commandes colorisées ou si vous avez une ancienne version, Git propose des paramètres de colorisation par action.
 Chacun peut être fixé à `true`, `false` ou `always`.

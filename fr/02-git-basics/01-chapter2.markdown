@@ -348,7 +348,7 @@ Souvenez-vous que tout ce qui encore non indexé — tous les fichiers qui ont 
 Ils resteront en tant que fichiers modifiés sur votre disque.
 
 Dans notre cas, la dernière fois que vous avez lancé `git status`, vous avez vérifié que tout était indexé, et vous êtes donc prêt à valider vos modifications.
-La manière la plus simple de valider est de taper `git commit :
+La manière la plus simple de valider est de taper `git commit` :
 
 	$ git commit
 

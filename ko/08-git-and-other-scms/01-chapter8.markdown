@@ -190,7 +190,7 @@ Push하기 전에 서버의 내용을 Merge하는 Git과 달리 `git svn`은 충
 
 이 부분이 왜 중요하냐면 Push하고 난 프로젝트 상태가 Push하기 이전의 상태와 같지 않다는 것이다. 충돌은 없고 변경사항이 원하는 대로 적용되지 않을 때 제대로 코드를 확인할 수 없다. 이러한 부분이 Git과 다른점인데 Git에서는 서버로 보내기 전에 프로젝트 코드의 모든 상태를 테스트할 수 있다. SVN은 서버로 커밋하기 전과 후의 상태가 동일하다는 것을 확신할 수 없다.
 
-`git svn rebase` 명령으로도 Subversion 서버로부터 변경사항을 가져오는데 사요할 수 있다. 커밋을 보낼 준비가 되지 않았다 해도 말이다. `git svn fetch` 명령을 사용할 수도 있지만 `git svn rebase` 명령은 변경사항을 가져오고 적용까지 한 번에 해준다.
+`git svn rebase` 명령으로도 Subversion 서버로부터 변경사항을 가져오는데 사용할 수 있다. 커밋을 보낼 준비가 되지 않았다 해도 말이다. `git svn fetch` 명령을 사용할 수도 있지만 `git svn rebase` 명령은 변경사항을 가져오고 적용까지 한 번에 해준다.
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh

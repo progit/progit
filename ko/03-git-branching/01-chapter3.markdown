@@ -269,7 +269,7 @@ Git은 자동으로 Merge된 새 커밋을 만들어내지 못했다. 변경사�
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-내가 Mac을 사용해서 Git은 `opendiff`를 실행해준다. 기본 도구 말고 사용할 수 있는 다른 Merge 도구도 있는데, 'merge tool candidates' 부분에 보여준다. 여기에 표시된 도구 중 하나를 고를 수 있다. Merge 도구를 변경하는 방법은 7장에서 다룬다.
+Mac을 사용하는 경우 Git은 `opendiff`를 실행해준다. 기본 도구 말고 사용할 수 있는 다른 Merge 도구도 있는데, 'merge tool candidates' 부분에 보여준다. 여기에 표시된 도구 중 하나를 고를 수 있다. Merge 도구를 변경하는 방법은 7장에서 다룬다.
 
 Merge 도구를 종료하면 Git은 잘 Merge했는지 물어본다. 잘 마쳤다고 입력하면 자동으로 `git add`를 수행해서 해당 파일을 Staging Area에 저장해준다.
 

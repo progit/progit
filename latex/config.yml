@@ -95,6 +95,10 @@ mk:
   dql: "„"
   dqr: "“"
   tab: "Табела"
+no-nb:
+  dql: "«"
+  dqr: "»"
+  thanks: "Dette er PDF filen for innholdet til boken Pro Git. Den er lisensiert under Creative Commons Attribution-Non Commercial-Share Alike 3.0 lisensen. Jeg håper du vil ha nytte av den, jeg håper den vil hjelpe deg til å lære Git, og jeg håper du vil støtte Apress og meg ved å kjøpe en kopi av denne boken hos Amazon: \\url{http://tinyurl.com/amazonprogit}"
 de:
   langrule: "\\frenchspacing"
   dql: "„"

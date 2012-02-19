@@ -971,7 +971,7 @@ Si vous avez plus de développeurs ou un projet plus important, vous souhaiterez
 Dans ce scénario, vous avez deux branches au long cours, `master` et `develop`, dans lequel vous déterminez que `master` est mis à jour seulement lors d'une version vraiment stable et tout le nouveau code est intégré dans la branche `develop`.
 Vous poussez régulièrement ces deux branches sur le dépôt public.
 Chaque fois que vous avez une nouvelle branche thématique à fusionner (figure 5-21), vous la fusionnez dans `develop` (figure 5-22).
-Puis, lorsque vous balisez une version majeure, vous mettez `master` à niveau avec l'état stable de `develop` en avance rapide (figure 5-23).
+Puis, lorsque vous étiquetez une version majeure, vous mettez `master` à niveau avec l'état stable de `develop` en avance rapide (figure 5-23).
 
 Insert 18333fig0521.png 
 Figure 5-21. Avant la fusion d'une branche thématique.
@@ -1040,19 +1040,19 @@ Figure 5-27. Historique après sélection d'un commit dans une branche thématiq
 
 Maintenant, vous pouvez effacer votre branche thématique et abandonner les commits que vous n'avez pas tirés dans master.
 
-### Balisage de vos publications ###
+### Étiquetage de vos publications ###
 
-Quand vous décidez d'arrêter une publication de votre projet, vous souhaiterez probablement baliser le projet pour pouvoir recréer cette version dans le futur.
-Vous pouvez créer une nouvelle balise telle que décrite au chapitre 2.
-Si vous décidez de signer la balise en tant que mainteneur, la commande ressemblera à ceci :
+Quand vous décidez d'arrêter une publication de votre projet, vous souhaiterez probablement étiqueter le projet pour pouvoir recréer cette version dans le futur.
+Vous pouvez créer une nouvelle étiquette telle que décrite au chapitre 2.
+Si vous décidez de signer l'étiquette en tant que mainteneur, la commande ressemblera à ceci :
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gmail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-Si vous signez vos balises, vous rencontrerez le problème de la distribution de votre clé publique PGP permettant de vérifier la signature.
-Le mainteneur du projet Git a résolu le problème en incluant la clé publique comme blob dans le dépôt et en ajoutant une balise qui pointe directement sur ce contenu.
+Si vous signez vos étiquettes, vous rencontrerez le problème de la distribution de votre clé publique PGP permettant de vérifier la signature.
+Le mainteneur du projet Git a résolu le problème en incluant la clé publique comme blob dans le dépôt et en ajoutant une étiquette qui pointe directement sur ce contenu.
 Pour faire de même, vous déterminez la clé de votre trousseau que vous voulez publier en lançant `gpg --list-keys` :
 
 	$ gpg --list-keys
@@ -1067,32 +1067,32 @@ Ensuite, vous pouvez importer la clé directement dans la base de donnée Git en
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-À présent, vous avez le contenu de votre clé dans Git et vous pouvez créer une balise qui pointe directement dessus en spécifiant la valeur SHA-1 que la commande `hash-object` vous a fournie :
+À présent, vous avez le contenu de votre clé dans Git et vous pouvez créer une étiquette qui pointe directement dessus en spécifiant la valeur SHA-1 que la commande `hash-object` vous a fournie :
 
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-Si vous lancez `git push --tags`, la balise `mainteneur-pgp-pub` sera partagée publiquement.
-Un tiers pourra vérifier une balise après import direct de votre clé publique PGP, en extrayant le blob de la base de donnée et en l'important dans GPG :
+Si vous lancez `git push --tags`, l'étiquette `mainteneur-pgp-pub` sera partagée publiquement.
+Un tiers pourra vérifier une étiquette après import direct de votre clé publique PGP, en extrayant le blob de la base de donnée et en l'important dans GPG :
 
 	$ git show maintainer-pgp-pub | gpg --import
 
-Il pourra alors utiliser cette clé pour vérifier vos balises signées.
-Si de plus, vous incluez des instructions d'utilisation pour la vérification de signature dans le message de balisage, l'utilisateur aura accès à ces informations en lançant la commande `git show <balise>`.
+Il pourra alors utiliser cette clé pour vérifier vos étiquettes signées.
+Si de plus, vous incluez des instructions d'utilisation pour la vérification de signature dans le message de étiquetage, l'utilisateur aura accès à ces informations en lançant la commande `git show <étiquette>`.
 
 ### Génération d'un nom de révision ###
 
 Comme Git ne fournit pas par nature de nombres croissants tels que « r123 » à chaque validation, la commande `git describe` permet de générer un nom humainement lisible pour chaque commit.
-Git concatène la nom de la balise la plus proche, le nombre de validations depuis cette balise et un code SHA-1 partiel du commit que l'on cherche à définir :
+Git concatène la nom de l'étiquette la plus proche, le nombre de validations depuis cette étiquette et un code SHA-1 partiel du commit que l'on cherche à définir :
 
 	$ git describe master
 	v1.6.2-rc1-20-g8c5b85c
 
 De cette manière, vous pouvez exporter un instantané ou le construire et le nommer de manière intelligible.
 En fait, si Git est construit à partir du source cloné depuis le dépôt Git, `git --version` vous donne exactement cette valeur.
-Si vous demandez la description d'un instantané qui a été balisé, le nom de la balise est retourné.
+Si vous demandez la description d'un instantané qui a été étiqueté, le nom de l'étiquette est retourné.
 
-La commande `git describe` repose sur les balises annotées (balises créées avec les options `-a` ou `-s`).
-Les balises de publication doivent donc être créées de cette manière si vous souhaitez utiliser `git describe` pour garantir que les commits seront décrits correctement.
+La commande `git describe` repose sur les étiquettes annotées (étiquettes créées avec les options `-a` ou `-s`).
+Les étiquettes de publication doivent donc être créées de cette manière si vous souhaitez utiliser `git describe` pour garantir que les commits seront décrits correctement.
 vous pouvez aussi utiliser ces noms comme cible lors d'une extraction ou d'une commande `show`, bien qu'ils reposent sur le SHA-1 abrégé et pourraient ne pas rester valide indéfiniment.
 Par exemple, le noyau Linux a sauté dernièrement de 8 à 10 caractères pour assurer l'unicité des objets SHA-1 et les anciens noms `git describe` sont par conséquent devenus invalides.
 

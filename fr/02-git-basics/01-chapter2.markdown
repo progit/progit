@@ -857,7 +857,7 @@ Dans cette section, nous traiterons des commandes de gestion distante.
 ### Afficher les dépôts distants ###
 
 Pour visualiser les serveurs distants que vous avez enregistrés, vous pouvez lancer la commande git remote.
-Elle liste les noms des différentes étiquettes distantes que vous avez spécifiées.
+Elle liste les noms des différentes références distantes que vous avez spécifiées.
 Si vous avez cloné un dépôt, vous devriez au moins voir l'origine origin — c'est-à-dire le nom par défaut que Git donne au serveur à partir duquel vous avez cloné :
 
 	$ git clone git://github.com/schacon/ticgit.git
@@ -1014,27 +1014,27 @@ Si vous souhaitez retirer une référence pour certaines raisons — vous avez 
 	$ git remote
 	origin
 
-## Balisage ##
+## Étiquetage ##
 
-À l'instar de la plupart des VCS, Git donne la possibilité de baliser un certain état dans l'historique comme important.
+À l'instar de la plupart des VCS, Git donne la possibilité d'étiqueter un certain état dans l'historique comme important.
 Généralement, les gens utilisent cette fonctionnalité pour marquer les états de publication (v1.0 et ainsi de suite).
-Dans cette section, nous apprendrons comment lister les différentes balises, comment créer de nouvelles balises et les différents types de balises.
+Dans cette section, nous apprendrons comment lister les différentes étiquettes (*tag* en anglais), comment créer de nouvelles étiquettes et les différents types de étiquettes.
 
-### Lister vos balises ###
+### Lister vos étiquettes ###
 
-Lister les balises existantes dans Git est très simple.
+Lister les étiquettes existantes dans Git est très simple.
 Tapez juste `git tag` :
 
 	$ git tag
 	v0.1
 	v1.3
 
-Cette commande liste les balises dans l'ordre alphabétique.
+Cette commande liste les étiquettes dans l'ordre alphabétique.
 L'ordre dans lequel elles apparaissent n'a aucun rapport avec l'historique.
 
-Vous pouvez aussi rechercher les balises correspondant à un motif particulier.
-Par exemple, le dépôt des sources de Git contient plus de 240 balises.
-Si vous souhaitez ne visualiser que les série 1.4.2, vous pouvez lancer ceci :
+Vous pouvez aussi rechercher les étiquettes correspondant à un motif particulier.
+Par exemple, le dépôt des sources de Git contient plus de 240 étiquettes.
+Si vous souhaitez ne visualiser que les séries 1.4.2, vous pouvez lancer ceci :
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -1042,17 +1042,17 @@ Si vous souhaitez ne visualiser que les série 1.4.2, vous pouvez lancer ceci :
 	v1.4.2.3
 	v1.4.2.4
 
-### Créer des balises ###
+### Créer des étiquettes ###
 
-Git utilise deux types principaux de balises : légères et annotées.
-Une balise légère ressemble beaucoup à une branche qui ne change pas, c'est juste un pointeur sur un commit spécifique.
-Les balises annotées, par contre sont stockées en tant qu'objets à part entière dans la base de données de Git.
-Elles ont une somme de contrôle, contiennent le nom et l'adresse e-mail du créateur, la date, un message de balisage et peuvent être signées et vérifiées avec GNU Privacy Guard (GPG).
-Il est généralement recommandé de créer des balises annotées pour générer toute cette information mais si la balise doit rester temporaire ou l'information supplémentaire n'est pas désirée, il reste toujours les balises légères.
+Git utilise deux types principaux d'étiquettes : légères et annotées.
+Une étiquette légère ressemble beaucoup à une branche qui ne change pas, c'est juste un pointeur sur un commit spécifique.
+Les étiquettes annotées, par contre sont stockées en tant qu'objets à part entière dans la base de données de Git.
+Elles ont une somme de contrôle, contiennent le nom et l'adresse e-mail du créateur, la date, un message d'étiquetage et peuvent être signées et vérifiées avec GNU Privacy Guard (GPG).
+Il est généralement recommandé de créer des étiquettes annotées pour générer toute cette information mais si l'étiquette doit rester temporaire ou l'information supplémentaire n'est pas désirée, les étiquettes légères peuvent suffire.
 
-### Les balises annotées ###
+### Les étiquettes annotées ###
 
-Créer des balises annotées est simple avec Git.
+Créer des étiquettes annotées est simple avec Git.
 Le plus simple est de spécifier l'option `-a` à la commande `tag` :
 
 	$ git tag -a v1.4 -m 'my version 1.4'
@@ -1061,10 +1061,10 @@ Le plus simple est de spécifier l'option `-a` à la commande `tag` :
 	v1.3
 	v1.4
 
-L'option `-m` permet de spécifier le message de balisage qui sera stocké avec la balise.
-Si vous ne spécifiez pas de message en ligne pour une balise annotée, Git lance votre éditeur pour pouvoir le saisir.
+L'option `-m` permet de spécifier le message d'étiquetage qui sera stocké avec l'étiquette.
+Si vous ne spécifiez pas de message en ligne pour une étiquette annotée, Git lance votre éditeur pour pouvoir le saisir.
 
-Vous pouvez visualiser les données de la balise à côté du commit qui a été marqué en utilisant la commande `git show` :
+Vous pouvez visualiser les données de l'étiquette à côté du commit qui a été marqué en utilisant la commande `git show` :
 
 	$ git show v1.4
 	tag v1.4
@@ -1079,11 +1079,11 @@ Vous pouvez visualiser les données de la balise à côté du commit qui a été
 
 	    Merge branch 'experiment'
 
-Cette commande affiche le nom du créateur, la date de création de la balise et le message d'annotation avant de montrer effectivement l'information de validation.
+Cette commande affiche le nom du créateur, la date de création de l'étiquette et le message d'annotation avant de montrer effectivement l'information de validation.
 
-### Les balises signées ###
+### Les étiquettes signées ###
 
-Vous pouvez aussi signer vos balises avec GPG, à condition d'avoir une clé privée.
+Vous pouvez aussi signer vos étiquettes avec GPG, à condition d'avoir une clé privée.
 Il suffit de spécifier l'option `-s` au lieu de `-a` :
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
@@ -1091,7 +1091,7 @@ Il suffit de spécifier l'option `-s` au lieu de `-a` :
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-En lançant `git show` sur cette balise, on peut visualiser la signature GPG attachée :
+En lançant `git show` sur cette étiquette, on peut visualiser la signature GPG attachée :
 
 	$ git show v1.5
 	tag v1.5
@@ -1113,13 +1113,13 @@ En lançant `git show` sur cette balise, on peut visualiser la signature GPG att
 
 	    Merge branch 'experiment'
 
-Plus loin, nous verrons comment vérifier une balise signée.
+Plus loin, nous verrons comment vérifier une étiquette signée.
 
-### Les balises légères ###
+### Les étiquettes légères ###
 
-Une autre manière de baliser les commits est d'utiliser les balises légères.
+Une autre manière d'étiqueter les commits est d'utiliser les étiquettes légères.
 Celles-ci se réduisent à stocker la somme de contrôle d'un commit dans un fichier, aucune autre information n'est conservée.
-Pour créer une balise légère, il suffit de n'utiliser aucune des option `-a`, `-s` ou `-m` :
+Pour créer une étiquette légère, il suffit de n'utiliser aucune des option `-a`, `-s` ou `-m` :
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1129,8 +1129,8 @@ Pour créer une balise légère, il suffit de n'utiliser aucune des option `-a`,
 	v1.4-lw
 	v1.5
 
-Cette fois-ci, en lançant `git show` sur la balise, on ne voit plus aucune information complémentaire.
-La commande ne montre que l'information de commit :
+Cette fois-ci, en lançant `git show` sur l'étiquette, on ne voit plus aucune information complémentaire.
+La commande ne montre que l'information de validation :
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -1140,9 +1140,9 @@ La commande ne montre que l'information de commit :
 
 	    Merge branch 'experiment'
 
-### Vérifier des balises ###
+### Vérifier des étiquettes ###
 
-Pour vérifier une balise signée, il faut utiliser `git tag -v [nom-de-balise]`.
+Pour vérifier une étiquette signée, il faut utiliser `git tag -v [nom-d'étiquette]`.
 Cette commande utilise GPG pour vérifier la signature.
 La clé publique du signataire doit être présente dans votre trousseau :
 
@@ -1166,9 +1166,9 @@ Si la clé publique du signataire n'est pas présente dans le trousseau, la comm
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Baliser après coup ###
+### Étiqueter après coup ###
 
-Vous pouvez aussi baliser des commits plus anciens.
+Vous pouvez aussi étiqueter des commits plus anciens.
 Supposons que l'historique des commits ressemble à ceci :
 
 	$ git log --pretty=oneline
@@ -1183,13 +1183,13 @@ Supposons que l'historique des commits ressemble à ceci :
 	964f16d36dfccde844893cac5b347e7b3d44abbc validation afaire
 	8a5cbc430f1a9c3d00faaeffd07798508422908a mise à jour lisezmoi
 
-Maintenant, supposons que vous avez oublié de baliser le projet à la version v1.2 qui correspondait au commit "mise à jour rakefile".
+Maintenant, supposons que vous avez oublié d'étiqueter le projet à la version v1.2 qui correspondait au commit "mise à jour rakefile".
 Vous pouvez toujours le faire après l'évènement.
-Pour baliser ce commit, vous spécifiez la somme de contrôle du commit (ou une partie) en fin de commande :
+Pour étiqueter ce commit, vous spécifiez la somme de contrôle du commit (ou une partie) en fin de commande :
 
 	$ git tag -a v1.2 9fceb02
 
-Le commit a été balisé :
+Le commit a été étiqueté :
 
 	$ git tag 
 	v0.1
@@ -1212,10 +1212,10 @@ Le commit a été balisé :
 	    mise à jour rakefile
 	...
 
-### Partager les balises ###
+### Partager les étiquettes ###
 
-Par défaut, la commande `git push` ne transfère pas les balises vers les serveurs distants.
-Il faut explicitement pousser les balises après les avoir créées localement.
+Par défaut, la commande `git push` ne transfère pas les étiquettes vers les serveurs distants.
+Il faut explicitement pousser les étiquettes après les avoir créées localement.
 Ce processus s'apparente à pousser des branches distantes – vous pouvez lancer `git push origin [nom-du-tag]`.
 
 	$ git push origin v1.5
@@ -1226,8 +1226,8 @@ Ce processus s'apparente à pousser des branches distantes – vous pouvez lanc
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-Si vous avez de nombreuses balises que vous souhaitez pousser en une fois, vous pouvez aussi utiliser l'option `--tags` avec la commande `git push`.
-Ceci transférera toutes les nouvelles balises vers le serveur distant.
+Si vous avez de nombreuses étiquettes que vous souhaitez pousser en une fois, vous pouvez aussi utiliser l'option `--tags` avec la commande `git push`.
+Ceci transférera toutes les nouvelles étiquettes vers le serveur distant.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1241,7 +1241,7 @@ Ceci transférera toutes les nouvelles balises vers le serveur distant.
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-A présent, lorsqu'une autre personne clone ou tire depuis votre dépôt, elle obtient aussi les balises.
+A présent, lorsqu'une autre personne clone ou tire depuis votre dépôt, elle obtient aussi les étiquettes.
 
 ## Trucs et astuces ##
 

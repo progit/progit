@@ -1144,7 +1144,7 @@ Lorsqu'on visite votre projet, on voit cette page.
 Elle contient des onglets vers différentes vues des projets.
 L'onglet « Commits » (validations) affiche une liste des validations dans l'ordre chronologique inverse, similaire à ce qu'afficherait la commande `git log`.
 L'onglet « Network » (réseau) affiche tous les utilisateurs ayant dupliqué votre projet et contribué.
-L'onglet « Downloads » (téléchagements) vous permet de télécharger les éxécutables du projet ou de fournir des archives des sources de votre projet à des points balisés.
+L'onglet « Downloads » (téléchagements) vous permet de télécharger les éxécutables du projet ou de fournir des archives des sources aux points étiquetés de votre projet .
 L'onglet « Wiki » fournit un wiki ou vous pouvez commencer à écrire la documentation ou d'autres informations du projet.
 L'onglet « Graphs » permet de visualiser les contributions et les statistiques.
 L'onglet principal « Source » sur lequel vous arrivez par défaut affiche le contenu du répertoire principal du projet et met en forme dessous le fichier README s'il en contient un.

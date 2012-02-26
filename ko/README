@@ -20,8 +20,8 @@ Mac에서는 먼저 Calibre를 내려받아 설치하고 `ebook-convert` 명령�
 
 그리고 gem을 설치하고 만들면 됩니다:
 
-    $ sudo gem install rdiscount ruby-devel
-    $ makeebooks en  # will produce a mobi
+    $ sudo gem install rdiscount ruby-debug
+    $ ./makeebooks en  # will produce a mobi
 
 Pdf 만드는 법
 =====================

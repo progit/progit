@@ -832,7 +832,11 @@ At this point, you should be able to go to your Drafts folder, change the To fie
 
 This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process. Next, you’ll see how to work the other side of the coin: maintaining a Git project. You’ll learn how to be a benevolent dictator or integration manager.
 
+## Управление проектом ##
+
 ## Maintaining a Project ##
+
+В дополнении к тому, как эффективно работать над проектов, вам наверняка необходимо также знать как самому управлять им. Управление проектом может заключаться в принятии патчей, сгенерированных с помощью 'format-patch' и отправленных вам по почте или в интеграции изменений в ветки удаленных репозиториев. Неважно, управляете ли вы главным репозитарием проекта или хотите помочь с проверкой или включением патчей, вам необходимо выработать метод приема подобных патчей, который будет наиболее доступным для других участников и не будет изменяться вами в течении длительного срока.
 
 In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
 

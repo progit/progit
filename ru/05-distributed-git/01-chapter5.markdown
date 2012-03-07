@@ -840,16 +840,25 @@ This section has covered a number of common workflows for dealing with several v
 
 In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
 
+### Работа с тематическими ветками ###
+
 ### Working in Topic Branches ###
+
+Когда вы решаете интегрировать новую разработку хорошей идеей является опробовать разработку в тематической ветке - временной ветке, специально созданной для теста. Таким образом становится легко изменять код данной разработки, не затрагивая весь проект целиком(всегда можно приостановить разработку нового функционала и вернуться к ней позднее). Если вы выбираете простое имя для ветки, созданное на базе того, над чем вы именно работаете, например, 'ruby_client', или что-то аналогичное по описанию, то вы сможете легко вспомнить, зачем нужна данная ветка, если вдруг вам придется отложить работу над данным функционалом и вернуться к ней позднее. Управляющий проектом, как правило, создает ветки с указанием пространства имен - к примеру, 'sc/ruby_client', где 'sc' является, допустим, никнеймом автора вносимых изменений.
+Как вы уже знаете, вы можете создать ветку, основанную на вашей главной ветке, следующим образом:
 
 When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
 As you’ll remember, you can create the branch based off your master branch like this:
 
 	$ git branch sc/ruby_client master
 
+Или, если вы хотите немедленно переключиться на создаваемую ветку, вы можете использовать опцию `checkout -b`:
+
 Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
 
 	$ git checkout -b sc/ruby_client master
+
+Теперь вы готовы к тому, чтобы принять изменения в данную временную тематическую ветку и определить, хотите ли вы влить ее в ваши "более постоянные" ветки.
 
 Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
 

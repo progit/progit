@@ -476,7 +476,7 @@ Git은 serverfix라는 브랜치 이름을 `refs/heads/serverfix:refs/heads/serv
 	To git@github.com:schacon/simplegit.git
 	 - [deleted]         serverfix
 
-위 명령을 실행하고 나면 서버의 브랜치는 삭제된다. 이 명령을 잊어버릴 경우를 대비해서 페이지 귀퉁이를 접어놓고 필요할 때 펴보는 게 좋을지도 모르겠다. 이 명령은 앞서 살펴본 `git push [remotename] [localbranch]:[remotebranch]` 형식으로 기억하는 것이 좋다. [localbranch] 부분에 비워 둔 채로 실행하면 '로컬에서 빈 내용을 리모트의 [remotebranch]에 채워 넣어라' 라는 뜻이 되기 때문이다.
+위 명령을 실행하고 나면 서버의 브랜치는 삭제된다. 이 명령을 잊어버릴 경우를 대비해서 페이지 귀퉁이를 접어놓고 필요할 때 펴보는 게 좋을지도 모르겠다. 이 명령은 앞서 살펴본 `git push [remotename] [localbranch]:[remotebranch]` 형식으로 기억하는 것이 좋다. `[localbranch]` 부분에 비워 둔 채로 실행하면 '로컬에서 빈 내용을 리모트의 `[remotebranch]`에 채워 넣어라' 라는 뜻이 되기 때문이다.
 
 ## Rebase하기 ##
 

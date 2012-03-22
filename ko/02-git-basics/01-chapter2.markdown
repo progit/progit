@@ -1069,7 +1069,7 @@ Bash 쉘을 쓰고 있다면 멋진 자동완성(Auto-completion) 기능을 사�
 
 윈도우에 msysGit을 설치해서 Git Bash를 사용하는 경우에는 자동완성이 미리 설정되어 있다.
 
-Git 명령을 입력할 때 <Tab> 키를 누르면 Git이 제안하는 명령들이 출력된다:
+Git 명령을 입력할 때 `<Tab>` 키를 누르면 Git이 제안하는 명령들이 출력된다:
 
 	$ git co<tab><tab>
 	commit config

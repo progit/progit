@@ -309,6 +309,8 @@ Git은 Push할 때 기본적으로 개체를 검증하지(check for consistency)
 
 Git 1.6부터 바이너리 파일도 diff할 수 있게 됐다. 이 Attribute는 Git이 바이너리 파일을 텍스트 포맷으로 변환하고 그 결과를 diff로 비교하도록 하는 것이다.
 
+##### MS Word 파일 #####
+
 이 Attribute는 잘 알려지진 않았지만 끝내준다. 이 Attribute가 유용한 예제를 하나 살펴보자. 먼저 이 기술을 인류에게 알려진 가장 귀찮은 문제 중 하나인 Word 문서를 버전 관리하는 상황을 살펴보자. 모든 사람이 Word가 가장 끔찍한 편집기라고 말하지만 애석하게도 모두 Word를 사용한다. Git 저장소에 넣고 이따금 커밋하는 것만으로도 Word 문서의 버전을 관리할 수 있다. 그렇지만 `git diff`를 실행하면 다음과 같은 메시지를 볼 수 있을 뿐이다:
 
 	$ git diff 
@@ -323,6 +325,15 @@ Git 1.6부터 바이너리 파일도 diff할 수 있게 됐다. 이 Attribute는
 이것은 `*.doc` 파일의 두 버전이 무엇이 다른지 diff할 때 "word" 필터를 사용하라고 설정하는 것이다. 그럼 "word" 필터는 뭘까? 이 "word" 필터도 정의해야 한다. Word 문서에서 사람이 읽을 수 있는 텍스트를 추출해주는 `strings` 프로그램을 "word" 필터로 사용한다. 그러면 Word 문서를 diff할 수 있다:
 
 	$ git config diff.word.textconv strings
+
+위의 명령은 다음과 같은 내용을 `.git/config` 파일에 추가한다:
+
+    [diff "word"]
+        textconv = strings
+
+Side note: There are different kinds of `.doc` files. Some use an UTF-16 encoding or other "codepages" and `strings` won't find anything useful in there. Your mileage may vary.
+
+덧붙이는 말: `.doc` 파일의 종류는 여러가지이다. UTF-16 인코딩을 쓰거나 "codepages" 기반(역주: 한글은 Codepage 949) 인코딩을 사용 할 수도 있다. `strings`로는 아무런 유용한 정보를 찾아낼 수 없을지도 모른다.
 
 이제 Git은 확장자가 `.doc`인 파일의 스냅샷을 diff할 때 "word" 필터로 정의한 `strings` 프로그램을 사용한다. 이 프로그램은 Word 파일을 텍스트 파일로 변환해 주기 때문에 diff할 수 있다.
 
@@ -342,6 +353,58 @@ Git 1.6부터 바이너리 파일도 diff할 수 있게 됐다. 이 Attribute는
 	+Let's see if this works.
 
 Git은 "Let's see if this works"가 추가됐다는 것을 정확하게 찾아 준다. 이것은 완벽하지는 않지만(마지막에 아무거나 왕창 집어넣지만 않으면) 어쨌든 잘 동작한다. 이 방법은 Word 문서를 텍스트로 더 잘 변환하는 프로그램이 있으면 좀 더 완벽해질 수 있다. Mac이나 Linux 같은 시스템에는 `strings`가 이미 설치되어 있기 때문에 당장 사용할 수 있다.
+
+##### OpenDocument 파일 #####
+
+MS Word(`*.doc`) 파일에 사용한 방법과 마찬가지로 OpenOffice.org(혹은 LibreOffice.org) 파일 형식인 OpenDocument(`*.odt`) 파일도 적용할 수 있다.
+
+아래의 내용을 `.gitattributes` 파일에 추가한다:
+
+    *.odt diff=odt
+
+`.git/config` 파일에 `odt` diff 필터를 설정한다:
+
+    [diff "odt"]
+        binary = true
+        textconv = /usr/local/bin/odt-to-txt
+
+OpenDocument 파일은 사실 여러 파일(텍스트, 형식, 스타일, 이미지 등등)이 Zip으로 압축된 형식이다. OpenDocument 파일에서 텍스트만 추출하는 스크립트를 하나 작성해보자. 파일은 다음과 같은 내용을 `/usr/local/bin/odt-to-txt`으로(다른 위치에 저장해도 상관없다) 저장한다:
+
+    #! /usr/bin/env perl
+    # Simplistic OpenDocument Text (.odt) to plain text converter.
+    # Author: Philipp Kempgen
+    
+    if (! defined($ARGV[0])) {
+        print STDERR "No filename given!\n";
+        print STDERR "Usage: $0 filename\n";
+        exit 1;
+    }
+    
+    my $content = '';
+    open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+    {
+        local $/ = undef;  # slurp mode
+        $content = <$fh>;
+    }
+    close $fh;
+    $_ = $content;
+    s/<text:span\b[^>]*>//g;           # remove spans
+    s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
+    s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
+    s/<text:list\b[^>]*>/\n\n/g;       # lists
+    s/<text:p\b[^>]*>/\n  /g;          # paragraphs
+    s/<[^>]+>//g;                      # remove all XML tags
+    s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+    s/\A\n+//;                         # remove leading blank lines
+    print "\n", $_, "\n\n";
+
+그리고 실행 가능하도록 만든다.
+
+    chmod +x /usr/local/bin/odt-to-txt
+
+이제 `git diff` 명령으로 `.odt` 파일에 대한 변화를 살펴볼 수 있다.
+
+##### 이미지 파일 #####
 
 이 방법으로 이미지 파일도 diff할 수 있다. 필터로 EXIF 정보를 추출해서 JPEG 파일을 비교한다. EXIF 정보는 대부분의 이미지 파일에 들어 있는 메타데이터다. `exiftool`이라는 프로그램을 설치하고 이미지 파일에서 메타데이터 텍스트를 추출한다. 그리고 그 결과를 diff해서 무엇이 달라졌는지 본다:
 

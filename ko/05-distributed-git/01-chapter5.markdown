@@ -157,7 +157,7 @@ Jessica씨의 Push는 성공했지만, John씨의 커밋은 서버에서 받아�
 Fetch하고 나면 John씨의 로컬 저장소는 그림 5-4와 같이 된다.
 
 Insert 18333fig0504.png
-Figure 5-4. Fetch하고 난 John씨의 저장소.
+그림 5-4. Fetch하고 난 John씨의 저장소.
 
 John씨는 Jessica씨가 저장소로 Push했던 커밋이 있는 브랜치를 로컬 저장소로 가져왔다. 하지만, Push를 하기 전에 Fetch한 브랜치를 Merge해야 한다:
 
@@ -169,7 +169,7 @@ John씨는 Jessica씨가 저장소로 Push했던 커밋이 있는 브랜치를 �
 Merge가 잘 이루어지면 John씨의 브랜치는 그림 5-5와 같은 상태가 된다.
 
 Insert 18333fig0505.png
-Figure 5-5. origin/master 브랜치를 Merge하고 난 후, John씨의 저장소.
+그림 5-5. origin/master 브랜치를 Merge하고 난 후, John씨의 저장소.
 
 John씨는 Merge하고 나서 자신이 작업한 코드가 제대로 동작하는지 확인하고 공유하는 저장소로 Push한다:
 
@@ -181,12 +181,12 @@ John씨는 Merge하고 나서 자신이 작업한 코드가 제대로 동작하�
 이제 John씨의 저장소는 그림 5-6 처럼 되었다.
 
 Insert 18333fig0506.png
-Figure 5-6. Push하고 난 후, John씨의 저장소.
+그림 5-6. Push하고 난 후, John씨의 저장소.
 
 동시에 Jessica씨는 토픽 브랜치를 하나 만들었다. issue54 브랜치를 만들고 세 번에 걸쳐서 커밋을 했다. 아직 John씨의 커밋을 Fetch하지 않은 상황이기 때문에 그림 5-7과 같은 상황이 된다.
 
 Insert 18333fig0507.png
-Figure 5-7. Jessica씨의 저장소.
+그림 5-7. Jessica씨의 저장소.
 
 Jessica씨는 John씨의 작업을 적용하기 위해 Fetch를 먼저 한다:
 
@@ -199,7 +199,7 @@ Jessica씨는 John씨의 작업을 적용하기 위해 Fetch를 먼저 한다:
 위 명령을 통해 John씨가 Push한 커밋을 모두 내려받는다. 그리고 나서 Jessica씨의 저장소는 그림 5-8과 같은 상태가 될 것이다.
 
 Insert 18333fig0508.png
-Figure 5-8. John씨의 커밋을 Fetch한 후 Jessica씨의 저장소.
+그림 5-8. John씨의 커밋을 Fetch한 후 Jessica씨의 저장소.
 
 Jessica씨는 토픽 브랜치의 작업을 마치고 만약 origin/master와 Merge를 하게 되면 어떤 내용이 Merge될 지, `git log` 명령으로 확인한다:
 
@@ -299,7 +299,7 @@ Jessica씨는 John씨에게 수행한 일을 featureA라는 브랜치로 Push했
 Jessica씨의 저장소는 그림 5-12과 같을 것이다.
 
 Insert 18333fig0512.png
-Figure 5-12. Jessica씨의 저장소.
+그림 5-12. Jessica씨의 저장소.
 
 작업을 마치고 Push하려고 하는데 Jesie씨가 이미 일부 작업을 하고 서버에 featureBee 브랜치로 Push했다는 이메일을 보내왔다. 그러므로 Jessica씨는 Jesie씨의 작업을 먼저 Merge해야만 Push할 수 있다. Merge하기 위해서 우선 `git fetch`로 Fetch한다:
 

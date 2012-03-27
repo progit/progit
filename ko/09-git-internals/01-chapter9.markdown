@@ -116,7 +116,7 @@ Git은 Content-addressible 파일시스템이다. 대단하지 않은가? 이게
 Git이 저장하는 데이터는 대강 그림 9-1과 같다.
 
 Insert 18333fig0901.png 
-Figure 9-1. 단순화한 Git 데이터 모델.
+그림 9-1. 단순화한 Git 데이터 모델.
 
 직접 Tree 개체를 만들어 보자. Git은 일반적으로 Staging Area(Index)의 상태대로 Tree 개체를 만들고 기록한다. 그래서 Tree 개체를 만들려면 Staging Area에 파일을 추가해서 Index를 만들어 줘야 한다. 우선 Plumbing 명령 `update-index`로 `test.txt` 파일만 들어 있는 Index를 만든다. 이 명령으로 test.txt 파일을 인위적으로 Staging Area에 추가하는 것이다. 아직 Staging Area에 없는 파일이기 때문에 `--add` 옵션을 꼭 줘야 한다(사실 아직 Staging Area도 설정하지 않았다). 그리고 디렉토리에 있는 파일이 아니라 데이터베이스에만 있는 파일을 추가하는 것이기 때문에 `--cacheinfo` 옵션이 필요하다. 그리고 파일 모드, SHA-1 해시, 파일 이름을 지정해준다:
 
@@ -164,7 +164,7 @@ Figure 9-1. 단순화한 Git 데이터 모델.
 지금 만든 Tree 개체로 Working Directory를 만들면 파일이 두 개와 `bak`이라는 하위 디렉토리가 있을 것이다. 그리고 `bak` 디렉토리 안에는 test.txt 파일의 처음 버전이 들어 있다. Git은 그림 9-2와 같은 구조로 데이터를 저장한다고 생각하면 된다.
 
 Insert 18333fig0902.png 
-Figure 9-2. Git 데이터 구조.
+그림 9-2. Git 데이터 구조.
 
 ### Commit 개체 ###
 
@@ -241,7 +241,7 @@ Commit 개체의 형식은 간단하다. 해당 Snapshot에서 최상단 Tree를
 내부의 포인터를 따라가면 그림 9-3과 같은 그래프가 그려진다.
 
 Insert 18333fig0903.png 
-Figure 9-3. Git 저장소 내의 모든 개체.
+그림 9-3. Git 저장소 내의 모든 개체.
 
 ### 개체 저장소 ###
 
@@ -326,7 +326,7 @@ Git의 브랜치의 역할이 바로 이것이다: 브랜치는 일련의 작업
 이제 Git 데이터베이스는 그림 9-4처럼 보인다.
 
 Insert 18333fig0904.png 
-Figure 9-4. 브랜치 레퍼런스가 추가된 Git 데이터베이스
+그림 9-4. 브랜치 레퍼런스가 추가된 Git 데이터베이스
 
 `git branch (branchname)` 명령을 실행하면 Git은 내부적으로 `update-ref` 명령을 실행한다. 입력받은 브랜치 이름과 현 브랜치의 마지막 커밋에서 SHA-1 값을 가져다 `update-ref` 명령을 실행하는 것이다.
 

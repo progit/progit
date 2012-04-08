@@ -427,8 +427,6 @@ Tag를 진정한 Git Tag로 만들려면 다음과 같이 한다:
 
 	$ export P4PORT=public.perforce.com:1666
 
-Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:
-
 `git-p4 clone` 명령으로 Perforce 서버에서 Jam 프로젝트를 가져온다. 이 명령에 Depot, 프로젝트 경로, 프로젝트를 가져올 경로를 주면 된다:
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
@@ -533,8 +531,6 @@ Mark는 정수 값을 사용해야 하기 때문에 디렉토리를 배열에 �
 	  end
 	  ($marks.index(dir) + 1).to_s
 	end
-
-Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is
 
 각 커밋을 가리키는 정수 Mark를 만들었고 다음은 커밋 메타데이터에 넣을 날짜 정보가 필요하다. 이 날짜는 디렉토리 이름에 있는 것을 가져다 사용한다. `print_export`의 두 번째 줄은 다음과 같다:
 

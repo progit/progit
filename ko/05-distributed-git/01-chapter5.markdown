@@ -603,7 +603,7 @@ Git이 메일을 보내면 아래와 같은 로그 메시지를 출력할 것이
 
 #### am 명령을 사용하는 방법 ####
 
-프로젝트 기여자가 Git의 format-patch 명령을 잘 사용하면 경우 관리자의 작업은 훨씬 쉬워진다. format-patch 명령으로 만든 Patch 파일은 기여자의 정보와 커밋 정보가 포함되어 있기 때문이다. 그래서 기여자가 diff보다 format-patch를 사용하도록 권해야 한다. `git apply`는 기존의 Patch파일에만 사용한다.
+프로젝트 기여자가 Git의 format-patch 명령을 잘 사용하면 관리자의 작업은 훨씬 쉬워진다. format-patch 명령으로 만든 Patch 파일은 기여자의 정보와 커밋 정보가 포함되어 있기 때문이다. 그래서 기여자가 diff보다 format-patch를 사용하도록 권해야 한다. `git apply`는 기존의 Patch파일에만 사용한다.
 
 format-patch 명령으로 생성한 Patch 파일은 `git am` 명령으로 적용한다. `git am`은 여러 통의 메일이 들어 있는 mbox파일을 읽어서 Patch한다. mbox파일은 간단한 텍스트 파일이고 그 내용은 다음과 같다:
 

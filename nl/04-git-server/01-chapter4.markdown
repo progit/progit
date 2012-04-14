@@ -147,7 +147,7 @@ Je ziet hoe eenvoudig het is om een Git repository te nemen, een kale versie aan
 
 Het is belangrijk om te zien dat dit letterlijk alles is wat je moet doen om een bruikbare Git server te draaien waarop meerdere mensen toegang hebben — voeg alleen een paar SSH accounts toe op een server, en stop een kale repository ergens waar al die gebruikers lees- en schrijftoegang tot hebben. Je bent er klaar voor — je hebt niets anders nodig.
 
-In de volgende secties zul je zien hoe je meer ingewikkelde opstellingen kunt maken. Deze bespreking zal het niet hoeven aanmaken van gebruikers accounts voor elke gebruiker omvatten, publieke leestoegang tot repositories, grafische web interfaces, de Gitosis applicatie gebruiken en meer. Maar, hou in gedachten dat om samen te kunnen werken met mensen op een prive project, alles wat je _nodig_ hebt een SSH server en een kale repository is.
+In de volgende secties zul je zien hoe je meer ingewikkelde opstellingen kunt maken. Deze bespreking zal het niet hoeven aanmaken van gebruikersaccounts voor elke gebruiker omvatten, publieke leestoegang tot repositories, grafische web interfaces, de Gitosis applicatie gebruiken en meer. Maar, hou in gedachten dat om samen te kunnen werken met mensen op een prive project, alles wat je _nodig_ hebt een SSH server en een kale repository is.
 
 ### Kleine Opstellingen ###
 
@@ -767,9 +767,9 @@ GitHub verschilt een beetje van de meeste code-beheer pagina's in de manier waar
 
 GitHub is ook een commercieel bedrijf dat geld vraagt voor accounts die privé repositories beheren, maar iedereen kan snel een gratis account krijgen om zoveel open source projecten als ze willen te beheren. We zullen er snel doorheen lopen hoe je dat doet.
 
-### Een Gebruikers Account Instellen ###
+### Een Gebruikersaccount Instellen ###
 
-Het eerste dat je moet doen is een gratis gebruikers account instellen. Als je de Pricing and Signup pagina op `http://github.com/plans` bezoekt en de "Sign Up" knop aanklikt op het gratis account (zie figuur 4-2), dan wordt je naar de inteken pagina gebracht.
+Het eerste dat je moet doen is een gratis gebruikersaccount instellen. Als je de Pricing and Signup pagina op `http://github.com/plans` bezoekt en de "Sign Up" knop aanklikt op het gratis account (zie figuur 4-2), dan wordt je naar de inteken pagina gebracht.
 
 Insert 18333fig0402.png
 Figuur 4-2. De GitHub inteken pagina.

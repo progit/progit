@@ -569,7 +569,7 @@ Dit gedeelte heeft een aantal vaak voorkomende werkwijzen behandeld, om om te ga
 
 ## Projectonderhoud ##
 
-Naast weten hoe effectief bij te dragen aan een project, moet je waarschijnlijk ook weten hoe je deze onderhoud. Dit kan bestaan uit het accepteren en toepassen van patches gegenereerd via 'format-patch' die gemailed zijn naar u, of het integreren van veranderingen in de remote branches voor repositories die u hebt toegevoegd als remotes aan uw project. Of u nu een canonieke repository onderhoud, of wilt bijdragen door het controleren of goedkeuren van patches, je moet weten hoe werk te aanvaarden op een manier die het duidelijkst is voor andere medewerkers en duurzaam door u op de lange termijn.
+Naast weten hoe effectief bij te dragen aan een project, moet je waarschijnlijk ook weten hoe je deze onderhoud. Dit kan bestaan uit het accepteren en toepassen van patches gegenereerd via 'format-patch' die naar jou gemailed zijn, of het integreren van veranderingen in de remote branches voor repositories die je hebt toegevoegd als remotes aan je project. Of je nu een canonieke repository onderhoud, of wilt bijdragen door het controleren of goedkeuren van patches, je moet weten hoe werk te aanvaarden op een manier die het duidelijkst is voor andere medewerkers en duurzaam door jou op de lange termijn.
 
 ### Werken in onderwerp branches ###
 

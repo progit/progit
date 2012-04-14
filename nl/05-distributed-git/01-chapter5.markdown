@@ -567,9 +567,9 @@ Op dit punt zou je in staat moeten zijn om naar je Drafts map te gaan, het To ve
 
 Dit gedeelte heeft een aantal vaak voorkomende werkwijzen behandeld, om om te gaan met een aantal zeer verschillende typen Git projecten die je waarschijnlijk zult tegen komen en een aantal nieuwe programma's geïntroduceerd, die je helpen om dit proces te beheren. Vervolgens zul je zien hoe je aan de andere kant van de medaille werkt: een Git project beheren. Je zult leren hoe een welwillende dictator of integratie manager te zijn.
 
-## Maintaining a Project ##
+## Projectonderhoud ##
 
-In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
+Naast weten hoe effectief bij te dragen aan een project, moet je waarschijnlijk ook weten hoe je deze onderhoud. Dit kan bestaan uit het accepteren en toepassen van patches gegenereerd via 'format-patch' die gemailed zijn naar u, of het integreren van veranderingen in de remote branches voor repositories die u hebt toegevoegd als remotes aan uw project. Of u nu een canonieke repository onderhoud, of wilt bijdragen door het controleren of goedkeuren van patches, je moet weten hoe werk te aanvaarden op een manier die het duidelijkst is voor andere medewerkers en duurzaam door u op de lange termijn.
 
 ### Werken in onderwerp branches ###
 

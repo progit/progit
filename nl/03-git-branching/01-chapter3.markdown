@@ -4,7 +4,7 @@ Bijna elk versiebeheersysteem ondersteunt een bepaalde vorm van branchen. Branch
 
 Sommige mensen verwijzen naar het branch model in Git als de "killer eigenschap", en het maakt Git zeker apart in de VCS gemeenschap. Waarom is het zo bijzonder? De manier waarop Git branched is ongelooflijk lichtgewicht, waardoor branch operaties vrijwel instant zijn en het wisselen tussen de branches over het algemeen net zo snel. In tegenstelling to vele andere VCS's, moedigt Git een werkwijze aan die vaak branched en merged, zelfs meerdere keren per dag. Deze eigenschap begrijpen en beheersen geeft je een krachtig en uniek gereedschap en kan letterlijk de manier waarop je ontwikkelt veranderen.
 
-## Wat Een Branch Is ##
+## Wat een branch is ##
 
 Om de manier waarop Git branched echt te begrijpen, moeten we een stap terug doen en onderzoeken hoe Git zijn gegevens opslaat. Zoals je je kunt herinneren van Hoofdstuk 1, slaat Git zijn gegevens niet op als een reeks van sets met wijzigingen of delta's, maar in plaats daarvan als een serie snapshots.
 
@@ -92,7 +92,7 @@ Dit is in scherp contrast met de manier waarop de meeste VCS applicaties branche
 
 Laten we eens kijken waarom je dat zou moeten doen.
 
-## Eenvoudig Branchen en Mergen ##
+## Eenvoudig branchen en mergen ##
 
 Laten we eens door een eenvoudig voorbeeld van branchen en mergen stappen met een werkwijze die je zou kunnen gebruiken in de echte wereld. Je zult deze stappen volgen:
 
@@ -107,7 +107,7 @@ Dan ontvang je een telefoontje dat je een ander probleem direct moet repareren. 
 3.	Nadat het getest is, de snelle reparatie branch samenvoegen, en dat naar productie terugzetten.
 4.	Terugschakelen naar je originele verhaal en doorgaan met werken.
 
-### Eenvoudig Branchen ###
+### Eenvoudig branchen ###
 
 Als eerste, laten we zeggen dat je aan je project werkt en al een paar commits hebt (zie Figuur 3-10).
 
@@ -193,7 +193,7 @@ Figuur 3-15. Je iss53 branch kan onafhankelijk vooruit bewegen.
 
 Het is interessant om hier op te merken dat het werk dat je in je snelle reparatie branch gedaan hebt, niet zit in de bestanden van je `iss53` branch. Als je dat binnen moet halen, dan kun je je `master` branch in je `iss53` branch samenvoegen door `git merge master` uit te voeren, of je kunt wachten met die wijzigingen te integreren totdat je beslist om je `iss53` branch later in je `master` binnen te halen.
 
-### Eenvoudig Samenvoegen ###
+### Eenvoudig samenvoegen ###
 
 Stel dat je besloten hebt dat je probleem #53 werk compleet is en klaar bent om samen te gaan voegen in je `master` branch. Om dat te doen, zul je je `iss53` branch samenvoegen zoals je je snelle reparatie branch eerder hebt samengevoegd. Het enige dat je hoeft te doen is de branch uit te checken waar je in wenst samen te voegen en dan het `git merge` commando uit te voeren:
 
@@ -219,7 +219,7 @@ Nu dat je werk samengevoegd is, heb je geen verdere noodzaak voor de `iss53` bra
 
 	$ git branch -d iss53
 
-### Eenvoudige Samenvoeg Conflicten ###
+### Eenvoudige samenvoeg conflicten ###
 
 Soms, gaat dit proces niet soepel. Als je hetzelfde gedeelte van hetzelfde bestand anders hebt gewijzigd in twee branches die je samenvoegt, dan zal Git niet in staat zijn om ze netjes samen te voegen. Als je reparatie voor probleem #53 hetzelfde gedeelte van een bestand heeft aangepast als de snelle reparatie, dan krijg je een samenvoeg conflict dat er ongeveer zo uit ziet:
 
@@ -297,7 +297,7 @@ Als je daar blij mee bent, en je controleert dat alles waar conflicten in zaten 
 
 Je kunt dat bericht aanpassen met details over hoe je het conflict opgelost hebt, als je denkt dat dat behulpzaam zou zijn voor anderen die in de toekomst naar deze samenvoeging kijken — waarom je deed wat je deed, als dat niet vanzelfsprekend is.
 
-## Branch Beheer ##
+## Branch beheer ##
 
 Nu heb je wat branches aangemaakt, samengevoegd, en verwijderd. Laten we eens kijken naar wat branch beheer applicaties die handig zijn als je begint met het doorlopend gebruik van branches.
 
@@ -337,11 +337,11 @@ Dit toont je andere branch. Omdat het werk bevat dat nog niet samengevoegd is, z
 
 Als je de branch echt wilt verwijderen en dat werk wilt verliezen, dan kun je het forceren met `-D`, zoals het behulpzame bericht verteld.
 
-## Branch Werkwijzen ##
+## Branch werkwijzen ##
 
 Nu dat je de basis van het branchen en samenvoegen onder de knie hebt, wat kan of zou je met ze kunnen doen? In dit gedeelte gaan we over een aantal veel voorkomende werkwijzen die deze lichtgewicht branches mogelijk maken, zodat je kunt beslissen of dat je ze wilt integreren in je ontwikkel cyclus.
 
-### Lang-Lopende Branches ###
+### Lang-lopende branches ###
 
 Omdat Git gebruik maakt van een eenvoudige drieweg samenvoeging, is het meerdere keren samenvoegen vanuit een branch met een andere over een langere periode over het algemeen eenvoudig om te doen. Dit betekent dat je meerdere branches kunt hebben, die altijd open staan en die je voor verschillende delen van je ontwikkel cyclus gebruikt; je kunt regelmatig samenvoegen van een aantal ervan in de anderen.
 
@@ -360,7 +360,7 @@ Figuur 3-19. Het kan handig zijn om je branches voor te stellen als silo's.
 Je kunt dit doen voor meerdere nivo's van stabiliteit. Sommige grotere projecten hebben ook een `proposed` of `pu` (proposed updates) branch die branches geïntegreerd heeft die wellicht nog niet klaar zijn om in de `next` of `master` branch te gaan. Het idee is dat je branches op verschillende nivo's van stabiliteit zitten; zodra ze een stabiel nivo bereiken, worden ze in de branch boven hun samengevoegd.
 Nogmaals, het hebben van langlopende branches is niet noodzakelijk, maar het helpt vaak wel, in het bijzonder als je moet omgaan met zeer grote of complexe projecten.
 
-### Onderwerp Branches ###
+### Onderwerp branches ###
 
 Maar, onderwerp branches zijn bruikbaar in projecten van iedere grootte. Een onderwerp branch is een kortlopende branch die je maakt en gebruikt om een enkele eigenschap of gerelateerd werk in te doen. Dit is iets wat je waarschijnlijk nooit vantevoren met een VCS gedaan hebt, omdat het over het algemeen te duur is om branches aan te maken en samen te voegen. Maar in Git komt het vaak voor om branches aan te maken, op te werken, en te verwijderen meerdere keren per dag.
 
@@ -378,7 +378,7 @@ Figuur 3-21. Je historie na het samenvoegen van dumbidea en iss91v2.
 
 Het is belangrijk om te onthouden dat wanneer je dit alles doet, deze branches volledig lokaal zijn. Als je aan het branchen of samenvoegen bent, dan wordt alles gedaan in jouw Git repository — dus er gebeurt geen server communicatie.
 
-## Remote Branches ##
+## Remote branches ##
 
 Remote branches zijn referenties naar de staat ven de branches op je remote repositories. Ze zijn lokale branches die jij niet kunt verplaatsen; ze worden automatisch verplaatst zodra je wat netwerk communicatie doet. Remote branches gedragen zich als boekenleggers om je eraan te helpen herinneren waar de branches op je remote repositories waren de laatste keer dat je met ze in contact was.
 
@@ -445,7 +445,7 @@ Om dit werk in je huidige werk branch samen te voegen, kun je `git merge origin/
 
 Dit geeft je een lokale branch waar je op kunt werken, die begint met waar `origin/serverfix` is.
 
-### Volg Branches ###
+### Volg branches ###
 
 Een lokale branch uitchecken van een remote branch creëert automatisch een zogenaamde _volg branch_ (_tracking branch_). Volg branches zijn lokale branches die een directe releatie met een remote branch hebben. Als je op een volg branch zit en git push typed, dat weet Git automatisch naar welke server en branch hij moet terugzetten. En, terwijl je op een van die branches zit zal het uitvoeren van `git pull` alle remote referenties ophalen en ze automatisch in de corresponderende remote branch samenvoegen.
 
@@ -463,7 +463,7 @@ Om een lokale branch in te stellen met een andere naam dan de remote branch, kun
 
 Nu zal je lokale sf branch automatisch halen en terugzetten van origin/serverfix.
 
-### Remote Branches Verwijderen ###
+### Remote branches verwijderen ###
 
 Stel dat je klaar bent met een remote branch — stel dat jij en je medewerkers klaar zijn met een eigenschap en het hebben samengevoegd in je `master` branch van je remote (of welke branch je stabiele codelijn ook in zit). Dan kun je een remote branch verwijderen door de nogal stompzinnige syntax `git push [remotenaam] :[branch]` te gebruiken. Als je je `serverfix` branch van de server wilt verwijderen, dan voer je het volgende uit:
 
@@ -477,7 +477,7 @@ Boem. Geen branch meer op je server. Je zult deze pagina wel een ezelsoor willen
 
 In Git zijn er twee hoofdmanieren om wijzigingen te integreren van één branch in een andere: de `samenvoeging` en de `rebase`. In dit gedeelte zul je leren wat rebasen is, hoe je het moet doen, waarom het een zeer bijzondere toepassing is, en in welke gevallen je het niet wilt gebruiken.
 
-### De Eenvoudige Rebase ###
+### De eenvoudige rebase ###
 
 Als je teruggaat naar een eerder voorbeeld van de Samenvoegen sectie (zie Figuur 3-27), dan kun je zien dat je werk is afgeweken en dat je commits hebt gedaan op de twee verschillende branches.
 
@@ -514,7 +514,7 @@ Vaak zul je dit doen om er zeker van te zijn dat je commits netjes aansluiten op
 
 Let op het snapshot waar de laatste commit naar wijst waar je mee eindigt, of het de laatste van de gerebasete commits voor een rebase is, of de laatste samenvoeg commit na een samenvoeging, het is hetzelfde snapshot — alleen de historie is verschillend. Rebasen speelt veranderingen van een werklijn opnieuw af op een andere in de volgorde waarin ze geïntroduceerd waren, en samenvoegen pakt de eindpunten en voegt die samen.
 
-### Interessantere Rebases ###
+### Interessantere rebases ###
 
 Je kunt je rebase ook opnieuw laten afspelen op iets anders dan de rebase branch. Pak een historie zoals in Figuur 3-31, bijvoorbeeld. Je hebt een onderwerp branch afgesplitst (`server`) om wat server-kant functionaliteit toe te voegen aan je project, en toen een commit gedaan. Daarna, heb je daar vanaf gebranched om de client-kant wijzigingen te doen (`client`) en een paar keer gecommit. Als laatste, ben je teruggegaan naar je server branch en hebt nog een paar commits gedaan.
 
@@ -560,7 +560,7 @@ Je kunt de `client` en `server` branches verwijderen, omdat al het werk geïnteg
 Insert 18333fig0335.png 
 Figuur 3-35. Uiteindelijke commit historie.
 
-### De Gevaren van Rebasen ###
+### De gevaren van rebasen ###
 
 Ahh, maar de zegen van rebasen is niet zonder nadelen, wat samengevat kan worden in een enkele regel:
 

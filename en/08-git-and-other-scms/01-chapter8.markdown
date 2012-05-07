@@ -396,15 +396,13 @@ You need to do a bit of `post-import` cleanup. For one thing, you should clean u
 
 To move the tags to be proper Git tags, run
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
 
 This takes the references that were remote branches that started with `tag/` and makes them real (lightweight) tags.
 
 Next, move the rest of the references under `refs/remotes` to be local branches:
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
 Now all the old branches are real Git branches and all the old tags are real Git tags. The last thing to do is add your new Git server as a remote and push to it. Here is an example of adding your server as a remote:
 
@@ -413,6 +411,7 @@ Now all the old branches are real Git branches and all the old tags are real Git
 Because you want all your branches and tags to go up, you can now run this:
 
 	$ git push origin --all
+	$ git push origin --tags
 
 All your branches and tags should be on your new Git server in a nice, clean import.
 

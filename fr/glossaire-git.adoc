@@ -39,7 +39,7 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 * Plumbing -> plomberie
 * Porcelain -> porcelaine
 * index ->
-* staging area ->
+* staging area -> zone d'attente
 
 .VCS
 * version -> révision
@@ -61,8 +61,8 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 * SHA-1 -> empreinte SHA-1
 
 .Actions/Commandes
-Si le mot fait référence à la commande, on ne traduit pas. Par si on fait
-référence à l'action, on peut traduire.
+Si le mot fait référence à la commande, on ne traduit pas. Par contre, 
+si on fait référence à l'action, on peut traduire.
 
 * checkout ->
 * branch(es) -> branches
@@ -90,7 +90,7 @@ référence à l'action, on peut traduire.
 * To merge (a branch) -> fusionner
 * To merge (a change) -> incorporer
  - a merge -> une fusion
-* to diff ->
+* to diff -> comparer
 * rebase -> rebaser
 * revert  -> défaire
 * packfile ->
@@ -99,7 +99,7 @@ référence à l'action, on peut traduire.
 
 .Divers
 * hex -> hexa
-* hook ->
+* hook -> crochet
 * namespace -> espace de noms
 * Content-addressable filesystem -> système de fichier adressable par le contenu
 * DAG(Direct Acyclic Graph) -> Graphe orienté acyclique

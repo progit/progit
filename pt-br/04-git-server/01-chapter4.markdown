@@ -342,7 +342,7 @@ Se você quiser rodar a interface web em um servidor todo o tempo para a sua equ
 	        prefix=/usr gitweb/gitweb.cgi
 	$ sudo cp -Rf gitweb /var/www/
 
-Note que você precisa dizer ao comando onde encontrar os seus repositórios Git com a variável `GITWEB_PROJECTROOT`. Agora, você precisa fazer o Apache utilizar CGI para esse script, e para tal você pode adicionar um VirtualHost:
+Note que você precisa avisar ao comando onde encontrar os seus repositórios Git com a variável `GITWEB_PROJECTROOT`. Agora, você precisa fazer o Apache usar CGI para aquele script, para o qual você pode adicionar um VirtualHost:
 
 	<VirtualHost *:80>
 	    ServerName gitserver

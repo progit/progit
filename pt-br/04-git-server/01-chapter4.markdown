@@ -316,25 +316,22 @@ Deste jeito, você pode configurar um servidor HTTP com acesso de leitura para o
 
 ## GitWeb ##
 
-Agora que você tem um básico acesso de leitura e escrita e de apenas leitura para o seu projeto, você talvez queira configurar um visualizador baseado na web. Git vem com um script CGI chamado GitWeb, o qual 
-é comumente utilizado para isso. Você pode ver GitWeb em uso em sites como `http:/git.kernel.org` (Veja Figura 4-1)
+Agora que você tem acesso de leitura/escrita e apenas leitura para o seu projeto, você pode querer configurar um visualizador simples baseado em web. Git vem com um script CGI chamado GitWeb que normalmente é usado para isso. Você pode ver o GitWeb em uso em sites como `http://git.kernel.org` (veja Figura 4-1).
 
 Insert 18333fig0401.png 
-Figure 4-1. A interface de usuário baseada na web GitWeb
+Figure 4-1. A interface de usuário baseada em web GitWeb
 
-Se você quiser ver como será a aparência do GitWeb no seu projeto, Git vem com um comando para inicializar
-uma instância temporária, se você tiver um servidor leve em seu sistema, como `lighttpd` ou `webrick`. Em máquinas Linux, `lighttpd` vem instalado frequentemente, então você talvez seja capaz de colocá-lo em funcionamento digitando `git instaweb` no diretório do seu projeto. Se você está usando um Mac, Leopard traz a linguagem Ruby pré-instalada, então `webrick` pode ser sua melhor aposta. Para iniciar `instaweb` com um handler não-lighttpd, use a opção `--httpd`.
- 
+Se você quiser verificar o que o GitWeb pareceria no seu projeto, Git vem com um comando para disparar uma instância temporária se você tem um servidor leve no seu sistema como `lighttpd` ou `webrick`. Em máquinas Linux, `lighttpd` normalmente está instalado, então você deve conseguir fazê-lo funcionar digitando `git instaweb` no diretório do seu projeto. Se você está usando um Mac, Leopard vem com Ruby pré-instalado, então `webrick` é sua melhor aposta. Para iniciar `instaweb` com um manipulador diferente de lighttpd, você pode rodá-lo com a opção `--httpd`.
+
 	$ git instaweb --httpd=webrick
 	[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
 	[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 
-Esses comandos iniciam um servidor HTTPD na porta 1234 e automaticamente iniciam um navegador web que abre
-aquela página. É bem fácil pra você. Quando você terminar e quiser finalizar o servidor, você pode usar o mesmo comando com a opção `--stop`:
+Isso inicia um servidor HTTPD na porta 1234 e então automaticamente inicia um navegador web que abre naquela página. É bem fácil da sua parte. Quando você tiver terminado e quiser desligar o servidor, você pode rodar o mesmo comando com a opção `--stop`:
 
 	$ git instaweb --httpd=webrick --stop
 
-Se você quiser rodar a interface web em um servidor todo o tempo para a sua equipe ou para algum projeto open source que você esteja hospedando, você vai precisar configurar o script CGI para ser servido pelo seu servidor Web normal. Algumas distribuições linux têm um pacote `gitweb`, o qual você talvez consiga instalar via `apt` ou `yum`, então você pode querer tentar isso primeiro. Nós vamos abordar a instalação manual do GitWeb bem rapidamente. Primeiro, você precisa do código fonte do Git, o qual possui o GitWeb, e gerar o script CGI personalizado.
+Se você quer rodar a interface web num servidor o tempo inteiro para a sua equipe ou para um projeto open source que você esteja hospedando, você vai precisar configurar o script CGI para ser servido pelo seu servidor web normal. Algumas distribuições Linux têm um pacote `gitweb` que você deve ser capaz de instalar via `apt` ou `yum`, então você pode tentar isso primeiro. Nós procederemos na instalação do GitWeb manualmente bem rápido. Primeiro, você precisa pegar o código-fonte do Git, o qual vem acompanha GitWeb, e gerar o script CGI personalizado:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
@@ -357,7 +354,7 @@ Note que você precisa avisar ao comando onde encontrar os seus repositórios Gi
 	    </Directory>
 	</VirtualHost>
 
-Novamente, GitWeb pode ser servido com qualquer servidor web que suporte CGI; se você prefere usar outro servidor, não deve ser difícil configurar. Agora, você deveria ser capaz de visitar `http://gitserver/` para ver seus repositórios online, e você pode usar `http://git.gitserver` para clonar e buscar (fetch) seus repositórios através de HTTP
+Novamente, GitWeb pode ser servido com qualquer servidor CGI; se você preferir usar alguma outra coisa, não deveria ser difícil configurar. Até então, você poderia visitar `http://gitserver/` para visualizar seus repositórios online, e você pode usar `http://git.gitserver` para efetuar clone e fetch nos seus repositórios via HTTP.
 
 ## Gitosis ##
 

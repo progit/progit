@@ -158,20 +158,18 @@ Voici ci-dessous un modèle tiré de celui écrit par Tim Pope at tpope.net :
 	Court résumé des modifications( 50 caractères ou moins)
 
 	Explication plus détaillée si nécessaire. Retour à la ligne vers 72
-        caractères. Dans certains contextes, la première ligne est traitée
-        comme le sujet d'un e-mail et le reste comme le corps. La ligne
-        vide qui sépare le titre du corps est importante (à moins d'omettre
-        totalement le corps). Des outils tels que rebase peuvent être gênés
-        si vous les laissez collés.
+	caractères. Dans certains contextes, la première ligne est traitée
+	comme le sujet d'un e-mail et le reste comme le corps. La ligne
+	vide qui sépare le titre du corps est importante (à moins d'omettre
+	totalement le corps). Des outils tels que rebase peuvent être gênés
+	si vous les laissez collés.
 
         Paragraphes supplémentaires après des lignes vides.
 
-         - les listes à puce sont acceptées aussi
+	 - les listes à puce sont  aussi acceptées
 
 	 - Typiquement, un tiret ou un astérisk précédés d'un espace unique
-
-	 unique, séparés par des lignes vides mais les conventions peuvent
-	varier
+	 séparés par des lignes vides mais les conventions peuvent varier
 
 Si tous vos messages de validation ressemblent à ceci, les choses seront beaucoup plus simples pour vous et les développeurs avec qui vous travaillez.
 Le projet Git montre des messages de commit bien formatés — je vous encourage à y lancer un `git log --no-merges` pour pouvoir voir comment rend un historique de messages bien formatés. 

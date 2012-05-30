@@ -1,7 +1,7 @@
 # Настройка Git #
 Customizing Git
 
-До этого момента мы описывали основы работы Git и как его использовать, а также мы познакомились с нексколькими инструментами, предоставляемыми Git'ом, которые помогут вам использовать его просто и эффективно. В этой главе мы пройдёмся по некоторым операциям, которые вы можете использовать, чтобы заставить Git действовать в нужной вам манере. Для этого мы рассмотрим несколько важных настроек и систему перехватчиков (hook). Используя эти инструменты, легко сделать так, чтобы Git работал именно так как вам, вашей компании или вашей группе нужно.
+До этого момента мы описывали основы работы Git и как его использовать, а также мы познакомились с несколькими инструментами, предоставляемыми Git'ом, которые помогут вам использовать его просто и эффективно. В этой главе мы пройдёмся по некоторым операциям, которые вы можете использовать, чтобы заставить Git действовать в нужной вам манере. Для этого мы рассмотрим несколько важных настроек и систему перехватчиков (hook). Используя эти инструменты, легко сделать так, чтобы Git работал именно так как вам, вашей компании или вашей группе нужно.
 
 So far, I’ve covered the basics of how Git works and how to use it, and I’ve introduced a number of tools that Git provides to help you use it easily and efficiently. In this chapter, I’ll go through some operations that you can use to make Git operate in a more customized fashion by introducing several important configuration settings and the hooks system. With these tools, it’s easy to get Git to work exactly the way you, your company, or your group needs it to.
 
@@ -102,7 +102,7 @@ Then, your editor will open to something like this for your placeholder commit m
 	~
 	".git/COMMIT_EDITMSG" 14L, 297C
 
-Если у вас существует определённая политика для сообщений коммитов, то задание шаблона соотвествующего этой политике и настройка Git на использование его по умолчанию могут увеличить вероятность того, что этой политики будут придерживаться постоянно.
+Если у вас существует определённая политика для сообщений коммитов, то задание шаблона соответствующего этой политике и настройка Git на использование его по умолчанию могут увеличить вероятность того, что этой политики будут придерживаться постоянно.
 
 If you have a commit-message policy in place, then putting a template for that policy on your system and configuring Git to use it by default can help increase the chance of that policy being followed regularly.
 
@@ -136,7 +136,7 @@ Now, you can sign tags without having to specify your key every time with the `g
 
 #### core.excludesfile ####
 
-Чтобы Git не видел определённые файлы проекта как неотслеживаемые и не пытался добавить их в индекс при выполении `git add`, можно задать для них шаблоны в файл `.gitignore` так, как мы делали в Главе 2. Однако, если вам необходим другой файл, который будет хранить эти или дополнительные значения, вне вашего проекта, то вы можете указать Git'у расположение такого файла с помощью настройки `core.excludesfile`. Просто задайте в ней путь к файлу, в котором записано то же, что пишется в `.gitignore`.
+Чтобы Git не видел определённые файлы проекта как неотслеживаемые и не пытался добавить их в индекс при выполнении `git add`, можно задать для них шаблоны в файл `.gitignore` так, как мы делали в Главе 2. Однако, если вам необходим другой файл, который будет хранить эти или дополнительные значения, вне вашего проекта, то вы можете указать Git'у расположение такого файла с помощью настройки `core.excludesfile`. Просто задайте в ней путь к файлу, в котором записано то же, что пишется в `.gitignore`.
 
 You can put patterns in your project’s `.gitignore` file to have Git not see them as untracked files or try to stage them when you run `git add` on them, as discussed in Chapter 2. However, if you want another file outside of your project to hold those values or have extra values, you can tell Git where that file is with the `core.excludesfile` setting. Simply set it to the path of a file that has content similar to what a `.gitignore` file would have.
 
@@ -233,7 +233,7 @@ To begin, you’ll set up external wrapper scripts to run your commands. I’ll 
 
 The diff wrapper checks to make sure seven arguments are provided and passes two of them to your merge script. By default, Git passes the following arguments to the diff program:
 
-	путь старый-файл старый-хеш сатрые-права новый-файл новый-хеш новые-права
+	путь старый-файл старый-хеш старые-права новый-файл новый-хеш новые-права
 	path old-file old-hex old-mode new-file new-hex new-mode
 
 Так как нам нужны только `старый-файл` и `новый-файл`, используем сценарий-обёртку, чтобы передать только те аргументы, которые нам нужны:
@@ -251,7 +251,7 @@ You also need to make sure these tools are executable:
 	$ sudo chmod +x /usr/local/bin/extMerge 
 	$ sudo chmod +x /usr/local/bin/extDiff
 
-Теперь мы можем настроить свой конфигурационный файл на использование наших собственных уитилит для разрешения слияний и в качестве diff'а. Для этого нам потребуется поменять несколько настроек: `merge.tool`, чтобы указать Git на то, какую стратегию использовать; `mergetool.*.cmd`, чтобы указать как запустить команду; `mergetool.trustExitCode`, чтобы указать Git'у на то, означает ли код возврата то, что программа успешно разрешила конфликт слияния, или нет; и `diff.external` для того, чтобы задать команду используемую для diff. Таким образом вам надо либо выполнить четыре команды `git config`:
+Теперь мы можем настроить свой конфигурационный файл на использование наших собственных утилит для разрешения слияний и в качестве diff'а. Для этого нам потребуется поменять несколько настроек: `merge.tool`, чтобы указать Git на то, какую стратегию использовать; `mergetool.*.cmd`, чтобы указать как запустить команду; `mergetool.trustExitCode`, чтобы указать Git'у на то, означает ли код возврата то, что программа успешно разрешила конфликт слияния, или нет; и `diff.external` для того, чтобы задать команду используемую для diff. Таким образом вам надо либо выполнить четыре команды `git config`:
 
 Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands
 
@@ -434,33 +434,54 @@ One of the workarounds to the `denyNonFastForwards` policy is for the user to de
 
 This denies branch and tag deletion over a push across the board — no user can do it. To remove remote branches, you must remove the ref files from the server manually. There are also more interesting ways to do this on a per-user basis via ACLs, as you’ll learn at the end of this chapter.
 
+## Атрибуты в Git ##
 ## Git Attributes ##
+
+Некоторые настройки могут быть заданы для отдельных путей, и тогда Git будет применять их только для подкаталогов или набора файлов. Такие настройки специфичные по отношению к путям называются атрибутами и задаются либо в файле `.gitattributes` в одном из каталогов проекта (обычно в корне) или в файле `.git/info/attributes`, если вы не хотите, чтобы файл с атрибутами попал в коммит вместе с остальными файлами проекта.
 
 Some of these settings can also be specified for a path, so that Git applies those settings only for a subdirectory or subset of files. These path-specific settings are called Git attributes and are set either in a `.gitattributes` file in one of your directories (normally the root of your project) or in the `.git/info/attributes` file if you don’t want the attributes file committed with your project.
 
+Использование атрибутов позволяет, например, задать разные стратегии слияния для отдельных файлов или каталогов проекта, или объяснить Git'у как сравнивать нетекстовые файлы, или сделать так, чтобы Git пропускал данные через фильтр перед тем как выгрузить или записать данные в репозиторий. В этом разделе мы рассмотрим некоторые из доступных в Git'е атрибутов и рассмотрим несколько практических примеров их использования.
+
 Using attributes, you can do things like specify separate merge strategies for individual files or directories in your project, tell Git how to diff non-text files, or have Git filter content before you check it into or out of Git. In this section, you’ll learn about some of the attributes you can set on your paths in your Git project and see a few examples of using this feature in practice.
 
+### Бинарные файлы ###
 ### Binary Files ###
+
+Есть один клёвый трюк, для которого можно использовать атрибуты — можно указать Git'у какие файлы являются бинарными (в случае если по-другому определить это не получается) и дать ему специальные инструкции о том как с этими файлами работать. Например, некоторые текстовые файлы могут быть машинными — генерируемыми программой — для них нет смысла вычислять дельты, в то время как для некоторых бинарных файлов получение дельт может быть полезным. Дальше мы увидим, как сказать Git'у какие файлы какие.
 
 One cool trick for which you can use Git attributes is telling Git which files are binary (in cases it otherwise may not be able to figure out) and giving Git special instructions about how to handle those files. For instance, some text files may be machine generated and not diffable, whereas some binary files can be diffed — you’ll see how to tell Git which is which.
 
+#### Определение бинарных файлов ####
 #### Identifying Binary Files ####
 
+Некоторые файлы выглядят как текстовые, но по существу должны рассматриваться как бинарные данные. Например, проекты Xcode на Mac'ах содержат файл, оканчивающийся на `.pbxproj`, который по сути является набором JSON-данных (текстовый формат данных для javascript), записываемым IDE, в котором сохраняются ваши настройки сборки и прочее. Хоть технически это и текстовый файл, потому что содержит только ASCII-символы, но нет смысла рассматривать его как таковой потому, что на самом деле это легковесная база данных — вы не сможете слить её содержимое, если два человека внесут в неё изменение, получение дельт тоже как правило ничем вам не поможет. Этот файл предназначается для обработки программой. По сути, лучше рассматривать этот файл как бинарный.
+
 Some files look like text files but for all intents and purposes are to be treated as binary data. For instance, Xcode projects on the Mac contain a file that ends in `.pbxproj`, which is basically a JSON (plain text javascript data format) dataset written out to disk by the IDE that records your build settings and so on. Although it’s technically a text file, because it’s all ASCII, you don’t want to treat it as such because it’s really a lightweight database — you can’t merge the contents if two people changed it, and diffs generally aren’t helpful. The file is meant to be consumed by a machine. In essence, you want to treat it like a binary file.
+
+Чтобы заставить Git обращаться со всеми `pbxproj` файлами как с бинарными, добавьте следующую строку в файл `.gitattributes`:
 
 To tell Git to treat all `pbxproj` files as binary data, add the following line to your `.gitattributes` file:
 
 	*.pbxproj -crlf -diff
 
+Теперь Git не будет пытаться конвертировать CRLF-концы строк или исправлять проблемы с ними. Также он не будет пытаться получить дельту для изменений в этом файле при запуске `git show` или `git diff` в вашем проекте. Начиная с версии 1.6 в Git есть макрос, который означает то же, что и `-crlf -diff`:
+
 Now, Git won’t try to convert or fix CRLF issues; nor will it try to compute or print a diff for changes in this file when you run git show or git diff on your project. In the 1.6 series of Git, you can also use a macro that is provided that means `-crlf -diff`:
 
 	*.pbxproj binary
 
+#### Получение дельты для бинарных файлов ####
 #### Diffing Binary Files ####
+
+В Git версии 1.6.x функциональность атрибутов может быть использована для эффективного получения дельт для бинарных файлов. Чтобы сделать это, нужно объяснить Git'у, как сконвертировать ваши бинарные данные в текстовый формат, для которого можно выполнить сравнение с помощью обычного diff.
 
 In the 1.6 series of Git, you can use the Git attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff.
 
+##### Документы MS Word #####
 ##### MS Word files #####
+
+Так как эта довольно клёвая функция не особо широко известна, мы рассмотрим несколько примеров её использования. Для начала мы используем этот подход, чтобы решить одну из самых раздражающих проблем известных человечеству: версионный контроль документов Word. Всем известно, что Word это самый ужасающий из всех существующих редакторов, но, как ни странно, все пользуются им. Если вы хотите поместить документы Word под версионный контроль, вы можете запихнуть из в Git-репозиторий и время от времени делать коммиты. Но что в этом хорошего? Если вы запустите `git diff` как обычно, то увидите только что-то наподобие:
 
 Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:
 
@@ -469,22 +490,34 @@ Because this is a pretty cool and not widely known feature, I’ll go over a few
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
 
+У вас не получится сравнить две версии между собой, только если вы не выгрузите их обе и просмотрите их вручную, так? Оказывается можно сделать это достаточно успешно используя атрибуты Git. Поместите следующую строку в свой файл `.gitattributes`:
+
 You can’t directly compare two versions unless you check them out and scan them manually, right? It turns out you can do this fairly well using Git attributes. Put the following line in your `.gitattributes` file:
 
 	*.doc diff=word
 
+Она говорит Git'у, что все файлы, соответствующие указанному шаблону (.doc) должны использовать фильтр "word" при попытке посмотреть дельту с изменениями. Что такое фильтр "word"? Вам надо настроить его. Сейчас мы настроим Git на использование программы `strings` для конвертирования документов Word в читаемые текстовые файлы, которые Git затем правильно сравнит:
+
 This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:
 
 	$ git config diff.word.textconv strings
+
+Этой командой в свой `.git/config` вы добавите следующую секцию:
 
 This command adds a section to your `.git/config` that looks like this:
 
 	[diff "word"]
 		textconv = strings
 
+Замечание: Существуют разные виды `.doc` файлов. Некоторые из них могут использовать кодировку UTF-16 или могут быть написаны не в латинице, в таких файлах `strings` не найдёт ничего хорошего. Полезность `strings` может сильно варьироваться.
+
 Side note: There are different kinds of `.doc` files. Some use an UTF-16 encoding or other "codepages" and `strings` won't find anything useful in there. Your mileage may vary.
 
+Теперь Git знает, что если ему надо найти дельту между двумя снимками состояния или какими-то файлами заканчивающимися на `.doc`, он должен прогнать эти файлы через фильтр "word", который определён как программа `strings`. Так вы фактически сделаете текстовые версии своих Word-файлов перед тем как получить для них дельту.
+
 Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
+
+Рассмотрим пример. Я поместил Главу 1 настоящей книги в Git, добавил немного текста в один параграф и сохранил документ. Затем я выполнил `git diff`, чтобы увидеть, что изменилось:
 
 Here’s an example. I put Chapter 1 of this book into Git, added some text to a paragraph, and saved the document. Then, I ran `git diff` to see what changed:
 
@@ -501,15 +534,24 @@ Here’s an example. I put Chapter 1 of this book into Git, added some text to a
 	+s going on, modify stuff and contribute changes. If the book spontaneously 
 	+Let's see if this works.
 
+Git коротко и ясно дал мне знать, что я добавил строку "Let’s see if this works", так оно и есть. Работает не идеально, так как добавляет немного лишнего в конце, но определённо работает. Если вы сможете найти или написать хорошо работающую программу для конвертации документов Word в обычный текст, то такое решение скорее всего будет невероятно эффективно. Тем не менее, `strings` доступен на большинстве Mac и Linux-систем, так что он может быть хорошим первым вариантом для того, чтобы сделать подобное со многими бинарными форматами.
+
 Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
 
+##### Текстовые файлы в формате OpenDocument #####
 ##### OpenDocument Text files #####
 
+Тот же подход, который мы использовали для файлов MS Word (`*.doc`), может быть использован и для текстовых файлов в формате OpenDocument, созданных OpenOffice.org.
+
 The same approach that we used for MS Word files (`*.doc`) can be used for OpenDocument Text files (`*.odt`) created by OpenOffice.org.
+
+Добавим следующую строку в файл `.gitattributes`:
 
 Add the following line to your `.gitattributes` file:
 
 	*.odt diff=odt
+
+Теперь настроим фильтр `odt` в `.git/config`:
 
 Now set up the `odt` diff filter in `.git/config`:
 
@@ -517,48 +559,59 @@ Now set up the `odt` diff filter in `.git/config`:
 		binary = true
 		textconv = /usr/local/bin/odt-to-txt
 
+Файлы в формате OpenDocument на самом деле являются запакованными zip'ом каталогами с несколькими файлами (содержимое в XML-формате, таблицы стилей, изображения и т.д.). Мы напишем сценарий для извлечения содержимого и печати его в виде обычного текста. Создайте файл `/usr/local/bin/odt-to-txt` (можете создать его в любом другом каталоге) со следующим содержимым:
+
 OpenDocument files are actually zip'ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We'll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
 
 	#! /usr/bin/env perl
-	# Simplistic OpenDocument Text (.odt) to plain text converter.
-	# Author: Philipp Kempgen
+	# Сценарий для конвертации OpenDocument Text (.odt) в обычный текст.
+	# Автор: Philipp Kempgen
 	
 	if (! defined($ARGV[0])) {
-		print STDERR "No filename given!\n";
-		print STDERR "Usage: $0 filename\n";
+		print STDERR "Не задано имя файла!\n";
+		print STDERR "Использование: $0 имя файла\n";
 		exit 1;
 	}
 	
 	my $content = '';
 	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
 	{
-		local $/ = undef;  # slurp mode
+		local $/ = undef;  # считываем файл целиком
 		$content = <$fh>;
 	}
 	close $fh;
 	$_ = $content;
-	s/<text:span\b[^>]*>//g;           # remove spans
-	s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
-	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
-	s/<text:list\b[^>]*>/\n\n/g;       # lists
-	s/<text:p\b[^>]*>/\n  /g;          # paragraphs
-	s/<[^>]+>//g;                      # remove all XML tags
-	s/\n{2,}/\n\n/g;                   # remove multiple blank lines
-	s/\A\n+//;                         # remove leading blank lines
+	s/<text:span\b[^>]*>//g;           # удаляем span'ы
+	s/<text:h\b[^>]*>/\n\n*****  /g;   # заголовки
+	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # элементы списков
+	s/<text:list\b[^>]*>/\n\n/g;       # списки
+	s/<text:p\b[^>]*>/\n  /g;          # параграфы
+	s/<[^>]+>//g;                      # удаляем все XML-теги
+	s/\n{2,}/\n\n/g;                   # удаляем подряд идущие пустые строки
+	s/\A\n+//;                         # удаляем пустые строки в начале
 	print "\n", $_, "\n\n";
+
+Сделайте его исполняемым
 
 And make it executable
 
 	chmod +x /usr/local/bin/odt-to-txt
 
+Теперь `git diff` сможет сказать вам, что изменилось в `.odt` файлах.
+
 Now `git diff` will be able to tell you what changed in `.odt` files.
 
+##### Изображения #####
 ##### Image files #####
+
+Ещё одна интересная проблема, которую можно решить таким способом, это сравнение файлов изображений. Один из способов сделать это — прогнать PNG-файлы через фильтр, извлекающий их EXIF-информацию — метаданные, которые дописываются в большинство форматов изображений. Если скачаете и установите программу `exiftool`, то сможете воспользоваться ею, чтобы извлечь из изображений текстовую информацию о метаданных, так чтобы diff хоть как-то показал вам текстовое представление произошедших изменений:
 
 Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
 
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
+
+Если вы замените в проекте изображение и запустите `git diff`, то получите что-то вроде такого:
 
 If you replace an image in your project and run `git diff`, you see something like this:
 
@@ -581,44 +634,68 @@ If you replace an image in your project and run `git diff`, you see something li
 	 Bit Depth                       : 8
 	 Color Type                      : RGB with Alpha
 
+Легко можно заметить, что размер файла, а также высота и ширина изображения поменялись.
+
 You can easily see that the file size and image dimensions have both changed.
 
+### Развёртывание ключа ###
 ### Keyword Expansion ###
 
+Разработчики, привыкшие к SVN или CVS, часто хотят получить в Git возможность развёртывания ключа в стиле этих систем. Основная проблема с реализацией этой функциональности в Git это то, что нельзя записать в файл информацию о коммите после того, как коммит был сделан, так как Git сначала считает контрольную сумму для файла. Не смотря на это, вы можете вставить текст в файл во время его выгрузки и удалять его перед добавлением в коммит. Атрибуты Git предлагают два варианта выполнить это.
+
 SVN- or CVS-style keyword expansion is often requested by developers used to those systems. The main problem with this in Git is that you can’t modify a file with information about the commit after you’ve committed, because Git checksums the file first. However, you can inject text into a file when it’s checked out and remove it again before it’s added to a commit. Git attributes offers you two ways to do this.
+
+Во-первых, вы можете внедрять SHA-1-сумму блоба в поле `$Id$` в файл автоматически. Если установить соответствующий атрибут для одного или нескольких файлов, то в следующий раз, когда вы будете выгружать данные из этой ветки, Git будет заменять это поле SHA-суммой блоба. Обратите внимание, что это SHA-1 не коммита, а самого блоба.
 
 First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the file automatically. If you set this attribute on a file or set of files, then the next time you check out that branch, Git will replace that field with the SHA-1 of the blob. It’s important to notice that it isn’t the SHA of the commit, but of the blob itself:
 
 	$ echo '*.txt ident' >> .gitattributes
 	$ echo '$Id$' > test.txt
+	$ git add test.txt
+
+В следующий раз, когда вы будете выгружать этот файл, Git будет автоматически вставлять в него SHA его блоба:
 
 The next time you check out this file, Git injects the SHA of the blob:
 
-	$ rm text.txt
-	$ git checkout -- text.txt
+	$ rm test.txt
+	$ git checkout -- test.txt
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
+Однако, такой результат мало применим. Если вы раньше пользовались развёртыванием ключа в CVS или Subversion, можете добавлять метку даты — SHA не особенно полезна, так как она довольно случайна, и к тому же, глядя на две SHA-суммы, никак не определить какая из них новее.
+
 However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
+
+Как оказывается, можно написать свои собственные фильтры, которые будут делать подстановки в файлах при коммитах и выгрузке файлов. Для этого надо задать фильтры "clean" и "smudge". В файле `.gitattributes` надо задать фильтр для определённых путей и затем настроить сценарии, которые будут обрабатывать файлы непосредственно перед выгрузкой ("smudge", смотри Рисунок 7-2) и прямо перед коммитом ("clean", смотри Рисунок 7-3). Эти фильтры можно настроить на совершение абсолютно любых действий.
 
 It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re checked out ("smudge", see Figure 7-2) and just before they’re committed ("clean", see Figure 7-3). These filters can be set to do all sorts of fun things.
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
+Рисунок 7-2. Фильтр “smudge” выполняется при checkout.
 Figure 7-2. The “smudge” filter is run on checkout.
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
+Рисунок 7-3. Фильтр “clean” выполняется при индексировании файлов.
 Figure 7-3. The “clean” filter is run when files are staged.
+
+В сообщении первоначального коммита, добавляющего эту функциональность, дан простой пример того, как можно пропустить весь свой исходный код на C через программу `indent` перед коммитом. Сделать это можно, задав атрибут filter в файле `.gitattributes` так, чтобы он пропускал файлы `*.c` через фильтр "indent":
 
 The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
 
 	*.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+Затем укажите Git'у, что должен делать фильтр "indent" при smudge и clean:
+
+Then, tell Git what the "indent" filter does on smudge and clean:
 
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
 
+В нашем случае, когда вы будете делать коммит, содержащий файлы соответствующие шаблону `*.c`, Git прогонит их через программу `indent` перед коммитом, а потом через программу `cat` перед тем как выгрузить их на диск. Программа `cat` по сути является холостой — она выдаёт те же данные, которые получила. Фактически эта комбинация профильтровывает все файлы с исходным кодом на C через `indent` перед тем как сделать коммит.
+
 In this case, when you commit files that match `*.c`, Git will run them through the indent program before it commits them and then run them through the `cat` program before it checks them back out onto disk. The `cat` program is basically a no-op: it spits out the same data that it gets in. This combination effectively filters all C source code files through `indent` before committing.
+
+Ещё один интересный пример это развёртывание ключа `$Date$` в стиле RCS. Для того, чтобы правильно осуществить это, нам понадобится небольшой сценарий, который принимает на вход имя файла, определяет дату последнего коммита в проекте и вставляет эту дату в наш файл. Вот небольшой сценарий на Ruby, который делает именно это:
 
 Another interesting example gets `$Date$` keyword expansion, RCS style. To do this properly, you need a small script that takes a filename, figures out the last commit date for this project, and inserts the date into the file. Here is a small Ruby script that does that:
 
@@ -627,15 +704,21 @@ Another interesting example gets `$Date$` keyword expansion, RCS style. To do th
 	last_date = `git log --pretty=format:"%ad" -1`
 	puts data.gsub('$Date$', '$Date: ' + last_date.to_s + '$')
 
+Всё, что делает этот сценарий, это берёт дату последнего коммита с помощью команды `git log`, засовывает её во все строки `$Date$`, которые видит в stdin, и печатает результат — это должно быть легко реализовать на любом удобном для вас языке. Давайте назовём этот файл `expand_date` и поместим в путь. Теперь в Git'е необходимо настроить фильтр (назовём его `dater`) и указать, что надо использовать фильтр `expand_date` при выполнении smudge во время выгрузки файлов. Воспользуемся регулярным выражением Perl, чтобы убрать изменения при коммите:
+
 All the script does is get the latest commit date from the `git log` command, stick that into any `$Date$` strings it sees in stdin, and print the results — it should be simple to do in whatever language you’re most comfortable in. You can name this file `expand_date` and put it in your path. Now, you need to set up a filter in Git (call it `dater`) and tell it to use your `expand_date` filter to smudge the files on checkout. You’ll use a Perl expression to clean that up on commit:
 
 	$ git config filter.dater.smudge expand_date
 	$ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
+Этот фрагмент кода на Perl'е вырезает всё, что находит в строке `$Date$` так, чтобы вернуть всё в начальное состояние. Теперь, когда наш фильтр готов, можете протестировать его создав файл с ключом `$Date$` и установив для этого файла Git-атрибут, который задействует для него новый фильтр:
+
 This Perl snippet strips out anything it sees in a `$Date$` string, to get back to where you started. Now that your filter is ready, you can test it by setting up a file with your `$Date$` keyword and then setting up a Git attribute for that file that engages the new filter:
 
 	$ echo '# $Date$' > date_test.txt
 	$ echo 'date*.txt filter=dater' >> .gitattributes
+
+Если вы сейчас добавите эти изменения в коммит и опять выгрузите файл, то увидите, что ключевое слово было заменено правильно:
 
 If you commit those changes and check out the file again, you see the keyword properly substituted:
 
@@ -646,23 +729,36 @@ If you commit those changes and check out the file again, you see the keyword pr
 	$ cat date_test.txt
 	# $Date: Tue Apr 21 07:26:52 2009 -0700$
 
+Как видите, такая техника может быть весьма мощной для настройки проекта под себя. Но вы должны быть осторожны, ибо файл `.gitattributes` вы добавите в коммит и будете его распространять вместе с проектом, а драйвер (в нашем случае `dater`) — нет. Так что не везде оно будет работать. Когда будете проектировать свои фильтры, постарайтесь сделать так, чтобы при ошибке с ними проект не переставал работать правильно.
+
 You can see how powerful this technique can be for customized applications. You have to be careful, though, because the `.gitattributes` file is committed and passed around with the project but the driver (in this case, `dater`) isn’t; so, it won’t work everywhere. When you design these filters, they should be able to fail gracefully and have the project still work properly.
 
+### Экспорт репозитория ###
 ### Exporting Your Repository ###
+
+Ещё атрибуты в Git позволяют делать некоторые интересные вещи при экспортировании архива с проектом.
 
 Git attribute data also allows you to do some interesting things when exporting an archive of your project.
 
 #### export-ignore ####
 
+Вы можете попросить Git не экспортировать определённые файлы и каталоги при создании архива. Если у вас есть подкаталог или файл, который вы не желаете включать в архив, но хотите, чтобы он был в проекте, то можете определить такие файлы с помощью атрибута `export-ignore`.
+
 You can tell Git not to export certain files or directories when generating an archive. If there is a subdirectory or file that you don’t want to include in your archive file but that you do want checked into your project, you can determine those files via the `export-ignore` attribute.
+
+Например, скажем, у вас в подкаталоге `test/` имеются некоторые тестовые файлы, и нет никакого смысла добавлять их в тарбол при экспорте проекта. Тогда добавим следующую строку в файл с Git-атрибутами:
 
 For example, say you have some test files in a `test/` subdirectory, and it doesn’t make sense to include them in the tarball export of your project. You can add the following line to your Git attributes file:
 
 	test/ export-ignore
 
+Теперь при запуске `git archive` для создания тарбола с проектом, этот каталог не будет включён в архив.
+
 Now, when you run git archive to create a tarball of your project, that directory won’t be included in the archive.
 
 #### export-subst ####
+
+Ещё одна вещь, которую можно сделать с архивами — это сделать какую-нибудь простую подстановку ключевых слов. Git позволяет добавить строку вида `$Format:$` в любой файл, использую любые коды форматирования используемые для `--pretty=format`, многие из которых мы рассматривали в Главе 2. Например, если вам захотелось добавить в проект файл с именем `LAST_COMMIT`, и чтобы при запуске `git archive` в этот файл автоматически помещалась дата последнего коммита, то такой файл можно сделать следующим образом:
 
 Another thing you can do for your archives is some simple keyword substitution. Git lets you put the string `$Format:$` in any file with any of the `--pretty=format` formatting shortcodes, many of which you saw in Chapter 2. For instance, if you want to include a file named `LAST_COMMIT` in your project, and the last commit date was automatically injected into it when `git archive` ran, you can set up the file like this:
 
@@ -671,24 +767,35 @@ Another thing you can do for your archives is some simple keyword substitution. 
 	$ git add LAST_COMMIT .gitattributes
 	$ git commit -am 'adding LAST_COMMIT file for archives'
 
+После запуска `git archive` у вас в архиве этот файл получится с содержимым следующего вида:
+
 When you run `git archive`, the contents of that file when people open the archive file will look like this:
 
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
+### Стратегии слияния ###
 ### Merge Strategies ###
 
+Ещё атрибуты Git могут быть использованы для того, чтобы заставить Git использовать другие стратегии слияния для определённых файлов в проекте. Одна очень полезная возможность — это сказать Git'у, чтобы он не пытался слить некоторые файлы, если для них есть конфликт, а просто выбрать ваш вариант предпочтя его чужому варианту.
+
 You can also use Git attributes to tell Git to use different merge strategies for specific files in your project. One very useful option is to tell Git to not try to merge specific files when they have conflicts, but rather to use your side of the merge over someone else’s.
+
+Это полезно если ветка в вашем проекте разошлась с исходной, но вам хотелось бы иметь возможность слить изменения из неё обратно, проигнорировав некоторые файлы. Скажем, у вас есть файл с настройками базы данных, который называется database.xml, он разный в двух ветках, и вы хотите влить свою другую ветку не трогая файл с настройками базы данных. Задайте атрибут следующим образом:
 
 This is helpful if a branch in your project has diverged or is specialized, but you want to be able to merge changes back in from it, and you want to ignore certain files. Say you have a database settings file called database.xml that is different in two branches, and you want to merge in your other branch without messing up the database file. You can set up an attribute like this:
 
 	database.xml merge=ours
+
+При вливании другой ветки, вместо конфликтов слияния для файла database.xml, вы увидите следующее:
 
 If you merge in the other branch, instead of having merge conflicts with the database.xml file, you see something like this:
 
 	$ git merge topic
 	Auto-merging database.xml
 	Merge made by recursive.
+
+В данном случае database.xml остаётся в том варианте, в каком и был изначально.
 
 In this case, database.xml stays at whatever version you originally had.
 

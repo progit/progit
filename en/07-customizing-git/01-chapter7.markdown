@@ -463,7 +463,7 @@ The original commit message for this functionality gives a simple example of run
 
 	*.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+Then, tell Git what the "indent" filter does on smudge and clean:
 
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat

@@ -98,14 +98,14 @@ Le projet de test ne contient que 75 commits et la taille du code n'est pas extr
 Cependant, Git doit extraire chaque version, une par une et les valider individuellement.
 Pour un projet contenant des centaines ou des milliers de commits, cela peut prendre littéralement des heures ou même des jours à terminer.
 
-La partie `-T trunk -b branches -t tags` indique à Git que ce dépôt Subversion suit les conventions de base en matière d'embranchement et de balisage.
-Si vous nommez votre trunk, vos branches ou vos balises différemment, vous pouvez modifier ces options.
+La partie `-T trunk -b branches -t tags` indique à Git que ce dépôt Subversion suit les conventions de base en matière d'embranchement et d'étiquetage.
+Si vous nommez votre trunk, vos branches ou vos étiquettes différemment, vous pouvez modifier ces options.
 Comme cette organisation est la plus commune, ces options peuvent être simplement remplacées par `-s` qui signifie structure standard.
 La commande suivante est équivalente :
 
 	$ git svn clone file:///tmp/test-svn -s
 
-À présent, vous disposez d'un dépôt Git valide qui a importé vos branches et vos balises :
+À présent, vous disposez d'un dépôt Git valide qui a importé vos branches et vos étiquettes :
 
 	$ git branch -a
 	* master
@@ -140,7 +140,7 @@ Pour un dépôt Git normal, cela ressemble plus à ceci :
 
 Ici, vous disposez de deux serveurs distants : un nommé `gitserver` avec une branche `master` et un autre nommé `origin` avec deux branches `master` et `testing`.
 
-Remarquez comme dans cet exemple de références distantes importées via `git svn`, les balises sont ajoutées comme des branches distantes et non comme des vraies balises Git.
+Remarquez comme dans cet exemple de références distantes importées via `git svn`, les étiquettes sont ajoutées comme des branches distantes et non comme des vraies étiquettes Git.
 Votre importation Subversion indique plutôt qu'il a un serveur distant appelé `tags` présentant des branches.
 
 ### Valider en retour sur le serveur Subversion ###
@@ -481,23 +481,23 @@ les commits ressemblent à ceci :
 Non seulement le champ auteur a meilleure mine, mais de plus le champ `git-svn-id` a disparu.
 
 Il est encore nécessaire de faire un peu de ménage `post-import`. Déjà, vous devriez nettoyer les références bizarres que `git svn` crée.
-Premièrement, déplacez les balises pour qu'elles soient de vraies balises plutôt que des branches distantes étranges, ensuite déplacez le reste des branches pour qu'elles deviennent locales.
+Premièrement, déplacez les étiquettes pour qu'elles soient de vraies étiquettes plutôt que des branches distantes étranges, ensuite déplacez le reste des branches pour qu'elles deviennent locales.
 
-Pour déplacer les balises et en faire de vraies balises Git, lancez
+Pour déplacer les étiquettes et en faire de vraies étiquettes Git, lancez
 
 	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
 	$ rm -Rf .git/refs/remotes/tags
 
-Cela récupère les références déclarées comme branches distantes commençant par `tags/` et les transforme en vraies balises (légères).
+Cela récupère les références déclarées comme branches distantes commençant par `tags/` et les transforme en vraies étiquettes (légères).
 
 Ensuite, déplacez le reste des références sous `refs/remotes` en branches locales :
 
 	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
 	$ rm -Rf .git/refs/remotes
 
-À présent, toutes les vieilles branches sont des vraies branches Git et toutes les vieilles balises sont de vraies balises Git.
+À présent, toutes les vieilles branches sont des vraies branches Git et toutes les vieilles étiquettes sont de vraies étiquettes Git.
 La dernière activité consiste à ajouter votre nouveau serveur Git comme serveur distant et à y pousser votre projet transformé.
-Pour pousser tout, y compris branches et balises, lancez :
+Pour pousser tout, y compris branches et étiquettes, lancez :
 
 	$ git push origin --all
 
@@ -820,7 +820,7 @@ Pour les avoir, vous devez réinitialiser votre branche sur `master` :
 	$ ls
 	file.rb  lib
 
-Vous pouvez faire bien plus avec l'outil `fast-import` — gérer différents modes, les données binaires, les branches multiples et la fusion, les balises, les indicateurs de progrès, et plus encore.
+Vous pouvez faire bien plus avec l'outil `fast-import` — gérer différents modes, les données binaires, les branches multiples et la fusion, les étiquettes, les indicateurs de progrès, et plus encore.
 Des exemples de scénarios plus complexes sont disponibles dans le répertoire `contrib/fast-import` du code source Git ; un des meilleurs est justement le script `git-p4` traité précédemment.
 
 ## Résumé ##

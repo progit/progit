@@ -41,7 +41,7 @@ La page de manuel pour `git config` liste aussi les options disponibles avec un 
 
 #### core.editor ####
 
-Par défaut, Git utilise votre éditeur par défaut ou se replie sur l'éditeur Vi pour la création et l'édition des messages de validation et de balisage.
+Par défaut, Git utilise votre éditeur par défaut ou se replie sur l'éditeur Vi pour la création et l'édition des messages de validation et d'étiquetage.
 Pour modifier ce comportement par défaut pour un autre, vous pouvez utiliser le paramètre `core.editor` :
 
 	$ git config --global core.editor emacs
@@ -96,14 +96,14 @@ si vous lancez cela, Git affichera la totalité du résultat de toutes les comma
 
 #### user.signingkey ####
 
-Si vous faîtes des balises annotées signées (comme décrit au chapitre 2), simplifiez-vous la vie en définissant votre clé GPG de signature en paramètre de configuration.
+Si vous faîtes des étiquettes annotées signées (comme décrit au chapitre 2), simplifiez-vous la vie en définissant votre clé GPG de signature en paramètre de configuration.
 Définissez votre ID de clé ainsi :
 
 	$ git config --global user.signingkey <gpg-key-id>
 
-Maintenant, vous pouvez signer vos balises sans devoir spécifier votre clé à chaque fois à la commande `git tag` :
+Maintenant, vous pouvez signer vos étiquettes sans devoir spécifier votre clé à chaque fois à la commande `git tag` :
 
-	$ git tag -s <nom-balise>
+	$ git tag -s <nom-étiquette>
 
 #### core.excludesfile ####
 
@@ -347,7 +347,7 @@ Dans les versions  les plus récentes de Git (à partir de la version 1.6.1), vo
 
 	$ git config --system receive.denyDeletes true
 
-Cela interdit totalement l'effacement de branche et de balise.
+Cela interdit totalement l'effacement de branche et d'étiquette.
 Aucun utilisateur n'en a le droit.
 Pour pouvoir effacer des branches distantes, vous devez effacer manuellement les fichiers de référence sur le serveur.
 Il existe aussi des moyens plus intéressants de gérer cette politique utilisateur par utilisateur au moyen des listes de contrôle d'accès, point qui sera abordé à la fin de ce chapitre.

@@ -20,7 +20,7 @@ Dans les systèmes centralisés, il n'y a généralement qu'un seul modèle de c
 Un concentrateur ou dépôt central accepte le code et tout le monde doit synchroniser son travail avec.
 Les développeurs sont des nœuds, des consommateurs du concentrateur, seul endroit où ils se synchronisent (voir figure 5-1).
 
-Insert 18333fig0501.png 
+Insert 18333fig0501.png
 Figure 5-1. La gestion centralisée.
 
 Cela signifie que si deux développeurs clonent depuis le concentrateur et qu'ils introduisent tous les deux des modifications, le premier à pousser ses modifications le fera sans encombre.
@@ -50,7 +50,7 @@ Le processus se passe comme ceci (voir figure 5-2) :
 5.      Le mainteneur ajoute le dépôt du contributeur comme dépôt distant et fusionne localement.
 6.      Le mainteneur pousse les modifications fusionnées sur le dépôt principal.
 
-Insert 18333fig0502.png 
+Insert 18333fig0502.png
 Figure 5-2. Le mode du gestionnaire d'intégration
 
 C'est une gestion très commune sur des sites tels que GitHub où il est aisé de dupliquer un projet et de pousser ses modifications pour les rendre publiques.
@@ -74,7 +74,7 @@ Le processus se déroule comme suit (voir figure 5-3) :
 3.      Le dictateur fusionne les branches master de ses lieutenants dans sa propre branche master.
 4.      Le dictateur pousse sa branche master sur le dépôt de référence pour que les développeurs se rebasent dessus.
 
-Insert 18333fig0503.png  
+Insert 18333fig0503.png
 Figure 5-3. Le processus du dictateur bénévole.
 
 Ce schéma de processus n'est pas très utilisé mais s'avère utile dans des projets très gros ou pour lesquels un ordre hiérarchique existe, car il permet au chef de projet (le dictateur) de déléguer une grande partie du travail et de collecter de grands sous-ensembles de codes à différents points avant de les intégrer.
@@ -172,7 +172,7 @@ Voici ci-dessous un modèle tiré de celui écrit par Tim Pope at tpope.net :
 	   séparés par des lignes vides mais les conventions peuvent varier
 
 Si tous vos messages de validation ressemblent à ceci, les choses seront beaucoup plus simples pour vous et les développeurs avec qui vous travaillez.
-Le projet Git montre des messages de commit bien formatés — je vous encourage à y lancer un `git log --no-merges` pour pouvoir voir comment rend un historique de messages bien formatés. 
+Le projet Git montre des messages de commit bien formatés — je vous encourage à y lancer un `git log --no-merges` pour pouvoir voir comment rend un historique de messages bien formatés.
 
 Dans les exemples suivants et à travers tout ce livre, par soucis de simplification, je ne formaterai pas les messages aussi proprement.
 J'utiliserai plutôt l'option `-m` de `git commit`.
@@ -196,7 +196,7 @@ Dans les exemples qui suivent, les messages de protocole sont remplacés par `..
 	Initialized empty Git repository in /home/john/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim lib/simplegit.rb 
+	$ vim lib/simplegit.rb
 	$ git commit -am 'Eliminer une valeur par defaut invalide'
 	[master 738ee87] Eliminer une valeur par defaut invalide
 	 1 files changed, 1 insertions(+), 1 deletions(-)
@@ -209,7 +209,7 @@ Elle clone le dépôt et valide une modification :
 	Initialized empty Git repository in /home/jessica/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim TODO 
+	$ vim TODO
 	$ git commit -am 'Ajouter une tache reset'
 	[master fbff5bc] Ajouter une tache reset
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -242,7 +242,7 @@ John doit récupérer les modifications de Jessica et les fusionner avant d'êtr
 
 À présent, le dépôt local de John ressemble à la figure 5-4.
 
-Insert 18333fig0504.png 
+Insert 18333fig0504.png
 Figure 5-4. État initial du dépôt de John.
 
 John a une référence aux modifications que Jessica a poussées, mais il doit les fusionner dans sa propre branche avant de pouvoir pousser :
@@ -254,7 +254,7 @@ John a une référence aux modifications que Jessica a poussées, mais il doit l
 
 Cette fusion se passe sans problème — l'historique de commits de John ressemble à présent à la figure 5-5.
 
-Insert 18333fig0505.png 
+Insert 18333fig0505.png
 Figure 5-5. Le dépôt local de John après la fusion d'origin/master.
 
 Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore correctement et peut pousser son travail nouvellement fusionné sur le serveur :
@@ -266,15 +266,15 @@ Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore cor
 
 À la fin, l'historique des commits de John ressemble à la figure 5-6.
 
-Insert 18333fig0506.png 
+Insert 18333fig0506.png
 Figure 5-6. L'historique de John après avoir poussé sur le serveur origin.
 
 Dans l'intervalle, Jessica a travaillé sur une branche thématique.
 Elle a créé une branche thématique nommée `prob54` et réalisé trois validations sur cette branche.
 Elle n'a pas encore récupéré les modifications de John, ce qui donne un historique semblable à la figure 5-7.
 
-Insert 18333fig0507.png 
-Figure 5-7. L'historique initial de commits de Jessica. 
+Insert 18333fig0507.png
+Figure 5-7. L'historique initial de commits de Jessica.
 
 Jessica souhaite se synchroniser sur le travail de John.
 Elle récupère donc ses modifications :
@@ -288,7 +288,7 @@ Elle récupère donc ses modifications :
 Cette commande tire le travail que John avait poussé dans l'intervalle.
 L'historique de Jessica ressemble maintenant à la figure 5-8.
 
-Insert 18333fig0508.png 
+Insert 18333fig0508.png
 Figure 5-8. L'historique de Jessica après avoir récupéré les modifications de John.
 
 Jessica pense que sa branche thématique et prête mais elle souhaite savoir si elle doit fusionner son travail avant de pouvoir pousser.
@@ -332,7 +332,7 @@ Maintenant, Jessica fusionne le travail de John (`origin/master`) :
 
 Tout a fusionné proprement et l'historique de Jessica ressemble à la figure 5-9.
 
-Insert 18333fig0509.png 
+Insert 18333fig0509.png
 Figure 5-9. L'historique de Jessica après avoir fusionné les modifications de John.
 
 Maintenant `origin/master` est accessible depuis la branche `master` de Jessica, donc elle devrait être capable de pousser (en considérant que John n'a pas encore poussé dans l'intervalle) :
@@ -344,7 +344,7 @@ Maintenant `origin/master` est accessible depuis la branche `master` de Jessica,
 
 Chaque développeur a validé quelques fois et fusionné les travaux de l'autre avec succès (voir figure 5-10).
 
-Insert 18333fig0510.png 
+Insert 18333fig0510.png
 Figure 5-10. L'historique de Jessica après avoir poussé toutes ses modifications sur le serveur.
 
 C'est un des schéma les plus simples.
@@ -352,7 +352,7 @@ Vous travaillez pendant quelques temps, généralement sur une branche thématiq
 Quand vous souhaitez partager votre travail, vous récupérez `origin/master` et la fusionnez si elle a changé, puis finalement vous poussez le résultat sur la branche `master` du serveur.
 La séquence est illustrée par la figure 5-11.
 
-Insert 18333fig0511.png 
+Insert 18333fig0511.png
 Figure 5-11. Séquence générale des évènements pour une utilisation simple multi-développeur de Git.
 
 ### Équipe privée importante ###
@@ -406,7 +406,7 @@ Pour commencer, elle crée une nouvelle branche thématique, à partir de la bas
 
 Le dépôt de Jessica ressemble à la figure 5-12.
 
-Insert 18333fig0512.png 
+Insert 18333fig0512.png
 Figure 5-12. L'historique initial de Jessica.
 
 Elle est prête à pousser son travail, mais elle reçoit un mail de Josie indiquant qu'une branche avec un premier travail a déjà été poussé sur le serveur en tant que `fonctionBee`.
@@ -426,7 +426,7 @@ Jessica peut à présent fusionner ceci dans le travail qu'elle a réalisé grâ
 	 lib/simplegit.rb |    4 ++++
 	 1 files changed, 4 insertions(+), 0 deletions(-)
 
-Mais il y a un petit problème — elle doit pousser son travail fusionné dans sa branche `fonctionB` sur la branche `fonctionBee` du serveur. 
+Mais il y a un petit problème — elle doit pousser son travail fusionné dans sa branche `fonctionB` sur la branche `fonctionBee` du serveur.
 Elle peut le faire en spécifiant la branche locale suivie de deux points (:) suivi de la branche distante à la commande `git push` :
 
 	$ git push origin fonctionB:fonctionBee
@@ -476,13 +476,13 @@ Elle valide donc encore et pousse ses changements sur le serveur :
 
 L'historique des commits de Jessica ressemble à présent à la figure 5-13.
 
-Insert 18333fig0513.png 
+Insert 18333fig0513.png
 Figure 5-13. L'historique de Jessica après la validation dans le branche thématique.
 
 Jessica, Josie et John informent les intégrateurs que les branches `fonctionA` et `fonctionB` du serveur sont prêtes pour une intégration dans la branche principale.
 Après cette intégration, une synchronisation apportera les commits de fusion, ce qui donnera un historique comme celui de la figure 5-14.
 
-Insert 18333fig0514.png 
+Insert 18333fig0514.png
 Figure 5-14. L'historique de Jessica après la fusion de ses deux branches thématiques.
 
 De nombreuses équipes basculent vers Git du fait de cette capacité à gérer plusieurs équipes travaillant en parallèle, fusionnant plusieurs lignes de développement très tard dans le processus de livraison.
@@ -490,7 +490,7 @@ La capacité donnée à plusieurs sous-groupes d'équipes à collaborer au moyen
 La séquence de travail qui vous a été décrite ressemble à la figure 5-15.
 
 
-Insert 18333fig0515.png 
+Insert 18333fig0515.png
 Figure 5-15. Une séquence simple de gestion orientée équipe.
 
 ### Petit projet public ###
@@ -563,7 +563,7 @@ Par exemple, si vous souhaitez soumettre un second sujet de travail au projet, n
 
 À présent, chaque sujet est contenu dans son propre silo — similaire à un file de patchs — que vous pouvez réécrire, rebaser et modifier sans que les sujets n'interfèrent ou ne dépendent entre eux, comme sur la figure 5-16.
 
-Insert 18333fig0516.png 
+Insert 18333fig0516.png
 Figure 5-16. Historique initial des commits avec les modification de fonctionB.
 
 Supposons que le mainteneur du projet a tiré une poignée d'autres patchs et essayé par la suite votre première branche, mais celle-ci ne s'applique plus proprement.
@@ -575,7 +575,7 @@ Dans ce cas, vous pouvez rebaser cette branche au sommet de `origin/master`, ré
 
 Cette action réécrit votre historique pour qu'il ressemble à la figure 5-17.
 
-Insert 18333fig0517.png 
+Insert 18333fig0517.png
 Figure 5-17. Historique des validations après le travail sur fonctionA.
 
 Comme vous avez rebasé votre branche, vous devez spécifier l'option `-f` à votre commande pour pousser, pour forcer le remplacement de la branche `fonctionA` sur le serveur par la suite de commits qui n'en est pas descendante.
@@ -598,7 +598,7 @@ Cela permet de reporter toutes les modifications d'une autre branche, puis de r�
 À présent, vous pouvez envoyer au mainteneur un message indiquant que vous avez réalisé les modifications demandées et qu'il peut trouver cette nouvelle mouture sur votre branche `fonctionBv2` (voir figure 5-18).
 
 
-Insert 18333fig0518.png 
+Insert 18333fig0518.png
 Figure 5-18. Historique des validations après le travail sur fonctionBv2.
 
 ### Grand projet public ###
@@ -608,7 +608,7 @@ Néanmoins, ils sont nombreux à accepter les patchs via une liste de diffusion 
 
 La méthode est similaire au cas précédent — vous créez une branche thématique par série de patchs sur laquelle vous travaillez.
 La différence réside dans la manière de les soumettre au projet.
-Au lieu de dupliquer le projet et de pousser vos soumissions sur votre dépôt, il faut générer des versions e-mail de chaque série de commits et les envoyer à la liste de diffusion de développement. 
+Au lieu de dupliquer le projet et de pousser vos soumissions sur votre dépôt, il faut générer des versions e-mail de chaque série de commits et les envoyer à la liste de diffusion de développement.
 
 	$ git checkout -b sujetA
 	$ (travail)
@@ -654,7 +654,7 @@ Le contenu des fichiers ressemble à ceci :
 	   end
 
 	   def ls_tree(treeish = 'master')
-	-- 
+	--
 	1.6.2.rc1.20.g8c5b.dirty
 
 Vous pouvez maintenant éditer ces fichiers de patch pour ajouter plus d'information à destination de la liste de diffusion mais que vous ne souhaitez par voir apparaître dans le message de validation.
@@ -683,7 +683,7 @@ Quand c'est fait, vous pouvez utiliser la commande `git send-email` pour placer 
 	$ git send-email *.patch
 	0001-Ajout-d-une-limite-la-fonction-de-log.patch
 	0002-change-la-largeur-du-log-de-25-a-30.patch
-	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>] 
+	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>]
 	Emails will be sent from: Jessica Smith <jessica@example.com>
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
@@ -692,7 +692,7 @@ La première question demande l'adresse mail d'origine (avec par défaut celle s
 Enfin la dernière question sert à indiquer que l'on souhaite poster la série de patchs comme une réponse au premier patch de la série, créant ainsi un fil de discussion unique pour cette série.
 Ensuite, Git crache un certain nombre d'informations qui ressemblent à ceci pour chaque patch à envoyer :
 
-	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
+	(mbox) Adding cc: Jessica Smith <jessica@example.com> from
 	  \line 'From: Jessica Smith <jessica@example.com>'
 	OK. Log says:
 	Sendmail: /usr/sbin/sendmail -i jessica@example.com
@@ -758,7 +758,7 @@ Il ne créera pas une validation à votre place : après l'avoir lancé, vous d
 
 Vous pouvez aussi utiliser `git apply` pour voir si un patch s'applique proprement avant de réellement l'appliquer — vous pouvez lancer `git apply --check` avec le patch :
 
-	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
@@ -789,7 +789,7 @@ Si vous utilisez un client e-mail qui sait sauver plusieurs messages au format m
 
 Néanmoins, si quelqu'un a déposé un fichier de patch généré via `format-patch` sur un système de suivi de faits techniques ou quelque chose similaire, vous pouvez toujours sauvegarder le fichier localement et le passer à `git am` pour l'appliquer :
 
-	$ git am 0001-limite-la-fonction-de-log.patch 
+	$ git am 0001-limite-la-fonction-de-log.patch
 	Applying:  Ajout d'une limite à la fonction de log
 
 Vous remarquez qu'il s'est appliqué proprement et a créé une nouvelle validation pour vous.
@@ -814,7 +814,7 @@ Il reste la possibilité que le patch ne s'applique pas proprement.
 Peut-être votre branche principale a déjà trop divergé de la branche sur laquelle le patch a été construit, ou le patch dépend d'un autre patch qui n'a pas encore été appliqué.
 Dans ce cas, le processus de `git am` échouera et vous demandera ce que vous souhaitez faire :
 
-	$ git am 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -827,7 +827,7 @@ Cette commande introduit des marqueurs de conflit dans tous les fichiers qui ont
 Vous pouvez résoudre les problèmes de manière identique — éditez le fichier pour résoudre les conflits, indexez le nouveau fichier, puis lancez `git am --resolved` pour continuer avec le patch suivant :
 
 	$ (correction du fichier)
-	$ git add ticgit.gemspec 
+	$ git add ticgit.gemspec
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
@@ -835,7 +835,7 @@ Si vous souhaitez que Git essaie de résoudre les conflits avec plus d'intellige
 Cette option n'est pas active par défaut parce qu'elle ne fonctionne pas si le commit sur lequel le patch indique être basé n'existe pas dans votre dépôt.
 Si par contre, le patch est basé sur un commit public, l'option `-3` est généralement beaucoup plus fine pour appliquer des patchs conflictuels :
 
-	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am -3 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -853,7 +853,7 @@ Si vous appliquez des patchs à partir d'un fichier mbox, vous pouvez aussi lanc
 	--------------------------
 	seeing if this helps the gem
 	--------------------------
-	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
+	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 
 C'est agréable si vous avez un certain nombre de patchs sauvegardés parce que vous pouvez voir les patchs pour vous rafraîchir la mémoire et ne pas les appliquer s'ils ont déjà été intégrés.
 
@@ -934,7 +934,7 @@ Techniquement, c'est réalisable en déterminant exactement l'ancêtre commun et
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-	$ git diff 36c7db 
+	$ git diff 36c7db
 
 Néanmoins, comme ce n'est pas très commode, Git fournit un raccourci pour réaliser la même chose : la syntaxe à trois points.
 Dans le contexte de la commande `diff`, vous pouvez placer trois points après une autre branche pour réaliser un `diff` entre le dernier instantané de la branche sur laquelle vous vous trouvez et son ancêtre commun avec une autre branche :
@@ -957,7 +957,7 @@ Dans ce scénario, vous avez une branche `master` qui contient le code stable.
 Quand vous avez des modifications prêtes dans une branche thématique, vous la fusionnez dans votre branche master puis effacez la branche thématique, et ainsi de suite.
 Si vous avez un dépôt contenant deux branches nommées `ruby_client` et `php_client` qui ressemble à la figure 5-19 et que vous fusionnez `ruby_client` en premier, suivi de `php_client`, alors votre historique ressemblera à la fin à la figure 5-20.
 
-Insert 18333fig0519.png 
+Insert 18333fig0519.png
 Figure 5-19. Historique avec quelques branches thématiques.
 
 Insert 18333fig0520.png
@@ -971,13 +971,13 @@ Vous poussez régulièrement ces deux branches sur le dépôt public.
 Chaque fois que vous avez une nouvelle branche thématique à fusionner (figure 5-21), vous la fusionnez dans `develop` (figure 5-22).
 Puis, lorsque vous étiquetez une version majeure, vous mettez `master` à niveau avec l'état stable de `develop` en avance rapide (figure 5-23).
 
-Insert 18333fig0521.png 
+Insert 18333fig0521.png
 Figure 5-21. Avant la fusion d'une branche thématique.
 
-Insert 18333fig0522.png 
+Insert 18333fig0522.png
 Figure 5-22. Après la fusion d'une branche thématique.
 
-Insert 18333fig0523.png 
+Insert 18333fig0523.png
 Figure 5-23. Après une publication d'une branche thématique.
 
 Ainsi, lorsque l'on clone le dépôt de votre projet, on peut soit extraire la branche master pour construire la dernière version stable et mettre à jour facilement ou on peut extraire le branche develop qui représente le nec plus ultra du développement.
@@ -993,7 +993,7 @@ Quand une nouvelle contribution est proposée, elle est collectée dans des bran
 A ce point, les fonctionnalités sont évaluées pour déterminer si elles sont stables et prêtes à être consommées ou si elles nécessitent un peaufinage.
 Si elles sont stables, elles sont fusionnées dans `next` et cette branche est poussée sur le serveur public pour que tout le monde puisse essayer les fonctionnalités intégrées ensemble.
 
-Insert 18333fig0524.png 
+Insert 18333fig0524.png
 Figure 5-24. Série complexe de branches thématiques contribuées en parallèle.
 
 Si les fonctionnalités nécessitent encore du travail, elles sont fusionnées plutôt dans `pu`.
@@ -1020,7 +1020,7 @@ Cela consiste à prendre le patch qui a été introduit lors d'une validation et
 C'est très utile si on a un certain nombre de commits sur une branche thématique et que l'on veut n'en intégrer qu'un seul, ou si on n'a qu'un commit sur une branche thématique et qu'on préfère le sélectionner plutôt que de lancer rebase.
 Par exemple, supposons que vous ayez un projet ressemblant à la figure 5-26.
 
-Insert 18333fig0526.png 
+Insert 18333fig0526.png
 Figure 5-26. Historique d'exemple avant une sélection.
 
 Si vous souhaitez tirer le commit `e43a6` dans votre branche master, vous pouvez lancer
@@ -1033,7 +1033,7 @@ Si vous souhaitez tirer le commit `e43a6` dans votre branche master, vous pouvez
 La même modification que celle introduite en `e43a6` est tirée mais vous obtenez une nouvelle valeur de SHA-1 car les dates d'application sont différentes.
 À présent, votre historique ressemble à la figure 5-27.
 
-Insert 18333fig0527.png 
+Insert 18333fig0527.png
 Figure 5-27. Historique après sélection d'un commit dans une branche thématique.
 
 Maintenant, vous pouvez effacer votre branche thématique et abandonner les commits que vous n'avez pas tirés dans master.

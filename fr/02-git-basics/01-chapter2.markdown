@@ -73,7 +73,7 @@ Au fur et à mesure que vous éditez des fichiers, Git les considère comme modi
 Vous indexez ces fichiers modifiés et vous enregistrez toutes les modifications indexées, puis ce cycle se répète.
 Ce cycle de vie est illustré par la figure 2-1.
 
-Insert 18333fig0201.png 
+Insert 18333fig0201.png
 Figure 2-1. Le cycle de vie des états des fichiers.
 
 ### Vérifier l'état des fichiers ###
@@ -166,7 +166,7 @@ Mais supposons que vous souhaitiez apporter encore une petite modification au fi
 Vous l'ouvrez à nouveau, réalisez la petite modification et vous voilà prêt à valider.
 Néanmoins, vous lancez `git status` une dernière fois :
 
-	$ vim benchmarks.rb 
+	$ vim benchmarks.rb
 	$ git status
 	# On branch master
 	# Changes to be committed:
@@ -311,7 +311,7 @@ Par exemple, si vous indexez le fichier benchmarks.rb et l'éditez ensuite, vous
 
 A présent, vous pouvez utiliser `git diff` pour visualiser les modifications non indexées :
 
-	$ git diff 
+	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index e445e28..86b2f7c 100644
 	--- a/benchmarks.rb
@@ -319,7 +319,7 @@ A présent, vous pouvez utiliser `git diff` pour visualiser les modifications no
 	@@ -127,3 +127,4 @@ end
 	 main()
 
-	 ##pp Grit::GitRuby.cache_client.stats 
+	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
 et `git diff --cached` pour visualiser ce qui a été indexé jusqu'à maintenant :
@@ -336,7 +336,7 @@ et `git diff --cached` pour visualiser ce qui a été indexé jusqu'à maintenan
 	+        run_code(x, 'commits 1') do
 	+          git.commits.size
 	+        end
-	+              
+	+
 	        run_code(x, 'commits 2') do
 	          log = git.commits('master', 15)
 	          log.size
@@ -363,7 +363,7 @@ L'éditeur affiche le texte suivant :
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
 	#       new file:   LISEZMOI
-	#       modified:   benchmarks.rb 
+	#       modified:   benchmarks.rb
 	~
 	~
 	~
@@ -582,7 +582,7 @@ C'est très utile pour des revues de code ou pour naviguer rapidement à travers
 Vous pouvez aussi utiliser une liste d'options de résumé avec `git log`.
 Par exemple, si vous souhaitez visualiser des statistiques résumées pour chaque commit, vous pouvez utiliser l'option `--stat` :
 
-	$ git log --stat 
+	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -663,12 +663,12 @@ Cette option ajoute un joli graphe en caractères ASCII pour décrire l'historiq
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
 	*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit
-	|\  
+	|\
 	| * 420eac9 Added a method for getting the current branch.
 	* | 30e367c timeout code and tests
 	* | 5a09431 add timeout protection to grit
 	* | e1193f8 support for heads with slashes in them
-	|/  
+	|/
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
@@ -736,7 +736,7 @@ Si vous préférez utiliser un outil plus graphique pour visualiser l'historique
 Gitk est un outil graphique mimant les fonctionnalités de `git log`, et il donne accès à quasiment toutes les options de filtrage de `git log`.
 Si vous tapez gitk en ligne de commande, vous devriez voir une interface ressemblant à la figure 2-2.
 
-Insert 18333fig0202.png 
+Insert 18333fig0202.png
 Figure 2-2. Le visualiseur d'historique gitk
 
 Vous pouvez voir l'historique des commits dans la partie supérieure de la fenêtre avec un graphique d'enchaînement.
@@ -766,7 +766,7 @@ Par exemple, si vous validez une version puis réalisez que vous avez oublié de
 
 	$ git commit -m 'validation initiale'
 	$ git add fichier_oublie
-	$ git commit --amend 
+	$ git commit --amend
 
 Les trois dernières commandes donnent lieu à la création d'un unique commit — la seconde validation remplace le résultat de la première.
 
@@ -791,7 +791,7 @@ Juste sous le texte "Changes to be committed", elle vous indique d'utiliser `git
 Utilisons donc ce conseil pour désindexer le fichier benchmarks.rb :
 
 
-	$ git reset HEAD benchmarks.rb 
+	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
 	$ git status
 	# On branch master
@@ -868,7 +868,7 @@ Si vous avez cloné un dépôt, vous devriez au moins voir l'origine origin —
 	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
 	Resolving deltas: 100% (255/255), done.
 	$ cd ticgit
-	$ git remote 
+	$ git remote
 	origin
 
 Vous pouvez aussi spécifier `-v`, qui vous montre l'URL que Git a stocké pour nom court à étendre :
@@ -1191,7 +1191,7 @@ Pour étiqueter ce commit, vous spécifiez la somme de contrôle du commit (ou u
 
 Le commit a été étiqueté :
 
-	$ git tag 
+	$ git tag
 	v0.1
 	v1.2
 	v1.3

@@ -47,14 +47,14 @@ En préparation, créez un nouveau dépôt local Subversion :
 
 Ensuite, autorisez tous les utilisateurs à changer les revprops — le moyen le plus simple consiste à ajouter un script pre-revprop-change que rend toujours 0 :
 
-	$ cat /tmp/test-svn/hooks/pre-revprop-change 
+	$ cat /tmp/test-svn/hooks/pre-revprop-change
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
 Vous pouvez à présent synchroniser ce projet sur votre machine locale en lançant `svnsync init` avec les dépôts sources et cibles.
 
-	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
+	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
 Cela initialise les propriétés nécessaires à la synchronisation.
 Vous pouvez ensuite cloner le code en lançant
@@ -358,19 +358,19 @@ Cela donne plutôt le dernier état connu des commits sur le serveur Subversion.
 De la même manière que `git svn log` simule une commande `svn log` déconnectée, vous pouvez obtenir l'équivalent de `svn annotate` en lançant `git svn blame [FICHIER]`.
 Le résultat ressemble à ceci :
 
-	$ git svn blame README.txt 
+	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
 	 2   temporal Copyright 2008 Google Inc.
 	 2   temporal http://code.google.com/apis/protocolbuffers/
-	 2   temporal 
+	 2   temporal
 	22   temporal C++ Installation - Unix
 	22   temporal =======================
-	 2   temporal 
+	 2   temporal
 	79    schacon Committing in git-svn.
-	78    schacon 
+	78    schacon
 	 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
 	 2   temporal Buffer compiler (protoc) execute the following:
-	 2   temporal 
+	 2   temporal
 
 Ici aussi, tous les commits locaux dans Git ou ceux poussé sur Subversion dans l'intervalle n'apparaissent pas.
 
@@ -623,7 +623,7 @@ La boucle principale ressemble à ceci :
 	    next if File.file?(dir)
 
 	    # move into the target directory
-	    Dir.chdir(dir) do 
+	    Dir.chdir(dir) do
 	      last_mark = print_export(dir, last_mark)
 	    end
 	  end
@@ -653,7 +653,7 @@ La ligne suivante du fichier `print_export` est donc
 
 	date = convert_dir_to_date(dir)
 
-où `convert_dir_to_date` est défini comme 
+où `convert_dir_to_date` est défini comme
 
 	def convert_dir_to_date(dir)
 	  if dir == 'en_cours'
@@ -738,7 +738,7 @@ Pour contourner ce problème et satisfaire git fast-import, il faut forcer ruby 
 Et voilà.
 Si vous lancez ce script, vous obtiendrez un contenu qui ressemble à ceci :
 
-	$ ruby import.rb /opt/import_from 
+	$ ruby import.rb /opt/import_from
 	commit refs/heads/master
 	mark :1
 	committer Scott Chacon <schacon@geemail.com> 1230883200 -0700

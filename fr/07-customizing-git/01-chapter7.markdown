@@ -195,13 +195,13 @@ Par défaut, Git passe au programme de diff les arguments suivants :
 
 Comme seuls les arguments `ancien-fichier` et `nouveau-fichier` sont nécessaires, vous utilisez le script d'enveloppe pour passer ceux dont vous avez besoin.
 
-	$ cat /usr/local/bin/extDiff 
+	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
 Vous devez aussi vous assurer que ces fichiers sont exécutables :
 
-	$ sudo chmod +x /usr/local/bin/extMerge 
+	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
 À présent, vous pouvez régler votre fichier de configuration pour utiliser vos outils personnalisés de résolution de fusion et de différence.
@@ -230,7 +230,7 @@ Après avoir réglé tout ceci, si vous lancez des commandes de diff telles que 
 
 Au lieu d'obtenir la sortie du diff dans le terminal, Git lance P4Merge, ce qui ressemble à la Figure 7-1.
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 Figure 7-1. L'outil de fusion P4Merge.
 
 Si vous essayez de fusionner deux branches et créez des conflits de fusion, vous pouvez lancer la commande `git mergetool` qui démarrera P4Merge pour vous laisser résoudre les conflits au moyen d'un outil graphique.
@@ -373,7 +373,7 @@ Par exemple, les projets Xcode sous Mac contiennent un fichier finissant en `.pb
 Bien que ce soit techniquement un fichier texte en ASCII, il n'y a aucun intérêt à le gérer comme tel parce que c'est en fait une mini base de données.
 Il est impossible de fusionner les contenus si deux utilisateurs le modifient et les calculs de différence par défaut sont inutiles.
 Ce fichier n'est destiné qu'à être manipulé par un programme.
-En résumé, ce fichier doit être considéré comme un fichier binaire opaque.  
+En résumé, ce fichier doit être considéré comme un fichier binaire opaque.
 
 Pour indiquer à Git de traiter tous les fichiers `pbxproj` comme binaires, ajoutez la ligne suivante à votre fichier `.gitattributes` :
 
@@ -396,7 +396,7 @@ Si vous voulez gérer en version des documents Word, vous pouvez les coller dans
 Mais qu'est-ce que ça vous apporte ?
 Si vous lancez `git diff` normalement, vous verrez quelque chose comme :
 
-	$ git diff 
+	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
@@ -429,9 +429,9 @@ Puis, j'ai lancé `git diff` pour visualiser ce qui a changé :
 	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
 	 re going to cover how to get it and set it up for the first time if you don
 	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
-	-s going on, modify stuff and contribute changes. If the book spontaneously 
-	+s going on, modify stuff and contribute changes. If the book spontaneously 
+	 In Chapter Two we will go over basic Git usage - how to use Git for the 80%
+	-s going on, modify stuff and contribute changes. If the book spontaneously
+	+s going on, modify stuff and contribute changes. If the book spontaneously
 	+Let's see if this works.
 
 Git réussit à m'indiquer succinctement que j'ai ajouté la chaîne « *Let's see if this works* », ce qui est correct.
@@ -487,7 +487,7 @@ Il est à noter que ce n'est pas le SHA du commit mais celui du blob lui-même 
 
 	$ rm text.txt
 	$ git checkout -- text.txt
-	$ cat test.txt 
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 Néanmoins, ce résultat n'a que peu d'intérêt.
@@ -499,10 +499,10 @@ Ces filtres s'appellent « *clean* » et « *smudge* ».
 Dans le fichier `.gitattributes`, vous pouvez indiquer un filtre pour des chemins particuliers puis créer des scripts qui traiterons ces fichiers avant qu'ils soient validés (« *clean* », voir figure 7-2) et juste avant qu'ils soient extraits (« *smudge* », voir figure 7-3).
 Ces filtres peuvent servir à faire toutes sortes de choses attrayantes.
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
 Figure 7-2. Le filtre « *smudge* » est lancé lors d'une extraction.
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
 Figure 7-3. Le filtre « *clean* » est lancé lorsque les fichiers sont indexés.
 
 Le message de validation d'origine pour cette fonctionnalité donne un exemple simple permettant de passer tout votre code C par le programme `indent` avant de valider.
@@ -889,7 +889,7 @@ Chaque fichier des commits doit être vérifié par rapport à la structure ACL 
 	      acces[$utilisateur].each do |chemin_acces|
 	        if !chemin_acces  # l'utilisateur a un accès complet
 	          || (chemin.index(chemin_acces) == 0) # acces à ce chemin
-	          acces_permis = true 
+	          acces_permis = true
 	        end
 	      end
 	      if !acces_permis
@@ -897,7 +897,7 @@ Chaque fichier des commits doit être vérifié par rapport à la structure ACL 
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end
 
 	verif_perms_repertoire
@@ -952,7 +952,7 @@ En lançant `chmod u+x .git/hooks/update`, `update` étant le fichier dans leque
 Il y a plusieurs points à relever ici.
 Premièrement, une ligne indique l'endroit où le crochet est appelé.
 
-	Vérification des règles... 
+	Vérification des règles...
 	(refs/heads/master) (fb8c72) (c56860)
 
 Le script `update` affiche ces lignes sur stdout au tout début.
@@ -1055,7 +1055,7 @@ Si le répertoire `.git` du projet contient une copie du fichier d'ACL précéde
 
 C'est grossièrement le même script que celui côté serveur, mais avec deux différences majeures.
 Premièrement, le fichier ACL est à un endroit différent parce que le script s'exécute depuis le copie de travail et non depuis le répertoire Git.
-Il faut donc changer le chemin vers le fichier d'ACL de 
+Il faut donc changer le chemin vers le fichier d'ACL de
 
 	acces = get_acl_access_data('acl')
 

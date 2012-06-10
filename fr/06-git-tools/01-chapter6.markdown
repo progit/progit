@@ -128,7 +128,7 @@ Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
 	Reflog: master@{0} (Scott Chacon <schacon@gmail.com>)
-	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Reflog message: commit: fixed refs handling, added gc auto, updated
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri Jan 2 18:32:33 2009 -0800
 
@@ -155,10 +155,10 @@ Supposons que vous consultiez votre historique :
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fix sur la gestion des refs, ajout gc auto, mise à jour des tests
 	*   d921970 Merge commit 'phedders/rdocs'
-	|\  
+	|\
 	| * 35cfb2b modifs minor rdoc
 	* | 1c002dd ajout blame and merge
-	|/  
+	|/
 	* 1c36188 ignore *.gem
 	* 9b29157 ajout open3_detach à la liste des fichiers gemspcec
 
@@ -174,7 +174,7 @@ Alors, vous pouvez consulter le commit précédent en spécifiant `HEAD^`, ce qu
 
 Vous pouvez également spécifier un nombre après `^` — par exemple, `d921970^2` signifie "le second parent de d921970.".
 Cette syntaxe ne sert que pour les commits de fusion, qui ont plus d'un parent.
-Le premier parent est la branche où vous avez fusionné, et le second est le commit de la branche que vous avez fusionnée : 
+Le premier parent est la branche où vous avez fusionné, et le second est le commit de la branche que vous avez fusionnée :
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -225,7 +225,7 @@ La spécification de plage de commits la plus fréquente est la syntaxe double-p
 En gros, cela demande à Git de résoudre la plage des commits qui sont accessible depuis un commit mais ne le sont pas depuis un autre.
 Par exemple, disons que votre historique ressemble à celui de la Figure 6-1.
 
-Insert 18333fig0601.png 
+Insert 18333fig0601.png
 Figure 6-1. Exemple d'historique pour la sélection de plages de commits.
 
 Si vous voulez savoir ce qui n'a pas encore été fusionné sur votre branche master depuis votre branche `experience`, vous pouvez demander à Git de vous montrer un listing des commits avec `master..experience` — ce qui signifie « tous les commits accessibles par `experience` qui ne le sont pas par `master` ».
@@ -310,7 +310,7 @@ Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
 	  5: patch      6: diff        7: quit       8: help
-	What now> 
+	What now>
 
 Vous vous apercevrez que cette commande propose une vue bien différente de votre zone d'attente ; en gros, c'est la même information que vous auriez obtenue avec `git status` mais en plus succinct et plus instructif.
 Cela liste les modifications que vous avez mises en attente à gauche et celles en cours à droite.
@@ -341,7 +341,7 @@ Pour mettre en attente les fichiers TODO et index.html, vous pouvez taper ces no
 Le caractère `*` au début de la ligne de chaque fichier indique que celui-ci est sélectionné.
 Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le met en attente pour vous :
 
-	Update>> 
+	Update>>
 	updated 2 paths
 
 	*** Commands ***
@@ -429,7 +429,7 @@ Git vous demandera quels fichiers vous voulez mettre en attente partiellement, p
 	   end
 
 	   def blame(path)
-	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
+	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 
 A cette étape, vous disposez de bon nombre d'options.
 `?` vous liste les actions possibles dont voici une traduction :
@@ -871,7 +871,7 @@ Cela vous montre le dernier commit qui a modifié chaque ligne de votre fichier.
 Donc, si vous voyez une méthode dans votre code qui est boguée, vous pouvez visualiser le fichier annoté avec `git blame` pour voir quand chaque ligne de la méthode a été modifiée pour la dernière fois et par qui.
 Cet exemple utilise l'option `-L` pour limiter la sortie des lignes 12 à 22 :
 
-	$ git blame -L 12,22 simplegit.rb 
+	$ git blame -L 12,22 simplegit.rb
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 13)   command("git show #{tree}")
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 14)  end
@@ -879,7 +879,7 @@ Cet exemple utilise l'option `-L` pour limiter la sortie des lignes 12 à 22 :
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 16)  def log(tree = 'master')
 	79eaf55d (Scott Chacon  2008-04-06 10:15:08 -0700 17)   command("git log #{tree}")
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 18)  end
-	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19) 
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 20)  def blame(path)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
@@ -898,8 +898,8 @@ Si vous passez `-C` à `git blame`, Git analyse le fichier que vous voulez annot
 Récemment, j'ai remanié un fichier nommé `GITServerHandler.m` en le divisant en plusieurs fichiers, dont le fichier `GITPackUpload.m`.
 En annotant `GITPackUpload.m` avec l'option `-C`, je peux voir quelles sections de code en sont originaires :
 
-	$ git blame -C -L 141,153 GITPackUpload.m 
-	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
+	$ git blame -C -L 141,153 GITPackUpload.m
+	f344f58d GITServerHandler.m (Scott 2009-01-04 141)
 	f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
 	f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
 	70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@"GATHER COMMI
@@ -1027,7 +1027,7 @@ Si vous exécutez `git status` juste après avoir ajouté le sous-module (donc d
 Premièrement, vous remarquerez le fichier `.gitmodules`.
 C'est un fichier de configuration sauvegardant la liaison entre l'URL du projet et le sous-répertoire local où vous l'avez mis :
 
-	$ cat .gitmodules 
+	$ cat .gitmodules
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
@@ -1038,7 +1038,7 @@ Il est poussé et tiré comme le reste de votre projet.
 C'est également le moyen que les autres personnes qui clonent votre projet peuvent savoir où récupérer le projet du sous-module.
 
 L'autre information dans la sortie de `git status` est l'entrée `rack`.
-Si vous exécutez `git diff`, vous verrez quelque chose d'intéressant : 
+Si vous exécutez `git diff`, vous verrez quelque chose d'intéressant :
 
 	$ git diff --cached rack
 	diff --git a/rack b/rack
@@ -1317,7 +1317,7 @@ Si vous récupérez l'une puis l'autre branche, vous pouvez voir que vous avez d
 
 Pour tirer le projet Rack dans votre projet `master` comme un sous répertoire, vous pouvez utiliser la commande `git read-tree`.
 Vous apprendrez d'avantage sur `read-tree` et compagnie dans le Chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branche et l'inscrit dans votre zone d'attente et votre répertoire de travail.
-Vous venez juste de commuter vers votre branche `master`, et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal : 
+Vous venez juste de commuter vers votre branche `master`, et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal :
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 

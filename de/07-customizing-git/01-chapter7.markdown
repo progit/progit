@@ -111,7 +111,7 @@ Wenn Du dies ausfuehrst wird Git immer die komplette Ausgabe aller Befehle anzei
 
 If you run that, Git will page the entire output of all commands, no matter how long they are.
 
-#### user.signingkey #### 
+#### user.signingkey ####
 
 Falls Du signierte annotierte Tags erstellst (wie in Kapitel 2 diskutiert) so macht es die Arbeit leichter, wenn Du Deinen GPG Signier-Schluessel als Konfiguration einstellst. Du kannst Deine Schluessel ID wie folgt festlegen:
 

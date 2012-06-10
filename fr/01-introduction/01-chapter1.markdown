@@ -23,7 +23,7 @@ Il est facile d'oublier le répertoire dans lequel vous êtes et d'écrire accid
 
 Pour traiter ce problème, les programmeurs ont développé il y a longtemps des VCSs locaux qui utilisaient une base de données simple pour conserver les modifications d'un fichier (voir figure 1-1).
 
-Insert 18333fig0101.png 
+Insert 18333fig0101.png
 Figure 1-1. Diagramme des systèmes de gestion de version locaux.
 
 Un des systèmes les plus populaires était RCS, qui est encore distribué avec de nombreux systèmes d'exploitation aujourd'hui.
@@ -38,7 +38,7 @@ Pour traiter ce problème, les systèmes de gestion de version centralisés (CVC
 Ces systèmes tels que CVS, Subversion, et Perforce, mettent en place un serveur central qui contient tous les fichiers sous gestion de version, et des clients qui peuvent extraire les fichiers de ce dépôt central.
 Pendant de nombreuses années, cela a été le standard pour la gestion de version (voir figure 1-2).
 
-Insert 18333fig0102.png 
+Insert 18333fig0102.png
 Figure 1-2. Diagramme de la gestion de version centralisée.
 
 Ce schéma offre de nombreux avantages par rapport à la gestion de version locale.
@@ -58,7 +58,7 @@ Dans un DVCS (tel que Git, Mercurial, Bazaar or Darcs), les clients n'extraient 
 Ainsi, si le serveur disparaît, et si les systèmes collaboraient via ce serveur, n'importe quel dépôt d'un des clients peut être copié sur le serveur pour le restaurer.
 Chaque extraction devient une sauvegarde complète de toutes les données (voir figure 1-3).
 
-Insert 18333fig0103.png 
+Insert 18333fig0103.png
 Figure 1-3. Diagramme de gestion de version de contrôle centralisée.
 
 De plus, un grand nombre de ces systèmes gère particulièrement bien le fait d'avoir plusieurs dépôts avec lesquels travailler, vous permettant de collaborer avec différents groupes de personnes de manière différentes simultanément dans le même projet.
@@ -99,7 +99,7 @@ La différence majeure entre Git et les autres VCS (Subversion et autres) résid
 Au niveau conceptuel, la plupart des autres VCS gèrent l'information comme une liste de modifications de fichiers.
 Ces systèmes (CVS, Subversion, Perforce, Bazaar et autres) considèrent l'information qu'il gèrent comme une liste de fichiers et les modifications effectuées sur chaque fichier dans le temps, comme illustré en figure 1-4.
 
-Insert 18333fig0104.png 
+Insert 18333fig0104.png
 Figure 1-4. D'autres systèmes sauvent l'information comme des modifications sur des fichiers.
 
 Git ne gère pas et ne stocke pas les informations de cette manière.
@@ -109,7 +109,7 @@ Pour être efficace, si les fichiers n'ont pas changé, Git ne stocke pas le fic
 Git pense ses données plus à la manière de la figure 1-5.
 
 
-Insert 18333fig0105.png 
+Insert 18333fig0105.png
 Figure 1-5. Git stocke les données comme des instantanés du projet au cours du temps
 
 C'est une distinction importante entre Git et quasiment tous les autres VCSs.
@@ -174,7 +174,7 @@ Indexé signifie que vous avez marqué un fichier modifié dans sa version actue
 
 Ceci nous mène aux trois sections principales d'un projet Git : le répertoire Git, le répertoire de travail et la zone d'index.
 
-Insert 18333fig0106.png 
+Insert 18333fig0106.png
 Figure 1-6. Répertoire de travail, zone d'index et répertoire Git.
 
 Le répertoire Git est l'endroit où Git stocke les méta-données et la base de données des objets de votre projet.
@@ -253,7 +253,7 @@ Le plus simple et d'utiliser l'installateur graphique de Git que vous pouvez té
 
 	http://code.google.com/p/git-osx-installer
 
-Insert 18333fig0107.png 
+Insert 18333fig0107.png
 Figure 1-7. Installateur OS X de Git.
 
 L'autre méthode consiste à installer Git par les MacPorts (`http://www.macports.org`).

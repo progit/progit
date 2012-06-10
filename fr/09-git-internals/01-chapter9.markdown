@@ -31,7 +31,7 @@ Si vous voulez sauvegarder ou cloner votre dépôt, copier ce seul répertoire s
 Ce chapitre traite principalement de ce que contient ce répertoire.
 Voici à quoi il ressemble :
 
-	$ ls 
+	$ ls
 	HEAD
 	branches/
 	config
@@ -85,7 +85,7 @@ La sortie de la commande est une empreinte de 40 caractères.
 C'est l'empreinte SHA-1 : une somme de contrôle du contenu du fichier que vous stockez plus une en-tête, dont les détails sont un peu plus bas.
 Voyez maintenant comment Git a stocké vos données :
 
-	$ find .git/objects -type f 
+	$ find .git/objects -type f
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
 Vous pouvez voir un fichier dans le répertoire `objects`.
@@ -105,32 +105,32 @@ Par exemple, vous pouvez mettre en œuvre une gestion de version simple d'un fic
 D'abord, créez un nouveau fichier et enregistrez son contenu dans la base de données :
 
 	$ echo 'version 1' > test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	83baae61804e65cc73a7201a7252750c76066a30
 
 Puis, modifiez le contenu du fichier et enregistrez-le à nouveau :
 
 	$ echo 'version 2' > test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
 Votre base de données contient les 2 versions du fichier, ainsi que le premier contenu que vous avez stocké ici :
 
-	$ find .git/objects -type f 
+	$ find .git/objects -type f
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
 Vous pouvez restaurer le fichier à sa première version :
 
-	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
-	$ cat test.txt 
+	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt
+	$ cat test.txt
 	version 1
 
 ou à sa seconde version :
 
-	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
-	$ cat test.txt 
+	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt
+	$ cat test.txt
 	version 2
 
 Se souvenir de la clé SHA-1 de chaque version de votre fichier n'est pas pratique.
@@ -162,7 +162,7 @@ Remarquez que le sous-répertoire `lib` n'est pas un blob, mais un pointeur vers
 
 Conceptuellement, les données que Git stocke ressemblent à la Figure 9-1.
 
-Insert 18333fig0901.png 
+Insert 18333fig0901.png
 Figure 9-1. Une version simple du modèle de données Git.
 
 Vous pouvez créer votre propre arbre.
@@ -196,8 +196,8 @@ Vous pouvez également vérifier que c'est un objet arbre :
 Vous allez créer maintenant un nouvel arbre avec la seconde version de test.txt et un nouveau fichier :
 
 	$ echo 'new file' > new.txt
-	$ git update-index test.txt 
-	$ git update-index --add new.txt 
+	$ git update-index test.txt
+	$ git update-index --add new.txt
 
 Votre zone d'attente contient maintenant la nouvelle version de test.txt ainsi qu'un nouveau fichier new.txt.
 Enregistrez cet arbre (c'est-à-dire. enregistrez l'état de la zone d'attente ou de l'index dans un objet arbre) :
@@ -224,7 +224,7 @@ Dans ce cas, vous pouvez récupérer un arbre existant dans votre zone d'attente
 Si vous créez un répertoire de travail à partir du nouvel arbre que vous venez d'enregistrer, vous aurez deux fichiers à la racine du répertoire de travail, ainsi qu'un sous-répertoire appelé `bak` qui contient la première version du fichier test.txt.
 Vous pouvez vous représenter les données que Git utilise pour ces structures comme sur la Figure 9-2.
 
-Insert 18333fig0902.png 
+Insert 18333fig0902.png
 Figure 9-2. Structure des données actuelles de Git???.
 
 ### Objets Commit ###
@@ -310,7 +310,7 @@ Voici tous les objets contenus dans le répertoire exemple, commentés d'après 
 
 Si vous suivez les pointeurs internes de ces objets, vous obtenez un graphe comme celui de la Figure 9-3.
 
-Insert 18333fig0903.png 
+Insert 18333fig0903.png
 Figure 9-3. Tous les objets de votre répertoire Git.
 
 ### Stockage des objets ###
@@ -412,7 +412,7 @@ Cette branche contiendra seulement le travail effectué jusqu'à ce commit :
 
 La base de donnée Git ressemble maintenant à quelque chose comme la Figure 9-4.
 
-Insert 18333fig0904.png 
+Insert 18333fig0904.png
 Figure 9-4. Le répertoire d'objet de Git y compris la référence au dernier état de la branche.
 
 Quand on exécute un commande comme  `git branch (nomdebranche)`, Git exécute simplement la commande `update-ref` pour ajouter l'empreinte SHA-1 du dernier commit dans la référence que l'on veut créer.
@@ -425,12 +425,12 @@ Le fichier HEAD est une référence symbolique à la branche courante.
 Par référence symbolique, j'entends que contrairement à une référence normale, elle ne contient pas une empreinte SHA-1, mais plutôt un pointeur vers une autre référence.
 Si vous regardez ce fichier, vous devriez voir quelque chose comme ceci :
 
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/master
 
 Si vous exécutez `git checkout test`, Git met à jour ce fichier, qui ressemblera à ceci :
 
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/test
 
 Quand vous exécutez `git commit`, il crée l'objet commit en spécifiant le parent du commit comme étant l'empreinte SHA-1 pointé par la référence du fichier HEAD :
@@ -444,7 +444,7 @@ Vous pouvez lire le contenu de votre fichier HEAD avec cette commande :
 Vous pouvez aussi initialiser la valeur de HEAD :
 
 	$ git symbolic-ref HEAD refs/heads/test
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/test
 
 Vous ne pouvez pas initialiser une référence symbolique à une valeur non contenu dans refs :
@@ -474,7 +474,7 @@ Vous pouvez voir ceci en créant une étiquette annotée (`-a` spécifie que c'e
 
 Voici l'empreinte SHA-1 de l'objet créé :
 
-	$ cat .git/refs/tags/v1.1 
+	$ cat .git/refs/tags/v1.1
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
 Exécutez ensuite, la commande `cat-file` sur l'empreinte SHA-1 :
@@ -515,7 +515,7 @@ Vous pouvez par exemple, ajouter une référence distante nommée `origin` et y 
 
 Ensuite, vous pouvez voir l'état de la branche `master` dans la référence distante `origin` la dernière fois que vous avez communiqué avec le serveur en regardant le fichier `refs/remotes/origin/master` :
 
-	$ cat .git/refs/remotes/origin/master 
+	$ cat .git/refs/remotes/origin/master
 	ca82a6dff817ec66f44342007202690a93763949
 
 Les références distantes diffèrent des branches (références `refs/heads`) principalement parce qu'on ne peut pas les récupérer dans le répertoire de travail.
@@ -545,7 +545,7 @@ Ajoutez le fichier repo.rb de la bibliothèque Grit que vous avez manipulé plus
 Il représente environ 12Ko de code source :
 
 	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
-	$ git add repo.rb 
+	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb
 	 3 files changed, 459 insertions(+), 2 deletions(-)
@@ -568,7 +568,7 @@ Vous pouvez utilisez `git cat-file` pour connaître la taille de l'objet :
 
 Maintenant, modifiez le fichier un peu et voyez ce qui arrive :
 
-	$ echo '# testing' >> repo.rb 
+	$ echo '# testing' >> repo.rb
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -977,8 +977,8 @@ Supposons que votre dépôt contienne les branches et étiquettes suivantes :
 Si vous exécutez `git gc`, vous n'aurez plus ces fichiers dans votre répertoire `refs`.
 Git les déplacera pour le bien de l'efficacité dans un fichier nommé `.git/packed-refs` qui ressemble à ceci :
 
-	$ cat .git/packed-refs 
-	# pack-refs with: peeled 
+	$ cat .git/packed-refs
+	# pack-refs with: peeled
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 	ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
@@ -1064,7 +1064,7 @@ Par exemple, vous créez une branche nommée `recover-branch` au commit (ab1afef
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
 Super, maintenant vous avez une nouvelle branche appelée `recover-branch` à l'emplacement où votre branche `master` se trouvait, faisant en sorte que les deux premiers commits soit à nouveau accessibles.
- 
+
 Pour poursuivre, nous supposerons que vos pertes ne sont pas dans le journal des références pour une raison quelconque.
 On peut simuler cela en supprimant `recover-branch` et le journal des références.
 Maintenant, les deux premiers commits ne sont plus accessibles (encore) :
@@ -1116,7 +1116,7 @@ Premièrement, ajoutons un gros objet à votre historique :
 Oups, vous ne vouliez pas rajouter une énorme archive à votre projet.
 Il vaut mieux s'en débarrasser :
 
-	$ git rm git.tbz2 
+	$ git rm git.tbz2
 	rm 'git.tbz2'
 	$ git commit -m 'oops - removed large tarball'
 	[master da3f30d] oops - removed large tarball
@@ -1193,7 +1193,7 @@ Sinon, il aurait démarré du début et serait plus long sans nécessité.
 
 Votre historique ne contient plus de référence à ce fichier.
 Cependant, votre journal de révision et un nouvel ensemble de références que Git a ajouté lors de votre `filter-branch` dans `.git/refs/original` en contiennent encore, vous devez donc les supprimer puis regrouper votre base de données.
-Vous devez vous débarrasser de tout ce qui fait référence à ces vieux commits avant de regrouper : 
+Vous devez vous débarrasser de tout ce qui fait référence à ces vieux commits avant de regrouper :
 
 	$ rm -Rf .git/refs/original
 	$ rm -Rf .git/logs/

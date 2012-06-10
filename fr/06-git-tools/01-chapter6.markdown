@@ -1,7 +1,7 @@
 # Utilitaires Git #
 
 A présent, vous avez appris les commandes et modes de fonctionnements usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
-Vous avez déroulé les routines de suivi (*tracking*) et de consignation (*committing*) de fichiers, vous avez exploité la puissance de la zone d'attente (*staging area*), de la création et de la fusion de branches locales de travail.
+Vous avez déroulé les routines de suivi (*tracking*) et de validation (*committing*) de fichiers, vous avez exploité la puissance de l'index, de la création et de la fusion de branches locales de travail.
 
 Maintenant, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous n'utiliserez que rarement mais dont vous pourriez avoir l'usage à un moment ou à un autre.
 
@@ -12,12 +12,12 @@ Si elles ne sont pas toutes évidentes il est bon de les connaître.
 
 ### Révisions ponctuelles ###
 
-Naturellement, vous pouvez référencer un commit par la signature SHA-1, mais il existe des méthodes plus confortables pour le genre humain.
+Naturellement, vous pouvez référencer un commit par la signature SHA-1, mais il existe des méthodes plus confortables pour les humains.
 Cette section présente les méthodes pour référencer un commit simple.
 
 ### Empreinte SHA courte ###
 
-Git est capable de deviner de quel commit vous parlez si vous ne fournissez que quelques caractères au début de la signature, tant que votre SHA-1 partiel comporte au moins 4 caractères et ne génère pas de collision.
+Git est capable de deviner de quel commit vous parlez si vous ne fournissez que quelques caractères au début de la signature, tant que votre SHA-1 partiel comporte au moins 4 caractères et ne correspond pas à plusieurs commits.
 Dans ces conditions, un seul objet correspondra à ce SHA-1.
 
 Par exemple, pour afficher un commit précis, supposons que vous exécutiez `git log` et que vous identifiez le commit où vous avez introduit une fonctionnalité précise.
@@ -65,7 +65,7 @@ Un des plus gros projets utilisant Git, le kernel Linux, nécessite de plus en p
 Beaucoup de gens se soucient qu'à un moment donné ils auront, par des circonstances hasardeuses, deux objets dans leur référentiel de hachage de même empreinte SHA-1.
 Qu'en est-il réellement ?
 
-S'il vous arrivait de consigner (*commit*) un objet qui se hache de la même empreinte SHA-1 d'un objet existant dans votre référentiel, Git verrait l'objet existant déjà dans votre base de données et présumerait qu'il était déjà enregistré.
+S'il vous arrivait de valider un objet qui se hache de la même empreinte SHA-1 d'un objet existant dans votre référentiel, Git verrait l'objet existant déjà dans votre base de données et présumerait qu'il était déjà enregistré.
 Si vous essayez de récupérer l'objet de nouveau à un moment donné, vous aurez toujours les données du premier objet.
 
 Quoi qu'il en soit, vous devriez être conscient à quel point ce scénario est ridiculement improbable.
@@ -293,7 +293,7 @@ Cela rend les données plus utiles :
 
 Avec ces outils, vous pourrez utiliser Git pour savoir quels commits inspecter.
 
-## Mise en attente interactive ##
+## Indexation interactive ##
 
 Git propose quelques scripts qui rendent les opérations en ligne de commande plus simple.
 Nous allons à présent découvrir des commandes interactives vous permettant de choisir les fichiers ou les parties d'un fichier à incorporer à un commit.
@@ -312,15 +312,15 @@ Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en
 	  5: patch      6: diff        7: quit       8: help
 	What now>
 
-Vous vous apercevrez que cette commande propose une vue bien différente de votre zone d'attente ; en gros, c'est la même information que vous auriez obtenue avec `git status` mais en plus succinct et plus instructif.
-Cela liste les modifications que vous avez mises en attente à gauche et celles en cours à droite.
+Vous vous apercevrez que cette commande propose une vue bien différente de votre index ; en gros, c'est la même information que vous auriez obtenue avec `git status` mais en plus succinct et plus instructif.
+Cela liste les modifications que vous avez indexées à gauche et celles en cours à droite.
 
 En dessous vient la section des commandes (*Commands*).
-Vous pourrez y faire bon nombre de choses, notamment mettre en attente des fichiers, les enlever de la zone d'attente, mettre en attente des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez mis en attente.
+Vous pourrez y faire bon nombre de choses, notamment indexer des fichiers, les enlever de l'index, indexer des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez indexé.
 
-### Mettre en attente des fichiers ###
+### Indexation des fichiers ###
 
-Si vous tapez `2` ou `u` au prompt `What now>`, le script vous demande quels fichiers vous voulez mettre en attente :
+Si vous tapez `2` ou `u` au prompt `What now>`, le script vous demande quels fichiers vous voulez indexer :
 
 	What now> 2
 	           staged     unstaged path
@@ -329,7 +329,7 @@ Si vous tapez `2` ou `u` au prompt `What now>`, le script vous demande quels fic
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-Pour mettre en attente les fichiers TODO et index.html, vous pouvez taper ces nombres :
+Pour indexer les fichiers TODO et index.html, vous pouvez taper ces nombres :
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -339,7 +339,7 @@ Pour mettre en attente les fichiers TODO et index.html, vous pouvez taper ces no
 	Update>>
 
 Le caractère `*` au début de la ligne de chaque fichier indique que celui-ci est sélectionné.
-Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le met en attente pour vous :
+Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le indexe pour vous :
 
 	Update>>
 	updated 2 paths
@@ -353,8 +353,8 @@ Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-À présent, vous pouvez voir que les fichiers TODO et index.html sont mis en attente (staged en anglais) et que `simplegit.rb` ne l'est toujours pas.
-Si vous souhaitez enlever de la zone d'attente le fichier TODO, utilisez `3` (ou `r` pour revert en anglais) :
+À présent, vous pouvez voir que les fichiers TODO et index.html sont indexés (*staged* en anglais) et que `simplegit.rb` ne l'est toujours pas.
+Si vous souhaitez enlever de l'index le fichier TODO, utilisez `3` (ou `r` pour revert en anglais) :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -372,7 +372,7 @@ Si vous souhaitez enlever de la zone d'attente le fichier TODO, utilisez `3` (ou
 	Revert>> [enter]
 	reverted one path
 
-Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez enlevé de la zone d'attente le fichier TODO :
+Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez enlevé le fichier TODO de l'index :
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -383,8 +383,8 @@ Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez enlevé 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Pour voir la modification que vous avez mise en attente, utilisez `6` ou `d` (pour diff en anglais).
-Cela vous affiche la liste des fichiers en attente et vous pouvez choisir ceux pour lesquels vous voulez consulter la différence.
+Pour voir la modification que vous avez indexée, utilisez `6` ou `d` (pour diff en anglais).
+Cela vous affiche la liste des fichiers indexés et vous pouvez choisir ceux pour lesquels vous voulez consulter la différence.
 C'est équivalent à `git diff --cached` en ligne de commande :
 
 	*** Commands ***
@@ -407,14 +407,14 @@ C'est équivalent à `git diff --cached` en ligne de commande :
 
 	 <script type="text/javascript">
 
-Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour manipuler votre zone d'attente un peu plus facilement.
+Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour manipuler votre index un peu plus facilement.
 
 ### Patches de l'index ###
 
-Git est également capable de mettre en attente certaines parties d'un fichier.
-Par exemple, si vous modifiez en 2 endroits votre fichier `simplegit.rb` et que vous souhaitez mettre en attente une modification seulement, cela peut se faire très aisément avec Git.
+Git est également capable d'indexer certaines parties d'un fichier.
+Par exemple, si vous modifiez en 2 endroits votre fichier `simplegit.rb` et que vous souhaitez indexer une modification seulement, cela peut se faire très aisément avec Git.
 En mode interactif, tapez `5` ou `p` (pour patch en anglais).
-Git vous demandera quels fichiers vous voulez mettre en attente partiellement, puis, pour chaque section des fichiers sélectionnés, il affichera les parties de fichiers où il y a des différences et vous demandera si vous souhaitez les mettre en attente, un par un :
+Git vous demandera quels fichiers vous voulez indexer partiellement, puis, pour chaque section des fichiers sélectionnés, il affichera les parties de fichiers où il y a des différences et vous demandera si vous souhaitez les indexer, un par un :
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -434,11 +434,11 @@ Git vous demandera quels fichiers vous voulez mettre en attente partiellement, p
 A cette étape, vous disposez de bon nombre d'options.
 `?` vous liste les actions possibles dont voici une traduction :
 
-	Mettre en attente cette partie [y,n,a,d,/,j,J,g,e,?]? ?
-	y - mettre en attente cette partie
-	n - ne pas mettre en attente cette partie
-	a - mettre en attente cette partie et toutes celles restantes dans ce fichier
-	d - ne pas mettre en attente cette partie ni aucune de celles restantes dans ce fichier
+	indexer cette partie [y,n,a,d,/,j,J,g,e,?]? ?
+	y - indexer cette partie
+	n - ne pas indexer cette partie
+	a - indexer cette partie et toutes celles restantes dans ce fichier
+	d - ne pas indexer cette partie ni aucune de celles restantes dans ce fichier
 	g - sélectionner un partie à voir
 	/ - chercher une partie correspondant à la regexp donnée
 	j - laisser cette partie non décidée, voir la prochaine partie non encore décidée
@@ -449,8 +449,8 @@ A cette étape, vous disposez de bon nombre d'options.
 	e - modifier manuellement la partie courante
 	? - afficher l'aide
 
-En règle générale, vous choisirez `y` ou `n` pour mettre en attente ou non chacun des blocs, mais tout mettre en attente pour certains fichiers ou remettre à plus tard le choix pour un bloc peut également être utile.
-Si vous mettez en attente une partie d'un fichier et une autre non, votre statut ressemblera à peu près à ceci :
+En règle générale, vous choisirez `y` ou `n` pour indexer ou non chacun des blocs, mais tout indexer pour certains fichiers ou remettre à plus tard le choix pour un bloc peut également être utile.
+Si vous indexez une partie d'un fichier et une autre non, votre statut ressemblera à peu près à ceci :
 
 	What now> 1
 	           staged     unstaged path
@@ -459,23 +459,23 @@ Si vous mettez en attente une partie d'un fichier et une autre non, votre statut
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
 Le statut pour le fichier `simplegit.rb` est intéressant.
-Il vous montre que quelques lignes sont en attente et d'autres non.
-Vous avez mis partiellement ce fichier en attente.
-Dès lors, vous pouvez quitter l'ajout interactif et exécuter `git commit` pour commiter les fichiers partiellement en attente.
+Il vous montre que quelques lignes sont indexées et d'autres non.
+Vous avez partiellement indexé ce fichier.
+Dès lors, vous pouvez quitter l'ajout interactif et exécuter `git commit` pour valider les fichiers partiellement indexés.
 
-Enfin, vous pouvez vous passer du mode interactif pour mettre partiellement un fichier en attente ; vous pouvez faire de même avec `git add -p` ou `git add --patch` en ligne de commande.
+Enfin, vous pouvez vous passer du mode interactif pour indexer partiellement un fichier ; vous pouvez faire de même avec `git add -p` ou `git add --patch` en ligne de commande.
 
 ## La remise ##
 
 Souvent, lorsque vous avez travaillé sur une partie de votre projet, les choses sont dans un état instable mais vous voulez changer de branches pour un peu de travailler sur autre chose.
-Le problème est que vous ne voulez pas consigner (commit) un travail à moitié fait seulement pour pouvoir y revenir plus tard.
+Le problème est que vous ne voulez pas valider un travail à moitié fait seulement pour pouvoir y revenir plus tard.
 La réponse à cette problématique est la commande `git stash`.
 
-Remiser prend l'état en cours de votre répertoire de travail, c'est-à-dire les fichiers modifiés et la zone d'attente, et l'enregistre dans la pile des modifications non finies que vous pouvez réappliquer à n'importe quel moment.
+Remiser prend l'état en cours de votre répertoire de travail, c'est-à-dire les fichiers modifiés et l'index, et l'enregistre dans la pile des modifications non finies que vous pouvez réappliquer à n'importe quel moment.
 
 ### Remiser votre travail ###
 
-Pour démontrer cette possibilité, vous allez dans votre projet et commencez à travailler sur quelques fichiers et à mettre en zone d'attente l'un de ces changements.
+Pour démontrer cette possibilité, vous allez dans votre projet et commencez à travailler sur quelques fichiers et à indexer l'un de ces changements.
 Si vous exécutez `git status`, vous pouvez voir votre état instable:
 
 	$ git status
@@ -491,7 +491,7 @@ Si vous exécutez `git status`, vous pouvez voir votre état instable:
 	#      modified:   lib/simplegit.rb
 	#
 
-À ce moment là, vous voulez changer de branche, mais vous ne voulez pas encore consigner ce travail ; vous allez donc remiser vos modifications.
+À ce moment là, vous voulez changer de branche, mais vous ne voulez pas encore valider ce travail ; vous allez donc remiser vos modifications.
 Pour créer une nouvelle remise sur votre pile, exécutez `git stash` :
 
 	$ git stash
@@ -528,13 +528,13 @@ Si vous ne spécifiez pas une remise, Git présume que vous voulez la remise la 
 	#      modified:   lib/simplegit.rb
 	#
 
-Vous pouvez observer que Git remodifie les fichiers non consignés lorsque vous avez créé la remise.
+Vous pouvez observer que Git remodifie les fichiers non validés lorsque vous avez créé la remise.
 Dans ce cas, vous aviez un répertoire de travail propre lorsque vous avez essayé d'appliquer la remise et vous l'avez fait sur la même branche que celle où vous l'aviez créée ; mais avoir un répertoire de travail propre et l'appliquer sur la même branche n'est pas nécessaire pour réussir à appliquer une remise.
 Vous pouvez très bien créer une remise sur une branche, changer de branche et essayer d'appliquer les modifications.
-Vous pouvez même avoir des fichiers modifiés et non consignés dans votre répertoire de travail quand vous appliquez une remise, Git vous indique les conflits de fusions si quoique ce soit ne s'applique pas proprement.
+Vous pouvez même avoir des fichiers modifiés et non validés dans votre répertoire de travail quand vous appliquez une remise, Git vous indique les conflits de fusions si quoique ce soit ne s'applique pas proprement.
 
-Par défaut, les modifications de vos fichiers sont réappliquées, mais pas les mises en attente.
-Pour cela, vous devez exécutez la commande `git stash apply` avec l'option `--index` pour demander à Git d'essayer de réappliquer les modifications de votre zone d'attente.
+Par défaut, les modifications de vos fichiers sont réappliquées, mais pas indexations.
+Pour cela, vous devez exécutez la commande `git stash apply` avec l'option `--index` pour demander à Git d'essayer de réappliquer les modifications de votre index.
 Si vous exécutez cela à la place de la commande précédente, vous vous retrouvez dans la position d'origine de la remise :
 
 	$ git stash apply --index
@@ -606,41 +606,41 @@ C'est un bon raccourci pour récupérer facilement du travail remisé et de pouv
 
 ## Réécrire l'historique ##
 
-Bien souvent, lorsque vous travaillez avec Git, vous souhaitez modifier votre historique de consignation pour une raison quelconque.
+Bien souvent, lorsque vous travaillez avec Git, vous souhaitez modifier votre historique de validation pour une raison quelconque.
 Une des choses merveilleuses de Git est qu'il vous permet de prendre des décisions le plus tard possible.
-Vous pouvez décider quels fichiers vont dans quel commit avant que vous ne consigniez la zone d'attente, vous pouvez décider que vous ne voulez pas encore montrer que vous travaillez sur quelque chose avec les remises, et vous pouvez réécrire les commits afin déjà sauvegardés pour qu'ils ressemblent à quelque chose d'autre.
+Vous pouvez décider quels fichiers vont dans quel commit avant que vous ne validiez l'index, vous pouvez décider que vous ne voulez pas encore montrer que vous travaillez sur quelque chose avec les remises, et vous pouvez réécrire les commits afin déjà sauvegardés pour qu'ils ressemblent à quelque chose d'autre.
 Cela peut signifier changer l'ordre des commits, modifier les messages ou modifier les fichiers appartenant au commit, rassembler ou séparer des commits, ou supprimer complètement des commits ; tout ceci avant de les partager avec les autres.
 
-Danc cette section, nous expliquerons comment accomplir ces tâches très utiles pour que vous puissiez faire ressembler votre historique de consignation à ce que vous voulez avant de le partager avec autrui.
+Danc cette section, nous expliquerons comment accomplir ces tâches très utiles pour que vous puissiez faire ressembler votre historique de validation à ce que vous voulez avant de le partager avec autrui.
 
-### Modifier la dernière consignation ###
+### Modifier la dernière validation ###
 
-Modifier votre dernière consignation est probablement la plus habituelle réécriture de l'historique que vous allez faire.
-Vous voudrez souvent faire deux choses basiques à votre dernier commit : modifier le message de consignation ou changer le contenu que vous avez enregistré en ajoutant, modifiant ou supprimant des fichiers.
+Modifier votre dernière validation est probablement la plus habituelle réécriture de l'historique que vous allez faire.
+Vous voudrez souvent faire deux choses basiques à votre dernier commit : modifier le message de validation ou changer le contenu que vous avez enregistré en ajoutant, modifiant ou supprimant des fichiers.
 
-Si vous voulez seulement modifier votre dernier message de consignation, c'est vraiment simple :
+Si vous voulez seulement modifier votre dernier message de validation, c'est vraiment simple :
 
 	$ git commit --amend
 
 Cela vous ouvre votre éditeur de texte contenant votre dernier message, prêt à être modifié.
-Lorsque vous sauvegardez et fermez l'éditeur, Git enregistre la nouvelle consignation contenant le message et en fait votre dernier commit.
+Lorsque vous sauvegardez et fermez l'éditeur, Git enregistre la nouvelle validation contenant le message et en fait votre dernier commit.
 
-Si vous avez voulu modifier le contenu de votre consignation en ajoutant ou modifiant des fichiers, sûrement parce que vous avez oublié d'ajouter les fichiers nouvellement créés quand vous avez consigné la première fois, la procédure fonctionne grosso-modo de la même manière.
-Vous mettez les modifications que vous voulez en attente en exécutant `git add` ou `git rm`, et le prochain `git commit --amend` prendra votre zone d'attente courante et en fera le contenu de votre nouvelle consignation.
+Si vous avez voulu modifier le contenu de votre validation en ajoutant ou modifiant des fichiers, sûrement parce que vous avez oublié d'ajouter les fichiers nouvellement créés quand vous avez validé la première fois, la procédure fonctionne grosso-modo de la même manière.
+Vous indexez les modifications que vous voulez en exécutant `git add` ou `git rm`, et le prochain `git commit --amend` prendra votre index courant et en fera le contenu de votre nouvelle validation.
 
 Vous devez être prudent avec cette technique car votre modification modifie également le SHA-1 du commit.
 Cela ressemble à un tout petit `rebase`.
-Ne modifiez pas votre dernière consignation si vous l'avez déjà publiée !
+Ne modifiez pas votre dernière validation si vous l'avez déjà publiée !
 
-### Modifier plusieurs messages de consignation ###
+### Modifier plusieurs messages de validation ###
 
-Pour modifier une consignation qui est plus loin dans votre historique, vous devez utilisez des outils plus complexes.
+Pour modifier une validation qui est plus loin dans votre historique, vous devez utilisez des outils plus complexes.
 Git ne contient pas d'outil de modification d'historique, mais vous pouvez utiliser l'outil `rebase` pour rebaser une suite de commits depuis la branche HEAD plutôt que de les déplacer vers une autre branche.
 Avec l'outil rebase interactif, vous pouvez vous arrêter après chaque commit que vous voulez modifier et changer le message, ajouter des fichiers ou quoique ce soit que vous voulez.
 Vous pouvez exécuter rebase interactivement en ajoutant l'option `-i` à `git rebase`.
 Vous devez indiquer jusqu'à quand remonter dans votre historique en donnant à la commande le commit sur lequel vous voulez vous rebaser.
 
-Par exemple, si vous voulez modifier les 3 derniers messages de consignation ou n'importe lequel des messages dans ce groupe, vous fournissez à `git rebase -i` le parent du dernier commit que vous voulez éditer, qui est `HEAD~2^` or `HEAD~3`.
+Par exemple, si vous voulez modifier les 3 derniers messages de validation ou n'importe lequel des messages dans ce groupe, vous fournissez à `git rebase -i` le parent du dernier commit que vous voulez éditer, qui est `HEAD~2^` or `HEAD~3`.
 Il peut être plus facile de ce souvenir de `~3`, car vous essayez de modifier les 3 derniers commits, mais gardez à l'esprit que vous désignez le 4e, le parent du dernier commit que vous voulez modifier :
 
 	$ git rebase -i HEAD~3
@@ -649,7 +649,7 @@ Souvenez-vous également que ceci est une commande de rebasement, chaque commit 
 N'incluez pas dans cette commande de commit que vous avez déjà poussé sur un serveur central.
 Le faire entrainera la confusion chez les autres développeurs en leur fournissant une version altérée des mêmes modifications.
 
-Exécuter cette commande vous donne la liste des consignations dans votre éditeur de texte, ce qui ressemble à :
+Exécuter cette commande vous donne la liste des validations dans votre éditeur de texte, ce qui ressemble à :
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -715,7 +715,7 @@ Chaque fois, Git s'arrêtera, vous laissant modifier le commit et continuera lor
 
 ### Réordonner les commits ###
 
-Vous pouvez également utilisez les rebasages interactifs afin de réordonner ou supprimer entièrement des commits.
+Vous pouvez également utiliser les rebasages interactifs afin de réordonner ou supprimer entièrement des commits.
 Si vous voulez supprimer le commit "added cat-file" et modifier l'ordre dans lequel les deux autres commits se trouvent dans l'historique, vous pouvez modifier le script de rebasage :
 
 	pick f7f3f6d changed my name a bit
@@ -745,14 +745,14 @@ Le script affiche des instructions utiles dans le message de rebasage :
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-Si, à la place de "pick" ou "edit", vous spécifiez "squash", Git applique cette modification et la modification juste précédente et fusionne les messages de consignation.
-Donc, si vous voulez faire un seul commit de ces trois consignations, vous faites en sorte que le script ressemble à ceci :
+Si, à la place de "pick" ou "edit", vous spécifiez "squash", Git applique cette modification et la modification juste précédente et fusionne les messages de validation.
+Donc, si vous voulez faire un seul commit de ces trois validations, vous faites en sorte que le script ressemble à ceci :
 
 	pick f7f3f6d changed my name a bit
 	squash 310154e updated README formatting and added blame
 	squash a5f4a0d added cat-file
 
-Lorsque vous sauvegardez et quittez l'éditeur, Git applique ces trois modifications et vous remontre l'éditeur contenant maintenant la fusion des 3 messages de consignation :
+Lorsque vous sauvegardez et quittez l'éditeur, Git applique ces trois modifications et vous remontre l'éditeur contenant maintenant la fusion des 3 messages de validation :
 
 	# This is a combination of 3 commits.
 	# The first commit's message is:
@@ -770,7 +770,7 @@ Lorsque vous sauvegardez cela, vous obtenez un seul commit amenant les modificat
 
 ### Diviser un commit ###
 
-Pour diviser un commit, il doit être défait, puis partiellement mis en zone d'attente et consigner autant de fois que vous voulez pour en finir avec lui.
+Pour diviser un commit, il doit être défait, puis partiellement indexé et valider autant de fois que vous voulez pour en finir avec lui.
 Par exemple, supposons que vous voulez diviser le commit du milieu dans l'exemple des trois commits précédents.
 Plutôt que "updated README formatting and added blame", vous voulez le diviser en deux commits : "updated README formatting" pour le premier, et "added blame" pour le deuxième.
 Vous pouvez le faire avec le script `rebase -i` en remplaçant l'instruction sur le commit que vous voulez divisez en "edit" :
@@ -781,8 +781,8 @@ Vous pouvez le faire avec le script `rebase -i` en remplaçant l'instruction sur
 
 Puis, lorsque le script vous laissera accès à la ligne de commande, vous annulerez (reset) ce commit, vous reprendrez les modifications que vous voulez pour créer plusieurs commits.
 En reprenant l'exemple, lorsque vous sauvegardez et quittez l'éditeur, Git revient au parent de votre premier commit de votre liste, applique le premier commit (`f7f3f6d`), applique le deuxième (`310154e`), et vous laisse accès à la console.
-Là, vous pouvez faire une réinitialisation mélangée (mixed reset) de ce commit avec `git reset HEAD^`, qui défait ce commit et laisse les fichiers modifiés non mis en attente.
-Maintenant, vous pouvez mettre en attente et consigner les fichiers sur plusieurs consignations, et exécuter `git rebase --continue` quand vous avez fini :
+Là, vous pouvez faire une réinitialisation mélangée (mixed reset) de ce commit avec `git reset HEAD^`, qui défait ce commit et laisse les fichiers modifiés non indexés.
+Maintenant, vous pouvez indexer et valider les fichiers sur plusieurs validations, et exécuter `git rebase --continue` quand vous avez fini :
 
 	$ git reset HEAD^
 	$ git add README
@@ -812,7 +812,7 @@ Vous allez maintenant apprendre quelques usages communs pour vous donner une id�
 
 Cela arrive asser fréquemment.
 Quelqu'un a accidentellement commité un énorme fichier binaire avec une commande `git add .` irréfléchie, and vous voulez le supprimer partout.
-Vous avez peut-être consigné un fichier contenant un mot de passe, et que vous voulez rendre votre projet open source.
+Vous avez peut-être validé un fichier contenant un mot de passe, et que vous voulez rendre votre projet open source.
 `filter-branch` est l'outil que vous voulez probablement utiliser pour nettoyer votre historique entier.
 Pour supprimer un fichier nommé "passwords.txt" de tout votre historique, vous pouvez utiliser l'option `--tree-filter` de `filter-branch` :
 
@@ -820,11 +820,11 @@ Pour supprimer un fichier nommé "passwords.txt" de tout votre historique, vous 
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-L'option `--tree-filter` exécute la commande spécifiée pour chaque commit et les reconsigne ensuite
+L'option `--tree-filter` exécute la commande spécifiée pour chaque commit et les revalide ensuite
 Dans le cas présent, vous supprimez le fichier nommé "passwords.txt" de chaque contenu, qu'il existait ou non.
-Si vous voulez supprimer tous les fichiers temporaires des éditeurs consignés accidentellement, vous pouvez exécuter une commande telle que `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+Si vous voulez supprimer tous les fichiers temporaires des éditeurs validés accidentellement, vous pouvez exécuter une commande telle que `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
-Vous pourrez alors regarder Git réécrire l'arbre des commits et reconsigner à chaque fois, pour finir en modifiant la référence de la branche.
+Vous pourrez alors regarder Git réécrire l'arbre des commits et revalider à chaque fois, pour finir en modifiant la référence de la branche.
 C'est généralement une bonne idée de le faire dans un branche de test puis de faire une forte réinitialisation (hard-reset) de votre branche `master` si le résultat vous convient.
 Pour exécuter `filter-branch` sur toutes vos branches, vous pouvez ajouter `--all` à la commande.
 
@@ -1051,13 +1051,13 @@ Si vous exécutez `git diff`, vous verrez quelque chose d'intéressant :
 
 Même si `rack` est un sous répertoire de votre répertoire de travail, Git le voit comme un sous-module et ne suit pas son contenu (si vous n'êtes pas dans ce répertoire).
 En échange, Git l'enregistre comme un commit particulier de ce dépôt.
-Lorsque vous faîtes des modifications et des consignations dans ce sous-répertoire, le super-projet (le projet contenant le sous-module) remarque que la branche HEAD a changé et enregistre le commit exact dans lequel il se trouve à ce moment.
+Lorsque vous faîtes des modifications et des validations dans ce sous-répertoire, le super-projet (le projet contenant le sous-module) remarque que la branche HEAD a changé et enregistre le commit exact dans lequel il se trouve à ce moment.
 De cette manière, lorsque d'autres clonent ce super-projet, ils peuvent recréer exactement le même environnement.
 
 Un autre point important avec les sous-modules : Git enregistre le commit exact où ils se trouvent.
 Vous ne pouvez pas enregistrer un module comme étant en branche `master` ou n'importe quelle autre référence symbolique.
 
-Au moment de commiter, vous voyez quelque chose comme :
+Au moment de valider, vous voyez quelque chose comme :
 
 	$ git commit -m 'first commit with submodule rack'
 	[master 0550271] first commit with submodule rack
@@ -1118,8 +1118,8 @@ Vous devez exécuter deux commandes : `git submodule init` pour initialiser vot
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Votre répertoire `rack` est maintenant dans l'état exact dans lequel il était la dernière fois que vous avez consigné.
-Si un autre développeur modifie le code de `rack` et consigne, que vous récupériez (pull) cette référence et que vous fusionniez, vous obtiendrez quelque chose d'un peu étrange :
+Votre répertoire `rack` est maintenant dans l'état exact dans lequel il était la dernière fois que vous avez validé.
+Si un autre développeur modifie le code de `rack` et valide, que vous tiriez cette référence et que vous fusionniez, vous obtiendrez quelque chose d'un peu étrange :
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -1162,7 +1162,7 @@ Vous devez faire cela à chaque fois que vous récupérez une modification du so
 C'est étrange, mais ça fonctionne.
 
 Un problème habituel peut survenir lorsqu'un développeur modifie localement un sous-module, mais ne le pousse pas sur un serveur public.
-Puis, il consigne une référence à cet état non public et pousse le super-projet.
+Puis, il valide une référence à cet état non public et pousse le super-projet.
 Lorsque les autres développeurs exécutent `git submodule update`, le système dans le sous-module ne trouve pas le commit qui est référencé, car il existe uniquement sur le système du premier développeur.
 Dans ce cas, vous verrez une erreur de ce style :
 
@@ -1196,7 +1196,7 @@ Premièrement, vous devez être relativement prudent lorsque vous travaillez dan
 Lorsque vous exécutez `git submodule update`, cela récupère une version spécifique d'un projet, mais pas à l'intérieur d'une branche.
 Cela s'appelle avoir la tête en l'air (detached head), c'est-à-dire que votre HEAD référence directement un commit, pas une référence symbolique.
 Le problème est que vous ne voulez généralement pas travailler dans un environnement tête en l'air, car il est facile de perdre des modifications dans ces conditions.
-Si vous faites un premier `git submodule update`, consignez des modifications dans ce sous-module sans créer vous-même de branche pour y travailler, et que vous exécutez un nouveau `git submodule update` depuis le projet parent sans y avoir consigné pendant ce temps, Git écrasera vos modifications sans vous le dire.
+Si vous faites un premier `git submodule update`, validez des modifications dans ce sous-module sans créer vous-même de branche pour y travailler, et que vous exécutez un nouveau `git submodule update` depuis le projet parent sans y avoir validé pendant ce temps, Git écrasera vos modifications sans vous le dire.
 Techniquement, vous ne perdrez pas votre travail, mais vous n'aurez aucune branche s'y référant, il sera donc assez difficile de le récupérer.
 
 Pour éviter ce problème, créez toujours une branche lorsque vous travaillez dans un répertoire de sous-module avec `git checkout -b work` ou une autre commande équivalente.
@@ -1239,7 +1239,7 @@ Si vous supprimez le sous-répertoire et que vous exécutez `submodule add`, Git
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
 
-Vous devez d'abord supprimer le répertoire `rack` de la zone d'attente.
+Vous devez d'abord supprimer le répertoire `rack` de l'index.
 Vous pourrez ensuite ajouter le sous-module :
 
 	$ git rm -r rack
@@ -1316,12 +1316,12 @@ Si vous récupérez l'une puis l'autre branche, vous pouvez voir que vous avez d
 	README
 
 Pour tirer le projet Rack dans votre projet `master` comme un sous répertoire, vous pouvez utiliser la commande `git read-tree`.
-Vous apprendrez d'avantage sur `read-tree` et compagnie dans le Chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branche et l'inscrit dans votre zone d'attente et votre répertoire de travail.
+Vous apprendrez d'avantage sur `read-tree` et compagnie dans le Chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branche et l'inscrit dans votre index et votre répertoire de travail.
 Vous venez juste de commuter vers votre branche `master`, et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal :
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-Au moment de consigner, vous verrez tous les fichiers de Rack de ce sous-répertoire, comme si vous les aviez copiés depuis une archive.
+Au moment de valider, vous verrez tous les fichiers de Rack de ce sous-répertoire, comme si vous les aviez copiés depuis une archive.
 Ce qui est intéressant, c'est que vous pouvez assez facilement fusionner les changements d'une branche à l'autre.
 Par conséquence, s'il y a des mises à jour pour le projet Rack, vous pouvez les tirez depuis le dépôt principal en commutant dans cette branche et tirant les modifications :
 
@@ -1330,14 +1330,14 @@ Par conséquence, s'il y a des mises à jour pour le projet Rack, vous pouvez le
 
 Puis, vous pouvez fusionner ces changements dans votre branche principale.
 Vous pouvez utiliser `git merge -s subtree` et cela fonctionnera, mais Git fusionnera également les historiques ensemble, ce que vous ne voulez probablement pas.
-Pour tirer les changements et préremplir le message de consignation, utilisez les options `--squash` et `--no-commit` avec l'option de stratégie `-s subtree` :
+Pour tirer les changements et préremplir le message de validation, utilisez les options `--squash` et `--no-commit` avec l'option de stratégie `-s subtree` :
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-Toutes les modifications de votre projet Rack sont fusionnées et prêtes à être consignées localement.
+Toutes les modifications de votre projet Rack sont fusionnées et prêtes à être validées localement.
 Vous pouvez également faire le contraire, faire des modifications dans le sous-répertoire `rack` de votre branche principale et les fusionner plus tard dans votre branche `rack_branch` pour les envoyer aux mainteneurs du projet Rack ou les pousser dans le dépôt principal.
 
 Pour voir les différences entre ce que vous avez dans le sous-répertoire `rack` et le code de la branche `rack_branch` (pour savoir si vous devez les fusionner),  vous ne pouvez pas utiliser la commande `diff` habituelle.
@@ -1351,7 +1351,7 @@ Ou, pour comparer ce qu'il y a dans votre répertoire `rack` avec ce qu'il y ava
 
 ## Résumé ##
 
-Vous venez de voir certains des outils avancés vous permettant de manipuler vos consignations et votre zone d'attente plus précisemment.
-Lorsque vous remarquez des bogues, vous devriez être capable de facilement trouver quelle consignation les a introduit, quand et par qui.
+Vous venez de voir certains des outils avancés vous permettant de manipuler vos validations et votre index plus précisemment.
+Lorsque vous remarquez des bogues, vous devriez être capable de facilement trouver quelle validation les a introduit, quand et par qui.
 Si vous voulez utiliser des sous-projets dans votre projet, vous avez appris plusieurs façons de les gérer.
 À partir de maintenant, vous devez être capable de faire la majorité de ce que vous avez besoin avec Git en ligne de commande et de vous y sentir à l'aise.

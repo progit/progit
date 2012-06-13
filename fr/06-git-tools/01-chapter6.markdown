@@ -43,14 +43,14 @@ Par exemple, pour afficher un commit précis, supposons que vous exécutiez `git
 	    added some blame and merge stuff
 
 Pour cet exemple, choisissons `1c002dd....`
-Si vous affichez le contenu de ce commit via `git show`, les commandes suivantes sont équivalentes (en partant du principe que les SHA-1 courts ne sont pas ambigüs).
+Si vous affichez le contenu de ce commit via `git show`, les commandes suivantes sont équivalentes (en partant du principe que les SHA-1 courts ne sont pas ambigus).
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git peut déterminer un SHA tout à la fois le plus court possible et non ambigü.
-Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut git retiendra 7 caractères et augmentera au besoin :
+Git peut déterminer une référence SHA tout à la fois la plus courte possible et non ambigüe.
+Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut git retiendra 7 caractères et augmentera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
@@ -70,12 +70,12 @@ Si vous essayez de récupérer l'objet de nouveau à un moment donné, vous aure
 
 Quoi qu'il en soit, vous devriez être conscient à quel point ce scénario est ridiculement improbable.
 Une empreinte SHA-1 porte sur 20 octets soit 160 bits.
-Le nombre d'objet aléatoires à hacher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`.
+Le nombre d'objets aléatoires à hacher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`.
 2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards.
 Cela représente 1200 fois le nombre de grains de sable sur terre.
 
 Voici un exemple pour vous donner une idée de ce qui pourrait provoquer une collision du SHA-1.
-Si tous les 6,5 milliards d'humains sur Terre programmaient et que chaque seconde, chacun produisait du code équivalent à l'historique entier du noyaux Linux (1 million d'objets Git) et le poussait sur un énorme dépôt Git, cela prendrait 5 ans pour que ce dépôt contienne assez d'objets pour avoir une probabilité de 50% qu'une seule collision SHA-1 existe.
+Si tous les 6,5 milliards d'humains sur Terre programmaient et que chaque seconde, chacun produisait du code équivalent à l'historique entier du noyau Linux (1 million d'objets Git) et le poussait sur un énorme dépôt Git, cela prendrait 5 ans pour que ce dépôt contienne assez d'objets pour avoir une probabilité de 50% qu'une seule collision SHA-1 existe.
 Il y a une probabilité plus grande que tous les membres de votre équipe de programmation seraient attaqués et tués par des loups dans des incidents sans relation la même nuit.
 
 ### Références de branches ###
@@ -88,8 +88,8 @@ Par exemple, si vous souhaitez afficher le dernier commit d'une branche, les com
 	$ git show sujet1
 
 Pour connaître l'empreinte SHA sur laquelle pointe une branche ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`.
-Se référer au chapitre 9 pour plus d'informations sur les commandes de plomberie ; en résumé, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
-Quoi qu'il en soit, cela peut se révéler utile pour comprendre ce qui se passe.
+Référez-vous au chapitre 9 pour plus d'informations sur les commandes de plomberie ; en résumé, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
+Quoi qu'il en soit, elle se révèle utile pour comprendre ce qui se passe.
 Je vous invite à tester `rev-parse` sur votre propre branche.
 
 	$ git rev-parse sujet1

@@ -15,7 +15,7 @@ Si vous travaillez ou souhaitez travailler sur la traduction française de Progi
 
 ## Workflow ##
 
-Pour simplifier et utiliser pleinement les capacités de Git et Github, la manière la plus directe de collaborer consister à faire un fork sur Github du dépôt progit-fr/progit sur votre propre compte pour y générer vos modifications.
+Pour simplifier la gestion et utiliser pleinement les capacités de Git et Github, la manière la plus directe de collaborer consiste à faire un fork sur Github du dépôt progit-fr/progit sur votre propre compte pour y générer vos modifications, si possible sur une branche thématique.
 
 Ensuite, il suffit de lancer une requête de tirage pour nous avertir que les modifications peuvent être revues et intégrées.
 
@@ -23,13 +23,13 @@ Ensuite, il suffit de lancer une requête de tirage pour nous avertir que les mo
 
 ## Fichier glossaire ##
 
-Le fichier fr/glossaire-git.adoc tente de rassembler les traductions choisies pour les termes spécifiques à Git. Si d'autres termes peuvent être ajoutés, il ne faut pas hésiter à les y ajouter. De même, il est toujours possible de changer les termes déjà renseignés si une meilleure traduction est proposée.
+Le fichier fr/glossaire-git.adoc tente de rassembler les traductions choisies pour les termes spécifiques à Git. Si d'autres termes nécessitent une uniformisation, il ne faut pas hésiter à les y ajouter. De même, il est toujours possible de changer les termes déjà renseignés si une meilleure traduction est proposée.
 
 L'uniformisation de la traduction par le respect de ce glossaire est une tâche permanente d'amélioration de la qualité finale du texte.
 
 ## Glossaires généraux sur internet ##
 
-Les glossaires de traduction informatiques disponibles sur Internet, sans être des références dogmatiques donnent des indications sur termes les plus utilisés dans les documents français sur l'informatique.
+Les glossaires de traduction informatiques disponibles sur Internet, sans être des références dogmatiques donnent des indications sur les termes les plus utilisés dans les documents français sur l'informatique.
 
  * http://glossaire.traduc.org/
  * http://www.dglf.culture.gouv.fr/cogeter/16-03-99-internet-listes.html

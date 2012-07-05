@@ -14,15 +14,15 @@ La seconde consiste à cloner un dépôt Git existant sur un autre serveur.
 
 ### Initialisation d'un dépôt Git dans un répertoire existant ###
 
-Si vous commencer à suivre un projet existant dans Git, vous n'avez qu'à vous positionner dans le répertoire du projet et saisir
+Si vous commencez à suivre un projet existant dans Git, vous n'avez qu'à vous positionner dans le répertoire du projet et saisir
 
 	$ git init
 
 Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous les fichiers nécessaire au dépôt — un squelette de dépôt Git.
-Pour l'instant, rien n'est encore suivi en version.
+Pour l'instant, aucun fichier n'est encore versionné.
 (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
 
-Si vous souhaitez commencer à suivre en version des fichiers existants (contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire une validation initiale.
+Si vous souhaitez commencer à suivre les versions des fichiers existants (contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire une validation initiale.
 Vous pouvez réaliser ceci avec une poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'un commit :
 
 	$ git add *.c
@@ -39,7 +39,7 @@ Si vous êtes familier avec d'autres systèmes de gestion de version tels que Su
 C'est une distinction importante — Git reçoit une copie de quasiment toutes les données dont le serveur dispose.
 Toutes les versions de tous les fichiers pour l'historique du projet sont téléchargées quand vous lancez `git clone`.
 En fait, si le disque du serveur se corrompt, vous pouvez utiliser n'importe
-quel clone pour remettre le serveur dans l'état où il était au moment du clonage (vous pourriez perdre quelques paramètres du serveur, mais toutes les données sous gestion de version serait récupérées — Cf.
+quel clone pour remettre le serveur dans l'état où il était au moment du clonage (vous pourriez perdre quelques paramètres du serveur, mais toutes les données sous gestion de version seraient récupérées — Cf.
 chapitre 4 pour de plus amples détails).
 
 Vous clonez un dépôt avec `git clone [url]`.
@@ -104,7 +104,7 @@ Si ce fichier n'existait pas auparavant, et que vous lancez la commande `git sta
 	nothing added to commit but untracked files present (use "git add" to track)
 
 Vous pouvez constater que votre nouveau fichier LISEZMOI n'est pas en suivi de version, car il apparaît dans la section "Untracked files" de l'état de la copie de travail.
-"Untracked" signifie simplement que Git détecte un fichier qui n'était pas présent dans le dernier instantané ; Git ne le placera sous suivi en version que quand vous lui indiquerez de le faire.
+"Untracked" signifie simplement que Git détecte un fichier qui n'était pas présent dans le dernier instantané ; Git ne le placera sous suivi de version que quand vous lui indiquerez de le faire.
 Ce comportement permet de ne pas placer accidentellement sous suivi de version des fichiers binaires générés ou d'autres fichiers que vous ne voulez pas inclure.
 Mais vous voulez inclure le fichier LISEZMOI dans l'instantané, alors commençons à suivre ce fichier.
 
@@ -125,13 +125,13 @@ Si vous lancez à nouveau le commande status, vous pouvez constater que votre fi
 	#	new file:   LISEZMOI
 	#
 
-Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à enregistrer).Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
+Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à enregistrer). Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
 Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` — c'était bien sur pour commencer à placer sous suivi de version les fichiers de votre répertoire de travail.
 La commande git add accepte en paramètre un chemin qui correspond à un fichier ou un répertoire ; dans le cas d'un répertoire, la commande ajoute récursivement tous les fichiers de ce répertoire.
 
 ### Indexer des fichiers modifiés ###
 
-Maintenant, modifions un fichiers qui est déjà sous suivi de version.
+Maintenant, modifions un fichier qui est déjà sous suivi de version.
 Si vous modifiez le fichier sous suivi de version appelé `benchmarks.rb` et que vous lancez à nouveau votre commande `status`, vous verrez ceci :
 
 	$ git status
@@ -216,8 +216,8 @@ Les règles de construction des patrons à placer dans le fichier .gitignore son
 
 * Les lignes vides ou commençant par # sont ignorées
 * Les patrons standards de fichiers sont utilisables
-* Si le patron se termine par un slash (`/`), le patron dénote un répertoire
-* Un patron commençant par un point d'exclamation (`!`) est inversé.
+* Si le patron se termine par un slash (`/`), le patron indique un répertoire
+* Un patron commençant par un point d'exclamation (`!`) indique des fichiers à inclure malgré tout.
 
 Les patrons standards de fichiers sont des expressions régulières simplifiées utilisées par les shells.
 Un astérisque (`*`) correspond à un ou plusieurs caractères ; `[abc]` correspond à un des trois caractères listés dans les crochets, donc a ou b ou c ; un point d'interrogation (`?`) correspond à un unique caractère ; des crochets entourant des caractères séparés par un signe moins (`[0-9]`) correspond à un caractère dans l'intervalle des deux caractères indiqués, donc ici de 0 à 9.
@@ -226,7 +226,7 @@ Voici un autre exemple de fichier .gitignore :
 
 	# un commentaire, cette ligne est ignorée
 	*.a       # pas de fichier .a
-	!lib.a    # mais suivre en version lib.a malgré la règle précédente
+	!lib.a    # mais suivre lib.a malgré la règle précédente
 	/TODO     # ignorer uniquement le fichier TODO à la racine du projet
 	build/    # ignorer tous le fichiers dans le répertoire build
 	doc/*.txt # ignorer doc/notes.txt, mais pas doc/server/arch.txt
@@ -234,7 +234,7 @@ Voici un autre exemple de fichier .gitignore :
 ### Inspecter les modifications indexées et non indexées ###
 
 Si le résultat de la commande `git status` est encore trop vague — lorsqu'on désire savoir non seulement quels fichiers ont changé mais aussi ce qui a changé dans ces fichiers — on peut utiliser la commande `git diff`.
-Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblablement utilisée le plus souvent pour répondre aux questions suivantes : qu'est-ce qui a été modifié mais pas encore indexé ? Quelle modifications a été indexée et est prête pour la validation ? Là où `git status` répond de manière générale à ces questions, `git diff` montre les lignes exactes qui ont été ajoutées, modifiées ou effacées — le patch en somme.
+Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblablement utilisée le plus souvent pour répondre aux questions suivantes : qu'est-ce qui a été modifié mais pas encore indexé ? Quelle modification a été indexée et est prête pour la validation ? Là où `git status` répond de manière générale à ces questions, `git diff` montre les lignes exactes qui ont été ajoutées, modifiées ou effacées — le patch en somme.
 
 Supposons que vous éditez et indexez le fichier LISEZMOI et que vous éditez le fichier benchmarks.rb sans l'indexer.
 Si vous lancez la commande `status`, vous verrez ceci :
@@ -382,7 +382,7 @@ D'une autre manière, vous pouvez spécifier votre message de validation en lign
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 LISEZMOI
 
-A présent, vous avez créé votre premier commit ! Vous pouvez constater que le commit vous fournit quelques information sur lui-même : sur quelle branche vous avez validé (master), quelle est sa somme de contrôle SHA-1 (`463dc4f`), combien de fichiers ont été modifiés, et quelques statistiques sur les lignes ajoutées et effacées dans ce commit.
+A présent, vous avez créé votre premier commit ! Vous pouvez constater que le commit vous fournit quelques informations sur lui-même : sur quelle branche vous avez validé (master), quelle est sa somme de contrôle SHA-1 (`463dc4f`), combien de fichiers ont été modifiés, et quelques statistiques sur les lignes ajoutées et effacées dans ce commit.
 
 Souvenez-vous que la validation enregistre l'instantané que vous avez préparé dans la zone d'index.
 Tout ce que vous n'avez pas indexé est toujours en état modifié ; vous pouvez réaliser une nouvelle validation pour l'ajouter à l'historique.
@@ -618,7 +618,7 @@ Une autre option utile est `--pretty`.
 Cette option modifie le journal vers un format différent.
 Quelques options incluses sont disponibles.
 L'option `oneline` affiche chaque commit sur une seule ligne, ce qui peut s'avérer utile lors de la revue d'un long journal.
-De plus, les options `short`, `full` et `fuller` montrent le résultat à peu de choses près dans le même format mais avec de plus en plus d'information :
+De plus, les options `short` (court), `full` (complet) et `fuller` (plus complet) montrent le résultat à peu de choses près dans le même format mais avec plus ou moins d'informations :
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
@@ -774,7 +774,7 @@ Les trois dernières commandes donnent lieu à la création d'un unique commit 
 
 Les deux sections suivantes démontrent comment bricoler les modifications dans votre zone d'index et votre zone de travail.
 Un point sympathique est que la commande permettant de connaître l'état de ces deux zones vous rappelle aussi comment annuler les modifications.
-Par exemple, supposons que vous avez modifié deux fichiers et voulez les valider comme deux modifications indépendantes, mais que vous ayez tapé accidentellement `git add *` et donc indexé les deux.
+Par exemple, supposons que vous avez modifié deux fichiers et voulez les valider comme deux modifications indépendantes, mais que vous avez tapé accidentellement `git add *` et donc indexé les deux.
 Comment annuler l'indexation d'un des fichiers ? La commande `git status` vous rappelle :
 
 	$ git add .
@@ -812,8 +812,8 @@ Le fichier benchmark.rb est modifié mais de retour à l'état non indexé.
 
 ### Réinitialiser un fichier modifié ###
 
-Que faire si vous réalisez que vous ne souhaitez pas conserver les modifications au fichier benchmark.rb ?
-Comment le réinitialiser facilement, le ramener à l'état qu'il avait dans le dernier instantané (ou lors du clonage, ou dans l'état dans lequel vous l'avez obtenu dans votre copie de travail) ?
+Que faire si vous réalisez que vous ne souhaitez pas conserver les modifications du fichier benchmark.rb ?
+Comment le réinitialiser facilement, le ramener à son état du dernier instantané (ou lors du clonage, ou dans l'état dans lequel vous l'avez obtenu dans votre copie de travail) ?
 Heureusement, `git status` est secourable.
 Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :
 
@@ -824,7 +824,7 @@ Dans le résultat de la dernière commande, la zone de travail ressemble à ceci
 	#       modified:   benchmarks.rb
 	#
 
-Cela vous indique de façon explicite comment annuler des modifications que vous avez faites (du moins, les nouvelles versions de Git, 1.6.1 et supérieures le font, si vous avez une version plus ancienne, nous vous recommandons de la mettre à jour pour bénéficier de ces fonctionnalités pratiques).
+Ce qui vous indique de façon explicite comment annuler des modifications que vous avez faites (du moins, les nouvelles versions de Git, 1.6.1 et supérieures le font, si vous avez une version plus ancienne, nous vous recommandons de la mettre à jour pour bénéficier de ces fonctionnalités pratiques).
 Faisons comme indiqué :
 
 	$ git checkout -- benchmarks.rb
@@ -846,12 +846,12 @@ Cependant, tout ce que vous perdez avant de l'avoir validé n'a aucune chance d'
 
 ## Travailler avec des dépôts distants ##
 
-Pour pouvoir collaborer sur un projet Git, il est nécessaire de connaître comment gérer les dépôts distants.
+Pour pouvoir collaborer sur un projet Git, il est nécessaire de savoir comment gérer les dépôts distants.
 Les dépôts distants sont des versions de votre projet qui sont hébergées sur Internet ou le réseau.
 Vous pouvez en avoir plusieurs, pour lesquels vous pouvez avoir des droits soit en lecture seule, soit en lecture/écriture.
 Collaborer avec d'autres personnes consiste à gérer ces dépôts distants, en poussant ou tirant des données depuis et vers ces dépôts quand vous souhaitez partager votre travail.
 
-Gérer des dépôts distants inclut savoir comment ajouter des dépôts distants, effacer des dépôts distants qui ne sont plus valides, gérer des branches distantes et les définir comme suivie ou non, et plus encore.
+Gérer des dépôts distants inclut savoir comment ajouter des dépôts distants, effacer des dépôts distants qui ne sont plus valides, gérer des branches distantes et les définir comme suivies ou non, et plus encore.
 Dans cette section, nous traiterons des commandes de gestion distante.
 
 ### Afficher les dépôts distants ###
@@ -871,7 +871,7 @@ Si vous avez cloné un dépôt, vous devriez au moins voir l'origine origin —
 	$ git remote
 	origin
 
-Vous pouvez aussi spécifier `-v`, qui vous montre l'URL que Git a stocké pour nom court à étendre :
+Vous pouvez aussi spécifier `-v`, qui vous montre l'URL que Git a stocké pour chaque nom court :
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
@@ -903,7 +903,7 @@ Pour ajouter un nouveau dépôt distant Git comme nom court auquel il est facile
 	pb	git://github.com/paulboone/ticgit.git
 
 Maintenant, vous pouvez utiliser le mot-clé pb sur la ligne de commande au lieu de l'URL complète.
-Par exemple, si vous voulez récupérer toute l'information que Paul a mais ne souhaitez pas l'avoir encore dans votre branche, vous pouvez lancer git fetch pb :
+Par exemple, si vous voulez récupérer toute l'information que Paul a mais que vous ne souhaitez pas l'avoir encore dans votre branche, vous pouvez lancer git fetch pb :
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -933,7 +933,7 @@ Vous devez volontairement fusionner ses modifications distantes dans votre trava
 Si vous avez créé une branche pour suivre l'évolution d'une branche distante (Cf.
 la section suivante et le chapitre 3 pour plus d'information), vous pouvez utiliser la commande `git pull` qui récupère et fusionne automatiquement une branche distante dans votre branche locale.
 Ce comportement peut correspondre à une méthode de travail plus confortable, sachant que par défaut la commande `git clone` paramètre votre branche locale pour qu'elle suive la branche master du dépôt que vous avez cloné (en supposant que le dépôt distant ait une branche master).
-Lancer `git pull` récupère généralement les données depuis le serveur qui a été initialement cloné et essaie de la fusionner dans votre branche de travail actuel.
+Lancer `git pull` récupère généralement les données depuis le serveur qui a été initialement cloné et essaie de les fusionner dans votre branche de travail actuel.
 
 ### Pousser son travail sur un dépôt distant ###
 

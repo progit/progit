@@ -254,8 +254,8 @@ Si vous lancez ceci au lieu de modifier les fichiers `extMerge` ou `extDiff`, Gi
 
 ### Formatage et espaces blancs ###
 
-Les problèmes de formatage et de blancs font partie des plus subtiles et frustrants que les développeurs rencontrent lorsqu'ils collaborent, spécifiquement sur plusieurs plates-formes.
-Il est très facile d'introduire des modifications subtiles de blancs lors de soumission de patchs ou d'autres modes de collaboration car les éditeurs de textes les insèrent silencieusement ou les programmeurs Windows ajoutent de retour chariot à la fin des lignes qu'il modifient.
+Les problèmes de formatage et de blancs font partie des plus subtils et frustrants que les développeurs rencontrent lorsqu'ils collaborent, spécifiquement sur plusieurs plates-formes.
+Il est très facile d'introduire des modifications subtiles de blancs lors de soumission de patchs ou d'autres modes de collaboration, car les éditeurs de textes les insèrent silencieusement ou les programmeurs Windows ajoutent des retours chariot à la fin des lignes qu'il modifient.
 Git dispose de quelques options de configuration pour traiter ces problèmes.
 
 #### core.autocrlf ####
@@ -685,7 +685,7 @@ Vous ne pouvez plus arrêter le processus de validation avec ce script.
 #### Autres crochets côté client ####
 
 Le crochet `pre-rebase` est invoqueé avant que vous ne rebasiez et peut interrompre le processus s'il sort avec un code d'erreur non nul.
-Vous pouvez utiliser ce crochet pour empêcher de rebase tout commit qui a déjà été poussé.
+Vous pouvez utiliser ce crochet pour empêcher de rebaser tout commit qui a déjà été poussé.
 C'est ce que fait le crochet d'exemple `pre-rebase` que Git installe, même s'il considère que la branche cible de publication s'appelle `next`.
 Il est très probable que vous ayez à changer ce nom pour celui que vous utilisez réellement en branche publique stable.
 

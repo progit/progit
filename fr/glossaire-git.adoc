@@ -72,7 +72,7 @@ si on fait référence à l'action, on peut traduire.
 * pull -> tirer ("retirer" est peut-être mieux)
 * fetch -> récupérer
 * push -> pousser (pourquoi pas "publier")
-* stash -> (gitbook propose "remiser"), planquer
+* stash -> remiser
 * add -> ajouter
 * log -> journal
 * gc ->

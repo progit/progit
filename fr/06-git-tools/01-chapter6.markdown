@@ -65,8 +65,8 @@ Un des plus gros projets utilisant Git, le kernel Linux, nécessite de plus en p
 Beaucoup de gens se soucient qu'à un moment donné ils auront, par des circonstances hasardeuses, deux objets dans leur référentiel de hachage de même empreinte SHA-1.
 Qu'en est-il réellement ?
 
-S'il vous arrivait de valider un objet qui se hache de la même empreinte SHA-1 d'un objet existant dans votre référentiel, Git verrait l'objet existant déjà dans votre base de données et présumerait qu'il était déjà enregistré.
-Si vous essayez de récupérer l'objet de nouveau à un moment donné, vous aurez toujours les données du premier objet.
+S'il vous arrivait de valider un objet qui se hache de la même empreinte SHA-1 qu'un objet existant dans votre référentiel, Git verrait l'objet existant déjà dans votre base de données et présumerait qu'il était déjà enregistré.
+Si vous essaiyez de récupérer l'objet de nouveau à un moment donné, vous auriez toujours les données du premier objet.
 
 Quoi qu'il en soit, vous devriez être conscient à quel point ce scénario est ridiculement improbable.
 Une empreinte SHA-1 porte sur 20 octets soit 160 bits.
@@ -222,7 +222,7 @@ Ceci est particulièrement pratique pour la gestion des branches — si vous ave
 #### Double point ####
 
 La spécification de plage de commits la plus fréquente est la syntaxe double-point.
-En gros, cela demande à Git de résoudre la plage des commits qui sont accessible depuis un commit mais ne le sont pas depuis un autre.
+En gros, cela demande à Git de résoudre la plage des commits qui sont accessibles depuis un commit mais ne le sont pas depuis un autre.
 Par exemple, disons que votre historique ressemble à celui de la Figure 6-1.
 
 Insert 18333fig0601.png
@@ -242,7 +242,7 @@ D'un autre côté, si vous souhaitez voir l'opposé — tous les commits dans `m
 	E
 
 C'est pratique si vous souhaitez maintenir `experience` à jour et anticiper les fusions.
-Une autre cas d'utilisation fréquent consiste à voir ce que vous vous appréter à pousser sur une branche distante :
+Un autre cas fréquent d'utilisation consiste à voir ce que vous vous appréter à pousser sur une branche distante :
 
 	$ git log origin/master..HEAD
 
@@ -253,8 +253,8 @@ Par exemple, vous pouvez obtenir les mêmes résultats que précédemment en tap
 
 #### Emplacements multiples ####
 
-La syntaxe double-point est pratique comme raccourci; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels commits sont dans plusieurs branches mais qui sont absents de la branche courante.
-Git vous permets cela avec `^` or `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les commits.
+La syntaxe double-point est pratique comme raccourci ; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels commits sont dans plusieurs branches mais sont absents de la branche courante.
+Git vous permet cela avec `^` or `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les commits.
 Les 3 commandes ci-après sont équivalentes :
 
 	$ git log refA..refB
@@ -272,7 +272,7 @@ Ceci vous fournit un système de requêtage des révisions très puissant, pour 
 #### Triple point ####
 
 La dernière syntaxe majeure de sélection de plage de commits est la syntaxe triple-point, qui spécifie tous les commits accessibles par l'une des deux références, exclusivement.
-Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qui ce trouve sur `master` ou `experience` mais pas sur les 2, exécutez :
+Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qui ce trouve sur `master` ou `experience` mais pas sur les 2, exécutez :
 
 	$ git log master...experience
 	F
@@ -467,7 +467,7 @@ Enfin, vous pouvez vous passer du mode interactif pour indexer partiellement un 
 
 ## La remise ##
 
-Souvent, lorsque vous avez travaillé sur une partie de votre projet, les choses sont dans un état instable mais vous voulez changer de branches pour un peu de travailler sur autre chose.
+Souvent, lorsque vous avez travaillé sur une partie de votre projet, les choses sont dans un état instable mais vous voulez changer de branche pour travailler momentanément sur autre chose.
 Le problème est que vous ne voulez pas valider un travail à moitié fait seulement pour pouvoir y revenir plus tard.
 La réponse à cette problématique est la commande `git stash`.
 
@@ -602,16 +602,16 @@ Si vous voulez un moyen plus facile de tester une nouvelle fois les modification
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-C'est un bon raccourci pour récupérer facilement du travail remisé et de pouvoir travailler dessus dans une nouvelle branche.
+C'est un bon raccourci pour récupérer facilement du travail remisé et pouvoir travailler dessus dans une nouvelle branche.
 
 ## Réécrire l'historique ##
 
 Bien souvent, lorsque vous travaillez avec Git, vous souhaitez modifier votre historique de validation pour une raison quelconque.
 Une des choses merveilleuses de Git est qu'il vous permet de prendre des décisions le plus tard possible.
-Vous pouvez décider quels fichiers vont dans quel commit avant que vous ne validiez l'index, vous pouvez décider que vous ne voulez pas encore montrer que vous travaillez sur quelque chose avec les remises, et vous pouvez réécrire les commits afin déjà sauvegardés pour qu'ils ressemblent à quelque chose d'autre.
-Cela peut signifier changer l'ordre des commits, modifier les messages ou modifier les fichiers appartenant au commit, rassembler ou séparer des commits, ou supprimer complètement des commits ; tout ceci avant de les partager avec les autres.
+Vous pouvez décider quels fichiers vont dans quel commit avant que vous ne validiez l'index, vous pouvez décider que vous ne voulez pas encore montrer que vous travaillez sur quelque chose avec les remises, et vous pouvez réécrire les commits déjà sauvegardés pour qu'ils ressemblent à quelque chose d'autre.
+Cela peut signifier changer l'ordre des commits, modifier les messages ou modifier les fichiers appartenant au commit, rassembler ou scinder des commits, ou supprimer complètement des commits ; tout ceci avant de les partager avec les autres.
 
-Danc cette section, nous expliquerons comment accomplir ces tâches très utiles pour que vous puissiez faire ressembler votre historique de validation à ce que vous voulez avant de le partager avec autrui.
+Dans cette section, nous expliquerons comment accomplir ces tâches très utiles pour que vous puissiez remodeler votre historique de validation comme vous le souhaitez avant de le partager avec autrui.
 
 ### Modifier la dernière validation ###
 
@@ -625,7 +625,7 @@ Si vous voulez seulement modifier votre dernier message de validation, c'est vra
 Cela vous ouvre votre éditeur de texte contenant votre dernier message, prêt à être modifié.
 Lorsque vous sauvegardez et fermez l'éditeur, Git enregistre la nouvelle validation contenant le message et en fait votre dernier commit.
 
-Si vous avez voulu modifier le contenu de votre validation en ajoutant ou modifiant des fichiers, sûrement parce que vous avez oublié d'ajouter les fichiers nouvellement créés quand vous avez validé la première fois, la procédure fonctionne grosso-modo de la même manière.
+Si vous voulez modifier le contenu de votre validation en ajoutant ou modifiant des fichiers, sûrement parce que vous avez oublié d'ajouter les fichiers nouvellement créés quand vous avez validé la première fois, la procédure fonctionne grosso-modo de la même manière.
 Vous indexez les modifications que vous voulez en exécutant `git add` ou `git rm`, et le prochain `git commit --amend` prendra votre index courant et en fera le contenu de votre nouvelle validation.
 
 Vous devez être prudent avec cette technique car votre modification modifie également le SHA-1 du commit.
@@ -634,7 +634,7 @@ Ne modifiez pas votre dernière validation si vous l'avez déjà publiée !
 
 ### Modifier plusieurs messages de validation ###
 
-Pour modifier une validation qui est plus loin dans votre historique, vous devez utilisez des outils plus complexes.
+Pour modifier une validation qui est plus loin dans votre historique, vous devez utiliser des outils plus complexes.
 Git ne contient pas d'outil de modification d'historique, mais vous pouvez utiliser l'outil `rebase` pour rebaser une suite de commits depuis la branche HEAD plutôt que de les déplacer vers une autre branche.
 Avec l'outil rebase interactif, vous pouvez vous arrêter après chaque commit que vous voulez modifier et changer le message, ajouter des fichiers ou quoique ce soit que vous voulez.
 Vous pouvez exécuter rebase interactivement en ajoutant l'option `-i` à `git rebase`.
@@ -676,7 +676,7 @@ Si vous exécutez la commande `log`, vous verrez quelque chose de ce genre :
 
 Remarquez l'ordre inverse.
 Le rebasage interactif va créer un script à exécuter.
-Il commencera au commit que vous spécifiez sur la ligne de commande (`HEAD~3`) et refait les modifications introduites dans chacun des commits du début à la fin.
+Il commencera au commit que vous spécifiez sur la ligne de commande (`HEAD~3`) et refera les modifications introduites dans chacun des commits du début à la fin.
 Il ordonne donc le plus vieux au début, plutôt que le plus récent, car c'est celui qu'il refera en premier.
 
 Vous devez éditer le script afin qu'il s'arrête au commit que vous voulez modifier.
@@ -709,7 +709,7 @@ Puis exécutez :
 
 	$ git rebase --continue
 
-Cette commande appliquera les deux autres commits automatiquement, c'est fait.
+Cette commande appliquera les deux autres commits automatiquement.
 Si vous remplacez "pick" en "edit" sur plusieurs lignes, vous pouvez répéter ces étapes pour chaque commit que vous avez remplacé pour modification.
 Chaque fois, Git s'arrêtera, vous laissant modifier le commit et continuera lorsque vous aurez fini.
 
@@ -770,7 +770,7 @@ Lorsque vous sauvegardez cela, vous obtenez un seul commit amenant les modificat
 
 ### Diviser un commit ###
 
-Pour diviser un commit, il doit être défait, puis partiellement indexé et valider autant de fois que vous voulez pour en finir avec lui.
+Pour diviser un commit, il doit être défait, puis partiellement indexé et validé autant de fois que vous voulez pour en finir avec lui.
 Par exemple, supposons que vous voulez diviser le commit du milieu dans l'exemple des trois commits précédents.
 Plutôt que "updated README formatting and added blame", vous voulez le diviser en deux commits : "updated README formatting" pour le premier, et "added blame" pour le deuxième.
 Vous pouvez le faire avec le script `rebase -i` en remplaçant l'instruction sur le commit que vous voulez divisez en "edit" :
@@ -812,7 +812,7 @@ Vous allez maintenant apprendre quelques usages communs pour vous donner une id�
 
 Cela arrive asser fréquemment.
 Quelqu'un a accidentellement commité un énorme fichier binaire avec une commande `git add .` irréfléchie, and vous voulez le supprimer partout.
-Vous avez peut-être validé un fichier contenant un mot de passe, et que vous voulez rendre votre projet open source.
+Vous avez peut-être validé un fichier contenant un mot de passe et vous voulez rendre votre projet open source.
 `filter-branch` est l'outil que vous voulez probablement utiliser pour nettoyer votre historique entier.
 Pour supprimer un fichier nommé "passwords.txt" de tout votre historique, vous pouvez utiliser l'option `--tree-filter` de `filter-branch` :
 
@@ -825,7 +825,7 @@ Dans le cas présent, vous supprimez le fichier nommé "passwords.txt" de chaque
 Si vous voulez supprimer tous les fichiers temporaires des éditeurs validés accidentellement, vous pouvez exécuter une commande telle que `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
 Vous pourrez alors regarder Git réécrire l'arbre des commits et revalider à chaque fois, pour finir en modifiant la référence de la branche.
-C'est généralement une bonne idée de le faire dans un branche de test puis de faire une forte réinitialisation (hard-reset) de votre branche `master` si le résultat vous convient.
+C'est généralement une bonne idée de le faire dans un branche de test puis de faire une réinitialisation forte(hard-reset) de votre branche `master` si le résultat vous convient.
 Pour exécuter `filter-branch` sur toutes vos branches, vous pouvez ajouter `--all` à la commande.
 
 #### Faire d'un sous-répertoire la nouvelle racine ####

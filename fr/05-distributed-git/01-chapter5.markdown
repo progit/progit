@@ -79,7 +79,7 @@ Figure 5-3. Le processus du dictateur bénévole.
 
 Ce schéma de processus n'est pas très utilisé mais s'avère utile dans des projets très gros ou pour lesquels un ordre hiérarchique existe, car il permet au chef de projet (le dictateur) de déléguer une grande partie du travail et de collecter de grands sous-ensembles de codes à différents points avant de les intégrer.
 
-Ce sont des schémas de processus rendus possibles et généralement utilisés avec des systèmes distribués tels que Git, mais de nombreuses variations restent possibles pour coller à un flux de modifications donné.
+Ce sont des schémas de processus rendu possibles et généralement utilisés avec des systèmes distribués tels que Git, mais de nombreuses variations restent possibles pour coller à un flux de modifications donné.
 En espérant vous avoir aidé à choisir le meilleur mode de gestion pour votre cas, je vais traiter des exemples plus spécifiques de méthode de réalisation des rôles principaux constituant les différents flux.
 
 ## Contribution à un projet ##
@@ -96,7 +96,7 @@ Combien de personnes contribuent activement du code sur ce projet et à quelle v
 Dans de nombreux cas, vous aurez deux à trois développeurs avec quelques validations par jour, voire moins pour des projets endormis.
 Pour des sociétés ou des projets particulièrement grands, le nombre de développeurs peut chiffrer à des milliers, avec des dizaines, voire des centaines de patchs ajoutés chaque jour.
 Ce cas est important car avec de plus en plus de développeurs, les problèmes de fusion et d'application de patch deviennent de plus en plus courants.
-Les modifications soumises par un développeur peuvent être rendu obsolètes ou impossibles à appliquer sur des changements qui ont eu lieu dans l'intervalle de leur développement, de leur approbation ou de leur application.
+Les modifications soumises par un développeur peuvent être obsolètes ou impossibles à appliquer à cause de changements qui ont eu lieu dans l'intervalle de leur développement, de leur approbation ou de leur application.
 Comment dans ces conditions conserver son code en permanence synchronisé et ses patchs valides ?
 
 La variable suivante est le mode de gestion utilisé pour le projet.
@@ -107,9 +107,9 @@ Faîtes-vous partie du processus ?
 Un système à lieutenant est-il en place et doit-on leur soumettre les modifications en premier ?
 
 La variable suivante est la gestion des accès en écriture.
-Le mode de gestion nécessaire à la contribution au projet est très différent selon que vous ayez ou non accès au dépôt en écriture.
+Le mode de gestion nécessaire à la contribution au projet est très différent selon que vous avez ou non accès au dépôt en écriture.
 Si vous n'avez pas accès en écriture, quelle est la méthode préférée pour la soumission de modifications ?
-Y a-t-il seulement un politique en place ?
+Y a-t-il seulement une politique en place ?
 Quelle est la quantité de modifications fournie à chaque fois ?
 Quelle est la périodicité de contribution ?
 
@@ -120,7 +120,7 @@ Vous devriez pouvoir construire vos propres modes de gestion à partir de ces ex
 ### Guides pour une validation ###
 
 Avant de passer en revue les cas d'utilisation spécifiques, voici un point rapide sur les messages de validation.
-La définition et l'utilisation d'un bonne ligne de conduite sur les messages de validation facilitent grandement l'utilisation de Git et la collaboration entre développeurs.
+La définition et l'utilisation d'une bonne ligne de conduite sur les messages de validation facilitent grandement l'utilisation de Git et la collaboration entre développeurs.
 Le projet Git fournit un document qui décrit un certain nombre de bonnes pratiques pour créer des commits qui serviront à fournir des patchs — le document est accessibles dans les sources de Git, dans le fichier `Documentation/SubmittingPatches`.
 
 Premièrement, il ne faut pas soumettre de patchs comportant des erreurs d'espace (caractères espace inutiles en fin de ligne).
@@ -146,7 +146,7 @@ Le chapitre 6 décrit justement quelques trucs et astuces de Git pour réécrire
 
 Le dernier point à soigner est le message de validation.
 S'habituer à écrire des messages de validation de qualité facilite grandement l'emploi et la collaboration avec Git.
-En règle générale, les messages doivent débuter par une ligne unique d'au plus 50 caractères décrivant concisément la modification, suivie d'un ligne vide, suivie d'une explication plus détaillée.
+En règle générale, les messages doivent débuter par une ligne unique d'au plus 50 caractères décrivant concisément la modification, suivie d'une ligne vide, suivie d'une explication plus détaillée.
 Le projet Git exige que l'explication détaillée inclut la motivation de la modification en contrastant le nouveau comportement par rapport à l'ancien — c'est une bonne règle de rédaction.
 Un bonne règle consiste aussi à utiliser le présent de l'impératif ou des verbes substantivés dans le message.
 En d'autres termes, utilisez des ordres.
@@ -181,7 +181,7 @@ Faites ce que je dis, pas ce que je fais.
 ### Cas d'une petite équipe privée ###
 
 Le cas le plus probable que vous rencontrerez est celui du projet privé avec un ou deux autres développeurs.
-Par privé, j'entends source fermé non accessible au public en lecture.
+Par privé, j'entends code source fermé non accessible au public en lecture.
 Vous et les autres développeurs aurez accès en poussée au dépôt.
 
 Dans cet environnement, vous pouvez suivre une méthode similaire à ce que vous feriez en utilisant Subversion ou tout autre système centralisé.
@@ -274,7 +274,7 @@ Elle a créé une branche thématique nommée `prob54` et réalisé trois valida
 Elle n'a pas encore récupéré les modifications de John, ce qui donne un historique semblable à la figure 5-7.
 
 Insert 18333fig0507.png
-Figure 5-7. L'historique initial de commits de Jessica.
+Figure 5-7. L'historique initial des commits de Jessica.
 
 Jessica souhaite se synchroniser sur le travail de John.
 Elle récupère donc ses modifications :
@@ -561,7 +561,7 @@ Par exemple, si vous souhaitez soumettre un second sujet de travail au projet, n
 	$ (email au mainteneur)
 	$ git fetch origin
 
-À présent, chaque sujet est contenu dans son propre silo — similaire à un file de patchs — que vous pouvez réécrire, rebaser et modifier sans que les sujets n'interfèrent ou ne dépendent entre eux, comme sur la figure 5-16.
+À présent, chaque sujet est contenu dans son propre silo — similaire à une file de patchs — que vous pouvez réécrire, rebaser et modifier sans que les sujets n'interfèrent ou ne dépendent entre eux, comme sur la figure 5-16.
 
 Insert 18333fig0516.png
 Figure 5-16. Historique initial des commits avec les modification de fonctionB.

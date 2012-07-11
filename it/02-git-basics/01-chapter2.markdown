@@ -778,7 +778,7 @@ Se hai clonato un repository, il comando automaticamente aggiunge un repository 
 
 Se hai un ramo impostato per tracciare un ramo remoto (vedi la prossima sezione e il Capitolo 3 per maggiori informazioni), puoi usare il comando `git pull` per prelevare automaticamente e poi fondere un ramo remoto nel ramo corrente. Questo è un modo più facile e comodo di lavorare; e in modo predefinito, il comando `git clone` automaticamente imposta il tuo ramo locale master per tracciare il ramo remoto master del server che hai clonato (assumendo che il sorgente remoto ha un ramo master). Lanciare `git pull` generalmente preleva i dati dal server di origine clonato e automaticamente prova a fondere il codice con il codice su cui stai lavorando.
 
-### Buttare nel sorgente remoto ###
+### Inserire nel sorgente remoto ###
 
 Quando hai il tuo progetto al punto che lo vuoi condividere, devi metterlo (fare il push) online (in upstream). Il comando per fare questo è semplice: `git push [nome-remoto] [nome-ramo]`. Se vuoi fare il push del tuo ramo master al tuo server `origin` (ancora, generalmente con la clonazione sono impostati entrambi questi nomi automaticamente), puoi lanciare il push per mettere il tuo lavoro sul server:
 

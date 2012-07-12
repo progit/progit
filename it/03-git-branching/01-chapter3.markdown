@@ -91,3 +91,48 @@ Dato che un branch in Git è in realtà un semplice file che contiene i 40 carat
 Questo è in netto contrasto con la maggior parte degli strumenti branch dei VCS, che coinvolge la copia di tutti i file del progetto in una seconda cartella. Questo può impiegare parecchi secondi o addirittura minuti, in base alla grandezza del progetto, mentre in Git il processo è sempre istantaneo. Inoltre, poichè stiamo registrando i genitori quando eseguiamo il commit, trovare una base adeguata per il merge è automaticamente fatto per noi ed è veramente facile farlo. Queste caratteristiche aiutano ad incoraggiare gli sviluppatori a creare ed utilizzare i branch spesso.
 
 Vediamo perchè dovreste farlo.
+
+## Operazioni di base di Branch e Merge ##
+
+Facciamo un semplice esempio di branch e merge che si potrebbe utilizzare nel mondo reale. Segui questi passi:
+
+1.	Lavora su un sito web.
+2.      Crea un branch per un nuovo lavoro sul quale stai lavorando.
+3.      Fai qualche lavoro in questo branch.
+
+A questo punto, ricevi una chiamata, venendo a conoscenza che un altro problema è critico e avrai bisogno di fixarlo. Farai le seguenti operazioni:
+
+1.	Tornerai al branch di produzione (il principale).
+2.      Creerai un branch per aggiungere l'hotfix.
+3.      Dopo averlo testato, farai un'operazione di merge con il branch, e lo inserirai nella produzione.
+4.      Tornerai al tuo vecchio lavoro e continuerai a lavorare.
+
+### Operazione di base di Branch ###
+
+Per prima cosa, diciamo che si sta lavorando sul progetto e hai già effettuato un paio di commit (guarda la Figura 3-10).
+
+Insert 18333fig0310.png 
+Figura 3-10. Una piccola e semplice storia del commit.
+
+Hai deciso che lavorerai sul problema#53 in base a qualsiasi sistema di tracciamento dei problemi che la vostra azienda utilizza. Per essere chiari, Git non è legato a qualche particolare sistema di tracciamento dei problemi; ma poichè il problema#53 è un argomento mirato sul quale vuoi lavorare, creerai un nuovo branch nel quale poter lavorare. Per creare un branch e spostarti in esso nello stesso tempo, puoi eseguire il comando `git checkout` con l'opzione `-b`:
+
+	$ git checkout -b iss53
+	Switched to a new branch "iss53"
+
+Questa è una scorciatoia per:
+
+	$ git branch iss53
+	$ git checkout iss53
+
+La Figura 3-11 illustra il risultato.
+
+Insert 18333fig0311.png 
+Figure 3-11. Crea un nuovo puntatore del branch.
+
+Lavori sul tuo sito web ed esegui alcuni commit. Facendo questo muovi il branch `prob53` in avanti, perchè lo hai controllato (cioè, il tuo HEAD sta puntando su di esso; guarda la Figura 3-12):
+
+	$ vim index.html
+	$ git commit -a -m 'added a new footer [issue 53]'
+
+Insert 18333fig0312.png 
+Figure 3-12. Il branch prob53 è stato spostato in avanti con il tuo lavoro.

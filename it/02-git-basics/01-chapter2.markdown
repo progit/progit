@@ -799,7 +799,7 @@ Se vuoi vedere più informazioni su una sorgente remota in particolare, puoi usa
 	    master
 	    ticgit
 
-Questo elenca tutti gli URL del repository remoto oltre che alle informazione sui rami tracciati. Il comando fortunatamente ti dirà che sei sul ramo principale e se lanci `git pull`, questo automaticamente unirà il ramo master sul server remoto dopo aver prelevato tutte le referenze remote. Inoltre elencherà le referenze che saranno scaricate.
+Questo elenca tutti gli URL del repository remoto oltre che alle informazioni sui rami tracciati. Il comando fortunatamente ti dirà che sei sul ramo principale e se lanci `git pull`, questo automaticamente unirà il ramo master sul server remoto dopo aver prelevato tutte le referenze remote. Inoltre elencherà le referenze che saranno scaricate.
 
 Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, ovviamente, potrai vedere molte informazioni da `git remote show`:
 
@@ -1068,7 +1068,7 @@ Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti avere una se
 	$ git co<tab><tab>
 	commit config
 
-In questo caso, scrivendo git co a poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
+In questo caso, scrivendo git co e poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
 
 Questo funziona anche con le opzioni, cosa che forse è molto più utile. Per esempio, se si lancia il comando `git log` e non si ricorda una opzione, si può iniziare a pigiare il tasto Tab per vedere le corrispondenze:
 

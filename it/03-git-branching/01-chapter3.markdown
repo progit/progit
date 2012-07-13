@@ -116,13 +116,13 @@ Figura 3-10. Una piccola e semplice storia del commit.
 
 Hai deciso che lavorerai sul problema#53 in base a qualsiasi sistema di tracciamento dei problemi che la vostra azienda utilizza. Per essere chiari, Git non è legato a qualche particolare sistema di tracciamento dei problemi; ma poichè il problema#53 è un argomento mirato sul quale vuoi lavorare, creerai un nuovo branch nel quale poter lavorare. Per creare un branch e spostarti in esso nello stesso tempo, puoi eseguire il comando `git checkout` con l'opzione `-b`:
 
-	$ git checkout -b iss53
-	Switched to a new branch "iss53"
+	$ git checkout -b prob53
+	Switched to a new branch "prob53"
 
 Questa è una scorciatoia per:
 
-	$ git branch iss53
-	$ git checkout iss53
+	$ git branch prob53
+	$ git checkout prob53
 
 La Figura 3-11 illustra il risultato.
 
@@ -132,7 +132,64 @@ Figure 3-11. Crea un nuovo puntatore del branch.
 Lavori sul tuo sito web ed esegui alcuni commit. Facendo questo muovi il branch `prob53` in avanti, perchè lo hai controllato (cioè, il tuo HEAD sta puntando su di esso; guarda la Figura 3-12):
 
 	$ vim index.html
-	$ git commit -a -m 'added a new footer [issue 53]'
+	$ git commit -a -m 'aggiunto un nuovo footer [problema 53]'
 
 Insert 18333fig0312.png 
 Figure 3-12. Il branch prob53 è stato spostato in avanti con il tuo lavoro.
+
+Ora ricevi una chiamata con la quale vieni a conoscenza che c'è un problema con il sito web, ed è necessario risolverlo immediatamente. Con Git non avrai bisogno di inserire il fix insieme ai cambiamenti che hai fatto con il `prob53`, e non hai bisogno di sforzarti molto per tornare a questi cambiamenti, prima di poter lavorare su come applicare il fix a ciò che è in produzione. Tutto ciò che devi fare è tornare al branch master:
+
+Comunque prima di fare questo, nota che se la tua cartella di lavoro o la tua area di staging ha dei cambiamenti che non sono stati inseriti in un commit che vanno in conflitto con il branch che stai controllando, Git non ti farà cambiare il branch. È meglio avere uno stato di lavoro pulito quando cambi il branch. Ci sono modi per evitare questo (ovvero l'operazione di stash ed eseguire il commit sulle modifiche) che vedremo in seguito. Per ora, farai il commit per tutte le tue modifiche, così potrai tornare indietro al tuo branch master:
+
+	$ git checkout master
+	Switched to branch "master"
+
+A questo punto, la tua cartella di lavoro del progetto è esattamente com'era prima che iniziassi a lavorare sul problema #53, e potrai concentrarti sul tuo hotfix. Questo è un punto importante da ricordare: Git resetta la tua cartella di lavoro facendola diventare come lo snapshot del commit del branch che ti interessa. Esso aggiunge, rimuove, e modifica i file automaticamente assicurandosi che la tua copia di lavoro del branch sia come lo era dopo l'ultimo commit.
+
+Dopo, avrai un hotfix da effettuare. Creiamo un branch hotfix sul quale lavorare finchè non sarà completato (guarda la Figura 3-13):
+
+	$ git checkout -b 'hotfix'
+	Switched to a new branch "hotfix"
+	$ vim index.html
+	$ git commit -a -m 'fissato l'indirizzo e-mail errato'
+	[hotfix]: created 3a0874c: "fissato l'indirizzo e-mail errato"
+	 1 files changed, 0 insertions(+), 1 deletions(-)
+
+Insert 18333fig0313.png 
+Figure 3-13. Il branch hotfix è indietro rispetto al tuo branch master.
+
+Potrai eseguire i tuoi test, assicurati che l'hotfix sia come lo vuoi, ed effettua il merge con il tuo branch master per inserirlo nella produzione. Effettui questo con il comando `git merge`:
+
+	$ git checkout master
+	$ git merge hotfix
+	Updating f42c576..3a0874c
+	Fast forward
+	 README |    1 -
+	 1 files changed, 0 insertions(+), 1 deletions(-)
+	 
+Noterai la frase "Fast forward" nel merge. Dato che il commit a cui punta il branch si è unito direttamente a monte del commit sul quale sei, Git sposta il puntatore in avanti. Per dirlo in un altro modo, quando provi ad effettuare il merge tra un commit e un commit che può esere raggiunto seguendo la storia del primo commit, Git semplifica le cose muovendo il puntatore in avanti perchè non c'è un lavoro divergente per effettuare il merge - questo è chiamato "fast forward".
+
+Le tue modifiche sono ora nello snapshot del commit a cui punta il branch `master`, ed è possibile distribuire la modifica (Figura 3-14).
+
+Insert 18333fig0314.png 
+Figure 3-14. Il tuo branch master punta allo stesso punto del tuo branch hotfix dopo il merge.
+
+Dopo che il tuo super importante fix è distribuito, sei pronto per tornare al lavoro che stavi facendo prima di essere interrotto. Comunque, prima eliminerai il branch `hotfix`, perchè non ne avrai più bisogno - il `master` punta allo stesso punto. Puoi cancellarlo con l'opzione `d` del comando `git branch`:
+
+	$ git branch -d hotfix
+	Deleted branch hotfix (3a0874c).
+
+Ora puoi tornare al branch del problema #53 e continuare a lavorare su di esso (guarda la Figura 3-15):
+
+	$ git checkout prob53
+	Switched to branch "prob53"
+	$ vim index.html
+	$ git commit -a -m 'Finito il nuovo footer [problema 53]'
+	[iss53]: created ad82d7a: "Finito il nuovo footer [problema 53]"
+	 1 files changed, 1 insertions(+), 0 deletions(-)
+
+
+Insert 18333fig0315.png 
+Figure 3-15. Il tuo branch prob53 può muoversi avanti indipendentemente.
+
+Vale la pena notare che il lavoro che hai fatto nel tuo branch hotfix non è contenuto nel file del tuo ramo `prob53`. Se hai bisogno di inserirlo, puoi fare il merge tra il branch `master` e il tuo branch `prob53` eseguendo `git merge master`, o puoi aspettare di integrare queste modifiche finchè non deciderai di unire il branch `prob53` all'interno del branch `master`.

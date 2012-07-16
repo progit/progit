@@ -799,61 +799,109 @@ If you merge in the other branch, instead of having merge conflicts with the dat
 
 In this case, database.xml stays at whatever version you originally had.
 
+## Перехватчики в Git ##
 ## Git Hooks ##
+
+Как и во многих других системах управления версиями, в Git есть возможность запускать собственные сценарии в те моменты, когда происходят некоторые важные действия. Существуют две группы подобных перехватчиков (hook): на стороне клиента и на стороне сервера. Перехватчики на стороне клиента предназначены для клиентских операций, таких как создание коммита и слияние. Перехватчики на стороне сервера сделаны для серверных операций, таких как приём отправленных коммитов. Перехватчики  могут быть использованы для выполнения самых различных задач. О нескольких из таких задач мы и поговорим.
 
 Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
 
+### Установка перехватчика ###
 ### Installing a Hook ###
+
+Все перехватчики хранятся в подкаталоге `hooks` в Git-каталоге. В большинстве проектов это `.git/hooks`. По умолчанию Git наполняет этот каталог кучей примеров сценариев, многие из которых полезны сами по себе, но кроме того в них задокументированы входные значения для каждого из сценариев. Все эти примеры это сценарии для командной оболочки с вкраплениями Perl'а, но вообще-то любой исполняемый сценарий с правильным именем будет работать — вы можете писать их на Ruby или Python или на чём-то ещё, что вам нравится. В версиях Git'а старше 1.6 эти файлы с примерами перехватчиков оканчиваются на .sample; вам надо их переименовать. Для версий Git'а меньше чем 1.6 файлы с примерами имеют правильные имена, но не имеют прав на исполнение.
 
 The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
 
+Чтобы активировать сценарий-перехватчик, положите файл в подкаталог `hooks` в Git-каталог, дайте ему правильное имя и права на исполнение. С того момента он будет вызываться. Основные имена перехватчиков мы сейчас рассмотрим.
+
 To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
 
+### Перехватчики на стороне клиента ###
 ### Client-Side Hooks ###
+
+Существует множество перехватчиков работающих на стороне клиента. В этом разделе они поделены на перехватчики используемые при работе над коммитами, сценарии используемые в процессе работы с электронными письмами и остальные сценарии на стороне клиента.
 
 There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail-workflow scripts, and the rest of the client-side scripts.
 
+#### Перехватчики для работы с коммитами ####
 #### Committing-Workflow Hooks ####
+
+Первые четыре перехватчика относятся к процессу создания коммита. Перехватчик `pre-commit` запускается первым, ещё до того как вы наберёте сообщение коммита. Его используют для проверки снимка состояния перед тем как сделать коммит, чтобы проверить не забыли ли вы что-нибудь, чтобы убедиться, что вы запустили тесты, или проверить в коде ещё что-нибудь, что вам нужно. Завершение перехватчика с ненулевым кодом завершения прерывает создание коммита, хотя вы можете обойти это с помощью `git commit --no-verify`. Можно, например, проверять стиль кодирования (запускать lint или что-нибудь аналогичное), проверять наличие пробельных символов в конце строк (перехватчик по умолчанию занимается именно этим) или проверять наличие необходимой документации для новых методов.
 
 The first four hooks have to do with the committing process. The `pre-commit` hook is run first, before you even type in a commit message. It’s used to inspect the snapshot that’s about to be committed, to see if you’ve forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Exiting non-zero from this hook aborts the commit, although you can bypass it with `git commit --no-verify`. You can do things like check for code style (run lint or something equivalent), check for trailing whitespace (the default hook does exactly that), or check for appropriate documentation on new methods.
 
+Перехватчик `prepare-commit-msg` запускается до появления редактора с сообщением коммита, но после создания сообщения по умолчанию. Он позволяет отредактировать сообщение по умолчанию перед тем, как автор коммита его увидит. У этого перехватчика есть несколько опций: путь к файлу, в котором сейчас хранится сообщение коммита, тип коммита и SHA-1 коммита (если в коммит вносится правка с помощью `git commit --amend`). Как правило данный перехватчик не представляет пользы для обычных коммитов; он скорее хорош для коммитов с автогенерируемыми сообщениями, такими как шаблонные сообщения коммитов, коммиты-слияния, уплотнённые коммиты и коммиты c исправлениями (amended commits). Данный перехватчик можно использовать в связке с шаблоном для коммита, чтобы программно добавлять в него информацию.
+
 The `prepare-commit-msg` hook is run before the commit message editor is fired up but after the default message is created. It lets you edit the default message before the commit author sees it. This hook takes a few options: the path to the file that holds the commit message so far, the type of commit, and the commit SHA-1 if this is an amended commit. This hook generally isn’t useful for normal commits; rather, it’s good for commits where the default message is auto-generated, such as templated commit messages, merge commits, squashed commits, and amended commits. You may use it in conjunction with a commit template to programmatically insert information.
+
+Перехватчик `commit-msg` принимает один параметр, и снова это путь к временному файлу, содержащему текущее сообщение коммита. Когда сценарий завершается с ненулевым кодом, Git прерывает процесс создания коммита. Так что можно использовать его для проверки состояния проекта или сообщений коммита перед тем как его одобрить. В последнем разделе главы я продемонстрирую, как использовать данный перехватчик, чтобы проверить, что сообщение коммита соответствует требуемому шаблону.
 
 The `commit-msg` hook takes one parameter, which again is the path to a temporary file that contains the current commit message. If this script exits non-zero, Git aborts the commit process, so you can use it to validate your project state or commit message before allowing a commit to go through. In the last section of this chapter, I’ll demonstrate using this hook to check that your commit message is conformant to a required pattern.
 
+После того как весь процесс создания коммита завершён, запускается перехватчик `post-commit`. Он не принимает никаких параметров, но вы с лёгкостью можете получить последний коммит выполнив `git log -1 HEAD`. Как правило, этот сценарий используется для уведомлений или чего-то в этом роде.
+
 After the entire commit process is completed, the `post-commit` hook runs. It doesn’t take any parameters, but you can easily get the last commit by running `git log -1 HEAD`. Generally, this script is used for notification or something similar.
+
+Сценарии на стороне клиента предназначенные для запуска во время работы над коммитами могут быть использованы при осуществлении практически любого типа рабочего процесса. Их часто используют, чтобы обеспечить соблюдение определённых стандартов, хотя важно отметить, что данные сценарии не передаются при клонировании. Вы можете принудить к соблюдению правил на стороне сервера, отвергая присланные коммиты, если они не подчиняются некоторым правилам, но использование данных сценариев на клиентской стороне полностью зависит только от разработчика. Итак, эти сценарии призваны помочь разработчикам, и это обязанность разработчиков установить и сопровождать их, не смотря на то, что разработчики в любой момент имеют возможность подменить их или модифицировать.
 
 The committing-workflow client-side scripts can be used in just about any workflow. They’re often used to enforce certain policies, although it’s important to note that these scripts aren’t transferred during a clone. You can enforce policy on the server side to reject pushes of commits that don’t conform to some policy, but it’s entirely up to the developer to use these scripts on the client side. So, these are scripts to help developers, and they must be set up and maintained by them, although they can be overridden or modified by them at any time.
 
+#### Перехватчики для работы с e-mail ####
 #### E-mail Workflow Hooks ####
+
+Для рабочих процессов, основанных на электронной почте, есть три специальных клиентских перехватчика. Все они вызываются командой `git am`, так что, если вы не пользуетесь этой командой в процессе своей работы, то можете смело переходить к следующему разделу. Если вы принимаете патчи, отправленные по e-mail и подготовленные с помощью `git format-patch`, то некоторые из них могут оказать для вас полезными.
 
 You can set up three client-side hooks for an e-mail-based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
 
+Первый запускаемый перехватчик — это `applypatch-msg`. Он принимает один аргумент — имя временного файла, содержащего предлагаемое сообщение коммита. Git прерывает наложение патча, если сценарий завершается с ненулевым кодом. Это может быть использовано для того, чтобы убедиться, что сообщение коммита правильно отформатировано или, чтобы нормализовать сообщение, отредактировав его на месте из сценария.
+
 The first hook that is run is `applypatch-msg`. It takes a single argument: the name of the temporary file that contains the proposed commit message. Git aborts the patch if this script exits non-zero. You can use this to make sure a commit message is properly formatted or to normalize the message by having the script edit it in place.
+
+Следующий перехватчик, запускаемый во время наложения патчей с помощью `git am` — это `pre-applypatch`. У него нет аргументов, и он запускается после того, как патч наложен, поэтому его можно использовать для проверки снимка состояния перед созданием коммита. Можно запустить тесты или как-то ещё проверить рабочее дерево с помощью этого сценария. Если чего-то не хватает, или тесты не пройдены, выход с ненулевым кодом так же завершает сценарий `git am` без применения патча.
 
 The next hook to run when applying patches via `git am` is `pre-applypatch`. It takes no arguments and is run after the patch is applied, so you can use it to inspect the snapshot before making the commit. You can run tests or otherwise inspect the working tree with this script. If something is missing or the tests don’t pass, exiting non-zero also aborts the `git am` script without committing the patch.
 
+Последний перехватчик, запускаемый во время работы `git am` — это `post-applypatch`. Его можно использовать для уведомления группы или автора патча о том, что вы его применили. Этим сценарием процесс наложения патча остановить уже нельзя.
+
 The last hook to run during a `git am` operation is `post-applypatch`. You can use it to notify a group or the author of the patch you pulled in that you’ve done so. You can’t stop the patching process with this script.
 
+#### Другие клиентские перехватчики ####
 #### Other Client Hooks ####
+
+Перехватчик `pre-rebase` запускается перед перемещением чего-либо, и может остановить процесс перемещения, если завершится с ненулевым кодом. Этот перехватчик можно использовать, чтобы запретить перемещение любых уже отправленных коммитов. Пример перехватчика `pre-rebase`, устанавливаемый Git'ом, это и делает, хотя он предполагает, что ветка, в которой вы публикуете свои изменения, называется next. Вам скорее всего нужно будет заменить это имя на имя своей публичной стабильной ветки.
 
 The `pre-rebase` hook runs before you rebase anything and can halt the process by exiting non-zero. You can use this hook to disallow rebasing any commits that have already been pushed. The example `pre-rebase` hook that Git installs does this, although it assumes that next is the name of the branch you publish. You’ll likely need to change that to whatever your stable, published branch is.
 
+После успешного выполнения команды `git checkout` запускается перехватчик `post-checkout`. Его можно использовать для того, чтобы правильно настроить рабочий каталог для своей проектной среды. Под этим может подразумеваться, например, перемещение в каталог больших бинарных файлов, которые вам не хочется включать под версионный контроль, автоматическое генерирование документации или что-то ещё в этом же духе.
+
 After you run a successful `git checkout`, the `post-checkout` hook runs; you can use it to set up your working directory properly for your project environment. This may mean moving in large binary files that you don’t want source controlled, auto-generating documentation, or something along those lines.
+
+И наконец, перехватчик `post-merge` запускается после успешного выполнения команды `merge`. Его можно использовать для восстановления в рабочем дереве данных, которые Git не может отследить, таких как информация о правах. Этот перехватчик может также проверить наличие внешних по отношению к контролируемым Git'ом файлов, которые вам нужно скопировать в каталог при изменениях рабочего дерева.
 
 Finally, the `post-merge` hook runs after a successful `merge` command. You can use it to restore data in the working tree that Git can’t track, such as permissions data. This hook can likewise validate the presence of files external to Git control that you may want copied in when the working tree changes.
 
+### Перехватчики на стороне сервера ###
 ### Server-Side Hooks ###
+
+В добавок к перехватчикам на стороне клиента вы, как системный администратор, можете задействовать пару важных перехватчиков, работающих на стороне сервера, чтобы навязать в своём проекте правила практически любого вида. Эти сценарии выполняются до и после отправки данных на сервер. Pre-перехватчики могут в любое время завершиться с ненулевым кодом, чтобы отклонить отправленные данные, а также, чтобы вывести обратно клиенту сообщение об ошибке. Вы можете настроить правила приёма данных настолько сложными, насколько хотите.
 
 In addition to the client-side hooks, you can use a couple of important server-side hooks as a system administrator to enforce nearly any kind of policy for your project. These scripts run before and after pushes to the server. The pre hooks can exit non-zero at any time to reject the push as well as print an error message back to the client; you can set up a push policy that’s as complex as you wish.
 
+#### pre-receive и post-receive ####
 #### pre-receive and post-receive ####
 
+Первым сценарий, который выполняется при обработке отправленных клиентом данных, — это `pre-receive`. Он принимает на вход из stdin список отправленных ссылок; если он завершается с ненулевым кодом, ни одна из них не будет принята. Этот перехватчик можно использовать, чтобы, например, убедиться, что ни одна из обновлённых ссылок не выполняет ничего кроме перемотки, или, чтобы убедиться, что пользователь, запустивший `git push`, имеет права на создание, удаление или изменение для всех файлов модифицируемых этим push'ем.
+
 The first script to run when handling a push from a client is `pre-receive`. It takes a list of references that are being pushed from stdin; if it exits non-zero, none of them are accepted. You can use this hook to do things like make sure none of the updated references are non-fast-forwards; or to check that the user doing the pushing has create, delete, or push access or access to push updates to all the files they’re modifying with the push.
+
+Перехватчик `post-receive` запускается после того, как весь процесс завершился, и может быть использован для обновления других сервисов или уведомления пользователей. Он получает на вход из stdin те же данные, что и перехватчик `pre-receive`. Примерами использования могут быть: отправка писем в рассылку, уведомление сервера непрерывной интеграции или обновление карточки (ticket) в системе отслеживания ошибок — вы можете даже анализировать сообщения коммитов, чтобы выяснить, нужно ли открыть, изменить или закрыть какие-то карточки. Этот сценарий не сможет остановить процесс приёма данных, но клиент не будет отключён до тех пор, пока процесс не завершится; так что будьте осторожны, если хотите сделать что-то, что может занять много времени.
 
 The `post-receive` hook runs after the entire process is completed and can be used to update other services or notify users. It takes the same stdin data as the `pre-receive` hook. Examples include e-mailing a list, notifying a continuous integration server, or updating a ticket-tracking system — you can even parse the commit messages to see if any tickets need to be opened, modified, or closed. This script can’t stop the push process, but the client doesn’t disconnect until it has completed; so, be careful when you try to do anything that may take a long time.
 
 #### update ####
+
+Сценарий `update` очень похож на сценарий `pre-receive`, за исключением того, что он выполняется для каждой ветки, которую отправитель данных пытается обновить. Если отправитель пытается отправить несколько веток, то `pre-receive` выполнится только один раз, в то время как `update` выполнится по разу для каждой обновляемой ветки. Сценарий не считывает параметры из stdin, а принимает на вход три аргумента: имя ссылки (ветки), SHA-1, на которую ссылка указывала до запуска `push`, и тот SHA-1, который пользователь пытается отправить. Если сценарий `update` завершится с ненулевым кодом, то только эта ссылка будет отклонена, остальные ссылки всё ещё смогут быть обновлены.
 
 The update script is very similar to the `pre-receive` script, except that it’s run once for each branch the pusher is trying to update. If the pusher is trying to push to multiple branches, `pre-receive` runs only once, whereas update runs once per branch they’re pushing to. Instead of reading from stdin, this script takes three arguments: the name of the reference (branch), the SHA-1 that reference pointed to before the push, and the SHA-1 the user is trying to push. If the update script exits non-zero, only that reference is rejected; other references can still be updated.
 

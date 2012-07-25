@@ -543,128 +543,72 @@ Insert 18333fig0703.png
 В данном случае database.xml остался в том варианте, в каком и был изначально.
 
 ## Перехватчики в Git ##
-## Git Hooks ##
 
-Как и во многих других системах управления версиями, в Git есть возможность запускать собственные сценарии в те моменты, когда происходят некоторые важные действия. Существуют две группы подобных перехватчиков (hook): на стороне клиента и на стороне сервера. Перехватчики на стороне клиента предназначены для клиентских операций, таких как создание коммита и слияние. Перехватчики на стороне сервера сделаны для серверных операций, таких как приём отправленных коммитов. Перехватчики  могут быть использованы для выполнения самых различных задач. О нескольких из таких задач мы и поговорим.
-
-Like many other Version Control Systems, Git has a way to fire off custom scripts when certain important actions occur. There are two groups of these hooks: client side and server side. The client-side hooks are for client operations such as committing and merging. The server-side hooks are for Git server operations such as receiving pushed commits. You can use these hooks for all sorts of reasons, and you’ll learn about a few of them here.
+Как и во многих других системах управления версиями, в Git есть возможность запускать собственные сценарии в те моменты, когда происходят некоторые важные действия. Существуют две группы подобных перехватчиков (hook): на стороне клиента и на стороне сервера. Перехватчики на стороне клиента предназначены для клиентских операций, таких как создание коммита и слияние. Перехватчики на стороне сервера нужны для серверных операций, таких как приём отправленных коммитов. Перехватчики могут быть использованы для выполнения самых различных задач. О некоторых из таких задач мы и поговорим.
 
 ### Установка перехватчика ###
-### Installing a Hook ###
 
-Все перехватчики хранятся в подкаталоге `hooks` в Git-каталоге. В большинстве проектов это `.git/hooks`. По умолчанию Git наполняет этот каталог кучей примеров сценариев, многие из которых полезны сами по себе, но кроме того в них задокументированы входные значения для каждого из сценариев. Все эти примеры это сценарии для командной оболочки с вкраплениями Perl'а, но вообще-то любой исполняемый сценарий с правильным именем будет работать — вы можете писать их на Ruby или Python или на чём-то ещё, что вам нравится. В версиях Git'а старше 1.6 эти файлы с примерами перехватчиков оканчиваются на .sample; вам надо их переименовать. Для версий Git'а меньше чем 1.6 файлы с примерами имеют правильные имена, но не имеют прав на исполнение.
+Все перехватчики хранятся в подкаталоге `hooks` в Git-каталоге. В большинстве проектов это `.git/hooks`. По умолчанию Git заполняет этот каталог кучей примеров сценариев, многие из которых полезны сами по себе, но кроме того в них задокументированы входные значения для каждого из сценариев. Все эти примеры являются сценариями для командной оболочки с вкраплениями Perl'а, но вообще-то будет работать любой исполняемый сценарий с правильным именем — вы можете писать их на Ruby или Python или на чём-то ещё, что вам нравится. В версиях Git'а старше 1.6 эти файлы с примерами перехватчиков оканчиваются на .sample; вам надо их переименовать. Для версий Git'а меньше чем 1.6 файлы с примерами имеют правильные имена, но не имеют прав на исполнение.
 
-The hooks are all stored in the `hooks` subdirectory of the Git directory. In most projects, that’s `.git/hooks`. By default, Git populates this directory with a bunch of example scripts, many of which are useful by themselves; but they also document the input values of each script. All the examples are written as shell scripts, with some Perl thrown in, but any properly named executable scripts will work fine — you can write them in Ruby or Python or what have you. For post-1.6 versions of Git, these example hook files end with .sample; you’ll need to rename them. For pre-1.6 versions of Git, the example files are named properly but are not executable.
-
-Чтобы активировать сценарий-перехватчик, положите файл в подкаталог `hooks` в Git-каталог, дайте ему правильное имя и права на исполнение. С того момента он будет вызываться. Основные имена перехватчиков мы сейчас рассмотрим.
-
-To enable a hook script, put a file in the `hooks` subdirectory of your Git directory that is named appropriately and is executable. From that point forward, it should be called. I’ll cover most of the major hook filenames here.
+Чтобы активировать сценарий-перехватчик, положите файл в подкаталог `hooks` в Git-каталоге, дайте ему правильное имя и права на исполнение. С этого момента он будет вызываться. Основные имена перехватчиков мы сейчас рассмотрим.
 
 ### Перехватчики на стороне клиента ###
-### Client-Side Hooks ###
 
-Существует множество перехватчиков работающих на стороне клиента. В этом разделе они поделены на перехватчики используемые при работе над коммитами, сценарии используемые в процессе работы с электронными письмами и остальные сценарии на стороне клиента.
-
-There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail-workflow scripts, and the rest of the client-side scripts.
+Существует множество перехватчиков, работающих на стороне клиента. В этом разделе они поделены на перехватчики используемые при работе над коммитами, сценарии используемые в процессе работы с электронными письмами и все остальные, работающие на стороне клиента.
 
 #### Перехватчики для работы с коммитами ####
-#### Committing-Workflow Hooks ####
 
-Первые четыре перехватчика относятся к процессу создания коммита. Перехватчик `pre-commit` запускается первым, ещё до того как вы наберёте сообщение коммита. Его используют для проверки снимка состояния перед тем как сделать коммит, чтобы проверить не забыли ли вы что-нибудь, чтобы убедиться, что вы запустили тесты, или проверить в коде ещё что-нибудь, что вам нужно. Завершение перехватчика с ненулевым кодом завершения прерывает создание коммита, хотя вы можете обойти это с помощью `git commit --no-verify`. Можно, например, проверять стиль кодирования (запускать lint или что-нибудь аналогичное), проверять наличие пробельных символов в конце строк (перехватчик по умолчанию занимается именно этим) или проверять наличие необходимой документации для новых методов.
+Первые четыре перехватчика относятся к процессу создания коммита. Перехватчик `pre-commit` запускается первым, ещё до того, как вы наберёте сообщение коммита. Его используют для проверки снимка состояния перед тем, как сделать коммит, чтобы проверить не забыли ли вы что-нибудь, чтобы убедиться, что вы запустили тесты, или проверить в коде ещё что-нибудь, что вам нужно. Завершение перехватчика с ненулевым кодом прерывает создание коммита, хотя вы можете обойти это с помощью `git commit --no-verify`. Можно, например, проверить стиль кодирования (запускать lint или что-нибудь аналогичное), проверить наличие пробельных символов в конце строк (перехватчик по умолчанию занимается именно этим) или проверить наличие необходимой документации для новых методов.
 
-The first four hooks have to do with the committing process. The `pre-commit` hook is run first, before you even type in a commit message. It’s used to inspect the snapshot that’s about to be committed, to see if you’ve forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Exiting non-zero from this hook aborts the commit, although you can bypass it with `git commit --no-verify`. You can do things like check for code style (run lint or something equivalent), check for trailing whitespace (the default hook does exactly that), or check for appropriate documentation on new methods.
+Перехватчик `prepare-commit-msg` запускается до появления редактора с сообщением коммита, но после создания сообщения по умолчанию. Он позволяет отредактировать сообщение по умолчанию перед тем, как автор коммита его увидит. У этого перехватчика есть несколько опций: путь к файлу, в котором сейчас хранится сообщение коммита, тип коммита и SHA-1 коммита (если в коммит вносится правка с помощью `git commit --amend`). Как правило данный перехватчик не представляет пользы для обычных коммитов; он скорее хорош для коммитов с автогенерируемыми сообщениями, такими как шаблонные сообщения коммитов, коммиты-слияния, уплотнённые коммиты (squashed commits) и коммиты c исправлениями (amended commits). Данный перехватчик можно использовать в связке с шаблоном для коммита, чтобы программно добавлять в него информацию.
 
-Перехватчик `prepare-commit-msg` запускается до появления редактора с сообщением коммита, но после создания сообщения по умолчанию. Он позволяет отредактировать сообщение по умолчанию перед тем, как автор коммита его увидит. У этого перехватчика есть несколько опций: путь к файлу, в котором сейчас хранится сообщение коммита, тип коммита и SHA-1 коммита (если в коммит вносится правка с помощью `git commit --amend`). Как правило данный перехватчик не представляет пользы для обычных коммитов; он скорее хорош для коммитов с автогенерируемыми сообщениями, такими как шаблонные сообщения коммитов, коммиты-слияния, уплотнённые коммиты и коммиты c исправлениями (amended commits). Данный перехватчик можно использовать в связке с шаблоном для коммита, чтобы программно добавлять в него информацию.
+Перехватчик `commit-msg` принимает один параметр, и снова это путь к временному файлу, содержащему текущее сообщение коммита. Когда сценарий завершается с ненулевым кодом, Git прерывает процесс создания коммита. Так что можно использовать его для проверки состояния проекта или сообщений коммита перед тем, как его одобрить. В последнем разделе главы я продемонстрирую, как использовать данный перехватчик, чтобы проверить, что сообщение коммита соответствует требуемому шаблону.
 
-The `prepare-commit-msg` hook is run before the commit message editor is fired up but after the default message is created. It lets you edit the default message before the commit author sees it. This hook takes a few options: the path to the file that holds the commit message so far, the type of commit, and the commit SHA-1 if this is an amended commit. This hook generally isn’t useful for normal commits; rather, it’s good for commits where the default message is auto-generated, such as templated commit messages, merge commits, squashed commits, and amended commits. You may use it in conjunction with a commit template to programmatically insert information.
+После того, как весь процесс создания коммита завершён, запускается перехватчик `post-commit`. Он не принимает никаких параметров, но вы с лёгкостью можете получить последний коммит, выполнив `git log -1 HEAD`. Как правило, этот сценарий используется для уведомлений или чего-то в этом роде.
 
-Перехватчик `commit-msg` принимает один параметр, и снова это путь к временному файлу, содержащему текущее сообщение коммита. Когда сценарий завершается с ненулевым кодом, Git прерывает процесс создания коммита. Так что можно использовать его для проверки состояния проекта или сообщений коммита перед тем как его одобрить. В последнем разделе главы я продемонстрирую, как использовать данный перехватчик, чтобы проверить, что сообщение коммита соответствует требуемому шаблону.
-
-The `commit-msg` hook takes one parameter, which again is the path to a temporary file that contains the current commit message. If this script exits non-zero, Git aborts the commit process, so you can use it to validate your project state or commit message before allowing a commit to go through. In the last section of this chapter, I’ll demonstrate using this hook to check that your commit message is conformant to a required pattern.
-
-После того как весь процесс создания коммита завершён, запускается перехватчик `post-commit`. Он не принимает никаких параметров, но вы с лёгкостью можете получить последний коммит выполнив `git log -1 HEAD`. Как правило, этот сценарий используется для уведомлений или чего-то в этом роде.
-
-After the entire commit process is completed, the `post-commit` hook runs. It doesn’t take any parameters, but you can easily get the last commit by running `git log -1 HEAD`. Generally, this script is used for notification or something similar.
-
-Сценарии на стороне клиента предназначенные для запуска во время работы над коммитами могут быть использованы при осуществлении практически любого типа рабочего процесса. Их часто используют, чтобы обеспечить соблюдение определённых стандартов, хотя важно отметить, что данные сценарии не передаются при клонировании. Вы можете принудить к соблюдению правил на стороне сервера, отвергая присланные коммиты, если они не подчиняются некоторым правилам, но использование данных сценариев на клиентской стороне полностью зависит только от разработчика. Итак, эти сценарии призваны помочь разработчикам, и это обязанность разработчиков установить и сопровождать их, не смотря на то, что разработчики в любой момент имеют возможность подменить их или модифицировать.
-
-The committing-workflow client-side scripts can be used in just about any workflow. They’re often used to enforce certain policies, although it’s important to note that these scripts aren’t transferred during a clone. You can enforce policy on the server side to reject pushes of commits that don’t conform to some policy, but it’s entirely up to the developer to use these scripts on the client side. So, these are scripts to help developers, and they must be set up and maintained by them, although they can be overridden or modified by them at any time.
+Сценарии на стороне клиента, предназначенные для запуска во время работы над коммитами, могут быть использованы при осуществлении практически любого типа рабочего процесса. Их часто используют, чтобы обеспечить соблюдение определённых стандартов, хотя важно отметить, что данные сценарии не передаются при клонировании. Вы можете принудить к соблюдению правил на стороне сервера, отвергая присланные коммиты, если они не подчиняются некоторым правилам, но использование данных сценариев на клиентской стороне полностью зависит только от разработчика. Итак, эти сценарии призваны помочь разработчикам, и это обязанность разработчиков установить и сопровождать их, хотя разработчики и имеют возможность в любой момент подменить их или модифицировать.
 
 #### Перехватчики для работы с e-mail ####
-#### E-mail Workflow Hooks ####
 
 Для рабочих процессов, основанных на электронной почте, есть три специальных клиентских перехватчика. Все они вызываются командой `git am`, так что, если вы не пользуетесь этой командой в процессе своей работы, то можете смело переходить к следующему разделу. Если вы принимаете патчи, отправленные по e-mail и подготовленные с помощью `git format-patch`, то некоторые из них могут оказать для вас полезными.
 
-You can set up three client-side hooks for an e-mail-based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
-
 Первый запускаемый перехватчик — это `applypatch-msg`. Он принимает один аргумент — имя временного файла, содержащего предлагаемое сообщение коммита. Git прерывает наложение патча, если сценарий завершается с ненулевым кодом. Это может быть использовано для того, чтобы убедиться, что сообщение коммита правильно отформатировано или, чтобы нормализовать сообщение, отредактировав его на месте из сценария.
-
-The first hook that is run is `applypatch-msg`. It takes a single argument: the name of the temporary file that contains the proposed commit message. Git aborts the patch if this script exits non-zero. You can use this to make sure a commit message is properly formatted or to normalize the message by having the script edit it in place.
 
 Следующий перехватчик, запускаемый во время наложения патчей с помощью `git am` — это `pre-applypatch`. У него нет аргументов, и он запускается после того, как патч наложен, поэтому его можно использовать для проверки снимка состояния перед созданием коммита. Можно запустить тесты или как-то ещё проверить рабочее дерево с помощью этого сценария. Если чего-то не хватает, или тесты не пройдены, выход с ненулевым кодом так же завершает сценарий `git am` без применения патча.
 
-The next hook to run when applying patches via `git am` is `pre-applypatch`. It takes no arguments and is run after the patch is applied, so you can use it to inspect the snapshot before making the commit. You can run tests or otherwise inspect the working tree with this script. If something is missing or the tests don’t pass, exiting non-zero also aborts the `git am` script without committing the patch.
-
 Последний перехватчик, запускаемый во время работы `git am` — это `post-applypatch`. Его можно использовать для уведомления группы или автора патча о том, что вы его применили. Этим сценарием процесс наложения патча остановить уже нельзя.
 
-The last hook to run during a `git am` operation is `post-applypatch`. You can use it to notify a group or the author of the patch you pulled in that you’ve done so. You can’t stop the patching process with this script.
-
 #### Другие клиентские перехватчики ####
-#### Other Client Hooks ####
 
 Перехватчик `pre-rebase` запускается перед перемещением чего-либо, и может остановить процесс перемещения, если завершится с ненулевым кодом. Этот перехватчик можно использовать, чтобы запретить перемещение любых уже отправленных коммитов. Пример перехватчика `pre-rebase`, устанавливаемый Git'ом, это и делает, хотя он предполагает, что ветка, в которой вы публикуете свои изменения, называется next. Вам скорее всего нужно будет заменить это имя на имя своей публичной стабильной ветки.
 
-The `pre-rebase` hook runs before you rebase anything and can halt the process by exiting non-zero. You can use this hook to disallow rebasing any commits that have already been pushed. The example `pre-rebase` hook that Git installs does this, although it assumes that next is the name of the branch you publish. You’ll likely need to change that to whatever your stable, published branch is.
-
-После успешного выполнения команды `git checkout` запускается перехватчик `post-checkout`. Его можно использовать для того, чтобы правильно настроить рабочий каталог для своей проектной среды. Под этим может подразумеваться, например, перемещение в каталог больших бинарных файлов, которые вам не хочется включать под версионный контроль, автоматическое генерирование документации или что-то ещё в этом же духе.
-
-After you run a successful `git checkout`, the `post-checkout` hook runs; you can use it to set up your working directory properly for your project environment. This may mean moving in large binary files that you don’t want source controlled, auto-generating documentation, or something along those lines.
+После успешного выполнения команды `git checkout`, запускается перехватчик `post-checkout`. Его можно использовать для того, чтобы правильно настроить рабочий каталог для своей проектной среды. Под этим может подразумеваться, например, перемещение в каталог больших бинарных файлов, которые вам не хочется включать под версионный контроль, автоматическое генерирование документации или что-то ещё в таком же духе.
 
 И наконец, перехватчик `post-merge` запускается после успешного выполнения команды `merge`. Его можно использовать для восстановления в рабочем дереве данных, которые Git не может отследить, таких как информация о правах. Этот перехватчик может также проверить наличие внешних по отношению к контролируемым Git'ом файлов, которые вам нужно скопировать в каталог при изменениях рабочего дерева.
 
-Finally, the `post-merge` hook runs after a successful `merge` command. You can use it to restore data in the working tree that Git can’t track, such as permissions data. This hook can likewise validate the presence of files external to Git control that you may want copied in when the working tree changes.
-
 ### Перехватчики на стороне сервера ###
-### Server-Side Hooks ###
 
-В добавок к перехватчикам на стороне клиента вы, как системный администратор, можете задействовать пару важных перехватчиков, работающих на стороне сервера, чтобы навязать в своём проекте правила практически любого вида. Эти сценарии выполняются до и после отправки данных на сервер. Pre-перехватчики могут в любое время завершиться с ненулевым кодом, чтобы отклонить отправленные данные, а также, чтобы вывести обратно клиенту сообщение об ошибке. Вы можете настроить правила приёма данных настолько сложными, насколько хотите.
-
-In addition to the client-side hooks, you can use a couple of important server-side hooks as a system administrator to enforce nearly any kind of policy for your project. These scripts run before and after pushes to the server. The pre hooks can exit non-zero at any time to reject the push as well as print an error message back to the client; you can set up a push policy that’s as complex as you wish.
+В дополнение к перехватчикам на стороне клиента вы, как системный администратор, можете задействовать пару важных перехватчиков на стороне сервера, чтобы навязать в своём проекте правила практически любого вида. Эти сценарии выполняются до и после отправки данных на сервер. Pre-перехватчики могут быть в любое время завершены с ненулевым кодом, чтобы отклонить присланные данные, а также вывести клиенту обратно сообщение об ошибке. Вы можете установить настолько сложные правила приёма данных, насколько захотите.
 
 #### pre-receive и post-receive ####
-#### pre-receive and post-receive ####
 
 Первым сценарий, который выполняется при обработке отправленных клиентом данных, — это `pre-receive`. Он принимает на вход из stdin список отправленных ссылок; если он завершается с ненулевым кодом, ни одна из них не будет принята. Этот перехватчик можно использовать, чтобы, например, убедиться, что ни одна из обновлённых ссылок не выполняет ничего кроме перемотки, или, чтобы убедиться, что пользователь, запустивший `git push`, имеет права на создание, удаление или изменение для всех файлов модифицируемых этим push'ем.
 
-The first script to run when handling a push from a client is `pre-receive`. It takes a list of references that are being pushed from stdin; if it exits non-zero, none of them are accepted. You can use this hook to do things like make sure none of the updated references are non-fast-forwards; or to check that the user doing the pushing has create, delete, or push access or access to push updates to all the files they’re modifying with the push.
-
 Перехватчик `post-receive` запускается после того, как весь процесс завершился, и может быть использован для обновления других сервисов или уведомления пользователей. Он получает на вход из stdin те же данные, что и перехватчик `pre-receive`. Примерами использования могут быть: отправка писем в рассылку, уведомление сервера непрерывной интеграции или обновление карточки (ticket) в системе отслеживания ошибок — вы можете даже анализировать сообщения коммитов, чтобы выяснить, нужно ли открыть, изменить или закрыть какие-то карточки. Этот сценарий не сможет остановить процесс приёма данных, но клиент не будет отключён до тех пор, пока процесс не завершится; так что будьте осторожны, если хотите сделать что-то, что может занять много времени.
-
-The `post-receive` hook runs after the entire process is completed and can be used to update other services or notify users. It takes the same stdin data as the `pre-receive` hook. Examples include e-mailing a list, notifying a continuous integration server, or updating a ticket-tracking system — you can even parse the commit messages to see if any tickets need to be opened, modified, or closed. This script can’t stop the push process, but the client doesn’t disconnect until it has completed; so, be careful when you try to do anything that may take a long time.
 
 #### update ####
 
-Сценарий `update` очень похож на сценарий `pre-receive`, за исключением того, что он выполняется для каждой ветки, которую отправитель данных пытается обновить. Если отправитель пытается отправить несколько веток, то `pre-receive` выполнится только один раз, в то время как `update` выполнится по разу для каждой обновляемой ветки. Сценарий не считывает параметры из stdin, а принимает на вход три аргумента: имя ссылки (ветки), SHA-1, на которую ссылка указывала до запуска `push`, и тот SHA-1, который пользователь пытается отправить. Если сценарий `update` завершится с ненулевым кодом, то только эта ссылка будет отклонена, остальные ссылки всё ещё смогут быть обновлены.
-
-The update script is very similar to the `pre-receive` script, except that it’s run once for each branch the pusher is trying to update. If the pusher is trying to push to multiple branches, `pre-receive` runs only once, whereas update runs once per branch they’re pushing to. Instead of reading from stdin, this script takes three arguments: the name of the reference (branch), the SHA-1 that reference pointed to before the push, and the SHA-1 the user is trying to push. If the update script exits non-zero, only that reference is rejected; other references can still be updated.
+Сценарий `update` очень похож на сценарий `pre-receive`, за исключением того, что он выполняется для каждой ветки, которую отправитель данных пытается обновить. Если отправитель пытается обновить несколько веток, то `pre-receive` выполнится только один раз, в то время как `update` выполнится по разу для каждой обновляемой ветки. Сценарий не считывает параметры из stdin, а принимает на вход три аргумента: имя ссылки (ветки), SHA-1, на которую ссылка указывала до запуска `push`, и тот SHA-1, который пользователь пытается отправить. Если сценарий `update` завершится с ненулевым кодом, то только одна ссылка будет отклонена, остальные ссылки всё ещё смогут быть обновлены.
 
 ## Пример навязывания политики с помощью Git ##
-## An Example Git-Enforced Policy ##
 
 В этом разделе мы используем ранее полученные знания для организации в Git такого рабочего процесса, который проверяет сообщения коммитов на соответствие заданному формату, из обновлений разрешает только перемотки и позволяет только определённым пользователям изменять определённые подкаталоги внутри проекта. Мы создадим клиентские сценарии, которые помогут разработчикам узнать, будет ли их push отклонён, и серверные сценарии, которые будут действительно вынуждать следовать установленным правилам.
 
-In this section, you’ll use what you’ve learned to establish a Git workflow that checks for a custom commit message format, enforces fast-forward-only pushes, and allows only certain users to modify certain subdirectories in a project. You’ll build client scripts that help the developer know if their push will be rejected and server scripts that actually enforce the policies.
-
-Для их написания я использовал Ruby, и потому что это мой любимый язык сценариев, и потому что из всех языков сценариев он больше всего похож на псевдокод; таким образом код должен быть вам понятен в общих чертах, даже если вы не пользуетесь Ruby. Однако любой язык сгодится. Все примеры перехватчиков, распространяемые вместе с Git'ом, написаны либо на Perl, либо на Bash, так что вы сможете просмотреть достаточно примеров перехватчиков на этих языках, заглянув в примеры.
-
-I used Ruby to write these, both because it’s my preferred scripting language and because I feel it’s the most pseudocode-looking of the scripting languages; thus you should be able to roughly follow the code even if you don’t use Ruby. However, any language will work fine. All the sample hook scripts distributed with Git are in either Perl or Bash scripting, so you can also see plenty of examples of hooks in those languages by looking at the samples.
+Для их написания я использовал Ruby, и потому что это мой любимый язык сценариев, и потому что из всех языков сценариев он больше всего похож на псевдокод; таким образом, код должен быть вам понятен в общих чертах, даже если вы не пользуетесь Ruby. Однако любой язык сгодится. Все примеры перехватчиков, распространяемые вместе с Git'ом, написаны либо на Perl, либо на Bash, так что вы сможете просмотреть достаточно примеров перехватчиков на этих языках, заглянув в примеры.
 
 ### Перехватчик на стороне сервера ###
-### Server-Side Hook ###
 
-Вся работа для сервера будет осуществляться в файле `update` из каталога `hooks`. Файл `update` запускается по разу для каждой отправленной ветки и принимает на вход ссылку, в которую сделано отправление, старую версию, на которой ветка находилась раньше, и новую присланную версию. Кроме того, вам доступно имя пользователя, приславшего данные, если `push` был выполнен по SSH. Если вы позволили подключаться всем под одним пользователем (например, "git") с аутентификацией по открытому ключу, то вам может понадобиться создать для этого пользователя обёртку командной оболочки, которая будет определять, какой пользователь осуществил подключение, на основе открытого ключа, и задавать этого пользователя в какой-нибудь переменной окружения. Тут я буду предполагать, что имя подключившегося пользователя находится в переменной окружения `$USER`, так что начнём наш сценарий со сбора всей необходимой информации:
-
-All the server-side work will go into the update file in your hooks directory. The update file runs once per branch being pushed and takes the reference being pushed to, the old revision where that branch was, and the new revision being pushed. You also have access to the user doing the pushing if the push is being run over SSH. If you’ve allowed everyone to connect with a single user (like "git") via public-key authentication, you may have to give that user a shell wrapper that determines which user is connecting based on the public key, and set an environment variable specifying that user. Here I assume the connecting user is in the `$USER` environment variable, so your update script begins by gathering all the information you need:
+Вся работа для сервера будет осуществляться в файле `update` из каталога `hooks`. Файл `update` запускается по разу для каждой отправленной ветки и принимает на вход ссылку, в которую сделано отправление, старую версию, на которой ветка находилась раньше, и новую присланную версию. Кроме того, вам будет доступно имя пользователя, приславшего данные, если `push` был выполнен по SSH. Если вы позволили подключаться всем под одним пользователем (например, "git") с аутентификацией по открытому ключу, то вам может понадобиться создать для этого пользователя обёртку командной оболочки, которая на основе открытого ключа будет определять, какой пользователь осуществил подключение, и записывать этого пользователя в какой-нибудь переменной окружения. Тут я буду предполагать, что имя подключившегося пользователя находится в переменной окружения `$USER`, так что начнём наш сценарий со сбора всей необходимой информации:
 
 	#!/usr/bin/env ruby
 
@@ -677,18 +621,11 @@ All the server-side work will go into the update file in your hooks directory. T
 
 Да, я использую глобальные переменные. Не судите строго — в таком виде получается нагляднее.
 
-Yes, I’m using global variables. Don’t judge me — it’s easier to demonstrate in this manner.
-
 #### Установка особого формата сообщений коммитов ####
-#### Enforcing a Specific Commit-Message Format ####
 
-Первая наша задача — это заставить все сообщения коммитов обязательно придерживаться определённого формата. Просто, чтобы было чем заняться, предположим, что каждое сообщение должно содержать строку вида "ref: 1234", так как мы хотим, чтобы каждый коммит был связан с некоторым элементом в нашей системе с карточками. Нам необходимо просмотреть все присланные коммиты, выяснить, есть ли такая строка в сообщении коммита, и, если строка отсутствует в каком-либо из этих коммитов, то завершить сценарий с ненулевым кодом, чтобы `push` был отклонён.
-
-Your first challenge is to enforce that each commit message must adhere to a particular format. Just to have a target, assume that each message has to include a string that looks like "ref: 1234" because you want each commit to link to a work item in your ticketing system. You must look at each commit being pushed up, see if that string is in the commit message, and, if the string is absent from any of the commits, exit non-zero so the push is rejected.
+Первая наша задача — это заставить все сообщения коммитов обязательно придерживаться определённого формата. Просто чтобы было чем заняться, предположим, что каждое сообщение должно содержать строку вида "ref: 1234", так как мы хотим, чтобы каждый коммит был связан с некоторым элементом в нашей системе с карточками. Нам необходимо просмотреть все присланные коммиты, выяснить, есть ли такая строка в сообщении коммита, и, если строка отсутствует в каком-либо из этих коммитов, то завершить сценарий с ненулевым кодом, чтобы `push` был отклонён.
 
 Список значений SHA-1 для всех присланных коммитов можно получить, взяв значения `$newrev` и `$oldrev` и передав их служебной команде `git rev-list`. По сути, это команда `git log`, но по умолчанию она выводит только SHA-1 значения и больше ничего. Таким образом, чтобы получить список SHA для всех коммитов, сделанных между одним SHA коммита и другим, достаточно выполнить следующее:
-
-You can get a list of the SHA-1 values of all the commits that are being pushed by taking the `$newrev` and `$oldrev` values and passing them to a Git plumbing command called `git rev-list`. This is basically the `git log` command, but by default it prints out only the SHA-1 values and no other information. So, to get a list of all the commit SHAs introduced between one commit SHA and another, you can run something like this:
 
 	$ git rev-list 538c33..d14fc7
 	d14fc7c847ab946ec39590d87783c69b031bdfb7
@@ -699,11 +636,7 @@ You can get a list of the SHA-1 values of all the commits that are being pushed 
 
 Можно взять этот вывод, пройти в цикле по SHA-хешам всех этих коммитов, беря их сообщения и проверяя с помощью регулярного выражения, совпадает ли сообщение с шаблоном.
 
-You can take that output, loop through each of those commit SHAs, grab the message for it, and test that message against a regular expression that looks for a pattern.
-
-Нам нужно выяснить, как из всех этих коммитов получить их сообщения для того, чтобы их протестировать. Чтобы получить данные коммита в сыром виде, можно воспользоваться ещё одной служебной командой, которая называется `git cat-file`. Мы рассмотрим все эти служебные команды более подробно в Главе 9, но пока что, вот, что эта команда нам выдала:
-
-You have to figure out how to get the commit message from each of these commits to test. To get the raw commit data, you can use another plumbing command called `git cat-file`. I’ll go over all these plumbing commands in detail in Chapter 9; but for now, here’s what that command gives you:
+Нам нужно выяснить, как из всех этих коммитов получить их сообщения, для того, чтобы их протестировать. Чтобы получить данные коммита в сыром виде, можно воспользоваться ещё одной служебной командой, которая называется `git cat-file`. Мы рассмотрим все эти служебные команды более подробно в Главе 9, но пока что, вот, что эта команда нам выдала:
 
 	$ git cat-file commit ca82a6
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -713,21 +646,16 @@ You have to figure out how to get the commit message from each of these commits 
 
 	changed the version number
 
-Простой способ получить сообщение коммита для коммита, у которого известно его значение SHA-1, — это дойти до первой пустой строки и взять всё, что идёт после неё. В Unix-системах это можно сделать с помощью команды `sed`:
-
-A simple way to get the commit message from a commit when you have the SHA-1 value is to go to the first blank line and take everything after that. You can do so with the `sed` command on Unix systems:
+Простой способ получить сообщение коммита для коммита, чьё значение SHA-1 известно, — это дойти в выводе команды `git cat-file` до первой пустой строки и взять всё, что идёт после неё. В Unix-системах это можно сделать с помощью команды `sed`:
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
 	changed the version number
 
 Используйте приведённую ниже абракадабру, чтобы получить для каждого отправленного коммита его сообщение и выйти, если обнаружится, что что-то не соответствует требованиям. Если хотим отклонить отправленные данные, выходим с ненулевым кодом. Весь метод целиком выглядит следующим образом:
 
-You can use that incantation to grab the commit message from each commit that is trying to be pushed and exit if you see anything that doesn’t match. To exit the script and reject the push, exit non-zero. The whole method looks like this:
-
 	$regex = /\[ref: (\d+)\]/
 
-# принуждает использовать особый формат сообщений
-	# enforced custom commit message format
+	# принуждает использовать особый формат сообщений
 	def check_message_format
 	  missed_revs = `git rev-list #{$oldrev}..#{$newrev}`.split("\n")
 	  missed_revs.each do |rev|
@@ -740,37 +668,25 @@ You can use that incantation to grab the commit message from each commit that is
 	end
 	check_message_format
 
-Добавив это в свой сценарий `update`, мы будете отклонять обновления, содержащие коммиты, сообщения которых не соблюдают наше правило.
+Добавив это в свой сценарий `update`, мы запретим обновления, содержащие коммиты, сообщения которых не соблюдают наше правило.
 
-Putting that in your `update` script will reject updates that contain commits that have messages that don’t adhere to your rule.
-
-#### Применение системы контроля доступа для пользователей ####
-#### Enforcing a User-Based ACL System ####
+#### Настройка системы контроля доступа для пользователей ####
 
 Предположим, что нам хотелось бы добавить какой-нибудь механизм для использования списков контроля доступа (ACL), где указано, какие пользователи могут отправлять изменения и в какие части проекта. Несколько людей будут иметь полный доступ, а остальные будут иметь доступ на изменение только некоторых подкаталогов или отдельных файлов. Чтобы обеспечить выполнение такой политики, мы запишем правила в файл `acl`, который будет находиться в нашем "голом" репозитории на сервере. Нам нужно будет, чтобы перехватчик `update` брал эти правила, смотрел на то, какие файлы были изменены присланными коммитами, и определял, имеет ли пользователь, выполнивший `push`, право на обновление всех этих файлов.
 
-Suppose you want to add a mechanism that uses an access control list (ACL) that specifies which users are allowed to push changes to which parts of your projects. Some people have full access, and others only have access to push changes to certain subdirectories or specific files. To enforce this, you’ll write those rules to a file named `acl` that lives in your bare Git repository on the server. You’ll have the `update` hook look at those rules, see what files are being introduced for all the commits being pushed, and determine whether the user doing the push has access to update all those files.
-
 Первое, что мы сделаем, — это напишем свой ACL. Мы сейчас будем использовать формат очень похожий на механизм ACL в CVS. В нём используется последовательность строк, где первое поле — это `avail` или `unavail`, следующее поле — это разделённый запятыми список пользователей, для которых применяется правило, и последнее поле — это путь, к которому применяется правило (пропуск здесь означает открытый доступ). Все эти поля разделяются вертикальной чертой (`|`).
 
-The first thing you’ll do is write your ACL. Here you’ll use a format very much like the CVS ACL mechanism: it uses a series of lines, where the first field is `avail` or `unavail`, the next field is a comma-delimited list of the users to which the rule applies, and the last field is the path to which the rule applies (blank meaning open access). All of these fields are delimited by a pipe (`|`) character.
-
 В нашем примере будет несколько администраторов, сколько-то занимающихся написанием документации с доступом к каталогу `doc` и один разработчик, который имеет доступ только к каталогам `lib` и `tests`, и наш файл `acl` будет выглядеть так:
-
-In this case, you have a couple of administrators, some documentation writers with access to the `doc` directory, and one developer who only has access to the `lib` and `tests` directories, and your ACL file looks like this:
 
 	avail|nickh,pjhyett,defunkt,tpw
 	avail|usinclair,cdickens,ebronte|doc
 	avail|schacon|lib
 	avail|schacon|tests
 
-Начнём со считывания этих данных в какую-нибудь пригодную для использования структуру. В нашем случае, чтобы не усложнять пример, мы будем применять только директивы `avail`. Вот метод, который даёт нам ассоциативный массив, где ключом является имя пользователя, а значение это массив путей, для которых пользователь имеет доступ на запись:
-
-You begin by reading this data into a structure that you can use. In this case, to keep the example simple, you’ll only enforce the `avail` directives. Here is a method that gives you an associative array where the key is the user name and the value is an array of paths to which the user has write access:
+Начнём со считывания этих данных в какую-нибудь пригодную для использования структуру. В нашем случае, чтобы не усложнять пример, мы будем применять только директивы `avail`. Вот метод, который даёт нам ассоциативный массив, где ключом является имя пользователя, а значением — массив путей, для которых пользователь имеет доступ на запись:
 
 	def get_acl_access_data(acl_file)
-# считываем данные ACL
-	  # read in ACL data
+	  # считывание данных ACL
 	  acl_file = File.read(acl_file).split("\n").reject { |line| line == '' }
 	  access = {}
 	  acl_file.each do |line|
@@ -786,8 +702,6 @@ You begin by reading this data into a structure that you can use. In this case, 
 
 Для рассмотренного ранее ACL-файла, метод `get_acl_access_data` вернёт структуру данных следующего вида:
 
-On the ACL file you looked at earlier, this `get_acl_access_data` method returns a data structure that looks like this:
-
 	{"defunkt"=>[nil],
 	 "tpw"=>[nil],
 	 "nickh"=>[nil],
@@ -799,11 +713,7 @@ On the ACL file you looked at earlier, this `get_acl_access_data` method returns
 
 Теперь, когда мы разобрались с правами, нам нужно выяснить, какие пути изменяются присланными коммитами, чтобы можно было убедиться, что пользователь, выполнивший `push`, имеет ко всем ним доступ.
 
-Now that you have the permissions sorted out, you need to determine what paths the commits being pushed have modified, so you can make sure the user who’s pushing has access to all of them.
-
 Мы довольно легко можем определить, какие файлы были изменены в одном коммите, с помощью опции `--name-only` для команды `git log` (мы упоминали о ней в Главе 2):
-
-You can pretty easily see what files have been modified in a single commit with the `--name-only` option to the `git log` command (mentioned briefly in Chapter 2):
 
 	$ git log -1 --name-only --pretty=format:'' 9f585d
 
@@ -812,15 +722,11 @@ You can pretty easily see what files have been modified in a single commit with 
 
 Если мы воспользуемся ACL-структурой, полученной из метода `get_acl_access_data`, и сверим её со списком файлов для каждого коммита, то мы сможем определить, имеет ли пользователь право на отправку своих коммитов:
 
-If you use the ACL structure returned from the `get_acl_access_data` method and check it against the listed files in each of the commits, you can determine whether the user has access to push all of their commits:
-
-# некоторые подкаталоги в проекте разрешено модифицировать только определённым пользователям
-	# only allows certain users to modify certain subdirectories in a project
+	# некоторые подкаталоги в проекте разрешено модифицировать только определённым пользователям
 	def check_directory_perms
 	  access = get_acl_access_data('acl')
 
-# проверим, что никто не пытается прислать что-то, чего ему нельзя
-	  # see if anyone is trying to push something they can't
+	  # проверим, что никто не пытается прислать чего-то, что ему нельзя
 	  new_commits = `git rev-list #{$oldrev}..#{$newrev}`.split("\n")
 	  new_commits.each do |rev|
 	    files_modified = `git log -1 --name-only --pretty=format:'' #{rev}`.split("\n")
@@ -843,27 +749,17 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 
 	check_directory_perms
 
-Большинство этого кода должно быть не сложно понять. Мы получаем список присланных на сервер коммитов с помощью `git rev-list`. Затем для каждого из них мы узнаём, какие файлы были изменены, и убеждаемся, что пользователь, сделавший `push`, имеет доступ ко всем изменённым путям. Один Ruby'изм, который может быть непонятен это `path.index(access_path) == 0`. Это условие верно, если `path` начинается с `access_path` — оно гарантирует, что `access_path` это не просто один из разрешённых путей, а что каждый путь, к которому запрашивается доступ, начинается с одного из разрешённых путей.
-
-Most of that should be easy to follow. You get a list of new commits being pushed to your server with `git rev-list`. Then, for each of those, you find which files are modified and make sure the user who’s pushing has access to all the paths being modified. One Rubyism that may not be clear is `path.index(access_path) == 0`, which is true if path begins with `access_path` — this ensures that `access_path` is not just in one of the allowed paths, but an allowed path begins with each accessed path. 
+Большую часть этого кода должно быть не сложно понять. Мы получаем список присланных на сервер коммитов с помощью `git rev-list`. Затем для каждого из них мы узнаём, какие файлы были изменены, и убеждаемся, что пользователь, сделавший `push`, имеет доступ ко всем изменённым путям. Один Ruby'изм, который может быть непонятен это `path.index(access_path) == 0`. Это условие верно, если `path` начинается с `access_path` — оно гарантирует, что `access_path` это не просто один из разрешённых путей, а что каждый путь, к которому запрашивается доступ, начинается с одного из разрешённых путей.
 
 Теперь наши пользователи не смогут отправить никаких коммитов с плохо отформатированными сообщениями и не смогут изменить файлы вне предназначенных для них путей.
 
-Now your users can’t push any commits with badly formed messages or with modified files outside of their designated paths.
-
 #### Разрешение только обновлений-перемоток ####
-#### Enforcing Fast-Forward-Only Pushes ####
 
-Единственное, что нам осталось — это оставить доступными только обновления-перемотки. В Git версии 1.6 и более новых можно просто задать настройки `receive.denyDeletes` и `receive.denyNonFastForwards`. Но осуществление этого с помощью перехватчика будет работать и в старых версиях Git, и к тому же вы сможете изменить его так, чтобы он делал это только для определённых пользователей, или как-то ещё, как вам потом взбредёт.
-
-The only thing left is to enforce fast-forward-only pushes. In Git versions 1.6 or newer, you can set the `receive.denyDeletes` and `receive.denyNonFastForwards` settings. But enforcing this with a hook will work in older versions of Git, and you can modify it to do so only for certain users or whatever else you come up with later.
+Единственное, что нам осталось — это оставить доступными только обновления-перемотки. В Git версии 1.6 и более новых можно просто задать настройки `receive.denyDeletes` и `receive.denyNonFastForwards`. Но осуществление этого с помощью перехватчика будет работать и в старых версиях Git, и к тому же вы сможете изменить его так, чтобы запрет действовал только для определённых пользователей, или ещё как-то, как вам захочется.
 
 Логика здесь такая — мы проверяем, есть ли такие коммиты, которые достижимы из старой версии и не достижимы из новой. Если таких нет, то сделанный `push` был перемоткой; в противном случае мы его запрещаем:
 
-The logic for checking this is to see if any commits are reachable from the older revision that aren’t reachable from the newer one. If there are none, then it was a fast-forward push; otherwise, you deny it:
-
-# разрешаем только обновления-перемотки
-	# enforces fast-forward only pushes 
+	# разрешаем только обновления-перемотки
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split("\n").size
@@ -875,9 +771,7 @@ The logic for checking this is to see if any commits are reachable from the olde
 
 	check_fast_forward
 
-Всё готово. Если вы выполните `chmod u+x .git/hooks/update` (а это файл, в который вы должны были поместить весь наш код) и затем попытаетесь отправить ссылку, для которой нельзя выполнить перемотку, то вы получите что-то типа такого:
-
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file into which you should have put all this code, and then try to push a non-fast-forwarded reference, you get something like this:
+Всё готово. Если вы выполните `chmod u+x .git/hooks/update` (а это тот файл, в который вы должны были поместить весь наш код) и затем попытаетесь отправить ссылку, для которой нельзя выполнить перемотку, то вы получите что-то типа такого:
 
 	$ git push -f origin master
 	Counting objects: 5, done.
@@ -894,67 +788,44 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	 ! [remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-Тут есть пара интересных моментов. Во-первых, когда перехватчик начинает работу, мы видим это:
-
-There are a couple of interesting things here. First, you see this where the hook starts running.
+Тут есть пара интересных моментов. Во-первых, когда перехватчик начинает свою работу, мы видим это:
 
 	Enforcing Policies... 
 	(refs/heads/master) (fb8c72) (c56860)
 
 Обратите внимание, что мы выводили это в stdout в самом начале нашего сценария `update`. Важно отметить, что всё, что сценарий выводит в stdout, будет передано клиенту.
 
-Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
-
 Следующая вещь, которую мы видим, это сообщение об ошибке:
-
-The next thing you’ll notice is the error message.
 
 	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 
-Первую строку напечатали мы, в остальных двух Git сообщает, что сценарий `update` завершился с ненулевым кодом, и это именно то, что отклонило ваш `push`. И наконец мы видим это:
-
-The first line was printed out by you, the other two were Git telling you that the update script exited non-zero and that is what is declining your push. Lastly, you have this:
+Первую строку напечатали мы, а в остальных двух Git сообщает, что сценарий `update` завершился с ненулевым кодом, и это именно то, что отклонило ваш `push`. И наконец мы видим это:
 
 	To git@gitserver:project.git
 	 ! [remote rejected] master -> master (hook declined)
 	error: failed to push some refs to 'git@gitserver:project.git'
 
-Сообщение "remote rejected" появляется для каждой отклонённой перехватчиком ссылки, и оно сообщает нам, что она была отклонена именно из-за сбоя в перехватчике.
-
-You’ll see a remote rejected message for each reference that your hook declined, and it tells you that it was declined specifically because of a hook failure.
+Сообщение "remote rejected" будет появляться для каждой отклонённой перехватчиком ссылки. Оно сообщает нам, что ссылка была отклонена именно из-за сбоя в перехватчике.
 
 Кроме того, при отсутствии отметки "ref" в каком-либо из коммитов, вы увидите сообщение об ошибке, которое мы для этого напечатали.
 
-Furthermore, if the ref marker isn’t there in any of your commits, you’ll see the error message you’re printing out for that.
-
 	[POLICY] Your message is not formatted correctly
 
-Или если кто-то попытается отредактировать файл, не имея к нему доступа, то отправив коммит с такими изменениями, он получит похожее сообщение. Например, если человек, пишущий документацию, попытается отправить коммит, вносящий изменения в файлы каталога `lib`, то он увидит:
-
-Or if someone tries to edit a file they don’t have access to and push a commit containing it, they will see something similar. For instance, if a documentation author tries to push a commit modifying something in the `lib` directory, they see
+Или если кто-то попытается отредактировать файл, не имея к нему доступа, то отправив коммит с этими изменениями, он получит похожее сообщение. Например, если человек, пишущий документацию, попытается отправить коммит, вносящий изменения в файлы каталога `lib`, то увидит:
 
 	[POLICY] You do not have access to push to lib/test.rb
 
 Вот и всё. С этого момента, до тех пор пока сценарий `update` находится на своём месте и имеет права на исполнение, репозиторий никогда не будет откатан назад, в нём никогда не будет коммитов с сообщениями без вашего паттерна, и пользователи будут ограничены в доступе к файлам.
 
-That’s all. From now on, as long as that `update` script is there and executable, your repository will never be rewound and will never have a commit message without your pattern in it, and your users will be sandboxed.
-
 ### Перехватчики на стороне клиента ###
-### Client-Side Hooks ###
 
-Обратная сторона такого подхода это многочисленные жалобы, которые неизбежно появятся, когда отправленные пользователями коммиты будут отклонены. Когда чью-то тщательно оформленную работу отклоняют в последний момент, этот человек может быть сильно расстроен и смущён. Мало того, ему придётся отредактировать всю свою историю, чтобы откорректировать её, а это обычно не для слабонервных.
+Обратная сторона такого подхода — это многочисленные жалобы, которые неизбежно появятся, когда отправленные пользователями коммиты будут отклонены. Когда чью-то тщательно оформленную работу отклоняют в последний момент, этот человек может быть сильно расстроен и смущён. Мало того, ему придётся отредактировать свою историю, чтобы откорректировать её, а это обычно не для слабонервных.
 
-The downside to this approach is the whining that will inevitably result when your users’ commit pushes are rejected. Having their carefully crafted work rejected at the last minute can be extremely frustrating and confusing; and furthermore, they will have to edit their history to correct it, which isn’t always for the faint of heart.
-
-Решение данной проблемы — предоставить пользователям какие-нибудь перехватчики, которые будут работать на стороне пользователя и будут сообщать ему, если он делает что-то, что скорее всего будет отклонено. При таком подходе, пользователи смогут исправить любые проблемы до создания коммита и до того, как эти проблемы станет сложно исправить. Так как перехватчики не пересылаются при клонировании проекта, вам придётся распространять эти сценарии каким-то другим способом и потом сделать так, чтобы ваши пользователи скопировали их в свой каталог `.git/hooks` и сделали их исполняемыми. Эти перехватчики можно поместить в свой проект или даже в отдельный проект, но способа установить и настроить их автоматически не существует.
-
-The answer to this dilemma is to provide some client-side hooks that users can use to notify them when they’re doing something that the server is likely to reject. That way, they can correct any problems before committing and before those issues become more difficult to fix. Because hooks aren’t transferred with a clone of a project, you must distribute these scripts some other way and then have your users copy them to their `.git/hooks` directory and make them executable. You can distribute these hooks within the project or in a separate project, but there is no way to set them up automatically.
+Решение данной проблемы — предоставить пользователям какие-нибудь перехватчики, которые будут работать на стороне пользователя и будут сообщать ему, если он делает что-то, что скорее всего будет отклонено. При таком подходе, пользователи смогут исправить любые проблемы до создания коммита и до того, как эти проблемы станет сложно исправить. Так как перехватчики не пересылаются при клонировании проекта, вам придётся распространять эти сценарии каким-то другим способом и потом сделать так, чтобы ваши пользователи скопировали их в свой каталог `.git/hooks` и сделали их исполняемыми. Эти перехватчики можно поместить в свой проект или даже в отдельный проект, но способа установить их автоматически не существует.
 
 Для начала, перед записью каждого коммита нам надо проверить его сообщение, чтобы быть уверенным, что сервер не отклонит изменения из-за плохо отформатированного сообщения коммита. Чтобы сделать это, добавим перехватчик `commit-msg`. Если мы сможем прочитать сообщение из файла, переданного в качестве первого аргумента, и сравнить его с шаблоном, то можно заставить Git прервать создание коммита при обнаружении несовпадения:
-
-To begin, you should check your commit message just before each commit is recorded, so you know the server won’t reject your changes due to badly formatted commit messages. To do this, you can add the `commit-msg` hook. If you have it read the message from the file passed as the first argument and compare that to the pattern, you can force Git to abort the commit if there is no match:
 
 	#!/usr/bin/env ruby
 	message_file = ARGV[0]
@@ -969,22 +840,16 @@ To begin, you should check your commit message just before each commit is record
 
 Если этот сценарий находится на своём месте (в `.git/hooks/commit-msg`) и имеет права на исполнение, то при создании коммита с неправильно оформленным сообщением, вы увидите это:
 
-If that script is in place (in `.git/hooks/commit-msg`) and executable, and you commit with a message that isn’t properly formatted, you see this:
-
 	$ git commit -am 'test'
 	[POLICY] Your message is not formatted correctly
 
 В этом случае коммит не был завершён. Однако, когда сообщение содержит правильный шаблон, Git позволяет создать коммит:
 
-No commit was completed in that instance. However, if your message contains the proper pattern, Git allows you to commit:
-
 	$ git commit -am 'test [ref: 132]'
 	[master e05c914] test [ref: 132]
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Далее мы хотим убедиться, что пользователь не модифицирует файл вне своей области, заданной в ACL. Если в проекте в каталоге `.git` уже есть копия файла `acl`, который мы использовали ранее, то сценарий `pre-commit` следующего вида применит те ограничения для пользователя:
-
-Next, you want to make sure you aren’t modifying files that are outside your ACL scope. If your project’s `.git` directory contains a copy of the ACL file you used previously, then the following `pre-commit` script will enforce those constraints for you:
+Далее мы хотим убедиться, что пользователь не модифицирует файлы вне своей области, заданной в ACL. Если в проекте в каталоге `.git` уже есть копия файла `acl`, который мы использовали ранее, то сценарий `pre-commit` следующего вида применит эти ограничения:
 
 	#!/usr/bin/env ruby
 
@@ -992,8 +857,7 @@ Next, you want to make sure you aren’t modifying files that are outside your A
 
 	# [ insert acl_access_data method from above ]
 
-# некоторые подкаталоги в проекте разрешено модифицировать только определённым пользователям
-	# only allows certain users to modify certain subdirectories in a project
+	# некоторые подкаталоги в проекте разрешено модифицировать только определённым пользователям
 	def check_directory_perms
 	  access = get_acl_access_data('.git/acl')
 
@@ -1014,45 +878,29 @@ Next, you want to make sure you aren’t modifying files that are outside your A
 
 	check_directory_perms
 
-Это примерно тот же сценарий, что и на стороне сервера, но с двумя важными отличиями. Первое — файл `acl` теперь в другом месте, так как этот сценарий запускается из рабочего каталога, а не из Git-каталога. Нужно изменить путь к ACL-файлу с этого:
-
-This is roughly the same script as the server-side part, but with two important differences. First, the ACL file is in a different place, because this script runs from your working directory, not from your Git directory. You have to change the path to the ACL file from this
+Это примерно тот же сценарий, что и на стороне сервера, но с двумя важными отличиями. Первое — файл `acl` находится в другом месте, так как этот сценарий теперь запускается из рабочего каталога, а не из Git-каталога. Нужно изменить путь к ACL-файлу с этого:
 
 	access = get_acl_access_data('acl')
 
 на этот:
 
-to this:
-
 	access = get_acl_access_data('.git/acl')
 
-Другое важное отличие — это способ получения списка изменённых файлов. Так как метод действующий на стороне сервера смотрит в лог коммитов, а сейчас коммит ещё не был записан, нам надо получить список файлов из индекса. Вместо
-
-The other important difference is the way you get a listing of the files that have been changed. Because the server-side method looks at the log of commits, and, at this point, the commit hasn’t been recorded yet, you must get your file listing from the staging area instead. Instead of
+Другое важное отличие — это способ получения списка изменённых файлов. Так как метод, действующий на стороне сервера, смотрит в лог коммитов, а сейчас коммит ещё не был записан, нам надо получить список файлов из индекса. Вместо
 
 	files_modified = `git log -1 --name-only --pretty=format:'' #{ref}`
 
-нам придётся использовать
-
-you have to use
+мы должны использовать
 
 	files_modified = `git diff-index --cached --name-only HEAD`
 
 Но это единственные два отличия — во всём остальном этот сценарий работает точно так же. Но надо предупредить, что он предполагает, что локально вы работаете под тем же пользователем, от имени которого отправляете изменения на удалённый сервер. Если это не так, то вам необходимо задать переменную `$user` вручную.
 
-But those are the only two differences — otherwise, the script works the same way. One caveat is that it expects you to be running locally as the same user you push as to the remote machine. If that is different, you must set the `$user` variable manually.
-
 Последнее, что нам нужно сделать, — это проверить, что пользователь не пытается отправить ссылки не с перемоткой, но это случается не так часто. Чтобы получились ссылки, не являющиеся перемоткой, надо либо переместить ветку за уже отправленный коммит, либо попытаться отправить другую локальную ветку в ту же самую удалённую ветку.
 
-The last thing you have to do is check that you’re not trying to push non-fast-forwarded references, but that is a bit less common. To get a reference that isn’t a fast-forward, you either have to rebase past a commit you’ve already pushed up or try pushing a different local branch up to the same remote branch.
+Так как сервер в любом случае сообщит вам о том, что нельзя отправлять обновления, не являющиеся перемоткой, а перехватчик запрещает принудительные `push`'и, единственная оплошность, которую вы можете попробовать предотвратить, это перемещение коммитов, которые уже были отправлены на сервер.
 
-Так как сервер в любом случае сообщит вам о том, что нельзя отправлять обновления, не являющиеся перемоткой, а перехватчик запрещает принудительные `push`'и, единственная оплошность, которую вы можете попробовать поймать, это перемещение коммитов, которые уже были отправлены на сервер.
-
-Because the server will tell you that you can’t push a non-fast-forward anyway, and the hook prevents forced pushes, the only accidental thing you can try to catch is rebasing commits that have already been pushed.
-
-Вот пример сценария `pre-rebase`, который осуществляет проверку этого. Он принимает на вход список всех коммитов, которые вы собираетесь переписать, и проверяет, нет ли их в какой-нибудь из ваших удалённых веток. Если найдётся такой коммит, который достижим из одной из ваших удалённых веток, сценарий прервёт выполнение перемещения:
-
-Here is an example pre-rebase script that checks for that. It gets a list of all the commits you’re about to rewrite and checks whether they exist in any of your remote references. If it sees one that is reachable from one of your remote references, it aborts the rebase:
+Вот пример сценария `pre-rebase`, который это проверяет. Он принимает на вход список всех коммитов, которые вы собираетесь переписать, и проверяет, нет ли их в какой-нибудь из ваших удалённых веток. Если найдётся такой коммит, который достижим из одной из удалённых веток, сценарий прервёт выполнение перемещения:
 
 	#!/usr/bin/env ruby
 
@@ -1078,20 +926,12 @@ Here is an example pre-rebase script that checks for that. It gets a list of all
 
 Этот сценарий использует синтаксис, который мы не рассматривали в разделе "Выбор ревизии" в Главе 6. Мы получили список коммитов, которые уже были отправлены на сервер, выполнив это:
 
-This script uses a syntax that wasn’t covered in the Revision Selection section of Chapter 6. You get a list of commits that have already been pushed up by running this:
-
 	git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}
 
 Запись `SHA^@` означает всех родителей указанного коммита. Мы ищем какой-нибудь коммит, который достижим из последнего коммита в удалённой ветке и не достижим ни из одного из родителей какого-либо SHA, который вы пытаетесь отправить на сервер — это значит, что это перемотка.
 
-The `SHA^@` syntax resolves to all the parents of that commit. You’re looking for any commit that is reachable from the last commit on the remote and that isn’t reachable from any parent of any of the SHAs you’re trying to push up — meaning it’s a fast-forward.
-
-Главный недостаток такого подхода — это то, что проверка может быть очень медленной и зачастую избыточной — если вы не пытаетесь отправить данные принудительно с помощью `-f`, сервер выдаст предупреждение и не примет данные. Однако, это интересное упражнение и теоретически может помочь вам избежать перемещения, к которому потом придётся вернуться, чтобы исправить.
-
-The main drawback to this approach is that it can be very slow and is often unnecessary — if you don’t try to force the push with `-f`, the server will warn you and not accept the push. However, it’s an interesting exercise and can in theory help you avoid a rebase that you might later have to go back and fix.
+Главный недостаток такого подхода — это то, что проверка может быть очень медленной и зачастую избыточной — если вы не пытаетесь отправить данные принудительно с помощью `-f`, сервер и так выдаст предупреждение и не примет данные. Однако, это интересное упражнение и теоретически может помочь вам избежать перемещения, к которому потом придётся вернуться, чтобы исправить.
 
 ## Итоги ##
 
-Мы рассмотрели большинство основных способов настройки клиента и сервера Git'а так, чтобы он был максимально удобен для ваших проектов и при вашей организации рабочего процесса. Мы узнали о всевозможных настройках, атрибутах файлов и о перехватчиках событий, а также рассмотрели пример настройки сервера с соблюдением политики. Теперь вам должно быть по плечу заставить Git подстроиться под практически любой тип рабочего процесса, который можно вообразить.
-
-You’ve covered most of the major ways that you can customize your Git client and server to best fit your workflow and projects. You’ve learned about all sorts of configuration settings, file-based attributes, and event hooks, and you’ve built an example policy-enforcing server. You should now be able to make Git fit nearly any workflow you can dream up.
+Мы рассмотрели большинство основных способов настройки клиента и сервера Git'а с тем, чтобы он был максимально удобен для ваших проектов и при вашей организации рабочего процесса. Мы узнали о всевозможных настройках, атрибутах файлов и о перехватчиках событий, а также рассмотрели пример настройки сервера с соблюдением политики. Теперь вам должно быть по плечу заставить Git подстроиться под практически любой тип рабочего процесса, который можно вообразить.

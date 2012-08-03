@@ -496,7 +496,7 @@ Le code SHA n'est pas des plus utiles car il ressemble à une valeur aléatoire 
 
 Il apparaît que vous pouvez écrire vos propres filtres pour réaliser des substitutions dans les fichiers lors des validations/extractions.
 Ces filtres s'appellent « *clean* » et « *smudge* ».
-Dans le fichier `.gitattributes`, vous pouvez indiquer un filtre pour des chemins particuliers puis créer des scripts qui traiterons ces fichiers avant qu'ils soient validés (« *clean* », voir figure 7-2) et juste avant qu'ils soient extraits (« *smudge* », voir figure 7-3).
+Dans le fichier `.gitattributes`, vous pouvez indiquer un filtre pour des chemins particuliers puis créer des scripts qui traiterons ces fichiers avant qu'ils soient extraits (« *smudge* », voir figure 7-2) et juste avant qu'ils soient validés (« *clean* », voir figure 7-2).
 Ces filtres peuvent servir à faire toutes sortes de choses attrayantes.
 
 Insert 18333fig0702.png

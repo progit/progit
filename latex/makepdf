@@ -106,6 +106,26 @@ def post_pandoc(string, config)
 		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
 
+		# Make Tables 2-1..2-3 actual tables
+		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)(([^\t\n]*)\n)?\\end\{verbatim\}/ do
+			$cap = $4
+			"\\begin{table}[h!]
+				\\refstepcounter{tab}
+				\\centering
+				\\label{tab:\\thetab}
+				\\begin{tabular}{p{2.75cm}p{8.25cm}}
+					\\toprule\n" <<
+					verbatim_sanitize($1).
+						gsub(/^([^\n\t]+)\t/, '{\footnotesize\texttt{\1}} & ').
+						gsub(/(\n)/, '\\\\\\\\\1').
+						sub(/\{\\footnotesize\\texttt(.*?)\n/, '{\1\midrule ').
+						concat("
+					\\bottomrule
+				\\end{tabular}
+				\\textbf{\\caption{#{$cap}}}
+			\\end{table}")
+		end
+
 		# Shaded verbatim block
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'
 	end

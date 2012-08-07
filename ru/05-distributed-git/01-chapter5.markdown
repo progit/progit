@@ -862,17 +862,29 @@ Or, if you want to also switch to it immediately, you can use the `checkout -b` 
 
 Now you’re ready to add your contributed work into this topic branch and determine if you want to merge it into your longer-term branches.
 
+### Применение патчей, отправленных по почте ###
+
 ### Applying Patches from E-mail ###
+
+Если вы принимаете патч, который вы должны интегрировать в ваш проект, через электронную почту, вам требуется применить патч в вашей тематической ветке, чтобы протестировать его. Есть два способа применения отправленных по почте патчей: при помощи команды `git apply` или команды `git am`.
 
 If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
 
+#### Применение патча с помощью команды apply ####
+
 #### Applying a Patch with apply ####
+
+Если вы приняли патч, который сгенерировали с помощью команды `git diff` или Unix-команды `diff`, вы можете применить его при помощи команды `git apply`. Полагая, что вы сохранили патч в `/tmp/patch-ruby-client.patch`, вы можете применить его следующим образом:
 
 If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
 
 	$ git apply /tmp/patch-ruby-client.patch
 
+Эта команда изменяет файлы в вашей рабочей директории. Это практически идентично выполнению команды `patch -p1` для применения патча, хотя является более параноидальной по сравнению с командой `patch`. Она также выполняет добавление, удаление и переименование файлов, если они описаны в `git diff`, чего не сделает команда `patch`. В конечном счете, `git apply` реализует модель `применить все, или отменить все`, в которой либо принимается все, либо вообще ничего, тогда как `patch` позволяет частично применять патч-файлы, оставляя вашу директорию в странном и непонятном состоянии. Команда `git apply` в целом более параноидальна, чем `patch`. Она не создаст для вас коммит — после выполнения команды вы должны вручную проиндексировать внесенные изменения и выполнить коммит.
+
 This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches than patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is overall much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
+
+Перед применением патча вы также можете использовать `apply` чтобы убедиться, что патч применяется без ошибок — для этого выполните `git apply --check`, указав нужный патч:
 
 You can also use git apply to see if a patch applies cleanly before you try actually applying it — you can run `git apply --check` with the patch:
 
@@ -880,11 +892,19 @@ You can also use git apply to see if a patch applies cleanly before you try actu
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
+Если выполнение этой команды ничего не выводит на экран, то патч должен быть применен без ошибок. Если проверка оборачивается неудачей, то команда имеет на выходе не нулевой статус, так что вы можете использовать ее при написании скриптов.
+
 If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
+
+#### Применение патчей с помощью команды am ####
 
 #### Applying a Patch with am ####
 
+Если разрабочик является пользователем Git и применял команду `format-patch` для создания своего патча, то ваша задача оказывается более простой, так как патч содержит информацию об авторе и сообщение коммита. Если есть такая возможность — поощрайте участников проекта на использование команды `format-patch` вместо `diff` при генерировании патчей для вас. Вы должны использовать `git apply` только если нет другого выхода и патчи уже созданы при помощи `diff`.
+
 If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
+
+Чтобы применить патч, созданный при помощи `format-patch`, используйте команду `git am`. С технической точки зрения, `git am` читает mbox-файл, который является простым текстовым форматом для хранения одного или более e-mail сообщений в одном текстовом файле. Он выглядит примерно следующим образом:
 
 To apply a patch generated by `format-patch`, you use `git am`. Technically, `git am` is built to read an mbox file, which is a simple, plain-text format for storing one or more e-mail messages in one text file. It looks something like this:
 
@@ -895,12 +915,18 @@ To apply a patch generated by `format-patch`, you use `git am`. Technically, `gi
 
 	Limit log functionality to the first 20
 
+Это начало вывода команды `format-patch`, которую вы видели в предыдущем разделе. Это также и правильный mbox формат для e-mail. Если кто-либо отправил вам по почте патч, использовав при этом надлежащим образом команду `git send-email`, и вы сохраняете это сообщение в mbox формате, то вы можете затем указать этот mbox-файл в команде `git am` — в результате команда начнет применять все патчи, которые будут описаны в этом файле. Если вы используете почтовый клиент, который способен сохранять несколько e-mail сообщений в один mbox-файл, то вы можете сохранить всю серию патчей в один файл и затем использовать команду `git am` для применения всех патчей сразу.
+
 This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
+
+Однако, если кто-либо загрузил созданный через команду `format-patch` патч-файл в тикет-систему или что-либо подобное, вы можете сохранить файл локально и затем передать его команде `git am` для применения патча:
 
 However, if someone uploaded a patch file generated via `format-patch` to a ticketing system or something similar, you can save the file locally and then pass that file saved on your disk to `git am` to apply it:
 
 	$ git am 0001-limit-log-function.patch 
 	Applying: add limit to log function
+
+Вы видите, что патч был применен без ошибок и автоматически был создан коммит. Информация об авторе, берется из полей `From` и `Date` e-mail сообщения, а сообщение коммита извлекается из поля `Subject` и тела (до начала самого патча) e-mail сообщения. Например, если этот патч был применен из mbox-файла приведенного выше примера, созданый коммит будет выглядеть примерно следующим образом:
 
 You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
 
@@ -915,7 +941,11 @@ You can see that it applied cleanly and automatically created the new commit for
 
 	   Limit log functionality to the first 20
 
+Информация `Commit` определяет человека, который применил патч и время, когда он был применен. Информация `Author` определяет того, кто и когда в оригинале создал патч.
+
 The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
+
+Однако возможна ситуация, когда патч не будет применен без ошибок. Возможно ваша основная ветка слишком далеко ушла вперед относительно той, на которой был основан патч, или патч имеет зависимость от другого патча, который вы еще не применили. В этом случае выполнение команды `git am` будет приостановлено, а у вас спросят, что вы хотите сделать:
 
 But it’s possible that the patch won’t apply cleanly. Perhaps your main branch has diverged too far from the branch the patch was built from, or the patch depends on another patch you haven’t applied yet. In that case, the `git am` process will fail and ask you what you want to do:
 
@@ -928,12 +958,16 @@ But it’s possible that the patch won’t apply cleanly. Perhaps your main bran
 	If you would prefer to skip this patch, instead run "git am --skip".
 	To restore the original branch and stop patching run "git am --abort".
 
+Эта команда расставляет отметки о конфликтах в каждый файл, в котором они встречаются; это похоже на то, что происходит при операции слияния или перемещения с конфликтами. Вы разрешаете данную ситуацию похожим образом — редактируете файл, чтобы разрешить конфликт, индексируете новый файл, а затем выполняете команду `git am --resolved`, чтобы начать работу с новым патчем: 
+
 This command puts conflict markers in any files it has issues with, much like a conflicted merge or rebase operation. You solve this issue much the same way — edit the file to resolve the conflict, stage the new file, and then run `git am --resolved` to continue to the next patch:
 
 	$ (fix the file)
 	$ git add ticgit.gemspec 
 	$ git am --resolved
 	Applying: seeing if this helps the gem
+
+Если вы хотите, чтобы Git попытался более умно разрешить конфликт, вы можете использовать опцию `-3`, которая указывает Git-у применять трехэтапную операцию слияния. Эта опция не включена по-умолчанию, так как она не работает в случае, если коммит, на котором был основан патч, не находится в вашем репозитории. Если вы все же имеете этот коммит — в случае, когда патч был основан на публичном коммите — опция `-3` позволяет гораздо умнее применять патчи с конфликтами:
 
 If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
 
@@ -945,7 +979,11 @@ If you want Git to try a bit more intelligently to resolve the conflict, you can
 	Falling back to patching base and 3-way merge...
 	No changes -- Patch already applied.
 
+
+В этом случае я пытался применить патч, который я уже применил. Без опции `-3` это привело бы к конфликту.
 In this case, I was trying to apply a patch I had already applied. Without the `-3` option, it looks like a conflict.
+
+Если вы применяете серию патчей из mbox-файла, вы также можете запустить команду `am` в интерактивном режиме —  в этом случае команда останавливает свое выполнение после каждого найденного патча и спрашивает вас о необходимости его применения:
 
 If you’re applying a number of patches from an mbox, you can also run the `am` command in interactive mode, which stops at each patch it finds and asks if you want to apply it:
 
@@ -956,7 +994,11 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 	--------------------------
 	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
 
+Это удобно, если вы имеете ряд сохраненных патчей, потому что вы можете сначала просмотреть патч, если вы забыли, что он из себя представляет, или не применять уже примененный ранее патч.
+
 This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
+
+Когда все патчи для вашей темы работы применены и для них выполнен коммит в вашу ветку, вы можете решить интегрировать ли их в ваши 'более постоянные' ветки и если да, то каким образом.
 
 When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
 

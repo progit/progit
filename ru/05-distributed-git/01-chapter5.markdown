@@ -1002,9 +1002,15 @@ This is nice if you have a number of patches saved, because you can view the pat
 
 When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
 
+### Проверка удаленных веток ###
+
 ### Checking Out Remote Branches ###
 
+Если участник вашего проекта является пользователем Git, который создал свой собственный репозиторий, отправил в него несколько изменений, а затем прислал вам URL этого репозитория и имя удаленной ветки, в которой находятся изменения, вы можете добавить его как удаленный репозиторий и выполнить слияние локально.
+
 If your contribution came from a Git user who set up their own repository, pushed a number of changes into it, and then sent you the URL to the repository and the name of the remote branch the changes are in, you can add them as a remote and do merges locally.
+
+Например, если Джессика присылает вам e-mail, в котором говорится, что у нее есть классная новая наработка в ветке `ruby-client` ее репозитория, вы можете протестировать ее, добавив ее репозиторий в качестве удаленного для вашего проекта и проверив эту ветку локально:
 
 For instance, if Jessica sends you an e-mail saying that she has a great new feature in the `ruby-client` branch of her repository, you can test it by adding the remote and checking out that branch locally:
 
@@ -1012,11 +1018,19 @@ For instance, if Jessica sends you an e-mail saying that she has a great new fea
 	$ git fetch jessica
 	$ git checkout -b rubyclient jessica/ruby-client
 
+Если она позже снова пишет вам e-mail, в котором говорит о другой ветке с классными наработками, вы можете извлечь эти наработки и переключится на эту ветку, так как вы уже добавили ее репозиторий в качестве удаленного для вашего проекта.
+
 If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
+
+Этот метод наиболее удобен, если вы работаете с человеком постоянно. Если кто-либо изредка представляет вам по одному потчу, то менее затратно по времени будет принимать его через e-mail, чем заставлять каждого иметь свой собсвенный репозиторий и постоянно добавлять и удалять удаленные репозитории (remotes), чтобы получить несколько патчей. Также, вероятно, вы не хотите иметь сотни удаленных репозиториев в вашем проекте, каждый из которых предоставляет вам один или два патча. Однако, скрипты могут упростить эту ситуацию — все зависит от того, как ведете разработку вы и участники вашего проекта.
 
 This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
 
+Другим преимуществом данного подхода является тот факт, что сохраняется также и история коммитов. Although you may have legitimate merge issues, you know where in your history their work is based. Правильное трехходовое слияние предпочтительнее использования опции `-3`, когда нужно надеятся, что патч был сгенерирован на основе публичного коммита, к которому вы имеете доступ.
+
 The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
+
+Если вы не работаете с человеком постоянно, но все же хотите принимать его изменения таким образом, вы можете указать URL удаленного репозитория в команде `git pull`. В результате будут полученны нужные изменения, а URL не будет сохранен в списке удаленных репозиториев вашего проекта:
 
 If you aren’t working with a person consistently but still want to pull from them in this way, you can provide the URL of the remote repository to the `git pull` command. This does a one-time pull and doesn’t save the URL as a remote reference:
 

@@ -1039,9 +1039,15 @@ If you aren’t working with a person consistently but still want to pull from t
 	 * branch            HEAD       -> FETCH_HEAD
 	Merge made by recursive.
 
+### Определение вносимых изменений ###
+
 ### Determining What Is Introduced ###
 
+Сейчас у вас есть тематическая ветка, содержащая наработки участников проекта. На этом этапе вы можете определить, что бы вы хотели с ними делать. Эта секция производит обзор пары команд, которые, как вы увидите, можно использовать для точного определения того, что будет получено при выполнении слияния тематической ветки с вашей основной веткой.
+
 Now you have a topic branch that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
+
+Часто полезным является просмотр всех коммитов, которые находятся в этой ветке, но которых нет в вашей master ветке. Вы можете исключить коммиты из master ветки путем добавления опции `--not` перед именем ветки. Например, если участник вашего проекта присылает вам два патча и вы создаете ветку с именем `contrib` и применяете в ней эти патчи, вы можете выполнить следующую команду:
 
 It’s often helpful to get a review of all the commits that are in this branch but that aren’t in your master branch. You can exclude commits in the master branch by adding the `--not` option before the branch name. For example, if your contributor sends you two patches and you create a branch called `contrib` and applied those patches there, you can run this:
 
@@ -1058,17 +1064,29 @@ It’s often helpful to get a review of all the commits that are in this branch 
 
 	    updated the gemspec to hopefully work better
 
+Чтобы просмотреть какие изменения вносит каждый коммит, запомните, что вы можете указать опцию `-p` в команде `git log` — к каждому коммиту будет добавлен его diff.
+
 To see what changes each commit introduces, remember that you can pass the `-p` option to `git log` and it will append the diff introduced to each commit.
+
+Чтобы просмотреть полный diff при слиянии этой тематической ветки с другой веткой, вы можете использовать интересный трюк. Выполняйте следующую команду: 
 
 To see a full diff of what would happen if you were to merge this topic branch with another branch, you may have to use a weird trick to get the correct results. You may think to run this:
 
 	$ git diff master
 
+Эта команда выведет вам diff, но он может оказаться обманчивым. Если ваша ветка `master` была промотана вперед с того момента, когда вы создали на ее основе тематическую ветку, вы наверняка увидите странный результат. Это происходит по той причине, что Git напрямую сравнивает снимки последнего коммита тематической ветки, на которой вы находитесь, и снимок последнего коммита ветки `master`. Например, если вы добавили строку в файл в ветке `master`, прямое сравнение снимков покажет, что изменения в тематической ветке собираются удалить эту строку.
+
 This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.
+
+Если `master` является прямым предком вашей тематической ветки, то проблем нет. Но если две линии истории разошлись, то diff будет выглядеть как будто вы добавляете все новое из вашей тематической ветки и удаляете все уникальное из ветки `master`.
 
 If `master` is a direct ancestor of your topic branch, this isn’t a problem; but if the two histories have diverged, the diff will look like you’re adding all the new stuff in your topic branch and removing everything unique to the `master` branch.
 
+То, что вы реально хотели бы видеть — изменения из тематической ветки, то есть те наработки, которые вы внесете при слиянии этой ветки с master веткой. Это выполняется путем сравнения последнего коммита в вашей тематической ветке с первым общим предком, который она имеет с master веткой.
+
 What you really want to see are the changes added to the topic branch — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your topic branch with the first common ancestor it has with the master branch.
+
+Технически, вы можете выполнить это явно выделяя общего предка и затем выполняя команду diff:
 
 Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
 
@@ -1076,9 +1094,13 @@ Technically, you can do that by explicitly figuring out the common ancestor and 
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
 	$ git diff 36c7db 
 
+Однако это не очень удобно, так что Git предоставляет другой вариант для выполнения той же самой операции: троеточие. В контексте команды `diff`, вы можете поставить три точки после названия одной из веток, чтобы увидеть diff между последним коммитом ветки, на которой вы находитесь, и их общим предком с другой веткой:
+
 However, that isn’t convenient, so Git provides another shorthand for doing the same thing: the triple-dot syntax. In the context of the `diff` command, you can put three periods after another branch to do a `diff` between the last commit of the branch you’re on and its common ancestor with another branch:
 
 	$ git diff master...contrib
+
+Эта команда показывает вам только те наработки в вашей текущей тематической ветке, которые были представлены после расхождения с их общим предком в master ветке. Это очень удобный синтаксис и его надо запомнить.
 
 This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.
 

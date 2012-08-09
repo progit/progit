@@ -781,7 +781,7 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	Unpacking objects: 100% (3/3), done.
 	Enforcing Policies... 
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -791,7 +791,7 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 There are a couple of interesting things here. First, you see this where the hook starts running.
 
 	Enforcing Policies... 
-	(refs/heads/master) (fb8c72) (c56860)
+	(refs/heads/master) (8338c5) (c5b616)
 
 Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
 

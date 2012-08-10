@@ -1224,7 +1224,11 @@ Figure 5-27. History after cherry-picking a commit on a topic branch.
 
 Now you can remove your topic branch and drop the commits you didn’t want to pull in.
 
+### Присвоение тэгов для ваших релизов ###
+
 ### Tagging Your Releases ###
+
+Когда вы решили выпустить релиз, вы, вероятно, захотите присвоить ему тэг, так чтобы вы могли обновить этот релиз в любой момент в будущем. Процесс создания нового тэга обсуждался в Главе 2. Если вы решите подписать (sign) ваш тэг как мейнтейнер, процедура будет выглядеть примерно следующим образом:
 
 When you’ve decided to cut a release, you’ll probably want to drop a tag so you can re-create that release at any point going forward. You can create a new tag as I discussed in Chapter 2. If you decide to sign the tag as the maintainer, the tagging may look something like this:
 
@@ -1232,6 +1236,8 @@ When you’ve decided to cut a release, you’ll probably want to drop a tag so 
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gmail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
+
+Если вы подписали ваши тэги, у вас может возникнуть проблема с распространением публичного PGP ключа, использовавшегося для подписи ваших тэгов. Мейнтейнер проекта в Git может решить эту проблему включением публичного ключа в виде блоба (blob) в репозиторий и затем добавлением тэга, который напрямую указывает на этот контент. Чтобы сделать это, вы определяете какой ключ вам нужен запуском команды  `gpg --list-keys`:
 
 If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`:
 
@@ -1242,18 +1248,26 @@ If you do sign your tags, you may have the problem of distributing the public PG
 	uid                  Scott Chacon <schacon@gmail.com>
 	sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 
+Затем вы можете напрямую импортировать ключ в базу данных Git путем экспортирования их и передачи (piping) команде `git hash-object`, которая создает новый блоб с этим контентом и возвращает вам SHA-1 от этого блоба:
+
 Then, you can directly import the key into the Git database by exporting it and piping that through `git hash-object`, which writes a new blob with those contents into Git and gives you back the SHA-1 of the blob:
 
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
 
+Теперь, когда у вас в Git хранится ваш ключ, вы можете создать тэг, напрямую указывающий на него, путем использования значения SHA-1, возвращенного вам командой `hash-object`:
+
 Now that you have the contents of your key in Git, you can create a tag that points directly to it by specifying the new SHA-1 value that the `hash-object` command gave you:
 
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
+Если вы запустите команду `git push --tags`, то тэг `maintainer-pgp-pub` будет доступен каждому. Если кто-либо захочет проверить тэг, он может напрямую импортировать ваш PGP ключ, скачивая (pulling) блоб из базы данных и импортируя его в GPG:
+
 If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG:
 
 	$ git show maintainer-pgp-pub | gpg --import
+
+Этот ключ может быть использован для проверки всех ваших подписанных тэгов. Также, если вы включите инструкции в сообщение тэга, запуск `git show <tag>` позволит конечному пользователю получить инструкции по проверке тэга.
 
 They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.
 

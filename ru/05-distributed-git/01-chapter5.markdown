@@ -896,7 +896,7 @@ You can also use git apply to see if a patch applies cleanly before you try actu
 
 If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
 
-#### Применение патчей с помощью команды am ####
+#### Применение патча с помощью команды am ####
 
 #### Applying a Patch with am ####
 
@@ -1100,62 +1100,109 @@ However, that isn’t convenient, so Git provides another shorthand for doing th
 
 	$ git diff master...contrib
 
-Эта команда показывает вам только те наработки в вашей текущей тематической ветке, которые были представлены после расхождения с их общим предком в master ветке. Это очень удобный синтаксис и его надо запомнить.
+Эта команда показывает вам только те наработки в вашей текущей тематической ветке, которые были внесены после расхождения с их общим предком в master ветке. Это очень удобный синтаксис и его надо запомнить.
 
 This command shows you only the work your current topic branch has introduced since its common ancestor with master. That is a very useful syntax to remember.
 
+### Интегрирование наработок ###
+
 ### Integrating Contributed Work ###
+
+Когда все наработки в вашей тематической ветке готовы к интегрированию в более главную ветку, встает вопрос — как это сделать? Более того — какой рабочий процесс в целом вы хотите использовать, занимаясь поддержкой своего проекта? Есть несколько вариантов, так что рассмотрим некоторые из них.
 
 When all the work in your topic branch is ready to be integrated into a more mainline branch, the question is how to do it. Furthermore, what overall workflow do you want to use to maintain your project? You have a number of choices, so I’ll cover a few of them.
 
+#### Рабочие процессы со слиянием ####
+
 #### Merging Workflows ####
+
+Один из простых рабочих процессов заключается в слиянии наработок с вашей веткой `master`. В этом случае ваша ветка `master` содержит основную стабильную версию кода. Когда вы проверили ваши собственные или полученные от кого-либо наработки, находящиеся в тематической ветке, вы объединяете ее с вашей master веткой, удаляете тематическую ветку, а затем продолжаете работу. Если в вашем репозитории наработки находятся в двух ветках, названия которых `ruby_client` и `php_client` (Рисунок 5-19), и вы выполняете слияние сначала для ветки `ruby_client`, в потом для `php_client`, то ваша история коммитов, в итоге, будет выглядеть как на Рисунке 5-20.    
 
 One simple workflow merges your work into your `master` branch. In this scenario, you have a `master` branch that contains basically stable code. When you have work in a topic branch that you’ve done or that someone has contributed and you’ve verified, you merge it into your master branch, delete the topic branch, and then continue the process.  If we have a repository with work in two branches named `ruby_client` and `php_client` that looks like Figure 5-19 and merge `ruby_client` first and then `php_client` next, then your history will end up looking like Figure 5-20.
 
-Insert 18333fig0519.png 
+Insert 18333fig0519.png
+Рисунок 5-19. История коммитов с несколькими тематическими ветками.
+ 
 Figure 5-19. History with several topic branches.
 
 Insert 18333fig0520.png
+Рисунок 5-20. История коммитов после слияния тематических веток с master веткой.
+
 Figure 5-20. After a topic branch merge.
+
+Это, по всей видимости, наиболее простой рабочий процесс, но при работе с большими проектами здесь возникает ряд проблем.
 
 That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
 
+Если ваш проект более крупный, или вы работаете с большим количеством разработчиков, вы, вероятно, будете применять по крайней мере двухэтапный цикл слияний. В этом случае у вас есть две долго живущие ветки, `master` и `develop`, для которых вы решили, что ветка `master` обновляется только когда выходит очень стабильный релиз, и весь код включен в ветку `develop`. Вы регулярно отправляете изменения для обоих этих веток в публичный репозиторий. Каждый раз, когда у вас появляется новая тематическая ветка для слияния (Рисунок 5-21), вы, сначала, объединяете ее с веткой `develop` (Рисунок 5-22); затем, когда вы выпускаете  релиз, вы делаете fast-forward ветки `master` на требуемый стабильный снимок ветки `develop` (Рисунок 5-23).
+
 If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
 
-Insert 18333fig0521.png 
+Insert 18333fig0521.png
+Рисунок 5-21. История коммитов до слияния тематической ветки.
+ 
 Figure 5-21. Before a topic branch merge.
 
-Insert 18333fig0522.png 
+Insert 18333fig0522.png
+Рисунок 5-22. История коммитов после слияния тематической ветки.
+ 
 Figure 5-22. After a topic branch merge.
 
-Insert 18333fig0523.png 
+Insert 18333fig0523.png
+Рисунок 5-23. История коммитов после появления релиза.
+ 
 Figure 5-23. After a topic branch release.
+
+При таком подходе, клонируя ваш репозиторий люди могут либо переключиться на вашу master ветку, чтобы получить последний стабильный релиз и легко проводить обновление, либо переключться на ветку `develop`, которая включает в себя все самое свежее.
+Вы также можете развить данный подход, создав ветку для интегрирования, в которой будет происходить слияние всех наработок. И когда вы посчитаете, что код на этой ветке является стабильным и проходит все тесты, вы выполняете слияние этой ветки с веткой `develop`; и если все работает как положено некоторое время, вы выполняете fast-forward для вашей master ветки.
 
 This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
 You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
 
+#### Рабочие процессы с крупными слияниями ####
+
 #### Large-Merging Workflows ####
+
+Проект в Git имеет 4 долго живущие ветки: `master`, `next`, `pu` (proposed updates) для новых наработок и `maint` для поддержки backports (ретроподдержка). Когда участники проекта подготовливают свои наработки, они объединяются в тематические ветки в репозитории мейнтейнера проекта  — нечто похожее показано на рисунке 5-24. На этом этапе происходит оценивание значимости проделанной работы  — все ли работает как положено, стабилен ли код, или требуется выполнить больше работы. Если все в норме, то тематические ветки сливаются в ветку `next`, которая отправляется на сервер (push), так что каждый будет иметь возможность опробовать все предложенные в тематических ветках изменения.
 
 The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
 
-Insert 18333fig0524.png 
+Insert 18333fig0524.png
+Рисунок 5-24. Управление рядом параллельных тематических веток участников проекта.
+ 
 Figure 5-24. Managing a complex series of parallel contributed topic branches.
+
+Если тематические ветки требуют доработки, они сливаются в ветку `pu`. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. Это означает, что `master` практически всегда движется в прямом направлении, ветка `next` перемещается (rebase) иногда, а ветка `pu` перемещается чаще всех (смотри Рисунок 5-25).
 
 If the topics still need work, they’re merged into `pu` instead. When it’s determined that they’re totally stable, the topics are re-merged into `master` and are then rebuilt from the topics that were in `next` but didn’t yet graduate to `master`. This means `master` almost always moves forward, `next` is rebased occasionally, and `pu` is rebased even more often (see Figure 5-25).
 
-Insert 18333fig0525.png 
+Insert 18333fig0525.png
+Рисунок 5-25. Слияние тематических веток участников проекта в долго живущие ветки для интегрирования.
+ 
 Figure 5-25. Merging contributed topic branches into long-term integration branches.
+
+Когда тематическая ветка была полностью объединена с веткой `master`, она удаляется из репозитория. Проект также имеет ветку `maint`, которая ответвлена от последнего релиза и предоставляет backport-патчи, в случае если требуется maintenane-релиз. Таким образом, когда вы клонируете Git репозиторий, вы располагаете четырьмя ветками, переключаясь на которые вы можете оценивать проект на разных стадиях разработки (в зависимости от того, насколько свежей/стабильной версией вы хотите располагать или от того, каким образом вы хотите дополнять проект своими наработками); а мейнтейнер, в свою очередь, имеет структурированный рабочий процесс, который помагает ему оценивать новых участников проекта.
 
 When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
 
+#### Рабочие процессы с перемещениями и отбором лучшего ####
+
 #### Rebasing and Cherry Picking Workflows ####
 
+Другие мейнтейнеры вместо слияния предпочитают выполнять перемещение или отбор лучших наработок участников проекта на верхушку своей master ветки, чтобы иметь практически линейную историю разработки. Когда у вас есть наработки в тематической ветке, которые вы хотите интегрировать в проект, вы переходите на эту ветку и запускаете команду rebase, которая перемещает изменения на верхушку вашей текущей master ветки (или ветки `develop`, и т.п). Если все прошло хорошо, вы можете выполнить fast-forward для вашей ветки `master`, получив тем самым линейную историю работы над проектом.
+
 Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a topic branch and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
+
+Другой вариант перемещения сделанных наработок из одной ветки в другую - отбор лучшего. Отбор лучшего в Git является тем же самым, что и перемещение для случая единственного коммита. Берется патч, который был представлен в коммите, и делается попытка применить его на ветке, на которой вы сейчас находитесь. Это удобно в том случае, если у вас есть ряд коммитов в тематической ветке и вы хотите включить в проект только один из них, или если у вас только один коммит в тематической ветке и вы предпочитаете выполнять отбор лучшего вместо перемещения. Например, предположим ваш проект выглядит так, как показано на Рисунке 5-26.
 
 The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
 
 Insert 18333fig0526.png 
+Рисунок 5-26. Пример истории коммитов перед отбором лучшего.
+
 Figure 5-26. Example history before a cherry pick.
+
+Если вы хотите отправить коммит `e43a6` в вашу master ветку, вы выполняете:
 
 If you want to pull commit `e43a6` into your master branch, you can run
 
@@ -1164,10 +1211,16 @@ If you want to pull commit `e43a6` into your master branch, you can run
 	[master]: created a0a41a9: "More friendly message when locking the index fails."
 	 3 files changed, 17 insertions(+), 3 deletions(-)
 
+Эта команда включает в master ветку изменения, представленные в `e43a6`, но вы получаете новое значение SHA-1 для этого коммита, так как у него будет другая дата принятия. Теперь ваша история коммитов выглядит как показано на Рисунке 5-27.
+
 This pulls the same change introduced in `e43a6`, but you get a new commit SHA-1 value, because the date applied is different. Now your history looks like Figure 5-27.
 
 Insert 18333fig0527.png 
+Рисунок 5-27. История коммитов после отбора лучшего коммита из тематической ветки.
+
 Figure 5-27. History after cherry-picking a commit on a topic branch.
+
+Теперь вы можете удалить вашу тематическую ветку и отбросить коммиты, которые вы не хотели бы включать в проект.
 
 Now you can remove your topic branch and drop the commits you didn’t want to pull in.
 

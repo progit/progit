@@ -1271,18 +1271,30 @@ If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with e
 
 They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.
 
+### Создание номера сборки ###
+
 ### Generating a Build Number ###
+
+Так как коммитам в Git не присваиваются постоянно нарастающие номера, наподобие 'v123' или чего-то аналогичного, то в случае, если вы захотите присвоить коммиту human-readable имя, можно запустить команду `git describe` для этого коммита. Git возвращает вам имя ближайшей метки вместе с числом коммитов поверх этой метки и часть значения SHA-1 описываемого вами коммита: 
 
 Because Git doesn’t have monotonically increasing numbers like 'v123' or the equivalent to go with each commit, if you want to have a human-readable name to go with a commit, you can run `git describe` on that commit. Git gives you the name of the nearest tag with the number of commits on top of that tag and a partial SHA-1 value of the commit you’re describing:
 
 	$ git describe master
 	v1.6.2-rc1-20-g8c5b85c
 
+Таким образом вы можете экспортировать снимок проекта или сборку и присвоить им понятное для человека имя. На самом деле, если вы собираете Git из исходного кода, клонированного из Git-репозитория, `git --version` возвращает вам что-то подобное. Если вы описываете коммит, которому вы напрямую присвоили метку, команда вернет вам имя метки.
+
 This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name.
+
+Команду `git describe` хорошо использовать с аннотированными метками (метками, созданными при помощи опций `-a` или `-s`), так что если вы используете `git describe`, то метки для релизов должны создаваться таким способом - в этом случае вы сможете удостовериться, что при описании коммиту было дано правильное имя. Вы также можете использовать эту строку в командах `checkout` и `checkout` для указания нужного коммита, однако это не может вечно работать правльно в силу того, что в строке присутствует сокращенное значение SHA-1. Например, в ядре Linux недавно перешли от 8 к 10 символам, чтобы удостовериться в уникальности SHA-1 объекта, и поэтому старый вывод команды `git describe` признается недействительным.
 
 The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated.
 
+### Подготовка релиза ###
+
 ### Preparing a Release ###
+
+Теперь вы хотите выпустить релиз сборки. Вероятно вы захотите сделать архив последнего снимка вашего кода для тех бедолаг, которые не используют Git. Для этого используется команда `git archive`:
 
 Now you want to release a build. One of the things you’ll want to do is create an archive of the latest snapshot of your code for those poor souls who don’t use Git. The command to do this is `git archive`:
 
@@ -1290,9 +1302,13 @@ Now you want to release a build. One of the things you’ll want to do is create
 	$ ls *.tar.gz
 	v1.6.2-rc1-20-g8c5b85c.tar.gz
 
+Если кто-либо отрывает этот tarball, он получит последний снимок вашего проекта внутри директории `project`. Таким же способом вы можете создать zip архив, указав команде `git archive` опцию `--format=zip`:
+
 If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `--format=zip` option to `git archive`:
 
 	$ git archive master --prefix='project/' --format=zip > `git describe master`.zip
+
+Теперь у вас есть tarball и zip архив с релизом вашего проекта, которые вы можете загрузить на сайт или отправить людям по почте. 
 
 You now have a nice tarball and a zip archive of your project release that you can upload to your website or e-mail to people.
 

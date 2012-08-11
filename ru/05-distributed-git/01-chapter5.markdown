@@ -1286,7 +1286,7 @@ Because Git doesn’t have monotonically increasing numbers like 'v123' or the e
 
 This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name.
 
-Команду `git describe` хорошо использовать с аннотированными метками (метками, созданными при помощи опций `-a` или `-s`), так что если вы используете `git describe`, то метки для релизов должны создаваться таким способом - в этом случае вы сможете удостовериться, что при описании коммиту было дано правильное имя. Вы также можете использовать эту строку в командах `checkout` и `checkout` для указания нужного коммита, однако это не может вечно работать правльно в силу того, что в строке присутствует сокращенное значение SHA-1. Например, в ядре Linux недавно перешли от 8 к 10 символам, чтобы удостовериться в уникальности SHA-1 объекта, и поэтому старый вывод команды `git describe` признается недействительным.
+Команду `git describe` хорошо использовать с аннотированными метками (метками, созданными при помощи опций `-a` или `-s`), так что если вы используете `git describe`, то метки для релизов должны создаваться этим способом - в этом случае вы сможете удостовериться, что при описании коммиту было дано правильное имя. Вы также можете использовать эту строку в командах `checkout` и `checkout` для указания нужного коммита, однако это не может вечно работать правльно в силу того, что в строке присутствует сокращенное значение SHA-1. Например, в ядре Linux недавно перешли от 8 к 10 символам, чтобы удостовериться в уникальности SHA-1 объекта, и поэтому старый вывод команды `git describe` признается недействительным.
 
 The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated.
 
@@ -1302,7 +1302,7 @@ Now you want to release a build. One of the things you’ll want to do is create
 	$ ls *.tar.gz
 	v1.6.2-rc1-20-g8c5b85c.tar.gz
 
-Если кто-либо отрывает этот tarball, он получит последний снимок вашего проекта внутри директории `project`. Таким же способом вы можете создать zip архив, указав команде `git archive` опцию `--format=zip`:
+Если кто-либо открывает этот tarball, он получит последний снимок вашего проекта внутри директории `project`. Таким же способом вы можете создать zip архив, указав команде `git archive` опцию `--format=zip`:
 
 If someone opens that tarball, they get the latest snapshot of your project under a project directory. You can also create a zip archive in much the same way, but by passing the `--format=zip` option to `git archive`:
 
@@ -1312,7 +1312,11 @@ If someone opens that tarball, they get the latest snapshot of your project unde
 
 You now have a nice tarball and a zip archive of your project release that you can upload to your website or e-mail to people.
 
+### Команда `shortlog` ###
+
 ### The Shortlog ###
+
+Настало время написать по почте людям из вашего списка рассылки, которые хотят получать новости о вашем проекте. При помощи команды `git shortlog` можно быстро получить что-то наподобие лога изменений (changelog), содержащего изменения в вашем проекте, сделанные после последнего релиза или последнего письма по списку рассылки. Лог изменений включает в себя все коммиты в указанном диапазоне; например, следующая команда вернет вам сводку по всем коммитам после последнего релиза (последний релиз имел метку v1.0.1):
 
 It’s time to e-mail your mailing list of people who want to know what’s happening in your project. A nice way of quickly getting a sort of changelog of what has been added to your project since your last release or e-mail is to use the `git shortlog` command. It summarizes all the commits in the range you give it; for example, the following gives you a summary of all the commits since your last release, if your last release was named v1.0.1:
 
@@ -1331,8 +1335,14 @@ It’s time to e-mail your mailing list of people who want to know what’s happ
 	      Version bump to 1.0.2
 	      Regenerated gemspec for version 1.0.2
 
+Вы получаете аккуратную сводку по всем коммитам, начиная с метки v1.0.1, сгруппированных по автору. Вывод этой команды можно посылать по вашему списку рассылки.
+
 You get a clean summary of all the commits since v1.0.1, grouped by author, that you can e-mail to your list.
 
 ## Итоги ##
+
+## Summary ##
+
+Вы должны чувствовать себя достаточно свободно, делая свой вклад в проект под управлением Git, а также занимаясь поддержкой вашего собственного проекта или интегрированием наработок других пользователей. Поздравляем тебя, опытный Git-разработчик! В следующей главе вы познакомитесь с более мощными инструментами, а также получите советы по действию в сложных ситуациях, которые сделают из вас настоящего мастера в Git.
 
 You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.

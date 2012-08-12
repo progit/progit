@@ -832,11 +832,11 @@ At this point, you should be able to go to your Drafts folder, change the To fie
 
 This section has covered a number of common workflows for dealing with several very different types of Git projects you’re likely to encounter and introduced a couple of new tools to help you manage this process. Next, you’ll see how to work the other side of the coin: maintaining a Git project. You’ll learn how to be a benevolent dictator or integration manager.
 
-## Поддерживание проекта ##
+## Поддержка проекта ##
 
 ## Maintaining a Project ##
 
-В дополнение к тому, как эффективно работать над проектом, вам наверняка необходимо также знать как самому поддерживать проект. Поддерживание проекта может заключаться в принятии и применении патчей, сгенерированных с помощью 'format-patch' и отправленных вам по почте или в интеграции изменений из веток тех репозиториев, которые вы добавили в remotes вашего проекта. Неважно, поддерживаете ли вы стандартный репозиторий проекта или хотите помочь с проверкой или утверждением патчей, вам необходимо выработать метод приема наработок, который будет наиболее доступным для других участников и не будет изменяться вами в течении длительного срока.
+В дополнение к тому, как эффективно работать над проектом, вам, наверняка, необходимо также знать как самому поддерживать проект. Поддержка проекта может заключаться в принятии и применении патчей, сгенерированных с помощью 'format-patch' и отправленных вам по почте или в интеграции изменений из веток тех репозиториев, которые вы добавили в качестве удаленных (remotes) для вашего проекта. Неважно, поддерживаете ли вы стандартный репозиторий проекта или хотите помочь с проверкой или утверждением патчей, вам необходимо выработать метод приема наработок, который будет наиболее доступным для других участников и не будет изменяться вами в течении длительного срока.
 
 In addition to knowing how to effectively contribute to a project, you’ll likely need to know how to maintain one. This can consist of accepting and applying patches generated via `format-patch` and e-mailed to you, or integrating changes in remote branches for repositories you’ve added as remotes to your project. Whether you maintain a canonical repository or want to help by verifying or approving patches, you need to know how to accept work in a way that is clearest for other contributors and sustainable by you over the long run.
 
@@ -844,7 +844,7 @@ In addition to knowing how to effectively contribute to a project, you’ll like
 
 ### Working in Topic Branches ###
 
-Когда вы решаете интегрировать новую наработку, хорошей идеей, обычно, является опробовать ее в тематической ветке - временной ветке, специально созданной для тестирования наработки. В этом случае  легко изменять код патча индивидуально и приостанавливать работу, если что-то не работает как положено, до тех пор, пока у вас не появится время на ее возобновление. Если вы выбираете простое имя для ветки, основанное на теме вашей работы, например, `ruby_client`, или что-то аналогичное по описанию, то вы сможете легко вспомнить, зачем нужна данная ветка, если вам вдруг придется отложить работу и вернуться к ней позднее. В Git, мейнтейнер проекта, как правило, создает ветки с указанием пространства имен — к примеру, 'sc/ruby_client', где 'sc' есть никнейм автора, который вносит изменения.
+Когда вы решаете интегрировать новую наработку, хорошей идеей, обычно, является опробовать ее в тематической ветке - временной ветке, специально созданной для тестирования наработки. В этом случае  легко изменять код патча индивидуально и приостанавливать работу, если что-то не работает как положено, до тех пор, пока у вас не появится время на ее возобновление. Если вы выбираете для ветки простое имя, основанное на теме вашей работы, например, `ruby_client`, или что-то аналогичное по описанию, то вы сможете легко вспомнить, зачем нужна данная ветка, если вам вдруг придется отложить работу и вернуться к ней позднее. В Git, мейнтейнер проекта, как правило, создает ветки с указанием пространства имен — к примеру, 'sc/ruby_client', где 'sc' есть никнейм автора, который вносит изменения.
 Как вы уже знаете, вы можете создать ветку, основанную на вашей главной ветке, следующим образом:
 
 When you’re thinking of integrating new work, it’s generally a good idea to try it out in a topic branch — a temporary branch specifically made to try out that new work. This way, it’s easy to tweak a patch individually and leave it if it’s not working until you have time to come back to it. If you create a simple branch name based on the theme of the work you’re going to try, such as `ruby_client` or something similarly descriptive, you can easily remember it if you have to abandon it for a while and come back later. The maintainer of the Git project tends to namespace these branches as well — such as `sc/ruby_client`, where `sc` is short for the person who contributed the work. 
@@ -866,11 +866,11 @@ Now you’re ready to add your contributed work into this topic branch and deter
 
 ### Applying Patches from E-mail ###
 
-Если вы принимаете патч, который вы должны интегрировать в ваш проект, через электронную почту, вам требуется применить патч в вашей тематической ветке, чтобы протестировать его. Есть два способа применения отправленных по почте патчей: при помощи команды `git apply` или команды `git am`.
+Если вы принимаете патч, который вы должны интегрировать в ваш проект, через электронную почту, то вам потребуется применить патч в вашей тематической ветке, чтобы протестировать его. Есть два способа применения отправленных по почте патчей: при помощи команды `git apply` или команды `git am`.
 
 If you receive a patch over e-mail that you need to integrate into your project, you need to apply the patch in your topic branch to evaluate it. There are two ways to apply an e-mailed patch: with `git apply` or with `git am`.
 
-#### Применение патча с помощью команды apply ####
+#### Применение патчей с помощью команды apply ####
 
 #### Applying a Patch with apply ####
 
@@ -880,7 +880,7 @@ If you received the patch from someone who generated it with the `git diff` or a
 
 	$ git apply /tmp/patch-ruby-client.patch
 
-Эта команда изменяет файлы в вашей рабочей директории. Это практически идентично выполнению команды `patch -p1` для применения патча, хотя является более параноидальной по сравнению с командой `patch`. Она также выполняет добавление, удаление и переименование файлов, если они описаны в `git diff`, чего не сделает команда `patch`. В конечном счете, `git apply` реализует модель `применить все, или отменить все`, в которой либо принимается все, либо вообще ничего, тогда как `patch` позволяет частично применять патч-файлы, оставляя вашу директорию в странном и непонятном состоянии. Команда `git apply` в целом более параноидальна, чем `patch`. Она не создаст для вас коммит — после выполнения команды вы должны вручную проиндексировать внесенные изменения и выполнить коммит.
+Эта команда изменяет файлы в вашей рабочей директории. Это практически идентично выполнению команды `patch -p1` для применения патча, хотя `git apply` является более параноидальной по сравнению с командой `patch`. Она также выполняет добавление, удаление и переименование файлов, если они описаны в `git diff`, чего не сделает команда `patch`. В конечном счете, `git apply` реализует модель `применить все, или отменить все`, в которой либо принимается все, либо вообще ничего, тогда как `patch` позволяет частично применять патч-файлы, оставляя вашу директорию в странном и непонятном состоянии. Команда `git apply` в целом более параноидальна, чем `patch`. Она не создаст для вас коммит — после выполнения команды вы должны вручную проиндексировать внесенные изменения и выполнить коммит.
 
 This modifies the files in your working directory. It’s almost identical to running a `patch -p1` command to apply the patch, although it’s more paranoid and accepts fewer fuzzy matches than patch. It also handles file adds, deletes, and renames if they’re described in the `git diff` format, which `patch` won’t do. Finally, `git apply` is an "apply all or abort all" model where either everything is applied or nothing is, whereas `patch` can partially apply patchfiles, leaving your working directory in a weird state. `git apply` is overall much more paranoid than `patch`. It won’t create a commit for you — after running it, you must stage and commit the changes introduced manually.
 
@@ -892,15 +892,15 @@ You can also use git apply to see if a patch applies cleanly before you try actu
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
-Если выполнение этой команды ничего не выводит на экран, то патч должен быть применен без ошибок. Если проверка оборачивается неудачей, то команда имеет на выходе не нулевой статус, так что вы можете использовать ее при написании скриптов.
+Если выполнение этой команды ничего не выводит на экран, то патч должен быть применен без ошибок. Если проверка оборачивается неудачей, то команда устанавливает на выходе не нулевой статус, так что вы можете использовать ее при написании скриптов.
 
 If there is no output, then the patch should apply cleanly. This command also exits with a non-zero status if the check fails, so you can use it in scripts if you want.
 
-#### Применение патча с помощью команды am ####
+#### Применение патчей с помощью команды am ####
 
 #### Applying a Patch with am ####
 
-Если разрабочик является пользователем Git и применял команду `format-patch` для создания своего патча, то ваша задача оказывается более простой, так как патч содержит информацию об авторе и сообщение коммита. Если есть такая возможность — поощрайте участников проекта на использование команды `format-patch` вместо `diff` при генерировании патчей для вас. Вы должны использовать `git apply` только если нет другого выхода и патчи уже созданы при помощи `diff`.
+Если разработчик является пользователем Git и применял команду `format-patch` для создания своего патча, то ваша задача оказывается более простой, так как патч содержит информацию об авторе и сообщение коммита. Если есть такая возможность — поощряйте участников проекта на использование команды `format-patch` вместо `diff` при генерировании патчей для вас. Вы должны использовать `git apply` только если нет другого выхода и патчи уже созданы при помощи `diff`.
 
 If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
 
@@ -915,7 +915,7 @@ To apply a patch generated by `format-patch`, you use `git am`. Technically, `gi
 
 	Limit log functionality to the first 20
 
-Это начало вывода команды `format-patch`, которую вы видели в предыдущем разделе. Это также и правильный mbox формат для e-mail. Если кто-либо отправил вам по почте патч, использовав при этом надлежащим образом команду `git send-email`, и вы сохраняете это сообщение в mbox формате, то вы можете затем указать этот mbox-файл в команде `git am` — в результате команда начнет применять все патчи, которые будут описаны в этом файле. Если вы используете почтовый клиент, который способен сохранять несколько e-mail сообщений в один mbox-файл, то вы можете сохранить всю серию патчей в один файл и затем использовать команду `git am` для применения всех патчей сразу.
+Это начало вывода команды `format-patch`, которую вы видели в предыдущем разделе. Это одновременно и правильный mbox формат для e-mail. Если кто-либо отправил вам по почте патч, использовав при этом надлежащим образом команду `git send-email`, и вы сохраняете это сообщение в mbox формате, то вы можете затем указать этот mbox-файл в команде `git am` — в результате команда начнет применять все патчи, которые будут описаны в этом файле. Если вы используете почтовый клиент, который способен сохранять несколько e-mail сообщений в один mbox-файл, то вы можете сохранить всю серию патчей в один файл и затем использовать команду `git am` для применения всех патчей сразу.
 
 This is the beginning of the output of the format-patch command that you saw in the previous section. This is also a valid mbox e-mail format. If someone has e-mailed you the patch properly using git send-email, and you download that into an mbox format, then you can point git am to that mbox file, and it will start applying all the patches it sees. If you run a mail client that can save several e-mails out in mbox format, you can save entire patch series into a file and then use git am to apply them one at a time. 
 
@@ -926,7 +926,7 @@ However, if someone uploaded a patch file generated via `format-patch` to a tick
 	$ git am 0001-limit-log-function.patch 
 	Applying: add limit to log function
 
-Вы видите, что патч был применен без ошибок и автоматически был создан коммит. Информация об авторе, берется из полей `From` и `Date` e-mail сообщения, а сообщение коммита извлекается из поля `Subject` и тела (до начала самого патча) e-mail сообщения. Например, если этот патч был применен из mbox-файла приведенного выше примера, созданый коммит будет выглядеть примерно следующим образом:
+Вы видите, что патч был применен без ошибок и автоматически был создан коммит. Информация об авторе, берется из полей `From` и `Date` e-mail сообщения, а сообщение коммита извлекается из поля `Subject` и тела (до начала самого патча) e-mail сообщения. Например, если этот патч был применен из mbox-файла приведенного выше примера, созданный коммит будет выглядеть примерно следующим образом:
 
 You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this:
 
@@ -941,7 +941,7 @@ You can see that it applied cleanly and automatically created the new commit for
 
 	   Limit log functionality to the first 20
 
-Информация `Commit` определяет человека, который применил патч и время, когда он был применен. Информация `Author` определяет того, кто и когда в оригинале создал патч.
+Информация `Commit` определяет человека, который применил патч и время, когда он был применен. Информация `Author` определяет человека, который в оригинале создал патч и время его создания.
 
 The `Commit` information indicates the person who applied the patch and the time it was applied. The `Author` information is the individual who originally created the patch and when it was originally created. 
 
@@ -967,7 +967,7 @@ This command puts conflict markers in any files it has issues with, much like a 
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
-Если вы хотите, чтобы Git попытался более умно разрешить конфликт, вы можете использовать опцию `-3`, которая указывает Git-у применять трехэтапную операцию слияния. Эта опция не включена по-умолчанию, так как она не работает в случае, если коммит, на котором был основан патч, не находится в вашем репозитории. Если вы все же имеете этот коммит — в случае, когда патч был основан на публичном коммите — опция `-3` позволяет гораздо умнее применять патчи с конфликтами:
+Если вы хотите, чтобы Git попытался более умно разрешить конфликт, вы можете использовать опцию `-3`, которая указывает Git-у применять трехходовую операцию слияния. Эта опция не включена по-умолчанию, так как она не работает в случае, если коммит, на котором был основан патч, не находится в вашем репозитории. Если вы все же имеете этот коммит — в случае, когда патч был основан на публичном коммите — опция `-3` позволяет гораздо умнее применять патчи с конфликтами:
 
 If you want Git to try a bit more intelligently to resolve the conflict, you can pass a `-3` option to it, which makes Git attempt a three-way merge. This option isn’t on by default because it doesn’t work if the commit the patch says it was based on isn’t in your repository. If you do have that commit — if the patch was based on a public commit — then the `-3` option is generally much smarter about applying a conflicting patch:
 
@@ -998,7 +998,7 @@ If you’re applying a number of patches from an mbox, you can also run the `am`
 
 This is nice if you have a number of patches saved, because you can view the patch first if you don’t remember what it is, or not apply the patch if you’ve already done so.
 
-Когда все патчи для вашей темы работы применены и для них выполнен коммит в вашу ветку, вы можете решить интегрировать ли их в ваши 'более постоянные' ветки и если да, то каким образом.
+Когда все патчи для вашей темы работы применены и для них выполнен коммит в вашу ветку, вы можете принимать решение — интегрировать ли их в ваши 'более постоянные' ветки и если да, то каким образом.
 
 When all the patches for your topic are applied and committed into your branch, you can choose whether and how to integrate them into a longer-running branch.
 
@@ -1022,15 +1022,15 @@ For instance, if Jessica sends you an e-mail saying that she has a great new fea
 
 If she e-mails you again later with another branch containing another great feature, you can fetch and check out because you already have the remote setup.
 
-Этот метод наиболее удобен, если вы работаете с человеком постоянно. Если кто-либо изредка представляет вам по одному потчу, то менее затратно по времени будет принимать его через e-mail, чем заставлять каждого иметь свой собсвенный репозиторий и постоянно добавлять и удалять удаленные репозитории (remotes), чтобы получить несколько патчей. Также, вероятно, вы не хотите иметь сотни удаленных репозиториев в вашем проекте, каждый из которых предоставляет вам один или два патча. Однако, скрипты могут упростить эту ситуацию — все зависит от того, как ведете разработку вы и участники вашего проекта.
+Этот метод наиболее удобен, если вы работаете с человеком постоянно. Если кто-либо изредка представляет вам по одному патчу, то менее затратно по времени будет принимать его через e-mail, чем заставлять каждого иметь свой собственный репозиторий и постоянно добавлять и удалять удаленные (remotes) репозитории, чтобы получить несколько патчей. Также, вероятно, вы не захотите иметь сотни удаленных репозиториев в вашем проекте, каждый из которых предоставляет вам один или два патча. Однако, скрипты могут упростить эту ситуацию — все зависит от того, как ведете разработку вы и участники вашего проекта.
 
 This is most useful if you’re working with a person consistently. If someone only has a single patch to contribute once in a while, then accepting it over e-mail may be less time consuming than requiring everyone to run their own server and having to continually add and remove remotes to get a few patches. You’re also unlikely to want to have hundreds of remotes, each for someone who contributes only a patch or two. However, scripts and hosted services may make this easier — it depends largely on how you develop and how your contributors develop.
 
-Другим преимуществом данного подхода является тот факт, что сохраняется также и история коммитов. Although you may have legitimate merge issues, you know where in your history their work is based. Правильное трехходовое слияние предпочтительнее использования опции `-3`, когда нужно надеятся, что патч был сгенерирован на основе публичного коммита, к которому вы имеете доступ.
+Другим преимуществом данного подхода является тот факт, что сохраняется также и история коммитов. Although you may have legitimate merge issues, you know where in your history their work is based. Правильное трехходовое слияние предпочтительнее использования опции `-3`, когда нужно надеяться, что патч был сгенерирован на основе публичного коммита, к которому вы имеете доступ.
 
 The other advantage of this approach is that you get the history of the commits as well. Although you may have legitimate merge issues, you know where in your history their work is based; a proper three-way merge is the default rather than having to supply a `-3` and hope the patch was generated off a public commit to which you have access.
 
-Если вы не работаете с человеком постоянно, но все же хотите принимать его изменения таким образом, вы можете указать URL удаленного репозитория в команде `git pull`. В результате будут полученны нужные изменения, а URL не будет сохранен в списке удаленных репозиториев вашего проекта:
+Если вы не работаете с человеком постоянно, но все же хотите принимать его изменения таким образом, вы можете указать URL удаленного репозитория в команде `git pull`. В результате будут получены нужные изменения, а URL не будет сохранен в списке удаленных репозиториев вашего проекта:
 
 If you aren’t working with a person consistently but still want to pull from them in this way, you can provide the URL of the remote repository to the `git pull` command. This does a one-time pull and doesn’t save the URL as a remote reference:
 
@@ -1043,7 +1043,7 @@ If you aren’t working with a person consistently but still want to pull from t
 
 ### Determining What Is Introduced ###
 
-Сейчас у вас есть тематическая ветка, содержащая наработки участников проекта. На этом этапе вы можете определить, что бы вы хотели с ними делать. Эта секция производит обзор пары команд, которые, как вы увидите, можно использовать для точного определения того, что будет получено при выполнении слияния тематической ветки с вашей основной веткой.
+Сейчас у вас есть тематическая ветка, содержащая наработки участников проекта. На этом этапе вы можете определить, что бы вы хотели с ними сделать. В этом разделе проводится обзор пары команд, которые, как вы увидите, можно использовать для точного определения того, что будет получено при выполнении слияния тематической ветки с вашей основной веткой.
 
 Now you have a topic branch that contains contributed work. At this point, you can determine what you’d like to do with it. This section revisits a couple of commands so you can see how you can use them to review exactly what you’ll be introducing if you merge this into your main branch.
 
@@ -1074,7 +1074,7 @@ To see a full diff of what would happen if you were to merge this topic branch w
 
 	$ git diff master
 
-Эта команда выведет вам diff, но он может оказаться обманчивым. Если ваша ветка `master` была промотана вперед с того момента, когда вы создали на ее основе тематическую ветку, вы наверняка увидите странный результат. Это происходит по той причине, что Git напрямую сравнивает снимки последнего коммита тематической ветки, на которой вы находитесь, и снимок последнего коммита ветки `master`. Например, если вы добавили строку в файл в ветке `master`, прямое сравнение снимков покажет, что изменения в тематической ветке собираются удалить эту строку.
+Эта команда выведет вам diff, но результат может оказаться обманчивым. Если ваша ветка `master` была промотана вперед с того момента, когда вы создали на ее основе тематическую ветку, вы, наверняка, увидите странный результат. Это происходит по той причине, что Git напрямую сравнивает снимки последнего коммита тематической ветки, на которой вы находитесь, и снимок последнего коммита ветки `master`. Например, если вы добавили строку в файл в ветке `master`, прямое сравнение снимков покажет, что изменения в тематической ветке собираются удалить эту строку.
 
 This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line.
 
@@ -1086,7 +1086,7 @@ If `master` is a direct ancestor of your topic branch, this isn’t a problem; b
 
 What you really want to see are the changes added to the topic branch — the work you’ll introduce if you merge this branch with master. You do that by having Git compare the last commit on your topic branch with the first common ancestor it has with the master branch.
 
-Технически, вы можете выполнить это явно выделяя общего предка и затем выполняя команду diff:
+Технически, вы можете сделать это, явно выделяя общего предка и затем выполняя команду diff:
 
 Technically, you can do that by explicitly figuring out the common ancestor and then running your diff on it:
 
@@ -1134,7 +1134,7 @@ Figure 5-20. After a topic branch merge.
 
 That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects.
 
-Если ваш проект более крупный, или вы работаете с большим количеством разработчиков, вы, вероятно, будете применять по крайней мере двухэтапный цикл слияний. В этом случае у вас есть две долго живущие ветки, `master` и `develop`, для которых вы решили, что ветка `master` обновляется только когда выходит очень стабильный релиз, и весь код включен в ветку `develop`. Вы регулярно отправляете изменения для обоих этих веток в публичный репозиторий. Каждый раз, когда у вас появляется новая тематическая ветка для слияния (Рисунок 5-21), вы, сначала, объединяете ее с веткой `develop` (Рисунок 5-22); затем, когда вы выпускаете  релиз, вы делаете fast-forward ветки `master` на требуемый стабильный снимок ветки `develop` (Рисунок 5-23).
+Если ваш проект более крупный, или вы работаете с большим количеством разработчиков, вы, вероятно, будете применять по крайней мере двухэтапный цикл слияний. В этом случае у вас есть две долго живущие ветки, `master` и `develop`, для которых вы решили, что ветка `master` обновляется только когда выходит очень стабильный релиз, и весь код включен в ветку `develop`. Вы регулярно отправляете изменения для обоих этих веток в публичный репозиторий. Каждый раз, когда у вас появляется новая тематическая ветка для слияния (Рисунок 5-21), вы, сначала, объединяете ее с веткой `develop` (Рисунок 5-22); затем, когда вы выпускаете  релиз, вы делаете перемотку (fast-forward) ветки `master` на требуемый стабильный снимок ветки `develop` (Рисунок 5-23).
 
 If you have more developers or a larger project, you’ll probably want to use at least a two-phase merge cycle. In this scenario, you have two long-running branches, `master` and `develop`, in which you determine that `master` is updated only when a very stable release is cut and all new code is integrated into the `develop` branch. You regularly push both of these branches to the public repository. Each time you have a new topic branch to merge in (Figure 5-21), you merge it into `develop` (Figure 5-22); then, when you tag a release, you fast-forward `master` to wherever the now-stable `develop` branch is (Figure 5-23).
 
@@ -1153,8 +1153,8 @@ Insert 18333fig0523.png
  
 Figure 5-23. After a topic branch release.
 
-При таком подходе, клонируя ваш репозиторий люди могут либо переключиться на вашу master ветку, чтобы получить последний стабильный релиз и легко проводить обновление, либо переключться на ветку `develop`, которая включает в себя все самое свежее.
-Вы также можете развить данный подход, создав ветку для интегрирования, в которой будет происходить слияние всех наработок. И когда вы посчитаете, что код на этой ветке является стабильным и проходит все тесты, вы выполняете слияние этой ветки с веткой `develop`; и если все работает как положено некоторое время, вы выполняете fast-forward для вашей master ветки.
+При таком подходе, клонируя ваш репозиторий люди могут либо переключиться на вашу master ветку, чтобы получить последний стабильный релиз и легко проводить обновление, либо переключиться на ветку `develop`, которая включает в себя все самое свежее.
+Вы также можете развить данный подход, создав ветку для интегрирования, в которой будет происходить слияние всех наработок. И когда вы посчитаете, что код на этой ветке является стабильным и проходит все тесты, вы выполняете слияние этой ветки с веткой `develop`; и если все работает как положено некоторое время, вы выполняете перемотку вашей master ветки.
 
 This way, when people clone your project’s repository, they can either check out master to build the latest stable version and keep up to date on that easily, or they can check out develop, which is the more cutting-edge stuff.
 You can also continue this concept, having an integrate branch where all the work is merged together. Then, when the codebase on that branch is stable and passes tests, you merge it into a develop branch; and when that has proven itself stable for a while, you fast-forward your master branch.
@@ -1163,7 +1163,7 @@ You can also continue this concept, having an integrate branch where all the wor
 
 #### Large-Merging Workflows ####
 
-Проект в Git имеет 4 долго живущие ветки: `master`, `next`, `pu` (proposed updates) для новых наработок и `maint` для поддержки backports (ретроподдержка). Когда участники проекта подготовливают свои наработки, они объединяются в тематические ветки в репозитории мейнтейнера проекта  — нечто похожее показано на рисунке 5-24. На этом этапе происходит оценивание значимости проделанной работы  — все ли работает как положено, стабилен ли код, или требуется выполнить больше работы. Если все в норме, то тематические ветки сливаются в ветку `next`, которая отправляется на сервер (push), так что каждый будет иметь возможность опробовать все предложенные в тематических ветках изменения.
+Проект в Git имеет 4 долго живущие ветки: `master`, `next`, `pu` (proposed updates) для новых наработок и `maint` для ретроподдержки (backports). Когда участники проекта подготавливают свои наработки, они объединяются в тематические ветки в репозитории мейнтейнера проекта  — нечто похожее показано на рисунке 5-24. На этом этапе проводится оценка значимости проделанной работы  — все ли работает как положено, стабилен ли код, или требуется выполнить больше работы. Если все в норме, то тематические ветки сливаются в ветку `next`, которая отправляется на сервер (push), так что каждый будет иметь возможность опробовать все предложенные в тематических ветках изменения.
 
 The Git project has four long-running branches: `master`, `next`, and `pu` (proposed updates) for new work, and `maint` for maintenance backports. When new work is introduced by contributors, it’s collected into topic branches in the maintainer’s repository in a manner similar to what I’ve described (see Figure 5-24). At this point, the topics are evaluated to determine whether they’re safe and ready for consumption or whether they need more work. If they’re safe, they’re merged into `next`, and that branch is pushed up so everyone can try the topics integrated together.
 
@@ -1181,7 +1181,7 @@ Insert 18333fig0525.png
  
 Figure 5-25. Merging contributed topic branches into long-term integration branches.
 
-Когда тематическая ветка была полностью объединена с веткой `master`, она удаляется из репозитория. Проект также имеет ветку `maint`, которая ответвлена от последнего релиза и предоставляет backport-патчи, в случае если требуется maintenane-релиз. Таким образом, когда вы клонируете Git репозиторий, вы располагаете четырьмя ветками, переключаясь на которые вы можете оценивать проект на разных стадиях разработки (в зависимости от того, насколько свежей/стабильной версией вы хотите располагать или от того, каким образом вы хотите дополнять проект своими наработками); а мейнтейнер, в свою очередь, имеет структурированный рабочий процесс, который помагает ему оценивать новых участников проекта.
+Когда тематическая ветка была полностью объединена с веткой `master`, она удаляется из репозитория. Проект также имеет ветку `maint`, которая ответвлена от последнего релиза и предоставляет backport-патчи, в случае если требуется maintenanсe-релиз. Таким образом, когда вы клонируете Git репозиторий, вы располагаете четырьмя ветками, переключаясь на которые вы можете оценивать проект на разных стадиях разработки (в зависимости от того, насколько свежей/стабильной версией вы хотите располагать или от того, каким образом вы хотите дополнять проект своими наработками); а мейнтейнер, в свою очередь, имеет структурированный рабочий процесс, который помогает ему оценивать новых участников проекта.
 
 When a topic branch has finally been merged into `master`, it’s removed from the repository. The Git project also has a `maint` branch that is forked off from the last release to provide backported patches in case a maintenance release is required. Thus, when you clone the Git repository, you have four branches that you can check out to evaluate the project in different stages of development, depending on how cutting edge you want to be or how you want to contribute; and the maintainer has a structured workflow to help them vet new contributions.
 
@@ -1189,11 +1189,11 @@ When a topic branch has finally been merged into `master`, it’s removed from t
 
 #### Rebasing and Cherry Picking Workflows ####
 
-Другие мейнтейнеры вместо слияния предпочитают выполнять перемещение или отбор лучших наработок участников проекта на верхушку своей master ветки, чтобы иметь практически линейную историю разработки. Когда у вас есть наработки в тематической ветке, которые вы хотите интегрировать в проект, вы переходите на эту ветку и запускаете команду rebase, которая перемещает изменения на верхушку вашей текущей master ветки (или ветки `develop`, и т.п). Если все прошло хорошо, вы можете выполнить fast-forward для вашей ветки `master`, получив тем самым линейную историю работы над проектом.
+Другие мейнтейнеры вместо слияния предпочитают выполнять перемещение или отбор лучших наработок участников проекта на верхушку своей master ветки, чтобы иметь практически линейную историю разработки. Когда у вас есть наработки в тематической ветке, которые вы хотите интегрировать в проект, вы переходите на эту ветку и запускаете команду rebase, которая перемещает изменения на верхушку вашей текущей master ветки (или ветки `develop`, и т.п). Если все прошло хорошо, вы можете выполнить перемотку ветки `master`, получив тем самым линейную историю работы над проектом.
 
 Other maintainers prefer to rebase or cherry-pick contributed work on top of their master branch, rather than merging it in, to keep a mostly linear history. When you have work in a topic branch and have determined that you want to integrate it, you move to that branch and run the rebase command to rebuild the changes on top of your current master (or `develop`, and so on) branch. If that works well, you can fast-forward your `master` branch, and you’ll end up with a linear project history.
 
-Другой вариант перемещения сделанных наработок из одной ветки в другую - отбор лучшего. Отбор лучшего в Git является тем же самым, что и перемещение для случая единственного коммита. Берется патч, который был представлен в коммите, и делается попытка применить его на ветке, на которой вы сейчас находитесь. Это удобно в том случае, если у вас есть ряд коммитов в тематической ветке и вы хотите включить в проект только один из них, или если у вас только один коммит в тематической ветке и вы предпочитаете выполнять отбор лучшего вместо перемещения. Например, предположим ваш проект выглядит так, как показано на Рисунке 5-26.
+Другой вариант перемещения сделанных наработок из одной ветки в другую - отбор лучшего. Отбор лучшего в Git является чем-то наподобие перемещения для отдельных коммитов. Берется патч, который был представлен в коммите, и делается попытка применить его на ветке, на которой вы сейчас находитесь. Это удобно в том случае, если у вас есть ряд коммитов в тематической ветке и вы хотите включить в проект только один из них, или если у вас только один коммит в тематической ветке и вы предпочитаете выполнять отбор лучшего вместо перемещения. Например, предположим ваш проект выглядит так, как показано на Рисунке 5-26.
 
 The other way to move introduced work from one branch to another is to cherry-pick it. A cherry-pick in Git is like a rebase for a single commit. It takes the patch that was introduced in a commit and tries to reapply it on the branch you’re currently on. This is useful if you have a number of commits on a topic branch and you want to integrate only one of them, or if you only have one commit on a topic branch and you’d prefer to cherry-pick it rather than run rebase. For example, suppose you have a project that looks like Figure 5-26.
 
@@ -1224,11 +1224,11 @@ Figure 5-27. History after cherry-picking a commit on a topic branch.
 
 Now you can remove your topic branch and drop the commits you didn’t want to pull in.
 
-### Присвоение тэгов для ваших релизов ###
+### Установка меток для релизов ###
 
 ### Tagging Your Releases ###
 
-Когда вы решили выпустить релиз, вы, вероятно, захотите присвоить ему тэг, так чтобы вы могли обновить этот релиз в любой момент в будущем. Процесс создания нового тэга обсуждался в Главе 2. Если вы решите подписать (sign) ваш тэг как мейнтейнер, процедура будет выглядеть примерно следующим образом:
+Когда вы решили выпустить релиз, вы, вероятно, захотите присвоить ему метку, так чтобы вы могли обновить этот релиз в любой момент в будущем. Процесс создания новой метки обсуждался в Главе 2. Если вы решите подписать (sign) вашу метку как мейнтейнер, процедура будет выглядеть примерно следующим образом:
 
 When you’ve decided to cut a release, you’ll probably want to drop a tag so you can re-create that release at any point going forward. You can create a new tag as I discussed in Chapter 2. If you decide to sign the tag as the maintainer, the tagging may look something like this:
 
@@ -1237,7 +1237,7 @@ When you’ve decided to cut a release, you’ll probably want to drop a tag so 
 	user: "Scott Chacon <schacon@gmail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-Если вы подписали ваши тэги, у вас может возникнуть проблема с распространением публичного PGP ключа, использовавшегося для подписи ваших тэгов. Мейнтейнер проекта в Git может решить эту проблему включением публичного ключа в виде блоба (blob) в репозиторий и затем добавлением тэга, который напрямую указывает на этот контент. Чтобы сделать это, вы определяете какой ключ вам нужен запуском команды  `gpg --list-keys`:
+Если вы подписали свои метки, у вас может возникнуть проблема с распространением открытого PGP ключа, использовавшегося для подписи ваших меток. Мейнтейнер проекта в Git может решить эту проблему включением публичного ключа в виде блоба (blob) в репозиторий и затем добавлением метки, которая напрямую указывает на этот контент. Чтобы сделать это, вы определяете какой ключ вам нужен запуском команды  `gpg --list-keys`:
 
 If you do sign your tags, you may have the problem of distributing the public PGP key used to sign your tags. The maintainer of the Git project has solved this issue by including their public key as a blob in the repository and then adding a tag that points directly to that content. To do this, you can figure out which key you want by running `gpg --list-keys`:
 
@@ -1248,26 +1248,26 @@ If you do sign your tags, you may have the problem of distributing the public PG
 	uid                  Scott Chacon <schacon@gmail.com>
 	sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 
-Затем вы можете напрямую импортировать ключ в базу данных Git путем экспортирования их и передачи (piping) команде `git hash-object`, которая создает новый блоб с этим контентом и возвращает вам SHA-1 от этого блоба:
+Затем вы можете напрямую импортировать ключ в базу данных Git путем экспортирования его и передачи (piping) команде `git hash-object`, которая создает новый блоб с этим контентом и возвращает вам SHA-1 от этого блоба:
 
 Then, you can directly import the key into the Git database by exporting it and piping that through `git hash-object`, which writes a new blob with those contents into Git and gives you back the SHA-1 of the blob:
 
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-Теперь, когда у вас в Git хранится ваш ключ, вы можете создать тэг, напрямую указывающий на него, путем использования значения SHA-1, возвращенного вам командой `hash-object`:
+Теперь, когда у вас в Git хранится ваш ключ, вы можете создать метку, напрямую указывающую на него, путем использования значения SHA-1, возвращенного вам командой `hash-object`:
 
 Now that you have the contents of your key in Git, you can create a tag that points directly to it by specifying the new SHA-1 value that the `hash-object` command gave you:
 
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-Если вы запустите команду `git push --tags`, то тэг `maintainer-pgp-pub` будет доступен каждому. Если кто-либо захочет проверить тэг, он может напрямую импортировать ваш PGP ключ, скачивая (pulling) блоб из базы данных и импортируя его в GPG:
+Если вы запустите команду `git push --tags`, то метка `maintainer-pgp-pub` будет доступена каждому. Если кто-либо захочет проверить метку, он может напрямую импортировать ваш PGP ключ, скачивая (pulling) блоб из базы данных и импортируя его в GPG:
 
 If you run `git push --tags`, the `maintainer-pgp-pub` tag will be shared with everyone. If anyone wants to verify a tag, they can directly import your PGP key by pulling the blob directly out of the database and importing it into GPG:
 
 	$ git show maintainer-pgp-pub | gpg --import
 
-Этот ключ может быть использован для проверки всех ваших подписанных тэгов. Также, если вы включите инструкции в сообщение тэга, запуск `git show <tag>` позволит конечному пользователю получить инструкции по проверке тэга.
+Этот ключ может быть использован для проверки всех ваших подписанных меток. Также, если вы включите инструкции в сообщение метки, запуск `git show <метка>` позволит конечному пользователю получить инструкции по проверке метки.
 
 They can use that key to verify all your signed tags. Also, if you include instructions in the tag message, running `git show <tag>` will let you give the end user more specific instructions about tag verification.
 
@@ -1286,7 +1286,7 @@ Because Git doesn’t have monotonically increasing numbers like 'v123' or the e
 
 This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name.
 
-Команду `git describe` хорошо использовать с аннотированными метками (метками, созданными при помощи опций `-a` или `-s`), так что если вы используете `git describe`, то метки для релизов должны создаваться этим способом - в этом случае вы сможете удостовериться, что при описании коммиту было дано правильное имя. Вы также можете использовать эту строку в командах `checkout` и `checkout` для указания нужного коммита, однако это не может вечно работать правльно в силу того, что в строке присутствует сокращенное значение SHA-1. Например, в ядре Linux недавно перешли от 8 к 10 символам, чтобы удостовериться в уникальности SHA-1 объекта, и поэтому старый вывод команды `git describe` признается недействительным.
+Команду `git describe` хорошо использовать с аннотированными метками (метками, созданными при помощи опций `-a` или `-s`), так что если вы используете `git describe`, то метки для релизов должны создаваться этим способом - в этом случае вы сможете удостовериться, что при описании коммиту было дано правильное имя. Вы также можете использовать эту строку в командах `checkout` и `checkout` для указания нужного коммита, однако это не может вечно работать правильно в силу того, что в строке присутствует сокращенное значение SHA-1. Например, в ядре Linux недавно перешли от 8 к 10 символам, чтобы удостовериться в уникальности SHA-1 объекта, и поэтому старый вывод команды `git describe` признается недействительным.
 
 The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated.
 
@@ -1343,6 +1343,6 @@ You get a clean summary of all the commits since v1.0.1, grouped by author, that
 
 ## Summary ##
 
-Вы должны чувствовать себя достаточно свободно, делая свой вклад в проект под управлением Git, а также занимаясь поддержкой вашего собственного проекта или интегрированием наработок других пользователей. Поздравляем тебя, опытный Git-разработчик! В следующей главе вы познакомитесь с более мощными инструментами, а также получите советы по действию в сложных ситуациях, которые сделают из вас настоящего мастера в Git.
+Вы должны чувствовать себя достаточно свободно, внося свой вклад в проект под управлением Git, а также занимаясь поддержкой вашего собственного проекта или интегрированием наработок других пользователей. Поздравляем тебя, опытный Git-разработчик! В следующей главе вы познакомитесь с более мощными инструментами, а также получите советы по действию в сложных ситуациях, которые сделают из вас настоящего мастера в Git.
 
 You should feel fairly comfortable contributing to a project in Git as well as maintaining your own project or integrating other users’ contributions. Congratulations on being an effective Git developer! In the next chapter, you’ll learn more powerful tools and tips for dealing with complex situations, which will truly make you a Git master.

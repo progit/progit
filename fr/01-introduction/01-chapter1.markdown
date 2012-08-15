@@ -295,7 +295,7 @@ Il recherche tout de même `/etc/gitconfig`, bien qu'il soit relatif à la racin
 ### Votre identité ###
 
 La première chose à faire après l'installation de Git est de renseigner votre nom et votre adresse e-mail.
-C'est important car tous les commits Git utilisent cette information et elle est indélébile dans tous les commits que vous pourrez manipuler :
+C'est une information importante car toutes les validations dans Git utilisent cette information et elle est indélébile dans toutes les validations que vous pourrez réaliser :
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com

@@ -255,7 +255,7 @@ Vous ne souhaiteriez sûrement pas lancer `adduser` et entrer un mot de passe te
 
 Une seconde méthode consiste à créer un seul utilisateur git sur la machine, demander à chaque développeur nécessitant un accès en écriture de vous envoyer une clef publique SSH et d'ajouter la dite clef au fichier `~/.ssh/authorized_keys` de votre utilisateur git.
 À partir de là, tout le monde sera capable d'accéder à la machine via l'utilisateur git.
-Cela n'affecte en rien les données de commit — les informations de l'utilisateur SSH par lequel on se connecte n'affectent pas les données de commit enregistrées.
+Cela n'affecte en rien les données de *commit* — les informations de l'utilisateur SSH par lequel on se connecte n'affectent pas les données de *commit* enregistrées.
 
 Une dernière méthode consiste à faire une authentification SSH auprès d'un serveur LDAP ou tout autre système d'authentification centralisé que vous utiliseriez déjà.
 Tant que chaque utilisateur peut accéder à un shell sur la machine, n'importe quel schéma d'authentification SSH devrait fonctionner.

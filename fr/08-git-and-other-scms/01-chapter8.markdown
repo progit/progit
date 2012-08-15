@@ -16,7 +16,7 @@ Il est aussi très similaire à CVS qui a été le grand chef des gestionnaires 
 
 Une des grandes fonctionnalités de Git est sa passerelle vers subversion, `git svn`.
 Cet outil vous permet d'utiliser Git comme un client valide d'un serveur Subversion pour que vous puissiez utiliser les capacités de Git en local puis poussez sur le serveur Subversion comme si vous utilisiez Subversion localement.
-Cela signifie que vous pouvez réaliser localement les embranchements et les fusions, utiliser l'index, utiliser le rebasage et la sélection de commits, etc, tandis que vos collaborateurs continuent de travailler avec leurs méthodes ancestrales et obscures.
+Cela signifie que vous pouvez réaliser localement les embranchements et les fusions, utiliser l'index, utiliser le rebasage et la sélection de *commits*, etc, tandis que vos collaborateurs continuent de travailler avec leurs méthodes ancestrales et obscures.
 C'est une bonne manière d'introduire Git dans un environnement professionnel et d'aider vos collègues développeurs à devenir plus efficaces tandis que vous ferez pression pour une modification de l'infrastructure vers l'utilisation massive de Git.
 La passerelle Subversion n'est que la première dose vers la drogue du monde des DVCS.
 
@@ -67,7 +67,7 @@ Vous pouvez ensuite cloner le code en lançant
 	Committed revision 3.
 	...
 
-Bien que cette opération ne dure que quelques minutes, si vous essayez de copier le dépôt original sur un autre dépôt distant au lieu d'un dépôt local, le processus durera près d'une heure, en dépit du fait qu'il y a moins de 100 commits.
+Bien que cette opération ne dure que quelques minutes, si vous essayez de copier le dépôt original sur un autre dépôt distant au lieu d'un dépôt local, le processus durera près d'une heure, en dépit du fait qu'il y a moins de 100 *commits*.
 Subversion doit cloner révision par révision puis pousser vers un autre dépôt — c'est ridiculement inefficace mais c'est la seule possibilité.
 
 ### Démarrage ###
@@ -94,9 +94,9 @@ Souvenez-vous que si vous importez depuis un dépôt Subversion hébergé sur in
 
 Cela équivaut à lancer `git svn init` suivi de `git svn fetch` sur l'URL que vous avez fournie.
 Cela peut prendre un certain temps.
-Le projet de test ne contient que 75 commits et la taille du code n'est pas extraordinaire, ce qui prend juste quelques minutes.
+Le projet de test ne contient que 75 *commits* et la taille du code n'est pas extraordinaire, ce qui prend juste quelques minutes.
 Cependant, Git doit extraire chaque version, une par une et les valider individuellement.
-Pour un projet contenant des centaines ou des milliers de commits, cela peut prendre littéralement des heures ou même des jours à terminer.
+Pour un projet contenant des centaines ou des milliers de *commits*, cela peut prendre littéralement des heures ou même des jours à terminer.
 
 La partie `-T trunk -b branches -t tags` indique à Git que ce dépôt Subversion suit les conventions de base en matière d'embranchement et d'étiquetage.
 Si vous nommez votre trunk, vos branches ou vos étiquettes différemment, vous pouvez modifier ces options.
@@ -145,8 +145,8 @@ Votre importation Subversion indique plutôt qu'il a un serveur distant appelé 
 
 ### Valider en retour sur le serveur Subversion ###
 
-Comme vous disposez d'un dépôt en état de marche, vous pouvez commencer à travailler sur le projet et pousser vos commits en utilisant efficacement Git comme client SVN.
-Si vous éditez un des fichiers et le validez, vous créez un commit qui existe localement dans Git mais qui n'existe pas sur le serveur Subversion :
+Comme vous disposez d'un dépôt en état de marche, vous pouvez commencer à travailler sur le projet et pousser vos *commits* en utilisant efficacement Git comme client SVN.
+Si vous éditez un des fichiers et le validez, vous créez un *commit* qui existe localement dans Git mais qui n'existe pas sur le serveur Subversion :
 
 	$ git commit -am 'Ajout d'instructions pour git-svn dans LISEZMOI'
 	[master 97031e5] Ajout d'instructions pour git-svn dans LISEZMOI
@@ -165,10 +165,10 @@ Pour pousser sur un serveur Subversion, il faut lancer la commande `git svn dcom
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-Cette commande rassemble tous les commits que vous avez validés par dessus le code du serveur Subversion et réalise un commit sur le serveur pour chacun, puis réécrit l'historique Git local pour y ajouter un identifiant unique.
-Cette étape est à souligner car elle signifie que toutes les sommes de contrôle SHA-1 de vos commits locaux ont changé.
+Cette commande rassemble tous les *commits* que vous avez validés par dessus le code du serveur Subversion et réalise un *commit* sur le serveur pour chacun, puis réécrit l'historique Git local pour y ajouter un identifiant unique.
+Cette étape est à souligner car elle signifie que toutes les sommes de contrôle SHA-1 de vos *commits* locaux ont changé.
 C'est en partie pour cette raison que c'est une idée très périlleuse de vouloir travailler dans le même temps avec des serveurs Git distants.
-L'examen du dernier commit montre que le nouveau `git-svn-id` a été ajouté :
+L'examen du dernier *commit* montre que le nouveau `git-svn-id` a été ajouté :
 
 	$ git log -1
 	commit 938b1a547c2cc92033b74d32030e86468294a5c8
@@ -180,7 +180,7 @@ L'examen du dernier commit montre que le nouveau `git-svn-id` a été ajouté :
 	    git-svn-id: file:///tmp/test-svn/trunk@79 4c93b258-373f-11de-be05-5f7a86268029
 
 Remarquez que la somme de contrôle SHA qui commençait par `97031e5` quand vous avez validé commence à présent par `938b1a5`.
-Si vous souhaitez pousser à la fois sur un serveur Git et un serveur Subversion, il faut obligatoirement pousser (`dcommit`) sur le serveur Subversion en premier, car cette action va modifier vos données des commits.
+Si vous souhaitez pousser à la fois sur un serveur Git et un serveur Subversion, il faut obligatoirement pousser (`dcommit`) sur le serveur Subversion en premier, car cette action va modifier vos données des *commits*.
 
 ### Tirer des modifications ###
 
@@ -236,7 +236,7 @@ Si les modifications sont incompatibles mais ne créent pas de conflits, vous po
 C'est une grande différence avec un serveur Git — dans Git, vous pouvez tester complètement l'état du projet sur votre système client avant de le publier, tandis qu'avec SVN, vous ne pouvez jamais être totalement certain que les états avant et après validation sont identiques.
 
 Vous devrez aussi lancer cette commande pour tirer les modifications depuis le serveur Subversion, même si vous n'êtes pas encore prêt à valider.
-Vous pouvez lancer `git svn fetch` pour tirer les nouveaux commits, mais `git svn rebase` tire non seulement les commits distants mais rebase aussi vos commit locaux.
+Vous pouvez lancer `git svn fetch` pour tirer les nouveaux *commits*, mais `git svn rebase` tire non seulement les *commits* distants mais rebase aussi vos *commit* locaux.
 
 	$ git svn rebase
 	       M      generate_descriptor_proto.sh
@@ -253,7 +253,7 @@ Si vous avez des modifications locales, il vous faudra soit remiser votre travai
 Après vous être habitué à la manière de faire avec Git, vous souhaiterez sûrement créer des branches thématiques, travailler dessus, puis les fusionner.
 Si vous poussez sur un serveur Subversion via git svn, vous souhaiterez à chaque fois rebaser votre travail sur une branche unique au lieu de fusionner les branches ensemble.
 La raison principale en est que Subversion gère un historique linéaire et ne gère pas les fusions comme Git y excelle.
-De ce fait, git svn suit seulement le premier parent lorsqu'il convertit les instantanés en commits Subversion.
+De ce fait, git svn suit seulement le premier parent lorsqu'il convertit les instantanés en *commits* Subversion.
 
 Supposons que votre historique ressemble à ce qui suit. Vous avez créé une branche `experience`, avez réalisé deux validations puis les avez fusionnées dans master.
 Lors du `dcommit`, vous voyez le résultat suivant :
@@ -277,9 +277,9 @@ Lors du `dcommit`, vous voyez le résultat suivant :
 	No changes between current HEAD and refs/remotes/trunk
 	Resetting to the latest refs/remotes/trunk
 
-Lancer `dcommit` sur une branche avec un historique fusionné fonctionne correctement, à l'exception que l'examen de l'historique du projet Git indique qu'il n'a réécrit aucun des commits réalisés sur la branche `experience`, mais que toutes les modifications introduites apparaissent dans la version SVN de l'unique commit de fusion.
+Lancer `dcommit` sur une branche avec un historique fusionné fonctionne correctement, à l'exception que l'examen de l'historique du projet Git indique qu'il n'a réécrit aucun des *commits* réalisés sur la branche `experience`, mais que toutes les modifications introduites apparaissent dans la version SVN de l'unique *commit* de fusion.
 
-Quand quelqu'un d'autre clone ce travail, tout ce qu'il voit, c'est le commit de la fusion avec toutes les modifications injectées en une fois.
+Quand quelqu'un d'autre clone ce travail, tout ce qu'il voit, c'est le *commit* de la fusion avec toutes les modifications injectées en une fois.
 Il ne voit aucune information sur son origine ni sur sa date de validation.
 
 ### Les embranchements dans Subversion ###
@@ -301,13 +301,13 @@ Pour créer une nouvelle branche dans Subversion, vous pouvez utiliser la comman
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
 Cela est équivalent à la commande Subversion `svn copy trunk branches/opera` et réalise l'opération sur le serveur Subversion.
-Remarquez que cette commande ne vous bascule pas sur cette branche ; si vous validez, le commit s'appliquera à `trunk` et non à la branche `opera`.
+Remarquez que cette commande ne vous bascule pas sur cette branche ; si vous validez, le *commit* s'appliquera à `trunk` et non à la branche `opera`.
 
 ### Basculer de branche active ###
 
-Git devine la branche cible des dcommits en se référant au sommet des branches Subversion dans votre historique — vous ne devriez en avoir qu'un et celui-ci devrait être le dernier possédant un `git-svn-id` dans l'historique actuel de votre branche.
+Git devine la branche cible des `dcommits` en se référant au sommet des branches Subversion dans votre historique — vous ne devriez en avoir qu'un et celui-ci devrait être le dernier possédant un `git-svn-id` dans l'historique actuel de votre branche.
 
-Si vous souhaitez travailler simultanément sur plusieurs branches, vous pouvez régler vos branches locales pour que le `dcommit` arrive sur une branche Subversion spécifique en les démarrant sur le commit de cette branche importée depuis Subversion.
+Si vous souhaitez travailler simultanément sur plusieurs branches, vous pouvez régler vos branches locales pour que le `dcommit` arrive sur une branche Subversion spécifique en les démarrant sur le *commit* de cette branche importée depuis Subversion.
 Si vous voulez une branche `opera` sur laquelle travailler séparément, vous pouvez lancer
 
 	$ git branch opera remotes/opera
@@ -315,9 +315,9 @@ Si vous voulez une branche `opera` sur laquelle travailler séparément, vous po
 À présent, si vous voulez fusionner votre branche `opera` dans `trunk` (votre branche `master`), vous pouvez le faire en réalisant un `git merge` normal.
 Mais vous devez préciser un message de validation descriptif (via `-m`), ou la fusion indiquera simplement "Merge branch opera" au lieu d'un message plus informatif.
 
-Souvenez-vous que bien que vous utilisez `git merge` qui facilitera l'opération de fusion par rapport à Subversion (Git détectera automatiquement l'ancêtre commun pour la fusion), ce n'est pas un commit de fusion normal de Git.
-Vous devrez pousser ces données finalement sur le serveur Subversion qui ne sait pas tracer les commits possédant plusieurs parents.
-Donc, ce sera un commit unique qui englobera toutes les modifications de l'autre branche.
+Souvenez-vous que bien que vous utilisez `git merge` qui facilitera l'opération de fusion par rapport à Subversion (Git détectera automatiquement l'ancêtre commun pour la fusion), ce n'est pas un *commit* de fusion normal de Git.
+Vous devrez pousser ces données finalement sur le serveur Subversion qui ne sait pas tracer les *commits* possédant plusieurs parents.
+Donc, ce sera un *commit* unique qui englobera toutes les modifications de l'autre branche.
 Après avoir fusionné une branche dans une autre, il est difficile de continuer à travailler sur cette branche, comme vous le feriez normalement dans Git.
 La commande `dcommit` qui a été lancée efface toute information sur la branche qui a été fusionnée, ce qui rend faux tout calcul d'antériorité pour la fusion.
 `dcommit` fait ressembler le résultat de `git merge` à celui de `git merge --squash`.
@@ -349,9 +349,9 @@ Si vous êtes habitué à Subversion, vous pouvez lancer `git svn log` pour visu
 	
 	updated the changelog
 	
-Deux choses importantes à connaître sur `git svn log` : premièrement, à la différence de la commande réelle `svn log` qui interroge le serveur, cette commande fonctionne hors connexion ; deuxièmement, elle ne montre que les commits qui ont été effectivement remontés sur le serveur Subversion.
-Les commits locaux qui n'ont pas encore été remontés via `dcommit` n'apparaissent pas, pas plus que ceux qui auraient été poussés sur le serveur par des tiers entre deux `git svn rebase`.
-Cela donne plutôt le dernier état connu des commits sur le serveur Subversion.
+Deux choses importantes à connaître sur `git svn log` : premièrement, à la différence de la commande réelle `svn log` qui interroge le serveur, cette commande fonctionne hors connexion ; deuxièmement, elle ne montre que les *commits* qui ont été effectivement remontés sur le serveur Subversion.
+Les *commits* locaux qui n'ont pas encore été remontés via `dcommit` n'apparaissent pas, pas plus que ceux qui auraient été poussés sur le serveur par des tiers entre deux `git svn rebase`.
+Cela donne plutôt le dernier état connu des *commits* sur le serveur Subversion.
 
 #### Les annotations SVN ####
 
@@ -372,7 +372,7 @@ Le résultat ressemble à ceci :
 	 2   temporal Buffer compiler (protoc) execute the following:
 	 2   temporal
 
-Ici aussi, tous les commits locaux dans Git ou ceux poussé sur Subversion dans l'intervalle n'apparaissent pas.
+Ici aussi, tous les *commits* locaux dans Git ou ceux poussé sur Subversion dans l'intervalle n'apparaissent pas.
 
 #### L'information sur la serveur SVN ####
 
@@ -412,8 +412,8 @@ Les outils `git svn` sont utiles si vous êtes bloqué avec un serveur Subversio
 Il faut cependant les considérer comme une version tronquée de Git ou vous pourriez rencontrer des problèmes de conversion synonymes de troubles pour vous et vos collaborateurs.
 Pour éviter tout problème, essayez de suivre les principes suivants :
 
-* Garder un historique Git linéaire qui ne contient pas de commits de fusion issus de `git merge`. Rebasez tout travail réalisé en dehors de la branche principale sur celle-ci ; ne la fusionnez pas.
-* Ne mettez pas en place et ne travaillez pas en parallèle sur un serveur Git. Si nécessaire, montez-en un pour accélérer les clones pour de nouveaux développeurs mais n'y poussez rien qui n'ait déjà une entrée `git-svn-id`. Vous devriez même y ajouter un crochet `pre-receive` qui vérifie la présence de `git-svn-id` dans chaque message de validation et rejette les remontées dont un des commits n'en contiendrait pas.
+* Garder un historique Git linéaire qui ne contient pas de *commits* de fusion issus de `git merge`. Rebasez tout travail réalisé en dehors de la branche principale sur celle-ci ; ne la fusionnez pas.
+* Ne mettez pas en place et ne travaillez pas en parallèle sur un serveur Git. Si nécessaire, montez-en un pour accélérer les clones pour de nouveaux développeurs mais n'y poussez rien qui n'ait déjà une entrée `git-svn-id`. Vous devriez même y ajouter un crochet `pre-receive` qui vérifie la présence de `git-svn-id` dans chaque message de validation et rejette les remontées dont un des *commits* n'en contiendrait pas.
 
 Si vous suivez ces principes, le travail avec un serveur Subversion peut être supportable.
 Cependant, si le basculement sur un vrai serveur Git est possible, votre équipe y gagnera beaucoup.
@@ -459,7 +459,7 @@ Au final, votre commande d'import ressemble à ceci :
 	      --authors-file=users.txt --no-metadata -s my_project
 
 Maintenant, l'import depuis Subversion dans le répertoire `my_project` est plus présentable.
-En lieu et place de commits qui ressemblent à ceci :
+En lieu et place de *commits* qui ressemblent à ceci :
 
 	commit 37efa680e8473b615de980fa935944215428a35a
 	Author: schacon <schacon@4c93b258-373f-11de-be05-5f7a86268029>
@@ -470,7 +470,7 @@ En lieu et place de commits qui ressemblent à ceci :
 	    git-svn-id: https://my-project.googlecode.com/svn/trunk@94 4c93b258-373f-11de-
 	    be05-5f7a86268029
 
-les commits ressemblent à ceci :
+les *commits* ressemblent à ceci :
 
 	commit 03a8785f44c8ea5cdb0e8834b7c8e6c469be2ff2
 	Author: Scott Chacon <schacon@geemail.com>
@@ -550,7 +550,7 @@ Si vous vous rendez dans le répertoire  `/opt/p4import` et lancez la commande `
 
 	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
 
-Vous pouvez visualiser l'identifiant `git-p4` de chaque commit.
+Vous pouvez visualiser l'identifiant `git-p4` de chaque *commit*.
 Il n'y a pas de problème à garder cet identifiant ici, au cas où vous auriez besoin de référencer dans l'avenir le numéro de modification Perforce.
 Cependant, si vous souhaitez supprimer l'identifiant, c'est le bon moment, avant de commencer à travailler avec le nouveau dépôt.
 Vous pouvez utiliser `git filter-branch` pour faire une retrait en masse des chaînes d'identifiant :
@@ -561,7 +561,7 @@ Vous pouvez utiliser `git filter-branch` pour faire une retrait en masse des cha
 	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
 	Ref 'refs/heads/master' was rewritten
 
-Si vous lancez `git log`, vous vous rendez compte que toutes les sommes de contrôle SHA-1 des commits ont changé, mais aussi que plus aucune chaîne `git-p4` n'apparaît dans les messages de validation :
+Si vous lancez `git log`, vous vous rendez compte que toutes les sommes de contrôle SHA-1 des *commits* ont changé, mais aussi que plus aucune chaîne `git-p4` n'apparaît dans les messages de validation :
 
 	$ git log -2
 	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
@@ -602,16 +602,16 @@ Votre structure de répertoire ressemble à ceci :
 	en_cours
 
 Pour importer un répertoire dans Git, vous devez savoir comment Git stocke ses données.
-Comme vous pouvez vous en souvenir, Git est à la base une liste chaînée d'objets de commits qui pointent sur un instantané de contenu.
-Tout ce qu'il y a à faire donc, et d'indiquer à `fast-import` ce que sont les instantanés de contenu, quelles données de commit pointent dessus et l'ordre dans lequel ils s'enchaînent.
-La stratégie consistera à parcourir les instantanés un par un et à créer des commits avec le contenu de chaque répertoire, en le reliant à son prédécesseur.
+Comme vous pouvez vous en souvenir, Git est à la base une liste chaînée d'objets de *commits* qui pointent sur un instantané de contenu.
+Tout ce qu'il y a à faire donc, et d'indiquer à `fast-import` ce que sont les instantanés de contenu, quelles données de *commit* pointent dessus et l'ordre dans lequel ils s'enchaînent.
+La stratégie consistera à parcourir les instantanés un par un et à créer des *commits* avec le contenu de chaque répertoire, en le reliant à son prédécesseur.
 
 Comme déjà fait dans la section "Un exemple de règle appliquée par Git" du chapitre 7, nous l'écrirons en Ruby parce que c'est le langage avec lequel je travaille en général et qu'il est assez facile à lire.
 Vous pouvez facilement retranscrire cet exemple dans votre langage de prédilection, la seule contrainte étant qu'il doit pouvoir afficher les informations appropriées sur stdout.
 Si vous travaillez sous Windows, cela signifie que vous devrez faire particulièrement attention à ne pas introduire de retour chariot à la fin de vos lignes.
 `git fast-import` n'accepte particulièrement que les sauts de ligne (line feed LF) et pas les retour chariot saut de ligne (CRLF) utilisés par Windows.
 
-Pour commencer, déplaçons nous dans le répertoire cible et identifions chaque sous-répertoire, chacun représentant un instantané que vous souhaitez importer en tant que commit.
+Pour commencer, déplaçons nous dans le répertoire cible et identifions chaque sous-répertoire, chacun représentant un instantané que vous souhaitez importer en tant que *commit*.
 Nous visiterons chaque sous-répertoire et afficherons les commandes nécessaires à son export.
 La boucle principale ressemble à ceci :
 
@@ -630,8 +630,8 @@ La boucle principale ressemble à ceci :
 	end
 
 Dans chaque répertoire, nous lançons `print_export` qui prend le manifest et la marque de l'instantané précédent et retourne le manifest et la marque de l'actuel ; de cette manière, vous pouvez les chaîner correctement.
-« Marque » est le terme de `fast-import` pour nommer un identifiant que vous donnez à un commit.
-Au fur et à mesure de la création des commits, vous leur attribuez une marque individuelle qui pourra être utilisée pour y faire référence depuis d'autres commits.
+« Marque » est le terme de `fast-import` pour nommer un identifiant que vous donnez à un *commit*.
+Au fur et à mesure de la création des *commits*, vous leur attribuez une marque individuelle qui pourra être utilisée pour y faire référence depuis d'autres *commits*.
 La première chose à faire dans `print_export` est donc de générer une marque à partir du nom du répertoire :
 
 	mark = convert_dir_to_mark(dir)
@@ -647,7 +647,7 @@ Votre méthode ressemble à ceci :
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Après une représentation entière de votre commit, vous avez besoin d'une date pour les méta-données du commit.
+Après une représentation entière de votre *commit*, vous avez besoin d'une date pour les méta-données du *commit*.
 La date est présente dans le nom du répertoire, alors analysons-le.
 La ligne suivante du fichier `print_export` est donc
 
@@ -666,12 +666,12 @@ où `convert_dir_to_date` est défini comme
 	end
 
 Elle retourne une nombre entier pour la date de chaque répertoire.
-La dernière partie des méta-informations nécessaires à chaque commit est l'information du validateur qui sera stockée en dur dans une variable globale :
+La dernière partie des méta-informations nécessaires à chaque *commit* est l'information du validateur qui sera stockée en dur dans une variable globale :
 
 	$author = 'Scott Chacon <schacon@example.com>'
 
-Nous voilà prêt à commencer à écrire les informations de commit du script d'import.
-La première information indique qu'on définit un objet commit et la branche sur laquelle il se trouve, suivi de la marque qui a été générée, l'information du validateur et le message de validation et enfin le commit précédent, s'il existe.
+Nous voilà prêt à commencer à écrire les informations de *commit* du script d'import.
+La première information indique qu'on définit un objet *commit* et la branche sur laquelle il se trouve, suivi de la marque qui a été générée, l'information du validateur et le message de validation et enfin le *commit* précédent, s'il existe.
 Le code ressemble à ceci :
 
 	# print the import information
@@ -704,7 +704,7 @@ Git va alors enregistrer de manière appropriée chaque instantané :
 	  inline_data(file)
 	end
 
-Note:   Comme de nombreux systèmes conçoivent leurs révisions comme des modifications d'un commit à l'autre, fast-import accepte aussi avec chaque commit des commandes qui spécifient quels fichiers ont été ajoutés, effacés ou modifiés et ce que sont les nouveaux contenus.
+Note:   Comme de nombreux systèmes conçoivent leurs révisions comme des modifications d'un *commit* à l'autre, fast-import accepte aussi avec chaque *commit* des commandes qui spécifient quels fichiers ont été ajoutés, effacés ou modifiés et ce que sont les nouveaux contenus.
 Vous pourriez calculer les différences entre chaque instantané et ne fournir que ces données, mais cela est plus complexe — vous pourriez tout aussi bien fournir à Git toutes les données et lui laisser faire le travail.
 Si c'est ce qui convient mieux à vos données, référez-vous à la page de manuel de `fast-import` pour savoir comment fournir les données de cette façon.
 

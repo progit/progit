@@ -330,7 +330,7 @@ Maintenant, Git va vérifier l'intégrité de votre dépôt avant que chaque pou
 
 #### receive.denyNonFastForwards ####
 
-Si vous rebasez des commits que vous avez déjà poussés, puis essayez de pousser à nouveau, ou inversemement, si vous essayez de pousser un commit sur une branche distante qui ne contient pas le commit sur lequel la branche distante pointe, votre essai échouera.
+Si vous rebasez des *commits* que vous avez déjà poussés, puis essayez de pousser à nouveau, ou inversemement, si vous essayez de pousser un *commit* sur une branche distante qui ne contient pas le *commit* sur lequel la branche distante pointe, votre essai échouera.
 C'est généralement une bonne politique, mais dans le cas d'un rebasage, vous pouvez décider que vous savez ce que vous faîtes et forcer la mise à jour de la branche distante en ajoutant l'option `-f` à votre commande.
 
 Pour désactiver la possibilité de forcer la mise à jour des branches distantes autres qu'en avance rapide, réglez `receive.denyNonFastForwards` :
@@ -472,13 +472,13 @@ Vous pouvez réaliser rapidement que la taille du fichier et les dimensions des 
 ### Expansion des mots-clés ###
 
 L'expansion de mots-clés dans le style de CVS ou de SVN est souvent une fonctionnalité demandée par les développeurs qui y sont habitués.
-Le problème principal de ce système avec Git et que vous ne pouvez pas modifier un fichier avec l'information concernant le commit après la validation parce que Git calcule justement la somme de contrôle sur son contenu.
-Cependant, vous pouvez injecter des informations textuelles dans un fichier au moment où il est extrait et les retirer avant qu'il ne soit ajouté à un commit.
+Le problème principal de ce système avec Git et que vous ne pouvez pas modifier un fichier avec l'information concernant le *commit* après la validation parce que Git calcule justement la somme de contrôle sur son contenu.
+Cependant, vous pouvez injecter des informations textuelles dans un fichier au moment où il est extrait et les retirer avant qu'il ne soit ajouté à un *commit*.
 Les attributs Git vous fournissent deux manières de le faire.
 
 Premièrement, vous pouvez injecter automatiquement la somme de contrôle SHA-1 d'un blob dans un champ `$Id$` d'un fichier.
 Si vous positionnez cet attribut pour un fichier ou un ensemble de fichiers, la prochaine fois que vous extrairez cette branche, Git remplacera chaque champ avec le SHA-1 du blob.
-Il est à noter que ce n'est pas le SHA du commit mais celui du blob lui-même :
+Il est à noter que ce n'est pas le SHA du *commit* mais celui du blob lui-même :
 
 	$ echo '*.txt ident' >> .gitattributes
 	$ echo '$Id$' > test.txt
@@ -613,7 +613,7 @@ Dans ce cas, `database.xml` reste dans l'état d'origine, quoi qu'il arrive.
 Comme de nombreux autres systèmes de gestion de version, Git dispose d'un moyen de lancer des scripts personnalisés quand certaines actions importantes ont lieu.
 Il y a deux groupes de crochets : ceux côté client et ceux côté serveur.
 Les crochets côté client concernent les opérations de client telles que la validation et la fusion.
-Les crochets côté serveur concernent les opérations de serveur Git telles que la réception de commits.
+Les crochets côté serveur concernent les opérations de serveur Git telles que la réception de *commits*.
 Vous pouvez utiliser ces crochets pour toutes sortes de raisons dont nous allons détailler quelques unes.
 
 ### Installation d'un crochet ###
@@ -644,22 +644,22 @@ Vous pouvez réaliser des actions telles qu'une vérification de style (en utili
 
 Le crochet `prepare-commit-msg` est appelé avant que l'éditeur de message de validation ne soit lancé après que le message par défaut a été créé.
 Il vous permet d'éditer le message par défaut avant que l'auteur ne le voit.
-Ce crochet accepte quelques options : le chemin du fichier qui contient le message de validation actuel, le type de validation et le SHA-1 du commit si c'est un commit amendé.
+Ce crochet accepte quelques options : le chemin du fichier qui contient le message de validation actuel, le type de validation et le SHA-1 du *commit* si c'est un *commit* amendé.
 Ce crochet ne sert généralement à rien pour les validations normales.
-Par contre, il est utile pour les validations où le message par défaut est généré, tel que les modèles de message de validation, les validations de fusion, les commits écrasés ou amendés.
+Par contre, il est utile pour les validations où le message par défaut est généré, tel que les modèles de message de validation, les validations de fusion, les *commits* écrasés ou amendés.
 Vous pouvez l'utiliser en conjonction avec un modèle de messages pour insérer de l'information par programme.
 
 Le crochet `commit-msg` accepte un paramètre qui est encore le chemin du fichier temporaire qui contient le message de validation actuel.
-Si ce script rend un code de sortie non nul, Git abandonne le processus de validation, ce qui vous permet de vérifier l'état de votre projet ou du message de validation avant de laisser passer un commit.
+Si ce script rend un code de sortie non nul, Git abandonne le processus de validation, ce qui vous permet de vérifier l'état de votre projet ou du message de validation avant de laisser passer un *commit*.
 Dans la dernière section de ce chapitre, l'utilisation de ce crochet permettra de vérifier que le message de validation est conforme à un format obligatoire.
 
 Après l'exécution du processus complet de validation, le crochet `post-commit` est appelé.
-Il n'accepte aucun argument mais vous pouvez facilement accéder au dernier commit grâce à `git log -1 HEAD`.
+Il n'accepte aucun argument mais vous pouvez facilement accéder au dernier *commit* grâce à `git log -1 HEAD`.
 Généralement, ce script sert à réaliser des notifications ou des choses similaires.
 
 Les scripts de gestion de validation côté client peuvent être utilisés pour n'importe quelle méthode de travail.
 Ils sont souvent utilisés pour mettre en œuvre certaines politiques, bien qu'il faille noter que ces scripts ne sont pas transférés lors d'un clonage.
-Vous pouvez faire appliquer les politiques de gestion au niveau serveur pour rejeter les poussées de commits qui ne sont pas conformes à certaines règles, mais il reste complètement du ressort du développeur de les utiliser côté client.
+Vous pouvez faire appliquer les politiques de gestion au niveau serveur pour rejeter les poussées de *commits* qui ne sont pas conformes à certaines règles, mais il reste complètement du ressort du développeur de les utiliser côté client.
 Ce sont des scripts destinés à aider les développeurs et ils doivent être mis en place et maintenus par ces derniers qui peuvent tout aussi bien les outrepasser ou les modifier à tout moment.
 
 #### Crochets de gestion e-mail ####
@@ -685,7 +685,7 @@ Vous ne pouvez plus arrêter le processus de validation avec ce script.
 #### Autres crochets côté client ####
 
 Le crochet `pre-rebase` est invoqueé avant que vous ne rebasiez et peut interrompre le processus s'il sort avec un code d'erreur non nul.
-Vous pouvez utiliser ce crochet pour empêcher de rebaser tout commit qui a déjà été poussé.
+Vous pouvez utiliser ce crochet pour empêcher de rebaser tout *commit* qui a déjà été poussé.
 C'est ce que fait le crochet d'exemple `pre-rebase` que Git installe, même s'il considère que la branche cible de publication s'appelle `next`.
 Il est très probable que vous ayez à changer ce nom pour celui que vous utilisez réellement en branche publique stable.
 
@@ -722,7 +722,7 @@ Il faut donc être prudent à ne pas essayer de lui faire réaliser des actions 
 
 Le script `update` est très similaire au script `pre-receive`, à la différence qu'il est lancé une fois par branche qui doit être modifiée lors de la poussée.
 Si la poussée s'applique à plusieurs branches, `pre-receive` n'est lancé qu'une fois, tandis qu'`update` est lancé une fois par branche impactée.
-Au lieu de lire à partir de stdin, ce script accepte trois arguments : le nom de la référence (branche), le SHA-1 du commit pointé par la référence avant la poussée et le SHA-1 que l'utilisateur est en train de pousser.
+Au lieu de lire à partir de stdin, ce script accepte trois arguments : le nom de la référence (branche), le SHA-1 du *commit* pointé par la référence avant la poussée et le SHA-1 que l'utilisateur est en train de pousser.
 Si le script `update` se termine avec un code d'erreur non nul, seule la référence est rejetée.
 Les autres références pourront être mises à jour.
 
@@ -760,11 +760,11 @@ C'est seulement pour simplifier la démonstration.
 
 Notre première tâche consiste à forcer que chaque message de validation adhère à un format particulier.
 En guise d'objectif, obligeons chaque message à contenir une chaîne de caractère qui ressemble à « ref: 1234 » parce que nous souhaitons que chaque validation soit liée à une tâche de notre système de tickets.
-Nous devons donc inspecter chaque commit poussé, vérifier la présence de la chaîne et sortir avec un code non-nul en cas d'absence pour rejeter la poussée.
+Nous devons donc inspecter chaque *commit* poussé, vérifier la présence de la chaîne et sortir avec un code non-nul en cas d'absence pour rejeter la poussée.
 
-Vous pouvez obtenir une liste des valeurs SHA-1 de tous les commits en cours de poussée en passant les valeurs `$nouvellerev` et `$anciennerev` à une commande de plomberie Git appelée `git-rev-list`.
+Vous pouvez obtenir une liste des valeurs SHA-1 de tous les *commits* en cours de poussée en passant les valeurs `$nouvellerev` et `$anciennerev` à une commande de plomberie Git appelée `git-rev-list`.
 C'est comme la commande `git log` mais elle n'affiche par défaut que les valeurs SHA-1, sans autre information.
-Donc, pour obtenir une liste de tous les SHA des commits introduits entre un SHA de commit et un autre, il suffit de lancer quelque chose comme :
+Donc, pour obtenir une liste de tous les SHA des *commits* introduits entre un SHA de *commit* et un autre, il suffit de lancer quelque chose comme :
 
 	$ git rev-list 538c33..d14fc7
 	d14fc7c847ab946ec39590d87783c69b031bdfb7
@@ -773,10 +773,10 @@ Donc, pour obtenir une liste de tous les SHA des commits introduits entre un SHA
 	dfa04c9ef3d5197182f13fb5b9b1fb7717d2222a
 	17716ec0f1ff5c77eff40b7fe912f9f6cfd0e475
 
-Vous pouvez récupérer la sortie, boucler sur chacun de ces SHA de commit, en extraire le message et tester la conformité du message avec une structure au moyen d'une expression rationnelle.
+Vous pouvez récupérer la sortie, boucler sur chacun de ces SHA de *commit*, en extraire le message et tester la conformité du message avec une structure au moyen d'une expression rationnelle.
 
-Vous devez trouver comment extraire le message de validation à partir de chacun des commits à tester.
-Pour accéder aux données brutes du commit, vous pouvez utiliser une autre commande de plomberie appelée `git cat-file`.
+Vous devez trouver comment extraire le message de validation à partir de chacun des *commits* à tester.
+Pour accéder aux données brutes du *commit*, vous pouvez utiliser une autre commande de plomberie appelée `git cat-file`.
 Nous traiterons en détail toutes ces commandes de plomberie au chapitre 9 mais pour l'instant, voici ce que cette commande affiche:
 
 	$ git cat-file commit ca82a6
@@ -787,13 +787,13 @@ Nous traiterons en détail toutes ces commandes de plomberie au chapitre 9 mais 
 
 	changed the version number
 
-Un moyen simple d'extraire le message de validation d'un commit à partir de son SHA-1 consiste à rechercher la première ligne vide et à sélectionner tout ce qui suit.
+Un moyen simple d'extraire le message de validation d'un *commit* à partir de son SHA-1 consiste à rechercher la première ligne vide et à sélectionner tout ce qui suit.
 Cela peut être facilement réalisé avec la commande `sed` sur les systèmes Unix :
 
 	$ git cat-file commit ca82a6 | sed '1,/^$/d'
 	changed the version number
 
-Vous pouvez utiliser cette ligne pour récupérer le message de validation de chaque commit en cours de poussée et sortir si quelque chose ne correspond à ce qui est attendu.
+Vous pouvez utiliser cette ligne pour récupérer le message de validation de chaque *commit* en cours de poussée et sortir si quelque chose ne correspond à ce qui est attendu.
 Pour sortir du script et rejeter la poussée, il faut sortir avec un code non nul.
 La fonction complète ressemble à ceci :
 
@@ -812,7 +812,7 @@ La fonction complète ressemble à ceci :
 	end
 	verif_format_message
 
-Placer ceci dans un script `update` rejettera les mises à jour contenant des commits dont les messages ne suivent pas la règle.
+Placer ceci dans un script `update` rejettera les mises à jour contenant des *commits* dont les messages ne suivent pas la règle.
 
 #### Mise en place d'un système d'ACL par utilisateur ####
 
@@ -873,7 +873,7 @@ La liste des fichiers modifiés est assez simplement obtenue par la commande `gi
 	README
 	lib/test.rb
 
-Chaque fichier des commits doit être vérifié par rapport à la structure ACL retournée par la fonction `get_acl_access_data` pour déterminer si l'utilisateur a le droit de pousser tous ses commits :
+Chaque fichier des *commits* doit être vérifié par rapport à la structure ACL retournée par la fonction `get_acl_access_data` pour déterminer si l'utilisateur a le droit de pousser tous ses *commits* :
 
 	# permission à certains utilisateurs de modifier certains sous-répertoires du projet
 	def verif_perms_repertoire
@@ -903,11 +903,11 @@ Chaque fichier des commits doit être vérifié par rapport à la structure ACL 
 	verif_perms_repertoire
 
 L'algorithme ci-dessus reste simple.
-Pour chaque élément de la liste des nouveaux commits à pousser obtenue au moyen de `git rev-list`, on vérifie que l'utilisateur qui pousse a accès au chemin de chacun des fichiers modifiés.
+Pour chaque élément de la liste des nouveaux *commits* à pousser obtenue au moyen de `git rev-list`, on vérifie que l'utilisateur qui pousse a accès au chemin de chacun des fichiers modifiés.
 L'expression `chemin.index(chemin_acces) == 0` est un Rubyisme qui n'est vrai que si `chemin` commence comme `chemin_acces`.
 Ce script s'assure non pas qu'un `chemin` fait partie des chemins permis, mais que tous les chemins accédés font bien partie des chemins permis.
 
-À présent, les utilisateurs ne peuvent plus pousser de commits comprenant un message incorrectement formaté ou des modifications à des fichiers hors de leur zone réservée.
+À présent, les utilisateurs ne peuvent plus pousser de *commits* comprenant un message incorrectement formaté ou des modifications à des fichiers hors de leur zone réservée.
 
 #### Application des poussées en avance rapide ####
 
@@ -915,7 +915,7 @@ Il ne reste plus qu'à forcer les poussées en avance rapide uniquement.
 À partir de la version 1.6, les paramètres `receive.denyDeletes` et `receive.denyNonFastForwards` règlent le problème.
 Cependant, l'utilisation d'un crochet permet de fonctionner avec des versions antérieures de Git et même après modification, des permissions par utilisateur ou toute autre évolution.
 
-L'algorithme consiste à vérifier s'il y a des commits accessibles depuis l'ancienne révision qui ne sont pas accessibles depuis la nouvelle.
+L'algorithme consiste à vérifier s'il y a des *commits* accessibles depuis l'ancienne révision qui ne sont pas accessibles depuis la nouvelle.
 S'il n'y en a aucun alors la poussée est effectivement en avance rapide.
 Sinon, il faut le rejeter :
 
@@ -978,7 +978,7 @@ Par ailleurs, si le marqueur `ref` n'est pas présent dans le message de validat
 	[REGLE] Le message de validation n'est pas conforme
 
 Ou si quelqu'un cherche à modifier un fichier auquel il n'a pas les droits d'accès lors d'une poussée, il verra quelque chose de similaire.
-Par exemple, si un auteur de documentation essaie de pousser un commit qui modifie quelque chose dans le répertoire `lib`, il verra
+Par exemple, si un auteur de documentation essaie de pousser un *commit* qui modifie quelque chose dans le répertoire `lib`, il verra
 
 	[ACL] Vous n'avez pas le droit de pousser sur lib/test.rb
 
@@ -996,7 +996,7 @@ Ainsi, ils pourront corriger les problèmes avant de valider et avant que ces di
 Ces scripts n'étant pas diffusés lors du clonage du projet, il vous faudra les distribuer d'une autre manière, puis indiquer aux utilisateurs de les copier dans leur répertoire `.git/hooks` et de les rendre exécutables.
 Vous pouvez distribuer ces crochets au sein du projet ou dans un projet annexe mais il n'y a aucun moyen de les mettre en place automatiquement.
 
-Premièrement, pour éviter le rejet du serveur au motif d'un mauvais format du message de validation, il faut vérifier celui-ci avant que chaque commit ne soit enregistré.
+Premièrement, pour éviter le rejet du serveur au motif d'un mauvais format du message de validation, il faut vérifier celui-ci avant que chaque *commit* ne soit enregistré.
 Pour ce faire, utilisons le crochet `commit-msg`.
 En lisant le message à partir du fichier passé en premier argument et en le comparant au format attendu, on peut forcer Git à abandonner la validation en cas d'absence de correspondance :
 
@@ -1064,7 +1064,7 @@ pour
 	acces = get_acl_access_data('.git/acl')
 
 L'autre différence majeure réside dans la manière d'obtenir la liste des fichiers modifiés.
-La fonction sur le serveur la recherche dans le journal des commits mais comme dans le cas actuel, le commit n'a pas encore été enregistré, il faut chercher la liste dans la zone d'index.
+La fonction sur le serveur la recherche dans le journal des *commits* mais comme dans le cas actuel, le *commit* n'a pas encore été enregistré, il faut chercher la liste dans la zone d'index.
 Donc au lieu de
 
 	fichiers_modifies = `git log -1 --name-only --pretty=format:'' #{ref}`
@@ -1078,12 +1078,12 @@ Ce script a aussi une autre limitation : il s'attend à ce que l'utilisateur qu
 S'ils sont différents, il faudra positionner manuellement la variable `$utilisateur`.
 
 La dernière action à réaliser consiste à vérifier que les références poussées sont bien en avance rapide, mais l'inverse est plutôt rare.
-Pour obtenir une référence qui n'est pas en avance rapide, il faut soit rebaser après un commit qui a déjà été poussé, soit essayer de pousser une branche locale différente vers la même branche distante.
+Pour obtenir une référence qui n'est pas en avance rapide, il faut soit rebaser après un *commit* qui a déjà été poussé, soit essayer de pousser une branche locale différente vers la même branche distante.
 
-Comme le serveur indiquera qu'on ne peut pas pousser sans avance rapide de toute façon et que le crochet empêche les poussées forcées, la seule action accidentelle qu'il faut intercepter reste le rebasage de commits qui ont déjà été poussés.
+Comme le serveur indiquera qu'on ne peut pas pousser sans avance rapide de toute façon et que le crochet empêche les poussées forcées, la seule action accidentelle qu'il faut intercepter reste le rebasage de *commits* qui ont déjà été poussés.
 
 Voici un exemple de script `pre-rebase` qui fait cette vérification.
-Ce script récupère une liste de tous les commits qu'on est sur le point de réécrire et vérifie s'ils existent dans une référence distante.
+Ce script récupère une liste de tous les *commits* qu'on est sur le point de réécrire et vérifie s'ils existent dans une référence distante.
 S'il en trouve un accessible depuis une des références distantes, il interrompt le rebasage :
 
 	#!/usr/bin/env ruby
@@ -1109,12 +1109,12 @@ S'il en trouve un accessible depuis une des références distantes, il interromp
 	end
 
 Ce script utilise une syntaxe qui n'a pas été abordée à la section « sélection de révision » du chapitre 6.
-La liste des commits déjà poussés est obtenue avec cette commande :
+La liste des *commits* déjà poussés est obtenue avec cette commande :
 
 	git rev-list ^#{sha}^@ refs/remotes/#{ref_distante}
 
-La syntaxe `SHA^@` fait référence à tous le parents du commit.
-Les commits recherchés sont accessibles depuis le dernier commit distant et inaccessibles depuis n'importe quel parent de n'importe quel SHA qu'on cherche à pousser.
+La syntaxe `SHA^@` fait référence à tous le parents du *commit*.
+Les *commits* recherchés sont accessibles depuis le dernier *commit* distant et inaccessibles depuis n'importe quel parent de n'importe quel SHA qu'on cherche à pousser.
 C'est la définition d'avance rapide.
 
 La limitation de cette approche reste qu'elle peut s'avérer très lente et non nécessaire.

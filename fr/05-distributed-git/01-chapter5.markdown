@@ -121,7 +121,7 @@ Vous devriez pouvoir construire vos propres modes de gestion à partir de ces ex
 
 Avant de passer en revue les cas d'utilisation spécifiques, voici un point rapide sur les messages de validation.
 La définition et l'utilisation d'une bonne ligne de conduite sur les messages de validation facilitent grandement l'utilisation de Git et la collaboration entre développeurs.
-Le projet Git fournit un document qui décrit un certain nombre de bonnes pratiques pour créer des commits qui serviront à fournir des patchs — le document est accessibles dans les sources de Git, dans le fichier `Documentation/SubmittingPatches`.
+Le projet Git fournit un document qui décrit un certain nombre de bonnes pratiques pour créer des *commits* qui serviront à fournir des patchs — le document est accessibles dans les sources de Git, dans le fichier `Documentation/SubmittingPatches`.
 
 Premièrement, il ne faut pas soumettre de patchs comportant des erreurs d'espace (caractères espace inutiles en fin de ligne).
 Git fournit un moyen simple de le vérifier — avant de valider, lancez la commande `git diff --check` qui identifiera et listera les erreurs d'espace.
@@ -172,7 +172,7 @@ Voici ci-dessous un modèle tiré de celui écrit par Tim Pope at tpope.net :
 	   séparés par des lignes vides mais les conventions peuvent varier
 
 Si tous vos messages de validation ressemblent à ceci, les choses seront beaucoup plus simples pour vous et les développeurs avec qui vous travaillez.
-Le projet Git montre des messages de commit bien formatés — je vous encourage à y lancer un `git log --no-merges` pour pouvoir voir comment rend un historique de messages bien formatés.
+Le projet Git montre des messages de *commit* bien formatés — je vous encourage à y lancer un `git log --no-merges` pour pouvoir voir comment rend un historique de messages bien formatés.
 
 Dans les exemples suivants et à travers tout ce livre, par soucis de simplification, je ne formaterai pas les messages aussi proprement.
 J'utiliserai plutôt l'option `-m` de `git commit`.
@@ -252,7 +252,7 @@ John a une référence aux modifications que Jessica a poussées, mais il doit l
 	 TODO |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Cette fusion se passe sans problème — l'historique de commits de John ressemble à présent à la figure 5-5.
+Cette fusion se passe sans problème — l'historique de *commits* de John ressemble à présent à la figure 5-5.
 
 Insert 18333fig0505.png
 Figure 5-5. Le dépôt local de John après la fusion d'origin/master.
@@ -264,7 +264,7 @@ Maintenant, John peut tester son code pour s'assurer qu'il fonctionne encore cor
 	To john@githost:simplegit.git
 	   fbff5bc..72bbc59  master -> master
 
-À la fin, l'historique des commits de John ressemble à la figure 5-6.
+À la fin, l'historique des *commits* de John ressemble à la figure 5-6.
 
 Insert 18333fig0506.png
 Figure 5-6. L'historique de John après avoir poussé sur le serveur origin.
@@ -274,7 +274,7 @@ Elle a créé une branche thématique nommée `prob54` et réalisé trois valida
 Elle n'a pas encore récupéré les modifications de John, ce qui donne un historique semblable à la figure 5-7.
 
 Insert 18333fig0507.png
-Figure 5-7. L'historique initial des commits de Jessica.
+Figure 5-7. L'historique initial des *commits* de Jessica.
 
 Jessica souhaite se synchroniser sur le travail de John.
 Elle récupère donc ses modifications :
@@ -376,7 +376,7 @@ Elle crée une nouvelle branche pour cette fonction et travaille un peu dessus 
 	[fonctionA 3300904] Ajouter une limite à la fonction de log
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
-À ce moment, elle a besoin de partager son travail avec John, donc elle pousse les commits de sa branche `fonctionA` sur le serveur.
+À ce moment, elle a besoin de partager son travail avec John, donc elle pousse les *commits* de sa branche `fonctionA` sur le serveur.
 Jessica n'a pas le droit de pousser sur la branche `master` — seuls les intégrateurs l'ont — et elle doit donc pousser sur une autre branche pour collaborer avec John :
 
 	$ git push origin fonctionA
@@ -474,13 +474,13 @@ Elle valide donc encore et pousse ses changements sur le serveur :
 	To jessica@githost:simplegit.git
 	   3300904..ed774b3  fonctionA -> fonctionA
 
-L'historique des commits de Jessica ressemble à présent à la figure 5-13.
+L'historique des *commits* de Jessica ressemble à présent à la figure 5-13.
 
 Insert 18333fig0513.png
 Figure 5-13. L'historique de Jessica après la validation dans le branche thématique.
 
 Jessica, Josie et John informent les intégrateurs que les branches `fonctionA` et `fonctionB` du serveur sont prêtes pour une intégration dans la branche principale.
-Après cette intégration, une synchronisation apportera les commits de fusion, ce qui donnera un historique comme celui de la figure 5-14.
+Après cette intégration, une synchronisation apportera les *commits* de fusion, ce qui donnera un historique comme celui de la figure 5-14.
 
 Insert 18333fig0514.png
 Figure 5-14. L'historique de Jessica après la fusion de ses deux branches thématiques.
@@ -512,7 +512,7 @@ La séquence ressemble globalement à ceci :
 	$ (travail)
 	$ git commit
 
-Vous pouvez utiliser `rebase -i` pour réduire votre travail à une seule validation ou pour réarranger les modifications dans des commits qui rendront les patchs plus faciles à relire pour le mainteneur — référez-vous au chapitre 6 pour plus d'information sur comment rebaser de manière interactive.
+Vous pouvez utiliser `rebase -i` pour réduire votre travail à une seule validation ou pour réarranger les modifications dans des *commits* qui rendront les patchs plus faciles à relire pour le mainteneur — référez-vous au chapitre 6 pour plus d'information sur comment rebaser de manière interactive.
 
 Lorsque votre branche de travail est prête et que vous êtes prêt à la fournir au mainteneur, rendez-vous sur la page du projet et cliquez sur le bouton "Fork" pour créer votre propre projet dupliqué sur lequel vous aurez les droits en écriture.
 Vous devez alors ajouter l'URL de ce nouveau dépôt en tant que second dépôt distant, dans notre cas nommé `macopie` :
@@ -564,7 +564,7 @@ Par exemple, si vous souhaitez soumettre un second sujet de travail au projet, n
 À présent, chaque sujet est contenu dans son propre silo — similaire à une file de patchs — que vous pouvez réécrire, rebaser et modifier sans que les sujets n'interfèrent ou ne dépendent entre eux, comme sur la figure 5-16.
 
 Insert 18333fig0516.png
-Figure 5-16. Historique initial des commits avec les modification de fonctionB.
+Figure 5-16. Historique initial des *commits* avec les modification de fonctionB.
 
 Supposons que le mainteneur du projet a tiré une poignée d'autres patchs et essayé par la suite votre première branche, mais celle-ci ne s'applique plus proprement.
 Dans ce cas, vous pouvez rebaser cette branche au sommet de `origin/master`, résoudre les conflits pour le mainteneur et soumettre de nouveau vos modifications :
@@ -578,7 +578,7 @@ Cette action réécrit votre historique pour qu'il ressemble à la figure 5-17.
 Insert 18333fig0517.png
 Figure 5-17. Historique des validations après le travail sur fonctionA.
 
-Comme vous avez rebasé votre branche, vous devez spécifier l'option `-f` à votre commande pour pousser, pour forcer le remplacement de la branche `fonctionA` sur le serveur par la suite de commits qui n'en est pas descendante.
+Comme vous avez rebasé votre branche, vous devez spécifier l'option `-f` à votre commande pour pousser, pour forcer le remplacement de la branche `fonctionA` sur le serveur par la suite de *commits* qui n'en est pas descendante.
 Une solution alternative serait de pousser ce nouveau travail dans une branche différente du serveur (appelée par exemple `fonctionAv2`).
 
 Examinons un autre scénario possible : le mainteneur a revu les modifications dans votre seconde branche et apprécie le concept, mais il  souhaiterait que vous changiez des détails d'implémentation.
@@ -591,7 +591,7 @@ Vous démarrez une nouvelle branche à partir de la branche `origin/master` cour
 	$ git commit
 	$ git push macopie fonctionBv2
 
-L'option `--squash` prend tout le travail de la branche à fusionner et le colle dans un commit sans fusion au sommet de la branche extraite.
+L'option `--squash` prend tout le travail de la branche à fusionner et le colle dans un *commit* sans fusion au sommet de la branche extraite.
 L'option `--no-commit` indique à Git de ne pas enregistrer automatiquement une validation.
 Cela permet de reporter toutes les modifications d'une autre branche, puis de réaliser d'autres modifications avant de réaliser une nouvelle validation.
 
@@ -608,7 +608,7 @@ Néanmoins, ils sont nombreux à accepter les patchs via une liste de diffusion 
 
 La méthode est similaire au cas précédent — vous créez une branche thématique par série de patchs sur laquelle vous travaillez.
 La différence réside dans la manière de les soumettre au projet.
-Au lieu de dupliquer le projet et de pousser vos soumissions sur votre dépôt, il faut générer des versions e-mail de chaque série de commits et les envoyer à la liste de diffusion de développement.
+Au lieu de dupliquer le projet et de pousser vos soumissions sur votre dépôt, il faut générer des versions e-mail de chaque série de *commits* et les envoyer à la liste de diffusion de développement.
 
 	$ git checkout -b sujetA
 	$ (travail)
@@ -616,9 +616,9 @@ Au lieu de dupliquer le projet et de pousser vos soumissions sur votre dépôt, 
 	$ (travail)
 	$ git commit
 
-Vous avez à présent deux commits que vous souhaitez envoyer à la liste de diffusion.
+Vous avez à présent deux *commits* que vous souhaitez envoyer à la liste de diffusion.
 Vous utilisez `git format-patch` pour générer des fichiers au format mbox que vous pourrez envoyer à la liste.
-Cette commande transforme chaque commit en un message e-mail dont le sujet est la première ligne du message de validation et le corps contient le reste du message plus le patch correspondant.
+Cette commande transforme chaque *commit* en un message e-mail dont le sujet est la première ligne du message de validation et le corps contient le reste du message plus le patch correspondant.
 Un point intéressant de cette commande est qu'appliquer le patch à partir d'un e-mail formaté avec `format-patch` préserve toute l'information de validation comme nous le verrons dans le chapitre suivant lorsqu'il s'agit de l'appliquer.
 
 	$ git format-patch -M origin/master
@@ -832,8 +832,8 @@ Vous pouvez résoudre les problèmes de manière identique — éditez le fichie
 	Applying: seeing if this helps the gem
 
 Si vous souhaitez que Git essaie de résoudre les conflits avec plus d'intelligence, vous pouvez passer l'option `-3` qui demande à Git de tenter une fusion à trois sources.
-Cette option n'est pas active par défaut parce qu'elle ne fonctionne pas si le commit sur lequel le patch indique être basé n'existe pas dans votre dépôt.
-Si par contre, le patch est basé sur un commit public, l'option `-3` est généralement beaucoup plus fine pour appliquer des patchs conflictuels :
+Cette option n'est pas active par défaut parce qu'elle ne fonctionne pas si le *commit* sur lequel le patch indique être basé n'existe pas dans votre dépôt.
+Si par contre, le patch est basé sur un *commit* public, l'option `-3` est généralement beaucoup plus fine pour appliquer des patchs conflictuels :
 
 	$ git am -3 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
@@ -895,8 +895,8 @@ Vous avez maintenant une branche thématique qui contient les contributions.
 De ce point, vous pouvez déterminer ce que vous souhaitez en faire.
 Cette section revisite quelques commandes qui vont vous permettre de faire une revue de ce que vous allez exactement introduire si vous fusionnez dans la branche principale.
 
-Faire une revue de tous les commits dans cette branche s'avère souvent d'une grande aide.
-Vous pouvez exclure les commits de la branche master en ajoutant l'option `--not` devant le nom de la branche.
+Faire une revue de tous les *commits* dans cette branche s'avère souvent d'une grande aide.
+Vous pouvez exclure les *commits* de la branche master en ajoutant l'option `--not` devant le nom de la branche.
 Par exemple, si votre contributeur vous envoie deux patchs et que vous créez une branche appelée `contrib` et y appliquez ces patchs, vous pouvez lancer ceci :
 
 	$ git log contrib --not master
@@ -912,7 +912,7 @@ Par exemple, si votre contributeur vous envoie deux patchs et que vous créez un
 
 	    updated the gemspec to hopefully work better
 
-Pour visualiser les modifications que chaque commit introduit, souvenez-vous que vous pouvez passer l'option `-p` à `git log` et elle ajoutera le diff introduit à chaque commit.
+Pour visualiser les modifications que chaque *commit* introduit, souvenez-vous que vous pouvez passer l'option `-p` à `git log` et elle ajoutera le diff introduit à chaque *commit*.
 
 Pour visualiser un diff complet de ce qui arriverait si vous fusionniez cette branche thématique avec une autre branche, vous pouvez utiliser un truc bizarre pour obtenir les résultats corrects.
 Vous pourriez penser à lancer ceci :
@@ -1008,22 +1008,22 @@ Le projet Git a aussi une branche `maint` qui est créée à partir de la derni�
 Ainsi, quand vous clonez le dépôt de Git, vous avez quatre branches disponibles pour évaluer le projet à différentes étapes de développement, selon le niveau développement que vous souhaitez utiliser ou pour lequel vous souhaitez contribuer.
 Le mainteneur a une gestion structurée qui lui permet d'évaluer et sélectionner les nouvelles contributions.
 
-#### Gestion par rebasage et sélection de commit ####
+#### Gestion par rebasage et sélection de *commit* ####
 
 D'autres mainteneurs préfèrent rebaser ou sélectionner les contributions sur le sommet de la branche master, plutôt de les fusionner, de manière à conserver un historique à peu près linéaire.
 Lorsque plusieurs modifications sont présentes dans une branche thématique et que vous souhaitez les intégrer, vous vous placez sur cette branche et vous lancer la commande rebase pour reconstruire les modifications à partir du sommet courant de la branche `master` (ou `develop`, ou autre).
 Si cela fonctionne correctement, vous pouvez faire une avance rapide sur votre branche `master` et vous obtenez au final un historique de projet linéaire.
 
 L'autre moyen de déplacer des modifications introduites dans une branche vers une autre consiste à les sélectionner (`cherry-pick`).
-Une sélection dans Git ressemble à un rebasage appliqué à un commit unique.
+Une sélection dans Git ressemble à un rebasage appliqué à un *commit* unique.
 Cela consiste à prendre le patch qui a été introduit lors d'une validation et à essayer de l'appliquer sur la branche sur laquelle on se trouve.
-C'est très utile si on a un certain nombre de commits sur une branche thématique et que l'on veut n'en intégrer qu'un seul, ou si on n'a qu'un commit sur une branche thématique et qu'on préfère le sélectionner plutôt que de lancer rebase.
+C'est très utile si on a un certain nombre de *commits* sur une branche thématique et que l'on veut n'en intégrer qu'un seul, ou si on n'a qu'un *commit* sur une branche thématique et qu'on préfère le sélectionner plutôt que de lancer rebase.
 Par exemple, supposons que vous ayez un projet ressemblant à la figure 5-26.
 
 Insert 18333fig0526.png
 Figure 5-26. Historique d'exemple avant une sélection.
 
-Si vous souhaitez tirer le commit `e43a6` dans votre branche master, vous pouvez lancer
+Si vous souhaitez tirer le *commit* `e43a6` dans votre branche master, vous pouvez lancer
 
 	$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 	Finished one cherry-pick.
@@ -1034,9 +1034,9 @@ La même modification que celle introduite en `e43a6` est tirée mais vous obten
 À présent, votre historique ressemble à la figure 5-27.
 
 Insert 18333fig0527.png
-Figure 5-27. Historique après sélection d'un commit dans une branche thématique.
+Figure 5-27. Historique après sélection d'un *commit* dans une branche thématique.
 
-Maintenant, vous pouvez effacer votre branche thématique et abandonner les commits que vous n'avez pas tirés dans master.
+Maintenant, vous pouvez effacer votre branche thématique et abandonner les *commits* que vous n'avez pas tirés dans master.
 
 ### Étiquetage de vos publications ###
 
@@ -1079,8 +1079,8 @@ Si de plus, vous incluez des instructions d'utilisation pour la vérification de
 
 ### Génération d'un nom de révision ###
 
-Comme Git ne fournit pas par nature de nombres croissants tels que « r123 » à chaque validation, la commande `git describe` permet de générer un nom humainement lisible pour chaque commit.
-Git concatène la nom de l'étiquette la plus proche, le nombre de validations depuis cette étiquette et un code SHA-1 partiel du commit que l'on cherche à définir :
+Comme Git ne fournit pas par nature de nombres croissants tels que « r123 » à chaque validation, la commande `git describe` permet de générer un nom humainement lisible pour chaque *commit*.
+Git concatène la nom de l'étiquette la plus proche, le nombre de validations depuis cette étiquette et un code SHA-1 partiel du *commit* que l'on cherche à définir :
 
 	$ git describe master
 	v1.6.2-rc1-20-g8c5b85c
@@ -1090,7 +1090,7 @@ En fait, si Git est construit à partir du source cloné depuis le dépôt Git, 
 Si vous demandez la description d'un instantané qui a été étiqueté, le nom de l'étiquette est retourné.
 
 La commande `git describe` repose sur les étiquettes annotées (étiquettes créées avec les options `-a` ou `-s`).
-Les étiquettes de publication doivent donc être créées de cette manière si vous souhaitez utiliser `git describe` pour garantir que les commits seront décrits correctement.
+Les étiquettes de publication doivent donc être créées de cette manière si vous souhaitez utiliser `git describe` pour garantir que les *commits* seront décrits correctement.
 vous pouvez aussi utiliser ces noms comme cible lors d'une extraction ou d'une commande `show`, bien qu'ils reposent sur le SHA-1 abrégé et pourraient ne pas rester valide indéfiniment.
 Par exemple, le noyau Linux a sauté dernièrement de 8 à 10 caractères pour assurer l'unicité des objets SHA-1 et les anciens noms `git describe` sont par conséquent devenus invalides.
 

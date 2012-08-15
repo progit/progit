@@ -13,10 +13,10 @@ Bien comprendre et maîtriser cette fonctionnalité est un atout pour faire de G
 ## Ce qu'est une branche ##
 
 Pour réellement comprendre comment Git gère les branches, nous devons revenir en arrière et examiner de plus près comment Git stocke ses données.
-Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données comme une série de d'ensembles de modifications ou différences, mais comme une série d'instantanés.
+Comme vous pouvez vous en souvenir du chapitre 1, Git ne stocke pas ses données comme une série d'ensembles de modifications ou différences, mais comme une série d'instantanés.
 
-Lorsqu'on valide dans Git, Git stocke un objet commit qui contient un pointeur vers l'instantané du contenu qui a été indexé, les méta-données d'auteur et de message et zéro ou plusieurs pointeurs vers le ou les commits qui sont les parents directs de ce commit :
-zéro parent pour la première validation, un parent pour un commit normal et des parents multiples pour des commits qui sont le résultat de la fusion d'une ou plusieurs branches.
+Lorsqu'on valide dans Git, Git stocke un objet *commit* qui contient un pointeur vers l'instantané du contenu qui a été indexé, les méta-données d'auteur et de message et zéro ou plusieurs pointeurs vers le ou les *commits* qui sont les parents directs de ce *commit* :
+zéro parent pour la première validation, un parent pour un *commit* normal et des parents multiples pour des *commits* qui sont le résultat de la fusion d'une ou plusieurs branches.
 
 Pour visualiser ce concept, supposons un répertoire contenant trois fichiers, ces trois fichiers étant indexés puis validés.
 Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fonction de hachage SHA-1 mentionnée au chapitre 1), stocker cette version du fichier dans le dépôt Git (Git les nomme blobs) et ajouter la somme de contrôle à la zone d'index :
@@ -24,29 +24,29 @@ Indexer les fichiers signifie calculer la somme de contrôle pour chacun (la fon
 	$ git add LISEZMOI test.rb LICENCE
 	$ git commit -m 'commit initial de mon projet'
 
-Lorsque vous créez le commit en lançant la commande `git commit`, Git calcule la somme de contrôle de chaque répertoire (ici, seulement pour le répertoire racine) et stocke ces objets arbres dans le dépôt Git.
-Git crée alors un objet commit qui contient les méta-données et un pointeur vers l'arbre projet d'origine de manière à pouvoir recréer l'instantané si besoin.
+Lorsque vous créez le *commit* en lançant la commande `git *commit*`, Git calcule la somme de contrôle de chaque répertoire (ici, seulement pour le répertoire racine) et stocke ces objets arbres dans le dépôt Git.
+Git crée alors un objet *commit* qui contient les méta-données et un pointeur vers l'arbre projet d'origine de manière à pouvoir recréer l'instantané si besoin.
 
 Votre dépôt Git contient à présent cinq objets :
-un blob pour le contenu de chacun des trois fichiers, un arbre qui liste le contenu du répertoire et spécifie quels noms de fichier sont attachés à quels blobs et un objet commit avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au commit.
+un blob pour le contenu de chacun des trois fichiers, un arbre qui liste le contenu du répertoire et spécifie quels noms de fichier sont attachés à quels blobs et un objet *commit* avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au *commit*.
 Conceptuellement, les données contenues dans votre dépôt git ressemblent à la Figure 3-1.
 
 Insert 18333fig0301.png
-Figure 3-1. Données d'un commit unique.
+Figure 3-1. Données d'un *commit* unique.
 
-Si vous réalisez des modifications et validez à nouveau, le prochain commit stocke un pointeur vers le commit immédiatement précédent.
+Si vous réalisez des modifications et validez à nouveau, le prochain *commit* stocke un pointeur vers le *commit* immédiatement précédent.
 Après deux autres validations, l'historique pourrait ressembler à la figure 3-2.
 
 Insert 18333fig0302.png
 Figure 3-2. Données et objets Git pour des validations multiples.
 
-Une branche dans Git est tout simplement un pointeur mobile léger vers un de ces objets commit.
-La branche par défaut dans Git s'appelle master.
-Au fur et à mesure des validations, la branche master pointe vers le dernier des commits réalisés.
-À chaque validation, le pointeur de la branche master avance automatiquement.
+Une branche dans Git est tout simplement un pointeur mobile léger vers un de ces objets *commit*.
+La branche par défaut dans Git s'appelle `master`.
+Au fur et à mesure des validations, la branche `master` pointe vers le dernier des *commits* réalisés.
+À chaque validation, le pointeur de la branche `master` avance automatiquement.
 
 Insert 18333fig0303.png
-Figure 3-3. Branche pointant dans l'historique des données de commit.
+Figure 3-3. Branche pointant dans l'historique des données de *commit*.
 
 Que se passe-t-il si vous créez une nouvelle branche ?
 Et bien, cela crée un nouveau pointeur à déplacer.
@@ -55,30 +55,30 @@ Vous utilisez la commande `git branch` :
 
 	$ git branch test
 
-Cela crée un nouveau pointeur vers le commit actuel (Cf. figure 3-4).
+Cela crée un nouveau pointeur vers le *commit* actuel (Cf. figure 3-4).
 
 Insert 18333fig0304.png
-Figure 3-4. Branches multiples pointant dans l'historique des données de commit.
+Figure 3-4. Branches multiples pointant dans l'historique des données de *commit*.
 
 Comment Git connaît-il la branche sur laquelle vous vous trouvez ?
-Il conserve un pointeur spécial appelé HEAD.
+Il conserve un pointeur spécial appelé `HEAD`.
 Remarquez que sous cette appellation se cache un concept très différent de celui utilisé dans les autres VCS tels que Subversion ou CVS.
 Dans Git, c'est un pointeur sur la branche locale où vous vous trouvez.
-Dans notre cas, vous vous trouvez toujours sur master.
+Dans notre cas, vous vous trouvez toujours sur `master`.
 La commande git branch n'a fait que créer une nouvelle branche — elle n'a pas fait basculer la copie de travail vers cette branche (Cf. figure 3-5).
 
 Insert 18333fig0305.png
-Figure 3-5. fichier HEAD pointant sur la branche active
+Figure 3-5. fichier `HEAD` pointant sur la branche active
 
 Pour basculer vers une branche existante, il suffit de lancer la commande `git checkout`.
 Basculons vers la nouvelle branche test :
 
 	$ git checkout test
 
-Cela déplace HEAD pour le faire pointer vers la branche test (voir figure 3-6)
+Cela déplace `HEAD` pour le faire pointer vers la branche test (voir figure 3-6)
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD pointe vers une autre branche quand on bascule de branche
+Figure 3-6. `HEAD` pointe vers une autre branche quand on bascule de branche
 
 Qu'est-ce que cela signifie ?
 Et bien, faisons une autre validation :
@@ -89,20 +89,20 @@ Et bien, faisons une autre validation :
 La figure 3-7 illustre le résultat.
 
 Insert 18333fig0307.png
-Figure 3-7. La branche sur laquelle HEAD pointe avance avec chaque nouveau commit.
+Figure 3-7. La branche sur laquelle `HEAD` pointe avance avec chaque nouveau *commit*.
 
-C'est intéressant parce qu'à présent, votre branche test a avancé, tandis que la branche master pointe toujours sur le commit sur lequel vous étiez lorsque vous avez lancé `git checkout` pour basculer de branche.
-Retournons sur la branche master :
+C'est intéressant parce qu'à présent, votre branche test a avancé, tandis que la branche `master` pointe toujours sur le *commit* sur lequel vous étiez lorsque vous avez lancé `git checkout` pour basculer de branche.
+Retournons sur la branche `master` :
 
 	$ git checkout master
 
 La figure 3-8 montre le résultat.
 
 Insert 18333fig0308.png
-Figure 3-8. HEAD se déplace sur une autre branche lors d'un checkout.
+Figure 3-8. `HEAD` se déplace sur une autre branche lors d'un checkout.
 
 Cette commande a réalisé deux actions.
-Elle a remis le pointeur HEAD sur la branche master et elle a replacé les fichiers de la copie de travail dans l'état pointé par master.
+Elle a remis le pointeur `HEAD` sur la branche `master` et elle a replacé les fichiers de la copie de travail dans l'état pointé par `master`.
 Cela signifie aussi que les modifications que vous réalisez à partir de maintenant divergeront de l'ancienne version du projet.
 Cette commande retire les modifications réalisées dans la branche test pour vous permettre de repartir dans une autre direction de développement.
 
@@ -120,7 +120,7 @@ Vous avez fait tout ceci avec de simples commandes `branch` et `checkout`.
 Insert 18333fig0309.png
 Figure 3-9. Les historiques de branche ont divergé.
 
-Parce que dans Git, une branche n'est en fait qu'un simple fichier contenant les 40 caractères de la somme de contrôle SHA-1 du commit sur lequel elle pointe, les branches ne coûtent rien à créer et détruire.
+Parce que dans Git, une branche n'est en fait qu'un simple fichier contenant les 40 caractères de la somme de contrôle SHA-1 du *commit* sur lequel elle pointe, les branches ne coûtent rien à créer et détruire.
 Créer une branche est aussi rapide qu'écrire un fichier de 41 caractères (40 caractères plus un retour chariot).
 
 C'est une différence de taille avec la manière dont la plupart des VCS gèrent les branches, qui implique de copier tous les fichiers du projet dans un second répertoire.
@@ -149,7 +149,7 @@ Vous feriez ce qui suit :
 
 ### Le branchement de base ###
 
-Premièrement, supposons que vous travaillez sur votre projet et avez déjà quelques commits (voir figure 3-10).
+Premièrement, supposons que vous travaillez sur votre projet et avez déjà quelques *commits* (voir figure 3-10).
 
 Insert 18333fig0310.png
 Figure 3-10. Un historique simple et court.
@@ -173,7 +173,7 @@ Insert 18333fig0311.png
 Figure 3-11. Création d'un nouveau pointeur de branche.
 
 Vous travaillez sur votre site web et validez des modifications.
-Ce faisant, la branche `prob53` avance, parce que vous l'avez extraite (c'est-à-dire que votre pointeur HEAD pointe dessus, voir figure 3-12) :
+Ce faisant, la branche `prob53` avance, parce que vous l'avez extraite (c'est-à-dire que votre pointeur `HEAD` pointe dessus, voir figure 3-12) :
 
 	$ vim index.html
 	$ git commit -a -m 'ajout d'un pied de page [problème 53]'
@@ -187,7 +187,7 @@ Tout ce que vous avez à faire, c'est simplement rebasculer sur la branche `mast
 
 Cependant, avant de le faire, notez que si votre copie de travail ou votre zone d'index contiennent des modifications non validées qui sont en conflit avec la branche que vous extrayez, Git ne vous laissera pas basculer de branche.
 Le mieux est d'avoir votre copie de travail dans un état propre au moment de basculer de branche.
-Il y a des moyens de contourner ceci (précisément par le remisage et l'amendement de commit) dont nous parlerons plus loin.
+Il y a des moyens de contourner ceci (précisément par le remisage et l'amendement de *commit*) dont nous parlerons plus loin.
 Pour l'instant, vous avez validé tous vos changements dans la branche `prob53` et vous pouvez donc rebasculer vers la branche `master` :
 
 	$ git checkout master
@@ -208,9 +208,9 @@ Créons une branche de correctif sur laquelle travailler jusqu'à ce que ce soit
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png
-Figure 3-13. Branche de correctif basée à partir de la branche master.
+Figure 3-13. Branche de correctif basée à partir de la branche `master`.
 
-Vous pouvez lancer vos tests, vous assurer que la correction est efficace et la fusionner dans la branche master pour la déployer en production.
+Vous pouvez lancer vos tests, vous assurer que la correction est efficace et la fusionner dans la branche `master` pour la déployer en production.
 Vous réalisez ceci au moyen de la commande `git merge` :
 
 	$ git checkout master
@@ -221,13 +221,13 @@ Vous réalisez ceci au moyen de la commande `git merge` :
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Vous noterez la mention "Fast forward" qui signifie avance rapide dans cette fusion.
-Comme le commit pointé par la branche que vous avez fusionné était directement descendant du commit sur lequel vous vous trouvez, Git a avancé le pointeur en avant.
-Autrement dit, lorsque l'on cherche à fusionner un commit qui peut être joint en suivant l'historique depuis le commit d'origine, Git avance simplement le pointeur car il n'y a pas de travaux divergeant à réellement fusionner — ceci s'appelle l'avance rapide.
+Comme le *commit* pointé par la branche que vous avez fusionné était directement descendant du *commit* sur lequel vous vous trouvez, Git a avancé le pointeur en avant.
+Autrement dit, lorsque l'on cherche à fusionner un *commit* qui peut être joint en suivant l'historique depuis le *commit* d'origine, Git avance simplement le pointeur car il n'y a pas de travaux divergeant à réellement fusionner — ceci s'appelle l'avance rapide.
 
-Votre modification est maintenant dans l'instantané du commit pointé par la branche `master` et vous pouvez déployer votre modification (voir figure 3-14)
+Votre modification est maintenant dans l'instantané du *commit* pointé par la branche `master` et vous pouvez déployer votre modification (voir figure 3-14)
 
 Insert 18333fig0314.png
-Figure 3-14. Après la fusion, votre branche master pointe au même endroit que la correction.
+Figure 3-14. Après la fusion, votre branche `master` pointe au même endroit que la correction.
 
 Après le déploiement de votre correction super-importante, vous voilà de nouveau prêt à travailler sur votre sujet précédent l'interruption.
 Cependant, vous allez avant tout effacer la branche `correctif` parce que vous n'en avez plus besoin et la branche `master` pointe au même endroit.
@@ -246,7 +246,7 @@ Maintenant, il est temps de basculer sur la branche "travaux en cours" sur le pr
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png
-Figure 3-15. Votre branche prob53 peut avancer indépendamment de master.
+Figure 3-15. Votre branche prob53 peut avancer indépendamment de `master`.
 
 Il est utile de noter que le travail réalisé dans `correctif` n'est pas contenu dans les fichiers de la branche `prob53`.
 Si vous avez besoin de les y rapatrier, vous pouvez fusionner la branche `master` dans la branche `prob53` en lançant la commande `git merge master`, ou vous pouvez retarder l'intégration de ces modifications jusqu'à ce que vous décidiez plus tard de rapatrier la branche `prob53` dans `master`.
@@ -264,21 +264,21 @@ Tout ce que vous avez à faire est d'extraire la branche dans laquelle vous souh
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Le comportement semble légèrement différent de celui observé pour la fusion précédente de `correctif`. Dans ce cas, l'historique de développement a divergé à un certain point.
-Comme le commit sur la branche sur laquelle vous vous trouvez n'est plus un ancêtre direct de la branche que vous cherchez à fusionner, Git doit travailler.
+Comme le *commit* sur la branche sur laquelle vous vous trouvez n'est plus un ancêtre direct de la branche que vous cherchez à fusionner, Git doit travailler.
 Dans ce cas, Git réalise une simple fusion à trois sources, en utilisant les deux instantanés pointés par les sommets des branches et l'ancêtre commun des deux.
 La figure 3-16 illustre les trois instantanés que Git utilise pour réaliser la fusion dans ce cas.
 
 Insert 18333fig0316.png
 Figure 3-16. Git identifie automatiquement la meilleure base d'ancêtre commun pour réaliser la fusion.
 
-Au lieu d'avancer simplement le pointeur de branche, Git crée un nouvel instantané qui résulte de la fusion à trois branches et crée automatiquement un nouveau commit qui pointe dessus (voir figure 3-17).
-On appelle ceci un commit de fusion, qui est spécial en ce qu'il comporte plus d'un parent.
+Au lieu d'avancer simplement le pointeur de branche, Git crée un nouvel instantané qui résulte de la fusion à trois branches et crée automatiquement un nouveau *commit* qui pointe dessus (voir figure 3-17).
+On appelle ceci un *commit* de fusion, qui est spécial en ce qu'il comporte plus d'un parent.
 
 Il est à noter que Git détermine par lui-même le meilleur ancêtre commun à utiliser comme base de fusion ; ce comportement est très différent de celui de CVS ou Subversion (antérieur à la version 1.5), où le développeur en charge de la fusion doit trouver par lui-même la meilleure base de fusion.
 Cela rend la fusion beaucoup plus facile dans Git que dans les autres systèmes.
 
 Insert 18333fig0317.png
-Figure 3-17. Git crée automatiquement un nouvel objet commit qui contient le travail fusionné.
+Figure 3-17. Git crée automatiquement un nouvel objet *commit* qui contient le travail fusionné.
 
 A présent que votre travail a été fusionné, vous n'avez plus besoin de la branche `prob53`.
 Vous pouvez l'effacer et fermer manuellement le ticket dans votre outil de suivi de faits techniques :
@@ -296,7 +296,7 @@ Si votre résolution du problème #53 a modifié la même section de fichier que
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git n'a pas automatiquement créé le commit du fusion.
+Git n'a pas automatiquement créé le *commit* du fusion.
 Il a arrêté le processus le temps que vous résolviez le conflit.
 Lancez `git status`  pour voir à tout moment  après l'apparition du conflit de fusion quels fichiers n'ont pas été fusionnés :
 
@@ -322,7 +322,7 @@ Votre fichier contient des sections qui ressemblent à ceci :
 	</div>
 	>>>>>>> prob53:index.html
 
-Cela signifie que la version dans HEAD (votre branche master, parce que c'est celle que vous aviez extraite quand vous avez lancé votre commande de fusion) est la partie supérieure de ce bloc (tout ce qui se trouve au dessus de la ligne `=======`), tandis que la version de la branche `prob53` se trouve en dessous.
+Cela signifie que la version dans `HEAD` (votre branche `master`, parce que c'est celle que vous aviez extraite quand vous avez lancé votre commande de fusion) est la partie supérieure de ce bloc (tout ce qui se trouve au dessus de la ligne `=======`), tandis que la version de la branche `prob53` se trouve en dessous.
 Pour résoudre le conflit, vous devez choisir une partie ou l'autre ou bien fusionner leurs contenus par vous-même.
 Par exemple, vous pourriez choisir de résoudre ce conflit en remplaçant tout le bloc par ceci :
 
@@ -361,7 +361,7 @@ Vous pouvez lancer à nouveau la commande `git status` pour vérifier que tous l
 	#	modified:   index.html
 	#
 
-Si cela vous convient et que vous avez vérifié que tout ce qui comportait un conflit a été indexé, vous pouvez taper la commande `git commit` pour finaliser le commit de fusion.
+Si cela vous convient et que vous avez vérifié que tout ce qui comportait un conflit a été indexé, vous pouvez taper la commande `git commit` pour finaliser le *commit* de fusion.
 Le message de validation ressemble d'habitude à ceci :
 
 	Merge branch 'prob53'
@@ -438,13 +438,13 @@ De nombreux développeurs utilisent Git avec une méthode qui utilise cette appr
 Ils ont une autre branche en parallèle appelée develop qui, lorsqu'elle devient stable, peut être fusionnée dans `master`.
 Cette branche est utilisée pour tirer des branches spécifiques (branches avec une faible durée de vie, telles que notre branche `prob53`) quand elles sont prêtes, s'assurer qu'elles passent l'integralité des tests et n'introduisent pas de bugs.
 
-En réalité, nous parlons de pointeurs qui se déplacent le long des lignes des commits réalisés.
-Les branches stables sont plus en profondeur dans la ligne de l'historique des commits tandis que les branches des derniers développements sont plus en hauteur dans l'historique (voir figure 3-18).
+En réalité, nous parlons de pointeurs qui se déplacent le long des lignes des *commits* réalisés.
+Les branches stables sont plus en profondeur dans la ligne de l'historique des *commits* tandis que les branches des derniers développements sont plus en hauteur dans l'historique (voir figure 3-18).
 
 Insert 18333fig0318.png
-Figure 3-18. Les branches les plus stables sont généralement plus bas dans l'historique des commits.
+Figure 3-18. Les branches les plus stables sont généralement plus bas dans l'historique des *commits*.
 
-C'est généralement plus simple d'y penser en terme de silos de tâches, où un ensemble de commits évolue vers un silo plus stable quand il a été complètement testé (voir figure 3-19).
+C'est généralement plus simple d'y penser en terme de silos de tâches, où un ensemble de *commits* évolue vers un silo plus stable quand il a été complètement testé (voir figure 3-19).
 
 Insert 18333fig0319.png
 Figure 3-19. Représentation des branches comme des silos.
@@ -468,13 +468,13 @@ Il est beaucoup plus simple de réaliser des revues de code parce que votre trav
 Vous pouvez entreposer vos modifications ici pendant des minutes, des jours ou des mois, puis les fusionner quand elles sont prêtes, indépendamment de l'ordre dans lequel elles ont été créées ou de développées.
 
 Supposons un exemple où pendant un travail (sur `master`), vous branchiez pour un problème (`prob91`), travailliez un peu dessus, vous branchiez une seconde branche pour essayer de trouver une autre manière de le résoudre (`prob91v2`), vous retourniez sur la branche `master` pour y travailler pendant un moment, pour finalement brancher sur une dernière branche (`ideeidiote`) contenant une idée dont vous doutez.
-Votre historique de commit pourrait ressembler à la figure 3-20.
+Votre historique de *commit* pourrait ressembler à la figure 3-20.
 
 Insert 18333fig0320.png
-Figure 3-20. Votre historique de commit avec de multiples branches thématiques.
+Figure 3-20. Votre historique de *commit* avec de multiples branches thématiques.
 
 Maintenant, supposons que vous décidiez que vous préférez la seconde solution pour le problème (`prob91v2`) et que vous ayez montré la branche `ideeidiote` à vos collègues qui vous ont dit qu'elle était géniale.
-Vous pouvez jeter la branche `prob91` originale (en effaçant les commits C5 et C6) et fusionner les deux autres.
+Vous pouvez jeter la branche `prob91` originale (en effaçant les *commits* C5 et C6) et fusionner les deux autres.
 Votre historique ressemble à présent à la figure 3-21.
 
 Insert 18333fig0321.png
@@ -492,15 +492,15 @@ Les branches distantes agissent comme des marques-pages pour vous aider à vous 
 
 Elles prennent la forme de `(distant)/(branche)`.
 Par exemple, si vous souhaitiez visualiser l'état de votre branche `master` sur le dépôt distant `origin` lors de votre dernière communication, il vous suffit de vérifier la branche `origin/master`.
-Si vous étiez en train de travailler avec un collègue et qu'il a mis à jour la branche `prob53`, vous pourriez avoir votre propre branche `prob53` ; mais la branche sur le serveur pointerait sur le commit de `origin/prob53`.
+Si vous étiez en train de travailler avec un collègue et qu'il a mis à jour la branche `prob53`, vous pourriez avoir votre propre branche `prob53` ; mais la branche sur le serveur pointerait sur le *commit* de `origin/prob53`.
 
 Cela peut paraître déconcertant, alors éclaircissons les choses par un exemple.
 Supposons que vous avez un serveur Git sur le réseau à l'adresse `git.notresociete.com`.
 Si vous clonez à partir de ce serveur, Git le nomme automatiquement `origin` et en tire tout l'historique, crée un pointeur sur l'état actuel de la branche `master` et l'appelle localement `origin/master` ; vous ne pouvez pas la modifier.
-Git vous crée votre propre branche `master` qui démarre au même commit que la branche `master` d'origine, pour que vous puissiez commencer à travailler (voir figure 3-22).
+Git vous crée votre propre branche `master` qui démarre au même *commit* que la branche `master` d'origine, pour que vous puissiez commencer à travailler (voir figure 3-22).
 
 Insert 18333fig0322.png
-Figure 3-22. Un clonage Git vous fournit une branche master et une branche origin/master pointant sur la branche master de l'origine.
+Figure 3-22. Un clonage Git vous fournit une branche `master` et une branche `origin/master` pointant sur la branche `master` de l'origine.
 
 Si vous travaillez sur votre branche locale `master` et que dans le même temps, quelqu'un pousse vers `git.notresociete.com` et met à jour cette branche, alors vos deux historiques divergent.
 Tant que vous restez sans contact avec votre serveur distant, votre pointeur `origin/master` n'avance pas (voir figure 3-23).
@@ -523,10 +523,10 @@ Insert 18333fig0325.png
 Figure 3-25. Ajouter un autre serveur comme accès distant.
 
 Maintenant, lancez `git fetch equipeun` pour récupérer l'ensemble des informations du serveur distant `equipeun` que vous ne possédez pas.
-Comme ce serveur contient déjà un sous-ensemble des données du serveur `origin`, Git ne récupère aucune donnée mais positionne une branche distante appelée `equipeun/master` qui pointe sur le commit que `equipeun` a comme branche `master` (voir figure 3-26).
+Comme ce serveur contient déjà un sous-ensemble des données du serveur `origin`, Git ne récupère aucune donnée mais positionne une branche distante appelée `equipeun/master` qui pointe sur le *commit* que `equipeun` a comme branche `master` (voir figure 3-26).
 
 Insert 18333fig0326.png
-Figure 3-26. Vous récupérez une référence locale à la branche master de equipeun.
+Figure 3-26. Vous récupérez une référence locale à la branche `master` de equipeun.
 
 ### Pousser vers un serveur ###
 
@@ -624,13 +624,13 @@ Dans ce chapitre, vous apprendrez la signification de rebaser, comment le faire,
 
 ### Les bases ###
 
-Si vous revenez à un exemple précédent du chapitre sur la fusion (voir la figure 3-27), vous remarquerez que votre travail a divergé et que vous avez ajouté de commits sur deux branches différentes.
+Si vous revenez à un exemple précédent du chapitre sur la fusion (voir la figure 3-27), vous remarquerez que votre travail a divergé et que vous avez ajouté de *commits* sur deux branches différentes.
 
 Insert 18333fig0327.png
 Figure 3-27. Votre historique divergent initial.
 
 Comme nous l'avons déjà expliqué, le moyen le plus simple pour intégrer ensemble ces branches est la fusion via la commande `merge`.
-Cette commande réalise une fusion à trois branches entre les deux derniers instantanés de chaque branche (C3 et C4) et l'ancêtre commun le plus récent (C2), créant un nouvel instantané (et un commit), comme montré par la figure 3-28.
+Cette commande réalise une fusion à trois branches entre les deux derniers instantanés de chaque branche (C3 et C4) et l'ancêtre commun le plus récent (C2), créant un nouvel instantané (et un *commit*), comme montré par la figure 3-28.
 
 Insert 18333fig0328.png
 Figure 3-28. Fusion d'une branche pour intégrer les historiques divergents.
@@ -652,10 +652,10 @@ La figure 3-29 illustre ce processus.
 Insert 18333fig0329.png
 Figure 3-29. Rebaser les modifications introduites par C3 sur C4.
 
-À ce moment, vous pouvez retourner sur la branche master et réaliser une fusion en avance rapide (voir figure 3-30).
+À ce moment, vous pouvez retourner sur la branche `master` et réaliser une fusion en avance rapide (voir figure 3-30).
 
 Insert 18333fig0330.png
-Figure 3-30. Avance rapide sur la branche master.
+Figure 3-30. Avance rapide sur la branche `master`.
 
 À présent, l'instantané pointé par C3' est exactement le même que celui pointé par C5 dans l'exemple de fusion.
 Il n'y a pas de différence entre les résultats des deux types d'intégration, mais rebaser rend l'historique plus clair.
@@ -665,22 +665,22 @@ Vous aurez souvent à rebaser pour vous assurer que les patchs que vous envoyez 
 Dans ce cas, vous réaliseriez votre travail dans une branche puis vous rebaseriez votre travail sur `origin/master` quand vous êtes prêt à soumettre vos patches au projet principal.
 De cette manière, le mainteneur n'a pas à réaliser de travail d'intégration — juste une avance rapide ou simplement une application propre.
 
-Il faut noter que l'instantané pointé par le commit final, qu'il soit le dernier des commits d'une opération de rebase ou le commit final issu d'une fusion, sont en fait le même instantané — c'est juste que l'historique est différent.
-Rebaser rejoue les modifications d'une ligne de commits sur une autre dans l'ordre d'apparition, alors que la fusion joint et fusionne les deux têtes.
+Il faut noter que l'instantané pointé par le *commit* final, qu'il soit le dernier des *commits* d'une opération de rebase ou le *commit* final issu d'une fusion, sont en fait le même instantané — c'est juste que l'historique est différent.
+Rebaser rejoue les modifications d'une ligne de *commits* sur une autre dans l'ordre d'apparition, alors que la fusion joint et fusionne les deux têtes.
 
 ### Rebasages plus intéressants ###
 
 Vous pouvez aussi faire rejouer votre rebasage sur autre chose qu'une branche.
 Prenez l'historique de la figure 3-31 par exemple.
-Vous avez créé une branche pour un sujet spécifique (`serveur`) pour ajouter des fonctionnalités côté serveur à votre projet et avez réalisé un commit.
+Vous avez créé une branche pour un sujet spécifique (`serveur`) pour ajouter des fonctionnalités côté serveur à votre projet et avez réalisé un *commit*.
 Ensuite, vous avez créé une branche pour ajouter des modifications côté client (`client`) et avez validé plusieurs fois.
-Finalement, vous avez rebasculé sur la branche `serveur` et avez réalisé quelques commits supplémentaires.
+Finalement, vous avez rebasculé sur la branche `serveur` et avez réalisé quelques *commits* supplémentaires.
 
 Insert 18333fig0331.png
 Figure 3-31. Un historique avec une branche qui sort d'une autre branche thématique.
 
 Supposons que vous décidez que vous souhaitez fusionner vos modifications pour le côté client dans votre ligne principale pour une publication mais vous souhaitez retenir les modifications pour la partie serveur jusqu'à ce qu'elles soient un peu plus testées.
-Vous pouvez récupérer les modifications pour le côté client qui ne sont pas sur le serveur (C8 et C9) et les rejouer sur la branche master en utilisant l'option `--onto` de `git rebase` :
+Vous pouvez récupérer les modifications pour le côté client qui ne sont pas sur le serveur (C8 et C9) et les rejouer sur la branche `master` en utilisant l'option `--onto` de `git rebase` :
 
 	$ git rebase --onto master serveur client
 
@@ -690,23 +690,23 @@ C'est assez complexe, mais le résultat visible sur la figure 3-32 est assez imp
 Insert 18333fig0332.png
 Figure 3-32. Rebaser une branche thématique sur une autre branche.
 
-Maintenant, vous pouvez faire une avance rapide sur votre branche master (voir figure 3-33) :
+Maintenant, vous pouvez faire une avance rapide sur votre branche `master` (voir figure 3-33) :
 
 	$ git checkout master
 	$ git merge client
 
 Insert 18333fig0333.png
-Figure 3-33. Avance rapide sur votre branche master pour inclure les modifications de la branche client.
+Figure 3-33. Avance rapide sur votre branche `master` pour inclure les modifications de la branche client.
 
 Supposons que vous décidiez de tirer votre branche `serveur` aussi.
-Vous pouvez rebaser la branche `serveur` sur la branche master sans avoir à l'extraire avant en utilisant `git rebase [branchedebase] [branchedesujet]` — qui extrait la branche thématique (dans notre cas, `serveur`) pour vous et la rejoue sur la branche de base (`master`) :
+Vous pouvez rebaser la branche `serveur` sur la branche `master` sans avoir à l'extraire avant en utilisant `git rebase [branchedebase] [branchedesujet]` — qui extrait la branche thématique (dans notre cas, `serveur`) pour vous et la rejoue sur la branche de base (`master`) :
 
 	$ git rebase master serveur
 
 Cette commande rejoue les modifications de `serveur` sur le sommet de la branche `master`, comme indiqué dans la figure 3-34.
 
 Insert 18333fig0334.png
-Figure 3-34. Rebaser la branche serveur sur le sommet de la branche master.
+Figure 3-34. Rebaser la branche serveur sur le sommet de la branche `master`.
 
 Ensuite, vous pouvez faire une avance rapide sur la branche de base (`master`) :
 
@@ -719,23 +719,23 @@ Vous pouvez effacer les branches `client` et `serveur` une fois que tout le trav
 	$ git branch -d serveur
 
 Insert 18333fig0335.png
-Figure 3-35. L'historique final des commits.
+Figure 3-35. L'historique final des *commits*.
 
 ### Les dangers de rebaser ###
 
 Ah... mais les joies de rebaser ne viennent pas sans leurs contreparties, qui peuvent être résumées en une ligne :
 
-**Ne rebasez jamais des commits qui ont déjà été poussés sur un dépôt public.**
+**Ne rebasez jamais des *commits* qui ont déjà été poussés sur un dépôt public.**
 
 Si vous suivez ce conseil, tout ira bien.
 Sinon, de nombreuses personnes vont vous haïr et vous serez méprisé par vos amis et votre famille.
 
-Quand vous rebasez des données, vous abandonnez les commits existants et vous en créez de nouveaux qui sont similaires mais différents.
-Si vous poussez des commits quelque part, que d'autres les tirent et se basent dessus pour travailler, et qu'après coup, vous réécrivez ces commits à l'aide de `git rebase` et les poussez à nouveau, vos collaborateurs devront re-fusionner leur travail et les choses peuvent rapidement devenir très désordonnées quand vous essaierez de tirer leur travail dans votre dépôt.
+Quand vous rebasez des données, vous abandonnez les *commits* existants et vous en créez de nouveaux qui sont similaires mais différents.
+Si vous poussez des *commits* quelque part, que d'autres les tirent et se basent dessus pour travailler, et qu'après coup, vous réécrivez ces *commits* à l'aide de `git rebase` et les poussez à nouveau, vos collaborateurs devront re-fusionner leur travail et les choses peuvent rapidement devenir très désordonnées quand vous essaierez de tirer leur travail dans votre dépôt.
 
 Examinons un exemple expliquant comment rebaser un travail déjà publié sur un dépôt public peut générer des gros problèmes.
 Supposons que vous clonez un dépôt depuis un serveur central et réalisez quelques travaux dessus.
-Votre historique de commits ressemble à la figure 3-36.
+Votre historique de *commits* ressemble à la figure 3-36.
 
 Insert 18333fig0336.png
 Figure 3-36. Cloner un dépôt et baser du travail dessus.
@@ -744,30 +744,30 @@ A présent, une autre personne travaille et inclut une fusion, puis elle pousse 
 Vous le récupérez et vous fusionnez la nouvelle branche distante dans votre copie, ce qui donne l'historique de la figure 3-37.
 
 Insert 18333fig0337.png
-Figure 3-37. Récupération de commits et fusion dans votre copie.
+Figure 3-37. Récupération de *commits* et fusion dans votre copie.
 
 Ensuite, la personne qui a poussé le travail que vous venez de fusionner décide de faire marche arrière et de rebaser son travail.
 Elle lance un `git push --force` pour forcer l'écrasement de l'historique sur le serveur.
-Vous récupérez alors les données du serveur, qui vous amènent les nouveaux commits.
+Vous récupérez alors les données du serveur, qui vous amènent les nouveaux *commits*.
 
 Insert 18333fig0338.png
-Figure 3-38. Quelqu'un pousse des commits rebasés, en abandonnant les commits sur lesquels vous avez fondé votre travail.
+Figure 3-38. Quelqu'un pousse des *commits* rebasés, en abandonnant les *commits* sur lesquels vous avez fondé votre travail.
 
 
 A ce moment, vous devez fusionner son travail une nouvelle fois, même si vous l'avez déjà fait.
-Rebaser change les empreintes SHA-1 de ces commits, ce qui les rend nouveaux aux yeux de Git, alors qu'en fait, vous avez déjà le travail de C4 dans votre historique (voir figure 3-39).
+Rebaser change les empreintes SHA-1 de ces *commits*, ce qui les rend nouveaux aux yeux de Git, alors qu'en fait, vous avez déjà le travail de C4 dans votre historique (voir figure 3-39).
 
 
 Insert 18333fig0339.png
-Figure 3-39. Vous fusionnez le même travail une nouvelle fois dans un nouveau commit de fusion.
+Figure 3-39. Vous fusionnez le même travail une nouvelle fois dans un nouveau *commit* de fusion.
 
 Vous devez fusionner ce travail pour pouvoir continuer à suivre ce développeur dans le futur.
-Après fusion, votre historique contient à la fois les commits C4 et C4', qui ont des empreintes SHA-1 différentes mais introduisent les même modifications et ont les mêmes messages de validation.
-Si vous lancez `git log` lorsque votre historique ressemble à ceci, vous verrez deux commits qui ont la même date d'auteur et les mêmes messages, ce qui est déroutant.
-De plus, si vous poussez cet historique sur le serveur, vous réintroduirez tous ces commits rebasés sur le serveur central, ce qui va encore plus dérouter les autres développeurs.
+Après fusion, votre historique contient à la fois les *commits* C4 et C4', qui ont des empreintes SHA-1 différentes mais introduisent les même modifications et ont les mêmes messages de validation.
+Si vous lancez `git log` lorsque votre historique ressemble à ceci, vous verrez deux *commits* qui ont la même date d'auteur et les mêmes messages, ce qui est déroutant.
+De plus, si vous poussez cet historique sur le serveur, vous réintroduirez tous ces *commits* rebasés sur le serveur central, ce qui va encore plus dérouter les autres développeurs.
 
-Si vous considérez le fait de rebaser comme un moyen de nettoyer et réarranger des commits avant de les pousser et si vous vous en tenez à ne rebaser que des commits qui n'ont jamais été publiés, tout ira bien.
-Si vous tentez de rebaser des commits déjà publiés sur lesquels les gens ont déjà basé leur travail, vous allez au devant de gros problèmes énervants.
+Si vous considérez le fait de rebaser comme un moyen de nettoyer et réarranger des *commits* avant de les pousser et si vous vous en tenez à ne rebaser que des *commits* qui n'ont jamais été publiés, tout ira bien.
+Si vous tentez de rebaser des *commits* déjà publiés sur lesquels les gens ont déjà basé leur travail, vous allez au devant de gros problèmes énervants.
 
 ## Résumé ##
 

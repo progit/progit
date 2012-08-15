@@ -23,14 +23,14 @@ Pour l'instant, aucun fichier n'est encore versionné.
 (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
 
 Si vous souhaitez commencer à suivre les versions des fichiers existants (contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire une validation initiale.
-Vous pouvez réaliser ceci avec une poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'un commit :
+Vous pouvez réaliser ceci avec une poignée de commandes Git qui spécifient les fichiers que vous souhaitez suivre, suivi d'une validation :
 
 	$ git add *.c
 	$ git add README
 	$ git commit –m 'version initiale du projet'
 
 Nous allons passer en revue ce que ces commandes font dans une petite minute.
-Pour l'instant, vous avez un dépôt git avec des fichiers sous gestion de version et un commit initial.
+Pour l'instant, vous avez un dépôt git avec des fichiers sous gestion de version et une validation initiale.
 
 ### Cloner un dépôt existant ###
 
@@ -88,7 +88,7 @@ Si vous lancez cette commande juste après un clonage, vous devriez voir ce qui 
 Ce message signifie que votre copie de travail est propre, en d'autres mots, aucun fichier suivi n'a été modifié.
 Git ne voit pas non plus de fichiers non-suivis, sinon ils seraient listés ici.
 Enfin, la commande vous indique sur quelle branche vous êtes.
-Pour l'instant, c'est toujours master, qui correspond à la valeur par défaut ; nous ne nous en soucierons pas maintenant.
+Pour l'instant, c'est toujours *master*, qui correspond à la valeur par défaut ; nous ne nous en soucierons pas maintenant.
 Dans le chapitre suivant, nous parlerons plus en détail des branches et des références.
 
 Supposons que vous ajoutiez un nouveau fichier à votre projet, un simple fichier LISEZMOI.
@@ -125,7 +125,7 @@ Si vous lancez à nouveau le commande status, vous pouvez constater que votre fi
 	#	new file:   LISEZMOI
 	#
 
-Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à enregistrer). Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
+Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à valider). Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
 Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` — c'était bien sur pour commencer à placer sous suivi de version les fichiers de votre répertoire de travail.
 La commande git add accepte en paramètre un chemin qui correspond à un fichier ou un répertoire ; dans le cas d'un répertoire, la commande ajoute récursivement tous les fichiers de ce répertoire.
 
@@ -183,7 +183,7 @@ Néanmoins, vous lancez `git status` une dernière fois :
 
 Que s'est-il donc passé ? À présent, benchmarks.rb apparaît à la fois comme indexé et non indexé.
 En fait, Git indexe un fichier dans son état au moment où la commande `git add` est lancée.
-Si on valide les modifications maintenant, la version de benchmarks.rb qui fera partie de l'instantané est celle correspondant au moment où la commande `git add benchmarks.rb` a été lancée, et non la version actuellement présente dans la copie de travail au moment où la commande git commit est lancée.
+Si on valide les modifications maintenant, la version de benchmarks.rb qui fera partie de l'instantané est celle correspondant au moment où la commande `git add benchmarks.rb` a été lancée, et non la version actuellement présente dans la copie de travail au moment où la commande `git commit` est lancée.
 Si le fichier est modifié après un `git add`, il faut relancer `git add` pour prendre en compte l'état actuel dans la copie de travail :
 
 	$ git add benchmarks.rb
@@ -372,9 +372,9 @@ L'éditeur affiche le texte suivant :
 Vous constatez que le message de validation par défaut contient une ligne vide suivie en commentaire le résultat de la commande `git status`.
 Vous pouvez effacer ces lignes de commentaire et saisir votre propre message de validation, ou vous pouvez les laisser en place vous aider à vous rappeler de ce que vous êtes en train de valider (pour un rappel plus explicite de ce que vous avez modifié, vous pouvez aussi passer l'option `-v` à la commande `git commit`.
 Cette option place le résultat du diff en commentaire dans l'éditeur pour vous permettre de visualiser exactement ce que vous avez modifié.
-Quand vous quittez l'éditeur (après avoir sauvegardé le message), Git crée votre commit avec ce message de validation (après avoir retiré les commentaires et le diff).
+Quand vous quittez l'éditeur (après avoir sauvegardé le message), Git crée votre *commit* avec ce message de validation (après avoir retiré les commentaires et le diff).
 
-D'une autre manière, vous pouvez spécifier votre message de validation en ligne avec la commande `commit` en le saisissant après l'option `-m`, comme ceci :
+D'une autre manière, vous pouvez spécifier votre message de validation en ligne avec la commande `git commit` en le saisissant après l'option `-m`, comme ceci :
 
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
@@ -382,7 +382,7 @@ D'une autre manière, vous pouvez spécifier votre message de validation en lign
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 LISEZMOI
 
-A présent, vous avez créé votre premier commit ! Vous pouvez constater que le commit vous fournit quelques informations sur lui-même : sur quelle branche vous avez validé (master), quelle est sa somme de contrôle SHA-1 (`463dc4f`), combien de fichiers ont été modifiés, et quelques statistiques sur les lignes ajoutées et effacées dans ce commit.
+A présent, vous avez créé votre premier *commit* ! Vous pouvez constater que le *commit* vous fournit quelques informations sur lui-même : sur quelle branche vous avez validé (`master`), quelle est sa somme de contrôle SHA-1 (`463dc4f`), combien de fichiers ont été modifiés, et quelques statistiques sur les lignes ajoutées et effacées dans ce *commit*.
 
 Souvenez-vous que la validation enregistre l'instantané que vous avez préparé dans la zone d'index.
 Tout ce que vous n'avez pas indexé est toujours en état modifié ; vous pouvez réaliser une nouvelle validation pour l'ajouter à l'historique.
@@ -390,7 +390,7 @@ A chaque validation, vous enregistrez un instantané du projet en forme de jalon
 
 ### Éliminer la phase d'indexation ###
 
-Bien qu'il soit incroyablement utile de pouvoir organiser les commits exactement comme on l'entend, la gestion de la zone d'index est parfois plus complexe que nécessaire dans le cadre d'une utilisation normale.
+Bien qu'il soit incroyablement utile de pouvoir organiser les *commits* exactement comme on l'entend, la gestion de la zone d'index est parfois plus complexe que nécessaire dans le cadre d'une utilisation normale.
 Si vous souhaitez éviter la phase de placement des fichiers dans la zone d'index, Git fournit un raccourcis très simple.
 L'ajout de l'option `-a` à la commande `git commit` ordonne à Git de placer automatiquement tout fichier déjà en suivi de version dans la zone d'index avant de réaliser la validation, évitant ainsi d'avoir à taper les commandes `git add` :
 
@@ -499,7 +499,7 @@ Le point principal est que vous pouvez utiliser n'importe quel outil pour renomm
 
 ## Visualiser l'historique des validations ##
 
-Après avoir créé plusieurs commits ou si vous avez cloné un dépôt ayant un historique de commits, vous souhaitez probablement revoir le fil des évènements.
+Après avoir créé plusieurs *commits* ou si vous avez cloné un dépôt ayant un historique de *commits*, vous souhaitez probablement revoir le fil des évènements.
 La commande `git log` est l'outil le plus basique et puissant pour cet objet.
 
 Les exemples qui suivent utilisent un projet très simple nommé simplegit utilisé pour les démonstrations.
@@ -528,9 +528,9 @@ Lorsque vous lancez `git log` dans le répertoire de ce projet, vous devriez obt
 
 	    first commit
 
-Par défaut, `git log` invoqué sans argument énumère en ordre chronologique inversé les commits réalisés.
-Cela signifie que les commits les plus récents apparaissent en premier.
-Comme vous le remarquez, cette commande indique chaque commit avec sa somme de contrôle SHA-1, le nom et l'e-mail de l'auteur, la date et le message du commit.
+Par défaut, `git log` invoqué sans argument énumère en ordre chronologique inversé les *commits* réalisés.
+Cela signifie que les *commits* les plus récents apparaissent en premier.
+Comme vous le remarquez, cette commande indique chaque *commit* avec sa somme de contrôle SHA-1, le nom et l'e-mail de l'auteur, la date et le message du *commit*.
 
 `git log` dispose d'un très grand nombre d'options permettant de paramétrer exactement ce que l'on cherche à voir.
 Nous allons détailler quelques unes des plus utilisées.
@@ -580,7 +580,7 @@ Cette option affiche la même information mais avec un diff suivant directement 
 C'est très utile pour des revues de code ou pour naviguer rapidement à travers l'historique des modifications qu'un collaborateur a apportées.
 
 Vous pouvez aussi utiliser une liste d'options de résumé avec `git log`.
-Par exemple, si vous souhaitez visualiser des statistiques résumées pour chaque commit, vous pouvez utiliser l'option `--stat` :
+Par exemple, si vous souhaitez visualiser des statistiques résumées pour chaque *commit*, vous pouvez utiliser l'option `--stat` :
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -617,7 +617,7 @@ Elle ajoute un résumé des informations en fin de sortie.
 Une autre option utile est `--pretty`.
 Cette option modifie le journal vers un format différent.
 Quelques options incluses sont disponibles.
-L'option `oneline` affiche chaque commit sur une seule ligne, ce qui peut s'avérer utile lors de la revue d'un long journal.
+L'option `oneline` affiche chaque *commit* sur une seule ligne, ce qui peut s'avérer utile lors de la revue d'un long journal.
 De plus, les options `short` (court), `full` (complet) et `fuller` (plus complet) montrent le résultat à peu de choses près dans le même format mais avec plus ou moins d'informations :
 
 	$ git log --pretty=oneline
@@ -637,7 +637,7 @@ Le tableau 2-1 liste les options de formatage les plus utiles.
 
 	Option	Description du formatage
 	%H	Somme de contrôle du commit
-	%h	Somme de contrôle abrégée du commit
+	%h	Somme de contrôle abrégée du *commit*
 	%T	Somme de contrôle de l'arborescence
 	%t	Somme de contrôle abrégée de l'arborescence
 	%P	Sommes de contrôle des parents
@@ -676,7 +676,7 @@ Les options ci-dessus ne sont que des options simples de format de sortie de `gi
 Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'autres options communément utilisées accompagnées de la manière dont elles modifient le résultat de la commande `log`.
 
 	Option	Description
-	-p	Affiche le patch appliqué par chaque commit
+	-p	Affiche le patch appliqué par chaque *commit*
 	--stat	Affiche les statistiques de chaque fichier pour chaque commit
 	--shortstat	N'affiche que les ligne modifiées/insérées/effacées de l'option --stat
 	--name-only	Affiche la liste des fichiers modifiés après les informations du commit
@@ -684,28 +684,28 @@ Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'
 	--abbrev-commit	N'affiche que les premiers caractères de la somme de contrôle SHA-1
 	--relative-date	Affiche la date en format relatif (par exemple "2 weeks ago" : il y a deux semaines) au lieu du format de date complet
 	--graph	Affiche en caractère ASCII le graphe de branches et fusions en vis-à-vis de l'historique
-	--pretty=<format>	Affiche les commits dans un format alternatif. Les formats incluent oneline, short, full, fuller, et format (où on peut spécifier son propre format)
+	--pretty=<format>	Affiche les *commits* dans un format alternatif. Les formats incluent oneline, short, full, fuller, et format (où on peut spécifier son propre format)
 
 ### Limiter la longueur de l'historique ###
 
-En complément des options de formatage de sortie, git log est pourvu de certaines options de limitation utiles — des options qui permettent de restreindre la liste à un sous-ensemble de commits.
-Vous avez déjà vu une de ces options — l'option `-2` qui ne montre que le deux derniers commits.
-En fait, on peut utiliser `-<n>`, ou `n` correspond au nombre de commits que l'on cherche à visualiser en partant des plus récents.
+En complément des options de formatage de sortie, git log est pourvu de certaines options de limitation utiles — des options qui permettent de restreindre la liste à un sous-ensemble de *commits*.
+Vous avez déjà vu une de ces options — l'option `-2` qui ne montre que le deux derniers *commits*.
+En fait, on peut utiliser `-<n>`, ou `n` correspond au nombre de *commits* que l'on cherche à visualiser en partant des plus récents.
 En vérité, il est peu probable que vous utilisiez cette option, parce que Git injecte par défaut sa sortie dans un outil de pagination qui permet de la visualiser page à page.
 
 Cependant, les options de limitation portant sur le temps, telles que `--since` (depuis) et `--until` (jusqu'à) sont très utiles.
-Par exemple, le commande suivante affiche la liste des commits des deux dernières semaines :
+Par exemple, le commande suivante affiche la liste des *commits* des deux dernières semaines :
 
 	$ git log --since=2.weeks
 
 Cette commande fonctionne avec de nombreux formats — vous pouvez indiquer une date spécifique (2008-01-05) ou une date relative au présent telle que "2 years 1 day 3 minutes ago".
 
-Vous pouvez aussi restreindre la liste aux commits vérifiant certains critères de recherche.
+Vous pouvez aussi restreindre la liste aux *commits* vérifiant certains critères de recherche.
 L'option `--author` permet de filtrer sur un auteur spécifique, et l'option `--grep` permet de chercher des mots clés dans les messages de validation.
-Notez que si vous cherchez seulement des commits correspondant simultanément aux deux critères, vous devez ajouter l'option `--all-match`, car par défaut ces commandes retournent les commits vérifiant au moins un critère lors de recherche de chaînes de caractères.
+Notez que si vous cherchez seulement des *commits* correspondant simultanément aux deux critères, vous devez ajouter l'option `--all-match`, car par défaut ces commandes retournent les *commits* vérifiant au moins un critère lors de recherche de chaînes de caractères.
 
 La dernière option vraiment utile à `git log` est la spécification d'un chemin.
-Si un répertoire ou un nom de fichier est spécifié, le journal est limité aux commits qui ont introduit des modifications aux fichiers concernés.
+Si un répertoire ou un nom de fichier est spécifié, le journal est limité aux *commits* qui ont introduit des modifications aux fichiers concernés.
 C'est toujours la dernière option de la commande, souvent précédée de deux tirets (`--`) pour séparer le chemin des options précédentes.
 
 Le tableau 2-3 récapitule les options que nous venons de voir ainsi que quelques autres pour référence.
@@ -717,7 +717,7 @@ Le tableau 2-3 récapitule les options que nous venons de voir ainsi que quelque
 	--author	Ne montre que les commits dont le champ auteur correspond à la chaîne passée en argument
 	--committer	Ne montre que les commits dont le champ validateur correspond à la chaîne passée en argument
 
-Par exemple, si vous souhaitez visualiser quels commits modifiant les fichiers de test dans l'historique du source de Git ont été validés par Junio Hamano et n'étaient pas des fusions durant le mois d'octobre 2008, vous pouvez lancer ce qui suit :
+Par exemple, si vous souhaitez visualiser quels *commits* modifiant les fichiers de test dans l'historique du source de Git ont été validés par Junio Hamano et n'étaient pas des fusions durant le mois d'octobre 2008, vous pouvez lancer ce qui suit :
 
 	$ git log --pretty="%h — %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -728,7 +728,7 @@ Par exemple, si vous souhaitez visualiser quels commits modifiant les fichiers d
 	51a94af — Fix "checkout --track -b newbranch" on detac
 	b0ad11e — pull: allow "git pull origin $something:$cur
 
-A partir des 20 000 commits constituant l'historique des sources de Git, cette commande extrait les 6 qui correspondent aux critères.
+A partir des 20 000 *commits* constituant l'historique des sources de Git, cette commande extrait les 6 qui correspondent aux critères.
 
 ### Utiliser une interface graphique pour visualiser l'historique ###
 
@@ -739,8 +739,8 @@ Si vous tapez gitk en ligne de commande, vous devriez voir une interface ressemb
 Insert 18333fig0202.png
 Figure 2-2. Le visualiseur d'historique gitk
 
-Vous pouvez voir l'historique des commits dans la partie supérieure de la fenêtre avec un graphique d'enchaînement.
-Le visualisateur de diff dans la partie inférieure de la fenêtre affiche les modifications introduites par le commit sélectionné.
+Vous pouvez voir l'historique des *commits* dans la partie supérieure de la fenêtre avec un graphique d'enchaînement.
+Le visualisateur de diff dans la partie inférieure de la fenêtre affiche les modifications introduites par le *commit* sélectionné.
 
 ## Annuler des actions ##
 
@@ -749,14 +749,14 @@ Dans cette section, nous allons passer en revue quelques outils de base permetta
 Il faut être très attentif car certaines de ces annulations sont définitives (elles ne peuvent pas être elle-même annulées).
 C'est donc un des rares cas d'utilisation de Git où des erreurs de manipulation peuvent entraîner des pertes définitives de données.
 
-### Modifier le dernier commit ###
+### Modifier le dernier *commit* ###
 
 Une des annulations les plus communes apparaît lorsqu'on valide une modification trop tôt en oubliant d'ajouter certains fichiers, ou si on se trompe dans le message de validation.
 Si vous souhaitez rectifier cette erreur, vous pouvez valider le complément de modification avec l'option `--amend` :
 
 	$ git commit --amend
 
-Cette commande prend en compte la zone d'index et l'utilise pour le commit.
+Cette commande prend en compte la zone d'index et l'utilise pour le *commit*.
 Si aucune modification n'a été réalisée depuis la dernière validation (par exemple en lançant cette commande immédiatement après la dernière validation), alors l'instantané sera identique et la seule modification à introduire sera le message de validation.
 
 L'éditeur de message de validation démarre, mais il contient déjà le message de la validation précédente.
@@ -768,7 +768,7 @@ Par exemple, si vous validez une version puis réalisez que vous avez oublié de
 	$ git add fichier_oublie
 	$ git commit --amend
 
-Les trois dernières commandes donnent lieu à la création d'un unique commit — la seconde validation remplace le résultat de la première.
+Les trois dernières commandes donnent lieu à la création d'un unique *commit* — la seconde validation remplace le résultat de la première.
 
 ### Désindexer un fichier déjà indexé ###
 
@@ -841,7 +841,7 @@ Vous devriez aussi vous apercevoir que c'est une commande dangereuse : toutes l
 N'utilisez jamais cette commande à moins d'être vraiment sûr de ne pas vouloir de ces modifications.
 Si vous souhaitez seulement écarter momentanément cette modification, nous verrons comment mettre de côté et créer des branches dans le chapitre suivant ; ce sont de meilleures façons de procéder.
 Souvenez-vous, tout ce qui a été validé dans Git peut quasiment toujours être récupéré.
-Y compris des commits sur des branches qui ont été effacées ou des commits qui ont été écrasés par une validation avec l'option `--amend` (se référer au chapitre 9 pour la récupération de données).
+Y compris des *commits* sur des branches qui ont été effacées ou des *commits* qui ont été écrasés par une validation avec l'option `--amend` (se référer au chapitre 9 pour la récupération de données).
 Cependant, tout ce que vous perdez avant de l'avoir validé n'a aucune chance d'être récupérable via Git.
 
 ## Travailler avec des dépôts distants ##
@@ -914,7 +914,7 @@ Par exemple, si vous voulez récupérer toute l'information que Paul a mais que 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-La branche master de Paul est accessible localement en tant que `pb/master` — vous pouvez la fusionner dans une de vos propres branches, ou vous pouvez extraire une branche localement si vous souhaitez l'inspecter.
+La branche `master` de Paul est accessible localement en tant que `pb/master` — vous pouvez la fusionner dans une de vos propres branches, ou vous pouvez extraire une branche localement si vous souhaitez l'inspecter.
 
 ### Récupérer et tirer depuis des dépôts distants ###
 
@@ -932,14 +932,14 @@ Vous devez volontairement fusionner ses modifications distantes dans votre trava
 
 Si vous avez créé une branche pour suivre l'évolution d'une branche distante (Cf.
 la section suivante et le chapitre 3 pour plus d'information), vous pouvez utiliser la commande `git pull` qui récupère et fusionne automatiquement une branche distante dans votre branche locale.
-Ce comportement peut correspondre à une méthode de travail plus confortable, sachant que par défaut la commande `git clone` paramètre votre branche locale pour qu'elle suive la branche master du dépôt que vous avez cloné (en supposant que le dépôt distant ait une branche master).
+Ce comportement peut correspondre à une méthode de travail plus confortable, sachant que par défaut la commande `git clone` paramètre votre branche locale pour qu'elle suive la branche `master` du dépôt que vous avez cloné (en supposant que le dépôt distant ait une branche `master`).
 Lancer `git pull` récupère généralement les données depuis le serveur qui a été initialement cloné et essaie de les fusionner dans votre branche de travail actuel.
 
 ### Pousser son travail sur un dépôt distant ###
 
 Lorsque votre dépôt vous semble prêt à être partagé, il faut le pousser en amont.
 La commande pour le faire est simple : `git push [nom-distant] [nom-de-branche]`.
-Si vous souhaitez pousser votre branche master vers le serveur `origin` (pour rappel, cloner un dépôt définit automatiquement ces noms pour vous), alors vous pouvez lancez ceci pour pousser votre travail vers le serveur amont :
+Si vous souhaitez pousser votre branche `master` vers le serveur `origin` (pour rappel, cloner un dépôt définit automatiquement ces noms pour vous), alors vous pouvez lancez ceci pour pousser votre travail vers le serveur amont :
 
 	$ git push origin master
 
@@ -964,7 +964,7 @@ Si vous lancez cette commande avec un nom court particulier, tel que `origin`, v
 
 
 Cela donne le liste des URL pour le dépôt distant ainsi que la liste des branches distantes suivies.
-Cette commande vous informe que si vous êtes sur la branche master et si vous lancez `git pull`, il va automatiquement fusionner la branche master du dépôt distant après avoir récupéré toutes les références sur le serveur distant.
+Cette commande vous informe que si vous êtes sur la branche `master` et si vous lancez `git pull`, il va automatiquement fusionner la branche `master` du dépôt distant après avoir récupéré toutes les références sur le serveur distant.
 Cela donne aussi la liste des autres références qu'il aura tirées.
 
 Le résultat ci-dessus est un exemple simple mais réaliste de dépôt distant.
@@ -1045,7 +1045,7 @@ Si vous souhaitez ne visualiser que les séries 1.4.2, vous pouvez lancer ceci 
 ### Créer des étiquettes ###
 
 Git utilise deux types principaux d'étiquettes : légères et annotées.
-Une étiquette légère ressemble beaucoup à une branche qui ne change pas, c'est juste un pointeur sur un commit spécifique.
+Une étiquette légère ressemble beaucoup à une branche qui ne change pas, c'est juste un pointeur sur un *commit* spécifique.
 Les étiquettes annotées, par contre sont stockées en tant qu'objets à part entière dans la base de données de Git.
 Elles ont une somme de contrôle, contiennent le nom et l'adresse e-mail du créateur, la date, un message d'étiquetage et peuvent être signées et vérifiées avec GNU Privacy Guard (GPG).
 Il est généralement recommandé de créer des étiquettes annotées pour générer toute cette information mais si l'étiquette doit rester temporaire ou l'information supplémentaire n'est pas désirée, les étiquettes légères peuvent suffire.
@@ -1064,7 +1064,7 @@ Le plus simple est de spécifier l'option `-a` à la commande `tag` :
 L'option `-m` permet de spécifier le message d'étiquetage qui sera stocké avec l'étiquette.
 Si vous ne spécifiez pas de message en ligne pour une étiquette annotée, Git lance votre éditeur pour pouvoir le saisir.
 
-Vous pouvez visualiser les données de l'étiquette à côté du commit qui a été marqué en utilisant la commande `git show` :
+Vous pouvez visualiser les données de l'étiquette à côté du *commit* qui a été marqué en utilisant la commande `git show` :
 
 	$ git show v1.4
 	tag v1.4
@@ -1117,8 +1117,8 @@ Plus loin, nous verrons comment vérifier une étiquette signée.
 
 ### Les étiquettes légères ###
 
-Une autre manière d'étiqueter les commits est d'utiliser les étiquettes légères.
-Celles-ci se réduisent à stocker la somme de contrôle d'un commit dans un fichier, aucune autre information n'est conservée.
+Une autre manière d'étiqueter les *commits* est d'utiliser les étiquettes légères.
+Celles-ci se réduisent à stocker la somme de contrôle d'un *commit* dans un fichier, aucune autre information n'est conservée.
 Pour créer une étiquette légère, il suffit de n'utiliser aucune des option `-a`, `-s` ou `-m` :
 
 	$ git tag v1.4-lw
@@ -1168,8 +1168,8 @@ Si la clé publique du signataire n'est pas présente dans le trousseau, la comm
 
 ### Étiqueter après coup ###
 
-Vous pouvez aussi étiqueter des commits plus anciens.
-Supposons que l'historique des commits ressemble à ceci :
+Vous pouvez aussi étiqueter des *commits* plus anciens.
+Supposons que l'historique des *commits* ressemble à ceci :
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Fusion branche 'experimental'
@@ -1183,13 +1183,13 @@ Supposons que l'historique des commits ressemble à ceci :
 	964f16d36dfccde844893cac5b347e7b3d44abbc validation afaire
 	8a5cbc430f1a9c3d00faaeffd07798508422908a mise à jour lisezmoi
 
-Maintenant, supposons que vous avez oublié d'étiqueter le projet à la version v1.2 qui correspondait au commit "mise à jour rakefile".
+Maintenant, supposons que vous avez oublié d'étiqueter le projet à la version v1.2 qui correspondait au *commit* "mise à jour rakefile".
 Vous pouvez toujours le faire après l'évènement.
-Pour étiqueter ce commit, vous spécifiez la somme de contrôle du commit (ou une partie) en fin de commande :
+Pour étiqueter ce *commit*, vous spécifiez la somme de contrôle du *commit* (ou une partie) en fin de commande :
 
 	$ git tag -a v1.2 9fceb02
 
-Le commit a été étiqueté :
+Le *commit* a été étiqueté :
 
 	$ git tag
 	v0.1
@@ -1268,7 +1268,7 @@ Pressez la touche Tab lorsque vous écrivez une commande Git, et le shell devrai
 	$ git co<tab><tab>
 	commit config
 
-Dans ce cas, taper git co et appuyer sur la touche Tab deux fois suggère commit et config.
+Dans ce cas, taper git co et appuyer sur la touche Tab deux fois suggère *commit* et config.
 Ajouter `m<tab>` complète `git commit` automatiquement.
 
 Cela fonctionne aussi avec les options, ce qui est probablement plus utile.
@@ -1309,7 +1309,7 @@ Il est aussi commun d'ajouter un alias `last`, de la manière suivante :
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-Ainsi, vous pouvez visualiser plus facilement le dernier commit :
+Ainsi, vous pouvez visualiser plus facilement le dernier *commit* :
 	
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646

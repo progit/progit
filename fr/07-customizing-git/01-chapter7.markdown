@@ -389,8 +389,10 @@ Dans la branche 1.6 de Git, vous pouvez aussi utiliser une macro fournie qui sig
 Dans la branche 1.6 de Git, vous pouvez utiliser la fonctionnalité des attributs Git pour effectivement comparer les fichiers binaires.
 Pour ce faire, indiquez à Git comment convertir vos données binaires en format texte qui peut être comparé via un diff normal.
 
+##### Fichiers MS Word #####
+
 Comme c'est une fonctionnalité plutôt cool et peu connue, nous allons en voir quelques exemples.
-Premièrement, nous utiliserons cette technique pour résoudre un des problèmes les plus ennuyeux de l'humanité : gérer en contrôle de version les document Word.
+Premièrement, nous utiliserons cette technique pour résoudre un des problèmes les plus ennuyeux de l'humanité : gérer en contrôle de version les documents Word.
 Tout le monde convient que Word est l'éditeur de texte le plus horrible qui existe, mais bizarrement, tout le monde persiste à l'utiliser.
 Si vous voulez gérer en version des documents Word, vous pouvez les coller dans un dépôt Git et les valider de temps à autre.
 Mais qu'est-ce que ça vous apporte ?
@@ -413,6 +415,15 @@ Nous devons le définir.
 Vous allez configurer Git à utiliser le programme `strings` pour convertir les documents Word en fichiers texte lisibles qu'il pourra alors comparer correctement :
 
 	$ git config diff.word.textconv strings
+
+Cette commande ajoute à votre fichier `.git/config` une section qui ressemble à ceci :
+
+	[diff "word"]
+	  textconv = strings
+
+Note : il existe différents types de fichiers `.doc`.
+Certains utilisent un codage UTF-16 ou d'autres pages de codes plus exotiques dans lesquels `strings` ne trouvera aucune chaîne utile.
+Le résultat de ce filtre pour vos fichiers dépendra de ces conditions.
 
 À présent, Git sait que s'il essaie de faire un diff entre deux instantanés et qu'un des fichiers finit en `.doc`, il devrait faire passer ces fichiers par le filtre `word` défini comme le programme `strings`.
 Cette méthode fait effectivement des jolies versions texte de vos fichiers Word avant d'essayer de les comparer.
@@ -438,6 +449,61 @@ Git réussit à m'indiquer succinctement que j'ai ajouté la chaîne « *Let's 
 Ce n'est pas parfait car il y a toujours un tas de données aléatoires à la fin, mais c'est suffisant.
 Si vous êtes capable d'écrire un convertisseur Word vers texte qui fonctionne suffisamment bien, cette solution peut s'avérer très efficace.
 Cependant, `strings` est disponible sur la plupart des systèmes Mac et Linux et peut donc constituer un bon début pour de nombreux formats binaires.
+
+##### Fichiers OpenDocument texte #####
+
+Une approche identique à celle des fichiers MS Word (`*.doc`) peut être appliquée aux fichiers texte OpenDocument (`*.odt`) créés par OpenOffice.org ou LibreOffice.
+
+Ajoutez la ligne suivante à la fin de votre fichier `.gitattributes` :
+
+	*.odt diff=odt
+
+À présent, renseignez le filtre de différence `odt` dans `.git/config` :
+
+	[diff "odt"]
+		binary = true
+		textconv = /usr/local/bin/odt-to-txt
+
+Les fichiers OpenDocument sont en fait des répertoires compressés par zip, contenant de nombreux fichiers (le contenu en format XML, les feuilles de style, les images, etc.).
+Nous allons devoir écrire un script capable d'extraire le contenu et de l'afficher comme simple texte.
+Créez un fichier `/usr/local/bin/odt-to-txt` (vous êtes libre de le placer dans un répertoire différent) contenant le texte suivant :
+
+	#! /usr/bin/env perl
+	# Convertisseur simpliste OpenDocument Text (.odt) vers texte
+	# Author: Philipp Kempgen
+	
+	if (! defined($ARGV[0])) {
+		print STDERR "Pas de fichier fourni!\n";
+		print STDERR "Usage: $0 [nom du fichier]\n";
+		exit 1;
+	}
+	
+	my $content = '';
+	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+	{
+		local $/ = undef;  # slurp mode
+		$content = <$fh>;
+	}
+	close $fh;
+	$_ = $content;
+	s/<text:span\b[^>]*>//g;           # eliminer spans
+	s/<text:h\b[^>]*>/\n\n*****  /g;   # entetes
+	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # items de liste
+	s/<text:list\b[^>]*>/\n\n/g;       # listes
+	s/<text:p\b[^>]*>/\n  /g;          # paragraphes
+	s/<[^>]+>//g;                      # nettoyer les balises XML
+	s/\n{2,}/\n\n/g;                   # nettoyer les lignes vides consécutives
+	s/\A\n+//;                         # nettoyer les lignes vides d'entete
+	print "\n", $_, "\n\n";
+
+Puis rendez-le executable :
+
+	chmod +x /usr/local/bin/odt-to-txt
+
+Maintenant, `git diff` est capable de vous indiquer ce qui a changé dans les fichiers `odt`.
+
+
+##### Fichiers image #####
 
 Un autre problème intéressant concerne la comparaison de fichiers d'images.
 Une méthode consiste à faire passer les fichiers JPEG à travers un filtre qui extrait les données EXIF, les méta-données enregistrées avec la plupart de formats d'image.

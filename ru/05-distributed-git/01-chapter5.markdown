@@ -230,7 +230,7 @@ Insert 18333fig0508.png
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-Никаких проблем не возникло; как видите, это был обычная перемотка. Теперь Джессика сливает работу Джона (`origin/master`):
+Никаких проблем не возникло; как видите, это была обычная перемотка. Теперь Джессика сливает работу Джона (`origin/master`):
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb

@@ -69,10 +69,10 @@ Tous les lieutenants ont un unique gestionnaire d'intégration, le dictateur bé
 Le dépôt du dictateur sert de dépôt de référence à partir duquel tous les collaborateurs doivent tirer.
 Le processus se déroule comme suit (voir figure 5-3) :
 
-1.      Les développeurs de base travaillent sur la branche thématique et rebasent leur travail sur master. La branche master est celle du dictateur.
-2.      Les lieutenants fusionnent les branches thématiques des développeurs dans leur propre branche master.
-3.      Le dictateur fusionne les branches master de ses lieutenants dans sa propre branche master.
-4.      Le dictateur pousse sa branche master sur le dépôt de référence pour que les développeurs se rebasent dessus.
+1.      Les développeurs de base travaillent sur la branche thématique et rebasent leur travail sur master. La branche `master` est celle du dictateur.
+2.      Les lieutenants fusionnent les branches thématiques des développeurs dans leur propre branche `master`.
+3.      Le dictateur fusionne les branches master de ses lieutenants dans sa propre branche `master`.
+4.      Le dictateur pousse sa branche `master` sur le dépôt de référence pour que les développeurs se rebasent dessus.
 
 Insert 18333fig0503.png
 Figure 5-3. Le processus du dictateur bénévole.
@@ -477,7 +477,7 @@ Elle valide donc encore et pousse ses changements sur le serveur :
 L'historique des *commits* de Jessica ressemble à présent à la figure 5-13.
 
 Insert 18333fig0513.png
-Figure 5-13. L'historique de Jessica après la validation dans le branche thématique.
+Figure 5-13. L'historique de Jessica après la validation dans la branche thématique.
 
 Jessica, Josie et John informent les intégrateurs que les branches `fonctionA` et `fonctionB` du serveur sont prêtes pour une intégration dans la branche principale.
 Après cette intégration, une synchronisation apportera les *commits* de fusion, ce qui donnera un historique comme celui de la figure 5-14.
@@ -498,7 +498,7 @@ Figure 5-15. Une séquence simple de gestion orientée équipe.
 Contribuer à un projet public est assez différent.
 Il faut présenter le travail au mainteneur d'une autre manière parce que vous n'avez pas possibilité de mettre à jour directement des branches du projet.
 Ce premier exemple décrit un mode de contribution via des serveurs Git qui proposent facilement la duplication de dépôt.
-Les site repo.or.cz ou GitHub proposent cette méthode, et de nombreux mainteneurs s'attendent à ce style de contribution.
+Les sites repo.or.cz ou GitHub proposent cette méthode, et de nombreux mainteneurs s'attendent à ce style de contribution.
 Le chapitre suivant traite des projets qui préfèrent accepter les contributions sous forme de patch via e-mail.
 
 Premièrement, vous souhaiterez probablement cloner le dépôt principal, créer une nouvelle branche thématique pour le patch ou la série de patchs que seront votre contribution et commencer à travailler.
@@ -520,8 +520,8 @@ Vous devez alors ajouter l'URL de ce nouveau dépôt en tant que second dépôt 
 	$ git remote add macopie (url)
 
 Vous devez pousser votre travail sur cette branche distante.
-C'est beaucoup plus facile de pousser la branche sur laquelle vous travaillez sur une branche distante que de fusionner et de poussez le résultat sur le serveur.
-La raison principale en est que si le travail n'est pas accepté ou s'il est picoré, vous n'aurez pas à faire marche arrière sur votre branche master.
+C'est beaucoup plus facile de pousser la branche sur laquelle vous travaillez sur une branche distante que de fusionner et de pousser le résultat sur le serveur.
+La raison principale en est que si le travail n'est pas accepté ou s'il est picoré, vous n'aurez pas à faire marche arrière sur votre branche `master`.
 Si le mainteneur fusionne, rebase ou picore votre travail, vous le saurez en tirant depuis son dépôt :
 
 	$ git push macopie fonctionA
@@ -619,7 +619,7 @@ Au lieu de dupliquer le projet et de pousser vos soumissions sur votre dépôt, 
 Vous avez à présent deux *commits* que vous souhaitez envoyer à la liste de diffusion.
 Vous utilisez `git format-patch` pour générer des fichiers au format mbox que vous pourrez envoyer à la liste.
 Cette commande transforme chaque *commit* en un message e-mail dont le sujet est la première ligne du message de validation et le corps contient le reste du message plus le patch correspondant.
-Un point intéressant de cette commande est qu'appliquer le patch à partir d'un e-mail formaté avec `format-patch` préserve toute l'information de validation comme nous le verrons dans le chapitre suivant lorsqu'il s'agit de l'appliquer.
+Un point intéressant de cette commande est qu'appliquer le patch à partir d'un e-mail formaté avec `format-patch` préserve toute l'information de validation comme nous le verrons dans le chapitre suivant lorsqu'il s'agira de l'appliquer.
 
 	$ git format-patch -M origin/master
 	0001-Ajout-d-une-limite-la-fonction-de-log.patch
@@ -896,7 +896,7 @@ De ce point, vous pouvez déterminer ce que vous souhaitez en faire.
 Cette section revisite quelques commandes qui vont vous permettre de faire une revue de ce que vous allez exactement introduire si vous fusionnez dans la branche principale.
 
 Faire une revue de tous les *commits* dans cette branche s'avère souvent d'une grande aide.
-Vous pouvez exclure les *commits* de la branche master en ajoutant l'option `--not` devant le nom de la branche.
+Vous pouvez exclure les *commits* de la branche `master` en ajoutant l'option `--not` devant le nom de la branche.
 Par exemple, si votre contributeur vous envoie deux patchs et que vous créez une branche appelée `contrib` et y appliquez ces patchs, vous pouvez lancer ceci :
 
 	$ git log contrib --not master
@@ -927,10 +927,10 @@ Par exemple, si vous avez ajouté une ligne dans un fichier sur la branche `mast
 Si `master` est un ancêtre directe de la branche thématique, ce n'est pas un problème.
 Si les deux historiques ont divergé, le diff donnera l'impression que vous ajoutez toutes les nouveautés de la branche thématique et retirez tout ce qui a été fait depuis dans la branche `master`.
 
-Ce que vous souhaitez voir en fait, ce sont les modifications ajoutées sur la branche thématique — le travail que vous introduirez si vous fusionnez cette branche dans master.
-Vous obtenez ce résultat en demandant à Git de comparer le dernier instantané de la branche thématique avec son ancêtre commun à la branch master le plus récent.
+Ce que vous souhaitez voir en fait, ce sont les modifications ajoutées sur la branche thématique — le travail que vous introduirez si vous fusionnez cette branche dans `master`.
+Vous obtenez ce résultat en demandant à Git de comparer le dernier instantané de la branche thématique avec son ancêtre commun à la branche `master` le plus récent.
 
-Techniquement, c'est réalisable en déterminant exactement l'ancêtre commun et en lançant la commande diff dessus :
+Techniquement, c'est réalisable en déterminant exactement l'ancêtre commun et en lançant la commande `diff` dessus :
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
@@ -954,7 +954,7 @@ Vous avez de nombreux choix et je vais en traiter quelques uns.
 
 Un mode simple fusionne votre travail dans la branche `master`.
 Dans ce scénario, vous avez une branche `master` qui contient le code stable.
-Quand vous avez des modifications prêtes dans une branche thématique, vous la fusionnez dans votre branche master puis effacez la branche thématique, et ainsi de suite.
+Quand vous avez des modifications prêtes dans une branche thématique, vous la fusionnez dans votre branche `master` puis effacez la branche thématique, et ainsi de suite.
 Si vous avez un dépôt contenant deux branches nommées `ruby_client` et `php_client` qui ressemble à la figure 5-19 et que vous fusionnez `ruby_client` en premier, suivi de `php_client`, alors votre historique ressemblera à la fin à la figure 5-20.
 
 Insert 18333fig0519.png
@@ -980,11 +980,11 @@ Figure 5-22. Après la fusion d'une branche thématique.
 Insert 18333fig0523.png
 Figure 5-23. Après une publication d'une branche thématique.
 
-Ainsi, lorsque l'on clone le dépôt de votre projet, on peut soit extraire la branche master pour construire la dernière version stable et mettre à jour facilement ou on peut extraire le branche develop qui représente le nec plus ultra du développement.
+Ainsi, lorsque l'on clone le dépôt de votre projet, on peut soit extraire la branche `master` pour construire la dernière version stable et mettre à jour facilement ou on peut extraire le branche develop qui représente le nec plus ultra du développement.
 
 Vous pouvez aussi continuer ce concept avec une branche d'intégration où tout le travail est fusionné.
-Alors, quand la base de code sur cette branche est stable et que les tests passent, vous la fusionnez dans la branche develop.
-Quand cela s'est avéré stable pendant un certain temps, vous mettez à jour la branche master en avance rapide.
+Alors, quand la base de code sur cette branche est stable et que les tests passent, vous la fusionnez dans la branche `develop`.
+Quand cela s'est avéré stable pendant un certain temps, vous mettez à jour la branche `master` en avance rapide.
 
 #### Gestions avec nombreuses fusions ####
 
@@ -1010,7 +1010,7 @@ Le mainteneur a une gestion structurée qui lui permet d'évaluer et sélectionn
 
 #### Gestion par rebasage et sélection de *commit* ####
 
-D'autres mainteneurs préfèrent rebaser ou sélectionner les contributions sur le sommet de la branche master, plutôt de les fusionner, de manière à conserver un historique à peu près linéaire.
+D'autres mainteneurs préfèrent rebaser ou sélectionner les contributions sur le sommet de la branche `master`, plutôt de les fusionner, de manière à conserver un historique à peu près linéaire.
 Lorsque plusieurs modifications sont présentes dans une branche thématique et que vous souhaitez les intégrer, vous vous placez sur cette branche et vous lancer la commande rebase pour reconstruire les modifications à partir du sommet courant de la branche `master` (ou `develop`, ou autre).
 Si cela fonctionne correctement, vous pouvez faire une avance rapide sur votre branche `master` et vous obtenez au final un historique de projet linéaire.
 
@@ -1023,7 +1023,7 @@ Par exemple, supposons que vous ayez un projet ressemblant à la figure 5-26.
 Insert 18333fig0526.png
 Figure 5-26. Historique d'exemple avant une sélection.
 
-Si vous souhaitez tirer le *commit* `e43a6` dans votre branche master, vous pouvez lancer
+Si vous souhaitez tirer le *commit* `e43a6` dans votre branche `master`, vous pouvez lancer
 
 	$ git cherry-pick e43a6fd3e94888d76779ad79fb568ed180e5fcdf
 	Finished one cherry-pick.

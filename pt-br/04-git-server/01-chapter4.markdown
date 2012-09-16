@@ -334,8 +334,6 @@ aquela página. É bem fácil pra você. Quando você terminar e quiser finaliza
 
 	$ git instaweb --httpd=webrick --stop
 
-If you want to run the web interface on a server all the time for your team or for an open source project you’re hosting, you’ll need to set up the CGI script to be served by your normal web server. Some Linux distributions have a `gitweb` package that you may be able to install via `apt` or `yum`, so you may want to try that first. We’ll walk though installing GitWeb manually very quickly. First, you need to get the Git source code, which GitWeb comes with, and generate the custom CGI script:
-
 Se você quiser rodar a interface web em um servidor todo o tempo para a sua equipe ou para algum projeto open source que você esteja hospedando, você vai precisar configurar o script CGI para ser servido pelo seu servidor Web normal. Algumas distribuições linux têm um pacote `gitweb`, o qual você talvez consiga instalar via `apt` ou `yum`, então você pode querer tentar isso primeiro. Nós vamos abordar a instalação manual do GitWeb bem rapidamente. Primeiro, você precisa do código fonte do Git, o qual possui o GitWeb, e gerar o script CGI personalizado.
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git

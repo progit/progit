@@ -330,7 +330,7 @@ uma instância temporária, se você tiver um servidor leve em seu sistema, como
 	[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 
 Esses comandos iniciam um servidor HTTPD na porta 1234 e automaticamente iniciam um navegador web que abre
-aquela página. É bem fácil pra você. Quando você terminar e quiser finalizar o servidor, você pode usar o mesmo comando com a oção `--stop`:
+aquela página. É bem fácil pra você. Quando você terminar e quiser finalizar o servidor, você pode usar o mesmo comando com a opção `--stop`:
 
 	$ git instaweb --httpd=webrick --stop
 

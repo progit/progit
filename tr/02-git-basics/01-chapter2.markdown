@@ -1,28 +1,28 @@
-# Git Basics #
+# Git'in Temelleri #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+Git'i kullanmaya başlamak için yalnızca bir bölüm okuyacak kadar zamanınız varsa, o bölüm, bu bölüm olmalı. Bu bölüm, Git'le i kullanarak yapacağınız şeylerin çok büyük kısmını için kullanacağınız bütün temel komutları içeriyor. Bu bölümün sonunda bir yazılım havuzunun nasıl yapılandırıp, ilkleneceğini (_initialize_), dosyaların nasıl izlemeye alınıp izlemeden çıkarılacağını ve değişikliklerin nasıl hazırlanıp kaydedileceğini öğreneceksiniz. Bunlara ek olarak, Git'i bazı dosyaları ya da konumları belli örüntülere (_pattern_) uyan dosyaları görmezden gelmesi için nasıl ayarlayacağınızı, hataları hızlıca ve kolayca nasıl geri alabileceğinizi, projenizin tarihçesine nasıl göz gezdirip kayıtlar arsındaki farkları nasıl görüntüleyebileceğinizi ve uzak uçbirimlerden nasıl kod çekme işlemi yapabileceğinizi göstereceğiz.
 
-## Getting a Git Repository ##
+## Bir Git Yazılım Havuzu Edinmek ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+Bir Git projesi edinmenin iki başlıca yolu vardır. Bunlardan ilki, halihazırda varolan bir projeyi Git'e aktarmaktır. İkincisi ise bir sunucuda yer alan bir Git yazılım havuzunu klonlamakdır.
 
-### Initializing a Repository in an Existing Directory ###
+### Varolan Bir Klasörde Yazılım Havuzu Oluşturmak ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+Varolan bir projenizi sürüm kontrolü altına almak istiyorsanız, projenin bulunduğu klasöre gidip aşağıdaki komutu çalıştırmanız gerekir:
 
 	$ git init
 
-This creates a new subdirectory named `.git` that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See *Chapter 9* for more information about exactly what files are contained in the `.git` directory you just created.)
+Bu, gerekli yazılım havuzu dosyalarını —Git iskeletini— içeren `.git` adında bir klasör oluşturur. Bu noktada, projenizdeki hiçbir şey sürüm kontrolüne girmiş değildir. (Oluşturulan `.git` klasöründe tam olarak hangi doryaların bulunduğu hakkında daha fazla bilgi edinmek için bkz. _9. Bölüm_.)
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few `git add` commands that specify the files you want to track, followed by a commit:
+Varolan dosyalarınızı sürüm kontrolüne almak istiyorsanız, o dosyaları hazırlayıp kayıt etmelisiniz. Bunu, sürüm kontrolüne almak istediğiniz dosyaları belirleyip kayıt altına aldığınız birkaç git komutuyla gerçekleştirebilirsiniz:
 
 	$ git add *.c
 	$ git add README
-	$ git commit -m 'initial project version'
+	$ git commit -m 'projenin ilk hali'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+Birazdan bu komutların üzerinde duracağız. Bu noktada, sürüm kontrolüne aldığınız dosyaları içeren bir Git yazılım havuzunuz var.
 
-### Cloning an Existing Repository ###
+### Varolan Bir Yazılım Havuzunu Klonlamak ###
 
 If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is `git clone`. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is `clone` and not `checkout`. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there — see *Chapter 4* for more details).
 

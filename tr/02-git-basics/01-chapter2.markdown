@@ -384,13 +384,13 @@ Bu komut `~` ile biten bütün dosyaları ortadan kaldıracaktır.
 
 ### Dosyaları Taşımak ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Çoğu SKS'nin aksine Git taşınan dosyaları takip etmez. Bir dosyanın adını değiştirirseniz, Git, dosyanın yeniden adlandırıldığına dair herhangi bir üstveri oluşturmaz. Fakat Git, olay olup bittikten sonra neyin ne olduğunu anlamakta oldukça beceriklidir —dosya hareketlerini keşfetme meselesini birazdan ele alacağız.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+Bu nedenle Git'in bir `mv` komutu olması biraz kafa karıştırıcı olabilir. Git'te bir dosyanın adını değiştirmek istiyorsanız, şöyle bir komut çalıştırabilirsiniz:
 
-	$ git mv file_from file_to
+	$ git mv eski_dosya yeni_dosya
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+ve istediğinizi elde edersiniz. Hatta, buna benzer bir komut çalıştırdıktan sonra `status` çıktısına bakarsanız Git'in bir dosya adlandırma işlemini (_rename_) listelediğini görürsünüz:
 
 	$ git mv README.txt README
 	$ git status
@@ -403,23 +403,23 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+Öte yandan bu komut, şu komutları arka arkaya çalıştırmaya eşdeğerdir:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git dosya taşıma işlemini dolaylı yollardan anlar, dolayısıyla dosyayı yeniden adlandırmayı bu komutlarla mı yaptığınız yoksa `mv` komutunu mu kullandığınız Git açısından önemli değildir. Tek gerçek fark arka arkaya üç komut kullanmak yerine tek bir komut kullanıyor olmanızdır —`mv`bir kullanıcıya kolalık sağlayan bir komuttur. Daha önemlisi, bir dosyanın adını değiştirmek için istediğini her aracı kullanabilir, `add/rm` işlemlerini sonraya kayıttan hemen öncesine bırakablirsiniz.
 
-## Viewing the Commit History ##
+## Kayıt Tarihçesini Görüntülemek ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+Birkaç kayıt oluşturduktan, ya da halihazırda kayıt tarihçesi olan bir yazılım havuzunu klonladığınızda, muhtemelen geçmişe bakıp neler oluduğuna göz atmak isteyeceksiniz. Bunun için kullanabileceğiniz en temel ve becerikli araç `git log` komutudur.
 
-These examples use a very simple project called `simplegit` that I often use for demonstrations. To get the project, run
+Buradaki örnekler benim çoğunlukla tanıtımlarda kullandığım `simplegit` adında bir projeyi kullanıyor. Projeyi edinmek için aşağıdaki komutu çalıştırabilirsiniz:
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+Bu projenin içinde `git log` komutunu çalıştırdığınızda şuna benzer bir çıktı göreceksiniz:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -440,11 +440,11 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+Aksi belirtilmedikçe, `git log` bir yazılım havuzundaki kayıtları ters kronolojik sırada listeler. Yani, en son kayıtlar en üstte görünür. Görüldüğü gibi, bu komut her kaydın SHA-1 sınama toplamını, yazarının adını ve adresini, kaydedildiği tarihi ve kayıt mesajını listeler.
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+`git log` komutunun, size tam olarak aradığınız şeyi göstermek için kullanılabilecek çok sayıda seçeneği vardır. Burada, en çok kullanılan bazı seçenekleri tanıtacağız.
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+En yararlı seçeneklerden biri, kaydın içeriğini (_diff_) gösteren `-p` seçeneğidir. İsterseniz `-2`'yi kullanarak komutun çıktısını son iki kayıtla sınırlayabilirsiniz:
 
 	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -484,8 +484,9 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+Bu seçenek daha önceki bilgilere ek olarak kaydın içeriğini de her gösterir. Bu, yazılımı gözden geçirirken ya da belirli bir katılımcı tarafından yapılan bir dizi kayıt sırasında nelerin değiştiğine hızlıca göz atarken çok işe yarar.
+
+Dilerseniz `git log`'u özet bilgiler veren bir dizi seçenekle birlikte kullanabilirsiniz. Örneğin, her kayıtla ilgili özet istatistikler için `--stat` seçeneğini kullanabilirsiniz:
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -517,43 +518,42 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The `oneline` option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+Gördüğünüz gibi `--stat`  seçeneği, her kaydın altına o kayıtta değişikliğe uğramış dosyaların listesini, kaç tane dosyanın değişikliğe uğradığını ve söz konusu dosyalara kaç satırın eklenip çıkarıldığı bilgisini ekler. Bu bilgilerin bir özetini de kaydın en altına yerleştirir. Oldukça yararlı bir başka seçenek de `--pretty` seçeneğidir. Bu seçenek `log` çıktısının biçimini değiştirmek için kullanılır. Bu seçenekle birlikte kullanacağınız birkaç tane öntanımlı ek seçenek vardır. `oneline` ek seçeneği her bir kaydı tek bir satırda gösterir; bu çok sayıda kayda göz atıyorsanız yararlı olabilir. Ayrıca `short`, `full` ve `fuller`seçenekleri aşağı yukarı aynı miktarda bilgiyi —bazı farklarla— gösterir:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+En ilginç ek seçenek, istediğiniz log çıktısını belirlemenizi sağlayan `format` ek seçeneğidir. Bu, özellikle bilgisayar tarafından işlenecek biir çıktı oluşturmak konusunda elverişlidir —biçimi açıkça kendiniz belirlediğiniz için farklı Git sürümlerinde farklı sonuçlarla karşılaşmazsınız:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+Tablo 2-1 `format` ek seçeneğinin kabul ettiği bazı biçimlendirme seçeneklerini gösteriyor.
 
-	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+	Seçenek	Çıktının Açıklaması
+	%H	Sınama toplamı
+	%h	Kısaltılmış sınama toplamı
+	%T	Git ağacı sınama toplamı
+	%t	Kısaltılmış Git ağacı sınama toplamı
+	%P	Ata kayıtların sınama toplamları
+	%p	Ata kayıtların kısaltılmış sınama toplamları
+	%an	Yazarın adı
+	%ae	Yazarın e-posta adresi
+	%ad	Yazılma tarihi (–date= seçeneğiyle uyumludur)
+	%ar	Yazılma tarihi (göreceli tarih)
+	%cn	Kaydedenin adı
+	%ce	Kaydedenin e-posta adresi
+	%cd	Kaydedilme tarihi
+	%cr	Kaydedilme tarihi (göreceli tarih)
+	%s	Konu
 
-You may be wondering what the difference is between _author_ and _committer_. The _author_ is the person who originally wrote the patch, whereas the _committer_ is the person who last applied the patch. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in *Chapter 5*.
+_yazar_'la _kaydeden_ arasında ne gibi biir fark olduğunu merak ediyor olabilirsiniz. _yazar_ yamayı oluşturan kişidir, _kaydeden_'se yamayı projeye uygulayan kişi. Bir, projeye yama gönderdiğinizde, projenin çekirdek üyelerinden biri yamayı projeye uygularsa, her ikinizin de adı kaydedilecektir —sizin adınız yazar olarak onun adı kaydeden olarak. Bu farkı _5. Bölüm_'de biraz daha ayrıntılı olarak ele alacağız.
 
-The `oneline` and `format` options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
+`oneline` ve `format` ek seçenekleri özellikle `--graph` ek seçeneğiyle birlikte kullanıldıklarında çok işe yararlar. Bu ek seçenek projenizin dal (_branch_) ve birleştirme (_merge_) tarihçesini gösteren sevimli bir ASCII grafiği oluşturur. Grit yazılım havuzunun grafiğine bakalım:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -567,24 +567,24 @@ The `oneline` and `format` options are particularly useful with another `log` op
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
+Bunlar`git log`'la birlikte kullanabileceğiniz seçeneklerden yalnızca birkaçı —daha başka çok sayıda seçenek var. Tablo 2-2 yukarıda incelediğimiz seçeneklerin yanı sıra, yararlı olabilecek başka seçenekleri `git log` çıktısına olan etkileriyle birlikte listeliyor..
 
-	Option	Description
-	-p	Show the patch introduced with each commit.
-	--stat	Show statistics for files modified in each commit.
-	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
-	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+	Seçenek	Açıklama
+	-p	Kayıtların içeriklerini de göster.
+	--stat	Kayıtlarda değişikliğe uğrayan dosyalarla ilgili istatistikleri göster.
+	--shortstat	Yalnızca değişikliği/eklemeyi/çıkarmayı özetleyen satırı göster command.
+	--name-only	Kayıtlarda değişen dosyaların yalnızca adlarını göster.
+	--name-status	Kayıtlarda değişen dosyaların adlarıyla birlikte değişme/eklenme/çıkarılma bilgisini de göster.
+	--abbrev-commit	Sınama toplamının 40 karakterli tamamı yerine yalnızca ilk birkaç karakterini göster.
+	--relative-date	Tarihi gün, ay, yıl olarak göstermek yerine göreceli olarak göster ("iki hafta önce" gibi).
+	--graph	Log tarihçesinin yanısıra, dal ve birleştirme tarihçesini ASCII grafiği olarak göster.
+	--pretty	Kayıtları alternatif bir biçimlendirmeyle göster. `oneline` `short`, `full`, `fuller` ve (kendi istediğiniz biçimi belirleyebildiğiniz) `format` ek seçenekleri kullanılabilir.
 
-### Limiting Log Output ###
+### Log Çıktısını Sınırlandırma ###
 
-In addition to output-formatting options, `git log` takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+`git log` komutu, biçimlendirme seçeneklerinin yanı sıra bir dizi sınırlandırma seçeneği de sunar —bu seçenekler kayıtların yalnızca bir alt kümesini gösterir. Bu seçeneklerden birini yukarıda gördünüz —yalnızca son iki kaydı gösteren `-2` seçeneğini. Aslında, son `n` kaydı görmek için `n` yerine herhangi bir tam sayı koyarak bu seçeneği `-<n>` biçiminde kullanabilirsiniz. Bunu muhtemelen çok sık kullanmazsınız, zira Git `log` çıktısını zaten sayfa sayfa gösteriyor, dolayısıyla `git log` komutunu çaıştırdığınızda zaten önce kayıtların birinci sayfasını göreceksiniz.
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+Öte yandan `--since` ya da `--until` gibi çıktıyı zamanla sınırlayan seçenekler işinizi kolaylaştırabilir. Söz gelimi, şu komut, son iki hafta içinde apılmış kayıtları listeliyor:
 
 	$ git log --since=2.weeks
 

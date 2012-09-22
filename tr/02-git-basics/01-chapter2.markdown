@@ -588,22 +588,22 @@ Bunlar`git log`'la birlikte kullanabileceğiniz seçeneklerden yalnızca birkaç
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+Bu komut pek çok değişik biçimlendirmeyle kullanılabilir —kesin bir tarih (“2008-01-15”) ya da “2 years 1 day 3 minutes ago” gibi göreli bir tarih kullanabilirsiniz.
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+Ayrıca listeyi belirli arama ölçütlerine uyacak biçimde filtreleyebilirsiniz. `--author` seçeneği belirli bir yazara aiy kayıtları filtrelemenizi sağlar; `--grep` seçeneğiyse kayıt mesajlarında anahtar kelimeler aramanızı sağlar. (Unutmayın, hem `author` hem de `grep` seçeneklerini kullanmak istiyorsanız, komuta `--all-match` seçeneğini de eklemelisiniz, aksi takdirde, komut bu iki seçenekten herhangi birine uyan kayıtları bulup getirecektir.)
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+`git log`la kullanılması son derece yararlı olan son seçenek konum seçeneğidir. `git log`'u bir klasör ya da dosya adıyla birlikte kullanırsanız, komutun çıktısını yalnızca o dosyalarda değişiklik yapan kayıtlarla sınırlamış olursunuz. Bu, komuta her zaman en son seçenek olarak eklenmelidir ve konumlar iki tireyle (`--`) diğer seçeneklerden ayrılmalıdır.
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+Tablo 2-3, bu seçenekleri ve birkaç başka yaygın seçeneği listeliyor.
 
-	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+	Seçenek	Açıklama
+	-(n)	Yalnızca son n kaydı göster.
+	--since, --after	Yalnızca belirli bir tarihten sonra eklenmiş kayıtlları göster.
+	--until, --before	Yalnızca belirli bir tarhten önce yapılmış kayıtları göster.
+	--author	Yalnızca yazarın adının belirli bir karakter katarıyla (_string_) eşleşen kayıtları göster.
+	--committer	Yalnızca kaydedenin adının belirli bir karakter katarıyla eşleştiği kayıtları göster.
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+Örneğin, Git kaynak kod yazılım havuzu tarihçesinde birleştirme (_merge_) olmayan hangi kayıtların Junio Hamano tarafından 2008'in Ekim ayında kaydedilmiş olduğunu görmek için şu komutu çalıştırabilirsiniz:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -614,42 +614,42 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+Bu komut, Git kaynak kodu yazılım havuzundaki yaklaşık 20,000 komut arasından bu ölçütlere uyan 6 tanesini gösteriyor.
 
-### Using a GUI to Visualize History ###
+### Tarihçeyi Görselleştirmek için Grafik Arayüz Kullanımı ###
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called `gitk` that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type `gitk` on the command line in your project, you should see something like Figure 2-2.
+Kayıt tarihçenizi görüntülemek için görselliği daha çok ön planda olan bir araç kullanmak isterseniz, Git'le birlikte dağıtılan bir Tcl/Tk programı olan `gitk`'ya bir göz atmak isteyebilirsiniz. Gitk, temelde `git log`'u görselleştiren bir araçtır ve neredeyse `git log`'un kabul ettiği bütün filtreleme seçeneklerini tanır. Proje klasörünüzde komut satırına `gitk` yazacak olursanız Figür 2-2'deki gibi bir şey görürsünüz.
 
 Insert 18333fig0202.png
-Figure 2-2. The gitk history visualizer.
+Figür 2-2. gitk grafiklse tarihçe görüntüleyicisi.
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+Pencerenin üst yarısında bir kalıtım grafiğinin yanısıra kayıt tarihçesini görebilirsiniz. Alttaki kayıt içeriği görüntüleyicisi, tıkladığınız herhangi bir kayıttaki değişiklikleri gösterecektir.
 
-## Undoing Things ##
+## Değişiklikleri Geri Almak ##
 
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always revert some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+Herhangi bir noktada yaptığınız bir değişikliği geri almak isteyebilirsiniz. Burada yapılan değişiklikleri geri almakta kullanılabilecek bazı araçları inceleyeceğiz. Dikkatli olun, zira geri alınan bu değişikliklerden bazılarını yeniden gerçekleştiremeyebilirsiniz. Bu, eğer bir hata yaparsanız, bunu Git'i kullanarak telafi edemeyeceğiniz, az sayıda alanından biridir.
 
-### Changing Your Last Commit ###
+### Son Kayıt İşlemini Değiştirmek ###
 
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+Eğer kaydı çok erken yapmışsanız, bazı dosyaları eklemeyi unutmuşsanız ya da kayıt mesajında hata yapmışsanız, sık rastlanan düzeltme işlemlerinden birini kullanabilirsiniz. Kaydı değiştirmek isterseniz, `commit` komutunu `--amend` seçeneğiyle çalıştırabilirsiniz:
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+Bu komut, hazırlık alanındaki değişiklikleri alıp bunları kaydı değiştirmek için kullanır. Eğer son kaydınızdan beri hiçbir değişiklik yapmamışsanız (örneğin, bu komutu yeni bir kayıt yaptıktan hemen sonra çalıştırıyorsanız) o zaman kaydınızın bellek kopyası aynı kalacak ve değiştireceğiniz tek şey kayıt mesajı olacaktır.
 
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+Aynı kayıt mesajı editörü açılır, fakat editörde bir önceki kaydın kayıt mesajı görünür. Mesajı her zamanki gibi değiştirebilirsiniz, ama bu yeni kayıt mesajı öncekinin yerine geçecektir.
 
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+Söz gelimi, eğer bir kayıt sırasında belirli bir dosyada yaptığınız değişiklikleri kayda hazırlamayı unuttuğunuzu fark ederseniz, şöyle bir şey yapabilirsiniz:
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend
 
-After these three commands, you end up with a single commit — the second commit replaces the results of the first.
+Bu üç komuttan sonra, tarihçenize tek bir kayıt işlenmiştir —son kayıt öncekinin yerine geçer.
 
-### Unstaging a Staged File ###
+### Kayda Hazırlanmış Bir Dosyayı Hazırlık Alanından Kaldırmak ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+Bu iki alt bölüm kayda hazırlık alanındaki ve çalışma klasörünüzdeki değişiklikleri nasıl idare edeceğinizi gösteriyor. İşin güzel yanı, bu iki alanın durumunu öğrenmek için kullanacağınız komut aynı zamanda bu alanlardaki değişiklikleri nasıl geri alabileceğinizi de hatırlatıyor. Diyelim ki iki dosyayı değiştirdiniz ve bu iki değişikliği ayrı birer kayıt olarak işlemek istiyorsunuz, ama yanlışlıkla `git add *` komutunu kullanarak ikisini birden hazırlık alanına aldınız. Bunlardan birini nasıl hazırlık alanından çıkarabilirsiniz? `git status` komutu size bunu da anımsatıyor:
 
 	$ git add .
 	$ git status
@@ -661,7 +661,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says "use `git reset HEAD <file>...` to unstage". So, let’s use that advice to unstage the `benchmarks.rb` file:
+“Changes to be committed” yazısının hemen altında "use `git reset HEAD <file>...` to unstage" yazdığını görüyoruz. `benchmarks.rb` dosyasını bu öneriye uygun olarak hazırlık alanından kaldıralım:
 
 	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
@@ -679,11 +679,11 @@ Right below the “Changes to be committed” text, it says "use `git reset HEAD
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The `benchmarks.rb` file is modified but once again unstaged.
+Komut biraz tuhaf, ama iş görüyor. `benchmarks.rb` dosyası hazırlık alanından kaldırıldı ama hâlâ değişmiş olarak görünüyor.
 
-### Unmodifying a Modified File ###
+### Değişmiş Durumdaki Bir Dosyayı Değişmemiş Duruma Geri Getirmek ###
 
-What if you realize that you don’t want to keep your changes to the `benchmarks.rb` file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
+Peki `benchmarks.rb` dosyasındaki değişiklikleri korumak istemiyorsanız? Yaptığınız değişiklikleri kolayca nasıl geri alacaksınız —son kayıtta nasıl görünüyorsa o haline (ya da ilk klonlandığı haline, yahut çalışma klasörünüze ilk aldığınız haline) nasıl geri getireceksiniz? Neyse ki `git status` komutu bunu nasıl yapacağınızı da söylüyor. Son örnek çıktıda hazırlık alanı dışındaki değişiklikler şöyle görünüyor:
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -692,7 +692,7 @@ What if you realize that you don’t want to keep your changes to the `benchmark
 	#       modified:   benchmarks.rb
 	#
 
-It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
+Yaptığınız değişiklikleri nasıl çöpe atabileceğinizi açıkça söylüyor (en azından Git'in 1.6.1'le başlayan yeni sürümleri bunu yapıyor —eğer daha eski bir sürümle çalışıyorsanız, kolaylık sağlayan bu özellikleri edinebilmek için programı güncellemenizi öneririz). Gelin, söyleneni yapalım:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -703,18 +703,19 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   README.txt
 	#
 
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go.
+Gördüğünüz gibi değişiklikler çöpe atıldı. Bunun tehlikeli bir komut olduğunu aklınızdan çıkarmayın: o dosyaya yaptığınız bütün değişiklikler şimdi yok oldu —dosyanın üstüne yeni bir dosya kopyaladınız. Eğer dosyadaki değişiklikleri isteemediğinizden yüzde yüz emin değilseniz asla bu komutu kullanmayın. Eğer sorun bu dosyada yaptığınız değişikliklerin başka işlemler yapmanıza engel olması ise bir sonraki bölümde ele alacağımız zulalama (_stash_) ve dallandırma (_branch_) işlemlerini kullanmanız daha iyi olacaktır.
 
-Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see *Chapter 9* for data recovery). However, anything you lose that was never committed is likely never to be seen again.
+Unutmayın, Git'te kaydedilmiş her şey neredeyse her zaman kurtarılabilir. Silinmiş dallardaki kayıtlar ve hatta `--amend` seçeneğiyle üzerine yazılmış kayıtlar bile kurtarılabilirler (veri kurtarma konusunda bkz. _9. Bölüm_). Diğer taraftan, kaydedilmemiş bir değişikliği kaybederseniz büyük olasılıkla onu kurtarmanız mümkün olmaz.
 
-## Working with Remotes ##
+## Uzak Uçbirimlerle Çalışmak ##
 
-To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
+Bir Git projesine katkıda bulunabilmek için uzaktaki yazılım havuzlarını nasıl düzenleyeceğinizi bilmeniz gerekir. Uzaktaki yazılım havuzları, projenizin Internet'te ya da başka bir ağda barındırılan sürümleridir. Birden fazla uzak yazılım havuzunuz olabilir, bunlardan herbiri sizin için ya salt okunur ya da okunur/yazılır durumdadır. Başkalarıyla ortak çalışmak, bu yazılım havuzlarını düzenlemeyi, onlardan veri çikip (_pull_) onlara veri iteleyerek (_push_) çalışamalrınızı paylaşmayı gerektirir.
 
-### Showing Your Remotes ###
+Uzaktaki yazılım havuzlarınızı düzenleyebilmek için, projenize uzak yazılım havuzlarının nasıl ekleneceğini, kullanılmayan havuzların nasıl çıkarılacağını, çeşitli uzak dalları düzenlemeyi ve onların izlenen dallar olarak belirleyip belirlememeyi ve daha başka şeyleri gerektirir. Bu alt bölümde bu uzağı yönetme yeteneklerini inceleyeceğiz.
 
-To see which remote servers you have configured, you can run the `git remote` command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see *origin* — that is the default name Git gives to the server you cloned from:
+### Uzak Uçbirimleri Görüntüleme ###
+
+Projenizde hangi uzak sunucuları ayarladığınınızı görme için `git remote` komutunu kullanabilirsiniz. Bu komut, herbir uzak uçbirimin belirlenmiş kısa adını görüntüler. Eğer yazılım havuzunuzu bir yerden klonlamışsanız, en azından _origi_ uzak uçbirimini görmelisiniz —bu Git'in klonlamanın yapıldığı sunucuya verdiği öntanımlı addır.
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -727,12 +728,12 @@ To see which remote servers you have configured, you can run the `git remote` co
 	$ git remote
 	origin
 
-You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+`-v` seçeneğini kullanarak Git'in bu kısa ad için depoladığı URL'yi de görebilirsiniz:
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
-If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
+Projenizde birden çok uzak uçbirim varsa, bu komut hepsini listeleyecektir. Örneğin, benim Git yazılım havuzum şöyle görünüyor:
 
 	$ cd grit
 	$ git remote -v
@@ -742,9 +743,9 @@ If you have more than one remote, the command lists them all. For example, my Gr
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in *Chapter 4*).
+Bu demek oluyor ki bu kullanıcıların herhangi birinden kolaylıkla çekme işlemi (_pull_) yapabiliriz. Fakat dikkat ederseniz, yalnızca _origin_ uçbiriminin SSH URL'si var, yani yalnızca o hazuva kod iteleyebilirim (_push_) (niye böyle olduğunu _4. Bölüm_'de inceleyeceğiz)
 
-### Adding Remote Repositories ###
+### Uzak Uçbirimler Eklemek ###
 
 I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
 

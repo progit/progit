@@ -93,7 +93,7 @@ Bu özetler sıklıkla karşınıza çıkacak, çünkü Git onları yaygın biç
 
 ### Git Genellikle Yalnızca Veri Ekler ###
 
-Git'te işlem yaptığınızda neredeyse bu işlemlerin tamamı Git veritabanına veri ekler. Sistemin geri döndürülemez bir şey yapmasını ya da veri silmesini sağlamak çok zordur. Her SKS'de olduğu gibi henüz kaydetmediğiniz değişiklikleri kaybedebilir ya da bozabilirsiniz; ama Git'e bir bellek kopyasını kaydettikten sonra veri kaybetmek çok zordur, özellikle de veritabanınızı düzenli olarak başka bir yazılım havuzuna iteliyorsanız (_push_).
+Git'te işlem yaptığınızda neredeyse bu işlemlerin tamamı Git veritabanına veri ekler. Sistemin geri döndürülemez bir şey yapmasını ya da veri silmesini sağlamak çok zordur. Her SKS'de olduğu gibi henüz kaydetmediğiniz değişiklikleri kaybedebilir ya da bozabilirsiniz; ama Git'e bir bellek kopyasını kaydettikten sonra veri kaybetmek çok zordur, özellikle de veritabanınızı düzenli olarak başka bir yazılım havuzuna itiyorsanız (_push_).
 
 Bu Git kullanmayı keyifli hale getirir, çünkü işleri ciddi biçimde sıkıntıya sokmadan denemeler yapabileceğimizi biliriz. Git'in veriyi nasıl depoladığı ve kaybolmuş görünen veriyi nasıl kurtarabileceğiniz hakkında daha derinlikli bir inceleme için bkz. 9. Bölüm.
 

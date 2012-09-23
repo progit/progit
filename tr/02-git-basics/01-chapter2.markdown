@@ -709,7 +709,7 @@ Unutmayın, Git'te kaydedilmiş her şey neredeyse her zaman kurtarılabilir. Si
 
 ## Uzak Uçbirimlerle Çalışmak ##
 
-Bir Git projesine katkıda bulunabilmek için uzaktaki yazılım havuzlarını nasıl düzenleyeceğinizi bilmeniz gerekir. Uzaktaki yazılım havuzları, projenizin Internet'te ya da başka bir ağda barındırılan sürümleridir. Birden fazla uzak yazılım havuzunuz olabilir, bunlardan herbiri sizin için ya salt okunur ya da okunur/yazılır durumdadır. Başkalarıyla ortak çalışmak, bu yazılım havuzlarını düzenlemeyi, onlardan veri çikip (_pull_) onlara veri iteleyerek (_push_) çalışamalrınızı paylaşmayı gerektirir.
+Bir Git projesine katkıda bulunabilmek için uzaktaki yazılım havuzlarını nasıl düzenleyeceğinizi bilmeniz gerekir. Uzaktaki yazılım havuzları, projenizin Internet'te ya da başka bir ağda barındırılan sürümleridir. Birden fazla uzak yazılım havuzunuz olabilir, bunlardan herbiri sizin için ya salt okunur ya da okunur/yazılır durumdadır. Başkalarıyla ortak çalışmak, bu yazılım havuzlarını düzenlemeyi, onlardan veri çikip (_pull_) onlara veri iterek (_push_) çalışmalarınızı paylaşmayı gerektirir.
 
 Uzaktaki yazılım havuzlarınızı düzenleyebilmek için, projenize uzak yazılım havuzlarının nasıl ekleneceğini, kullanılmayan havuzların nasıl çıkarılacağını, çeşitli uzak dalları düzenlemeyi ve onların izlenen dallar olarak belirleyip belirlememeyi ve daha başka şeyleri gerektirir. Bu alt bölümde bu uzağı yönetme yeteneklerini inceleyeceğiz.
 
@@ -743,11 +743,11 @@ Projenizde birden çok uzak uçbirim varsa, bu komut hepsini listeleyecektir. Ö
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-Bu demek oluyor ki bu kullanıcıların herhangi birinden kolaylıkla çekme işlemi (_pull_) yapabiliriz. Fakat dikkat ederseniz, yalnızca _origin_ uçbiriminin SSH URL'si var, yani yalnızca o hazuva kod iteleyebilirim (_push_) (niye böyle olduğunu _4. Bölüm_'de inceleyeceğiz)
+Bu demek oluyor ki bu kullanıcıların herhangi birinden kolaylıkla çekme işlemi (_pull_) yapabiliriz. Fakat dikkat ederseniz, yalnızca _origin_ uçbiriminin SSH URL'si var, yani yalnızca o hazuva kod itebilirim (_push_) (niye böyle olduğunu _4. Bölüm_'de inceleyeceğiz)
 
 ### Uzak Uçbirimler Eklemek ###
 
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+Önceki alt bölümlerde uzak uçbirim eklemekten söz ettim ve bazı örnekler verdim, ama bir kez daha konuyu açıkça incelemekte yarar var. Uzaktaki bir yazılım havuzunu kısa bir ad vererek eklemek için `git remote add [kisa_ad] [url]` komutunu çalıştırın:
 
 	$ git remote
 	origin
@@ -756,7 +756,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Now you can use the string `pb` on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+Artık bütün bir URL yerine `pb`'yi kullanabilirsiniz. Örneğin, Paul'ün yazılım havuzunda bulunan ama sizde bulunmayan bütün bilgileri getirmek için `git fetch pb` komutunu kullanabilirsiniz:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -767,31 +767,31 @@ Now you can use the string `pb` on the command line in lieu of the whole URL. Fo
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+Paul'ün `mastertr` dalı sizin yazılım havuzunuzda da `pb/master` olarak erişilebilir durumdadır —kendi dallarınızdan biriyle birleştirebilir (_merge_) ya da bir yerel dal olarak seçip içeriğini inceleyebilirsiniz.
 
-### Fetching and Pulling from Your Remotes ###
+### Uzak Uçbirimlerden Getirme ve Çekme İşlemi Yapmak ###
 
-As you just saw, to get data from your remote projects, you can run:
+Biraz önce gördüğünüz gibi, uzaktaki yazılım havuzlarından veri almak için şu komutu kullanabilirsiniz:
 
 	$ git fetch [remote-name]
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in *Chapter 3*.)
+Bu komut, söz konusu uzaktaki yazılım havuuzna gidip orada bulunup da sizin projenizde bulunmayan bütün veriyi getirir. Bunu yaptıktan sonra sizin projenizde o uzak yazılım havuzundaki bütün dallarak referanslar oluşur —ki bunları birleştirme yapmak ya da içeriği incelemek için kullanabilirsiniz. (Dalların ne olduğunu ve onları nasıl kullanabileceğinizi _3. Bölüm_'de ayrınlıtı biçimde inceleyeceğiz.)
 
-If you clone a repository, the command automatically adds that remote repository under the name *origin*. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the `fetch` command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+Bir yazılım havuzunu klonladığınızda, klonlama komutu söz konusu kaynak yazılım havuzunu _origin_ adıyla uzak uçbirimler arasına ekler. Dolayısıya, `git fetch origin` komutu, klonlamayı yaptığınızdan (ya da en son getirme işlemini (_fetch_) yatığınızdan) beri sunucuya itilmiş yeni değişiklikleri getirir. Unutmayın, `fetch` komutu veriyi yeler yazılım havuzunuza indirir —otomatik olarak sizin yaptıklarınızla birleştirmeye, ya da çalıştığınız şeyler üzerinde değişiklik yapmaya kalkışmaz. Hazır olduğunuzda birleştirme işlemini sizin yapmanız gerekir.
 
-If you have a branch set up to track a remote branch (see the next section and *Chapter 3* for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+Uzaktaki bir dalı izlemek üzere ayarlanmış bir dalınız varsa (daha fazla bilgi için sonraki alt bölüme ve _3. Bölüm_'e bakınız) bu dal üzerinde `git pull` komutunu kullanarak uzaktaki yazılım havuzundaki veriyi hem getirip hem de mevcut dalınızla birleştirebilirsiniz. Bu çalışması daha kolay bir düzen olabilir; bu arada, `git clone ` komutu, otomatik olarak, yerel yazılım havuzunuzda, uzaktaki yazılım havuzunun `master` dalını takip eden bir `master` dalı oluşturur (uzaktaki yazılım havuzunun `master` adında bir dalı olması koşuluyla). `git pull` komutu genellikle yereldeki yazılım havuzunuza kaynaklık eden sunucudan veriyi getirip otomatik olarak üzerinde çalışmakta olduğunuz dalla birleştirir.
 
-### Pushing to Your Remotes ###
+### Uzaktaki Yazılım Havuzuna Veri İtmek ###
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+Projeniz paylaşmak istediğiniz bir hale geldiğinde, yaptıklarınızı kaynağa itmeniz gerekir. Bunun için kullanılan komut basittir: `git push [uzak-sunucu-adi] [dal-adi]`. Projenizdeki `master` dalını `origin` sunucunuzdaki `master` dalına itmek isterseniz (yineleyelim; kolanlama işlemi genellikle bu isimleri otomatik olarak oluşturur), şu komutu kullanabilirsiniz:
 
 	$ git push origin master
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See *Chapter 3* for more detailed information on how to push to remote servers.
+Bu komut, yalnızca yazma yetkisine sahip olduğunuz bir sunucudan klonlama yapmışsanız ve son getirme işleminizden beri hiçkimse itme işlemi yapmamışsa istediğiniz sonucu verir. Eğer sizinle birlikte bir başkası daha klonlama yapmışsa ve o kişi sizden önce itme yapmışsa, sizin itme işleminiz reddedilir. İtmeden önce sizden önce itilmiş değişiklikleri çekip kendi çalışmanızla birleştirmeniz gerekir. Uzaktaki yazılım havuzlarına itme yapmak konusunda daha ayrıntılı bilgi için bkz. _3. Bölüm_.
 
-### Inspecting a Remote ###
+### Uzak Uçbirim Hakkında Bilgi Almak ###
 
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+Belirli bir uzak uçbirim hakkında daha fazla bilgi almak isterseniz `git remote show [ucbirim-adi]` komutunu kullanabilirsiniz. Bu komutu `origin` gibi belirli bir uçbirim kısa adıyla kullanırsanız şöyle bir sonuç alırsınız:
 
 	$ git remote show origin
 	* remote origin
@@ -802,9 +802,9 @@ If you want to see more information about a particular remote, you can use the `
 	    master
 	    ticgit
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+Bu, uçbirimin URL'sini ve dalların izlenme durumunu gösterir. Komut, size, eğer `master` dalda iseniz ve `git pull` komutunu çalıştırırsanız, bütün referansları uzak uçbirimden indirip uzaktaki `master` dalından yerel `master` dalına birleştirme yapacağını da söylüyor. Ayrıca, ekmiş olduğu bütün uzak dalları da bir liste halinde veriyor.
 
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+Yukarıdaki verdiğimiz, basit bir örnekti. Git'i daha yoğun biçimde kullandığınızda, `git remote show` komutu çok daha fazla bilgi içerecektir:
 
 	$ git remote show origin
 	* remote origin
@@ -828,40 +828,40 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+Bu çıktı, belirli dallarda `git push` komutunu çalıştırdığınızda hangi dalların otomatik olarak itileceğini gösteriyor. Buna ek olarak uzak uçbirimde bulunup da sizin projenizde henüz bulunmayan uzak dalları, uzak uçbirimden silinmiş olduuğu halde sizin projenizde bulunan dalları ve `git pull` komutunu çalıştırdığınızda otomatik olarak birleştirme işlemine uğrayacak birden çok daı gösteriyor.
 
-### Removing and Renaming Remotes ###
+### Uzan Uçbirimleri Kaldırmak ve Yeniden Adlandırmak ###
 
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+Bir uçbirimin kısa adını değiştirmek isterseniz, Git'in yeni sürümlerinde bunu `git remote rename` komutuyla yapabilirsiniz. Örneğin, `pb` uçbirimini `paul` diye yeniden adlandımak isterseniz, bunu `git remote rename`'i kullanarak yapabilirsiniz:
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+Bu işlemin uçbirim dal adlarını da değiştirdiğini hatırlatmakta yarar var. Bu işlemden önce `pb/master` olan dalın adı artık `paul/master` olacaktır.
 
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+Bir uçbirim referansını herhangi bir nedenle —sunucuyu taşımış ya da belirli bir yansısyı artık kullanmıyor olabilirsiniz; ya da belki katılımcılardan birisi artık katkıda bulunmuyordur— kaldırmak isterseniz `git remote rm` komutunu kullanabilirsiniz:
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
-## Tagging ##
+## Etiketleme ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (`v1.0`, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+Çoğu SKS gibi Git'in de tarihçedeki belirli noktaları önemli olarak etiketleyebilme özelliği vardır. Genellikle insanlar bu işlevi sürümleri (`v1.0`, vs.) işaretlemek için kullanırlar. Bu alt bölümde mevcut etiketleri nasıl listeleyebileceğinizi, nasıl yeni etiketler oluşturabileceğinizi ve değişik etiket tiplerini öğreneceksiniz.
 
 ### Listing Your Tags ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+Git'te mevcut etiketleri listeleme işi epeyi kolaydır. `git tag` yazmanız yeterlidir:
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+Bu komut etiketleri alfabetik biçimde sıralar; etiketlerin sırasının bir önemi yoktur.
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+İsterseniz belirli bir örüntüyle eşleşen etiketleri de arayabilirsiniz. Git kaynak yazılım havuzunda 240'tan fazla etiket vardır. Yalnızca 1.4.2 serisindeki etiketleri görmek isterseniz şu komutu çalıştırmalısınız:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -869,7 +869,7 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### Etiket Oluşturma ###
 
 Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
 

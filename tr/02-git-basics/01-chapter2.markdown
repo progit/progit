@@ -871,11 +871,11 @@ Bu komut etiketleri alfabetik biçimde sıralar; etiketlerin sırasının bir ö
 
 ### Etiket Oluşturma ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git iki başlıca etiket tipi kullanır: hafif ve açıklamalı. Hafif etiketler hiç değişmeyen dallar gibidir —belirli bir kaydı işaret ederler. Öte yandan, açıklamalı etiketler, Git veritabanında bütünlüklü nesneler olarak kaydedilirler. Sınama toplamları alınır; etiketleyenin adını ve e-posta adresini içerirler; bir etiket mesajına sahiptirler ve GNU Privacy Guard (GPG) kullanılarak imzalanıp doğrulanabilirler. Genelllikle bütün bu bilgilere ulaşılabilmesini olanaklı kılabilmek için açıklamalı etiketlerin kullanılması önerilir, ama bütün bu bilgileri depolamadan yalnızca geçici bir etiket oluşturmak istiyorsanız, hafif etiketleri de kullanabilirsiniz.
 
-### Annotated Tags ###
+### Açıklamalı Etiketler ###
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+Git'te açıklamalı etiket oluşturmak basittir. En kolayı `tag` komutunu çalıştırıren `-a` seçeneğini kullanmaktır:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -883,9 +883,9 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+`-m` seçeneği etketle birlikte depolanacak etiketleme mesajını belirlemek için kullanılır. Açıklamalı bir etiket için mesajı bu şekilde belirlemezseniz, Git mesajı yazabilmeniz için bir editör açacaktır.
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+`git show` komutunu kullanarak etiketlenen kayıtla birlikte etikete ilişkin verileri de görebilirsiniz:
 
 	$ git show v1.4
 	tag v1.4
@@ -900,18 +900,18 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+Bu, kayıt bilgisinden önce etiketlenyenle ilgili bilgileri, kaydın etiketlendiği tarihi ve açıklama mesajını gösterir.
 
-### Signed Tags ###
+### İmzalı Etiketler ###
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+Eğer bir kişisel anahtarınız (_private key_) varsa etiketlerinizi GPG ile imzalayabilirsiniz. Yapmanız gereken tek şey `-a` yerine `-s` seçeneğini kullanmaktır:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+Bu etiket üzerinde `git show` komutunu çalıştırırsanız, GPG imzasını da görebilirsiniz:
 
 	$ git show v1.5
 	tag v1.5
@@ -933,11 +933,11 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+Birazdan imzalı etiketleri nasıl doğrulayabileceğinizi öğreneceksiniz.
 
-### Lightweight Tags ###
+### Hafif Etiketler ###
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+Kayıtları etiketlemenin bir yolu da hafif etiketler kullanmaktır. Bu, kayıt sınama toplamının bir dosyada depolanmasından ibarettir —başka hiçbir bilgi tutulmaz. Bir hafif etiket oluştururken `-a`, `-s` ya da `-m` seçeneklerini kullanmamalısınız.
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -947,7 +947,7 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+Şimdi etiket üzerinde `git show` komutunu çalıştıracak olsanız, etiketle ilgili ek bilgiler görmezsiniz. Komut yalnızca kaydı gösterir:
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -957,9 +957,9 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### Etiketleri Doğrulamak ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+İmzalı bir etiketi doğrulamak için `git tag -v [etiket-adi]` komutu kullanılır. Bu komut imzayı doğrulamak için GPG'yi kullanır. Bunun düzgün çalışması için imza sahibinin kamusal anahtarı (_public key_) anahtar halkanızda (_keyring_) bulunmalıdır.
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -981,9 +981,9 @@ If you don’t have the signer’s public key, you get something like this inste
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Tagging Later ###
+### Sonradan Etiketleme ###
 
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+Geçmişteki kayıtları da etiketleyebilirsiniz. Diyelim ki Git tarihçeniz şöyle olsun:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -997,11 +997,11 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Now, suppose you forgot to tag the project at `v1.2`, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+Söz gelimi, "updated rakefile" kaydında projenizi `v1.2` olarak etiketlemeniz gerekiyordu, ama unuttunuz. Etiketi sonradan da ekleyebilirsiniz. O kaydı etiketlemek için komutun sonuna kaydın sınama toplamını (ya da bir parçasını) eklemelisiniz:
 
 	$ git tag -a v1.2 9fceb02
 
-You can see that you’ve tagged the commit:
+Kaydın etiketlendiğini göreceksiniz:
 
 	$ git tag
 	v0.1
@@ -1024,9 +1024,9 @@ You can see that you’ve tagged the commit:
 	    updated rakefile
 	...
 
-### Sharing Tags ###
+### Etiketleri Paylaşmak ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches — you can run `git push origin [tagname]`.
+Aksi belirtilmedikçe `git push` komutu etiketleri uzak uçbirimelere aktarmaz. Etiketleri belirtik biçimde bir ortak sunucuya itmeniz gerekir. Bu süreç uçbirim dallarını paylaşmaya benzer —`git push origin [etiket-adi] komutunu çalıştırabilirsiniz.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1036,7 +1036,7 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+Bir seferde birden çok etiketi paylaşmak isterseniz, `git push` komutuyla birlikte `--tags` seçeneğini de kullanabilirsiniz. Bu, halihazırda itilmemiş olan bütün etiketlerinizi uzak uçbirime aktaracaktır.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1050,61 +1050,61 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+Artık başka biri sizin yazılım havuzunuzdan çekme yaptığında, bütün etiketlerinize de sahip olacaktır.
 
-## Tips and Tricks ##
+## İpuçları ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+Git'in temelleri hakkındaki bu bölümü tamamlamadan önce, Git deneyiminizi kolaylaştırabilmek için birkaç ipucu vermekte yarar var. Pekçok insan Git'i bu ipuçlarına başvurmadan kullanıyor; bu ipuçlarından ileride tekrar söz etmeyeceğimiz gibi bunları bilmeniz gereltiğini de varsaymıyoruz; ama yine de bilmeniz yararınıza olacaktır.
 
-### Auto-Completion ###
+### Otomatik Tamamlama ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+Eğer Bash -shell_'ini kullanıyorsanız, Git'in otomatik tamamlama betiğini (_script_) kullanabilirsiniz. Git kaynak kodunu indirip `contrib/completion` klasörüne bakın; orada `git-completion.bash` adında bir dosya olmalı. Bu dosyayı ana dizininize (_home_) kopyalayıp `.bashrc` dosyanıza ekleyin:
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+Otomatik tamamlama özelliğinin bütün Git kullanıcıları için geçerli olmasını istiyorsanız, bu betik dosyasını Mac sistemler için `/opt/local/etc/bash_completion.d` konumuna Linux sistemlerde `/etc/bash_completion.d/` konumuna kopyalayın. Bu, Bash'ın otomatik olarak yükleyeceği betiklerin bulunduğu bir klasördür.
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+Eğer bir Windows kullanıcısıysanız ve Git Bash kullanıyorsanız- ki bu msysGit'le kurulum yaptığınızdaki öntanımlı programdır, otomatik tamamlama kendiliğinden gelecektir.
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+Bir Git komutu yazarken Tab tuşuna bastığınızda, karşınıza bir dizi seçenek getirir:
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing `git co` and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+Bu örnekte, `git co` yazıp Tab tuşuna iki kez basmak `commit` ve `config` komutlarını öneriyor. Komutun devamında `m` yazıp bir kez daha Tab tuşuna basacak olursanız, komut otomatik olarak `git commit`'e tamamlanır.
 
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+Bu, seçeneklerde de kullanılabilir, ki muhtemelen daha yararlı olacaktır. Örneğin, `git log` komutunu çalıştırıren seçeneklerden birisini hatırlayamadınız, seçeneği yazmaya başlayıp Tab tuşuna basarak eşleşen seçenekleri görebilirsiniz:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+Bu güzel özellik sizi zaman kazandırabileceği gibi ikide bir dokümantasyona bakma gereğini de ortadan kaldırır.
 
-### Git Aliases ###
+### Takma Adlar ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+Bir komutun bir kısmını yazdığınızda Git bunu anlamayacaktır. Komutların uzun adlarını kullanmak istemezseniz, `git cofig` komutunu kullanarak bunların yerine daha kısa takma adlar belirleyebilirsiniz. Kullanmak isteyebileceğiniz bazı takma adları buraya aldık:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+Bu durumda, örneğin,  `git commit` yazmak yerine `git ci` yazmanız yeterli olacaktır. Git'i kullandıkça sık kullandığınız başka komutlar da olacaktır, o zaman o komutlar için de takma adlar oluşturabilirsiniz.
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+Bu teknik, eksikliğini hissettiğiniz komutları oluşturmakta da yararlı olabilir. Örneğin, bir dosyayı hazırlık alanından kaldırmak için yapılması gerekenleri yeni bir komut olarak tanımlayabilirsiniz:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+Bu durumda şu iki komut eşdeğer olacaktır:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Biraz daha temiz değil mi? Bir `last` komutu ekleek de oldukça yaygındır:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+Böylece son kaydı kolaylıkla görebilirsiniz:
 
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1115,10 +1115,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it to. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Gördüğünüz gibi Git yeni komutu takma ad olarak belirlediğini şeyin yerine kullanıyor. Ama belki de bir Git komutu çalıştırmak değil de başka br program kullanmak istiyorsunuz. Bu durumda komutun başına `!` karakterini koymalısınız. Bir Git yazılım havuzu üzerinde çalışan kendi araçlarınızı yazıyorsanız bu seçenek yararlı olabilir. Bunu göstermek için ,gitk`'yi çalıştırmak için `git visual` diye yeni bir takma ad tanımlayabiliriz:
 
 	$ git config --global alias.visual "!gitk"
 
-## Summary ##
+## Özet ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+Bu noktada, bütün temel Git işlemlerini yapabiliyorsunuz —bir yazılım havuzunu yaratmak ya da klonlamak, değişiklikler yapmak, bu değişiklikleri kayda hazırlamak ve kaydetmek ve yazılım havuzundaki bütün kayıtların tarihçesini görüntülemek. Sıradaki bölümde Git'in en vurucu özelliğini, dallanma modelini inceleyeceğiz.

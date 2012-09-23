@@ -1,152 +1,153 @@
-# Git Branching #
+# Git'te Dallanma #
 
-Nearly every VCS has some form of branching support. Branching means you diverge from the main line of development and continue to do work without messing with that main line. In many VCS tools, this is a somewhat expensive process, often requiring you to create a new copy of your source code directory, which can take a long time for large projects.
+Neredeyse her SKS'nin bir dallanma (_branching_) işlevi vardır. Dallanma, ana geliştirme çizgisinden sapmak ve işinizi o ana geliştirme çizgisine bulaşmadan devam ettirmek anlamına gelir. Çoğu SKS aracında bu pahalı bir süreçtir; kaynak kod klasörünüzün yeni bir kopyasını yapmanızı gerektirir ve büyük projelerde çok zaman alır.
 
-Some people refer to the branching model in Git as its “killer feature”  , and it certainly sets Git apart in the VCS community. Why is it so special? The way Git branches is incredibly lightweight, making branching operations nearly instantaneous and switching back and forth between branches generally just as fast. Unlike many other VCSs, Git encourages a workflow that branches and merges often, even multiple times in a day. Understanding and mastering this feature gives you a powerful and unique tool and can literally change the way that you develop.
+Bazıları Git'in dallanma modelinin onun "en vurucu özelliği" olduğunu söylerler; bu özelliğin SKS topluluğu içinde Git'i ayrı bir yere koyduğu doğrudur. Onu bu kadar özel yapan nedir? Git'te dallanmalar çok kolay ve neredeyse anlıktır, üstelik farklı dallar arasında gidip gelmek de bir o kadar hızlıdır. Çoğu SKS'den farklı olarak Git dallanma ve birleştirmenin (_merge_) sık (belki de günde birkaç kez) gerçekleşeceği bir iş akışını teşvik eder. Bu özelliği anlayıp bu konuda ustalaşmak size son derece becerikli ve eşsiz bir araç sağlayabileceği gibi çalışma biçiminizi de bütnüyle değiştirebilir.
 
-## What a Branch Is ##
+## Dal Nedir? ##
 
-To really understand the way Git does branching, we need to take a step back and examine how Git stores its data. As you may remember from Chapter 1, Git doesn’t store data as a series of changesets or deltas, but instead as a series of snapshots.
+Git'in dallanma ilemini nasıl yaptığını gerçekten anlayabilmek için geriye doğru bir adım atıp Git'in verilerini nasıl depoladığına bakmamız gerekiyor. 1. Bölüm'den hatırlayabileceğiniz üzere, Git verilerini bir dizi değişiklik olarak değil bir dizi bellek kopyası olarak depolar.
 
-When you commit in Git, Git stores a commit object that contains a pointer to the snapshot of the content you staged, the author and message metadata, and zero or more pointers to the commit or commits that were the direct parents of this commit: zero parents for the first commit, one parent for a normal commit, and multiple parents for a commit that results from a merge of two or more branches.
+Git'te bir kayıt yaptığınızda, Git, kayda hazırladığınız içeriğin bellek kopyasına işaret eden imleci, yazar ve mesaj üstverisini ve söz konusu kaydın atalarını gösteren sıfır ya da daha fazla imleci (ilk kayıt için sıfır ata, normal bir kayıt için bir ata, iki ya da daha fazla dalın birleştirilmesinden oluşan bir kayıt için birden çok ata) içeren bir kayıt nesnesini depolar.
 
-To visualize this, let’s assume that you have a directory containing three files, and you stage them all and commit. Staging the files checksums each one (the SHA-1 hash we mentioned in Chapter 1), stores that version of the file in the Git repository (Git refers to them as blobs), and adds that checksum to the staging area:
+Bunu görselleştirmek için, üç dosyadan oluşan bir klasörünüzün olduğunu ve bu üç dosyayı da kayıt için hazırladığınızı varsayalım. Dosyaları kayda hazırlamak herbir dosyanın sınama toplamını alır (1. Bölüm'de söz ettiğimiz SHA-1 özeti), dosyanın o sürümünü Git yazılım havuzunda depolar (Git'te bunlara _blob_ denir (Ç.N. _blob_ Türkçeye damla ya da topak diye çevrileblir, fakat kelimeyi olduğu gibi kullanmanın daha anlaşılır olacağını düşündük.)) ve sınama toplamını hazırlık alanına ekler:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-When you create the commit by running `git commit`, Git checksums each subdirectory (in this case, just the root project directory) and stores those tree objects in the Git repository. Git then creates a commit object that has the metadata and a pointer to the root project tree so it can re-create that snapshot when needed.
+`git commit` komutunu çalıştırarak bir kayıt oluşturduğunuzda, Git her bir alt klasörün (bu örnekte yalnızca kök klasörün) sınama toplamını alır ve bu ağaç yapısındaki bu nesneleri yazılım havuzunda depolar. Git, daha sonra, üst veriyi ve ihtiyaç duyulduğunda bellek kopyasının yeniden yaratabilmek için ağaç yapısındaki nesneyi gösteren bir imleci içeren bir kayıt nesneyi yaratır.
 
-Your Git repository now contains five objects: one blob for the contents of each of your three files, one tree that lists the contents of the directory and specifies which file names are stored as which blobs, and one commit with the pointer to that root tree and all the commit metadata. Conceptually, the data in your Git repository looks something like Figure 3-1.
+Şimdi, Git yazılım havuzunuzda beş nesne bulunuyor: üç dosyanızın herbiri için bir içerik _blob_'u, klasörün içeriğini listeleyen ve hangi dosyanın hangi _blob_'da depolandığı bilgisini içeren bir ağaç nesnesi ve o ağaç nesnesini gösteren bir imleci ve bütün kayıt üstverisini içeren bir kayıt nesnesi. Kavramsal olarak, Git yazılım havuzunuzdaki veri Figür 3-1'deki gibi görünür.
 
 Insert 18333fig0301.png 
-Figure 3-1. Single commit repository data.
+Figür 3-1. Tek kayıtlı yazılım havuzundaki veri.
 
-If you make some changes and commit again, the next commit stores a pointer to the commit that came immediately before it. After two more commits, your history might look something like Figure 3-2.
+Yeniden değişiklik yapıp kaydederseniz, yeni kayıt kendisinden hemen önce gelen kaydı gösteren bir imleci de depolar. İki ya da daha fazla kaydın sonunda tarihçeniz Figür 3-2'deki gibi görünür.
 
 Insert 18333fig0302.png 
-Figure 3-2. Git object data for multiple commits.
+Figür 3-2. Birden çok kayıt sonunda Git nesne verisi.
 
-A branch in Git is simply a lightweight movable pointer to one of these commits. The default branch name in Git is master. As you initially make commits, you’re given a master branch that points to the last commit you made. Every time you commit, it moves forward automatically.
+Git'te bir dal, bu kayıtlardan birine işaret eden, yer değiştirebilen kıvrak bir imleçten ibarettir. Git'teki varsayılan dal adı `master`'dır. İlk kaydı yaptığınızda, son yatığınız kaydı gösteren bir `master` dalına sahip olursunuz. Her kayıt yaptığınızda dal otomatik olarak son kaydı göstermek üzere hareket eder.
 
 Insert 18333fig0303.png 
-Figure 3-3. Branch pointing into the commit data’s history.
+Figür 3-3. Dalkayıt verisinin tarihçesini gösteriyor.
 
-What happens if you create a new branch? Well, doing so creates a new pointer for you to move around. Let’s say you create a new branch called testing. You do this with the `git branch` command:
+Yeni bir dal oluşturduğunuzda ne olur? Yeni kayıtlarla ilerlemenizi sağlayan yeni bir imleç yaratılır. Söz gelimi, `testing` adında yeni bir dal oluşturalım. Bunu, `git branch` komutuyla yapabilirsiniz:
 
 	$ git branch testing
 
-This creates a new pointer at the same commit you’re currently on (see Figure 3-4).
+Bu, şu an bulunduğunuz kayıttan hareketle yeni bir imleç yaratır (bkz. Figür 3-4).
+
 
 Insert 18333fig0304.png 
-Figure 3-4. Multiple branches pointing into the commit’s data history.
+Figür 3-4. Birden çok dal kayıt verisinin tarihçesini gösteriyor.
 
-How does Git know what branch you’re currently on? It keeps a special pointer called HEAD. Note that this is a lot different than the concept of HEAD in other VCSs you may be used to, such as Subversion or CVS. In Git, this is a pointer to the local branch you’re currently on. In this case, you’re still on master. The git branch command only created a new branch — it didn’t switch to that branch (see Figure 3-5).
+Git şu an hangi dalın üzerinde olduğunuzu nereden biliyor? `HEAD` adında özel bir imleç tutuyor. Unutmayın, buradaki `HEAD` Subversion ya da CVS gibi başka SKS'lerden alışık olduğunuz `HEAD`'den çok farklıdır. Git'te bu, üzerinde bulunduğunuz yerel dalı gösterir. Bu örnekte hâlâ `master` dalındasınız. `git branch` komutu yalnızca yeni bir dal yarattı —o dala atlamadı (bkz. Figür 3-5).
 
 Insert 18333fig0305.png 
-Figure 3-5. HEAD file pointing to the branch you’re on.
+Figür 3-5. HEAD dosyası üzerinde bulunduğunuz dalı gösteriyor.
 
-To switch to an existing branch, you run the `git checkout` command. Let’s switch to the new testing branch:
+Varolan bir dala atlamak için `git checkout` komutunu çalıştırmalısınız. Gelin, `testing` dalına atlayalım:
 
 	$ git checkout testing
 
-This moves HEAD to point to the testing branch (see Figure 3-6).
+Bu, `HEAD`'in `testing` dalını göstermesiyle sonuçlanır (bkz. Figür 3-6).
 
 Insert 18333fig0306.png
-Figure 3-6. HEAD points to another branch when you switch branches.
+Figür 3-6. Dal değiştirdiğinizde HEAD üzerinde olduğunuz dalı gösterir.
 
-What is the significance of that? Well, let’s do another commit:
+Bunun ne önemi var? Gelin bir kayıt daha yapalım:
 
 	$ vim test.rb
 	$ git commit -a -m 'made a change'
 
-Figure 3-7 illustrates the result.
+Figür 3-7 sonucu resmediyor.
 
 Insert 18333fig0307.png 
-Figure 3-7. The branch that HEAD points to moves forward with each commit.
+Figür 3-7. HEAD'in gösterdiği dal her kayıtla ileri doğru hareket eder.
 
-This is interesting, because now your testing branch has moved forward, but your master branch still points to the commit you were on when you ran `git checkout` to switch branches. Let’s switch back to the master branch:
+Burada ilginç olan `testing` dalı ilerlediği halde `master` dalı hâlâ dal değiştirmek için `git checkout, komutunu çalıştırdığınız zamanki yerinde duruyor. Gelin yeniden `master` dalına dönelim.
 
 	$ git checkout master
 
-Figure 3-8 shows the result.
+Figür 3-8 sonucu gösteriyor.
 
 Insert 18333fig0308.png 
-Figure 3-8. HEAD moves to another branch on a checkout.
+Figür 3-8. Seçme (checkout) işlemi yapıldığında HEAD başka bir dalı gösterir.
 
-That command did two things. It moved the HEAD pointer back to point to the master branch, and it reverted the files in your working directory back to the snapshot that master points to. This also means the changes you make from this point forward will diverge from an older version of the project. It essentially rewinds the work you’ve done in your testing branch temporarily so you can go in a different direction.
+Örnekteki komut iki şey yaptı. `HEAD` imlecini yeniden `master` dalını gösterecek şekilde hareket ettirdi ve çalışma klasörünüzdeki dosyaları `master`'ın gösterdiği bellek kopyasındaki hallerine getirdi. Bu demek oluyor ki, bu noktada yapacağınız değişiklikler projenin daha eski bir sürümünü baz alacak. Özünde, başka bir yöne gidebilmek için `testing` dalında yaptığınız değişiklikleri geçici olarak geri almış oldunuz.
 
-Let’s make a few changes and commit again:
+Gelin bir değişiklik daha yapıp kaydedelim:
 
 	$ vim test.rb
 	$ git commit -a -m 'made other changes'
 
-Now your project history has diverged (see Figure 3-9). You created and switched to a branch, did some work on it, and then switched back to your main branch and did other work. Both of those changes are isolated in separate branches: you can switch back and forth between the branches and merge them together when you’re ready. And you did all that with simple `branch` and `checkout` commands.
+Şimdi proje tarihçeniz iki ayrı dala ıraksadı (bkz. Figür 3-9). Yeni bir dal yaratıp ona geçtiniz, bazı değişiklikler yaptınız; sonra ana dalınıza geri döndünüz ve başka bazı değişiklikler yaptınız. Bu iki değişiklik iki ayrı dalda birbirinden yalıtık durumdalar: iki dal arasında gidip gelebilir, hazır olduğunuzda bu iki dalı birleştirebilirsiniz. Bütün bunları yalnızca `branch` ve `checkout` komutlarını kullanarak yaptınız.
 
 Insert 18333fig0309.png 
-Figure 3-9. The branch histories have diverged.
+Figür 3-9. Dal tarihçeleri birbirinden ıraksadı.
 
-Because a branch in Git is in actuality a simple file that contains the 40 character SHA-1 checksum of the commit it points to, branches are cheap to create and destroy. Creating a new branch is as quick and simple as writing 41 bytes to a file (40 characters and a newline).
+Git'te bir dal işaret ettiği kaydın 40 karakterlik SHA-1 sınama toplamını içeren basit bir dosyadan ibaret olduğu için dalları yaratmak ve yok etmek oldukça masrafsızdır. Yeni bir dal yaratmak bir dosyaya 41 karakter (40 karakter ve bir satır sonu) yazmak kadar hızlıdır.
 
-This is in sharp contrast to the way most VCS tools branch, which involves copying all of the project’s files into a second directory. This can take several seconds or even minutes, depending on the size of the project, whereas in Git the process is always instantaneous. Also, because we’re recording the parents when we commit, finding a proper merge base for merging is automatically done for us and is generally very easy to do. These features help encourage developers to create and use branches often.
+Bu, çoğu SKS'nin bütün proje dosyalarını yeni bir klasöre kopyalamayı gerektiren dallanma yaklaşımıyla keskin bir karşıtlık içindedir. Söz konusu yaklaşımda projenin boyutlarına bağlı olarak dallanma saniyeler, hatta dakikalar sürebilir; Git'te ise bu süreç her zaman anlıktır. Ayrıca, kayıt yaparken ata kayıtları da kaydettiğimiz için birleştirme sırasında uygun bir ortak payda bulma işi de otomatik olarak ve genellikle oldukça kolayca halledilir. Bu özellikler yazılımcıları sık sık dal yaratıp kullanmaya teşşvik eder.
 
-Let’s see why you should do so.
+Neden böyle olması gerektiğine yaından bakalım.
 
-## Basic Branching and Merging ##
+## Dallanma ve Birleştirmenin Temelleri ##
 
-Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
+Gelin, basit bir örnekle, gerçek hayatta kullanacağınız bir dallanma ve birleştirme işleyişinin üstünden geçelim. Şu adımları izleyeceksiniz:
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1.	Bir web sitesi üzerine çalışıyor olun.
+2.	Üzerinde çalıştığınız yeni bir iş parçası için bir dal yaratın.
+3.	Çalışmalarınızı bu dalda gerçekleştirin.
 
-At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
+Bu noktada, sizden kritik önemde başka sorun üzerinde çalışıp hızlıca bir yama hazırlamanız istensin. Bu durumda şunları yapacaksınız:
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1.	Ana dalınıza geri dönün.
+2.	Yamayı eklemek için yeni bir dal oluşturun.
+3.	Testleri tamamlandıktan sonra yama dalını ana dalla birleştirip yayına verin.
+4.	Çalışmakta olduğunuz iş parçası dalına geri dönüp çalışmaya devam edin.
 
-### Basic Branching ###
+### Dallanmanın Temelleri ###
 
-First, let’s say you’re working on your project and have a couple of commits already (see Figure 3-10).
+Önce, diyelim ki bir projede çalışıyorsunuz ve halihazırda birkaç tane kaydınız var (bkz. Figür 3-10).
 
 Insert 18333fig0310.png 
-Figure 3-10. A short and simple commit history.
+Figür 3-10. Kısa ve basit bir kayıt tarihçesi.
 
-You’ve decided that you’re going to work on issue #53 in whatever issue-tracking system your company uses. To be clear, Git isn’t tied into any particular issue-tracking system; but because issue #53 is a focused topic that you want to work on, you’ll create a new branch in which to work. To create a branch and switch to it at the same time, you can run the `git checkout` command with the `-b` switch:
+Şirketinizin kullandığı sorun izleme programındaki #53 numaralı sorun üzerinde çalışmaya karar verdiniz. Açıklığa kavuşturmak için söyleyelim: Git herhangi bir sorun izleme programına bağlı değildir; ama #53 numaralı sorun üzerinde çalışmak istediğiniz başı sonu belli bir konu olduğu için, çalışmanızı bir dal üzerinde yapacaksınız. Bir dalı yaratır yaratmaz hemen ona geçiş yapmak için `git checout` komutunu `-b` seçeneğiyle birlikte kullanabilirsiniz:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
 
-This is shorthand for:
+Bu, aşağıdaki iki komutun yerine kullanabileceğiniz bir kısayoldur:
 
 	$ git branch iss53
 	$ git checkout iss53
 
-Figure 3-11 illustrates the result.
+Figür 3-11 sonucu resmediyor.
 
 Insert 18333fig0311.png 
-Figure 3-11. Creating a new branch pointer.
+Figür 3-11. Yeni bir dal imleci yaratmak.
 
-You work on your web site and do some commits. Doing so moves the `iss53` branch forward, because you have it checked out (that is, your HEAD is pointing to it; see Figure 3-12):
+Web sitesi üzerinde çalışıp bazı kayıtlar yapıyorsunuz. Bunu yaptığınızda `iss53` dalı ilerliyor, çünkü seçtiğiniz dal o (yani `HEAD` onu gösteriyor; bkz. Figür 3-12).
 
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
 Insert 18333fig0312.png 
-Figure 3-12. The iss53 branch has moved forward with your work.
+Figür 3-12. Çalışamız sonucunda iss53 dalı ilerledi.
 
-Now you get the call that there is an issue with the web site, and you need to fix it immediately. With Git, you don’t have to deploy your fix along with the `iss53` changes you’ve made, and you don’t have to put a lot of effort into reverting those changes before you can work on applying your fix to what is in production. All you have to do is switch back to your master branch.
+Şimdi, sizden web sitesindeki bir sorun için acilen bir yama hazırlamanız istensin. Git kullanıyorsanız, yamayı daha önce `iss53` dalında yaptığınız yaptığınız değişikliklerle birlikte yayına sokmanız gerekmez; yama üzerinde çalışmaya başlamadan önce söz konusu değişiklikleri geri alıp yayındaki web sitesini kaynak koduna ulaşabilmek için fazla çabalamanıza da gerek yok. Tek yapmanız gereken `master` dalına geri dönmek.
 
-However, before you do that, note that if your working directory or staging area has uncommitted changes that conflict with the branch you’re checking out, Git won’t let you switch branches. It’s best to have a clean working state when you switch branches. There are ways to get around this (namely, stashing and commit amending) that we’ll cover later. For now, you’ve committed all your changes, so you can switch back to your master branch:
+Ama, bunu yapmadan önce şunu belirtmekte yarar var: eğer çalışma klasörünüzde ya da kayda hazırlık alanında seçmek (_checkout_) istediğiniz dalla uyuşmazlık gösteren kaydedilmemiş değişiklikler varsa, Git dal değiştirmenize izin vermeyecektir. Dal değiştirirken çalışma alanınızı temiz olması en iyisidir. Bunun üstesinden gelmek için başvurulabilecek yolları (zulalama ve kayıt değiştirme gibi) daha sonra inceleyeceğiz. Şimdilik, bütün değişikliklerinizi kaydettiniz, dolayısıyla `master` dalına geçiş yapabilirsiniz.
 
 	$ git checkout master
 	Switched to branch "master"
 
-At this point, your project working directory is exactly the way it was before you started working on issue #53, and you can concentrate on your hotfix. This is an important point to remember: Git resets your working directory to look like the snapshot of the commit that the branch you check out points to. It adds, removes, and modifies files automatically to make sure your working copy is what the branch looked like on your last commit to it.
+Bu noktada, çalışma klasörünüz #53 numaralı sorun üzerinde çalışmaya başlamadan hemen önceki halindedir ve yamayı hazırlamaya odaklanabilirsiniz. Burası önemli: Git, çalışma klasörünüzü seçtiğiniz dalın gösterdiği kaydın bellek kopyasıyla aynı olacak şekilde ayarlar. Dal, son kaydınızda nasıl görünüyorsa çalışma klasörünü o hale getirbilmek için otomatik olarak dosyaları ekler, siler ve değiştirir.
 
-Next, you have a hotfix to make. Let’s create a hotfix branch on which to work until it’s completed (see Figure 3-13):
+Sırada, hazırlanacak yama var. Şimdi yama üzerinde çalışmak için bir `hotfix` dalı oluşturalım (bkz. Figür 3-13):
 
 	$ git checkout -b 'hotfix'
 	Switched to a new branch "hotfix"
@@ -156,9 +157,9 @@ Next, you have a hotfix to make. Let’s create a hotfix branch on which to work
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figure 3-13. hotfix branch based back at your master branch point.
+Figür 3-13. hotfix dalı master dalını baz alıyor.
 
-You can run your tests, make sure the hotfix is what you want, and merge it back into your master branch to deploy to production. You do this with the `git merge` command:
+Testlerinizi uygulayabilir, yamanızın istediğiniz gibi olduğundan emin olduktan sonra yayına sokabilmek için `master` dalıyla birleştirebilirsiniz. Bunun için `git merge` komutu kullanılır:
 
 	$ git checkout master
 	$ git merge hotfix
@@ -167,19 +168,19 @@ You can run your tests, make sure the hotfix is what you want, and merge it back
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-You’ll notice the phrase "Fast forward" in that merge. Because the commit pointed to by the branch you merged in was directly upstream of the commit you’re on, Git moves the pointer forward. To phrase that another way, when you try to merge one commit with a commit that can be reached by following the first commit’s history, Git simplifies things by moving the pointer forward because there is no divergent work to merge together — this is called a "fast forward".
+Birleştirme çıktısındaki "Fast forward" ifadesine dikkat. Birleştirdiğiniz dalın gösterdiği kayıt, üstünde bulunduğunuz dalın doğrudan devamı olduğundan, Git yalnızca imleci ileri alır. Başka bir deyişle, bir kaydı, kendi tarihçesinde geri giderek ulaşılabilecek bir başka kayıtla birleştiriyorsanız, Git ıraksayan ve birleştirilmesi gereken herhangi bir şey olmadığı için işleri kolaylaştırıp imleci ileri alır —buna "fast forward" (hızlı ileri alma) denir.
 
-Your change is now in the snapshot of the commit pointed to by the `master` branch, and you can deploy your change (see Figure 3-14).
+Yaptığınız değişiklik artık `master` dalı tarafından işaret edilen kaydın bellek kopyasındadır ve yayımlanabilir (bkz. Figür 3-14).
 
 Insert 18333fig0314.png 
-Figure 3-14. Your master branch points to the same place as your hotfix branch after the merge.
+Figür 3-14. Birleştirmeden sonra master dalınız hotfix dalınızla aynı yeri gösterir.
 
-After your super-important fix is deployed, you’re ready to switch back to the work you were doing before you were interrupted. However, first you’ll delete the `hotfix` branch, because you no longer need it — the `master` branch points at the same place. You can delete it with the `-d` option to `git branch`:
+Bu çok önemli yama yayımlandıktan sonra, kaldığınız yere geri dönebilirsiniz. Fakat önce `hotfix` dalını sileceksiniz, çünkü artık ona ihtiyacınız kalmadı —`master` dalı aynı yeri gösteriyor. `git branch` komutunu `-d` seçeneğiyle birlikte kullanarak silme işlemini yapabilirsiniz:
 
 	$ git branch -d hotfix
 	Deleted branch hotfix (3a0874c).
 
-Now you can switch back to your work-in-progress branch on issue #53 and continue working on it (see Figure 3-15):
+Şimdi kaldığınız yere geri dönebilir ve #53 numaralı sorun üzerinde çalışmaya devam edebilirsiniz (bkz. 3-15).
 
 	$ git checkout iss53
 	Switched to branch "iss53"
@@ -189,9 +190,9 @@ Now you can switch back to your work-in-progress branch on issue #53 and continu
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Insert 18333fig0315.png 
-Figure 3-15. Your iss53 branch can move forward independently.
+Figür 3-15. iss53 dalınız bağımsız olarak ilerleyebilir.
 
-It’s worth noting here that the work you did in your `hotfix` branch is not contained in the files in your `iss53` branch. If you need to pull it in, you can merge your `master` branch into your `iss53` branch by running `git merge master`, or you can wait to integrate those changes until you decide to pull the `iss53` branch back into `master` later.
+Şunu belirtmekte yarar var: `hotfix` dalında yaptığınız düzeltme `iss53` dalındaki dosyalarda bulunmuyor. Eğer bu değişikliği çekmek isterseniz, `git merge master` komutunu çalıştırarak `master` dalınızı `iss53` dalınızla birleştirebilirsiniz; alternatif olarak `iss53` dalındaki değişiklikleri `master`dalıyla birleştirmeye hazır hale getirene kadar bekleyebilirsiniz.
 
 ### Basic Merging ###
 

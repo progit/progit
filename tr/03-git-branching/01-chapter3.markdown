@@ -222,14 +222,14 @@ Figür 3-17. Git, otomatik olarak, birleştirilmiş çalışmayı içeren yeni b
 
 ### Temel Birleştirme Uyuşmazlıkları ###
 
-Occasionally, this process doesn’t go smoothly. If you changed the same part of the same file differently in the two branches you’re merging together, Git won’t be able to merge them cleanly. If your fix for issue #53 modified the same part of a file as the `hotfix`, you’ll get a merge conflict that looks something like this:
+Zaman zaman bu süreç o kadar da pürüzsüz ilerlemez. Eğer aynı dosyanın aynı bölümünü her iki dalda da değiştirmişseniz, Git temiz bir birleştirme yapamaz. #53 numaları sorun için hazırladığınız düzeltme `hotfix`le aynı yazılım parçasını değiştiriyorsa, şuna benzer bir birleştirme uyuşmazlığıyla karşılaşırsınız:
 
 	$ git merge iss53
 	Auto-merging index.html
 	CONFLICT (content): Merge conflict in index.html
 	Automatic merge failed; fix conflicts and then commit the result.
 
-Git hasn’t automatically created a new merge commit. It has paused the process while you resolve the conflict. If you want to see which files are unmerged at any point after a merge conflict, you can run `git status`:
+Burada Git otomatik olarak yeni bir birleştirme kaydı oluşturmadı. Sizin uyuşmazlığı çözmenizi beklemek için sürece ara verdi. Bir birleştirme uyuşmazlığından sonra hangi dosyaların birleştirilmemiş olduğunu görmek için `git status` komutunu çalıştırabilirsiniz.
 
 	[master*]$ git status
 	index.html: needs merge
@@ -241,7 +241,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	#	unmerged:   index.html
 	#
 
-Anything that has merge conflicts and hasn’t been resolved is listed as unmerged. Git adds standard conflict-resolution markers to the files that have conflicts, so you can open them manually and resolve those conflicts. Your file contains a section that looks something like this:
+Birleştirme uyuşmazlığı henüz çözümlenmemiş her şey _unmerged_ (birleştirilmemiş) olarak gösterilecektir. Git, dosyaları açıp uyuşmazlıkları çözümleyebilmeniz için standartuyuşmazlık-çözümleme işaretçileri koyar. Dosyanızda şuna benzer bir bölümle karşılaşırsınız:
 
 	<<<<<<< HEAD:index.html
 	<div id="footer">contact : email.support@github.com</div>
@@ -251,14 +251,14 @@ Anything that has merge conflicts and hasn’t been resolved is listed as unmerg
 	</div>
 	>>>>>>> iss53:index.html
 
-This means the version in HEAD (your master branch, because that was what you had checked out when you ran your merge command) is the top part of that block (everything above the `=======`), while the version in your `iss53` branch looks like everything in the bottom part. In order to resolve the conflict, you have to either choose one side or the other or merge the contents yourself. For instance, you might resolve this conflict by replacing the entire block with this:
+Burada , `HEAD`deki sürüm (ki bu `master` dalındaki sürümdür çünkü birleştirme komutunu bu daldan çalıştırdınız) üstte, (`=======` işaretinin üstündeki her şey), `iss53` dalındaki sürüm ise altta gösterilmektedir. Uyuşmazlığı çözümleyebilmek için bu ikisinden birini seçmeli, ya da birleştirmeyi istediğiniz gibi kendiniz düzenlemelisiniz. Söz gelimi, uyuşmazlığı çözmek için bütün bu kod bloğunun yerine şunu yerleştirebilirsiniz:
 
 	<div id="footer">
 	please contact us at email.support@github.com
 	</div>
 
-This resolution has a little of each section, and I’ve fully removed the `<<<<<<<`, `=======`, and `>>>>>>>` lines. After you’ve resolved each of these sections in each conflicted file, run `git add` on each file to mark it as resolved. Staging the file marks it as resolved in Git.
-If you want to use a graphical tool to resolve these issues, you can run `git mergetool`, which fires up an appropriate visual merge tool and walks you through the conflicts:
+Çözümlemede iki taraftan da bir şeyler var ve `<<<<<<<`, `=======`, ve `>>>>>>>` işaretlerini içeren satırlar tamamen silinmiş durumda. Uyuşmazlık olan herbir dosyadaki herbir uyuşmazlık bloğunu çözümledikten sonra herbir dosya üzerinde `git add` komutunu çalıştırarak, uyuşmazlığın o dosya için çözülmüş olduğunu belirtebilirsiniz. Bir dosyayı ayda hazırlamak o dosyayı uyuşmazlığı çözümlenmiş olarak işaretler.
+Uyuşmazlıkları çözümlemek için görsel bir araç kullanmak isterseniz `git mergetool` komutunu çalıştırabilirsiniz; bu komut size tek tek herbir uyuşmazlığı gösterecek uygun bir birleştirme aracını çalıştırır:
 
 	$ git mergetool
 	merge tool candidates: kdiff3 tkdiff xxdiff meld gvimdiff opendiff emerge vimdiff
@@ -269,11 +269,11 @@ If you want to use a graphical tool to resolve these issues, you can run `git me
 	  {remote}: modified
 	Hit return to start merge resolution tool (opendiff):
 
-If you want to use a merge tool other than the default (Git chose `opendiff` for me in this case because I ran the command on a Mac), you can see all the supported tools listed at the top after “merge tool candidates”. Type the name of the tool you’d rather use. In Chapter 7, we’ll discuss how you can change this default value for your environment.
+Varsayılan aracın dışında bir araç kullanmak isterseniz (Git, Mac'te çalıştığım için bu örnekte `opendiff`'i seçti), Git'in desteklediği bütün birleştirme araçlarının listesini en üstte “merge tool candidates” yazısından hemen sonra görebilirsiniz. Kullanmak istediğiniz aracın adını yazın. 7. Bölüm'de kendi çalışma ortamınız için varsayılan değeri nasıl değiştirebileceğinizi inceleyeceğiz.
 
-After you exit the merge tool, Git asks you if the merge was successful. If you tell the script that it was, it stages the file to mark it as resolved for you.
+Brileştirme aracını kapattıktan sonra, Git size birleştirmenin başarılı olup olmadığını soracaktır. Eğer başarılı olduğunu söylerseniz, sizin yerinize dosyayı kayda hazırlayıp çözümlenmiş olarak işaretler.
 
-You can run `git status` again to verify that all conflicts have been resolved:
+Bütün uyuşmazlıkların çözümlendiğinden emin olmak için tekrar `git status` komutunu çalıştırabilirsiniz:
 
 	$ git status
 	# On branch master
@@ -283,7 +283,7 @@ You can run `git status` again to verify that all conflicts have been resolved:
 	#	modified:   index.html
 	#
 
-If you’re happy with that, and you verify that everything that had conflicts has been staged, you can type `git commit` to finalize the merge commit. The commit message by default looks something like this:
+Durumdan memnunsanız ve uyuşmazlığı olan bütün dosyaların kayda hazırlandığından eminseniz, `git commit`'i kullanarak birleştirme kaydını tamamlayabilirsiniz. Öntanımlı kayıt mesajı şöyle görünür:
 
 	Merge branch 'iss53'
 
@@ -296,71 +296,70 @@ If you’re happy with that, and you verify that everything that had conflicts h
 	# and try again.
 	#
 
-You can modify that message with details about how you resolved the merge if you think it would be helpful to others looking at this merge in the future — why you did what you did, if it’s not obvious.
+İleride bu bürleştirme işlemini inceleyecek olanlar için yararlı olacağını düşünüyorsanız bu kayıt mesajını ayrıntılandırabilirsiniz —eğer aşikâr değilse, birleştirmeyi neden yaptığınızı, ve birleştirmede neler yaptığınızı açıklayabilirsiniz.
 
-## Branch Management ##
+## Dal Yönetimi ##
 
-Now that you’ve created, merged, and deleted some branches, let’s look at some branch-management tools that will come in handy when you begin using branches all the time.
+Dal yaratma, birleştirme ve silme işlemlerini yaptığımıza göre, gelin şimdi de dallar üzerinde çalışırken işimize yarayacak kimi dal-yönetim araçlarına gö atalım.
 
-The `git branch` command does more than just create and delete branches. If you run it with no arguments, you get a simple listing of your current branches:
+`git branch` komutu dal yaratmak ve silmekten fazlasını yapar. Bu komutu hiçbir seçenek kullanmadan çalıştırırsanız, mevcut dallarınızın bir listesini görürsünüz:
 
 	$ git branch
 	  iss53
 	* master
 	  testing
 
-Notice the `*` character that prefixes the `master` branch: it indicates the branch that you currently have checked out. This means that if you commit at this point, the `master` branch will be moved forward with your new work. To see the last commit on each branch, you can run `git branch -v`:
+`master` dalının önündeki `*` karakterine dikkatinizi çekmiştir: bu, o dalı seçmiş olduğunuzu (_checkout_) gösteriyor. Yani, bu noktada bir kayıt yapacak olursanız, yeni değişikliğiniz `master` dalını ileri götürecek. Herbir dalın en son kaydının ne olduğunu görmek isterseniz `git branch -v` komutunu çalıştırabilirsiniz:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Another useful option to figure out what state your branches are in is to filter this list to branches that you have or have not yet merged into the branch you’re currently on. The useful `--merged` and `--no-merged` options have been available in Git since version 1.5.6 for this purpose. To see which branches are already merged into the branch you’re on, you can run `git branch --merged`:
+Dallarınızın ne durumda olduğunu incelerken yararlı olacak bir başka şey de, hangi dalların üzerinde bulunduğunuz dalla birleştirilip hangisinin birleştirilmediğini görmek olabilir. `--merged` ve `--no-merge` seçenekleri Git'in 1.5.6 sürümünden itibaren kullanıma sunulmuştur. Hangi dalların üzerinde bulunduğunuz dalla birleştirilmiş olduğunu görmek için `git branch --merged` komutunu kullanabilirsiniz:
 
 	$ git branch --merged
 	  iss53
 	* master
 
-Because you already merged in `iss53` earlier, you see it in your list. Branches on this list without the `*` in front of them are generally fine to delete with `git branch -d`; you’ve already incorporated their work into another branch, so you’re not going to lose anything.
+`iss53` dalını daha önce birleştirdiğiniz için listede görüyorsunuz. Bu listede önünde `*` olmayan dalları `git branch -d` komutula silebilirsiniz; onlardaki değişiklikleri zaten başka bir dalla birleştirdiğiniz için, herhangi bir kaybınız olmaz.
 
-To see all the branches that contain work you haven’t yet merged in, you can run `git branch --no-merged`:
+Henüz birleştirmediğiniz değişikliklerin bulunduğu dalları görmek için `git branch --no-merged` komutunu çalıştırabilirsiniz:
 
 	$ git branch --no-merged
 	  testing
-
-This shows your other branch. Because it contains work that isn’t merged in yet, trying to delete it with `git branch -d` will fail:
+Burada diğer dalı görüyorsunuz. Bu dalda henüz birleştirmediğiniz değişiklikler bulunduğu için `git branch -d` komutu hata verecektir:
 
 	$ git branch -d testing
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
-If you really do want to delete the branch and lose that work, you can force it with `-D`, as the helpful message points out.
+Oradaki değişiklikleri kaybetmeyi göze alarak dalı her şeye rağmen silmek istiyorsanız, yukarıdaki çıktıda da belirtildiği gibi, `-D` seçeneğiyle üsteleyebilirsiniz.
 
-## Branching Workflows ##
+## Dallanma İş Akışları ##
 
-Now that you have the basics of branching and merging down, what can or should you do with them? In this section, we’ll cover some common workflows that this lightweight branching makes possible, so you can decide if you would like to incorporate it into your own development cycle.
+Dallanma ve birleştirmenin temellerine hakim olduğunuza göre, şimdi bu bilgiyi kullanarak neler yapabileceğimize bakalım. Bu alt bölümde masrafsız dallanmanın olanaklı kıldığı bazı yaygın iş akışları üzerinde duracağız, böylece bunları kendi geliştirme döngünüzde kullanıp kullanmamaya karar verebilirsiniz.
 
-### Long-Running Branches ###
+### Uzun Süreli Dallar ###
 
-Because Git uses a simple three-way merge, merging from one branch into another multiple times over a long period is generally easy to do. This means you can have several branches that are always open and that you use for different stages of your development cycle; you can merge regularly from some of them into others.
+Git, basit üç-taraflı birleştirme yaptığı için uzun bir zaman dilimi boyunca bir daldan diğerine çok sayıda birleştirme yapmak genellikle kolaydır. Yani, sürekli açık olan ve geliştirme döngünüzün değşik aşamalarında kullanabileceğiniz birkaç dal bulundurabilirsiniz; düzenli olarak bazılarından diğerlerine birleştirme yapabilirsiniz.
 
-Many Git developers have a workflow that embraces this approach, such as having only code that is entirely stable in their `master` branch — possibly only code that has been or will be released. They have another parallel branch named develop or next that they work from or use to test stability — it isn’t necessarily always stable, but whenever it gets to a stable state, it can be merged into `master`. It’s used to pull in topic branches (short-lived branches, like your earlier `iss53` branch) when they’re ready, to make sure they pass all the tests and don’t introduce bugs.
+Git'i kullanan pekçok yazılımcı bu yaklaşımı benimser, `master` dalında yalnızca kararlı (_stable_) durumdaki kod bulunur —yalnızca yayımlanmış olan ya da yayımlanacak kod. `develop` ya da `next` adında, kararlılık testlerinin yürütüldüğü bir paralel dalları daha vardır —bu dal o kada kararlı olmayabilir, fakat kararlı duruma getirildiğinde `master` dalına birleştirilir. Kısa ömürlü, belirli bir işlevin geliştirilmesine ayrılmış dalların (sizin `iss53` adlı dalınız gibi) hazır olduklarında birleştirilmeleri için —bütün testlerden geçtiklerinden ve yeni hatalara kapı aralamadıklarından emin olmak amacıyla— kullanılır.
 
-In reality, we’re talking about pointers moving up the line of commits you’re making. The stable branches are farther down the line in your commit history, and the bleeding-edge branches are farther up the history (see Figure 3-18).
+Gerçekte, yazılım tarihçesinde ileri doğru hareket eden imleçlerden söz ediyoruz. Kararlı dallar eski kayıtları, güncel dallar çok daha yenilerini gösterir (bkz. Figür 3-18).
 
 Insert 18333fig0318.png 
-Figure 3-18. More stable branches are generally farther down the commit history.
+Figür 3-18. Daha kararlı dallar genellikle kayıt tarihçesinde daha geride bulunurlar.
 
-It’s generally easier to think about them as work silos, where sets of commits graduate to a more stable silo when they’re fully tested (see Figure 3-19).
+Bu dalları, çalışma ambarları olarak hayal ediliriz, bir dizi kayıt bütünüyle test ediltikten sonra daha kararlı başka br ambara konulurlar (bkz. Figür 3-19).
 
 Insert 18333fig0319.png 
-Figure 3-19. It may be helpful to think of your branches as silos.
+Figure 3-19. Dalların ambarlar gibi olduğunu düşünebilirsiniz.
 
-You can keep doing this for several levels of stability. Some larger projects also have a `proposed` or `pu` (proposed updates) branch that has integrated branches that may not be ready to go into the `next` or `master` branch. The idea is that your branches are at various levels of stability; when they reach a more stable level, they’re merged into the branch above them.
-Again, having multiple long-running branches isn’t necessary, but it’s often helpful, especially when you’re dealing with very large or complex projects.
+Çeşitli kararlılık seviyeleri tanımlayıp bu işleyişi o şekilde kullanabilirsiniz. Büyük projelerde `proposed` (önerilen) ya da `pu` (proposed updates - önerilen güncellemeler) adında bir dal daha olabilir. Bu dala, `next` ya da `master` dalına birleştirilecek kadar kararlı aşamada bulunmayan dallar birleştirilir. Sonuçta, dallar farklı kararlılık seviyelerinde bulunurlar; daha kararlı bir seviyeye ulaştıklarında, bir üstlerindeki dala birleştirilirler.
+Tekrarlayalım: birden çok uzun ömürlü dal bulundurmak zorunlu değildir, ama, özellikle çok büyük ya da karmaşık projelerde çalışıyorsanız çoğunlukla yararlıdır.
 
-### Topic Branches ###
+### İşlev Dalları ###
 
 Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
 

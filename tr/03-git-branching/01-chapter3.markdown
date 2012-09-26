@@ -361,58 +361,58 @@ Tekrarlayalım: birden çok uzun ömürlü dal bulundurmak zorunlu değildir, am
 
 ### İşlev Dalları ###
 
-Topic branches, however, are useful in projects of any size. A topic branch is a short-lived branch that you create and use for a single particular feature or related work. This is something you’ve likely never done with a VCS before because it’s generally too expensive to create and merge branches. But in Git it’s common to create, work on, merge, and delete branches several times a day.
+İşlev dalları, her ölçekte proje için yararlıdır. İşlev dalları, belirli bir özellikle ilgili değişikliklerin geliştirilmesi için kullanılan kısa ömürlü dallardır. Başka SKS'lerde bu çok masraflı olduğu için, muhtemelen bu yaklaşımı daha önce benimsemediniz. Ama Git'te dal yaratmak, o dal üzerinde çalışmak, dalı birleştirmek ve daha sonra silmek, günde birkaç kez yapılan yaygın bir yöntemdir.
 
-You saw this in the last section with the `iss53` and `hotfix` branches you created. You did a few commits on them and deleted them directly after merging them into your main branch. This technique allows you to context-switch quickly and completely — because your work is separated into silos where all the changes in that branch have to do with that topic, it’s easier to see what has happened during code review and such. You can keep the changes there for minutes, days, or months, and merge them in when they’re ready, regardless of the order in which they were created or worked on.
+Bunu bir önceki alt bölümde `iss53` ve `hotfix` dalları üzerinde çalışırken gördünüz. Bu dallarda birkaç değişiklik yaptınız ve bu değişiklikleri `master` dalına birleştirdikten hemen sonra bu dalları sildiniz. Bu teknik sayesinde, bağlamlar arasında hızlı ve bütünlüklü geçişler yapabilirsiniz —çalışmalarınız belirli bir işlevin geliştirilmesine adanmış farklı ambarlara ayrılmış olduğundan, geçen süre zarfında, diyelim kod gözden geçirmesi sırasında neler olduğunu kolaylıkla görebilirsiniz. Değişikliklerinizi işlev dallarında dakikallarca, günlerce ya da aylarca tutabilir, hazır oldukları zaman, hangisinin dalın daha önce oluşturulduğuna aldırmadan birleştirebilirsiniz.
 
-Consider an example of doing some work (on `master`), branching off for an issue (`iss91`), working on it for a bit, branching off the second branch to try another way of handling the same thing (`iss91v2`), going back to your master branch and working there for a while, and then branching off there to do some work that you’re not sure is a good idea (`dumbidea` branch). Your commit history will look something like Figure 3-20.
+Diyelim ki `master` dalında çalışıyorsunuz, sonra bir hatayı gidermek için yeni bir dal yaratıyorsunuz (`iss91`), derken aynı hatayı başka türlü gidermek için yeni bir dal yaratıyorsunuz (`iss91v2`), sonra `master`'a geri dönüp biraaz daha çalışıyorsunuz, sonra aklınıza gelen ama çok da gerekli olmadığını düşündüğünüz bir şeyle ilgili çalışmak için yeni bir dal yaratıyorsununuz (`dumbidea`)... Kayıt tarihçeniz Figür 3-20'deki gibi görünecektir.
 
 Insert 18333fig0320.png 
-Figure 3-20. Your commit history with multiple topic branches.
+Figür 3-20. Birden çok işlev dalının bulunduğu kayıt tarihçeniz.
 
-Now, let’s say you decide you like the second solution to your issue best (`iss91v2`); and you showed the `dumbidea` branch to your coworkers, and it turns out to be genius. You can throw away the original `iss91` branch (losing commits C5 and C6) and merge in the other two. Your history then looks like Figure 3-21.
+Şimdi diyelim ki, hatanın giderilmesinde ikinci çözümü (`iss91v2`) kullanmaya karar veriyorsunuz ve işarkadaşlarınız `dumbidea` dalında yaptıklarınızı dahice buluyor. `iss91` dalınızı çöpe atabilir (C5 ve C6 kayıtlarını kaybedeceksiniz) diğer iki dalı birleştirebilirsiniz. Bu durumda tarihçeniz Figür 3-21'deki gibi görünecektir.
 
 Insert 18333fig0321.png 
-Figure 3-21. Your history after merging in dumbidea and iss91v2.
+Figür 3-21. dumbidea ve iss91v2'yi birleştirdikten sonra kayıt tarihçeniz.
 
-It’s important to remember when you’re doing all this that these branches are completely local. When you’re branching and merging, everything is being done only in your Git repository — no server communication is happening.
+Unutmayın, bütün bunları yerel dallarda yapıyorsunuz. Dal yaratırken ve birleştirme yaparken her şey yalnızca yerel yazılım havuzunda gerçekleşiyor —hiçbir sunucu iletişimi olmuyor.
 
-## Remote Branches ##
+## Uzak Uçbirim Dalları ##
 
-Remote branches are references to the state of branches on your remote repositories. They’re local branches that you can’t move; they’re moved automatically whenever you do any network communication. Remote branches act as bookmarks to remind you where the branches on your remote repositories were the last time you connected to them.
+Yerel yazılım havuzunuzdaki uzak uçbirim dalları, uzak uçbirimlerdeki yazılım havuzlarınızın durumlarını gösteren imleçlerdir. Bunlar, hareket ettiremediğiniz yerel dallardır; yalnızca sunucuyla iletişim kurduğunuzda hareket ederler. Bu dallar, son bağlandığınızda sunucudaki yazılım havuzunun ne durumda olduğunu hatırlatan işaretçilerdir.
 
-They take the form `(remote)/(branch)`. For instance, if you wanted to see what the `master` branch on your `origin` remote looked like as of the last time you communicated with it, you would check the `origin/master` branch. If you were working on an issue with a partner and they pushed up an `iss53` branch, you might have your own local `iss53` branch; but the branch on the server would point to the commit at `origin/iss53`.
+`(remote)`/`(dal)` biçimindedirler. Örneğin, sunucuya son bağlandığınızda `origin` uzak uçbirimindeki `master` dalının nasıl olduğunu görmek isterseniz, `origin/master` dalına bakmalısınız. Bir hatayı bir işortağıyla birlikte çözüyorsanız ve onlar `iss53` adında bir dalı sunucuya itmişlerse, sizin yerel dalınızın adı `iss53` iken, sunucuya itilmiş olan dalın adı `origin/iss53` olacaktır.
 
-This may be a bit confusing, so let’s look at an example. Let’s say you have a Git server on your network at `git.ourcompany.com`. If you clone from this, Git automatically names it `origin` for you, pulls down all its data, creates a pointer to where its `master` branch is, and names it `origin/master` locally; and you can’t move it. Git also gives you your own `master` branch starting at the same place as origin’s `master` branch, so you have something to work from (see Figure 3-22).
+Bu biraz kafa karıştırıcı olabilir, gelin bir örnekle açıklayalım. Diyelim ki `git.ourcompany.com` adresinde bir Git sunucunuz var. Buradan klonlama yaparsanız, Git bu yazılım havuzunu otomatik olarak `origin` olarak adlandıracak, bütün veriyi indirecek, onun `master` dalının gösterdiği kaydı gösteren `origin/master` adında hareket ettiremeyeceğiniz bir yerel dal oluşturacaktır. Git ayrıca,  üzerinde çalışabilmeniz için `origin`in `master` dalının olduğu yeri gösteren `master` adında yerel bir dal da oluşturacaktır (bkz. Figür 3-22).
 
 Insert 18333fig0322.png 
-Figure 3-22. A Git clone gives you your own master branch and origin/master pointing to origin’s master branch.
+Figür 3-22. Bir Git klonladığınızda hem yerel bir master dalınız hem de origin'in master dalını gösteren origin/master adında bir dalınız olur.
 
-If you do some work on your local master branch, and, in the meantime, someone else pushes to `git.ourcompany.com` and updates its master branch, then your histories move forward differently. Also, as long as you stay out of contact with your origin server, your `origin/master` pointer doesn’t move (see Figure 3-23).
+Eğer siz kendi master dalınızda çalışırken biir başkası `git.ourcompany.com`'a itme yapıp `master` dalını güncellerse, tarihçeleriniz birbiirinden farklılaşacaktır. Üstelik, `origin` sunucusuyla iletişime geçmediğiniz sürece sizin `origin/master` dalınız hareket etmeyecektir (bkz. Figür 3-23).
 
 Insert 18333fig0323.png 
-Figure 3-23. Working locally and having someone push to your remote server makes each history move forward differently.
+Figür 3-23. Siz yerelde çalışıyorken bir başkası sunucuya itme yaparsa, tarihçeleriniz birbirinden farklı hareket etmeye başlar.
 
-To synchronize your work, you run a `git fetch origin` command. This command looks up which server origin is (in this case, it’s `git.ourcompany.com`), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position (see Figure 3-24).
+Çalışmalarınızı senkronize etmek için `git fetch origin` komutunu çalıştırabilirsiniz. Bu komut `origin`sunucusunun hangisi olduğuna bakar (bu örnekte `git.ourcompany.com`), orada bulunup da sizde olmayan her türlü veriyi indirir, yerel veritabanınızı güncelleyip yerelinizdeki `origin/master` dalını yeni, güncel konumuna taşır (bkz. Figür 3-24).
 
 Insert 18333fig0324.png 
-Figure 3-24. The git fetch command updates your remote references.
+Figür 3-24. git fetch komutu uzak uçbirim imleçlerinizi günceller.
 
-To demonstrate having multiple remote servers and what remote branches for those remote projects look like, let’s assume you have another internal Git server that is used only for development by one of your sprint teams. This server is at `git.team1.ourcompany.com`. You can add it as a new remote reference to the project you’re currently working on by running the `git remote add` command as we covered in Chapter 2. Name this remote `teamone`, which will be your shortname for that whole URL (see Figure 3-25).
+Birden çok uzak uçbirime sahip bir projede uzak uçbirim imleçlerinin nasıl görüneceğini incelemek için, Scrum takımlarınızdan birisi tarafından kullanılan başka bir sunucunuzun daha olduğunu varsayalım. Bu sunucunun adresi `git.team1.ourcompany.com` olsun. 2. Bölüm'de incelediğimiz gibi, bu sunucuyu projenize uzak uçbirim olarak eklemek için `git remote add` komutunu kullanabilirsiniz. Bu uçbirimin adı `teamone` olsun, ki bu adı daha sonra bütün URL yerine kısaltma olarak kullanacaksınız (bkz. Figür 3-25).
 
 Insert 18333fig0325.png 
-Figure 3-25. Adding another server as a remote.
+Figür 3-25. Başka bir sunucuyu uzak uçbirim olarak eklemek.
 
-Now, you can run `git fetch teamone` to fetch everything the remote `teamone` server has that you don’t have yet. Because that server is a subset of the data your `origin` server has right now, Git fetches no data but sets a remote branch called `teamone/master` to point to the commit that `teamone` has as its `master` branch (see Figure 3-26).
+`teamone` uzak uçbiriminde bulunup da sizde bulunmayan şeyleri getirmek için `git fetch teamone` komutunu çalıştırabilirsiniz. O sunucuda bulunan veriler `origin` sunucusunda bulunanların alt kümesi olduğundan, Git herhangi bir veri çekmez, ama `teamone/master` adında, `teamone` sunucusunun `master` dalının gösterdiği kaydı gösteren bir uzak uçbirim dalı oluşturur (bkz. Figür 3-26).
 
 Insert 18333fig0326.png 
-Figure 3-26. You get a reference to teamone’s master branch position locally.
+Figür 3-26. teamone'nin master dalının pozisyonunu gösteren bir yerel imleciniz oluyor.
 
-### Pushing ###
+### İtme İşlemi ###
 
-When you want to share a branch with the world, you need to push it up to a remote that you have write access to. Your local branches aren’t automatically synchronized to the remotes you write to — you have to explicitly push the branches you want to share. That way, you can use private branches for work you don’t want to share, and push up only the topic branches you want to collaborate on.
+Bir daldaki çalışmalarınızı başkalarıyla paylaşmak istediğinizde, onu yazma yetkinizin olduğu bir uzak uçbirime itmelisiniz (_push_). yerel dallarınız otomatik kolarak sunucuyla senkronize edilmez —paylaşmak istediğiniz dalları açık şekilde itmelisiniz. Böylece, paylaşmak istemediğiniz dallar için özel yerel dallar kullanıp, yalnızca paylaşmak istediğiniz işlev dallarını iteblirsiniz.
 
-If you have a branch named `serverfix` that you want to work on with others, you can push it up the same way you pushed your first branch. Run `git push (remote) (branch)`:
+Başkalarıyla ortaklaşa çalışmak istediğiniz `serverfix` adında bir dalınız varsa, onu da ilk dalınızı ittiğiniz gibi itebilirsiniz. `git push (remote) (branch)` komutunu çalıştırın.
 
 	$ git push origin serverfix
 	Counting objects: 20, done.
@@ -422,9 +422,9 @@ If you have a branch named `serverfix` that you want to work on with others, you
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-This is a bit of a shortcut. Git automatically expands the `serverfix` branchname out to `refs/heads/serverfix:refs/heads/serverfix`, which means, “Take my serverfix local branch and push it to update the remote’s serverfix branch.” We’ll go over the `refs/heads/` part in detail in Chapter 9, but you can generally leave it off. You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.” You can use this format to push a local branch into a remote branch that is named differently. If you didn’t want it to be called `serverfix` on the remote, you could instead run `git push origin serverfix:awesomebranch` to push your local `serverfix` branch to the `awesomebranch` branch on the remote project.
+Bu bir tür kısayol sayılabilir. Git `serverfix` dal adını otomatik olarak `refs/heads/serverfix:refs/heads/serverfix` biçiminde açımlar, bu şu demektir: “yerel `serverfix` dalımı alıp uzak uçbirimin `serverfix` dalını güncellemek için kullan.” `refs/heads/` kısmınz 9. Bölüm'de ayrıntısıyla değineceğiz, ama genellikle bu kısmı kullanmasanız da olur. Aynı amaçla `git push origin serverfix:serverfix` komutunu da çalıştırabilirsiniz —bu da şu demektir: “Yereldeki serverfix'i al, bunu uzak uçbirimin serverfix'i yap.” Bu biçimi, yeredeki dal adıyla uzak uçbirimdeki dal adı farklı ise kullanabilirsiniz. Dal adının uzak uçbirimde `serferfix` olmasını istemezseniz `git push origin serverfix:awesomebranch` komutunu çalıştırarak yereldeki `serverfix` dalını uzak uçbirimdeki `awesomebranch` dalına itebilirsiniz.
 
-The next time one of your collaborators fetches from the server, they will get a reference to where the server’s version of `serverfix` is under the remote branch `origin/serverfix`:
+Birlikte çalıştığınız insanlar sunucudan getirme işlemi (_fetch_) yaptıklarında,  sunucudaki `serverfix` sürümünün bulunduğu yeri gösteren `origin/serverfix` adında bir imlece sahip olacaklar.
 
 	$ git fetch origin
 	remote: Counting objects: 20, done.
@@ -434,35 +434,35 @@ The next time one of your collaborators fetches from the server, they will get a
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-It’s important to note that when you do a fetch that brings down new remote branches, you don’t automatically have local, editable copies of them. In other words, in this case, you don’t have a new `serverfix` branch — you only have an `origin/serverfix` pointer that you can’t modify.
+Unutmayın, getirme (_fetch_) komutuyla yeni uzak uçbirim dallarını indirdiğinizde, yerelde otomatik olarak değiştirilebilir dallar oluşturulmaz. Başka bir deyişle, bu örnekte, `serverfix` adında bir dalınız olmaz, değiştiremeyeceğiniz `origin/serverfix` adında bir imleciniz olur.
 
-To merge this work into your current working branch, you can run `git merge origin/serverfix`. If you want your own `serverfix` branch that you can work on, you can base it off your remote branch:
+Oradaki değişiklikleri üzerinde çalışmakta olduğunuz dala birleştirmek isterseniz, `git merge origin/serverfix` komutunu çalıştırabilirsiniz. Üzerinde çalışmak üzere kendinize ait bir `serverfix` dalınız olmasını isterseniz, uzak uçbirim dalını temel alabilirsiniz:
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-This gives you a local branch that you can work on that starts where `origin/serverfix` is.
+Bu, üzerinde çalışabileceğiniz ve `origin/serverfix'in gösterdiği yerden başlayan bir yerel dal yaratır.
 
-### Tracking Branches ###
+### İzleme Dalları ###
 
-Checking out a local branch from a remote branch automatically creates what is called a _tracking branch_. Tracking branches are local branches that have a direct relationship to a remote branch. If you’re on a tracking branch and type `git push`, Git automatically knows which server and branch to push to. Also, running `git pull` while on one of these branches fetches all the remote references and then automatically merges in the corresponding remote branch.
+Bir uzak uçbirim dalından yerel bir dal seçtğinizde (_checkout_), bu işlem otomatik olarak bir _izleme dalı_ (_tracking branch_) oluşturur. İzleme dalları, uzak uçbirim dallarıyla doğrudan ilişkileri bulunan yerel dallardır. Bir izleme dalından `git push` komutunu çalıştırdığınızda , Git hangi sunucudaki hangi dala itme işlemi yapması gerektiğini bilir. Ayrıca, bu dallardan biirinden `git pull` komutunu çalıştırdığınızda, bütün imleçler indirileceği gibi, bu izleme dalına karşılık gelen uzak uçbirim dalı da otomatik olarak bu dalla birleştirilir.
 
-When you clone a repository, it generally automatically creates a `master` branch that tracks `origin/master`. That’s why `git push` and `git pull` work out of the box with no other arguments. However, you can set up other tracking branches if you wish — ones that don’t track branches on `origin` and don’t track the `master` branch. The simple case is the example you just saw, running `git checkout -b [branch] [remotename]/[branch]`. If you have Git version 1.6.2 or later, you can also use the `--track` shorthand:
+Bir yazılım havunuzu klonladığınızda, genellikle `origin/master` dalını izleyen bir `master` dalı yaratılır. Bu nedenle `git push` ve `git pull` komutları bu durumlarda ek argümanlara gerek kalmadan çalışırlar. Öte yandan, isterseniz başka izleme dalları da —`origin`'i ya da `master` dalınız izlemeyen dallar— oluşturabilirsiniz. Yukarıda basit bir örneğini gördük: `git checkout -b [dal] [uzak_ucbirim]/[dal]`. Git'in 1.6.2'den itibaren olan sürümlerinde `--track` kısayolunu da kullanabilirsiniz:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-To set up a local branch with a different name than the remote branch, you can easily use the first version with a different local branch name:
+Uzak uçbirim dalının adından başka bir adla yerel dal oluşturmak isterseniz, yukarıdaki komutu farklı bir yerel dal adıyla kullanabilirsiniz:
 
 	$ git checkout -b sf origin/serverfix
 	Branch sf set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "sf"
 
-Now, your local branch sf will automatically push to and pull from origin/serverfix.
+Şimdi, yereldeki sf dalı, otomatik olarak `origin/serverfix` dalına itme ve çekme işlemi yapabilecek.
 
-### Deleting Remote Branches ###
+### Uzak Uçbirim Dallarını Silmek ###
 
 Suppose you’re done with a remote branch — say, you and your collaborators are finished with a feature and have merged it into your remote’s `master` branch (or whatever branch your stable codeline is in). You can delete a remote branch using the rather obtuse syntax `git push [remotename] :[branch]`. If you want to delete your `serverfix` branch from the server, you run the following:
 
@@ -472,7 +472,7 @@ Suppose you’re done with a remote branch — say, you and your collaborators a
 
 Boom. No more branch on your server. You may want to dog-ear this page, because you’ll need that command, and you’ll likely forget the syntax. A way to remember this command is by recalling the `git push [remotename] [localbranch]:[remotebranch]` syntax that we went over a bit earlier. If you leave off the `[localbranch]` portion, then you’re basically saying, “Take nothing on my side and make it be `[remotebranch]`.”
 
-## Rebasing ##
+## Rebasing ## Zemin, Kök, Temel
 
 In Git, there are two main ways to integrate changes from one branch into another: the `merge` and the `rebase`. In this section you’ll learn what rebasing is, how to do it, why it’s a pretty amazing tool, and in what cases you won’t want to use it.
 

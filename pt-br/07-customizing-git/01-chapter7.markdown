@@ -1,15 +1,15 @@
-# Customizing Git #
+# Customizando Git #
 
 Até agora, eu cobri o básico de como o Git funciona, como usá-lo e apresentei algumas de ferramentas que o Git provê para ajudá-lo a usá-lo facilmente e eficientemente. Neste capítulo, eu passarei por algumas operações que você pode usar para fazer operações com Git de uma maneira mais customizadas introduzindo vários configurações importantes e um sistemas de hooks. Com essa ferramentas, é fácil trabalhar com Git do seu jeito, do jeito da sua empresa ou do jeito de qualquer grupo que precise. 
 
-## Git Configuration ##
+## Configuração do Git ##
 
-As you briefly saw in the Chapter 1, you can specify Git configuration settings with the `git config` command. One of the first things you did was set up your name and e-mail address:
+Como você viu brevemente no Capítulo 1, você pode configurações do Git com o comando `git config`. Umas das primeiras coisas que vocẽ fez foi configurar seu nome e endereço de email:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com
 
-Now you’ll learn a few of the more interesting options that you can set in this manner to customize your Git usage.
+Agora você vai aprender algumas opções mais interessantes que você pode definir dessa maneira para customizar o seu uso do Git.
 
 You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically. 
 

@@ -316,22 +316,25 @@ Deste jeito, você pode configurar um servidor HTTP com acesso de leitura para o
 
 ## GitWeb ##
 
-Now that you have basic read/write and read-only access to your project, you may want to set up a simple web-based visualizer. Git comes with a CGI script called GitWeb that is commonly used for this. You can see GitWeb in use at sites like `http:/git.kernel.org` (see Figure 4-1).
+Agora que você tem um básico acesso de leitura e escrita e de apenas leitura para o seu projeto, você talvez queira configurar um visualizador baseado na web. Git vem com um script CGI chamado GitWeb, o qual 
+é comumente utilizado para isso. Você pode ver GitWeb em uso em sites como `http:/git.kernel.org` (Veja Figura 4-1)
 
 Insert 18333fig0401.png 
-Figure 4-1. The GitWeb web-based user interface
+Figure 4-1. A interface de usuário baseada na web GitWeb
 
-If you want to check out what GitWeb would look like for your project, Git comes with a command to fire up a temporary instance if you have a lightweight server on your system like `lighttpd` or `webrick`. On Linux machines, `lighttpd` is often installed, so you may be able to get it to run by typing `git instaweb` in your project directory. If you’re running a Mac, Leopard comes preinstalled with Ruby, so `webrick` may be your best bet. To start `instaweb` with a non-lighttpd handler, you can run it with the `--httpd` option.
-
+Se você quiser ver como será a aparência do GitWeb no seu projeto, Git vem com um comando para inicializar
+uma instância temporária, se você tiver um servidor leve em seu sistema, como `lighttpd` ou `webrick`. Em máquinas Linux, `lighttpd` vem instalado frequentemente, então você talvez seja capaz de colocá-lo em funcionamento digitando `git instaweb` no diretório do seu projeto. Se você está usando um Mac, Leopard traz a linguagem Ruby pré-instalada, então `webrick` pode ser sua melhor aposta. Para iniciar `instaweb` com um handler não-lighttpd, use a opção `--httpd`.
+ 
 	$ git instaweb --httpd=webrick
 	[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
 	[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 
-That starts up an HTTPD server on port 1234 and then automatically starts a web browser that opens on that page. It’s pretty easy on your part. When you’re done and want to shut down the server, you can run the same command with the `--stop` option:
+Esses comandos iniciam um servidor HTTPD na porta 1234 e automaticamente iniciam um navegador web que abre
+aquela página. É bem fácil pra você. Quando você terminar e quiser finalizar o servidor, você pode usar o mesmo comando com a opção `--stop`:
 
 	$ git instaweb --httpd=webrick --stop
 
-If you want to run the web interface on a server all the time for your team or for an open source project you’re hosting, you’ll need to set up the CGI script to be served by your normal web server. Some Linux distributions have a `gitweb` package that you may be able to install via `apt` or `yum`, so you may want to try that first. We’ll walk though installing GitWeb manually very quickly. First, you need to get the Git source code, which GitWeb comes with, and generate the custom CGI script:
+Se você quiser rodar a interface web em um servidor todo o tempo para a sua equipe ou para algum projeto open source que você esteja hospedando, você vai precisar configurar o script CGI para ser servido pelo seu servidor Web normal. Algumas distribuições linux têm um pacote `gitweb`, o qual você talvez consiga instalar via `apt` ou `yum`, então você pode querer tentar isso primeiro. Nós vamos abordar a instalação manual do GitWeb bem rapidamente. Primeiro, você precisa do código fonte do Git, o qual possui o GitWeb, e gerar o script CGI personalizado.
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
@@ -339,7 +342,7 @@ If you want to run the web interface on a server all the time for your team or f
 	        prefix=/usr gitweb/gitweb.cgi
 	$ sudo cp -Rf gitweb /var/www/
 
-Notice that you have to tell the command where to find your Git repositories with the `GITWEB_PROJECTROOT` variable. Now, you need to make Apache use CGI for that script, for which you can add a VirtualHost:
+Note que você precisa dizer ao comando onde encontrar os seus repositórios Git com a variável `GITWEB_PROJECTROOT`. Agora, você precisa fazer o Apache utilizar CGI para esse script, e para tal você pode adicionar um VirtualHost:
 
 	<VirtualHost *:80>
 	    ServerName gitserver
@@ -354,65 +357,79 @@ Notice that you have to tell the command where to find your Git repositories wit
 	    </Directory>
 	</VirtualHost>
 
-Again, GitWeb can be served with any CGI capable web server; if you prefer to use something else, it shouldn’t be difficult to set up. At this point, you should be able to visit `http://gitserver/` to view your repositories online, and you can use `http://git.gitserver` to clone and fetch your repositories over HTTP.
+Novamente, GitWeb pode ser servido com qualquer servidor web que suporte CGI; se você prefere usar outro servidor, não deve ser difícil configurar. Agora, você deveria ser capaz de visitar `http://gitserver/` para ver seus repositórios online, e você pode usar `http://git.gitserver` para clonar e buscar (fetch) seus repositórios através de HTTP
 
 ## Gitosis ##
 
-Keeping all users’ public keys in the `authorized_keys` file for access works well only for a while. When you have hundreds of users, it’s much more of a pain to manage that process. You have to shell onto the server each time, and there is no access control — everyone in the file has read and write access to every project.
+Manter as chaves públicas de todos os usuários no arquivo `authorized_keys` para acesso funciona bem
+somente por um tempo. Quando você tem centenas de usuários, gerenciar esse processo se torna bastante
+doloroso. Você precisa acessar o servidor via shell toda vez, e não existe controle de acesso - todos no arquivo têm acesso de leitura e escrita para cada projeto.
 
-At this point, you may want to turn to a widely used software project called Gitosis. Gitosis is basically a set of scripts that help you manage the `authorized_keys` file as well as implement some simple access controls. The really interesting part is that the UI for this tool for adding people and determining access isn’t a web interface but a special Git repository. You set up the information in that project; and when you push it, Gitosis reconfigures the server based on that, which is cool.
+Nesse ponto, talvez você queira passar a usar um software largamente utilizado chamado Gitosis.
+Gitosis é basicamente um conjunto de scripts que te ajudam a gerenciar o arquivo `authorized_keys`, bem como implementar alguns controles de acesso simples. A parte realmente interessante é que a Interface
+de Usuário dessa ferramenta utilizada para adicionar pessoas e determinar o controle de acessos não 
+é uma interface web, e sim um repositório Git especial. Você configura a informação naquele projeto; 
+e quando você executa um push nele, Gitosis reconfigura o servidor baseado nas configurações que você fez,
+o que é bem legal.
 
-Installing Gitosis isn’t the simplest task ever, but it’s not too difficult. It’s easiest to use a Linux server for it — these examples use a stock Ubuntu 8.10 server.
+Instalar Gitosis não é a tarefa mais simples do mundo, mas também não é tão difícil. É mais fácil utilizar
+um servidor Linux para fazer isso - os exemplos a seguir utilizam um servidor com Ubuntu 8.10.
 
-Gitosis requires some Python tools, so first you have to install the Python setuptools package, which Ubuntu provides as python-setuptools:
+Gitosis requer algumas ferramentas Python, então antes de tudo você precisa instalar o pacote Python setuptools, o qual Ubuntu provê sob o nome de python-setuptools:
 
 	$ apt-get install python-setuptools
 
-Next, you clone and install Gitosis from the project’s main site:
+Depois, você clona e instala Gitosis do site principal do projeto:
 
 	$ git clone git://eagain.net/gitosis.git
 	$ cd gitosis
 	$ sudo python setup.py install
 
-That installs a couple of executables that Gitosis will use. Next, Gitosis wants to put its repositories under `/home/git`, which is fine. But you have already set up your repositories in `/opt/git`, so instead of reconfiguring everything, you create a symlink:
+Ao fazer isso, você instala alguns executáveis que Gitosis vai utilizar. A seguir, Gitosis vai quere
+colocar seus repositórios em `/home/git`, o que não tem nenhum problema. Mas você já configurou os seus repositórios em `/opt/git`, então, ao invés de reconfigurar tudo, você simplesmente cria um link simbólico:
 
 	$ ln -s /opt/git /home/git/repositories
 
-Gitosis is going to manage your keys for you, so you need to remove the current file, re-add the keys later, and let Gitosis control the `authorized_keys` file automatically. For now, move the `authorized_keys` file out of the way:
+Gitosis vai gerenciar as suas chaves por você, então você precisa remover o arquivo atual, 
+adicionar as chaves novamente, e deixar Gitosis controlar o arquivo `authorized_keys` automaticamente.
+Por enquanto, tire o arquivo `authorized_keys` do caminho:
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
 
-Next you need to turn your shell back on for the 'git' user, if you changed it to the `git-shell` command. People still won’t be able to log in, but Gitosis will control that for you. So, let’s change this line in your `/etc/passwd` file
+Em seguida, você precisa ativar o seu shell novamente para o usuário 'git', caso você tenha o mudado para
+o comando `git-shell`. As pessoas ainda não vão conseguir logar no servidor, porém Gitosis vai tomar
+controlar isso para você. Então, vamos alterar essa linha no seu arquivo `/etc/passwd`
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-back to this:
+de volta para isso:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-Now it’s time to initialize Gitosis. You do this by running the `gitosis-init` command with your personal public key. If your public key isn’t on the server, you’ll have to copy it there:
+Agora é a hora de inicializar Gitosis. Você faz isso executando o comando `gitosis-init` com a sua chave pública pessoal. Se a sua chave pública não está no servidor, você vai ter que copiá-la para lá:
 
 	$ sudo -H -u git gitosis-init < /tmp/id_dsa.pub
 	Initialized empty Git repository in /opt/git/gitosis-admin.git/
 	Reinitialized existing Git repository in /opt/git/gitosis-admin.git/
 
-This lets the user with that key modify the main Git repository that controls the Gitosis setup. Next, you have to manually set the execute bit on the `post-update` script for your new control repository.
+Isso permite ao usuário com aquela chave modificar o repositório Git principal que controlar o setup Gitosis. Em seguida, você precisa configurar manualmente o bit de execução no script `post-update` para o seu novo repositório de controle.
 
 	$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 
-You’re ready to roll. If you’re set up correctly, you can try to SSH into your server as the user for which you added the public key to initialize Gitosis. You should see something like this:
+Você já está pronto para mandar ver. Se as configurações estão todas corretas, você pode tentar acessar
+o seu servidor via SSH com o usuário cuja chave pública você adicionou para inicializar o Gitosis. Você deve ver algo assim:
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
 	fatal: unrecognized command 'gitosis-serve schacon@quaternion'
 	  Connection to gitserver closed.
 
-That means Gitosis recognized you but shut you out because you’re not trying to do any Git commands. So, let’s do an actual Git command — you’ll clone the Gitosis control repository:
+Essa mensagem significa que Gitosis reconhecer você mas te expulsou porque você não está tentando fazer nenhum comando Git. Então, vamos fazer um comando do Git - você vai clonar o repositório central do Gitosis:
 
 	# on your local computer
 	$ git clone git@gitserver:gitosis-admin.git
 
-Now you have a directory named `gitosis-admin`, which has two major parts:
+Agora, você tem um diretório chamado `gitosis-admin`, o qual tem duas grandes partes:
 
 	$ cd gitosis-admin
 	$ find .
@@ -420,9 +437,10 @@ Now you have a directory named `gitosis-admin`, which has two major parts:
 	./keydir
 	./keydir/scott.pub
 
-The `gitosis.conf` file is the control file you use to specify users, repositories, and permissions. The `keydir` directory is where you store the public keys of all the users who have any sort of access to your repositories — one file per user. The name of the file in `keydir` (in the previous example, `scott.pub`) will be different for you — Gitosis takes that name from the description at the end of the public key that was imported with the `gitosis-init` script.
+O arquivo `gitosis.conf` é o arquivo de controle a ser usado para especificar usuários, repositórios e permissões. O diretório `keydir` é onde você armazena as chaves públicas de todos os usuários que têm algum tipo de acesso aos seus repositórios - um arquivo por usiário. O nome do arquivo em `key_dir` (no exemplo anterir, `scott.pub`) será diferente para você - Gitosis pega o nome da descrição no final da chave pública que foi importada com o script `gitosis-init`.
 
-If you look at the `gitosis.conf` file, it should only specify information about the `gitosis-admin` project that you just cloned:
+Se você olhar no arquivo `gitosis.conf`, ele deveria apenas especificar informações sobre o projeto
+`gitosis-admin` que você acabou de clonar:
 
 	$ cat gitosis.conf 
 	[gitosis]
@@ -431,15 +449,15 @@ If you look at the `gitosis.conf` file, it should only specify information about
 	writable = gitosis-admin
 	members = scott
 
-It shows you that the 'scott' user — the user with whose public key you initialized Gitosis — is the only one who has access to the `gitosis-admin` project.
+Ele mostra que o usuário 'scott' - o usuário cuja chave pública foi usada para inicializar Gitosis - é o único que tem acesso ao projeto `gitosis-admin`.
 
-Now, let’s add a new project for you. You’ll add a new section called `mobile` where you’ll list the developers on your mobile team and projects that those developers need access to. Because 'scott' is the only user in the system right now, you’ll add him as the only member, and you’ll create a new project called `iphone_project` to start on:
+Agora, vamos adicionar um novo projeto para você. Você vai adicionar uma nova seção chamada `mobile` onde você vai listar os desenvolvedores na sua equipe de desenvolvimento mobile e projetos que esses desenvolvedores precisam ter acesso. Porque 'scott' é o único usuário no sistema nesse momento, você vai adicioná-lo como o único membro, e você vai criar um novo projeto chamado `iphone_project` para começar:
 
 	[group mobile]
 	writable = iphone_project
 	members = scott
 
-Whenever you make changes to the `gitosis-admin` project, you have to commit the changes and push them back up to the server in order for them to take effect:
+A qualquer momento que você faça alterações no projeto `gitosis-admin`, você vai precisar commitar as mudanças e enviá-las (push) de volta para o servidor, para que elas tenham efeito:
 
 	$ git commit -am 'add iphone_project and mobile group'
 	[master]: created 8962da8: "changed name"
@@ -452,7 +470,7 @@ Whenever you make changes to the `gitosis-admin` project, you have to commit the
 	To git@gitserver:/opt/git/gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
-You can make your first push to the new `iphone_project` project by adding your server as a remote to your local version of the project and pushing. You no longer have to manually create a bare repository for new projects on the server — Gitosis creates them automatically when it sees the first push:
+Você pode fazer o seu primeiro push para o novo projeto `iphone_project` adicionando o seu servidor como um repositório remoto da sua versão local do projeto e fazendo um push. Você não precisa mais criar um repositório bare manualmente para novos projetos no servidor - Gitosis os cria automaticamente quando ele vê o seu primeiro push:
 
 	$ git remote add origin git@gitserver:iphone_project.git
 	$ git push origin master
@@ -463,23 +481,23 @@ You can make your first push to the new `iphone_project` project by adding your 
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
 
-Notice that you don’t need to specify the path (in fact, doing so won’t work), just a colon and then the name of the project — Gitosis finds it for you.
+Note que você não precisa especificar o caminho (na verdade, fazer isso não vai funcionar), apenas uma vírgula e o nome do projeto - Gitosis o encontra para você.
 
-You want to work on this project with your friends, so you’ll have to re-add their public keys. But instead of appending them manually to the `~/.ssh/authorized_keys` file on your server, you’ll add them, one key per file, into the `keydir` directory. How you name the keys determines how you refer to the users in the `gitosis.conf` file. Let’s re-add the public keys for John, Josie, and Jessica:
+Você quer trabalhar nesse projeto com os seus amigos, então você vai ter que adicionar novamente as chaves públicas deles. Mas, ao invés de acrescentá-las manualmente ao arquivo `~/.ssh/authorized_keys` no seu servidor, você vai adicioná-las, uma chave por arquivo, no diretório `keydir`. A forma com que você nomeia as chaves determina como você se refere aos usuários no arquivo `gitosis.conf`. Vamos adicionar novamente as chaves públicas para John, Josie e Jessica:
 
 	$ cp /tmp/id_rsa.john.pub keydir/john.pub
 	$ cp /tmp/id_rsa.josie.pub keydir/josie.pub
 	$ cp /tmp/id_rsa.jessica.pub keydir/jessica.pub
 
-Now you can add them all to your 'mobile' team so they have read and write access to `iphone_project`:
+Agora você pode adicioná-los à sua equipe 'mobile' para que eles possam ter acesso de leitura e escrita no projeto `iphoen_project`:
 
 	[group mobile]
 	writable = iphone_project
 	members = scott john josie jessica
 
-After you commit and push that change, all four users will be able to read from and write to that project.
+Depois que você commitar e enviar essa mudança, todos os quatro usuários serão capazes de ler e escrever naquele projeto.
 
-Gitosis has simple access controls as well. If you want John to have only read access to this project, you can do this instead:
+Gitosis também tem simples controles de acesso. Se você quer que John tenha apenas acesso de leitura para esse projeto, você pode fazer desta forma:
 
 	[group mobile]
 	writable = iphone_project
@@ -489,9 +507,9 @@ Gitosis has simple access controls as well. If you want John to have only read a
 	readable = iphone_project
 	members = john
 
-Now John can clone the project and get updates, but Gitosis won’t allow him to push back up to the project. You can create as many of these groups as you want, each containing different users and projects. You can also specify another group as one of the members, to inherit all of its members automatically.
+Agora John pode clonar o projeto e receber atualizações, porém Gitosis não vai deixá-lo enviar as suas atualizações ao projeto. Você pode criar quantos desses grupos você queira, cada um contendo usuários e projetos diferentes. Você também pode especificar outro como membro, para herdar todos os seus membros automaticamente.
 
-If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[gitosis]` section. If you’ve lost push access by pushing a messed-up configuration, you can manually fix the file on the server under `/home/git/.gitosis.conf` — the file from which Gitosis reads its info. A push to the project takes the `gitosis.conf` file you just pushed up and sticks it there. If you edit that file manually, it remains like that until the next successful push to the `gitosis-admin` project.
+Se você tiver quaisquer problemas, pode ser útil adicionar `loglevel=DEBUG` abaixo da seção `[gitosis]`. Se você perdeu o acesso de push por enviar uma configuração errada, você pode consertar o arquivo manualmente no servidor em`/home/git/.gitosis.conf` - o arquivo do qual Gitosis lê suas informações. Um push para o projeto pega o arquivo `gitosis.conf` que você acabou de enviar e o coloca lá. Se você editar esse arquivo manualmente, ele permanece dessa forma até o próximo push bem sucedido para o projeto `gitosis.conf`.
 
 ## Git Daemon ##
 

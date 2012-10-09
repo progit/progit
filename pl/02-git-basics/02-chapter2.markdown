@@ -338,7 +338,7 @@ Zauważ, że w tym wypadku przed zatwierdzeniem zmian i wykonaniem rewizji nie m
 
 ### Usuwanie plików ###
 
-Aby usunąć plik z Gita, należy go najpierw wyrzucić ze zbioru plików śledzonych, a następnie zatwierdzić zmiany. Służy do tego polecenie `git -rm`, które dodatkowo usuwa plik z katalogu roboczego. Nie zobaczysz go już zatem w sekcji plików nieśledzonych przy następnej okazji.
+Aby usunąć plik z Gita, należy go najpierw wyrzucić ze zbioru plików śledzonych, a następnie zatwierdzić zmiany. Służy do tego polecenie `git rm`, które dodatkowo usuwa plik z katalogu roboczego. Nie zobaczysz go już zatem w sekcji plików nieśledzonych przy następnej okazji.
 
 Jeżeli po prostu usuniesz plik z katalogu roboczego i wykonasz polecenie `git status` zobaczysz go w sekcji "Zmienione ale nie zaktualizowane" (Changed but not updated) (czyli, poza poczekalnią):
 

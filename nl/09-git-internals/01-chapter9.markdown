@@ -1,4 +1,4 @@
-# Het Binnenwerk van Git #
+# Het binnenwerk van Git #
 
 Je zult misschien naar dit hoofdstuk gesprongen zijn vanuit een vorig hoofdstuk, of je zult hier gekomen zijn nadat je de rest van het boek gelezen hebt – in ieder geval, zal hier het binnenwerk en implementatie van Git behandeld worden. Ik heb gemerkt dat het leren van deze informatie van fundamenteel belang is om te begrijpen hoe bruikbaar en krachtig Git is, maar anderen hebben daar tegenin gebracht dat het erg verwarrend en onnodig complex kan zijn voor beginners. Daarom heb ik deze beschrijving het laatste hoofdstuk gemaakt in het boek, zodat je het vroeg of later kunt lezen in je leerproces. Ik laat het aan jou over om dat te beslissen.
 
@@ -8,7 +8,7 @@ In de eerste dagen van Git (het meerendeel pre 1.5), wat de gebruikersinterface 
 
 Deze laag met het inhouds-toegankelijke bestandssysteem is ongelofelijk gaaf, dus dat behandel ik dat als eerste dit hoofdstuk; daarna leer je over de transportmechanismen en het onderhouden van je repository's, iets waar je uiteindelijk te maken mee kunt krijgen.
 
-## Sanitaire Inrichtingen en Porcelein ##
+## Sanitaire inrichtingen en porcelein ##
 
 Dit boek behandeld Git met ongeveer 30 werkwoorden zoals `checkout`, `branch`, `remote` enzovoorts. Maar omdat Git in eerste instantie een toolkit voor een VCS was, in plaats van een volledig gebruiksvriendelijk VCS, heeft het een berg werkwoorden die laagbijdegronds werk doen en ontworpen waren om samengevoegd te worken zoals in UNIX gebruikelijk is, of vanuit scripts aangeroepen te worden. Naar deze commando's wordt over het algemeen als "plumbing" (sanitaire voorzieningen) commando's verwezen, en de meer gebruiksvriendelijke commando's worden "porcelain" (porcelein) commando's genoemd.
 
@@ -31,7 +31,7 @@ Je kunt een paar andere bestanden zien, maar dit is een verse `git init` reposit
 
 Dit laat vier belangrijke vermeldingen over: de bestanden `HEAD` en `index`, en de mappen `objects` en `refs`. Dit zijn de kernbestandsdelen van Git. De map `objects` bewaart alle inhoud van je databank, de map `refs` bevat verwijzingen (branches) naar commitobjecten in die databank, het bestand `HEAD` wijst naar de branch die je op dit moment uitgechecked hebt, en het bestand `index` is waar Git de informatie van je wachtrij opslaat. Je gaat nu in detail naar elk van deze secties kijken om te zien hoe Git werkt.
 
-## Git Objecten ##
+## Git objecten ##
 
 Git is een inhouds-adresseerbaar bestandssysteem. Mooi. Wat betekend dat?
 Het betekend dat in de kern van Git een eenvoudige sleutel-waarde gegevens opslag zit. Je kunt er ieder soort inhoud in stoppen, en het zal je een sleutel geven dije kunt gebruiken om de inhoud op ieder moment terug te krijgen. Om te demonstreren, kun je het sanitaire voorzieningen commando `hash-object` gebruiken, die wat gegevens aanneemt, het in je `.git` map opslaat, en je de sleutel teruggeeft waarmee de gegevens zijn opgelsagen. Als eerste initialiseer je een nieuw Git repository en verifieer je dat er niets in de `objects` map staat:
@@ -100,7 +100,7 @@ Maar de SHA-1 sleutel voor iedere versie van je bestand onthouden is niet erg pr
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
 
-### Boom Objecten ###
+### Boom objecten ###
 
 Het volgende type waar je naar gaat kijken is het boom object, wat het probleem van het opslaan van de bestandsnaam oplost en het je ook mogelijk maakt om een groep bestanden samen op te slaan. Git slaat inhoud op in dezelfde wijze als een UNIX bestandssysteem, maar dan wat vereenvoudigd. Alle inhoud wordt opgeslagen als boom- en blob-objecten, waarbij bomen corresponderen met UNIX map vermeldingen en blobs min of meer corresponderen aan inodes of bestandsinhoud. Een enkel boomobject bevat één of meer boom vermeldingen, waarvan ieder een SHA-1 point naar een blob of subboom bevat met zijn geassocieerde mode, type en bestandsnaam. Bijvoorbeeld, de meest recente boom in het simplegit project zou er zo uit kunnen zien:
 
@@ -168,7 +168,7 @@ Als je een werkmap zou maken van de nieuwe boom die je zojuist geschreven hebt, 
 Insert 18333fig0902.png 
 Figuur 9-2. De inhoud structuur van je huidige Git gegevens.
 
-### Commit Objecten ###
+### Commit objecten ###
 
 Je hebt drie bomen die de verschillende snapshots specificeren die je wilt volgen, maar het eerdere probleem blijft: je moet alledrie de SHA-1 waarden onthouden om de snapshots weer op te halen. Je hebt ook geen informatie over wie de snapshots opgeslagen heeft, wanneer ze opgeslagen zijn, of waarom ze opgeslagen zijn. Dit is de basale informatie die het commit object voor je opslaat.
 
@@ -245,7 +245,7 @@ Als je alle interne verwijzingen volgt, krijg je een object-graaf die er uitzien
 Insert 18333fig0903.png 
 Figuur 9-3. Alle objecten in je Git map.
 
-### Object Opslag ###
+### Object opslag ###
 
 Ik vertelde eerder dat er een kop wordt opgeslagen bij de inhoud. Laten we eens een minuutje kijken naar hoe Git zijn objecten opslaat. Je zult zien hoe je interactief een blob object opslaat – in dit geval de tekst "what is up, doc?" – in de Ruby scripttaal. Je kunt de interactieve Ruby modus starten met het `irb` commando:
 
@@ -287,7 +287,7 @@ Als laatste schrijf je je zlib-gecomprimeerde inhoud naar een object op de schij
 
 Dat is het – je hebt nu een geldig Git blob object aangemaakt. Alle Git objecten zijn op dezelfde manier opgeslagen, alleen de types verschillen – in plaats van de tekst blob, zal de kop beginnen met commit of tree. En alhoewel de blob inhoud vrijwel alles kan zijn, hebben de commit en boom inhoud een zeer specificiek formaat.
 
-## Git Referenties ##
+## Git referenties ##
 
 Je kunt zoiets als `git log 1a410e` uitvoeren om door je hele geschiedenis te kijken, maar je moet nog steeds onthouden dat `1a410e` de laatste commit is om die geschiedenis te doorlopen en alle objecten te vinden. Je hebt een bestand nodig waarin je de SHA-1 waarde als een eenvoudige naam kunt opslaan, zodat je die als wijzer kunt gebruiken in plaats van de rauwe SHA-1 waarde.
 
@@ -527,7 +527,7 @@ Hier refereert de `9bc1d` blob, wat als je je dat herinnert de eerste versie is 
 
 Het fijnste van dit alles is, is dat het op ieder gewenst moment opnieuw ingepakt kan worden. Git zal op z'n tijd je databank automatisch opnieuw inpakken, waarmee het altijd meer ruimte wil besparen. Je kunt ook handmatig opnieuw inpakken op ieder tijdstip, door `git gc` met de hand uit te voeren.
 
-## De Refspec ##
+## De refspec ##
 
 Door dit boek heen heb je eenvoudige verwijzingen van remote branches naar lokale referenties gebruikt; maar ze kunnen complexer zijn.
 Stel dat je een remote zoals dit toevoegt:
@@ -588,7 +588,7 @@ Maar je kunt wel naamruimtes gebruiken om zoiets voor elkaar te krijgen. Als je 
 
 Als je een ingewikkeld werkproces hebt waarbij het QA team branches pushed, ontwikkelaars branches pushen, en integratie teams pushen en samenwerken op remote branches, kun je ze op deze manier eenvoudig in naamruimten stoppen.
 
-### Refspecs Pushen ###
+### Refspecs pushen ###
 
 Het is fijn dat je op die manier referenties in naamruimten kunt fetchen, maar hoe krijgt het QA team in de eerste plaats al hun branches in een `qa/` naamruimte? Je krijgt dat voor elkaar door refspecs te gebruiken om mee te pushen.
 
@@ -605,7 +605,7 @@ Als ze willen dat Git dat automatisch doet iedere keer als ze `git push origin` 
 
 Nogmaals, dit zal zorgen dat `git push origin` de lokale `master` branch standaard naar de remote `qa/master` branch zal pushen.
 
-### Referenties Verwijderen ###
+### Referenties verwijderen ###
 
 Je kunt de refspec ook gebruiken om referenties te verwijderen van de remote server door zoiets als dit uit te voeren:
 
@@ -613,11 +613,11 @@ Je kunt de refspec ook gebruiken om referenties te verwijderen van de remote ser
 
 Omdat de refspec `<src>:<dst>` is, verteld het weglaten van het `<src>` gedeelte in feite dat de onderwerp branch op de remote niks is, wat het verwijderd.
 
-## Overdracht Protocollen ##
+## Overdracht protocollen ##
 
 Git kan gegevens tussen twee repositories hoofdzakelijk overdragen op twee manieren: via HTTP en via de zogenaamde slimme protocollen die in de `file://`, `ssh://` en `git://` overdrachten gebruikt worden. Deze sectie zal laten zien hoe deze hoofdprotocollen werken.
 
-### Het Domme Protocol ###
+### Het domme Protocol ###
 
 Naar Git overdracht over HTTP wordt vaak gerefereerd als het domme protocol, omdat het geen Git-specifieke code vereist op de server gedurene het overdrachtsprocess. Het fetch process is een reeks van GET verzoeken, waarbij de client de opmaak van het Git repository van de server kan overnemen. Laten we het `http-fetch` process eens volgen voor de simplegit bibliotheek:
 
@@ -696,11 +696,11 @@ Het gehele uitvoer van dit proces ziet er zo uit:
 	walk 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	walk a11bef06a3f659402fe7563abf99ad00de2209e6
 
-### Het Slimme Protocol ###
+### Het slimme protocol ###
 
 De HTTP methode is eenvoudig, maar een beetje inefficient. Slimme protocollen gebruiken is een meer gebruikte manier van gegevensoverdracht. Deze protocollen hebben een proces aan de remote kant dat bewust is van Git – het kan lokale gegevens lezen en uitvinden wat de client heeft, of nodig heeft en hier eigen gegevens voor genereren. Er zijn twee sets processen voor gegevensoverdracht: een paar voor het uploaden van gegevens, en een paar voor het downloaden van gegevens.
 
-#### Gegevens Uploaden ####
+#### Gegevens uploaden ####
 
 Om gegevens te uploaden naar een remote proces, gebruikt Git de `send-pack` en `receive-pack` processen. Het `send-pack` proces draait op de client en maakt contact met een `receive-pack` proces aan de remote kant.
 
@@ -727,7 +727,7 @@ Git stuurt een regel voor iedere referentie die je vernieuwt, met de oude SHA, d
 
 	000Aunpack ok
 
-#### Gegevens Downloaden ####
+#### Gegevens downloaden ####
 
 Op het moment dat je gegevens download zijn de `fetch-pack` en `upload-pack` processen betrokken. De client start een `fetch-pack` proces dat verbinding maakt met een `upload-pack` proces aan de remote kant om te onderhandelen welke gegevens gestuurd moeten worden.
 
@@ -760,7 +760,7 @@ Op dit punt kijkt het `fetch-pack` process naar welk objecten dat het heeft en a
 
 Dat is een basaal geval van de overdrachtsprotocollen. In meer complexe gevallen ondersteunt de client `multi_ack` of `side-band` mogelijkheden; maar dit voorbeeld toont je de basale heen en weer gang die gebruikt wordt door de slimme protocol processen.
 
-## Onderhoud en het Herstellen van Gegevens ##
+## Onderhoud en het herstellen van gegevens ##
 
 Soms moet je wat opruimen – een repository compacter maken, een geimporteerd repository opruimen, of verloren werk terughalen. Deze sectie zal deze scenario's doorlopen.
 
@@ -796,7 +796,7 @@ Als je een referentie vernieuwt, zal Git dit bestand niet aanpassen maar een nie
 
 Let op de laatste regel van het bestand, die begint met een `^`. Dit betekent dat de tag die er direct boven staat een beschreven tag is, en dat die regel e commit is waar de beschreven tag naar wijst.
 
-### Gegevens Herstellen ###
+### Gegevens herstellen ###
 
 Op een bepaald punt in je reis met Git, kun je per ongeluk wel eens een commit verliezen. Over het algemeen gebeurd dit omdat je een branch force-delete, waar werk op zat, en het blijkt dat je de branch uit eindelijk toch wou hebben; of je hard-reset een branch, waarmee je commits achterlaat waar je iets van wou hebben. Stel dat dit gebeurd, hoe kun je dan je commits terug halen?
 
@@ -871,7 +871,7 @@ Omdat de reflog gegevens bewaard worden in de `.git/logs/` map, heb je effectief
 
 In dit geval, kun je je vermiste commit zien na de hangende commit. Je kunt het op dezelfde manier herstellen, door een branch toe te voegen die naar die SHA wijst.
 
-### Objecten Verwijderen ###
+### Objecten verwijderen ###
 
 Er zijn een hoop geweldige dingen aan Git, maar één eigenschap die problemen kan geven is het feit dat `git clone` de hele historie van het project download, inclusief alle versies van alle bestanden. Dat is geen probleem als het hele ding broncode is, omdat Git zeer geoptimaliseerd is om die gegevens optimaal te comprimeren. Maar, als iemand op een bepaald punt in de geschiedenis een enkel enorm bestand heeft toegevoegd, zal iedere clone voor altijd gedwongen worden om dat grote bestand te downloaden, zelfs als het uit het project was verwijderd in de volgende commit. Omdat het bereikbaar is vanuit de geschiedenis, zal het er altijd zijn.
 

@@ -1,4 +1,4 @@
-# Git op de Server #
+# Git op de server #
 
 Op dit punt zou je alledaagse taken waarvoor je Git zult gebruiken kunnen doen. Maar, om samen te kunnen werken in Git, zul je een remote repository moeten hebben. Technisch gezien kun je wijzigingen pushen en pullen van individuele repositories, maar dat wordt afgeraden, omdat je vrij gemakkelijk het werk waar anderen mee bezig zijn in de war kunt schoppen als je niet oppast. Daarnaast wil je dat je medewerkers bij het repository kunnen, zelfs als jouw computer van het netwerk is — het hebben van een betrouwbaar gezamenlijk repository is vaak handig. Daarom heeft het hebben van een tussenliggend repository waarin je met iemand anders samenwerkt de voorkeur, en daar kun je dan naar pushen en pullen. We zullen dit repository de "Git server" noemen; maar je zult zien dat het over het algemeen maar een klein beetje systeembronnen kost om een Git repository te verzorgen, dus je zult er zelden een complete server voor nodig hebben.
 
@@ -8,13 +8,13 @@ Als je geen interesse hebt om je eigen server te draaien, dan kun je de rest ove
 
 Een remote repository is over het algemeen een _bare repository_ (kale repository) — een Git repository dat geen werkmap heeft. Omdat het repository alleen gebruikt wordt als een samenwerkingspunt, is er geen reden om een snapshot op de schijf te hebben; alleen de Git data. Een kale repository is eenvoudigweg de inhoud van de `.git` map in je project, en niets anders.
 
-## De Protocollen ##
+## De protocollen ##
 
 Git kan vier veel voorkomende netwerk protocollen gebruiken om data te transporteren: Lokaal, Beveiligde Shell (SSH), Git en HTTP. Hier laten we zien wat ze zijn, en in welke omstandigheden je ze wilt gebruiken (of juist niet).
 
 Het is belangrijk om te zien dat, met uitzondering van de HTTP protocollen, ze allemaal een werkende Git versie op de server geinstalleerd moeten hebben.
 
-### Lokaal Protocol ###
+### Lokaal protocol ###
 
 Het meest basale is het _lokale protocol_, waarbij het remote repository in een andere map op de schijf staat. Dit wordt vaak gebruikt als iedereen in je team toegang heeft op een gedeeld bestandssyteem zoals een NFS map, of in het weinig voorkomende geval dat iedereen op dezelfde computer werkt. Het laatste zou niet ideaal zijn, want dan zouden alle repositories zich op dezelfde computer bevinden, zodat de kans op een catastrofaal verlies veel groter wordt.
 
@@ -34,19 +34,19 @@ Om een lokaal repository aan een bestaand Git project toe te voegen, kun je zoie
 
 Daarna kun je pushen en pullen van dat remote alsof je over een netwerk werkt.
 
-#### De Voordelen ####
+#### De voordelen ####
 
 De voordelen van bestands-gebaseerde repositories zijn dat ze eenvoudig zijn en ze maken gebruik van bestaande bestandspermissies en netwerk toegang. Als je al een gedeeld bestandssysteem hebt, waar je hele team al toegang tot heeft, dan is een repository opzetten heel gemakkelijk. Je stopt de kale repository ergens waar iedereen gedeelde toegang tot heeft, en stelt de lees- en schrijfrechten in zoals je dat bij iedere andere gedeelde map zou doen. In de volgende sectie "Git op een Server krijgen" bespreken we hoe je een kopie van een kale repository kunt exporteren voor dit doeleinde.
 
 Dit is ook een fijne optie om snel werk van een repository van iemand anders te pakken. Als jij en een collega aan hetzelfde project aan het werk zijn, en hij wil dat je iets bekijkt, dan is het uitvoeren van een commando zoals `git pull /home/john/project` vaak makkelijker dan dat hij naar een remote server moet pushen, en jij er van moet pullen.
 
-#### De Nadelen ####
+#### De nadelen ####
 
 Een van de nadelen van deze methode is dat gedeelde toegang over het algemeen moeilijker op te zetten en te bereiken is vanaf meerdere lokaties dan basaal netwerk toegang. Als je wilt pushen van je laptop als je thuis bent, dan moet je de remote schijf aankoppelen, wat moeilijk en langzaam kan zijn in vergelijking tot netwerk gebaseerde toegang.
 
 Het is ook belangrijk om te melden dat het niet noodzakelijk de snelste optie is, als je een gedeeld koppelpunt of iets dergelijks gebruikt. Een lokale repository is alleen snel als je snelle toegang tot de data hebt. Een repository op NFS is vaak langzamer dan het repository via SSH op dezelfde server, wat Git toelaat om vanaf lokale schijven te werken op ieder systeem.
 
-### Het SSH Protocol ###
+### Het SSH protocol ###
 
 Waarschijnlijk het meest voorkomende protocol voor Git is SSH. Dit is omdat SSH toegang tot servers in veel plaatsen al geconfigureerd is — en als dat niet het geval is, dan is het makkelijk om dat te doen. SSH is ook het enige netwerk gebaseerde protocol waarvan je makkelijk kunt lezen en naartoe kunt schrijven. De andere twee netwerk protocollen (HTTP en Git) zijn over het algemeen alleen-lezen, dus zelfs als je ze al beschikbaar hebt voor de ongewassen massa, dan heb je nog steeds SSH nodig voor je eigen schrijftoegang. SSH is ook een geverifieerd protocol; en omdat het overal voorkomt, is het over het algemeen eenvoudig om in te stellen en te gebruiken.
 
@@ -60,28 +60,28 @@ Of je geeft geen protocol op — Git gaat uit van SSH als je niet expliciet bent
 
 Je kunt ook de gebruiker niet opgeven, en Git neemt aan dat je de gebruiker bedoelt waarmee je op het moment bent ingelogged.
 
-#### De Voordelen ####
+#### De voordelen ####
 
 Er zijn vele voordelen om SSH te gebruiken. De eerste is dat je het eigenlijk wel moet gebruiken als je geverifieerde schrijftoegang op je repository via een netwerk wilt. Het tweede is dat het relatief eenvoudig in te stellen is — SSH daemons komen veel voor, veel systeembeheerders hebben er ervaring mee, en veel operating systemen zijn er mee uitgerust of hebben applicaties om ze te beheren. Daarnaast is toegang via SSH veilig — alle data transporten zijn versleuteld en geverifieerd. En als laatste is SSH efficient, zoals het Git en lokale protocol, waarbij de data zo compact mogelijk wordt gemaakt voordat het getransporteerd wordt.
 
-#### De Nadelen ####
+#### De nadelen ####
 
 Het negatieve aspect van SSH is dat je er geen anonieme toegang over kunt geven. Mensen moeten via SSH toegang hebben om er gebruik van te kunnen maken, zelfs als het alleen lezen is, zodat SSH toegang niet bevordelijk is voor open source projecten. Als je het alleen binnen je bedrijfsnetwerk gebruikt, dan kan SSH misschien het enige protocol zijn waar je mee in aanraking komt. Als je anonieme alleen-lezen toegang wilt toestaan tot je projecten, dan moet je SSH voor jezelf instellen om over te pushen, maar iets anders voor anderen om over te pullen.
 
-### Het Git Protocol ###
+### Het Git protocol ###
 
 Het volgende is het Git protocol. Dit is een aparte daemon, die samen met Git geleverd wordt; het luistert op een toegewezen poort (9418), dat een vergelijkbare dienst verleend als het SSH protocol, maar dan zonder enige authenticatie. Om een repository te serveren over het Git protocol, moet je het `git-export-daemon-ok` bestand aanmaken — de daemon zal een repository zonder dit bestand erin niet serveren — maar buiten dat is er geen beveiliging. Ofwel het Git repository kan door iedereen gecloned worden, of helemaal niet. Dit betekent dat er over het algemeen geen pushing is via dit protocol. Je kunt push toegang aanzetten; maar gegeven het gebrek aan toegangscontrole als je push toegang aan zet, kan iedereen die de URL van jouw project op het internet vindt, pushen naar jouw project. We volstaan met te zeggen dat dit zeldzaam is.
 
-#### De Voordelen ####
+#### De voordelen ####
 
 Het Git protocol is het snelste dat beschikbaar is. Als je veel verkeer serveert voor een publiek project, of een zeer groot project dat geen authenticatie nodig heeft voor leestoegang, dan is het waarschijnlijk dat je een Git daemon wilt instellen om je project te serveren. Het maakt van hetzelfde data-transport mechanisme gebruik als het SSH protocol, maar dan zonder de extra belasting van versleuteling en verificatie.
 
-#### De Nadelen ####
+#### De nadelen ####
 
 Het nadeel van het Git protocol is het gebrek van toegangscontrole. Het is over het algemeen onwenselijk dat het Git protocol de enige toegang tot je project is. Over het algemeen zul je het samen met SSH toegang gebruiken voor de paar ontwikkelaars die push (schrijf-)toegang hebben en de rest laat je `git://` voor alleen leestoegang gebruiken.
 Het is waarschijnlijk ook het meest ingewikkelde protocol om in te stellen. Het moet een eigen daemon hebben, die speciaal ontworpen is — we zullen er een instellen in het “Gitosis” gedeelte van dit hoofdstuk — het gebruikt `xinetd` configuratie of iets dergelijks, wat niet altijd eenvoudig is. Het heeft ook firewall toegang tot poort 9418 nodig, wat geen standaard poort is dat bedrijfsfirewalls altijd toestaan. Achter grote bedrijfsfirewalls, is deze obscure poort meestal geblokkeerd.
 
-### Het HTTP/S Protocol ###
+### Het HTTP/S protocol ###
 
 Als laatste hebben we het HTTP protocol. Het mooie aan het HTTP of HTTPS protocol is dat het simpel in te stellen is. Eigenlijk is alles wat je moet doen de kale Git repository in je HTTP document root zetten, en een specifieke `post-update` hook (haak) instellen en je bent klaar (zie hoofdstuk 7 voor details over Git hooks). Vanaf dat moment kan iedereen die toegang heeft tot de webserver waaronder je de repository gezet hebt ook je repository clonen. Om leestoegang tot je repository over HTTP toe te staan, doe je zoiets als het volgende:
 
@@ -99,7 +99,7 @@ In dit geval, gebruiken we het `/var/www/htdocs` pad wat gebruikelijk is voor Ap
 
 Het ook is mogelijk om Git over HTTP te laten pushen, alhoewel dat geen veelgebruikte techniek is en erom vraagt dat je complexe WebDAV vereisten insteld. Omdat het zelden gebruikt wordt, zullen we het niet in dit boek beschrijven. Als je geinteresseerd bent om de HTTP-push protocollen te gebruiken, dan kun je op `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` lezen hoe je een repository kunt maken. Het fijne van Git laten pushen over HTTP is dat je iedere WebDAV server kunt gebruiken, zonder specifieke Git eigenschappen; dus je kunt deze functionaliteit gebruiken als je web-hosting provider WebDAV ondersteunt voor schrijf vernieuwingen aan je webpagina.
 
-#### De Voordelen ####
+#### De voordelen ####
 
 Het voordeel van het gebruik van het HTTP protocol is dat het eenvoudig in te stellen is. Een handvol benodigde commando's uitvoeren zorgt voor een eenvoudige manier om de wereld leestoegang te geven aan je Git repository. Het kost slechts een paar minuten om te doen. Het HTTP protocol is niet erg belastend voor de systeembronnen van je server. Omdat het over het algemeen een statische webserver gebruikt om alle data te serveren, een normale Apache server kan gemiddeld duizenden bestanden serveren per seconde — is het moeilijk om zelfs een kleine server te overbelasten.
 
@@ -107,11 +107,11 @@ Je kunt ook je repositories alleen-lezen serveren via HTTPS, wat betekend dat je
 
 Een ander fijn ding is dat HTTP zo'n veel voorkomend protocol is dat bedrijfsfirewalls vaak zo ingesteld zijn dat ze verkeer via deze poort toelaten.
 
-#### De Nadelen ####
+#### De nadelen ####
 
 Het nadeel van je repository serveren via HTTP is dat het relatief inefficient voor de client is. Over het algemeen duurt het een stuk langer om te clonen en te fetchen van de repository, en je hebt vaak een stuk meer netwerk belasting en transport volume via HTTP dan met elk van de andere netwerk protocollen. Omdat het niet zo intelligent is om alleen de data te versturen die je nodig hebt — er wordt geen dynamisch werk door de server gedaan in deze transacties — wordt vaak naar het HTTP protocol gerefereerd als zijnde een _dom_ protocol. Voor meer informatie over de verschillen in efficientie tussen het HTTP protocol en andere protocollen, zie Hoofdstuk 9.
 
-## Git op een Server Krijgen ##
+## Git op een server krijgen ##
 
 Om een initiele Git server op te zetten, moet je een bestaande repository in een kale repository exporteren — een repository dat geen werkmap bevat. Dit is over het algemeen eenvoudig te doen.
 Om je repository te clonen met als doel het maken van een kale repository, voer je het clone commando uit met de `--bare` optie. Als vaste gewoonte eindigen de namen van kale repository mappen in `.git`, zoals:
@@ -127,7 +127,7 @@ Dit is ongeveer gelijk aan
 
 Er zijn een paar kleine verschillen in het configuratie bestand; maar voor jouw doeleinde ligt dit dicht bij hetzelfde. Het neemt de Git repository zelf, zonder een werkmap, en maakt een map aan specifiek alleen voor dat ding.
 
-### Het Bare Repository op een Server Zetten ###
+### Het bare repository op een server zetten ###
 
 Nu dat je een kale kopie van je repository hebt, is het enige dat je moet doen het op een server zetten en je protocollen instellen. Stel dat je een server ingesteld hebt, die `git.example.com` heet, waar je SSH toegang op hebt, en waar je al je Git repositories wilt opslaan onder de `/opt/git` map. Je kunt je nieuwe repository instellen door je kale repository ernaartoe te kopieeren:
 
@@ -147,13 +147,13 @@ Je ziet hoe eenvoudig het is om een Git repository te nemen, een kale versie aan
 
 Het is belangrijk om te zien dat dit letterlijk alles is wat je moet doen om een bruikbare Git server te draaien waarop meerdere mensen toegang hebben — voeg alleen een paar SSH accounts toe op een server, en stop een kale repository ergens waar al die gebruikers lees- en schrijftoegang tot hebben. Je bent er klaar voor — je hebt niets anders nodig.
 
-In de volgende secties zul je zien hoe je meer ingewikkelde opstellingen kunt maken. Deze bespreking zal het niet hoeven aanmaken van gebruikers accounts voor elke gebruiker omvatten, publieke leestoegang tot repositories, grafische web interfaces, de Gitosis applicatie gebruiken en meer. Maar, hou in gedachten dat om samen te kunnen werken met mensen op een prive project, alles wat je _nodig_ hebt een SSH server en een kale repository is.
+In de volgende secties zul je zien hoe je meer ingewikkelde opstellingen kunt maken. Deze bespreking zal het niet hoeven aanmaken van gebruikersaccounts voor elke gebruiker omvatten, publieke leestoegang tot repositories, grafische web interfaces, de Gitosis applicatie gebruiken en meer. Maar, hou in gedachten dat om samen te kunnen werken met mensen op een prive project, alles wat je _nodig_ hebt een SSH server en een kale repository is.
 
-### Kleine Opstellingen ###
+### Kleine opstellingen ###
 
 Als je met een kleine groep bent of net begint met Git in je organisatie en slechts een paar ontwikkelaars hebt, dan kunnen de dingen eenvoudig voor je zijn. Een van de meest gecompliceerde aspecten van een Git server instellen is het beheren van gebruikers. Als je sommige repositories alleen-lezen voor bepaalde gebruikers wilt hebben, en lezen/schrijven voor anderen, dan kunnen toegang en permissies een beetje lastig in te stellen zijn.
 
-#### SSH Toegang ####
+#### SSH toegang ####
 
 Als je reeds een server hebt waar al je ontwikkelaars SSH toegang op hebben, dan is het over het algemeen het gemakkelijkst om je eerste repository daar in te stellen, omdat je dan bijna niets hoeft te doen (zoals beschreven in de vorige sectie). Als je meer complexe toegangscontrole wilt op je repositories, dan kun je ze instellen met de normale bestandssysteem permissies van het operating systeem dat op je server draait.
 
@@ -165,7 +165,7 @@ Een tweede methode is een enkele 'git' gebruiker aanmaken op de machine, aan ied
 
 Een andere manier waarop je het kunt doen is je SSH server laten verifieren vanaf een LDAP server of een andere gecentraliseerde authenticatie bron, die je misschien al ingesteld hebt. Zolang iedere gebruiker een shell toegang heeft op de machine, zou ieder SSH authenticatie mechanisme dat je kunt bedenken moeten werken.
 
-## Je Publieke SSH Sleutel Genereren ##
+## Je publieke SSH sleutel genereren ##
 
 Dat gezegd hebbende, zijn er vele Git servers die authenticeren met een publieke SSH sleutel. Om een publieke sleutel te hebben, zal iedere gebruiker in je systeem er een moeten genereren als ze er nog geen hebben. Dit proces is bij alle operating systemen vergelijkbaar.
 Als eerste moet je controleren dat je er niet al een hebt. Standaard staan de SSH sleutels van de gebruikers in hun eigen `~/.ssh` map. Je kunt makkelijk nagaan of je al een sleutel hebt door naar die map te gaan en de inhoud te tonen:
@@ -201,7 +201,7 @@ Iedere gebruiker die dit doet, moet zijn sleutel sturen naar jou of degene die d
 
 Voor een uitgebreide tutorial over het aanmaken van een SSH sleutel op meerdere operating systemen, zie de GitHub handleiding over SSH sleutels op `http://github.com/guides/providing-your-ssh-key`.
 
-## De Server Instellen ##
+## De server instellen ##
 
 Laten we het instellen van SSH toegang aan de server kant eens doorlopen. In dit voorbeeld zul je de `authorized_keys` methode gebruiken om je gebruikers te verifieren. We gaan er ook vanuit dat je een standaard Linux distributie gebruikt zoals Ubuntu. Als eerste creeer je een 'git' gebruiker een een `.ssh` map voor die gebruiker.
 
@@ -271,7 +271,7 @@ Nu kan de 'git' gebruiker de SSH connectie alleen gebruiken om Git repositories 
 	fatal: What do you think I am? A shell?
 	Connection to gitserver closed.
 
-## Publieke Toegang ##
+## Publieke toegang ##
 
 Wat als je anonieme leestoegang op je project wil? Misschien wil je geen intern prive project serveren, maar een open source project. Of misschien heb je een serie geautomatiseerde bouwservers of continue integratie servers die vaak wijzigen, en wil je niet doorlopend SSH sleutels hoeven genereren — je wil gewoon eenvoudige leestoegang toevoegen.
 
@@ -685,7 +685,7 @@ We ronden deze bespreking af met een voorproefje van andere eigenschappen, die a
 
 **Spiegeling**: Gitolite kan je helpen met het onderhouden van meerdere spiegels, en er makkelijk tussen wisselen als de hoofdserver plat gaat.
 
-## Git Daemon ##
+## Git daemon ##
 
 Voor publieke ongeverifieerde leestoegang tot je projecten zul je het HTTP protocol achter je willen laten, en overstappen op het Git protocol. De hoofdreden is snelheid. Het Git protocol is veel efficienter en daarmee sneller dan het HTTP protocol, dus het zal je gebruikers tijd besparen.
 
@@ -767,9 +767,9 @@ GitHub verschilt een beetje van de meeste code-beheer pagina's in de manier waar
 
 GitHub is ook een commercieel bedrijf dat geld vraagt voor accounts die privé repositories beheren, maar iedereen kan snel een gratis account krijgen om zoveel open source projecten als ze willen te beheren. We zullen er snel doorheen lopen hoe je dat doet.
 
-### Een Gebruikers Account Instellen ###
+### Een gebruikersaccount instellen ###
 
-Het eerste dat je moet doen is een gratis gebruikers account instellen. Als je de Pricing and Signup pagina op `http://github.com/plans` bezoekt en de "Sign Up" knop aanklikt op het gratis account (zie figuur 4-2), dan wordt je naar de inteken pagina gebracht.
+Het eerste dat je moet doen is een gratis gebruikersaccount instellen. Als je de Pricing and Signup pagina op `http://github.com/plans` bezoekt en de "Sign Up" knop aanklikt op het gratis account (zie figuur 4-2), dan wordt je naar de inteken pagina gebracht.
 
 Insert 18333fig0402.png
 Figuur 4-2. De GitHub inteken pagina.
@@ -787,7 +787,7 @@ Figuur 4-4. Het GitHub gebruikers dashboard.
 
 Vervolgens kun je een nieuw repository aanmaken.
 
-### Een Nieuw Repository Aanmaken ###
+### Een nieuw repository aanmaken ###
 
 Start door op de "create a new one" link te klikken naast Your Repositories op het gebruikers dashboard. Je wordt naar het Create a New Repository formulier gebracht (zie Figuur 4-5).
 
@@ -833,7 +833,7 @@ Figuur 4-9. Subversion importeer interface.
 
 Als je project erg groot is, niet standaard, of privé, dan zal dit process waarschijnlijk niet voor je werken. In Hoofdstuk 7 zul je leren om meer gecompliceerde handmatige project imports te doen.
 
-### Medewerkers Toevoegen ###
+### Medewerkers toevoegen ###
 
 Laten we de rest van het team toevoegen. Als John, Josie en Jessica allemaal intekenen voor accounts op GitHub, en je wilt ze push toegang op je repository geven, kun je ze aan je project toevoegen als medewerkers. Door dat te doen zullen pushes vanaf hun publieke sleutels werken.
 
@@ -854,7 +854,7 @@ Figuur 4-12. Een lijst met medewerkers aan je project.
 
 Als je toegang van individuen moet intrekken, dan kun je de "revoke" link klikken, en dan wordt hun push toegang ingetrokken. Voor toekomstige projecten, kun je ook de medewerker groepen kopieeren door de permissies van een bestaand project te kopieeren.
 
-### Je Project ###
+### Je project ###
 
 Nadat je je project gepushed hebt, of geimporteerd vanuit Subversion, heb je een hoofd project pagina die er uitziet zoals Figuur 4-13.
 
@@ -863,7 +863,7 @@ Figuur 4-13. Een GitHub project hoofpagina.
 
 Als mensen je project bezoeken, zien ze deze pagina. Het bevat tabs naar de verschillende aspecten van je projecten. De Commits tab laat een lijst van commits in omgekeerde chronologische volgorde zien, vergelijkbaar met de output van het `git log` commando. De Network tab toont alle mensen die je project hebben geforked en bijgedragen hebben. De Downloads tab staat je toe project binaries te uploaden en naar tarballs en gezipte versies van ieder getagged punt in je project te linken. De Wiki tab voorziet in een wiki waar je documentatie kunt schrijven of andere informatie over je project. De Graphs tab heeft wat contributie visualisaties en statistieken over je project. De hoofd Source tab waarop je binnen komt toont de inhoud van de hoofdmap van je project en toont automatisch het README bestand eronder als je er een hebt. Deze tab toont ook een veld met de laatste commit informatie.
 
-### Projecten Forken ###
+### Projecten forken ###
 
 Als je aan een bestaand project waarop je geen push toegang hebt wilt bijdragen, dan moedigt GitHub het forken van een project toe. Als je op een project pagina belandt, die interessant lijkt en je wilt er een beetje op hacken, dan kun je de "fork" knop klikken aan de bovenkant van het project om GitHub dat project te laten kopieeren naar jouw gebruiker zodat je er naar kunt pushen.
 
@@ -879,7 +879,7 @@ Na een paar seconden wordt je naar je nieuwe project pagina gebracht, wat aangee
 Insert 18333fig0415.png 
 Figuur 4-15. Jouw fork van een project.
 
-### GitHub Samenvatting ###
+### GitHub samenvatting ###
 
 Dat is alles wat we laten zien over GitHub, maar het is belangrijk om te zien hoe snel je dit allemaal kunt doen. Je kunt een nieuw account aanmaken, een nieuw project toevoegen en er binnen een paar minuten naar pushen. Als je project open source is, kun je ook een enorme ontwikkelaars gemeenschap krijgen die nu zicht hebben op je project en het misschien forken en eraan helpen bijdragen. Op z'n minst is dit een snelle manier om met Git aan de slag te gaan en het snel uit te proberen.
 

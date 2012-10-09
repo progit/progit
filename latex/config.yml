@@ -87,6 +87,12 @@ fr:
   thanks: "Ce fichier PDF est la traduction française du livre Pro Git. Il est publié sous license Creative Commons Attribution-Non Commercial-Share Alike 3.0. J'espère que vous l'apprécierez, qu'il vous permettra d'apprendre à utiliser Git et que vous aiderez Apress en achetant le livre original sur Amazon : \\url{http://tinyurl.com/amazonprogit}"
   dql: "«\\,"
   dqr: "\\,»"
+es:
+  prechap: "Capítulo "
+  presect: "Sección "
+  fig: "Figura "
+  tab: "Tabla "
+  con: "Contenidos "  
 mk:
   fig: "Слика"
   con: "Содржина"

@@ -124,7 +124,8 @@ Si vous lancez à nouveau le commande status, vous pouvez constater que votre fi
 	#	new file:   LISEZMOI
 	#
 
-Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à valider). Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
+Vous pouvez affirmer qu'il est indexé car il apparaît dans la section "Changes to be committed" (Modifications à valider).
+Si vous enregistrez à ce moment, la version du fichier à l'instant où vous lancez `git add` est celle qui appartiendra à l'instantané.
 Vous pouvez vous souvenir que lorsque vous avez précédemment lancé `git init`, vous avez ensuite lancé `git add (fichiers)` — c'était bien sur pour commencer à placer sous suivi de version les fichiers de votre répertoire de travail.
 La commande git add accepte en paramètre un chemin qui correspond à un fichier ou un répertoire ; dans le cas d'un répertoire, la commande ajoute récursivement tous les fichiers de ce répertoire.
 
@@ -227,7 +228,7 @@ Voici un autre exemple de fichier `.gitignore` :
 	*.a       # pas de fichier .a
 	!lib.a    # mais suivre lib.a malgré la règle précédente
 	/TODO     # ignorer uniquement le fichier TODO à la racine du projet
-	build/    # ignorer tous le fichiers dans le répertoire build
+	build/    # ignorer tous les fichiers dans le répertoire build
 	doc/*.txt # ignorer doc/notes.txt, mais pas doc/server/arch.txt
 
 ### Inspecter les modifications indexées et non indexées ###

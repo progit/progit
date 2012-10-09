@@ -54,7 +54,7 @@ Les systèmes de gestion de version locaux souffrent du même problème - dès q
 ### Les systèmes de gestion de version distribués ###
 
 C'est à ce moment que les systèmes de gestion de version distribués entrent en jeu (DVCSs en anglais pour *Distributed Version Control Systems*).
-Dans un DVCS (tel que Git, Mercurial, Bazaar or Darcs), les clients n'extraient plus seulement la dernière version d'un fichier, mais ils dupliquent complètement le dépôt.
+Dans un DVCS (tel que Git, Mercurial, Bazaar ou Darcs), les clients n'extraient plus seulement la dernière version d'un fichier, mais ils dupliquent complètement le dépôt.
 Ainsi, si le serveur disparaît et si les systèmes collaboraient via ce serveur, n'importe quel dépôt d'un des clients peut être copié sur le serveur pour le restaurer.
 Chaque extraction devient une sauvegarde complète de toutes les données (voir figure 1-3).
 

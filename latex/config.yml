@@ -78,7 +78,7 @@ cs:
 fr:
   prechap: "Chapitre "
   presect: "Section "
-  fig: "Figure "
+  fig: "figure "
   tab: "Tableau "
   font: Linux Libertine
   mono: Courier New

@@ -541,7 +541,7 @@ Table 2-1 lists some of the more useful options that format takes.
 	%p	Abbreviated parent hashes
 	%an	Author name
 	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
+	%ad	Author date (format respects the --date= option)
 	%ar	Author date, relative
 	%cn	Committer name
 	%ce	Committer email

@@ -233,7 +233,7 @@ Od tego momentu możesz ustawić puste repozytorium poprzez komendę 'git init' 
     $ cd project.git
     $ git --bare init
 
-Teraz John, Josie lub Jessica ma mozliwosc wykonania komedy push (wysłania) pierwszej wersji projektu do repozytorium poprzez dodanie go (projektu) jako zdalny (remote) oraz wysłanie całej gałęzi projektu. Aby tego dokonać należny polaczyc sie poprzez shell z maszyna i utworzyc nowe repozytorium za kazdym razem kiedy chcemy dodac projekt. Użyjmy `gitserver` jako nazwę severa na którym ustawiasz użytkownika `git` oraz repozytorium. Jeżeli odpalasz je lokalnie i ustawiasz DNS jako `gitserver` do połączenia z tym serwerem, wtedy będziesz mógł użyć poniższych komend:
+Teraz John, Josie lub Jessica ma możliwość wykonania komedy push (wysłania) pierwszej wersji projektu do repozytorium poprzez dodanie go (projektu) jako zdalny (remote) oraz wysłanie całej gałęzi projektu. Aby tego dokonać należny połączyć sie poprzez shell z maszyną i utworzyć nowe repozytorium za każdym razem kiedy chcemy dodać projekt. Użyjmy `gitserver` jako nazwę serwera, na którym ustawisz użytkownika `git` oraz repozytorium. Jeżeli odpalasz je lokalnie i ustawiasz DNS jako `gitserver` do połączenia z tym serwerem, wtedy będziesz mógł użyć poniższych komend:
 
     # on Johns computer
     $ cd myproject
@@ -252,19 +252,19 @@ W tym momencie użytkownicy mogą klonować (clone) projekt i wysyłać (push) z
 
 Używając powyższej metody możesz łatwo utworzyć serwer Git (odczyt/zapis) dla grupki użytkowników.
 
-Jako dodatkowy srodek ostroznosci mozesz zastrzec dostep do komend dla danego uzytkownika `git` poprzez narzedzie `git-shell` ktore dostepne jest wraz z Git. Jezeli ustawisz je jako shell do logowania dla twojego danego uzytkownika, to ten uzytkownik nie bedzie mial dostepu do pelnego dostepu do twojego serwera. Aby uzyc tej opcji ustaw `git-shell` zamiast bash lub csh dla shellu tegoz uzytkownika. Aby to zrobic edytuj plik `/etc/passwd`:
+Jako dodatkowy środek ostrożnośc możesz zastrzec dostęp do komend dla danego użytkownika `git` poprzez narzędzie `git-shell`, które dostępne jest wraz z Git. Jeżeli ustawisz je jako shell do logowania dla twojego danego użytkownika, to ten użytkownik nie będzie miał pełnego dostępu do twojego serwera. Aby użyć tej opcji ustaw `git-shell` zamiast bash lub csh dla shellu tegoż użytkownika. Aby to zrobić edytuj plik `/etc/passwd`:
 
     $ sudo vim /etc/passwd
 
-Gdzieś na dole znajdziesz linie podobna do poniższej:
+Gdzieś na dole znajdziesz linie podobną do poniższej:
 
     git:x:1000:1000::/home/git:/bin/sh
 
-Zamien `/bin/sh` na `/usr/bin/git-shell` (lub odpal  `which git-shell` aby znaleźć lokalizacje). Linia podobna byc podobna do poniższej:
+Zamień `/bin/sh` na `/usr/bin/git-shell` (lub odpal  `which git-shell` aby znaleźć lokalizację). Linia powinna być podobna do poniższej:
 
     git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-Teraz uzytkownik `git` moze uzyc polaczenia SSH tylko do wyslania i odebrania repozytorium Git, nie możne natomiast zyskać dostępu shell do servera. Serwer odpowie informacja podobna do:
+Teraz użytkownik `git` może użyć połączenia SSH tylko do wysłania i odebrania repozytorium Git, nie możne natomiast uzyskać dostępu shell do serwera. Serwer odpowie informacją podobną do:
 
     $ ssh git@gitserver
     fatal: What do you think I am? A shell?

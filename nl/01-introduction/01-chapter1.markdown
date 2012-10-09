@@ -122,7 +122,7 @@ Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd 
 
 Laten we eens een beetje Git gebruiken. Je kunt natuurlijk niet meteen beginnen — je moet het eerst installeren. Er zijn een aantal manieren om eraan te komen; de belangrijkste twee zijn installeren vanaf broncode of een bestaand pakket voor jouw platform gebruiken.
 
-### Installeren vanaf de bron ###
+### Installeren vanaf de broncode ###
 
 Als het mogelijk is, is het meestal handig om Git vanaf de broncode te installeren, omdat je dan altijd de nieuwste versie hebt. Elke versie van Git brengt meestal goede verbeteringen aan de gebruikersinterface met zich mee, dus de laatste versie is vaak de beste manier als je het gewoon bent software vanaf de broncode te compileren. Vaak hebben Linuxdistributies behoorlijk oude pakketen - tenzij je een hele up-to-date distro hebt of ‘backports’ (verbeteringen van een nieuwe versie op een oudere versie toepassen) gebruikt - is installeren vanaf broncode misschien wel de beste manier voor jou.
 
@@ -140,8 +140,8 @@ Als je alle afhankelijkheden hebt, kun je de laatste momentopname van Git vanaf 
 	
 Daarna compileren en installeren:
 
-	$ tar -zxf git-1.6.0.5.tar.gz
-	$ cd git-1.6.0.5
+	$ tar -zxf git-1.7.10.4.tar.gz
+	$ cd git-1.7.10.4
 	$ make prefix=/usr/local all
 	$ sudo make prefix=/usr/local install
 
@@ -192,16 +192,16 @@ Git bevat standaard een stuk gereedschap genaamd `git config`, waarmee je de con
 *	Het bestand `~/.gitconfig`: Eigenschappen voor jouw account. Je kunt Git dit bestand laten gebruiken door de optie `--global` mee te geven.
 *	Het configuratiebestand in de Gitmap (dus `.git/config`) van het repository dat je op het moment gebruikt: Specifiek voor dat ene repository. Elk niveau is belangrijker dan het voorgaande, dus waarden in `.git/config` zullen worden gebruikt in plaats van die in `/etc/gitconfig`.
 
-Op systemen met Windows zoekt Git in de `$HOME` map naar het `.gitconfig`-bestand (`C:\Documents and Settings\$USER` voor de meesten). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
+Op systemen met Windows zoekt Git in de `$HOME` map naar het `.gitconfig`-bestand (`C:\Documents and Settings\$USER` voor de meeste mensen). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
 
 ### Jouw identiteit ###
 
 Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebruikersnaam en e-mail addres opgeven. Dat is belangrijk, omdat elke commit in Git deze informatie gebruikt, en het onveranderlijk ingebed zit in de commits die je ronddeelt:
 
-	$ git config --global user.name "Scott Chacon"
-	$ git config --global user.email schacon@gmail.com
+	$ git config --global user.name "John Doe"
+	$ git config --global user.email johndoe@example.com
 
-Nogmaals, dit hoef je maar één keer te doen als je de `--global` optie eraan plakt, omdat Git die informatie zal gebruiken voor alles wat je doet op dat systeem. Als je een andere naam of e-mail wilt gebruiken voor specifieke projecten, kun je het commando uitvoeren zonder de `--global` optie als je in de map van dat project zit.
+Nogmaals, dit hoef je maar één keer te doen als je de `--global` optie meegeeft, omdat Git die informatie zal gebruiken voor alles wat je doet op dat systeem. Als je een andere naam of e-mail wilt gebruiken voor specifieke projecten, kun je het commando uitvoeren zonder de `--global` optie als je in de map van dat project zit.
 
 ### Je tekstverwerker ###
 

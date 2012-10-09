@@ -1,65 +1,66 @@
-# Git Basics #
+# Git'in Temelleri #
 
-If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
+Git'i kullanmaya başlamak için yalnızca bir bölüm okuyacak kadar zamanınız varsa, o bölüm, bu bölüm olmalı. Bu bölüm, Git'le i kullanarak yapacağınız şeylerin çok büyük kısmını için kullanacağınız bütün temel komutları içeriyor. Bu bölümün sonunda bir yazılım havuzunun nasıl yapılandırıp, ilkleneceğini (_initialize_), dosyaların nasıl izlemeye alınıp izlemeden çıkarılacağını ve değişikliklerin nasıl hazırlanıp kaydedileceğini öğreneceksiniz. Bunlara ek olarak, Git'i bazı dosyaları ya da konumları belli örüntülere (_pattern_) uyan dosyaları görmezden gelmesi için nasıl ayarlayacağınızı, hataları hızlıca ve kolayca nasıl geri alabileceğinizi, projenizin tarihçesine nasıl göz gezdirip kayıtlar arsındaki farkları nasıl görüntüleyebileceğinizi ve uzak uçbirimlerden nasıl kod çekme işlemi yapabileceğinizi göstereceğiz.
 
-## Getting a Git Repository ##
+## Bir Git Yazılım Havuzu Edinmek ##
 
-You can get a Git project using two main approaches. The first takes an existing project or directory and imports it into Git. The second clones an existing Git repository from another server.
+Bir Git projesi edinmenin iki başlıca yolu vardır. Bunlardan ilki, halihazırda varolan bir projeyi Git'e aktarmaktır. İkincisi ise bir sunucuda yer alan bir Git yazılım havuzunu klonlamakdır.
 
-### Initializing a Repository in an Existing Directory ###
+### Varolan Bir Klasörde Yazılım Havuzu Oluşturmak ###
 
-If you’re starting to track an existing project in Git, you need to go to the project’s directory and type
+Varolan bir projenizi sürüm kontrolü altına almak istiyorsanız, projenin bulunduğu klasöre gidip aşağıdaki komutu çalıştırmanız gerekir:
 
 	$ git init
 
-This creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton. At this point, nothing in your project is tracked yet. (See Chapter 9 for more information about exactly what files are contained in the `.git` directory you just created.)
+Bu, gerekli yazılım havuzu dosyalarını —Git iskeletini— içeren `.git` adında bir klasör oluşturur. Bu noktada, projenizdeki hiçbir şey sürüm kontrolüne girmiş değildir. (Oluşturulan `.git` klasöründe tam olarak hangi doryaların bulunduğu hakkında daha fazla bilgi edinmek için bkz. _9. Bölüm_.)
 
-If you want to start version-controlling existing files (as opposed to an empty directory), you should probably begin tracking those files and do an initial commit. You can accomplish that with a few git add commands that specify the files you want to track, followed by a commit:
+Varolan dosyalarınızı sürüm kontrolüne almak istiyorsanız, o dosyaları hazırlayıp kayıt etmelisiniz. Bunu, sürüm kontrolüne almak istediğiniz dosyaları belirleyip kayıt altına aldığınız birkaç git komutuyla gerçekleştirebilirsiniz:
 
 	$ git add *.c
 	$ git add README
-	$ git commit -m 'initial project version'
+	$ git commit -m 'projenin ilk hali'
 
-We’ll go over what these commands do in just a minute. At this point, you have a Git repository with tracked files and an initial commit.
+Birazdan bu komutların üzerinde duracağız. Bu noktada, sürüm kontrolüne aldığınız dosyaları içeren bir Git yazılım havuzunuz var.
 
-### Cloning an Existing Repository ###
+### Varolan Bir Yazılım Havuzunu Klonlamak ###
 
-If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is git clone. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is clone and not checkout. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there — see Chapter 4 for more details).
+Varolan bir Git yazılım havuzunu kopyalamak istiyorsanız —söz gelimi, katkıda bulunmak istediğiniz bir proje varsa- ihtiyacını olan komut `git clone`. Subversion gibi başka SKS'lere aşinaysanız, komutun `checkout` değil `clone` olduğunu fark etmişsinizdir. Bu önemli bir ayrımdır —Git, sunucuda bulunan neredeyse bütün veriyi kopyalar. `git clone` komutunu çalıştırdığınızda her dosyanın proje tarihçesinde bulunan her sürümü istemciye indirilir. Hatta, sunucunuzun diski bozulacak olsa, herhangi bir istemcideki herhangi bir klonu, sunucuyu klonlandığı zamanki haline geri getirmek için kullanabilirsiniz (sunucunuzdaki bazı çengel betikleri (_hook_) kaybedebilirsiniz, ama sürümlenmiş verinin tamamı elinizin altında olacaktır —daha fazla ayrıntı için bkz. _4. Bölüm_)
 
-You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
+Bir yazılım havuzu `git clone [url]` komutuyla klonlanır. Örneğin, Grit adlı Ruby Git kütüphanesini klonlamak isterseniz, bunu şu şekilde yapabilirsiniz:
 
 	$ git clone git://github.com/schacon/grit.git
 
-That creates a directory named "grit", initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
+Bu `grit` adında bir klasör oluşturur, bu klasörün içinde bir `.git` klasörü oluşturup, ilklemesini yapar, söz konusu yazılım havuzunun bütün verisini indirir ve son sürümünün bir koyasını seçer (_checkout_). Bu yeni `grit` klasörüne gidecek olursanız, kullanılmaya ve üzerinde çalışılmaya hazır proje dosyalarını görürsünüz. Yazılım havuzunu adı grit'ten farklı bir klasöre kopyalamak isterseniz, bunu komut satırı seçeneği olarak vermelisiniz:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-That command does the same thing as the previous one, but the target directory is called mygrit.
+Bu komut da bir öncekiyle aynı şeyleri yapar, fakat oluşturulan klsörün adı `mygrit`'tir.
 
-Git has a number of different transfer protocols you can use. The previous example uses the `git://` protocol, but you may also see `http(s)://` or `user@server:/path.git`, which uses the SSH transfer protocol. Chapter 4 will introduce all of the available options the server can set up to access your Git repository and the pros and cons of each.
+Git'in bir dizi farklı transfer protokolü vardır. Yukarıdaki örnek `git://` protokolünü kullanıyor, ama `http(s)://`'in ya da SSH  transfer protokolünü kullanan `user@server:/path.git`'in kullanıldığına da tanık olabilirsiniz. _4. Bölüm_'de Git yazılım havuzuna erişmek için sunucunun kullanabileceği bütün geçerli seçenekleri ve bunların olumlu ve olumsuz yanlarını inceleyeceğiz.
 
-## Recording Changes to the Repository ##
+## Değişiklikleri Yazılım Havuzuna Kaydetmek ##
 
-You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
+Hakiki bir Git yazılım havuzuna ve söz konusu proje için gerekli olan bir dosya seçmesine sahipsiniz. Bu proje üzerinde değişiklikler yapmanız ve proje kaydetmek istediğiniz bir seviyeye geldiğinde bu değişikliklerin bir bellek kopyasını kaydetmeniz gerekecek.
 
-Remember that each file in your working directory can be in one of two states: tracked or untracked. Tracked files are files that were in the last snapshot; they can be unmodified, modified, or staged. Untracked files are everything else - any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything.
+Unutmayın, çalışma klasörünüzdeki dosyalar iki halden birinde bulunurlar: _izlenenler_ (_tracked_) ve _izlenmeyenler_ (_untracked_). _İzlenen_ dosyalar, bir önceki bellek kopyasında bulunan dosyalardır; bunlar _değişmemiş_, _değişmiş_ ya da _hazırlanmış_ olabilirler. Geri kalan her şey —çalışma klasörünüzde bulunan ve bir önceki bellek kopyasında ya da hazırlama alanında bulumayan dosyalar— _izlenmeyen_ dosyalardır. Bir yazılım havuzunu yeni kopyalamışsanız, bütün dosyalar, henüz yeni seçme yaptığınız ve hiçbir şeyi değiştirmediğiniz için, izlenen ve değişmemiş olacaktır.
 
-As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You stage these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
+Dosyaları düzenlemeye başladığınzıda, Git onları değişmiş olarak görecektir, çünkü son kaydınızdan beri üzerlerinde değişiklik yapmış olacaksınız. Değiştirdiğiniz bu dosyaları önce _hazırlayıp_ sonra bütün _hazırlanmış_ değişiklikleri kaydedeceksiniz ve bu döngü böyle sürüp gidecek. Bu döngü, Figür 2-1'de gösteriliyor.
+
 
 Insert 18333fig0201.png
-Figure 2-1. The lifecycle of the status of your files.
+Figür 2-1. Dosyalarınızın değişik durumlarının döngüsü.
 
-### Checking the Status of Your Files ###
+### Dosyaların Durumlarını Kontrol Etmek ###
 
-The main tool you use to determine which files are in which state is the git status command. If you run this command directly after a clone, you should see something like this:
+Hangi dosyanın hangi durumda olduğunu görmek için kullanılacak temel araç `git status` komutudur. Bu komutu bir klonlama işleminin hemen sonrasında çalıştıracak olursanız, şöyle bir şey görmelisiniz:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-This means you have a clean working directory — in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always master, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
+Bu çalışma klasörünüzün temiz olduğu anlamına gelir —başka bir deyişle, izlenmekte olup da değiştirilmiş herhangi bir dosya yoktur. Git'in saptadığı herhangi bir izlenmeyen dosya da yok, olsaydı burada listelenmiş olurdu. Son olarak, bu komut size hangi dal (_branch_) üzerinde olduğunuzu söylüyor. Şimdilik bu hep, varsayılan dal olan `master` olacaktır; şimdilik buna kafa yormayın. Sonraki bölüm dallar ve referanslar konusunu derinlemesine ele alacak.
 
-Let’s say you add a new file to your project, a simple README file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
+Diyelim ki projenize yeni bir dosya, basit bir README dosyası eklediniz. Eğer dosya önceden orada bulunmuyorsa, ve `git status` komutunu çalıştırırsanız, bu izlenmeyen dosyayı şu şekilde görürsünüz:
 
 	$ vim README
 	$ git status
@@ -70,15 +71,15 @@ Let’s say you add a new file to your project, a simple README file. If the fil
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-You can see that your new README file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
+Yeni README dosyanızın izlenmediğini görüyorsunuz, çünkü `status` çıktısında “Untracked files” başlığı altında listelenmiştir. Bir dosyanın izlenmemesi demek, Git'in onu bir önceki bellek kopyasında (_commit_) görmemesi demektir; siz açıkça belirtmediğiniz sürece Git bu dosyayı izlemeye başlamayacaktır. Bunun nedeni, derleme çıktısı olan ikili dosyaların ya da projeye dahil etmek istemediğiniz dosyaların yanlışlıkla projeye dahil olmasını engellemektir. README dosyasını projeye eklemek istiyorsunuz, öyleyse dosyayı izlemeye alalım.
 
-### Tracking New Files ###
+### Yeni Dosyaları İzlemeye Almak ###
 
-In order to begin tracking a new file, you use the command `git add`. To begin tracking the README file, you can run this:
+Yeni bir dosyayı izlemeye almak için `git add` komutunu kullanmalısınız. README dosyasını izlemeye almak için komutu şu şekilde çalıştırabilirsiniz:
 
 	$ git add README
 
-If you run your status command again, you can see that your README file is now tracked and staged:
+`status` komutunu yeniden çalıştırırsanız, README dosyasının artık izlemeye alındığını ve hazırlık alanında olduğunu göreceksiniz:
 
 	$ git status
 	# On branch master
@@ -88,11 +89,11 @@ If you run your status command again, you can see that your README file is now t
 	#	new file:   README
 	#
 
-You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran git add is what will be in the historical snapshot. You may recall that when you ran git init earlier, you then ran git add (files) — that was to begin tracking files in your directory. The git add command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
+Hazırlık alanında olduğunu “Changes to be committed” başlığının altında olmasına bakarak söyleyebilirsiniz. Eğer bu noktada bir kayıt (_commit_) yapacak olursanız, dosyanın `git add` komutunu çalıştırdığınız andaki hali bellek kopyasına kaydedilecektir. Daha önce `git init` komutunu çalıştırdıktan sonra projenize dosya eklemek için `git add (dosya)` komutunu çalıştırdığınızı hatırlayacaksınız —bunun amacı klasörünüzdeki dosyaları izlemeye almaktı. `git add` komutu bir dosya ya da klasörün konumuyla çalışır; eğer söz konusu olan br klasörse, klasördeki bütün dosyaları tekrarlamalı olarak projeye ekler.
 
-### Staging Modified Files ###
+### Değiştirilen Dosyaları Hazırlamak ###
 
-Let’s change a file that was already tracked. If you change a previously tracked file called `benchmarks.rb` and then run your `status` command again, you get something that looks like this:
+Gelin şimdi halihazırda izlenmekte olan bir dosyayı değiştirelim. İzlenmekte olan `benchmarks.rb` adındaki bir dosyayı değiştirip `status` komutunu çaıştırdığınızda şöyle bir ekran çıktısıyla karşılaşırsınız:
 
 	$ git status
 	# On branch master
@@ -107,7 +108,7 @@ Let’s change a file that was already tracked. If you change a previously track
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+`benchmarks.rb` dosyası “Changed but not updated” başlıklı bir bölümün altında görünüyor —bu başlık izlenmekte olan bir dosyada değişiklik yapılmış olduğu fakat dosyanın henüz hazırlık alanına alınmadığı durumlarda kullanılır. Dosyayı hazırlamak için, `git add` komutunu çalıştırın (`git add` çok amaçlı bir komuttur, bir dosyayı izlemeye almak için, kayda hazırlamak için, ya da birleştirme uyuşmazlıklarının çözüldüğünü işaretlemek gibi başka amaçlarla kullanılır). Gelin `benchmarks.rb` dosyasını kayda hazırlamak için `git add` komutunu çalıştırıp sonra da `git status` komutuyla duruma bakalım:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -119,7 +120,7 @@ The benchmarks.rb file appears under a section named “Changed but not updated�
 	#	modified:   benchmarks.rb
 	#
 
-Both files are staged and will go into your next commit. At this point, suppose you remember one little change that you want to make in benchmarks.rb before you commit it. You open it again and make that change, and you’re ready to commit. However, let’s run `git status` one more time:
+Her iki dosya da kayda hazırlanmış durumdadır ve bir sonraki kaydınıza dahil edilecektir. Tam da bu noktada, henüz kaydı gerçekleştirmeden, aklınıza `benchmarks.rb` dosyasında yapmak istediğiniz küçük bir değişikliğin geldiğini düşünelim. Dosyayı yeniden açıp değişikliği yaptıktan sonra artık kaydı yapmaya hazırsınız. Fakat, `git status` komutunu bir kez daha çalıştıralım:
 
 	$ vim benchmarks.rb
 	$ git status
@@ -136,7 +137,7 @@ Both files are staged and will go into your next commit. At this point, suppose 
 	#	modified:   benchmarks.rb
 	#
 
-What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the git add command. If you commit now, the version of benchmarks.rb as it was when you last ran the git add command is how it will go into the commit, not the version of the file as it looks in your working directory when you run git commit. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
+Ne oldu? `benchmarks.rb` dosyası hem kayda hazırlanmış hem de kayda hazırlanmamış görünüyor. Bu nasıl olabiliyor? Git, bir dosyayı `git add` komutunun alıştırıldığı haliyle kayda hazırlar. Eğer şimdi kayıt yapacak olursanız, `benchmarks.rb` dosyası, çalışma klasöründe göründüğü haliyle değil, `git add` komutunu son çalıştırdığınız haliyle kayıt edilecektir. Bir dosyayı `git add` komutunu çalıştırdıktan sonra değiştirecek olursanız, dosyanın son halini kayda hazırlamak için `git add` komutunu bir kez daha çalıştırmanız gerekir:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -148,39 +149,39 @@ What the heck? Now benchmarks.rb is listed as both staged and unstaged. How is t
 	#	modified:   benchmarks.rb
 	#
 
-### Ignoring Files ###
+### Dosyaları Görmezden Gelmek ###
 
-Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named .gitignore.  Here is an example .gitignore file:
+Çoğu zaman, projenizde Git'in takip etmesini, hatta size izlenmeyenler arasında göstermesini bile istemediğiniz bir küme dosya olacaktır. Bunlar, genellikle otomatik olarak oluşturulan seyir (_log_) dosyaları ya da yazılım inşa sisteminin çıktılarıdır. Bu durumlarda, bu dosyaların konumlarıyla eşleşen örüntüleri listeleyen `.gitignore` adında bir dosya oluşturabilirsiniz:
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-The first line tells Git to ignore any files ending in .o or .a — object and archive files that may be the product of building your code. The second line tells Git to ignore all files that end with a tilde (`~`), which is used by many text editors such as Emacs to mark temporary files. You may also include a log, tmp, or pid directory; automatically generated documentation; and so on. Setting up a .gitignore file before you get going is generally a good idea so you don’t accidentally commit files that you really don’t want in your Git repository.
+İlk satır, Git'e `.o` ya da `.a` ile biten dosyaları —yazılım derlemesinin sonucunda ortaya çıkmış olabilecek _nesne_ ve _arşiv_ dosyalarını— görmezden gelmesini söylüyor. İkinci satır, Git'e Emacs gibi pek çok metin editörü tarafından geçici dosyaları işaretlemek için kullanılan tilda işaretiyle (`~`) biten bütün dosyaları görmezden gemesini söylüyor. Bu listeye `log`, `tmp` ya da `pid` klasörlerini, otomatik olarak oluşturulan dokümantasyon dosyalarını ve sair dosyayı ekleyebilirsiniz. Daha projenin başlangıcında bir `.gitignore` dosyası oluşturmak yazılım havuzunuzda istemeyeceğiniz dosyaları yanlışlıkla kaydetmenize engel olacağından oldukça iyi bir fikirdir.
 
-The rules for the patterns you can put in the .gitignore file are as follows:
+`.gitignore` dosyanızda bulundurabileceğiniz örüntüler şu kurallara bağlıdır:
 
-*	Blank lines or lines starting with # are ignored.
-*	Standard glob patterns work.
-*	You can end patterns with a forward slash (`/`) to specify a directory.
-*	You can negate a pattern by starting it with an exclamation point (`!`).
+*	Boş satırlar ve `#` ile başlayan satırlar görmezden gelinir.
+*	Stadart _glob_ örüntüleri ayırt edilir (Ç.N.: _glob_ *nix tarafından kullanılan sınırlı bir kurallı ifade (_regular expression_) biçimidir).
+*	Bir klasörü belirtmek üzere örüntüleri bir eğik çizgi (`/`) ile sonlandırabilirsiniz.
+*	Bir örüntüyü ünlem işaretiyle (`!`) başlattığınızda, örüntünün tersi gereçli olur.
 
-Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case a, b, or c); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character between them (in this case 0 through 9) .
+_Glob_ örüntüleri _shell_'ler tarafından kullanılan basitleştirilmiş kurallı ifadelerdir (_regular expression_). Bir asterisk işareti (`*`) sıfır ya da daha fazla karakterle eşleşir; `[abc]` köşeli parantezin içindeki herhangi bir karakterle eşleşir (buradaki örnekte `a`, `b`, ya da `c` ile); soru işareti (`?`) bir karakterle eşleşir; tireyle ayrılmış karakterleri içine alan bir köşeli parantez (`[0-9]`) bu aralıktaki bütün karakterlerle eşleşir (bu örnekte 0'dan 9'a kadar olan karakterler).
 
-Here is another example .gitignore file:
+Bir `.gitignore` dosyası örneği daha:
 
-	# a comment - this is ignored
-	*.a       # no .a files
-	!lib.a    # but do track lib.a, even though you're ignoring .a files above
-	/TODO     # only ignore the root TODO file, not subdir/TODO
-	build/    # ignore all files in the build/ directory
-	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
+	# bir yorum - bu görmezden gelinir
+	*.a       # .a dosyalarını görmezden gel
+	!lib.a    # ama yukarıda .a dosyalarını görmezden geliyor olsan bile lib.a dosyasını izlemeye al
+	/TODO     # kök dizindeki /TODO dosyasını (TODO adındaki alt klasörü değil) görmezden gel
+	build/    # build/ klasöründeki bütün dosyaları görmexden gel
+	doc/*.txt # doc/notes.txt dosyasını görmeden gel ama doc/server/arch.txt dosyasını görmezden gelme
 
-### Viewing Your Staged and Unstaged Changes ###
+### Kayda Hazırlanmış ve Hazırlanmamış Değişiklikleri Görüntülemek ###
 
-If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were.
+`git status` komutunu fazla anlaşılmaz buluyorsanız —yalnızca hangi dosyaların deiştiğini değil, bu dosyalarda tam olarak nelerin değiştiğini görmek istiyorsanız— `git diff` komutunu kullanabilirsiniz. `git diff` komutunu ileride ayrıntılı olarak inceleyeceğiz; ama bu komutu muhtemelen en çok şu iki soruya cevap bulmak için kullanacaksınız: Değiştirip de henüz kayda hazırlamadığınız neler var? Ve kayda olmak üzere hangi değişikliklerin hazırlığını yaptınız? `git status` bu soruları genel biçimde cevaplıyor olsa da `git diff` eklenen ve çıkarılan bütün dosyaları —olduğu gibi yamayı— görsterir.
 
-Let’s say you edit and stage the README file again and then edit the benchmarks.rb file without staging it. If you run your `status` command, you once again see something like this:
+Diyelim `README` dosyasını düzenleyip kayda hazırladınız, sonra da `benchmarks.rb` dosyasını düzenlediniz ama kayda hazırlamadınız. `status` komutunu çalıştırdığınızda şöyle bir şey görürsünüz:
 
 	$ git status
 	# On branch master
@@ -195,7 +196,7 @@ Let’s say you edit and stage the README file again and then edit the benchmark
 	#	modified:   benchmarks.rb
 	#
 
-To see what you’ve changed but not yet staged, type `git diff` with no other arguments:
+Henüz kayda hazırlamadığınız değişiklikleri görmek için `git diff` komutunu (başka hiçbir argüman kullanmadan) çalıştırın:
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -214,9 +215,9 @@ To see what you’ve changed but not yet staged, type `git diff` with no other a
 	           log = git.commits('master', 15)
 	           log.size
 
-That command compares what is in your working directory with what is in your staging area. The result tells you the changes you’ve made that you haven’t yet staged.
+Komut, çalışma klasörünüzün içeriğiyle kayda hazırlık alanının içeriğini karşılaştırır. Sonuç size henüz kayda hazırlamadığınız değişiklikleri gösterir.
 
-If you want to see what you’ve staged that will go into your next commit, you can use `git diff --cached`. (In Git versions 1.6.1 and later, you can also use `git diff --staged`, which may be easier to remember.) This command compares your staged changes to your last commit:
+Kayda hazırlamış olduğunuz değişiklikleri görmek için `git diff --cache` komutunu kullanabilirsiniz. (1.6.1'den sonraki Git sürümlerinde hatırlaması daha kolay olabilecek `git diff --staged` komutunu da kullanabilirsiniz.) Bu komut kayda hazırlanmış değişikliklerle son kaydı karşılatırır.
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -231,9 +232,9 @@ If you want to see what you’ve staged that will go into your next commit, you 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
+Dikkat edilmesi gereken nokta, `git diff`'in son kayıttan beri yapılan bütün değişiklikleri değil yalnızca kayda hazırlanmamış değişiklikleri gösteriyor oluşudur. Bu zaman zaman kafa karıştırıcı olabilir, zira, bütün değişikliklerinizi kayda hazırladıysanız, `git diff`'in çıktısı boş olacaktır.
 
-For another example, if you stage the benchmarks.rb file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
+Yine, örnek olarak, `benchmarks.rb` dosyasını kayda hazırlayıp daha sonra üzerinde değişiklik yaparsanız, `git diff` komutunu kullanarak hangi değişikliklerin kayda hazırlandığını hangilerinin hazırlanmadığını görüntüleyebilirsiniz:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -249,7 +250,7 @@ For another example, if you stage the benchmarks.rb file and then edit it, you c
 	#	modified:   benchmarks.rb
 	#
 
-Now you can use `git diff` to see what is still unstaged
+Şimdi `git diff` komutuyla hangi değişikliklerin henüz kayda hazırlanmamış olduğunu
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -262,7 +263,7 @@ Now you can use `git diff` to see what is still unstaged
 	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
-and `git diff --cached` to see what you’ve staged so far:
+ve `git diff --cached` komutuyla neleri kayda hazırlamış olduğunuzu görebilirsiniz:
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -281,16 +282,17 @@ and `git diff --cached` to see what you’ve staged so far:
 	          log = git.commits('master', 15)
 	          log.size
 
-### Committing Your Changes ###
+### Değişiklikleri Kaydetmek ###
 
-Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
-In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
+Yaptığınız değişiklikleri dilediğiniz gibi hazırlık alanına aldığınıza göre artık onları kaydedebilirsiniz (_commit_). Unutmayın, kayda hazırlanmamış —oluşturduğunuz ya da değiştirdiğiniz fakat `git add` komutunu kullanarak kayda hazırlamadığınız— değişiklikler kaydedilmeyecektir. Onlar sabit diskinizde değiştirilmiş dosyalar olarak kalacaklar.
+
+Bu örnekte, `git status` komutunu son çalıştırdığınızda her şeyin kayda hazırlanmış olduğunu gördünüz, dolayısıyla değişikliklerinizi kaydetmeye hazırsınız. Kayıt yapmanın en kolay yolu `git commit` komutunu kullanmaktır:
 
 	$ git commit
 
-Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in Chapter 1).
+Bu komutu çalıştırdığınızda sisteminizde seçili bulunan metin editörü açılacaktır. (Editörünüz _shell_'inizin `$EDITOR` çevresel değişkeni tarafından tanımlanır —genellikle vim ya da emacs'tır, fakat `git config --global core.editor` komutunu _1. Bölüm_'de gördüğünüz gibi çalıştırarak bu ayarı değiştirebilirsiniz.)
 
-The editor displays the following text (this example is a Vim screen):
+Metin editörü aşağıdaki metni görüntüler (bu örnek Vim ekranından):
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -305,22 +307,22 @@ The editor displays the following text (this example is a Vim screen):
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
+Gördüğünüz gibi hazır kayıt mesajı `git status` çıktısının `#` kullanılarak devre dışı bırakılmış haliyle en üstte bir boş satırdan oluşur. Bu devre dışı bırakılmış kayıt mesajını silip yerine kendi kayıt mesajınızı yazabilir, ya da neyi kaydettiğinizi size hatırlatması için orada bırakabilirsiniz. (Neyi değiştirdiğinizin daha ayrıntlı olarak hatırlatılmasını isterseniz, `git commit` mesajını `-v` seçeneğiyle kullanabilirsiniz. Bu seçenek kaydetmekte olduğunuz değişikliğin içeriğini de (_diff_) editörde gösterecektir.) Editörü kapattığınızda Git, yazdığınız mesajı kullanarak değişikliği kaydeder (devre dışı bırakılmış bölümü ve değişikliğin içeriğini mesajın dışında bırakır).
 
-Alternatively, you can type your commit message inline with the `commit` command by specifying it after a -m flag, like this:
+Bir başka seçenek de, kayıt mesajınızı `commit` komutunu `-m` seçeneğiyle aşağıdaki gibi kullanmaktır:
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-Now you’ve created your first commit! You can see that the commit has given you some output about itself: which branch you committed to (master), what SHA-1 checksum the commit has (`463dc4f`), how many files were changed, and statistics about lines added and removed in the commit.
+İlk kaydınızı oluşturmuş oldunuz! Görüldüğü gibi kayıt kendisiyle ilgili bilgiler veriyor: hangi dala kayıt yapmmış olduğunuzu (`master`), kaydın SHA-1 sınama toplamının ne olduğunu (`463dc4f`), kaç dosyada değişiklik yaptığınızı ve kayıtta kaç satır ekleyip çıkardığınıza dair istatistiklerin çıktısını veriyor.
 
-Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
+Unutmayın, kayıt, hazırlık alanında kayda hazırladığınız bellek kopyasının kaydıdır. Kayda hazırlamadığınız değişiklikler, değişiklik olarak duruyor; onları da proje tarihçesine eklemek isterseniz yeni bir kayıt yapabilirsiniz. Her kayıt işleminde projenizin bir bellek kopyasını kaydediyorsunuz; bu bellek kopyalarını daha sonra geriye sarabilir ya da birbiriyle karşılaştırabilirsiniz.
 
-### Skipping the Staging Area ###
+### Hazırlık Alanını Atlamak ###
 
-Although it can be amazingly useful for crafting commits exactly how you want them, the staging area is sometimes a bit more complex than you need in your workflow. If you want to skip the staging area, Git provides a simple shortcut. Providing the `-a` option to the `git commit` command makes Git automatically stage every file that is already tracked before doing the commit, letting you skip the `git add` part:
+Her ne kadar kayıtları tam istediğiniz gibi düzenlemek inanılmaz derecede yararlı bir şey olsa da, hazırlık alanı kimi zaman iş akışınıza fazladan bir yük getirebilir. Git, hazırlık alanını kullanamdan geçmek isteyenler için basit bir kısayol sunuyor. `git commit` komutunu `-a` seçeneğiyle kullanırsanız, Git, halihazırda izlenmekte olan bütün dosyaları otomatik olarak kayda hazırlayıp, `git add` aşamasını atlamanızı sağlar:
 
 	$ git status
 	# On branch master
@@ -333,13 +335,13 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Notice how you don’t have to run `git add` on the benchmarks.rb file in this case before you commit.
+Gördünüğüz gibi, kayıt işlemi yapmadan önce `benchmarks.rb` dosyasını `git add` komutundan geçirmek zorunda kalmadınız.
 
-### Removing Files ###
+### Dosyaları Ortadan Kaldırmak ###
 
-To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
+Bir dosyayı Git'ten silmek için, önce izlenen dosyaları listesinden çıkarmalı (daha doğrusu, kayda hazırlık alanından kaldırmalı) sonra da kaydetmelisiniz. `git rm` hem bunu yapar hem de dosyayı çalışma klasörünüzden siler, böylece dosyayı izlenmeyen dosyalar arasında görmezsiniz.
 
-If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
+Eğer dosyayı çalışma klasörünüzden silerseniz, `git status` çıktısının “Changed but not updated” (yani _kayda hazırlanmamış olanlar_) başlığı altında boy gösterecektir:
 
 	$ rm grit.gemspec
 	$ git status
@@ -351,7 +353,7 @@ If you simply remove the file from your working directory, it shows up under the
 	#       deleted:    grit.gemspec
 	#
 
-Then, if you run `git rm`, it stages the file’s removal:
+Sonrasında `git rm` komutunu çalıştırırsanız, dosyanın ortadan kaldırılması için kayda hazırlanmasını sağlamış olursunuz:
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -364,31 +366,31 @@ Then, if you run `git rm`, it stages the file’s removal:
 	#       deleted:    grit.gemspec
 	#
 
-The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
+Bir sonraki kaydınızda, dosya silinmiş olacak ve artık izlenmeyecektir. Eğer dosyayı değiştirmiş ve halihazırda indekse eklemişseniz, ortadan kaldırma işlemini `-f` seçeneğini kullanarak zorlamanız gerekecektir. Bu, herhangi bir bellek kopyasına kaydedilmemiş ve Git kullanılarak kurtarılamayacak verilerin kaybolmasını önlemek amacıyla geliştirilmiş bir önlemdir.
 
-Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
+Yapmak isteyebileceğiniz bir başka şey de dosyayı çalışma klasörünüzde tutup, kayda hazırlık alanından silmek olabilir. Bir başka deyişle, dosyayı sabit diskinizde bulundurmak ama Git'in izlenecek dosyalar listesinden çıkarmak isteyebilirsiniz. Bu, özellikle belirli bir dosyayı (büyük bir seyir dosyasını ya da bir küme derlenmiş `.a` dosyasını) `.gitignore` dosyanıza eklemeyi unutup yanlışlıkla Git indeksine eklediğinizde kullanışlı olan bir özelliktir. Bunu yapmak için `--cached` seçeneğini kullanmalısınız:
 
 	$ git rm --cached readme.txt
 
-You can pass files, directories, and file-glob patterns to the `git rm` command. That means you can do things such as
+`git rm` komutunu dosyalar, klasörler ya da _glob_ örüntüleri üzerinde kullanabilirsiniz. Yani şöyle şeyler yapabilirsiniz:
 
 	$ git rm log/\*.log
 
-Note the backslash (`\`) in front of the `*`. This is necessary because Git does its own filename expansion in addition to your shell’s filename expansion. This command removes all files that have the `.log` extension in the `log/` directory. Or, you can do something like this:
+`*`'in önündeki ters eğik çizgi işaretini gözden kaçırmayın. Bu işaret gereklidir, çünkü _shell_'inizin dosya adı açımlamasına ek olarak, Git de kendi dosya adı açımlamasını yapar. Yuarıdaki komut, `log/` klasöründeki `.log` eklentili bütün dosyaları ortadan kaldıracaktır. Ya da, şöyle bir şey yapabilirsiniz:
 
 	$ git rm \*~
 
-This command removes all files that end with `~`.
+Bu komut `~` ile biten bütün dosyaları ortadan kaldıracaktır.
 
-### Moving Files ###
+### Dosyaları Taşımak ###
 
-Unlike many other VCS systems, Git doesn’t explicitly track file movement. If you rename a file in Git, no metadata is stored in Git that tells it you renamed the file. However, Git is pretty smart about figuring that out after the fact — we’ll deal with detecting file movement a bit later.
+Çoğu SKS'nin aksine Git taşınan dosyaları takip etmez. Bir dosyanın adını değiştirirseniz, Git, dosyanın yeniden adlandırıldığına dair herhangi bir üstveri oluşturmaz. Fakat Git, olay olup bittikten sonra neyin ne olduğunu anlamakta oldukça beceriklidir —dosya hareketlerini keşfetme meselesini birazdan ele alacağız.
 
-Thus it’s a bit confusing that Git has a `mv` command. If you want to rename a file in Git, you can run something like
+Bu nedenle Git'in bir `mv` komutu olması biraz kafa karıştırıcı olabilir. Git'te bir dosyanın adını değiştirmek istiyorsanız, şöyle bir komut çalıştırabilirsiniz:
 
-	$ git mv file_from file_to
+	$ git mv eski_dosya yeni_dosya
 
-and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
+ve istediğinizi elde edersiniz. Hatta, buna benzer bir komut çalıştırdıktan sonra `status` çıktısına bakarsanız Git'in bir dosya adlandırma işlemini (_rename_) listelediğini görürsünüz:
 
 	$ git mv README.txt README
 	$ git status
@@ -401,23 +403,23 @@ and it works fine. In fact, if you run something like this and look at the statu
 	#       renamed:    README.txt -> README
 	#
 
-However, this is equivalent to running something like this:
+Öte yandan bu komut, şu komutları arka arkaya çalıştırmaya eşdeğerdir:
 
 	$ mv README.txt README
 	$ git rm README.txt
 	$ git add README
 
-Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
+Git dosya taşıma işlemini dolaylı yollardan anlar, dolayısıyla dosyayı yeniden adlandırmayı bu komutlarla mı yaptığınız yoksa `mv` komutunu mu kullandığınız Git açısından önemli değildir. Tek gerçek fark arka arkaya üç komut kullanmak yerine tek bir komut kullanıyor olmanızdır —`mv`bir kullanıcıya kolalık sağlayan bir komuttur. Daha önemlisi, bir dosyanın adını değiştirmek için istediğini her aracı kullanabilir, `add/rm` işlemlerini sonraya kayıttan hemen öncesine bırakablirsiniz.
 
-## Viewing the Commit History ##
+## Kayıt Tarihçesini Görüntülemek ##
 
-After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
+Birkaç kayıt oluşturduktan, ya da halihazırda kayıt tarihçesi olan bir yazılım havuzunu klonladığınızda, muhtemelen geçmişe bakıp neler oluduğuna göz atmak isteyeceksiniz. Bunun için kullanabileceğiniz en temel ve becerikli araç `git log` komutudur.
 
-These examples use a very simple project called simplegit that I often use for demonstrations. To get the project, run
+Buradaki örnekler benim çoğunlukla tanıtımlarda kullandığım `simplegit` adında bir projeyi kullanıyor. Projeyi edinmek için aşağıdaki komutu çalıştırabilirsiniz:
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-When you run `git log` in this project, you should get output that looks something like this:
+Bu projenin içinde `git log` komutunu çalıştırdığınızda şuna benzer bir çıktı göreceksiniz:
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -438,11 +440,11 @@ When you run `git log` in this project, you should get output that looks somethi
 
 	    first commit
 
-By default, with no arguments, `git log` lists the commits made in that repository in reverse chronological order. That is, the most recent commits show up first. As you can see, this command lists each commit with its SHA-1 checksum, the author’s name and e-mail, the date written, and the commit message.
+Aksi belirtilmedikçe, `git log` bir yazılım havuzundaki kayıtları ters kronolojik sırada listeler. Yani, en son kayıtlar en üstte görünür. Görüldüğü gibi, bu komut her kaydın SHA-1 sınama toplamını, yazarının adını ve adresini, kaydedildiği tarihi ve kayıt mesajını listeler.
 
-A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
+`git log` komutunun, size tam olarak aradığınız şeyi göstermek için kullanılabilecek çok sayıda seçeneği vardır. Burada, en çok kullanılan bazı seçenekleri tanıtacağız.
 
-One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
+En yararlı seçeneklerden biri, kaydın içeriğini (_diff_) gösteren `-p` seçeneğidir. İsterseniz `-2`'yi kullanarak komutun çıktısını son iki kayıtla sınırlayabilirsiniz:
 
 	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -482,8 +484,9 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	-end
 	\ No newline at end of file
 
-This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
-You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
+Bu seçenek daha önceki bilgilere ek olarak kaydın içeriğini de her gösterir. Bu, yazılımı gözden geçirirken ya da belirli bir katılımcı tarafından yapılan bir dizi kayıt sırasında nelerin değiştiğine hızlıca göz atarken çok işe yarar.
+
+Dilerseniz `git log`'u özet bilgiler veren bir dizi seçenekle birlikte kullanabilirsiniz. Örneğin, her kayıtla ilgili özet istatistikler için `--stat` seçeneğini kullanabilirsiniz:
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -515,43 +518,42 @@ You can also use a series of summarizing options with `git log`. For example, if
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-As you can see, the `--stat` option prints below each commit entry a list of modified files, how many files were changed, and how many lines in those files were added and removed. It also puts a summary of the information at the end.
-Another really useful option is `--pretty`. This option changes the log output to formats other than the default. A few prebuilt options are available for you to use. The `oneline` option prints each commit on a single line, which is useful if you’re looking at a lot of commits. In addition, the `short`, `full`, and `fuller` options show the output in roughly the same format but with less or more information, respectively:
+Gördüğünüz gibi `--stat`  seçeneği, her kaydın altına o kayıtta değişikliğe uğramış dosyaların listesini, kaç tane dosyanın değişikliğe uğradığını ve söz konusu dosyalara kaç satırın eklenip çıkarıldığı bilgisini ekler. Bu bilgilerin bir özetini de kaydın en altına yerleştirir. Oldukça yararlı bir başka seçenek de `--pretty` seçeneğidir. Bu seçenek `log` çıktısının biçimini değiştirmek için kullanılır. Bu seçenekle birlikte kullanacağınız birkaç tane öntanımlı ek seçenek vardır. `oneline` ek seçeneği her bir kaydı tek bir satırda gösterir; bu çok sayıda kayda göz atıyorsanız yararlı olabilir. Ayrıca `short`, `full` ve `fuller`seçenekleri aşağı yukarı aynı miktarda bilgiyi —bazı farklarla— gösterir:
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-The most interesting option is `format`, which allows you to specify your own log output format. This is especially useful when you’re generating output for machine parsing — because you specify the format explicitly, you know it won’t change with updates to Git:
+En ilginç ek seçenek, istediğiniz log çıktısını belirlemenizi sağlayan `format` ek seçeneğidir. Bu, özellikle bilgisayar tarafından işlenecek biir çıktı oluşturmak konusunda elverişlidir —biçimi açıkça kendiniz belirlediğiniz için farklı Git sürümlerinde farklı sonuçlarla karşılaşmazsınız:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-Table 2-1 lists some of the more useful options that format takes.
+Tablo 2-1 `format` ek seçeneğinin kabul ettiği bazı biçimlendirme seçeneklerini gösteriyor.
 
-	Option	Description of Output
-	%H	Commit hash
-	%h	Abbreviated commit hash
-	%T	Tree hash
-	%t	Abbreviated tree hash
-	%P	Parent hashes
-	%p	Abbreviated parent hashes
-	%an	Author name
-	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
-	%ar	Author date, relative
-	%cn	Committer name
-	%ce	Committer email
-	%cd	Committer date
-	%cr	Committer date, relative
-	%s	Subject
+	Seçenek	Çıktının Açıklaması
+	%H	Sınama toplamı
+	%h	Kısaltılmış sınama toplamı
+	%T	Git ağacı sınama toplamı
+	%t	Kısaltılmış Git ağacı sınama toplamı
+	%P	Ata kayıtların sınama toplamları
+	%p	Ata kayıtların kısaltılmış sınama toplamları
+	%an	Yazarın adı
+	%ae	Yazarın e-posta adresi
+	%ad	Yazılma tarihi (–date= seçeneğiyle uyumludur)
+	%ar	Yazılma tarihi (göreceli tarih)
+	%cn	Kaydedenin adı
+	%ce	Kaydedenin e-posta adresi
+	%cd	Kaydedilme tarihi
+	%cr	Kaydedilme tarihi (göreceli tarih)
+	%s	Konu
 
-You may be wondering what the difference is between _author_ and _committer_. The author is the person who originally wrote the work, whereas the committer is the person who last applied the work. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in Chapter 5.
+_yazar_'la _kaydeden_ arasında ne gibi biir fark olduğunu merak ediyor olabilirsiniz. _yazar_ yamayı oluşturan kişidir, _kaydeden_'se yamayı projeye uygulayan kişi. Bir, projeye yama gönderdiğinizde, projenin çekirdek üyelerinden biri yamayı projeye uygularsa, her ikinizin de adı kaydedilecektir —sizin adınız yazar olarak onun adı kaydeden olarak. Bu farkı _5. Bölüm_'de biraz daha ayrıntılı olarak ele alacağız.
 
-The oneline and format options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
+`oneline` ve `format` ek seçenekleri özellikle `--graph` ek seçeneğiyle birlikte kullanıldıklarında çok işe yararlar. Bu ek seçenek projenizin dal (_branch_) ve birleştirme (_merge_) tarihçesini gösteren sevimli bir ASCII grafiği oluşturur. Grit yazılım havuzunun grafiğine bakalım:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -565,43 +567,43 @@ The oneline and format options are particularly useful with another `log` option
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the log command.
+Bunlar`git log`'la birlikte kullanabileceğiniz seçeneklerden yalnızca birkaçı —daha başka çok sayıda seçenek var. Tablo 2-2 yukarıda incelediğimiz seçeneklerin yanı sıra, yararlı olabilecek başka seçenekleri `git log` çıktısına olan etkileriyle birlikte listeliyor..
 
-	Option	Description
-	-p	Show the patch introduced with each commit.
-	--stat	Show statistics for files modified in each commit.
-	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
-	--name-only	Show the list of files modified after the commit information.
-	--name-status	Show the list of files affected with added/modified/deleted information as well.
-	--abbrev-commit	Show only the first few characters of the SHA-1 checksum instead of all 40.
-	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
-	--graph	Display an ASCII graph of the branch and merge history beside the log output.
-	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+	Seçenek	Açıklama
+	-p	Kayıtların içeriklerini de göster.
+	--stat	Kayıtlarda değişikliğe uğrayan dosyalarla ilgili istatistikleri göster.
+	--shortstat	Yalnızca değişikliği/eklemeyi/çıkarmayı özetleyen satırı göster command.
+	--name-only	Kayıtlarda değişen dosyaların yalnızca adlarını göster.
+	--name-status	Kayıtlarda değişen dosyaların adlarıyla birlikte değişme/eklenme/çıkarılma bilgisini de göster.
+	--abbrev-commit	Sınama toplamının 40 karakterli tamamı yerine yalnızca ilk birkaç karakterini göster.
+	--relative-date	Tarihi gün, ay, yıl olarak göstermek yerine göreceli olarak göster ("iki hafta önce" gibi).
+	--graph	Log tarihçesinin yanısıra, dal ve birleştirme tarihçesini ASCII grafiği olarak göster.
+	--pretty	Kayıtları alternatif bir biçimlendirmeyle göster. `oneline` `short`, `full`, `fuller` ve (kendi istediğiniz biçimi belirleyebildiğiniz) `format` ek seçenekleri kullanılabilir.
 
-### Limiting Log Output ###
+### Log Çıktısını Sınırlandırma ###
 
-In addition to output-formatting options, git log takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
+`git log` komutu, biçimlendirme seçeneklerinin yanı sıra bir dizi sınırlandırma seçeneği de sunar —bu seçenekler kayıtların yalnızca bir alt kümesini gösterir. Bu seçeneklerden birini yukarıda gördünüz —yalnızca son iki kaydı gösteren `-2` seçeneğini. Aslında, son `n` kaydı görmek için `n` yerine herhangi bir tam sayı koyarak bu seçeneği `-<n>` biçiminde kullanabilirsiniz. Bunu muhtemelen çok sık kullanmazsınız, zira Git `log` çıktısını zaten sayfa sayfa gösteriyor, dolayısıyla `git log` komutunu çaıştırdığınızda zaten önce kayıtların birinci sayfasını göreceksiniz.
 
-However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
+Öte yandan `--since` ya da `--until` gibi çıktıyı zamanla sınırlayan seçenekler işinizi kolaylaştırabilir. Söz gelimi, şu komut, son iki hafta içinde apılmış kayıtları listeliyor:
 
 	$ git log --since=2.weeks
 
-This command works with lots of formats — you can specify a specific date (“2008-01-15”) or a relative date such as “2 years 1 day 3 minutes ago”.
+Bu komut pek çok değişik biçimlendirmeyle kullanılabilir —kesin bir tarih (“2008-01-15”) ya da “2 years 1 day 3 minutes ago” gibi göreli bir tarih kullanabilirsiniz.
 
-You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
+Ayrıca listeyi belirli arama ölçütlerine uyacak biçimde filtreleyebilirsiniz. `--author` seçeneği belirli bir yazara aiy kayıtları filtrelemenizi sağlar; `--grep` seçeneğiyse kayıt mesajlarında anahtar kelimeler aramanızı sağlar. (Unutmayın, hem `author` hem de `grep` seçeneklerini kullanmak istiyorsanız, komuta `--all-match` seçeneğini de eklemelisiniz, aksi takdirde, komut bu iki seçenekten herhangi birine uyan kayıtları bulup getirecektir.)
 
-The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
+`git log`la kullanılması son derece yararlı olan son seçenek konum seçeneğidir. `git log`'u bir klasör ya da dosya adıyla birlikte kullanırsanız, komutun çıktısını yalnızca o dosyalarda değişiklik yapan kayıtlarla sınırlamış olursunuz. Bu, komuta her zaman en son seçenek olarak eklenmelidir ve konumlar iki tireyle (`--`) diğer seçeneklerden ayrılmalıdır.
 
-In Table 2-3 we’ll list these and a few other common options for your reference.
+Tablo 2-3, bu seçenekleri ve birkaç başka yaygın seçeneği listeliyor.
 
-	Option	Description
-	-(n)	Show only the last n commits
-	--since, --after	Limit the commits to those made after the specified date.
-	--until, --before	Limit the commits to those made before the specified date.
-	--author	Only show commits in which the author entry matches the specified string.
-	--committer	Only show commits in which the committer entry matches the specified string.
+	Seçenek	Açıklama
+	-(n)	Yalnızca son n kaydı göster.
+	--since, --after	Yalnızca belirli bir tarihten sonra eklenmiş kayıtlları göster.
+	--until, --before	Yalnızca belirli bir tarhten önce yapılmış kayıtları göster.
+	--author	Yalnızca yazarın adının belirli bir karakter katarıyla (_string_) eşleşen kayıtları göster.
+	--committer	Yalnızca kaydedenin adının belirli bir karakter katarıyla eşleştiği kayıtları göster.
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+Örneğin, Git kaynak kod yazılım havuzu tarihçesinde birleştirme (_merge_) olmayan hangi kayıtların Junio Hamano tarafından 2008'in Ekim ayında kaydedilmiş olduğunu görmek için şu komutu çalıştırabilirsiniz:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -612,42 +614,42 @@ For example, if you want to see which commits modifying test files in the Git so
 	51a94af - Fix "checkout --track -b newbranch" on detac
 	b0ad11e - pull: allow "git pull origin $something:$cur
 
-Of the nearly 20,000 commits in the Git source code history, this command shows the 6 that match those criteria.
+Bu komut, Git kaynak kodu yazılım havuzundaki yaklaşık 20,000 komut arasından bu ölçütlere uyan 6 tanesini gösteriyor.
 
-### Using a GUI to Visualize History ###
+### Tarihçeyi Görselleştirmek için Grafik Arayüz Kullanımı ###
 
-If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called gitk that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type gitk on the command line in your project, you should see something like Figure 2-2.
+Kayıt tarihçenizi görüntülemek için görselliği daha çok ön planda olan bir araç kullanmak isterseniz, Git'le birlikte dağıtılan bir Tcl/Tk programı olan `gitk`'ya bir göz atmak isteyebilirsiniz. Gitk, temelde `git log`'u görselleştiren bir araçtır ve neredeyse `git log`'un kabul ettiği bütün filtreleme seçeneklerini tanır. Proje klasörünüzde komut satırına `gitk` yazacak olursanız Figür 2-2'deki gibi bir şey görürsünüz.
 
 Insert 18333fig0202.png
-Figure 2-2. The gitk history visualizer.
+Figür 2-2. gitk grafiklse tarihçe görüntüleyicisi.
 
-You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
+Pencerenin üst yarısında bir kalıtım grafiğinin yanısıra kayıt tarihçesini görebilirsiniz. Alttaki kayıt içeriği görüntüleyicisi, tıkladığınız herhangi bir kayıttaki değişiklikleri gösterecektir.
 
-## Undoing Things ##
+## Değişiklikleri Geri Almak ##
 
-At any stage, you may want to undo something. Here, we’ll review a few basic tools for undoing changes that you’ve made. Be careful, because you can’t always undo some of these undos. This is one of the few areas in Git where you may lose some work if you do it wrong.
+Herhangi bir noktada yaptığınız bir değişikliği geri almak isteyebilirsiniz. Burada yapılan değişiklikleri geri almakta kullanılabilecek bazı araçları inceleyeceğiz. Dikkatli olun, zira geri alınan bu değişikliklerden bazılarını yeniden gerçekleştiremeyebilirsiniz. Bu, eğer bir hata yaparsanız, bunu Git'i kullanarak telafi edemeyeceğiniz, az sayıda alanından biridir.
 
-### Changing Your Last Commit ###
+### Son Kayıt İşlemini Değiştirmek ###
 
-One of the common undos takes place when you commit too early and possibly forget to add some files, or you mess up your commit message. If you want to try that commit again, you can run commit with the `--amend` option:
+Eğer kaydı çok erken yapmışsanız, bazı dosyaları eklemeyi unutmuşsanız ya da kayıt mesajında hata yapmışsanız, sık rastlanan düzeltme işlemlerinden birini kullanabilirsiniz. Kaydı değiştirmek isterseniz, `commit` komutunu `--amend` seçeneğiyle çalıştırabilirsiniz:
 
 	$ git commit --amend
 
-This command takes your staging area and uses it for the commit. If you’ve made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
+Bu komut, hazırlık alanındaki değişiklikleri alıp bunları kaydı değiştirmek için kullanır. Eğer son kaydınızdan beri hiçbir değişiklik yapmamışsanız (örneğin, bu komutu yeni bir kayıt yaptıktan hemen sonra çalıştırıyorsanız) o zaman kaydınızın bellek kopyası aynı kalacak ve değiştireceğiniz tek şey kayıt mesajı olacaktır.
 
-The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
+Aynı kayıt mesajı editörü açılır, fakat editörde bir önceki kaydın kayıt mesajı görünür. Mesajı her zamanki gibi değiştirebilirsiniz, ama bu yeni kayıt mesajı öncekinin yerine geçecektir.
 
-As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
+Söz gelimi, eğer bir kayıt sırasında belirli bir dosyada yaptığınız değişiklikleri kayda hazırlamayı unuttuğunuzu fark ederseniz, şöyle bir şey yapabilirsiniz:
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
 	$ git commit --amend
 
-All three of these commands end up with a single commit — the second commit replaces the results of the first.
+Bu üç komuttan sonra, tarihçenize tek bir kayıt işlenmiştir —son kayıt öncekinin yerine geçer.
 
-### Unstaging a Staged File ###
+### Kayda Hazırlanmış Bir Dosyayı Hazırlık Alanından Kaldırmak ###
 
-The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
+Bu iki alt bölüm kayda hazırlık alanındaki ve çalışma klasörünüzdeki değişiklikleri nasıl idare edeceğinizi gösteriyor. İşin güzel yanı, bu iki alanın durumunu öğrenmek için kullanacağınız komut aynı zamanda bu alanlardaki değişiklikleri nasıl geri alabileceğinizi de hatırlatıyor. Diyelim ki iki dosyayı değiştirdiniz ve bu iki değişikliği ayrı birer kayıt olarak işlemek istiyorsunuz, ama yanlışlıkla `git add *` komutunu kullanarak ikisini birden hazırlık alanına aldınız. Bunlardan birini nasıl hazırlık alanından çıkarabilirsiniz? `git status` komutu size bunu da anımsatıyor:
 
 	$ git add .
 	$ git status
@@ -659,7 +661,7 @@ The next two sections demonstrate how to wrangle your staging area and working d
 	#       modified:   benchmarks.rb
 	#
 
-Right below the “Changes to be committed” text, it says use `git reset HEAD <file>...` to unstage. So, let’s use that advice to unstage the benchmarks.rb file:
+“Changes to be committed” yazısının hemen altında "use `git reset HEAD <file>...` to unstage" yazdığını görüyoruz. `benchmarks.rb` dosyasını bu öneriye uygun olarak hazırlık alanından kaldıralım:
 
 	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
@@ -677,11 +679,11 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#       modified:   benchmarks.rb
 	#
 
-The command is a bit strange, but it works. The benchmarks.rb file is modified but once again unstaged.
+Komut biraz tuhaf, ama iş görüyor. `benchmarks.rb` dosyası hazırlık alanından kaldırıldı ama hâlâ değişmiş olarak görünüyor.
 
-### Unmodifying a Modified File ###
+### Değişmiş Durumdaki Bir Dosyayı Değişmemiş Duruma Geri Getirmek ###
 
-What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
+Peki `benchmarks.rb` dosyasındaki değişiklikleri korumak istemiyorsanız? Yaptığınız değişiklikleri kolayca nasıl geri alacaksınız —son kayıtta nasıl görünüyorsa o haline (ya da ilk klonlandığı haline, yahut çalışma klasörünüze ilk aldığınız haline) nasıl geri getireceksiniz? Neyse ki `git status` komutu bunu nasıl yapacağınızı da söylüyor. Son örnek çıktıda hazırlık alanı dışındaki değişiklikler şöyle görünüyor:
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -690,7 +692,7 @@ What if you realize that you don’t want to keep your changes to the benchmarks
 	#       modified:   benchmarks.rb
 	#
 
-It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
+Yaptığınız değişiklikleri nasıl çöpe atabileceğinizi açıkça söylüyor (en azından Git'in 1.6.1'le başlayan yeni sürümleri bunu yapıyor —eğer daha eski bir sürümle çalışıyorsanız, kolaylık sağlayan bu özellikleri edinebilmek için programı güncellemenizi öneririz). Gelin, söyleneni yapalım:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -701,18 +703,19 @@ It tells you pretty explicitly how to discard the changes you’ve made (at leas
 	#       modified:   README.txt
 	#
 
-You can see that the changes have been reverted. You should also realize that this is a dangerous command: any changes you made to that file are gone — you just copied another file over it. Don’t ever use this command unless you absolutely know that you don’t want the file. If you just need to get it out of the way, we’ll go over stashing and branching in the next chapter; these are generally better ways to go.
+Gördüğünüz gibi değişiklikler çöpe atıldı. Bunun tehlikeli bir komut olduğunu aklınızdan çıkarmayın: o dosyaya yaptığınız bütün değişiklikler şimdi yok oldu —dosyanın üstüne yeni bir dosya kopyaladınız. Eğer dosyadaki değişiklikleri isteemediğinizden yüzde yüz emin değilseniz asla bu komutu kullanmayın. Eğer sorun bu dosyada yaptığınız değişikliklerin başka işlemler yapmanıza engel olması ise bir sonraki bölümde ele alacağımız zulalama (_stash_) ve dallandırma (_branch_) işlemlerini kullanmanız daha iyi olacaktır.
 
-Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see Chapter 9 for data recovery). However, anything you lose that was never committed is likely never to be seen again.
+Unutmayın, Git'te kaydedilmiş her şey neredeyse her zaman kurtarılabilir. Silinmiş dallardaki kayıtlar ve hatta `--amend` seçeneğiyle üzerine yazılmış kayıtlar bile kurtarılabilirler (veri kurtarma konusunda bkz. _9. Bölüm_). Diğer taraftan, kaydedilmemiş bir değişikliği kaybederseniz büyük olasılıkla onu kurtarmanız mümkün olmaz.
 
-## Working with Remotes ##
+## Uzak Uçbirimlerle Çalışmak ##
 
-To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
-Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
+Bir Git projesine katkıda bulunabilmek için uzaktaki yazılım havuzlarını nasıl düzenleyeceğinizi bilmeniz gerekir. Uzaktaki yazılım havuzları, projenizin Internet'te ya da başka bir ağda barındırılan sürümleridir. Birden fazla uzak yazılım havuzunuz olabilir, bunlardan herbiri sizin için ya salt okunur ya da okunur/yazılır durumdadır. Başkalarıyla ortak çalışmak, bu yazılım havuzlarını düzenlemeyi, onlardan veri çikip (_pull_) onlara veri iterek (_push_) çalışmalarınızı paylaşmayı gerektirir.
 
-### Showing Your Remotes ###
+Uzaktaki yazılım havuzlarınızı düzenleyebilmek için, projenize uzak yazılım havuzlarının nasıl ekleneceğini, kullanılmayan havuzların nasıl çıkarılacağını, çeşitli uzak dalları düzenlemeyi ve onların izlenen dallar olarak belirleyip belirlememeyi ve daha başka şeyleri gerektirir. Bu alt bölümde bu uzağı yönetme yeteneklerini inceleyeceğiz.
 
-To see which remote servers you have configured, you can run the git remote command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see origin — that is the default name Git gives to the server you cloned from:
+### Uzak Uçbirimleri Görüntüleme ###
+
+Projenizde hangi uzak sunucuları ayarladığınınızı görme için `git remote` komutunu kullanabilirsiniz. Bu komut, herbir uzak uçbirimin belirlenmiş kısa adını görüntüler. Eğer yazılım havuzunuzu bir yerden klonlamışsanız, en azından _origi_ uzak uçbirimini görmelisiniz —bu Git'in klonlamanın yapıldığı sunucuya verdiği öntanımlı addır.
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -725,12 +728,12 @@ To see which remote servers you have configured, you can run the git remote comm
 	$ git remote
 	origin
 
-You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
+`-v` seçeneğini kullanarak Git'in bu kısa ad için depoladığı URL'yi de görebilirsiniz:
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
-If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
+Projenizde birden çok uzak uçbirim varsa, bu komut hepsini listeleyecektir. Örneğin, benim Git yazılım havuzum şöyle görünüyor:
 
 	$ cd grit
 	$ git remote -v
@@ -740,11 +743,11 @@ If you have more than one remote, the command lists them all. For example, my Gr
 	koke      git://github.com/koke/grit.git
 	origin    git@github.com:mojombo/grit.git
 
-This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in Chapter 4).
+Bu demek oluyor ki bu kullanıcıların herhangi birinden kolaylıkla çekme işlemi (_pull_) yapabiliriz. Fakat dikkat ederseniz, yalnızca _origin_ uçbiriminin SSH URL'si var, yani yalnızca o hazuva kod itebilirim (_push_) (niye böyle olduğunu _4. Bölüm_'de inceleyeceğiz)
 
-### Adding Remote Repositories ###
+### Uzak Uçbirimler Eklemek ###
 
-I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
+Önceki alt bölümlerde uzak uçbirim eklemekten söz ettim ve bazı örnekler verdim, ama bir kez daha konuyu açıkça incelemekte yarar var. Uzaktaki bir yazılım havuzunu kısa bir ad vererek eklemek için `git remote add [kisa_ad] [url]` komutunu çalıştırın:
 
 	$ git remote
 	origin
@@ -753,7 +756,7 @@ I’ve mentioned and given some demonstrations of adding remote repositories in 
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-Now you can use the string pb on the command line in lieu of the whole URL. For example, if you want to fetch all the information that Paul has but that you don’t yet have in your repository, you can run git fetch pb:
+Artık bütün bir URL yerine `pb`'yi kullanabilirsiniz. Örneğin, Paul'ün yazılım havuzunda bulunan ama sizde bulunmayan bütün bilgileri getirmek için `git fetch pb` komutunu kullanabilirsiniz:
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -764,31 +767,31 @@ Now you can use the string pb on the command line in lieu of the whole URL. For 
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-Paul’s master branch is accessible locally as `pb/master` — you can merge it into one of your branches, or you can check out a local branch at that point if you want to inspect it.
+Paul'ün `mastertr` dalı sizin yazılım havuzunuzda da `pb/master` olarak erişilebilir durumdadır —kendi dallarınızdan biriyle birleştirebilir (_merge_) ya da bir yerel dal olarak seçip içeriğini inceleyebilirsiniz.
 
-### Fetching and Pulling from Your Remotes ###
+### Uzak Uçbirimlerden Getirme ve Çekme İşlemi Yapmak ###
 
-As you just saw, to get data from your remote projects, you can run:
+Biraz önce gördüğünüz gibi, uzaktaki yazılım havuzlarından veri almak için şu komutu kullanabilirsiniz:
 
 	$ git fetch [remote-name]
 
-The command goes out to that remote project and pulls down all the data from that remote project that you don’t have yet. After you do this, you should have references to all the branches from that remote, which you can merge in or inspect at any time. (We’ll go over what branches are and how to use them in much more detail in Chapter 3.)
+Bu komut, söz konusu uzaktaki yazılım havuuzna gidip orada bulunup da sizin projenizde bulunmayan bütün veriyi getirir. Bunu yaptıktan sonra sizin projenizde o uzak yazılım havuzundaki bütün dallarak referanslar oluşur —ki bunları birleştirme yapmak ya da içeriği incelemek için kullanabilirsiniz. (Dalların ne olduğunu ve onları nasıl kullanabileceğinizi _3. Bölüm_'de ayrınlıtı biçimde inceleyeceğiz.)
 
-If you clone a repository, the command automatically adds that remote repository under the name origin. So, `git fetch origin` fetches any new work that has been pushed to that server since you cloned (or last fetched from) it. It’s important to note that the fetch command pulls the data to your local repository — it doesn’t automatically merge it with any of your work or modify what you’re currently working on. You have to merge it manually into your work when you’re ready.
+Bir yazılım havuzunu klonladığınızda, klonlama komutu söz konusu kaynak yazılım havuzunu _origin_ adıyla uzak uçbirimler arasına ekler. Dolayısıya, `git fetch origin` komutu, klonlamayı yaptığınızdan (ya da en son getirme işlemini (_fetch_) yatığınızdan) beri sunucuya itilmiş yeni değişiklikleri getirir. Unutmayın, `fetch` komutu veriyi yeler yazılım havuzunuza indirir —otomatik olarak sizin yaptıklarınızla birleştirmeye, ya da çalıştığınız şeyler üzerinde değişiklik yapmaya kalkışmaz. Hazır olduğunuzda birleştirme işlemini sizin yapmanız gerekir.
 
-If you have a branch set up to track a remote branch (see the next section and Chapter 3 for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
+Uzaktaki bir dalı izlemek üzere ayarlanmış bir dalınız varsa (daha fazla bilgi için sonraki alt bölüme ve _3. Bölüm_'e bakınız) bu dal üzerinde `git pull` komutunu kullanarak uzaktaki yazılım havuzundaki veriyi hem getirip hem de mevcut dalınızla birleştirebilirsiniz. Bu çalışması daha kolay bir düzen olabilir; bu arada, `git clone ` komutu, otomatik olarak, yerel yazılım havuzunuzda, uzaktaki yazılım havuzunun `master` dalını takip eden bir `master` dalı oluşturur (uzaktaki yazılım havuzunun `master` adında bir dalı olması koşuluyla). `git pull` komutu genellikle yereldeki yazılım havuzunuza kaynaklık eden sunucudan veriyi getirip otomatik olarak üzerinde çalışmakta olduğunuz dalla birleştirir.
 
-### Pushing to Your Remotes ###
+### Uzaktaki Yazılım Havuzuna Veri İtmek ###
 
-When you have your project at a point that you want to share, you have to push it upstream. The command for this is simple: `git push [remote-name] [branch-name]`. If you want to push your master branch to your `origin` server (again, cloning generally sets up both of those names for you automatically), then you can run this to push your work back up to the server:
+Projeniz paylaşmak istediğiniz bir hale geldiğinde, yaptıklarınızı kaynağa itmeniz gerekir. Bunun için kullanılan komut basittir: `git push [uzak-sunucu-adi] [dal-adi]`. Projenizdeki `master` dalını `origin` sunucunuzdaki `master` dalına itmek isterseniz (yineleyelim; kolanlama işlemi genellikle bu isimleri otomatik olarak oluşturur), şu komutu kullanabilirsiniz:
 
 	$ git push origin master
 
-This command works only if you cloned from a server to which you have write access and if nobody has pushed in the meantime. If you and someone else clone at the same time and they push upstream and then you push upstream, your push will rightly be rejected. You’ll have to pull down their work first and incorporate it into yours before you’ll be allowed to push. See Chapter 3 for more detailed information on how to push to remote servers.
+Bu komut, yalnızca yazma yetkisine sahip olduğunuz bir sunucudan klonlama yapmışsanız ve son getirme işleminizden beri hiçkimse itme işlemi yapmamışsa istediğiniz sonucu verir. Eğer sizinle birlikte bir başkası daha klonlama yapmışsa ve o kişi sizden önce itme yapmışsa, sizin itme işleminiz reddedilir. İtmeden önce sizden önce itilmiş değişiklikleri çekip kendi çalışmanızla birleştirmeniz gerekir. Uzaktaki yazılım havuzlarına itme yapmak konusunda daha ayrıntılı bilgi için bkz. _3. Bölüm_.
 
-### Inspecting a Remote ###
+### Uzak Uçbirim Hakkında Bilgi Almak ###
 
-If you want to see more information about a particular remote, you can use the `git remote show [remote-name]` command. If you run this command with a particular shortname, such as `origin`, you get something like this:
+Belirli bir uzak uçbirim hakkında daha fazla bilgi almak isterseniz `git remote show [ucbirim-adi]` komutunu kullanabilirsiniz. Bu komutu `origin` gibi belirli bir uçbirim kısa adıyla kullanırsanız şöyle bir sonuç alırsınız:
 
 	$ git remote show origin
 	* remote origin
@@ -799,9 +802,9 @@ If you want to see more information about a particular remote, you can use the `
 	    master
 	    ticgit
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+Bu, uçbirimin URL'sini ve dalların izlenme durumunu gösterir. Komut, size, eğer `master` dalda iseniz ve `git pull` komutunu çalıştırırsanız, bütün referansları uzak uçbirimden indirip uzaktaki `master` dalından yerel `master` dalına birleştirme yapacağını da söylüyor. Ayrıca, ekmiş olduğu bütün uzak dalları da bir liste halinde veriyor.
 
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+Yukarıdaki verdiğimiz, basit bir örnekti. Git'i daha yoğun biçimde kullandığınızda, `git remote show` komutu çok daha fazla bilgi içerecektir:
 
 	$ git remote show origin
 	* remote origin
@@ -825,40 +828,40 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+Bu çıktı, belirli dallarda `git push` komutunu çalıştırdığınızda hangi dalların otomatik olarak itileceğini gösteriyor. Buna ek olarak uzak uçbirimde bulunup da sizin projenizde henüz bulunmayan uzak dalları, uzak uçbirimden silinmiş olduuğu halde sizin projenizde bulunan dalları ve `git pull` komutunu çalıştırdığınızda otomatik olarak birleştirme işlemine uğrayacak birden çok daı gösteriyor.
 
-### Removing and Renaming Remotes ###
+### Uzan Uçbirimleri Kaldırmak ve Yeniden Adlandırmak ###
 
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+Bir uçbirimin kısa adını değiştirmek isterseniz, Git'in yeni sürümlerinde bunu `git remote rename` komutuyla yapabilirsiniz. Örneğin, `pb` uçbirimini `paul` diye yeniden adlandımak isterseniz, bunu `git remote rename`'i kullanarak yapabilirsiniz:
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+Bu işlemin uçbirim dal adlarını da değiştirdiğini hatırlatmakta yarar var. Bu işlemden önce `pb/master` olan dalın adı artık `paul/master` olacaktır.
 
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+Bir uçbirim referansını herhangi bir nedenle —sunucuyu taşımış ya da belirli bir yansısyı artık kullanmıyor olabilirsiniz; ya da belki katılımcılardan birisi artık katkıda bulunmuyordur— kaldırmak isterseniz `git remote rm` komutunu kullanabilirsiniz:
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
-## Tagging ##
+## Etiketleme ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+Çoğu SKS gibi Git'in de tarihçedeki belirli noktaları önemli olarak etiketleyebilme özelliği vardır. Genellikle insanlar bu işlevi sürümleri (`v1.0`, vs.) işaretlemek için kullanırlar. Bu alt bölümde mevcut etiketleri nasıl listeleyebileceğinizi, nasıl yeni etiketler oluşturabileceğinizi ve değişik etiket tiplerini öğreneceksiniz.
 
 ### Listing Your Tags ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+Git'te mevcut etiketleri listeleme işi epeyi kolaydır. `git tag` yazmanız yeterlidir:
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+Bu komut etiketleri alfabetik biçimde sıralar; etiketlerin sırasının bir önemi yoktur.
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+İsterseniz belirli bir örüntüyle eşleşen etiketleri de arayabilirsiniz. Git kaynak yazılım havuzunda 240'tan fazla etiket vardır. Yalnızca 1.4.2 serisindeki etiketleri görmek isterseniz şu komutu çalıştırmalısınız:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -866,13 +869,13 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### Etiket Oluşturma ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git iki başlıca etiket tipi kullanır: hafif ve açıklamalı. Hafif etiketler hiç değişmeyen dallar gibidir —belirli bir kaydı işaret ederler. Öte yandan, açıklamalı etiketler, Git veritabanında bütünlüklü nesneler olarak kaydedilirler. Sınama toplamları alınır; etiketleyenin adını ve e-posta adresini içerirler; bir etiket mesajına sahiptirler ve GNU Privacy Guard (GPG) kullanılarak imzalanıp doğrulanabilirler. Genelllikle bütün bu bilgilere ulaşılabilmesini olanaklı kılabilmek için açıklamalı etiketlerin kullanılması önerilir, ama bütün bu bilgileri depolamadan yalnızca geçici bir etiket oluşturmak istiyorsanız, hafif etiketleri de kullanabilirsiniz.
 
-### Annotated Tags ###
+### Açıklamalı Etiketler ###
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+Git'te açıklamalı etiket oluşturmak basittir. En kolayı `tag` komutunu çalıştırıren `-a` seçeneğini kullanmaktır:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -880,9 +883,9 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+`-m` seçeneği etketle birlikte depolanacak etiketleme mesajını belirlemek için kullanılır. Açıklamalı bir etiket için mesajı bu şekilde belirlemezseniz, Git mesajı yazabilmeniz için bir editör açacaktır.
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+`git show` komutunu kullanarak etiketlenen kayıtla birlikte etikete ilişkin verileri de görebilirsiniz:
 
 	$ git show v1.4
 	tag v1.4
@@ -897,18 +900,18 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+Bu, kayıt bilgisinden önce etiketlenyenle ilgili bilgileri, kaydın etiketlendiği tarihi ve açıklama mesajını gösterir.
 
-### Signed Tags ###
+### İmzalı Etiketler ###
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+Eğer bir kişisel anahtarınız (_private key_) varsa etiketlerinizi GPG ile imzalayabilirsiniz. Yapmanız gereken tek şey `-a` yerine `-s` seçeneğini kullanmaktır:
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+Bu etiket üzerinde `git show` komutunu çalıştırırsanız, GPG imzasını da görebilirsiniz:
 
 	$ git show v1.5
 	tag v1.5
@@ -930,11 +933,11 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+Birazdan imzalı etiketleri nasıl doğrulayabileceğinizi öğreneceksiniz.
 
-### Lightweight Tags ###
+### Hafif Etiketler ###
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+Kayıtları etiketlemenin bir yolu da hafif etiketler kullanmaktır. Bu, kayıt sınama toplamının bir dosyada depolanmasından ibarettir —başka hiçbir bilgi tutulmaz. Bir hafif etiket oluştururken `-a`, `-s` ya da `-m` seçeneklerini kullanmamalısınız.
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -944,7 +947,7 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+Şimdi etiket üzerinde `git show` komutunu çalıştıracak olsanız, etiketle ilgili ek bilgiler görmezsiniz. Komut yalnızca kaydı gösterir:
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -954,9 +957,9 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### Etiketleri Doğrulamak ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+İmzalı bir etiketi doğrulamak için `git tag -v [etiket-adi]` komutu kullanılır. Bu komut imzayı doğrulamak için GPG'yi kullanır. Bunun düzgün çalışması için imza sahibinin kamusal anahtarı (_public key_) anahtar halkanızda (_keyring_) bulunmalıdır.
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -978,9 +981,9 @@ If you don’t have the signer’s public key, you get something like this inste
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Tagging Later ###
+### Sonradan Etiketleme ###
 
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+Geçmişteki kayıtları da etiketleyebilirsiniz. Diyelim ki Git tarihçeniz şöyle olsun:
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -994,11 +997,11 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+Söz gelimi, "updated rakefile" kaydında projenizi `v1.2` olarak etiketlemeniz gerekiyordu, ama unuttunuz. Etiketi sonradan da ekleyebilirsiniz. O kaydı etiketlemek için komutun sonuna kaydın sınama toplamını (ya da bir parçasını) eklemelisiniz:
 
 	$ git tag -a v1.2 9fceb02
 
-You can see that you’ve tagged the commit:
+Kaydın etiketlendiğini göreceksiniz:
 
 	$ git tag
 	v0.1
@@ -1021,9 +1024,9 @@ You can see that you’ve tagged the commit:
 	    updated rakefile
 	...
 
-### Sharing Tags ###
+### Etiketleri Paylaşmak ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches — you can run `git push origin [tagname]`.
+Aksi belirtilmedikçe `git push` komutu etiketleri uzak uçbirimelere aktarmaz. Etiketleri belirtik biçimde bir ortak sunucuya itmeniz gerekir. Bu süreç uçbirim dallarını paylaşmaya benzer —`git push origin [etiket-adi] komutunu çalıştırabilirsiniz.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1033,7 +1036,7 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+Bir seferde birden çok etiketi paylaşmak isterseniz, `git push` komutuyla birlikte `--tags` seçeneğini de kullanabilirsiniz. Bu, halihazırda itilmemiş olan bütün etiketlerinizi uzak uçbirime aktaracaktır.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1047,61 +1050,61 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+Artık başka biri sizin yazılım havuzunuzdan çekme yaptığında, bütün etiketlerinize de sahip olacaktır.
 
-## Tips and Tricks ##
+## İpuçları ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+Git'in temelleri hakkındaki bu bölümü tamamlamadan önce, Git deneyiminizi kolaylaştırabilmek için birkaç ipucu vermekte yarar var. Pekçok insan Git'i bu ipuçlarına başvurmadan kullanıyor; bu ipuçlarından ileride tekrar söz etmeyeceğimiz gibi bunları bilmeniz gereltiğini de varsaymıyoruz; ama yine de bilmeniz yararınıza olacaktır.
 
-### Auto-Completion ###
+### Otomatik Tamamlama ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+Eğer Bash -shell_'ini kullanıyorsanız, Git'in otomatik tamamlama betiğini (_script_) kullanabilirsiniz. Git kaynak kodunu indirip `contrib/completion` klasörüne bakın; orada `git-completion.bash` adında bir dosya olmalı. Bu dosyayı ana dizininize (_home_) kopyalayıp `.bashrc` dosyanıza ekleyin:
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+Otomatik tamamlama özelliğinin bütün Git kullanıcıları için geçerli olmasını istiyorsanız, bu betik dosyasını Mac sistemler için `/opt/local/etc/bash_completion.d` konumuna Linux sistemlerde `/etc/bash_completion.d/` konumuna kopyalayın. Bu, Bash'ın otomatik olarak yükleyeceği betiklerin bulunduğu bir klasördür.
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+Eğer bir Windows kullanıcısıysanız ve Git Bash kullanıyorsanız- ki bu msysGit'le kurulum yaptığınızdaki öntanımlı programdır, otomatik tamamlama kendiliğinden gelecektir.
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+Bir Git komutu yazarken Tab tuşuna bastığınızda, karşınıza bir dizi seçenek getirir:
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
+Bu örnekte, `git co` yazıp Tab tuşuna iki kez basmak `commit` ve `config` komutlarını öneriyor. Komutun devamında `m` yazıp bir kez daha Tab tuşuna basacak olursanız, komut otomatik olarak `git commit`'e tamamlanır.
 
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+Bu, seçeneklerde de kullanılabilir, ki muhtemelen daha yararlı olacaktır. Örneğin, `git log` komutunu çalıştırıren seçeneklerden birisini hatırlayamadınız, seçeneği yazmaya başlayıp Tab tuşuna basarak eşleşen seçenekleri görebilirsiniz:
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+Bu güzel özellik sizi zaman kazandırabileceği gibi ikide bir dokümantasyona bakma gereğini de ortadan kaldırır.
 
-### Git Aliases ###
+### Takma Adlar ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+Bir komutun bir kısmını yazdığınızda Git bunu anlamayacaktır. Komutların uzun adlarını kullanmak istemezseniz, `git cofig` komutunu kullanarak bunların yerine daha kısa takma adlar belirleyebilirsiniz. Kullanmak isteyebileceğiniz bazı takma adları buraya aldık:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+Bu durumda, örneğin,  `git commit` yazmak yerine `git ci` yazmanız yeterli olacaktır. Git'i kullandıkça sık kullandığınız başka komutlar da olacaktır, o zaman o komutlar için de takma adlar oluşturabilirsiniz.
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+Bu teknik, eksikliğini hissettiğiniz komutları oluşturmakta da yararlı olabilir. Örneğin, bir dosyayı hazırlık alanından kaldırmak için yapılması gerekenleri yeni bir komut olarak tanımlayabilirsiniz:
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+Bu durumda şu iki komut eşdeğer olacaktır:
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+Biraz daha temiz değil mi? Bir `last` komutu ekleek de oldukça yaygındır:
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+Böylece son kaydı kolaylıkla görebilirsiniz:
 
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1112,10 +1115,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+Gördüğünüz gibi Git yeni komutu takma ad olarak belirlediğini şeyin yerine kullanıyor. Ama belki de bir Git komutu çalıştırmak değil de başka br program kullanmak istiyorsunuz. Bu durumda komutun başına `!` karakterini koymalısınız. Bir Git yazılım havuzu üzerinde çalışan kendi araçlarınızı yazıyorsanız bu seçenek yararlı olabilir. Bunu göstermek için ,gitk`'yi çalıştırmak için `git visual` diye yeni bir takma ad tanımlayabiliriz:
 
 	$ git config --global alias.visual "!gitk"
 
-## Summary ##
+## Özet ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+Bu noktada, bütün temel Git işlemlerini yapabiliyorsunuz —bir yazılım havuzunu yaratmak ya da klonlamak, değişiklikler yapmak, bu değişiklikleri kayda hazırlamak ve kaydetmek ve yazılım havuzundaki bütün kayıtların tarihçesini görüntülemek. Sıradaki bölümde Git'in en vurucu özelliğini, dallanma modelini inceleyeceğiz.

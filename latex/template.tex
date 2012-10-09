@@ -90,7 +90,7 @@
 
 \newcounter{img}[chapter]
 \renewcommand{\theimg}{\thechapter.\arabic{img}}
-\newcommand{\img}[1]{\begin{figure}[h!]
+\newcommand{\img}[1]{\begin{figure}[ht!]
 	\refstepcounter{img}
 	\label{img:\theimg}
 	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}

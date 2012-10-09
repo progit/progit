@@ -358,17 +358,18 @@ In Realität reden wir über sich bewegende Zeiger, die den Commit-Verlauf weite
 Insert 18333fig0318.png 
 Abbildung 3-18. Stabilere Branches sind generell weiter unten im Entwicklungsverlauf.
 
-Es ist gemeinhin leichter sich die verschiedenen Branches als Arbeitsdepots vorzustellen, in denen Sätze von Commits in stabilere Depots aufsteigen, sobald sie ausreichend getestet wurden (siehe Abbildung 3-19).
+Es ist leichter sich die verschiedenen Branches als Arbeitsdepots vorzustellen, in denen Sätze von Commits in stabilere Depots aufsteigen, sobald sie ausreichend getestet wurden (siehe Abbildung 3-19).
 
 Insert 18333fig0319.png 
 Abbildung 3-19. Es könnte hilfreich sein, sich die Branches als Depots vorzustellen.
 
 Das lässt sich für beliebig viele Stabilitätsabstufungen umsetzen. Manche größeren Projekte haben auch einen `proposed` (Vorgeschlagen) oder `pu` (proposed updates - vorgeschlagene Updates) Zweig mit Branches die vielleicht noch nicht bereit sind in den `next`- oder `master`-Branch integriert zu werden. Die Idee dahinter ist, dass deine Branches verschiedene Stabilitätsabstufungen repräsentieren. Sobald sie eine stabilere Stufe erreichen, werden sie in den nächsthöheren Branch vereinigt.
+
 Nochmal, langfristig verschiedene Branches paralell laufen zu lassen ist nicht notwendig, aber oft hilfreich. Insbesondere wenn man es mit sehr großen oder komplexen Projekten zu tun hat.
 
 ### Themen-Branches ###
 
-Themen-Branches sind in jedem Projekt nützlich, gleich welcher Größe. Ein Themen-Branch ist ein kurzlebiger Zweig den du für eine spezielle Aufgabe oder ähnliche Arbeiten erstellst und benutzt. Das ist vielleicht etwas was du noch nie zuvor mit einem Versionierungssystem gemacht hast, weil es normalerweise zu aufwändig und mühsam ist Branches zu erstellen und zusammenzuführen. Mit Git ist es allerdings vollkommen geläufig am mehrmals am Tag Branches zu erstellen, an ihnen zu arbeiten, sie zusammenzuführen und sie anschließend wieder zu löschen.
+Themen-Branches sind in jedem Projekt nützlich, egal bei welcher Größe. Ein Themen-Branch ist ein kurzlebiger Zweig der für eine spezielle Aufgabe oder ähnliche Arbeiten erstellt und benutzt wird. Das ist vielleicht etwas was du noch nie zuvor mit einem Versionierungssystem gemacht hast, weil es normalerweise zu aufwändig und mühsam ist Branches zu erstellen und zusammenzuführen. Mit Git ist es allerdings vollkommen geläufig mehrmals am Tag Branches zu erstellen, an ihnen zu arbeiten, sie zusammenzuführen und sie anschließend wieder zu löschen.
 
 Du hast das im letzten Abschnitt an den von dir erstellten `iss53`- und `hotfix`-Branches gesehen. Du hast mehrere Commits auf sie angewendet und sie unmittelbar nach Zusammenführung mit deinem Hauptzweig gelöscht. Diese Technik erlaubt es dir schnell und vollständig den Kontext zu wechseln. Da deine Arbeit in verschiedene Depots aufgeteilt ist, in denen alle Änderungen unter die Thematik dieses Branches fallen, ist es leichter nachzuvollziehen was bei Code-Überprüfungen und ähnlichem geschehen ist.
 
@@ -382,7 +383,7 @@ Nun, sagen wir du hast dich entschieden die zweite Lösung des Fehlers (`iss91v2
 Insert 18333fig0321.png
 Abbildung 3-21. Dein Verlauf nach Zusammenführung von `dumbidea` und `iss91v2`.
 
-Es ist wichtig sich daran zu erinnern, dass all diese Branches komplett lokal sind. Wenn du verzweigst (branchst) und zusammenführst (mergest), findet dies nur in deinem Git-Repository statt - es findet keine Server-Kommunikation statt.
+Es ist wichtig sich daran zu erinnern, dass alle diese Branches nur lokal existieren. Wenn du Verzweigungen schaffst (branchst) und wieder zusammenführst (mergest), findet dies nur in deinem Git-Repository statt - es findet keine Server-Kommunikation statt.
 
 ## Externe Branches ##
 

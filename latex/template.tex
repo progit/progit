@@ -18,7 +18,7 @@
 
 \definecolor{shadecolor}{gray}{0.90}
 
-\setromanfont[Mapping=tex-text,Bold=<%= config['bold'] %>]{<%= config['font'] %>}
+\setromanfont[Mapping=tex-text,BoldFont=<%= config['bold'] %>]{<%= config['font'] %>}
 \setmonofont{<%= config['mono'] %>}
 
 \XeTeXlinebreaklocale{<%= lang %>}
@@ -90,7 +90,7 @@
 
 \newcounter{img}[chapter]
 \renewcommand{\theimg}{\thechapter.\arabic{img}}
-\newcommand{\img}[1]{\begin{figure}[h!]
+\newcommand{\img}[1]{\begin{figure}[ht!]
 	\refstepcounter{img}
 	\label{img:\theimg}
 	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}

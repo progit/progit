@@ -27,12 +27,20 @@ puts "using .#{format} (you can change it via FORMAT environment variable. try '
 ARGV.each do |lang|
   puts "convert content for '#{lang}' language"
 
+  if lang == 'ko'
+    figure_title = '그림'
+  elsif lang == 'ru'
+    figure_title = 'Рисунок'
+  else
+    figure_title = 'Figure'
+  end
+
   book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Pro Git - professional version control</title></head><body>)
   dir = File.expand_path(File.join(File.dirname(__FILE__), lang))
   Dir[File.join(dir, '**', '*.markdown')].sort.each do |input|
     puts "processing #{input}"
     content = File.read(input)
-    content.gsub!(/Insert\s+(.*)(\.png)\s*\n?\s*Figure\s+(.*)/, '![\3](figures/\1-tn\2 "\3")')
+    content.gsub!(/Insert\s+(.*)(\.png)\s*\n?\s*#{figure_title}\s+(.*)/, '![\3](figures/\1-tn\2 "\3")')
     book_content << RDiscount.new(content).to_html
   end
   book_content << "</body></html>"

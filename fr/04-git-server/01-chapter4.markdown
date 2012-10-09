@@ -71,7 +71,7 @@ Si vous souhaitez pousser depuis votre portable à la maison, vous devez monter 
 
 Il est aussi à mentionner que ce n'est pas nécessairement l'option la plus rapide à l'utilisation si un partage réseau est utilisé.
 Un dépôt local n'est rapide que si l'accès aux fichiers est rapide.
-Un dépôt accessible sur un montage NFS est souvent plus lent qu'un dépôt accessible via SSH sur le même serveur qui ferait tourner Git avec un accès au disques locaux.
+Un dépôt accessible sur un montage NFS est souvent plus lent qu'un dépôt accessible via SSH sur le même serveur qui ferait tourner Git avec un accès aux disques locaux.
 
 ### Protocole SSH ###
 
@@ -79,7 +79,7 @@ Le protocole SSH est probablement le protocole de transport de Git le plus utili
 Cela est dû au fait que l'accès SSH est déjà en place à de nombreux endroits et que si ce n'est pas le cas, cela reste très facile à faire.
 Cela est aussi dû au fait que SSH est le seul protocole permettant facilement de lire et d'écrire à distance.
 Les deux autres protocoles réseau (HTTP et Git) sont généralement en lecture seule et s'ils peuvent être utiles pour la publication, le protocole SSH est nécessaire pour les mises à jour de par ce qu'il permet l'écriture.
-SSH est un protocole authentifié suffisamment répandu et sa mise œuvre est simplifiée.
+SSH est un protocole authentifié suffisamment répandu et sa mise œuvre est simple.
 
 Pour cloner une dépôt Git à travers SSH, spécifiez le préfixe `ssh://` dans l'URL comme ceci :
 
@@ -94,7 +94,7 @@ Vous pouvez aussi ne pas spécifier de nom d'utilisateur et Git utilisera par d�
 #### Avantages ####
 
 Les avantages liés à l'utilisation de SSH sont nombreux.
-Primo, vous ne pourrez pas faire autrement si vous souhaitez gérer un accès authentifié en écriture à votre dépôt au travers le réseau.
+Primo, vous ne pourrez pas faire autrement si vous souhaitez gérer un accès authentifié en écriture à votre dépôt à travers le réseau.
 Secundo, SSH est relativement simple à mettre en place, les daemons SSH sont facilement disponibles, les administrateurs réseaux sont habitués à les gérer et de nombreuses distributions de systèmes d'exploitation en disposent et proposent des outils de gestion.
 Ensuite, l'accès distant à travers SSH est sécurisé, toutes les données sont chiffrées et authentifiées.
 Enfin, comme les protocoles Git et local, SSH est efficace et permet de comprimer autant que possible les données avant de les transférer.
@@ -102,7 +102,7 @@ Enfin, comme les protocoles Git et local, SSH est efficace et permet de comprime
 #### Inconvénients ####
 
 Le point négatif avec SSH est qu'il est impossible de proposer un accès anonyme au dépôt.
-Les accès sont régis par les permission SSH, même pour un accès en lecture seule, ce qui s'oppose à une optique open-source.
+Les accès sont régis par les permissions SSH, même pour un accès en lecture seule, ce qui s'oppose à une optique open-source.
 Si vous souhaitez utiliser Git dans un environnement d'entreprise, SSH peut bien être le seul protocole nécessaire.
 Si vous souhaitez proposer de l'accès anonyme en lecture seule à vos projets, vous aurez besoin de SSH pour vous permettre de pousser mais un autre protocole sera nécessaire pour permettre à d'autres de tirer.
 
@@ -111,7 +111,7 @@ Si vous souhaitez proposer de l'accès anonyme en lecture seule à vos projets, 
 Vient ensuite le protocole Git. Celui-ci est géré par un *daemon* spécial livré avec Git. Ce démon écoute sur un port dédié (9418) et propose un service similaire au protocole SSH, mais sans aucune sécurisation.
 Pour qu'un dépôt soit publié via le protocole Git, le fichier `git-export-daemon-ok` doit exister mais mise à part cette condition sans laquelle le daemon refuse de publier un projet, il n'y a aucune sécurité.
 Soit le dépôt Git est disponible sans restriction en lecture, soit il n'est pas publié.
-Cela signifie qu'il ne permet de pousser des modifications.
+Cela signifie qu'il ne permet pas de pousser des modifications.
 Vous pouvez activer la capacité à pousser mais étant donné l'absence d'authentification, n'importe qui sur internet peut pousser sur le dépôt.
 Autant dire que ce mode est rarement recherché.
 
@@ -185,7 +185,7 @@ Pour plus d'information sur les différences d'efficacité entre le protocole HT
 
 ## Installation de Git sur un serveur ##
 
-Pour réaliser l'installation initiale d'un serveur Git, il faut exporter une dépôt existant dans un nouveau dépôt nu — un dépôt qui ne contient pas de copie de répertoire de travail.
+Pour réaliser l'installation initiale d'un serveur Git, il faut exporter un dépôt existant dans un nouveau dépôt nu — un dépôt qui ne contient pas de copie de répertoire de travail.
 C'est généralement simple à faire.
 Pour cloner votre dépôt en créant un nouveau dépôt nu, lancez la commande clone avec l'option `--bare`.
 Par convention, les répertoires de dépôt nu finissent en `.git`, de cette manière :
@@ -195,10 +195,10 @@ Par convention, les répertoires de dépôt nu finissent en `.git`, de cette man
 
 La sortie de cette commande est un peu déroutante.
 Comme `clone` est un `git init` de base, suivi d'un `git fetch`, nous voyons les messages du `git init` qui crée un répertoire vide.
-Le transfert effectif d'objet ne fournit aucune sortie, mais il a tout de même lieu.
+Le transfert effectif d'objets ne fournit aucune sortie, mais il a tout de même lieu.
 Vous devriez maintenant avoir une copie des données de Git dans votre répertoire `mon_project.git`.
 
-C'est grossièrement équivalent à 
+C'est grossièrement équivalent à
 
 	$ cp -Rf mon_project/.git mon_project.git
 
@@ -255,7 +255,7 @@ Vous ne souhaiteriez sûrement pas lancer `adduser` et entrer un mot de passe te
 
 Une seconde méthode consiste à créer un seul utilisateur git sur la machine, demander à chaque développeur nécessitant un accès en écriture de vous envoyer une clef publique SSH et d'ajouter la dite clef au fichier `~/.ssh/authorized_keys` de votre utilisateur git.
 À partir de là, tout le monde sera capable d'accéder à la machine via l'utilisateur git.
-Cela n'affecte en rien les données de commit — les informations de l'utilisateur SSH par lequel on se connecte n'affectent pas les données de commit enregistrées.
+Cela n'affecte en rien les données de *commit* — les informations de l'utilisateur SSH par lequel on se connecte n'affectent pas les données de *commit* enregistrées.
 
 Une dernière méthode consiste à faire une authentification SSH auprès d'un serveur LDAP ou tout autre système d'authentification centralisé que vous utiliseriez déjà.
 Tant que chaque utilisateur peut accéder à un shell sur la machine, n'importe quel schéma d'authentification SSH devrait fonctionner.
@@ -278,11 +278,11 @@ Recherchez une paire de fichiers appelés *quelquechose* et *quelquechose*`.pub`
 Le fichier en `.pub` est la clef publique tandis que l'autre est la clef privée.
 Si vous ne voyez pas ces fichiers (ou n'avez même pas de répertoire `.ssh`), vous pouvez les créer en lançant un programme appelé `ssh-keygen` fourni par le paquet SSH sur les systèmes Linux/Mac et MSysGit pour Windows :
 
-	$ ssh-keygen 
+	$ ssh-keygen
 	Generating public/private rsa key pair.
-	Enter file in which to save the key (/Users/schacon/.ssh/id_rsa): 
-	Enter passphrase (empty for no passphrase): 
-	Enter same passphrase again: 
+	Enter file in which to save the key (/Users/schacon/.ssh/id_rsa):
+	Enter passphrase (empty for no passphrase):
+	Enter same passphrase again:
 	Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 	Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
 	The key fingerprint is:
@@ -295,7 +295,7 @@ Maintenant, chaque utilisateur ayant suivi ces indications doit envoyer la clef 
 Ils doivent copier le contenu du fichier .pub et l'envoyer par e-mail.
 Les clefs publiques ressemblent à ceci :
 
-	$ cat ~/.ssh/id_rsa.pub 
+	$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
 	GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 	Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
@@ -410,7 +410,7 @@ Si vous utilisez une version de Git antérieure à 1.6, la commande `mv` n'est p
 Quelle est l'action de ce crochet `post-update` ?
 Il contient simplement ceci :
 
-	$ cat .git/hooks/post-update 
+	$ cat .git/hooks/post-update
 	#!/bin/sh
 	exec git-update-server-info
 
@@ -445,7 +445,7 @@ Après avoir réglé les accès de base en lecture/écriture et en lecture seule
 Git fournit un script CGI appelé GitWeb qui est souvent utilisé à cette fin.
 Vous pouvez voir GitWeb en action sur des sites tels que `http://git.kernel.org` (voir figure 4-1).
 
-Insert 18333fig0401.png 
+Insert 18333fig0401.png
 Figure 4-1. L'interface web de visualisation GitWeb
 
 Si vous souhaitez vérifier à quoi GitWeb ressemblerait pour votre projet, Git fournit une commande pour démarrer une instance temporaire de serveur si vous avez un serveur léger tel que `lighttpd` ou `webrick` sur votre système.
@@ -525,7 +525,7 @@ Mais vous avez déjà installé vos dépôts sous `/opt/git`, donc au lieu de to
 
 	$ ln -s /opt/git /home/git/repositories
 
-Comme Gitosis gérera vos clefs pour vous, il faut effacer le fichier `authorized_keys`, ré-ajouter les clefs plus tard et laisser Gitosis contrôler le fichier automatiquement.
+Comme Gitosis gérera vos clefs pour vous, il faut effacer le fichier `authorized_keys`, réintroduire les clefs plus tard en laissant Gitosis contrôler le fichier automatiquement.
 Pour l'instant, déplacez le fichier `authorized_keys` ailleurs :
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
@@ -581,7 +581,7 @@ Le nom du fichier dans `keydir` (dans l'exemple précédent, `scott.pub`) sera d
 
 Le fichier `gitosis.conf` contient la configuration du projet `gitosis-admin` cloné à l'instant :
 
-	$ cat gitosis.conf 
+	$ cat gitosis.conf
 	[gitosis]
 
 	[group gitosis-admin]
@@ -675,6 +675,251 @@ Si vous avez perdu le droit de pousser en envoyant une configuration vérolée, 
 Pousser sur le projet `gitosis-admin` provoque la recopie du fichier `gitosis.conf` à cet endroit.
 Si vous éditez ce fichier à la main, il restera dans cet état jusqu'à la prochaine poussée.
 
+## Gitolite ##
+
+Note: la dernière copie de cette section du livre ProGit est toujours disponible dans la [documentation de gitolite][gldpg].
+L'auteur souhaite aussi humblement ajouter que, bien que cette section soit juste et *puisse* (et a pu) être utilisée pour installer gitolite sans lire d'autre documentation, elle est nécessairement incomplète et ne peut pas remplacer à elle seule la documentation volumineuse qui accompagne gitolite.
+
+[gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
+
+Git a commencé à être utilisé dans les entreprises, ce qui tend à ajouter des besoins en terme de contrôle d'accès.
+Gitolite a été initialement créé pour gérer ces besoins mais il apparaît qu'il est aussi utile dans la monde du logiciel libre : le projet Fedora gère les accès à ses dépôts de gestion de paquets (plus de 10 000 !) au moyen de gitolite, ce qui en fait le déploiement public de gitolite le plus important.
+
+Gitolite permet de spécifier des permissions non seulement pour chaque dépôt, mais aussi par branche et par étiquette pour chaque dépôt.
+En d'autres termes, il devient possible d'indiquer que certaines personnes (ou groupes de personnes) ne peuvent pousser que sur certaines refs (branches ou étiquettes).
+
+### Installation ###
+
+L'installation de Gitolite est très simple, même sans lire la documentation extensive qui l'accompagne.
+Vous n'avez besoin que d'un compte sur un serveur de type Unix ; plusieurs distributions Linux et Solaris 10 sont compatibles.
+Vous n'avez pas besoin d'accès root si git, perl et un serveur compatible openssh sont déjà installés.
+Dans les exemples qui suivent, un compte `gitolite` sur un serveur `gitserver` sera utilisé.
+
+Par rapport au concept de logiciel serveur, Gitolite est plutôt inhabituel : l'accès se fait via ssh et donc tout utilisateur du système est potentiellement un « hôte Gitolite ».
+De ce fait, il n'y a pas réellement d'installation du logiciel serveur ou de paramétrage d'un utilisateur comme « hôte gitolite ».
+
+Gitolite dispose de 4 méthodes d'installation.
+Les personnes utilisant Fedora ou Debian peuvent utiliser un paquet RPM ou DEB à installer.
+Les personnes disposant d'un accès root peuvent l'installer manuellement.
+Par ces deux méthodes, tout utilisateur du système peut ainsi devenir un « hôte gitolite ».
+
+Les personnes sans accès root peuvent l'installer avec leur propre utilisateur.
+Finalement, gitolite peut s'installer en lançant un script *sur une station de travail*, à partir d'un shell bash (et pour ceux qui se demandent, même le bash livré avec msysgit fonctionne).
+
+Nous allons décrire cette dernière méthode par la suite.
+Pour les autres méthodes, référez-vous à la documentation.
+
+Commençons par définir une accès par clé publique au notre serveur, de manière à pouvoir se connecter au serveur depuis notre station de travail sans passer par un mot de passe.
+La méthode suivante fonctionne sous Linux.
+Pour les stations sous un autre OS, il se peut que vous deviez le faire manuellement.
+Supposons que vous avez déjà une paire de clés générées via `ssh-keygen`.
+
+	$ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
+
+Ceci va vous demander un mot de passe pour le compte gitolite et définir l'accès par clé publique.
+C'est une étape **essentielle** du script d'installation et il est conseillé de bien vérifier qu'on peut ensuite lancer la commande suivante sans obtenir une demande de mot de passe :
+
+	$ ssh gitolite@gitserver pwd
+	/home/gitolite
+
+Ensuite, clonons Gitolite depuis le site principal du projet et lançons le script "easy-install".
+Le troisième argument est le nom que nous souhaitons avoir dans le dépôt gitolite-admin ainsi créé.
+
+	$ git clone git://github.com/sitaramc/gitolite
+	$ cd gitolite/src
+	$ ./gl-easy-install -q gitolite gitserver sitaram
+
+C'est fini !
+Gitolite est à présent installé sur le serveur ainsi qu'un nouveau dépôt appelé `gitolite-admin` dans le dossier personnel de la station de travail.
+L'administration de gitolite passe par des modifications dans ce dépôt.
+
+La dernière commande produit une certaine quantité d'informations intéressantes.
+La première fois qu'elle est lancée, une nouvelle paire de clés cryptographiques est créée.
+Il faudra la protéger par un mot de passe ou appuyer simplement sur la touche entrée pour ne pas en définir.
+La raison de la définition de cette seconde paire de clé ainsi que son utilisation sont expliquées dans le document « ssh troubleshooting » accompagnant Gitolite.
+
+Les dépôts appelés `gitolite-admin` et `testing` sont créés par défaut sur le serveur.
+Si vous souhaitez cloner l'un d'eux localement (depuis un compte ayant accès SSH console au compte gitolite via *authorized_keys*), il suffit de saisir :
+
+	$ git clone gitolite:gitolite-admin
+	$ git clone gitolite:testing
+	
+Pour cloner ces mêmes dépôts depuis n'importe quel compte :
+
+	$ git clone gitolite@servername:gitolite-admin
+	$ git clone gitolite@servername:testing
+
+
+### Personnalisation de l'installation ###
+
+L'installation rapide par défaut suffit à la majorité des besoins, mais il existe des moyens de la paramétrer plus finement.
+Si on retire l'option `-q`, l'installation passe en mode bavard et trace des informations indiquant chaque étape.
+Le mode bavard permet aussi de modifier certains paramètres côté serveur, tels que la localisation réelle des dépôts, en éditant un fichier "rc" utilisé par le serveur.
+Ce fichier "rc" est richement commenté, ce qui devrait facilement permettre de le modifier, de le sauver et de passer à autre chose.
+Ce fichier contient aussi différents paramètres qui peuvent être changés pour activer ou désactiver certaines fonctionnalités avancées de gitolite.
+
+### Fichier de configuration et règles de contrôle d'accès ###
+
+Une fois l'installation terminée, vous pouvez basculer vers le dépôt `gitolite-admin` présent dans votre dossier personnel et inspecter ce qui s'y trouve :
+
+	$ cd ~/gitolite-admin/
+	$ ls
+	conf/  keydir/
+	$ find conf keydir -type f
+	conf/gitolite.conf
+	keydir/sitaram.pub
+	$ cat conf/gitolite.conf
+	#gitolite conf
+	# please see conf/example.conf for details on syntax and features
+
+	repo gitolite-admin
+	    RW+                 = sitaram
+
+	repo testing
+	    RW+                 = @all
+
+Notez que "sitaram" (le dernier argument de la commande `gl-easy-install` précédente) détient les permissions en lecture-écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
+
+Le fichier de configuration de gitolite présent dans `conf/example.conf` est extensivement commenté et nous n'en mentionnerons que quelques points cruciaux.
+
+Pour vous simplifier la tâche, vous pouvez grouper les utilisateurs et les dépôts.
+Les noms de groupes sont juste comme des macros.
+À leur définition, il importe peu que ce soient des projets ou de utilisateurs.
+Cette distinction ne sert que lors de *l'utilisation* de la « macro ».
+
+	@oss_repos      = linux perl rakudo git gitolite
+	@secret_repos   = fenestra pear
+
+	@admins         = scott     # Adams, not Chacon, sorry :)
+	@interns        = ashok     # get the spelling right, Scott!
+	@engineers      = sitaram dilbert wally alice
+	@staff          = @admins @engineers @interns
+
+Vous pouvez contrôler les permissions au niveau "ref".
+Dans l'exemple suivant, les stagiaires (intern) ne peuvent pousser que sur la branche "int".
+Les ingénieurs peuvent pousser toutes les branches dont le nom commence par "eng" et les étiquettes qui commencent par "rc" suivi d'un chiffre.
+Les administrateurs ont tous les droits (y compris le rembobinage) sur toutes les réfs.
+
+	repo @oss_repos
+	    RW  int$                = @interns
+	    RW  eng-                = @engineers
+	    RW  refs/tags/rc[0-9]   = @engineers
+	    RW+                     = @admins
+
+L'expression après les `RW` ou les `RW+` est une expression rationnelle (ou regex) qui filtre le nom de la référence (ref).
+Elle s'appelle donc une « refex » !
+Bien entendu, une « refex » peut être bien plus puissante que celles montrées ci-dessus et il est inutile de trop chercher si vous n'êtes pas à l'aise avec les regex perl.
+
+De plus, logiquement, Gitolite préfixe les refex qui ne commencent pas par `refs/` avec la chaîne `refs/heads/`.
+
+Une autre particularité importante de la syntaxe du fichier de configuration est que toutes les règles ne sont pas nécessairement à un seul endroit.
+On peut conserver toute la configuration commune, telle que l'ensemble des règles pour tous les dépôts `oss_repo` ci-dessus au début puis ajouter des règles spécifiques plus loin, comme :
+
+	repo gitolite
+	    RW+                     = sitaram
+
+Cette règle sera juste ajoutée à l'ensemble des règles préexistantes du dépôt `gitolite`.
+
+Du coup, il est nécessaire d'expliciter la politique d'application des règles de contrôle d'accès.
+
+Il existe deux niveaux de contrôle d'accès dans gitolite.
+Le premier réside au niveau du dépôt.
+Si vous avez un droit d'accès en lecture (resp. en écriture) à *n'importe quelle* ref du dépôt, alors vous avez accès en lecture (resp. en écriture) au dépôt.
+
+Le second niveau, applicable seulement pour l'accès en écriture se focalise sur les branches et les étiquettes dans un dépôt.
+L'utilisateur, le type d'accès en cours (`W` ou `+`) et le nom de la référence permettent de définir les critères.
+La règles d'accès sont vérifiées par ordre d'apparition dans le fichier de configuration, par recherche d'une correspondance sur cette combinaison (en se souvenant que la correspondance de référence est une refex, non une simple comparaison).
+Si une correspondance est trouvée, l'accès en poussée est accepté.
+Si aucune correspondance n'est trouvée, l'accès est refusé.
+
+### Contrôle d'accès avancé avec les règles "deny" ###
+
+Jusqu'ici, les seuls types de permissions rencontrés ont été `R`, `RW` ou `RW+`.
+Néanmoins, gitolite connaît une autre permission : `-` qui signifie "deny", accès refusé.
+Cela vous donne bien plus de possibilités, au prix d'une complexité accrue car à présent l'absence de correspondance n'est plus la *seule* manière de refuser l'accès, mais il devient nécessaire de faire attention à l'ordre des règles !
+
+Supposons que dans la situation ci-dessus, nous souhaitons que les ingénieurs soient capables de rembobiner n'importe quelle branche *excepté* master et integ.
+Voici comment faire :
+
+	    RW  master integ    = @engineers
+	    -   master integ    = @engineers
+	    RW+                 = @engineers
+
+Une fois encore, il suffit de suivre simplement les règles de haut en bas jusqu'à rencontrer une correspondance pour votre mode d'accès ou de refus.
+Les poussées en non-rembobinage sur master ou integ sont permises par la première règle.
+Les poussées en rembobinage à ces références n'ont pas de correspondance dans la première règle et se poursuivent par la seconde qui les refuse.
+Toute poussée (en rembobinage ou non) à des refs autres que master ou integ ne correspondra pas aux deux premières règles et sera permise par la troisième.
+
+### Restriction des poussées sur les fichiers modifiés ###
+
+En sus de la restriction sur les branches utilisables par un utilisateur, il est possible de mettre en place des restrictions sur les fichiers qu'il aura droit de toucher.
+Par exemple, un Makefile (ou tout autre script) n'est pas supposé être modifié par n'importe qui, du fait que de nombreuses choses en dépendent et qu'une modification non maîtrisée pourrait casser beaucoup de choses.
+Vous pouvez indiquer à gitolite :
+
+    repo foo
+        RW                  =   @junior_devs @senior_devs
+
+        RW  NAME/           =   @senior_devs
+        -   NAME/Makefile   =   @junior_devs
+        RW  NAME/           =   @junior_devs
+
+Cette fonctionnalité puissante est documentée dans `conf/example.conf`.
+
+### Branches personnelles ###
+
+Gitolite a aussi une fonction appelée "branches personnelles" (ou plutôt "espace de branches personnelles") qui peuvent s'avérer très utiles en environnement professionnel.
+
+Dans le monde de git, une grande quantité d'échange de code se passe par requêtes de tirage.
+En environnement professionnel, cependant, les accès non-authentifiés sont inimaginables et une authentification poste à poste est impossible.
+Il est donc nécessaire de pousser sur le serveur central et demander à quelqu'un d'en tirer.
+
+Cela provoquerait normalement le même bazar de branches que dans les VCS centralisés, avec en plus la surcharge pour l'administrateur de la gestion des permissions.
+
+Gitolite permet de définir un préfixe d'espace de nom "personnel" ou "brouillon" pour chaque développeur (par exemple, `refs/personnel/<nom du dev>`).
+Référez-vous au chapitre "branches personnelles" du fichier `doc/3-faq-tips-etc.mkd` pour plus de détails.
+
+### Dépôts "joker" ###
+
+Gitolite permet de spécifier des dépôts avec jokers (en fait des regex perl), comme par exemple, au hasard, `devoirs/s[0-9][0-9]/a[0-9][0-9]`.
+Ceci est une fonctionnalité *très* puissante qui doit être activée en positionnant `$GL_WILDREPOS = 1;` dans le fichier rc.
+Un nouveau mode de permission devient accessible (« C »).
+En suivant ces schémas de nommage, les utilisateurs peuvent alors créer des dépôts dont ils seront automatiquement propriétaires, leur permettant ainsi de leur assigner des droits en lecture ou lecture-écriture pour d'autres utilisateurs avec lesquels ils souhaitent collaborer.
+Cette fonctionnalité est documentée dans `doc/4-wildcard-repositories.mkd`.
+
+### Autres fonctionnalités ###
+
+Nous terminerons cette section avec quelques échantillons d'autres fonctions qui sont toutes décrites, ainsi que d'autres dans les documents faq, trucs et astuces, etc.
+
+**Journalisation** : Gitolite enregistre tous les accès réussis.
+Si vous étiez réticent à donner aux utilisateurs des droits de rembobiner (`RW+`) et qu'un plaisantin a complètement cassé "master", le journal des activités est là pour vous aider à trouver facilement et rapidement le SHA qui a tout déclenché.
+
+**Git hors du PATH normal** : une fonctionnalité d'usage très utile consiste à supporter que git n'est pas installé dans le `PATH` normal. Cette situation est beaucoup plus commune que l'on croit, des environnements professionnels ou même des fournisseurs d'hébergement refusent d'installer des outils au niveau système et on se retrouve à devoir les placer dans son propre répertoire. Normalement, il est nécessaire d'avertir d'une manière ou d'une autre la partie cliente de git de cette localisation non-standard des binaires de git. Avec gitolite, il suffit de choisir une installation verbeuse et de régler `$GIT_PATH` dans les fichiers "rc". Aucun réglage spécifique côté client n'est à réaliser.
+
+**Rapport sur les droits d'accès** : une autre fonctionnalité très utile concerne la prise en charge de la connexion ssh au serveur.
+Gitolite vous affiche quels dépôts vous pouvez accéder et avec quels droits.
+Ci-dessous un exemple :
+
+        hello sitaram, the gitolite version here is v1.5.4-19-ga3397d4
+        the gitolite config gives you the following access:
+             R     anu-wsd
+             R     entrans
+             R  W  git-notes
+             R  W  gitolite
+             R  W  gitolite-admin
+             R     indic_web_input
+             R     shreelipi_converter
+
+**Délégation** : Pour les grands déploiements, il est possible de déléguer la responsabilité de groupes de dépôts à différentes personnes en leur permettant de les gérer de manière autonome.
+Cela permet de réduire la charge de travail de l'administrateur principal et évite d'en faire un goulet d'étranglement.
+Cette fonctionnalité est documentée dans le répertoire `doc/`.
+
+**Support de gitweb** : Gitolite supporte gitweb de différentes manières.
+Il est possible de spécifier quels dépôts sont visibles via gitweb.
+Il est surtout possible de renseigner le « propriétaire » et la « description » affichés par gitweb dans le fichier de configuration de gitolite.
+Gitweb permet la mise en place d'un mécanisme de contrôle d'accès basé sur l'authentification HTTP, et il est possible de lui faire utiliser un fichier de configuration compilé par gitolite, ce qui signifie que les mêmes règles d'accès (en lecture) s'appliquent à gitweb et à gitolite.
+
+**Miroirs** : Gitolite peut vous aider à maintenir de multiples miroirs et à basculer simplement entre eux si le miroir principal tombe en panne.
+
 ## Le daemon Git ##
 
 Pour garantir les accès publics non authentifiés en lecture à vos projet, il est préférable de dépasser le protocole HTTP et de commencer à utiliser le protocole Git.
@@ -760,9 +1005,9 @@ Cette méthode offre de nombreux avantages : un site en hébergement est géné
 Même si vous montez et faites fonctionner votre serveur en interne, vous souhaiterez surement utiliser un site d'hébergement public pour votre code open source — cela rend généralement plus facile l'accès et l'aide par la communauté.
 
 Aujourd'hui, vous avez à disposition un nombre impressionnant d'options d'hébergement, chacune avec différents avantages et désavantages.
-Pour une liste à jour, référez-vous à la page GitHosting du wiki principal sur Git :
+Pour une liste à jour, référez-vous à la page suivante :
 
-	http://git.or.cz/gitwiki/GitHosting
+	http://git-scm.com/tools#hosting
 
 Comme nous ne pourrons pas les passer toutes en revue, et comme de plus, il s'avère que je travaille pour l'une d'entre elles, nous utiliserons ce chapitre pour détailler la création d'un compte et d'un nouveau projet sur GitHub.
 Cela vous donnera une idée de ce qui est nécessaire.
@@ -783,45 +1028,45 @@ Nous allons détailler comment faire.
 ### Création d'un compte utilisateur ###
 
 La première chose à faire, c'est de créer un compte utilisateur gratuit.
-Visitez la page « Prix et inscription » à `http://github.com/plans` et cliquez sur le bouton « Créer un compte gratuit » de la zone  « Gratuit pour l'open source » (voir figure 4-2) qui vous amène à la page d'enregistrement.
+Visitez la page « Plans & Pricing » (plans et prix) à `http://github.com/plans` et cliquez sur le bouton « Create a free account » (créer un compte gratuit)de la zone  « Free for open source » (gratuit pour l'open source) (voir figure 4-2) qui vous amène à la page d'enregistrement.
 
 Insert 18333fig0402.png
 Figure 4-2. La page des différents plans de GitHub.
 
 Vous devez choisir un nom d'utilisateur qui n'est pas déjà utilisé dans le système et saisir une adresse e-mail qui sera associée au compte et un mot de passe (voir figure 4-3).
 
-Insert 18333fig0403.png 
+Insert 18333fig0403.png
 Figure 4-3. La page d'enregistrement de GitHub
 
 Si vous l'avez, c'est le bon moment pour ajouter votre clef publique SSH.
 Nous avons détaillé comment en générer précédemment au chapitre « Petites installations ».
-Copiez le contenu de la clef publique et collez-le dans la boîte à texte « Clés SSH publiques ».
-En cliquant sur  « Besoin d'aide avec les clés publiques? », vous aurez accès aux instructions (en anglais) pour créer des clefs sur la majorité des systèmes d'exploitation.
-Cliquez sur « Créer un compte » pour avoir accès au tableau de bord du nouvel utilisateur (voir figure 4-4).
+Copiez le contenu de la clef publique et collez-le dans la boîte à texte « SSH Public Keys » (clés SSH publiques).
+En cliquant sur le lien « Need help with public keys? » (besoin d'aide avec les clés publiques ?), vous aurez accès aux instructions (en anglais) pour créer des clés sur la majorité des systèmes d'exploitation.
+Cliquez sur le bouton « Create an account » (créer un compte) pour avoir accès à votre tableau de bord de nouvel utilisateur (voir figure 4-4).
 
-Insert 18333fig0404.png 
+Insert 18333fig0404.png
 Figure 4-4. Le tableau de bord d'utilisateur de GitHub
 
 Vous pouvez ensuite procéder à la création d'un nouveau dépôt.
 
 ### Création d'un nouveau dépôt ###
 
-Commencez en cliquant sur « Nouveau dépôt » juste à côté de vos dépôts sur le tableau de bord utilisateur.
-Un formulaire « Créer un nouveau dépôt » apparaît pour vous guider dans la création d'un nouveau dépôt (voir figure 4-5).
+Commencez en cliquant sur le bouton gris « New Repository » juste à côté de « Your Repositories » (vos dépôts) sur le tableau de bord utilisateur.
+Un formulaire « Create a New Repository » (créer un nouveau dépôt) apparaît pour vous guider dans la création d'un nouveau dépôt (voir figure 4-5).
 
-Insert 18333fig0405.png 
+Insert 18333fig0405.png
 Figure 4-5. Création d'un nouveau dépôt sur GitHub
 
 Le strict nécessaire consiste à fournir un nom au projet, mais vous pouvez aussi ajouter une description.
-Ensuite, cliquez sur le bouton « Créer un dépôt ».
+Ensuite, cliquez sur le bouton « Create Repository » (créer un dépôt).
 Voilà un nouveau dépôt sur GitHub (voir figure 4-6).
 
-Insert 18333fig0406.png 
+Insert 18333fig0406.png
 Figure 4-6. Information principale d'un projet GitHub
 
 Comme il n'y a pas encore de code, GitHub affiche les instructions permettant de créer un nouveau projet, de pousser un projet Git existant ou d'importer un projet depuis un dépôt Subversion public (voir figure 4-7).
 
-Insert 18333fig0407.png 
+Insert 18333fig0407.png
 Figure 4-7. Instructions pour un nouveau dépôt
 
 Ces instructions sont similaires à ce que nous avons déjà décrit.
@@ -840,10 +1085,10 @@ Votre projet est à présent hébergé sur GitHub et vous pouvez fournir l'URL �
 Dans notre cas, il s'agit de `http://github.com/testinguser/iphone_projet`.
 Vous pouvez aussi voir dans l'entête de la page de chaque projet qu'il y a deux URL Git (voir figure 4-8).
 
-Insert 18333fig0408.png 
+Insert 18333fig0408.png
 Figure 4-8. Entête de projet avec une URL publique et une URL privée
 
-L'URL « Git en lecture seule » est une URL Git publique en lecture seule que tout le monde peut cloner.
+L'URL « Git Read-Only » (Git en lecture seule) est une URL Git publique en lecture seule que tout le monde peut cloner.
 Utilisez cette URL pour publier et partager votre dépôt sur un site web ou autre.
 
 Votre URL « SSH » est une URL SSH en lecture/écriture qui ne vous permet de lire et écrire que si vous possédez la clef privée associée à la clef publique téléchargée pour votre utilisateur.
@@ -852,13 +1097,13 @@ Quand d'autres utilisateurs visiteront cette page de projet, ils ne verront pas 
 ### Import depuis Subversion ###
 
 Si vous souhaitez importer un projet public sous Subversion dans Git, GitHub peut vous faciliter la tâche.
-Il y a un lien  « Vous importez un dépôt Subversion? Cliquez ici » au bas de la page d'instructions.
+Il y a un lien  « Importing a SVN Repo? Click here » (Vous importez un dépôt Subversion? Cliquez ici) au bas de la page d'instructions.
 En le cliquant, vous accédez à un formulaire contenant des informations sur le processus d'import et une boîte à texte où vous pouvez coller l'URL de votre dépôt public Subversion (voir figure 4-9).
 
-Insert 18333fig0409.png 
+Insert 18333fig0409.png
 Figure 4-9. Interface d'import depuis Subversion.
 
-Si votre projet est très gros, ne suit pas les standards de nommage ou est privé, cette méthone risque de ne pas fonctionner.
+Si votre projet est très gros, ne suit pas les standards de nommage ou est privé, cette méthode risque de ne pas fonctionner.
 Au chapitre 7, nous traiterons des imports manuels plus compliqués de projets.
 
 ### Ajout des collaborateurs ###
@@ -869,20 +1114,20 @@ Cela leur permettra de pousser leur travail sur le dépôt avec leurs clefs priv
 
 Cliquez le bouton « Admin » dans l'entête du projet pour accéder à la page d'administration de votre projet GitHub (voir figure 4-10).
 
-Insert 18333fig0410.png 
+Insert 18333fig0410.png
 Figure 4-10. Page d'administration GitHub.
 
-Pour accorder à un autre utilisateur l'accès en écriture au projet, cliquez l'onglet « Collaborateurs ».
+Pour accorder à un autre utilisateur l'accès en écriture au projet, cliquez l'onglet « Collaborators » (Collaborateurs).
 Vous pouvez entrer le nom de l'utilisateur dans la boîte à texte qui apparaît.
 Au fur et à mesure de votre frappe, une liste déroulante affiche les noms qui correspondent aux caractères tapés.
-Lorsque vous avez trouvé l'utilisateur correct, cliquez le bouton « Ajouter » pour ajouter l'utilisateur comme collaborateur au projet (voir figure 4-11).
+Lorsque vous avez trouvé l'utilisateur correct, cliquez le bouton « Add » (Ajouter) pour ajouter l'utilisateur comme collaborateur au projet (voir figure 4-11).
 
-Insert 18333fig0411.png 
+Insert 18333fig0411.png
 Figure 4-11. Ajout d'un collaborateur à votre projet.
 
 Lorsque vous avez fini d'ajouter des collaborateurs, vous devriez les voir en liste dans la boîte « Repository Collaborators » (voir figure 4-12).
 
-Insert 18333fig0412.png 
+Insert 18333fig0412.png
 Figure 4-12. Une liste des collaborateurs sur votre projet.
 
 Si vous devez révoquer l'accès à certaines personnes, vous pouvez cliquer la croix rouge leur correspondant et leur accès en écriture sera effacé.
@@ -892,16 +1137,16 @@ Pour des projets futurs vous pouvez aussi copier des groupes de collaborateurs e
 
 Une fois que vous avez poussé votre projet ou l'avez importé depuis Subversion, votre page principale de projet ressemble à la figure 4-13.
 
-Insert 18333fig0413.png 
+Insert 18333fig0413.png
 Figure 4-13. Un page principale de projet GitHub.
 
 Lorsqu'on visite votre projet, on voit cette page.
 Elle contient des onglets vers différentes vues des projets.
-L'onglet « Contributions » affiche une liste des validations dans l'ordre chronologique inverse, similaire à ce qu'afficherait la commande `git log`.
-L'onglet « Réseau » affiche tous les utilisateurs ayant dupliqué votre projet et contribué.
-L'onglet « Téléchagements » vous permet de télécharger les éxécutables du projet ou de fournir des archives des sources de votre projet à des points balisés.
+L'onglet « Commits » (validations) affiche une liste des validations dans l'ordre chronologique inverse, similaire à ce qu'afficherait la commande `git log`.
+L'onglet « Network » (réseau) affiche tous les utilisateurs ayant dupliqué votre projet et contribué.
+L'onglet « Downloads » (téléchagements) vous permet de télécharger les éxécutables du projet ou de fournir des archives des sources aux points étiquetés de votre projet .
 L'onglet « Wiki » fournit un wiki ou vous pouvez commencer à écrire la documentation ou d'autres informations du projet.
-L'onglet « Graphiques » permet de visualiser les contributions et les statistiques.
+L'onglet « Graphs » permet de visualiser les contributions et les statistiques.
 L'onglet principal « Source » sur lequel vous arrivez par défaut affiche le contenu du répertoire principal du projet et met en forme dessous le fichier README s'il en contient un.
 Cet onglet affiche aussi un boîte contenant les informations de la dernière validation.
 
@@ -915,12 +1160,12 @@ On peut dupliquer un projet et pousser dessus, et le mainteneur principal du pro
 
 Pour dupliquer un projet, visitez la page du projet (par exemple mojombo/chronic), et cliquez le bouton « Fork » (dupliquer) dans l'entête (voir figure 4-14).
 
-Insert 18333fig0414.png 
+Insert 18333fig0414.png
 Figure 4-14. Obtenir un copie modifiable et publiable d'un dépôt en cliquant le bouton « Fork ».
 
 Quelques secondes plus tard, vous êtes redirigés vers une nouvelle page de projet qui indique que ce projet est un dupliqué d'un autre (voir figure 4-15).
 
-Insert 18333fig0415.png 
+Insert 18333fig0415.png
 Figure 4-15. Votre duplicata d'un projet.
 
 ### Résumé sur GitHub ###

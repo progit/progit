@@ -862,7 +862,7 @@ Das Refspec Format ist `<quelle>:<ziel>`. Wenn man den `<ziel>` Teil wegläßt, 
 
 Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
 
-Git kann Daten zwischen zwei Repositories im wesentlichen auf zwei Arten transportieren: über HTTP und über sogenannte smarte Protokolle, die mit `file://`, `ssh://` und `git://` verwendet wreden. Die folgende Sektion gibt einen kurzen Überblick über diese Protokolle und wie sie funktionieren.
+Git kann Daten zwischen zwei Repositories im wesentlichen auf zwei Arten transportieren: über HTTP und über sogenannte smarte Protokolle, die mit `file://`, `ssh://` und `git://` verwendet werden. Die folgende Sektion gibt einen kurzen Überblick über diese Protokolle und wie sie funktionieren.
 
 ### The Dumb Protocol ###
 

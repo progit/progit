@@ -61,6 +61,8 @@ end
 def pre_pandoc(string, config)
 	replace(string) do
 		# Pandoc discards #### subsubsections #### - this hack recovers them
+		# be careful to try to match the longest sharp string first
+		s /\#\#\#\#\# (.*?) \#\#\#\#\#/, 'PARAGRAPH: \1'
 		s /\#\#\#\# (.*?) \#\#\#\#/, 'SUBSUBSECTION: \1'
 
 		# Turns URLs into clickable links
@@ -80,6 +82,7 @@ def post_pandoc(string, config)
 		s '\section', '\chap'
 		s '\sub', '\\'
 		s /SUBSUBSECTION: (.*)/, '\subsubsection{\1}'
+		s /PARAGRAPH: (.*)/, '\paragraph{\1}'
 
 		# Enable proper cross-reference
 		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'

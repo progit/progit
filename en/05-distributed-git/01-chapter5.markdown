@@ -230,7 +230,7 @@ She can merge either `origin/master` or `issue54` first — they’re both upstr
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-No problems occur; as you can see it, was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
+No problems occur; as you can see it was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb

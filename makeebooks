@@ -1,16 +1,17 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 # This script convers markdown book to one of the serveral e-book
 # formats supported with calibre (http://calibre-ebook.com)
 #
 # Samples:
 # 	
 # Build e-book for amazon kindle for english and russian languages
-# 	$ make-ebook en ru
+# 	$ ruby makeebooks en ru
 # or
-# 	$ FORMAT=mobi make-ebook en ru
+# 	$ FORMAT=mobi ruby makeebooks en ru
 #
 # Build e-book in 'epub' format for russian only
-# 	$ FORMAT=epub make-ebook ru
+# 	$ FORMAT=epub ruby makeebooks ru
 
 require 'rubygems'
 require 'rdiscount'

@@ -32,6 +32,12 @@ ARGV.each do |lang|
     figure_title = '그림'
   elsif lang == 'ru'
     figure_title = 'Рисунок'
+  elsif lang == 'es'
+    figure_title = 'Figura'
+  elsif lang == 'zh'
+    figure_title = '图'
+  elsif lang == 'zh-tw'
+    figure_title = '圖'
   else
     figure_title = 'Figure'
   end

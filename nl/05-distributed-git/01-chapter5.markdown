@@ -6,47 +6,47 @@ In dit hoofdstuk zul je zien hoe je met Git kunt werken in een gedistribueerde o
 
 ## Gedistribueerde werkwijzen ##
 
-In tegenstelling tot gecentraliseerde versie beheersystemen (CVCS), staat de gedistribueerde aard van Git je toe om veel flexibeler te zijn in de manier waarop ontwikkelaars bijdragen in projecten. Bij gecentraliseerde systemen is iedere ontwikkelaar een knooppunt dat meer of minder gelijkwaardig werkt op een centraal punt. In Git is iedere ontwikkelaar zowel een knoop als een centraal punt – dat wil zeggen, iedere ontwikkelaar kan zowel code bijdragen aan andere repositories, als ook een publiek repository onderhouden waarop andere ontwikkelaars hun werk baseren en waaraan zij kunnen bijdragen. Dit stelt je project en of je team in staat om een enorm aantal werkwijzen er op na te houden, dus ik zal een aantal veel voorkomende manieren behandelen die gebruik maken van deze flexibiliteit. Ik zal de sterke en mogelijke zwakke punten van ieder ontwerp behandelen; je kunt er een kiezen om te gebruiken, of je kunt van iedere wijze een paar eigenschappen pakken en mengen.
+In tegenstelling tot gecentraliseerde versiebeheersystemen (CVCS), staat de gedistribueerde aard van Git je toe om veel flexibeler te zijn in de manier waarop ontwikkelaars bijdragen in projecten. Bij gecentraliseerde systemen is iedere ontwikkelaar een knooppunt dat min of meer gelijkwaardig werkt op een centraal punt. In Git is iedere ontwikkelaar zowel een knoop als een centraal punt – dat wil zeggen, iedere ontwikkelaar kan zowel code bijdragen aan andere repositories, als ook een publiek repository onderhouden waarop andere ontwikkelaars hun werk baseren en waaraan zij kunnen bijdragen. Dit stelt je project en of je team in staat om een enorm aantal werkwijzen er op na te houden, dus ik zal een aantal veel voorkomende manieren behandelen die gebruik maken van deze flexibiliteit. Ik zal de sterke en mogelijke zwakke punten van ieder ontwerp behandelen; je kunt er een kiezen om te gebruiken, of je kunt van iedere wijze een paar eigenschappen pakken en mengen.
 
 ### Gecentraliseerde werkwijze ###
 
-In gecentraliseerde systemen is er over het algemeen een enkel samenwerkingsmodel – de gecentraliseerde werkwijze. Eén centraal punt, of repository, kan code aanvaarden, en iedereen synchroniseerd hun werk daarmee. Een aantal ontwikkelaars zijn knopen – gebruikers van dat centrale punt – en synchroniseren met die plaats (zie Figuur 5-1). 
+In gecentraliseerde systemen is er over het algemeen een enkel samenwerkingsmodel – de gecentraliseerde werkwijze. Eén centraal punt, of repository, kan code aanvaarden, en iedereen synchroniseert zijn werk daarmee. Een aantal ontwikkelaars zijn knopen – gebruikers van dat centrale punt – en synchroniseren met die plaats (zie Figuur 5-1). 
 
 Insert 18333fig0501.png 
 Figuur 5-1. Gecentraliseerde Werkwijze.
 
-Dit betekend dat als twee ontwikkelaars clonen van het gecentraliseerde punt en beide wijzigingen doen, de eerste ontwikkelaar zijn wijzigingen terug kan zetten zonder problemen. De tweede ontwikkelaar zal het werk van de eerste in het zijne moeten samenvoegen voordat hij het zijne kan terugzetten, om zo niet het werk van de eerste te overschrijven. Dit concept werkt zo in Git zoals het ook werkt in Subversion (of ieder ander CVCS), en dit model werkt perfekt in Git.
+Dit betekent dat als twee ontwikkelaars clonen van het gecentraliseerde punt en beide wijzigingen doen, de eerste ontwikkelaar zijn wijzigingen terug kan zetten zonder problemen. De tweede ontwikkelaar zal het werk van de eerste in het zijne moeten samenvoegen voordat hij het zijne kan terugzetten, om zo niet het werk van de eerste te overschrijven. Dit concept werkt zo in Git zoals het ook werkt in Subversion (of ieder ander CVCS), en dit model werkt perfect in Git.
 
-Als je een klein team hebt, of al vertrouwd bent met een gecentraliseerde werkwijze in je bedrijf of team, dan kun je eenvoudig doorgaan met het gebruiken van die werkwijze met Git. Stel eenvoudigweg een enkel repository in, en geef iedereen in je team terugzet toegang; Git zal gebruikers niet toestaan om elkaar te overschrijven. Als een ontwikkelaar cloned, wijzigingen maakt, en dan probeert hun wijzigingen terug te zetten terwijl een andere ontwikkelaar de zijne in de tussentijd heeft teruggezet, dan zal de server de wijzigingen van die ontwikkelaar weigeren. Ze zullen worden gemeld dat ze non-fast-forward wijzigingen proberen terug te zetten en dat ze dat niet mogen totdat ze eerst fetchen en samenvoegen.
+Als je een klein team hebt, of al vertrouwd bent met een gecentraliseerde werkwijze in je bedrijf of team, dan kun je eenvoudig doorgaan met het gebruiken van die werkwijze met Git. Stel eenvoudigweg een enkel repository in, en geef iedereen in je team terugzettoegang; Git zal gebruikers niet toestaan om elkaars wijzigingen te overschrijven. Als een ontwikkelaar clonet, wijzigingen maakt, en dan probeert zijn wijzigingen terug te zetten terwijl een andere ontwikkelaar de zijne in de tussentijd heeft teruggezet, dan zal de server de wijzigingen van die ontwikkelaar weigeren. "Non-fast-forward-wijzigingen" kunnen niet teruggezet worden alvorens de conflicten worden opgelost.
 Deze werkwijze is voor een hoop mensen aantrekkelijk omdat het een wijze is waarmee veel mensen bekend zijn en zich op hun gemak bij voelen.
 
 ### Integratie-manager werkwijze ###
 
-Omdat Git je toestaat om meerdere remote repositories te hebben, is het mogelijk om een werkwijze te hebben waarbij iedere ontwikkelaar schrijftoegang heeft tot hun eigen publieke repository en leestoegang op de andere. Dit scenario heeft vaak een gezagdragend repository dat het "officiele" project voorsteld. Om bij te kunnen dragen op dat project, maak je je eigen publieke clone van het project en zet je wijzigingen daarin terug. Daarna stuur je een verzoek naar de eigenaar van het hoofdproject om jouw wijzigingen binnen te halen. Ze kunnen je repository toevoegen als een remote, je wijzigingen lokaal testen, ze in hun branch samenvoegen, en naar hun repository terugzetten. Het proces werkt als volgt (zie Figuur 5-2):
+Omdat Git je toestaat om meerdere remote repositories te hebben, is het mogelijk om een werkwijze te hebben waarbij iedere ontwikkelaar schrijftoegang heeft tot zijn eigen publieke repository en leestoegang op de andere. Dit scenario heeft vaak een gezagdragend repository dat het "officiele" project voorstelt. Om bij te kunnen dragen tot dat project, maak je je eigen publieke clone van het project en zet je wijzigingen daarin terug. Daarna stuur je een verzoek naar de eigenaar van het hoofdproject om jouw wijzigingen binnen te halen. Hij kan je repository toevoegen als een remote, je wijzigingen lokaal testen, ze in zijn branch samenvoegen, en naar zijn repository terugzetten. Het proces werkt als volgt (zie Figuur 5-2):
 
-1.	De project eigenaar zet terug naar zijn eigen repository.
-2.	Een bijdrager cloned dat repository en maakt wijzigingen.
+1.	De projecteigenaar zet terug naar zijn eigen repository.
+2.	Een bijdrager clonet dat repository en maakt wijzigingen.
 3.	De bijdrager zet terug naar zijn eigen publieke kopie.
 4.	De bijdrager stuurt de eigenaar een e-mail met de vraag om de wijzigingen binnen te halen.
 5.	De eigenaar voegt het repo van de bijdrager toe als een remote en voegt lokaal samen.
-6.	De eigenaar zet samengevoegde wijzigingen terug in het hoofd repository.
+6.	De eigenaar zet samengevoegde wijzigingen terug in het hoofdrepository.
 
 Insert 18333fig0502.png 
 Figuur 5-2. Integratie-manager werkwijze.
 
-Dit is een veel voorkomende werkwijze bij websites zoals GitHub, waarbij het eenvoudig is om een project af te splitsen en je wijzigingen terug te zetten in jouw afgesplitste project zodat iedereen ze kan zien. Een van de grote voordelen van deze aanpak is dat je door kunt gaan met werken, en de eigenaar van het hoofd repository jouw wijzigingen op ieder moment binnen kan halen. Bijdragers hoeven niet te wachten tot het project hun bijdragen invoegt – iedere partij kan op hun eigen tempo werken.
+Dit is een veel voorkomende werkwijze bij websites zoals GitHub, waarbij het eenvoudig is om een project af te splitsen en je wijzigingen terug te zetten in jouw afgesplitste project zodat iedereen ze kan zien. Een van de grote voordelen van deze aanpak is dat je door kunt gaan met werken, en de eigenaar van het hoofdrepository jouw wijzigingen op ieder moment binnen kan halen. Bijdragers hoeven niet te wachten tot het project hun bijdragen invoegt – iedere partij kan op hun eigen tempo werken.
 
 ### Dictator en luitenanten werkwijze ###
 
-Dit is een variant op de multi-repository werkwijze. Het wordt over het algemeen gebruikt bij enorme projecten met honderden bijdragers; een bekend voorbeeld is de Linux kernel. Een aantal integrators geven de leiding over bepaalde delen van het repository; zij worden luitenanten genoemd. Alle luitenanten hebben één integrator die bekend staat als de welwillende dictator. Het repository van de welwillende dictator dient als het referentie repository vanwaar alle bijdragers dienen binnen te halen. Het proces werkt als volgt (zie Figuur 5-3):
+Dit is een variant op de multi-repository werkwijze. Het wordt over het algemeen gebruikt bij enorme projecten met honderden bijdragers; een bekend voorbeeld is de Linux-kernel. Een aantal integrators geven de leiding over bepaalde delen van het repository; zij worden luitenanten genoemd. Alle luitenanten hebben één integrator die bekend staat als de welwillende dictator. Het repository van de welwillende dictator dient als het referentierepository vanwaar alle bijdragers dienen binnen te halen. Het proces werkt als volgt (zie Figuur 5-3):
 
 1.	Reguliere ontwikkelaars werken op hun eigen onderwerp branch en rebasen hun werk op de hoofdbranch. De hoofdbranch is die van de dictator.
-2.	Luitenanten voegen de onderwerp branches van de ontwikkelaars in hun hoofdbranch.
-3.	De dictator voegt de hoofdbranches van de luitenanten in de dictator hoofdbranch.
-4.	De dictator zet zijn hoofdbranch terug naar het referentie repository zodat de andere ontwikkelaars kunnen rebasen.
+2.	Luitenanten voegen de onderwerp branches van de ontwikkelaars samen in hun hoofdbranch.
+3.	De dictator voegt de hoofdbranches van de luitenanten samen in de "dictatorhoofdbranch".
+4.	De dictator zet zijn hoofdbranch terug naar het referentierepository zodat de andere ontwikkelaars kunnen rebasen.
 
 Insert 18333fig0503.png  
-Figuur 5-3. Welwillende dictator werkwijze.
+Figuur 5-3. Welwillende-dictatorwerkwijze.
 
 Deze manier van werken komt niet vaak voor, maar kan handig zijn in hele grote projecten of in zeer hierarchische omgevingen, omdat het de projectleider (de dictator) toestaat om het meeste werk te delegeren en grote subsets van code te verzamelen op meerdere punten alvorens ze te integreren.
 

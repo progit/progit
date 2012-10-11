@@ -335,7 +335,7 @@ If you want to run the web interface on a server all the time for your team or f
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
 	$ make GITWEB_PROJECTROOT="/opt/git" \
-	        prefix=/usr gitweb/gitweb.cgi
+	        prefix=/usr gitweb
 	$ sudo cp -Rf gitweb /var/www/
 
 Notice that you have to tell the command where to find your Git repositories with the `GITWEB_PROJECTROOT` variable. Now, you need to make Apache use CGI for that script, for which you can add a VirtualHost:

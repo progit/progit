@@ -444,8 +444,8 @@ First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the f
 
 The next time you check out this file, Git injects the SHA of the blob:
 
-	$ rm text.txt
-	$ git checkout -- text.txt
+	$ rm test.txt
+	$ git checkout -- test.txt
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 

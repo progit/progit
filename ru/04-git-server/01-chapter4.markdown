@@ -335,7 +335,7 @@ Insert 18333fig0401.png
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
 	$ make GITWEB_PROJECTROOT="/opt/git" \
-	        prefix=/usr gitweb/gitweb.cgi
+	        prefix=/usr gitweb
 	$ sudo cp -Rf gitweb /var/www/
 
 Помните, что вы должны указать команде, где расположены ваши репозитории Git с помощью переменной `GITWEB_PROJECTROOT`. Теперь вы должны настроить Apache на использование этого сценария, для чего вы можете добавить виртуальный хост:

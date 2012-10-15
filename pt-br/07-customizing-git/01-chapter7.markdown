@@ -1,25 +1,25 @@
-# Customizando Git #
+# Customizando o Git #
 
-Até agora, eu cobri o básico de como o Git funciona, como usá-lo e apresentei algumas de ferramentas que o Git provê para ajudá-lo a usá-lo facilmente e eficientemente. Neste capítulo, eu passarei por algumas operações que você pode usar para fazer operações com Git de uma maneira mais customizadas introduzindo vários configurações importantes e um sistemas de hooks. Com essa ferramentas, é fácil trabalhar com Git do seu jeito, do jeito da sua empresa ou do jeito de qualquer grupo que precise.
+Até agora, eu mostrei o básico de como o Git funciona, como usá-lo e apresentei algumas ferramentas que o Git provê para ajudar a usá-lo de forma fácil e eficiente. Neste capítulo, eu mostrarei algumas operações que você pode usar para fazer operações com o Git de uma maneira mais customizada, introduzindo várias configurações importantes e um sistemas de hooks. Com essas ferramentas, será fácil trabalhar com o Git da melhor forma para você, sua empresa ou qualquer grupo.
 
 ## Configuração do Git ##
 
-Como você viu brevemente no Capítulo 1, você pode configurações do Git com o comando `git config`. Umas das primeiras coisas que vocẽ fez foi configurar seu nome e endereço de email:
+Como você viu brevemente no Capítulo 1, você pode configurar o Git com o comando `git config`. Uma das primeiras coisas que você fez foi configurar seu nome e endereço de email:
 
     $ git config --global user.name "John Doe"
     $ git config --global user.email johndoe@example.com
 
-Agora você vai aprender algumas opções mais interessantes que você pode definir dessa maneira para customizar o seu uso do Git.
+Agora você vai aprender algumas opções mais interessantes que você pode definir dessa maneira para customizar o uso do Git.
 
-Você viu alguns detalhes simples de configuração do Git no primeiro capítulo, mas vou passar por eles de novo rapidamente. Git usa uma série de arquivos de configuração para determinar comportamento não-padrão que você pode querer utilizar. O primeiro lugar que o Git procura por estes valores é no arquivo `/etc/gitconfig`, que contém os valores para todos os usuários do sistema e todos os seus repositórios. Se você passar a opção `--system` para `git config`, ele lê e escreve a partir deste arquivo especificamente.
+Você viu alguns detalhes simples de configuração do Git no primeiro capítulo, mas vou passar por eles de novo rapidamente. Git usa uma série de arquivos de configuração para determinar comportamentos não-padrão que você pode querer utilizar. O primeiro lugar que o Git procura por estes valores é no arquivo `/etc/gitconfig`, que contém os valores para todos os usuários do sistema e todos os seus repositórios. Se você passar a opção `--system` para `git config`, ele lê e escreve a partir deste arquivo especificamente.
 
-O próximo lugar que o Git olha é o arquivo `~/.gitconfig`, que é específico para cada usuário. Você pode fazer o Git ler e escrever neste arquivo, passando a opção `--global`.
+O próximo lugar que o Git olha é no arquivo `~/.gitconfig`, que é específico para cada usuário. Você pode fazer o Git ler e escrever neste arquivo, passando a opção `--global`.
 
-Finalmente, Git procura por valores de configuração no arquivo de configuração no diretório Git (`.git/config`) de qualquer repositório que você esteja usando atualmente. Estes valores são específicos para esse repositório. Cada nível substitui valores no nível anterior, então, valores em `.git/config` sobrepõem valores em `/etc/sysconfig`. Você também pode definir esses valores manualmente, editando o arquivo e inserindo a sintaxe correta, mas é geralmente mais fácil executar o comando `git config`.
+Finalmente, Git procura por valores de configuração no arquivo de configuração no diretório Git (`.git/config`) de qualquer repositório que você esteja usando atualmente. Estes valores são específicos para esse repositório. Cada nível substitui valores no nível anterior, então, valores em `.git/config` sobrepõem valores em `/etc/sysconfig`. Você também pode definir esses valores manualmente, editando o arquivo e inserindo a sintaxe correta mas, é geralmente mais fácil executar o comando `git config`.
 
 ### Configuração Básica do Cliente ###
 
-As opções de configuração reconhecidas pelo Git se dividem em duas categorias: lado cliente e servidor. A maioria das opções são do lado cliente e utilizadas para configurar suas preferências pessoais de trabalho. Apesar de haverem muitas opções disponíveis, só cobrirei as que são comumente usadas ​​ou podem afetar significativamente o fluxo de trabalho. Muitas opções são úteis apenas em casos extremos que não mostraremos aqui. Se você quiser ver uma lista de todas as opções que a sua versão do Git reconhece, você pode executar
+As opções de configuração reconhecidas pelo Git se dividem em duas categorias: lado cliente e lado servidor. A maioria das opções são do lado cliente e utilizadas para configurar suas preferências pessoais de trabalho. Apesar de haverem muitas opções disponíveis, só cobrirei as que são comumente usadas ​​ou podem afetar significativamente o fluxo de trabalho. Muitas opções são úteis apenas em casos extremos que não mostraremos aqui. Se você quiser ver uma lista de todas as opções que a sua versão do Git reconhece, você pode executar
 
     $ git config --help
 
@@ -27,7 +27,7 @@ A página do manual do `git config` lista todas as opções disponíveis com um 
 
 #### core.editor ####
 
-Por padrão, o Git usa o editor de texto que você definiu como padrão ou então reverte para o editor Vi para criar e editar suas mensagens de commit e tags. Para alterar esse padrão, você pode usar a opção `core.editor`:
+Por padrão, o Git usa o editor de texto que você definiu como padrão no Shell ou então reverte para o editor Vi para criar e editar suas mensagens de commit e tags. Para alterar esse padrão, você pode usar a opção `core.editor`:
 
     $ git config --global core.editor emacs
 
@@ -89,7 +89,7 @@ Agora, você pode assinar tags sem ter de especificar a sua chave toda hora com 
 
 #### core.excludesfile ####
 
-Você pode colocar padrões em seu arquivo de projeto `.gitignore` para que o Git veja-os como arquivos untracked ou tentar coloca-los como stagged quando executar o `git add` sobre eles, como discutido no Capítulo 2. No entanto, se você quiser que outro arquivo fora do seu projeto mantenha esses valores ou tenham valores extras, você pode dizer ao Git onde o arquivo com a opção `core.excludesfile` esta. Basta configurá-lo para o caminho de um arquivo que tem conteúdo semelhante ao que um arquivo `.gitignore` teria.
+Você pode colocar padrões em seu arquivo de projeto `.gitignore` para que o Git veja-os como arquivos untracked ou tentar coloca-los como stagged quando executar o `git add` sobre eles, como discutido no Capítulo 2. No entanto, se você quiser que outro arquivo fora do seu projeto mantenha esses valores ou tenham valores extras, você pode dizer ao Git onde o arquivo com a opção `core.excludesfile` está. Basta configurá-lo para o caminho de um arquivo que tem conteúdo semelhante ao que um arquivo `.gitignore` teria.
 
 #### help.autocorrect ####
 
@@ -105,7 +105,7 @@ Se você definir `help.autocorrect` para 1, Git automaticamente executará o com
 
 ### Cores no Git ###
 
-Git pode colorir a sua saída para o terminal, que pode ajudá-lo visualmente a analisar a saída mais rápido e facilmente. Um número de opções pode ajudar a definir a colorização de sua preferência.
+Git pode colorir a sua saída para o terminal, o que pode ajudá-lo visualmente a analisar a saída mais rápido e facilmente. Um número de opções pode ajudar a definir a colorização de sua preferência.
 
 #### color.ui ####
 
@@ -119,7 +119,7 @@ Você dificilmente vai querer usar `color.ui = always`. Na maioria dos cenários
 
 #### `color.*` ####
 
-Se você quiser ser mais específico sobre quais comandos são colorizados e como, ou você tem uma versão mais antiga, Git oferece configurações específicas para colorir. Cada uma destas pode ser ajustada para `true`, `false`, ou `always`:
+Se você quiser ser mais específico sobre quais e como os comandos são colorizados, ou se você tem uma versão mais antiga do Git, o Git oferece configurações específicas para colorir. Cada uma destas pode ser ajustada para `true`, `false`, ou `always`:
 
     color.branch
     color.diff
@@ -132,13 +132,13 @@ Além disso, cada uma delas tem sub-opções que você pode usar para definir co
 
 Você pode definir a cor para qualquer um dos seguintes valores: normal, black, red, green, yellow, blue, magenta, cyan, ou white. Se você quiser um atributo como negrito no exemplo anterior, você pode escolher entre bold, dim, ul, blink, e reverse.
 
-Veja a página de manual (manpage) do `git config` para saber todos as sub-opções que você pode configurar.
+Veja a página de manual (manpage) do `git config` para saber todas as sub-opções que você pode configurar.
 
 ### Ferramenta Externa de Merge e Diff ###
 
 Embora o Git tenha uma implementação interna do diff, que é o que você estava usando, você pode configurar uma ferramenta externa. Você pode configurar uma ferramenta gráfica de merge para resolução de conflitos, em vez de ter de resolver conflitos manualmente. Vou demonstrar a configuração do Perforce Visual Merge Tool (P4Merge) para fazer suas diffs e fazer merge de resoluções, porque é uma boa ferramenta gráfica e é gratuita.
 
-Se você quiser experimentar, P4Merge funciona em todas as principais plataformas, então você deve ser capaz de fazê-lo. Vou usar nomes de caminho nos exemplos que funcionam em sistemas Mac e Linux; para Windows, você vai ter que mudar `/usr/local/bin` para um caminho executável em seu ambiente.
+Se você quiser experimentar, P4Merge funciona em todas as principais plataformas, então você deve ser capaz de usá-lo. Vou usar nomes de caminho nos exemplos que funcionam em sistemas Mac e Linux; para Windows, você vai ter que mudar `/usr/local/bin` para um caminho executável em seu ambiente.
 
 Você pode baixar P4Merge aqui:
 
@@ -165,7 +165,7 @@ Você também precisa ter certeza de que essas ferramentas são executáveis:
     $ sudo chmod +x /usr/local/bin/extMerge
     $ sudo chmod +x /usr/local/bin/extDiff
 
-Agora você pode configurar o arquivo de configuração para usar o sua ferramenta de diff customizada. Existem algumas configurações personalizadas: `merge.tool` para dizer ao Git qual a estratégia a utilizar, `mergetool.*.cmd` para especificar como executar o comando, `mergetool.trustExitCode` para dizer ao Git se o código de saída do programa indica uma resolução de merge com sucesso ou não, e `diff.external` para dizer ao Git o comando a ser executado para diffs. Assim, você pode executar quatro comandos de configuração
+Agora você pode configurar o arquivo de configuração para usar a sua ferramenta de diff customizada. Existem algumas configurações personalizadas: `merge.tool` para dizer ao Git qual a estratégia a utilizar, `mergetool.*.cmd` para especificar como executar o comando, `mergetool.trustExitCode` para dizer ao Git se o código de saída do programa indica uma resolução de merge com sucesso ou não, e `diff.external` para dizer ao Git o comando a ser executado para diffs. Assim, você pode executar quatro comandos de configuração
 
     $ git config --global merge.tool extMerge
     $ git config --global mergetool.extMerge.cmd \
@@ -202,7 +202,7 @@ A coisa boa sobre esta configuração é que você pode mudar o seu diff e ferra
 
 Agora, o Git irá utilizar a ferramenta KDiff3 para visualizar diffs e resolução de conflitos de merge.
 
-Git vem pré-configurado para usar uma série de outras ferramentas de resolução de merge sem ter que definir a configuração cmd. Você pode definir a sua ferramenta de mesclagem para kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, ou gvimdiff. Se você não estiver interessado em usar o KDiff3 para diff mas quer usá-lo apenas para a resolução de merges, e o comando kdiff3 está no seu path, então você pode executar
+O Git vem pré-configurado para usar uma série de outras ferramentas de resolução de merge sem ter que definir a configuração cmd. Você pode definir a sua ferramenta de mesclagem para kdiff3, opendiff, tkdiff, meld, xxdiff, emerge, vimdiff, ou gvimdiff. Se você não estiver interessado em usar o KDiff3 para diff mas quer usá-lo apenas para a resolução de merges, e o comando kdiff3 está no seu path, então você pode executar
 
     $ git config --global merge.tool kdiff3
 
@@ -214,13 +214,13 @@ Formatação e problemas de espaço em branco são alguns dos problemas mais fru
 
 #### core.autocrlf ####
 
-Se você está programando no Windows ou outro sistema, mas trabalha com pessoas que estão de programando em Windows, você provavelmente vai encontrar problemas de quebra de linha em algum momento. Isso porque o Windows usa tanto o caráter carriage-return e um carácter linefeed para novas linhas em seus arquivos, enquanto os sistemas Mac e Linux usam apenas o carácter linefeed. Este é um fato sutil, mas extremamente irritante em trabalhos multi-plataforma.
+Se você está programando no Windows ou outro sistema, mas trabalha com pessoas que estão programando em Windows, você provavelmente vai encontrar problemas de quebra de linha em algum momento. Isso porque o Windows usa tanto o caráter carriage-return e um carácter linefeed para novas linhas em seus arquivos, enquanto os sistemas Mac e Linux usam apenas o carácter linefeed. Este é um fato sutil, mas extremamente irritante em trabalhos multi-plataforma.
 
-Git pode lidar com isso auto-convertendo finais de linha CRLF para LF quando você faz um commit, e vice-versa, quando se faz um check out de código em seu sistema de arquivos. Você pode ativar esta funcionalidade com a configuração `core.autocrlf`. Se você estiver em uma máquina Windows, defina-o `true` — este converte terminações LF em CRLF quando você fazer um check out do código:
+O Git pode lidar com isso auto-convertendo finais de linha CRLF para LF quando você faz um commit, e vice-versa, quando se faz um checkout de código em seu sistema de arquivos. Você pode ativar esta funcionalidade com a configuração `core.autocrlf`. Se você estiver em uma máquina Windows, defina-o `true` — este converte terminações LF em CRLF quando você faz um checkout do código:
 
     $ git config --global core.autocrlf true
 
-Se você estiver em um sistema Linux ou Mac que usa os finais de linha LF, então você não quer que o Git automaticamente converta-os quando você fizer o check-out dos arquivos, no entanto, se um arquivo com terminações CRLF acidentalmente for introduzido, então você pode querer que o Git corrija-o. Você pode dizer ao Git para converter CRLF para LF no commit, mas não o contrário definindo `core.autocrlf` para entrada:
+Se você estiver em um sistema Linux ou Mac que usam os finais de linha LF, então você não irá querer que o Git automaticamente converta-os quando você fizer o check-out dos arquivos, no entanto, se um arquivo com terminações CRLF acidentalmente for introduzido, então você pode querer que o Git corrija-o. Você pode dizer ao Git para converter CRLF para LF no commit, mas não o contrário definindo `core.autocrlf` para entrada:
 
     $ git config --global core.autocrlf input
 
@@ -232,7 +232,7 @@ Se você é um programador Windows fazendo um projeto somente para Windows, ent�
 
 #### core.whitespace ####
 
-Git vem pré-configurado para detectar e corrigir alguns problemas de espaço em branco. Ele pode olhar por quatro problemas principais relacionados a espaços em branco — duas são ativadas por padrão e podem ser desativadas, e duas não são ativadas por padrão, mas pode ser ativadas.
+Git vem pré-configurado para detectar e corrigir alguns problemas de espaço em branco. Ele pode olhar por quatro problemas principais relacionados a espaços em branco — duas são ativadas por padrão e podem ser desativadas, e duas não são ativadas por padrão, mas podem ser ativadas.
 
 As duas que são ativadas por padrão são `trailing-space`, que procura por espaços no final de uma linha, e `space-before-tab`, que procura por espaços antes de tabulações no início de uma linha.
 
@@ -263,19 +263,17 @@ Por padrão, o Git não verifica a consistência de todos os objetos que ele rec
 
     $ git config --system receive.fsckObjects true
 
-Agora, o Git irá verificar a integridade do seu repositório antes que cada push seja aceito para garantir que os clientes defeituosos não estejam introduzindo dados corrompidos.
+Agora, o Git irá verificar a integridade do seu repositório antes que cada push seja aceito para garantir que clientes defeituosos não estejam introduzindo dados corrompidos.
 
 #### receive.denyNonFastForwards ####
 
-Se você fizer o rebase de commits que você já fez o push e então tentar fazer outro push, ou tentar fazer um push de um commit para um branch remoto que não contenha o commit que o branch remoto atualmente aponta, você vai ser negado. Isso geralmente é uma boa política; mas, no caso do rebase, você pode determinar que você saiba o que está fazendo e pode forçar a atualização do branch remoto com um `-f` no seu comando push.
-
-To disable the ability to force-update remote branches to non-fast-forward references, set `receive.denyNonFastForwards`:
+Se você fizer o rebase de commits já enviados com push e então tentar fazer outro push, ou tentar fazer um push de um commit para um branch remoto que não contenha o commit que o branch remoto atualmente aponta, sua ação será negada. Isso geralmente é uma boa política; mas, no caso do rebase, você pode determinar que você saiba o que está fazendo e pode forçar a atualização do branch remoto com um `-f` no seu comando push.
 
 Para desativar a capacidade de forçar updates em branches remotos para referências não fast-forward, defina `receive.denyNonFastForwards`:
 
     $ git config --system receive.denyNonFastForwards true
 
-A outra maneira que você pode fazer isso é através dos hooks em lado servidor, que eu vou falar um pouco. Essa abordagem permite que você faça coisas mais complexas como negar não fast-forwards para um determinado conjunto de usuários.
+A outra forma de fazer isso é através dos hooks em lado servidor, que eu vou falar daqui a pouco. Essa abordagem permite que você faça coisas mais complexas como negar não fast-forwards para um determinado conjunto de usuários.
 
 #### receive.denyDeletes ####
 
@@ -283,17 +281,17 @@ Uma das soluções para a política `denyNonFastForwards` é o usuário excluir 
 
     $ git config --system receive.denyDeletes true
 
-Isto nega exclusão de branchs e tags em um push — nenhum usuário pode fazê-lo. Para remover branches remotas, você deve remover os arquivos ref do servidor manualmente. Existem também formas mais interessantes para fazer isso por usuário através de ACLs, como você vai aprender no final deste capítulo.
+Isto nega exclusão de branchs e tags em um push — nenhum usuário pode fazê-lo. Para remover branches remotas, você deve remover os arquivos ref do servidor manualmente. Existem também formas mais interessantes de fazer isso de acordo com o usuário através de ACLs, como você vai aprender no final deste capítulo.
 
 ## Atributos Git ##
 
-Algumas dessas configurações também podem ser especificadas para um path, de modo que o Git aplique essas configurações só para um subdiretório ou conjunto de arquivos. Essas configurações de path específicas são chamadas atributos Git e são definidas em um arquivo `.gitattribute` ou em um de seus diretórios (normalmente a raiz de seu projeto) ou no arquivo `.git/info/attributes` se você não deseja que o arquivo de atributos seja commitado com o seu projeto.
+Algumas dessas configurações também podem ser especificadas para um path, de modo que o Git aplique essas configurações só para um subdiretório ou conjunto de arquivos. Essas configurações de path específicas são chamadas atributos Git e são definidas em um arquivo `.gitattribute` ou em um de seus diretórios (normalmente a raiz de seu projeto) ou no arquivo `.git/info/attributes` se você não desejar que o arquivo de atributos seja commitado com o seu projeto.
 
-Usando atributos, você pode fazer coisas como especificar estratégias de merge separadas para arquivos individuais ou pastas no seu projeto, dizer ao Git como fazer diff de arquivos não textuais, ou mandar o Git filtrar conteúdo antes de fazer o checkout para dentro ou fora do Git. Nesta seção, você vai aprender sobre alguns dos atributos que podem ser configurados em seus paths em seu projeto Git e ver alguns exemplos de como usar esse recurso na prática.
+Usando atributos, você pode fazer coisas como especificar estratégias de merge separadas para arquivos individuais ou pastas no seu projeto, dizer ao Git como fazer diff de arquivos não textuais, ou mandar o Git filtrar conteúdos antes de fazer o checkout para dentro ou fora do Git. Nesta seção, você vai aprender sobre alguns dos atributos que podem ser configurados em seus paths de seu projeto Git e ver alguns exemplos de como usar esse recurso na prática.
 
 ### Arquivos Binários ###
 
-Um truque legal para o qual você pode usar atributos Git é dizendo ao Git quais arquivos são binários (em casos que de outra forma ele não pode ser capaz de descobrir) e dando ao Git instruções especiais sobre como lidar com esses arquivos. Por exemplo, alguns arquivos de texto podem ser gerados por máquina e não é possível usar diff neles, enquanto que em alguns arquivos binários pode ser ser usado o diff — você verá como dizer ao Git qual é qual.
+Um truque legal para o qual você pode usar atributos Git é dizendo ao Git quais arquivos são binários (em casos que de outra forma ele não pode ser capaz de descobrir) e dando ao Git instruções especiais sobre como lidar com esses arquivos. Por exemplo, alguns arquivos de texto podem ser gerados por máquina e não é possível usar diff neles, enquanto que em alguns arquivos binários pode ser usado o diff — você verá como dizer ao Git qual é qual.
 
 #### Identificando Arquivos Binários ####
 
@@ -311,14 +309,14 @@ Agora, o Git não vai tentar converter ou corrigir problemas CRLF; nem vai tenta
 
 Na série 1.6 do Git, você pode usar a funcionalidade de atributos do Git para fazer diff de arquivos binários. Você faz isso dizendo ao Git como converter os dados binários em um formato de texto que pode ser comparado através do diff normal.
 
-Como este é um recurso muito legal e não muito conhecido, eu vou mostrar alguns exemplos. Primeiro, você vai usar esta técnica para resolver um dos problemas mais irritantes conhecidos pela humanidade: controlar a versão de documentos Word. Todo mundo sabe que o Word é o editor mais horrível que existe, mas, estranhamente, todo mundo o usa. Se você quiser o controle de versão de documentos do Word, você pode colocá-los em um repositório Git e fazer um commit de vez em quando; mas o que de bom tem isso? Se você executar `git diff` normalmente, você só verá algo como isto:
+Como este é um recurso muito legal e não muito conhecido, eu vou mostrar alguns exemplos. Primeiro, você vai usar esta técnica para resolver um dos problemas mais irritantes conhecidos pela humanidade: controlar a versão de documentos Word. Todo mundo sabe que o Word é o editor mais horrível que existe, mas, estranhamente, todo mundo o usa. Se você quiser controlar a versão de documentos do Word, você pode colocá-los em um repositório Git e fazer um commit de vez em quando; mas o que de bom tem isso? Se você executar `git diff` normalmente, você só verá algo como isto:
 
     $ git diff
     diff --git a/chapter1.doc b/chapter1.doc
     index 88839c4..4afcb7c 100644
     Binary files a/chapter1.doc and b/chapter1.doc differ
 
-Você não pode comparar diretamente duas versões, a menos que você verifique-as manualmente, certo? Acontece que você pode fazer isso muito bem usando atributos Git. Coloque a seguinte linha no arquivo de seu arquivo `.gitattributes`:
+Você não pode comparar diretamente duas versões, a menos que você verifique-as manualmente, certo? Acontece que você pode fazer isso muito bem usando atributos Git. Coloque a seguinte linha no seu arquivo `.gitattributes`:
 
     *.doc diff=word
 
@@ -375,7 +373,7 @@ Você pode facilmente ver que o tamanho do arquivo e as dimensões da imagem sof
 
 ### Expansão de Palavra-chave ###
 
-Expansão de Palavra-chave no estilo SVN ou CVS são frequentemente solicitados pelos desenvolvedores acostumados com estes sistemas. O principal problema disso no Git é que você não pode modificar um arquivo com informações sobre o commit depois que você já fez o commit, porque o Git cria os checksums do arquivo primeiro. No entanto, você pode injetar texto em um arquivo quando é feito o checkout dele e removê-lo novamente antes de ser adicionado a um commit. Atributos Git oferecem duas maneiras de fazer isso.
+Expansão de Palavra-chave no estilo SVN ou CVS são frequentemente solicitados pelos desenvolvedores acostumados com estes sistemas. O principal problema disso no Git é que você não pode modificar um arquivo com informações sobre o commit depois que você já fez o commit, porque o Git cria os checksums dos arquivos primeiro. No entanto, você pode injetar texto em um arquivo quando é feito o checkout dele e removê-lo novamente antes de ser adicionado a um commit. Atributos Git oferecem duas maneiras de fazer isso.
 
 Primeiro, você pode injetar o SHA-1 checksum de um blob em um campo `$Id$` no arquivo automaticamente. Se você definir esse atributo em um arquivo ou conjunto de arquivos, então da próxima vez que você fizer o checkout do branch, o Git irá substituir o campo com o SHA-1 do blob. É importante notar que não é o SHA do commit, mas do blob em si:
 
@@ -389,7 +387,7 @@ Da próxima vez que você fizer o checkout desse arquivo, o Git injetará o SHA 
     $ cat test.txt
     $Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-No entanto, este resultado é de uso limitado. Se você já usou a substituição de palavras em CVS ou Subversion, você pode incluir uma datestamp — o SHA não lá muito útil, porque é bastante aleatório e você não pode dizer se um SHA é mais velho ou mais novo que o outro.
+No entanto, este resultado é de uso limitado. Se você já usou a substituição de palavras em CVS ou Subversion, você pode incluir uma datestamp — o SHA não é lá muito útil, porque é bastante aleatório e você não pode dizer se um SHA é mais velho ou mais novo que o outro.
 
 Acontece que você pode escrever seus próprios filtros para fazer substituições em arquivos no commit/checkout. Estes são os filtros "clean" e "smudge". No arquivo `.gitattributes`, você pode definir um filtro para determinados paths e configurar os scripts que irão processar os arquivos antes que eles sejam commitados ("clean", ver Figura 7-2) e pouco antes do check-out ("smudge", veja a Figura 7-3). Estes filtros podem ser configurados para fazer todo tipo de coisas divertidas.
 
@@ -403,7 +401,7 @@ A mensagem original do commit para esta funcionalidade dá um exemplo simples de
 
     *.c     filter=indent
 
-Então, diga ao Git que o filtro "indent" faz em smudge e clean:
+Então, diga ao Git o que o filtro "indent" faz em smudge e clean:
 
     $ git config --global filter.indent.clean indent
     $ git config --global filter.indent.smudge cat
@@ -422,7 +420,7 @@ Tudo o que o script faz é obter a última data de commit do comando `git log`, 
     $ git config filter.dater.smudge expand_date
     $ git config filter.dater.clean 'perl -pe "s/\\\$Date[^\\\$]*\\\$/\\\$Date\\\$/"'
 
-Este trecho Perl retira qualquer coisa que vê em uma string `$Date$`, para voltar para onde você começou. Agora que o seu filtro está pronto, você pode testá-lo através da criação de um arquivo com o sua palavra-chave `$Date$` e então a criar um atributo Git para esse arquivo que envolve o novo filtro:
+Este trecho Perl retira qualquer coisa que vê em uma string `$Date$`, para voltar para onde você começou. Agora que o seu filtro está pronto, você pode testá-lo através da criação de um arquivo com a sua palavra-chave `$Date$` e então criar um atributo Git para esse arquivo que envolve o novo filtro:
 
     $ echo '# $Date$' > date_test.txt
     $ echo 'date*.txt filter=dater' >> .gitattributes
@@ -461,7 +459,7 @@ Outra coisa que você pode fazer para seus arquivos é uma simples substituiçã
     $ git add LAST_COMMIT .gitattributes
     $ git commit -am 'adding LAST_COMMIT file for archives'
 
-Quando você executar `git archive`, o conteúdo do arquivo que quando aberto será parecido com este:
+Quando você executar `git archive`, o conteúdo do arquivo quando aberto será parecido com este:
 
     $ cat LAST_COMMIT
     Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
@@ -470,7 +468,7 @@ Quando você executar `git archive`, o conteúdo do arquivo que quando aberto se
 
 Você também pode usar atributos Git para dizer ao Git para utilizar estratégias diferentes para mesclar arquivos específicos em seu projeto. Uma opção muito útil é dizer ao Git para não tentar mesclar arquivos específicos quando eles têm conflitos, mas sim para usar o seu lado do merge ao invés do da outra pessoa.
 
-Isso é útil se um branch em seu projeto divergiu ou é especializado, mas você quer ser capaz de fazer o merge de alterações de volta a partir dele, e você deseja ignorar determinados arquivos. Digamos que você tenha arquivo de configurações de banco de dados chamado database.xml que é diferente em dois branches, e você deseja mesclar em seu outro branch sem bagunçar o arquivo de banco de dados. Você pode configurar um atributo como este:
+Isso é útil se um branch em seu projeto divergiu ou é especializado, mas você quer ser capaz de fazer o merge de alterações de volta a partir dele, e você deseja ignorar determinados arquivos. Digamos que você tenha um arquivo de configurações de banco de dados chamado database.xml que é diferente em dois branches, e você deseja mesclar em seu outro branch sem bagunçar o arquivo de banco de dados. Você pode configurar um atributo como este:
 
     database.xml merge=ours
 
@@ -484,11 +482,11 @@ Neste caso, database.xml fica em qualquer versão que você tinha originalmente.
 
 ## Hooks do Git ##
 
-Como muitos outros sistemas de controle de versão, Git tem uma maneira para disparar scripts personalizados quando certas ações importantes ocorrerem. Existem dois grupos desses hooks: lado cliente e lado servidor. Os hooks do lado do cliente são para operações do cliente, tais como commit e merge. Os hooks do lado do servidor são para operações de servidor, como recebimento de um push. Você pode usar estes hooks para todo tipo de coisa, e você vai aprender sobre alguns deles aqui.
+Como muitos outros sistemas de controle de versão, Git tem uma maneira para disparar scripts personalizados quando certas ações importantes ocorrerem. Existem dois grupos desses hooks: lado cliente e lado servidor. Os hooks do lado cliente são para operações do cliente, tais como commit e merge. Os hooks do lado servidor são para operações de servidor, como recebimento de um push. Você pode usar estes hooks para todo tipo de coisa, e você vai aprender sobre alguns deles aqui.
 
 ### Instalando um Hook ###
 
-Os hooks são todos armazenados no subdiretório `hooks` do diretório Git. Na maioria dos projetos, é em `.git/hooks`. Por padrão, o Git preenche este diretório com um monte de scripts de exemplo, muitos dos quais são úteis por si só, mas eles também documentam os valores de entrada de cada script. Todos os exemplos são escritos como shell scripts, com um pouco de Perl, mas todos os scripts executáveis ​​devidamente nomeados irão funcionar bem — você pode escrevê-los em Ruby ou Python ou o que você quiser. Para as versões do Git superiores a 1.6, esses hooks de exemplo terminam com .sample; você precisa renomeá-los. Para versões anteriores a 1.6 do Git, os arquivos de exemplo são nomeados corretamente, mas não são executáveis.
+Os hooks são todos armazenados no subdiretório `hooks` do diretório Git. Na maioria dos projetos, é em `.git/hooks`. Por padrão, o Git preenche este diretório com um monte de scripts de exemplo, muitos dos quais são úteis por si só, mas eles também documentam os valores de entrada de cada script. Todos os exemplos são escritos como shell scripts, com um pouco de Perl, mas todos os scripts executáveis ​​devidamente nomeados irão funcionar bem — você pode escrevê-los em Ruby ou Python ou em que você quiser. Para as versões do Git superiores a 1.6, esses hooks de exemplo terminam com .sample; você precisa renomeá-los. Para versões anteriores a 1.6 do Git, os arquivos de exemplo são nomeados corretamente, mas não são executáveis.
 
 Para ativar um script de hook, coloque um arquivo no subdiretório `hooks` do seu diretório Git que é nomeado de forma adequada e é executável. A partir desse ponto, ele deve ser chamado. Eu vou cobrir a maior parte dos nomes dos arquivos de hook importantes aqui.
 
@@ -500,13 +498,13 @@ Há um monte de hooks do lado do cliente. Esta seção divide eles em committing
 
 Os primeiros quatro hooks têm a ver com o processo de commit. O hook `pre-commit` é executado primeiro, antes mesmo de digitar uma mensagem de confirmação. É usado para inspecionar o snapshot que está prestes a ser commitado, para ver se você se esqueceu de alguma coisa, para ter certeza que os testes rodem, ou para analisar o que você precisa inspecionar no código. Retornando um valor diferente de zero a partir deste hook aborta o commit, mas você pode ignorá-lo com `git commit --no-verify`. Você pode fazer coisas como checar o estilo do código (executar lint ou algo equivalente), verificar o espaço em branco (o hook padrão faz exatamente isso), ou verificar a documentação apropriada sobre novos métodos.
 
-O hook `prepare-commit-msg` é executado antes que o editor de mensagem de commit seja iniciado, mas depois que a mensagem padrão é criada. Ele permite que você edite a mensagem padrão antes que autor do commit a veja. Este hook tem algumas opções: o caminho para o arquivo que contém a mensagem de confirmação até agora, o tipo de commit, e o SHA-1 do commit se este é um commit amended. Este hook geralmente não é útil para o commit normal, mas sim, para commits onde a mensagem padrão é gerada automaticamente, tal como um template de mensagem de commit, commits de merge, squashed commits, e amended commits. Você pode usá-lo em conjunto com um modelo de commit para inserir informações programaticamente.
+O hook `prepare-commit-msg` é executado antes que o editor de mensagem de commit seja iniciado, mas depois que a mensagem padrão seja criada. Ele permite que você edite a mensagem padrão antes que autor do commit a veja. Este hook tem algumas opções: o caminho para o arquivo que contém a mensagem de confirmação até agora, o tipo de commit, e o SHA-1 do commit se este é um commit amended. Este hook geralmente não é útil para o commit normal, mas sim, para commits onde a mensagem padrão é gerada automaticamente, tal como um template de mensagem de commit, commits de merge, squashed commits, e amended commits. Você pode usá-lo em conjunto com um modelo de commit para inserir informações programaticamente.
 
 O hook `commit-msg` tem um parâmetro, que novamente, é o caminho para um arquivo temporário que contém a mensagem atual de commit. Se este script não retornar zero, Git aborta o processo de commit, de modo que você pode usá-lo para validar o seu estado de projeto ou mensagem de commit antes de permitir que um commit prossiga. Na última seção deste capítulo, vou demonstrar usando este hook como verificar se a sua mensagem de commit está em conformidade com um padrão desejado.
 
 Depois que todo o processo de commit esteja concluído, o hook `post-commit` é executado. Ele não recebe nenhum parâmetro, mas você pode facilmente obter o último commit executando `git log -1 HEAD`. Geralmente, esse script é usado para notificação ou algo similar.
 
-Os scripts committing-workflow do lado cliente podem ser usados ​​em praticamente qualquer fluxo de trabalho. Eles são muitas vezes utilizados para reforçar certas políticas, embora seja importante notar que estes scripts não são transferidos durante um clone. Você pode aplicar a política do lado do servidor para rejeitar um push de um commit que não corresponda a alguma política, mas é inteiramente de responsabilidade do desenvolvedor usar esses scripts no lado cliente. Portanto, estes são scripts para ajudar os desenvolvedores, e eles devem ser criados e mantidos por eles, embora eles possam ser substituídos ou modificados por eles a qualquer momento.
+Os scripts committing-workflow do lado cliente podem ser usados ​​em praticamente qualquer fluxo de trabalho. Eles são muitas vezes utilizados para reforçar certas políticas, embora seja importante notar que estes scripts não são transferidos durante um clone. Você pode aplicar a política do lado servidor para rejeitar um push de um commit que não corresponda a alguma política, mas é inteiramente de responsabilidade do desenvolvedor usar esses scripts no lado cliente. Portanto, estes são scripts para ajudar os desenvolvedores, e eles devem ser criados e mantidos por eles, embora eles possam ser substituídos ou modificados por eles a qualquer momento.
 
 #### E-mail Workflow Hooks ####
 
@@ -524,31 +522,31 @@ O hook `pre-rebase` é executado antes de um rebase e pode interromper o process
 
 Depois de executar um `git checkout` com sucesso, o hook `post-checkout` é executado, você pode usá-lo para configurar o diretório de trabalho adequadamente para o seu ambiente de projeto. Isso pode significar mover arquivos binários grandes que você não quer controlar a versão, documentação auto-gerada, ou algo parecido.
 
-Finalmente, o hook `post-merge` roda depois de um `merge` executado com sucesso. Você pode usá-lo para restaurar dados na árvore de trabalho que o GIT não pode rastrear, como dados de permissões. Este hook pode igualmente validar a presença de arquivos externos ao controle do Git que você pode querer copiado quando a árvore de trabalho mude.
+Finalmente, o hook `post-merge` roda depois de um `merge` executado com sucesso. Você pode usá-lo para restaurar dados na árvore de trabalho que o GIT não pode rastrear, como dados de permissões. Este hook pode igualmente validar a presença de arquivos externos ao controle do Git que você pode querer copiado quando a árvore de trabalho mudar.
 
 ### Hooks do Lado Servidor ###
 
-Além dos Hooks do lado do cliente, você pode usar alguns hooks importantes do lado do servidor como administrador do sistema para aplicar quase qualquer tipo de política para o seu projeto. Esses scripts são executados antes e depois um push para o servidor. Os "pre hooks" podem retornar valor diferente de zero em qualquer momento para rejeitar um push, assim como imprimir uma mensagem de erro para o cliente, você pode configurar uma política de push tão complexa quanto você queira.
+Além dos Hooks do lado do cliente, você pode usar alguns hooks importantes do lado servidor como administrador do sistema para aplicar quase qualquer tipo de política para o seu projeto. Esses scripts são executados antes e depois um push para o servidor. Os "pre hooks" podem retornar valor diferente de zero em qualquer momento para rejeitar um push, assim como imprimir uma mensagem de erro para o cliente, você pode configurar uma política de push tão complexa quanto você queira.
 
 #### pre-receive e post-receive ####
 
-O primeiro script a ser executado ao tratar um push de um cliente é o `pre-receive`. É preciso uma lista de referências que estão no push a partir do stdin; se ele não retornar zero, nenhum deles são aceitos. Você pode usar esse hook para fazer coisas como verificar se nenhuma das referências atualizadas não são fast-forwards; ou para verificar se o usuário está fazendo o push tem acesso para criar, apagar, ou fazer push de atualizações para todos os arquivos que ele está modificando com o push.
+O primeiro script a ser executado ao tratar um push de um cliente é o `pre-receive`. É preciso uma lista de referências que estão no push a partir do stdin; se ele não retornar zero, nenhum deles são aceitos. Você pode usar esse hook para fazer coisas como verificar se nenhuma das referências atualizadas não são fast-forwards; ou para verificar se o usuário que está fazendo o push tem acesso para criar, apagar, ou fazer push de atualizações para todos os arquivos que ele está modificando com o push.
 
 O hook `post-receive` roda depois que todo o processo esteja concluído e pode ser usado para atualizar outros serviços ou notificar os usuários. Ele recebe os mesmos dados do stdin que o hook `pre-receive`. Exemplos incluem envio de e-mails, notificar um servidor de integração contínua, ou atualização de um sistema de ticket-tracking — você pode até analisar as mensagens de confirmação para ver se algum ticket precisa ser aberto, modificado ou fechado. Este script não pode parar o processo de push, mas o cliente não se disconecta até que tenha concluído; por isso, tenha cuidado quando você tentar fazer algo que possa levar muito tempo.
 
 #### update ####
 
-O script update é muito semelhante ao script `pre-receive`, exceto que ele é executado uma vez para cada branch o usuário está tentando atualizar. Se o usuário está tentando fazer um push para vários branchs, `pre-receive` é executado apenas uma vez, enquanto que update é executado uma vez por branch do push. Em vez de ler do stdin, este script recebe três argumentos: o nome da referência (branch), o SHA-1, que apontava para a referência antes do push, e o SHA-1 do push que o usuário está tentando fazer. Se o script update retornar um valor diferente de zero, apenas a referência é rejeitada; outras referências ainda podem ser atualizadas.
+O script update é muito semelhante ao script `pre-receive`, exceto que ele é executado uma vez para cada branch que o usuário está tentando atualizar. Se o usuário está tentando fazer um push para vários branchs, `pre-receive` é executado apenas uma vez, enquanto que update é executado uma vez por branch do push. Em vez de ler do stdin, este script recebe três argumentos: o nome da referência (branch), o SHA-1, que apontava para a referência antes do push, e o SHA-1 do push que o usuário está tentando fazer. Se o script update retornar um valor diferente de zero, apenas a referência é rejeitada; outras referências ainda podem ser atualizadas.
 
 ## Um exemplo de Política Git Forçada ##
 
-Nesta seção, você vai usar o que aprendeu para estabelecer um fluxo de trabalho Git que verifica um formato de mensagem personalizado para commit, e força o uso apenas de push fast-forward, e permite que apenas alguns usuários possam modificar determinados subdiretórios em um projeto. Você vai construir scripts clientes que ajudam o desenvolvedor saber se seu push será rejeitado e scripts de servidor que, fazem valer as políticas.
+Nesta seção, você vai usar o que aprendeu para estabelecer um fluxo de trabalho Git que verifica um formato de mensagem personalizado para commit, e força o uso apenas de push fast-forward, e permite que apenas alguns usuários possam modificar determinados subdiretórios em um projeto. Você vai construir scripts cliente que ajudam ao desenvolvedor saber se seu push será rejeitado e scripts de servidor que fazem valer as políticas.
 
 Eu usei Ruby para escrever estes, isso porque é a minha linguagem de script preferida e porque eu sinto que é a linguagem de script que mais parece com pseudocódigo; assim você deve ser capaz de seguir o código, mesmo que você não use Ruby. No entanto, qualquer linguagem funcionará bem. Todos os exemplos de scripts de hooks distribuídos com o Git são feitos em Perl ou Bash, então você também pode ver vários exemplos de hooks nessas linguagens olhando os exemplos.
 
 ### Hook do Lado Servidor ###
 
-Todo o trabalho do lado do servidor irá para o arquivo update no seu diretório de hooks. O arquivo update é executado uma vez por branch de cada push e leva a referência do push para a revisão antiga onde o branch estava, e a nova revisão do push. Você também terá acesso ao usuário que está realizando o push, se o push está sendo executado através de SSH. Se você permitiu que todos se conectem com um único usuário (como "git"), através de autenticação de chave pública, você pode ter que dar ao usuário um "shell wrapper" que determina qual usuário está se conectando com base na chave pública, e definir uma variável de ambiente especificando o usuário. Aqui eu assumo que o usuário de conexão está na variável de ambiente `$USER`, então, seu script de atualização começa reunindo todas as informações que você precisa:
+Todo o trabalho do lado servidor irá para o arquivo update no seu diretório de hooks. O arquivo update é executado uma vez por branch de cada push e leva a referência do push para a revisão antiga onde o branch estava, e a nova revisão do push. Você também terá acesso ao usuário que está realizando o push, se o push está sendo executado através de SSH. Se você permitiu que todos se conectem com um único usuário (como "git"), através de autenticação de chave pública, você pode ter que dar ao usuário um "shell wrapper" que determina qual usuário está se conectando com base na chave pública, e definir uma variável de ambiente especificando o usuário. Aqui eu assumo que o usuário de conexão está na variável de ambiente `$USER`, então, seu script de atualização começa reunindo todas as informações que você precisa:
 
     #!/usr/bin/env ruby
 
@@ -563,7 +561,7 @@ Sim, eu estou usando variáveis ​​globais. Não me julgue — é mais fácil
 
 #### Impondo um Formato Específico de Mensagens de Commit ####
 
-Seu primeiro desafio é impor que cada mensagem de confirmação deve aderir a um formato específico. Só para se ter uma meta, vamos supor que cada mensagem tem de incluir uma string que parece com "ref: 1234" porque você quer que cada commit tenha um link para um item de trabalho no seu sistema de chamados. Você deve olhar para cada commit sendo do push, ver se essa sequência está na mensagem de commit, e, se a string estiver ausente de qualquer um dos commits, retornar zero para que o push seja rejeitado.
+Seu primeiro desafio é impor que cada mensagem de commit deve aderir a um formato específico. Só para se ter uma meta, vamos supor que cada mensagem tem de incluir uma string que parece com "ref: 1234" porque você quer que cada commit tenha um link para um item de trabalho no seu sistema de chamados. Você deve olhar para cada commit do push, ver se essa sequência está na mensagem de commit, e, se a string estiver ausente de qualquer um dos commits, retornar zero para que o push seja rejeitado.
 
 Você pode obter uma lista dos valores SHA-1 de todos os commits de um push, através dos valores `$newrev` e `$oldrev` e passando-os para um comando Git plumbing chamado `git rev-list`. Este é basicamente o comando `git log`, mas por padrão ele mostra apenas os valores SHA-1 e nenhuma outra informação. Assim, para obter uma lista de todos os SHAs de commits introduzidos entre um commit SHA e outro, você pode executar algo como abaixo:
 
@@ -612,9 +610,9 @@ Colocar isso no seu script `update` rejeitará atualizações que contenham comm
 
 #### Impondo um Sistema ACL Baseado em Usuário ####
 
-Suponha que você queira adicionar um mecanismo que utiliza uma lista de controle de acesso (ACL) que especifica quais usuários têm permissão para fazer push com mudanças para partes de seus projetos. Algumas pessoas têm acesso total, e outras só têm acesso a alterar determinados subdiretórios ou arquivos específicos. Para impor isso, você vai escrever essas regras em um arquivo chamado `acl` que ficará em seu repositório Git no servidor. O hook `update` verificará essas regras, verá quais arquivos estão sendo introduzidas nos commits do push, e determinar se o usuário que está fazendo o push tem acesso para atualizar todos os arquivos.
+Suponha que você queira adicionar um mecanismo que utiliza uma lista de controle de acesso (ACL) que especifica quais usuários têm permissão para fazer push com mudanças para partes de seus projetos. Algumas pessoas têm acesso total, e outras só têm acesso a alterar determinados subdiretórios ou arquivos específicos. Para impor isso, você vai escrever essas regras em um arquivo chamado `acl` que ficará em seu repositório Git no servidor. O hook `update` verificará essas regras, verá quais arquivos estão sendo introduzidos nos commits do push, e determinará se o usuário que está fazendo o push tem acesso para atualizar todos os arquivos.
 
-A primeira coisa que você deve fazer é escrever o seu ACL. Aqui você vai usar um formato muito parecido com o mecanismo de ACL CVS: ele usa uma série de linhas, onde o primeiro campo é `avail` ou `unavail`, o próximo campo é uma lista delimitada por vírgula dos usuários para que o regra se aplica, e o último campo é o caminho para o qual a regra se aplica (branco significando acesso em  aberto). Todos esses campos são delimitados por um caractere pipe (`|`).
+A primeira coisa que você deve fazer é escrever o seu ACL. Aqui você vai usar um formato muito parecido com o mecanismo de ACL CVS: ele usa uma série de linhas, onde o primeiro campo é `avail` ou `unavail`, o próximo campo é uma lista delimitada por vírgula dos usuários para que a regra se aplica, e o último campo é o caminho para o qual a regra se aplica (branco significando acesso em  aberto). Todos esses campos são delimitados por um caractere pipe (`|`).
 
 Neste caso, você tem alguns administradores, alguns escritores de documentação com acesso ao diretório `doc`, e um desenvolvedor que só tem acesso aos diretórios `lib` e `tests`, seu arquivo ACL fica assim:
 
@@ -623,7 +621,7 @@ Neste caso, você tem alguns administradores, alguns escritores de documentaçã
     avail|schacon|lib
     avail|schacon|tests
 
-Você começa a lendo esses dados em uma estrutura que você pode usar. Neste caso, para manter o exemplo simples, você só vai cumprir as diretrizes do `avail`. Aqui está um método que lhe dá um array associativo onde a chave é o nome do usuário e o valor é um conjunto de paths que o usuário tem acesso de escrita:
+Você começa lendo esses dados em uma estrutura que você pode usar. Neste caso, para manter o exemplo simples, você só vai cumprir as diretrizes do `avail`. Aqui está um método que lhe dá um array associativo onde a chave é o nome do usuário e o valor é um conjunto de paths que o usuário tem acesso de escrita:
 
     def get_acl_access_data(acl_file)
       # read in ACL data
@@ -689,7 +687,7 @@ Se você usar a estrutura ACL retornada pelo método `get_acl_access_data` e ver
 
     check_directory_perms
 
-A maior parte do código deve ser fácil de acompanhar. Você receberá uma lista de novos commits do push com `git rev-list`. Então, para cada um desses, você acha quais arquivos são modificados e verifique se o usuário que está fazendo o push tem acesso a todos os paths sendo modificados. Um Rubyism que pode não ser claro é `path.index(access_path) == 0`, que é verdadeiro se o caminho começa com `access_path` — isso garante que `access_path` não esta apenas em um dos caminhos permitidos, mas um path permitido começa com cada path acessado.
+A maior parte do código deve ser fácil de acompanhar. Você receberá uma lista de novos commits do push com `git rev-list`. Então, para cada um desses, você acha quais arquivos são modificados e verifica se o usuário que está fazendo o push tem acesso a todos os paths sendo modificados. Um Rubyism que pode não ser claro é `path.index(access_path) == 0`, que é verdadeiro se o caminho começa com `access_path` — isso garante que `access_path` não esta apenas em um dos caminhos permitidos, mas um path permitido começa com cada path acessado.
 
 Agora seus usuários não podem fazer o push de qualquer commit com mensagens mal formadas ou com arquivos modificados fora de seus paths designados.
 
@@ -711,7 +709,7 @@ A lógica para verificar isso é ver se algum commit é acessível a partir da r
 
     check_fast_forward
 
-Tudo está configurado. Se você executar `chmod u+x .git/hooks/update`, que é o arquivo no qual você deve ter colocado todo este código, e então tentar fazer um push uma referência não fast-forwarded, você verá algo como isto:
+Tudo está configurado. Se você executar `chmod u+x .git/hooks/update`, que é o arquivo no qual você deve ter colocado todo este código, e então tentar fazer um push de uma referência não fast-forwarded, você verá algo como isto:
 
     $ git push -f origin master
     Counting objects: 5, done.
@@ -741,7 +739,7 @@ A próxima coisa que você vai notar é a mensagem de erro.
     error: hooks/update exited with error code 1
     error: hook declined to update refs/heads/master
 
-A primeira linha foi impressa por você, os outras duas foram pelo Git dizendo que o script de atualização não retornou zero e é isso que impedindo seu push. Por último, você verá isso:
+A primeira linha foi impressa por você, as outras duas foram pelo Git dizendo que o script de atualização não retornou zero e é isso que está impedindo seu push. Por último, você verá isso:
 
     To git@gitserver:project.git
      ! [remote rejected] master -> master (hook declined)
@@ -753,19 +751,19 @@ Além disso, se o marcador ref não existir em nenhum dos seus commits, você ve
 
     [POLICY] Your message is not formatted correctly
 
-Ou se alguém tentar editar um arquivo que não têm acesso e fazer um push de um commit que o contém, ele verá algo semelhante. Por exemplo, se um autor de documentação tenta fazer um push de um commit modificando algo no diretório `lib`, eles verão
+Ou se alguém tentar editar um arquivo que não têm acesso e fazer um push de um commit que o contém, ele verá algo semelhante. Por exemplo, se um autor de documentação tenta fazer um push de um commit modificando algo no diretório `lib`, ele verá
 
     [POLICY] You do not have access to push to lib/test.rb
 
-Isto é tudo. A partir de agora, desde que o script `update` esteja lá e seja executável, seu repositório nunca será rebobinado e nunca terá uma mensagem de commit sem o seu padrão na nela, e os usuários terão restrições.
+Isto é tudo. A partir de agora, desde que o script `update` esteja lá e seja executável, seu repositório nunca será rebobinado e nunca terá uma mensagem de commit sem o seu padrão nela, e os usuários terão restrições.
 
 ### Hooks do Lado Cliente  ###
 
-A desvantagem desta abordagem é a choramingar que resultará inevitavelmente quando os pushes de commits de seus usuários forem rejeitados. Tendo seu trabalho cuidadosamente elaborada rejeitado no último minuto pode ser extremamente frustrante e confuso; e, além disso, eles vão ter que editar seu histórico para corrigi-lo, o que nem sempre é para os fracos de coração.
+A desvantagem desta abordagem é a choraminga que resultará inevitavelmente quando os pushes de commits de seus usuários forem rejeitados. Tendo seu trabalho cuidadosamente elaborada rejeitado no último minuto pode ser extremamente frustrante e confuso; e, além disso, eles vão ter que editar seu histórico para corrigi-lo, o que nem sempre é para os fracos de coração.
 
-A resposta para este dilema é fornecer alguns hooks do lado cliente que os usuários podem usar para notificá-los quando eles estão fazendo algo que o servidor provavelmente rejeitará. Dessa forma, eles podem corrigir quaisquer problemas antes de fazer o commit e antes desses problemas se tornarem mais difícil de corrigir. Já que hooks não são transferidos com um clone de um projeto, você deve distribuir esses scripts de alguma outra forma e, então, usuários devem copiá-los para seu diretório `.git/hooks` e torná-los executáveis. Você pode distribuir esses ganchos dentro do projeto ou em um projeto separado, mas não há maneiras de configurá-los automaticamente.
+A resposta para este dilema é fornecer alguns hooks do lado cliente que os usuários possam usar para notificá-los quando eles estão fazendo algo que o servidor provavelmente rejeitará. Dessa forma, eles podem corrigir quaisquer problemas antes de fazer o commit e antes desses problemas se tornarem mais difíceis de corrigir. Já que hooks não são transferidos com um clone de um projeto, você deve distribuir esses scripts de alguma outra forma e, então, usuários devem copiá-los para seu diretório `.git/hooks` e torná-los executáveis. Você pode distribuir esses hooks dentro do projeto ou em um projeto separado, mas não há maneiras de configurá-los automaticamente.
 
-Para começar, você deve verificar a sua mensagem de confirmação antes que cada commit seja gravado, então você saberá que o servidor não irá rejeitar as alterações devido a mensagens de commit mal formatadas. Para fazer isso, você pode adicionar o hook `commit-msg`. Se fizer ele ler as mensagens do arquivo passado como o primeiro argumento e comparar ele com o padrão, você pode forçar o Git a abortar o commit, se eles não corresponderem:
+Para começar, você deve verificar a sua mensagem de confirmação antes que cada commit seja gravado, então você saberá que o servidor não irá rejeitar as alterações devido a mensagens de commit mal formatadas. Para fazer isso, você pode adicionar o hook `commit-msg`. Se fizer ele ler as mensagens do arquivo passado como o primeiro argumento e comparar ele com o padrão, você pode forçar o Git a abortar o commit se eles não corresponderem:
 
     #!/usr/bin/env ruby
     message_file = ARGV[0]
@@ -778,12 +776,12 @@ Para começar, você deve verificar a sua mensagem de confirmação antes que ca
       exit 1
     end
 
-Se esse script está no lugar (em `.git/hooks/commit-msg`) e é executável, e você fizer um commit com uma mensagem que não está formatado corretamente, você verá isso:
+Se esse script está no lugar correto (em `.git/hooks/commit-msg`) e é executável, e você fizer um commit com uma mensagem que não está formatada corretamente, você verá isso:
 
     $ git commit -am 'test'
     [POLICY] Your message is not formatted correctly
 
-Nenhum commit foi concluído nessa instância. No entanto, se a mensagem conter o padrão adequado, Git permite o commit:
+Nenhum commit foi concluído nessa instância. No entanto, se a mensagem conter o padrão adequado, o Git permite o commit:
 
     $ git commit -am 'test [ref: 132]'
     [master e05c914] test [ref: 132]
@@ -818,7 +816,7 @@ Em seguida, você quer ter certeza de que você não está modificando os arquiv
 
     check_directory_perms
 
-Este é aproximadamente o mesmo script da parte do lado servidor, mas com duas diferenças importantes. Primeiro, o arquivo ACL é está em um lugar diferente, porque este script é executado a partir do seu diretório de trabalho, e não de seu diretório Git. Você tem que mudar o path para o arquivo ACL disso
+Este é aproximadamente o mesmo script da parte do lado servidor, mas com duas diferenças importantes. Primeiro, o arquivo ACL está em um lugar diferente, porque este script é executado a partir do seu diretório de trabalho, e não de seu diretório Git. Você tem que mudar o path para o arquivo ACL, disso
 
     access = get_acl_access_data('acl')
 
@@ -826,9 +824,7 @@ para isso:
 
     access = get_acl_access_data('.git/acl')
 
-The other important difference is the way you get a listing of the files that have been changed. Because the server-side method looks at the log of commits, and, at this point, the commit hasn’t been recorded yet, you must get your file listing from the staging area instead. Instead of
-
-A outra diferença importante é a forma como você obtem uma lista dos arquivos que foram alterados. Como o método do lado servidor olha no log de ​​commits, e, neste momento, o commit não foi gravado ainda, você deve pegar sua lista de arquivos da área staging. Em vez de
+A outra diferença importante é a forma como você obtem uma lista dos arquivos que foram alterados. Como o método do lado servidor olha no log de ​​commits e, neste momento, o commit não foi gravado ainda, você deve pegar sua lista de arquivos da área staging. Em vez de
 
     files_modified = `git log -1 --name-only --pretty=format:'' #{ref}`
 
@@ -838,7 +834,7 @@ você deve usar
 
 Mas essas são as duas únicas diferenças — caso contrário, o script funciona da mesma maneira. Uma ressalva é que ele espera que você esteja executando localmente como o mesmo usuário que você fez o push para a máquina remota. Se ele for diferente, você deve definir a variável `$user` manualmente.
 
-A última coisa que você tem a fazer é verificar se você não está tentando fazero push de referências não fast-forwarded, mas isso é um pouco menos comum. Para obter uma referência que não é um fast-forward, você tem que fazer um rebase depois de um commit que já foi enviado por um push ou tentar fazer o push de um branch local diferente até o mesmo branch remoto.
+A última coisa que você tem que fazer é verificar se você não está tentando fazer o push de referências não fast-forwarded, mas isso é um pouco menos comum. Para obter uma referência que não é um fast-forward, você tem que fazer um rebase depois de um commit que já foi enviado por um push ou tentar fazer o push de um branch local diferente até o mesmo branch remoto.
 
 Como o servidor vai dizer que você não pode fazer um push não fast-forward de qualquer maneira, e o hook impede pushes forçados, a única coisa acidental que você pode tentar deter são commits de rebase que já foram enviados por um push.
 
@@ -876,4 +872,4 @@ A principal desvantagem desta abordagem é que ela pode ser muito lenta e muitas
 
 ## Sumário ##
 
-Você viu a maior parte das principais formas que você pode usar para personalizar o seu cliente e servidor Git para melhor atender a seu fluxo de trabalho e projetos. Você aprendeu sobre todos os tipos de configurações, atributos baseado em arquivos, e hooks de eventos, e você construiu um exemplo de política aplicada ao servidor. Agora você deve ser capaz de usar o Git em quase qualquer fluxo de trabalho que você possa sonhar.
+Você viu a maior parte das principais formas que você pode usar para personalizar o seu cliente e servidor Git para melhor atender a seu fluxo de trabalho e projetos. Você aprendeu sobre todos os tipos de configurações, atributos baseados em arquivos, e hooks de eventos, e você construiu um exemplo de política aplicada ao servidor. Agora você deve ser capaz de usar o Git em quase qualquer fluxo de trabalho que você possa sonhar.

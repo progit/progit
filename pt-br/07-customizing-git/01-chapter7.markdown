@@ -448,10 +448,10 @@ No entanto, este resultado é de uso limitado. Se você já usou a substituiçã
 Acontece que você pode escrever seus próprios filtros para fazer substituições em arquivos no commit/checkout. Estes são os filtros "clean" e "smudge". No arquivo `.gitattributes`, você pode definir um filtro para determinados paths e configurar os scripts que irão processar os arquivos antes que seja feito um checkout ("smudge", ver Figura 7-2) e pouco antes do commit ("clean", veja a Figura 7-3). Estes filtros podem ser configurados para fazer todo tipo de coisas divertidas.
 
 Insert 18333fig0702.png
-Figure 7-2. O filtro “smudge” é rodado no checkout.
+Figura 7-2. O filtro “smudge” é rodado no checkout.
 
 Insert 18333fig0703.png
-Figure 7-3. O filtro “clean” é rodado quando arquivos passam para o estado staged.
+Figura 7-3. O filtro “clean” é rodado quando arquivos passam para o estado staged.
 
 A mensagem original do commit para esta funcionalidade dá um exemplo simples de como passar todo o seu código fonte C através do programa `indent` antes de fazer o commit. Você pode configurá-lo, definindo o atributo de filtro no arquivo `.gitattributes` para filtrar arquivos `*.c` com o filtro "indent":
 

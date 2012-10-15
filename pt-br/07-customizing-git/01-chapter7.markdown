@@ -15,7 +15,7 @@ Você viu alguns detalhes simples de configuração do Git no primeiro capítulo
 
 O próximo lugar que o Git olha é no arquivo `~/.gitconfig`, que é específico para cada usuário. Você pode fazer o Git ler e escrever neste arquivo, passando a opção `--global`.
 
-Finalmente, Git procura por valores de configuração no arquivo de configuração no diretório Git (`.git/config`) de qualquer repositório que você esteja usando atualmente. Estes valores são específicos para esse repositório. Cada nível substitui valores no nível anterior, então, valores em `.git/config` sobrepõem valores em `/etc/sysconfig`. Você também pode definir esses valores manualmente, editando o arquivo e inserindo a sintaxe correta mas, é geralmente mais fácil executar o comando `git config`.
+Finalmente, Git procura por valores de configuração no arquivo de configuração no diretório Git (`.git/config`) de qualquer repositório que você esteja usando atualmente. Estes valores são específicos para esse repositório. Cada nível substitui valores no nível anterior, então, valores em `.git/config` sobrepõem valores em `/etc/gitconfig`. Você também pode definir esses valores manualmente, editando o arquivo e inserindo a sintaxe correta mas, é geralmente mais fácil executar o comando `git config`.
 
 ### Configuração Básica do Cliente ###
 
@@ -117,7 +117,7 @@ Quando esse valor é definido, Git coloriza a saída do terminal. Outras configu
 
 Você dificilmente vai querer usar `color.ui = always`. Na maioria dos cenários, se você quiser códigos coloridos em sua saída redirecionada, você pode passar a opção `--color` para forçar o comando Git a usar códigos de cores. O `color.ui = true` é o que provavelmente você vai querer usar.
 
-#### `color.*` ####
+#### color.* ####
 
 Se você quiser ser mais específico sobre quais e como os comandos são colorizados, ou se você tem uma versão mais antiga do Git, o Git oferece configurações específicas para colorir. Cada uma destas pode ser ajustada para `true`, `false`, ou `always`:
 
@@ -147,8 +147,7 @@ Você pode baixar P4Merge aqui:
 Para começar, você vai configurar um script para executar seus comandos. Vou usar o caminho para o executável Mac; em outros sistemas, este será onde o seu binário do `p4merge` está instalado. Configure um script chamado `extMerge` que chama seu binário com todos os argumentos necessários:
 
     $ cat /usr/local/bin/extMerge
-    #!/bin/sh
-    /Applications/p4merge.app/Contents/MacOS/p4merge $*
+    #!/bin/sh/Applications/p4merge.app/Contents/MacOS/p4merge $*
 
 Um wrapper diff verifica se sete argumentos são fornecidos e passa dois deles para o seu script de merge. Por padrão, o Git passa os seguintes argumentos para o programa diff:
 
@@ -184,7 +183,7 @@ ou você pode editar o seu arquivo `~/.gitconfig` para adicionar estas linhas.:
       external = extDiff
 
 Depois que tudo isso seja definido, se você executar comandos diff como este:
-    
+
     $ git diff 32d1776b1^ 32d1776b1
 
 Em vez de ter a saída do diff na linha de comando, Git inicia o P4Merge, como mostra a Figura 7-1.
@@ -197,8 +196,7 @@ Se você tentar mesclar dois branches e, posteriormente, ter conflitos de mescla
 A coisa boa sobre esta configuração é que você pode mudar o seu diff e ferramentas de merge facilmente. Por exemplo, para mudar suas ferramentas `extdiff` e `extMerge` para executar a ferramenta KDiff3 no lugar delas, tudo que você tem a fazer é editar seu arquivo `extMerge`:
 
     $ cat /usr/local/bin/extMerge
-    #!/bin/sh    
-    /Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
+    #!/bin/sh/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 Agora, o Git irá utilizar a ferramenta KDiff3 para visualizar diffs e resolução de conflitos de merge.
 
@@ -251,7 +249,7 @@ Ou você pode deixar o Git tentar corrigir automaticamente o problema antes de a
 
     $ git apply --whitespace=fix <patch>
 
-Essas opções se aplicam à opção git rebase também. Se você commitou problemas de espaço em branco, mas ainda não fez um push, você pode executar um `rebase` com a opção `--whitespace=fix` para que o Git automaticamente corrija problemas de espaço em branco, como faz com os patches.
+Essas opções se aplicam ao comando git rebase também. Se você commitou problemas de espaço em branco, mas ainda não fez um push, você pode executar um `rebase` com a opção `--whitespace=fix` para que o Git automaticamente corrija problemas de espaço em branco, como faz com os patches.
 
 ### Configuração do Servidor ###
 
@@ -285,7 +283,7 @@ Isto nega exclusão de branchs e tags em um push — nenhum usuário pode fazê-
 
 ## Atributos Git ##
 
-Algumas dessas configurações também podem ser especificadas para um path, de modo que o Git aplique essas configurações só para um subdiretório ou conjunto de arquivos. Essas configurações de path específicas são chamadas atributos Git e são definidas em um arquivo `.gitattribute` ou em um de seus diretórios (normalmente a raiz de seu projeto) ou no arquivo `.git/info/attributes` se você não desejar que o arquivo de atributos seja commitado com o seu projeto.
+Algumas dessas configurações também podem ser especificadas para um path, de modo que o Git aplique essas configurações só para um subdiretório ou conjunto de arquivos. Essas configurações de path específicas são chamadas atributos Git e são definidas em um arquivo `.gitattributes` ou em um de seus diretórios (normalmente a raiz de seu projeto) ou no arquivo `.git/info/attributes` se você não desejar que o arquivo de atributos seja commitado com o seu projeto.
 
 Usando atributos, você pode fazer coisas como especificar estratégias de merge separadas para arquivos individuais ou pastas no seu projeto, dizer ao Git como fazer diff de arquivos não textuais, ou mandar o Git filtrar conteúdos antes de fazer o checkout para dentro ou fora do Git. Nesta seção, você vai aprender sobre alguns dos atributos que podem ser configurados em seus paths de seu projeto Git e ver alguns exemplos de como usar esse recurso na prática.
 
@@ -309,6 +307,8 @@ Agora, o Git não vai tentar converter ou corrigir problemas CRLF; nem vai tenta
 
 Na série 1.6 do Git, você pode usar a funcionalidade de atributos do Git para fazer diff de arquivos binários. Você faz isso dizendo ao Git como converter os dados binários em um formato de texto que pode ser comparado através do diff normal.
 
+##### Arquivos do MS Word #####
+
 Como este é um recurso muito legal e não muito conhecido, eu vou mostrar alguns exemplos. Primeiro, você vai usar esta técnica para resolver um dos problemas mais irritantes conhecidos pela humanidade: controlar a versão de documentos Word. Todo mundo sabe que o Word é o editor mais horrível que existe, mas, estranhamente, todo mundo o usa. Se você quiser controlar a versão de documentos do Word, você pode colocá-los em um repositório Git e fazer um commit de vez em quando; mas o que de bom tem isso? Se você executar `git diff` normalmente, você só verá algo como isto:
 
     $ git diff
@@ -323,6 +323,12 @@ Você não pode comparar diretamente duas versões, a menos que você verifique-
 Isto diz ao Git que qualquer arquivo que corresponde a esse padrão (.doc) deve usar o filtro "word" quando você tentar ver um diff que contém alterações. O que é o filtro "word"? Você tem que configurá-lo. Aqui você vai configurar o Git para usar o programa `strings` para converter documentos do Word em arquivos de texto legível, o que poderá ser visto corretamente no diff:
 
     $ git config diff.word.textconv strings
+
+Este comando adiciona uma seção no seu `.git/config` que se parece com isto:
+    [diff "word"]
+      textconv = strings
+
+Nota: Há diferentes tipos de arquivos `.doc`, alguns usam uma codificação UTF-16 ou outras "páginas de código" e `strings` não vão encontrar nada de útil lá. Seu resultado pode variar.
 
 Agora o Git sabe que se tentar fazer uma comparação entre os dois snapshots, e qualquer um dos arquivos terminam em `.doc`, ele deve executar esses arquivos através do filtro "word", que é definido como o programa `strings`. Isso cria versões em texto de arquivos do Word antes de tentar o diff.
 
@@ -343,7 +349,57 @@ Aqui está um exemplo. Eu coloquei um capítulo deste livro em Git, acrescentei 
 
 Git com sucesso e de forma sucinta me diz que eu adicionei a string "Let’s see if this works", o que é correto. Não é perfeito — ele acrescenta um monte de coisas aleatórias no final — mas certamente funciona. Se você pode encontrar ou escrever um conversor de Word em texto simples que funciona bem o suficiente, esta solução provavelmente será incrivelmente eficaz. No entanto, `strings` está disponível na maioria dos sistemas Mac e Linux, por isso pode ser uma primeira boa tentativa para fazer isso com muitos formatos binários.
 
-Outro problema interessante que você pode resolver desta forma envolve o diff de arquivos de imagem. Uma maneira de fazer isso é passar arquivos JPEG através de um filtro que extrai suas informações EXIF — metadados que são gravados com a maioria dos formatos de imagem. Se você baixar e instalar o programa `exiftool`, você pode usá-lo para converter suas imagens em texto sobre os metadados, assim pelo menos o diff vai mostrar uma representação textual de todas as mudanças que aconteceram:
+##### Documentos de Texto OpenDocument #####
+
+A mesma abordagem que usamos para arquivos do MS Word (`*.doc`) pode ser usada para arquivos de texto OpenDocument (`*.odt`) criados pelo OpenOffice.org.
+
+Adicione a seguinte linha ao seu arquivo `.gitattributes`:
+
+    *.odt diff=odt
+
+Agora configure o filtro diff `odt` em `.git/config`:
+
+    [diff "odt"]
+        binary = true
+        textconv = /usr/local/bin/odt-to-txt
+
+Arquivos OpenDocument são na verdade diretórios zipados contendo vários arquivos (o conteúdo em um formato XML, folhas de estilo, imagens, etc.) Vamos precisar escrever um script para extrair o conteúdo e devolvê-lo como texto simples. Crie o arquivo `/usr/local/bin/odt-to-txt` (você é pode colocá-lo em um diretório diferente) com o seguinte conteúdo:
+
+    #! /usr/bin/env perl
+    # Simplistic OpenDocument Text (.odt) to plain text converter.
+    # Author: Philipp Kempgen
+    
+    if (! defined($ARGV[0])) {
+        print STDERR "No filename given!\n";
+        print STDERR "Usage: $0 filename\n";
+        exit 1;
+    }
+    
+    my $content = '';
+    open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+    {
+        local $/ = undef;  # slurp mode
+        $content = <$fh>;
+    }
+    close $fh;
+    $_ = $content;
+    s/<text:span\b[^>]*>//g;           # remove spans
+    s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
+    s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
+    s/<text:list\b[^>]*>/\n\n/g;       # lists
+    s/<text:p\b[^>]*>/\n  /g;          # paragraphs
+    s/<[^>]+>//g;                      # remove all XML tags
+    s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+    s/\A\n+//;                         # remove leading blank lines
+    print "\n", $_, "\n\n";
+
+E torne-o executável
+
+    chmod +x /usr/local/bin/odt-to-txt
+
+Agora `git diff` será capaz de dizer o que mudou em arquivos `.odt`.
+
+Outro problema interessante que você pode resolver desta forma envolve o diff de arquivos de imagem. Uma maneira de fazer isso é passar arquivos PNG através de um filtro que extrai suas informações EXIF — metadados que são gravados com a maioria dos formatos de imagem. Se você baixar e instalar o programa `exiftool`, você pode usá-lo para converter suas imagens em texto sobre os metadados, assim pelo menos o diff vai mostrar uma representação textual de todas as mudanças que aconteceram:
 
     $ echo '*.png diff=exif' >> .gitattributes
     $ git config diff.exif.textconv exiftool
@@ -382,14 +438,14 @@ Primeiro, você pode injetar o SHA-1 checksum de um blob em um campo `$Id$` no a
 
 Da próxima vez que você fizer o checkout desse arquivo, o Git injetará o SHA do blob:
 
-    $ rm text.txt
-    $ git checkout -- text.txt
+    $ rm test.txt
+    $ git checkout -- test.txt
     $ cat test.txt
     $Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 No entanto, este resultado é de uso limitado. Se você já usou a substituição de palavras em CVS ou Subversion, você pode incluir uma datestamp — o SHA não é lá muito útil, porque é bastante aleatório e você não pode dizer se um SHA é mais velho ou mais novo que o outro.
 
-Acontece que você pode escrever seus próprios filtros para fazer substituições em arquivos no commit/checkout. Estes são os filtros "clean" e "smudge". No arquivo `.gitattributes`, você pode definir um filtro para determinados paths e configurar os scripts que irão processar os arquivos antes que eles sejam commitados ("clean", ver Figura 7-2) e pouco antes do check-out ("smudge", veja a Figura 7-3). Estes filtros podem ser configurados para fazer todo tipo de coisas divertidas.
+Acontece que você pode escrever seus próprios filtros para fazer substituições em arquivos no commit/checkout. Estes são os filtros "clean" e "smudge". No arquivo `.gitattributes`, você pode definir um filtro para determinados paths e configurar os scripts que irão processar os arquivos antes que seja feito um checkout ("smudge", ver Figura 7-2) e pouco antes do commit ("clean", veja a Figura 7-3). Estes filtros podem ser configurados para fazer todo tipo de coisas divertidas.
 
 Insert 18333fig0702.png
 Figure 7-2. O filtro “smudge” é rodado no checkout.
@@ -492,7 +548,7 @@ Para ativar um script de hook, coloque um arquivo no subdiretório `hooks` do se
 
 ### Hooks do Lado Cliente ###
 
-Há um monte de hooks do lado do cliente. Esta seção divide eles em committing-workflow hooks, e-mail–workflow scripts, e o resto dos scripts do lado cliente.
+Há um monte de hooks do lado do cliente. Esta seção divide eles em committing-workflow hooks, e-mail-workflow scripts, e o resto dos scripts do lado cliente.
 
 #### Committing-Workflow Hooks ####
 
@@ -719,7 +775,7 @@ Tudo está configurado. Se você executar `chmod u+x .git/hooks/update`, que é 
     Unpacking objects: 100% (3/3), done.
     Enforcing Policies...
     (refs/heads/master) (8338c5) (c5b616)
-    [POLICY] Cannot push a non-fast-forward reference
+    [POLICY] Cannot push a non fast-forward reference
     error: hooks/update exited with error code 1
     error: hook declined to update refs/heads/master
     To git@gitserver:project.git
@@ -729,7 +785,7 @@ Tudo está configurado. Se você executar `chmod u+x .git/hooks/update`, que é 
 Há algumas coisas interessantes aqui. Primeiro, você vê quando o hook começa a funcionar.
 
     Enforcing Policies...
-    (refs/heads/master) (fb8c72) (c56860)
+    (refs/heads/master) (8338c5) (c5b616)
 
 Observe que você imprimiu aquilo no stdout no início do seu script de atualização. É importante notar que qualquer coisa que seu script imprima no stdout será transferido para o cliente.
 
@@ -791,7 +847,7 @@ Em seguida, você quer ter certeza de que você não está modificando os arquiv
 
     #!/usr/bin/env ruby
 
-    $user    = ENV['USER']
+    $user = ENV['USER']
 
     # [ insert acl_access_data method from above ]
 

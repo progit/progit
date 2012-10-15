@@ -728,7 +728,8 @@ To see which remote servers you have configured, you can run the `git remote` co
 You can also specify `-v`, which shows you the URL that Git has stored for the shortname to be expanded to:
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 If you have more than one remote, the command lists them all. For example, my Grit repository looks something like this.
 

@@ -359,12 +359,12 @@ Finally, she merges John’s work into her own `featureA` branch:
 Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
 
 	$ git commit -am 'small tweak'
-	[featureA ed774b3] small tweak
+	[featureA 774b3ed] small tweak
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	$ git push origin featureA
 	...
 	To jessica@githost:simplegit.git
-	   3300904..ed774b3  featureA -> featureA
+	   3300904..774b3ed  featureA -> featureA
 
 Jessica’s commit history now looks something like Figure 5-13.
 

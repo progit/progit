@@ -728,7 +728,8 @@ Insert 18333fig0202.png
 Чтобы посмотреть, какому URL соответствует сокращённое имя в Git, можно указать команде опцию `-v`:
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 Если у вас больше одного удалённого репозитория, команда покажет их все. Например, мой репозиторий Grit выглядит следующим образом.
 

@@ -781,7 +781,7 @@ Insert 18333fig0703.png
 	Unpacking objects: 100% (3/3), done.
 	Enforcing Policies... 
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -791,7 +791,7 @@ Insert 18333fig0703.png
 Тут есть пара интересных моментов. Во-первых, когда перехватчик начинает свою работу, мы видим это:
 
 	Enforcing Policies... 
-	(refs/heads/master) (fb8c72) (c56860)
+	(refs/heads/master) (8338c5) (c56860)
 
 Обратите внимание, что мы выводили это в stdout в самом начале нашего сценария `update`. Важно отметить, что всё, что сценарий выводит в stdout, будет передано клиенту.
 

@@ -4,7 +4,7 @@ Git'i kullanmaya başlamak için yalnızca bir bölüm okuyacak kadar zamanını
 
 ## Bir Git Yazılım Havuzu Edinmek ##
 
-Bir Git projesi edinmenin iki başlıca yolu vardır. Bunlardan ilki, halihazırda varolan bir projeyi Git'e aktarmaktır. İkincisi ise bir sunucuda yer alan bir Git yazılım havuzunu klonlamakdır.
+Bir Git projesi edinmenin başlıca iki yolu vardır. Bunlardan ilki, halihazırda varolan bir projeyi Git'e aktarmaktır. İkincisi ise bir sunucuda yer alan bir Git yazılım havuzunu klonlamakdır.
 
 ### Varolan Bir Klasörde Yazılım Havuzu Oluşturmak ###
 

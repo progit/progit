@@ -237,7 +237,7 @@ Git não criou automaticamente um novo commit para o merge. Ele fez uma pausa no
     #   (use "git add <file>..." to update what will be committed)
     #   (use "git checkout -- <file>..." to discard changes in working directory)
     #
-    # unmerged:   index.html
+    #    unmerged:   index.html
     #
 
 Qualquer coisa que tem conflito no merge e não foi resolvido é listado como "unmerged". Git adiciona marcadores padrão de resolução de conflitos nos arquivos que têm conflitos, para que você possa abri-los manualmente e resolver esses conflitos. Seu arquivo terá uma seção parecida com isso:
@@ -278,7 +278,7 @@ Se você rodar `git status` novamente para verificar que todos os conflitos fora
     # Changes to be committed:
     #   (use "git reset HEAD <file>..." to unstage)
     #
-    # modified:   index.html
+    #    modified:   index.html
     #
 
 Se você está satisfeito com isso, e verificou que tudo que havia conflito foi colocado na área de seleção, você pode digitar `git commit` para concluir o commit do merge. A mensagem de commit padrão é algo semelhante a isso:

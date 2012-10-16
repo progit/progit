@@ -12,7 +12,7 @@ Varolan bir projenizi sürüm kontrolü altına almak istiyorsanız, projenin bu
 
 	$ git init
 
-Bu, gerekli yazılım havuzu dosyalarını —Git iskeletini— içeren `.git` adında bir klasör oluşturur. Bu noktada, projenizdeki hiçbir şey sürüm kontrolüne girmiş değildir. (Oluşturulan `.git` klasöründe tam olarak hangi doryaların bulunduğu hakkında daha fazla bilgi edinmek için bkz. _9. Bölüm_.)
+Bu, gerekli yazılım havuzu dosyalarını —Git iskeletini— içeren `.git` adında bir klasör oluşturur. Bu noktada, projenizdeki hiçbir şey sürüm kontrolüne girmiş değildir. (Oluşturulan `.git` klasöründe tam olarak hangi dosyaların bulunduğu hakkında daha fazla bilgi edinmek için bkz. _9. Bölüm_.)
 
 Varolan dosyalarınızı sürüm kontrolüne almak istiyorsanız, o dosyaları hazırlayıp kayıt etmelisiniz. Bunu, sürüm kontrolüne almak istediğiniz dosyaları belirleyip kayıt altına aldığınız birkaç git komutuyla gerçekleştirebilirsiniz:
 
@@ -24,13 +24,13 @@ Birazdan bu komutların üzerinde duracağız. Bu noktada, sürüm kontrolüne a
 
 ### Varolan Bir Yazılım Havuzunu Klonlamak ###
 
-Varolan bir Git yazılım havuzunu kopyalamak istiyorsanız —söz gelimi, katkıda bulunmak istediğiniz bir proje varsa- ihtiyacını olan komut `git clone`. Subversion gibi başka SKS'lere aşinaysanız, komutun `checkout` değil `clone` olduğunu fark etmişsinizdir. Bu önemli bir ayrımdır —Git, sunucuda bulunan neredeyse bütün veriyi kopyalar. `git clone` komutunu çalıştırdığınızda her dosyanın proje tarihçesinde bulunan her sürümü istemciye indirilir. Hatta, sunucunuzun diski bozulacak olsa, herhangi bir istemcideki herhangi bir klonu, sunucuyu klonlandığı zamanki haline geri getirmek için kullanabilirsiniz (sunucunuzdaki bazı çengel betikleri (_hook_) kaybedebilirsiniz, ama sürümlenmiş verinin tamamı elinizin altında olacaktır —daha fazla ayrıntı için bkz. _4. Bölüm_)
+Varolan bir Git yazılım havuzunu klonlamak istiyorsanız —söz gelimi, katkıda bulunmak istediğiniz bir proje varsa- ihtiyacınız olan komut `git clone`. Subversion gibi başka SKS'lere aşinaysanız, komutun `checkout` değil `clone` olduğunu fark etmişsinizdir. Bu önemli bir ayrımdır —Git, sunucuda bulunan neredeyse bütün veriyi kopyalar. `git clone` komutunu çalıştırdığınızda her dosyanın proje tarihçesinde bulunan her sürümü istemciye indirilir. Hatta, sunucunuzun diski bozulacak olsa, herhangi bir istemcideki herhangi bir klonu, sunucuyu klonlandığı zamanki haline geri getirmek için kullanabilirsiniz (sunucunuzdaki bazı çengel betikleri (_hook_) kaybedebilirsiniz, ama sürümlenmiş verinin tamamı elinizin altında olacaktır —daha fazla ayrıntı için bkz. _4. Bölüm_)
 
 Bir yazılım havuzu `git clone [url]` komutuyla klonlanır. Örneğin, Grit adlı Ruby Git kütüphanesini klonlamak isterseniz, bunu şu şekilde yapabilirsiniz:
 
 	$ git clone git://github.com/schacon/grit.git
 
-Bu `grit` adında bir klasör oluşturur, bu klasörün içinde bir `.git` klasörü oluşturup, ilklemesini yapar, söz konusu yazılım havuzunun bütün verisini indirir ve son sürümünün bir koyasını seçer (_checkout_). Bu yeni `grit` klasörüne gidecek olursanız, kullanılmaya ve üzerinde çalışılmaya hazır proje dosyalarını görürsünüz. Yazılım havuzunu adı grit'ten farklı bir klasöre kopyalamak isterseniz, bunu komut satırı seçeneği olarak vermelisiniz:
+Bu komut `grit` adında bir klasör oluşturur, bu klasörün içinde bir `.git` alt dizini oluşturup ilklemesini yapar, söz konusu yazılım havuzunun bütün verisini indirir ve son sürümünün bir koyasını seçer (_checkout_). Bu yeni `grit` klasörüne gidecek olursanız, kullanılmaya ve üzerinde çalışılmaya hazır proje dosyalarını görürsünüz. Yazılım havuzunu adı grit'ten farklı bir klasöre kopyalamak isterseniz, bunu komut satırı seçeneği olarak vermelisiniz:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
@@ -40,7 +40,7 @@ Git'in bir dizi farklı transfer protokolü vardır. Yukarıdaki örnek `git://`
 
 ## Değişiklikleri Yazılım Havuzuna Kaydetmek ##
 
-Hakiki bir Git yazılım havuzuna ve söz konusu proje için gerekli olan bir dosya seçmesine sahipsiniz. Bu proje üzerinde değişiklikler yapmanız ve proje kaydetmek istediğiniz bir seviyeye geldiğinde bu değişikliklerin bir bellek kopyasını kaydetmeniz gerekecek.
+Gerçek bir Git yazılım havuzuna ve söz konusu proje için gerekli olan bir dosya seçmesine sahipsiniz. Bu proje üzerinde değişiklikler yapmanız ve proje kaydetmek istediğiniz bir seviyeye geldiğinde bu değişikliklerin bir bellek kopyasını kaydetmeniz gerekecek.
 
 Unutmayın, çalışma klasörünüzdeki dosyalar iki halden birinde bulunurlar: _izlenenler_ (_tracked_) ve _izlenmeyenler_ (_untracked_). _İzlenen_ dosyalar, bir önceki bellek kopyasında bulunan dosyalardır; bunlar _değişmemiş_, _değişmiş_ ya da _hazırlanmış_ olabilirler. Geri kalan her şey —çalışma klasörünüzde bulunan ve bir önceki bellek kopyasında ya da hazırlama alanında bulumayan dosyalar— _izlenmeyen_ dosyalardır. Bir yazılım havuzunu yeni kopyalamışsanız, bütün dosyalar, henüz yeni seçme yaptığınız ve hiçbir şeyi değiştirmediğiniz için, izlenen ve değişmemiş olacaktır.
 
@@ -58,7 +58,7 @@ Hangi dosyanın hangi durumda olduğunu görmek için kullanılacak temel araç 
 	# On branch master
 	nothing to commit (working directory clean)
 
-Bu çalışma klasörünüzün temiz olduğu anlamına gelir —başka bir deyişle, izlenmekte olup da değiştirilmiş herhangi bir dosya yoktur. Git'in saptadığı herhangi bir izlenmeyen dosya da yok, olsaydı burada listelenmiş olurdu. Son olarak, bu komut size hangi dal (_branch_) üzerinde olduğunuzu söylüyor. Şimdilik bu hep, varsayılan dal olan `master` olacaktır; şimdilik buna kafa yormayın. Sonraki bölüm dallar ve referanslar konusunu derinlemesine ele alacak.
+Bu çalışma klasörünüzün temiz olduğu anlamına gelir —başka bir deyişle, izlenmekte olup da değiştirilmiş herhangi bir dosya yoktur. Git'in saptadığı herhangi bir izlenmeyen dosya da yok, olsaydı burada listelenmiş olurdu. Son olarak, bu komut size hangi dal (_branch_) üzerinde olduğunuzu söylüyor. Şimdilik bu, daima varsayılan dal olan `master` olacaktır; Şu anda buna kafa yormayın. Sonraki bölüm de dallar ve referanslar konusu derinlemesine ele alınacak.
 
 Diyelim ki projenize yeni bir dosya, basit bir README dosyası eklediniz. Eğer dosya önceden orada bulunmuyorsa, ve `git status` komutunu çalıştırırsanız, bu izlenmeyen dosyayı şu şekilde görürsünüz:
 

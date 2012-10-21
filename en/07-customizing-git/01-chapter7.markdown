@@ -251,7 +251,7 @@ Or you can have Git try to automatically fix the issue before applying the patch
 
 	$ git apply --whitespace=fix <patch>
 
-These options apply to the git rebase option as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
+These options apply to the `git rebase` command as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
 
 ### Server Configuration ###
 
@@ -405,7 +405,7 @@ Now `git diff` will be able to tell you what changed in `.odt` files.
 
 ##### Image files #####
 
-Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
+Another interesting problem you can solve this way involves diffing image files. One way to do this is to run PNG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
 
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
@@ -444,8 +444,8 @@ First, you can inject the SHA-1 checksum of a blob into an `$Id$` field in the f
 
 The next time you check out this file, Git injects the SHA of the blob:
 
-	$ rm text.txt
-	$ git checkout -- text.txt
+	$ rm test.txt
+	$ git checkout -- test.txt
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
@@ -463,7 +463,7 @@ The original commit message for this functionality gives a simple example of run
 
 	*.c     filter=indent
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+Then, tell Git what the "indent" filter does on smudge and clean:
 
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
@@ -781,7 +781,7 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	Unpacking objects: 100% (3/3), done.
 	Enforcing Policies... 
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -791,7 +791,7 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 There are a couple of interesting things here. First, you see this where the hook starts running.
 
 	Enforcing Policies... 
-	(refs/heads/master) (fb8c72) (c56860)
+	(refs/heads/master) (8338c5) (c5b616)
 
 Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
 

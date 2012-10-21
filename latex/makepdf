@@ -61,6 +61,8 @@ end
 def pre_pandoc(string, config)
 	replace(string) do
 		# Pandoc discards #### subsubsections #### - this hack recovers them
+		# be careful to try to match the longest sharp string first
+		s /\#\#\#\#\# (.*?) \#\#\#\#\#/, 'PARAGRAPH: \1'
 		s /\#\#\#\# (.*?) \#\#\#\#/, 'SUBSUBSECTION: \1'
 
 		# Turns URLs into clickable links
@@ -80,6 +82,7 @@ def post_pandoc(string, config)
 		s '\section', '\chap'
 		s '\sub', '\\'
 		s /SUBSUBSECTION: (.*)/, '\subsubsection{\1}'
+		s /PARAGRAPH: (.*)/, '\paragraph{\1}'
 
 		# Enable proper cross-reference
 		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
@@ -105,6 +108,26 @@ def post_pandoc(string, config)
 		# Ensure monospaced stuff is in a smaller font
 		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
+
+		# Make Tables 2-1..2-3 actual tables
+		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)(([^\t\n]*)\n)?\\end\{verbatim\}/ do
+			$cap = $4
+			"\\begin{table}[ht!]
+				\\refstepcounter{tab}
+				\\centering
+				\\label{tab:\\thetab}
+				\\begin{tabular}{p{2.75cm}p{8.25cm}}
+					\\toprule\n" <<
+					verbatim_sanitize($1).
+						gsub(/^([^\n\t]+)\t/, '{\footnotesize\texttt{\1}} & ').
+						gsub(/(\n)/, '\\\\\\\\\1').
+						sub(/\{\\footnotesize\\texttt(.*?)\n/, '{\1\midrule ').
+						concat("
+					\\bottomrule
+				\\end{tabular}
+				\\textbf{\\caption{#{$cap}}}
+			\\end{table}")
+		end
 
 		# Shaded verbatim block
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'

@@ -1,14 +1,14 @@
-# Git Tools #
+# Git tools #
 
 Nu heb je de meeste commando's en werkwijzen geleerd die je dagelijks nodig hebt om een Git repository voor je broncode te beheren en te onderhouden. Je hebt de basistaken van het tracken en committen van bestanden uitgevoerd, en je hebt de kracht van de staging area en lichtgewicht topic branching en mergen in handen.
 
 Nu ga je een aantal zeer krachtige dingen verkennen die Git kan, die je niet per se dagelijks gebruikt, maar die je op een bepaald punt toch nodig kunt hebben.
 
-## Revisie Selectie ##
+## Revisie selectie ##
 
 Git staat je toe om specifieke commits of een serie commits op meerdere manieren te specificeren. Ze zijn niet per se voor de hand liggend, maar behulpzaam om te weten.
 
-### Enkele Revisies ###
+### Enkele revisies ###
 
 Natuurlijk kun je naar een commit refereren door de SHA-1 hash die het toegekend is, maar er zijn ook meer mensvriendelijke manieren om naar een commit te refereren. Deze sectie laat de diverse manieren zien waarop je naar een enkele commit kunt refereren.
 
@@ -53,7 +53,7 @@ Git kan een korte unieke afkorting voor je SHA-1 waardes uitvinden. Als je `--ab
 
 Over het algemeen zijn acht tot tien karakters meer dan voldoende om binnen een project uniek te zijn. Een van de grootste Git projecten, de Linux kernel, begint 12 karakters van de mogelijke 40 nodig te hebben om uniek te blijven.
 
-### Een Korte Notitie Over SHA-1 ###
+### Een korte notitie over SHA-1 ###
 
 Veel mensen zijn bezorgd geworden dat ze op een bepaald punt, door random toeval, twee objecten in hun repository hebben die naar dezelfde SHA-1 waarde hashen. Wat dan?
 
@@ -63,7 +63,7 @@ Maar, je moet je bewust zijn hoe belachelijk onwaarschijnlijk dit scenario is. D
 
 Hier is een voorbeeld om je een idee te geven wat er voor nodig is om een SHA-1 botsing te krijgen. Als alle 6.5 miljard mensen op aarde zouden gaan programmeren, en iedere seconde zou iedereen code genereren die gelijk was aan de hele Linux kernel-geschiedenis (1 miljoen Git objecten) en dat in één gigantische Git repository pushen, dan zou het vijf jaar duren voordat die repository genoeg objecten zou bevatten om een 50% waarschijnlijkheid van één enkele SHA-1 object botsing te krijgen. Er bestaat een grotere kans dat ieder lid van je programmeerteam zal worden aangevallen en worden gedood door wolven in ongerelateerde incidenten op dezelfde avond.
 
-### Branch Referenties ###
+### Branch referenties ###
 
 De meest eenvoudige manier om een commit te specificeren heeft als voorwaarde dat je er een branchreferentie naar hebt wijzen. Dan kun je een branchnaam in ieder Git commando gebruiken dat een commitobject of SHA-1 waarde verwacht. Bijvoorbeeld, als je het laatste commitobject op een branch wil tonen, dan zijn de volgende commando's gelijk, aangenomen dat de `topic1` branch naar `ca82a6d` wijst:
 
@@ -75,7 +75,7 @@ Als je wil zien naar welke specifieke SHA een branch wijst, of als je wil zien w
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### RefLog Afkortingen ###
+### RefLog afkortingen ###
 
 Een van de dingen die Git in de achtergrond doet terwijl jij zit te werken is een reflog bijhouden – een log waar je HEAD en branchreferenties zijn gebleven in de laatste paar maanden.
 
@@ -121,7 +121,7 @@ Om reflog informatie te zien, die in hetzelfde formaat gezet is als de `git log`
 
 Het is belangrijk om te zien dat deze informatie strikt lokaal is – het is een log van wat jij hebt gedaan in jouw repository. De referenties zullen niet hetzelfde zijn in iemand anders zijn kopie van de repository; en meteen nadat je een eerste kloon van een repository hebt gemaakt, heb je een lege reflog, omdat er nog geen aktiviteit is geweest in je repository. `git show HEAD@{2.months.ago}` uitvoeren werkt alleen als je het project minstens twee maanden geleden gekloond hebt – als je het vijf minuten geleden gekloond hebt, krijg je geen resultaten.
 
-### Voorouder Referenties ###
+### Voorouder referenties ###
 
 De andere veelgebruikte manier om een commit te specificeren is via zijn voorouder. Als je een `^` aan het einde van een referentie zet, zal Git hieruit herleiden dat het de ouder van de commit betekent.
 Stel dat je naar de geschiedenis van je project kijkt:
@@ -182,11 +182,11 @@ Dit kan ook geschreven worden als `HEAD^^^`, wat nogmaals de eerste ouder van de
 
 Je kunt deze syntaxen combineren – je kunt de tweede ouder van de vorige reference krijgen (aangenomen dat het een merge commit was) door `HEAD~3^2` te gebruiken, enzovoort.
 
-### Commit Reeksen ###
+### Commit reeksen ###
 
 Nu dat je individuele commits kunt specificeren, laten we zien hoe je reeksen van commits kunt specificeren. Dit is erg bruikbaar om je branches te beheren – als je veel branches hebt, kun je reeks specificaties gebruiken om vragen te beantwoorden zoals, "Wat voor werk zit er op deze branch dat ik nog niet in mijn hoofdbranch heb?"
 
-#### Dubbele Punt ####
+#### Dubbele punt ####
 
 De meest voorkomende reeks specificatie is de dubbele punt syntax. Dit vraagt Git een reeks commits op te zoeken, die bereikbaar zijn van één commit maar niet vanuit een ander. Bijvoorbeeld, stel dat je een commitgeschiedenis hebt die eruit ziet zoals in Figuur 6-1.
 
@@ -212,7 +212,7 @@ Dit is handig als je de `experiment` branch up to date wilt houden en vast wilt 
 Dit commando toont je alle commits in je huidige branch, die niet in de `master` branch op je `origin` remote zitten. Als je een `git push` uitvoert, en je huidige branch volgt de `origin/master`, dan zijn de commits die getoond worden door `git log origin/master..HEAD` de commits die verstuurd zullen worden naar de server.
 Je kunt ook één kant van de syntax weglaten en Git de HEAD laten aannemen. Bijvoorbeeld, je krijgt dezelfde resultaten als in het vorige voorbeeld door `git log origin/master..` te typen – Git vult HEAD in als er een kant mist.
 
-#### Meerdere Punten ####
+#### Meerdere punten ####
 
 De dubbele punt is makkelijk als een afkorting; maar misschien wil je meer dan twee branches specificeren om je revisie aan te geven, zoals zien welke commits in één van een serie branches zit, die nog niet in de branch zit waar je nu op zit. Git laat je dit doen door of het `^` karakter te gebruiken, of `--not` voor iedere referentie waarvan je de bereikbare commits niet wilt zien. Dus deze drie commando's zijn gelijk:
 
@@ -227,7 +227,7 @@ Dit is fijn omdat met deze syntax je meer dan twee referenties in je vraag kunt 
 
 Dit zorgt voor een erg krachtig revisie vraagsysteem dat je zou moeten helpen om uit te zoeken wat in je branches zit.
 
-#### Drievoudige Punt ####
+#### Drievoudige punt ####
 
 De laatste veelgebruikte reeks-selectie syntax is de drievoudige punt syntax, wat alle commits specificeert die bereikbaar zijn door één van de twee referenties, maar niet door allebei. Kijk nog eens naar de voorbeeld commitgeschiedenis in Figuur 6-1.
 Als je wilt zien wat in je `master` of in je `experiment` zit, maar geen gedeelde referenties, dan kun je dit uitvoeren
@@ -250,7 +250,7 @@ Een veelgebruikte optie bij het `log` command in dit geval is `--left-right`, wa
 
 Met deze tools, kun je Git eenvoudiger laten weten welke commit of commits je wilt inspecteren.
 
-## Interactief Stagen ##
+## Interactief stagen ##
 
 Bij Git zitten een aantal scripts, die sommige commandline taken makkelijker maken. Hier zul je een aantal interactieve commando's zien, die je kunnen helpen om je commits zo te maken dat ze alleen bepaalde combinaties en delen van bestanden bevatten. Deze tools zijn erg bruikbaar als je een serie bestanden aanpast en dan besluit dat je deze veranderingen in een aantal gefocuste commits wilt hebben in plaats van een rommelige commit. Op deze manier ben je er zeker van dat je commits logische aparte wijzigingensets zijn en makkelijk gereviewed kunnen worden door je mede-ontwikkelaars.
 Als je `git add` uitvoert met de `-i` of `--interactive` optie, dan gaat Git over in de interactieve shell modus, waarbij zoiets als dit getoond wordt:
@@ -270,7 +270,7 @@ Je kunt zien dat dit commando je een heel andere view van je staging area geeft 
 
 Hierna volgt een commandosectie. Hier kun je een aantal dingen mee doen, inclusief bestanden stagen, bestanden unstagen, delen van bestanden stagen, ongevolgde bestanden toevoegen, en diffs zien van wat gestaged is.
 
-### Bestanden Stagen en Unstagen ###
+### Bestanden stagen en unstagen ###
 
 Als je `2` of `u` op de `What now>` prompt typted, dan vraagt het script welke bestanden je wilt stagen:
 
@@ -357,7 +357,7 @@ Om de diff te zien van wat je gestaged hebt, kun je het `6` of `d` (voor diff) c
 
 Met deze basiscommando's kun je de interactieve toevoegmodus gebruiken om een beetje makkelijker met je staging area om te gaan.
 
-### Patches Stagen ###
+### Patches stagen ###
 
 Het is ook mogelijk met Git om bepaalde delen van bestanden te stagen en de rest niet. Bijvoorbeeld, als je twee wijzigingen maakt in je simplegit.rb bestand en één van die twee wilt stagen en de andere niet, dan is dat eenvoudig in Git. Vanaf de interactieve prompt, type `5` of `p` (voor patch). Git zal je vragen welke bestanden je deels wilt stagen; dan, voor iedere sectie van de geselecteerde bestanden, zal het stukken van de bestandsdiff tonen en je vragen of je ze wilt stagen, één voor één: 
 
@@ -412,7 +412,7 @@ Vaak, als je aan een deel van je project hebt zitten werken, zijn de dingen in e
 
 Stashen pakt de vervuilde status van je werkmap – dat wil zeggen, je gewijzigde gevolgde bestanden en gestagede wijzingen – en bewaard het op een stapel onafgemaakte wijzigingen, die je op ieder tijdstip opnieuw kunt toepassen.
 
-### Je Werk Stashen ###
+### Je werk stashen ###
 
 Ter demonstratie, ga je in je project en begint met werken aan een paar bestanden en misschien stage je een van de wijzigingen. Als je `git status` uitvoerd, kun je je vervuilde status zien:
 
@@ -489,7 +489,7 @@ De apply optie probeert alleen het gestashete werk toe te passen – je blijft h
 
 Je kunt ook `git stash pop` uitvoeren om de stash toe te passen en hem onmiddelijk van je stapel te verwijderen.
 
-### Een Branch Van Een Stash Maken ###
+### Een branch van een stash maken ###
 
 Als je wat werk stashet, het een poosje laat rusten, en dan doorwerkt op de branch waarvan je het werk gestashet hebt, dan kun je een probleem krijgen met het werk weer toe te passen. Als het toepassen een bestand probeert te wijzigen dat je sindsdien gewijzigd hebt, krijg je een merge conflict en zul je het moeten oplossen. Als je een eenvoudiger manier wilt hebben om je gestashete wijzigingen opnieuw te testen, kun je `git stash branch` uitvoeren, wat een nieuwe branch voor je zal aanmaken, de commit waar je op zat toen je het werk stashte weer uitchecken, je werk opnieuw toepassen en dan de stash droppen als het succesvol is toegepast:
 
@@ -510,13 +510,13 @@ Als je wat werk stashet, het een poosje laat rusten, en dan doorwerkt op de bran
 
 Dit is een fijne korte route om gestashed werk eenvoudig terug te halen en aan te werken in een nieuwe branch.
 
-## Geschiedenis Herschrijven ##
+## Geschiedenis herschrijven ##
 
 Vaak zul je, als je met Git werkt, je commit geschiedenis om een of andere reden willen aanpassen. Eén van de mooie dingen van Git is dat het je toelaat om beslissingen op het laatste moment te kunnen maken. Je kunt bepalen welke bestanden in welke commits gaan vlak voordat je commit op het staging area, je kunt beslissen dat je niet aan iets bedoelde te werken met het stash commando en je kunt commits herschrijven ook al zijn ze reeds gebeurd, zodat het lijkt alsof ze op een andere manier gebeurd zijn. Dit kan bijvoorbeeld de volgorde van de commits zijn, berichten of bestanden wijzigen, commits samenvoegen of opsplitsen, of complete commits weghalen – dat alles voordat je je werk met anderen deelt.
 
 In deze sectie zul je leren hoe je deze handige taken doet, zodat je je commit geschiedenis er uit kunt laten zien zoals jij dat wilt, voordat je hem met anderen deelt.
 
-### De Laatste Commit Veranderen ###
+### De laatste commit veranderen ###
 
 De laatste commit veranderen is waarschijnlijk de meest voorkomende geschiedenis wijziging die je wilt doen. Vaak wil je twee basale dingen aan je laatste commit wijzigen: het commit bericht, of het snapshot dat je zojuist opgeslagen hebt wijzigen door het toevoegen, wijzigen of weghalen van bestanden.
 
@@ -530,7 +530,7 @@ Als je hebt gecommit en je wilt het snapshot dat je gecommit hebt wijzigen, door
 
 Je moet oppassen met deze techniek, omdat het amenden de SHA-1 van de commit wijzigt. Het is vergelijkbaar met een kleine rebase – niet je laatste commit wijzigen als je die al gepushed hebt.
 
-### Meerdere Commit Berichten Wijzigen ###
+### Meerdere commit berichten wijzigen ###
 
 Om een commit te wijzigen die verder terug in je geschiedenis zit, moet je naar complexere tools gaan. Git heeft geen geschiedenis-wijzig tool, maar je kunt het rebase tool gebruiken om een serie commits op de HEAD waarvan ze origineel gebaseerd waren te rebasen, in plaats van ze naar een andere te verhuizen. Met het interactieve rebase tool, kun je dan na iedere commit die je wilt wijzigen stoppen en het bericht wijzigen, bestanden toevoegen, of doen wat je ook maar wilt. Je kunt rebase interactief uitvoeren door de `-i` optie aan `git rebase` toe te voegen. Je moet aangeven hoe ver terug je commits wilt herschrijven door het commando te vertellen op welke commit het moet rebasen.
 
@@ -594,7 +594,7 @@ Wijzig het commit bericht, en verlaat de editor. Voer daarna dit uit
 
 Dit commando zal de andere twee commits automatisch toepassen, en dan ben je klaar. Als je pick in edit veranderd op meerdere regels, dan kun je deze stappen herhalen voor iedere commit die je in edit veranderd hebt. Iedere keer zal Git stoppen, je de commit laten amenden, en verder gaan waar je gewijzigd bent.
 
-### Commits Rangschikken ###
+### Commits rangschikken ###
 
 Je kunt een interactieve rebase ook gebruiken om commits te rangschikken of volledig te verwijderen. Als je de "added cat-file" commit wilt verwijderen en de volgorde waarin de andere twee commits zijn geintroduceerd wilt veranderen, dan kun je het rebase script van dit
 
@@ -609,7 +609,7 @@ veranderen in dit:
 
 Als je de editor opslaat en sluit, zal Git je branch terugzetten naar de ouder van deze commits, eerst `310154e` en dan `f7f3f6d` toepassen, en dan stoppen. Effectief verander je de volgorde van die commits en verwijder je de "added cat-file" commit in zijn geheel.
 
-### Een Commit Squashen ###
+### Een commit squashen ###
 
 Het is ook mogelijk een serie commits te pakken en ze in één enkele commit te squashen met het interactieve rebase tool. Het script stopt behulpzame instructies in het rebase bericht:
 
@@ -645,7 +645,7 @@ Als je de editor opslaat en sluit, zal Git alledrie de veranderingen toepassen e
 
 Als je dat opslaat, heb je een enkele commit die de veranderingen van alledrie de vorige commits introduceerd.
 
-### Een Commit Splitsen ###
+### Een commit splitsen ###
 
 Een commit opsplitsen zal een commit ongedaan maken, en dan zo vaak als het aantal commits waar je mee wilt eindigen gedeeltelijk stagen en committen. Bijvoorbeld, stel dat je de middelste van je drie commits wilt splitsen. In plaats van "updated README formatting and added blame", wil je het splitsen in twee commits: "updated README formatting" als eerste, en "added blame" als tweede. Je kunt dat doen in het `rebase -i` script door de instructie van de commit die je wilt splitsen te veranderen in "edit":
 
@@ -672,11 +672,11 @@ Git zal de laatste commit (`a5f4a0d`) in het script toepassen, en je geschiedeni
 
 Nogmaals, dit veranderd alle SHA's van alle commits in je lijst, dus zorg er voor dat er geen commit in die lijst zit die je al naar een gedeeld repository gepushed hebt.
 
-### De Nucleaire Optie: filter-branch ###
+### De nucleaire optie: filter-branch ###
 
 Er is nog een geschiedenis-herschrijvende optie, die je kunt gebruiken als je een groter aantal commits moet herschrijven in een scriptbare manier – bijvoorbeeld, het globaal veranderen van je e-mail adres of een bestand uit iedere commit verwijderen. Het commando heet `filter-branch`, en het kan grote gedeelten van je geschiedenis herschrijven, dus je moet het niet gebruiken tenzij je project nog niet publiekelijk is gemaakt en andere mensen nog geen werk hebben gebaseerd op jouw commits, die je op het punt staat te herschrijven. Maar het kan heel handig zijn. Je zult een paar gebruikelijke toepassingen leren zodat je een idee kunt krijgen van de mogelijkheden.
 
-#### Een Bestand Uit Iedere Commit Verwijderen ####
+#### Een bestand uit iedere commit verwijderen ####
 
 Dit gebeurd vrij vaak. Iemand voegt per ongeluk een enorm binair bestand toe met een gedachteloze `git add .`, en je wilt het overal weghalen. Misschien heb je per ongeluk een bestand toegevoegd dat een wachtwoord bevat, en wil je je project open source maken. `filter-branch` is het tool dat je waarschijnlijk wil gebruiken om je hele geschiedenis schoon te vegen. Om een bestand genaamd passwords.txt uit je hele geschiedenis weg te halen, kun je de `--tree-filter` optie toevoegen aan `filter-branch`:
 
@@ -688,7 +688,7 @@ De `--tree-filter` optie voert het gegeven commando uit na iedere checkout van h
 
 Je kunt Git bomen en commits zien herschrijven en de branch wijzer aan het einde zien verplaatsen. Het is over het algemeen een goed idee om dit in een test branch te doen, en dan je master branch te hard-resetten nadat je gecontroleerd hebt dat de uitkomst echt zo is als je wil. Om `filter-branch` op al je branches uit te voeren, kun je `--all` aan het commando meegeven.
 
-#### Een Subdirectory Het Nieuwe Beginpunt Maken ####
+#### Een subdirectory het nieuwe beginpunt maken ####
 
 Stel dat je een import vanuit een ander versiebeheersysteem hebt gedaan, en subdirectories hebt die geen zin maken (trunk, tags enzovoort). Als je de `trunk` subdirectory het nieuwe beginpunt van het project wilt maken voor iedere commit, dan kan `filter-branch` je daar ook mee helpen:
 
@@ -698,7 +698,7 @@ Stel dat je een import vanuit een ander versiebeheersysteem hebt gedaan, en subd
 
 Nu is je nieuwe project wat het was in de `trunk` subdirectory. Git zal ook automatisch commits verwijderen, die geen effect hadden op de subdirectory.
 
-#### E-Mail Adressen Globaal Veranderen ####
+#### E-mail adressen globaal veranderen ####
 
 Een ander veel voorkomend geval is dat je vergeten bent om `git config` uit te voeren om je naam en e-mail adres in te stellen voordat je bent begonnen met werken, of misschien wil je een project op het werk open source maken en al je werk e-mail adressen veranderen naar je privé adres. In ieder geval kun je e-mail adressen in meerdere commits ook ineens veranderen met `filter-branch`. Je moet wel oppassen om alleen de e-mail adressen aan te passen, die van jou zijn, dus gebruik je `--commit-filter`:
 
@@ -714,7 +714,7 @@ Een ander veel voorkomend geval is dat je vergeten bent om `git config` uit te v
 
 Dit gaat door en herschrijft iedere commit zodat het jouw nieuwe adres bevat. Om dat commits de SHA-1 waarde van hun ouders bevatten, zal dit commando iedere commit SHA in jouw geschiedenis veranderen, niet alleen degenen die het passende e-mail adress bevatten.
 
-## Debuggen Met Git ##
+## Debuggen met Git ##
 
 Git levert ook een paar tools om je problemen te helpen debuggen in je projecten. Omdat Git is ontworpen te werken met bijna ieder type project, zijn deze tools erg generiek, maar ze kunnen je vaak helpen op een bug of veroorzaker te jagen als de dingen verkeerd gaan.
 
@@ -756,7 +756,7 @@ Een ander stoer ding van Git is dat het geen naamswijzigingen van bestanden expl
 
 Dit is heel handig. Normaal krijg je als de originele commit de commit waar je de code overheen gekopiëerd hebt, omdat dat de eerste keer is dat je die regels aangeraakt hebt in dit bestand. Git verteld je de originele commit waarin je deze regels geschreven hebt, zelfs als dat in een ander bestand is.
 
-### Binair Zoeken ###
+### Binair zoeken ###
 
 Een bestand annoteren helpt als je eenmaal weet waar het probleem zit. Als je niet weet wat er kapot is, en er zijn vele dozijnen of honderden commits geweest sinds de laatste staat waarvan je weet dat de code werkte, dan zul je waarschijnlijk bij `git bisect` aankloppen voor hulp. Het `bisect` commando zoekt binair door je commitgeschiedenis om je zo snel als mogelijk te helpen identificeren welke commit het issue introduceerde.
 
@@ -812,7 +812,7 @@ Hier is een voorbeeld. Stel dat je een website aan het ontwikkelen bent en Atom 
 
 Git pakt dit probleem aan door submodules te gebruiken. Submodules geven je de mogelijkheid om een Git repository als een subdirectory van een ander Git repository te gebruiken. Dit staat je toe een ander repository in je project te clonen en je commits gescheiden te houden.
 
-### Beginnen Met Submodules ###
+### Beginnen met submodules ###
 
 Stel dat je de Rack library (een Ruby web server gateway interface) wilt toevoegen aan je project, misschien je eigen veranderingen eraan wilt onderhouden, maar ook veranderingen van stroomopwaarts wilt mergen. Het eerste dat je zou moeten doen is het exteren repository clonen in jouw submap. Je voegt externe projecten als submodules toe door middel van het `git submodule add` commando:
 
@@ -885,7 +885,7 @@ Je kunt de `rack` map als een apart project behandelen en je superproject van ti
 
 	    Document version change
 
-### Een Project Met Submodules Clonen ###
+### Een project met submodules clonen ###
 
 Hier zul je een project met een submodule erin clonen. Als je zo'n project ontvangt, krijg je de mappen die submodules bevatten, maar nog niet meteen de bestanden:
 
@@ -979,7 +979,7 @@ Soms willen developers een combinatie van de submappen van een groot project heb
 
 Een goeie manier om dit in Git te doen is om ieder van de submappen een aparte Git repository te maken en dan superproject Git repositories te maken die meerdere submodules kunnen bevatten. Een voordeel van deze aanpak is dat je meer specifiek kunt definiëeren wat de relaties tussen de projecten zijn met behulp van tags en branches in de superprojects.
 
-### Problemen Met Submodules ###
+### Problemen met submodules ###
 
 Submodules gebruiken is echter niet zonder gevaar. Ten eerste moet je relatief voorzichtig zijn met het werken in een submap. Als je `git submodule update` uitvoerd, zal het de specifieke versie van het project uitchecken, maar niet binnen een branch. Dit wordt een afgekoppelde HEAD genoemd – het betekent dat het HEAD bestand direct naar een commit wijst, en niet naar een symbolische referentie. Het probleem is dat je over het algemeen niet wilt werken in een afgekoppelde head omgeving, omdat het makkelijk is om veranderingen te verliezen. Als je een initiele `submodule update` doet, in die submodule map commit zonder een branch te maken om in te werken, an dan nogmaals `git submodule update` uitvoert in het superproject zonder in de tussentijd te committen, dan zal Git je veranderingen overschrijven zonder het je te vertellen. Technisch gezien ben je het werk niet kwijt, maar je zult geen branch hebben die er naar wijst, dus het zal lastig zijn om het terug te halen.
 
@@ -1042,7 +1042,7 @@ Je moet de `rack` submodule map verplaatsen voordat je naar een branch kunt wiss
 
 Als je dan terug wisselt krijg je een lege `rack` map. Je kunt dan nogmaals `git submodule update` uitvoeren om nog eens te clonen, of je kunt je `/tmp/rack` map terug zetten in de lege map.
 
-## Subboom Mergen ##
+## Subboom mergen ##
 
 Nu je de moeilijkheden van het submodulesysteem hebt gezien, laten we eens kijken naar een alternatieve manier om hetzelfde probleem aan te pakken. Zodra Git merge't, kijkt het naar wat het samen moet mergen en kiest dan een toepasselijke mergestrategie om te gebruiken. Als je twee branches aan het mergen bent, zal Git een _recursive_ strategie gebruiken. Als je meer dan twee branches aan het mergen bent, zal Git de _octopus_ strategie kiezen. Deze strategiëen worden automatisch voor je gekozen, omdat de recursieve strategie complexe drie-weg merge situaties kan behandelen – bijvoorbeeld, meer dan één gezamenlijke voorouder – maar het kan slechts twee branches behandelen. De octopus merge kan meerdere branches behandelen, maar is voorzichtiger om moeilijke conflicten te vermijden, dus is het gekozen als de standaard strategie als je meer dan twee branches probeert te mergen.
 

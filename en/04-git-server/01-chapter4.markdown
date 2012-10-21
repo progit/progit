@@ -335,7 +335,7 @@ If you want to run the web interface on a server all the time for your team or f
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
 	$ make GITWEB_PROJECTROOT="/opt/git" \
-	        prefix=/usr gitweb/gitweb.cgi
+	        prefix=/usr gitweb
 	$ sudo cp -Rf gitweb /var/www/
 
 Notice that you have to tell the command where to find your Git repositories with the `GITWEB_PROJECTROOT` variable. Now, you need to make Apache use CGI for that script, for which you can add a VirtualHost:
@@ -507,7 +507,7 @@ If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[git
 
 Note: the latest copy of this section of the ProGit book is always available within the [gitolite documentation][gldpg].  The author would also like to humbly state that, while this section is accurate, and *can* (and often *has*) been used to install gitolite without reading any other documentation, it is of necessity not complete, and cannot completely replace the enormous amount of documentation that gitolite comes with.
 
-[gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
+[gldpg]: http://sitaramc.github.com/gitolite/progit.html
 
 Git has started to become very popular in corporate environments, which tend to have some additional requirements in terms of access control.  Gitolite was originally created to help with those requirements, but it turns out that it's equally useful in the open source world: the Fedora Project controls access to their package management repositories (over 10,000 of them!) using gitolite, and this is probably the largest gitolite installation anywhere too.
 
@@ -753,7 +753,7 @@ If you don’t want to go through all of the work involved in setting up your ow
 
 These days, you have a huge number of hosting options to choose from, each with different advantages and disadvantages. To see an up-to-date list, check out the following page:
 
-	http://git-scm.com/tools#hosting
+	http://en.wikipedia.org/wiki/Git_(software)#Source_code_hosting
 
 Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved. 
 

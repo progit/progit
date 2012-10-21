@@ -139,7 +139,7 @@ Rysunek 3-12. Gałąź iss53 przesunęła się do przodu wraz z postępami w two
 
 Teraz właśnie otrzymujesz telefon, że na stronie wykryto błąd i musisz go natychmiast poprawić. Z Gitem nie musisz wprowadzać poprawki razem ze zmianami wykonanymi w ramach pracy nad `iss35`. Co więcej, nie będzie cię również kosztować wiele wysiłku przywrócenie katalogu roboczego do stanu sprzed tych zmian, tak, by nanieść poprawki na kod, który używany jest na serwerze produkcyjnym. Wszystko, co musisz teraz zrobić, to przełączyć się z powrotem na gałąź master.
 
-Jednakże nim to zrobisz, zauważ, że, jeśli twój katalog roboczy lub poczekalnia zawierają niezatwierdzone zmiany, które są w konflikcie z gałęzią, do której chcesz się teraz przełączyć, Git nie pozwoli ci zmienić gałęzi. Przed przełączeniem gałęzi najlepiej jest doprowadzić katalog roboczy do czystego stanu. Istnieją sposoby pozwalające obejść to ograniczenie (mianowicie schowek oraz poprawianie zatwierdzonych już zmian) i zajmiemy się nimi później. Póki co, zatwierdziłeś wszystkie swoje zmiany, więc możesz przełączyć się na swoją gałąź master:
+Jednakże, nim to zrobisz, zauważ, że, jeśli twój katalog roboczy lub poczekalnia zawierają niezatwierdzone zmiany, które są w konflikcie z gałęzią, do której chcesz się teraz przełączyć, Git nie pozwoli ci zmienić gałęzi. Przed przełączeniem gałęzi najlepiej jest doprowadzić katalog roboczy do czystego stanu. Istnieją sposoby pozwalające obejść to ograniczenie (mianowicie schowek oraz poprawianie zatwierdzonych już zmian) i zajmiemy się nimi później. Póki co zatwierdziłeś wszystkie swoje zmiany, więc możesz przełączyć się na swoją gałąź master:
 
 	$ git checkout master
 	Switched to branch "master"
@@ -446,7 +446,7 @@ Otrzymasz lokalną gałąź, w której będziesz mógł rozpocząć pracę od mo
 
 ### Gałęzie śledzące ###
 
-Przełączenie do lokalnej gałęzi ze zdalnej automatycznie tworzy coś, co określa się jako _gałąź śledzącą_. Gałęzie śledzące są gałęziami lokalnymi, które posiadają bezpośrednią relację z gałęzią zdalną. Jeśli znajdujesz się w gałęzi śledzącej, po wpisaniu `git push` Git automatycznie wie na który serwer wypchnąć zmiany. Podobnie, uruchomienie `git pull` w jednej z takich gałęzi pobiera wszystkie dane i odnośniki ze zdalnego repozytorium i automatycznie scala zmiany z gałęzi zdalnej do odpowiedniej gałęzi zdalnej.
+Przełączenie do lokalnej gałęzi ze zdalnej automatycznie tworzy coś, co określa się jako _gałąź śledzącą_. Gałęzie śledzące są gałęziami lokalnymi, które posiadają bezpośrednią relację z gałęzią zdalną. Jeśli znajdujesz się w gałęzi śledzącej, po wpisaniu `git push` Git automatycznie wie, na który serwer wypchnąć zmiany. Podobnie uruchomienie `git pull` w jednej z takich gałęzi pobiera wszystkie dane i odnośniki ze zdalnego repozytorium i automatycznie scala zmiany z gałęzi zdalnej do odpowiedniej gałęzi zdalnej.
 
 Po sklonowaniu repozytorium automatycznie tworzona jest gałąź `master`, która śledzi `origin/master`. Z tego właśnie powodu polecenia `git push` i `git pull` działają od razu, bez dodatkowych argumentów. Jednakże, możesz skonfigurować inne gałęzie tak, żeby śledziły zdalne odpowiedniki. Prosty przypadek to przywołany już wcześniej przykład polecenia `git checkout -b [gałąź] [nazwa zdalnego repozytorium]/[gałąź]`. Jeśli pracujesz z Gitem nowszym niż 1.6.2, możesz także użyć skrótu `--track`:
 
@@ -464,7 +464,7 @@ Teraz twoja lokalna gałąź sf będzie pozawalała na automatyczne wypychanie z
 
 ### Usuwanie zdalnych gałęzi ###
 
-Załóżmy, że skończyłeś pracę ze zdalną gałęzią - powiedzmy, że ty i twoi współpracownicy zakończyliście pracę na nową funkcją i scaliliście zmiany ze zdalną gałęzią główną `master` (czy gdziekolwiek indziej, gdzie znajduje się stabilna wersja kodu). Możesz usunąć zdalną gałąź używając raczej niezbyt intuicyjnej składni `git push [nazwa zdalnego repozytorium] :[gałąź]`. Aby np. usunąć z serwera gałąź `serverfix` uruchom polecenie:
+Załóżmy, że skończyłeś pracę ze zdalną gałęzią - powiedzmy, że ty i twoi współpracownicy zakończyliście pracę nad nową funkcją i scaliliście zmiany ze zdalną gałęzią główną `master` (czy gdziekolwiek indziej, gdzie znajduje się stabilna wersja kodu). Możesz usunąć zdalną gałąź używając raczej niezbyt intuicyjnej składni `git push [nazwa zdalnego repozytorium] :[gałąź]`. Aby np. usunąć z serwera gałąź `serverfix` uruchom polecenie:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
@@ -474,7 +474,7 @@ Bum. Nie ma już na serwerze tej gałęzi. Jeśli chcesz, zaznacz sobie tą stro
 
 ## Zmiana bazy ##
 
-W Git istnieją dwa podstawowe sposoby integrowania zmian z jednej gałęzi do drugiej: scalanie (polecenie `merge`) oraz zmiana bazy (polecenie `rebase`). W tym rozdziale dowiesz się czym jest zmiana bazy, jak ją przeprowadzić, dlaczego jest to świetne narzędzie i w jakich przypadkach lepiej się powstrzymać od jego wykorzystania
+W Git istnieją dwa podstawowe sposoby integrowania zmian z jednej gałęzi do drugiej: scalanie (polecenie `merge`) oraz zmiana bazy (polecenie `rebase`). W tym rozdziale dowiesz się, czym jest zmiana bazy, jak ją przeprowadzić, dlaczego jest to świetne narzędzie i w jakich przypadkach lepiej się powstrzymać od jego wykorzystania.
 
 ### Typowa zmiana bazy ###
 
@@ -483,12 +483,12 @@ Jeśli cofniesz się do poprzedniego przykładu z sekcji Scalanie (patrz Rysunek
 Insert 18333fig0327.png 
 Rysunek 3-27. Początkowa historia po rozszczepieniu.
 
-Najprostszym sposobem, aby zintegrować gałęzie, jak już napisaliśmy, jest polecenie `merge`. Przeprowadza ono trójstronne scalanie pomiędzy dwoma ostatnimi migawkami gałęzi (C3 i C4) oraz ich ostatnim wspólnym przodkiem (C2), tworząc nową migawkę (oraz rewizję), tak jak widać to na rysunku 3-28.
+Najprostszym sposobem, aby zintegrować gałęzie - jak już napisaliśmy - jest polecenie `merge`. Przeprowadza ono trójstronne scalanie pomiędzy dwoma ostatnimi migawkami gałęzi (C3 i C4) oraz ich ostatnim wspólnym przodkiem (C2), tworząc nową migawkę (oraz rewizję), tak jak widać to na rysunku 3-28.
 
 Insert 18333fig0328.png 
 Rysunek 3-28. Scalanie gałęzi integrujące rozszczepioną historię zmian.
 
-Jednakże, istnieje inny sposób: możesz stworzyć łatkę ze zmianami wprowadzonymi w C3 i zaaplikować ją na rewizję C4. W Gicie nazywa się to zmianą bazy (ang. rebase). Dzięki poleceniu `rebase`, możesz wziąć wszystkie zmiany, które zostały zatwierdzone w jednej gałęzi i zaaplikować je w innej.
+Jednakże istnieje inny sposób: możesz stworzyć łatkę ze zmianami wprowadzonymi w C3 i zaaplikować ją na rewizję C4. W Gicie nazywa się to zmianą bazy (ang. rebase). Dzięki poleceniu `rebase` możesz wziąć wszystkie zmiany, które zostały zatwierdzone w jednej gałęzi i zaaplikować je w innej.
 
 W tym wypadku, mógłbyś uruchomić następujące polecenie:
 
@@ -497,34 +497,34 @@ W tym wypadku, mógłbyś uruchomić następujące polecenie:
 	First, rewinding head to replay your work on top of it...
 	Applying: added staged command
 
-Polecenie to działa przesuwając się do ostatniego, wspólnego przodka obu gałęzi (tej w której się znajdujesz oraz tej *do* której robisz zmianę bazy), pobierając różnice opisujące kolejne zmiany (ang. diffs) wprowadzane przez kolejne rewizje w gałęzi w której się znajdujesz, zapisując je w tymczasowych plikach, następnie resetuje bieżącą gałąź do tej samej rewizji *do* której wykonujesz operację zmiany bazy, po czym aplikuje po kolei zapisane zmiany. Ilustruje to rysunek 3-29.
+Polecenie to działa przesuwając się do ostatniego wspólnego przodka obu gałęzi (tej w której się znajdujesz oraz tej *do* której robisz zmianę bazy), pobierając różnice opisujące kolejne zmiany (ang. diffs) wprowadzane przez kolejne rewizje w gałęzi w której się znajdujesz, zapisując je w tymczasowych plikach, następnie resetuje bieżącą gałąź do tej samej rewizji *do* której wykonujesz operację zmiany bazy, po czym aplikuje po kolei zapisane zmiany. Ilustruje to rysunek 3-29.
 
 Insert 18333fig0329.png 
 Rysunek 3-29. Zmiana bazy dla zmian wprowadzonych w C3 do C4.
 
-W tym momencie, możesz wrócić do gałęzi `master` i scalić zmiany wykonując proste przesunięcie wskaźnika (co przesunie wskaźnik master na koniec) (rysunek 3-30).
+W tym momencie możesz wrócić do gałęzi `master` i scalić zmiany wykonując proste przesunięcie wskaźnika (co przesunie wskaźnik master na koniec) (rysunek 3-30).
 
 Insert 18333fig0330.png 
 Rysunek 3-30. Przesunięcie gałęzi master po operacji zmiany bazy.
 
 Teraz migawka wskazywana przez C3 jest dokładnie taka sama jak ta, na którą wskazuje C5 w przykładzie ze scalaniem. Nie ma różnicy w produkcie końcowym integracji. Zmiana bazy tworzy jednak czystszą historię. Jeśli przejrzysz historię gałęzi po operacji `rebase`, wygląda ona na liniową: wygląda jakby cała praca była wykonywana stopniowo, nawet jeśli oryginalnie odbywała się równolegle.
 
-Warto korzystać z tej funkcji, by mieć pewność, że rewizje zaaplikują się w bezproblemowy sposób do zdalnej gałęzi - być może w projekcie w którym próbujesz się udzielać, a którym nie zarządzasz. W takim wypadku, będziesz wykonywał swoją pracę we własnej gałęzi, a następnie zmieniał jej bazę na `origin/master` jak tylko będziesz gotowy do przesłania własnych poprawek do głównego projektu. W ten sposób, osoba utrzymująca projekt nie będzie musiała dodatkowo wykonywać integracji - jedynie prostolinijne scalenie lub czyste zastosowanie zmian.
+Warto korzystać z tej funkcji, by mieć pewność, że rewizje zaaplikują się w bezproblemowy sposób do zdalnej gałęzi - być może w projekcie w którym próbujesz się udzielać, a którym nie zarządzasz. W takim wypadku będziesz wykonywał swoją pracę we własnej gałęzi, a następnie zmieniał jej bazę na `origin/master`, jak tylko będziesz gotowy do przesłania własnych poprawek do głównego projektu. W ten sposób osoba utrzymująca projekt nie będzie musiała dodatkowo wykonywać integracji - jedynie prostolinijne scalenie lub czyste zastosowanie zmian.
 
-Zauważ, że migawka wskazywana przez wynikową rewizję, bez względu na to, czy jest to ostatnia rewizja po zmianie bazy lub ostatnia rewizja scalająca po operacji scalania, to taka sama migawka - różnica istnieje jedynie w historii. Zmiana bazy nanosi zmiany z jednej linii pracy do innej w kolejności w jakiej były one wprowadzane, w odróżnieniu od scalania, które bierze dwie końcówki i integruje je ze sobą.
+Zauważ, że migawka wskazywana przez wynikową rewizję bez względu na to, czy jest to ostatnia rewizja po zmianie bazy lub ostatnia rewizja scalająca po operacji scalania, to taka sama migawka - różnica istnieje jedynie w historii. Zmiana bazy nanosi zmiany z jednej linii pracy do innej w kolejności, w jakiej były one wprowadzane, w odróżnieniu od scalania, które bierze dwie końcówki i integruje je ze sobą.
 
 ### Ciekawsze operacje zmiany bazy ###
 
-Poleceniem `rebase` możesz także zastosować zmiany na innej gałęzi niż ta, której zmieniasz bazę. Dla przykładu weź historię taką jak na rysunku 3-31. Utworzyłeś gałąź tematyczną (`server`), żeby dodać nowe funkcje do kodu serwerowego, po czym utworzyłeś rewizję. Następnie utworzyłeś gałąź żeby wykonać zmiany w kliencie (`client`) i kilkukrotnie zatwierdziłeś zmiany. W końcu wróciłeś do gałęzi `server` i wykonałeś kilka kolejnych rewizji.
+Poleceniem `rebase` możesz także zastosować zmiany na innej gałęzi niż ta, której zmieniasz bazę. Dla przykładu - weź historię taką jak na rysunku 3-31. Utworzyłeś gałąź tematyczną (`server`), żeby dodać nowe funkcje do kodu serwerowego, po czym utworzyłeś rewizję. Następnie utworzyłeś gałąź, żeby wykonać zmiany w kliencie (`client`) i kilkukrotnie zatwierdziłeś zmiany. W końcu wróciłeś do gałęzi `server` i wykonałeś kilka kolejnych rewizji.
 
 Insert 18333fig0331.png 
 Rysunek 3-31. Historia z gałęzią tematyczną utworzoną na podstawie innej gałęzi tematycznej.
 
-Załóżmy, że zdecydowałeś się scalić zmiany w kliencie do kodu głównego, ale chcesz się jeszcze wstrzymać ze zmianami po stronie serwera dopóki nie zostaną one dokładniej przetestowane. Możesz wziąć zmiany w kodzie klienta, których nie ma w kodzie serwera (C8 i C9) i zastosować je na gałęzi głównej używając opcji `--onto` polecenia `git rebase`:
+Załóżmy, że zdecydowałeś się scalić zmiany w kliencie do kodu głównego, ale chcesz się jeszcze wstrzymać ze zmianami po stronie serwera, dopóki nie zostaną one dokładniej przetestowane. Możesz wziąć zmiany w kodzie klienta, których nie ma w kodzie serwera (C8 i C9) i zastosować je na gałęzi głównej używając opcji `--onto` polecenia `git rebase`:
 
 	$ git rebase --onto master server client
 
-Oznacza to mniej więcej "Przełącz się do gałęzi klienta, określ zmiany wprowadzone od wspólnego przodka gałęzi `client` i `server`, a następnie nanieś te zmiany na gałąź główną `master`. Jest to nieco skomplikowane, ale wynik, pokazany na rysunku 3-32, całkiem niezły.
+Oznacza to mniej więcej "Przełącz się do gałęzi klienta, określ zmiany wprowadzone od wspólnego przodka gałęzi `client` i `server`, a następnie nanieś te zmiany na gałąź główną `master`. Jest to nieco skomplikowane, ale wynik (pokazany na rysunku 3-32) całkiem niezły.
 
 Insert 18333fig0332.png 
 Rysunek 3-32. Zmiana bazy gałęzi tematycznej odbitej z innej gałęzi tematycznej.
@@ -541,7 +541,7 @@ Powiedzmy, że zdecydujesz się pobrać i scalić zmiany z gałęzi `server`. Mo
 
 	$ git rebase master server
 
-Polecenie odtwarza zmiany z gałęzi `server` na gałęzi `master`, tak jak pokazuje to rysunek 3-34.
+Polecenie odtwarza zmiany z gałęzi `server` na gałęzi `master` tak, jak pokazuje to rysunek 3-34.
 
 Insert 18333fig0334.png 
 Rysunek 3-34. Zmiana bazy gałęzi `serwer` na koniec gałęzi głównej.
@@ -551,7 +551,7 @@ Następnie możesz przesunąć gałąź bazową (`master`):
 	$ git checkout master
 	$ git merge server
 
-Możesz teraz usunąć gałęzie `client` i `server` ponieważ cała praca jest już zintegrowana i więcej ich nie potrzebujesz, pozostawiając historię w stanie takim jaki obrazuje rysunek 3-35:
+Możesz teraz usunąć gałęzie `client` i `server`, ponieważ cała praca jest już zintegrowana i więcej ich nie potrzebujesz pozostawiając historię w stanie takim, jaki obrazuje rysunek 3-35:
 
 	$ git branch -d client
 	$ git branch -d server
@@ -561,38 +561,38 @@ Rysunek 3-35. Ostateczna historia rewizji.
 
 ### Zagrożenia operacji zmiany bazy ###
 
-Błogosławieństwo jakie daje możliwość zmiany bazy ma swoją mroczną stronę. Można ją podsumować jednym zdaniem:
+Błogosławieństwo, jakie daje możliwość zmiany bazy, ma swoją mroczną stronę. Można ją podsumować jednym zdaniem:
 
 **Nie zmieniaj bazy rewizji, które wypchnąłeś już do publicznego repozytorium.**
 
-Jeśli będziesz się stosował do tej reguły, wszystko będzie dobrze. W przeciwnym razie, ludzie cię znienawidzą a rodzina i przyjaciele zaczną omijać szerokim łukiem.
+Jeśli będziesz się stosował do tej reguły, wszystko będzie dobrze. W przeciwnym razie ludzie cię znienawidzą, a rodzina i przyjaciele zaczną omijać szerokim łukiem.
 
-Stosując operację zmiany bazy porzucasz istniejące rewizje i tworzysz nowe, które są podobne, ale inne. Wypychasz gdzieś swoje zmiany, inni je pobierają, scalają i pracują na nich, a następnie nadpisujesz te zmiany poleceniem `git rebase` i wypychasz ponownie na serwer. Twoi współpracownicy będą musieli scalić swoją pracę raz jeszcze i zrobi się bałagan kiedy spróbujesz pobrać i scalić ich zmiany z powrotem z Twoimi.
+Stosując operację zmiany bazy porzucasz istniejące rewizje i tworzysz nowe, które są podobne, ale inne. Wypychasz gdzieś swoje zmiany, inni je pobierają, scalają i pracują na nich, a następnie nadpisujesz te zmiany poleceniem `git rebase` i wypychasz ponownie na serwer. Twoi współpracownicy będą musieli scalić swoją pracę raz jeszcze i zrobi się bałagan, kiedy spróbujesz pobrać i scalić ich zmiany z powrotem z twoimi.
 
-Spójrzmy na przykład obrazujący jak operacja zmiany bazy może spowodować problemy. Załóżmy, że sklonujesz repozytorium z centralnego serwera, a następnie wykonasz bazując na tym nowe zmiany. Twoja historia rewizji wygląda tak jak na rysunku 3-36.
+Spójrzmy na przykład obrazujący, jak operacja zmiany bazy może spowodować problemy. Załóżmy, że sklonujesz repozytorium z centralnego serwera, a następnie wykonasz bazując na tym nowe zmiany. Twoja historia rewizji wygląda tak jak na rysunku 3-36.
 
 Insert 18333fig0336.png 
 Rysunek 3-36. Sklonowane repozytorium i dokonane zmiany.
 
-Teraz ktoś inny wykonuje inną pracę, która obejmuje scalenie, i wypycha ją na centralny serwer. Pobierasz zmiany, scalasz nową, zdalną gałąź z własną pracą, w wyniku czego historia wygląda mniej więcej tak jak na rysunku 3-37.
+Teraz ktoś inny wykonuje inną pracę, która obejmuje scalenie, i wypycha ją na centralny serwer. Pobierasz zmiany, scalasz nową, zdalną gałąź z własną pracą, w wyniku czego historia wygląda mniej więcej tak, jak na rysunku 3-37.
 
 Insert 18333fig0337.png 
 Rysunek 3-37. Pobranie kolejnych rewizji i scalenie ich z własnymi zmianami.
 
-Następnie osoba, która wypchnęła scalone zmiany, rozmyśliła się i zdecydowała zamiast scalenia zmienić bazę swoich zmian; wykonuje `git push --force` żeby zastąpić historię na serwerze. Następnie ty pobierasz dane z serwera ściągając nowe rewizje.
+Następnie osoba, która wypchnęła scalone zmiany, rozmyśliła się i zdecydowała zamiast scalenia zmienić bazę swoich zmian; wykonuje `git push --force`, żeby zastąpić historię na serwerze. Następnie ty pobierasz dane z serwera ściągając nowe rewizje.
 
 Insert 18333fig0338.png 
-Rysunek 3-38. Ktoś wypycha rewizje po operacji zmiany bazy, porzucając rewizje na których ty oparłeś swoje zmiany.
+Rysunek 3-38. Ktoś wypycha rewizje po operacji zmiany bazy porzucając rewizje, na których ty oparłeś swoje zmiany.
 
-W tym momencie musisz raz jeszcze scalać tę pracę mimo tego, że już to wcześniej raz zrobiłeś. Operacja zmiany bazy zmienia sumy kontrolne SHA-1 tych rewizji więc dla Gita wyglądają one jak zupełnie nowe, choć w rzeczywistości masz już zmiany wprowadzone w C4 w swojej historii (rysunek 3-39).
+W tym momencie musisz raz jeszcze scalać tę pracę mimo tego, że już to wcześniej raz zrobiłeś. Operacja zmiany bazy zmienia sumy kontrolne SHA-1 tych rewizji, więc dla Gita wyglądają one jak zupełnie nowe, choć w rzeczywistości masz już zmiany wprowadzone w C4 w swojej historii (rysunek 3-39).
 
 Insert 18333fig0339.png 
 Rysunek 3-39. Scalasz tą samą pracę raz jeszcze tworząc nową rewizję scalającą.
 
-Musisz scalić swoją pracę w pewnym momencie po to, żeby dotrzymywać kroku innym programistom. Kiedy już to zrobisz, twoja historia zmian będzie zawierać zarówno rewizje C4 jak i C4', które mają różne sumy SHA-1 ale zawierają te same zmiany i mają ten sam komentarz. Jeśli uruchomisz `git log` dla takiej historii zobaczysz dwie rewizje mające tego samego autora, datę oraz komentarz, co będzie mylące. Co więcej, jeśli wypchniesz tę historię z powrotem na serwer, raz jeszcze wprowadzisz wszystkie rewizje powstałe w wyniku operacji zmiany bazy na serwer centralny, co może dalej mylić i denerwować ludzi.
+Musisz scalić swoją pracę w pewnym momencie po to, żeby dotrzymywać kroku innym programistom. Kiedy już to zrobisz, twoja historia zmian będzie zawierać zarówno rewizje C4 jak i C4', które mają różne sumy SHA-1, ale zawierają te same zmiany i mają ten sam komentarz. Jeśli uruchomisz `git log` dla takiej historii, zobaczysz dwie rewizje mające tego samego autora, datę oraz komentarz, co będzie mylące. Co więcej, jeśli wypchniesz tę historię z powrotem na serwer, raz jeszcze wprowadzisz wszystkie rewizje powstałe w wyniku operacji zmiany bazy na serwer centralny, co może dalej mylić i denerwować ludzi.
 
 Jeśli traktujesz zmianę bazy jako sposób na porządkowanie historii i sposób pracy z rewizjami przed wypchnięciem ich na serwer oraz jeśli zmieniasz bazę tylko tym rewizjom, które nigdy wcześniej nie były dostępne publicznie, wówczas wszystko będzie w porządku. Jeśli zaczniesz zmieniać bazę rewizjom, które były już publicznie dostępne, a ludzie mogą na nich bazować swoje zmiany, wówczas możesz wpaść w naprawdę frustrujące tarapaty.
 
 ## Podsumowanie ##
 
-Omówiliśmy podstawy tworzenia gałęzi oraz scalania w Git. Powinieneś już z łatwością tworzyć gałęzie, przełączać się pomiędzy nimi i scalać zawarte w nich zmiany. Powinieneś także umieć współdzielić swoje gałęzie wypychając je na serwer, pracować z innymi w współdzielonych gałęziach oraz zmieniać bazę gałęziom zanim zostaną udostępnione innym.
+Omówiliśmy podstawy tworzenia gałęzi oraz scalania w Git. Powinieneś już z łatwością tworzyć gałęzie, przełączać się pomiędzy nimi i scalać zawarte w nich zmiany. Powinieneś także umieć współdzielić swoje gałęzie wypychając je na serwer, pracować z innymi w współdzielonych gałęziach oraz zmieniać bazę gałęziom, zanim zostaną udostępnione innym.

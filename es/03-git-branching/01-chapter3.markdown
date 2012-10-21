@@ -377,7 +377,7 @@ Figura 3-21. El registro tras fusionar 'dumbidea' e 'iss91v2'.
 
 Es importante recordar que, mientras estás haciendo todo esto, todas las ramas son completamente locales. Cuando ramificas y fusionas, todo se realiza en tu propio repositório Git. No hay nigún tipo de tráfico con ningún servidor.
 
-## Ramas Remotas ## 
+## Ramas Remotas ##
 
 Las ramas remotas son referencias al estado de ramas en tus repositorios remotos. Son ramas locales que no puedes mover;  se mueven automáticamente cuando estableces comunicaciones en la red. Las ramas remotas funcionan como marcadores, para recordarte en qué estado se encontraban tus repositorios remotos la última vez que conectaste con ellos.
 

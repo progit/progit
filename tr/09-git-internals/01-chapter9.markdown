@@ -27,7 +27,7 @@ When you run `git init` in a new or existing directory, Git creates the `.git` d
 	objects/
 	refs/
 
-You may see some other files in there, but this is a fresh `git init` repository — it’s what you see by default. The `branches` directory isn’t used by newer Git versions, and the `description` file is only used by the GitWeb program, so don’t worry about those. The `config` file contains your project-specific configuration options, and the `info` directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file. The `hooks` directory contains your client- or server-side hook scripts, which are discussed in detail in Chapter 6.
+You may see some other files in there, but this is a fresh `git init` repository — it’s what you see by default. The `branches` directory isn’t used by newer Git versions, and the `description` file is only used by the GitWeb program, so don’t worry about those. The `config` file contains your project-specific configuration options, and the `info` directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file. The `hooks` directory contains your client- or server-side hook scripts, which are discussed in detail in Chapter 7.
 
 This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.
 
@@ -510,9 +510,9 @@ How does Git do this? When Git packs objects, it looks for files that are named 
 	484a59275031909e19aadb7c92262719cfcdf19a commit 226 153 169
 	83baae61804e65cc73a7201a7252750c76066a30 blob   10 19 5362
 	9585191f37f7b0fb9444f35a9bf50de191beadc2 tag    136 127 5476
-	9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e blob   7 18 5193 1
-	05408d195263d853f09dca71d55116663690c27c \
-	  ab1afef80fac8e34258ff41fc1b867c702daa24b commit 232 157 12
+	9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e blob   7 18 5193 1 \
+	  05408d195263d853f09dca71d55116663690c27c
+	ab1afef80fac8e34258ff41fc1b867c702daa24b commit 232 157 12
 	cac0cab538b970a37ea1e769cbbde608743bc96d commit 226 154 473
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579 tree   36 46 5316
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4352

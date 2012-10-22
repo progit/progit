@@ -752,7 +752,7 @@ Se você não quer passar por todo o trabalho envolvido na configuração de seu
 
 Nos dias de hoje, você tem um grande número de opções de hospedagem para escolher, cada um com diferentes vantagens e desvantagens. Para ver uma lista atualizada, veja a seguinte página:
 
-    http://git-scm.com/tools#hosting
+    http://en.wikipedia.org/wiki/Git_(software)#Source_code_hosting
 
 Como não podemos cobrir todos eles, e porque eu trabalho em um deles, vamos usar esta seção para ensiná-lo a criar uma conta e um novo projeto no GitHub. Isso lhe dará uma ideia do que está envolvido no processo.
 

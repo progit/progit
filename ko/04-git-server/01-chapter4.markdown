@@ -330,7 +330,7 @@ Git은 GitWeb을 쉽게 사용해 볼 수 있도록 서버를 잠시 띄워 볼 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
 	$ make GITWEB_PROJECTROOT="/opt/git" \
-	        prefix=/usr gitweb/gitweb.cgi
+	        prefix=/usr gitweb
 	$ sudo cp -Rf gitweb /var/www/
 
 빌드할 때 `GITWEB_PROJECTROOT` 변수로 Git 저장소의 위치를 알려줘야 한다. 이제 Apache가 이 스크립트를 사용하도록 VirtualHost 항목을 설정해야 한다:
@@ -502,7 +502,7 @@ Gitosis의 접근제어 방법은 매우 단순하다. 만약 John은 이 프로
 
 주의사항: 이 절의 최신판은 항상 [gitolite documentation][gldpg]에서 확인할 수 있다. 저자는 다른 참고 문서 없이 이 절만 읽고서도 Gitolite를 설치할 수 있도록 문서를 작성했다고 말했다. 이 절은 꼭 필요하지만 완벽하지 않고 Gitolite에 대한 방대한 문서를 대체할 수도 없다.
 
-[gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
+[gldpg]: http://sitaramc.github.com/gitolite/progit.html
 
 Git은 좀 더 꼼꼼한 접근 제어가 필요한 기업환경에서도 많이 쓰인다. 원래 이 요구 사항 덕분에 Gitolite가 만들어졌다. 그리고 오픈 소스 진영에서도 매우 유용하다는 것이 밝혀졌다. Fedora 프로젝트는 Gitolite를 사용하여 10,000개가 넘는 패키지 관리용 저장소의 권한을 제어한다. Fedora의 Gitolite가 아마도 가장 규모가 클 것이다.
 
@@ -750,7 +750,7 @@ Git 서버를 설치하는 등의 일을 하고 싶지 않으면 전문 호스�
 
 요즘은 이용할 수 있는 호스팅 사이트들이 많다. 각각 장단점이 있기 때문에 다음 페이지에서 최신 정보를 확인해보자:
 
-	http://git-scm.com/tools#hosting
+	http://en.wikipedia.org/wiki/Git_(software)#Source_code_hosting
 
 이 절에서 전부 설명할 수는 없고(필자는 저 회사 중 한군데에서 일한다) GitHub에 계정과 프로젝트를 만드는 방법을 설명한다.
 

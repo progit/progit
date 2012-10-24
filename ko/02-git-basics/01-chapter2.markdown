@@ -59,7 +59,7 @@ Insert 18333fig0201.png
 
 위의 내용은 파일을 하나도 수정하지 않았다는 것을 말해준다. 즉, Tracked와 Modified 상태의 파일이 없다. Untracked 파일은 아직 없어서 목록에 나타나지 않는다. 그리고 현재 작업 중인 브랜치를 알려준다. 기본 브랜치가 master이기 때문에 현재 master로 나오는 것이다. 브랜치 관련 내용은 차차 알아가자. 다음 장에서 브랜치와 레퍼런스에 대해 자세히 다룬다.
 
-프로젝트에 README 파일을 만들어보자. README 파일은 새로 만든 파일이기 때문에 `git status`를 실행하면 Untracked에 들어 있다:
+프로젝트에 `README` 파일을 만들어보자. `README` 파일은 새로 만든 파일이기 때문에 `git status`를 실행하면 Untracked에 들어 있다:
 
 	$ vim README
 	$ git status
@@ -70,11 +70,11 @@ Insert 18333fig0201.png
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-README 파일은 `Untracked files` 부분에 속해 있는데 이것은 README 파일이 Untracked 상태라는 것을 말한다. Git은 Untracked 파일을 이전 Snapshot(커밋)에는 없는 파일이라고 본다. Git은 파일이 Tracked 상태가 되기 전까지는 절대 그 파일들을 커밋하지 않는다. 그래서 일하는 동안 생성된 파일인 바이너리 파일 같은 것을 커밋하는 실수는 하지 않게 된다. README파일을 포함해 직접 Tracked 상태로 만들어 보자.
+`README` 파일은 `Untracked files` 부분에 속해 있는데 이것은 `README` 파일이 Untracked 상태라는 것을 말한다. Git은 Untracked 파일을 이전 Snapshot(커밋)에는 없는 파일이라고 본다. Git은 파일이 Tracked 상태가 되기 전까지는 절대 그 파일들을 커밋하지 않는다. 그래서 일하는 동안 생성된 파일인 바이너리 파일 같은 것을 커밋하는 실수는 하지 않게 된다. README파일을 포함해 직접 Tracked 상태로 만들어 보자.
 
 ### 새 파일을 추적하기 ###
 
-`git add` 명령을 사용하여 새로운 파일을 추적할 수 있다. 다음 명령을 실행하면 Git은 README 파일을 추적한다:
+`git add` 명령을 사용하여 새로운 파일을 추적할 수 있다. 다음 명령을 실행하면 Git은 `README` 파일을 추적한다:
 
 	$ git add README
 
@@ -549,7 +549,7 @@ Git은 다른 VCS 시스템과는 달리 파일 이름의 변경이나 파일의
 	%p	Abbreviated parent hashes
 	%an	Author name
 	%ae	Author e-mail
-	%ad	Author date (format respects the –date= option)
+	%ad	Author date (format respects the --date= option)
 	%ar	Author date, relative
 	%cn	Committer name
 	%ce	Committer email
@@ -737,7 +737,8 @@ Git으로 커밋한 모든 것은 언제나 복구할 수 있다. 삭제한 브�
 `-v`옵션을 주어 단축이름과 URL을 함께 볼 수 있다:
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 리모트 저장소가 여러 개 있다면 이 명령은 전부 보여준다. 내 Grit 저장소에서 실행하면 다음과 같이 출력한다:
 

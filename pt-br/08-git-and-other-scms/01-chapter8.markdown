@@ -233,7 +233,7 @@ Quando alguém clona esse trabalho, tudo o que vêem é o commit do merge com to
 
 Ramificação no Subversion não é o mesmo que ramificação no Git; se você puder evitar usá-lo muito, é provavelmente melhor. No entanto, você pode criar e commitar em branches no Subversion usando svn git.
 
-#### Creiando um Novo Branch SVN ####
+#### Criando um Novo Branch SVN ####
 
 Para criar um novo branch no Subversion, você executa `git svn branch [branchname]`:
 

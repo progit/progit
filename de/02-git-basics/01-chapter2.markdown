@@ -74,11 +74,11 @@ Git unterstützt eine Reihe unterschiedlicher Übertragungsprotokolle. Das vorhe
 
 You have a bona fide Git repository and a checkout or working copy of the files for that project. You need to make some changes and commit snapshots of those changes into your repository each time the project reaches a state you want to record.
 
-Du hast jetzt ein vollständiges und funktionierendes Git Repository und ein Checkout (eine Arbeitskopie) der Dateien in diesem Projekt. Du willst jetzt Änderungen an diesen Dateien vornehmen und Snapshots (Commits) der Dateien immer dann anlegen, wenn das Projekt einen Zustand erreicht, den du aufzeichnen willst.
+Du hast jetzt ein voll funktionsfähiges Git Repository und eine Arbeitskopie des Projekts ist in deinem Verzeichnis ausgecheckt. Du kannst nun die Dateien im Projekt bearbeiten. Immer wenn dein Projekt einen Zustand erreicht hat, den du festhalten willst, musst du diese Änderungen einchecken.
 
 Remember that each file in your working directory can be in one of two states: *tracked* or *untracked*. *Tracked* files are files that were in the last snapshot; they can be *unmodified*, *modified*, or *staged*. *Untracked* files are everything else — any files in your working directory that were not in your last snapshot and are not in your staging area.  When you first clone a repository, all of your files will be tracked and unmodified because you just checked them out and haven’t edited anything.
 
-Jede Datei in deinem Arbeitsverzeichnis kann entweder unter Versionskontrolle befinden ("versioniert sein") oder nicht. Alle Dateien, die sich im letzten Snapshot (Commit) befanden, stehen unter Versionskontrolle. Sie können entweder unverändert, modifiziert oder für den nächsten Commit markiert sein. Alle anderen Dateien in deinem Arbeitsverzeichnis dagegen sind nicht versioniert: das sind all diejenigen Dateien, die nicht schon im letzten Snapshot enthalten waren und die sich nicht in der Staging Area befinden (xxx new, staged files are being tracked? xxx). Wenn Du ein Repository gerade geklont hast, sind alle Dateien versioniert und unverändert - du hast sie gerade ausgecheckt aber noch nichts verändert.
+Jede Datei in deinem Arbeitsverzeichnis kann sich in einem von zwei Zuständen befinden: Änderungen werden verfolgt (engl. tracked) oder nicht (engl. untracked). Alle Dateien, die sich im letzten Snapshot (Commit) befanden, werden in der Versionskontrolle verfolgt. Sie können entweder unverändert (engl. unmodified), modifiziert (engl. modified) oder für den nächsten Commit markiert (engl. staged) sein. Alle anderen Dateien in deinem Arbeitsverzeichnis dagegen sind nicht versioniert: das sind all diejenigen Dateien, die nicht schon im letzten Snapshot enthalten waren und die sich nicht in der Staging Area befinden. Wenn Du ein Repository gerade geklont hast, sind alle Dateien versioniert und unverändert - du hast sie gerade ausgecheckt aber noch nichts verändert.
 
 As you edit files, Git sees them as modified, because you’ve changed them since your last commit. You *stage* these modified files and then commit all your staged changes, and the cycle repeats. This lifecycle is illustrated in Figure 2-1.
 
@@ -102,11 +102,11 @@ Das wichtigste Hilfsmittel, um den Zustand zu überprüfen, in dem sich die Date
 
 This means you have a clean working directory — in other words, there are no tracked and modified files. Git also doesn’t see any untracked files, or they would be listed here. Finally, the command tells you which branch you’re on. For now, that is always `master`, which is the default; you won’t worry about it here. The next chapter will go over branches and references in detail.
 
-Man sagt auch, du hast ein sauberes Arbeitsverzeichnis. Mit anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und seit dem letzten Commit geändert wurden - andernfalls würden sie hier aufgelistet werden. Außerdem teilt dir der Befehl mit, in welchem Branch du dich befindest. In diesem Beispiel ist dies der Standard Branch `master`. Mach dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches und Referenzen detailliert eingehen.
+Man sagt auch, du hast ein sauberes Arbeitsverzeichnis. Mit anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und seit dem letzten Commit geändert wurden - andernfalls würden sie hier aufgelistet werden. Außerdem teilt dir der Befehl mit, in welchem Branch du dich befindest. In diesem Beispiel ist dies der Branch `master`. Mach dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches und Referenzen detailliert eingehen.
 
 Let’s say you add a new file to your project, a simple `README` file. If the file didn’t exist before, and you run `git status`, you see your untracked file like so:
 
-Sagen wir du fügst eine neue README Datei zu deinem Projekt hinzu. Wenn die Datei zuvor nicht existiert hat und du jetzt `git status` ausführst, zeigt Git die bisher nicht versionierte Datei wie folgt an:
+Sagen wir du fügst eine neue `README` Datei zu deinem Projekt hinzu. Wenn die Datei zuvor nicht existiert hat und du jetzt `git status` ausführst, zeigt Git die bisher nicht versionierte Datei wie folgt an:
 
 	$ vim README
 	$ git status
@@ -119,7 +119,7 @@ Sagen wir du fügst eine neue README Datei zu deinem Projekt hinzu. Wenn die Dat
 
 You can see that your new `README` file is untracked, because it’s under the “Untracked files” heading in your status output. Untracked basically means that Git sees a file you didn’t have in the previous snapshot (commit); Git won’t start including it in your commit snapshots until you explicitly tell it to do so. It does this so you don’t accidentally begin including generated binary files or other files that you did not mean to include. You do want to start including README, so let’s start tracking the file.
 
-Daran, dass deine neue README Datei in der Sektion "Untracked files" aufgelistet wird, siehst du, dass sie noch nicht versioniert ist, oder mit anderen Worten, dass Git die Datei noch nicht aus dem letzten Snapshot (Commit) kennt. Git nimmt eine solche Datei nicht von sich aus in die Versionskontrolle auf, sondern du mußt das ausdrücklich anfordern. Der Grund dafür ist, dass Git nicht einfache alle möglichen binären Dateien oder anderen Dateien hinzufügen soll, die du nicht in deinem Repository haben willst. Du willst jetzt aber deine neues README Datei zur Versionskontrolle hinzufügen, also mußt du das explit tun.
+Alle Dateien, die in der Sektion "Untracked files" aufgelistet werden, sind Dateien, die bisher nocht nicht versioniert sind. Dort wird jetzt auch die Datei `README` angezeigt. Mit anderen Worten, die Datei `README` wird in diesem Bereich gelistet, weil sie im letzen Snapshot (Commit) von Git nicht enthalten ist. Git nimmt eine solche Datei nicht automatisch in die Versionskontrolle auf, sondern man muss Git dazu ausdrücklich auffordern. Ansonsten würden generierte Binärdateien oder andere Dateien, die du nicht in deinem Repository haben willst, automatisch hinzugefügt werden. Das möchte man in den meisten Fällen vermeiden. Jetzt wollen wir aber Änderungen an der Datei `README` verfolgen und fügen sie deshalb zur Versionskontrolle hinzu.
 
 ### Tracking New Files ###
 
@@ -127,13 +127,13 @@ Daran, dass deine neue README Datei in der Sektion "Untracked files" aufgelistet
 
 In order to begin tracking a new file, you use the command `git add`. To begin tracking the `README` file, you can run this:
 
-Um eine neue Datei zur Versionskontrolle hinzuzufügen, verwendest du den Befehl `git add`. Für deine neue README Datei kannst du ihn wie folgt ausführen:
+Um eine neue Datei zur Versionskontrolle hinzuzufügen, verwendest du den Befehl `git add`. Für deine neue `README` Datei kannst du ihn wie folgt ausführen:
 
 	$ git add README
 
 If you run your status command again, you can see that your `README` file is now tracked and staged:
 
-Wenn du den `git status` Befehl erneut ausführst, siehst du, dass sich deine README Datei jetzt unter Versionskontrolle befindet und für den nächsten Commit vorgemerkt ist:
+Wenn du den `git status` Befehl erneut ausführst, siehst du, dass sich deine `README` Datei jetzt unter Versionskontrolle befindet und für den nächsten Commit vorgemerkt ist:
 
 	$ git status
 	# On branch master
@@ -145,7 +145,7 @@ Wenn du den `git status` Befehl erneut ausführst, siehst du, dass sich deine RE
 
 You can tell that it’s staged because it’s under the “Changes to be committed” heading. If you commit at this point, the version of the file at the time you ran `git add` is what will be in the historical snapshot. You may recall that when you ran `git init` earlier, you then ran `git add (files)` — that was to begin tracking files in your directory. The `git add` command takes a path name for either a file or a directory; if it’s a directory, the command adds all the files in that directory recursively.
 
-Dass die Datei für den nächsten Commit vorgemerkt ist, siehst du daran, dass sie in der Sektion "Changes to be committed" aufgelistet ist. Wenn du jetzt einen Commit anlegst, wird der Snapshot den Zustand der Datei beinhalten, in dem du den Befehl `git add` ausgeführt hast. Du erinnerst dich daran, dass du, als du vorhin `git init` ausgeführt hast, anschließend `git add` ausgeführt hast: an dieser Stelle hast du die Dateien in deinem Verzeichnis der Versionskontrolle hinzugefügt. Der `git add` Befehl akzeptiert einen Pfadnamen einer Datei oder eines Verzeichnisses. Wenn du ein Verzeichnis angibst, fügt `git add` alle Dateien in diesem Verzeichnis und allen Unterverzeichnissen rekursiv hinzu.
+Dass die Datei für den nächsten Commit vorgemerkt ist, siehst du daran, dass sie in der Sektion "Changes to be committed" aufgelistet ist. Wenn du jetzt einen Commit anlegst, wird der Snapshot den Zustand der Datei beinhalten, den sie zum Zeitpunkt des Befehls `git add` hatte. Du erinnerst dich daran, dass du, als du vorhin `git init` ausgeführt hast, anschließend `git add` ausgeführt hast: an dieser Stelle hast du die Dateien in deinem Verzeichnis der Versionskontrolle hinzugefügt. Der `git add` Befehl akzeptiert einen Pfadnamen einer Datei oder eines Verzeichnisses. Wenn du ein Verzeichnis angibst, fügt `git add` alle Dateien in diesem Verzeichnis und allen Unterverzeichnissen rekursiv hinzu.
 
 ### Staging Modified Files ###
 
@@ -201,7 +201,7 @@ Beide Dateien sind nun für den nächsten Commit vorgemerkt. Nehmen wir an, du w
 
 What the heck? Now `benchmarks.rb` is listed as both staged and unstaged. How is that possible? It turns out that Git stages a file exactly as it is when you run the `git add` command. If you commit now, the version of `benchmarks.rb` as it was when you last ran the `git add` command is how it will go into the commit, not the version of the file as it looks in your working directory when you run `git commit`. If you modify a file after you run `git add`, you have to run `git add` again to stage the latest version of the file:
 
-Huch, was ist das? Jetzt wird `benchmarks.rb` sowohl als für den Commit vorgemerkt und als geändert aufgelistet. Die Erklärung dafür ist, dass Git eine Datei in exakt dem Zustand für den Commit vormerkt, in dem sie sich befindet, wenn du den Befehl `git add` ausführst. Wenn du den Commit jetzt anlegst, wird die Version der Datei `benchmarks.rb` diejenigen Inhalte haben, die sie hatte, als du `git add` zuletzt ausgeführt hast - nicht diejenigen, die sie in dem Moment hat, wenn du den Commit anlegst. Wenn du stattdessen die gegenwärtige Version im Commit haben willst, kannst du einfach erneut `git add` ausführen:
+Huch, was ist das? Jetzt wird `benchmarks.rb` sowohl für den Commit vorgemerkt als auch als geändert aufgelistet. Die Erklärung dafür ist, dass Git eine Datei in exakt dem Zustand für den Commit vormerkt, in dem sie sich befindet, wenn du den Befehl `git add` ausführst. Wenn du den Commit jetzt anlegst, wird die Version der Datei `benchmarks.rb` diejenigen Inhalte haben, die sie hatte, als du `git add` zuletzt ausgeführt hast - nicht diejenigen, die sie in dem Moment hat, wenn du den Commit anlegst. Wenn du stattdessen die gegenwärtige Version im Commit haben willst, kannst du einfach erneut `git add` ausführen:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -219,7 +219,7 @@ Huch, was ist das? Jetzt wird `benchmarks.rb` sowohl als für den Commit vorgeme
 
 Often, you’ll have a class of files that you don’t want Git to automatically add or even show you as being untracked. These are generally automatically generated files such as log files or files produced by your build system. In such cases, you can create a file listing patterns to match them named `.gitignore`.  Here is an example `.gitignore` file:
 
-Du wirst in der Regel eine Reihe von Dateien in deinem Projektverzeichnis haben, die du nicht versionieren oder im Repository haben willst, wie z.B. automatisch generierte Dateien wie Logdateien oder Dateien, die dein Build-System erzeugt. In solchen Fällen kannst du in einer Datei alle Dateien oder Dateimuster angeben, die du ignorieren willst.
+Du wirst in der Regel eine Reihe von Dateien in deinem Projektverzeichnis haben, die du nicht versionieren oder im Repository haben willst, wie z.B. automatisch generierte Dateien, wie Logdateien oder Dateien, die dein Build-System erzeugt. In solchen Fällen kannst du in einer Datei alle Dateien oder Dateimuster angeben, die du ignorieren willst.
 
 	$ cat .gitignore
 	*.[oa]
@@ -238,18 +238,18 @@ Die Regeln für Einträge in der `.gitignore` Datei sind:
 *	You can end patterns with a forward slash (`/`) to specify a directory.
 *	You can negate a pattern by starting it with an exclamation point (`!`).
 
-* Leere Zeilen oder Zeilen, die mit `#` beginnen, werden ignoriert.
-* Standard `glob` Muster funktionieren (siehe den nächsten Absatz).
-* Du kannst ein Muster mit einem Schrägstrich (`/`) beenden, um ein Verzeichnis zu bezeichnen.
-* Du kannst ein Muster negieren, indem du ein Ausrufezeichen (`!`) voranstellst.
+*	Leere Zeilen oder Zeilen, die mit `#` beginnen, werden ignoriert.
+*	Standard `glob` Muster funktionieren.
+*	Du kannst ein Muster mit einem Schrägstrich (`/`) abschließen, um ein Verzeichnis zu deklarieren.
+*	Du kannst ein Muster negieren, indem du ein Ausrufezeichen (`!`) voranstellst.
 
 Glob patterns are like simplified regular expressions that shells use. An asterisk (`*`) matches zero or more characters; `[abc]` matches any character inside the brackets (in this case `a`, `b`, or `c`); a question mark (`?`) matches a single character; and brackets enclosing characters separated by a hyphen(`[0-9]`) matches any character in the range (in this case 0 through 9) .
 
-Glob Muster sind vereinfachte Reguläre Ausdrücke, die von der Shell verwendet werden. Ein Stern (`*`) bezeichnet "kein oder mehrere Zeichen"; `[abc]` bezeichnet eines der in den eckigen Klammern angegebenen Zeichen (in diesem Fall also `a`, `b` oder `c`); ein Fragezeichen (`?`) bezeichnet ein beliebiges, einzelnes Zeichen; und eckige Klammern mit Zeichen, die von einem Bindestrich getrennt werden (`[0-9]`) bezeichnen ein Zeichen aus der jeweiligen Menge von Zeichen (in diesem Fall also aus der Menge der Zeichen von 0 bis 9).
+Glob Muster sind vereinfachte reguläre Ausdrücke, die von der Shell verwendet werden. Ein Stern (`*`) bezeichnet "kein oder mehrere Zeichen"; `[abc]` bezeichnet eines der in den eckigen Klammern angegebenen Zeichen (in diesem Fall also `a`, `b` oder `c`); ein Fragezeichen (`?`) bezeichnet ein beliebiges, einzelnes Zeichen; und eckige Klammern mit Zeichen, die von einem Bindestrich getrennt werden (`[0-9]`) bezeichnen ein Zeichen aus der jeweiligen Menge von Zeichen (in diesem Fall also aus der Menge der Zeichen von 0 bis 9).
 
 Here is another example `.gitignore` file:
 
-Hier ist noch ein Beispiel für eine `.gitignore` Datei:
+Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 
 	# a comment - this is ignored
 	*.a       # no .a files
@@ -258,7 +258,7 @@ Hier ist noch ein Beispiel für eine `.gitignore` Datei:
 	build/    # ignore all files in the build/ directory
 	doc/*.txt # ignore doc/notes.txt, but not doc/server/arch.txt
 
-	# ein Kommentar - er wird ignoriert
+	# ein Kommentar - dieser wird ignoriert
 	*.a       # ignoriert alle Dateien, die mit .a enden
 	!lib.a    # nicht aber lib.a Dateien (obwohl obige Zeile *.a ignoriert)
 	/TODO     # ignoriert eine TODO Datei nur im Wurzelverzeichnis, nicht aber
@@ -272,11 +272,11 @@ Hier ist noch ein Beispiel für eine `.gitignore` Datei:
 
 If the `git status` command is too vague for you — you want to know exactly what you changed, not just which files were changed — you can use the `git diff` command. We’ll cover `git diff` in more detail later; but you’ll probably use it most often to answer these two questions: What have you changed but not yet staged? And what have you staged that you are about to commit? Although `git status` answers those questions very generally, `git diff` shows you the exact lines added and removed — the patch, as it were.
 
-Wenn dir die Ausgabe des Befehl `git status` nicht aussagekräftig genug ist, weil du exakt wissen willst, was sich geändert hat - und nicht lediglich, welche Dateien überhaupt geändert wurden - kannst du den `git diff` Befehl verwenden. Wir werden `git diff` später noch mal im Detail besprechen, aber du wirst diesen Befehl in der Regel verwenden wollen, um eine der folgenden, zwei Fragen zu beantworten: Was hast du geändert, aber noch nicht für einen Commit vorgemerkt? Und was hast du für einen Commit bereits vorgemerkt? Während `git status` diese Fragen nur mit Dateinamen beantwortet, zeigt dir `git diff` exakt an, welche Zeilen hinzugefügt, geändert und entfernt wurden. (xxx "the patch, as it were" ??? xxx)
+Wenn dir die Ausgabe des Befehl `git status` nicht aussagekräftig genug ist, weil du exakt wissen willst, was sich geändert hat - und nicht lediglich, welche Dateien überhaupt geändert wurden - kannst du den `git diff` Befehl verwenden. Wir werden `git diff` später noch einmal im Detail besprechen, aber du wirst diesen Befehl in der Regel verwenden wollen, um eine der folgenden, zwei Fragen zu beantworten: Was hast du geändert, aber noch nicht für einen Commit vorgemerkt? Und welche Änderungen hast du für einen Commit bereits vorgemerkt? Während `git status` diese Fragen nur mit Dateinamen beantwortet, zeigt dir `git diff` exakt an, welche Zeilen hinzugefügt, geändert und entfernt wurden. Dies entspricht gewissermaßen einem Patch.
 
 Let’s say you edit and stage the `README` file again and then edit the `benchmarks.rb` file without staging it. If you run your `status` command, you once again see something like this:
 
-Nehmen wir an, du hast die Datei README geändert und für einen Commit in der Staging Area vorgemerkt. Dann änderst du außerdem die Datei `benchmarks.rb`, fügst sie aber noch nicht zur Staging Area hinzu. Wenn du den `git status` Befehl ausführst, zeigt er dir in etwa Folgendes an:
+Nehmen wir an, du hast die Datei `README` geändert und für einen Commit in der Staging Area vorgemerkt. Dann änderst du außerdem die Datei `benchmarks.rb`, fügst sie aber noch nicht zur Staging Area hinzu. Wenn du den `git status` Befehl ausführst, zeigt er dir in etwa Folgendes an:
 
 	$ git status
 	# On branch master
@@ -335,7 +335,7 @@ Wenn du sehen willst, welche Änderungen in der Staging Area und somit für den 
 
 It’s important to note that `git diff` by itself doesn’t show all changes made since your last commit — only changes that are still unstaged. This can be confusing, because if you’ve staged all of your changes, `git diff` will give you no output.
 
-Es ist wichtig, im Kopf zu behalten, dass `git diff` selbst nicht alle Änderungen seit dem letzten Commit anzeigt - es zeigt lediglich diejenigen Änderungen an, die noch nicht in der Staging Area sind. Das kann verwirrend sein: wenn du all deine Änderungen bereits für einen Commit vorgemerkt	 hast, zeigt `git diff` überhaupt nichts an.
+Es ist wichtig, im Kopf zu behalten, dass `git diff` nicht alle Änderungen seit dem letzten Commit anzeigt - es zeigt lediglich diejenigen Änderungen an, die noch nicht in der Staging Area sind. Das kann verwirrend sein: wenn du all deine Änderungen bereits für einen Commit vorgemerkt hast, zeigt `git diff` überhaupt nichts an.
 
 For another example, if you stage the `benchmarks.rb` file and then edit it, you can use `git diff` to see the changes in the file that are staged and the changes that are unstaged:
 
@@ -372,6 +372,8 @@ Jetzt kannst du `git diff` verwenden, um zu sehen, was noch nicht für den näch
 
 and `git diff --cached` to see what you’ve staged so far:
 
+und `git diff --cached', um zu sehen, was bisher für den nächsten Commit vorgesehen ist:
+
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index 3cb747f..e445e28 100644
@@ -396,17 +398,17 @@ and `git diff --cached` to see what you’ve staged so far:
 Now that your staging area is set up the way you want it, you can commit your changes. Remember that anything that is still unstaged — any files you have created or modified that you haven’t run `git add` on since you edited them — won’t go into this commit. They will stay as modified files on your disk.
 In this case, the last time you ran `git status`, you saw that everything was staged, so you’re ready to commit your changes. The simplest way to commit is to type `git commit`:
 
-Nachdem du jetzt alle Änderungen, die du im nächsten Commit haben willst, in deiner Staging Area gesammelt hast, kannst du den Commit anlegen. Denke daran, dass Änderungen, die nicht in der Staging Area sind (also alle Änderungen, die du vorgenommen hast, seit du zuletzt `git add` ausgeführt hast), auch nicht in den Commit aufgenommen werden: sie werden ganz einfach weiterhin als geänderte Dateien im Arbeitsverzeichnis verbleiben. In unserem Beispiel haben wir gesehen, dass alle Änderungen vorgemerkt waren, als wir zuletzt `git status` ausgeführt haben, also können wir den Commit jetzt anlegen. Das geht am einfachsten mit dem Befehl:
+Nachdem du jetzt alle Änderungen, die du im nächsten Commit haben willst, in deiner Staging Area gesammelt hast, kannst du den Commit anlegen. Denke daran, dass Änderungen, die nicht in der Staging Area sind (also alle Änderungen, die du vorgenommen hast, seit du zuletzt `git add` ausgeführt hast), auch nicht in den Commit aufgenommen werden. Sie werden ganz einfach weiterhin als geänderte Dateien im Arbeitsverzeichnis verbleiben. In unserem Beispiel haben wir gesehen, dass alle Änderungen vorgemerkt waren, als wir zuletzt `git status` ausgeführt haben, also können wir den Commit jetzt anlegen. Das geht am einfachsten mit dem Befehl:
 
 	$ git commit
 
 Doing so launches your editor of choice. (This is set by your shell’s `$EDITOR` environment variable — usually vim or emacs, although you can configure it with whatever you want using the `git config --global core.editor` command as you saw in *Chapter 1*).
 
-Wenn du diesen Befehl ausführst, wird Git deinen Texteditor starten. (D.h. denjenigen Texteditor, der durch die `$EDITOR` Variable deiner Shell angegeben wird - normalerweise ist das vim oder emacs, aber du kannst jeden Editor deiner Wahl angeben. Wie in Kapitel 1 besprochen, kannst du dazu `git config --global core.editor` verwenden.)
+Wenn du diesen Befehl ausführst, wird Git den Texteditor deiner Wahl starten. (D.h. denjenigen Texteditor, der durch die `$EDITOR` Variable deiner Shell angegeben wird - normalerweise ist das vim oder emacs, aber du kannst jeden Editor deiner Wahl angeben. Wie in Kapitel 1 besprochen, kannst du dazu `git config --global core.editor` verwenden.)
 
 The editor displays the following text (this example is a Vim screen):
 
-Der Editor zeigt in etwa folgendes an (dies ist ein Vim Bespiel):
+Der Editor zeigt in etwa folgenden Text an (dies ist ein Beispiel mit vim):
 
 	# Please enter the commit message for your changes. Lines starting
 	# with '#' will be ignored, and an empty message aborts the commit.
@@ -423,7 +425,7 @@ Der Editor zeigt in etwa folgendes an (dies ist ein Vim Bespiel):
 
 You can see that the default commit message contains the latest output of the `git status` command commented out and one empty line on top. You can remove these comments and type your commit message, or you can leave them there to help you remember what you’re committing. (For an even more explicit reminder of what you’ve modified, you can pass the `-v` option to `git commit`. Doing so also puts the diff of your change in the editor so you can see exactly what you did.) When you exit the editor, Git creates your commit with that commit message (with the comments and diff stripped out).
 
-Du siehst, dass die vorausgefüllte Commit Meldung die Ausgabe des letzten `git status` Befehls als einen Kommentar und darüber eine leere Zeile. Du kannst den Kommentar entfernen und deine eigene Meldung einfügen. Oder du kannst sie stehen lassen, damit du siehst, was im Commit enthalten sein wird. (Um die Änderungen noch detaillierter sehen zu können, kannst du den Befehl `git commit` mit der Option `-v` verwenden. Das fügt zusätzlich das Diff deiner Änderungen im Editor ein, so dass du exakt sehen kannst, was sich im Commit befindet.) Wenn du den Texteditor beendest, erzeugt Git den Commit mit der gegebenen Meldung (d.h., ohne den Kommentar und das Diff).
+Du siehst, dass die vorausgefüllte Commit Meldung die Ausgabe des letzten `git status` Befehls als einen Kommentar und darüber eine leere Zeile enthält. Du kannst die Kommentare entfernen und deine eigene Meldung einfügen. Oder du kannst sie stehen lassen, damit du siehst, was im Commit enthalten sein wird. (Um die Änderungen noch detaillierter sehen zu können, kannst du den Befehl `git commit` mit der Option `-v` verwenden. Das fügt zusätzlich das Diff deiner Änderungen im Editor ein, so dass du exakt sehen kannst, was sich im Commit befindet.) Wenn du den Texteditor beendest, erzeugt Git den Commit mit der gegebenen Meldung (d.h., ohne den Kommentar und das Diff).
 
 Alternatively, you can type your commit message inline with the `commit` command by specifying it after a `-m` flag, like this:
 
@@ -440,7 +442,7 @@ Du hast jetzt deinen ersten Commit angelegt! Git zeigt dir als Rückmeldung eini
 
 Remember that the commit records the snapshot you set up in your staging area. Anything you didn’t stage is still sitting there modified; you can do another commit to add it to your history. Every time you perform a commit, you’re recording a snapshot of your project that you can revert to or compare to later.
 
-Denke daran, dass jeder neue Commit denjenigen Snapshot aufzeichnet, den du in der Staging Area vorkonfiguriert hattest. Änderungen, die nicht in der Staging Area waren, werden weiterhin als modifizierte Dateien im Arbeitsverzeichnis vorliegen. Jedes Mal wenn du einen Commit anlegst, zeichnest du einen Snapshot Deines Projektes auf, zu dem du zurückkehren oder mit dem du spätere Änderungen vergleichen kannst.
+Denke daran, dass jeder neue Commit denjenigen Snapshot aufzeichnet, den du in der Staging Area vorbereitet hattest. Änderungen, die nicht in der Staging Area waren, werden weiterhin als modifizierte Dateien im Arbeitsverzeichnis vorliegen. Jedes Mal wenn du einen Commit anlegst, zeichnest du einen Snapshot Deines Projektes auf, zu dem du zurückkehren oder mit dem du spätere Änderungen vergleichen kannst.
 
 ### Skipping the Staging Area ###
 
@@ -471,7 +473,7 @@ Beachte, dass du in diesem Fall `git add` zuvor noch nicht ausgeführt hast, die
 
 To remove a file from Git, you have to remove it from your tracked files (more accurately, remove it from your staging area) and then commit. The `git rm` command does that and also removes the file from your working directory so you don’t see it as an untracked file next time around.
 
-Um eine Datei aus der Git Versionskontrolle nehmen (genauer, aus der Staging Area) und dann einen Commit anlegen. Der Befehl `git rm` tut genau das - und löscht die Datei außerdem aus dem Arbeitsverzeichnis, so dass sie dort nicht unbeabsichtigt (als eine nun unversionierte Datei) liegen bleibt.
+Um eine Datei aus der Git Versionskontrolle zu entfernen, muss diese von den verfolgten Dateien (genauer, aus der Staging Area) entfernt werden und dann mit einem Commit bestätigt werden. Der Befehl `git rm` tut genau das - und löscht die Datei außerdem aus dem Arbeitsverzeichnis, so dass sie dort nicht unbeabsichtigt (als eine nun unversionierte Datei) liegen bleibt.
 
 If you simply remove the file from your working directory, it shows up under the “Changed but not updated” (that is, _unstaged_) area of your `git status` output:
 
@@ -504,7 +506,7 @@ Wenn du jetzt `git rm` ausführst, wird diese Änderung für den nächsten Commi
 
 The next time you commit, the file will be gone and no longer tracked. If you modified the file and added it to the index already, you must force the removal with the `-f` option. This is a safety feature to prevent accidental removal of data that hasn’t yet been recorded in a snapshot and that can’t be recovered from Git.
 
-Wenn du als nächstes einen Commit anlegst, wird die Datei nicht mehr im Arbeitsverzeichnis liegen und sich nicht länger unter Versionskontrolle befinden. Wenn du die Datei zuvor geändert und diese Änderung bereits zur Staging Area hinzugefügt hattest, mußt du die Option `-f` verwenden, um zu erzwingen, dass sie gelöscht wird. Dies ist eine Sicherheitsmaßnahme, um zu vermeiden, dass du versehentlich Daten löschst, die sich bisher noch nicht als Commit Snapshot in der Historie deines Projektes befinden - und deshalb auch nicht wiederhergestellt werden können.
+Nach dem nächsten Anlegen eines Commits, wird die Datei nicht mehr im Arbeitsverzeichnis liegen und sich nicht länger unter Versionskontrolle befinden. Wenn du die Datei zuvor geändert und diese Änderung bereits zur Staging Area hinzugefügt hattest, musst du die Option `-f` verwenden, um zu erzwingen, dass sie gelöscht wird. Dies ist eine Sicherheitsmaßnahme, um zu vermeiden, dass du versehentlich Daten löschst, die sich bisher noch nicht als Commit Snapshot in der Historie deines Projektes befinden - und deshalb auch nicht wiederhergestellt werden können.
 
 Another useful thing you may want to do is to keep the file in your working tree but remove it from your staging area. In other words, you may want to keep the file on your hard drive but not have Git track it anymore. This is particularly useful if you forgot to add something to your `.gitignore` file and accidentally added it, like a large log file or a bunch of `.a` compiled files. To do this, use the `--cached` option:
 
@@ -544,7 +546,7 @@ Es ist allerdings ein bißchen verwirrend, dass Git trotzdem einen `git mv` Befe
 
 and it works fine. In fact, if you run something like this and look at the status, you’ll see that Git considers it a renamed file:
 
-Das funktioniert. Wenn du diesen Befehl ausführst und danach den `git status` anzeigst, zeigt Git an, dass die Datei umbenannt wurde:
+Das funktioniert einwandfrei. Wenn du diesen Befehl ausführst und danach den `git status` anzeigst, zeigt Git an, dass die Datei umbenannt wurde:
 
 	$ git mv README.txt README
 	$ git status
@@ -559,7 +561,7 @@ Das funktioniert. Wenn du diesen Befehl ausführst und danach den `git status` a
 
 However, this is equivalent to running something like this:
 
-Allerdings kannst du genau so gut etwas wie das hier tun:
+Allerdings kannst du ganauso folgendes tun:
 
 	$ mv README.txt README
 	$ git rm README.txt
@@ -567,7 +569,7 @@ Allerdings kannst du genau so gut etwas wie das hier tun:
 
 Git figures out that it’s a rename implicitly, so it doesn’t matter if you rename a file that way or with the `mv` command. The only real difference is that `mv` is one command instead of three — it’s a convenience function. More important, you can use any tool you like to rename a file, and address the add/rm later, before you commit.
 
-Git ist clever genug, selbst herauszufinden, dass du die Datei umbenannt hast. Du brauchst dies also nicht explizit mit dem `git mv` Befehl zu tun. Der einzige Unterschied ist, dass du mit `git mv` nur einen Befehl, nicht drei, ausführen mußt - das ist natürlich etwas bequemer. Darüberhinaus kannst du aber Dateien auf jede beliebige Art und Weise extern umbenennen und dann später `git add` bzw. `git rm` verwenden, wenn du einen Commit zusammenstellst.
+Git ist clever genug, selbst herauszufinden, dass du die Datei umbenannt hast. Du brauchst dies also nicht explizit mit dem `git mv` Befehl zu tun. Der einzige Unterschied ist, dass du mit `git mv` nur einen Befehl, nicht drei, ausführen musst - das ist natürlich etwas bequemer. Darüberhinaus kannst du aber Dateien auf jede beliebige Art und Weise extern umbenennen und dann später `git add` bzw. `git rm` verwenden, wenn du einen Commit zusammenstellst.
 
 ## Viewing the Commit History ##
 

@@ -577,7 +577,7 @@ Git ist clever genug, selbst herauszufinden, dass du die Datei umbenannt hast. D
 
 After you have created several commits, or if you have cloned a repository with an existing commit history, you’ll probably want to look back to see what has happened. The most basic and powerful tool to do this is the `git log` command.
 
-Nachdem du einige Commits angelegt oder ein bestehendes Repository geklont hast, willst du vielleicht wissen, welche Änderungen zuletzt vorgenommen wurden. Der grundlegendste Befehl, mit dem du das tun kannst, ist `git log`.
+Nachdem du einige Commits angelegt oder ein bestehendes Repository geklont hast, willst du vielleicht wissen, welche Änderungen zuletzt vorgenommen wurden. Der grundlegende und mächtige Befehl, mit dem du das tun kannst, ist `git log`.
 
 These examples use a very simple project called `simplegit` that I often use for demonstrations. To get the project, run
 
@@ -614,7 +614,7 @@ Der Befehl `git log` listet die Historie der Commits eines Projektes in umgekehr
 
 A huge number and variety of options to the `git log` command are available to show you exactly what you’re looking for. Here, we’ll show you some of the most-used options.
 
-Für den Befehl `git log` gibt es eine riesige Anzahl von Optionen, mit denen man sehr genau eingrenzen kann, wonach man in einer Historie sucht. Schauen wir uns also einige der am häufigsten gebrauchten Optionen an.
+Für den Befehl `git log` gibt es eine riesige Anzahl von Optionen, mit denen man sehr genau eingrenzen kann, wonach man in einer Historie sucht. Schauen wir uns also einige der am häufigsten verwendeten Optionen an.
 
 One of the more helpful options is `-p`, which shows the diff introduced in each commit. You can also use `-2`, which limits the output to only the last two entries:
 
@@ -661,7 +661,7 @@ Eine sehr nützliche Option ist `-p`. Sie zeigt das Diff der Änderungen an, die
 This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
 You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
 
-Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusätzlich zu jedem Eintrag ein Diff. Das ist nützlich, um einen Code Review zu machen oder eben mal eine Reihe von Commits durch zu schauen, die ein Mitarbeiter angelegt hat. Außerdem gibt es verschiedene Optionen, die nützlich sind, um Dinge zusammen zu fassen. Beispielsweise kannst du eine kurze Statistik über die jeden Commit mit der Option `--stat` anzeigen lassen:
+Diese Option zeigt also im Prinzip die gleiche Information wie zuvor, aber zusätzlich zu jedem Eintrag ein Diff. Das ist nützlich, um einen Code Review zu machen oder eben mal eine Reihe von Commits durch zu schauen, die ein Mitarbeiter angelegt hat. Außerdem gibt es verschiedene Optionen, die nützlich sind, um Dinge zusammenzufassen. Beispielsweise kannst du eine kurze Statistik über die jeden Commit mit der Option `--stat` anzeigen lassen:
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -742,17 +742,17 @@ Tabelle 2-1 zeigt einige nützliche Optionen, die von `format` akzeptiert werden
 	%p	Abgekürzte Eltern Hashs
 	%an	Autor Name
 	%ae	Autor E-Mail
-	%ad	Autor Date (format akzeptiert eine –date= Option)
-	%ar	Autor Date, relativ
+	%ad	Autor Datum (format akzeptiert eine –-date= Option)
+	%ar	Autor Datum, relativ
 	%cn	Committer Name
 	%ce	Committer E-Mail
-	%cd	Committer Date
-	%cr	Committer Date, relativ
+	%cd	Committer Datum
+	%cr	Committer Datum, relativ
 	%s	Betreff
 
 You may be wondering what the difference is between _author_ and _committer_. The _author_ is the person who originally wrote the patch, whereas the _committer_ is the person who last applied the patch. So, if you send in a patch to a project and one of the core members applies the patch, both of you get credit — you as the author and the core member as the committer. We’ll cover this distinction a bit more in *Chapter 5*.
 
-Du fragst dich vielleicht, was der Unterschied zwischen _Autor_ und _Committer_ ist. Der Autor ist diejenige Person, die eine Änderung ursprünglich vorgenommen hat. Der Committer dagegen ist diejenige Person, die den Commit angelegt hat. D.h., wenn du einen Patch an ein Projekt Team schickst und eines der Team Mitglieder den Patch akzeptiert und verwendet, wird beiden Anerkennung gezollt (xxx) - sowohl dir als Autor als auch dem Team Mitglied als Comitter. Wir werden auf diese Unterschiedung in Kapitel 5 noch einmal genauer eingehen.
+Du fragst dich vielleicht, was der Unterschied zwischen Autor und Committer ist. Der Autor ist diejenige Person, die eine Änderung ursprünglich vorgenommen hat. Der Committer dagegen ist diejenige Person, die den Commit angelegt hat. D.h., wenn du einen Patch an ein Projekt Team schickst und eines der Team Mitglieder den Patch akzeptiert und verwendet, wird beiden Anerkennung gezollt - sowohl dir als Autor als auch dem Teammitglied als Comitter. Wir werden auf diese Unterschiedung in Kapitel 5 noch einmal genauer eingehen.
 
 The `oneline` and `format` options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
 
@@ -800,11 +800,11 @@ Das sind nur einige eher simple Format Optionen für die Ausgabe von `git log` -
 
 In addition to output-formatting options, `git log` takes a number of useful limiting options — that is, options that let you show only a subset of commits. You’ve seen one such option already — the `-2` option, which show only the last two commits. In fact, you can do `-<n>`, where `n` is any integer to show the last `n` commits. In reality, you’re unlikely to use that often, because Git by default pipes all output through a pager so you see only one page of log output at a time.
 	
-Zusätzlich zu den Formatierungsoptionen für die Ausgabe akzeptiert `git log` eine Reihe nützlicher Optionen, um die Anzahl der ausgegebenen Commits zu einzuschränken. Eine solche Option ist dir bereits begegnet: die `-2` Option, die bewirkt, dass nur die letzten beiden Commits angezeigt werden. D.h., du kannst `-<n>` verwenden, wobei `n` irgendeine ganze Zahl sein kann. Im Alltag wirst du diese Option vermutlich nicht sehr oft verwenden, weil Git die Ausgabe standardmäßig durch einen Pager leitet (xxx) und nur jeweils eine Seite anzeigt.
+Zusätzlich zu den Formatierungsoptionen für die Ausgabe, akzeptiert `git log` eine Reihe nützlicher Optionen, um die Anzahl der ausgegebenen Commits zu einzuschränken. Eine solche Option ist dir bereits begegnet: die `-2` Option, die bewirkt, dass nur die letzten beiden Commits angezeigt werden. D.h., du kannst `-<n>` verwenden, wobei `n` irgendeine ganze Zahl sein kann. Im Alltag wirst du diese Option vermutlich nicht sehr oft verwenden, weil Git die Ausgabe standardmäßig so formatiert, so dass nur jeweils eine Seite anzeigt.
 
 However, the time-limiting options such as `--since` and `--until` are very useful. For example, this command gets the list of commits made in the last two weeks:
 
-Aber es gibt auch Optionen, die Ausgabe auf der Basis von Zeitangaben zu einzugrenzen und sehr hilfreich sein können. Beispielsweise gibt der folgende Befehl eine Liste aller Commits aus, die in den letzten zwei Wochen angelegt wurden:
+Darüber hinaus gibt es noch die hilfreichen Optionen `--since` und `--until`, welche die Ausgabe auf Basis der Zeitgaben eingrenzt. Beispielsweise gibt der folgende Befehl eine Liste aller Commits aus, die in den letzten zwei Wochen angelegt wurden:
 
 	$ git log --since=2.weeks
 
@@ -814,15 +814,15 @@ Das funktioniert mit einer Reihe von Formaten. Git akzeptiert sowohl ein vollst�
 
 You can also filter the list to commits that match some search criteria. The `--author` option allows you to filter on a specific author, and the `--grep` option lets you search for keywords in the commit messages. (Note that if you want to specify both author and grep options, you have to add `--all-match` or the command will match commits with either.)
 
-Du kannst außerdem die Liste der Commits nach Suchkriterien filtern. Die `--author` Option erlaubt, nach einem bestimmten Autoren zu suchen, und die `--grep` Option nach Stichworten in den Commit Meldungen. (Wenn du sowohl nach dem Autor als auch nach Stichworten suchen willst, mußt du zusätzlich `--all-match` angeben - andernfalls zeigt der Befehl alle Commits, die das eine _oder_ das andere Kriterium erfüllen.)
+Du kannst außerdem die Liste der Commits nach Suchkriterien filtern. Die `--author` Option erlaubt, nach einem bestimmten Autoren zu suchen, und die `--grep` Option nach Stichworten in den Commit Meldungen. (Wenn du sowohl nach dem Autor als auch nach Stichworten suchen willst, musst du zusätzlich `--all-match` angeben - andernfalls zeigt der Befehl alle Commits, die entweder das eine oder das andere Kriterium erfüllen.)
 
 The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
 
-Eine letzte sehr nützliche Option, die von `git log` akzeptiert wird, ist ein Pfad. Wenn du einen Verzeichnis- oder Dateinamen angibst, kannst du die Ausgabe auf Commits einschränken, die sich auf die jeweiligen Verzeichnisse oder Dateien beziehen. Der Pfad muß als letztes angegeben und mit einem doppelten Bindestrich (`--`) von den Optionen getrennt werden.
+Eine letzte sehr nützliche Option, die von `git log` akzeptiert wird, ist ein Pfad. Wenn du einen Verzeichnis- oder Dateinamen angibst, kannst du die Ausgabe auf Commits einschränken, die sich auf die jeweiligen Verzeichnisse oder Dateien beziehen. Der Pfad muss als letztes angegeben und mit einem doppelten Bindestrich (`--`) von den Optionen getrennt werden.
 
 In Table 2-3 we’ll list these and a few other common options for your reference.
 
-Tabelle 2-3 zeigt diese und einige weitere, übliche Optionen:
+Tabelle 2-3 zeigt die besprochenen und einige weitere, übliche Optionen:
 
 	Option	Description
 	-(n)	Show only the last n commits
@@ -840,7 +840,14 @@ Tabelle 2-3 zeigt diese und einige weitere, übliche Optionen:
 
 For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
 
-Wenn du bespielsweise sehen willst, welche Commits den Tests im Git Quelltext von Junio Hamano im Oktober 2008 angelegt wurden _und_ keine Merges waren, kannst du folgendes tun:
+Um beispielweise alle Commits aus der Git Quelltext Historie anzuzeigen, die alle der folgende Bedinungen erfüllen:
+
+* Autor des Commits ist Junio Hamano
+* Commit Datum Oktober 2008
+* Commits, welche Änderungen im Testverzeichnis beinhalten
+* Commits, welche keine Merges sind
+
+kannst du folgenden Befehl verwenden:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -857,11 +864,11 @@ Aus etwa 20.000 Commits in der Git Quellcode Historie filtert dieser Befehl gera
 
 ### Using a GUI to Visualize History ###
 
-### Eine GUI verwenden um die Historie anzuzeigen ###
+### Eine GUI für die Darstellung der Historie ###
 
 If you like to use a more graphical tool to visualize your commit history, you may want to take a look at a Tcl/Tk program called `gitk` that is distributed with Git. Gitk is basically a visual `git log` tool, and it accepts nearly all the filtering options that `git log` does. If you type `gitk` on the command line in your project, you should see something like Figure 2-2.
 
-Wenn dir eine grafische Darstellung lieber ist, um die Commit Historie anzuzeigen, kannst du die das Tcl/Tk Programm `gitk` ausprobieren, das mit Git ausgeliefert wird. `gitk` ist im wesentlichen eine grafische Version von `git log` und akzeptiert fast alle Filteroptionen, die `git log` auch akzeptiert. Wenn du `gitk` in einem Projekt ausführst, siehst du etwas wie:
+Wenn dir eine grafische Anzeige der Commit Historie lieber ist, kannst du das Tcl/Tk Programm `gitk`, welches mit Git ausgeliefert wird, ausprobieren. `gitk` ist im wesentlichen eine grafische Version von `git log` und akzeptiert fast alle Filteroptionen, die `git log` auch akzeptiert. Wenn du `gitk` in einem Projekt ausführst, siehst du etwa folgende Ausgabe:
 
 Insert 18333fig0202.png
 Figure 2-2. The gitk history visualizer.
@@ -870,7 +877,7 @@ Bild 2-2. Die gitk Oberfläche
 
 You can see the commit history in the top half of the window along with a nice ancestry graph. The diff viewer in the bottom half of the window shows you the changes introduced at any commit you click.
 
-Die Commit Historie wird in der oberen Hälfte des Fensters dargestellt, zusammen mit einem Graphen, der die Branches und Merges zeigt. Wenn du einen Commit anklickst, zeigt die Diff Anzeige in der unteren Hälfte des Fensters die jeweiligen Änderungen in diesem Commit.
+Die Commit Historie wird in der oberen Hälfte des Fensters dargestellt. Daneben ein Graph, der die Branches und Merges zeigt. Nach Auswahl eines Commits, zeigt die Diff Anzeige in der unteren Hälfte des Fensters die jeweiligen Änderungen in diesem Commit.
 
 ## Undoing Things ##
 

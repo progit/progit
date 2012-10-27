@@ -899,11 +899,11 @@ Manchmal hat man einen Commit zu früh angelegt und möglicherweise vergessen, e
 
 This command takes your staging area and uses it for the commit. If you’ve made no changes since your last commit (for instance, you run this command immediately after your previous commit), then your snapshot will look exactly the same and all you’ll change is your commit message.
 
-Dieser Befehl verwendet deine Staging Area für den Commit. Wenn du seit dem letzten Commit keine Änderungen vorgenommen hast (z.B. wenn du den Befehl unmittelbar nach einem Commit ausführst), wird der Snapshot exakt genauso aussehen wie der vorherige - alles, was du dann änderst, ist die Commit message.
+Dieser Befehl verwendet deine Staging Area für den Commit. Wenn du seit dem letzten Commit keine Änderungen vorgenommen hast (z.B. wenn du den Befehl unmittelbar nach einem Commit ausführst), wird der Snapshot exakt genauso aussehen wie der vorherige - alles, was du dann änderst, ist die Commit Meldung.
 
 The same commit-message editor fires up, but it already contains the message of your previous commit. You can edit the message the same as always, but it overwrites your previous commit.
 
-Der Texteditor startet wie üblich, aber diesmal enthält er bereits die Meldung aus dem vorherigen Commit. Du kannst diese Meldung wie üblich bearbeiten, speichern und die vorherige Meldung dadurch überschreiben.
+Der Texteditor startet wie üblich, aber diesmal enthält er bereits die Meldung aus dem vorherigen Commit. Du kannst diese Meldung wie gewohnt bearbeiten, speichern und die vorherige Meldung dadurch überschreiben.
 
 As an example, if you commit and then realize you forgot to stage the changes in a file you wanted to add to this commit, you can do something like this:
 
@@ -919,11 +919,11 @@ Diese drei Befehle legen einen einzigen neuen Commit an - der letzte Befehl erse
 
 ### Unstaging a Staged File ###
 
-### Änderungen aus der Staging Area nehmen ###
+### Änderungen aus der Staging Area entfernen ###
 
 The next two sections demonstrate how to wrangle your staging area and working directory changes. The nice part is that the command you use to determine the state of those two areas also reminds you how to undo changes to them. For example, let’s say you’ve changed two files and want to commit them as two separate changes, but you accidentally type `git add *` and stage them both. How can you unstage one of the two? The `git status` command reminds you:
 
-Die nächsten zwei Abschnitte gehen darauf ein, wie du Änderungen in der Staging Area und dem Arbeitsverzeichnis verwalten (xxx wrangle xxx) kannst. Praktischerweise liefert dir der Befehl `git status`, den du verwendest, um den Status dieser beiden Bereiche zu überprüfen, zugleich auch eine Erinnerungshilfe dafür, wie du Änderungen rückgängig machen kanst. Nehmen wir beispielsweise an, du hast zwei Dateien geändert und willst sie als zwei seperate Commits anlegen, du hast aber versehentlich `git add *` ausgeführt und damit beide zur Staging Area hinzugefügt. Wie kannst du jetzt eine der beiden Änderungen wieder aus der Staging Area nehmen? `git status` gibt dir einen Hinweis:
+Die nächsten zwei Abschnitte gehen darauf ein, wie du Änderungen in der Staging Area und dem Arbeitsverzeichnis verwalten kannst. Praktischerweise liefert dir der Befehl `git status`, den du verwendest, um den Status dieser beiden Bereiche zu überprüfen, zugleich auch eine Erinnerungshilfe dafür, wie du Änderungen rückgängig machen kanst. Nehmen wir beispielsweise an, du hast zwei Dateien geändert und willst sie als zwei seperate Commits anlegen, du hast aber versehentlich `git add *` ausgeführt und damit beide zur Staging Area hinzugefügt. Wie kannst du jetzt eine der beiden Änderungen wieder aus der Staging Area nehmen? `git status` gibt dir einen Hinweis:
 
 	$ git add .
 	$ git status
@@ -937,7 +937,7 @@ Die nächsten zwei Abschnitte gehen darauf ein, wie du Änderungen in der Stagin
 
 Right below the “Changes to be committed” text, it says "use `git reset HEAD <file>...` to unstage". So, let’s use that advice to unstage the `benchmarks.rb` file:
 	
-Direkt unter der Überschrift "Changes to be committed" findest du den Hinweis `git reset HEAD <file>...` "to unstage", d.h. "aus der Staging Area zu entfernen". Verwenden wir also diesen Befehl, um die Änderungen an der Datei benchmarks.rb aus der Staging Area zu nehmen:
+Direkt unter der Überschrift "Changes to be committed" findest du den Hinweis "use `git reset HEAD <file>...` to unstage", d.h. "aus der Staging Area zu entfernen". Wir verwenden nun also diesen Befehl, um die Änderungen an der Datei `benchmarks.rb` aus der Staging Area zu nehmen:
 
 	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
@@ -957,7 +957,7 @@ Direkt unter der Überschrift "Changes to be committed" findest du den Hinweis `
 
 The command is a bit strange, but it works. The `benchmarks.rb` file is modified but once again unstaged.
 
-Der Befehl liest sich zunächst vielleicht etwas merkwürdig, aber wie du siehst, funktioniert er. Die Datei benchmarks.rb ist jetzt geändert, aber nicht in der Staging Area.
+Der Befehl liest sich zunächst vielleicht etwas merkwürdig, aber wie du siehst, funktioniert er. Die Datei benchmarks.rb ist weiterhin modifiziert, befindet sich aber nicht mehr in der Staging Area.
 
 ### Unmodifying a Modified File ###
 
@@ -965,7 +965,7 @@ Der Befehl liest sich zunächst vielleicht etwas merkwürdig, aber wie du siehst
 
 What if you realize that you don’t want to keep your changes to the `benchmarks.rb` file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
 
-Was aber, wenn du die Änderungen an der Datei benchmarks.rb überhaupt nicht beibehalten willst? D.h., wenn du sie in den Zustand zurückversetzen willst, in dem sie sich befand, als du den letzten Commit angelegt hast (oder das Repository geklont hast). Das ist einfach, und glücklicherweise gibt der `git status` Befehl ebenfalls bereits einen Hinweis darauf. Die obige Ausgabe enthält den folgenden Text:
+Was aber, wenn du die Änderungen an der Datei `benchmarks.rb` überhaupt nicht beibehalten willst? D.h., wenn du sie in den Zustand zurückversetzen willst, in dem sie sich befand, als du den letzten Commit angelegt hast (oder das Repository geklont hast). Das ist einfach, und glücklicherweise gibt der `git status` Befehl ebenfalls bereits einen Hinweis darauf. Die obige Ausgabe enthält den folgenden Text:
 
 	# Changed but not updated:
 	#   (use "git add <file>..." to update what will be committed)
@@ -976,7 +976,7 @@ Was aber, wenn du die Änderungen an der Datei benchmarks.rb überhaupt nicht be
 
 It tells you pretty explicitly how to discard the changes you’ve made (at least, the newer versions of Git, 1.6.1 and later, do this — if you have an older version, we highly recommend upgrading it to get some of these nicer usability features). Let’s do what it says:
 
-Das sagt ziemlich klar, was wir zu tun haben, wenn wir die Änderungen an der Datei verwerfen wollen (genauer gesagt, Git tut dies seit der Version 1.6.1 - wenn du eine ältere Version hast, empfehlen wir dir, sie zu aktualisieren). Also, tun wir das:
+Das sagt ziemlich klar, was wir zu tun haben um die Änderungen an der Datei zu verwerfen (genauer gesagt, Git tut dies seit der Version 1.6.1 - wenn du eine ältere Version hast, empfehlen wir dir, sie zu aktualisieren). Wir führen den vorgeschlagenen Befehl also aus:
 
 	$ git checkout -- benchmarks.rb
 	$ git status
@@ -993,7 +993,7 @@ Die Änderung wurde also rückgängig gemacht: sie taucht nicht mehr in der List
 
 Remember, anything that is committed in Git can almost always be recovered. Even commits that were on branches that were deleted or commits that were overwritten with an `--amend` commit can be recovered (see *Chapter 9* for data recovery). However, anything you lose that was never committed is likely never to be seen again.
 
-Beachte, dass was auch immer jemals in einem Commit in Git enthalten war, fast immer wieder hergestellt werden kann. Selbst Commits, die sich in gelöschten Branches befanden, oder Commits, die mit einem `--amend` Commit überschrieben wurden, können wieder hergestellt werden (siehe Kapitel 9 für Datenrettung). Allerdings wirst du Änderungen, die es nie in einen Commit geschafft haben, wahrscheinlich auch nie wieder bekommen können. (xxx Mantra: commit early and often xxx)
+Beachte, dass alles was jemals in einem Commit in Git enthalten war, fast immer wieder hergestellt werden kann. Selbst Commits, die sich in gelöschten Branches befanden, oder Commits, die mit einem `--amend` Commit überschrieben wurden, können wieder hergestellt werden (siehe Kapitel 9 für Datenrettung). Allerdings wirst du Änderungen, die es nie in einen Commit geschafft haben, wahrscheinlich auch nie wieder bekommen können.
 
 ## Working with Remotes ##
 

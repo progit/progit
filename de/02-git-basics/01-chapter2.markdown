@@ -4,7 +4,7 @@
 
 If you can read only one chapter to get going with Git, this is it. This chapter covers every basic command you need to do the vast majority of the things you’ll eventually spend your time doing with Git. By the end of the chapter, you should be able to configure and initialize a repository, begin and stop tracking files, and stage and commit changes. We’ll also show you how to set up Git to ignore certain files and file patterns, how to undo mistakes quickly and easily, how to browse the history of your project and view changes between commits, and how to push and pull from remote repositories.
 
-Wenn Du nur ein einziges Kapitel aus diesem Buch lesen willst, um mit Git loslegen zu können, dann lies dieses hier. Wir werden hier auf die grundlegenden Git Befehle eingehen, die du für den größten Teil deiner täglichen Arbeit mit Git brauchst. Am Ende des Kapitels solltest du in der Lage sein, ein neues Repository anzulegen und zu konfigurieren, Dateien zur Versionskontrolle hinzuzufügen und wieder aus ihr zu entfernen, Änderungen in der Staging Area für einen Commit vorzumerken und schließlich einen Commit durchzuführen. Wir werden außerdem besprechen, wie du Git so konfigurieren kannst, dass es bestimmte Dateien und Dateimuster ignoriert, wie du Fehler schnell und einfach rückgängig machen, wie du die Historie deines Projektes durchsuchen und Änderungen zwischen bestimmten Commits nachschlagen, und wie du in externe Repositories herauf- und von dort herunterladen kannst.
+Wenn Du nur ein einziges Kapitel aus diesem Buch lesen willst, um mit Git loslegen zu können, dann lies dieses hier. Wir werden hier auf die grundlegenden Git Befehle eingehen, die du für den größten Teil deiner täglichen Arbeit mit Git brauchst. Am Ende des Kapitels solltest du in der Lage sein, ein neues Repository anzulegen und zu konfigurieren, Dateien zur Versionskontrolle hinzuzufügen und wieder aus ihr zu entfernen, Änderungen in der Staging Area für einen Commit vorzumerken und schließlich einen Commit durchzuführen. Wir werden außerdem besprechen, wie du Git so konfigurieren kannst, dass es bestimmte Dateien und Dateimuster ignoriert, wie du Fehler schnell und einfach rückgängig machen, wie du die Historie deines Projektes durchsuchen und Änderungen zwischen bestimmten Commits nachschlagen, und wie du in externe Repositorys herauf- und von dort herunterladen kannst.
 
 ## Getting a Git Repository ##
 
@@ -46,7 +46,7 @@ Wir werden gleich noch einmal genauer auf diese Befehle eingehen. Im Moment ist 
 
 If you want to get a copy of an existing Git repository — for example, a project you’d like to contribute to — the command you need is `git clone`. If you’re familiar with other VCS systems such as Subversion, you’ll notice that the command is `clone` and not `checkout`. This is an important distinction — Git receives a copy of nearly all data that the server has. Every version of every file for the history of the project is pulled down when you run `git clone`. In fact, if your server disk gets corrupted, you can use any of the clones on any client to set the server back to the state it was in when it was cloned (you may lose some server-side hooks and such, but all the versioned data would be there — see *Chapter 4* for more details).
 
-Wenn du eine Kopie eines existierenden Git Repositories anlegen willst - z.B. um an einem existierenden Projekt mitzuarbeiten - dann kannst du dazu den Befehl `git clone` verwenden. Wenn du schon mit anderen VCS Sytemen wie Subversion gearbeitet hast, wird dir auffallen, dass der Befehl `clone` heißt und nicht `checkout`. Dies ist ein wichtiger Unterschied, den du verstehen solltest. Git lädt eine Kopie fast aller Daten, die sich im existierenden Repository befinden, auf deinen Rechner. Mit `git clone` wird jede einzelne Version jeder einzelnen Datei in der Historie des Repositories heruntergeladen. Wenn ein Repository auf einem Server einmal beschädigt wird (z.B. weil die Festplatte beschädigt wird), kann man tatsächlich jeden beliebigen Klon des Repositories verwenden, um das Repository auf dem Server wieder in dem Zustand wieder herzustellen, in dem es sich befand, als es geklont wurde. (Es kann passieren, dass man einige auf dem Server vorhandenen Hooks verliert, aber alle versionierten Daten bleiben erhalten. In Kapitel 4 gehen wir darauf noch einmal genauer ein.)
+Wenn du eine Kopie eines existierenden Git Repositorys anlegen willst - z.B. um an einem Projekt mitzuarbeiten - dann kannst du dazu den Befehl `git clone` verwenden. Wenn du schon mit anderen VCS Sytemen wie Subversion gearbeitet hast, wird dir auffallen, dass der Befehl `clone` heißt und nicht `checkout`. Dies ist ein wichtiger Unterschied, den du verstehen solltest. Git lädt eine Kopie fast aller Daten, die sich im existierenden Repository befinden, auf deinen Rechner. Mit `git clone` wird jede einzelne Version jeder einzelnen Datei in der Historie des Repositorys heruntergeladen. Wenn ein Repository auf einem Server einmal beschädigt wird (z.B. weil die Festplatte beschädigt wird), kann man tatsächlich jeden beliebigen Klon des Repositorys verwenden, um das Repository auf dem Server wieder in dem Zustand wieder herzustellen, in dem es sich befand, als es geklont wurde. (Es kann passieren, dass man einige auf dem Server vorhandenen Hooks verliert, aber alle versionierten Daten bleiben erhalten. In Kapitel 4 gehen wir darauf noch einmal genauer ein.)
 
 You clone a repository with `git clone [url]`. For example, if you want to clone the Ruby Git library called Grit, you can do so like this:
 
@@ -56,7 +56,7 @@ Du kannst ein Repository mit dem Befehl `git clone [url]` klonen. Um beispielswe
 
 That creates a directory named `grit`, initializes a `.git` directory inside it, pulls down all the data for that repository, and checks out a working copy of the latest version. If you go into the new `grit` directory, you’ll see the project files in there, ready to be worked on or used. If you want to clone the repository into a directory named something other than grit, you can specify that as the next command-line option:
 
-Git legt dann ein Verzeichnis `grit` an, initialisiert ein `.git` Verzeichnis darin, lädt alle Daten für das Repository herunter, und checkt eine Arbeitskopie der letzten Version aus. Wenn Du in das neue `grit` Verzeichnis wechselst, findest du dort die in diesem Projekt enthaltenen Dateien und kannst sie benutzen oder bearbeiten. Wenn du das Repository in ein Verzeichnis mit einem anderen Namen als `grit` klonen willst, kannst du das wie folgt angeben:
+Git legt dann ein Verzeichnis `grit` an, initialisiert ein `.git` Verzeichnis darin, lädt alle Daten des Repositorys herunter, und checkt eine Arbeitskopie der letzten Version aus. Wenn Du in das neue `grit` Verzeichnis wechselst, findest du dort die in diesem Projekt enthaltenen Dateien und kannst sie benutzen oder bearbeiten. Wenn du das Repository in ein Verzeichnis mit einem anderen Namen als `grit` klonen willst, kannst du das wie folgt angeben:
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
@@ -756,7 +756,7 @@ Du fragst dich vielleicht, was der Unterschied zwischen Autor und Committer ist.
 
 The `oneline` and `format` options are particularly useful with another `log` option called `--graph`. This option adds a nice little ASCII graph showing your branch and merge history, which we can see our copy of the Grit project repository:
 
-Die `oneline` und `format` Optionen können außerdem zusammen mit einer weiteren Option `--graph` verwendet werden. Diese Option fügt einen netten kleinen ASCII Graphen hinzu, der die Branch- und Merge-Historie des Projektes anzeigt. Das kannst du z.B. in deinem Klon des Grit Projekt Repositories sehen:
+Die `oneline` und `format` Optionen können außerdem zusammen mit einer weiteren Option `--graph` verwendet werden. Diese Option fügt einen netten kleinen ASCII Graphen hinzu, der die Branch- und Merge-Historie des Projektes anzeigt. Das kannst du z.B. in deinem Klon des Grit Projekt Repositorys sehen:
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -997,16 +997,16 @@ Beachte, dass alles was jemals in einem Commit in Git enthalten war, fast immer 
 
 ## Working with Remotes ##
 
-## Mit externen Repositories arbeiten ##
+## Mit externen Repositorys arbeiten ##
 
 To be able to collaborate on any Git project, you need to know how to manage your remote repositories. Remote repositories are versions of your project that are hosted on the Internet or network somewhere. You can have several of them, each of which generally is either read-only or read/write for you. Collaborating with others involves managing these remote repositories and pushing and pulling data to and from them when you need to share work.
 Managing remote repositories includes knowing how to add remote repositories, remove remotes that are no longer valid, manage various remote branches and define them as being tracked or not, and more. In this section, we’ll cover these remote-management skills.
 
-Um mit anderen via Git zusammenarbeiten zu können, musst du wissen, wie du auf externe (engl. "remote") Repositories zugreifen kannst. Externe Repositories sind Versionen deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositories haben und du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositories zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um deine Arbeit für andere verfügbar zu machen. Um externe Repositories zu verwalten, muss man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
+Um mit anderen via Git zusammenarbeiten zu können, musst du wissen, wie du auf externe (engl. "remote") Repositorys zugreifen kannst. Externe Repositorys sind Versionen deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositorys haben und du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositorys zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um deine Arbeit für andere verfügbar zu machen. Um externe Repositorys zu verwalten, muss man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
 
 ### Showing Your Remotes ###
 
-### Externe Repositories anzeigen ###
+### Externe Repositorys anzeigen ###
 
 To see which remote servers you have configured, you can run the `git remote` command. It lists the shortnames of each remote handle you’ve specified. If you’ve cloned your repository, you should at least see *origin* — that is the default name Git gives to the server you cloned from:
 
@@ -1045,11 +1045,11 @@ Wenn du mehr als ein externes Repository konfiguriert hast, zeigt der Befehl all
 
 This means we can pull contributions from any of these users pretty easily. But notice that only the origin remote is an SSH URL, so it’s the only one I can push to (we’ll cover why this is in *Chapter 4*).
 
-D.h., mein lokales Repository kennt die Repositories von all diesen Leuten und ich kann ihre Beiträge zu meinem Projekt ganz einfach herunterladen und zum Projekt hinzufügen.
+D.h., mein lokales Repository kennt die Repositorys von all diesen Leuten und ich kann ihre Beiträge zu meinem Projekt ganz einfach herunterladen und zum Projekt hinzufügen.
 
 ### Adding Remote Repositories ###
 
-### Externe Repositories hinzufügen ###
+### Externe Repositorys hinzufügen ###
 
 I’ve mentioned and given some demonstrations of adding remote repositories in previous sections, but here is how to do it explicitly. To add a new remote Git repository as a shortname you can reference easily, run `git remote add [shortname] [url]`:
 
@@ -1081,11 +1081,11 @@ Paul's master Branch ist jetzt lokal auf deinem Rechner als `pb/master` verfügb
 
 ### Fetching and Pulling from Your Remotes ###
 
-### Aus externen Repositories herunterladen und herunterladen inkl. zusammenführen ###
+### Aus externen Repositorys herunterladen und herunterladen inkl. zusammenführen ###
 
 As you just saw, to get data from your remote projects, you can run:
 
-Wie du gerade gesehen hast, kannst du Daten aus externen Repositories herunterladen, indem du den Befehl verwendest:
+Wie du gerade gesehen hast, kannst du Daten aus externen Repositorys herunterladen, indem du den Befehl verwendest:
 
 	$ git fetch [remote-name]
 
@@ -1099,7 +1099,7 @@ Wenn du ein Repository geklont hast, legt der Befehl automatisch einen Verweis a
 
 If you have a branch set up to track a remote branch (see the next section and *Chapter 3* for more information), you can use the `git pull` command to automatically fetch and then merge a remote branch into your current branch. This may be an easier or more comfortable workflow for you; and by default, the `git clone` command automatically sets up your local master branch to track the remote master branch on the server you cloned from (assuming the remote has a master branch). Running `git pull` generally fetches data from the server you originally cloned from and automatically tries to merge it into the code you’re currently working on.
 
-Wenn du allerdings einen Branch so aufgesetzt hast, dass er einem externen Branch "folgt" (also einen "Tracking Branch", wir werden im nächsten Abschnitt und in Kapitel 3 noch genauer darauf eingehen), dann kannst du den Befehl `git pull` verwenden, um automatisch neue Daten herunterzuladen und den externen Branch gleichzeitig mit dem aktuellen, lokalen Branch zusammenzuführen. Das ist oft die bequemere Arbeitsweise. `git clone` setzt deinen lokalen master Branch deshalb standardmäßig so auf, dass er dem externen master Branch des geklonten Repositories folgt (sofern das externe Repository einen master Branch hat). Wenn du dann `git pull` ausführst, wird Git die neuen Commits aus dem externen Repository holen und versuchen, sie automatisch mit dem Code zusammenzuführen, an dem du gerade arbeitest.
+Wenn du allerdings einen Branch so aufgesetzt hast, dass er einem externen Branch "folgt" (also einen "Tracking Branch", wir werden im nächsten Abschnitt und in Kapitel 3 noch genauer darauf eingehen), dann kannst du den Befehl `git pull` verwenden, um automatisch neue Daten herunterzuladen und den externen Branch gleichzeitig mit dem aktuellen, lokalen Branch zusammenzuführen. Das ist oft die bequemere Arbeitsweise. `git clone` setzt deinen lokalen master Branch deshalb standardmäßig so auf, dass er dem externen master Branch des geklonten Repositorys folgt (sofern das externe Repository einen master Branch hat). Wenn du dann `git pull` ausführst, wird Git die neuen Commits aus dem externen Repository holen und versuchen, sie automatisch mit dem Code zusammenzuführen, an dem du gerade arbeitest.
 
 ### Pushing to Your Remotes ###
 
@@ -1168,7 +1168,7 @@ Dieser Befehl zeigt, welcher Branch automatisch hochgeladen werden wird, wenn du
 
 ### Removing and Renaming Remotes ###
 
-### Verweise auf externe Repositories löschen und umbenennen ###
+### Verweise auf externe Repositorys löschen und umbenennen ###
 
 If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
 
@@ -1567,5 +1567,5 @@ Wie du dir denken kannst, ersetzt Git ganz einfach den Alias mit dem jeweiligen 
 
 At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
 
-Du solltest jetzt in der Lage sein, die wichtigsten Git Befehle einzusetzen und Repositories neu zu erzeugen und zu klonen, Änderungen vorzunehmen und zur Staging Area hinzuzufügen, Commits anzulegen und die Historie aller Commits in einem Repository zu durchsuchen. Als nächstes werden wir auf ein herausragendes Feature von Git eingehen: das Branching Konzept.
+Du solltest jetzt in der Lage sein, die wichtigsten Git Befehle einzusetzen und Repositorys neu zu erzeugen und zu klonen, Änderungen vorzunehmen und zur Staging Area hinzuzufügen, Commits anzulegen und die Historie aller Commits in einem Repository zu durchsuchen. Als nächstes werden wir auf ein herausragendes Feature von Git eingehen: das Branching Konzept.
 

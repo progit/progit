@@ -8,13 +8,13 @@ Es gibt grundsätzlich zwei Möglichkeiten, ein Git Repository auf dem eigenen R
 
 ### Ein existierendes Verzeichnis als Git Repository initialisieren ###
 
-Wenn du künftige Änderungen an einem bestehenden Projekt auf Deinem Rechner mit Git versionieren und nachverfolgen willst, kannst du dazu einfach in das jeweilige Verzeichnis gehen und diesen Befehl ausführen:
+Wenn du künftige Änderungen an einem bestehenden Projekt auf Deinem Rechner mit Git versionieren und nachverfolgen willst, kannst du dazu einfach in das jeweilige Verzeichnis wechseln und diesen Befehl ausführen:
 
 	$ git init
 
-Das erzeugt ein Unterverzeichnis `.git`, in dem alle relevanten Git Repository Dateien enthalten sind, also ein Git Repository Grundgerüst. Zu diesem Zeitpunkt werden noch keine Dateien in Git versioniert. (In Kapitel 9 werden wir genauer darauf eingehen, welche Dateien im .git Verzeichnis enthalten sind und was ihre Aufgabe ist.)
+Das erzeugt ein Unterverzeichnis `.git`, in dem alle relevanten Git Repository Daten enthalten sind, also ein Git Repository Grundgerüst. Zu diesem Zeitpunkt werden noch keine Dateien in Git versioniert. (In Kapitel 9 werden wir genauer darauf eingehen, welche Dateien im .git Verzeichnis enthalten sind und was ihre Aufgabe ist.)
 
-Wenn in deinem Projekt bereits Dateien vorhanden sind (und es sich nicht nur um ein leeres Verzeichnis handelt), willst du diese vermutlich zur Versionskontrolle hinzufügen, damit Änderungen daran künftig nachverfolgbar sind. Dazu kannst du die folgenden Git Befehle ausführen, die Dateien zur Versionskontrolle hinzufügen und anschließend einen ersten Commit anlegen:
+Wenn in deinem Projekt bereits Dateien vorhanden sind (und es sich nicht nur um ein leeres Verzeichnis handelt), willst du diese vermutlich zur Versionskontrolle hinzufügen, damit Änderungen daran künftig nachverfolgbar sind. Dazu kannst du die folgenden Git Befehle ausführen um die Dateien zur Versionskontrolle hinzuzufügen. Anschließend kannst du deinen ersten Commit anlegen:
 
 	$ git add *.c
 	$ git add README
@@ -24,7 +24,7 @@ Wir werden gleich noch einmal genauer auf diese Befehle eingehen. Im Moment ist 
 
 ### Ein existierendes Repository klonen ###
 
-Wenn du eine Kopie eines existierenden Git Repositorys anlegen willst - z.B. um an einem Projekt mitzuarbeiten - dann kannst du dazu den Befehl `git clone` verwenden. Wenn du schon mit anderen VCS Sytemen wie Subversion gearbeitet hast, wird dir auffallen, dass der Befehl `clone` heißt und nicht `checkout`. Dies ist ein wichtiger Unterschied, den du verstehen solltest. Git lädt eine Kopie fast aller Daten, die sich im existierenden Repository befinden, auf deinen Rechner. Mit `git clone` wird jede einzelne Version jeder einzelnen Datei in der Historie des Repositorys heruntergeladen. Wenn ein Repository auf einem Server einmal beschädigt wird (z.B. weil die Festplatte beschädigt wird), kann man tatsächlich jeden beliebigen Klon des Repositorys verwenden, um das Repository auf dem Server wieder in dem Zustand wieder herzustellen, in dem es sich befand, als es geklont wurde. (Es kann passieren, dass man einige auf dem Server vorhandenen Hooks verliert, aber alle versionierten Daten bleiben erhalten. In Kapitel 4 gehen wir darauf noch einmal genauer ein.)
+Wenn du eine Kopie eines existierenden Git Repositorys anlegen willst - z.B. um an einem Projekt mitzuarbeiten - dann kannst du dazu den Befehl `git clone` verwenden. Wenn du schon mit anderen VCS Sytemen wie Subversion gearbeitet hast, wird dir auffallen, dass der Befehl `clone` heißt und nicht `checkout`. Dies ist ein wichtiger Unterschied, den du verstehen solltest. Git lädt eine Kopie aller Daten, die sich im existierenden Repository befinden, auf deinen Rechner. Mit `git clone` wird jede einzelne Version jeder einzelnen Datei in der Historie des Repositorys heruntergeladen. Wenn ein Repository auf einem Server einmal beschädigt wird (z.B. weil die Festplatte beschädigt wird), kann man tatsächlich jeden beliebigen Klon des Repositorys verwenden, um das Repository auf dem Server wieder in dem Zustand wieder herzustellen, in dem es sich befand, als es geklont wurde. (Es kann passieren, dass man einige auf dem Server vorhandenen Hooks verliert, aber alle versionierten Daten bleiben erhalten. In Kapitel 4 gehen wir darauf noch einmal genauer ein.)
 
 Du kannst ein Repository mit dem Befehl `git clone [url]` klonen. Um beispielsweise das Repository der Ruby Git Bibliothek Grit zu klonen, führst du den folgenden Befehl aus:
 
@@ -36,13 +36,13 @@ Git legt dann ein Verzeichnis `grit` an, initialisiert ein `.git` Verzeichnis da
 
 Dieser Befehl tut das gleiche wie der vorhergehende, aber das Zielverzeichnis ist diesmal `mygrit`.
 
-Git unterstützt eine Reihe unterschiedlicher Übertragungsprotokolle. Das vorhergehende Beispiel verwendet das `git://` Protokoll, aber du wirst auch `http(s)://` oder `user@server:/path.git` finden, die das SSH Protokoll verwenden. In Kapitel 4 gehen wir auf die verfügbaren Optionen (und deren Vor- und Nachteile) ein, die ein Server hat, um Zugriff auf ein Git Repository zu erlauben.
+Git unterstützt eine Reihe unterschiedlicher Übertragungsprotokolle. Das vorhergehende Beispiel verwendet das `git://` Protokoll, aber du wirst auch auf `http(s)://` oder `user@server:/path.git` treffen, die das SSH Protokoll verwenden. In Kapitel 4 gehen wir auf die verfügbaren Optionen (und deren Vor- und Nachteile) ein, die ein Server hat, um Zugriff auf ein Git Repository zu ermöglichen.
 
 ## Änderungen am Repository nachverfolgen ##
 
 Du hast jetzt ein voll funktionsfähiges Git Repository und eine Arbeitskopie des Projekts ist in deinem Verzeichnis ausgecheckt. Du kannst nun die Dateien im Projekt bearbeiten. Immer wenn dein Projekt einen Zustand erreicht hat, den du festhalten willst, musst du diese Änderungen einchecken.
 
-Jede Datei in deinem Arbeitsverzeichnis kann sich in einem von zwei Zuständen befinden: Änderungen werden verfolgt (engl. tracked) oder nicht (engl. untracked). Alle Dateien, die sich im letzten Snapshot (Commit) befanden, werden in der Versionskontrolle verfolgt. Sie können entweder unverändert (engl. unmodified), modifiziert (engl. modified) oder für den nächsten Commit markiert (engl. staged) sein. Alle anderen Dateien in deinem Arbeitsverzeichnis dagegen sind nicht versioniert: das sind all diejenigen Dateien, die nicht schon im letzten Snapshot enthalten waren und die sich nicht in der Staging Area befinden. Wenn Du ein Repository gerade geklont hast, sind alle Dateien versioniert und unverändert - du hast sie gerade ausgecheckt aber noch nichts verändert.
+Jede Datei in deinem Arbeitsverzeichnis kann sich in einem von zwei Zuständen befinden: Änderungen werden verfolgt (engl. tracked) oder nicht (engl. untracked). Alle Dateien, die sich im letzten Snapshot (Commit) befanden, werden in der Versionskontrolle verfolgt. Sie können entweder unverändert (engl. unmodified), modifiziert (engl. modified) oder für den nächsten Commit vorgemerkt (engl. staged) sein. Alle anderen Dateien in deinem Arbeitsverzeichnis dagegen sind nicht versioniert: das sind all diejenigen Dateien, die nicht schon im letzten Snapshot enthalten waren und die sich nicht in der Staging Area befinden. Wenn Du ein Repository gerade geklont hast, sind alle Dateien versioniert und unverändert - du hast sie gerade ausgecheckt aber noch nicht verändert.
 
 Sobald du versionierte Dateien bearbeitest, wird Git sie als modifiziert erkennen, weil du sie seit dem letzten Commit geändert hast. Du merkst diese geänderten Dateien für den nächsten Commit vor (d.h. du fügst sie zur Staging Area hinzu bzw. du stagest sie), legst aus allen markierten Änderungen einen Commit an und der Vorgang beginnt von vorn. Bild 2-1 stellt diesen Zyklus dar:
 
@@ -51,13 +51,13 @@ Bild 2-1. Zyklus der Grundzustände deiner Dateien
 
 ### Den Zustand deiner Dateien prüfen ###
 
-Das wichtigste Hilfsmittel, um den Zustand zu überprüfen, in dem sich die Dateien in deinem Repository gerade befinden, ist der Befehl `git status`. Wenn du diesen Befehl ausführst, unmittelbar nachdem du ein Repository geklont hast, solltest du in etwa Folgendes sehen:
+Das wichtigste Hilfsmittel, um den Zustand zu überprüfen, in dem sich die Dateien in deinem Repository gerade befinden, ist der Befehl `git status`. Wenn du diesen Befehl unmittelbar nach dem Klonen eines Repositorys ausführst, sollte er folgende Ausgabe liefern:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-Man sagt auch, du hast ein sauberes Arbeitsverzeichnis. Mit anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und seit dem letzten Commit geändert wurden - andernfalls würden sie hier aufgelistet werden. Außerdem teilt dir der Befehl mit, in welchem Branch du dich befindest. In diesem Beispiel ist dies der Branch `master`. Mach dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches detailliert eingehen.
+Dieser Zustand wird auch als sauberes Arbeitsverzeichnis (engl. clean working directory) bezeichnet. Mit anderen Worten, es gibt keine Dateien, die unter Versionskontrolle stehen und seit dem letzten Commit geändert wurden - andernfalls würden sie hier aufgelistet werden. Außerdem teilt dir der Befehl mit, in welchem Branch du dich gerade befindest. In diesem Beispiel ist dies der Branch `master`. Mach dir darüber im Moment keine Gedanken, wir werden im nächsten Kapitel auf Branches detailliert eingehen.
 
 Sagen wir du fügst eine neue `README` Datei zu deinem Projekt hinzu. Wenn die Datei zuvor nicht existiert hat und du jetzt `git status` ausführst, zeigt Git die bisher nicht versionierte Datei wie folgt an:
 
@@ -92,7 +92,7 @@ Dass die Datei für den nächsten Commit vorgemerkt ist, siehst du daran, dass s
 
 ### Geänderte Dateien stagen ###
 
-Ändern wir also eine Datei, die sich in Versionskontrolle befindet. Wenn du eine bereits versionierte Datei `benchmarks.rb` änderst und den `git status` Befehl ausführst, erhältst du folgendes:
+Wenn du eine bereits versionierte Datei `benchmarks.rb` änderst und den `git status` Befehl ausführst, erhältst du folgendes:
 
 	$ git status
 	# On branch master
@@ -150,7 +150,7 @@ Huch, was ist das? Jetzt wird `benchmarks.rb` sowohl in der Staging Area als auc
 
 ### Dateien ignorieren ###
 
-Du wirst in der Regel eine Reihe von Dateien in deinem Projektverzeichnis haben, die du nicht versionieren oder im Repository haben willst, wie z.B. automatisch generierte Dateien, wie Logdateien oder Dateien, die dein Build-System erzeugt. In solchen Fällen kannst du in einer Datei alle Dateien oder Dateimuster angeben, die du ignorieren willst.
+Du wirst in der Regel eine Reihe von Dateien in deinem Projektverzeichnis haben, die du nicht versionieren bzw. im Repository haben willst, wie z.B. automatisch generierte Dateien, wie Logdateien oder Dateien, die dein Build-System erzeugt. In solchen Fällen kannst du in der Datei `.gitignore` alle Dateien oder Dateimuster angeben, die du ignorieren willst.
 
 	$ cat .gitignore
 	*.[oa]
@@ -158,7 +158,7 @@ Du wirst in der Regel eine Reihe von Dateien in deinem Projektverzeichnis haben,
 
 Die erste Zeile weist Git an, alle Dateien zu ignorieren, die mit einem `.o` oder `.a` enden (also Objekt- und Archiv-Dateien, die von deinem Build-System erzeugt werden). Die zweite Zeile bewirkt, dass alle Dateien ignoriert werden, die mit einer Tilde (`~`) enden. Viele Texteditoren speichern ihre temporären Dateien auf diese Weise, wie bespielsweise Emacs. Du kannst außerdem Verzeichnisse wie `log`, `tmp` oder `pid` hinzufügen, automatisch erzeugte Dokumentation, und so weiter. Es ist normalerweise empfehlenswert, eine `.gitignore` Datei anzulegen, bevor man mit der eigentlichen Arbeit anfängt, damit man nicht versehentlich Dateien ins Repository hinzufügt, die man dort nicht wirklich haben will.
 
-Die Regeln für Einträge in der `.gitignore` Datei sind:
+Folgende Regeln gelten in einer `.gitignore` Datei:
 
 *	Leere Zeilen oder Zeilen, die mit `#` beginnen, werden ignoriert.
 *	Standard `glob` Muster funktionieren.
@@ -179,9 +179,9 @@ Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 
 ### Die Änderungen in der Staging Area durchsehen ###
 
-Wenn dir die Ausgabe des Befehl `git status` nicht aussagekräftig genug ist, weil du exakt wissen willst, was sich geändert hat - und nicht lediglich, welche Dateien überhaupt geändert wurden - kannst du den `git diff` Befehl verwenden. Wir werden `git diff` später noch einmal im Detail besprechen, aber du wirst diesen Befehl in der Regel verwenden wollen, um eine der folgenden, zwei Fragen zu beantworten: Was hast du geändert, aber noch nicht für einen Commit vorgemerkt? Und welche Änderungen hast du für einen Commit bereits vorgemerkt? Während `git status` diese Fragen nur mit Dateinamen beantwortet, zeigt dir `git diff` exakt an, welche Zeilen hinzugefügt, geändert und entfernt wurden. Dies entspricht gewissermaßen einem Patch.
+Wenn dir die Ausgabe des Befehl `git status` nicht aussagekräftig genug ist, weil du exakt wissen willst, was sich geändert hat - und nicht lediglich, welche Dateien geändert wurden - kannst du den `git diff` Befehl verwenden. Wir werden `git diff` später noch einmal im Detail besprechen, aber du wirst diesen Befehl in der Regel verwenden wollen, um eine der folgenden, zwei Fragen zu beantworten: Was hast du geändert, aber noch nicht für einen Commit vorgemerkt? Und welche Änderungen hast du für einen Commit bereits vorgemerkt? Während `git status` diese Fragen nur mit Dateinamen beantwortet, zeigt dir `git diff` exakt an, welche Zeilen hinzugefügt, geändert und entfernt wurden. Dies entspricht gewissermaßen einem Patch.
 
-Nehmen wir an, du hast die Datei `README` geändert und für einen Commit in der Staging Area vorgemerkt. Dann änderst du außerdem die Datei `benchmarks.rb`, fügst sie aber noch nicht zur Staging Area hinzu. Wenn du den `git status` Befehl ausführst, zeigt er dir in etwa Folgendes an:
+Nehmen wir an, du hast die Datei `README` geändert und für einen Commit in der Staging Area vorgemerkt. Dann änderst du außerdem die Datei `benchmarks.rb`, fügst sie aber noch nicht zur Staging Area hinzu. Wenn du den `git status` Befehl dann ausführst, zeigt er dir in etwa Folgendes an:
 
 	$ git status
 	# On branch master
@@ -232,9 +232,9 @@ Wenn du sehen willst, welche Änderungen in der Staging Area und somit für den 
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-Es ist wichtig, im Kopf zu behalten, dass `git diff` nicht alle Änderungen seit dem letzten Commit anzeigt - es zeigt lediglich diejenigen Änderungen an, die noch nicht in der Staging Area sind. Das kann verwirrend sein: wenn du all deine Änderungen bereits für einen Commit vorgemerkt hast, zeigt `git diff` überhaupt nichts an.
+Es ist wichtig, im Kopf zu behalten, dass `git diff` nicht alle Änderungen seit dem letzten Commit anzeigt - er zeigt lediglich diejenigen Änderungen an, die noch nicht in der Staging Area sind. Das kann verwirrend sein. Wenn du all deine Änderungen bereits für einen Commit vorgemerkt hast, zeigt `git diff` überhaupt nichts an.
 
-Ein anderes Beispiel. Wenn du Änderungen an der Datei `benchmarks.rb` bereits zur Staging Area hinzugefügt hast und sie dann anschließend noch mal änderst, kannst du `git diff` verwenden, um diese letzten Änderungen anzuzeigen, die noch nicht in der Staging Area sind:
+Ein anderes Beispiel: Wenn du Änderungen an der Datei `benchmarks.rb` bereits zur Staging Area hinzugefügt hast und sie dann anschließend noch mal änderst, kannst du `git diff` verwenden, um diese letzten Änderungen anzuzeigen, die noch nicht in der Staging Area sind:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -250,7 +250,7 @@ Ein anderes Beispiel. Wenn du Änderungen an der Datei `benchmarks.rb` bereits z
 	#	modified:   benchmarks.rb
 	#
 
-Jetzt kannst du `git diff` verwenden, um zu sehen, was noch nicht für den nächsten Commit vorgesehen ist:
+Jetzt kannst du `git diff` verwenden, um zu sehen, was noch nicht für den nächsten Commit vorgemerkt ist:
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -263,7 +263,7 @@ Jetzt kannst du `git diff` verwenden, um zu sehen, was noch nicht für den näch
 	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
-und `git diff --cached', um zu sehen, was für den nächsten Commit vorgesehen ist:
+und `git diff --cached`, um zu sehen, was für den nächsten Commit vorgesehen ist:
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -316,7 +316,7 @@ Alternativ kannst du die Commit Meldung direkt mit dem Befehl `git commit` angeb
 
 Du hast jetzt deinen ersten Commit angelegt! Git zeigt dir als Rückmeldung einige Details über den neu angelegten Commit an: in welchem Branch er sich befindet (master), welche SHA-1 Checksumme er hat (`463dc4f`, in diesem Fall nur die Kurzform), wie viele Dateien geändert wurden und eine Zusammenfassung über die insgesamt neu hinzugefügten und entfernten Zeilen in diesem Commit.
 
-Denke daran, dass jeder neue Commit denjenigen Snapshot aufzeichnet, den du in der Staging Area vorbereitet hattest. Änderungen, die nicht in der Staging Area waren, werden weiterhin als modifizierte Dateien im Arbeitsverzeichnis vorliegen. Jedes Mal wenn du einen Commit anlegst, zeichnest du einen Snapshot Deines Projektes auf, zu dem du zurückkehren oder mit dem du spätere Änderungen vergleichen kannst.
+Denke daran, dass jeder neue Commit denjenigen Snapshot aufzeichnet, den du in der Staging Area vorbereitet hast. Änderungen, die nicht in der Staging Area waren, werden weiterhin als modifizierte Dateien im Arbeitsverzeichnis vorliegen. Jedes Mal wenn du einen Commit anlegst, zeichnest du einen Snapshot Deines Projektes auf, zu dem du zurückkehren oder mit dem du spätere Änderungen vergleichen kannst.
 
 ### Die Staging Area überspringen ###
 
@@ -708,15 +708,15 @@ Das sagt ziemlich klar, was wir zu tun haben um die Änderungen an der Datei zu 
 
 Die Änderung wurde also rückgängig gemacht: sie taucht nicht mehr in der Liste der geänderten Dateien auf. Sei dir bewußt, dass dieser Befehl potentiell gefährlich ist, da er Änderungen an einer Datei vollständig verwirft. Es ist also ratsam, ihn nur dann zu verwenden, wenn du dir absolut sicher bist, dass du die Änderungen nicht mehr brauchst. Für Situationen, in denen Du eine Änderung lediglich vorläufig aus dem Weg räumen willst, werden wir im nächsten Kapitel noch auf Stashing und Branching eingehen - die dazu besser geeignet sind.
 
-Beachte, dass alles was jemals in einem Commit in Git enthalten war, fast immer wieder hergestellt werden kann. Selbst Commits, die sich in gelöschten Branches befanden, oder Commits, die mit einem `--amend` Commit überschrieben wurden, können wieder hergestellt werden (siehe Kapitel 9 für Datenrettung). Allerdings wirst du Änderungen, die es nie in einen Commit geschafft haben, wahrscheinlich auch nie wieder bekommen können.
+Beachte, dass alles was jemals in einem Commit in Git enthalten war, fast immer wieder hergestellt werden kann. Selbst Commits, die sich in gelöschten Branches befanden, oder Commits, die mit einem `--amend` Commit überschrieben wurden, können wieder hergestellt werden (siehe Kapitel 9 für Datenrettung). Allerdings wirst du Änderungen, die es nie in einen Commit geschafft haben, wahrscheinlich auch nie wieder restaurieren können.
 
 ## Mit externen Repositorys arbeiten ##
 
-Um mit anderen via Git zusammenarbeiten zu können, musst du wissen, wie du auf externe (engl. "remote") Repositorys zugreifen kannst. Remote Repositorys sind Versionen deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositorys haben und du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositorys zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um deine Arbeit für andere verfügbar zu machen. Um Remote Repositorys zu verwalten, muss man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
+Um mit anderen via Git zusammenzuarbeiten, musst du wissen, wie du auf externe (engl. "remote") Repositorys zugreifen kannst. Remote Repositorys sind Versionen deines Projektes, die im Internet oder irgendwo in einem anderen Netzwerk gespeichert sind. Du kannst mehrere solcher Repositorys haben und du kannst jedes davon entweder nur lesen oder lesen und schreiben. Mit anderen via Git zusammenzuarbeiten impliziert, solche Repositorys zu verwalten und Daten aus ihnen herunter- oder heraufzuladen, um deine Arbeit für andere verfügbar zu machen. Um Remote Repositorys zu verwalten, muss man wissen, wie man sie anlegt und wieder entfernt, wenn sie nicht mehr verwendet werden, wie man externe Branches verwalten und nachverfolgen kann, und mehr. In diesem Kapitel werden wir auf diese Aufgaben eingehen.
 
 ### Remote Repositorys anzeigen ###
 
-Der `git remote` Befehl zeigt dir an, welche externen Server du für dein Projekt lokal konfiguriert hast, und listet die Kurzbezeichnungen für jedes Remote Repository auf. Wenn du ein Repository geklont hast, solltest du mindestens `origin` sehen - welches der Standardname ist, den Git für denjenigen Server vergibt, von dem Du geklont hast:
+Der `git remote` Befehl zeigt dir an, welche externen Server du für dein Projekt lokal konfiguriert hast, und listet die Kurzbezeichnungen für diese Remote Repository auf. Wenn du ein Repository geklont hast, solltest du mindestens `origin` sehen - welches der Standardname ist, den Git für denjenigen Server vergibt, von dem Du geklont hast:
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -729,7 +729,7 @@ Der `git remote` Befehl zeigt dir an, welche externen Server du für dein Projek
 	$ git remote
 	origin
 
-Du kannst außerdem die Option `-v` verwenden, was für jeden Kurznamen auch die jeweilige URL anzeigt, die Git gespeichert hat:
+Du kannst außerdem die Option `-v` verwenden, welche für jeden Kurznamen auch die jeweilige URL anzeigt, die Git gespeichert hat:
 
 	$ git remote -v
 	origin  git://github.com/schacon/ticgit.git (fetch)
@@ -873,7 +873,7 @@ Du kannst auch nach Tags mit einem bestimmten Muster suchen. Das Git Quellcode R
 
 ### Neue Tags anlegen ###
 
-Git kennt im wesentlichen zwei Typen von Tags: einfache (engl. lightweight) und kommentierte (engl. "annotated") Tags. Ein einfacher Tag ist wie ein Branch, der sich niemals ändert - es ist lediglich ein Zeiger auf einen bestimmten Commit. Kommentierte Tags dagegen werden als vollwertige Objekte in der Git Datenbank gespeichert. Sie haben eine Checksumme, beinhalten Namen und E-Mail Adresse desjenigen, der den Tag angelegt hat, das jeweilige Datum sowie eine Meldung. Sie können überdies mit GNU Privacy Guard (GPG) signiert und verifiziert werden. Generell empfiehlt sich deshalb, kommentierte Tags anzulegen. Wenn man aber aus irgendeinem Grund einen temporären Tag anlegen will, für den all diese zusätzlichen Informationen nicht nötig sind, dann kann man auf einfache Tags zurückgreifen.
+Git kennt im wesentlichen zwei Typen von Tags: einfache (engl. lightweight) und kommentierte (engl. annotated) Tags. Ein einfacher Tag ist wie ein Branch, der sich niemals ändert - es ist lediglich ein Zeiger auf einen bestimmten Commit. Kommentierte Tags dagegen werden als vollwertige Objekte in der Git Datenbank gespeichert. Sie haben eine Checksumme, beinhalten Namen und E-Mail Adresse desjenigen, der den Tag angelegt hat, das jeweilige Datum sowie eine Meldung. Sie können überdies mit GNU Privacy Guard (GPG) signiert und verifiziert werden. Generell empfiehlt sich deshalb, kommentierte Tags anzulegen. Wenn man aber aus irgendeinem Grund einen temporären Tag anlegen will, für den all diese zusätzlichen Informationen nicht nötig sind, dann kann man auf einfache Tags zurückgreifen.
 
 ### Kommentierte Tags ###
 
@@ -887,7 +887,7 @@ Einen kommentierten Tag legst du an, indem du dem `git tag` Befehl die Option `-
 
 Die Option `-m` gibt dabei wiederum die Meldung an, die zum Tag hinzugefügt wird. Wenn du keine Meldung angibst, startet Git wie üblich deinen Editor, so dass du eine Meldung eingeben kannst.
 
-`git show` zeigt dir dann folgenden Tag Daten zusammen mit dem jeweiligen Commit, auf den der Tag verweist:
+`git show` zeigt dir dann folgenden Tag zusammen mit dem jeweiligen Commit, auf den der Tag verweist, an:
 
 	$ git show v1.4
 	tag v1.4
@@ -902,7 +902,7 @@ Die Option `-m` gibt dabei wiederum die Meldung an, die zum Tag hinzugefügt wir
 
 	    Merge branch 'experiment'
 
-Die Ausgabe listet also zunächst die Informationen über denjenigen, der den Tag angelegt hat, sowie die Tag Meldung und dann die Commit Informationen selbst.
+Die Ausgabe listet also zunächst die Informationen über denjenigen auf, der den Tag angelegt hat, sowie die Tag Meldung und dann die Commit Informationen selbst.
 
 ### Signierte Tags ###
 
@@ -999,7 +999,7 @@ Du kannst Commits jederzeit taggen, auch lange Zeit nachdem sie angelegt wurden.
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Nehmen wir außerdem an, dass du vergessen hast, Version v1.2 des Projekts zu taggen und dass dies der Commit "updated rakefile" gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
+Nehmen wir an, dass du vergessen hast, Version v1.2 des Projekts zu taggen und dass dies der Commit "updated rakefile" gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
 
 	$ git tag -a v1.2 9fceb02
 
@@ -1028,7 +1028,7 @@ Du siehst jetzt, dass du einen Tag für den Commit angelegt hast:
 
 ### Tags veröffentlichen ###
 
-Der `git push` Befehl lädt Tags nicht von sich aus auf externe Server. Stattdessen muss Du Tags explizit auf einen externen Server hochladen, nachdem du sie angelegt hast. Der Vorgang ist derselbe wie mit Branches: du kannst den Befehl `git push origin [tagname]` verwenden.
+Der `git push` Befehl lädt Tags nicht von sich aus auf externe Server. Stattdessen muss Du Tags explizit auf einen externen Server hochladen, nachdem du sie angelegt hast. Der Vorgang entspricht dem  bei Branches: du kannst den Befehl `git push origin [tagname]` verwenden.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1084,7 +1084,7 @@ Du musst also nicht dauernd die Dokumentation zu Rate ziehen und erspart dir som
 
 ### Git Aliase ###
 
-Git versucht nicht, zu erraten, welchen Befehl du verwenden willst, wenn du ihn nur teilweise eingibst. Wenn du lange Befehle nicht immer wieder eintippen willst, kannst du mit `git config` auf einfache Weise Aliase definieren. Hier einige Beispiele, die du vielleicht nützlich findest:
+Git versucht nicht zu erraten, welchen Befehl du verwenden willst, wenn du ihn nur teilweise eingibst. Wenn du lange Befehle nicht immer wieder eintippen willst, kannst du mit `git config` auf einfache Weise Aliase definieren. Hier einige Beispiele, die du vielleicht nützlich findest:
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
@@ -1117,7 +1117,7 @@ Auf diese Weise kannst Du leicht den letzten Commit nachschlagen:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-Wie du dir denken kannst, ersetzt Git ganz einfach den Alias mit dem jeweiligen Befehl, für den er definiert ist. Wenn du allerdings einen externen Befehl anstelle eines Git Subbefehls ausführen willst, kannst du den Befehl mit einem Auführungszeichen (`!`) am Anfang kennzeichnen. Das ist in der Regel nützlich, wenn du deine eigenen Hilfsmittel schreibst, um Git zu erweitern. Wir können das demonstrieren, indem wir `git visual` als `gitk` definieren:
+Wie du dir denken kannst, ersetzt Git ganz einfach den Alias mit dem jeweiligen Befehl, für den er definiert ist. Wenn du allerdings einen externen Befehl anstelle eines Git Befehls ausführen willst, kannst du den Befehl mit einem Auführungszeichen (`!`) am Anfang kennzeichnen. Das ist in der Regel nützlich, wenn du deine eigenen Hilfsmittel schreibst, um Git zu erweitern. Wir können das demonstrieren, indem wir `git visual` als `gitk` definieren:
 
 	$ git config --global alias.visual "!gitk"
 

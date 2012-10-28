@@ -1472,7 +1472,7 @@ Bevor wir zum Ende dieses Grundlagen Kapitels kommen, noch einige Tipps und Tric
 
 If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
 
-Wenn du die Bash Shell verwendest, dann kannst du ein Skript für Git Auto-Vervollständigung einbinden, das mit Git mitgeliefert wird. Wenn du den Git Quellcode heruntergeladen hast, findest du im Verzeichnis `contrib/completion` die Datei `git-completion.bash`. Kopiere diese Datei in dein Home Verzeichnis (xxx) und füge die folgende Zeile in deine `.bashrc` Datei hinzu:
+Wenn du die Bash Shell verwendest, dann kannst du ein Skript für Git Auto-Vervollständigung einbinden, das mit Git mitgeliefert wird. Wenn du den Git Quellcode heruntergeladen hast, findest du im Verzeichnis `contrib/completion` die Datei `git-completion.bash`. Kopiere diese Datei in dein Home Verzeichnis  und füge die folgende Zeile in deine `.bashrc` Datei hinzu:
 
 	source ~/.git-completion.bash
 
@@ -1504,7 +1504,7 @@ Das funktioniert auch mit Optionen - was oftmals noch hilfreicher ist. Wenn du b
 
 That’s a pretty nice trick and may save you some time and documentation reading.
 
-Das erspart dir, viel Zeit mit dem Nachschlagen in der Dokumentation zu verbringen.
+Das erspart dir viel Zeit mit dem Nachschlagen in der Dokumentation zu verbringen.
 
 ### Git Aliases ###
 
@@ -1567,5 +1567,5 @@ Wie du dir denken kannst, ersetzt Git ganz einfach den Alias mit dem jeweiligen 
 
 At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
 
-Du solltest jetzt in der Lage sein, die wichtigsten Git Befehle einzusetzen und Repositories neu zu erzeugen und zu klonen, Änderungen vorzunehmen und zur Staging Area hinzuzufügen, Commits anzulegen und die Historie aller Commits in einem Repository zu durchsuchen. Als nächstes werden wir auf Gits "Killer Feature" (xxx) eingehen: das Branching Konzept.
+Du solltest jetzt in der Lage sein, die wichtigsten Git Befehle einzusetzen und Repositories neu zu erzeugen und zu klonen, Änderungen vorzunehmen und zur Staging Area hinzuzufügen, Commits anzulegen und die Historie aller Commits in einem Repository zu durchsuchen. Als nächstes werden wir auf ein herausragendes Feature von Git eingehen: das Branching Konzept.
 

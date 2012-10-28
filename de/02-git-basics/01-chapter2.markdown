@@ -1197,7 +1197,7 @@ Wenn du eine Referenz aus irgendeinem Grund entfernen willst (z.B. weil du den S
 
 Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (`v1.0`, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
 
-Wie die meisten anderen VCS kann Git bestimmte Punkte in der Historie als besonders wichtig markieren, also taggen. Normalerweise verwendet man diese Funktionalität, um Release Versionen zu markieren (z.B. v1.0). In diesem Abschnitt gehen wir darauf ein, wie du die vorhandenen Tags anzuzeigen und neue Tags erstellen kannst, und worin die Unterschiede zwischen verschiedenen Typen von Tags bestehen.
+Wie die meisten anderen VCS kann Git bestimmte Punkte in der Historie als besonders wichtig markieren, also taggen. Normalerweise verwendet man diese Funktionalität, um Release Versionen zu markieren (z.B. v1.0). In diesem Abschnitt gehen wir darauf ein, wie du die vorhandenen Tags anzeigen und neue Tags erstellen kannst, und worin die Unterschiede zwischen verschiedenen Typen von Tags bestehen.
 
 ### Listing Your Tags ###
 
@@ -1205,7 +1205,7 @@ Wie die meisten anderen VCS kann Git bestimmte Punkte in der Historie als besond
 
 Listing the available tags in Git is straightforward. Just type `git tag`:
 
-Um die in einem Repository vorhandenen Tags anzuzeigen, kannst den Befehl `git tag` ohne irgendwelche weiteren Optionen verwenden:
+Um die in einem Repository vorhandenen Tags anzuzeigen, kannst du den Befehl `git tag` ohne irgendwelche weiteren Optionen verwenden:
 
 	$ git tag
 	v0.1
@@ -1213,11 +1213,11 @@ Um die in einem Repository vorhandenen Tags anzuzeigen, kannst den Befehl `git t
 
 This command lists the tags in alphabetical order; the order in which they appear has no real importance.
 
-Dieser Befehl listet die Tags in alphabetischer Reihenfolge auf.
+Dieser Befehl listet die Tags in alphabetischer Reihenfolge auf. Die Reihenfolge ist aber eigentlich nicht so wichtig.
 
 You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
 
-Du kannst auch nach Tags mit einem bestimmten Muster suchen. Das Git Quellcode Repository enthält beispielsweise mehr als 240 Tags. Wenn du nur an denjenigen interessiert bist, die zur 1.4.2 Serie gehören, kannst du folgendes tun:
+Du kannst auch nach Tags mit einem bestimmten Muster suchen. Das Git Quellcode Repository enthält beispielsweise mehr als 240 Tags. Wenn du nur an denjenigen interessiert bist, die zur Version 1.4.2 gehören, kannst du folgendes tun:
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -1231,11 +1231,11 @@ Du kannst auch nach Tags mit einem bestimmten Muster suchen. Das Git Quellcode R
 
 Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
 
-Git kennt im wesentlichen zwei Typen von Tags: leichte und kommentierte (xxx) ("lightweight" und "annotated") Tags. Ein leichter Tag ist ein Branch, der sich niemals ändert - es ist lediglich ein Zeiger auf einen bestimmten Commit. Kommentierte Tags dagegen werden als vollwertige Objekte in der Git Datenbank gespeichert. Sie haben eine Checksumme, beinhalten Namen und E-Mail Adresse desjenigen, der den Tag angelegt hat, das jeweilige Datum sowie eine Meldung. Sie können überdies mit GNU Privacy Guard (GPG) signiert und verifiziert werden. Generell empfiehlt sich deshalb, kommentierte Tags anzulegen. Wenn man aber aus irgendeinem Grund einen temporären Tag anlegen will, für den all diese zusätzlichen Informationen nicht nötig sind, dann kann man auf leichte Tags zurückgreifen.
+Git kennt im wesentlichen zwei Typen von Tags: einfache und kommentierte ("lightweight" und "annotated") Tags. Ein einfacher Tag ist wie ein Branch, der sich niemals ändert - es ist lediglich ein Zeiger auf einen bestimmten Commit. Kommentierte Tags dagegen werden als vollwertige Objekte in der Git Datenbank gespeichert. Sie haben eine Checksumme, beinhalten Namen und E-Mail Adresse desjenigen, der den Tag angelegt hat, das jeweilige Datum sowie eine Meldung. Sie können überdies mit GNU Privacy Guard (GPG) signiert und verifiziert werden. Generell empfiehlt sich deshalb, kommentierte Tags anzulegen. Wenn man aber aus irgendeinem Grund einen temporären Tag anlegen will, für den all diese zusätzlichen Informationen nicht nötig sind, dann kann man auf einfache Tags zurückgreifen.
 
 ### Annotated Tags ###
 
-### Kommentierte Tags (xxx) ###
+### Kommentierte Tags ###
 
 Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
 
@@ -1287,7 +1287,7 @@ Wenn du einen privaten GPG Schlüssel hast, kannst du deine Tags zusätzlich mit
 
 If you run `git show` on that tag, you can see your GPG signature attached to it:
 
-Wenn du jetzt `git show` auf diesen Tag anwendest, siehst du, dass der Tag deine GPG Signatur kennt:
+Wenn du jetzt `git show` auf diesen Tag anwendest, siehst du, dass der Tag deine GPG Signatur hinterlegt hat:
 
 	$ git show v1.5
 	tag v1.5
@@ -1315,11 +1315,11 @@ Darauf, wie du signierte Tags verifizieren kannst, werden wir gleich noch eingeh
 
 ### Lightweight Tags ###
 
-### Leichte Tags (xxx) ###
+### Einfache Tags ###
 
 Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
 
-Leichte Tags sind die zweite Form von Tags, die Git kennt. Für einen leichten Tag wird im wesentlichen die jeweilige Commit Checksumme, und sonst keine andere Information, in einer Datei gespeichert. Um einen leichten Tag anzulegen, verwendest du einfach keine der drei Optionen `-a`, `-s` und `-m`:
+Einfache Tags sind die zweite Form von Tags, die Git kennt. Für einen einfachen Tag wird im wesentlichen die jeweilige Commit Checksumme, und sonst keine andere Information, in einer Datei gespeichert. Um einen einfachen Tag anzulegen, verwendest du einfach keine der drei Optionen `-a`, `-s` und `-m`:
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -1347,7 +1347,7 @@ Wenn du jetzt `git show` auf den Tag ausführst, siehst du keine der zusätzlich
 
 To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
 
-Um einen signierten Tag zu verifizieren, kannst du `git tag -v [tag-name]` verwenden. Dieser Befehl verwendet GPG, um die Signatur mit Hilfe des öffentlichen Schlüssels des Signierenden zu verifizieren - weshalb du diesen Schlüssel in deinem Schlüsselbund haben mußt:
+Um einen signierten Tag zu verifizieren, kannst du `git tag -v [Tag Name]` verwenden. Dieser Befehl verwendet GPG, um die Signatur mit Hilfe des öffentlichen Schlüssels des Signierenden zu verifizieren - weshalb du diesen Schlüssel in deinem Schlüsselbund haben musst:
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -1393,7 +1393,7 @@ Du kannst Commits jederzeit taggen, auch lange Zeit nachdem sie angelegt wurden.
 
 Now, suppose you forgot to tag the project at `v1.2`, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
 
-Nehmen wir außerdem an, dass du vergessen hast, Version v1.2 des Projektes zu taggen, und dass dies der Commit "updated rakefile" gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
+Nehmen wir außerdem an, dass du vergessen hast, Version v1.2 des Projekts zu taggen und dass dies der Commit "updated rakefile" gewesen ist. Du kannst diesen jetzt im Nachhinein taggen, indem du die Checksumme des Commits (oder einen Teil davon) am Ende des Befehls angibst:
 
 	$ git tag -a v1.2 9fceb02
 
@@ -1424,11 +1424,11 @@ Du siehst jetzt, dass du einen Tag für den Commit angelegt hast:
 
 ### Sharing Tags ###
 
-### Tags hochladen (xxx) ###
+### Tags veröffentlichen ###
 
 By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches — you can run `git push origin [tagname]`.
 
-Der `git push` Befehl lädt Tags nicht von sich aus auf externe Server. Stattdessen muß Du Tags explizit auf einen externen Server hochladen, nachdem du sie angelegt hast. Der Vorgang ist derselbe wie mit Branches: du kannst den Befehl `git push origin [tagname]` verwenden.
+Der `git push` Befehl lädt Tags nicht von sich aus auf externe Server. Stattdessen muss Du Tags explizit auf einen externen Server hochladen, nachdem du sie angelegt hast. Der Vorgang ist derselbe wie mit Branches: du kannst den Befehl `git push origin [tagname]` verwenden.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1440,7 +1440,7 @@ Der `git push` Befehl lädt Tags nicht von sich aus auf externe Server. Stattdes
 
 If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
 
-Wenn du viele Tags auf einmal hochladen willst, kannst du dem `git push` Befehl außerdem die `--tags` Option übergeben und auf diese Weise sämtliche Tags auf den externen Server transferieren, die dort noch nicht bekannt sind.
+Wenn du viele Tags auf einmal hochladen willst, kannst du dem `git push` Befehl außerdem die `--tags` Option übergeben und auf diese Weise sämtliche Tags auf dem externen Server veröffentlichen, die dort noch nicht bekannt sind.
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1464,7 +1464,7 @@ Wenn jetzt jemand anderes das Repository klont oder von dort aktualisiert, wird 
 
 Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
 
-Bevor wir an das Ende dieses Grundlagen Kapitels kommen, noch einige Tipps und Tricks, die dir den Umgang mit Git ein bißchen vereinfachen können. Du kannst Git natürlich einsetzen, ohne diese Tipps anzuwenden, und wir werden später in diesem Buch auch nicht darauf Bezug nehmen oder sie voraussetzen. Aber wir finden, du solltest sie kennen, weil sie einfach nützlich sind.
+Bevor wir zum Ende dieses Grundlagen Kapitels kommen, noch einige Tipps und Tricks, die dir den Umgang mit Git ein bißchen vereinfachen können. Du kannst Git natürlich einsetzen, ohne diese Tipps anzuwenden, und wir werden später in diesem Buch auch nicht darauf Bezug nehmen oder sie voraussetzen. Aber wir finden, du solltest sie kennen, weil sie einfach nützlich sind.
 
 ### Auto-Completion ###
 

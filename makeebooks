@@ -38,6 +38,8 @@ ARGV.each do |lang|
     figure_title = '图'
   elsif lang == 'zh-tw'
     figure_title = '圖'
+  elsif lang == 'pt-br'
+    figure_title = 'Figura'
   else
     figure_title = 'Figure'
   end

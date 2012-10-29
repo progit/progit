@@ -359,12 +359,12 @@ Insert 18333fig0512.png
 Джессика хочет кое-что подправить, так что она опять делает коммит и затем отправляет изменения на сервер:
 
 	$ git commit -am 'small tweak'
-	[featureA ed774b3] small tweak
+	[featureA 774b3ed] small tweak
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	$ git push origin featureA
 	...
 	To jessica@githost:simplegit.git
-	   3300904..ed774b3  featureA -> featureA
+	   3300904..774b3ed  featureA -> featureA
 
 История коммитов Джессики теперь выглядит так, как показано на Рисунке 5-13.
 

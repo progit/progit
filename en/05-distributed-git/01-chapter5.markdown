@@ -359,12 +359,12 @@ Finally, she merges John’s work into her own `featureA` branch:
 Jessica wants to tweak something, so she commits again and then pushes this back up to the server:
 
 	$ git commit -am 'small tweak'
-	[featureA ed774b3] small tweak
+	[featureA 774b3ed] small tweak
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	$ git push origin featureA
 	...
 	To jessica@githost:simplegit.git
-	   3300904..ed774b3  featureA -> featureA
+	   3300904..774b3ed  featureA -> featureA
 
 Jessica’s commit history now looks something like Figure 5-13.
 
@@ -481,7 +481,7 @@ The workflow is similar to the previous use case — you create topic branches f
 	$ (work)
 	$ git commit
 
-Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these commits:
+Now you have two commits that you want to send to the mailing list. You use `git format-patch` to generate the mbox-formatted files that you can e-mail to the list — it turns each commit into an e-mail message with the first line of the commit message as the subject and the rest of the message plus the patch that the commit introduces as the body. The nice thing about this is that applying a patch from an e-mail generated with `format-patch` preserves all the commit information properly, as you’ll see more of in the next section when you apply these patches:
 
 	$ git format-patch -M origin/master
 	0001-add-limit-to-log-function.patch
@@ -576,7 +576,7 @@ As you’ll remember, you can create the branch based off your master branch lik
 
 	$ git branch sc/ruby_client master
 
-Or, if you want to also switch to it immediately, you can use the `checkout -b` option:
+Or, if you want to also switch to it immediately, you can use the `checkout -b` command:
 
 	$ git checkout -b sc/ruby_client master
 

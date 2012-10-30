@@ -601,7 +601,7 @@ In Table 2-3 we’ll list these and a few other common options for your referenc
 	--author	Only show commits in which the author entry matches the specified string.
 	--committer	Only show commits in which the committer entry matches the specified string.
 
-For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano and were not merges in the month of October 2008, you can run something like this:
+For example, if you want to see which commits modifying test files in the Git source code history were committed by Junio Hamano in the month of October 2008 and were not merges, you can run something like this:
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/

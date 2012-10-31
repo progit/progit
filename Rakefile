@@ -1,7 +1,7 @@
 # encoding: UTF-8
 
 require 'rake/clean'
-
+require 'redcarpet'
 
 $lang = ENV['language']
 $lang ||= 'en'
@@ -11,7 +11,7 @@ namespace :epub do
 	INDEX_FILEPATH = File.join(TMP_DIR, 'progit.html')
 	TARGET_FILEPATH = "progit-#{$lang}.epub"
 	
-	SOURCE_FILES = FileList.new(File.join($lang, '**', '*.markdown')).sort
+	SOURCE_FILES = FileList.new(File.join($lang, '0*', '*.markdown')).sort
 	CONVERTED_MK_FILES = SOURCE_FILES.pathmap(File.join(TMP_DIR, '%f'))
 	HTML_FILES = CONVERTED_MK_FILES.ext('html') 
 	
@@ -157,4 +157,57 @@ namespace :pdf do
         task :generate  do
                 system("ruby makepdfs")
         end
+end
+
+namespace :ci do
+
+  desc "Continuous Integration"   
+  task :check do
+    require 'maruku'
+    langs = [
+      #'ar',
+      'be',
+      #'ca',
+      'cs',
+      #'de',
+      'en',
+      'eo',
+      #'es',
+      'fi',
+      'fr',
+      'hu',
+      'id',
+      'it',
+      'ja',
+      'ko',
+      'mk',
+      #'nl',
+      #'pl',
+      'ro',
+      'ru',
+      'sr',
+      'th',
+      #'tr',
+      'zh']
+    error_code = false
+    langs.each do |lang|
+      print "processing #{lang} "
+      mark = ''
+      source_files = FileList.new(File.join(lang, '0*', '*.markdown')).sort
+      source_files.each do |mk_filename|
+        mk_file = File.open(mk_filename, 'r') do |mk|
+          mark+= mk.read.encode("UTF-8")
+        end
+      end
+      begin
+        code = Maruku.new(mark, :on_error => :raise)
+        print "OK\n"
+      rescue
+        print "KO\n"
+        error_code = true
+      end
+    end
+    fail "At least one language conversion failed" if error_code
+  end
+
 end

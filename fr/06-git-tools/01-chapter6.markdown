@@ -1,23 +1,23 @@
 # Utilitaires Git #
 
 A présent, vous avez appris les commandes et modes de fonctionnements usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
-Vous avez déroulé les routines de suivi (*tracking*) et de validation (*committing*) de fichiers, vous avez exploité la puissance de l'index, de la création et de la fusion de branches locales de travail.
+Vous avez déroulé les routines de suivi et de validation de fichiers, vous avez exploité la puissance de l'index, de la création et de la fusion de branches locales de travail.
 
-Maintenant, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous n'utiliserez que rarement mais dont vous pourriez avoir l'usage à un moment ou à un autre.
+Maintenant, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous utiliserez moins souvent mais dont vous pourriez avoir l'usage à un moment ou à un autre.
 
 ## Sélection des versions ##
 
 Git vous permet d'adresser certains *commits* ou un ensemble de *commits* de différentes façons.
-Si elles ne sont pas toutes évidentes il est bon de les connaître.
+Si elles ne sont pas toutes évidentes, il est bon de les connaître.
 
 ### Révisions ponctuelles ###
 
-Naturellement, vous pouvez référencer un *commit* par la signature SHA-1, mais il existe des méthodes plus confortables pour les humains.
+Naturellement, vous pouvez référencer un *commit* par sa signature SHA-1, mais il existe des méthodes plus confortables pour les humains.
 Cette section présente les méthodes pour référencer un *commit* simple.
 
 ### Empreinte SHA courte ###
 
-Git est capable de deviner de quel *commit* vous parlez si vous ne fournissez que quelques caractères au début de la signature, tant que votre SHA-1 partiel comporte au moins 4 caractères et ne correspond pas à plusieurs *commits*.
+Git est capable de deviner de quel *commit* vous parlez si vous ne fournissez que quelques caractères du début de la signature, tant que votre SHA-1 partiel comporte au moins 4 caractères et ne correspond pas à plusieurs *commits*.
 Dans ces conditions, un seul objet correspondra à ce SHA-1.
 
 Par exemple, pour afficher un *commit* précis, supposons que vous exécutiez `git log` et que vous identifiez le *commit* où vous avez introduit une fonctionnalité précise.
@@ -88,7 +88,7 @@ Par exemple, si vous souhaitez afficher le dernier *commit* d'une branche, les c
 	$ git show sujet1
 
 Pour connaître l'empreinte SHA sur laquelle pointe une branche ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`.
-Référez-vous au chapitre 9 pour plus d'informations sur les commandes de plomberie ; en résumé, `rev-parse` est là pour les opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
+Référez-vous au chapitre 9 pour plus d'informations sur les commandes de plomberie ; `rev-parse` sert aux opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
 Quoi qu'il en soit, elle se révèle utile pour comprendre ce qui se passe.
 Je vous invite à tester `rev-parse` sur votre propre branche.
 
@@ -116,12 +116,12 @@ Si vous souhaitez consulter le n-ième antécédent de votre HEAD, vous pouvez u
 
 	$ git show HEAD@{5}
 
-Vous pouvez également remonter le temps et savoir où en était une branche à un moment donné.
-Par exemple, pour savoir où en était la branche `master` hier (yesterday en anglais), tapez :
+Vous pouvez également remonter le temps et savoir où en était une branche à une date donnée.
+Par exemple, pour savoir où en était la branche `master` hier (*yesterday* en anglais), tapez :
 
 	$ git show master@{yesterday}
 
-Cette technique fonctionne uniquement si l'information est encore présente dans le reflog, vous ne pourrez donc pas consulter les *commits* trop anciens.
+Cette technique fonctionne uniquement si l'information est encore présente dans le reflog et vous ne pourrez donc pas le consulter sur des *commits* trop anciens.
 
 Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 
@@ -143,7 +143,7 @@ Pour consulter le reflog au format `git log`, exécutez: `git log -g` :
 	    Merge commit 'phedders/rdocs'
 
 Veuillez noter que le reflog ne stocke que des informations locales, c'est un historique de ce que vous avez fait dans votre dépôt.
-Les références ne sont pas copiées dans un autre dépôt et juste après le clone d'un dépôt, votre reflog sera vide puisque qu'aucune activité ne s'y sera produite.
+Les références sont différentes pour un autre dépôt et juste après le clone d'un dépôt, votre reflog sera vide puisque qu'aucune activité ne s'y sera produite.
 Exécuter `git show HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliqué ce projet depuis au moins 2 mois — si vous l'avez dupliqué il y a 5 minutes, vous n'obtiendrez rien.
 
 ### Références passées ###
@@ -203,7 +203,7 @@ Par exemple, dans l'historique précédemment présenté, `HEAD~3` serait :
 
 	    ignore *.gem
 
-Cela aura bien pu être écrit `HEAD^^^`, qui là encore est le premier parent du premier parent du premier parent :
+Cela peut aussi s'écrire `HEAD^^^`, qui là encore est le premier parent du premier parent du premier parent :
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -216,8 +216,8 @@ Vous pouvez également combiner ces syntaxes — vous pouvez obtenir le second p
 
 ### Plages de *commits* ###
 
-A présent que vous pouvez spécifier des *commits* individuels, voyons comme spécifier une plage de *commits*.
-Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour adresser des problèmes tels que "Quelle activité sur cette branche n'ai-je pas encore fusionné sur ma branche principale ?".
+A présent que vous pouvez spécifier des *commits* individuels, voyons comment spécifier des plages de *commits*.
+Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour répondre à des questions telles que "Quel travail sur cette branche n'ai-je pas encore fusionné sur ma branche principale ?".
 
 #### Double point ####
 
@@ -254,7 +254,7 @@ Par exemple, vous pouvez obtenir les mêmes résultats que précédemment en tap
 #### Emplacements multiples ####
 
 La syntaxe double-point est pratique comme raccourci ; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels *commits* sont dans plusieurs branches mais sont absents de la branche courante.
-Git vous permet cela avec `^` or `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les *commits*.
+Git vous permet cela avec `^` ou `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les *commits*.
 Les 3 commandes ci-après sont équivalentes :
 
 	$ git log refA..refB
@@ -271,7 +271,7 @@ Ceci vous fournit un système de requêtage des révisions très puissant, pour 
 
 #### Triple point ####
 
-La dernière syntaxe majeure de sélection de plage de *commits* est la syntaxe triple-point, qui spécifie tous les *commits* accessibles par l'une des deux références, exclusivement.
+La dernière syntaxe majeure de sélection de plage de *commits* est la syntaxe triple-point qui spécifie tous les *commits* accessibles par l'une des deux références, exclusivement.
 Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qui ce trouve sur `master` ou `experience` mais pas sur les 2, exécutez :
 
 	$ git log master...experience
@@ -280,7 +280,7 @@ Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qu
 	D
 	C
 
-Encore une fois, cela vous donne un `log` normal mais ne vous montre les informations que pour ces quatre *commits*, dans l'ordre naturel des dates de *commit*.
+Encore une fois, cela vous donne un `log` normal mais ne vous montre les informations que pour ces quatre *commits*, dans l'ordre naturel des dates de validation.
 
 Une option courante à utiliser avec la commande `log` dans ce cas est `--left-right` qui vous montre la borne de la plage à laquelle ce *commit* appartient.
 Cela rend les données plus utiles :
@@ -291,15 +291,15 @@ Cela rend les données plus utiles :
 	> D
 	> C
 
-Avec ces outils, vous pourrez utiliser Git pour savoir quels *commits* inspecter.
+Avec ces outils, vous pourrez spécifier à Git les *commits* que vous souhaitez inspecter.
 
 ## Indexation interactive ##
 
 Git propose quelques scripts qui rendent les opérations en ligne de commande plus simple.
 Nous allons à présent découvrir des commandes interactives vous permettant de choisir les fichiers ou les parties d'un fichier à incorporer à un *commit*.
-Ces outils sont particulièrement pratiques si vous modifiez un large périmètre de fichiers et que vous souhaitez les valider séparement plutôt que massivement.
-De la sorte, vous vous assurez que vos *commits* sont des ensembles cohérents et qu'ils peuvent être facilement revus par vos collaborateurs.
-Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en mode interactif, affichant quelque chose comme :
+Ces outils sont particulièrement pratiques si vous modifiez un grand nombre de fichiers et que vous souhaitez valider ces changements en modifications plus atomiques plutôt que d'un tenant.
+De la sorte, vous vous assurez que vos *commits* sont des ensembles cohérents de modifications et qu'ils peuvent être facilement revus par vos collaborateurs.
+Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git entre en mode interactif et affiche quelque chose comme :
 
 	$ git add -i
 	           staged     unstaged path
@@ -313,10 +313,10 @@ Si vous exécutez `git add` avec l'option `-i` ou `--interactive`, Git rentre en
 	What now>
 
 Vous vous apercevrez que cette commande propose une vue bien différente de votre index ; en gros, c'est la même information que vous auriez obtenue avec `git status` mais en plus succinct et plus instructif.
-Cela liste les modifications que vous avez indexées à gauche et celles en cours à droite.
+Cela liste les modifications que vous avez indexées à gauche et celles hors index à droite.
 
 En dessous vient la section des commandes (*Commands*).
-Vous pourrez y faire bon nombre de choses, notamment indexer des fichiers, les enlever de l'index, indexer des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez indexé.
+Vous aurez accès à un certain nombre d'actions, notamment indexer des fichiers, les enlever de l'index, indexer des parties de fichiers, ajouter des fichiers non indexés, et vérifier les différences de ce que vous avez indexé.
 
 ### Indexation des fichiers ###
 
@@ -339,7 +339,7 @@ Pour indexer les fichiers TODO et index.html, vous pouvez taper ces nombres :
 	Update>>
 
 Le caractère `*` au début de la ligne de chaque fichier indique que celui-ci est sélectionné.
-Si vous tapez Entrée sur une invite `Update>>` vide, Git prend tout ce qui est sélectionné et le indexe pour vous :
+Si vous tapez Entrée sur l'invite `Update>>`, Git prend tout ce qui est sélectionné et l'indexe pour vous :
 
 	Update>>
 	updated 2 paths
@@ -383,7 +383,7 @@ Un aperçu rapide à votre statut Git et vous pouvez voir que vous avez enlevé 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Pour voir la modification que vous avez indexée, utilisez `6` ou `d` (pour diff en anglais).
+Pour voir la modification que vous avez indexée, utilisez `6` ou `d` (pour différence).
 Cela vous affiche la liste des fichiers indexés et vous pouvez choisir ceux pour lesquels vous voulez consulter la différence.
 C'est équivalent à `git diff --cached` en ligne de commande :
 
@@ -409,12 +409,12 @@ C'est équivalent à `git diff --cached` en ligne de commande :
 
 Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour manipuler votre index un peu plus facilement.
 
-### Patches de l'index ###
+### Indexations partielles ###
 
 Git est également capable d'indexer certaines parties d'un fichier.
 Par exemple, si vous modifiez en 2 endroits votre fichier `simplegit.rb` et que vous souhaitez indexer une modification seulement, cela peut se faire très aisément avec Git.
-En mode interactif, tapez `5` ou `p` (pour patch en anglais).
-Git vous demandera quels fichiers vous voulez indexer partiellement, puis, pour chaque section des fichiers sélectionnés, il affichera les parties de fichiers où il y a des différences et vous demandera si vous souhaitez les indexer, un par un :
+En mode interactif, tapez `5` ou `p` (pour *patch* en anglais).
+Git vous demandera quels fichiers vous voulez indexer partiellement, puis, pour chacun des fichiers sélectionnés, il affichera les parties du fichier où il y a des différences et vous demandera si vous souhaitez les indexer, une par une :
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -434,16 +434,16 @@ Git vous demandera quels fichiers vous voulez indexer partiellement, puis, pour 
 A cette étape, vous disposez de bon nombre d'options.
 `?` vous liste les actions possibles dont voici une traduction :
 
-	indexer cette partie [y,n,a,d,/,j,J,g,e,?]? ?
+	indexer cette partie [y,n,a,d,/,j,J,g,e,?]?
 	y - indexer cette partie
 	n - ne pas indexer cette partie
 	a - indexer cette partie et toutes celles restantes dans ce fichier
 	d - ne pas indexer cette partie ni aucune de celles restantes dans ce fichier
-	g - sélectionner un partie à voir
+	g - sélectionner une partie à voir
 	/ - chercher une partie correspondant à la regexp donnée
 	j - laisser cette partie non décidée, voir la prochaine partie non encore décidée
 	J - laisser cette partie non décidée, voir la prochaine partie
-	k - laisser cette partie non décidée, voir la partie non encore décidée précendente
+	k - laisser cette partie non décidée, voir la partie non encore décidée précédente
 	K - laisser cette partie non décidée, voir la partie précédente
 	s - couper la partie courante en parties plus petites
 	e - modifier manuellement la partie courante
@@ -465,7 +465,7 @@ Dès lors, vous pouvez quitter l'ajout interactif et exécuter `git commit` pour
 
 Enfin, vous pouvez vous passer du mode interactif pour indexer partiellement un fichier ; vous pouvez faire de même avec `git add -p` ou `git add --patch` en ligne de commande.
 
-## La remise ##
+## Le remisage ##
 
 Souvent, lorsque vous avez travaillé sur une partie de votre projet, les choses sont dans un état instable mais vous voulez changer de branche pour travailler momentanément sur autre chose.
 Le problème est que vous ne voulez pas valider un travail à moitié fait seulement pour pouvoir y revenir plus tard.
@@ -475,7 +475,7 @@ Remiser prend l'état en cours de votre répertoire de travail, c'est-à-dire le
 
 ### Remiser votre travail ###
 
-Pour démontrer cette possibilité, vous allez dans votre projet et commencez à travailler sur quelques fichiers et à indexer l'un de ces changements.
+Pour démontrer cette possibilité, allez dans votre projet et commencez à travailler sur quelques fichiers et à indexer l'un de ces changements.
 Si vous exécutez `git status`, vous pouvez voir votre état instable:
 
 	$ git status
@@ -533,7 +533,7 @@ Dans ce cas, vous aviez un répertoire de travail propre lorsque vous avez essay
 Vous pouvez très bien créer une remise sur une branche, changer de branche et essayer d'appliquer les modifications.
 Vous pouvez même avoir des fichiers modifiés et non validés dans votre répertoire de travail quand vous appliquez une remise, Git vous indique les conflits de fusions si quoique ce soit ne s'applique pas proprement.
 
-Par défaut, les modifications de vos fichiers sont réappliquées, mais pas indexations.
+Par défaut, les modifications de vos fichiers sont réappliquées, mais pas les indexations.
 Pour cela, vous devez exécutez la commande `git stash apply` avec l'option `--index` pour demander à Git d'essayer de réappliquer les modifications de votre index.
 Si vous exécutez cela à la place de la commande précédente, vous vous retrouvez dans la position d'origine de la remise :
 
@@ -615,7 +615,7 @@ Dans cette section, nous expliquerons comment accomplir ces tâches très utiles
 
 ### Modifier la dernière validation ###
 
-Modifier votre dernière validation est probablement la plus habituelle réécriture de l'historique que vous allez faire.
+Modifier votre dernière validation est probablement la réécriture de l'historique que vous allez utiliser le plus souvent.
 Vous voudrez souvent faire deux choses basiques à votre dernier *commit* : modifier le message de validation ou changer le contenu que vous avez enregistré en ajoutant, modifiant ou supprimant des fichiers.
 
 Si vous voulez seulement modifier votre dernier message de validation, c'est vraiment simple :
@@ -710,7 +710,7 @@ Puis exécutez :
 	$ git rebase --continue
 
 Cette commande appliquera les deux autres *commits* automatiquement.
-Si vous remplacez "pick" en "edit" sur plusieurs lignes, vous pouvez répéter ces étapes pour chaque *commit* que vous avez remplacé pour modification.
+Si vous remplacez "pick" en "edit" sur plusieurs lignes, vous pouvez répéter ces étapes pour chaque *commit* que vous avez marqué pour modification.
 Chaque fois, Git s'arrêtera, vous laissant modifier le *commit* et continuera lorsque vous aurez fini.
 
 ### Réordonner les commits ###
@@ -920,7 +920,7 @@ Git vous montre le *commit* d'origine, celui où vous avez écrit ces lignes, m�
 ### La recherche dichotomique ###
 
 Annoter un fichier peut aider si vous savez déjà où le problème se situe.
-Si vous ne savez pas ce qui a cassé le code, il peut y avoir des douzaines, voire des centaines de *commits* depuis le dernier état où votre code fonctionnait et vous aimeriez certainement exécuter `git bisect` pour l'aide qu'il procure.
+Si vous ne savez pas ce qui a cassé le code, il peut y avoir des douzaines, voire des centaines de *commits* depuis le dernier état où votre code fonctionnait et vous aimeriez certainement exécuter `git bisect` pour vous aider.
 La commande `bisect` effectue une recherche par dichotomie dans votre historique pour vous aider à identifier aussi vite que possible quel *commit* a vu le bogue naître.
 
 Disons que vous venez juste de pousser une version finale de votre code en production, vous récupérez un rapport de bogue à propos de quelque chose qui n'arrivait pas dans votre environnement de développement, et vous n'arrivez pas à trouver pourquoi votre code le fait.
@@ -1035,7 +1035,7 @@ C'est un fichier de configuration sauvegardant la liaison entre l'URL du projet 
 Si vous avez plusieurs sous-modules, vous aurez plusieurs entrées dans ce fichier.
 Il est important de noter que ce fichier est en gestion de version comme vos autres fichiers, à l'instar de votre fichier `.gitignore`.
 Il est poussé et tiré comme le reste de votre projet.
-C'est également le moyen que les autres personnes qui clonent votre projet peuvent savoir où récupérer le projet du sous-module.
+C'est également le moyen que les autres personnes qui clonent votre projet puissent savoir où récupérer le projet du sous-module.
 
 L'autre information dans la sortie de `git status` est l'entrée `rack`.
 Si vous exécutez `git diff`, vous verrez quelque chose d'intéressant :
@@ -1194,16 +1194,16 @@ Le bénéfice de cette approche est de pouvoir spécifier les relations entre le
 Cependant, utiliser des sous-modules ne se déroule pas sans accroc.
 Premièrement, vous devez être relativement prudent lorsque vous travaillez dans le répertoire du sous-module.
 Lorsque vous exécutez `git submodule update`, cela récupère une version spécifique d'un projet, mais pas à l'intérieur d'une branche.
-Cela s'appelle avoir la tête en l'air (detached head), c'est-à-dire que votre HEAD référence directement un *commit*, pas une référence symbolique.
+Cela s'appelle avoir la tête en l'air (*detached head*), c'est-à-dire que votre HEAD référence directement un *commit*, pas une référence symbolique.
 Le problème est que vous ne voulez généralement pas travailler dans un environnement tête en l'air, car il est facile de perdre des modifications dans ces conditions.
 Si vous faites un premier `git submodule update`, validez des modifications dans ce sous-module sans créer vous-même de branche pour y travailler, et que vous exécutez un nouveau `git submodule update` depuis le projet parent sans y avoir validé pendant ce temps, Git écrasera vos modifications sans vous le dire.
 Techniquement, vous ne perdrez pas votre travail, mais vous n'aurez aucune branche s'y référant, il sera donc assez difficile de le récupérer.
 
 Pour éviter ce problème, créez toujours une branche lorsque vous travaillez dans un répertoire de sous-module avec `git checkout -b work` ou une autre commande équivalente.
-Lorsque vous mettrez à jour le sous-module une deuxième fois, Git réinitialisera toujours votre travail, mais vous aurez au moins une référence pour y retourner.
+Lorsque vous mettrez à jour le sous-module une deuxième fois, Git réinitialisera toujours votre travail, mais vous aurez au moins une référence à votre travail pour y retourner.
 
 Commuter de branches qui contiennent des sous-modules peut également s'avérer difficile.
-Si vous créez une nouvelle branche, y ajoutez un sous-module, et revenez ensuite à une branche sans ce sous-module, vous aurez toujours le répertoire de ce sous-module comme un répertoire non suivi :
+Si vous créez une nouvelle branche, y ajoutez un sous-module, et revenez ensuite à une branche dépourvue de ce sous-module, vous aurez toujours le répertoire de ce sous-module comme un répertoire non suivi :
 
 	$ git checkout -b rack
 	Switched to a new branch "rack"
@@ -1227,12 +1227,11 @@ Si vous créez une nouvelle branche, y ajoutez un sous-module, et revenez ensuit
 	#      rack/
 
 
-Vous devez soit déplacer ce répertoire hors de votre dépôt local, soit le supprimer, dans ce dernier ca, vous devrait le clôner une nouvelle fois lorsque vous recommuterez et vous pouvez donc perdre des modifications ou des branches locales  si vous ne les avez pas poussées.
+Vous devez soit déplacer ce répertoire hors de votre dépôt local, soit le supprimer et dans ce dernier cas, vous devrez le cloner une nouvelle fois lorsque vous recommuterez et vous pouvez donc perdre des modifications ou des branches locales si vous ne les avez pas poussées.
 
-
-Le dernier piège dans lequel beaucoup tombe est de passer des sous-répertoires à des sous-modules.
-Si vous suiviez des fichiers dans votre projet et que vous voulez les déplacer dans un sous-module, vous devez être très prudent, ou Git vous mangera.
-Présumons que vous avez des fichiers rack dans un sous-répertoire de votre projet, et que vous voulez les transformer en un sous-module.
+La dernière difficulté présentée consiste à passer d'un sous-répertoires à un sous-module.
+Si vous suiviez des fichiers dans votre projet et que vous voulez les déplacer dans un sous-module, vous devez être très prudent où Git sera inflexible.
+Présumons que vous avez les fichiers du projet rack dans un sous-répertoire de votre projet, et que vous voulez les transformer en un sous-module.
 Si vous supprimez le sous-répertoire et que vous exécutez `submodule add`, Git vous hurle dessus avec :
 
 	$ rm -Rf rack/
@@ -1274,8 +1273,8 @@ Maintenant que vous avez vu les difficultés qu'il peut y avoir avec le système
 Lorsque Git fusionne, il regarde ce qu'il doit fusionner et choisit alors une stratégie de fusion appropriée.
 Si vous fusionnez deux branches, Git utilise une stratégie _récursive_ (_recursive_ strategy).
 Si vous fusionnez plus de deux branches, Git choisit la stratégie de la _pieuvre_ (_octopus_ strategy).
-Ces stratégies sont choisies automatiquement car la stratégie récursive peut gérer des problèmes complexes de fusions à trois entrées, par exemple, plus d'un ancêtre commun, mais il ne peut gérer que deux branches.
-La fusion de la pieuvre peut gérer plusieurs branches mais il est plus prudent afin d'éviter les conflits difficiles, il est donc choisi comme stratégie par défaut si vous essayez de fusionner plus de deux branches.
+Ces stratégies sont choisies automatiquement car la stratégie récursive peut gérer des problèmes complexes de fusions à trois entrées avec par exemple plus d'un ancêtre commun, mais il ne peut gérer que deux branches à fusionner.
+La fusion de la pieuvre peut gérer plusieurs branches mais elle est plus prudent afin d'éviter les conflits difficiles, elle est donc choisie comme stratégie par défaut si vous essayez de fusionner plus de deux branches.
 
 Cependant, il existe d'autres stratégies que vous pouvez tout aussi bien choisir.
 L'une d'elles est la fusion de sous-arborescence que vous pouvez utiliser pour gérer la problématique de sous-projet.
@@ -1285,7 +1284,7 @@ La fusion de sous-arborescence suppose que vous avez deux projets et que l'un s'
 Lorsque vous spécifiez une fusion de sous-arborescence, Git est assez intelligent pour deviner lequel est un sous-répertoire de l'autre et fusionne en conséquence — c'est assez bluffant.
 
 Premièrement, vous ajoutez l'application Rack à votre projet.
-Vous ajoutez le projet Rack comme une référence distante dans votre propre projet et récupérez dans un branche personnelle :
+Vous ajoutez le projet Rack comme une référence distante dans votre propre projet et le récupérez dans sa propre branche :
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
@@ -1317,7 +1316,7 @@ Si vous récupérez l'une puis l'autre branche, vous pouvez voir que vous avez d
 
 Pour tirer le projet Rack dans votre projet `master` comme un sous répertoire, vous pouvez utiliser la commande `git read-tree`.
 Vous apprendrez d'avantage sur `read-tree` et compagnie dans le Chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branche et l'inscrit dans votre index et votre répertoire de travail.
-Vous venez juste de commuter vers votre branche `master`, et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal :
+Vous venez juste de commuter vers votre branche `master` et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal :
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
@@ -1351,7 +1350,7 @@ Ou, pour comparer ce qu'il y a dans votre répertoire `rack` avec ce qu'il y ava
 
 ## Résumé ##
 
-Vous venez de voir certains des outils avancés vous permettant de manipuler vos validations et votre index plus précisemment.
-Lorsque vous remarquez des bogues, vous devriez être capable de facilement trouver quelle validation les a introduit, quand et par qui.
+Vous venez de voir certains des outils avancés vous permettant de manipuler vos *commit* et votre index plus précisemment.
+Lorsque vous remarquez des bogues, vous devriez être capable de facilement trouver quelle validation les a introduits, quand et par qui.
 Si vous voulez utiliser des sous-projets dans votre projet, vous avez appris plusieurs façons de les gérer.
 À partir de maintenant, vous devez être capable de faire la majorité de ce que vous avez besoin avec Git en ligne de commande et de vous y sentir à l'aise.

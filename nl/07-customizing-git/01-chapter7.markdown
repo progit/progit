@@ -672,8 +672,8 @@ Als je gebruik maakt van de ACL struktuur die wordt teruggegeven door de `get_ac
 	      next if path.size == 0
 	      has_file_access = false
 	      access[$user].each do |access_path|
-	        if !access_path  # gebruiker heeft overal toegang tot
-	          || (path.index(access_path) == 0) # toegang tot dit pad
+	        if !access_path || # gebruiker heeft overal toegang tot
+	          (path.index(access_path) == 0) # toegang tot dit pad
 	          has_file_access = true 
 	        end
 	      end

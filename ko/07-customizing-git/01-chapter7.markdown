@@ -735,8 +735,8 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 	      next if path.size == 0
 	      has_file_access = false
 	      access[$user].each do |access_path|
-	        if !access_path  # user has access to everything
-	          || (path.index(access_path) == 0) # access to this path
+	        if !access_path || # user has access to everything
+	          (path.index(access_path) == 0) # access to this path
 	          has_file_access = true
 	        end
 	      end

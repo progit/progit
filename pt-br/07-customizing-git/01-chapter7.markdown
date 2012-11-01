@@ -720,6 +720,7 @@ Se você usar a estrutura ACL retornada pelo método `get_acl_access_data` e ver
     def check_directory_perms
       access = get_acl_access_data('acl')
 
+
       # see if anyone is trying to push something they can't
       new_commits = `git rev-list #{$oldrev}..#{$newrev}`.split("\n")
       new_commits.each do |rev|
@@ -728,8 +729,8 @@ Se você usar a estrutura ACL retornada pelo método `get_acl_access_data` e ver
           next if path.size == 0
           has_file_access = false
           access[$user].each do |access_path|
-            if !access_path  # user has access to everything
-              || (path.index(access_path) == 0) # access to this path
+            if !access_path || # user has access to everything
+              (path.index(access_path) == 0) # access to this path
               has_file_access = true
             end
           end

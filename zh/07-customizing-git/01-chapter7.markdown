@@ -672,8 +672,8 @@ update 脚本和 `pre-receive` 脚本十分类似。不同之处在于它会为�
 	      next if path.size == 0
 	      has_file_access = false
 	      access[$user].each do |access_path|
-	        if !access_path  # 用户拥有完全访问权限
-	          || (path.index(access_path) == 0) # 或者对此位置有访问权限
+	        if !access_path || # 用户拥有完全访问权限
+	          (path.index(access_path) == 0) # 或者对此位置有访问权限
 	          has_file_access = true 
 	        end
 	      end

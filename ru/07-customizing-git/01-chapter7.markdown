@@ -734,8 +734,8 @@ Insert 18333fig0703.png
 	      next if path.size == 0
 	      has_file_access = false
 	      access[$user].each do |access_path|
-	        if !access_path  # пользователь имеет полный доступ
-	          || (path.index(access_path) == 0) # доступ к этому пути
+	        if !access_path || # пользователь имеет полный доступ
+	          (path.index(access_path) == 0) # доступ к этому пути
 	          has_file_access = true 
 	        end
 	      end

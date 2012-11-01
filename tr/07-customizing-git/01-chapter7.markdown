@@ -734,8 +734,8 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 	      next if path.size == 0
 	      has_file_access = false
 	      access[$user].each do |access_path|
-	        if !access_path  # user has access to everything
-	          || (path.index(access_path) == 0) # access to this path
+	        if !access_path || # user has access to everything
+	          (path.index(access_path) == 0) # access to this path
 	          has_file_access = true 
 	        end
 	      end

@@ -47,7 +47,7 @@ Pamiętaj, że każdy plik w twoim katalogu roboczym może być w jednym z dwóc
 Kiedy zmieniasz pliki, Git rozpoznaje je jako zmodyfikowane, ponieważ różnią się od ostatniej zatwierdzonej zmiany. Zmodyfikowane pliki umieszczasz w poczekalni, a następnie zatwierdzasz oczekujące tam zmiany i tak powtarza się cały cykl. Przedstawia go Diagram 2-1.
 
 Insert 18333fig0201.png 
-Diagram 2-1. Cykl życia stanu twoich plików.
+Figure 2-1. Cykl życia stanu twoich plików.
 
 ### Sprawdzanie stanu twoich plików ###
 
@@ -621,7 +621,7 @@ Z prawie 20000 rewizji w historii kodu Gita, podane polecenie wyłowiło jedynie
 Do wyświetlania historii rewizji możesz także użyć narzędzi okienkowych - być może spodoba ci się na przykład napisany w Tcl/Tk program o nazwie gitk, który jest dystrybuowany wraz z Gitem. Gitk to proste narzędzie do wizualizacji wyniku polecenia `git log` i akceptuje ono prawie wszystkie, wcześniej wymienione, opcje filtrowania. Po uruchomieniu gitk z linii poleceń powinieneś zobaczyć okno podobne do widocznego na ekranie 2-2.
 
 Insert 18333fig0202.png 
-Ekran 2-2. Graficzny interfejs programu gitk przedstawiający historię rewizji.
+Figure 2-2. Graficzny interfejs programu gitk przedstawiający historię rewizji.
 
 Historia wraz z grafem przodków znajduje się w górnej połówce okna. W dolnej części znajdziesz przeglądarkę różnic pokazującą zmiany wnoszone przez wybraną rewizję.
 

@@ -1019,7 +1019,7 @@ Il y a plusieurs points à relever ici.
 Premièrement, une ligne indique l'endroit où le crochet est appelé.
 
 	Vérification des règles...
-	(refs/heads/master) (fb8c72) (c56860)
+	(refs/heads/master) (8338c5) (c5b616)
 
 Le script `update` affiche ces lignes sur stdout au tout début.
 Tout ce que le script écrit sur stdout sera transmis au client.

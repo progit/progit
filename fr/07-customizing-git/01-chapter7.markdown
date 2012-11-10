@@ -551,8 +551,8 @@ Il est à noter que ce n'est pas le SHA du *commit* mais celui du blob lui-même
 
 À la prochaine extraction de ce fichier, Git injecte le SHA du blob :
 
-	$ rm text.txt
-	$ git checkout -- text.txt
+	$ rm test.txt
+	$ git checkout -- test.txt
 	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 

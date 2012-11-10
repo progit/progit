@@ -471,7 +471,7 @@ Premièrement, le code source de Git qui fournit GitWeb est nécessaire pour pou
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
 	$ make GITWEB_PROJECTROOT="/opt/git" \
-	        prefix=/usr gitweb/gitweb.cgi
+	        prefix=/usr gitweb
 	$ sudo cp -Rf gitweb /var/www/
 
 Notez que vous devez indiquer où trouver les dépôts Git au moyen de la variable `GITWEB_PROJECTROOT`.

@@ -1,20 +1,20 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 # This script convers markdown book to one of the serveral e-book
 # formats supported with calibre (http://calibre-ebook.com)
 #
 # Samples:
 # 	
 # Build e-book for amazon kindle for english and russian languages
-# 	$ make-ebook en ru
+# 	$ ruby makeebooks en ru
 # or
-# 	$ FORMAT=mobi make-ebook en ru
+# 	$ FORMAT=mobi ruby makeebooks en ru
 #
 # Build e-book in 'epub' format for russian only
-# 	$ FORMAT=epub make-ebook ru
+# 	$ FORMAT=epub ruby makeebooks ru
 
 require 'rubygems'
 require 'rdiscount'
-require 'ruby-debug'
 
 if ARGV.length == 0
   puts "you need to specify at least one language. For example: makeebooks en"
@@ -29,8 +29,18 @@ ARGV.each do |lang|
 
   if lang == 'ko'
     figure_title = '그림'
+  elsif lang == 'ja'
+    figure_title = '図'
   elsif lang == 'ru'
     figure_title = 'Рисунок'
+  elsif lang == 'es'
+    figure_title = 'Figura'
+  elsif lang == 'zh'
+    figure_title = '图'
+  elsif lang == 'zh-tw'
+    figure_title = '圖'
+  elsif lang == 'pt-br'
+    figure_title = 'Figura'
   else
     figure_title = 'Figure'
   end
@@ -40,7 +50,7 @@ ARGV.each do |lang|
   Dir[File.join(dir, '**', '*.markdown')].sort.each do |input|
     puts "processing #{input}"
     content = File.read(input)
-    content.gsub!(/Insert\s+(.*)(\.png)\s*\n?\s*#{figure_title}\s+(.*)/, '![\3](figures/\1-tn\2 "\3")')
+    content.gsub!(/Insert\s+(.*)(\.png)\s*\n?\s*#{figure_title}\s*(.*)/, '![\3](figures/\1-tn\2 "\3")')
     book_content << RDiscount.new(content).to_html
   end
   book_content << "</body></html>"

@@ -953,8 +953,8 @@ Chaque fichier des *commits* doit être vérifié par rapport à la structure AC
 	      next if chemin.size == 0
 	      acces_permis = false
 	      acces[$utilisateur].each do |chemin_acces|
-	        if !chemin_acces  # l'utilisateur a un accès complet
-	          || (chemin.index(chemin_acces) == 0) # acces à ce chemin
+	        if !chemin_acces || # l'utilisateur a un accès complet
+	          (chemin.index(chemin_acces) == 0) # acces à ce chemin
 	          acces_permis = true
 	        end
 	      end

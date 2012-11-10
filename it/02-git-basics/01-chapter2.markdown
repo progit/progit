@@ -633,7 +633,7 @@ Uno degli annullamenti comuni è quando invii troppo presto un commit e magari d
 
 	$ git commit --amend
 
-Questo commando prende la tua area di parcheggio e la usa per il commit. Se non hai fatto cambiamenti dal tuo ultimo commit (per esempio, lanci questo comando subito dopo il tuo commit precedente), allora il tuo snapshot sarà esattamente uguale e potrai cambiare il tuo messaggio di commit.
+Questo comando prende la tua area di parcheggio e la usa per il commit. Se non hai fatto cambiamenti dal tuo ultimo commit (per esempio, lanci questo comando subito dopo il tuo commit precedente), allora il tuo snapshot sarà esattamente uguale e potrai cambiare il tuo messaggio di commit.
 
 L'editor per il messaggio del commit apparirà, ma già contiene il messaggio del commit precedente. Puoi modificare il messaggio come sempre, ma sovrascriverà il commit precedente.
 
@@ -778,7 +778,7 @@ Se hai clonato un repository, il comando automaticamente aggiunge un repository 
 
 Se hai un ramo impostato per tracciare un ramo remoto (vedi la prossima sezione e il Capitolo 3 per maggiori informazioni), puoi usare il comando `git pull` per prelevare automaticamente e poi fondere un ramo remoto nel ramo corrente. Questo è un modo più facile e comodo di lavorare; e in modo predefinito, il comando `git clone` automaticamente imposta il tuo ramo locale master per tracciare il ramo remoto master del server che hai clonato (assumendo che il sorgente remoto ha un ramo master). Lanciare `git pull` generalmente preleva i dati dal server di origine clonato e automaticamente prova a fondere il codice con il codice su cui stai lavorando.
 
-### Buttare nel sorgente remoto ###
+### Inserire nel sorgente remoto ###
 
 Quando hai il tuo progetto al punto che lo vuoi condividere, devi metterlo (fare il push) online (in upstream). Il comando per fare questo è semplice: `git push [nome-remoto] [nome-ramo]`. Se vuoi fare il push del tuo ramo master al tuo server `origin` (ancora, generalmente con la clonazione sono impostati entrambi questi nomi automaticamente), puoi lanciare il push per mettere il tuo lavoro sul server:
 
@@ -799,7 +799,7 @@ Se vuoi vedere più informazioni su una sorgente remota in particolare, puoi usa
 	    master
 	    ticgit
 
-Questo elenca tutti gli URL del repository remoto oltre che alle informazione sui rami tracciati. Il comando fortunatamente ti dirà che sei sul ramo principale e se lanci `git pull`, questo automaticamente unirà il ramo master sul server remoto dopo aver prelevato tutte le referenze remote. Inoltre elencherà le referenze che saranno scaricate.
+Questo elenca tutti gli URL del repository remoto oltre che alle informazioni sui rami tracciati. Il comando fortunatamente ti dirà che sei sul ramo principale e se lanci `git pull`, questo automaticamente unirà il ramo master sul server remoto dopo aver prelevato tutte le referenze remote. Inoltre elencherà le referenze che saranno scaricate.
 
 Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, ovviamente, potrai vedere molte informazioni da `git remote show`:
 
@@ -1068,7 +1068,7 @@ Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti avere una se
 	$ git co<tab><tab>
 	commit config
 
-In questo caso, scrivendo git co a poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
+In questo caso, scrivendo git co e poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
 
 Questo funziona anche con le opzioni, cosa che forse è molto più utile. Per esempio, se si lancia il comando `git log` e non si ricorda una opzione, si può iniziare a pigiare il tasto Tab per vedere le corrispondenze:
 

@@ -1,8 +1,8 @@
-# Git op Maat Maken #
+# Git op maat maken #
 
 Tot zover heb ik de fundamentele werking van Git behandeld, en hoe het te gebruiken, en ik heb een aantal tools geïntroduceerd die Git levert om je het makkelijk en efficiënt te laten gebruiken. In dit hoofdstuk zal ik wat operaties doorlopen die je kunt gebruiken om Git op een persoonlijker manier te laten werken door een aantal belangrijke configuratieinstellingen te introduceren en het hakensysteem. Met deze gereedschappen is het makkelijk om Git precies te laten werken op de manier zoals jij, je bedrijf, of je groep het graag wil.
 
-## Git Configuratie ##
+## Git configuratie ##
 
 Zoals je kort in Hoofdstuk 1 gezien hebt, kun je Git configuratie instellingen specificeren met het `git config` commando. Een van de eerste dingen die je deed wat je naam en e-mail adres instellen:
 
@@ -17,7 +17,7 @@ De volgende plaats waar Git kijkt is het `~/.gitconfig` bestand, wat specifiek i
 
 Als laatste kijkt Git naar configuratie waarden in het config bestand in de Git map (`.git/config`) of welk repository dat je op dat moment gebruikt. Deze waarden zijn specifiek voor dat ene repository. Ieder nivo overschrijft de waarden in het vorige nivo, dus waarden in `.git/config` gaan boven die in `/etc/gitconfig`, bijvoorbeeld. Je kunt die waarden ook instellen door het bestand handmatig aan te passen en de correcte syntax in te voegen, maar het is over het algemeen makkelijk m het `git config` commando uit te voeren.
 
-### Basis Client Configuratie ###
+### Basis client configuratie ###
 
 De configuratie opties die herkent worden door Git vallen binnen twee categorien: de client kant en de server kant. De meerderheid van de opties zijn voor de client kant – de configuratie van je persoonlijke voorkeuren. Alhoewel er massa's opties beschikbaar zijn, zal ik alleen een paar behandelen die ofwel veelgebruikt zijn of je werkwijze significant kunnen beinvloeden. Veel opties zijn alleen bruikbaar in randgevallen waar ik hier niet naar kijk. Als je een lijst van alle opties wil zien, die jou versie van Git herkent kun je dit uitvoeren
 
@@ -134,7 +134,7 @@ Je kunt de kleur instellen op ieder van de volgende waarden: normal, black, red,
 
 Zie de manpage van `git config` voor alle sub-instellingen die je kunt instellen, als je dat wil.
 
-### Externe Merge en Diff Tools ###
+### Externe merge en diff tools ###
 
 Alhoewel Git een interne implementatie van diff heeft, die je tot nog toe gebruikte, kun je in plaats daarvan een extern tool instellen. Je kunt ook een grafisch samenvoeg conflict-oplossings tool instellen, in plaats van handmatig de conflicten op te moeten lossen. Ik zal nu demonstreren hoe je het Perforce Visuele Samenvoeg Tool (P4Merge) in moet stellen, om je diff en samenvoeg oplossingen te doen, omdat het een fijn grafisch tool is en omdat het gratis is.
 
@@ -208,7 +208,7 @@ Git is al ingesteld om een aantal andere conflict-oplossings tools te gebruiken 
 
 Als je dit uitvoert in plaats van de `extMerge` en `extDiff` bestanden in te stellen, zal Git KDiff3 gebruiken voor conflict oplossing en het normale Git diff tool voor diffs.
 
-### Opmaak en Witruimten ###
+### Opmaak en witruimten ###
 
 Problemen met opmaak en witruimten zijn één van de veelvoorkomende frustrerende en subtiele problemen die veel ontwikkelaars tegenkomen bij het samenwerken, in het bijzonder over verschillende platformen. Het is heel eenvoudig voor patches en ander werk om subtiele witruimte veranderingen te introduceren, omdat editors ze stil introduceren of omdat Windows programmeurs harde returns aan het eind van de regels toevoegen die ze aanraken in gekruiste platformprojecten. Git heeft een aantal configuratie opties om met deze problemen te helpen.
 
@@ -253,7 +253,7 @@ Of je kunt Git vragen om automatisch deze problemen te repareren alvorens de pat
 
 Deze opties zijn ook op de git rebase optie van toepassing. Als je witruimte problemen gecommit hebt maar ze nog niet stroomopwaarts gepushed hebt, kun je een `rebase` uitvoeren met de `--whitespace=fix` optie uitvoeren om Git automatisch witruimte problemen te laten repareren zodra het de patches herschrijft.
 
-### Server Configuratie ###
+### Server configuratie ###
 
 Er zijn lang niet zoveel configuratie opties beschikbaar voor de server kant van Git, maar er zijn er een paar interessante bij waar je misschien notie van wil hebben.
 
@@ -283,17 +283,17 @@ Een van de wegen om een `denyNonFastForwards` beleid heen is dat de gebruiker de
 
 Dit weigert branch en tag verwijdering door middel van een push over de hele breedte – geen enkele gebruiker mag het meer. Om remote branches te verwijderen, moet je de ref bestanden handmatig verwijderen van de server. Er zijn ook interessantere manieren om dit te doen op een per gebruiker basis door middel van ACL's, zoals je zult leren aan het eind van dit hoofdstuk.
 
-## Git Attributen ##
+## Git attributen ##
 
 Een aantal van deze instellingen kan ook gedaan worden voor een pad, zodat Git die instellingen alleen toepast om een submap of subset van bestanden. Deze pad-specifieke instellingen worden Git attributen genoemd en worden in een `.gitattribute` bestand in een van je mappen (normaliter in de hoofdmap van je project) of in het `.git/attributes` bestand als je niet wilt dat het attributes bestand gecommit wordt met je project.
 
 Door attributes te gebruiken kun je dingen doen als het specificeren van aparte samenvoeg strategieën voor individuele bestanden of mappen in je project, Git vertellen hoe hij niet-tekst bestanden kan diff'en, of Git inhoud laten filteren voordat je het in- of uitchecked van Git. In deze sectie zul je iets leren over de attributen die je kun instellen op de paden in je Git project en een paar voorbeelden zien hoe je deze eigenschap in de praktijk gebruikt.
 
-### Binaire Bestanden ###
+### Binaire bestanden ###
 
 Een stoere truc waarvoor je Git attributen kunt gebruiken is het vertellen aan Git welke bestanden binair zijn (in die gevallen waarin hij het niet zelf kan uitvinden) en Git dan speciale instructies geven hoe die bestanden te behandelen. Bijvoorbeeld, sommige tekstbestanden worden gegenereerd en zijn niet te diff'en, of sommige binaire bestanden kunnen wel gediff'ed worden – je zult zien hoe je Git verteld welke soort het is.
 
-#### Binaire Bestanden Identificeren ####
+#### Binaire bestanden identificeren ####
 
 Sommige bestanden zien eruit als tekstbestanden, maar moeten toch behandeld worden als binaire gegevens. Bijvoorbeeld, Xcode projecten op de Mac bevatten een bestand dat eindigt in `.pbxproj`, wat eigenlijk een JSON (platte tekst javascript gegevens formaat) gegevensset is, dat geschreven wordt naar de schijf door de IDE, waarin je bouw instellingen opgeslagen zijn enzovoorts. Alhoewel het technisch een tekstbestand is, omdat het volledig ASCII is, zul je het niet als zodanig willen behandelen omdat het eigenlijk een lichtgewicht gegevensbank is – je kunt de inhoud niet samenvoegen als twee mensen het gewijzigd hebben, en diffs zijn over het algemeen niet behulpzaam. Het bestand is bedoeld om geconsumeerd te worden door een machine. In essentie wil je het behandelen als een binair bestand.
 
@@ -305,7 +305,7 @@ Nu zal Git niet proberen om CRLF problemen te veranderen of te repareren; noch z
 
 	*.pbxproj binary
 
-#### Binaire Bestanden Diff'en ####
+#### Binaire bestanden diff'en ####
 
 In de 1.6 serie van Git, kun je de functionaliteit van Git attributen gebruiken om binaire bestanden effectief te diff'en. Je doet dit door Git te vertellen hoe het binaire gegevens naar tekst formaat moet omzetten, die dan via de normale diff vergeleken kan worden.
 
@@ -371,7 +371,7 @@ Als je een plaatje in je project veranderd en `git diff` uitvoert, dan zie je zo
 
 Je kunt eenvoudig zien dat zowel de bestandsgrootte als de beeld dimensies gewijzigd zijn.
 
-### Keyword Expansie ###
+### Keyword expansie ###
 
 Keyword expansie zoals in SVN of CVS wordt vaak gevraagd door ontwikkelaars, die gewend zijn aan die systemen. Het grote probleem in Git is dat je een bestand niet mag wijzigen met informatie over de commit, nadat je het gecommit hebt, omdat Git eerst de checksum van het bestand maakt. Maar, je kunt tekst in een bestand injecteren zodra het uitgechecked wordt en opnieuw verwijderen voordat het aan een commit toegevoegd wordt. Met Git attributen zijn er twee manieren om dit te doen.
 
@@ -436,7 +436,7 @@ Als je die veranderingen commit en het bestand opnieuw uitchecked, zul je zien d
 
 Je kunt wel zien hoe krachtig deze techniek is voor gebruik in eigengemaakte toepassingen. Je moet wel voorzichtig zijn, om dat het `.gitattributes` bestand ook gecommit wordt en meegestuurd wordt met het project, maar het filter (in dit geval `dater`) niet; dus het zal niet overal werken. Als je deze filters ontwerpt, zouden ze in staat moeten zijn om netjes te falen en het project nog steeds goed te laten werken.
 
-### Je Repository Exporteren ###
+### Je repository exporteren ###
 
 De Git attribute gegevens staan je ook toe om interessante dingen te doen als je een archief van je project exporteerd.
 
@@ -464,7 +464,7 @@ Als je `git archive` uitvoert, zal de inhoud van dat bestand als mensen het arch
 	$ cat LAST_COMMIT
 	Last commit date: $Format:Tue Apr 21 08:38:48 2009 -0700$
 
-### Samenvoeg Strategieën ###
+### Samenvoeg strategieën ###
 
 Je kunt Git attributen ook gebruiken om Git te vertellen dat het verschillende samenvoeg strategieën moet gebruiken voor specifieke bestanden in je project. Een erg handige optie is Git te vertellen dat het niet moet proberen bepaalde bestanden samen te voegen als ze conflicten hebben, maar jouw versie moeten gebruiken in plaats van andermans versie.
 
@@ -480,21 +480,21 @@ Als je in de andere branch samenvoegt, dan zul je in plaats van samenvoeg confli
 
 In dit geval blijft database.xml staan op welke versie je origineel ook had.
 
-## Git Haken ##
+## Git haken ##
 
 Zoals vele andere Versie Beheer Systemen, heeft Git een manier om eigengemaakte scripts op te starten wanneer bepaalde belangrijke akties voorkomen. Er zijn twee groepen van dit soort haken: aan de client kant en aan de server kant. De haken aan de client kant zijn voor client operaties zoasl committen en samenvoegen. De haken voor de server kant zijn voor Git server operaties zoals het ontvangen van gepushte commits. Je kunt deze haken om allerlei redenen gebruiken, en je zult hier over een aantal ervan leren.
 
-### Een Haak Installeren ###
+### Een haak installeren ###
 
 De haken worden allemaal opgeslagen in de `hooks` submap van de Git map. In de meeste projecten is dat `.git/hooks`. Standaard voorziet Git deze map van een aantal voorbeeld scripts, waarvan de meeste al bruikbaar zijn; maar ze documenteren ook de invoer waarden van ieder script. Alle scripts zijn als shell script geschreven, met hier en daar wat Perl, maar iedere executable met de juiste naam zal prima werken – je kunt ze in Ruby of Python of wat je wil schrijven. Voor Git versies later dan 1.6, eindigen deze haak bestanden met .sample; je zult ze van naam moeten veranderen. Voor eerdere versies van Git, zijn de scripts al van de juiste naam voorzien, maar je moet ze nog uitvoerbaar maken.
 
 Om een haak script aan te zetten, stop je een bestand met de juiste naam en dat uitvoerbaar is in de `hooks` map van je Git map. Vanaf dat punt zou het aangeroepen moeten worden. Ik zal de meestgebruikte haak bestandsnamen hier behandelen.
 
-### Client-Kan Haken ###
+### Client-kant haken ###
 
 Er zijn veel client-kant haken. Deze sectie verdeeld ze in commit-werwijze haken, e-mail-werkwijze scripts, en de rest van de client-kant scripts
 
-#### Commit-Werkwijze Haken ####
+#### Commit-werkwijze haken ####
 
 De eerste vier haken hebben te maken met het commit proces. De `pre-commit` haak wordt eerst uitgevoerd, nog voor je een commit boodschap intyped. Het wordt gebruikt om het snapshot dat op het punt staat gecommit te worden te inspecteren, om te zien of je iets bent vergeten, om er zeker van te zijn dat tests uitgevoerd worden, of om te onderzoeken wat je wilt in de code. Deze haak met een waarde anders dan nul afsluiten breekt de commit af, alhoewel je 'm kunt omzeilen met `git commit --no-verify`. Je kunt dingen doen als op code stijl controleren (voer lint of iets dergelijks uit), op aanhangende spaties controleren (de standaard haak doet dat), of om de juiste documentatie op nieuwe functies te controleren.
 
@@ -506,7 +506,7 @@ Nadat het hele commit proces afgerond is, zal de `post-commit` haak uitgevoerd w
 
 De commit-werkwijze client-kant scripts kunnen gebruikt worden in vrijwel iedere werkwijze. Ze worden vaak gebruikt om een bepaald beleid af te dwingen, maar het is belangrijk om te weten dat deze scripts niet overgedragen worden tijdens een clone. Je kunt beleid afdwingen op de server kant om pushes of commits te weigeren, die niet voldoen aan een bepaald beleid, maar het is aan de ontwikkelaar om deze scripts aan de client kant te gebruiken. Dus, deze scripts zijn er om ontwikkelaars te helpen, en ze moeten door hen ingesteld en onderhouden worden, alhoewel ze aangepast of omzeilt kunnen worden op ieder tijdstip.
 
-#### E-mail Werkwijze Haken ####
+#### E-mail werkwijze haken ####
 
 Je kunt drie client kant haken instellen voor een e-mail gebaseerde werkwijze. Ze worden allemaal aangeroepen door het `git am` commando, dus als je dat commndo niet gebruikt in je werkwijze, dan kun je veilig doorgaan naar de volgende sectie. Als je patches aanneemt via e-mail, die door `git format-patch` geprepareerd zijn, dan zullen sommige van deze behulpzaam zijn voor je.
 
@@ -516,7 +516,7 @@ De volgende haak die wordt uitgevoerd tijdens het toepassen van patches via `git
 
 De laatste haak die uitgevoerd wordt tijdens een `git am` operatie is de `post-applypatch`. Je kunt dat gebruiken om een groep te notificeren of de auteur van de patch die je zojuist gepulled hebt. Je kunt het patch proces niet stoppen met behulp van dit script. 
 
-#### Andere Client Haken ####
+#### Andere client haken ####
 
 De `pre-rebase` haak wordt uitgevoerd voordat je ook maar iets rebased, en kan het proces afbreken door met een waarde anders dan nul te eindigen. Je kunt deze haak gebruiken om tegen te gaan dat commits die al gepushed zijn gerebased worden. De voorbeeld `pre-rebase` haak die Git installeert doet dit, alhoewel deze er vanuit gaat dat next de naam is van de branch die je publiceert. Je zult dat waarschijnlijk moeten veranderen in de naam van je stabiele gepubliceerde branch.
 
@@ -524,7 +524,7 @@ Nadat je een succesvolle `git checkout` uitgevoerd hebt, wordt de `post-checkout
 
 Als laatste wordt de `post-merge` haak uitgevoerd na een succesvol `merge` commando. Je kunt het gebruiken om gegevens in de boom die Git niet kan volgen terug te zetten, bijvoorbeeld permissie gegevens. Ook kan deze haak gebruikt worden om de aanwezigheid van bestanden buiten de controle van Git te controleren, die je misschien in je boom gekopieerd wil hebben zodra hij veranderd.
 
-### Server-Kant Haken ###
+### Server-kant haken ###
 
 Naast de client-kant haken, kun je als systeem administrator ook een paar belangrijke server-kant haken gebruiken om vrijwel ieder beleid op je project af te dwingen. Deze scripts worden voor en na de pushes op de server uitgevoerd. De pre haken kunnen met een ander getal dan nul eindigeen om de push te weigeren en een foutmelding naar de client te sturen; je kunt een push beleid instellen dat zo complex is als je zelf wenst.
 
@@ -538,13 +538,13 @@ De `post-receive` haak wordt uitgevoerd nadat het hele proces afgerond is, en hi
 
 Het update script is vergelijkbaar met het `pre-receive` script, behalve dan dat het uitgevoerd wordt voor iedere branch die de pusher probeert te vernieuwen. Als de pusher naar meerdere branches probeert te pushen, wordt `pre-receive` slechts één keer uitgevoerd, maar `update` bij iedere branch waar ze naar pushen. In plaats van stdin te lezen, aanvaardt dit script drie argumenten: de naam van de referentie (branch), de SHA-1 waar die referentie naar wees voor de push, en de SHA-1 die de gebruiker probeert te pushen. Als het update script met een andere waarde dan nul eindigt, wordt alleen die referentie geweigerd; andere referenties kunnen nog steeds vernieuwd worden.
 
-## Een Voorbeeld van Git-Afgedwongen Beleid ##
+## Een voorbeeld van Git-afgedwongen beleid ##
 
 In dit gedeelte zul je gebruiken wat je geleerd hebt om een Git werkwijze vast te leggen, die controleerd op een eigengemaakt commit boodschap formaat, afdwingt om alleen fast-forward pushes te accepteren, en alleen bepaalde gebruikers toestaat om bepaalde submappen te wijzigen in een project. Je zult client scripts maken die de ontwikkelaar helpen er achter te komen of hun push geweigerd zal worden, en server scripts die het beleid afdwingen.
 
 Ik heb Ruby gebruikt om ze te schrijven, zowel omdat het mijn voorkeur script taal is en omdat ik vind dat het de meest pseudo code uitziende taal is van de scripttalen; dus je zou in staat moeten zijn om de code redelijk te kunnen volgen zelfs als je geen Ruby gebruikt. Maar, iedere taal zal prima werken. Alle voorbeeld haak scripts die met Git meegeleverd worden zijn Perl of Bash scripts, dus je kunt ook genoeg voorbeelden van haken in die talen zijn door naar de voorbeelden te kijken.
 
-### Server-Kant Haak ###
+### Server-kant haak ###
 
 Al het werk aan de server kant zal in het update bestand in je haken map gaa. Het update bestand zal eens per gepushte branch uitgevoerd worden en aanvaardt de referentie waarnaar gepushed wordt, de oude revisie waar die branch was, en de nieuwe gepushte revisie. Je hebt ook toegang tot de gebruiker die de push doet, als de push via SSH gedaan wordt. Als je iedereen hebt toegestaan om connectie te maken als één gebruiker (zoals "git") via publieke sleutel authenticatie, dan moet je misschien die gebruiker een shell wrapper geven die bepaalt welke gebruiker er connectie maakt op basis van de publieke sleutel, en een omgevingsvariabele instelt met daarin die gebruiker. Hier ga ik er vanuit dat de gebruiker in de `$USER` omgevingsvariabele staat, dus begint je update script met het verzamelen van alle gegevens die het nodig heeft:
 
@@ -559,7 +559,7 @@ Al het werk aan de server kant zal in het update bestand in je haken map gaa. He
 
 Ja, ik gebruik een globale variabele. Veroordeel me niet – het is makkelijker om het op deze manier te laten zien.
 
-#### Een Specifiec Commit-Bericht Formaat Afdwingen ####
+#### Een specifiec commit-bericht formaat afdwingen ####
 
 Je eerste uitdaging is afdwingen dat ieder commit bericht moet voldoen aan een specifiek formaat. Om maar een doel te hebben, gaan we er vanuit dat ieder bericht een stuk tekst bevat dat eruit ziet asl "ref: 1234", omdat je wil dat iedere commit gekoppeld is aan een werkonderdeel in je ticket systeem. Je moet kijken naar iedere commit die gepushed wordt, zien dat die tekst in de commit boodschap zit, en als de tekst niet in één van de commits zit, met niet nul eindigen zodat de push geweigerd wordt.
 
@@ -608,7 +608,7 @@ Je kunt die spreuk gebruiken om de commit boodschap te pakken van iedere commit 
 
 Door dat in je `update` script te stoppen, zal het updates weigeren die commits bevatten die berichten hebben die niet aan je regel voldoen.
 
-#### Een Gebruiker-Gebaseerd ACL Systeem Afdwingen ####
+#### Een gebruiker-gebaseerd ACL systeem afdwingen ####
 
 Stel dat je een mechanisme wil toevoegen dat gebruik maakt van een toegangs controle lijst (ACL) die specificeert welke gebruikers zijn toegestaan om wijzigingen te pushen naar welke delen van je project. Sommige mensen hebben volledige toegang, en andere hebben alleen toegang om wijzigingen te pushen naar bepaalde submappen of specifieke bestanden. Om dit af te dwingen zule je die regels schrijven in een bestand genaamd `acl` dat in je bare Git repository op de server leeft. Je zult de `update` haak naar die regels laten kijken, zien welke bestanden worden geintroduceerd voor alle commits die gepushed worden, en bepalen of de gebruiker die de push doet toegang heeft om al die bestanden te wijzigen.
 
@@ -672,8 +672,8 @@ Als je gebruik maakt van de ACL struktuur die wordt teruggegeven door de `get_ac
 	      next if path.size == 0
 	      has_file_access = false
 	      access[$user].each do |access_path|
-	        if !access_path  # gebruiker heeft overal toegang tot
-	          || (path.index(access_path) == 0) # toegang tot dit pad
+	        if !access_path || # gebruiker heeft overal toegang tot
+	          (path.index(access_path) == 0) # toegang tot dit pad
 	          has_file_access = true 
 	        end
 	      end
@@ -691,7 +691,7 @@ Het meeste daarvan zou makkelijk te volgen moeten zijn. Je krijgt een lijst met 
 
 Nu kunnen je gebruikers geen commits pushen met slechte berichten of met aangepaste bestanden buiten hun toegewezen paden.
 
-#### Fast-Forward-Only Pushes Afdwingen ####
+#### Fast-forward-only pushes afdwingen ####
 
 Het enige overgebleven ding om af te dwingen is fast-forward-only pushes. In Git versie 1.6 of nieuwer, kun je de `receive.denyDeletes` en `receive.denyNonFastForwards` instellingen aanpassen. Maar dit afdwingen met behulp van een haak werkt ook in oudere versies van Git, en je kunt het aanpasen zodat het alleen gebeurd bij bepaalde gebruikers of wat je later ook verzint.
 
@@ -759,7 +759,7 @@ Of als iemand een bestand probeert aan te passen waar ze geen toegang tot hebben
 
 Dat is alles. Vanaf nu, zolang als het `update` script aanwezig en uitvoerbaar is, zal je repository nooit teruggedraaid worden en zal nooit een commit bericht zonder je patroon erin bevatten, en je gebruikers zullen ingeperkt zijn.
 
-### Client-Kant Haken ###
+### Client-kant haken ###
 
 Het nadeel hiervan is het zeuren dat geheid zal gebeuren zodra de commits van je gebruikers geweigerd worden. Het feit dat hun zorgzaam vervaardigde werk geweigerd wordt op het laatste moment kan enorm frustrerend en verwarrend zijn: daarnaast, zullen ze hun geschiedenis moeten aanpassen om het te corrigeren, wat niet altijd voor de mensen met een zwak hart is.
 

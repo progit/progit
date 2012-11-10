@@ -680,7 +680,7 @@ Si vous éditez ce fichier à la main, il restera dans cet état jusqu'à la pro
 Note: la dernière copie de cette section du livre ProGit est toujours disponible dans la [documentation de gitolite][gldpg].
 L'auteur souhaite aussi humblement ajouter que, bien que cette section soit juste et *puisse* (et a pu) être utilisée pour installer gitolite sans lire d'autre documentation, elle est nécessairement incomplète et ne peut pas remplacer à elle seule la documentation volumineuse qui accompagne gitolite.
 
-[gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
+[gldpg]: http://sitaramc.github.com/gitolite/progit.html
 
 Git a commencé à être utilisé dans les entreprises, ce qui tend à ajouter des besoins en terme de contrôle d'accès.
 Gitolite a été initialement créé pour gérer ces besoins mais il apparaît qu'il est aussi utile dans la monde du logiciel libre : le projet Fedora gère les accès à ses dépôts de gestion de paquets (plus de 10 000 !) au moyen de gitolite, ce qui en fait le déploiement public de gitolite le plus important.

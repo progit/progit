@@ -1007,7 +1007,7 @@ Même si vous montez et faites fonctionner votre serveur en interne, vous souhai
 Aujourd'hui, vous avez à disposition un nombre impressionnant d'options d'hébergement, chacune avec différents avantages et désavantages.
 Pour une liste à jour, référez-vous à la page suivante :
 
-	http://git-scm.com/tools#hosting
+	http://en.wikipedia.org/wiki/Git_(software)#Source_code_hosting
 
 Comme nous ne pourrons pas les passer toutes en revue, et comme de plus, il s'avère que je travaille pour l'une d'entre elles, nous utiliserons ce chapitre pour détailler la création d'un compte et d'un nouveau projet sur GitHub.
 Cela vous donnera une idée de ce qui est nécessaire.

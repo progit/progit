@@ -874,7 +874,8 @@ Si vous avez cloné un dépôt, vous devriez au moins voir l'origine `origin` �
 Vous pouvez aussi spécifier `-v`, qui vous montre l'URL que Git a stocké pour chaque nom court :
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 Si vous avez plus d'un dépôt distant, la commande précédente les liste tous.
 Par exemple, mon dépôt Grit ressemble à ceci.

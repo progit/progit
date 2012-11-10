@@ -506,7 +506,7 @@ Maintenant, `git diff` est capable de vous indiquer ce qui a changé dans les fi
 ##### Fichiers image #####
 
 Un autre problème intéressant concerne la comparaison de fichiers d'images.
-Une méthode consiste à faire passer les fichiers JPEG à travers un filtre qui extrait les données EXIF, les méta-données enregistrées avec la plupart de formats d'image.
+Une méthode consiste à faire passer les fichiers PNG à travers un filtre qui extrait les données EXIF, les méta-données enregistrées avec la plupart de formats d'image.
 Si vous téléchargez et installez le programme `exiftool`, vous pouvez l'utiliser pour convertir vos images en texte de méta-données de manière que le diff puisse au moins montrer une représentation textuelle des modifications pratiquées :
 
 	$ echo '*.png diff=exif' >> .gitattributes

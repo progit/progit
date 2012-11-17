@@ -48,7 +48,7 @@ This is a variant of a multiple-repository workflow. It’s generally used by hu
 Insert 18333fig0503.png  
 Figure 5-3. Benevolent dictator workflow.
 
-This kind of workflow isn’t common but can be useful in very big projects or in highly hierarchical environments, because as it allows the project leader (the dictator) to delegate much of the work and collect large subsets of code at multiple points before integrating them.
+This kind of workflow isn’t common but can be useful in very big projects or in highly hierarchical environments, as it allows the project leader (the dictator) to delegate much of the work and collect large subsets of code at multiple points before integrating them.
 
 These are some commonly used workflows that are possible with a distributed system like Git, but you can see that many variations are possible to suit your particular real-world workflow. Now that you can (I hope) determine which workflow combination may work for you, I’ll cover some more specific examples of how to accomplish the main roles that make up the different flows.
 
@@ -230,7 +230,7 @@ She can merge either `origin/master` or `issue54` first — they’re both upstr
 	 lib/simplegit.rb |    6 +++++-
 	 2 files changed, 6 insertions(+), 1 deletions(-)
 
-No problems occur; as you can see it was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
+No problems occur; as you can see, it was a simple fast-forward. Now Jessica merges in John’s work (`origin/master`):
 
 	$ git merge origin/master
 	Auto-merging lib/simplegit.rb

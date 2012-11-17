@@ -246,6 +246,7 @@ Then, John, Josie, or Jessica can push the first version of their project into t
 At this point, the others can clone it down and push changes back up just as easily:
 
 	$ git clone git@gitserver:/opt/git/project.git
+	$ cd project
 	$ vim README
 	$ git commit -am 'fix for the README file'
 	$ git push origin master
@@ -534,7 +535,7 @@ And you're done!  Gitolite has now been installed on the server, and you now hav
 
 ### Customising the Install ###
 
-While the default, quick, install works for most people, there are some ways to customise the install if you need to.  Some changes can be made simply by editing the rc file, but if that is not sufficient, there's documentation on customising gitolite.
+While the default, quick, install works for most people, there are some ways to customise the install if you need to.  Some changes can be made simply by editing the rc file, but if that is not sufficient, there's documentation on customising Gitolite.
 
 ### Config File and Access Control Rules ###
 
@@ -578,7 +579,7 @@ You can control permissions at the "ref" level.  In the following example, inter
 	    RW  refs/tags/rc[0-9]   = @engineers
 	    RW+                     = @admins
 
-The expression after the `RW` or `RW+` is a regular expression (regex) that the refname (ref) being pushed is matched against.  So we call it a "refex"!  Of course, a refex can be far more powerful than shown here, so don't overdo it if you're not comfortable with perl regexes.
+The expression after the `RW` or `RW+` is a regular expression (regex) that the refname (ref) being pushed is matched against.  So we call it a "refex"!  Of course, a refex can be far more powerful than shown here, so don't overdo it if you're not comfortable with Perl regexes.
 
 Also, as you probably guessed, Gitolite prefixes `refs/heads/` as a syntactic convenience if the refex does not begin with `refs/`.
 
@@ -591,13 +592,13 @@ That rule will just get added to the ruleset for the `gitolite` repository.
 
 At this point you might be wondering how the access control rules are actually applied, so let's go over that briefly.
 
-There are two levels of access control in gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.
+There are two levels of access control in Gitolite.  The first is at the repository level; if you have read (or write) access to *any* ref in the repository, then you have read (or write) access to the repository.  This is the only access control that Gitosis had.
 
 The second level, applicable only to "write" access, is by branch or tag within a repository.  The username, the access being attempted (`W` or `+`), and the refname being updated are known.  The access rules are checked in order of appearance in the config file, looking for a match for this combination (but remember that the refname is regex-matched, not merely string-matched).  If a match is found, the push succeeds.  A fallthrough results in access being denied.
 
 ### Advanced Access Control with "deny" rules ###
 
-So far, we've only seen permissions to be one of `R`, `RW`, or `RW+`.  However, gitolite allows another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
+So far, we've only seen permissions to be one of `R`, `RW`, or `RW+`.  However, Gitolite allows another permission: `-`, standing for "deny".  This gives you a lot more power, at the expense of some complexity, because now fallthrough is not the *only* way for access to be denied, so the *order of the rules now matters*!
 
 Let us say, in the situation above, we want engineers to be able to rewind any branch *except* master and integ.  Here's how to do that:
 
@@ -630,7 +631,7 @@ Gitolite lets you define a "personal" or "scratch" namespace prefix for each dev
 
 ### "Wildcard" repositories ###
 
-Gitolite allows you to specify repositories with wildcards (actually perl regexes), like, for example `assignments/s[0-9][0-9]/a[0-9][0-9]`, to pick a random example.  It allows you to assign a new permission mode ("C") which allows users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out R and RW permissions to other users to collaborate, etc.  Again, please see the documentation for details.
+Gitolite allows you to specify repositories with wildcards (actually perl regexes), like, for example `assignments/s[0-9][0-9]/a[0-9][0-9]`, to pick a random example.  It also allows you to assign a new permission mode ("C") which enables users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out R and RW permissions to other users to collaborate, etc.  Again, please see the documentation for details.
 
 ### Other Features ###
 
@@ -689,7 +690,7 @@ When you restart your machine, your Git daemon will start automatically and resp
 
 On other systems, you may want to use `xinetd`, a script in your `sysvinit` system, or something else — as long as you get that command daemonized and watched somehow.
 
-Next, you have to tell your Gitosis server which repositories to allow unauthenticated Git server-based access to. If you add a section for each repository, you can specify the ones from which you want your Git daemon to allow reading. If you want to allow Git protocol access for your iphone project, you add this to the end of the `gitosis.conf` file:
+Next, you have to tell your Gitosis server which repositories to allow unauthenticated Git server-based access to. If you add a section for each repository, you can specify the ones from which you want your Git daemon to allow reading. If you want to allow Git protocol access for the `iphone_project`, you add this to the end of the `gitosis.conf` file:
 
 	[repo iphone_project]
 	daemon = yes
@@ -710,13 +711,13 @@ Gitosis can also control which projects GitWeb shows. First, you need to add som
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
-You can control which projects GitWeb lets users browse by adding or removing a `gitweb` setting in the Gitosis configuration file. For instance, if you want the iphone project to show up on GitWeb, you make the `repo` setting look like this:
+You can control which projects GitWeb lets users browse by adding or removing a `gitweb` setting in the Gitosis configuration file. For instance, if you want the `iphone_project` to show up on GitWeb, you make the `repo` setting look like this:
 
 	[repo iphone_project]
 	daemon = yes
 	gitweb = yes
 
-Now, if you commit and push the project, GitWeb will automatically start showing your iphone project.
+Now, if you commit and push the project, GitWeb will automatically start showing the `iphone_project`.
 
 ## Hosted Git ##
 
@@ -738,7 +739,7 @@ GitHub is also a commercial company that charges for accounts that maintain priv
 
 ### Setting Up a User Account ###
 
-The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see figure 4-2), you’re taken to the signup page.
+The first thing you need to do is set up a free user account. If you visit the Pricing and Signup page at `http://github.com/plans` and click the "Sign Up" button on the Free account (see Figure 4-2), you’re taken to the signup page.
 
 Insert 18333fig0402.png
 Figure 4-2. The GitHub plan page.

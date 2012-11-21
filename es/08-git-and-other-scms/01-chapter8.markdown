@@ -1,8 +1,8 @@
-# Git and Other Systems #
+# Git y Otros Sistemas #
 
-The world isn’t perfect. Usually, you can’t immediately switch every project you come in contact with to Git. Sometimes you’re stuck on a project using another VCS, and many times that system is Subversion. You’ll spend the first part of this chapter learning about `git svn`, the bidirectional Subversion gateway tool in Git.
+El mundo no es perfecto. Usualmente, no puedes cambiar inmediatamente cada proyecto que se te presenta a Git. Algunas veces estás pegado en un proyecto utilizando otro VCS, y muchas veces ése sistema es Subversion. Vas a pasar la primera parte de este capítulo aprendiendo sobre `git svn`, la puerta de enlace de Subversion bidireccional en Git.
 
-At some point, you may want to convert your existing project to Git. The second part of this chapter covers how to migrate your project into Git: first from Subversion, then from Perforce, and finally via a custom import script for a nonstandard importing case. 
+En cierto punto, quizás quieras convertir tu proyecto existente a Git. La segunda parte de este capítulo cubre cómo migrar tu proyecto a Git: primero desde Subversion, luego desde Perforce, y finalmente vía un script para importar a medida desde un caso de importación no-estándar.
 
 ## Git and Subversion ##
 

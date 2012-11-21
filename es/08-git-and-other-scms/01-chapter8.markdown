@@ -4,11 +4,11 @@ El mundo no es perfecto. Usualmente, no puedes cambiar inmediatamente cada proye
 
 En cierto punto, quizás quieras convertir tu proyecto existente a Git. La segunda parte de este capítulo cubre cómo migrar tu proyecto a Git: primero desde Subversion, luego desde Perforce, y finalmente vía un script para importar a medida desde un caso de importación no-estándar.
 
-## Git and Subversion ##
+## Git y Subversion ##
 
-Currently, the majority of open source development projects and a large number of corporate projects use Subversion to manage their source code. It’s the most popular open source VCS and has been around for nearly a decade. It’s also very similar in many ways to CVS, which was the big boy of the source-control world before that.
+Hasta hoy, la mayoría de los proyectos en desarrollo de código abiertro y un largo número de proyectos corporativos usan Subversion para manejar su código fuente. Es el VCS más popular y ha existido por cerca de casi una década. También es muy similar en muchas formas a CVS, el cual fue el hermano mayor del control de fuentes anteriormente.
 
-One of Git’s great features is a bidirectional bridge to Subversion called `git svn`. This tool allows you to use Git as a valid client to a Subversion server, so you can use all the local features of Git and then push to a Subversion server as if you were using Subversion locally. This means you can do local branching and merging, use the staging area, use rebasing and cherry-picking, and so on, while your collaborators continue to work in their dark and ancient ways. It’s a good way to sneak Git into the corporate environment and help your fellow developers become more efficient while you lobby to get the infrastructure changed to support Git fully. The Subversion bridge is the gateway drug to the DVCS world.
+Una de las grandes características de Git es el puente bidireccional llamado `git svn`. Esta herramienta permite el uso de Git como un cliente válido para un servidor Subversion, así que puedes utilizar todas las características locales de Git y luego hacer un "push" al servidor de Subversion como si estuvieras usando Subversion localmente. Esto significa que puedes hacer "branching" y "merging" localmente, usar el área de "staging", usar "rebasing" y "cherry-picking", y así, mientras tus colaboradores continuan trabajando en sus formas antiguas y oscuras. Es una buena forma de mirar a Git dentro de un ambiente corporativo y ayudar a tus buenos desarrolladores a hacerse más eficientes mientras tu haces lobby para que puedan cambiar la infraestructura y así soportar Git completamente. El puente de Subversion es la droga de la puerta de enlace hacia el mundo de DVCS.
 
 ### git svn ###
 

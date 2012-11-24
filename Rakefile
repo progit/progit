@@ -164,31 +164,19 @@ namespace :ci do
   desc "Continuous Integration"   
   task :check do
     require 'maruku'
-    langs = [
-      #'ar',
-      'be',
-      #'ca',
-      'cs',
-      #'de',
-      'en',
-      'eo',
-      #'es',
-      'fi',
-      'fr',
-      'hu',
-      'id',
-      'it',
-      'ja',
-      'ko',
-      'mk',
-      #'nl',
-      #'pl',
-      'ro',
-      'ru',
-      'sr',
-      'th',
-      #'tr',
-      'zh']
+    langs = FileList.new('??')+FileList.new('??-??')
+    excluded_langs = [
+      'ar',
+      'ca',
+      'es',
+      'nl',
+      'tr',
+      'pt-br',
+      'zh-tw']
+    excluded_langs.each do |lang|
+      puts "excluding #{lang}: known to fail"
+    end
+    langs -= excluded_langs
     error_code = false
     langs.each do |lang|
       print "processing #{lang} "

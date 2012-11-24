@@ -117,7 +117,7 @@ Quando esse valor é definido, Git coloriza a saída do terminal. Outras configu
 
 Você dificilmente vai querer usar `color.ui = always`. Na maioria dos cenários, se você quiser códigos coloridos em sua saída redirecionada, você pode passar a opção `--color` para forçar o comando Git a usar códigos de cores. O `color.ui = true` é o que provavelmente você vai querer usar.
 
-#### color.* ####
+#### `color.*` ####
 
 Se você quiser ser mais específico sobre quais e como os comandos são colorizados, ou se você tem uma versão mais antiga do Git, o Git oferece configurações específicas para colorir. Cada uma destas pode ser ajustada para `true`, `false`, ou `always`:
 

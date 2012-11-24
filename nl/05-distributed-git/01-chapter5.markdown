@@ -372,7 +372,7 @@ Jessica's commit historie ziet er nu uit zoals Figuur 5-13.
 Insert 18333fig0513.png 
 Figuur 5-13. Jessica’s historie na het committen op een functie branch.
 
-Jessica, Josie en John informeren de integrators nu dat de `featureA` en featureBee` branches op de server klaar zijn voor integratie in de hoofdlijn. Nadat ze die branches in de hoofdlijn geïntegreerd hebben, zal een fetch de nieuwe samenvoeg commits ophalen, waardoor de commit historie er uit ziet zoals Figuur 5-14.
+Jessica, Josie en John informeren de integrators nu dat de `featureA` en `featureBee` branches op de server klaar zijn voor integratie in de hoofdlijn. Nadat ze die branches in de hoofdlijn geïntegreerd hebben, zal een fetch de nieuwe samenvoeg commits ophalen, waardoor de commit historie er uit ziet zoals Figuur 5-14.
 
 
 Insert 18333fig0514.png 
@@ -624,7 +624,7 @@ Maar, als iemand een patch bestand heeft ge-upload die gegenereerd is met `forma
 	$ git am 0001-limit-log-function.patch 
 	Applying: add limit to log function
 
-Je kunt zien dat het netjes is toegepast, en automatisch een nieuwe commit voor je heeft aangemaakt. De auteur informatie wordt gehaald uit het `From` en `Date` veld in de kop, en het bericht van de commit wordt gehaald uit de `Subject` en inhoud (voor de patch` van de e-mail. Bijvoorbeeld, als deze patch was toegepast van het mbox voorbeeld dat ik zojuist getoond heb, dan zou de gegenereerde commit er ongeveer zo uit zien:
+Je kunt zien dat het netjes is toegepast, en automatisch een nieuwe commit voor je heeft aangemaakt. De auteur informatie wordt gehaald uit het `From` en `Date` veld in de kop, en het bericht van de commit wordt gehaald uit de `Subject` en inhoud (voor de patch van de e-mail. Bijvoorbeeld, als deze patch was toegepast van het mbox voorbeeld dat ik zojuist getoond heb, dan zou de gegenereerde commit er ongeveer zo uit zien:
 
 	$ git log --pretty=fuller -1
 	commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0

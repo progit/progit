@@ -503,7 +503,7 @@ Nu kan John het project clonen en updates krijgen, maar Gitosis zal hem niet toe
 	writable  = another_iphone_project
 	members   = @mobile_committers john
 
-Als je problemen hebt, kan het handig zijn om `loglevel=DEBUG` onder de `[gitosis] sectie te zetten. Als je je push-toegang bent verloren door een kapotte configuratie te pushen, kun je het handmatig repareren in het bestand `/home/git/.gitosis.conf` op de server — het bestand waar Gitosis zijn informatie vandaan haalt. Een push naar het project neemt het `gitosis.conf` bestand dat je zojuist gepushed hebt en stopt het daar. Als je het bestand handmatig aanpast, zal het zo blijven totdat de volgende succesvolle push gedaan wordt naar het `gitosis-admin` project. 
+Als je problemen hebt, kan het handig zijn om `loglevel=DEBUG` onder de `[gitosis]` sectie te zetten. Als je je push-toegang bent verloren door een kapotte configuratie te pushen, kun je het handmatig repareren in het bestand `/home/git/.gitosis.conf` op de server — het bestand waar Gitosis zijn informatie vandaan haalt. Een push naar het project neemt het `gitosis.conf` bestand dat je zojuist gepushed hebt en stopt het daar. Als je het bestand handmatig aanpast, zal het zo blijven totdat de volgende succesvolle push gedaan wordt naar het `gitosis-admin` project. 
 
 ## Gitolite ##
 

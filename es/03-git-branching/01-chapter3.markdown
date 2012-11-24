@@ -308,7 +308,7 @@ El comando 'git branch' tiene más funciones que las de crear y borrar ramas. Si
 	* master
 	  testing
 
-Fijate en el carácter '*' delante de la rama 'master': nos indica la rama  activa en este momento. Si hacemos una confirmación de cambios (commit), esa será la rama que avance. Para ver la última confirmación de cambios en cada rama, puedes usar el comando 'git branch -v':
+Fijate en el carácter `*` delante de la rama 'master': nos indica la rama  activa en este momento. Si hacemos una confirmación de cambios (commit), esa será la rama que avance. Para ver la última confirmación de cambios en cada rama, puedes usar el comando 'git branch -v':
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
@@ -321,7 +321,7 @@ Otra opción útil para averiguar el estado de las ramas, es filtrarlas y mostra
 	  iss53
 	* master
 
-Aparece la rama 'iss53' porque ya ha sido fusionada.  Y no lleva por delante el caracter '*' porque todo su contenido ya ha sido incorporado a otras ramas. Podemos borrarla tranquilamente con 'git branch -d', sin miedo a perder nada.
+Aparece la rama 'iss53' porque ya ha sido fusionada.  Y no lleva por delante el caracter `*` porque todo su contenido ya ha sido incorporado a otras ramas. Podemos borrarla tranquilamente con 'git branch -d', sin miedo a perder nada.
 
 Para mostrar todas las ramas que contienen trabajos sin fusionar aún, puedes utilizar el comando 'git branch --no-merged':
 

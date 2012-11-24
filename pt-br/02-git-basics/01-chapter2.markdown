@@ -659,7 +659,7 @@ As duas próximas seções mostram como trabalhar nas suas modificações na ár
     #       modified:   benchmarks.rb
     #
 
-Logo abaixo do texto “Changes to be committed”, ele diz "use git reset HEAD <file>... to unstage" ("use `git reset HEAD <file>...` para retirá-los do estado unstage"). Então, vamos usar esse conselho para retirar o arquivo `benchmarks.rb`:
+Logo abaixo do texto “Changes to be committed”, ele diz `use git reset HEAD <file>... to unstage` ("use `git reset HEAD <file>...` para retirá-los do estado unstage"). Então, vamos usar esse conselho para retirar o arquivo `benchmarks.rb`:
 
     $ git reset HEAD benchmarks.rb
     benchmarks.rb: locally modified

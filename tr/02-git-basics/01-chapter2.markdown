@@ -162,7 +162,7 @@ Ne oldu? `benchmarks.rb` dosyası hem kayda hazırlanmış hem de kayda hazırla
 `.gitignore` dosyanızda bulundurabileceğiniz örüntüler şu kurallara bağlıdır:
 
 *	Boş satırlar ve `#` ile başlayan satırlar görmezden gelinir.
-*	Stadart _glob_ örüntüleri ayırt edilir (Ç.N.: _glob_ *nix tarafından kullanılan sınırlı bir kurallı ifade (_regular expression_) biçimidir).
+*	Stadart _glob_ örüntüleri ayırt edilir (Ç.N.: _glob_ \*nix tarafından kullanılan sınırlı bir kurallı ifade (_regular expression_) biçimidir).
 *	Bir klasörü belirtmek üzere örüntüleri bir eğik çizgi (`/`) ile sonlandırabilirsiniz.
 *	Bir örüntüyü ünlem işaretiyle (`!`) başlattığınızda, örüntünün tersi gereçli olur.
 
@@ -1026,7 +1026,7 @@ Kaydın etiketlendiğini göreceksiniz:
 
 ### Etiketleri Paylaşmak ###
 
-Aksi belirtilmedikçe `git push` komutu etiketleri uzak uçbirimelere aktarmaz. Etiketleri belirtik biçimde bir ortak sunucuya itmeniz gerekir. Bu süreç uçbirim dallarını paylaşmaya benzer —`git push origin [etiket-adi] komutunu çalıştırabilirsiniz.
+Aksi belirtilmedikçe `git push` komutu etiketleri uzak uçbirimelere aktarmaz. Etiketleri belirtik biçimde bir ortak sunucuya itmeniz gerekir. Bu süreç uçbirim dallarını paylaşmaya benzer —`git push origin [etiket-adi]` komutunu çalıştırabilirsiniz.
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1115,7 +1115,7 @@ Böylece son kaydı kolaylıkla görebilirsiniz:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-Gördüğünüz gibi Git yeni komutu takma ad olarak belirlediğini şeyin yerine kullanıyor. Ama belki de bir Git komutu çalıştırmak değil de başka br program kullanmak istiyorsunuz. Bu durumda komutun başına `!` karakterini koymalısınız. Bir Git yazılım havuzu üzerinde çalışan kendi araçlarınızı yazıyorsanız bu seçenek yararlı olabilir. Bunu göstermek için ,gitk`'yi çalıştırmak için `git visual` diye yeni bir takma ad tanımlayabiliriz:
+Gördüğünüz gibi Git yeni komutu takma ad olarak belirlediğini şeyin yerine kullanıyor. Ama belki de bir Git komutu çalıştırmak değil de başka br program kullanmak istiyorsunuz. Bu durumda komutun başına `!` karakterini koymalısınız. Bir Git yazılım havuzu üzerinde çalışan kendi araçlarınızı yazıyorsanız bu seçenek yararlı olabilir. Bunu göstermek için ,`gitk`'yi çalıştırmak için `git visual` diye yeni bir takma ad tanımlayabiliriz:
 
 	$ git config --global alias.visual "!gitk"
 

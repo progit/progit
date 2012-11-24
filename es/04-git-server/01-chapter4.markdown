@@ -290,7 +290,7 @@ Si utilizas una versión de Git anterior a la 1.6, el comando 'mv' no es necesar
 
 Lo que significa que cada vez que envias (push) algo al servidor vía SSH, Git lanzará este comando y actualizará así los archivos necesarios para HTTP fetching. (_i_pendientedetraducir) 
 
-A continuación, has de añadir una entrada VirtualHost al archivo de configuración de Apache, fijando su raiz de documentos a la ubicación donde tengas tus proyectos Git. Aquí, estamos asumiendo que tienes un DNS comodin para redirigir '*.gitserver' hacia cualquier máquina que estés utilizando para todo esto:
+A continuación, has de añadir una entrada VirtualHost al archivo de configuración de Apache, fijando su raiz de documentos a la ubicación donde tengas tus proyectos Git. Aquí, estamos asumiendo que tienes un DNS comodin para redirigir `*.gitserver` hacia cualquier máquina que estés utilizando para todo esto:
 
 	<VirtualHost *:80>
 	    ServerName git.gitserver

@@ -66,7 +66,7 @@ Figür 3-7 sonucu resmediyor.
 Insert 18333fig0307.png 
 Figür 3-7. HEAD'in gösterdiği dal her kayıtla ileri doğru hareket eder.
 
-Burada ilginç olan `testing` dalı ilerlediği halde `master` dalı hâlâ dal değiştirmek için `git checkout, komutunu çalıştırdığınız zamanki yerinde duruyor. Gelin yeniden `master` dalına dönelim.
+Burada ilginç olan `testing` dalı ilerlediği halde `master` dalı hâlâ dal değiştirmek için `git checkout` komutunu çalıştırdığınız zamanki yerinde duruyor. Gelin yeniden `master` dalına dönelim.
 
 	$ git checkout master
 
@@ -442,7 +442,7 @@ Oradaki değişiklikleri üzerinde çalışmakta olduğunuz dala birleştirmek i
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
 	Switched to a new branch "serverfix"
 
-Bu, üzerinde çalışabileceğiniz ve `origin/serverfix'in gösterdiği yerden başlayan bir yerel dal yaratır.
+Bu, üzerinde çalışabileceğiniz ve `origin/serverfix`in gösterdiği yerden başlayan bir yerel dal yaratır.
 
 ### İzleme Dalları ###
 

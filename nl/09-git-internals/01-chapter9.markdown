@@ -267,14 +267,14 @@ Git voegt de kop en de originele inhoud samen, en berekent vervolgens de SHA-1 c
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git comprimeert de nieuwe inhoud met zlib, wat je in Ruby kunt doen met de zlib bibliotheek. Als eerste moet je de bibliotheek opnemen, en dan `Zlib::Deflate.deflate()' op de inhoud uitvoeren:
+Git comprimeert de nieuwe inhoud met zlib, wat je in Ruby kunt doen met de zlib bibliotheek. Als eerste moet je de bibliotheek opnemen, en dan `Zlib::Deflate.deflate()` op de inhoud uitvoeren:
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
-Als laatste schrijf je je zlib-gecomprimeerde inhoud naar een object op de schijf. Je zult het pad van het object dat je wilt wegschrijven moeten bepalen (de eerste twee karakters van de SHA-1 waarde zijn de submap naam, en de laatste 38 karakters zijn de bestandsnaam in die map). In Ruby kun je de `FileUtils.mkdir_p()` functie gebruiken om de submap aan te maken als hij nog niet bestaat. Daarna open je het bestand met `File.open()' en schrijft de eerder met zlib gecomprimeerde inhoud in het bestand met een aanroep van `write()` op het resulterende bestands-aangrijpingspunt.
+Als laatste schrijf je je zlib-gecomprimeerde inhoud naar een object op de schijf. Je zult het pad van het object dat je wilt wegschrijven moeten bepalen (de eerste twee karakters van de SHA-1 waarde zijn de submap naam, en de laatste 38 karakters zijn de bestandsnaam in die map). In Ruby kun je de `FileUtils.mkdir_p()` functie gebruiken om de submap aan te maken als hij nog niet bestaat. Daarna open je het bestand met `File.open()` en schrijft de eerder met zlib gecomprimeerde inhoud in het bestand met een aanroep van `write()` op het resulterende bestands-aangrijpingspunt.
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37"
@@ -413,7 +413,7 @@ Daarna kun je zien wat de `master` branch op de `origin` remote was toen je voor
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
 
-Remote referenties verschillen hoofdzakelijk van branches (`refs/heads referenties) in het feit dat ze niet uitgechecked kunnen worden. Git verplaatst ze als boekenleggers naar de laatste status van die branches op de servers. 
+Remote referenties verschillen hoofdzakelijk van branches (`refs/heads` referenties) in het feit dat ze niet uitgechecked kunnen worden. Git verplaatst ze als boekenleggers naar de laatste status van die branches op de servers. 
 
 ## Packfiles ##
 

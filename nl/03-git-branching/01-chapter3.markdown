@@ -315,7 +315,7 @@ Neem notie van het `*` karakter dat vooraf gaat aan de `master` branch: het geef
 	* master  7a98805 Merge branch 'iss53'
 	  testing 782fd34 add scott to the author list in the readmes
 
-Een andere handige optie om uit te vogelen in welke staat je branches zijn, is om deze lijst te filteren op branches die je wel of nog niet samengevoegd hebt in de branch waar je nu op zit. De handige `--merged` en `--no-merged` opties zijn voor dit doel beschikbaar in Git sinds versie 1.5.6. Om te zien welke branches al samengevoegd zijn in de branch waar je nu op zit, kun je `git branch --merged` uitvoeren`:
+Een andere handige optie om uit te vogelen in welke staat je branches zijn, is om deze lijst te filteren op branches die je wel of nog niet samengevoegd hebt in de branch waar je nu op zit. De handige `--merged` en `--no-merged` opties zijn voor dit doel beschikbaar in Git sinds versie 1.5.6. Om te zien welke branches al samengevoegd zijn in de branch waar je nu op zit, kun je `git branch --merged` uitvoeren:
 
 
 	$ git branch --merged

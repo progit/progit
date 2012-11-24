@@ -290,7 +290,7 @@ Para añadir los archivos TODO e index.html, se teclearian los números:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-El asterisco '*' al lado de cada archivo indica que dicho archivo ha sido seleccionado para ser preparado. Pulsando la tecla [Enter] tras el indicador 'Update>>', Git toma lo seleccionado y lo añade al área de preparación: 
+El asterisco `*` al lado de cada archivo indica que dicho archivo ha sido seleccionado para ser preparado. Pulsando la tecla [Enter] tras el indicador 'Update>>', Git toma lo seleccionado y lo añade al área de preparación: 
 
 	Update>> 
 	updated 2 paths

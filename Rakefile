@@ -165,18 +165,22 @@ namespace :ci do
   task :check do
     require 'maruku'
     langs = FileList.new('??')+FileList.new('??-??')
-    excluded_langs = [
-      'ar',
-      'ca',
-      'es',
-      'nl',
-      'tr',
-      'pt-br',
-      'zh-tw']
-    excluded_langs.each do |lang|
-      puts "excluding #{lang}: known to fail"
+    if ENV['debug'] && $lang
+      langs = [$lang]
+    else
+      excluded_langs = [
+        'ar',
+        'ca',
+        'es',
+        'nl',
+        'tr',
+        'pt-br',
+        'zh-tw']
+      excluded_langs.each do |lang|
+        puts "excluding #{lang}: known to fail"
+      end
+      langs -= excluded_langs
     end
-    langs -= excluded_langs
     error_code = false
     langs.each do |lang|
       print "processing #{lang} "

@@ -551,7 +551,7 @@ Oft sind Sachen in einem unsauberen Zustand während du an einem bestimmten Teil
 
 Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
 
-Stashing nimmt den unsauberen Teil deines Arbeitsverzeichnis, das heisst deine veränderten und <gestagedten???> Dateien, und speichert sie auf einem Stack von unfertigen Änderungen welche du zu einem anderen Zeitpunkt anwendest.
+Stashing nimmt den unsauberen Teil deines Arbeitsverzeichnis, das heisst deine veränderten und *gestagedten???* Dateien, und speichert sie auf einem Stack von unfertigen Änderungen welche du zu einem anderen Zeitpunkt anwendest.
 
 
 ### Stashing Your Work ###
@@ -572,7 +572,7 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#
 
 
-Um dies zu demonstrieren, gehst du in dein Projekt und beginnst an ein paar Dateien zu arbeiten und <stagest> möglicherweise auch eine der Änderungen. Wenn du nun "git status" aufrufst siehst du deinen unsauberen Status: 
+Um dies zu demonstrieren, gehst du in dein Projekt und beginnst an ein paar Dateien zu arbeiten und *stagest* möglicherweise auch eine der Änderungen. Wenn du nun "git status" aufrufst siehst du deinen unsauberen Status: 
 
 	$ git status
 	# On branch master
@@ -588,7 +588,8 @@ Um dies zu demonstrieren, gehst du in dein Projekt und beginnst an ein paar Date
 	#
 
 Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
-Jetzt möchtest du in einen anderen Branch wechseln, möchtest deine bisherigen Änderungen allerdings nicht committen. Also <stashest> du die Änderungen. Um einen neuen Stash auf den Stack zu legen , rufst du "git stash" auf:
+Jetzt möchtest du in einen anderen Branch wechseln, möchtest deine bisherigen Änderungen allerdings nicht committen. Also *stashest*
+du die Änderungen. Um einen neuen Stash auf den Stack zu legen , rufst du "git stash" auf:
 
 	$ git stash
 	Saved working directory and index state \
@@ -606,7 +607,7 @@ Dein Arbeitsverzeichnis ist nun leer:
 
 At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
 
-Zu diesem Zeitpunkt, kannst du beliebig in andere Branches wechseln und an anderen Sachen arbeiten. Deine Änderungen sind auf deinem Stack gesichert. Um deine gesicherten <Stashes> anzusehen, kannst du "git stash list" aufrufen:
+Zu diesem Zeitpunkt, kannst du beliebig in andere Branches wechseln und an anderen Sachen arbeiten. Deine Änderungen sind auf deinem Stack gesichert. Um deine gesicherten *Stashes* anzusehen, kannst du "git stash list" aufrufen:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
@@ -1167,7 +1168,7 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	$ git status
 	# On branch master
 	# Untracked files:
-	#   (use "git add <file>..." to include in what will be committed)
+	#   (use "git add f<ile>..." to include in what will be committed)
 	#
 	#      rack/
 

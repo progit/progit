@@ -659,7 +659,7 @@ Now, when you run git archive to create a tarball of your project, that director
 
 #### export-subst ####
 
-Eine weitere Möglichkeit Archive zu modifizieren ist einfaches Ersetzen von Schluesselwörtern. Git erlaubt die Zeichenfolge `$Format:$` in jeder Datei mit allen Formatierungskuerzeln des Parameters `--pretty=format`, von denen Du bereits in Kapitel 2 einige kennengelernt hast. Wenn Du zum Beispiel eine Datei namens `LAST_COMMIT` zu Deinem Projekt hinzufuegen willst, und das Datum des Commis bei einem it archive`in die Datei eingefuegt werden soll, so kannst Du die Datei wie folgt einrichten:
+Eine weitere Möglichkeit Archive zu modifizieren ist einfaches Ersetzen von Schluesselwörtern. Git erlaubt die Zeichenfolge `$Format:$` in jeder Datei mit allen Formatierungskuerzeln des Parameters `--pretty=format`, von denen Du bereits in Kapitel 2 einige kennengelernt hast. Wenn Du zum Beispiel eine Datei namens `LAST_COMMIT` zu Deinem Projekt hinzufuegen willst, und das Datum des Commis bei einem it archive in die Datei eingefuegt werden soll, so kannst Du die Datei wie folgt einrichten:
 
 Another thing you can do for your archives is some simple keyword substitution. Git lets you put the string `$Format:$` in any file with any of the `--pretty=format` formatting shortcodes, many of which you saw in Chapter 2. For instance, if you want to include a file named `LAST_COMMIT` in your project, and the last commit date was automatically injected into it when `git archive` ran, you can set up the file like this:
 

@@ -192,6 +192,7 @@ namespace :ci do
         print "OK\n"
       rescue
         print "KO\n"
+        print $!
         error_code = true
       end
     end

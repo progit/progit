@@ -1188,7 +1188,7 @@ Maintenant, supposons que vous avez oublié d'étiqueter le projet à la version
 Vous pouvez toujours le faire après l'évènement.
 Pour étiqueter ce *commit*, vous spécifiez la somme de contrôle du *commit* (ou une partie) en fin de commande :
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 Le *commit* a été étiqueté :
 

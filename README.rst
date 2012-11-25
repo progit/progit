@@ -27,7 +27,7 @@ correction, please email me at schacon at gmail dot com to inform me.
 Translation
 ============
 
-If you wish to translate the book, I will put the translation up on the
-progit.org site.  Please put your translation into the appropriate
-subdirectory of this project (ie: 'it' for Italian and so forth) and send me
-(schacon) a pull request.
+If you wish to translate the book, your work will be put up on the 
+git-scm.com site.  Please put your translation into the appropriate
+subdirectory of this project, using the `ISO 639 <http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_
+and send a pull request. Be careful to use UTF-8 encoding in your files.

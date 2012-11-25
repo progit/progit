@@ -1,0 +1,6 @@
+language: ruby
+script: 'bundle exec rake ci:check'
+rvm:
+  - 1.9.3
+notifications:
+  email: false

@@ -168,7 +168,7 @@ Figure 9-1. Une version simple du modèle de données Git.
 Vous pouvez créer votre propre arbre.
 Git crée habituellement un arbre à partir de l'état de la zone d'attente ou de l'index.
 Pour créer un objet arbre, vous devez donc d'abord mettre en place un index en mettant quelques fichiers en attente.
-Pour créer un index contenant une entrée, la première version de votre fichier text.txt par exemple, utilisons la commande de plomberie `update-index`.
+Pour créer un index contenant une entrée, la première version de votre fichier test.txt par exemple, utilisons la commande de plomberie `update-index`.
 Vous pouvez utiliser cette commande pour ajouter artificiellement une version plus ancienne à une nouvelle zone d'attente.
 Vous devez utiliser les options `--add` car le fichier n'existe pas encore dans votre zone d'attente (vous n'avez même pas encore mis en place une zone d'attente) et `--cacheinfo` car le fichier que vous ajoutez n'est pas dans votre répertoire, mais dans la base de données.
 Vous pouvez ensuite préciser le mode, SHA-1 et le nom de fichier :

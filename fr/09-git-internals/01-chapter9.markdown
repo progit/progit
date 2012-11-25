@@ -561,10 +561,10 @@ contenant le fichier repo.rb :
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-Vous pouvez utilisez `git cat-file` pour connaître la taille de l'objet :
+Vous pouvez vérifier la taille de l'objet sur disque :
 
-	$ git cat-file -s 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e
-	12898
+	$ du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
+	4102	.git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 
 Maintenant, modifiez le fichier un peu et voyez ce qui arrive :
 
@@ -583,10 +583,10 @@ Regardez l'arbre créé par ce *commit* et vous verrez quelque chose d'intéress
 Ce blob est un blob différent.
 Bien que l'on ait ajouté une seule ligne à la fin d'un fichier en faisant 400, Git enregistre ce nouveau contenu dans un objet totalement différent :
 
-	$ git cat-file -s 05408d195263d853f09dca71d55116663690c27c
-	12908
+	$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
+	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
-Il y a donc deux objets de 12Ko quasiment identiques sur le disque.
+Il y a donc deux objets de 4Ko quasiment identiques sur le disque.
 Ne serait-ce pas bien si Git pouvait enregistrer qu'un objet en entier, le deuxième n'étant qu'un delta (une différence) avec le premier ?
 
 Il se trouve que c'est possible.

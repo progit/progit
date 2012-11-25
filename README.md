@@ -20,7 +20,7 @@ On Fedora you can run something like this::
 # Errata
 
 If you see anything that is technically wrong or otherwise in need of
-correction, please email me at schacon at gmail dot com to inform me.
+correction, please [open an issue](https://github.com/progit/progit/issues) and one of the maintainers will take a look.
 
 
 # Translation

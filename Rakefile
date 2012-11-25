@@ -169,7 +169,6 @@ namespace :ci do
       langs = [$lang]
     else
       excluded_langs = [
-        'ca'
         ]
       excluded_langs.each do |lang|
         puts "excluding #{lang}: known to fail"

@@ -810,7 +810,7 @@ Vous allez maintenant apprendre quelques usages communs pour vous donner une id�
 
 #### Supprimer un fichier de chaque *commit* ####
 
-Cela arrive asser fréquemment.
+Cela arrive assez fréquemment.
 Quelqu'un a accidentellement validé un énorme fichier binaire avec une commande `git add .` irréfléchie, and vous voulez le supprimer partout.
 Vous avez peut-être validé un fichier contenant un mot de passe et vous voulez rendre votre projet open source.
 `filter-branch` est l'outil que vous voulez probablement utiliser pour nettoyer votre historique entier.

@@ -1,7 +1,7 @@
-.. buildstatus:: https://secure.travis-ci.org/progit/progit.png?branch=master
-
 Pro Git Book Contents
 =====================
+
+.. buildstatus:: https://secure.travis-ci.org/progit/progit.png?branch=master
 
 This is the source code for the Pro Git book contents.  It is licensed under
 the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license.  I

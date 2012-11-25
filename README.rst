@@ -1,3 +1,5 @@
+.. buildstatus:: https://secure.travis-ci.org/progit/progit.png?branch=master
+
 Pro Git Book Contents
 =====================
 

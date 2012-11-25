@@ -359,6 +359,7 @@ Si vous l'hébergez en interne et avez réglé le DNS pour faire pointer `gitser
 À présent, les autres utilisateurs peuvent cloner le dépôt et y pousser leurs modifications aussi simplement :
 
 	$ git clone git@gitserveur:/opt/git/projet.git
+	$ cd projet
 	$ vim LISEZMOI
 	$ git commit -am 'correction fichier LISEZMOI'
 	$ git push origin master

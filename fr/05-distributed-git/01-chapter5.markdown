@@ -467,12 +467,12 @@ Jessica veut régler quelques détails.
 Elle valide donc encore et pousse ses changements sur le serveur :
 
 	$ git commit -am 'details regles'
-	[fonctionA ed774b3] details regles
+	[fonctionA 774b3ed] details regles
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	$ git push origin fonctionA
 	...
 	To jessica@githost:simplegit.git
-	   3300904..ed774b3  fonctionA -> fonctionA
+	   3300904..774b3ed  fonctionA -> fonctionA
 
 L'historique des *commits* de Jessica ressemble à présent à la figure 5-13.
 

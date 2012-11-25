@@ -445,7 +445,8 @@ Créez un fichier appelé `users.txt` contenant cette équivalence dans le forma
 
 Pour récupérer la liste des noms d'auteurs utilisés par SVN, vous pouvez utiliser la ligne suivante :
 
-	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
+	$ svn log --xml | grep -P "^<author" | sort -u | \
+	      perl -pe 's/<author>(.*?)<\/author>/$1 = /'
 
 Cela génère une sortie au format XML — vous pouvez visualiser les auteurs, créer une liste unique puis éliminer l'XML.
 Évidemment, cette ligne ne fonctionne que sur une machine disposant des commandes `grep`, `sort` et `perl`.
@@ -485,21 +486,23 @@ Premièrement, déplacez les étiquettes pour qu'elles soient de vraies étiquet
 
 Pour déplacer les étiquettes et en faire de vraies étiquettes Git, lancez
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do 
+	git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; 
+	done
 
 Cela récupère les références déclarées comme branches distantes commençant par `tags/` et les transforme en vraies étiquettes (légères).
 
 Ensuite, déplacez le reste des références sous `refs/remotes` en branches locales :
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
-
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do 
+	git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";
+	done
+ 
 À présent, toutes les vieilles branches sont des vraies branches Git et toutes les vieilles étiquettes sont de vraies étiquettes Git.
 La dernière activité consiste à ajouter votre nouveau serveur Git comme serveur distant et à y pousser votre projet transformé.
 Pour pousser tout, y compris branches et étiquettes, lancez :
 
-	$ git push origin --all
+	$ git push origin --tags
 
 Toutes vos données, branches et tags sont à présent disponibles sur le serveur Git comme import propre et naturel.
 

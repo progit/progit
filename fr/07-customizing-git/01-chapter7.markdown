@@ -506,7 +506,7 @@ Maintenant, `git diff` est capable de vous indiquer ce qui a changé dans les fi
 ##### Fichiers image #####
 
 Un autre problème intéressant concerne la comparaison de fichiers d'images.
-Une méthode consiste à faire passer les fichiers JPEG à travers un filtre qui extrait les données EXIF, les méta-données enregistrées avec la plupart de formats d'image.
+Une méthode consiste à faire passer les fichiers PNG à travers un filtre qui extrait les données EXIF, les méta-données enregistrées avec la plupart de formats d'image.
 Si vous téléchargez et installez le programme `exiftool`, vous pouvez l'utiliser pour convertir vos images en texte de méta-données de manière que le diff puisse au moins montrer une représentation textuelle des modifications pratiquées :
 
 	$ echo '*.png diff=exif' >> .gitattributes
@@ -551,8 +551,8 @@ Il est à noter que ce n'est pas le SHA du *commit* mais celui du blob lui-même
 
 À la prochaine extraction de ce fichier, Git injecte le SHA du blob :
 
-	$ rm text.txt
-	$ git checkout -- text.txt
+	$ rm test.txt
+	$ git checkout -- test.txt
 	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
@@ -1019,7 +1019,7 @@ Il y a plusieurs points à relever ici.
 Premièrement, une ligne indique l'endroit où le crochet est appelé.
 
 	Vérification des règles...
-	(refs/heads/master) (fb8c72) (c56860)
+	(refs/heads/master) (8338c5) (c5b616)
 
 Le script `update` affiche ces lignes sur stdout au tout début.
 Tout ce que le script écrit sur stdout sera transmis au client.

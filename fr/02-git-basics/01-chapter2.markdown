@@ -90,7 +90,7 @@ Enfin, la commande vous indique sur quelle branche vous êtes.
 Pour l'instant, c'est toujours *master*, qui correspond à la valeur par défaut ; nous ne nous en soucierons pas maintenant.
 Dans le chapitre suivant, nous parlerons plus en détail des branches et des références.
 
-Supposons que vous ajoutiez un nouveau fichier à votre projet, un simple fichier LISEZMOI.
+Supposons que vous ajoutiez un nouveau fichier à votre projet, un simple fichier `LISEZMOI`.
 Si ce fichier n'existait pas auparavant, et que vous lancez la commande `git status`, vous verrez votre fichier non suivi comme ceci :
 
 	$ vim LISEZMOI
@@ -102,19 +102,19 @@ Si ce fichier n'existait pas auparavant, et que vous lancez la commande `git sta
 	#	LISEZMOI
 	nothing added to commit but untracked files present (use "git add" to track)
 
-Vous pouvez constater que votre nouveau fichier LISEZMOI n'est pas en suivi de version, car il apparaît dans la section "Untracked files" de l'état de la copie de travail.
+Vous pouvez constater que votre nouveau fichier `LISEZMOI` n'est pas en suivi de version, car il apparaît dans la section "Untracked files" de l'état de la copie de travail.
 "Untracked" signifie simplement que Git détecte un fichier qui n'était pas présent dans le dernier instantané ; Git ne le placera sous suivi de version que quand vous lui indiquerez de le faire.
 Ce comportement permet de ne pas placer accidentellement sous suivi de version des fichiers binaires générés ou d'autres fichiers que vous ne voulez pas inclure.
-Mais vous voulez inclure le fichier LISEZMOI dans l'instantané, alors commençons à suivre ce fichier.
+Mais vous voulez inclure le fichier `LISEZMOI` dans l'instantané, alors commençons à suivre ce fichier.
 
 ### Placer de nouveaux fichiers sous suivi de version ###
 
 Pour commencer à suivre un nouveau fichier, vous utilisez la commande `git add`.
-Pour commencer à suivre le fichier LISEZMOI, vous pouvez entrer ceci :
+Pour commencer à suivre le fichier `LISEZMOI`, vous pouvez entrer ceci :
 
 	$ git add LISEZMOI
 
-Si vous lancez à nouveau le commande status, vous pouvez constater que votre fichier LISEZMOI est maintenant suivi et indexé :
+Si vous lancez à nouveau le commande status, vous pouvez constater que votre fichier `LISEZMOI` est maintenant suivi et indexé :
 
 	$ git status
 	# On branch master
@@ -874,7 +874,8 @@ Si vous avez cloné un dépôt, vous devriez au moins voir l'origine `origin` �
 Vous pouvez aussi spécifier `-v`, qui vous montre l'URL que Git a stocké pour chaque nom court :
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 Si vous avez plus d'un dépôt distant, la commande précédente les liste tous.
 Par exemple, mon dépôt Grit ressemble à ceci.
@@ -1187,7 +1188,7 @@ Maintenant, supposons que vous avez oublié d'étiqueter le projet à la version
 Vous pouvez toujours le faire après l'évènement.
 Pour étiqueter ce *commit*, vous spécifiez la somme de contrôle du *commit* (ou une partie) en fin de commande :
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 Le *commit* a été étiqueté :
 

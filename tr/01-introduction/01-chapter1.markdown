@@ -114,9 +114,9 @@ Hazırlık alanı (_staging area_), genellikle Git klasörünüzde bulunan ve bi
 
 Git işleyişi temelde şöyledir:
 
-1.	Çalışma klasörünüzdeki dosyalar üzerinde değişiklik yaparsınız.
-2.	Dosyaları bellek kopyalarını hazırlık alanına ekleyerek hazırlarsınız.
-3.	Dosyaların hazırlık alanındaki hallerini alıp oradaki bellek kopyasını kalıcı olarak Git klasörüne depolayan bir kayıt işlemi yaparsınız.
+1. Çalışma klasörünüzdeki dosyalar üzerinde değişiklik yaparsınız.
+2. Dosyaları bellek kopyalarını hazırlık alanına ekleyerek hazırlarsınız.
+3. Dosyaların hazırlık alanındaki hallerini alıp oradaki bellek kopyasını kalıcı olarak Git klasörüne depolayan bir kayıt işlemi yaparsınız.
 
 Bir dosyanın belirli bir sürümü Git klasöründeyse, onun kaydedilmiş olduğu kabul edilir. Eğer üzerinde değişiklik yapılmış fakat hazırlık alanına eklenmişse, hazırlanmış olduğu söylenir. Ve seçme işleminden sonra üzerinde değişiklik yapılmış fakat kayıt için hazırlanmamışsa, değiştirilmiş olarak nitelenir.
 

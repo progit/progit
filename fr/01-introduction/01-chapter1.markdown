@@ -187,9 +187,9 @@ La zone d'index est un simple fichier, généralement situé dans le répertoire
 
 L'utilisation standard de Git se passe comme suit :
 
-1.	Vous modifiez des fichiers dans votre répertoire de travail
-2.	Vous indexez les fichiers modifiés, ce qui ajoute des instantanés de ces fichiers dans la zone d'index
-3.	Vous validez, ce qui a pour effet de basculer les instantanés des fichiers de l'index dans la base de donnée du répertoire Git.
+1. Vous modifiez des fichiers dans votre répertoire de travail
+2. Vous indexez les fichiers modifiés, ce qui ajoute des instantanés de ces fichiers dans la zone d'index
+3. Vous validez, ce qui a pour effet de basculer les instantanés des fichiers de l'index dans la base de donnée du répertoire Git.
 
 Si une version particulière d'un fichier est dans le répertoire Git, il est considéré comme validé.
 S'il est modifié mais a été ajouté dans la zone d'index, il est indexé.

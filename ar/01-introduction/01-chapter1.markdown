@@ -114,9 +114,9 @@ Insert 18333fig0106.png
 
 خطوات العمل الإعتيادية في Git غالباً ما تكون كالتالي:
 
-1.	تقوم بالتعديلات على الملفات في مجلد العمل.
-2.	تقوم بوضع هذه الملفات في مكان التهييئ (staging area)، حيث تقوم بإضافة اللقطات الى الـ staging area.
-3.	تقوم بعملية Commit، يتم أخذ الملفات المهيئة من مكان التهيئة Staging Area وتقوم بتخزين هذه الللقطة بشكل نهائي في مجلد عمل Git.
+1. تقوم بالتعديلات على الملفات في مجلد العمل.
+2. تقوم بوضع هذه الملفات في مكان التهييئ (staging area)، حيث تقوم بإضافة اللقطات الى الـ staging area.
+3. تقوم بعملية Commit، يتم أخذ الملفات المهيئة من مكان التهيئة Staging Area وتقوم بتخزين هذه الللقطة بشكل نهائي في مجلد عمل Git.
 
 إذا كان هناك إصدار معين لملف، فسيكون Commited. إذا كان معدل ومضاف إلى مكان التهييئ staging area فهو مهيئ staged. 
 If a particular version of a file is in the git directory, it’s considered committed. If it’s modified but has been added to the staging area, it is staged. And if it was changed since it was checked out but has not been staged, it is modified. In Chapter 2, you’ll learn more about these states and how you can either take advantage of them or skip the staged part entirely.

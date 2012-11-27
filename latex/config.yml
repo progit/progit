@@ -68,6 +68,8 @@ ru:
   tab: "Таблица "
   dql: "«"
   dqr: "»"
+  langrule: "\\frenchspacing"
+  thanks: "Это PDF-версия книги Pro Git. Текст книги находится под лицензией Creative Commons Attribution-Non Commercial-Share Alike 3.0. Надеемся, она вам понравится и поможет изучить Git. Если хотите, можете поддержать автора и Apress, купив бумажную версию книги на английском языке на Amazon: \\url{http://tinyurl.com/amazonprogit}.\\newline На сайте перевода книги на русский язык, расположенного по адресу \\url{https://github.com/GArik/progit/wiki}, можно проверить наличие новых версий книги, оставить сообщение об ошибке в тексте, а также скачать книгу в других форматах."
 cs:
   prechap: "Kapitola "
   presect: "Oddíl "

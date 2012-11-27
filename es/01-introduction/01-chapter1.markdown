@@ -112,9 +112,9 @@ El área de preparación es un sencillo archivo, generalmente contenido en tu di
 
 El flujo de trabajo básico en Git es algo así:
 
-1.	Modificas una serie de archivos en tu directorio de trabajo.
-2.	Preparas los archivos, añadiendo instantáneas de ellos a tu área de preparación.
-3.	Confirmas los cambios, lo que toma los archivos tal y como están en el área de preparación, y almacena esa instantánea de manera permanente en tu directorio de Git.
+1. Modificas una serie de archivos en tu directorio de trabajo.
+2. Preparas los archivos, añadiendo instantáneas de ellos a tu área de preparación.
+3. Confirmas los cambios, lo que toma los archivos tal y como están en el área de preparación, y almacena esa instantánea de manera permanente en tu directorio de Git.
 
 Si una versión concreta de un archivo está en el directorio de Git, se considera confirmada (committed). Si ha sufrido cambios desde que se obtuvo del repositorio, pero ha sido añadida al área de preparación, está preparada (staged). Y si ha sufrido cambios desde que se obtuvo del repositorio, pero no se ha preparado, está modificada (modified). En el Capítulo 2 aprenderás más acerca de estos estados, y de cómo puedes aprovecharte de ellos o saltarte toda la parte de preparación.
 

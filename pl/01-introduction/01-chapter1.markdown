@@ -112,9 +112,9 @@ Przechowalnia to prosty plik, zwykle przechowywany w katalogu Git, który zawier
 
 Podstawowy sposób pracy z Git wygląda mniej więcej tak:
 
-1.	Dokonujesz modyfikacji plików w katalogu roboczym.
-2.	Oznaczasz zmodyfikowane pliki jako śledzone, dodając ich bieżący stan (migawkę) do przechowalni.
-3.	Dokonujesz zatwierdzenia (`commit`), podczas którego zawartość plików z przechowalni zapisywana jest jako migawka projektu w katalogu Git.
+1. Dokonujesz modyfikacji plików w katalogu roboczym.
+2. Oznaczasz zmodyfikowane pliki jako śledzone, dodając ich bieżący stan (migawkę) do przechowalni.
+3. Dokonujesz zatwierdzenia (`commit`), podczas którego zawartość plików z przechowalni zapisywana jest jako migawka projektu w katalogu Git.
 
 Jeśli jakaś wersja pliku znajduje się w katalogu git, uznaje się ją jako zatwierdzoną. Jeśli plik jest zmodyfikowany, ale został dodany do przechowalni, plik jest śledzony. Jeśli zaś plik jest zmodyfikowany od czasu ostatniego pobrania, ale nie został dodany do przechowalni, plik jest w stanie zmodyfikowanym. W rozdziale 2 dowiesz się więcej o wszystkich tych stanach oraz o tym jak wykorzystać je do ułatwienia sobie pracy lub jak zupełnie pominąć przechowalnię.
 

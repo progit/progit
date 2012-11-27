@@ -112,9 +112,9 @@ De wachtrij is een simpel bestand, dat zich in het algemeen in je Gitmap bevindt
 
 De algemene manier van werken met Git gaat ongeveer zo:
 
-1.	Je bewerkt bestanden in je werkmap.
-2.	Je bereidt de bestanden voor, waardoor momentopnames worden toegevoegd aan de wachtrij.
-3.	Je maakt een commit. Een commit neemt alle momentopnames van de wachtrij en die permanent bewaard in je Gitmap.
+1. Je bewerkt bestanden in je werkmap.
+2. Je bereidt de bestanden voor, waardoor momentopnames worden toegevoegd aan de wachtrij.
+3. Je maakt een commit. Een commit neemt alle momentopnames van de wachtrij en die permanent bewaard in je Gitmap.
 
 Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd als gecommit. Als het is aangepast, maar wel aan de wachtrij is toegevoegd, is het voorbereid. En als het veranderd is sinds het gekopiëerd werd, maar niet voorbereid is, is het aangepast. In Hoofdstuk 2 leer je meer over deze toestanden en hoe je er voordeel van kunt hebben, maar ook hoe je de wachtrij compleet over kunt slaan.
 

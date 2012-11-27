@@ -112,9 +112,9 @@ Lavastus alue on yksinkertainen tiedosto, yleensä se sisältyy Git hakemistoosi
 
 Normaali Git työnkulku menee jokseenkin näin:
 
-1.	Muokkaat tiedostoja työskentely hakemistossasi.
-2.	Lavastat tiedostosi, lisäten niistä tilannekuvia lavastus alueellesi.
-3.	Teet pysyvän muutoksen, joka ottaa tiedostot kuin ne ovat lavastus alueella ja varastoi tämän tilannekuvan pysyvästi sinun Git tietolähteeseesi.
+1. Muokkaat tiedostoja työskentely hakemistossasi.
+2. Lavastat tiedostosi, lisäten niistä tilannekuvia lavastus alueellesi.
+3. Teet pysyvän muutoksen, joka ottaa tiedostot kuin ne ovat lavastus alueella ja varastoi tämän tilannekuvan pysyvästi sinun Git tietolähteeseesi.
 
 Jos tietty versio tiedostosta on git hakemistossa, se on yhtä kuin pysyvä muutos. Jos sitä on muokattu, mutta se on lisätty lavastus alueelle, se on lavastettu. Ja jos se on muuttunut siitä kun se on haettu, mutta sitä ei ole lavastettu, se on muutettu. Luvussa 2, opit enemmän näistä tiloista ja kuinka voit hyödyntää niitä tai skipata lavastus osan kokonaan.
 

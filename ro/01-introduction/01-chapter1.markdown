@@ -112,9 +112,9 @@ Zona de așteptare (staging [en]) este un simplu fișier, de obicei conținut in
 
 Modelul de lucru a Git poate arată ceva similar cu:
 
-1.	Modificați fișierele din directorul de lucru.
-2.	Puneți fișierele în așteptare, adăugând instantanee ale lor în zona de așteptare.
-3.	Faceți un commit, care preia fișierele în starea curentă din zona de așteptare și stochează acel instantaneu permanent în directorul dumneavoastră Git.
+1. Modificați fișierele din directorul de lucru.
+2. Puneți fișierele în așteptare, adăugând instantanee ale lor în zona de așteptare.
+3. Faceți un commit, care preia fișierele în starea curentă din zona de așteptare și stochează acel instantaneu permanent în directorul dumneavoastră Git.
 
 Dacă o anumită versiune a unui fișier este în directorul Git, este considerat ca și adăugat (commited [en]). Dacă este modificat dar a fost adăugat în zona de așteptare, este în așteptare. Si dacă a fost schimbat de la ultimul moment în care a fost comis dar nu este în așteptare, este modificat. În Capitolul 2, veți învăța mai multe despre aceste stări și cum puteți fie să le folosiți în avantajul dumneavoastră sau să le omiteți complet.
 

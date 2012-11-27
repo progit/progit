@@ -195,9 +195,9 @@ Občas je též nazýván index, ale v angličtině se postupně stává standar
 
 Základní pracovní postup Gitu je pak zhruba takovýto:
 
-1.	Změníte soubory ve svém working directory.
-2.	Vložíte soubory do staging area.
-3.	Vytvoříte commit, který vezme všechny soubory tak, jak jsou ve staging area, a uloží tento snímek permanentně do Git directory.
+1. Změníte soubory ve svém working directory.
+2. Vložíte soubory do staging area.
+3. Vytvoříte commit, který vezme všechny soubory tak, jak jsou ve staging area, a uloží tento snímek permanentně do Git directory.
 
 Pokud je nějaká verze souboru v Git directory, je označována jako commited, pokud je upravena a vložena do staging area, je staged. A konečně
 pokud byla změněna a není staged, pak je modified. V kapitole 2 se dozvíte více o těchto stavech a jak můžete využít jejich výhod, nebo

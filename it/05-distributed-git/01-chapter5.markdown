@@ -111,10 +111,10 @@ Fa come dico, non come faccio.
 
 ### Piccoli team privati ###
 
-La configurazione più semplice e facile da incontrare è il progetto privato con uno o due sviluppatori. Con privato, intendo codice a sorgente chiuso - non accessibile dal resto del mondo. Tu gli altri sviluppatori avete tutti accesso per il push verso il repository.
+La configurazione più semplice e facile da incontrare è il progetto privato con uno o due sviluppatori. Con privato, intendo codice a sorgente chiuso - non accessibile dal resto del mondo. Tu e gli altri sviluppatori avete tutti accesso per il push verso il repository.
 
-In questo ambiente, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion od un altro sistema centralizzato. Hai ancora i vantaggi (ad esempio) di poter eseguire commit da offline e la creazione di rami (ed unione delli stessi) molto più semplici, ma il workflow può restare simile; la differenza principale è che l'unione avviene nel tuo repository piuttosto che in quello sul server nel momento del commit.
-Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a lavorare insieme con un repository condiviso. Il primo sviluppatore, John, clona in repository, fa dei cambiamenti, ed esegue il commit localmente. (Sostituisco il messaggio di protocollo con `...` in questi esempi per brevità.)
+In questo ambiente, puoi utilizzare un workflow simile a quello che magari stai già usando con Subversion od un altro sistema centralizzato. Hai ancora i vantaggi (ad esempio) di poter eseguire commit da offline e la creazione di rami (ed unione degli stessi) molto più semplici, ma il workflow può restare simile; la differenza principale è che, nel momento del commit, l'unione avviene nel tuo repository piuttosto che in quello sul server.
+Vediamo come potrebbe essere la situazione quando due sviluppatori iniziano a lavorare insieme con un repository condiviso. Il primo sviluppatore, John, clona in repository, fa dei cambiamenti ed esegue il commit localmente. (Sostituisco il messaggio di protocollo con `...` in questi esempi per brevità.)
 
 	# Computer di John
 	$ git clone john@githost:simplegit.git
@@ -178,7 +178,7 @@ L'unione fila liscia - ora la cronologia dei commit di John sarà come quella di
 Insert 18333fig0505.png 
 Figura 5-5. Il repository di John dopo aver unito origin/master.
 
-Ora, John può testare il suo codice per essere sicuro che funzioni anche correttamente, e può eseguire il push del tutto verso il server:
+Ora, John può testare il suo codice per essere sicuro che funzioni anche correttamente e può eseguire il push del tutto verso il server:
 
 	$ git push origin master
 	...
@@ -257,7 +257,7 @@ Ogni sviluppatore ha eseguito alcuni commit ed unito il proprio lavoro con quell
 Insert 18333fig0510.png
 Figura 5-10. La cronologia di Jessica dopo aver eseguito il push dei cambiamenti verso il server.
 
-Questo è uno dei workflow più semplici. Lavori per un pò, generalmente in un ramo, ed unisci il tutto al ramo master questo è pronto ad essere integrato. Quando vuoi condividere il tuoi lavoro, uniscilo al tuo ramo master, poi recupera ed unisci `origin/master` se è cambiato, ed infine esegui il push verso il ramo `master` nel server. La sequenza è simile a quella di Figura 5-11.
+Questo è uno dei workflow più semplici. Lavori per un pò, generalmente in un ramo, ed unisci il tutto al ramo master questo è pronto ad essere integrato. Quando vuoi condividere il tuo lavoro, uniscilo al tuo ramo master, poi recupera ed unisci `origin/master` se è cambiato, ed infine esegui il push verso il ramo `master` nel server. La sequenza è simile a quella di Figura 5-11.
 
 Insert 18333fig0511.png
 Figura 5-11. La sequenza generale di eventi per un semplice workflow con Git a più sviluppatori.
@@ -340,7 +340,7 @@ Ora John manda una mail a Jessica dicendo che ha eseguito il push di alcuni camb
 	From jessica@githost:simplegit
 	   3300904..aad881d  featureA   -> origin/featureA
 
-Ora, lei può vedere cos'è stato cambiamento con `git log`:
+Ora, lei può vedere cos'è stato cambiato con `git log`:
 
 	$ git log origin/funzionalitaA ^funzionalitaA
 	commit aad881d154acdaeb2b6b18ea0e827ed8a6d671e6
@@ -374,12 +374,12 @@ Ora la cronologia dei commit di Jessica sarà come quella di Figura 5-13.
 Insert 18333fig0513.png 
 Figura 5-13. La cronologia di Jessica dopo aver eseguito il commit sul ramo.
 
-Jessica, Josie e John informato gli integratori che i rami `funzionalitaA` e `funzionalitaB` sono sul server e pronti per l'integrazione nel ramo `master`. Dopo l'integrazione di questi rami nel `master`, un recupero del ramo principale aggiungerà anche i nuovi commit, rendendo la cronologia dei commit come quella di figura 5.14.
+Jessica, Josie e John informano gli integratori che i rami `funzionalitaA` e `funzionalitaB` sono sul server e pronti per l'integrazione nel ramo `master`. Dopo l'integrazione di questi rami nel `master`, un recupero del ramo principale aggiungerà anche i nuovi commit, rendendo la cronologia dei commit come quella di figura 5.14.
 
 Insert 18333fig0514.png
 Figura 5.14. La cronologia di Jessica dopo aver unito entrambi i rami.
 
-Molti gruppi migrano verso Git per la sua capacità di avere più team a lavorarare in parallelo, unendo le differenti linee di lavoro alla fine del processo. L'abilità di piccoli sotto gruppi di una squadra di collaborare tramite rami remoti senza necessariamenti dover coinvolgere o ostacolare l'intero team è un grande beneficio di Git. La sequenza per il workflow che hai appena visto è rappresentata dalla Figura 5-15.
+Molti gruppi migrano verso Git per la sua capacità di avere più team a lavorarare in parallelo, unendo le differenti linee di lavoro alla fine del processo. L'abilità di piccoli sotto gruppi di una squadra di collaborare tramite rami remoti senza necessariamente dover coinvolgere o ostacolare l'intero team è un grande beneficio di Git. La sequenza per il workflow che hai appena visto è rappresentata dalla Figura 5-15.
 
 Insert 18333fig0515.png
 Figura 5-15. Sequenza base di questo workflow con team separati.
@@ -388,7 +388,7 @@ Figura 5-15. Sequenza base di questo workflow con team separati.
 
 Contribuire ad un progetto pubblico è leggermente differente. Dato che non hai il permesso di aggiornare direttamente i rami del progetto, devi far avere il tuo lavoro ai mantenitori in qualche altro modo. Questo esempio descrive la contribuzione via fork su host Git che lo supportano in maniera semplice. I siti repo.or.cz e GitHub lo supportano, e molti altri mantenitori di progetti si aspettano questo tipo di contribuzione. La prossima sezione si occupa di progetti che preferiscono accettare patch via e-mail
 
-Innanzitutto, probabilemnte dovrai clonare il repository principale, creare un ramo per le modifiche che hai in programma di fare, e fare li il tuo lavoro. La sequenza è grossomodo questa:
+Innanzitutto, probabilemnte dovrai clonare il repository principale, creare un ramo per le modifiche che hai in programma di fare, e fare li il tuo lavoro. La sequenza è grosso modo questa:
 
 	$ git clone (url)
 	$ cd project
@@ -428,7 +428,7 @@ Il comando `request-pull` riceve come parametri il ramo base sul quale vuoi far 
 	 lib/simplegit.rb |   10 +++++++++-
 	 1 files changed, 9 insertions(+), 1 deletions(-)
 
-L'output può venir inviarto al mantenitore - riporta da dove è stato creato il nuovo ramo, un riassunto dei commit e dice da dove possono eseguire il pull.
+L'output può essere inviato al mantenitore. Esso riporta da dove è stato creato il nuovo ramo, un riassunto dei commit e dice da dove si può eseguire il pull.
 
 Su un progetto dove non sei il mantenitore, è generalmente comune avere un ramo come `master` sempre collegato a `origin/master` ed eseguire il tuo lavoro su rami che puoi eliminare nel caso non venissero accettati. Avere il lavoro suddiviso in rami inoltre rende semplice per te eseguire il rebase del tuo lavoro se è stato modificato il repository principale ed i tuoi commit non possono venire applicati in maniera pulita. Per esempio, se vuoi aggiungere un secondo argomento di lavoro ad un progetto, non continuare a lavorare sul ramo di cui hai appena fatto il push - creane un altro partendo dal ramo `master` del repository:
 
@@ -439,12 +439,12 @@ Su un progetto dove non sei il mantenitore, è generalmente comune avere un ramo
 	$ (email al mantenitore)
 	$ git fetch origin
 
-Ora, ognuno dei tuoi lavori è separato - simile ad una coda di modifiche - che puoi riscrivere, effettuare un rebase, e modificare senza che i rami interferiscano o dipendano l'uno dall'altro, come in Figura 5-16.
+Ora, ognuno dei tuoi lavori è separato, simile ad una coda di modifiche. Puoi riscrivere, modificare o effettuare un rebase, senza che i rami interferiscano o dipendano l'uno dall'altro, come in Figura 5-16.
 
 Insert 18333fig0516.png 
 Figura 5-16. Conologia iniziale dei commit con del lavoro su funzionalitaB.
 
-Diciamo che il mantenitore del progetto ha eseguito il pull una manciata di altre modifiche, e provato il tuo primo ramo, ma non riesce più ad applicarsi in maniera pulita. In questo caso, puoi provare ad effettuare un rebase di quel ramo basandoti sul nuovo `origin/master`, risolvere in conflitti e poi inviare di nuovo i tuoi cambiamenti:
+Diciamo che il mantenitore del progetto ha eseguito il pull, una manciata di altre modifiche e provato il tuo primo ramo ma non riesce più ad applicare tali modifiche in maniera pulita. In questo caso, puoi provare ad effettuare un rebase di quel ramo basandoti sul nuovo `origin/master`, risolvere i conflitti e poi inviare di nuovo i tuoi cambiamenti:
 
 	$ git checkout funzionalitaA
 	$ git rebase origin/master
@@ -465,7 +465,7 @@ Diamo un'occhiata ad un possibile scenario: il mantenitore ha guardato al tuo la
 	$ git commit
 	$ git push miofork funzionalitaBv2
 
-L'opzione `--squash` prende tutto il lavoro nel ramo da unire e lo aggiunge al ramo in cui sei. L'opzione `no-commit` dice a Git di non eseguire automaticamente un commit. Questo ti consente di aggiungere i cambiamenti da un altro ramo e poi eseguire altre modifiche prima di effettuare il nuovo commit.
+L'opzione `--squash` prende tutto il lavoro nel ramo da unire e lo aggiunge come un singolo commit al ramo in cui sei. L'opzione `no-commit` dice a Git di non eseguire automaticamente il commit. Questo ti consente di aggiungere i cambiamenti da un altro ramo e poi eseguire altre modifiche prima di effettuare il nuovo commit.
 
 Ora puoi inviare al mantenitore un messaggio dicendo che hai effettuato i cambiamenti richiesti e che può trovare nel ramo `funzionalitaBv2` (vedi Figura 5-18).
 

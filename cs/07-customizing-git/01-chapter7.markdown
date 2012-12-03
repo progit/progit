@@ -451,7 +451,7 @@ Při příštím checkoutu tohoto souboru Git vloží SHA blobu:
 
 Tento výsledek má však omezené použití. Pokud nahradíte klíčové slovo v systému CVS nebo Subversion, můžete přidat časový údaj (datestamp) – SHA tu není moc platné, protože je generováno náhodně a nelze podle něj určit, zda je jedna revize starší než jiná.
 
-Jak zjistíte, můžete pro substituce v souborech určených k zapsání/checkoutu napsat i vlastní filtry. Jedná se o filtry clean a smudge. V souboru `.gitattributes` můžete určit filtr pro konkrétní umístění a nastavit skripty, jimiž budou zpracovány soubory těsně před jejich zapsáním („clean“ – viz obrázek 7-2) a těsně před checkoutem („smudge – viz obrázek 7-3). Tyto filtry lze nastavit k různým šikovným úkonům.
+Jak zjistíte, můžete pro substituce v souborech určených k zapsání/checkoutu napsat i vlastní filtry. Jedná se o filtry clean a smudge. V souboru `.gitattributes` můžete určit filtr pro konkrétní umístění a nastavit skripty, jimiž budou zpracovány soubory těsně před jejich zapsáním („clean“ – viz obrázek 7-2) a těsně před checkoutem („smudge“ – viz obrázek 7-3). Tyto filtry lze nastavit k různým šikovným úkonům.
 
 Insert 18333fig0702.png
 Obrázek 7-2. Filtr smudge spuštěný při checkoutu – git checkout

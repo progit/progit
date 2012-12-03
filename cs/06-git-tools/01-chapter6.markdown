@@ -663,7 +663,7 @@ Po uložení zprávy budete mít jedinou revizi, která bude obsahovat všechny 
 
 ### Rozdělení revize ###
 
-Rozdělení revize vrátí všechny změny v revizi obsažené a po částech je znovu připraví a zapíše do tolika revizí, kolik určíte jako konečný počet. Řekněme, že chcete rozdělit třeba prostřední ze svých tří revizí. Revizi „updated README formatting and added blame“ chcete rozdělit do dvou jiných: updated README formatting“ jako první a „added blame“ jako druhou. Můžete to provést pomocí skriptu `rebase -i`. U revize, kterou si přejete rozdělit, změňte instrukci na edit:
+Rozdělení revize vrátí všechny změny v revizi obsažené a po částech je znovu připraví a zapíše do tolika revizí, kolik určíte jako konečný počet. Řekněme, že chcete rozdělit třeba prostřední ze svých tří revizí. Revizi „updated README formatting and added blame“ chcete rozdělit do dvou jiných: „updated README formatting“ jako první a „added blame“ jako druhou. Můžete to provést pomocí skriptu `rebase -i`. U revize, kterou si přejete rozdělit, změňte instrukci na edit:
 
 	pick f7f3f6d changed my name a bit
 	edit 310154e updated README formatting and added blame

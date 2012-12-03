@@ -117,7 +117,7 @@ Je-li tato hodnota nastavena, Git barevně zvýrazní výstup přicházející n
 
 Možnost `color.ui = always` využijete zřídka. Chcete-li použít barevné kódy v přesměrovaném výstupu, můžete většinou místo toho přidat k příkazu Git příznak `--color`. Po jeho zadání příkaz použije barevné kódy. Téměř vždy vystačíte s příkazem `color.ui = true`.
 
-#### color.* ####
+#### `color.*` ####
 
 Pokud byste rádi nastavili přesněji jak budou zvýrazněny různé příkazy nebo máte starší verzi, nabízí Git nastavení barev pro jednotlivé příkazy. Každý z příslušných parametrů může nabývat hodnoty na `true` (pravda), `false` (nepravda) nebo `always` (vždy):
 

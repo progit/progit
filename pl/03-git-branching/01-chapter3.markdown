@@ -96,16 +96,16 @@ Zobaczmy, dlaczego ty też powinieneś.
 
 Zajmijmy się prostym przykładem rozgałęziania i scalania używając schematu, jakiego mógłbyś użyć w rzeczywistej pracy. W tym celu wykonasz następujące czynności:
 
-1.	Wykonasz pracę nad stroną internetową.
-2.	Stworzysz gałąź dla nowej funkcji, nad którą pracujesz.
-3.	Wykonasz jakąś pracę w tej gałęzi.
+1. Wykonasz pracę nad stroną internetową.
+2. Stworzysz gałąź dla nowej funkcji, nad którą pracujesz.
+3. Wykonasz jakąś pracę w tej gałęzi.
 
 Na tym etapie otrzymasz telefon, że inny problem jest obecnie priorytetem i potrzeba błyskawicznej poprawki. Oto, co robisz:
 
-1.	Powrócisz na gałąź produkcyjną.
-2.	Stworzysz nową gałąź, by dodać tam poprawkę.
-3.	Po przetestowaniu, scalisz gałąź z poprawką i wypchniesz zmiany na serwer produkcyjny.
-4.	Przełączysz się na powrót do gałęzi z nową funkcją i będziesz kontynuować pracę.
+1. Powrócisz na gałąź produkcyjną.
+2. Stworzysz nową gałąź, by dodać tam poprawkę.
+3. Po przetestowaniu, scalisz gałąź z poprawką i wypchniesz zmiany na serwer produkcyjny.
+4. Przełączysz się na powrót do gałęzi z nową funkcją i będziesz kontynuować pracę.
 
 ### Podstawy rozgałęziania ###
 

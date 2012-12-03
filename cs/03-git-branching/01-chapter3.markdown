@@ -96,16 +96,16 @@ Podívejme se, jaké výhody jim z toho plynou.
 
 Vytvořme si jednoduchý příklad větvení a slučování s pracovním postupem, který můžete využít i v reálném životě. Budete provádět tyto kroky:
 
-1.	 Pracujete na webových stránkách.
-2.	 Vytvoříte větev pro novou část stránek, v níž budete pracovat.
-3.	 Vytvoříte práci v této větvi.
+1.  Pracujete na webových stránkách.
+2.  Vytvoříte větev pro novou část stránek, v níž budete pracovat.
+3.  Vytvoříte práci v této větvi.
 
 V tomto okamžiku vám zavolají, že se vyskytla jiná kritická chyba, která vyžaduje hotfix. Uděláte následující:
 
-1.	 Vrátíte se zpět na produkční větev.
-2.	 Vytvoříte větev pro přidání hotfixu.
-3.	 Po úspěšném otestování začleníte větev s hotfixem a odešlete ji do produkce.
-4.	 Přepnete zpět na svou původní část a pokračujete v práci.
+1.  Vrátíte se zpět na produkční větev.
+2.  Vytvoříte větev pro přidání hotfixu.
+3.  Po úspěšném otestování začleníte větev s hotfixem a odešlete ji do produkce.
+4.  Přepnete zpět na svou původní část a pokračujete v práci.
 
 ### Základní větvení ###
 

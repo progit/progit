@@ -135,17 +135,17 @@ Voyons pourquoi vous devriez en faire autant.
 Suivons un exemple simple de branche et fusion dans une utilisation que vous feriez dans le monde réel.
 Vous feriez les étapes suivantes :
 
-1.	Travailler sur un site web
-2.	Créer une branche pour une nouvelle Story sur laquelle vous souhaiteriez travailler
-3.	Réaliser quelques tâches sur cette branche
+1. Travailler sur un site web
+2. Créer une branche pour une nouvelle Story sur laquelle vous souhaiteriez travailler
+3. Réaliser quelques tâches sur cette branche
 
 À cette étape, vous recevez un appel pour vous dire qu'un problème critique a été découvert et qu'il faut le régler au plus tôt.
 Vous feriez ce qui suit :
 
-1.	Revenir à la branche de production
-2.	Créer une branche et y développer le correctif
-3.	Après un test, fusionner la branche de correctif et pousser le résultat à la production
-4.	Rebasculer à la branche initiale et continuer le travail
+1. Revenir à la branche de production
+2. Créer une branche et y développer le correctif
+3. Après un test, fusionner la branche de correctif et pousser le résultat à la production
+4. Rebasculer à la branche initiale et continuer le travail
 
 ### Le branchement de base ###
 

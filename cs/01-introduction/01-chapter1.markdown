@@ -112,9 +112,9 @@ Oblast připravených změn je jednoduchý soubor, většinou uložený v adres�
 
 Standardní pracovní postup vypadá v systému Git následovně:
 
-1.	 Změníte soubory ve svém pracovním adresáři.
-2.	 Soubory připravíte k uložení tak, že vložíte jejich snímky do oblasti připravených změn.
-3.	 Zapíšete revizi. Snímky souborů, uložené v oblasti připravených změn, se trvale uloží do adresáře Git.
+1.  Změníte soubory ve svém pracovním adresáři.
+2.  Soubory připravíte k uložení tak, že vložíte jejich snímky do oblasti připravených změn.
+3.  Zapíšete revizi. Snímky souborů, uložené v oblasti připravených změn, se trvale uloží do adresáře Git.
 
 Nachází-li se konkrétní verze souboru v adresáři Git, je považována za zapsanou. Pokud je modifikovaná verze přidána do oblasti připravených změn, je považována za připravenou k zapsání. A pokud byla od posledního checkoutu změněna, ale nebyla připravena k zapsání, je považována za změněnou. O těchto stavech, způsobech jak je co nejlépe využívat nebo i o tom, jak přeskočit proces připravení souborů, se dozvíte v kapitole 2.
 

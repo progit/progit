@@ -96,16 +96,16 @@ Laten we eens kijken waarom je dat zou moeten doen.
 
 Laten we eens door een eenvoudig voorbeeld van branchen en mergen stappen met een werkwijze die je zou kunnen gebruiken in de echte wereld. Je zult deze stappen volgen:
 
-1.	Werken aan een website.
-2.	Een branch aanmaken voor een nieuw verhaal waar je aan werkt.
-3.	Wat werk doen in die branch.
+1. Werken aan een website.
+2. Een branch aanmaken voor een nieuw verhaal waar je aan werkt.
+3. Wat werk doen in die branch.
 
 Dan ontvang je een telefoontje dat je een ander probleem direct moet repareren. Je zult het volgende doen:
 
-1.	Terugdraaien naar je productie branch.
-2.	Een branch aanmaken om de snelle reparatie toe te voegen.
-3.	Nadat het getest is, de snelle reparatie branch samenvoegen, en dat naar productie terugzetten.
-4.	Terugschakelen naar je originele verhaal en doorgaan met werken.
+1. Terugdraaien naar je productie branch.
+2. Een branch aanmaken om de snelle reparatie toe te voegen.
+3. Nadat het getest is, de snelle reparatie branch samenvoegen, en dat naar productie terugzetten.
+4. Terugschakelen naar je originele verhaal en doorgaan met werken.
 
 ### Eenvoudig branchen ###
 

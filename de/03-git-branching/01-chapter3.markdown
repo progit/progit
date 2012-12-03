@@ -103,16 +103,16 @@ Lass uns mal sehen, warum du das machen solltest.
 
 Lass uns das Ganze an einem Beispiel durchgehen, dessen Workflow zum Thema Branching und Zusammenführen du im echten Leben verwenden kannst. Folge einfach diesen Schritten:
 
-1.	Arbeite an einer Webseite.
-2.	Erstell einen Branch für irgendeine neue Geschichte, an der du arbeitest.
-3.	Arbeite in dem Branch.
+1. Arbeite an einer Webseite.
+2. Erstell einen Branch für irgendeine neue Geschichte, an der du arbeitest.
+3. Arbeite in dem Branch.
 
 In diesem Augenblick kommt ein Anruf, dass ein kritisches Problem aufgetreten ist und sofort gelöst werden muss. Du machst folgendes:
 
-1.	Geh zurück zu deinem "Produktiv"-Zweig.
-2.	Erstelle eine Branch für den Hotfix.
-3.	Nach dem Testen führst du den Hotfix-Branch mit dem "Produktiv"-Branch zusammen.
-4.	Schalte wieder auf deine alte Arbeit zurück und werkel weiter.
+1. Geh zurück zu deinem "Produktiv"-Zweig.
+2. Erstelle eine Branch für den Hotfix.
+3. Nach dem Testen führst du den Hotfix-Branch mit dem "Produktiv"-Branch zusammen.
+4. Schalte wieder auf deine alte Arbeit zurück und werkel weiter.
 
 ### Branching Grundlagen ###
 

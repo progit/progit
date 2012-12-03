@@ -49,12 +49,12 @@ Because Git allows you to have multiple remote repositories, it’s possible to 
 
 Weil Git ermöglicht, eine Vielzahl von externen Repositories zu betreiben, ist es außerdem möglich, einen Arbeitsprozess zu gestalten, in dem jeder Entwickler Schreibzugriff auf sein eigenes öffentliches Repository hat, aber nur Lesezugriff auf die Repositories von allen anderen Beteiligten. In diesem Szenario stellt jedes Repository ein eigenes "offizielles" Projekt dar. Um zu einem solchen distribuierten Projekt Änderungen beizusteuern, kannst du einen eigenen, öffentlichen Klon des Projektes anlegen und deine Änderungen dort publizieren. Anschließend kannst du den Betreiber des Haupt-Repositories bitten, deine Änderungen in sein Repository zu übernehmen. Er kann dann dein Repository als ein externes Repository auf seinem Rechner einrichten, deine Änderungen lokal testen, sie in einen seiner Branches (z.B. master) mergen und dann in sein öffentliches Repository pushen. Dieser Prozess läuft wie folgt ab (siehe Bild 5-2):
 
-1.	The project maintainer pushes to their public repository.
-2.	A contributor clones that repository and makes changes.
-3.	The contributor pushes to their own public copy.
-4.	The contributor sends the maintainer an e-mail asking them to pull changes.
-5.	The maintainer adds the contributor’s repo as a remote and merges locally.
-6.	The maintainer pushes merged changes to the main repository.
+1. The project maintainer pushes to their public repository.
+2. A contributor clones that repository and makes changes.
+3. The contributor pushes to their own public copy.
+4. The contributor sends the maintainer an e-mail asking them to pull changes.
+5. The maintainer adds the contributor’s repo as a remote and merges locally.
+6. The maintainer pushes merged changes to the main repository.
 
 1.  Der Projekt Betreiber pusht in ein öffentliches Repository.
 2.  Ein Mitarbeiter klont das Repository und nimmt Änderungen daran vor.
@@ -80,10 +80,10 @@ This is a variant of a multiple-repository workflow. It’s generally used by hu
 
 Dies ist Variante eines Workflows mit zahlreichen Repositories, die normalerweise von sehr großen Projekten mit hunderten von Mitarbeitern verwendet wird. Das bekannteste Beispiel ist wahrscheinlich der Linux Kernel. In diesem Projekt sind zahlreiche Integration Manager, die "Leutnants", für verschiedene Bereiche des Repositories zuständig. Für sämtliche Leutnants gibt es wiederum einen Integration Manager, der als der "wohlwollende Diktator" ("benevolent dictator") bezeichnet wird. Das Repository des wohlwollenden Diktators fungiert als das Referenz-Repository aus dem alle Beteiligten ihre eigenen Repositories aktualisieren müssen. Dieser Prozess funktioniert also wie folgt (siehe Bild 5-3)
 
-1.	Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
-2.	Lieutenants merge the developers’ topic branches into their master branch.
-3.	The dictator merges the lieutenants’ master branches into the dictator’s master branch.
-4.	The dictator pushes their master to the reference repository so the other developers can rebase on it.
+1. Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
+2. Lieutenants merge the developers’ topic branches into their master branch.
+3. The dictator merges the lieutenants’ master branches into the dictator’s master branch.
+4. The dictator pushes their master to the reference repository so the other developers can rebase on it.
 
 1.  Normale Entwickler arbeiten in ihren Arbeitsbranches (xxx) und rebasen (xxx) ihre Änderungen auf der Basis des Master Branches. Der Master Branch ist derjenige des Diktators.
 2.  Die Leutnants mergen die Arbeitsbranches der Entwickler in ihre Master Branches.

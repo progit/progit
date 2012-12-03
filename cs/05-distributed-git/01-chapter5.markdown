@@ -24,12 +24,12 @@ Tento pracovní postup může být pro mnoho lidí zajímavý, protože je to sc
 
 Protože Git umožňuje, abyste měli několik vzdálených repozitářů, lze použít pracovní postup, kdy má každý vývojář oprávnění k zápisu do vlastního veřejného repozitáře a oprávnění pro čtení k repozitářům všech ostatních. Tento scénář často zahrnuje jeden standardní repozitář, který reprezentuje „oficiální“ projekt. Chcete-li do tohoto projektu přispívat, vytvořte vlastní veřejný klon projektu a odešlete do něj změny, které jste provedli. Poté odešlete správci hlavního projektu žádost, aby do projektu natáhl vaše změny. Váš repozitář může přidat jako vzdálený repozitář, lokálně otestovat vaše změny, začlenit je do své větve a odeslat zpět do svého repozitáře. Postup práce je následující (viz obrázek 5-2):
 
-1.	Správce projektu odešle data do svého veřejného repozitáře.
-2.	Přispěvatel naklonuje tento repozitář a provede změny.
-3.	Přispěvatel odešle změny do své vlastní veřejné kopie.
-4.	Přispěvatel pošle správci e-mail s žádostí, aby natáhl změny do projektu.
-5.	Správce přidá repozitář přispěvatele jako vzdálený repozitář a provede lokální začlenění.
-6.	Správce odešle začleněné změny do hlavního repozitáře.
+1. Správce projektu odešle data do svého veřejného repozitáře.
+2. Přispěvatel naklonuje tento repozitář a provede změny.
+3. Přispěvatel odešle změny do své vlastní veřejné kopie.
+4. Přispěvatel pošle správci e-mail s žádostí, aby natáhl změny do projektu.
+5. Správce přidá repozitář přispěvatele jako vzdálený repozitář a provede lokální začlenění.
+6. Správce odešle začleněné změny do hlavního repozitáře.
 
 Insert 18333fig0502.png
 Obrázek 5-2. Pracovní postup s integračním manažerem
@@ -40,10 +40,10 @@ Tento pracovní postup je velmi rozšířený na stránkách jako GitHub, kde je
 
 Jedná se o variantu pracovního postupu s více repozitáři. Většinou se používá u obřích projektů se stovkami spolupracovníků. Možná nejznámějším příkladem je vývoj jádra Linuxu. Několik různých integračních manažerů odpovídá za konkrétní části repozitáře – říká se jím poručíci (lieutenants). Všichni poručíci mají jednoho integračního manažera, kterému se říká „benevolentní diktátor“. Repozitář benevolentního diktátora slouží jako referenční repozitář, z nějž všichni spolupracovníci musí stahovat data. Postup práce je následující (viz obrázek 5-3):
 
-1.	Stálí vývojáři pracují na svých tematických větvích a přeskládávají svou práci na vrchol hlavní větve. Hlavní větev je větev diktátora.
-2.	Poručíci začleňují tematické větve vývojářů do svých hlavních větví.
-3.	Diktátor začleňuje hlavní větve poručíků do své hlavní větve.
-4.	Diktátor odesílá svou hlavní větev do referenčního repozitáře, aby si na jeho základě mohli ostatní vývojáři přeskládat data.
+1. Stálí vývojáři pracují na svých tematických větvích a přeskládávají svou práci na vrchol hlavní větve. Hlavní větev je větev diktátora.
+2. Poručíci začleňují tematické větve vývojářů do svých hlavních větví.
+3. Diktátor začleňuje hlavní větve poručíků do své hlavní větve.
+4. Diktátor odesílá svou hlavní větev do referenčního repozitáře, aby si na jeho základě mohli ostatní vývojáři přeskládat data.
 
 Insert 18333fig0503.png
 Obrázek 5-3. Pracovní postup s benevolentním diktátorem

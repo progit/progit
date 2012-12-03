@@ -24,12 +24,12 @@ Deze werkwijze is voor een hoop mensen aantrekkelijk omdat het een wijze is waar
 
 Omdat Git je toestaat om meerdere remote repositories te hebben, is het mogelijk om een werkwijze te hebben waarbij iedere ontwikkelaar schrijftoegang heeft tot zijn eigen publieke repository en leestoegang op de andere. Dit scenario heeft vaak een gezagdragend repository dat het "officiele" project voorstelt. Om bij te kunnen dragen tot dat project, maak je je eigen publieke clone van het project en zet je wijzigingen daarin terug. Daarna stuur je een verzoek naar de eigenaar van het hoofdproject om jouw wijzigingen binnen te halen. Hij kan je repository toevoegen als een remote, je wijzigingen lokaal testen, ze in zijn branch samenvoegen, en naar zijn repository terugzetten. Het proces werkt als volgt (zie Figuur 5-2):
 
-1.	De projecteigenaar zet terug naar zijn eigen repository.
-2.	Een bijdrager clonet dat repository en maakt wijzigingen.
-3.	De bijdrager zet terug naar zijn eigen publieke kopie.
-4.	De bijdrager stuurt de eigenaar een e-mail met de vraag om de wijzigingen binnen te halen.
-5.	De eigenaar voegt het repo van de bijdrager toe als een remote en voegt lokaal samen.
-6.	De eigenaar zet samengevoegde wijzigingen terug in het hoofdrepository.
+1. De projecteigenaar zet terug naar zijn eigen repository.
+2. Een bijdrager clonet dat repository en maakt wijzigingen.
+3. De bijdrager zet terug naar zijn eigen publieke kopie.
+4. De bijdrager stuurt de eigenaar een e-mail met de vraag om de wijzigingen binnen te halen.
+5. De eigenaar voegt het repo van de bijdrager toe als een remote en voegt lokaal samen.
+6. De eigenaar zet samengevoegde wijzigingen terug in het hoofdrepository.
 
 Insert 18333fig0502.png 
 Figuur 5-2. Integratie-manager werkwijze.
@@ -40,10 +40,10 @@ Dit is een veel voorkomende werkwijze bij websites zoals GitHub, waarbij het een
 
 Dit is een variant op de multi-repository werkwijze. Het wordt over het algemeen gebruikt bij enorme projecten met honderden bijdragers; een bekend voorbeeld is de Linux-kernel. Een aantal integrators geven de leiding over bepaalde delen van het repository; zij worden luitenanten genoemd. Alle luitenanten hebben één integrator die bekend staat als de welwillende dictator. Het repository van de welwillende dictator dient als het referentierepository vanwaar alle bijdragers dienen binnen te halen. Het proces werkt als volgt (zie Figuur 5-3):
 
-1.	Reguliere ontwikkelaars werken op hun eigen onderwerp branch en rebasen hun werk op de hoofdbranch. De hoofdbranch is die van de dictator.
-2.	Luitenanten voegen de onderwerp branches van de ontwikkelaars samen in hun hoofdbranch.
-3.	De dictator voegt de hoofdbranches van de luitenanten samen in de "dictatorhoofdbranch".
-4.	De dictator zet zijn hoofdbranch terug naar het referentierepository zodat de andere ontwikkelaars kunnen rebasen.
+1. Reguliere ontwikkelaars werken op hun eigen onderwerp branch en rebasen hun werk op de hoofdbranch. De hoofdbranch is die van de dictator.
+2. Luitenanten voegen de onderwerp branches van de ontwikkelaars samen in hun hoofdbranch.
+3. De dictator voegt de hoofdbranches van de luitenanten samen in de "dictatorhoofdbranch".
+4. De dictator zet zijn hoofdbranch terug naar het referentierepository zodat de andere ontwikkelaars kunnen rebasen.
 
 Insert 18333fig0503.png  
 Figuur 5-3. Welwillende-dictatorwerkwijze.

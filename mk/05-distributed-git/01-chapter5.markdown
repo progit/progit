@@ -24,12 +24,12 @@ Insert 18333fig0501.png
 
 Бидејќи Git дозволува да има повеќе оддалечени репозиторија, може да постои начин на работа каде што секој девелопер ќе има права за запишување единствено во своето репозитори, и права за читање на сите други репозиторија. Ова сценарио најчесто пропишу-ва кое репозитори ќе го претставува "официјалниот" проект. За да учествувате во таков проект, треба да направите јавно репозитори клон на проектот, и да уфрлате измени во него. Понатаму, може да пратите барање до оној што го одржува проектот да ги повлече(pull) вашите промени. Тие можат да го додадат вашето репозитори како оддалечено (remote repository), да ги тестираат вашите промени локално, да ги спојат во нивната гранка на развој, и сето тоа да го уфрлат во нивното репозитори. Процесот функционира вака (види слика 5-2):
 
-1.	Одржувачот на проектот уфрла во неговот јавно репозитори.
-2.	Учесниците го клонираат тоа репозитори и прават измени.
-3.	Учесникот уфрла во своето јавно репозитори.
-4.	Учесникот му испраќа e-mail на одржувачот со барање да ги земе/повлече(pull) измените.
-5.	Одржувачот го додава репозиторито на учесникот како оддалечено и ги спојува изме-ните локално.
-6.	Одржувачот ги уфрла(push) споените измени во главното репозитори.
+1. Одржувачот на проектот уфрла во неговот јавно репозитори.
+2. Учесниците го клонираат тоа репозитори и прават измени.
+3. Учесникот уфрла во своето јавно репозитори.
+4. Учесникот му испраќа e-mail на одржувачот со барање да ги земе/повлече(pull) измените.
+5. Одржувачот го додава репозиторито на учесникот како оддалечено и ги спојува изме-ните локално.
+6. Одржувачот ги уфрла(push) споените измени во главното репозитори.
 
 Insert 18333fig0502.png 
 Слика 5-2. Начин на работа на Менаџер за Интеграција.
@@ -40,10 +40,10 @@ Insert 18333fig0502.png
 
 This is a variant of a multiple-repository workflow. It’s generally used by huge projects with hundreds of collaborators; one famous example is the Linux kernel. Various integration managers are in charge of certain parts of the repository; they’re called lieutenants. All the lieutenants have one integration manager known as the benevolent dictator. The benevolent dictator’s repository serves as the reference repository from which all the collaborators need to pull. The process works like this (see Figure 5-3):
 
-1.	Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
-2.	Lieutenants merge the developers’ topic branches into their master branch.
-3.	The dictator merges the lieutenants’ master branches into the dictator’s master branch.
-4.	The dictator pushes their master to the reference repository so the other developers can rebase on it.
+1. Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
+2. Lieutenants merge the developers’ topic branches into their master branch.
+3. The dictator merges the lieutenants’ master branches into the dictator’s master branch.
+4. The dictator pushes their master to the reference repository so the other developers can rebase on it.
 
 Insert 18333fig0503.png  
 Figure 5-3. Benevolent dictator workflow.

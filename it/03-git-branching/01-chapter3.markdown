@@ -96,16 +96,16 @@ Vediamo perchè dovreste farlo.
 
 Facciamo un semplice esempio di branch e merge che si potrebbe utilizzare nel mondo reale. Segui questi passi:
 
-1.	Lavora su un sito web.
-2.      Crea un branch per un nuovo lavoro sul quale stai lavorando.
-3.      Fai qualche lavoro in questo branch.
+1. Lavora su un sito web.
+2. Crea un branch per un nuovo lavoro sul quale stai lavorando.
+3. Fai qualche lavoro in questo branch.
 
 A questo punto, ricevi una chiamata, venendo a conoscenza che un altro problema è critico e avrai bisogno di fixarlo. Farai le seguenti operazioni:
 
-1.	Tornerai al branch di produzione (il principale).
-2.      Creerai un branch per aggiungere l'hotfix.
-3.      Dopo averlo testato, farai un'operazione di merge con il branch, e lo inserirai nella produzione.
-4.      Tornerai al tuo vecchio lavoro e continuerai a lavorare.
+1. Tornerai al branch di produzione (il principale).
+2. Creerai un branch per aggiungere l'hotfix.
+3. Dopo averlo testato, farai un'operazione di merge con il branch, e lo inserirai nella produzione.
+4. Tornerai al tuo vecchio lavoro e continuerai a lavorare.
 
 ### Operazione di base di Branch ###
 

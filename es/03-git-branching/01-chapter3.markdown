@@ -96,16 +96,16 @@ Y vamos a ver el por qué merece la pena hacerlo así.
 
 Vamos a presentar un ejemplo simple de ramificar y de fusionar, con un flujo de trabajo que se podría presentar en la realidad. Imagina que sigues los siquientes pasos:
 
-1.	Trabajas en un sitio web.
-2.	Creas una rama para un nuevo tema sobre el que quieres trabajar.
-3.	Realizas algo de trabajo en esa rama.
+1. Trabajas en un sitio web.
+2. Creas una rama para un nuevo tema sobre el que quieres trabajar.
+3. Realizas algo de trabajo en esa rama.
 
 En este momento, recibes una llamada avisandote de un problema crítico que has de resolver. Y sigues los siguientes pasos:
 
-1.	Vuelves a la rama de producción original.
-2.	Creas una nueva rama para el problema crítico y lo resuelves trabajando en ella.
-3.	Tras las pertinentes pruebas, fusionas (merge) esa rama y la envias (push) a la rama de producción.
-4.	Vuelves a la rama del tema en que andabas antes de la llamada y continuas tu trabajo.
+1. Vuelves a la rama de producción original.
+2. Creas una nueva rama para el problema crítico y lo resuelves trabajando en ella.
+3. Tras las pertinentes pruebas, fusionas (merge) esa rama y la envias (push) a la rama de producción.
+4. Vuelves a la rama del tema en que andabas antes de la llamada y continuas tu trabajo.
 
 ### Procedimientos básicos de ramificación ###
 

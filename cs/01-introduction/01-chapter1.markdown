@@ -15,7 +15,7 @@ Uživatelé často provádějí správu verzí tím způsobem, že zkopírují s
 Aby se uživatelé tomuto riziku vyhnuli, vyvinuli programátoři už před dlouhou dobou lokální systémy VCS s jednoduchou databází, která uchovávala všechny změny souborů s nastavenou správou revizí (viz obrázek 1-1).
 
 Insert 18333fig0101.png
-Obrázek 1-1. Diagram lokální správy verzí
+Figure 1-1. Diagram lokální správy verzí
 
 Jedním z velmi oblíbených nástrojů VCS byl systém s názvem rcs, který je ještě dnes distribuován s mnoha počítači. Dokonce i populární operační systém Mac OS X obsahuje po nainstalování vývojářských nástrojů (Developer Tools) příkaz rcs. Tento nástroj pracuje na tom principu, že na disku uchovává ve speciálním formátu seznam změn mezi jednotlivými verzemi. Systém později může díky porovnání těchto změn vrátit jakýkoli soubor do podoby, v níž byl v libovolném okamžiku.
 
@@ -24,7 +24,7 @@ Jedním z velmi oblíbených nástrojů VCS byl systém s názvem rcs, který je
 Dalším velkým problémem, s nímž se uživatelé potýkají, je potřeba spolupráce s dalšími pracovníky týmu. Řešení tohoto problému nabízejí tzv. centralizované systémy správy verzí (CVCS z angl. Centralized Version Control System). Tyto systémy, jmenovitě např. CVS, Subversion či Perforce, obsahují serverovou část, která uchovává všechny verzované soubory. Z tohoto centrálního úložiště si potom soubory stahují jednotliví klienti. Tento koncept byl dlouhá léta standardem pro správu verzí (viz obrázek 1-2).
 
 Insert 18333fig0102.png
-Obrázek 1-2. Diagram centralizované správy verzí
+Figure 1-2. Diagram centralizované správy verzí
 
 Nabízí ostatně mnoho výhod, zejména v porovnání s lokálními systémy VCS. Každý například – do určité míry – ví, co dělají ostatní účastníci projektu a administrátoři mají přesnou kontrolu nad jednotlivými právy. Kromě toho je podstatně jednodušší spravovat CVCS, než pracovat s lokálními databázemi na jednotlivých klientech.
 
@@ -35,7 +35,7 @@ Avšak i tato koncepce má závažné nedostatky. Tímto nejkřiklavějším je 
 V tomto místě přicházejí ke slovu tzv. distribuované systémy správy verzí (DVCS z angl. Distributed Version Control System). V systémech DVCS (např. Git, Mercurial, Bazaar nebo Darcs) uživatelé pouze nestahují nejnovější verzi souborů (tzv. snímek, anglicky snapshot), ale uchovávají kompletní kopii repozitáře (repository). Pokud v takové situaci dojde ke kolapsu serveru, lze jej obnovit zkopírováním repozitáře od libovolného uživatele. Každá lokální kopie (checkout) je plnohodnotnou zálohou všech dat (viz obrázek 1-3).
 
 Insert 18333fig0103.png
-Obrázek 1-3. Diagram distribuované správy verzí
+Figure 1-3. Diagram distribuované správy verzí
 
 Mnoho z těchto systémů navíc bez větších obtíží pracuje i s několika vzdálenými repozitáři, a vy tak můžete v rámci jednoho projektu spolupracovat na různých úrovních s rozdílnými skupinami lidí. Díky tomu si můžete vytvořit několik typů pracovních postupů, což není v centralizovaných systémech (např. v hierarchických modelech) možné.
 
@@ -62,12 +62,12 @@ Jak bychom tedy mohli Git charakterizovat? Odpověď na tuto otázku je velmi d�
 Hlavním rozdílem mezi systémem Git a všemi ostatními systémy VCS (včetně Subversion a jemu podobných) je způsob, jakým Git zpracovává data. Většina ostatních systémů ukládá informace jako seznamy změn jednotlivých souborů. Tyto systémy (CVS, Perforce, Bazaar atd.) chápou uložené informace jako sadu souborů a seznamů změn těchto souborů v čase – viz obrázek 1-4.
 
 Insert 18333fig0104.png
-Obrázek 1-4. Ostatní systémy ukládají data jako změny v základní verzi každého souboru.
+Figure 1-4. Ostatní systémy ukládají data jako změny v základní verzi každého souboru.
 
 Git zpracovává data jinak. Chápe je spíše jako sadu snímků (snapshots) vlastního malého systému souborů. Pokaždé, když v systému zapíšete (uložíte) stav projektu, Git v podstatě „vyfotí“, jak vypadají všechny vaše soubory v daném okamžiku, a uloží reference na tento snímek. Pokud v souborech nebyly provedeny žádné změny, Git v zájmu zefektivnění práce neukládá znovu celý soubor, ale pouze odkaz na předchozí identický soubor, který už byl uložen. Zpracování dat v systému Git ilustruje obrázek 1-5.
 
 Insert 18333fig0105.png
-Obrázek 1-5. Git ukládá data jako snímky projektu proměnlivé v čase.
+Figure 1-5. Git ukládá data jako snímky projektu proměnlivé v čase.
 
 Toto je důležitý rozdíl mezi systémem Git a téměř všemi ostatními systémy VCS. Git díky tomu znovu zkoumá skoro každý aspekt správy verzí, které ostatní systémy kopírovaly z předchozí generace. Git je tak z obyčejného VCS spíše povýšen na vlastní systém správy souborů s řadou skutečně výkonných nástrojů, jež stojí na jeho vrcholu. Některé přednosti, které tato metoda správy dat nabízí, si podrobně ukážeme na systému větvení v kapitole 3.
 
@@ -102,7 +102,7 @@ A nyní pozor. Pokud chcete dále hladce pokračovat ve studiu Git, budou pro v�
 Z toho vyplývá, že projekt je v systému Git rozdělen do tří hlavních částí: adresář systému Git (Git directory), pracovní adresář (working directory) a oblast připravených změn (staging area).
 
 Insert 18333fig0106.png
-Obrázek 1-6. Pracovní adresář, oblast připravených změn a adresář Git
+Figure 1-6. Pracovní adresář, oblast připravených změn a adresář Git
 
 V adresáři Git ukládá systém databázi metadat a objektů k projektu. Je to nejdůležitější část systému Git a zároveň adresář, který se zkopíruje, když klonujete repozitář z jiného počítače.
 
@@ -166,7 +166,7 @@ Existují dva jednoduché způsoby, jak nainstalovat Git v systému Mac. Tím ne
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png
-Obrázek 1-7. Instalátor Git pro OS X
+Figure 1-7. Instalátor Git pro OS X
 
 Jiným obvyklým způsobem je instalace systému Git prostřednictvím systému MacPorts (`http://www.macports.org`). Máte-li systém MacPorts nainstalován, nainstalujte Git příkazem:
 

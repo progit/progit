@@ -117,7 +117,7 @@ Syntaxe `master^{tree}` určuje objekt stromu, na nějž ukazuje poslední reviz
 Data, která Git ukládá, vypadají v principu jako na obrázku 9-1.
 
 Insert 18333fig0901.png
-Obrázek 9-1. Zjednodušený model dat v systému Git
+Figure 9-1. Zjednodušený model dat v systému Git
 
 Můžete si vytvořit i vlastní strom. Git běžně vytváří strom tak, že vezme stav oblasti připravených změn nebo-li indexu a zapíše z nich objekt stromu. Proto chcete-li vytvořit objekt stromu, musíte ze všeho nejdříve připravit soubory k zapsání, a vytvořit tak index. Chcete-li vytvořit index s jediným záznamem – první verzí souboru text.txt – můžete k tomu použít nízkoúrovňový příkaz `update-index`. Tento příkaz lze použít, jestliže chcete uměle přidat starší verzi souboru test.txt do nové oblasti připravených změn. K příkazu je třeba zadat parametr `--add`, neboť tento soubor ve vaší oblasti připravených změn ještě neexistuje (dokonce ještě nemáte ani vytvořenou oblast připravených změn), a parametr `--cacheinfo`, protože soubor, který přidáváte, není ve vašem adresáři, je ale ve vaší databázi. K tomu všemu přidáte režim, SHA-1 a název souboru:
 
@@ -165,7 +165,7 @@ Všimněte si, že tento strom má oba záznamy souborů a že hodnota SHA soubo
 Pokud byste vytvořili pracovní adresář z nového stromu, který jste právě zapsali, dostali byste dva soubory na nejvyšší úrovni pracovního adresáře a podadresář `bak`, obsahující první verzi souboru test.txt. Data, která Git pro tyto struktury obsahuje, si můžete představit jako ilustraci na obrázku 9-2.
 
 Insert 18333fig0902.png
-Obrázek 9-2. Struktura obsahu vašich současných dat Git
+Figure 9-2. Struktura obsahu vašich současných dat Git
 
 ### Objekty revize ###
 
@@ -242,7 +242,7 @@ Všechny tři tyto objekty revizí ukazují na jeden ze tří stromů snímku, k
 Pokud byste hledali vztahy mezi všemi interními ukazateli, vyšel by vám celý diagram objektů – viz obrázek 9-3.
 
 Insert 18333fig0903.png
-Obrázek 9-3. Všechny objekty v adresáři Git
+Figure 9-3. Všechny objekty v adresáři Git
 
 ### Ukládání objektů ###
 
@@ -327,7 +327,7 @@ Vaše větev bude obsahovat pouze práci od této revize níže:
 Vaše databáze Git bude nyní v principu vypadat tak, jak je znázorněno na obrázku 9-4.
 
 Insert 18333fig0904.png
-Obrázek 9-4. Objekty v adresáři Git s referencemi větve „head“
+Figure 9-4. Objekty v adresáři Git s referencemi větve „head“
 
 Spouštíte-li příkaz typu `git branch (název větve)`, Git ve skutečnosti spustí příkaz `update-ref` a vloží hodnotu SHA-1 poslední revize větve, na níž se nacházíte, do nové reference, kterou chcete vytvořit.
 
@@ -975,4 +975,3 @@ Velikost zabaleného repozitáře byla zredukována na 7 kB, což je jistě lep�
 Jak doufám, udělali jste si v této kapitole názorný obrázek o tom, jak Git pracuje v pozadí, a do určité míry také o jeho implementaci Seznámili jsme se s celou řadou nízkoúrovňových příkazů, tj. takových, které jsou na nižší úrovni a jsou jednodušší než „vysokoúrovňové příkazy“, jimiž jsme se zabývali ve všech předchozích kapitolách. Poznání, jak Git pracuje na nižší úrovni, by vám mělo pomoci pochopit, proč dělá to, co dělá, a zároveň by vám mělo umožnit napsat vlastní nástroje a podpůrné skripty, pomocí nichž budete moci automatizovat zvolený pracovní postup.
 
 Git jakožto obsahově adresovatelný systém souborů je velmi výkonným nástrojem, který snadno využijete i k jiným účelům než jako pouhý systém VCS. Jsem přesvědčen, že vám nově nabyté znalosti interních principů systému Git pomohou implementovat vlastní užitečné aplikace této technologie a že se i v pokročilých funkcích systému Git budete cítit příjemněji.
-

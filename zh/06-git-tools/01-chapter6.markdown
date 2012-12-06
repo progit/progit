@@ -968,7 +968,7 @@ Git 通过子模块处理这个问题。子模块允许你将一个 Git 仓库�
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-事情就是这样，因为你所拥有的子模块的指针并对应于子模块目录的真实状态。为了修复这一点，你必须再次运行`git submodule update`：
+事情就是这样，因为你所拥有的指向子模块的指针和子模块目录的真实状态并不匹配。为了修复这一点，你必须再次运行`git submodule update`：
 
 	$ git submodule update
 	remote: Counting objects: 5, done.

@@ -541,8 +541,8 @@ Pour l'instant, elle contient 11 objets : 4 blobs, 3 arbres, 3 *commits* et 1 t
 
 Git compresse le contenu de ces fichiers avec zlib et on ne stocke pas grand chose, au final, tous ces fichiers occupent seulement 925 octets.
 Ajoutons de plus gros contenu au dépôt pour montrer une fonctionnalité intéressante de Git.
-Ajoutez le fichier repo.rb de la bibliothèque Grit que vous avez manipulé plus tôt.
-Il représente environ 12Ko de code source :
+Ajoutez le fichier `repo.rb` de la bibliothèque Grit que vous avez manipulé plus tôt.
+Il représente environ 12 Kio de code source :
 
 	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb
@@ -554,7 +554,7 @@ Il représente environ 12Ko de code source :
 	 rewrite test.txt (100%)
 
 Si vous observez l'arbre qui en résulte, vous verrez l'empreinte SHA-1 du blob
-contenant le fichier repo.rb :
+contenant le fichier `repo.rb` :
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
@@ -586,12 +586,12 @@ Bien que l'on ait ajouté une seule ligne à la fin d'un fichier en faisant 400,
 	$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
 	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
-Il y a donc deux objets de 4Ko quasiment identiques sur le disque.
+Il y a donc deux objets de 4 Kio quasiment identiques sur le disque.
 Ne serait-ce pas bien si Git pouvait enregistrer qu'un objet en entier, le deuxième n'étant qu'un delta (une différence) avec le premier ?
 
 Il se trouve que c'est possible.
 Le format initial dans lequel Git enregistre les objets sur le disque est appelé le format brut (*loose object*).
-De temps en temps, Git compacte plusieurs de ces objets en un seul fichier binaire appelé packfile (fichier groupé), afin d'économiser de l'espace et d'être plus efficace.
+De temps en temps, Git compacte plusieurs de ces objets en un seul fichier binaire appelé *packfile* (fichier groupé), afin d'économiser de l'espace et d'être plus efficace.
 Git effectue cette opération quand il y a trop d'objets au format brut, ou si l'on exécute manuellement la commande `git gc`, ou encore quand on pousse vers un serveur distant.
 Pour voir cela en action, vous pouvez demander manuellement à Git de compacter les objets en exécutant la commande `git gc` :
 
@@ -618,7 +618,7 @@ Puisqu'ils n'ont été ajoutés à aucun *commit*, ils sont considérés en susp
 Les autres fichiers sont le nouveau fichier groupé et un index.
 Le fichier groupé est un fichier unique rassemblant le contenu de tous les objets venant d'être supprimés du système de fichier.
 L'index est un fichier contenant les emplacements dans le fichier groupé, pour que l'on puisse accéder rapidement à un objet particulier.
-Ce qui est vraiment bien, c'est que les objets occupaient environ 12Ko d'espace disque avant `gc` et que le nouveau fichier groupé en occupe seulement 6Ko.
+Ce qui est vraiment bien, c'est que les objets occupaient environ 12 Kio d'espace disque avant `gc` et que le nouveau fichier groupé en occupe seulement 6Ko.
 On a divisé par deux l'occupation du disque en regroupant les objets.
 
 Comment Git réalise-t-il cela ?
@@ -649,8 +649,8 @@ La commande de plomberie `git verify-pack` vous permet de voir ce qui a été co
 	chain length = 1: 1 object
 	pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack: ok
 
-Si on se souvient bien, le blob `9bc1d`, qui est la première version de fichier repo.rb file, référence le blob `05408`, qui est la seconde version du fichier.
-La troisième colonne de l'affichage est la taille de l'objet dans le fichier compact et on peut voir que `05408` occupe 12Ko dans le fichier, mais que `9bc1d` occupe seulement 7 octets.
+Si on se souvient bien, le blob `9bc1d`, qui est la première version du fichier `repo.rb`, référence le blob `05408`, qui est la seconde version du fichier.
+La troisième colonne de l'affichage est la taille de l'objet dans le fichier compact et on peut voir que `05408` occupe 12 Kio dans le fichier, mais que `9bc1d` occupe seulement 7 octets.
 Ce qui est aussi intéressant est que la seconde version du fichier est celle qui est enregistrée telle quelle, tandis que la version originale est enregistrée sous forme d'un delta.
 La raison en est que vous aurez sans doute besoin d'accéder rapidement aux versions les plus récentes du fichier.
 
@@ -1143,10 +1143,10 @@ Vous pouvez exécutez la commande `count-objects` pour voir rapidement combien d
 	prune-packable: 0
 	garbage: 0
 
-L'entrée `size-pack` est la taille de vos fichiers groupés en kilo-octets, vous utilisez donc 2Mo.
-Avant votre dernier *commit*, vous utilisiez environ 2Ko, clairement, supprimer le fichier avec le *commit* précédent ne l'a pas enlevé de votre historique.
-À chaque fois que quelqu'un clonera votre dépôt, il aura à cloner les 2Mo pour récupérer votre tout petit projet, parce que vous avez accidentellement rajouté un gros fichier.
-Débarassons-nous en.
+L'entrée `size-pack` est la taille de vos fichiers groupés en kilooctets, vous utilisez donc 20 Mio.
+Avant votre dernier *commit*, vous utilisiez environ 2 Kio, clairement, supprimer le fichier avec le *commit* précédent ne l'a pas enlevé de votre historique.
+À chaque fois que quelqu'un clonera votre dépôt, il aura à cloner les 2 Mio pour récupérer votre tout petit projet, parce que vous avez accidentellement rajouté un gros fichier.
+Débarrassons-nous en.
 
 Premièrement, vous devez le trouver.
 Dans ce cas, vous savez déjà de quel fichier il s'agit.
@@ -1159,7 +1159,7 @@ Vous pouvez également le faire suivre à la commande `tail` car vous ne vous in
 	05408d195263d853f09dca71d55116663690c27c blob   12908 3478 1189
 	7a9eb2fba2b1811321254ac360970fc169ba2330 blob   2056716 2056872 5401
 
-Le gros objet est à la fin : 2Mo.
+Le gros objet est à la fin : 2 Mio.
 Pour trouver quel fichier c'est, vous allez utilisez la commande `rev-list`, que vous avez utilisé brièvement dans le chapitre 7.
 Si vous mettez l'option `--objects` à `rev-list`, elle listera tous les SHA des *commits* et des blobs avec le chemin du fichier associés.
 Vous pouvez utilisez cette commande pour trouver le nom de votre blob :
@@ -1215,7 +1215,7 @@ Voyons combien d'espace vous avez récupéré :
 	prune-packable: 0
 	garbage: 0
 
-La taille du dépôt regroupé est retombée à 7Ko, ce qui est beaucoup moins que 2Mo.
+La taille du dépôt regroupé est retombée à 7 Kio, ce qui est beaucoup moins que 2 Mio.
 Vous pouvez voir dans la valeur « size » que votre gros objet est toujours dans vos objets bruts, il n'est donc pas parti; mais il ne sera plus transféré lors d'une poussée vers un serveur ou un clone, ce qui est l'important dans l'histoire.
 Si vous voulez réellement, vous pouvez supprimer complètement l'objet en exécutant `git prune --expire`.
 

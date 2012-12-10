@@ -225,7 +225,7 @@ ou vous pouvez éditer votre fichier `~/.gitconfig` pour y ajouter ces lignes :
 	  external = extDiff
 
 Après avoir réglé tout ceci, si vous lancez des commandes de diff telles que celle-ci :
-	
+
 	$ git diff 32d1776b1^ 32d1776b1
 
 Au lieu d'obtenir la sortie du diff dans le terminal, Git lance P4Merge, ce qui ressemble à la Figure 7-1.
@@ -239,7 +239,7 @@ Le point agréable avec cette méthode d'enveloppe est que vous pouvez changer f
 Par exemple, pour changer vos outils `extDiff` et `extMerge` pour une utilisation de l'outil KDiff3, il vous suffit d'éditer le fichier `extMerge` :
 
 	$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 À présent, Git va utiliser l'outil KDiff3 pour visualiser les différences et résoudre les conflits de fusion.
@@ -471,13 +471,13 @@ Créez un fichier `/usr/local/bin/odt-to-txt` (vous êtes libre de le placer dan
 	#! /usr/bin/env perl
 	# Convertisseur simpliste OpenDocument Text (.odt) vers texte
 	# Author: Philipp Kempgen
-	
+
 	if (! defined($ARGV[0])) {
 		print STDERR "Pas de fichier fourni!\n";
 		print STDERR "Usage: $0 [nom du fichier]\n";
 		exit 1;
 	}
-	
+
 	my $content = '';
 	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
 	{

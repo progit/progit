@@ -346,9 +346,9 @@ Si vous êtes habitué à Subversion, vous pouvez lancer `git svn log` pour visu
 
 	------------------------------------------------------------------------
 	r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
-	
+
 	updated the changelog
-	
+
 Deux choses importantes à connaître sur `git svn log` : premièrement, à la différence de la commande réelle `svn log` qui interroge le serveur, cette commande fonctionne hors connexion ; deuxièmement, elle ne montre que les *commits* qui ont été effectivement remontés sur le serveur Subversion.
 Les *commits* locaux qui n'ont pas encore été remontés via `dcommit` n'apparaissent pas, pas plus que ceux qui auraient été poussés sur le serveur par des tiers entre deux `git svn rebase`.
 Cela donne plutôt le dernier état connu des *commits* sur le serveur Subversion.
@@ -486,18 +486,18 @@ Premièrement, déplacez les étiquettes pour qu'elles soient de vraies étiquet
 
 Pour déplacer les étiquettes et en faire de vraies étiquettes Git, lancez
 
-	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do 
-	git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; 
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do
+	git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname";
 	done
 
 Cela récupère les références déclarées comme branches distantes commençant par `tags/` et les transforme en vraies étiquettes (légères).
 
 Ensuite, déplacez le reste des références sous `refs/remotes` en branches locales :
 
-	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do 
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do
 	git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname";
 	done
- 
+
 À présent, toutes les vieilles branches sont des vraies branches Git et toutes les vieilles étiquettes sont de vraies étiquettes Git.
 La dernière activité consiste à ajouter votre nouveau serveur Git comme serveur distant et à y pousser votre projet transformé.
 Pour pousser tout, y compris branches et étiquettes, lancez :

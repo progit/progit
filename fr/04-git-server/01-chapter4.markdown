@@ -86,7 +86,7 @@ Pour cloner une dépôt Git à travers SSH, spécifiez le préfixe `ssh://` dans
 	$ git clone ssh://utilisateur@serveur:projet.git
 
 ou ne spécifiez  pas de protocole du tout — Git choisit SSH par défaut si vous n'êtes pas explicite :
-	
+
 	$ git clone utilisateur@serveur:projet.git
 
 Vous pouvez aussi ne pas spécifier de nom d'utilisateur et Git utilisera par défaut le nom de login.

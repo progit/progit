@@ -218,11 +218,11 @@ Par exemple, si vous avez un système d'exploitation qui utilise yum (tel que Fe
 
 	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
 	  libz-dev libssl-dev
-	
+
 Quand vous avez toutes les dépendances nécessaires, vous pouvez poursuivre et télécharger la dernière version de Git depuis le site :
 
 	http://git-scm.com/download
-	
+
 Puis, compiler et installer :
 
 	$ tar -zxf git-1.7.2.2.tar.gz
@@ -233,7 +233,7 @@ Puis, compiler et installer :
 Après ceci, vous pouvez obtenir Git par Git lui-même pour les mises à jour :
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
-	
+
 ### Installation sur Linux ###
 
 Si vous souhaitez installer Git sur Linux via un installateur d'application, vous pouvez généralement le faire via le système de gestion de paquet de base fourni avec votre distribution.
@@ -271,6 +271,11 @@ Téléchargez simplement le fichier exe d'installateur depuis la page Google Cod
 	http://code.google.com/p/msysgit
 
 Après son installation, vous avez à la fois la version en ligne de commande (avec un client SSH utile pour la suite) ou l'interface graphique standard.
+
+Note sur l'usage sous Windows :
+vous devriez utiliser Git avec la ligne de command fournie par msysGit (style Unix), car elle permet d'utiliser les lignes de commandes complexes données dans ce livre.
+Si vous devez, pour une raison quelconque, utiliser la ligne de commande native de Windows (console système), vous devez utiliser des guillemets au lieu des apostrophes pour délimiter les paramètres avec des espaces.
+Et vous devez délimiter avec ces guillemets les paramètres finissant avec l'accent circonflexe (^) s'ils sont en fin de ligne, car c'est un symbole de continuation de Windows.
 
 ## Paramétrage à la première utilisation de Git ##
 
@@ -310,7 +315,7 @@ Par défaut, Git utilise l'éditeur configuré au niveau système, qui est gén�
 Si vous souhaitez utiliser un éditeur de texte différent, comme Emacs, vous pouvez entrer ce qui suit :
 
 	$ git config --global core.editor emacs
-	
+
 ### Votre outil de différences ###
 
 Une autre option utile est le paramétrage de l'outil de différences à utiliser pour la résolution des conflits de fusion.
@@ -350,7 +355,7 @@ Si vous avez besoin d'aide pour utiliser Git, il y a trois moyens d'obtenir les 
 	$ git help <verbe>
 	$ git <verbe> --help
 	$ man git-<verbe>
-	
+
 Par exemple, vous pouvez obtenir la page de manuel pour la commande config en lançant :
 
 	$ git help config

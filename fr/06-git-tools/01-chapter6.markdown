@@ -1,6 +1,6 @@
 # Utilitaires Git #
 
-A présent, vous avez appris les commandes et modes de fonctionnements usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
+À présent, vous avez appris les commandes et modes de fonctionnements usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
 Vous avez déroulé les routines de suivi et de validation de fichiers, vous avez exploité la puissance de l'index, de la création et de la fusion de branches locales de travail.
 
 Maintenant, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous utiliserez moins souvent mais dont vous pourriez avoir l'usage à un moment ou à un autre.
@@ -50,7 +50,7 @@ Si vous affichez le contenu de ce *commit* via `git show`, les commandes suivant
 	$ git show 1c002d
 
 Git peut déterminer une référence SHA tout à la fois la plus courte possible et non ambigüe.
-Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut git retiendra 7 caractères et augmentera au besoin :
+Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut Git retiendra 7 caractères et augmentera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
@@ -216,7 +216,7 @@ Vous pouvez également combiner ces syntaxes — vous pouvez obtenir le second p
 
 ### Plages de *commits* ###
 
-A présent que vous pouvez spécifier des *commits* individuels, voyons comment spécifier des plages de *commits*.
+À présent que vous pouvez spécifier des *commits* individuels, voyons comment spécifier des plages de *commits*.
 Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour répondre à des questions telles que « Quel travail sur cette branche n'ai-je pas encore fusionné sur ma branche principale ? ».
 
 #### Double point ####
@@ -431,7 +431,7 @@ Git vous demandera quels fichiers vous voulez indexer partiellement, puis, pour 
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 
-A cette étape, vous disposez de bon nombre d'options.
+À cette étape, vous disposez de bon nombre d'options.
 `?` vous liste les actions possibles dont voici une traduction :
 
 	indexer cette partie [y,n,a,d,/,j,J,g,e,?]?

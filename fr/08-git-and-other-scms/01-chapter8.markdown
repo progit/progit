@@ -74,7 +74,7 @@ Subversion doit cloner révision par révision puis pousser vers un autre dépô
 
 Avec des droits en écriture sur un dépôt Subversion, vous voici prêt à expérimenter une méthode typique.
 Commençons par la commande `git svn clone` qui importe un dépôt Subversion complet dans un dépôt Git local.
-Souvenez-vous que si vous importez depuis un dépôt Subversion hébergé sur internet, il faut remplacer l'URL `file://tmp/test-svn` ci-dessous par l'URL de votre dépôt Subversion :
+Souvenez-vous que si vous importez depuis un dépôt Subversion hébergé sur Internet, il faut remplacer l'URL `file://tmp/test-svn` ci-dessous par l'URL de votre dépôt Subversion :
 
 	$ git svn clone file:///tmp/test-svn -T trunk -b branches -t tags
 	Initialized empty Git repository in /Users/schacon/projects/testsvnsync/svn/.git/
@@ -251,9 +251,9 @@ Si vous avez des modifications locales, il vous faudra soit remiser votre travai
 ### Le problème avec les branches Git ###
 
 Après vous être habitué à la manière de faire avec Git, vous souhaiterez sûrement créer des branches thématiques, travailler dessus, puis les fusionner.
-Si vous poussez sur un serveur Subversion via git svn, vous souhaiterez à chaque fois rebaser votre travail sur une branche unique au lieu de fusionner les branches ensemble.
+Si vous poussez sur un serveur Subversion via `git svn`, vous souhaiterez à chaque fois rebaser votre travail sur une branche unique au lieu de fusionner les branches ensemble.
 La raison principale en est que Subversion gère un historique linéaire et ne gère pas les fusions comme Git y excelle.
-De ce fait, git svn suit seulement le premier parent lorsqu'il convertit les instantanés en *commits* Subversion.
+De ce fait, `git svn` suit seulement le premier parent lorsqu'il convertit les instantanés en *commits* Subversion.
 
 Supposons que votre historique ressemble à ce qui suit. Vous avez créé une branche `experience`, avez réalisé deux validations puis les avez fusionnées dans master.
 Lors du `dcommit`, vous voyez le résultat suivant :
@@ -286,7 +286,7 @@ Il ne voit aucune information sur son origine ni sur sa date de validation.
 
 La gestion de branches dans Subversion n'a rien à voir avec celle de Git.
 Évitez de l'utiliser tant que possible.
-Cependant vous pouvez créer des branches et valider dessus dans Subversion en utilisant git svn.
+Cependant vous pouvez créer des branches et valider dessus dans Subversion en utilisant `git svn`.
 
 #### Créer une nouvelle branche SVN ####
 
@@ -511,7 +511,7 @@ Toutes vos données, branches et tags sont à présent disponibles sur le serveu
 L'autre système duquel on peut souhaiter importer les données est Perforce.
 Un outil d'import Perforce est aussi distribué avec Git, mais seulement dans la section `contrib` du code source.
 Il n'est pas disponible par défaut comme `git svn`.
-Pour le lancer, il vous faut récupérer le code source de Git que vous pouvez télécharger à partir de git.kernel.org :
+Pour le lancer, il vous faut récupérer le code source de Git que vous pouvez télécharger à partir de `git.kernel.org` :
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
@@ -733,8 +733,8 @@ La dernière chose à faire consiste à retourner le marque actuelle pour pouvoi
 	return mark
 
 NOTE : si vous utilisez Windows, vous devrez vous assurer d'ajouter une étape supplémentaire.
-Comme mentionné auparavant, Windows utilise CRLF comme caractère de retour à la ligne tandis que git fast-import s'attend à LF.
-Pour contourner ce problème et satisfaire git fast-import, il faut forcer ruby à utiliser LF au lieu de CRLF :
+Comme mentionné auparavant, Windows utilise CRLF comme caractère de retour à la ligne tandis que `git fast-import` s'attend à LF.
+Pour contourner ce problème et satisfaire `git fast-import`, il faut forcer Ruby à utiliser LF au lieu de CRLF :
 
 	$stdout.binmode
 

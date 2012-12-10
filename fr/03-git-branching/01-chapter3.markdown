@@ -29,7 +29,7 @@ Git crée alors un objet *commit* qui contient les méta-données et un pointeur
 
 Votre dépôt Git contient à présent cinq objets :
 un blob pour le contenu de chacun des trois fichiers, un arbre qui liste le contenu du répertoire et spécifie quels noms de fichier sont attachés à quels blobs et un objet *commit* avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au *commit*.
-Conceptuellement, les données contenues dans votre dépôt git ressemblent à la Figure 3-1.
+Conceptuellement, les données contenues dans votre dépôt Git ressemblent à la Figure 3-1.
 
 Insert 18333fig0301.png
 Figure 3-1. Données d'un *commit* unique.
@@ -280,7 +280,7 @@ Cela rend la fusion beaucoup plus facile dans Git que dans les autres systèmes.
 Insert 18333fig0317.png
 Figure 3-17. Git crée automatiquement un nouvel objet *commit* qui contient le travail fusionné.
 
-A présent que votre travail a été fusionné, vous n'avez plus besoin de la branche `prob53`.
+À présent que votre travail a été fusionné, vous n'avez plus besoin de la branche `prob53`.
 Vous pouvez l'effacer et fermer manuellement le ticket dans votre outil de suivi de faits techniques :
 
 	$ git branch -d prob53
@@ -512,7 +512,7 @@ Lancez la commande `git fetch origin` pour synchroniser votre travail.
 Cette commande recherche le serveur hébergeant origin (dans notre cas, `git.notresociete.com`), en récupère toutes les nouvelles données et met à jour votre base de donnée locale en déplaçant votre pointeur `origin/master` à sa valeur nouvelle à jour avec le serveur distant (voir figure 3-24).
 
 Insert 18333fig0324.png
-Figure 3-24. La commande git fetch met à jour vos références distantes.
+Figure 3-24. La commande `git fetch` met à jour vos références distantes.
 
 Pour démontrer l'usage de multiples serveurs distants et le fonctionnement avec des branches multiples, supposons que vous avez un autre serveur Git interne qui n'est utilisé pour le développement que par une équipe.
 Ce serveur se trouve sur `git.equipe1.notresociete.com`.
@@ -740,7 +740,7 @@ Votre historique de *commits* ressemble à la figure 3-36.
 Insert 18333fig0336.png
 Figure 3-36. Cloner un dépôt et baser du travail dessus.
 
-A présent, une autre personne travaille et inclut une fusion, puis elle pousse ce travail sur le serveur central.
+À présent, une autre personne travaille et inclut une fusion, puis elle pousse ce travail sur le serveur central.
 Vous le récupérez et vous fusionnez la nouvelle branche distante dans votre copie, ce qui donne l'historique de la figure 3-37.
 
 Insert 18333fig0337.png
@@ -754,7 +754,7 @@ Insert 18333fig0338.png
 Figure 3-38. Quelqu'un pousse des *commits* rebasés, en abandonnant les *commits* sur lesquels vous avez fondé votre travail.
 
 
-A ce moment, vous devez fusionner son travail une nouvelle fois, même si vous l'avez déjà fait.
+À ce moment, vous devez fusionner son travail une nouvelle fois, même si vous l'avez déjà fait.
 Rebaser change les empreintes SHA-1 de ces *commits*, ce qui les rend nouveaux aux yeux de Git, alors qu'en fait, vous avez déjà le travail de C4 dans votre historique (voir figure 3-39).
 
 

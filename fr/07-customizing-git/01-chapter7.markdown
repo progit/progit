@@ -379,7 +379,7 @@ Pour indiquer à Git de traiter tous les fichiers `pbxproj` comme binaires, ajou
 
 	*.pbxproj -crlf -diff
 
-À présent, Git n'essaiera pas de convertir ou de corriger les problèmes des CRLF, ni de calculer ou d'afficher les différences pour ces fichiers quand vous lancez git show ou git diff sur votre projet.
+À présent, Git n'essaiera pas de convertir ou de corriger les problèmes des CRLF, ni de calculer ou d'afficher les différences pour ces fichiers quand vous lancez `git show` ou `git diff` sur votre projet.
 Dans la branche 1.6 de Git, vous pouvez aussi utiliser une macro fournie qui signifie `-crlf -diff` :
 
 	*.pbxproj binary
@@ -693,7 +693,7 @@ Pour les versions de Git antérieures à 1.6, les fichiers d'exemple sont nommé
 
 Pour activer un script de crochet, placez un fichier dans le sous-répertoire `hook` de votre répertoire Git, nommé correctement et exécutable.
 À partir de ce moment, il devrait être appelé.
-Abordons donc les noms de fichiers hooks les plus importants.
+Abordons donc les noms de fichiers de crochet les plus importants.
 
 ### Crochets côté client ###
 
@@ -807,7 +807,7 @@ Tous les scripts d'exemple distribués avec Git sont soit en Perl soit en Bash, 
 Toutes les actions côté serveur seront contenues dans le fichier `update` dans le répertoire `hooks`.
 Le fichier `update` s'exécute une fois par branche poussée et accepte comme paramètre la référence sur laquelle on pousse, l'ancienne révision de la branche et la nouvelle révision de la branche.
 Vous pouvez aussi avoir accès à l'utilisateur qui pousse si la poussée est réalisée par SSH.
-Si vous avez permis à tout le monde de se connecter avec un utilisateur unique (comme « git ») avec une authentification à clef publique, il vous faudra fournir à cet utilisateur une enveloppe de shell qui déterminera l'identité de l'utilisateur à partir de sa clef publique et positionnera une variable d'environnement spécifiant cette identité.
+Si vous avez permis à tout le monde de se connecter avec un utilisateur unique (comme « git ») avec une authentification à clé publique, il vous faudra fournir à cet utilisateur une enveloppe de shell qui déterminera l'identité de l'utilisateur à partir de sa clef publique et positionnera une variable d'environnement spécifiant cette identité.
 Ici, je considère que la variable d'environnement `$USER` indique l'utilisateur connecté, donc le script update commence par rassembler toutes les informations nécessaires :
 
 	#!/usr/bin/env ruby

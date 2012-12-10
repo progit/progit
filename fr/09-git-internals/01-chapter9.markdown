@@ -55,9 +55,9 @@ Vous allez maintenant plonger en détail dans chacune de ces sections et voir co
 ## Les objets Git ##
 
 Git est un système de fichier adressables par contenu.
-Super!
-Mais qu'est-ce que ça veut dire?
-Ça veut dire que le cœur de Git est une simple base de paires clef/valeur.
+Super !
+Mais qu'est-ce que ça veut dire ?
+Ça veut dire que le cœur de Git est une simple base de paires clé/valeur.
 Vous pouvez y insérer n'importe quelle sorte de données et il vous retournera une clé que vous pourrez utiliser à n'importe quel moment pour récupérer ces données.
 Pour illustrer cela, vous pouvez utiliser la commande de plomberie `hash-object`, qui prend des données, les stocke dans votre répertoire `.git`, puis retourne la clé sous laquelle les données sont stockées.
 Tout d'abord, créez un nouveau dépôt Git et vérifiez que rien ne se trouve dans le répertoire `object` :
@@ -135,7 +135,7 @@ ou à sa seconde version :
 
 Se souvenir de la clé SHA-1 de chaque version de votre fichier n'est pas pratique.
 En plus, vous ne stockez pas le fichier lui-même, mais seulement son contenu, dans votre base.
-Ce type d'objet est appelé un blob (Binary Large OBject, soit en français : Gros Objet Binaire).
+Ce type d'objet est appelé un blob (*Binary Large OBject*, soit en français : Gros Objet Binaire).
 Git peut vous donner le type d'objet de n'importe quel objet Git, étant donné sa clé SHA-1, avec `cat-file -t` :
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
@@ -145,7 +145,7 @@ Git peut vous donner le type d'objet de n'importe quel objet Git, étant donné 
 
 Le prochain type que vous allez étudier est l'objet arbre (N.d.t 'tree') qui résout le problème de stockage d'un groupe de fichiers.
 Git stocke du contenu de la même manière, mais plus simplement, qu'un système de fichier UNIX.
-Tout le contenu est stocké comme des objets de type arbre ou blob : un arbre correspondant à un répertoire UNIX et un blob correspond à peu près à un i-noeud ou au contenu d'un fichier.
+Tout le contenu est stocké comme des objets de type arbre ou blob : un arbre correspondant à un répertoire UNIX et un blob correspond à peu près à un i-nœud ou au contenu d'un fichier.
 Un unique arbre contient une ou plusieurs entrées de type arbre, chacune incluant un pointeur SHA-1 vers un blob, un sous-arbre (*sub-tree*), ainsi que les droits d'accès (*mode*), le type et le nom de fichier.
 L'arbre le plus récent du projet simplegit pourrait ressembler, par exemple à ceci :
 
@@ -168,7 +168,7 @@ Figure 9-1. Une version simple du modèle de données Git.
 Vous pouvez créer votre propre arbre.
 Git crée habituellement un arbre à partir de l'état de la zone d'attente ou de l'index.
 Pour créer un objet arbre, vous devez donc d'abord mettre en place un index en mettant quelques fichiers en attente.
-Pour créer un index contenant une entrée, la première version de votre fichier test.txt par exemple, utilisons la commande de plomberie `update-index`.
+Pour créer un index contenant une entrée, la première version de votre fichier `test.txt` par exemple, utilisons la commande de plomberie `update-index`.
 Vous pouvez utiliser cette commande pour ajouter artificiellement une version plus ancienne à une nouvelle zone d'attente.
 Vous devez utiliser les options `--add` car le fichier n'existe pas encore dans votre zone d'attente (vous n'avez même pas encore mis en place une zone d'attente) et `--cacheinfo` car le fichier que vous ajoutez n'est pas dans votre répertoire, mais dans la base de données.
 Vous pouvez ensuite préciser le mode, SHA-1 et le nom de fichier :
@@ -193,14 +193,14 @@ Vous pouvez également vérifier que c'est un objet arbre :
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
 
-Vous allez créer maintenant un nouvel arbre avec la seconde version de test.txt et un nouveau fichier :
+Vous allez créer maintenant un nouvel arbre avec la seconde version de `test.txt` et un nouveau fichier :
 
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt
 	$ git update-index --add new.txt
 
-Votre zone d'attente contient maintenant la nouvelle version de test.txt ainsi qu'un nouveau fichier new.txt.
-Enregistrez cet arbre (c'est-à-dire. enregistrez l'état de la zone d'attente ou de l'index dans un objet arbre) :
+Votre zone d'attente contient maintenant la nouvelle version de `test.txt` ainsi qu'un nouveau fichier `new.txt`.
+Enregistrez cet arbre (c'est-à-dire enregistrez l'état de la zone d'attente ou de l'index dans un objet arbre) :
 
 	$ git write-tree
 	0155eb4229851634a0f03eb265b69f5a2d56f341
@@ -208,7 +208,7 @@ Enregistrez cet arbre (c'est-à-dire. enregistrez l'état de la zone d'attente o
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-Remarquez que cet arbre contient des entrées pour les deux fichiers et que l'empreinte SHA de test.txt est l'empreinte de la « version 2 » de tout à l'heure (`1f7a7a`).
+Remarquez que cet arbre contient des entrées pour les deux fichiers et que l'empreinte SHA de `test.txt` est l'empreinte de la « version 2 » de tout à l'heure (`1f7a7a`).
 Pour le plaisir, ajoutez le premier arbre à celui-ci, en tant que sous-répertoire.
 Vous pouvez maintenant récupérer un arbre de votre zone d'attente en exécutant `read-tree`.
 Dans ce cas, vous pouvez récupérer un arbre existant dans votre zone d'attente comme étant un sous-arbre en utilisant l'option `--prefix` de `read-tree` :
@@ -221,7 +221,7 @@ Dans ce cas, vous pouvez récupérer un arbre existant dans votre zone d'attente
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-Si vous créez un répertoire de travail à partir du nouvel arbre que vous venez d'enregistrer, vous aurez deux fichiers à la racine du répertoire de travail, ainsi qu'un sous-répertoire appelé `bak` qui contient la première version du fichier test.txt.
+Si vous créez un répertoire de travail à partir du nouvel arbre que vous venez d'enregistrer, vous aurez deux fichiers à la racine du répertoire de travail, ainsi qu'un sous-répertoire appelé `bak` qui contient la première version du fichier `test.txt`.
 Vous pouvez vous représenter les données que Git utilise pour ces structures comme sur la Figure 9-2.
 
 Insert 18333fig0902.png
@@ -496,7 +496,7 @@ Vous pouvez voir la clé publique en exécutant :
 	$ git cat-file blob junio-gpg-pub
 
 dans le code source de Git.
-Le noyau linux contient aussi une étiquette ne pointant pas vers un *commit* : la première étiquette créée pointe vers l'arbre initial lors de l'importation du code source.
+Le noyau Linux contient aussi une étiquette ne pointant pas vers un *commit* : la première étiquette créée pointe vers l'arbre initial lors de l'importation du code source.
 
 ### Références distantes ###
 
@@ -787,7 +787,7 @@ Puisque votre point de départ est l'objet *commit* `ca82a6` que vous avez vu da
 	(179 bytes of binary data)
 
 Vous obtenez un objet, cet objet est dans le format brut sur le serveur et vous l'avez récupéré à travers une requête HTTP GET statique.
-Vous pouvez le décompresser avec zlib, ignorer l'entête et regarder le contenu du *commit* :
+Vous pouvez le décompresser avec zlib, ignorer l'en-tête et regarder le contenu du *commit* :
 
 	$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -815,7 +815,7 @@ Git vérifie la liste des dépôts suppléants d'abord :
 	=> GET objects/info/http-alternates
 	(empty file)
 
-Si la réponse contenait une liste d'URLs suppléantes, Git aurait cherché les fichiers bruts et les fichiers groupés à ces emplacements, c'est un mécanisme sympathique pour les projets qui ont dérivés d'un autre pour partager les objets sur le disque.
+Si la réponse contenait une liste d'URL suppléantes, Git aurait cherché les fichiers bruts et les fichiers groupés à ces emplacements, c'est un mécanisme sympathique pour les projets qui ont dérivés d'un autre pour partager les objets sur le disque.
 Cependant, puisqu'il n'y a pas de suppléants listés dans ce cas, votre objet doit se trouver dans un fichier groupé.
 Pour voir quels fichiers groupés sont disponibles sur le serveur, vous avez besoin de récupérer le fichier `objects/info/packs`, qui en contient la liste (générée également par `update-server-info`) :
 

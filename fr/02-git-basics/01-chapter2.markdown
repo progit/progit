@@ -31,7 +31,7 @@ Vous pouvez réaliser ceci avec une poignée de commandes `git add` qui spécifi
 	$ git commit –m 'version initiale du projet'
 
 Nous allons passer en revue ce que ces commandes font dans une petite minute.
-Pour l'instant, vous avez un dépôt git avec des fichiers sous gestion de version et une validation initiale.
+Pour l'instant, vous avez un dépôt Git avec des fichiers sous gestion de version et une validation initiale.
 
 ### Cloner un dépôt existant ###
 
@@ -352,7 +352,7 @@ La manière la plus simple de valider est de taper `git commit` :
 
 	$ git commit
 
-Cette action lance votre éditeur par défaut (qui est paramétré par la variable d'environnement `$EDITOR` de votre shell — habituellement vim ou Emacs, mais vous pouvez le paramétrer spécifiquement pour git en utilisant la commande `git config --global core.editor` comme nous l'avons vu au chapitre 1).
+Cette action lance votre éditeur par défaut (qui est paramétré par la variable d'environnement `$EDITOR` de votre shell — habituellement vim ou Emacs, mais vous pouvez le paramétrer spécifiquement pour Git en utilisant la commande `git config --global core.editor` comme nous l'avons vu au chapitre 1).
 
 L'éditeur affiche le texte suivant :
 
@@ -1291,7 +1291,7 @@ Voici quelques exemples qui pourraient vous intéresser :
 	$ git config --global alias.st status
 
 Ceci signifie que, par exemple, au lieu de taper `git commit`, vous n'avez plus qu'à taper `git ci`.
-Au fur et à mesure de votre utilisation de git, vous utiliserez probablement d'autres commandes plus fréquemment.
+Au fur et à mesure de votre utilisation de Git, vous utiliserez probablement d'autres commandes plus fréquemment.
 Dans ce cas, n'hésitez pas à créer de nouveaux alias.
 
 Cette technique peut aussi être utile pour créer des commandes qui vous manquent.

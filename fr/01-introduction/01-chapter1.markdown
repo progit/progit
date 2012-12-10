@@ -21,7 +21,7 @@ La méthode commune pour la gestion de version est généralement de recopier le
 Cette méthode est la plus commune parce que c'est la plus simple, mais c'est aussi la moins fiable.
 Il est facile d'oublier le répertoire dans lequel vous êtes et d'écrire accidentellement dans le mauvais fichier ou d'écraser des fichiers que vous vouliez conserver.
 
-Pour traiter ce problème, les programmeurs ont développé il y a longtemps des VCSs locaux qui utilisaient une base de données simple pour conserver les modifications d'un fichier (voir figure 1-1).
+Pour traiter ce problème, les programmeurs ont développé il y a longtemps des VCS locaux qui utilisaient une base de données simple pour conserver les modifications d'un fichier (voir figure 1-1).
 
 Insert 18333fig0101.png
 Figure 1-1. Diagramme des systèmes de gestion de version locaux.
@@ -53,7 +53,7 @@ Les systèmes de gestion de version locaux souffrent du même problème — dès
 
 ### Les systèmes de gestion de version distribués ###
 
-C'est à ce moment que les systèmes de gestion de version distribués entrent en jeu (DVCSs en anglais pour *Distributed Version Control Systems*).
+C'est à ce moment que les systèmes de gestion de version distribués entrent en jeu (DVCS en anglais pour *Distributed Version Control Systems*).
 Dans un DVCS (tel que Git, Mercurial, Bazaar ou Darcs), les clients n'extraient plus seulement la dernière version d'un fichier, mais ils dupliquent complètement le dépôt.
 Ainsi, si le serveur disparaît et si les systèmes collaboraient via ce serveur, n'importe quel dépôt d'un des clients peut être copié sur le serveur pour le restaurer.
 Chaque extraction devient une sauvegarde complète de toutes les données (voir figure 1-3).
@@ -71,7 +71,7 @@ Le noyau Linux est un projet libre de grande envergure.
 Pour la plus grande partie de sa vie (1991–2002), les modifications étaient transmises sous forme de patchs et d'archives de fichiers.
 En 2002, le projet du noyau Linux commença à utiliser un DVCS propriétaire appelé BitKeeper.
 
-En 2005, les relations entre la communauté développant le noyau linux et la société en charge du développement de BitKeeper furent rompues, et le statut de gratuité de l'outil fut révoqué.
+En 2005, les relations entre la communauté développant le noyau Linux et la société en charge du développement de BitKeeper furent rompues, et le statut de gratuité de l'outil fut révoqué.
 Cela poussa la communauté du développement de Linux (et plus particulièrement Linus Torvalds, le créateur de Linux) à développer leur propre outil en se basant sur les leçons apprises lors de l'utilisation de BitKeeper.
 Certains des objectifs du nouveau système étaient les suivants :
 
@@ -111,7 +111,7 @@ Git pense ses données plus à la manière de la figure 1-5.
 Insert 18333fig0105.png
 Figure 1-5. Git stocke les données comme des instantanés du projet au cours du temps
 
-C'est une distinction importante entre Git et quasiment tous les autres VCSs.
+C'est une distinction importante entre Git et quasiment tous les autres VCS.
 Git a reconsidéré quasiment tous les aspects de la gestion de version que la plupart des autres systèmes ont copiés des générations précédentes.
 Cela fait quasiment de Git un mini système de fichiers avec des outils incroyablement puissants construits dessus, plutôt qu'un simple VCS.
 Nous explorerons les bénéfices qu'il y a à penser les données de cette manière quand nous aborderons la gestion de branches au chapitre 3.

@@ -12,13 +12,13 @@ Een remote repository is over het algemeen een _bare repository_ (kale repositor
 
 Git kan vier veel voorkomende netwerk protocollen gebruiken om data te transporteren: Lokaal, Beveiligde Shell (SSH), Git en HTTP. Hier laten we zien wat ze zijn, en in welke omstandigheden je ze wilt gebruiken (of juist niet).
 
-Het is belangrijk om te zien dat, met uitzondering van de HTTP protocollen, ze allemaal een werkende Git versie op de server geinstalleerd moeten hebben.
+Het is belangrijk om te zien dat, met uitzondering van de HTTP protocollen, ze allemaal een werkende Git versie op de server geïnstalleerd moeten hebben.
 
 ### Lokaal protocol ###
 
-Het meest basale is het _lokale protocol_, waarbij het remote repository in een andere map op de schijf staat. Dit wordt vaak gebruikt als iedereen in je team toegang heeft op een gedeeld bestandssyteem zoals een NFS map, of in het weinig voorkomende geval dat iedereen op dezelfde computer werkt. Het laatste zou niet ideaal zijn, want dan zouden alle repositories zich op dezelfde computer bevinden, zodat de kans op een catastrofaal verlies veel groter wordt.
+Het meest basale is het _lokale protocol_, waarbij het remote repository in een andere map op de schijf staat. Dit wordt vaak gebruikt als iedereen in je team toegang heeft op een gedeeld bestandssysteem zoals een NFS map, of in het weinig voorkomende geval dat iedereen op dezelfde computer werkt. Het laatste zou niet ideaal zijn, want dan zouden alle repositories zich op dezelfde computer bevinden, zodat de kans op een catastrofaal verlies veel groter wordt.
 
-Als je een gedeeld bestandssyteem hebt, dan kun je clonen, pushen en pullen van een op een lokaal bestand gebaseerde repository. Om een dergelijk repository te clonen, of om er een als een remote aan een bestaand project toe te voegen, moet je het pad naar het repository als URL gebruiken. Bijvoorbeeld, om een lokaal repository te clonen, kun je zoiets als dit uitvoeren:
+Als je een gedeeld bestandssysteem hebt, dan kun je clonen, pushen en pullen van een op een lokaal bestand gebaseerde repository. Om een dergelijk repository te clonen, of om er een als een remote aan een bestaand project toe te voegen, moet je het pad naar het repository als URL gebruiken. Bijvoorbeeld, om een lokaal repository te clonen, kun je zoiets als dit uitvoeren:
 
 	$ git clone /opt/git/project.git
 
@@ -26,7 +26,7 @@ Of je kunt dit doen:
 
 	$ git clone file:///opt/git/project.git
 
-Git werkt iets anders als je expliciet `file://` aan het begin van de URL zet. Als je alleen het pad specificeert, probeert Git hardlinks te gebruiken, of het kopieert de bestanden die het nodig heeft. Als je `file://` specificeert, dan start Git de processen die het normaal gebruikt om data te transporteren over een netwerk, wat over het algemeen een stuk minder efficiente methode is om data te transporteren. De reden om `file://` wel te specificeren is als je een schone kopie van de repository wilt met de extra referenties of objecten eruit gelaten — over het algemeen na een import van een ander versie beheer systeem of iets vergelijkbaars (zie Hoofdstuk 9 voor onderhoudstaken). We zullen het normale pad hier gebruiken, omdat het bijna altijd sneller is om het zo te doen.
+Git werkt iets anders als je expliciet `file://` aan het begin van de URL zet. Als je alleen het pad specificeert, probeert Git hardlinks te gebruiken, of het kopieert de bestanden die het nodig heeft. Als je `file://` specificeert, dan start Git de processen die het normaal gebruikt om data te transporteren over een netwerk, wat over het algemeen een stuk minder efficiënte methode is om data te transporteren. De reden om `file://` wel te specificeren is als je een schone kopie van de repository wilt met de extra referenties of objecten eruit gelaten — over het algemeen na een import van een ander versie beheer systeem of iets vergelijkbaars (zie Hoofdstuk 9 voor onderhoudstaken). We zullen het normale pad hier gebruiken, omdat het bijna altijd sneller is om het zo te doen.
 
 Om een lokaal repository aan een bestaand Git project toe te voegen, kun je zoiets als dit uitvoeren:
 
@@ -42,7 +42,7 @@ Dit is ook een fijne optie om snel werk van een repository van iemand anders te 
 
 #### De nadelen ####
 
-Een van de nadelen van deze methode is dat gedeelde toegang over het algemeen moeilijker op te zetten en te bereiken is vanaf meerdere lokaties dan basaal netwerk toegang. Als je wilt pushen van je laptop als je thuis bent, dan moet je de remote schijf aankoppelen, wat moeilijk en langzaam kan zijn in vergelijking tot netwerk gebaseerde toegang.
+Een van de nadelen van deze methode is dat gedeelde toegang over het algemeen moeilijker op te zetten en te bereiken is vanaf meerdere locaties dan basaal netwerk toegang. Als je wilt pushen van je laptop als je thuis bent, dan moet je de remote schijf aankoppelen, wat moeilijk en langzaam kan zijn in vergelijking tot netwerk gebaseerde toegang.
 
 Het is ook belangrijk om te melden dat het niet noodzakelijk de snelste optie is, als je een gedeeld koppelpunt of iets dergelijks gebruikt. Een lokale repository is alleen snel als je snelle toegang tot de data hebt. Een repository op NFS is vaak langzamer dan het repository via SSH op dezelfde server, wat Git toelaat om vanaf lokale schijven te werken op ieder systeem.
 
@@ -58,15 +58,15 @@ Of je geeft geen protocol op — Git gaat uit van SSH als je niet expliciet bent
 	
 	$ git clone user@server:project.git
 
-Je kunt ook de gebruiker niet opgeven, en Git neemt aan dat je de gebruiker bedoelt waarmee je op het moment bent ingelogged.
+Je kunt ook de gebruiker niet opgeven, en Git neemt aan dat je de gebruiker bedoelt waarmee je op het moment bent ingelogd.
 
 #### De voordelen ####
 
-Er zijn vele voordelen om SSH te gebruiken. De eerste is dat je het eigenlijk wel moet gebruiken als je geverifieerde schrijftoegang op je repository via een netwerk wilt. Het tweede is dat het relatief eenvoudig in te stellen is — SSH daemons komen veel voor, veel systeembeheerders hebben er ervaring mee, en veel operating systemen zijn er mee uitgerust of hebben applicaties om ze te beheren. Daarnaast is toegang via SSH veilig — alle data transporten zijn versleuteld en geverifieerd. En als laatste is SSH efficient, zoals het Git en lokale protocol, waarbij de data zo compact mogelijk wordt gemaakt voordat het getransporteerd wordt.
+Er zijn vele voordelen om SSH te gebruiken. De eerste is dat je het eigenlijk wel moet gebruiken als je geverifieerde schrijftoegang op je repository via een netwerk wilt. Het tweede is dat het relatief eenvoudig in te stellen is — SSH daemons komen veel voor, veel systeembeheerders hebben er ervaring mee, en veel besturingssystemen zijn er mee uitgerust of hebben applicaties om ze te beheren. Daarnaast is toegang via SSH veilig — alle data transporten zijn versleuteld en geverifieerd. En als laatste is SSH efficiënt, zoals het Git en lokale protocol, waarbij de data zo compact mogelijk wordt gemaakt voordat het getransporteerd wordt.
 
 #### De nadelen ####
 
-Het negatieve aspect van SSH is dat je er geen anonieme toegang over kunt geven. Mensen moeten via SSH toegang hebben om er gebruik van te kunnen maken, zelfs als het alleen lezen is, zodat SSH toegang niet bevordelijk is voor open source projecten. Als je het alleen binnen je bedrijfsnetwerk gebruikt, dan kan SSH misschien het enige protocol zijn waar je mee in aanraking komt. Als je anonieme alleen-lezen toegang wilt toestaan tot je projecten, dan moet je SSH voor jezelf instellen om over te pushen, maar iets anders voor anderen om over te pullen.
+Het negatieve aspect van SSH is dat je er geen anonieme toegang over kunt geven. Mensen moeten via SSH toegang hebben om er gebruik van te kunnen maken, zelfs als het alleen lezen is, zodat SSH toegang niet bevorderlijk is voor open source projecten. Als je het alleen binnen je bedrijfsnetwerk gebruikt, dan kan SSH misschien het enige protocol zijn waar je mee in aanraking komt. Als je anonieme alleen-lezen toegang wilt toestaan tot je projecten, dan moet je SSH voor jezelf instellen om over te pushen, maar iets anders voor anderen om over te pullen.
 
 ### Het Git protocol ###
 
@@ -97,7 +97,7 @@ Dat is alles. De `post-update` hook, die standaard bij Git zit, voert het noodza
 
 In dit geval, gebruiken we het `/var/www/htdocs` pad wat gebruikelijk is voor Apache opstellingen, maar je kunt iedere statische webserver gebruiken — stop de kale repository in haar pad. De Git data wordt geserveerd als standaard statische bestanden (zie hoofdstuk 9 voor details over hoe het precies geserveerd wordt).
 
-Het ook is mogelijk om Git over HTTP te laten pushen, alhoewel dat geen veelgebruikte techniek is en erom vraagt dat je complexe WebDAV vereisten insteld. Omdat het zelden gebruikt wordt, zullen we het niet in dit boek beschrijven. Als je geinteresseerd bent om de HTTP-push protocollen te gebruiken, dan kun je op `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` lezen hoe je een repository kunt maken. Het fijne van Git laten pushen over HTTP is dat je iedere WebDAV server kunt gebruiken, zonder specifieke Git eigenschappen; dus je kunt deze functionaliteit gebruiken als je web-hosting provider WebDAV ondersteunt voor schrijf vernieuwingen aan je webpagina.
+Het ook is mogelijk om Git over HTTP te laten pushen, alhoewel dat geen veelgebruikte techniek is en erom vraagt dat je complexe WebDAV vereisten insteld. Omdat het zelden gebruikt wordt, zullen we het niet in dit boek beschrijven. Als je geïnteresseerd bent om de HTTP-push protocollen te gebruiken, dan kun je op `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` lezen hoe je een repository kunt maken. Het fijne van Git laten pushen over HTTP is dat je iedere WebDAV server kunt gebruiken, zonder specifieke Git eigenschappen; dus je kunt deze functionaliteit gebruiken als je web-hosting provider WebDAV ondersteunt voor schrijf vernieuwingen aan je webpagina.
 
 #### De voordelen ####
 
@@ -109,11 +109,11 @@ Een ander fijn ding is dat HTTP zo'n veel voorkomend protocol is dat bedrijfsfir
 
 #### De nadelen ####
 
-Het nadeel van je repository serveren via HTTP is dat het relatief inefficient voor de client is. Over het algemeen duurt het een stuk langer om te clonen en te fetchen van de repository, en je hebt vaak een stuk meer netwerk belasting en transport volume via HTTP dan met elk van de andere netwerk protocollen. Omdat het niet zo intelligent is om alleen de data te versturen die je nodig hebt — er wordt geen dynamisch werk door de server gedaan in deze transacties — wordt vaak naar het HTTP protocol gerefereerd als zijnde een _dom_ protocol. Voor meer informatie over de verschillen in efficientie tussen het HTTP protocol en andere protocollen, zie Hoofdstuk 9.
+Het nadeel van je repository serveren via HTTP is dat het relatief inefficiënt voor de client is. Over het algemeen duurt het een stuk langer om te clonen en te fetchen van de repository, en je hebt vaak een stuk meer netwerk belasting en transport volume via HTTP dan met elk van de andere netwerk protocollen. Omdat het niet zo intelligent is om alleen de data te versturen die je nodig hebt — er wordt geen dynamisch werk door de server gedaan in deze transacties — wordt vaak naar het HTTP protocol gerefereerd als zijnde een _dom_ protocol. Voor meer informatie over de verschillen in efficiëntie tussen het HTTP protocol en andere protocollen, zie Hoofdstuk 9.
 
 ## Git op een server krijgen ##
 
-Om een initiele Git server op te zetten, moet je een bestaande repository in een kale repository exporteren — een repository dat geen werkmap bevat. Dit is over het algemeen eenvoudig te doen.
+Om een initiële Git server op te zetten, moet je een bestaande repository in een kale repository exporteren — een repository dat geen werkmap bevat. Dit is over het algemeen eenvoudig te doen.
 Om je repository te clonen met als doel het maken van een kale repository, voer je het clone commando uit met de `--bare` optie. Als vaste gewoonte eindigen de namen van kale repository mappen in `.git`, zoals:
 
 	$ git clone --bare my_project my_project.git
@@ -129,7 +129,7 @@ Er zijn een paar kleine verschillen in het configuratie bestand; maar voor jouw 
 
 ### Het bare repository op een server zetten ###
 
-Nu dat je een kale kopie van je repository hebt, is het enige dat je moet doen het op een server zetten en je protocollen instellen. Stel dat je een server ingesteld hebt, die `git.example.com` heet, waar je SSH toegang op hebt, en waar je al je Git repositories wilt opslaan onder de `/opt/git` map. Je kunt je nieuwe repository instellen door je kale repository ernaartoe te kopieeren:
+Nu dat je een kale kopie van je repository hebt, is het enige dat je moet doen het op een server zetten en je protocollen instellen. Stel dat je een server ingesteld hebt, die `git.example.com` heet, waar je SSH toegang op hebt, en waar je al je Git repositories wilt opslaan onder de `/opt/git` map. Je kunt je nieuwe repository instellen door je kale repository ernaartoe te kopiëren:
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
@@ -147,7 +147,7 @@ Je ziet hoe eenvoudig het is om een Git repository te nemen, een kale versie aan
 
 Het is belangrijk om te zien dat dit letterlijk alles is wat je moet doen om een bruikbare Git server te draaien waarop meerdere mensen toegang hebben — voeg alleen een paar SSH accounts toe op een server, en stop een kale repository ergens waar al die gebruikers lees- en schrijftoegang tot hebben. Je bent er klaar voor — je hebt niets anders nodig.
 
-In de volgende secties zul je zien hoe je meer ingewikkelde opstellingen kunt maken. Deze bespreking zal het niet hoeven aanmaken van gebruikersaccounts voor elke gebruiker omvatten, publieke leestoegang tot repositories, grafische web interfaces, de Gitosis applicatie gebruiken en meer. Maar, hou in gedachten dat om samen te kunnen werken met mensen op een prive project, alles wat je _nodig_ hebt een SSH server en een kale repository is.
+In de volgende secties zul je zien hoe je meer ingewikkelde opstellingen kunt maken. Deze bespreking zal het niet hoeven aanmaken van gebruikersaccounts voor elke gebruiker omvatten, publieke leestoegang tot repositories, grafische web interfaces, de Gitosis applicatie gebruiken en meer. Maar, hou in gedachten dat om samen te kunnen werken met mensen op een privéproject, alles wat je _nodig_ hebt een SSH server en een kale repository is.
 
 ### Kleine opstellingen ###
 
@@ -155,19 +155,19 @@ Als je met een kleine groep bent of net begint met Git in je organisatie en slec
 
 #### SSH toegang ####
 
-Als je reeds een server hebt waar al je ontwikkelaars SSH toegang op hebben, dan is het over het algemeen het gemakkelijkst om je eerste repository daar in te stellen, omdat je dan bijna niets hoeft te doen (zoals beschreven in de vorige sectie). Als je meer complexe toegangscontrole wilt op je repositories, dan kun je ze instellen met de normale bestandssysteem permissies van het operating systeem dat op je server draait.
+Als je reeds een server hebt waar al je ontwikkelaars SSH toegang op hebben, dan is het over het algemeen het gemakkelijkst om je eerste repository daar in te stellen, omdat je dan bijna niets hoeft te doen (zoals beschreven in de vorige sectie). Als je meer complexe toegangscontrole wilt op je repositories, dan kun je ze instellen met de normale bestandssysteem permissies van het besturingssysteem dat op je server draait.
 
-Als je je repositories op een server wilt zetten, die geen accounts heeft voor iedereen in je team die je schrijftoegang wilt geven, dan moet je SSH toegang voor ze instellen. We gaan er vanuit dat je een server hebt waarmee je dit kunt doen, je reeds een SSH server geinstalleerd hebt, en dat de manier is waarop je toegang hebt tot de server.
+Als je je repositories op een server wilt zetten, die geen accounts heeft voor iedereen in je team die je schrijftoegang wilt geven, dan moet je SSH toegang voor ze instellen. We gaan er vanuit dat je een server hebt waarmee je dit kunt doen, je reeds een SSH server geïnstalleerd hebt, en dat de manier is waarop je toegang hebt tot de server.
 
 Er zijn een paar manieren waarop je iedereen in je team toegang kunt geven. De eerste is voor iedereen accounts aanmaken, wat rechttoe rechtaan is maar omslachtig kan zijn. Je wilt misschien niet `adduser` uitvoeren en tijdelijke wachtwoorden voor iedere gebruiker instellen.
 
-Een tweede methode is een enkele 'git' gebruiker aanmaken op de machine, aan iedere gebruiker die schijftoegang moet hebben vragen of ze je een publieke SSH sleutel sturen, en die sleutel toevoegen aan het `~/.ssh/authorized_keys` bestand van je nieuwe 'git' gebruiker. Vanaf dat punt zal iedereen toegang hebben op die machine via de 'git' gebruiker. Dit tast de commit data op geen enkele manier aan — de SSH gebruiker waarmee je inlogged zal de commits die je opgeslagen hebt niet beinvloeden.
+Een tweede methode is een enkele 'git' gebruiker aanmaken op de machine, aan iedere gebruiker die schijftoegang moet hebben vragen of ze je een publieke SSH sleutel sturen, en die sleutel toevoegen aan het `~/.ssh/authorized_keys` bestand van je nieuwe 'git' gebruiker. Vanaf dat punt zal iedereen toegang hebben op die machine via de 'git' gebruiker. Dit tast de commit data op geen enkele manier aan — de SSH gebruiker waarmee je inlogd zal de commits die je opgeslagen hebt niet beïnvloeden.
 
-Een andere manier waarop je het kunt doen is je SSH server laten verifieren vanaf een LDAP server of een andere gecentraliseerde authenticatie bron, die je misschien al ingesteld hebt. Zolang iedere gebruiker een shell toegang heeft op de machine, zou ieder SSH authenticatie mechanisme dat je kunt bedenken moeten werken.
+Een andere manier waarop je het kunt doen is je SSH server laten verifiëren vanaf een LDAP server of een andere gecentraliseerde authenticatie bron, die je misschien al ingesteld hebt. Zolang iedere gebruiker een shell toegang heeft op de machine, zou ieder SSH authenticatie mechanisme dat je kunt bedenken moeten werken.
 
 ## Je publieke SSH sleutel genereren ##
 
-Dat gezegd hebbende, zijn er vele Git servers die authenticeren met een publieke SSH sleutel. Om een publieke sleutel te hebben, zal iedere gebruiker in je systeem er een moeten genereren als ze er nog geen hebben. Dit proces is bij alle operating systemen vergelijkbaar.
+Dat gezegd hebbende, zijn er vele Git servers die authenticeren met een publieke SSH sleutel. Om een publieke sleutel te hebben, zal iedere gebruiker in je systeem er een moeten genereren als ze er nog geen hebben. Dit proces is bij alle besturingssystemen vergelijkbaar.
 Als eerste moet je controleren dat je er niet al een hebt. Standaard staan de SSH sleutels van de gebruikers in hun eigen `~/.ssh` map. Je kunt makkelijk nagaan of je al een sleutel hebt door naar die map te gaan en de inhoud te tonen:
 
 	$ cd ~/.ssh
@@ -187,9 +187,9 @@ Je bent op zoek naar een aantal bestanden genaamd iets en iets.pub, waarbij het 
 	The key fingerprint is:
 	43:c5:5b:5f:b1:f1:50:43:ad:20:a6:92:6a:1f:9a:3a schacon@agadorlaptop.local
 
-Eerst bevestigt het de lokatie waar je de sleutel wilt opslaan (`.ssh/id_rsa`), en vervolgens vraagt het tweemaal om een wachtzin, die je leeg kunt laten als je geen wachtwoord wilt intypen op het moment dat je de sleutel gebruikt.
+Eerst bevestigt het de locatie waar je de sleutel wilt opslaan (`.ssh/id_rsa`), en vervolgens vraagt het tweemaal om een wachtzin, die je leeg kunt laten als je geen wachtwoord wilt intypen op het moment dat je de sleutel gebruikt.
 
-Iedere gebruiker die dit doet, moet zijn sleutel sturen naar jou of degene die de Git server beheert (aangenomen dat je een SSH server gebruikt die publieke sleutels vereist). Het enige dat ze hoeven doen is de inhoud van het `.pub` bestand kopieeren en e-mailen. De publieke sleutel ziet er ongeveer zo uit:
+Iedere gebruiker die dit doet, moet zijn sleutel sturen naar jou of degene die de Git server beheert (aangenomen dat je een SSH server gebruikt die publieke sleutels vereist). Het enige dat ze hoeven doen is de inhoud van het `.pub` bestand kopiëren en e-mailen. De publieke sleutel ziet er ongeveer zo uit:
 
 	$ cat ~/.ssh/id_rsa.pub 
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -199,11 +199,11 @@ Iedere gebruiker die dit doet, moet zijn sleutel sturen naar jou of degene die d
 	mZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbx
 	NrRFi9wrf+M7Q== schacon@agadorlaptop.local
 
-Voor een uitgebreide tutorial over het aanmaken van een SSH sleutel op meerdere operating systemen, zie de GitHub handleiding over SSH sleutels op `http://github.com/guides/providing-your-ssh-key`.
+Voor een uitgebreide tutorial over het aanmaken van een SSH sleutel op meerdere besturingssystemen, zie de GitHub handleiding over SSH sleutels op `http://github.com/guides/providing-your-ssh-key`.
 
 ## De server instellen ##
 
-Laten we het instellen van SSH toegang aan de server kant eens doorlopen. In dit voorbeeld zul je de `authorized_keys` methode gebruiken om je gebruikers te verifieren. We gaan er ook vanuit dat je een standaard Linux distributie gebruikt zoals Ubuntu. Als eerste creeer je een 'git' gebruiker een een `.ssh` map voor die gebruiker.
+Laten we het instellen van SSH toegang aan de server kant eens doorlopen. In dit voorbeeld zul je de `authorized_keys` methode gebruiken om je gebruikers te verifiëren. We gaan er ook vanuit dat je een standaard Linux distributie gebruikt zoals Ubuntu. Als eerste creëer je een 'git' gebruiker een een `.ssh` map voor die gebruiker.
 
 	$ sudo adduser git
 	$ su git
@@ -233,7 +233,7 @@ Nu kun je een leeg repository voor ze instellen door `git init` uit te voeren me
 	$ cd project.git
 	$ git --bare init
 
-Daarna kunnen John, Josie of Jessica de eerste versie van hun project in de repository pushen door het als een remote toe te voegen en naar een branch te pushen. Let op dat iemand met een shell op de machine zal moeten inloggen en een kale repository moet creeeren, iedere keer als je een project wilt toevoegen. Laten we `gitserver` als hostnaam gebruiken voor de server waar je je 'git' gebruiker en repository hebt ingesteld. Als je het intern gaat draaien, en je de DNS instelt zodat `gitserver` naar die server wijst, dan kun je de commando's vrijwel ongewijzigd gebruiken:
+Daarna kunnen John, Josie of Jessica de eerste versie van hun project in de repository pushen door het als een remote toe te voegen en naar een branch te pushen. Let op dat iemand met een shell op de machine zal moeten inloggen en een kale repository moet creëren, iedere keer als je een project wilt toevoegen. Laten we `gitserver` als hostnaam gebruiken voor de server waar je je 'git' gebruiker en repository hebt ingesteld. Als je het intern gaat draaien, en je de DNS instelt zodat `gitserver` naar die server wijst, dan kun je de commando's vrijwel ongewijzigd gebruiken:
 
 	# op Johns computer
 	$ cd myproject
@@ -261,7 +261,7 @@ Aan het einde zou je een regel moeten vinden die er ongeveer zo uit ziet:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-Verander `/bin/sh` in `/usr/bin/git-shell` (of voer `which git-shell` uit om te zien waar het geinstalleerd is). De regel moet er ongeveer zo uit zien:
+Verander `/bin/sh` in `/usr/bin/git-shell` (of voer `which git-shell` uit om te zien waar het geïnstalleerd is). De regel moet er ongeveer zo uit zien:
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
@@ -273,7 +273,7 @@ Nu kan de 'git' gebruiker de SSH connectie alleen gebruiken om Git repositories 
 
 ## Publieke toegang ##
 
-Wat als je anonieme leestoegang op je project wil? Misschien wil je geen intern prive project serveren, maar een open source project. Of misschien heb je een serie geautomatiseerde bouwservers of continue integratie servers die vaak wijzigen, en wil je niet doorlopend SSH sleutels hoeven genereren — je wil gewoon eenvoudige leestoegang toevoegen.
+Wat als je anonieme leestoegang op je project wil? Misschien wil je geen intern privéproject serveren, maar een open source project. Of misschien heb je een serie geautomatiseerde bouwservers of continue integratie servers die vaak wijzigen, en wil je niet doorlopend SSH sleutels hoeven genereren — je wil gewoon eenvoudige leestoegang toevoegen.
 
 Waarschijnlijk is de eenvoudigste manier voor kleinschalige opstellingen om een statische webserver in te stellen, waarbij de document root naar de plaats van je Git repositories wijst, en dan die `post-update` haak aanzetten waar we het in de eerste sectie van dit hoofdstuk over gehad hebben. Laten we eens uitgaan van het vorige voorbeeld. Stel dat je je repositories in de `/opt/git` map hebt staan, en er draait een Apache server op je machine. Nogmaals, je kunt hiervoor iedere web server gebruiken: maar als voorbeeld zullen we wat basis Apache configuraties laten zien, die je een idee kunnen geven van wat je nodig hebt.
 
@@ -321,7 +321,7 @@ Nu dat je basis lees/schrijf en alleen-lezen toegang tot je project hebt, wil je
 Insert 18333fig0401.png 
 Figuur 4-1. De GitWeb web-gebaseerde gebruikers interface.
 
-Als je wil zien hoe GitWeb er op jouw project uitziet, dan heeft Git een commando waarmee je een tijdelijke instantie op kunt starten als je een lichtgewicht server op je systeem hebt zoals `lighttpd` of `webrick`. Op Linux machines is `lighttpd` vaak geinstalleerd, dus je kunt het misschien draaiend krijgen door `git instaweb` in te typen in je project map. Als je op een Mac werkt: Leopard heeft Ruby voorgeinstalleerd, dus `webrick` zou je beste gok kunnen zijn. Om `instaweb` met een server anders dan lighttpd te starten, kun je het uitvoeren met de `--httpd` optie.
+Als je wil zien hoe GitWeb er op jouw project uitziet, dan heeft Git een commando waarmee je een tijdelijke instantie op kunt starten als je een lichtgewicht server op je systeem hebt zoals `lighttpd` of `webrick`. Op Linux machines is `lighttpd` vaak geïnstalleerd, dus je kunt het misschien draaiend krijgen door `git instaweb` in te typen in je project map. Als je op een Mac werkt: Leopard heeft Ruby voorgeïnstalleerd, dus `webrick` zou je beste gok kunnen zijn. Om `instaweb` met een server anders dan lighttpd te starten, kun je het uitvoeren met de `--httpd` optie.
 
 	$ git instaweb --httpd=webrick
 	[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
@@ -374,7 +374,7 @@ Vervolgens clone en installeer je Gitosis van de hoofdpagina van het project:
 	$ cd gitosis
 	$ sudo python setup.py install
 
-Daarmee worden een aantal uitvoerbare bestanden geinstalleerd, die Gitosis zal gebruiken. Daarna wil Gitosis zijn repositories onder `/home/git` stoppen, wat prima is. Maar je hebt je repositories al in `/opt/git` geconfigureerd, dus in plaats van alles te herconfigureren maken we een symbolische link aan:
+Daarmee worden een aantal uitvoerbare bestanden geïnstalleerd, die Gitosis zal gebruiken. Daarna wil Gitosis zijn repositories onder `/home/git` stoppen, wat prima is. Maar je hebt je repositories al in `/opt/git` geconfigureerd, dus in plaats van alles te herconfigureren maken we een symbolische link aan:
 
 	$ ln -s /opt/git /home/git/repositories
 
@@ -390,7 +390,7 @@ terug naar dit:
 
 	git:x:1000:1000::/home/git:/bin/sh
 
-Nu wordt het tijd om Gitosis te initialiseren. Je doet dit door het `gitosis-init` commando met je eigen publieke sleutel uit te voeren. Als je publieke sleutel niet op de server staat zul je het daar naartoe moeten kopieeren:
+Nu wordt het tijd om Gitosis te initialiseren. Je doet dit door het `gitosis-init` commando met je eigen publieke sleutel uit te voeren. Als je publieke sleutel niet op de server staat zul je het daar naartoe moeten kopiëren:
 
 	$ sudo -H -u git gitosis-init < /tmp/id_dsa.pub
 	Initialized empty Git repository in /opt/git/gitosis-admin.git/
@@ -421,7 +421,7 @@ Nu heb je een map genaamd `gitosis-admin`, die twee hoofd gedeeltes heeft:
 	./keydir
 	./keydir/scott.pub
 
-Het `gitosis.conf` bestand is het beheer bestand, dat je zult gebruiken om gebruikers, repositories en permissies te specificeren. De `keydir` map is de plaats waar je de publieke sleutels opslaat van alle gebruikers die een vorm van toegang tot je repositories hebben — één bestand per gebruiker. De naam van het bestand in `keydir` (in het vorige voorbeeld, `scott.pub`) zal anders voor jou zijn — Gitosis haalt de naam uit de beschrijving aan het einde van de publieke sleutel die was geimporteerd met het `gitosis-init` script.
+Het `gitosis.conf` bestand is het beheer bestand, dat je zult gebruiken om gebruikers, repositories en permissies te specificeren. De `keydir` map is de plaats waar je de publieke sleutels opslaat van alle gebruikers die een vorm van toegang tot je repositories hebben — één bestand per gebruiker. De naam van het bestand in `keydir` (in het vorige voorbeeld, `scott.pub`) zal anders voor jou zijn — Gitosis haalt de naam uit de beschrijving aan het einde van de publieke sleutel die was geïmporteerd met het `gitosis-init` script.
 
 Als je naar het `gitosis.conf` bestand kijkt, zou het alleen informatie over het zojuist geclonede `gitosis-admin` project mogen bevatten:
 
@@ -432,7 +432,7 @@ Als je naar het `gitosis.conf` bestand kijkt, zou het alleen informatie over het
 	writable = gitosis-admin
 	members = scott
 
-Het laat je zien dat de gebruiker 'scott' — de gebruiker met wiens publieke sleutel je Gitosis geinitialiseerd hebt — de enige is die toegang heeft tot het `gitosis-admin` project.
+Het laat je zien dat de gebruiker 'scott' — de gebruiker met wiens publieke sleutel je Gitosis geïnitialiseerd hebt — de enige is die toegang heeft tot het `gitosis-admin` project.
 
 Laten we een nieuw project voor je toevoegen. Je voegt een nieuwe sectie genaamd `mobile` toe, waar je de ontwikkelaars in je mobile team neerzet, en de projecten waar deze ontwikkelaars toegang tot moeten hebben. Omdat 'scott' op het moment de enige gebruiker in het systeem is, zul je hem als enig lid toevoegen en zul je een nieuw project genaamd `iphone_project` toevoegen om mee te beginnen:
 
@@ -507,7 +507,7 @@ Als je problemen hebt, kan het handig zijn om `loglevel=DEBUG` onder de `[gitosi
 
 ## Gitolite ##
 
-Let op: de laatste versie van deze sectie van het Progit boek is altijd beschikbaar in [gitolite documentation][gldpg]. De autheur wil ook nederig vaststellen dat, ondanks dat deze sectie accuraat is, en *kan* (en vaak *is*) gebruikt worden om gitolite te installeren zonder verdere documentatie te lezen; het uit noodzaak niet compleet is, en niet de enorme hoeveelheid documentatie die bij gitolite komt kan vervangen.
+Let op: de laatste versie van deze sectie van het Progit boek is altijd beschikbaar in [gitolite documentation][gldpg]. De auteur wil ook nederig vaststellen dat, ondanks dat deze sectie accuraat is, en *kan* (en vaak *is*) gebruikt worden om gitolite te installeren zonder verdere documentatie te lezen; het uit noodzaak niet compleet is, en niet de enorme hoeveelheid documentatie die bij gitolite komt kan vervangen.
 
 [gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
 
@@ -517,13 +517,13 @@ Gitolite staat je toe om de toegang niet alleen per repository te specificeren, 
 
 ### Installeren ###
 
-Het installeren van Gitolite is erg eenvoudig, zelfs als je niet alle uitgebreide documentatie leest die erbij zit. Je hebt een account om een of andere Unix server nodig; diverse Linux smaken en Solaris 10 zijn getest. Je hebt geen root toegang nodig, aangenomen dat git, perl, en een met openssh verenigbare server reeds geinstalleerd zijn. In de voorbeelden hieronder zullen we het `gitolite` account gebruiken op een host genaamd `gitserver`.
+Het installeren van Gitolite is erg eenvoudig, zelfs als je niet alle uitgebreide documentatie leest die erbij zit. Je hebt een account om een of andere Unix server nodig; diverse Linux smaken en Solaris 10 zijn getest. Je hebt geen root toegang nodig, aangenomen dat git, perl, en een met openssh verenigbare server reeds geïnstalleerd zijn. In de voorbeelden hieronder zullen we het `gitolite` account gebruiken op een host genaamd `gitserver`.
 
-Gitolite is wat ongebruikelijk voor wat betreft "server" software -- toegang gaat via ssh, en dus is ieder gebuikers id een potentiele "gitolite host". Bij gevolg zijn er begrippen als het "installeren" van de software, en dan het "instellen" van een gebruiker als een "gitolite host".
+Gitolite is wat ongebruikelijk voor wat betreft "server" software -- toegang gaat via ssh, en dus is ieder gebuikers id een potentiële "gitolite host". Bij gevolg zijn er begrippen als het "installeren" van de software, en dan het "instellen" van een gebruiker als een "gitolite host".
 
-Gitolite kan op 4 manieren geinstalleerd worden. Mensen die Fedora of Debian systemen gebruiken, kunnen een RPM of DEB krijgen en dat installeren. Mensen met root toegang kunnen het handmatig installeren. Bij deze twee methoden kan iedere gebruiker op het systeem een "gitolite host" worden.
+Gitolite kan op 4 manieren geïnstalleerd worden. Mensen die Fedora of Debian systemen gebruiken, kunnen een RPM of DEB krijgen en dat installeren. Mensen met root toegang kunnen het handmatig installeren. Bij deze twee methoden kan iedere gebruiker op het systeem een "gitolite host" worden.
 
-Mensen zonder root toegang kunnen het binnen hun eigen gebruikerid installeren. Tenslotte kan gitolite geinstalleerd worden door het uitvoeren van een script *op het werkstation*, vanuit een bash shell. (Zelfs de bash shell die bij msysgit zit voldoet, mocht je het je afvragen).
+Mensen zonder root toegang kunnen het binnen hun eigen gebruikerid installeren. Tenslotte kan gitolite geïnstalleerd worden door het uitvoeren van een script *op het werkstation*, vanuit een bash shell. (Zelfs de bash shell die bij msysgit zit voldoet, mocht je het je afvragen).
 
 We zullen deze laatste methode in dit artikel beschrijven; kijk alstublieft in de documentatie voor de andere methoden.
 
@@ -542,7 +542,7 @@ Vervolgens clone je Gitolite van de hoofdsite van het project en voer je het "ea
 	$ cd gitolite/src
 	$ ./gl-easy-install -q gitolite gitserver sitaram
 
-En dan ben je klaar! Gitolite is nu geinstalleerd op de server, en je hebt nu een splinternieuw repository genaamd `gitolite-admin` in de home directory van je werkstation. Je kunt je gitolite installatie beheren door wijzigingen te doen in dit repository en te pushen.
+En dan ben je klaar! Gitolite is nu geïnstalleerd op de server, en je hebt nu een splinternieuw repository genaamd `gitolite-admin` in de home directory van je werkstation. Je kunt je gitolite installatie beheren door wijzigingen te doen in dit repository en te pushen.
 
 Dat laatste commando zorgt wel voor een flinke hoeveelheid uitvoer, dat interessant kan zijn om te lezen. Daarnaast wordt de eerste keer dat je dit uitvoert een nieuw sleutelpaar gegenereerd; je zult hiervoor een wachtzin moeten kiezen of enter drukken om zonder te werken. Waarom een tweede paar nodig is, en hoe het gebruikt wordt, wordt uitgelegd in het "ssh troubleshooting" document dat bij Gitolite zit. (He, de documentatie moet toch *ergens* goed voor zijn!)
 
@@ -559,7 +559,7 @@ Om dezelfde repos van ieder ander account te clonen:
 
 ### De installatie aanpassen ###
 
-Hoewel de standaard, snelle, installatie voor de meeste mensen werkt, zijn er manieren om de installatie aan te passen als dat nodig is. Als je het `-q` argument weglaat, krijg je een "spraakzame" installatiemodus -- met gedetaillerde informatie van wat de installatie aan het doen is bij iedere stap. De spraakzame modus laat je ook bepaalde parameters van de server-kant instellen, zoals de lokatie van de echte repositories, door een "rc" bestand dat de server gebruikt aan te passen. Dit "rc" bestand is behoorlijk van commentaar voorzien, dus je zou eenvoudig in staat moeten zijn om de wijzigingen te maken die je wilt, op te slaan, en te vervolgen. Dit bestand bevat ook instellingen die je kunt aanpassen om sommige geavanceerde opties van gitolite aan of uit te zetten.
+Hoewel de standaard, snelle, installatie voor de meeste mensen werkt, zijn er manieren om de installatie aan te passen als dat nodig is. Als je het `-q` argument weglaat, krijg je een "spraakzame" installatiemodus -- met gedetailleerde informatie van wat de installatie aan het doen is bij iedere stap. De spraakzame modus laat je ook bepaalde parameters van de server-kant instellen, zoals de locatie van de echte repositories, door een "rc" bestand dat de server gebruikt aan te passen. Dit "rc" bestand is behoorlijk van commentaar voorzien, dus je zou eenvoudig in staat moeten zijn om de wijzigingen te maken die je wilt, op te slaan, en te vervolgen. Dit bestand bevat ook instellingen die je kunt aanpassen om sommige geavanceerde opties van gitolite aan of uit te zetten.
 
 ### Configuratiebestand en Toegangsregels ###
 
@@ -585,7 +585,7 @@ Let op dat "sitaram" (het laatste argument voor het `gl-easy-install` commando d
 
 De syntax voor het gitolite configuratie bestand is ruim beschreven in `conf/example.conf`, dus daarom noemen we hier alleen de hoogtepunten.
 
-Je kunt voor het gemak gebruikers of repos grouperen. De groepnamen zijn net als macros; als je ze definieert, maakt het niet eens uit of ze projecten zijn of gebruikers; dat onderscheid wordt alleen gemaakt als je de "macro" *gebruikt*.
+Je kunt voor het gemak gebruikers of repos groeperen. De groepnamen zijn net als macros; als je ze definieert, maakt het niet eens uit of ze projecten zijn of gebruikers; dat onderscheid wordt alleen gemaakt als je de "macro" *gebruikt*.
 
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
@@ -595,7 +595,7 @@ Je kunt voor het gemak gebruikers of repos grouperen. De groepnamen zijn net als
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
-Je kunt permissies instellen op "ref" nivo. In het volgende voorbeeld mogen stagiaires alleen naar de "int" branch pushen. Engineers mogen pushen naar iedere branch waarvan de naam begint met "eng-", en tags die beginnen met "rc" gevolgd door een cijfer. En de admins mogen alles (inclusief rewind) doen op iedere ref.
+Je kunt permissies instellen op "ref" niveau. In het volgende voorbeeld mogen stagiaires alleen naar de "int" branch pushen. Engineers mogen pushen naar iedere branch waarvan de naam begint met "eng-", en tags die beginnen met "rc" gevolgd door een cijfer. En de admins mogen alles (inclusief rewind) doen op iedere ref.
 
 	repo @oss_repos
 	    RW  int$                = @interns
@@ -616,7 +616,7 @@ Die regel zal alleen maar toegevoegd worden aan de set regels voor het `gitolite
 
 Op dit punt zul je je misschien afvragen hoe de toegangsregels feitelijk toegepast worden, dus laten we dat kort bespreken.
 
-Er zijn twee lagen van toegang in gitolite. De eerste is op het nivo van het repository; als je lees (of schrijf) toegang hebt op *een* ref in het repository, dan heb je lees (of schrijf) toegang to het repository.
+Er zijn twee lagen van toegang in gitolite. De eerste is op het niveau van het repository; als je lees (of schrijf) toegang hebt op *een* ref in het repository, dan heb je lees (of schrijf) toegang to het repository.
 
 De tweede laag, die alleen van toepassing is op "schrijf" toegang, is per branch of tag binnen een repository. De gebruikersnaam, de toegang die geprobeerd wordt (`W` of `+`), en de refnaam die aangepast wordt zijn bekend. De toegangsregels worden nagekeken in volgorde van verschijning in het configuratiebestand, waarbij gezocht wordt naar een passende vergelijking voor deze combinatie (maar onthoudt dan de refnaam gepast wordt met een regex, niet slechts met tekst). Als een overeenkomst gevonden wordt, dan slaagt de push. Als de vergelijking er doorheen valt wordt toegang geweigerd.
 
@@ -651,9 +651,9 @@ Gitolite heeft ook een eigenschap genaamd "persoonlijke branches" (of liever, "p
 
 Veel van de code uitwisseling die gedaan wordt in de git wereld gebeurd door middel van "pull alstublieft" verzoeken. In een bedrijfsomgeving echter is ongeverifieerde toegang een no-no, een werkstation van een ontwikkelaar kan geen verificatie doen, dus je zult naar de centrale server moeten pushen en iemand moeten vragen om vanaf daar te pullen.
 
-Dit zou doorgaans dezelfde branchnaam vervuiling veroorzaken als in een gecentralizeerd VCS, en het instellen van permissies hiervoor wordt een klus voor de admin.
+Dit zou doorgaans dezelfde branchnaam vervuiling veroorzaken als in een gecentraliseerd VCS, en het instellen van permissies hiervoor wordt een klus voor de admin.
 
-Gitolite staat je toe een "personal" of "scratch" naamruimte prefix voor iedere ontwikkelaar te definieren (bijvoorbeeld, `refs/personal/<devname>/*`); zie de "personal branches" sectie in `doc/3-faq-tips-etc.mkd` voor details.
+Gitolite staat je toe een "personal" of "scratch" naamruimte prefix voor iedere ontwikkelaar te definiëren (bijvoorbeeld, `refs/personal/<devname>/*`); zie de "personal branches" sectie in `doc/3-faq-tips-etc.mkd` voor details.
 
 ### "Wildcard" repositories ###
 
@@ -665,7 +665,7 @@ We ronden deze bespreking af met een voorproefje van andere eigenschappen, die a
 
 **Logging**: Gitolite legt alle succesvolle toegangen vast. Als je wat rustiger bent over het geven van rewind toegang aan andere mensen (`RW+`) en een of ander joch heeft "master" opgeblazen, dan is het logbestand je redder, in termen van het eenvoudig en snel vinden van het SHA dat kapot is gegaan.
 
-**Git buiten normaal PATH**: Een extreem bruikbaar gemakseigenschap in gitolite is ondersteuning voor een git installatie buiten het normale `$PATH` (dit komt vaker voor dan je denkt; sommige bedrijfsomgevingen of zelfs sommige hosting providers weigeren dingen systeembreed te installeren en je eindigt uiteindelijk met het installeren in je eigen home mappen). Normaal gesproken wordt je geforceerd om de *gebruikerskant* git op een of andere manier bewust te maken van deze niet-standaard locatie van de git bestanden. Met gitolite, kies je slechts een spraakzame installatie en stelt `$GIT_PATH` in in de "rc" bestanden. Voor de rest zijn er daarna geen wijzigingen meer nodig aan de gebruikerskant :-)
+**Git buiten normaal PATH**: Een extreem bruikbare gemakseigenschap in gitolite is ondersteuning voor een git installatie buiten het normale `$PATH` (dit komt vaker voor dan je denkt; sommige bedrijfsomgevingen of zelfs sommige hosting providers weigeren dingen systeembreed te installeren en je eindigt uiteindelijk met het installeren in je eigen home mappen). Normaal gesproken wordt je geforceerd om de *gebruikerskant* git op een of andere manier bewust te maken van deze niet-standaard locatie van de git bestanden. Met gitolite, kies je slechts een spraakzame installatie en stelt `$GIT_PATH` in in de "rc" bestanden. Voor de rest zijn er daarna geen wijzigingen meer nodig aan de gebruikerskant :-)
 
 **Toegangsrapportage**: Een andere handige eigenschap is wat er gebeurd als je probeert met SSH naar de server te gaan. Gitolite toont je welke repos je toegang tot hebt, en welke toegang dat is. Hier is een voorbeeld:
 
@@ -687,7 +687,7 @@ We ronden deze bespreking af met een voorproefje van andere eigenschappen, die a
 
 ## Git daemon ##
 
-Voor publieke ongeverifieerde leestoegang tot je projecten zul je het HTTP protocol achter je willen laten, en overstappen op het Git protocol. De hoofdreden is snelheid. Het Git protocol is veel efficienter en daarmee sneller dan het HTTP protocol, dus het zal je gebruikers tijd besparen.
+Voor publieke ongeverifieerde leestoegang tot je projecten zul je het HTTP protocol achter je willen laten, en overstappen op het Git protocol. De hoofdreden is snelheid. Het Git protocol is veel efficiënter en daarmee sneller dan het HTTP protocol, dus het zal je gebruikers tijd besparen.
 
 Nogmaals, dit is voor ongeverifieerde alleen-lezen toegang. Als je dit op een server buiten je firewall draait, zul je het alleen moeten gebruiken voor projecten die voor de hele wereld toegankelijk moeten zijn. Als de server waarop je het draait binnen je firewall staat, zou je het kunnen gebruiken voor projecten waarbij een groot aantal mensen of computers (continue integratie of bouwservers) alleen-lezen toegang moeten hebben, waarbij je niet voor iedereen een SSH sleutel wilt toevoegen.
 
@@ -697,7 +697,7 @@ In ieder geval is het Git protocol relatief eenvoudig in te stellen. Eigenlijk i
 
 `--reuseaddr` staat de server toe om te herstarten zonder te wachten tot oude connecties een time out krijgen, de `--base-path` optie staat mensen toe om projecten te clonen zonder het volledige pad te specificeren, en het pad aan het einde vertelt de Git daemon waar hij moet kijken voor de te exporteren repositories. Als je een firewall draait, zul je er ook een gat in moeten maken op poort 9418 op de machine waar je dit op instelt.
 
-Je kunt dit proces op een aantal manieren daemoniseren, afhankelijk van het besturingssystem waarop je draait. Op een Ubuntu machine, zul je een Upstart script gebruiken. Dus in het volgende bestand
+Je kunt dit proces op een aantal manieren daemoniseren, afhankelijk van het besturingssysteem waarop je draait. Op een Ubuntu machine, zul je een Upstart script gebruiken. Dus in het volgende bestand
 
 	/etc/event.d/local-git-daemon
 
@@ -757,9 +757,9 @@ Vandaag de dag heb je een enorm aantal beheer opties om uit te kiezen, elk met v
 
 	http://git-scm.com/tools#hosting
 
-Omdat we ze niet allemaal kunnen behandelen, en ik toevalllig bij een ervan werk, zullen we deze sectie gebruiken om door het instellen van een account en het opzetten van een project op GitHub lopen. Dit geeft je een idee van het benodigde werk.
+Omdat we ze niet allemaal kunnen behandelen, en ik toevallig bij een ervan werk, zullen we deze sectie gebruiken om door het instellen van een account en het opzetten van een project op GitHub lopen. Dit geeft je een idee van het benodigde werk.
 
-GitHub is veruit de grootste open source Git beheer pagina en het is ook een van de weinige die zowel publieke als privé beheer opties biedt, zodat je je open source en commerciele privé code in dezelfde plaats kunt bewaren. Sterker nog, we hebben GitHub gebruikt om privé samen te werken aan dit boek.
+GitHub is veruit de grootste open source Git beheer pagina en het is ook een van de weinige die zowel publieke als privé beheer opties biedt, zodat je je open source en commerciële privé code in dezelfde plaats kunt bewaren. Sterker nog, we hebben GitHub gebruikt om privé samen te werken aan dit boek.
 
 ### GitHub ###
 
@@ -779,7 +779,7 @@ Hier moet je een gebruikersnaam kiezen die nog niet bezet is in het systeem, en 
 Insert 18333fig0403.png 
 Figuur 4-3. Het GitHub gebruikers inteken formulier.
 
-Als je het beschikbaar hebt, is dit een goed moment om je publieke SSH sleutel ook toe te voegen. We hebben je eerder laten zien hoe je een nieuwe sleutel kunt genereren, in de "Eenvoudige Instellingen" sectie. Neem de inhoud van de publieke sleutel van dat paar, en plak het in het SSH publieke sleutel tekstveld. Door op de "explain ssh keys" link te klikken wordt je naar gedetaileerde instructies gebracht die je vertellen hoe dit te doen op alle veelgebruikte besturingssystemen.
+Als je het beschikbaar hebt, is dit een goed moment om je publieke SSH sleutel ook toe te voegen. We hebben je eerder laten zien hoe je een nieuwe sleutel kunt genereren, in de "Eenvoudige Instellingen" sectie. Neem de inhoud van de publieke sleutel van dat paar, en plak het in het SSH publieke sleutel tekstveld. Door op de "explain ssh keys" link te klikken wordt je naar gedetailleerde instructies gebracht die je vertellen hoe dit te doen op alle veelgebruikte besturingssystemen.
 Door op de "I agree, sign me up" knop te klikken wordt je naar je nieuwe gebruikers dashboard gebracht (zie Figuur 4-4).
 
 Insert 18333fig0404.png 
@@ -822,7 +822,7 @@ Figuur 4-8. Project met een publieke URL en een privé URL.
 
 De publieke Clone URL is een publieke alleen-lezen Git URL, waarmee iedereen het project kan clonen. Deel deze URL maar gewoon uit en zet 'm op je website of wat je ook hebt.
 
-De Your Clone URL is een lees/schrijf SSH-gebaseerde URL waar je alleen over kunt lezen of schrijven als je connectie maakt met de privé SSH sleutel die geassocieerd is met de publieke sleutel die je voor jouw gebruiker geupload hebt. Wanneer andere gebruikers deze project pagina bezoeken, zullen ze die URL niet zien — alleen de publieke.
+De Your Clone URL is een lees/schrijf SSH-gebaseerde URL waar je alleen over kunt lezen of schrijven als je connectie maakt met de privé SSH sleutel die geassocieerd is met de publieke sleutel die je voor jouw gebruiker geüpload hebt. Wanneer andere gebruikers deze project pagina bezoeken, zullen ze die URL niet zien — alleen de publieke.
 
 ### Importeren vanuit Subversion ###
 
@@ -831,7 +831,7 @@ Als je een bestaande publiek Subversion project hebt dat je in Git wilt importer
 Insert 18333fig0409.png 
 Figuur 4-9. Subversion importeer interface.
 
-Als je project erg groot is, niet standaard, of privé, dan zal dit process waarschijnlijk niet voor je werken. In Hoofdstuk 7 zul je leren om meer gecompliceerde handmatige project imports te doen.
+Als je project erg groot is, niet standaard, of privé, dan zal dit proces waarschijnlijk niet voor je werken. In Hoofdstuk 7 zul je leren om meer gecompliceerde handmatige project imports te doen.
 
 ### Medewerkers toevoegen ###
 
@@ -852,20 +852,20 @@ Als je klaar bent met medewerkers toevoegen, dan zou je een lijst met de namen m
 Insert 18333fig0412.png 
 Figuur 4-12. Een lijst met medewerkers aan je project.
 
-Als je toegang van individuen moet intrekken, dan kun je de "revoke" link klikken, en dan wordt hun push toegang ingetrokken. Voor toekomstige projecten, kun je ook de medewerker groepen kopieeren door de permissies van een bestaand project te kopieeren.
+Als je toegang van individuen moet intrekken, dan kun je de "revoke" link klikken, en dan wordt hun push toegang ingetrokken. Voor toekomstige projecten, kun je ook de medewerker groepen kopiëren door de permissies van een bestaand project te kopiëren.
 
 ### Je project ###
 
-Nadat je je project gepushed hebt, of geimporteerd vanuit Subversion, heb je een hoofd project pagina die er uitziet zoals Figuur 4-13.
+Nadat je je project gepushed hebt, of geïmporteerd vanuit Subversion, heb je een hoofd project pagina die er uitziet zoals Figuur 4-13.
 
 Insert 18333fig0413.png 
-Figuur 4-13. Een GitHub project hoofpagina.
+Figuur 4-13. Een GitHub project hoofdpagina.
 
 Als mensen je project bezoeken, zien ze deze pagina. Het bevat tabs naar de verschillende aspecten van je projecten. De Commits tab laat een lijst van commits in omgekeerde chronologische volgorde zien, vergelijkbaar met de output van het `git log` commando. De Network tab toont alle mensen die je project hebben geforked en bijgedragen hebben. De Downloads tab staat je toe project binaries te uploaden en naar tarballs en gezipte versies van ieder getagged punt in je project te linken. De Wiki tab voorziet in een wiki waar je documentatie kunt schrijven of andere informatie over je project. De Graphs tab heeft wat contributie visualisaties en statistieken over je project. De hoofd Source tab waarop je binnen komt toont de inhoud van de hoofdmap van je project en toont automatisch het README bestand eronder als je er een hebt. Deze tab toont ook een veld met de laatste commit informatie.
 
 ### Projecten forken ###
 
-Als je aan een bestaand project waarop je geen push toegang hebt wilt bijdragen, dan moedigt GitHub het forken van een project toe. Als je op een project pagina belandt, die interessant lijkt en je wilt er een beetje op hacken, dan kun je de "fork" knop klikken aan de bovenkant van het project om GitHub dat project te laten kopieeren naar jouw gebruiker zodat je er naar kunt pushen.
+Als je aan een bestaand project waarop je geen push toegang hebt wilt bijdragen, dan moedigt GitHub het forken van een project toe. Als je op een project pagina belandt, die interessant lijkt en je wilt er een beetje op hacken, dan kun je de "fork" knop klikken aan de bovenkant van het project om GitHub dat project te laten kopiëren naar jouw gebruiker zodat je er naar kunt pushen.
 
 Op deze manier hoeven projecten zich geen zorgen te maken over het toevoegen van medewerkers om ze push toegang te geven. Mensen kunnen een project forken en ernaar pushen, en de hoofdeigenaar van het project kan die wijzigingen pullen door ze als remotes toe te voegen en hun werk te mergen.
 

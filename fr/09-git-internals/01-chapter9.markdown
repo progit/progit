@@ -19,12 +19,12 @@ Ensuite, vous apprendrez les mécanismes de transport/transmission/communication
 ## Plomberie et porcelaine ##
 
 Ce livre couvre l'utilisation de Git avec une trentaine de verbes comme `checkout`, `branch`, `remote`...
-Mais, puisque Git était initialement une boîte à outils (*toolkit*) pour VCS, plutôt qu'un VCS complet et conviviale, il dispose de tout un ensemble d'actions pour les tâches bas niveau qui étaient conçues pour être liées à la UNIX ou appelées depuis des scripts.
+Mais, puisque Git était initialement une boîte à outils (*toolkit*) pour VCS, plutôt qu'un VCS complet et conviviale, il dispose de tout un ensemble d'actions pour les tâches bas niveau qui étaient conçues pour être liées dans le style UNIX ou appelées depuis des scripts.
 Ces commandes sont dites commandes de « plomberie » (*plumbing*) et les autres, plus conviviales sont appelées « porcelaines » (*porcelain*).
 
 Les huit premiers chapitres du livre concernent presque exclusivement les commandes porcelaine.
-Par contre, dans ce chapitre, vous serez principalement confronté aux commandes de plomberie bas niveaux, car elles vous donnent accès au fonctionnement interne de Git et aident à montrer comment et pourquoi Git fonctionne comme il le fait.
-Ces commandes ne sont pas faites pour être utilisées à la main sur ligne de commandes, mais sont plutôt utilisées comme briques de bases pour écrire de nouveaux outils et scripts personnalisés.
+Par contre, dans ce chapitre, vous serez principalement confronté aux commandes de plomberie bas niveau, car elles vous donnent accès au fonctionnement interne de Git et aident à montrer comment et pourquoi Git fonctionne comme il le fait.
+Ces commandes ne sont pas faites pour être utilisées à la main sur une ligne de commande, mais sont plutôt utilisées comme briques de base pour écrire de nouveaux outils et scripts personnalisés.
 
 Quand vous exécutez `git init` dans un nouveau répertoire ou un répertoire existant, Git crée un répertoire `.git` qui contient presque tout ce que Git stocke et manipule.
 Si vous voulez sauvegarder ou cloner votre dépôt, copier ce seul répertoire suffirait presque.
@@ -143,7 +143,7 @@ Git peut vous donner le type d'objet de n'importe quel objet Git, étant donné 
 
 ### Objets arbre ###
 
-Le prochain type que vous allez étudier est l'objet arbre (N.d.t 'tree') qui résout le problème de stockage d'un groupe de fichiers.
+Le prochain type que vous allez étudier est l'objet arbre (*tree*) qui résout le problème de stockage d'un groupe de fichiers.
 Git stocke du contenu de la même manière, mais plus simplement, qu'un système de fichier UNIX.
 Tout le contenu est stocké comme des objets de type arbre ou blob : un arbre correspondant à un répertoire UNIX et un blob correspond à peu près à un i-nœud ou au contenu d'un fichier.
 Un unique arbre contient une ou plusieurs entrées de type arbre, chacune incluant un pointeur SHA-1 vers un blob, un sous-arbre (*sub-tree*), ainsi que les droits d'accès (*mode*), le type et le nom de fichier.
@@ -364,7 +364,7 @@ Ensuite, ouvrez le fichier avec `File.open()` et enregistrez le contenu compress
 
 C'est tout !
 Vous venez juste de créer un objet Blob valide.
-Tout les objets Git sont stockés de la même façon, mais avec des types différents : l'en-tête commencera par « *commit* » ou « tree » au lieu de la chaîne « blob ».
+Tout les objets Git sont stockés de la même façon, mais avec des types différents : l'en-tête commencera par « commit » ou « tree » au lieu de la chaîne « blob ».
 Bien que le contenu d'un blob puisse être presque n'importe quoi, le contenu  d'un *commit* ou d'un arbre est formaté d'une façon particulière.
 
 ## Références Git ##
@@ -372,7 +372,7 @@ Bien que le contenu d'un blob puisse être presque n'importe quoi, le contenu  d
 On peut exécuter quelque chose comme `git log 1a410e` pour visualiser tout l'historique, mais il faut se souvenir que `1a410e` est le dernier *commit* afin de parcourir l'historique et trouver tous ces objets.
 Vous avez besoin d'un fichier ayant un nom simple qui contient l'empreinte SHA-1 afin d'utiliser ce pointeur plutôt que l'empreinte SHA-1 elle-même.
 
-Git appelle ces pointeur des « références », ou « refs ».
+Git appelle ces pointeurs des « références », ou « refs ».
 On trouve les fichiers contenant des empreintes SHA-1 dans le répertoire `git/refs`.
 Dans le projet actuel, ce répertoire ne contient aucun fichier, mais possède une structure simple :
 
@@ -618,7 +618,7 @@ Puisqu'ils n'ont été ajoutés à aucun *commit*, ils sont considérés en susp
 Les autres fichiers sont le nouveau fichier groupé et un index.
 Le fichier groupé est un fichier unique rassemblant le contenu de tous les objets venant d'être supprimés du système de fichier.
 L'index est un fichier contenant les emplacements dans le fichier groupé, pour que l'on puisse accéder rapidement à un objet particulier.
-Ce qui est vraiment bien, c'est que les objets occupaient environ 12 Kio d'espace disque avant `gc` et que le nouveau fichier groupé en occupe seulement 6Ko.
+Ce qui est vraiment bien, c'est que les objets occupaient environ 12 Kio d'espace disque avant `gc` et que le nouveau fichier groupé en occupe seulement 6 Kio.
 On a divisé par deux l'occupation du disque en regroupant les objets.
 
 Comment Git réalise-t-il cela ?
@@ -962,7 +962,7 @@ Vous pouvez exécuter `auto gc` manuellement :
 	$ git gc --auto
 
 Encore une fois, cela ne fait généralement rien.
-Vous devez avoir environ 70 000 objets bruts ou plus de 50 fichiers groupés pour que Git appelle une vraie commande `gc`.
+Vous devez avoir environ 7 000 objets bruts ou plus de 50 fichiers groupés pour que Git appelle une vraie commande `gc`.
 Vous pouvez modifier ces limites avec les propriétés de configuration `gc.auto` et `gc.autopacklimit`, respectivement.
 
 `gc` regroupera aussi vos références dans un seul fichier.
@@ -1143,7 +1143,7 @@ Vous pouvez exécutez la commande `count-objects` pour voir rapidement combien d
 	prune-packable: 0
 	garbage: 0
 
-L'entrée `size-pack` est la taille de vos fichiers groupés en kilooctets, vous utilisez donc 20 Mio.
+L'entrée `size-pack` est la taille de vos fichiers groupés en kilooctets, vous utilisez donc 2 Mio.
 Avant votre dernier *commit*, vous utilisiez environ 2 Kio, clairement, supprimer le fichier avec le *commit* précédent ne l'a pas enlevé de votre historique.
 À chaque fois que quelqu'un clonera votre dépôt, il aura à cloner les 2 Mio pour récupérer votre tout petit projet, parce que vous avez accidentellement rajouté un gros fichier.
 Débarrassons-nous en.

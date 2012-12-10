@@ -11,14 +11,14 @@ Un gestionnaire de version est un système qui enregistre l'évolution d'un fich
 Dans les exemples de ce livre, nous utiliserons des fichiers sources de logiciel comme fichiers sous gestion de version, bien qu'en réalité on puisse l'utiliser avec pratiquement tous les types de fichiers d'un ordinateur.
 
 Si vous êtes un dessinateur ou un développeur web, et que vous voulez conserver toutes les versions d'une image ou d'une mise en page (ce que vous souhaiteriez assurément), un système de gestion de version (VCS en anglais pour *Version Control System*) est un outil qu'il est très sage d'utiliser.
-Il vous permet de ramener un fichier à un état précédent, ramener le projet complet à un état précédent, comparer les changements au cours du temps, voir qui a modifié quelque chose qui pourrait causer un problème, qui a introduit un problème et quand, et plus encore.
+Il vous permet de ramener un fichier à un état précédent, de ramener le projet complet à un état précédent, de comparer les changements au cours du temps, de voir qui a modifié quelque chose qui pourrait causer un problème, qui a introduit un problème et quand, et plus encore.
 Utiliser un VCS signifie aussi généralement que si vous vous trompez ou que vous perdez des fichiers, vous pouvez facilement revenir à un état stable.
-De plus, vous obtenez tous ces avantages avec une faible surcharge de travail.
+De plus, vous obtenez tous ces avantages avec peu de travail additionnel.
 
 ### Les systèmes de gestion de version locaux ###
 
-La méthode commune pour la gestion de version est généralement de recopier les fichiers dans un autre répertoire (peut-être avec un nom incluant la date dans le meilleur des cas).
-Cette méthode est la plus commune parce que c'est la plus simple, mais c'est aussi la moins fiable.
+La méthode courante pour la gestion de version est généralement de recopier les fichiers dans un autre répertoire (peut-être avec un nom incluant la date dans le meilleur des cas).
+Cette méthode est la plus courante parce que c'est la plus simple, mais c'est aussi la moins fiable.
 Il est facile d'oublier le répertoire dans lequel vous êtes et d'écrire accidentellement dans le mauvais fichier ou d'écraser des fichiers que vous vouliez conserver.
 
 Pour traiter ce problème, les programmeurs ont développé il y a longtemps des VCS locaux qui utilisaient une base de données simple pour conserver les modifications d'un fichier (voir figure 1-1).
@@ -28,7 +28,7 @@ Figure 1-1. Diagramme des systèmes de gestion de version locaux.
 
 Un des systèmes les plus populaires était RCS, qui est encore distribué avec de nombreux systèmes d'exploitation aujourd'hui.
 Même le système d'exploitation populaire Mac OS X inclut le programme `rcs` lorsqu'on installe les outils de développement logiciel.
-Cet outil fonctionne en conservant des ensembles de patch (c'est-à-dire la différence entre les fichiers) d'une version à l'autre dans un format spécial sur disque ;
+Cet outil fonctionne en conservant des ensembles de patchs (c'est-à-dire la différence entre les fichiers) d'une version à l'autre dans un format spécial sur disque ;
 il peut alors restituer l'état de n'importe quel fichier à n'importe quel instant en ajoutant toutes les différences.
 
 ### Les systèmes de gestion de version centralisés ###
@@ -97,7 +97,7 @@ comprendre ces différences vous évitera des confusions à l'utilisation.
 
 La différence majeure entre Git et les autres VCS (Subversion et autres) réside dans la manière dont Git considère les données.
 Au niveau conceptuel, la plupart des autres VCS gèrent l'information comme une liste de modifications de fichiers.
-Ces systèmes (CVS, Subversion, Perforce, Bazaar et autres) considèrent l'information qu'il gèrent comme une liste de fichiers et les modifications effectuées sur chaque fichier dans le temps, comme illustré en figure 1-4.
+Ces systèmes (CVS, Subversion, Perforce, Bazaar et autres) considèrent l'information qu'ils gèrent comme une liste de fichiers et les modifications effectuées sur chaque fichier dans le temps, comme illustré en figure 1-4.
 
 Insert 18333fig0104.png
 Figure 1-4. D'autres systèmes sauvent l'information comme des modifications sur des fichiers.
@@ -118,7 +118,7 @@ Nous explorerons les bénéfices qu'il y a à penser les données de cette mani�
 
 ### Presque toutes les opérations sont locales ###
 
-La plupart des opérations de Git ne nécessite que des fichiers et ressources locales — généralement aucune information venant d'un autre ordinateur du réseau n'est nécessaire.
+La plupart des opérations de Git ne nécessite que des fichiers et ressources locaux — généralement aucune information venant d'un autre ordinateur du réseau n'est nécessaire.
 Si vous êtes habitué à un CVCS où toutes les opérations sont ralenties par la latence des échanges réseau, cet aspect de Git vous fera penser que les dieux de la vitesse ont octroyé leurs pouvoirs à Git.
 Comme vous disposez de l'historique complet du projet localement sur votre disque dur, la plupart des opérations semblent instantanées.
 
@@ -207,7 +207,7 @@ les deux principales sont de l'installer à partir des sources ou d'installer un
 
 Si vous le pouvez, il est généralement conseillé d'installer Git à partir des sources, car vous obtiendrez la version la plus récente.
 Chaque nouvelle version de Git tend à inclure des améliorations utiles de l'interface utilisateur, donc récupérer la toute dernière version est souvent la meilleure option si vous savez compiler des logiciels à partir des sources.
-Comme la plupart du temps les distributions contiennent des version très anciennes de logiciels, à moins que vous ne travailliez sur une distribution
+De nombreuses distributions de Linux contiennent souvent des versions très anciennes de logiciels, donc à moins que vous ne travailliez sur une distribution
 très récente ou que vous n'utilisiez des backports, une installation à partir des sources peut être le meilleur choix.
 
 Pour installer Git, vous avez besoin des bibliothèques suivantes : curl, zlib, openssl, expat, libiconv.
@@ -270,7 +270,7 @@ Téléchargez simplement le fichier exe d'installateur depuis la page Google Cod
 
 	http://code.google.com/p/msysgit
 
-Après son installation, vous avez à la fois la version en ligne de commande (avec un client SSH utile pour la suite) ou l'interface graphique standard.
+Après son installation, vous avez à la fois la version en ligne de commande (avec un client SSH utile pour la suite) et l'interface graphique standard.
 
 Note sur l'usage sous Windows :
 vous devriez utiliser Git avec la ligne de command fournie par msysGit (style Unix), car elle permet d'utiliser les lignes de commandes complexes données dans ce livre.
@@ -294,7 +294,7 @@ Vous pouvez forcer Git à lire et écrire ce fichier en passant l'option `--glob
 *	Fichier `config` dans le répertoire Git (c'est à dire `.git/config`) du dépôt en cours d'utilisation : spécifique au seul dépôt en cours.
 Chaque niveau surcharge le niveau précédent, donc les valeurs dans `.git/config` surchargent celles de `/etc/gitconfig`.
 
-Sur les systèmes Windows, Git recherche le fichier `.gitconfig` dans le répertoire `$HOME` (`C:\Documents and Settings\$USER` la plupart du temps).
+Sur les systèmes Windows, Git recherche le fichier `.gitconfig` dans le répertoire `$HOME` (`%USERPROFILE%` dans l'environement natif de Windows) qui est `C:\Documents and Settings\$USER` ou `C:\Users\$USER` la plupart du temps, selon la version (`$USER` devient `%USERNAME%` dans l'environement de Windows).
 Il recherche tout de même `/etc/gitconfig`, bien qu'il soit relatif à la racine MSys, qui se trouve où vous aurez décidé d'installer Git sur votre système Windows.
 
 ### Votre identité ###

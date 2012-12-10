@@ -55,7 +55,7 @@ Figure 5-2. Le mode du gestionnaire d'intégration
 
 C'est une gestion très commune sur des sites tels que GitHub où il est aisé de dupliquer un projet et de pousser ses modifications pour les rendre publiques.
 Un avantage distinctif de cette approche est qu'il devient possible de continuer à travailler et que le mainteneur du dépôt principal peut tirer les modifications à tout moment.
-Les contributeurs n'ont pas à attendre le bon-vouloir du mainteneur pour incorporer leurs modifications.
+Les contributeurs n'ont pas à attendre le bon vouloir du mainteneur pour incorporer leurs modifications.
 Chaque acteur peut travailler à son rythme.
 
 ### Mode dictateur et ses lieutenants ###

@@ -49,7 +49,7 @@ Cependant ce système a aussi de nombreux défauts.
 Le plus visible est le point unique de panne que le serveur centralisé représente.
 Si ce serveur est en panne pendant une heure, alors durant cette heure, aucun client ne peut collaborer ou enregistrer les modifications issues de son travail.
 Si le disque dur du serveur central se corrompt, et s'il n'y a pas eu de sauvegarde, vous perdez absolument tout de l'historique d'un projet en dehors des sauvegardes locales que les gens auraient pu réaliser sur leur machines locales.
-Les systèmes de gestion de version locaux souffrent du même problème - dès qu'on a tout l'historique d'un projet sauvegardé à un endroit unique, on prend le risque de tout perdre.
+Les systèmes de gestion de version locaux souffrent du même problème — dès qu'on a tout l'historique d'un projet sauvegardé à un endroit unique, on prend le risque de tout perdre.
 
 ### Les systèmes de gestion de version distribués ###
 
@@ -118,7 +118,7 @@ Nous explorerons les bénéfices qu'il y a à penser les données de cette mani�
 
 ### Presque toutes les opérations sont locales ###
 
-La plupart des opérations de Git ne nécessite que des fichiers et ressources locales - généralement aucune information venant d'un autre ordinateur du réseau n'est nécessaire.
+La plupart des opérations de Git ne nécessite que des fichiers et ressources locales — généralement aucune information venant d'un autre ordinateur du réseau n'est nécessaire.
 Si vous êtes habitué à un CVCS où toutes les opérations sont ralenties par la latence des échanges réseau, cet aspect de Git vous fera penser que les dieux de la vitesse ont octroyé leurs pouvoirs à Git.
 Comme vous disposez de l'historique complet du projet localement sur votre disque dur, la plupart des opérations semblent instantanées.
 
@@ -160,7 +160,7 @@ Par contre, comme dans la plupart des systèmes de gestion de version, vous pouv
 mais dès que vous avez validé un instantané dans Git, il est très difficile de le perdre, spécialement si en plus vous synchronisez votre base de données locale avec un dépôt distant.
 
 Cela fait de l'usage de Git un vrai plaisir, car on peut expérimenter sans danger de casser définitivement son projet.
-Pour une information plus approfondie sur la manière dont Git stocke ses données et comment récupérer des données qui pourraient sembler perdues, référez-vous au chapitre 9 "Les tripes de Git".
+Pour une information plus approfondie sur la manière dont Git stocke ses données et comment récupérer des données qui pourraient sembler perdues, référez-vous au chapitre 9 « Les tripes de Git ».
 
 ### Les trois états ###
 

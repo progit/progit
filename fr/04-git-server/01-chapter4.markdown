@@ -5,7 +5,7 @@ Néanmoins, pour pouvoir collaborer avec d'autres personnes au moyen de Git, vou
 Bien que vous puissiez techniquement tirer des modifications et pousser des modification avec des dépôts individuels, cette pratique est découragée parce qu'elle introduit très facilement une confusion avec votre travail actuel.
 De plus, vous souhaitez que vos collaborateurs puissent accéder à votre dépôt de sources, y compris si vous n'êtes pas connecté — disposer d'un dépôt accessible en permanence peut s'avérer utile.
 De ce fait, la méthode canonique pour collaborer consiste à instancier un dépôt intermédiaire auquel tous ont accès, que ce soit pour pousser ou tirer.
-Nous nommerons ce dépôt le "serveur Git" mais vous vous apercevrez qu'héberger un serveur de dépôt Git ne consomme que peu de ressources et qu'en conséquence, on n'utilise que rarement une machine dédiée à cette tâche.
+Nous nommerons ce dépôt le « serveur Git » mais vous vous apercevrez qu'héberger un serveur de dépôt Git ne consomme que peu de ressources et qu'en conséquence, on n'utilise que rarement une machine dédiée à cette tâche.
 
 Un serveur Git est simple à lancer.
 Premièrement, vous devez choisir quels protocoles seront supportés.
@@ -15,8 +15,8 @@ Enfin, nous traiterons de quelques types d'hébergement, si vous souhaitez hébe
 
 Si vous ne voyez pas d'intérêt à gérer votre propre serveur, vous pouvez sauter directement à la dernière partie de ce chapitre pour détailler les options pour mettre en place un compte hébergé, avant de continuer dans le chapitre suivant où les problématiques de développement distribué sont abordées.
 
-Un dépôt distant est généralement un _dépôt nu_ ( *bare repository* ), un dépôt Git qui n'a pas de copie de travail.
-Comme ce dépôt n'est utilisé que comme centralisateur de collaboration, il n'y a aucune raison d'extraire un instantané sur le disque ; seules les données Git sont nécessaires.
+Un dépôt distant est généralement un _dépôt nu_ (*bare repository*), un dépôt Git qui n'a pas de copie de travail.
+Comme ce dépôt n'est utilisé que comme centralisateur de collaboration, il n'y a aucune raison d'extraire un instantané sur le disque ; seules les données Git sont nécessaires.
 Pour simplifier, un dépôt nu est le contenu du répertoire `.git` sans fioriture.
 
 ## Protocoles ##
@@ -697,7 +697,7 @@ Dans les exemples qui suivent, un compte `git` sur un serveur `gitserver` sera u
 
 Pour commencer, créez un utilisateur nommé `git` et loggez vous avec cet utilisateur.
 Copiez votre clé publique ssh depuis votre station de travail en la renommant `VotreNom.pub`.
-Ensuite, lancez les commandes ci-dessous :
+Ensuite, lancez les commandes ci-dessous :
 
 	git clone git://github.com/sitaramc/gitolite
 	gitolite/install -ln
@@ -707,7 +707,7 @@ Ensuite, lancez les commandes ci-dessous :
 
 Enfin, de retour sur la station de travail, lancez `git clone git@gitserver:gitolite-admin`.
 
-C'est fini !
+C'est fini !
 Gitolite est à présent installé sur le serveur ainsi qu'un nouveau dépôt appelé `gitolite-admin` qui a été cloné sur la station de travail.
 L'administration de gitolite passe par des modifications dans ce dépôt suivi d'une poussée sur le serveur.
 
@@ -715,7 +715,7 @@ L'administration de gitolite passe par des modifications dans ce dépôt suivi d
 ### Personnalisation de l'installation ###
 
 L'installation rapide par défaut suffit à la majorité des besoins, mais il existe des moyens de la paramétrer plus finement.
-Ces modifications sont réalisées en éditant le fichier "rc" utilisé par le serveur, mais si cela ne s'avère pas suffisant, il existe plus d'information dans la documentation sur la personnalisation de Gitolite.
+Ces modifications sont réalisées en éditant le fichier « rc » utilisé par le serveur, mais si cela ne s'avère pas suffisant, il existe plus d'information dans la documentation sur la personnalisation de Gitolite.
 
 ### Fichier de configuration et règles de contrôle d'accès ###
 
@@ -735,10 +735,10 @@ Une fois l'installation terminée, vous pouvez basculer vers le clone `gitolite-
 	repo testing
 	    RW+                 = @all
 
-Notez que "sitaram" (le nom de la clef publique pour la commande `gl-setup` ci-dessus) détient les permissions en lecture-écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
+Notez que « sitaram » (le nom de la clef publique pour la commande `gl-setup` ci-dessus) détient les permissions en lecture-écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
 
 L'ajout d'utilisateurs est simple.
-Pour ajouter une utilisation appelé "alice", demandez-lui de vous fournir une clef publique ssh, renommez-la `alice.pub`, et placez-la dans le répertoire `keydir` du clone du dépôt `gitolite-admin` sur la station de travail.
+Pour ajouter une utilisation appelé « alice », demandez-lui de vous fournir une clef publique ssh, renommez-la `alice.pub`, et placez-la dans le répertoire `keydir` du clone du dépôt `gitolite-admin` sur la station de travail.
 Validez le fichier dans le dépôt et poussez les modifications sur le serveur.
 L'utilisatrice alice vient d'être ajoutée.
 
@@ -757,9 +757,9 @@ Cette distinction ne sert que lors de *l'utilisation* de la « macro ».
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
-Vous pouvez contrôler les permissions au niveau "ref".
-Dans l'exemple suivant, les stagiaires (intern) ne peuvent pousser que sur la branche "int".
-Les ingénieurs peuvent pousser toutes les branches dont le nom commence par "eng" et les étiquettes qui commencent par "rc" suivi d'un chiffre.
+Vous pouvez contrôler les permissions au niveau « re ».
+Dans l'exemple suivant, les stagiaires (intern) ne peuvent pousser que sur la branche « int ».
+Les ingénieurs peuvent pousser toutes les branches dont le nom commence par « eng » et les étiquettes qui commencent par « rc » suivi d'un chiffre.
 Les administrateurs ont tous les droits (y compris le rembobinage) sur toutes les réfs.
 
 	repo @oss_repos
@@ -769,7 +769,7 @@ Les administrateurs ont tous les droits (y compris le rembobinage) sur toutes le
 	    RW+                     = @admins
 
 L'expression après les `RW` ou les `RW+` est une expression rationnelle (ou regex) qui filtre le nom de la référence (ref).
-Elle s'appelle donc une « refex » !
+Elle s'appelle donc une « refex » !
 Bien entendu, une « refex » peut être bien plus puissante que celles montrées ci-dessus et il est inutile de trop chercher si vous n'êtes pas à l'aise avec les regex perl.
 
 De plus, logiquement, Gitolite préfixe les refex qui ne commencent pas par `refs/` avec la chaîne `refs/heads/`.
@@ -794,11 +794,11 @@ La règles d'accès sont vérifiées par ordre d'apparition dans le fichier de c
 Si une correspondance est trouvée, l'accès en poussée est accepté.
 Si aucune correspondance n'est trouvée, l'accès est refusé.
 
-### Contrôle d'accès avancé avec les règles "deny" ###
+### Contrôle d'accès avancé avec les règles « deny » ###
 
 Jusqu'ici, les seuls types de permissions rencontrés ont été `R`, `RW` ou `RW+`.
-Néanmoins, gitolite connaît une autre permission : `-` qui signifie "deny", accès refusé.
-Cela vous donne bien plus de possibilités, au prix d'une complexité accrue car à présent l'absence de correspondance n'est plus la *seule* manière de refuser l'accès, mais il devient nécessaire de faire attention à l'ordre des règles !
+Néanmoins, gitolite connaît une autre permission : `-` qui signifie « deny », accès refusé.
+Cela vous donne bien plus de possibilités, au prix d'une complexité accrue car à présent l'absence de correspondance n'est plus la *seule* manière de refuser l'accès, mais il devient nécessaire de faire attention à l'ordre des règles !
 
 Supposons que dans la situation ci-dessus, nous souhaitons que les ingénieurs soient capables de rembobiner n'importe quelle branche *excepté* master et integ.
 Voici comment faire :
@@ -831,7 +831,7 @@ Référez-vous au guide de migration pour plus de détails.
 
 ### Branches personnelles ###
 
-Gitolite a aussi une fonction appelée "branches personnelles" (ou plutôt "espace de branches personnelles") qui peuvent s'avérer très utiles en environnement professionnel.
+Gitolite a aussi une fonction appelée « branches personnelles » (ou plutôt « espace de branches personnelles ») qui peuvent s'avérer très utiles en environnement professionnel.
 
 Dans le monde de git, une grande quantité d'échange de code se passe par requêtes de tirage.
 En environnement professionnel, cependant, les accès non-authentifiés sont inimaginables et une authentification poste à poste est impossible.
@@ -839,10 +839,10 @@ Il est donc nécessaire de pousser sur le serveur central et demander à quelqu'
 
 Cela provoquerait normalement le même bazar de branches que dans les VCS centralisés, avec en plus la surcharge pour l'administrateur de la gestion des permissions.
 
-Gitolite permet de définir un préfixe d'espace de nom "personnel" ou "brouillon" pour chaque développeur (par exemple, `refs/personnel/<nom du dev>/*`).
+Gitolite permet de définir un préfixe d'espace de nom « personnel » ou « brouillon » pour chaque développeur (par exemple, `refs/personnel/<nom du dev>/*`).
 Référez-vous à la documentation pour plus de détails.
 
-### Dépôts "joker" ###
+### Dépôts « joker » ###
 
 Gitolite permet de spécifier des dépôts avec jokers (en fait des regex perl), comme par exemple, au hasard, `devoirs/s[0-9][0-9]/a[0-9][0-9]`.
 Un nouveau mode de permission devient accessible (« C »).
@@ -854,7 +854,7 @@ Référez-vous à la documentation pour plus de détail.
 Nous terminerons cette section avec quelques échantillons d'autres fonctions qui sont toutes décrites, ainsi que d'autres dans la documentation.
 
 **Journalisation** : Gitolite enregistre tous les accès réussis.
-Si vous étiez réticent à donner aux utilisateurs des droits de rembobiner (`RW+`) et qu'un plaisantin a complètement cassé "master", le journal des activités est là pour vous aider à trouver facilement et rapidement le SHA qui a tout déclenché.
+Si vous étiez réticent à donner aux utilisateurs des droits de rembobiner (`RW+`) et qu'un plaisantin a complètement cassé « master », le journal des activités est là pour vous aider à trouver facilement et rapidement le SHA qui a tout déclenché.
 
 **Rapport sur les droits d'accès** : une autre fonctionnalité très utile concerne la prise en charge de la connexion ssh au serveur.
 Gitolite vous affiche quels dépôts vous pouvez accéder et avec quels droits.
@@ -997,7 +997,7 @@ Figure 4-3. La page d'enregistrement de GitHub
 Si vous l'avez, c'est le bon moment pour ajouter votre clef publique SSH.
 Nous avons détaillé comment en générer précédemment au chapitre « Petites installations ».
 Copiez le contenu de la clef publique et collez-le dans la boîte à texte « SSH Public Keys » (clés SSH publiques).
-En cliquant sur le lien « Need help with public keys? » (besoin d'aide avec les clés publiques ?), vous aurez accès aux instructions (en anglais) pour créer des clés sur la majorité des systèmes d'exploitation.
+En cliquant sur le lien « Need help with public keys? » (besoin d'aide avec les clés publiques ?), vous aurez accès aux instructions (en anglais) pour créer des clés sur la majorité des systèmes d'exploitation.
 Cliquez sur le bouton « Create an account » (créer un compte) pour avoir accès à votre tableau de bord de nouvel utilisateur (voir figure 4-4).
 
 Insert 18333fig0404.png

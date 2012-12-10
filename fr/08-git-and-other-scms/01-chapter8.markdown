@@ -301,7 +301,7 @@ Pour créer une nouvelle branche dans Subversion, vous pouvez utiliser la comman
 	r89 = 9b6fe0b90c5c9adf9165f700897518dbc54a7cbf (opera)
 
 Cela est équivalent à la commande Subversion `svn copy trunk branches/opera` et réalise l'opération sur le serveur Subversion.
-Remarquez que cette commande ne vous bascule pas sur cette branche ; si vous validez, le *commit* s'appliquera à `trunk` et non à la branche `opera`.
+Remarquez que cette commande ne vous bascule pas sur cette branche ; si vous validez, le *commit* s'appliquera à `trunk` et non à la branche `opera`.
 
 ### Basculer de branche active ###
 
@@ -313,7 +313,7 @@ Si vous voulez une branche `opera` sur laquelle travailler séparément, vous po
 	$ git branch opera remotes/opera
 
 À présent, si vous voulez fusionner votre branche `opera` dans `trunk` (votre branche `master`), vous pouvez le faire en réalisant un `git merge` normal.
-Mais vous devez préciser un message de validation descriptif (via `-m`), ou la fusion indiquera simplement "Merge branch opera" au lieu d'un message plus informatif.
+Mais vous devez préciser un message de validation descriptif (via `-m`), ou la fusion indiquera simplement « Merge branch opera » au lieu d'un message plus informatif.
 
 Souvenez-vous que bien que vous utilisez `git merge` qui facilitera l'opération de fusion par rapport à Subversion (Git détectera automatiquement l'ancêtre commun pour la fusion), ce n'est pas un *commit* de fusion normal de Git.
 Vous devrez pousser ces données finalement sur le serveur Subversion qui ne sait pas tracer les *commits* possédant plusieurs parents.
@@ -349,7 +349,7 @@ Si vous êtes habitué à Subversion, vous pouvez lancer `git svn log` pour visu
 
 	updated the changelog
 
-Deux choses importantes à connaître sur `git svn log` : premièrement, à la différence de la commande réelle `svn log` qui interroge le serveur, cette commande fonctionne hors connexion ; deuxièmement, elle ne montre que les *commits* qui ont été effectivement remontés sur le serveur Subversion.
+Deux choses importantes à connaître sur `git svn log` : premièrement, à la différence de la commande réelle `svn log` qui interroge le serveur, cette commande fonctionne hors connexion ; deuxièmement, elle ne montre que les *commits* qui ont été effectivement remontés sur le serveur Subversion.
 Les *commits* locaux qui n'ont pas encore été remontés via `dcommit` n'apparaissent pas, pas plus que ceux qui auraient été poussés sur le serveur par des tiers entre deux `git svn rebase`.
 Cela donne plutôt le dernier état connu des *commits* sur le serveur Subversion.
 
@@ -412,7 +412,7 @@ Les outils `git svn` sont utiles si vous êtes bloqué avec un serveur Subversio
 Il faut cependant les considérer comme une version tronquée de Git ou vous pourriez rencontrer des problèmes de conversion synonymes de troubles pour vous et vos collaborateurs.
 Pour éviter tout problème, essayez de suivre les principes suivants :
 
-* Garder un historique Git linéaire qui ne contient pas de *commits* de fusion issus de `git merge`. Rebasez tout travail réalisé en dehors de la branche principale sur celle-ci ; ne la fusionnez pas.
+* Garder un historique Git linéaire qui ne contient pas de *commits* de fusion issus de `git merge`. Rebasez tout travail réalisé en dehors de la branche principale sur celle-ci ; ne la fusionnez pas.
 * Ne mettez pas en place et ne travaillez pas en parallèle sur un serveur Git. Si nécessaire, montez-en un pour accélérer les clones pour de nouveaux développeurs mais n'y poussez rien qui n'ait déjà une entrée `git-svn-id`. Vous devriez même y ajouter un crochet `pre-receive` qui vérifie la présence de `git-svn-id` dans chaque message de validation et rejette les remontées dont un des *commits* n'en contiendrait pas.
 
 Si vous suivez ces principes, le travail avec un serveur Subversion peut être supportable.
@@ -433,7 +433,7 @@ Si vous avez lu la section précédente sur l'utilisation de `git svn`, vous pou
 Ensuite, arrêtez d'utiliser le serveur Subversion, poussez sur un nouveau serveur Git et commencez à l'utiliser.
 Si vous voulez l'historique, vous pouvez l'obtenir aussi rapidement que vous pourrez tirer les données du serveur Subversion (ce qui peut prendre un certain temps).
 
-Cependant, l'import n'est pas parfait ; et comme cela prend autant de temps, autant le faire bien.
+Cependant, l'import n'est pas parfait ; et comme cela prend autant de temps, autant le faire bien.
 Le premier problème est l'information d'auteur.
 Dans Subversion, chaque personne qui valide dispose d'un compte sur le système qui est enregistré dans l'information de validation.
 Les exemples de la section précédente montrent `schacon` à certains endroits, tels que la sortie de `blame` ou de `git svn log`.
@@ -609,7 +609,7 @@ Comme vous pouvez vous en souvenir, Git est à la base une liste chaînée d'obj
 Tout ce qu'il y a à faire donc, et d'indiquer à `fast-import` ce que sont les instantanés de contenu, quelles données de *commit* pointent dessus et l'ordre dans lequel ils s'enchaînent.
 La stratégie consistera à parcourir les instantanés un par un et à créer des *commits* avec le contenu de chaque répertoire, en le reliant à son prédécesseur.
 
-Comme déjà fait dans la section "Un exemple de règle appliquée par Git" du chapitre 7, nous l'écrirons en Ruby parce que c'est le langage avec lequel je travaille en général et qu'il est assez facile à lire.
+Comme déjà fait dans la section « Un exemple de règle appliquée par Git » du chapitre 7, nous l'écrirons en Ruby parce que c'est le langage avec lequel je travaille en général et qu'il est assez facile à lire.
 Vous pouvez facilement retranscrire cet exemple dans votre langage de prédilection, la seule contrainte étant qu'il doit pouvoir afficher les informations appropriées sur stdout.
 Si vous travaillez sous Windows, cela signifie que vous devrez faire particulièrement attention à ne pas introduire de retour chariot à la fin de vos lignes.
 `git fast-import` n'accepte particulièrement que les sauts de ligne (line feed LF) et pas les retour chariot saut de ligne (CRLF) utilisés par Windows.
@@ -632,7 +632,7 @@ La boucle principale ressemble à ceci :
 	  end
 	end
 
-Dans chaque répertoire, nous lançons `print_export` qui prend le manifest et la marque de l'instantané précédent et retourne le manifest et la marque de l'actuel ; de cette manière, vous pouvez les chaîner correctement.
+Dans chaque répertoire, nous lançons `print_export` qui prend le manifest et la marque de l'instantané précédent et retourne le manifest et la marque de l'actuel ; de cette manière, vous pouvez les chaîner correctement.
 « Marque » est le terme de `fast-import` pour nommer un identifiant que vous donnez à un *commit*.
 Au fur et à mesure de la création des *commits*, vous leur attribuez une marque individuelle qui pourra être utilisée pour y faire référence depuis d'autres *commits*.
 La première chose à faire dans `print_export` est donc de générer une marque à partir du nom du répertoire :
@@ -824,7 +824,7 @@ Pour les avoir, vous devez réinitialiser votre branche sur `master` :
 	file.rb  lib
 
 Vous pouvez faire bien plus avec l'outil `fast-import` — gérer différents modes, les données binaires, les branches multiples et la fusion, les étiquettes, les indicateurs de progrès, et plus encore.
-Des exemples de scénarios plus complexes sont disponibles dans le répertoire `contrib/fast-import` du code source Git ; un des meilleurs est justement le script `git-p4` traité précédemment.
+Des exemples de scénarios plus complexes sont disponibles dans le répertoire `contrib/fast-import` du code source Git ; un des meilleurs est justement le script `git-p4` traité précédemment.
 
 ## Résumé ##
 

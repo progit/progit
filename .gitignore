@@ -13,3 +13,4 @@ epub/temp
 *~
 .#*
 figures/*
+*/*.session

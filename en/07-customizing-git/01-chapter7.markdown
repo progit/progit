@@ -331,7 +331,7 @@ This command adds a section to your `.git/config` that looks like this:
 	[diff "word"]
 		textconv = strings
 
-Side note: There are different kinds of `.doc` files. Some use an UTF-16 encoding or other "codepages" and `strings` won't find anything useful in there. Your mileage may vary.
+Side note: There are different kinds of `.doc` files. Some use an UTF-16 encoding or other "codepages" and `strings` won’t find anything useful in there. Your mileage may vary.
 
 Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
 
@@ -366,7 +366,7 @@ Now set up the `odt` diff filter in `.git/config`:
 		binary = true
 		textconv = /usr/local/bin/odt-to-txt
 
-OpenDocument files are actually zip'ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We'll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
+OpenDocument files are actually zip’ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We’ll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
 
 	#! /usr/bin/env perl
 	# Simplistic OpenDocument Text (.odt) to plain text converter.
@@ -771,7 +771,7 @@ The logic for checking this is to see if any commits are reachable from the olde
 
 	check_fast_forward
 
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file into which you should have put all this code, and then try to push a non-fast-forward reference, you'll get something like this:
+Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file into which you should have put all this code, and then try to push a non-fast-forward reference, you’ll get something like this:
 
 	$ git push -f origin master
 	Counting objects: 5, done.

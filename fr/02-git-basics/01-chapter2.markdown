@@ -1326,7 +1326,7 @@ Si par contre vous souhaitez lancer une commande externe plutôt qu'une sous-com
 C'est utile si vous écrivez vos propres outils pour travailler dans un dépôt Git.
 On peut par exemple aliaser `git visual` pour lancer `gitk` :
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Résumé ##
 

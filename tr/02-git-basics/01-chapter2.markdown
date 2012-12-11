@@ -1117,7 +1117,7 @@ Böylece son kaydı kolaylıkla görebilirsiniz:
 
 Gördüğünüz gibi Git yeni komutu takma ad olarak belirlediğini şeyin yerine kullanıyor. Ama belki de bir Git komutu çalıştırmak değil de başka br program kullanmak istiyorsunuz. Bu durumda komutun başına `!` karakterini koymalısınız. Bir Git yazılım havuzu üzerinde çalışan kendi araçlarınızı yazıyorsanız bu seçenek yararlı olabilir. Bunu göstermek için ,`gitk`'yi çalıştırmak için `git visual` diye yeni bir takma ad tanımlayabiliriz:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Özet ##
 

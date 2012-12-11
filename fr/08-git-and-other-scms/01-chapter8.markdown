@@ -153,7 +153,7 @@ Si vous éditez un des fichiers et le validez, vous créez un *commit* qui exist
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 
 Ensuite, vous avez besoin de pousser vos modifications en amont.
-Remarquez que cela modifie la manière de travailler par rapport à Subversion — vous pouvez réalisez plusieurs validations en mode déconnecté pour ensuite les pousser toutes en une fois sur le serveur Subversion.
+Remarquez que cela modifie la manière de travailler par rapport à Subversion — vous pouvez réaliser plusieurs validations en mode déconnecté pour ensuite les pousser toutes en une fois sur le serveur Subversion.
 Pour pousser sur un serveur Subversion, il faut lancer la commande `git svn dcommit` :
 
 	$ git svn dcommit
@@ -202,7 +202,7 @@ Pour résoudre cette situation, vous pouvez lancer la commande `git svn rebase` 
 	First, rewinding head to replay your work on top of it...
 	Applying: first user change
 
-À présent, tout votre travail se trouve au delà de l'historique du serveur et vous pouvez effectivement réaliser un `dcommit` :
+À présent, tout votre travail se trouve au-delà de l'historique du serveur et vous pouvez effectivement réaliser un `dcommit` :
 
 	$ git svn dcommit
 	Committing to file:///tmp/test-svn/trunk ...
@@ -255,7 +255,7 @@ Si vous poussez sur un serveur Subversion via `git svn`, vous souhaiterez à cha
 La raison principale en est que Subversion gère un historique linéaire et ne gère pas les fusions comme Git y excelle.
 De ce fait, `git svn` suit seulement le premier parent lorsqu'il convertit les instantanés en *commits* Subversion.
 
-Supposons que votre historique ressemble à ce qui suit. Vous avez créé une branche `experience`, avez réalisé deux validations puis les avez fusionnées dans master.
+Supposons que votre historique ressemble à ce qui suit. Vous avez créé une branche `experience`, avez réalisé deux validations puis les avez fusionnées dans `master`.
 Lors du `dcommit`, vous voyez le résultat suivant :
 
 	$ git svn dcommit
@@ -355,7 +355,7 @@ Cela donne plutôt le dernier état connu des *commits* sur le serveur Subversio
 
 #### Les annotations SVN ####
 
-De la même manière que `git svn log` simule une commande `svn log` déconnectée, vous pouvez obtenir l'équivalent de `svn annotate` en lançant `git svn blame [FICHIER]`.
+De la même manière que `git svn log` simule une commande `svn log` déconnectée, vous pouvez obtenir l'équivalent de `svn annotate` en lançant `git svn blame [fichier]`.
 Le résultat ressemble à ceci :
 
 	$ git svn blame README.txt
@@ -399,7 +399,7 @@ Si vous clonez un dépôt Subversion contenant des propriétés  `svn:ignore`, v
 
 La première est `git svn create-ignore` qui crée automatiquement pour vous les fichiers `.gitignore` prêts pour l'inclusion dans votre prochaine validation.
 
-La seconde commande est `git svn show-ignore` qui affiche sur stdout les lignes nécessaires à un fichier `.gitignore` qu'il suffira de rediriger  dans votre fichier d'exclusion de projet :
+La seconde commande est `git svn show-ignore` qui affiche sur `stdout` les lignes nécessaires à un fichier `.gitignore` qu'il suffira de rediriger  dans votre fichier d'exclusion de projet :
 
 	$ git svn show-ignore > .git/info/exclude
 
@@ -523,7 +523,7 @@ Pour installer votre client, vous devez exporter la variable d'environnement `P4
 
 	$ export P4PORT=public.perforce.com:1666
 
-Lancez la commande `git-p4 clone` pour importer la projet Jam depuis le serveur Perforce, en fournissant le dépôt avec le chemin du projet et le chemin dans lequel vous souhaitez importer le projet :
+Lancez la commande `git-p4 clone` pour importer le projet Jam depuis le serveur Perforce, en fournissant le dépôt avec le chemin du projet et le chemin dans lequel vous souhaitez importer le projet :
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
 	Importing from //public/jam/src@all into /opt/p4import
@@ -588,9 +588,9 @@ Votre import est fin prêt pour être poussé sur un nouveau serveur Git.
 
 Si votre système n'est ni Subversion, ni Perforce, vous devriez rechercher sur Internet un outil d'import spécifique — il en existe de bonne qualité pour CVS, Clear Case, Visual Source Safe ou même pour un répertoire d'archives.
 Si aucun de ses outils ne fonctionne pour votre cas, que vous ayez un outil plus rare ou que vous ayez besoin d'un mode d'import personnalisé, `git fast-import` peut être la solution.
-Cette commande lit de simples instructions sur stdin pour écrire les données spécifiques Git.
-C'est tout de même plus simple pour créer les objets Git que de devoir utiliser les commandes Git brutes ou d'essayer d'écrire directement les objets (voir Chapitre 9 pour plus d'information).
-De cette façon, vous écrivez un script d'import qui lit les informations nécessaires depuis le système d'origine et affiche des instructions directes sur stdout.
+Cette commande lit de simples instructions sur `stdin` pour écrire les données spécifiques Git.
+C'est tout de même plus simple pour créer les objets Git que de devoir utiliser les commandes Git brutes ou d'essayer d'écrire directement les objets (voir chapitre 9 pour plus d'information).
+De cette façon, vous écrivez un script d'import qui lit les informations nécessaires depuis le système d'origine et affiche des instructions directes sur `stdout`.
 Vous pouvez alors simplement lancer ce programme et rediriger sa sortie dans `git fast-import`.
 
 Pour démontrer rapidement cette fonctionnalité, nous allons écrire un script simple d'import.
@@ -610,11 +610,11 @@ Tout ce qu'il y a à faire donc, et d'indiquer à `fast-import` ce que sont les 
 La stratégie consistera à parcourir les instantanés un par un et à créer des *commits* avec le contenu de chaque répertoire, en le reliant à son prédécesseur.
 
 Comme déjà fait dans la section « Un exemple de règle appliquée par Git » du chapitre 7, nous l'écrirons en Ruby parce que c'est le langage avec lequel je travaille en général et qu'il est assez facile à lire.
-Vous pouvez facilement retranscrire cet exemple dans votre langage de prédilection, la seule contrainte étant qu'il doit pouvoir afficher les informations appropriées sur stdout.
+Vous pouvez facilement retranscrire cet exemple dans votre langage de prédilection, la seule contrainte étant qu'il doit pouvoir afficher les informations appropriées sur `stdout`.
 Si vous travaillez sous Windows, cela signifie que vous devrez faire particulièrement attention à ne pas introduire de retour chariot à la fin de vos lignes.
 `git fast-import` n'accepte particulièrement que les sauts de ligne (line feed LF) et pas les retour chariot saut de ligne (CRLF) utilisés par Windows.
 
-Pour commencer, déplaçons nous dans le répertoire cible et identifions chaque sous-répertoire, chacun représentant un instantané que vous souhaitez importer en tant que *commit*.
+Pour commencer, déplaçons-nous dans le répertoire cible et identifions chaque sous-répertoire, chacun représentant un instantané que vous souhaitez importer en tant que *commit*.
 Nous visiterons chaque sous-répertoire et afficherons les commandes nécessaires à son export.
 La boucle principale ressemble à ceci :
 
@@ -632,7 +632,7 @@ La boucle principale ressemble à ceci :
 	  end
 	end
 
-Dans chaque répertoire, nous lançons `print_export` qui prend le manifest et la marque de l'instantané précédent et retourne le manifest et la marque de l'actuel ; de cette manière, vous pouvez les chaîner correctement.
+Dans chaque répertoire, nous lançons `print_export` qui prend le manifeste et la marque de l'instantané précédent et retourne le manifeste et la marque de l'actuel ; de cette manière, vous pouvez les chaîner correctement.
 « Marque » est le terme de `fast-import` pour nommer un identifiant que vous donnez à un *commit*.
 Au fur et à mesure de la création des *commits*, vous leur attribuez une marque individuelle qui pourra être utilisée pour y faire référence depuis d'autres *commits*.
 La première chose à faire dans `print_export` est donc de générer une marque à partir du nom du répertoire :
@@ -717,7 +717,7 @@ Le format pour lister le contenu d'un nouveau fichier ou spécifier le nouveau c
 	data (taille)
 	(contenu du fichier)
 
-Ici, 644 est le mode (si vous avez des fichiers executables, vous devez le détecter et spécifier plutôt 755), « inline » signifie que le contenu du fichier sera listé immédiatement après cette ligne.
+Ici, 644 est le mode (si vous avez des fichiers exécutables, vous devez le détecter et spécifier plutôt 755), « inline » signifie que le contenu du fichier sera listé immédiatement après cette ligne.
 La méthode `inline_data` ressemble à ceci :
 
 	def inline_data(file, code = 'M', mode = '644')
@@ -728,7 +728,7 @@ La méthode `inline_data` ressemble à ceci :
 
 Nous réutilisons la méthode `export_data` définie plus tôt, car c'est la même méthode que pour spécifier les données du message de validation.
 
-La dernière chose à faire consiste à retourner le marque actuelle pour pouvoir la passer à la prochaine itération :
+La dernière chose à faire consiste à retourner la marque actuelle pour pouvoir la passer à la prochaine itération :
 
 	return mark
 

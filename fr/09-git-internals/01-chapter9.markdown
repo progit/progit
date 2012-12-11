@@ -44,12 +44,12 @@ Voici à quoi il ressemble :
 
 Vous y verrez sans doute d'autres fichiers, mais ceci est un dépôt qui vient d'être crée avec `git init` et c'est ce que vous verrez par défaut.
 Le répertoire `branches` n'est pas utilisé par les versions récentes de Git et le fichier `description` est utilisé uniquement par le programme GitWeb, il ne faut donc pas s'en soucier.
-Le fichier `config` contient les options de configuration spécifiques à votre projet et le répertoire `info` contient un fichier listant les motifs que vous souhaitez ignorer et que vous ne voulez pas mettre dans un fichier .gitignore.
+Le fichier `config` contient les options de configuration spécifiques à votre projet et le répertoire `info` contient un fichier listant les motifs que vous souhaitez ignorer et que vous ne voulez pas mettre dans un fichier `.gitignore`.
 Le répertoire `hooks` contient les scripts de procédures automatiques côté client ou serveur, ils sont décrits en détail dans le chapitre 7.
 
 Il reste quatre éléments importants : les fichiers `HEAD` et `index`, ainsi que les répertoires `objects` et `refs`.
 Ce sont les composants principaux d'un dépôt Git.
-Le répertoire `objects` stocke le contenu de votre base de données, le répertoire `refs` stocke les pointeurs vers les objets *commit* de ces données (branches), le fichier `HEAD` pointe sur la branche qui est en cours dans votre répertoire de travail (checkout) et le fichier `index` est l'endroit où Git stocke les informations sur la zone d'attente.
+Le répertoire `objects` stocke le contenu de votre base de données, le répertoire `refs` stocke les pointeurs vers les objets *commit* de ces données (branches), le fichier `HEAD` pointe sur la branche qui est en cours dans votre répertoire de travail (*checkout*) et le fichier `index` est l'endroit où Git stocke les informations sur la zone d'attente.
 Vous allez maintenant plonger en détail dans chacune de ces sections et voir comment Git fonctionne.
 
 ## Les objets Git ##
@@ -82,7 +82,7 @@ Maintenant, stockez du texte dans votre base de données Git :
 L'option `-w` spécifie à `hash-object` de stocker l'objet, sinon la commande répondrait seulement quelle serait la clé.
 `--stdin` spécifie à la commande de lire le contenu depuis l'entrée standard, sinon `hash-object` s'attend à trouver un chemin vers un fichier.
 La sortie de la commande est une empreinte de 40 caractères.
-C'est l'empreinte SHA-1 : une somme de contrôle du contenu du fichier que vous stockez plus une en-tête, dont les détails sont un peu plus bas.
+C'est l'empreinte SHA-1 : une somme de contrôle du contenu du fichier que vous stockez plus un en-tête, dont les détails sont un peu plus bas.
 Voyez maintenant comment Git a stocké vos données :
 
 	$ find .git/objects -type f
@@ -160,7 +160,7 @@ Remarquez que le sous-répertoire `lib` n'est pas un blob, mais un pointeur vers
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
 
-Conceptuellement, les données que Git stocke ressemblent à la Figure 9-1.
+Conceptuellement, les données que Git stocke ressemblent à la figure 9-1.
 
 Insert 18333fig0901.png
 Figure 9-1. Une version simple du modèle de données Git.
@@ -222,10 +222,10 @@ Dans ce cas, vous pouvez récupérer un arbre existant dans votre zone d'attente
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
 Si vous créez un répertoire de travail à partir du nouvel arbre que vous venez d'enregistrer, vous aurez deux fichiers à la racine du répertoire de travail, ainsi qu'un sous-répertoire appelé `bak` qui contient la première version du fichier `test.txt`.
-Vous pouvez vous représenter les données que Git utilise pour ces structures comme sur la Figure 9-2.
+Vous pouvez vous représenter les données que Git utilise pour ces structures comme sur la figure 9-2.
 
 Insert 18333fig0902.png
-Figure 9-2. Structure des données actuelles de Git???.
+Figure 9-2. Structure du contenu de vos données Git actuelles.
 
 ### Objets *Commit* ###
 
@@ -290,7 +290,7 @@ Curieusement, vous disposez maintenant d'un historique Git complet que vous pouv
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
 Fantastique.
-Vous venez d'effectuer les opérations bas niveaux pour construire un historique Git sans avoir utilisé aucune des commandes haut niveau.
+Vous venez d'effectuer les opérations bas niveau pour construire un historique Git sans avoir utilisé aucune des commandes haut niveau.
 C'est l'essence de ce que fait Git quand vous exécutez les commandes `git add` et `git commit`.
 Il stocke les blobs correspondant aux fichiers modifiés, met à jour l'index, écrit les arbres et ajoute les objets *commit* qui référencent les arbres racines venant juste avant eux.
 Ces trois objets principaux (le blob, l'arbre et le *commit*) sont initialement stockés dans des fichiers séparés du répertoire `.git/objects`.
@@ -308,7 +308,7 @@ Voici tous les objets contenus dans le répertoire exemple, commentés d'après 
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-Si vous suivez les pointeurs internes de ces objets, vous obtenez un graphe comme celui de la Figure 9-3.
+Si vous suivez les pointeurs internes de ces objets, vous obtenez un graphe comme celui de la figure 9-3.
 
 Insert 18333fig0903.png
 Figure 9-3. Tous les objets de votre répertoire Git.
@@ -383,7 +383,7 @@ Dans le projet actuel, ce répertoire ne contient aucun fichier, mais possède u
 	$ find .git/refs -type f
 	$
 
-Pour créer une nouvelle référence servant à ce souvenir du dernier *commit*, vous pouvez simplement faire ceci :
+Pour créer une nouvelle référence servant à se souvenir du dernier *commit*, vous pouvez simplement faire ceci :
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
@@ -410,16 +410,16 @@ Cette branche contiendra seulement le travail effectué jusqu'à ce *commit* :
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-La base de donnée Git ressemble maintenant à quelque chose comme la Figure 9-4.
+La base de donnée Git ressemble maintenant à quelque chose comme la figure 9-4.
 
 Insert 18333fig0904.png
-Figure 9-4. Le répertoire d'objet de Git y compris la référence au dernier état de la branche.
+Figure 9-4. Le répertoire d'objets de Git y compris la référence au dernier état de la branche.
 
 Quand on exécute un commande comme  `git branch (nomdebranche)`, Git exécute simplement la commande `update-ref` pour ajouter l'empreinte SHA-1 du dernier *commit* dans la référence que l'on veut créer.
 
 ### La branche HEAD ###
 
-On peut se poser la question : Comment Git peut avoir connaissance de l'empreinte SHA-1 du dernier *commit* quand on exécute `git branch (branchname)` ?
+On peut se poser la question : « Comment Git peut avoir connaissance de l'empreinte SHA-1 du dernier *commit* quand on exécute `git branch (branchname)` ? »
 La réponse est dans le fichier HEAD (qui veut dire tête en français, soit, ici, l'état courant).
 Le fichier HEAD est une référence symbolique à la branche courante.
 Par référence symbolique, j'entends que contrairement à une référence normale, elle ne contient pas une empreinte SHA-1, mais plutôt un pointeur vers une autre référence.
@@ -454,8 +454,8 @@ Vous ne pouvez pas initialiser une référence symbolique à une valeur non cont
 
 ### Étiquettes ###
 
-Nous venons de parcourir les trois types d'objet utilisé par Git, mais il existe un quatrième objet.
-L'objet étiquette (tag en anglais) ressemble beaucoup à un objet *commit*.
+Nous venons de parcourir les trois types d'objets utilisés par Git, mais il existe un quatrième objet.
+L'objet étiquette (*tag* en anglais) ressemble beaucoup à un objet *commit*.
 Il contient un étiqueteur, une date, un message et un pointeur.
 La principale différence est que l'étiquette pointe vers un *commit* plutôt qu'un arbre.
 C'est comme une référence à une branche, mais elle ne bouge jamais : elle pointe toujours vers le même *commit*, lui donnant un nom plus sympathique.
@@ -586,7 +586,7 @@ Bien que l'on ait ajouté une seule ligne à la fin d'un fichier en faisant 400,
 	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
 Il y a donc deux objets de 4 Kio quasiment identiques sur le disque.
-Ne serait-ce pas bien si Git pouvait enregistrer qu'un objet en entier, le deuxième n'étant qu'un delta (une différence) avec le premier ?
+Ne serait-ce pas bien si Git pouvait n'enregistrer qu'un objet en entier, le deuxième n'étant qu'un delta (une différence) avec le premier ?
 
 Il se trouve que c'est possible.
 Le format initial dans lequel Git enregistre les objets sur le disque est appelé le format brut (*loose object*).
@@ -672,7 +672,7 @@ Cela ajoute une section au fichier `.git/config`, contenant le nom du dépôt di
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
 Le format d'une spécification de référence est un `+` facultatif, suivi de `<src>:<dst>`, où `<src>` est le motif des références du côté distant et `<dst>` est l'emplacement local où les références seront enregistrées.
-Le `+` précise à Git de mettre à jour la référence même si ce n'est pas un avance rapide.
+Le `+` précise à Git de mettre à jour la référence même si ce n'est pas une avance rapide.
 
 Dans le cas par défaut, qui est celui d'un enregistrement automatique par la commande `git remote add`, Git récupère toutes les références de `refs/heads/` sur le serveur et les enregistre localement dans `refs/remotes/origin/`.
 Ainsi, s'il y a une branche `master` sur le serveur, vous pouvez accéder localement à l'historique de cette branche via :
@@ -725,12 +725,12 @@ S'il existe une équipe qualité (QA) qui publie une série de branches et que l
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-Si vous utilisez des processus complexes impliquant un équipe qualité, des développeurs et des intégrateurs qui publient des branches et qui collaborent sur des branches distantes, vous pouvez facilement utiliser des espaces des noms de cette façon.
+Si vous utilisez des processus complexes impliquant une équipe qualité, des développeurs et des intégrateurs qui publient des branches et qui collaborent sur des branches distantes, vous pouvez facilement utiliser des espaces des noms de cette façon.
 
 ### Publier une référence spécifique ###
 
 Il est pratique de pouvoir récupérer des références issues d'espace de nom de cette façon, mais comment l'équipe qualité insère-t-elle ces branches dans l'espace de nom `qa/` en premier lieu ?
-On peut accomplir cela en utilisant les spécification de références pour la publication.
+On peut accomplir cela en utilisant les spécifications de références pour la publication.
 
 Si l'équipe qualité veut publier sa branche `master` vers `qa/master` sur le serveur distant, elle peut exécuter :
 
@@ -767,7 +767,7 @@ Suivons le processus `http-fetch` pour la bibliothèque simplegit :
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
 La première chose que fait cette commande est de récupérer le fichier `info/refs`.
-Ce fichier est écrit par la commande `update-server-info` et c'est pour cela qu'il faut activer le hook `post-receive`, sinon le transfert HTTP ne fonctionnera pas correctement :
+Ce fichier est écrit par la commande `update-server-info` et c'est pour cela qu'il faut activer le crochet `post-receive`, sinon le transfert HTTP ne fonctionnera pas correctement :
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
@@ -915,7 +915,7 @@ Cela commence par les 4 octets désignant la quantité de données qui suit, pui
 Le démon Git vérifie que la commande peut être exécutée, que le dépôt existe et est accessible publiquement.
 Si tout va bien, il appelle l'exécutable `upload-pack` et lui passe la main.
 
-Si vous êtes en train de tirer (fetch) à travers SSH, `fetch-pack` exécute plutôt quelque chose du genre :
+Si vous êtes en train de tirer (*fetch*) à travers SSH, `fetch-pack` exécute plutôt quelque chose du genre :
 
 	$ ssh -x git@github.com "git-upload-pack 'schacon/simplegit-progit.git'"
 
@@ -932,7 +932,7 @@ En plus, il vous répond la référence HEAD, afin que le client sache quoi réc
 
 À ce moment, l'exécutable `fetch-pack` regarde quels objets il a et répond avec les objets dont il a besoin en envoyant « want » (vouloir) suivi du SHA qu'il veut.
 Il envoie tous les objets qu'il a déjà avec « have » suivi du SHA.
-À la fin de la liste, il écrit « done » pour initialiser l'exécutable `upload-pack` à commencer à envoyer le fichier groupé des données demandées :
+À la fin de la liste, il écrit « done » pour inciter l'exécutable `upload-pack` à commencer à envoyer le fichier groupé des données demandées :
 
 	0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
 	0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
@@ -954,7 +954,7 @@ Cette section couvrira certains de ces scénarios.
 De temps en temps, Git exécute automatiquement une commande appelée « auto gc ».
 La plupart du temps, cette commande ne fait rien.
 Cependant, s'il y a trop d'objets bruts (des objets qui ne sont pas dans des fichiers groupés), ou trop de fichiers groupés, Git lance une commande `git gc` à part entière.
-`gc` est l'abréviation pour « garbage collect » (ramasse-miettes) et la commande fait plusieurs choses : elle rassemble plusieurs objets bruts et les place dans un fichiers groupés, elle consolide des fichiers groupés en un gros fichier groupé et elle supprime des objets qui ne sont plus accessibles depuis un *commit* et qui sont vieux de plusieurs mois.
+`gc` est l'abréviation pour « garbage collect » (ramasse-miettes) et la commande fait plusieurs choses : elle rassemble plusieurs objets bruts et les place dans des fichiers groupés, elle rassemble des fichiers groupés en un gros fichier groupé et elle supprime des objets qui ne sont plus accessibles depuis un *commit* et qui sont vieux de plusieurs mois.
 
 Vous pouvez exécuter `auto gc` manuellement :
 
@@ -974,7 +974,7 @@ Supposons que votre dépôt contienne les branches et étiquettes suivantes :
 	.git/refs/tags/v1.1
 
 Si vous exécutez `git gc`, vous n'aurez plus ces fichiers dans votre répertoire `refs`.
-Git les déplacera pour le bien de l'efficacité dans un fichier nommé `.git/packed-refs` qui ressemble à ceci :
+Git les déplacera pour plus d'efficacité dans un fichier nommé `.git/packed-refs` qui ressemble à ceci :
 
 	$ cat .git/packed-refs
 	# pack-refs with: peeled
@@ -985,7 +985,7 @@ Git les déplacera pour le bien de l'efficacité dans un fichier nommé `.git/pa
 	^1a410efbd13591db07496601ebc7a059dd55cfe9
 
 Si vous mettez à jour une référence, Git ne modifiera pas ce fichier, mais enregistrera plutôt un nouveau fichier dans `refs/heads`.
-Pour obtenir l'empreinte SHA approprié pour référence donnée, Git cherche d'abord cette référence dans le répertoire `refs`, puis dans le fichier `packed-refs` si non trouvée.
+Pour obtenir l'empreinte SHA approprié pour une référence donnée, Git cherche d'abord cette référence dans le répertoire `refs`, puis dans le fichier `packed-refs` si non trouvée.
 Cependant, si vous ne pouvez pas trouver une référence dans votre répertoire `refs`, elle est probablement dans votre fichier `packed-refs`.
 
 Remarquez la dernière ligne du fichier, celle commençant par `^`.
@@ -994,7 +994,7 @@ Cela signifie que l'étiquette directement au-dessus est une étiquette annotée
 ### Récupération de données ###
 
 À un moment quelconque de votre vie avec Git, vous pouvez accidentellement perdre un *commit*.
-Généralement, cela arrive parce que vous avez forcé la suppression d'une branche contenant du travail et il se trouve que vous voulez cette branche finalement; ou vous avez réinitialiser une branche avec suppression, en abandonnant des *commits* dont vous vouliez des informations.
+Généralement, cela arrive parce que vous avez forcé la suppression d'une branche contenant du travail et il se trouve que vous vouliez cette branche finalement ; ou vous avez réinitialisé une branche avec suppression, en abandonnant des *commits* dont vous vouliez des informations.
 Supposons que cela arrive, comment pouvez-vous récupérer vos *commits* ?
 
 Voici un exemple qui réinitialise la branche `master` avec suppression dans votre dépôt de test vers un ancien *commit* et qui récupère les *commits* perdus.
@@ -1022,8 +1022,8 @@ Le problème est de trouver ce SHA, ce n'est pas comme si vous l'aviez mémoris�
 
 Souvent, la manière la plus rapide est d'utiliser l'outil `git reflog`.
 Pendant que vous travaillez, Git enregistre l'emplacement de votre HEAD chaque fois que vous le changez.
-À chaque *commit* ou commutation de branche, le journal des références (reflog) est mis à jour.
-Le journal des références est aussi mis à jour par la commande `git update-ref`, qui est une autre raison de l'utiliser plutôt que de simplement écrire votre valeur SHA dans vos fichiers de références, comme mentionné dans la section « Git References » plus haut dans ce chapitre.
+À chaque *commit* ou commutation de branche, le journal des références (*reflog*) est mis à jour.
+Le journal des références est aussi mis à jour par la commande `git update-ref`, qui est une autre raison de l'utiliser plutôt que de simplement écrire votre valeur SHA dans vos fichiers de références, comme mentionné dans la section « Références Git » plus haut dans ce chapitre.
 Vous pouvez voir où vous étiez à n'importe quel moment en exécutant `git reflog` :
 
 	$ git reflog
@@ -1159,7 +1159,7 @@ Vous pouvez également le faire suivre à la commande `tail` car vous ne vous in
 	7a9eb2fba2b1811321254ac360970fc169ba2330 blob   2056716 2056872 5401
 
 Le gros objet est à la fin : 2 Mio.
-Pour trouver quel fichier c'est, vous allez utilisez la commande `rev-list`, que vous avez utilisé brièvement dans le chapitre 7.
+Pour trouver quel fichier c'est, vous allez utiliser la commande `rev-list`, que vous avez utilisée brièvement dans le chapitre 7.
 Si vous mettez l'option `--objects` à `rev-list`, elle listera tous les SHA des *commits* et des blobs avec le chemin du fichier associés.
 Vous pouvez utilisez cette commande pour trouver le nom de votre blob :
 
@@ -1174,7 +1174,7 @@ Vous pouvez facilement voir quels *commits* ont modifié ce fichier :
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 
 Vous devez réécrire tous les *commits* qui sont liés à `6df76` pour supprimer totalement ce fichier depuis votre historique Git.
-Pour cela, utilisez `filter-branch`, que vous avez utilisé dans le Chapitre 6 :
+Pour cela, utilisez `filter-branch`, que vous avez utilisé dans le chapitre 6 :
 
 	$ git filter-branch --index-filter \
 	   'git rm --cached --ignore-unmatch git.tbz2' -- 6df7640^..
@@ -1182,9 +1182,9 @@ Pour cela, utilisez `filter-branch`, que vous avez utilisé dans le Chapitre 6 
 	Rewrite da3f30d019005479c99eb4c3406225613985a1db (2/2)
 	Ref 'refs/heads/master' was rewritten
 
-L'option `--index-filter` est similaire à l'option `--tree-filter` utilisé dans le Chapitre 6, sauf qu'au lieu de modifier les fichiers sur le disque, vous modifiez votre zone d'attente et votre index.
-Plutôt que de supprimer un fichier spécifique avec une commande comme `rm file`, vous devez le supprimer avec `git rm --cached`; vous devez le supprimer de l'index, pas du disque.
-La raison de faire cela de cette manière est la rapidité, car Git n'ayant pas besoin de récupérer chaque révision sur disque avant votre filtre, la procédure peut être beaucoup beaucoup plus rapide.
+L'option `--index-filter` est similaire à l'option `--tree-filter` utilisée dans le chapitre 6, sauf qu'au lieu de modifier les fichiers sur le disque, vous modifiez votre zone d'attente et votre index.
+Plutôt que de supprimer un fichier spécifique avec une commande comme `rm file`, vous devez le supprimer avec `git rm --cached` ; vous devez le supprimer de l'index, pas du disque.
+La raison de faire cela de cette manière est la rapidité, car Git n'ayant pas besoin de récupérer chaque révision sur disque avant votre filtre, la procédure peut être beaucoup, beaucoup plus rapide.
 Vous pouvez faire la même chose avec `--tree-filter` si vous voulez.
 L'option `--ignore-unmatch` de `git rm` lui dit que ce n'est pas une erreur si le motif que vous voulez supprimez n'existe pas.
 Finalement, vous demandez à `filter-branch` de réécrire votre historique seulement depuis le parent du *commit* `6df7640`, car vous savez que c'est de là que le problème a commencé.
@@ -1215,14 +1215,14 @@ Voyons combien d'espace vous avez récupéré :
 	garbage: 0
 
 La taille du dépôt regroupé est retombée à 7 Kio, ce qui est beaucoup moins que 2 Mio.
-Vous pouvez voir dans la valeur « size » que votre gros objet est toujours dans vos objets bruts, il n'est donc pas parti; mais il ne sera plus transféré lors d'une poussée vers un serveur ou un clone, ce qui est l'important dans l'histoire.
+Vous pouvez voir dans la valeur « size » que votre gros objet est toujours dans vos objets bruts, il n'est donc pas parti ; mais il ne sera plus transféré lors d'une poussée vers un serveur ou un clone, ce qui est l'important dans l'histoire.
 Si vous voulez réellement, vous pouvez supprimer complètement l'objet en exécutant `git prune --expire`.
 
 ## Résumé ##
 
 Vous devriez avoir une plutôt bonne compréhension de ce que Git fait en arrière plan et, à un certain degré, comment c'est implémenté.
-Ce chapitre a parcouru un certain nombre de commandes de plomberie, commandes qui sont à un niveau plus bas et plus simple que les commandes de porcelaine que vous avez après dans le reste du livre.
-Comprendre comment Git travaille à bas niveau devrait vous aider à comprendre pourquoi il fait ce qu'il fait et à créer vos propres outils et scripts pour que votre workflow fonctionne comme vous l'entendez.
+Ce chapitre a parcouru un certain nombre de commandes de plomberie, commandes qui sont à un niveau plus bas et plus simple que les commandes de porcelaine que vous avez apprises dans le reste du livre.
+Comprendre comment Git travaille à bas niveau devrait vous aider à comprendre pourquoi il fait ce qu'il fait et à créer vos propres outils et scripts pour que votre procédure de travail fonctionne comme vous l'entendez.
 
-Git, comme un système de fichiers adressables par contenu, est un outil puissant que vous pouvez utiliser pour des fonctionnalités au delà d'un VCS.
-J'espère que vous pourrez utilisez votre connaissance nouvellement acquise des tripes de Git pour implémenter votre propre super application de cette technologie et que vous vous sentirez plus à l'aise à utiliser Git de manière plus poussée.
+Git, comme un système de fichiers adressables par contenu, est un outil puissant que vous pouvez utiliser pour des fonctionnalités au-delà d'un VCS.
+J'espère que vous pourrez utiliser votre connaissance nouvellement acquise des tripes de Git pour implémenter votre propre super application avec cette technologie et que vous vous sentirez plus à l'aise pour utiliser Git de manière plus poussée.

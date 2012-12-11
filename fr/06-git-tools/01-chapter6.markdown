@@ -223,7 +223,7 @@ Ceci est particulièrement pratique pour la gestion des branches — si vous ave
 
 La spécification de plage de *commits* la plus fréquente est la syntaxe double-point.
 En gros, cela demande à Git de résoudre la plage des *commits* qui sont accessibles depuis un *commit* mais ne le sont pas depuis un autre.
-Par exemple, disons que votre historique ressemble à celui de la Figure 6-1.
+Par exemple, disons que votre historique ressemble à celui de la figure 6-1.
 
 Insert 18333fig0601.png
 Figure 6-1. Exemple d'historique pour la sélection de plages de *commits*.

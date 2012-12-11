@@ -29,7 +29,7 @@ Git crée alors un objet *commit* qui contient les méta-données et un pointeur
 
 Votre dépôt Git contient à présent cinq objets :
 un blob pour le contenu de chacun des trois fichiers, un arbre qui liste le contenu du répertoire et spécifie quels noms de fichier sont attachés à quels blobs et un objet *commit* avec le pointeur vers l'arbre d'origine et toutes les méta-données attachées au *commit*.
-Conceptuellement, les données contenues dans votre dépôt Git ressemblent à la Figure 3-1.
+Conceptuellement, les données contenues dans votre dépôt Git ressemblent à la figure 3-1.
 
 Insert 18333fig0301.png
 Figure 3-1. Données d'un *commit* unique.

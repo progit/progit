@@ -228,7 +228,7 @@ Après avoir réglé tout ceci, si vous lancez des commandes de diff telles que 
 
 	$ git diff 32d1776b1^ 32d1776b1
 
-Au lieu d'obtenir la sortie du diff dans le terminal, Git lance P4Merge, ce qui ressemble à la Figure 7-1.
+Au lieu d'obtenir la sortie du diff dans le terminal, Git lance P4Merge, ce qui ressemble à la figure 7-1.
 
 Insert 18333fig0701.png
 Figure 7-1. L'outil de fusion P4Merge.

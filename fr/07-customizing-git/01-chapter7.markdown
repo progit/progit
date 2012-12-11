@@ -246,7 +246,7 @@ Par exemple, pour changer vos outils `extDiff` et `extMerge` pour une utilisatio
 
 Git est livré préréglé avec un certain nombre d'autres outils de résolution de fusion pour vous éviter d'avoir à gérer la configuration `cmd`.
 Vous pouvez sélectionner votre outil de fusion parmi `kdiff3`, `opendiff`, `tkdiff`, `meld`, `xxdiff`, `emerge`, `vimdiff` ou `gvimdiff`.
-Si KDiff3 ne vous intéresse pas pour gérer les différences mais seulement pour la résolution de fusion et qu'il est présent dans votre chemin d'exécution, vous pouvez lancer
+Si KDiff3 ne vous intéresse pas pour gérer les différences mais seulement pour la résolution de fusion et qu'il est présent dans votre chemin d'exécution, vous pouvez lancer :
 
 	$ git config --global merge.tool kdiff3
 
@@ -1044,7 +1044,7 @@ Par ailleurs, si le marqueur `ref` n'est pas présent dans le message de validat
 	[REGLE] Le message de validation n'est pas conforme
 
 Ou si quelqu'un cherche à modifier un fichier auquel il n'a pas les droits d'accès lors d'une poussée, il verra quelque chose de similaire.
-Par exemple, si un auteur de documentation essaie de pousser un *commit* qui modifie quelque chose dans le répertoire `lib`, il verra
+Par exemple, si un auteur de documentation essaie de pousser un *commit* qui modifie quelque chose dans le répertoire `lib`, il verra :
 
 	[ACL] Vous n'avez pas le droit de pousser sur lib/test.rb
 
@@ -1121,21 +1121,21 @@ Si le répertoire `.git` du projet contient une copie du fichier d'ACL précéde
 
 C'est grossièrement le même script que celui côté serveur, mais avec deux différences majeures.
 Premièrement, le fichier ACL est à un endroit différent parce que le script s'exécute depuis le copie de travail et non depuis le répertoire Git.
-Il faut donc changer le chemin vers le fichier d'ACL de
+Il faut donc changer le chemin vers le fichier d'ACL de :
 
 	acces = get_acl_access_data('acl')
 
-pour
+en :
 
 	acces = get_acl_access_data('.git/acl')
 
 L'autre différence majeure réside dans la manière d'obtenir la liste des fichiers modifiés.
 La fonction sur le serveur la recherche dans le journal des *commits* mais comme dans le cas actuel, le *commit* n'a pas encore été enregistré, il faut chercher la liste dans la zone d'index.
-Donc au lieu de
+Donc au lieu de :
 
 	fichiers_modifies = `git log -1 --name-only --pretty=format:'' #{ref}`
 
-on utilise
+on utilise :
 
 	fichiers_modifies = `git diff-index --cached --name-only HEAD`
 

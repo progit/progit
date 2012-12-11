@@ -198,7 +198,7 @@ Comme `clone` est un `git init` de base, suivi d'un `git fetch`, nous voyons les
 Le transfert effectif d'objets ne fournit aucune sortie, mais il a tout de même lieu.
 Vous devriez maintenant avoir une copie des données de Git dans votre répertoire `mon_project.git`.
 
-C'est grossièrement équivalent à
+C'est grossièrement équivalent à :
 
 	$ cp -Rf mon_project/.git mon_project.git
 
@@ -447,7 +447,7 @@ Git fournit un script CGI appelé GitWeb qui est souvent utilisé à cette fin.
 Vous pouvez voir GitWeb en action sur des sites tels que `http://git.kernel.org` (voir figure 4-1).
 
 Insert 18333fig0401.png
-Figure 4-1. L'interface web de visualisation GitWeb
+Figure 4-1. L'interface web de visualisation GitWeb.
 
 Si vous souhaitez vérifier à quoi GitWeb ressemblerait pour votre projet, Git fournit une commande pour démarrer une instance temporaire de serveur si vous avez un serveur léger tel que `lighttpd` ou `webrick` sur votre système.
 Sur les machines Linux, `lighttpd` est souvent pré-installé et vous devriez pouvoir le démarrer en tapant `git instaweb` dans votre répertoire de travail.
@@ -533,7 +533,7 @@ Pour l'instant, déplacez le fichier `authorized_keys` ailleurs :
 
 Ensuite, il faut réactiver le shell pour l'utilisateur « git » si vous l'avez désactivé au moyen de `git-shell`.
 Les utilisateurs ne pourront toujours pas se connecter car Gitosis contrôlera cet accès.
-Modifions la ligne dans le fichier `/etc/passwd`
+Modifions la ligne dans le fichier `/etc/passwd` :
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
@@ -992,7 +992,7 @@ Figure 4-2. La page des différents plans de GitHub.
 Vous devez choisir un nom d'utilisateur qui n'est pas déjà utilisé dans le système et saisir une adresse e-mail qui sera associée au compte et un mot de passe (voir figure 4-3).
 
 Insert 18333fig0403.png
-Figure 4-3. La page d'enregistrement de GitHub
+Figure 4-3. La page d'enregistrement de GitHub.
 
 Si vous l'avez, c'est le bon moment pour ajouter votre clé publique SSH.
 Nous avons détaillé comment en générer précédemment au chapitre « Petites installations ».
@@ -1001,7 +1001,7 @@ En cliquant sur le lien « Need help with public keys? » (besoin d'aide avec 
 Cliquez sur le bouton « Create an account » (créer un compte) pour avoir accès à votre tableau de bord de nouvel utilisateur (voir figure 4-4).
 
 Insert 18333fig0404.png
-Figure 4-4. Le tableau de bord d'utilisateur de GitHub
+Figure 4-4. Le tableau de bord d'utilisateur de GitHub.
 
 Vous pouvez ensuite procéder à la création d'un nouveau dépôt.
 
@@ -1011,22 +1011,22 @@ Commencez en cliquant sur le bouton gris « New Repository » juste à côté 
 Un formulaire « Create a New Repository » (créer un nouveau dépôt) apparaît pour vous guider dans la création d'un nouveau dépôt (voir figure 4-5).
 
 Insert 18333fig0405.png
-Figure 4-5. Création d'un nouveau dépôt sur GitHub
+Figure 4-5. Création d'un nouveau dépôt sur GitHub.
 
 Le strict nécessaire consiste à fournir un nom au projet, mais vous pouvez aussi ajouter une description.
 Ensuite, cliquez sur le bouton « Create Repository » (créer un dépôt).
 Voilà un nouveau dépôt sur GitHub (voir figure 4-6).
 
 Insert 18333fig0406.png
-Figure 4-6. Information principale d'un projet GitHub
+Figure 4-6. Information principale d'un projet GitHub.
 
 Comme il n'y a pas encore de code, GitHub affiche les instructions permettant de créer un nouveau projet, de pousser un projet Git existant ou d'importer un projet depuis un dépôt Subversion public (voir figure 4-7).
 
 Insert 18333fig0407.png
-Figure 4-7. Instructions pour un nouveau dépôt
+Figure 4-7. Instructions pour un nouveau dépôt.
 
 Ces instructions sont similaires à ce que nous avons déjà décrit.
-Pour initialiser un projet qui n'est pas déjà dans Git, tapez
+Pour initialiser un projet qui n'est pas déjà dans Git, tapez :
 
 	$ git init
 	$ git add .
@@ -1042,7 +1042,7 @@ Dans notre cas, il s'agit de `http://github.com/testinguser/iphone_projet`.
 Vous pouvez aussi voir dans l'en-tête de la page de chaque projet qu'il y a deux URL Git (voir figure 4-8).
 
 Insert 18333fig0408.png
-Figure 4-8. Entête de projet avec une URL publique et une URL privée
+Figure 4-8. Entête de projet avec une URL publique et une URL privée.
 
 L'URL « Git Read-Only » (Git en lecture seule) est une URL Git publique en lecture seule que tout le monde peut cloner.
 Utilisez cette URL pour publier et partager votre dépôt sur un site web ou autre.

@@ -42,7 +42,7 @@ Par exemple, pour afficher un *commit* précis, supposons que vous exécutiez `g
 
 	    added some blame and merge stuff
 
-Pour cet exemple, choisissons `1c002dd....`
+Pour cet exemple, choisissons `1c002dd...`.
 Si vous affichez le contenu de ce *commit* via `git show`, les commandes suivantes sont équivalentes (en partant du principe que les SHA-1 courts ne sont pas ambigus).
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -820,7 +820,7 @@ Pour supprimer un fichier nommé « passwords.txt » de tout votre historique,
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-L'option `--tree-filter` exécute la commande spécifiée pour chaque *commit* et le revalide ensuite
+L'option `--tree-filter` exécute la commande spécifiée pour chaque *commit* et le revalide ensuite.
 Dans le cas présent, vous supprimez le fichier nommé « passwords.txt » de chaque contenu, qu'il existait ou non.
 Si vous voulez supprimer tous les fichiers temporaires des éditeurs validés accidentellement, vous pouvez exécuter une commande telle que `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
@@ -843,7 +843,7 @@ De plus, Git supprimera automatiquement les *commits* qui n'affectent pas ce sou
 #### Modifier globalement l'adresse mail ####
 
 Un autre cas habituel est que vous oubliez d'exécuter `git config` pour configurer votre nom et votre adresse mail avant de commencer à travailler, ou vous voulez peut-être rendre un projet du boulot open source et donc changer votre adresse professionnelle pour celle personnelle.
-Dans tous les cas, vous pouvez modifier l'adresse mail dans plusieurs *commits* avec un script `filter-branch`
+Dans tous les cas, vous pouvez modifier l'adresse mail dans plusieurs *commits* avec un script `filter-branch`.
 Vous devez faire attention de ne changer que votre adresse mail, utilisez donc `--commit-filter` :
 
 	$ git filter-branch --commit-filter '

@@ -51,7 +51,7 @@ Le processus se passe comme ceci (voir figure 5-2) :
 6.      Le mainteneur pousse les modifications fusionnées sur le dépôt principal.
 
 Insert 18333fig0502.png
-Figure 5-2. Le mode du gestionnaire d'intégration
+Figure 5-2. Le mode du gestionnaire d'intégration.
 
 C'est une gestion très commune sur des sites tels que GitHub où il est aisé de dupliquer un projet et de pousser ses modifications pour les rendre publiques.
 Un avantage distinctif de cette approche est qu'il devient possible de continuer à travailler et que le mainteneur du dépôt principal peut tirer les modifications à tout moment.
@@ -486,7 +486,7 @@ Insert 18333fig0514.png
 Figure 5-14. L'historique de Jessica après la fusion de ses deux branches thématiques.
 
 De nombreuses équipes basculent vers Git du fait de cette capacité à gérer plusieurs équipes travaillant en parallèle, fusionnant plusieurs lignes de développement très tard dans le processus de livraison.
-La capacité donnée à plusieurs sous-groupes d'équipes à collaborer au moyen de branches distantes sans nécessairement impacter le reste de l'équipe est un grand bénéfice apporté par Git.
+La capacité donnée à plusieurs sous-groupes d'équipes de collaborer au moyen de branches distantes sans nécessairement impacter le reste de l'équipe est un grand bénéfice apporté par Git.
 La séquence de travail qui vous a été décrite ressemble à la figure 5-15.
 
 
@@ -501,7 +501,7 @@ Ce premier exemple décrit un mode de contribution via des serveurs Git qui prop
 Les sites repo.or.cz ou GitHub proposent cette méthode, et de nombreux mainteneurs s'attendent à ce style de contribution.
 Le chapitre suivant traite des projets qui préfèrent accepter les contributions sous forme de patch via e-mail.
 
-Premièrement, vous souhaiterez probablement cloner le dépôt principal, créer une nouvelle branche thématique pour le patch ou la série de patchs que seront votre contribution et commencer à travailler.
+Premièrement, vous souhaiterez probablement cloner le dépôt principal, créer une nouvelle branche thématique pour le patch ou la série de patchs que seront votre contribution, et commencer à travailler.
 La séquence ressemble globalement à ceci :
 
 	$ git clone (url)
@@ -1141,5 +1141,5 @@ Vous devriez à présent vous sentir à l'aise pour contribuer à un projet avec
 Félicitations, vous êtes un développeur Git efficace !
 Au prochain chapitre, vous découvrirez des outils plus puissants pour gérer des situations complexes, qui feront de vous un maître de Git.
 
-<!--  LocalWords:  png CVCS bon-vouloir multi-dépôt master commits git diff
+<!--  LocalWords:  png CVCS multi-dépôt master commits git diff
  -->

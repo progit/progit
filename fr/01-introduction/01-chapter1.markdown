@@ -109,7 +109,7 @@ Pour être efficace, si les fichiers n'ont pas changé, Git ne stocke pas le fic
 Git pense ses données plus à la manière de la figure 1-5.
 
 Insert 18333fig0105.png
-Figure 1-5. Git stocke les données comme des instantanés du projet au cours du temps
+Figure 1-5. Git stocke les données comme des instantanés du projet au cours du temps.
 
 C'est une distinction importante entre Git et quasiment tous les autres VCS.
 Git a reconsidéré quasiment tous les aspects de la gestion de version que la plupart des autres systèmes ont copiés des générations précédentes.

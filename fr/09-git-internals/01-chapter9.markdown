@@ -553,8 +553,7 @@ Il représente environ 12 Kio de code source :
 	 create mode 100644 repo.rb
 	 rewrite test.txt (100%)
 
-Si vous observez l'arbre qui en résulte, vous verrez l'empreinte SHA-1 du blob
-contenant le fichier `repo.rb` :
+Si vous observez l'arbre qui en résulte, vous verrez l'empreinte SHA-1 du blob contenant le fichier `repo.rb` :
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
@@ -1021,7 +1020,7 @@ Vous avez effectivement perdu les deux *commits* du haut, vous n'avez pas de bra
 Vous avez besoin de trouver le SHA du dernier *commit* et d'ajouter une branche s'y référant.
 Le problème est de trouver ce SHA, ce n'est pas comme si vous l'aviez mémorisé, hein ?
 
-Souvent, la manière la plus rapide est d'utiliser l'outil `git reflog`
+Souvent, la manière la plus rapide est d'utiliser l'outil `git reflog`.
 Pendant que vous travaillez, Git enregistre l'emplacement de votre HEAD chaque fois que vous le changez.
 À chaque *commit* ou commutation de branche, le journal des références (reflog) est mis à jour.
 Le journal des références est aussi mis à jour par la commande `git update-ref`, qui est une autre raison de l'utiliser plutôt que de simplement écrire votre valeur SHA dans vos fichiers de références, comme mentionné dans la section « Git References » plus haut dans ce chapitre.

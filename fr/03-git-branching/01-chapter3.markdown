@@ -68,17 +68,17 @@ Dans notre cas, vous vous trouvez toujours sur `master`.
 La commande `git branch` n'a fait que créer une nouvelle branche — elle n'a pas fait basculer la copie de travail vers cette branche (cf. figure 3-5).
 
 Insert 18333fig0305.png
-Figure 3-5. fichier `HEAD` pointant sur la branche active
+Figure 3-5. fichier `HEAD` pointant sur la branche active.
 
 Pour basculer vers une branche existante, il suffit de lancer la commande `git checkout`.
 Basculons vers la nouvelle branche test :
 
 	$ git checkout test
 
-Cela déplace `HEAD` pour le faire pointer vers la branche test (voir figure 3-6)
+Cela déplace `HEAD` pour le faire pointer vers la branche test (voir figure 3-6).
 
 Insert 18333fig0306.png
-Figure 3-6. `HEAD` pointe vers une autre branche quand on bascule entre les branches
+Figure 3-6. `HEAD` pointe vers une autre branche quand on bascule entre les branches.
 
 Qu'est-ce que cela signifie ?
 Et bien, faisons une autre validation :
@@ -224,7 +224,7 @@ Vous noterez la mention « Fast forward » qui signifie avance rapide dans cet
 Comme le *commit* pointé par la branche que vous avez fusionné était directement descendant du *commit* sur lequel vous vous trouvez, Git a avancé le pointeur en avant.
 Autrement dit, lorsque l'on cherche à fusionner un *commit* qui peut être joint en suivant l'historique depuis le *commit* d'origine, Git avance simplement le pointeur car il n'y a pas de travaux divergeant à réellement fusionner — ceci s'appelle l'avance rapide.
 
-Votre modification est maintenant dans l'instantané du *commit* pointé par la branche `master` et vous pouvez déployer votre modification (voir figure 3-14)
+Votre modification est maintenant dans l'instantané du *commit* pointé par la branche `master` et vous pouvez déployer votre modification (voir figure 3-14).
 
 Insert 18333fig0314.png
 Figure 3-14. Après la fusion, votre branche `master` pointe au même endroit que la correction.

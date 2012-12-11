@@ -2,8 +2,7 @@
 
 Si vous ne deviez lire qu'un chapitre avant de commencer à utiliser Git, c'est celui-ci.
 Ce chapitre couvre les commandes de base nécessaires pour réaliser la vaste majorité des activités avec Git.
-À la fin de ce chapitre, vous devriez être capable de configurer et initialiser
-un dépôt, commencer et arrêter le suivi de version de fichiers, d'indexer et valider des modifications.
+À la fin de ce chapitre, vous devriez être capable de configurer et initialiser un dépôt, commencer et arrêter le suivi de version de fichiers, d'indexer et valider des modifications.
 Nous vous montrerons aussi comment paramétrer Git pour qu'il ignore certains fichiers ou patrons de fichiers, comment revenir sur les erreurs rapidement et facilement, comment parcourir l'historique de votre projet et voir les modifications entre deux validations, et comment pousser et tirer les modifications avec des dépôts distants.
 
 ## Démarrer un dépôt Git ##
@@ -14,7 +13,7 @@ La seconde consiste à cloner un dépôt Git existant sur un autre serveur.
 
 ### Initialisation d'un dépôt Git dans un répertoire existant ###
 
-Si vous commencez à suivre un projet existant dans Git, vous n'avez qu'à vous positionner dans le répertoire du projet et saisir
+Si vous commencez à suivre un projet existant dans Git, vous n'avez qu'à vous positionner dans le répertoire du projet et saisir :
 
 	$ git init
 
@@ -448,7 +447,7 @@ Pour réaliser ce scénario, utilisez l'option `--cached` :
 	$ git rm --cached readme.txt
 
 Vous pouvez spécifier des noms de fichiers ou de répertoires, ou des patrons de fichiers à la commande `git rm`.
-Cela signifie que vous pouvez lancer des commandes telles que
+Cela signifie que vous pouvez lancer des commandes telles que :
 
 	$ git rm log/\*.log
 
@@ -468,7 +467,7 @@ Si vous renommez un fichier suivi par Git, aucune méta-donnée indiquant le ren
 Néanmoins, Git est assez malin pour s'en apercevoir après coup — la détection de mouvement de fichier sera traitée plus loin.
 
 De ce fait, que Git ait une commande `mv` peut paraître trompeur.
-Si vous souhaitez renommer un fichier dans Git, vous pouvez lancer quelque chose comme
+Si vous souhaitez renommer un fichier dans Git, vous pouvez lancer quelque chose comme :
 
 	$ git mv nom_origine nom_cible
 
@@ -502,7 +501,7 @@ Après avoir créé plusieurs *commits* ou si vous avez cloné un dépôt ayant 
 Pour ce faire, la commande `git log` est l'outil le plus basique et le plus puissant.
 
 Les exemples qui suivent utilisent un projet très simple nommé `simplegit` utilisé pour les démonstrations.
-Pour récupérer le projet, lancez
+Pour récupérer le projet, lancez :
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
@@ -736,7 +735,7 @@ Gitk est un outil graphique mimant les fonctionnalités de `git log`, et il donn
 Si vous tapez `gitk` en ligne de commande, vous devriez voir une interface ressemblant à la figure 2-2.
 
 Insert 18333fig0202.png
-Figure 2-2. Le visualiseur d'historique gitk
+Figure 2-2. Le visualiseur d'historique gitk.
 
 Vous pouvez voir l'historique des *commits* dans la partie supérieure de la fenêtre avec un graphique d'enchaînement.
 Le visualisateur de diff dans la partie inférieure de la fenêtre affiche les modifications introduites par le *commit* sélectionné.

@@ -14,7 +14,7 @@ Aujourd'hui, la majorité des projets de développement libre et un grand nombre
 C'est le VCS libre le plus populaire depuis une bonne décennie.
 Il est aussi très similaire à CVS qui a été le grand chef des gestionnaires de source avant lui.
 
-Une des grandes fonctionnalités de Git est sa passerelle vers subversion, `git svn`.
+Une des grandes fonctionnalités de Git est sa passerelle vers Subversion, `git svn`.
 Cet outil vous permet d'utiliser Git comme un client valide d'un serveur Subversion pour que vous puissiez utiliser les capacités de Git en local puis poussez sur le serveur Subversion comme si vous utilisiez Subversion localement.
 Cela signifie que vous pouvez réaliser localement les embranchements et les fusions, utiliser l'index, utiliser le rebasage et la sélection de *commits*, etc, tandis que vos collaborateurs continuent de travailler avec leurs méthodes ancestrales et obscures.
 C'est une bonne manière d'introduire Git dans un environnement professionnel et d'aider vos collègues développeurs à devenir plus efficaces tandis que vous ferez pression pour une modification de l'infrastructure vers l'utilisation massive de Git.
@@ -23,19 +23,19 @@ La passerelle Subversion n'est que la première dose vers la drogue du monde des
 ### git svn ###
 
 La commande de base dans Git pour toutes les commandes de passerelle est `git svn`.
-Vous préposerez tout avec cette paire de mots.
+Vous préfixerez tout avec cette paire de mots.
 Les possibilités étant nombreuses, nous traiterons des plus communes pendant que nous détaillerons quelques petits modes de gestion.
 
 Il est important de noter que lorsque vous utilisez `git svn`, vous interagissez avec Subversion qui est un système bien moins sophistiqué que Git.
-Bien que vous puissiez simplement réaliser des branches locales et les fusionner, il est généralement conseillé de conserver votre historique le plus linéaire possible en rebasant votre travail et en évitant des activités telles que d'interagir dans le même temps avec un dépôt Git distant.
+Bien que vous puissiez simplement réaliser des branches locales et les fusionner, il est généralement conseillé de conserver votre historique le plus linéaire possible en rebasant votre travail et en évitant des activités telles qu'interagir dans le même temps avec un dépôt Git distant.
 
 Ne réécrivez pas votre historique avant d'essayer de pousser à nouveau et ne poussez pas en parallèle dans un dépôt Git pour collaborer avec vos collègues développant avec Git.
 Subversion ne supporte qu'un historique linéaire et l'égarer est très facile.
-Si vous travaillez avec une équipe dont certains membres utilisent svn et d'autres utilisent Git, assurez-vous que tout le monde n'utilise que le serveur svn pour collaborer, cela vous rendra service.
+Si vous travaillez avec une équipe dont certains membres utilisent SVN et d'autres utilisent Git, assurez-vous que tout le monde n'utilise que le serveur SVN pour collaborer, cela vous rendra service.
 
 ### Installation ###
 
-Pour montrer cette fonctionnalité, il faut un serveur svn sur lequel vous avez des droits en écriture.
+Pour montrer cette fonctionnalité, il faut un serveur SVN sur lequel vous avez des droits en écriture.
 Pour copier ces exemples, faites une copie inscriptible de mon dépôt de test.
 Dans cette optique, vous pouvez utiliser un outil appelé `svnsync` qui est livré avec les versions les plus récentes  de Subversion — il devrait être distribué avec les versions à partir de 1.4.
 Pour ces tests, j'ai créé sur Google code un nouveau dépôt Subversion qui était une copie partielle du projet `protobuf` qui est un outil qui encode les données structurées pour une transmission par réseau.
@@ -45,19 +45,19 @@ En préparation, créez un nouveau dépôt local Subversion :
 	$ mkdir /tmp/test-svn
 	$ svnadmin create /tmp/test-svn
 
-Ensuite, autorisez tous les utilisateurs à changer les revprops — le moyen le plus simple consiste à ajouter un script pre-revprop-change que rend toujours 0 :
+Ensuite, autorisez tous les utilisateurs à changer les revprops — le moyen le plus simple consiste à ajouter un script pre-revprop-change qui rend toujours 0 :
 
 	$ cat /tmp/test-svn/hooks/pre-revprop-change
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
-Vous pouvez à présent synchroniser ce projet sur votre machine locale en lançant `svnsync init` avec les dépôts sources et cibles.
+Vous pouvez à présent synchroniser ce projet sur votre machine locale en lançant `svnsync init` avec les dépôts source et cible.
 
 	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
 Cela initialise les propriétés nécessaires à la synchronisation.
-Vous pouvez ensuite cloner le code en lançant
+Vous pouvez ensuite cloner le code en lançant :
 
 	$ svnsync sync file:///tmp/test-svn
 	Committed revision 1.
@@ -308,7 +308,7 @@ Remarquez que cette commande ne vous bascule pas sur cette branche ; si vous va
 Git devine la branche cible des `dcommits` en se référant au sommet des branches Subversion dans votre historique — vous ne devriez en avoir qu'un et celui-ci devrait être le dernier possédant un `git-svn-id` dans l'historique actuel de votre branche.
 
 Si vous souhaitez travailler simultanément sur plusieurs branches, vous pouvez régler vos branches locales pour que le `dcommit` arrive sur une branche Subversion spécifique en les démarrant sur le *commit* de cette branche importée depuis Subversion.
-Si vous voulez une branche `opera` sur laquelle travailler séparément, vous pouvez lancer
+Si vous voulez une branche `opera` sur laquelle travailler séparément, vous pouvez lancer :
 
 	$ git branch opera remotes/opera
 
@@ -484,7 +484,7 @@ Non seulement le champ auteur a meilleure mine, mais de plus le champ `git-svn-i
 Il est encore nécessaire de faire un peu de ménage `post-import`. Déjà, vous devriez nettoyer les références bizarres que `git svn` crée.
 Premièrement, déplacez les étiquettes pour qu'elles soient de vraies étiquettes plutôt que des branches distantes étranges, ensuite déplacez le reste des branches pour qu'elles deviennent locales.
 
-Pour déplacer les étiquettes et en faire de vraies étiquettes Git, lancez
+Pour déplacer les étiquettes et en faire de vraies étiquettes Git, lancez :
 
 	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do
 	git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname";
@@ -652,11 +652,11 @@ Votre méthode ressemble à ceci :
 
 Après une représentation entière de votre *commit*, vous avez besoin d'une date pour les méta-données du *commit*.
 La date est présente dans le nom du répertoire, alors analysons-le.
-La ligne suivante du fichier `print_export` est donc
+La ligne suivante du fichier `print_export` est donc :
 
 	date = convert_dir_to_date(dir)
 
-où `convert_dir_to_date` est défini comme
+où `convert_dir_to_date` est défini comme :
 
 	def convert_dir_to_date(dir)
 	  if dir == 'en_cours'

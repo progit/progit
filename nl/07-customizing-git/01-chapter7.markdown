@@ -15,11 +15,11 @@ Je zag wat eenvoudige Git configuratie details in het eerste hoofdstuk, maar ik 
 
 De volgende plaats waar Git kijkt is het `~/.gitconfig` bestand, wat specifiek is voor iedere gebruiker. Je kunt er voor zorgen dat Git naar dit bestand leest en schrijft door de `--global` optie mee te geven.
 
-Als laatste kijkt Git naar configuratie waarden in het config bestand in de Git map (`.git/config`) of welk repository dat je op dat moment gebruikt. Deze waarden zijn specifiek voor dat ene repository. Ieder nivo overschrijft de waarden in het vorige nivo, dus waarden in `.git/config` gaan boven die in `/etc/gitconfig`, bijvoorbeeld. Je kunt die waarden ook instellen door het bestand handmatig aan te passen en de correcte syntax in te voegen, maar het is over het algemeen makkelijk m het `git config` commando uit te voeren.
+Als laatste kijkt Git naar configuratie waarden in het config bestand in de Git map (`.git/config`) of welk repository dat je op dat moment gebruikt. Deze waarden zijn specifiek voor dat ene repository. Ieder niveau overschrijft de waarden in het vorige niveau, dus waarden in `.git/config` gaan boven die in `/etc/gitconfig`, bijvoorbeeld. Je kunt die waarden ook instellen door het bestand handmatig aan te passen en de correcte syntax in te voegen, maar het is over het algemeen makkelijk m het `git config` commando uit te voeren.
 
 ### Basis client configuratie ###
 
-De configuratie opties die herkent worden door Git vallen binnen twee categorien: de client kant en de server kant. De meerderheid van de opties zijn voor de client kant – de configuratie van je persoonlijke voorkeuren. Alhoewel er massa's opties beschikbaar zijn, zal ik alleen een paar behandelen die ofwel veelgebruikt zijn of je werkwijze significant kunnen beinvloeden. Veel opties zijn alleen bruikbaar in randgevallen waar ik hier niet naar kijk. Als je een lijst van alle opties wil zien, die jou versie van Git herkent kun je dit uitvoeren
+De configuratie opties die herkent worden door Git vallen binnen twee categorieën: de client kant en de server kant. De meerderheid van de opties zijn voor de client kant – de configuratie van je persoonlijke voorkeuren. Alhoewel er massa's opties beschikbaar zijn, zal ik alleen een paar behandelen die ofwel veelgebruikt zijn of je werkwijze significant kunnen beïnvloeden. Veel opties zijn alleen bruikbaar in randgevallen waar ik hier niet naar kijk. Als je een lijst van alle opties wil zien, die jou versie van Git herkent kun je dit uitvoeren
 
 	$ git config --help
 
@@ -93,7 +93,7 @@ Je kunt patronen in het `.gitignore` bestand van je project zetten zodat Git ze 
 
 #### help.autocorrect ####
 
-Deze optie is alleen beschikbaar in Git 1.6.1. en later. Als je een commando in Git 1.6 verkeerd typed, toont het je zoiets als dit:
+Deze optie is alleen beschikbaar in Git 1.6.1. en later. Als je een commando in Git 1.6 verkeerd typt, toont het je zoiets als dit:
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -101,7 +101,7 @@ Deze optie is alleen beschikbaar in Git 1.6.1. en later. Als je een commando in 
 	Did you mean this?
 	     commit
 
-Als je `het.autocorrect` op 1 instelt, zal Git autoamitsch het commando uitvoeren als het slechts één passend commando heeft in dit scenario.
+Als je `het.autocorrect` op 1 instelt, zal Git automatisch het commando uitvoeren als het slechts één passend commando heeft in dit scenario.
 
 ### Kleuren in Git ###
 
@@ -130,7 +130,7 @@ Daarnaast heeft ieder van deze ook sub-instellingen die je kunt gebruiken om spe
 
 	$ git config --global color.diff.meta “blue black bold”
 
-Je kunt de kleur instellen op ieder van de volgende waarden: normal, black, red, green, yellow, blue, magenta, cyan, of white. Als je een attribuut wil hebben, zoals vetgerukt in het vorige voorbeeld, kun je kiezen uit bold, dim, ul, blink en reverse.
+Je kunt de kleur instellen op ieder van de volgende waarden: normal, black, red, green, yellow, blue, magenta, cyan, of white. Als je een attribuut wil hebben, zoals vetgedrukt in het vorige voorbeeld, kun je kiezen uit bold, dim, ul, blink en reverse.
 
 Zie de manpage van `git config` voor alle sub-instellingen die je kunt instellen, als je dat wil.
 
@@ -144,7 +144,7 @@ Je kunt P4Merge hier downloaden:
 
 	http://www.perforce.com/perforce/downloads/component.html
 
-Om te beginnen zul je externe wrapper scripts instellen om je commando's uit te voeren. Ik zal het Mac pad gebruiken voor de applicatie; in andere systemen zal het moeten wijzen naar waar de `p4merge` binary geinstalleerd is. Stel een samenvoeg wrapper script in, genaamd `extMerge`, die je applicatie met alle meegegeven argumenten aanroept:
+Om te beginnen zul je externe wrapper scripts instellen om je commando's uit te voeren. Ik zal het Mac pad gebruiken voor de applicatie; in andere systemen zal het moeten wijzen naar waar de `p4merge` binary geïnstalleerd is. Stel een samenvoeg wrapper script in, genaamd `extMerge`, die je applicatie met alle meegegeven argumenten aanroept:
 
 	$ cat /usr/local/bin/extMerge
 	#!/bin/sh
@@ -202,7 +202,7 @@ Het aardige van deze wrapper opstelling is dat je je diff en merge tools eenvoud
 
 Nu zal Git het KDiff3 tool gebruiken voor het tonen van diff en het oplossen van samenvoeg conflicten.
 
-Git is al ingesteld om een aantal andere conflict-oplossings tools te gebruiken zonder dat je de cmd configuratie in hoeft te stellen. Je kunt je merge tool op kdiff3 instellen, of opendiff, tkdiff, meld, xxdiff, emerge, vimdiff of gvimdiff. Als je niet geinteresseerd bent in het gebruik van KDiff3 als diff, maar het liever alleen wilt gebruiken voor conflict oplossing, en het kdiff3 commando zit in je pad, dan kun je dit uitvoeren
+Git is al ingesteld om een aantal andere conflict-oplossings tools te gebruiken zonder dat je de cmd configuratie in hoeft te stellen. Je kunt je merge tool op kdiff3 instellen, of opendiff, tkdiff, meld, xxdiff, emerge, vimdiff of gvimdiff. Als je niet geïnteresseerd bent in het gebruik van KDiff3 als diff, maar het liever alleen wilt gebruiken voor conflict oplossing, en het kdiff3 commando zit in je pad, dan kun je dit uitvoeren
 
 	$ git config --global merge.tool kdiff3
 
@@ -220,7 +220,7 @@ Git kan hiermee omgaan door CRLF regeleinden automatisch om te zetten naar LF zo
 
 	$ git config --global core.autocrlf true
 
-Als je op een Linux of Mac systeem zit dat LF regeleinden gebruikt, dan wil je niet dat Git ze autoamisch veranderd op het moment dat Git bestanden uitchecked; maar als een bestand met CRLF regeleinden onverhoopt toch geintroduceerd wordt, dan wil je misschien dat Git dit repareert. Je kunt Git vertellen dat je wilt dat hij CRLF in LF veranderd tijdens het committen, maar niet de andere kant op door het instellen van `core.autocrlf` op input:
+Als je op een Linux of Mac systeem zit dat LF regeleinden gebruikt, dan wil je niet dat Git ze automatisch veranderd op het moment dat Git bestanden uitchecked; maar als een bestand met CRLF regeleinden onverhoopt toch geïntroduceerd wordt, dan wil je misschien dat Git dit repareert. Je kunt Git vertellen dat je wilt dat hij CRLF in LF veranderd tijdens het committen, maar niet de andere kant op door het instellen van `core.autocrlf` op input:
 
 	$ git config --global core.autocrlf input
 
@@ -232,7 +232,7 @@ Als je een Windows programmeur bent, die een alleen-Windows project doet, dan ku
 
 #### core.whitespace ####
 
-Git is vooraf ingesteld om een aantal witruimte problemen te detecteren en te repareren. Het kan op vier veelvoorkomende witruimte problemen letten – twee stan er standaard aan en kunnen uitgezet worden, en twee staan er standaard niet aan, maar kunnen aangezet worden.
+Git is vooraf ingesteld om een aantal witruimte problemen te detecteren en te repareren. Het kan op vier veelvoorkomende witruimte problemen letten – twee staan er standaard aan en kunnen uitgezet worden, en twee staan er standaard niet aan, maar kunnen aangezet worden.
 
 De twee die standaard aan staan zijn `trailing-space`, wat kijkt of er spaties aan het eind van een regel staan, en `space-before-tab`, wat kijkt of er spaties voor tabs staan aan het begin van een regel.
 
@@ -243,7 +243,7 @@ Je kunt Git vertellen welke van deze je aan wil zetten door `core.whitespace` na
 	$ git config --global core.whitespace \
 	    trailing-space,space-before-tab,indent-with-non-tab
 
-Git zal deze problemen detecteren zodra je een `git diff` commando uitvoert en ze proberem te kleuren zodat je ze kunt repareren alvorens te committen. Het zal deze waarden ook gebruiken om je te helpen met patches toe te passen met `git apply`. Als je patches gaat toepassen, kun je Git vragen om je te waarschuwen als hij patches toepast waarin deze specifieke witruimte problemen zitten:
+Git zal deze problemen detecteren zodra je een `git diff` commando uitvoert en ze proberen te kleuren zodat je ze kunt repareren alvorens te committen. Het zal deze waarden ook gebruiken om je te helpen met patches toe te passen met `git apply`. Als je patches gaat toepassen, kun je Git vragen om je te waarschuwen als hij patches toepast waarin deze specifieke witruimte problemen zitten:
 
 	$ git apply --whitespace=warn <patch>
 
@@ -273,7 +273,7 @@ Om de mogelijkheid van het geforceerd vernieuwen van remote branches naar niet f
 
 	$ git config --system receive.denyNonFastForwards true
 
-Een andere manier waarop je dit kunt doen is het instellen van ontvangst haken op de server, wat we zometeen gaan behandelen. Die aanpak staat je toe meer complexe dingen te doen, zoals het weigeren van niet fast-forwards aan een bepaalde set gebruikers.
+Een andere manier waarop je dit kunt doen is het instellen van ontvangst haken op de server, wat we zo meteen gaan behandelen. Die aanpak staat je toe meer complexe dingen te doen, zoals het weigeren van niet fast-forwards aan een bepaalde set gebruikers.
 
 #### receive.denyDeletes ####
 
@@ -380,14 +380,14 @@ Als eerste kun je de SHA-1 checksum van een blob automatisch in een `$Id$` veld 
 	$ echo '*.txt ident' >> .gitattributes
 	$ echo '$Id$' > test.txt
 
-De volgende keer dat je dit bestand uitchecked, injecteerd Git de SHA van de blob:
+De volgende keer dat je dit bestand uitchecked, injecteert Git de SHA van de blob:
 
 	$ rm text.txt
 	$ git checkout -- text.txt
 	$ cat test.txt 
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
-Maar, het resultaat is slechts beperkt bruikbaar. Als je sleutelwoord vervanging in CVS of Subversion gebruikt hebt, kun je een tijdsstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of een SHA ouder of nieuwer is dan een andere.
+Maar, het resultaat is slechts beperkt bruikbaar. Als je sleutelwoord vervanging in CVS of Subversion gebruikt hebt, kun je een tijdstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of een SHA ouder of nieuwer is dan een andere.
 
 Het blijkt dat je je eigen filters voor het doen van vervanging bij commit/checkout kunt schrijven. Dit zijn de "clean" en "smudge" filters. In het `.gitattributes` bestand, kun je een filter op bepaalde paden instellen en dan scripts instellen die bestanden bewerkt vlak voordat ze gecommit worden ("clea", zie Figuur 7-2) en vlak voordat ze uitgechecked worden ("smudge", zie Figuur 7-3). De filters kunnen ingesteld worden zodat ze allerlei leuke dingen doen.
 
@@ -452,7 +452,7 @@ Als je nu git archive uitvoert om een tarball van je project te maken, zal die m
 
 #### export-subst ####
 
-Iets anders dat je kunt doen met je archieven is eenvoudige sleutelwoord vervanging. Git staat je toe om de tekst `$Format:$` in ieder bestand met ieder van de `--pretty=format` formaat afkortingen te zetten, waarvan je er al veel zag in Hoofdstuk 2. Bijvoorbeeld, als je een bestand genaamd `LAST_COMMIT` wilt meenemen in je project, en de laatste commit datum was hierin automatisch geinjecteerd toen `git archive` bezig was, kun je het bestand als volgt instellen:
+Iets anders dat je kunt doen met je archieven is eenvoudige sleutelwoord vervanging. Git staat je toe om de tekst `$Format:$` in ieder bestand met ieder van de `--pretty=format` formaat afkortingen te zetten, waarvan je er al veel zag in Hoofdstuk 2. Bijvoorbeeld, als je een bestand genaamd `LAST_COMMIT` wilt meenemen in je project, en de laatste commit datum was hierin automatisch geïnjecteerd toen `git archive` bezig was, kun je het bestand als volgt instellen:
 
 	$ echo 'Last commit date: $Format:%cd$' > LAST_COMMIT
 	$ echo "LAST_COMMIT export-subst" >> .gitattributes
@@ -482,7 +482,7 @@ In dit geval blijft database.xml staan op welke versie je origineel ook had.
 
 ## Git haken ##
 
-Zoals vele andere Versie Beheer Systemen, heeft Git een manier om eigengemaakte scripts op te starten wanneer bepaalde belangrijke akties voorkomen. Er zijn twee groepen van dit soort haken: aan de client kant en aan de server kant. De haken aan de client kant zijn voor client operaties zoasl committen en samenvoegen. De haken voor de server kant zijn voor Git server operaties zoals het ontvangen van gepushte commits. Je kunt deze haken om allerlei redenen gebruiken, en je zult hier over een aantal ervan leren.
+Zoals vele andere Versie Beheer Systemen, heeft Git een manier om eigengemaakte scripts op te starten wanneer bepaalde belangrijke acties voorkomen. Er zijn twee groepen van dit soort haken: aan de client kant en aan de server kant. De haken aan de client kant zijn voor client operaties zoals committen en samenvoegen. De haken voor de server kant zijn voor Git server operaties zoals het ontvangen van gepushte commits. Je kunt deze haken om allerlei redenen gebruiken, en je zult hier over een aantal ervan leren.
 
 ### Een haak installeren ###
 
@@ -492,25 +492,25 @@ Om een haak script aan te zetten, stop je een bestand met de juiste naam en dat 
 
 ### Client-kant haken ###
 
-Er zijn veel client-kant haken. Deze sectie verdeeld ze in commit-werwijze haken, e-mail-werkwijze scripts, en de rest van de client-kant scripts
+Er zijn veel client-kant haken. Deze sectie verdeeld ze in commit-werkwijze haken, e-mail-werkwijze scripts, en de rest van de client-kant scripts
 
 #### Commit-werkwijze haken ####
 
-De eerste vier haken hebben te maken met het commit proces. De `pre-commit` haak wordt eerst uitgevoerd, nog voor je een commit boodschap intyped. Het wordt gebruikt om het snapshot dat op het punt staat gecommit te worden te inspecteren, om te zien of je iets bent vergeten, om er zeker van te zijn dat tests uitgevoerd worden, of om te onderzoeken wat je wilt in de code. Deze haak met een waarde anders dan nul afsluiten breekt de commit af, alhoewel je 'm kunt omzeilen met `git commit --no-verify`. Je kunt dingen doen als op code stijl controleren (voer lint of iets dergelijks uit), op aanhangende spaties controleren (de standaard haak doet dat), of om de juiste documentatie op nieuwe functies te controleren.
+De eerste vier haken hebben te maken met het commit proces. De `pre-commit` haak wordt eerst uitgevoerd, nog voor je een commit boodschap intypt. Het wordt gebruikt om het snapshot dat op het punt staat gecommit te worden te inspecteren, om te zien of je iets bent vergeten, om er zeker van te zijn dat tests uitgevoerd worden, of om te onderzoeken wat je wilt in de code. Deze haak met een waarde anders dan nul afsluiten breekt de commit af, alhoewel je 'm kunt omzeilen met `git commit --no-verify`. Je kunt dingen doen als op code stijl controleren (voer lint of iets dergelijks uit), op aanhangende spaties controleren (de standaard haak doet dat), of om de juiste documentatie op nieuwe functies te controleren.
 
-De `prepare-commit-msg` haak wordt uitgevoerd voordat de commit boodschap editor gestart wordt, maar nadat de standaard boodschap aangemaakt is. Het stelt je in staat om de standaard boodschap aan te passen voordat de commit auteur het ziet. Deze haak accepteerd een aantal opties: het pad naar het bestand dat de huidige commit boodschap bevat, het type van de commit, en de SHA-1 van de commit als het een verbeterde commit betreft. Deze haak is voor normale commits niet zo bruikbaar; maar, het is goed voor commits waarbij de standaard boodschap automatisch gegenereerd wordt, zoals sjabloon commit boodschappen, samenvoeg commits, gesquashte commits en verbeterde commits. Je mag het samen met een commit sjabloon gebruiken om informatie in te voegen.
+De `prepare-commit-msg` haak wordt uitgevoerd voordat de commit boodschap editor gestart wordt, maar nadat de standaard boodschap aangemaakt is. Het stelt je in staat om de standaard boodschap aan te passen voordat de commit auteur het ziet. Deze haak accepteert een aantal opties: het pad naar het bestand dat de huidige commit boodschap bevat, het type van de commit, en de SHA-1 van de commit als het een verbeterde commit betreft. Deze haak is voor normale commits niet zo bruikbaar; maar, het is goed voor commits waarbij de standaard boodschap automatisch gegenereerd wordt, zoals sjabloon commit boodschappen, samenvoeg commits, gesquashte commits en verbeterde commits. Je mag het samen met een commit sjabloon gebruiken om informatie in te voegen.
 
-De `commit-msg` hook accepteerd één parameter, wat weer het pad naar een tijdelijk bestand is dat de huidige commit boodschap bevat. Als dit script eindigt met een waarde anders dan nul, dan zal Git het commit proces afbreken, dus je kunt het gebruiken om je project-status of de commit boodschap te valideren alvorens een commit toe te staan. In het laatste gedeelte van dit hoofdstuk, zal ik deze haak demonstreren om te controleren of je commit boodschap aan een bepaald patroon voldoet.
+De `commit-msg` hook accepteert één parameter, wat weer het pad naar een tijdelijk bestand is dat de huidige commit boodschap bevat. Als dit script eindigt met een waarde anders dan nul, dan zal Git het commit proces afbreken, dus je kunt het gebruiken om je project-status of de commit boodschap te valideren alvorens een commit toe te staan. In het laatste gedeelte van dit hoofdstuk, zal ik deze haak demonstreren om te controleren of je commit boodschap aan een bepaald patroon voldoet.
 
-Nadat het hele commit proces afgerond is, zal de `post-commit` haak uitgevoerd worden. Het accepteerd geen parameters, maar je kunt de laatste commit eenvoudig ophalen door `git log -1 HEAD` uit te voeren. Over het algemeen wordt dit script gebruikt om notificaties of iets dergelijks uit te sturen.
+Nadat het hele commit proces afgerond is, zal de `post-commit` haak uitgevoerd worden. Het accepteert geen parameters, maar je kunt de laatste commit eenvoudig ophalen door `git log -1 HEAD` uit te voeren. Over het algemeen wordt dit script gebruikt om notificaties of iets dergelijks uit te sturen.
 
 De commit-werkwijze client-kant scripts kunnen gebruikt worden in vrijwel iedere werkwijze. Ze worden vaak gebruikt om een bepaald beleid af te dwingen, maar het is belangrijk om te weten dat deze scripts niet overgedragen worden tijdens een clone. Je kunt beleid afdwingen op de server kant om pushes of commits te weigeren, die niet voldoen aan een bepaald beleid, maar het is aan de ontwikkelaar om deze scripts aan de client kant te gebruiken. Dus, deze scripts zijn er om ontwikkelaars te helpen, en ze moeten door hen ingesteld en onderhouden worden, alhoewel ze aangepast of omzeilt kunnen worden op ieder tijdstip.
 
 #### E-mail werkwijze haken ####
 
-Je kunt drie client kant haken instellen voor een e-mail gebaseerde werkwijze. Ze worden allemaal aangeroepen door het `git am` commando, dus als je dat commndo niet gebruikt in je werkwijze, dan kun je veilig doorgaan naar de volgende sectie. Als je patches aanneemt via e-mail, die door `git format-patch` geprepareerd zijn, dan zullen sommige van deze behulpzaam zijn voor je.
+Je kunt drie client kant haken instellen voor een e-mail gebaseerde werkwijze. Ze worden allemaal aangeroepen door het `git am` commando, dus als je dat commando niet gebruikt in je werkwijze, dan kun je veilig doorgaan naar de volgende sectie. Als je patches aanneemt via e-mail, die door `git format-patch` geprepareerd zijn, dan zullen sommige van deze behulpzaam zijn voor je.
 
-De eerste haak die uitgevoerd wordt is `applypatch-msg`. Het accepteerd een enkel argument: de naam van het tijdelijke bestand dat de voorgestelde commit boodschap bevat. Git breekt de patch als dit script met een waarde ongelijk aan nul eindigt. Je kunt dit gebruiken om er zeker van te zijn dat een commit boodschap juist geformateerd is, of om de boodschap te normaliseren door het script de boodschap aan te laten passen.
+De eerste haak die uitgevoerd wordt is `applypatch-msg`. Het accepteert een enkel argument: de naam van het tijdelijke bestand dat de voorgestelde commit boodschap bevat. Git breekt de patch als dit script met een waarde ongelijk aan nul eindigt. Je kunt dit gebruiken om er zeker van te zijn dat een commit boodschap juist geformatteerd is, of om de boodschap te normaliseren door het script de boodschap aan te laten passen.
 
 De volgende haak die wordt uitgevoerd tijdens het toepassen van patches via `git am` is `pre-applypatch`. Dit neemt geen argumenten aan en wordt uitgevoerd nadat de patch is toegepast, zodat je het kunt gebruiken om het snapshot te inspecteren alvorens de commit te doen. Je kunt tests uitvoeren of de werkmap op een andere manier inspecteren met behulp van dit script. Als er iets mist of één van de tests faalt, dan zal eindigen met niet nul het `git am` script afbreken zonder de patch te committen.
 
@@ -526,13 +526,13 @@ Als laatste wordt de `post-merge` haak uitgevoerd na een succesvol `merge` comma
 
 ### Server-kant haken ###
 
-Naast de client-kant haken, kun je als systeem administrator ook een paar belangrijke server-kant haken gebruiken om vrijwel ieder beleid op je project af te dwingen. Deze scripts worden voor en na de pushes op de server uitgevoerd. De pre haken kunnen met een ander getal dan nul eindigeen om de push te weigeren en een foutmelding naar de client te sturen; je kunt een push beleid instellen dat zo complex is als je zelf wenst.
+Naast de client-kant haken, kun je als systeem administrator ook een paar belangrijke server-kant haken gebruiken om vrijwel ieder beleid op je project af te dwingen. Deze scripts worden voor en na de pushes op de server uitgevoerd. De pre haken kunnen met een ander getal dan nul eindigen om de push te weigeren en een foutmelding naar de client te sturen; je kunt een push beleid instellen dat zo complex is als je zelf wenst.
 
 #### pre-receive en post-receive ####
 
 Het eerste script dat uitgevoerd wordt tijdens het afhandelen van een push van een client is `pre-receive`. Het aanvaardt een lijst van referenties die worden gepushed op stdin; als het eindigt met een andere waarde dan nul, worden ze allen geweigerd. Je kunt deze haak gebruiken om dingen te doen als valideren dat geen van de vernieuwde referenties een non-fast-forward is; of om te controleren dat de gebruiker die de push doet ook creatie, verwijder, of push toegang of toegang om vernieuwingen te pushen naar alle bestanden die ze proberen aan te passen met de push.
 
-De `post-receive` haak wordt uitgevoerd nadat het hele proces afgerond is, en hij kan gebruikt worden om andere services te vernieuwen of gebruikers te notificeren. Het aanvaardt dezelfde gegevens op stdin als de `pre-receive` haak. Voorbeelden zijn een e-mail sturen naar een lijst, een continue integratie server notificeren, of het vernieuwen van een ticket-volg systeem – je kunt zelfs de commit boodschappen doorlopen om te zien of er nog tickets zijn die moeten worden geopend, aangepast of afgesloten moeten worden. Dit script kan het push proces niet stopppen, maar de client verbreekt de connectie niet totdat het afgerond is; dus ben voorzichtig als je iets probeert te doen dat een lange tijd in beslag neemt.
+De `post-receive` haak wordt uitgevoerd nadat het hele proces afgerond is, en hij kan gebruikt worden om andere services te vernieuwen of gebruikers te notificeren. Het aanvaardt dezelfde gegevens op stdin als de `pre-receive` haak. Voorbeelden zijn een e-mail sturen naar een lijst, een continue integratie server notificeren, of het vernieuwen van een ticket-volg systeem – je kunt zelfs de commit boodschappen doorlopen om te zien of er nog tickets zijn die moeten worden geopend, aangepast of afgesloten moeten worden. Dit script kan het push proces niet stoppen, maar de client verbreekt de connectie niet totdat het afgerond is; dus ben voorzichtig als je iets probeert te doen dat een lange tijd in beslag neemt.
 
 #### update ####
 
@@ -540,13 +540,13 @@ Het update script is vergelijkbaar met het `pre-receive` script, behalve dan dat
 
 ## Een voorbeeld van Git-afgedwongen beleid ##
 
-In dit gedeelte zul je gebruiken wat je geleerd hebt om een Git werkwijze vast te leggen, die controleerd op een eigengemaakt commit boodschap formaat, afdwingt om alleen fast-forward pushes te accepteren, en alleen bepaalde gebruikers toestaat om bepaalde submappen te wijzigen in een project. Je zult client scripts maken die de ontwikkelaar helpen er achter te komen of hun push geweigerd zal worden, en server scripts die het beleid afdwingen.
+In dit gedeelte zul je gebruiken wat je geleerd hebt om een Git werkwijze vast te leggen, die controleert op een eigengemaakt commit boodschap formaat, afdwingt om alleen fast-forward pushes te accepteren, en alleen bepaalde gebruikers toestaat om bepaalde submappen te wijzigen in een project. Je zult client scripts maken die de ontwikkelaar helpen er achter te komen of hun push geweigerd zal worden, en server scripts die het beleid afdwingen.
 
 Ik heb Ruby gebruikt om ze te schrijven, zowel omdat het mijn voorkeur script taal is en omdat ik vind dat het de meest pseudo code uitziende taal is van de scripttalen; dus je zou in staat moeten zijn om de code redelijk te kunnen volgen zelfs als je geen Ruby gebruikt. Maar, iedere taal zal prima werken. Alle voorbeeld haak scripts die met Git meegeleverd worden zijn Perl of Bash scripts, dus je kunt ook genoeg voorbeelden van haken in die talen zijn door naar de voorbeelden te kijken.
 
 ### Server-kant haak ###
 
-Al het werk aan de server kant zal in het update bestand in je haken map gaa. Het update bestand zal eens per gepushte branch uitgevoerd worden en aanvaardt de referentie waarnaar gepushed wordt, de oude revisie waar die branch was, en de nieuwe gepushte revisie. Je hebt ook toegang tot de gebruiker die de push doet, als de push via SSH gedaan wordt. Als je iedereen hebt toegestaan om connectie te maken als één gebruiker (zoals "git") via publieke sleutel authenticatie, dan moet je misschien die gebruiker een shell wrapper geven die bepaalt welke gebruiker er connectie maakt op basis van de publieke sleutel, en een omgevingsvariabele instelt met daarin die gebruiker. Hier ga ik er vanuit dat de gebruiker in de `$USER` omgevingsvariabele staat, dus begint je update script met het verzamelen van alle gegevens die het nodig heeft:
+Al het werk aan de server kant zal in het update bestand in je haken map gaan. Het update bestand zal eens per gepushte branch uitgevoerd worden en aanvaardt de referentie waarnaar gepushed wordt, de oude revisie waar die branch was, en de nieuwe gepushte revisie. Je hebt ook toegang tot de gebruiker die de push doet, als de push via SSH gedaan wordt. Als je iedereen hebt toegestaan om connectie te maken als één gebruiker (zoals "git") via publieke sleutel authenticatie, dan moet je misschien die gebruiker een shell wrapper geven die bepaalt welke gebruiker er connectie maakt op basis van de publieke sleutel, en een omgevingsvariabele instelt met daarin die gebruiker. Hier ga ik er vanuit dat de gebruiker in de `$USER` omgevingsvariabele staat, dus begint je update script met het verzamelen van alle gegevens die het nodig heeft:
 
 	#!/usr/bin/env ruby
 
@@ -559,11 +559,11 @@ Al het werk aan de server kant zal in het update bestand in je haken map gaa. He
 
 Ja, ik gebruik een globale variabele. Veroordeel me niet – het is makkelijker om het op deze manier te laten zien.
 
-#### Een specifiec commit-bericht formaat afdwingen ####
+#### Een specifiek commit-bericht formaat afdwingen ####
 
 Je eerste uitdaging is afdwingen dat ieder commit bericht moet voldoen aan een specifiek formaat. Om maar een doel te hebben, gaan we er vanuit dat ieder bericht een stuk tekst bevat dat eruit ziet asl "ref: 1234", omdat je wil dat iedere commit gekoppeld is aan een werkonderdeel in je ticket systeem. Je moet kijken naar iedere commit die gepushed wordt, zien dat die tekst in de commit boodschap zit, en als de tekst niet in één van de commits zit, met niet nul eindigen zodat de push geweigerd wordt.
 
-Je kunt de lijst met alle SHA-1 waarden van alle commits die gepushed worden verkrijgen door de `$newrev` en `$oldrev` waarden te pakken en ze aan een Git sanitaire voorzieningen commando genaamd `git rev-list` te geven. Dit is eigenlijk het `git log` commando, maar standaard voert het alleen de SHA-1 waarden uit en geen andere informatie. Dus, om een lijst te krijgen van alle commit SHA's die worden geintroduceerd tussen één commit SHA en een andere, kun je zoiets als dit uitvoeren:
+Je kunt de lijst met alle SHA-1 waarden van alle commits die gepushed worden verkrijgen door de `$newrev` en `$oldrev` waarden te pakken en ze aan een Git sanitaire voorzieningen commando genaamd `git rev-list` te geven. Dit is eigenlijk het `git log` commando, maar standaard voert het alleen de SHA-1 waarden uit en geen andere informatie. Dus, om een lijst te krijgen van alle commit SHA's die worden geïntroduceerd tussen één commit SHA en een andere, kun je zoiets als dit uitvoeren:
 
 	$ git rev-list 538c33..d14fc7
 	d14fc7c847ab946ec39590d87783c69b031bdfb7
@@ -610,7 +610,7 @@ Door dat in je `update` script te stoppen, zal het updates weigeren die commits 
 
 #### Een gebruiker-gebaseerd ACL systeem afdwingen ####
 
-Stel dat je een mechanisme wil toevoegen dat gebruik maakt van een toegangs controle lijst (ACL) die specificeert welke gebruikers zijn toegestaan om wijzigingen te pushen naar welke delen van je project. Sommige mensen hebben volledige toegang, en andere hebben alleen toegang om wijzigingen te pushen naar bepaalde submappen of specifieke bestanden. Om dit af te dwingen zule je die regels schrijven in een bestand genaamd `acl` dat in je bare Git repository op de server leeft. Je zult de `update` haak naar die regels laten kijken, zien welke bestanden worden geintroduceerd voor alle commits die gepushed worden, en bepalen of de gebruiker die de push doet toegang heeft om al die bestanden te wijzigen.
+Stel dat je een mechanisme wil toevoegen dat gebruik maakt van een toegangscontrole lijst (ACL) die specificeert welke gebruikers zijn toegestaan om wijzigingen te pushen naar welke delen van je project. Sommige mensen hebben volledige toegang, en andere hebben alleen toegang om wijzigingen te pushen naar bepaalde submappen of specifieke bestanden. Om dit af te dwingen zul je die regels schrijven in een bestand genaamd `acl` dat in je bare Git repository op de server leeft. Je zult de `update` haak naar die regels laten kijken, zien welke bestanden worden geïntroduceerd voor alle commits die gepushed worden, en bepalen of de gebruiker die de push doet toegang heeft om al die bestanden te wijzigen.
 
 Het eerste dat je zult doen is je ACL schrijven. Hier zul je een formaat gebruiken dat erg lijkt op het CVS ACL mechanisme: het gebruikt een serie regels, waarbij het eerste veld `avail` of `unavail` is, het volgende veld een komma gescheiden lijst van de gebruikers is waarvoor de regel geldt, en het laatste veld het pad is waarvoor de regel geldt (leeg betekent open toegang). Alle velden worden gescheiden door een pipe (`|`) karakter.
 
@@ -658,7 +658,7 @@ Je kunt eenvoudig zien welke bestanden gewijzigd zijn in een enkele commit met d
 	README
 	lib/test.rb
 
-Als je gebruik maakt van de ACL struktuur die wordt teruggegeven door de `get_acl_access_data` methode en dat controleerd met de bestanden in elk van de commits, dan kun je bepalen of de gebruiker toegang heeft om al hun commits te pushen:
+Als je gebruik maakt van de ACL structuur die wordt teruggegeven door de `get_acl_access_data` methode en dat controleerd met de bestanden in elk van de commits, dan kun je bepalen of de gebruiker toegang heeft om al hun commits te pushen:
 
 	# staat alleen bepaalde gebruikers toe om bepaalde submappen in een project te wijzigen
 	def check_directory_perms
@@ -693,7 +693,7 @@ Nu kunnen je gebruikers geen commits pushen met slechte berichten of met aangepa
 
 #### Fast-forward-only pushes afdwingen ####
 
-Het enige overgebleven ding om af te dwingen is fast-forward-only pushes. In Git versie 1.6 of nieuwer, kun je de `receive.denyDeletes` en `receive.denyNonFastForwards` instellingen aanpassen. Maar dit afdwingen met behulp van een haak werkt ook in oudere versies van Git, en je kunt het aanpasen zodat het alleen gebeurd bij bepaalde gebruikers of wat je later ook verzint.
+Het enige overgebleven ding om af te dwingen is fast-forward-only pushes. In Git versie 1.6 of nieuwer, kun je de `receive.denyDeletes` en `receive.denyNonFastForwards` instellingen aanpassen. Maar dit afdwingen met behulp van een haak werkt ook in oudere versies van Git, en je kunt het aanpassen zodat het alleen gebeurd bij bepaalde gebruikers of wat je later ook verzint.
 
 De logica om dit te controleren is zien of iedere commit die bereikbaar is vanuit de oudere revisie, niet bereikbaar is vanuit de nieuwere. Als er geen zijn, dan was het een fast-forward push; anders weiger je het:
 
@@ -789,7 +789,7 @@ In dat geval was er geen commit afgerond. Maar, als je bericht het juiste patroo
 	[master e05c914] test [ref: 132]
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Vervolgens wil je er zeker van zijn dat je geen bestanden buiten je ACL scope aanpast. Als de `.git` map van je project een copie van het ACL bestand bevat dat je eerder gebruikte, dan zal het volgende `pre-commit` script die beperkingen op je toepassen:
+Vervolgens wil je er zeker van zijn dat je geen bestanden buiten je ACL scope aanpast. Als de `.git` map van je project een kopie van het ACL bestand bevat dat je eerder gebruikte, dan zal het volgende `pre-commit` script die beperkingen op je toepassen:
 
 	#!/usr/bin/env ruby
 
@@ -834,7 +834,7 @@ moet je dit gebruiken
 
 	files_modified = `git diff-index --cached --name-only HEAD`
 
-Maar dat zijn de enige twee verschillen – voor de rest werkt het scipt op dezelde manier. Een instinker is dat het van je verwacht dat je lokaal werkt als dezelfde gebruiker die pushed naar de remote machine. Als dat verschillend is, moet je de `$user` variabele handmatig instellen.
+Maar dat zijn de enige twee verschillen – voor de rest werkt het script op dezelfde manier. Een instinker is dat het van je verwacht dat je lokaal werkt als dezelfde gebruiker die pushed naar de remote machine. Als dat verschillend is, moet je de `$user` variabele handmatig instellen.
 
 Het laatste ding dat je moet doen is controleren dat je niet non-fast-forward referenties probeert te pushen, maar dat komt minder voor. Om een referentie te krijgen dat geen fast-forward is, moet je voorbij een commit rebasen die je al gepushed hebt, of een andere lokale branch naar dezelfde remote branch proberen te pushen.
 

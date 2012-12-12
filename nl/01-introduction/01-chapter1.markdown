@@ -6,7 +6,7 @@ Dit hoofdstuk legt uit je hoe je aan de slag kunt gaan met Git.  We zullen bij h
 
 Wat is versiebeheer? En wat heeft dat met jou te maken? Versiebeheer is een systeem dat veranderingen in een bestand of groep van bestanden over de tijd bijhoudt. Zodat je later specifieke versies kan opvragen. In de voorbeelden in dit boek is het broncode van computersoftware waarvan de versies beheerd worden maar je kan het eigenlijk met zo goed als elk soort bestand op een computer doen.
 
-Als je een grafisch ontwerper bent of websites maakt en elke versie van een afbeelding of opmaak wilt bewaren (wat je zeker zou willen), is het verstandig een versiebeheersysteem (Version Control System in het Engels, afgekort tot VCS) te gebruiken. Als je dat gebruikt kan je eerdere versies van bestanden of hele project terughalen, veranderingen tussen twee momententen in tijd bekijken, zien wie het laatst iets aangepast heeft, wie een probleen heeft veroorzaakt en wanneer en nog veel meer. Een VCS gebruiken betekent meestal ook dat je de situatie gemakkelijk terug kan draaien als je een fout maakt of bestanden kwijtraakt. Daarbij komt nog dat dit allemaal heel weinig extra belasting met zich mee brengt.
+Als je een grafisch ontwerper bent of websites maakt en elke versie van een afbeelding of opmaak wilt bewaren (wat je zeker zou willen), is het verstandig een versiebeheersysteem (Version Control System in het Engels, afgekort tot VCS) te gebruiken. Als je dat gebruikt kan je eerdere versies van bestanden of hele project terughalen, veranderingen tussen twee momenten in tijd bekijken, zien wie het laatst iets aangepast heeft, wie een probleem heeft veroorzaakt en wanneer en nog veel meer. Een VCS gebruiken betekent meestal ook dat je de situatie gemakkelijk terug kan draaien als je een fout maakt of bestanden kwijtraakt. Daarbij komt nog dat dit allemaal heel weinig extra belasting met zich mee brengt.
 
 ### Lokale versiebeheersystemen ###
 
@@ -32,7 +32,7 @@ Maar helaas, deze methode heeft ook behoorlijke nadelen. De duidelijkste is de �
 
 ### Gedistribueerde versiebeheersystemen ###
 
-En hier verschijnen Gedistribueerde versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar en Darcs) downloaden clients niet alleen de laatste momentopnames van de bestanden. De hele geschiedenis (de ‘repository’) wordt gekopiëerd. Dus als een server neergaat en deze systemen werkten via die server samen dan kan de repository van elke willekeurige client terug worden gekopiëerd naar de server om deze te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
+En hier verschijnen Gedistribueerde versiebeheersystemen (DVCSen) ten tonele. In een DVCS (zoals Git, Mercurial, Bazaar en Darcs) downloaden clients niet alleen de laatste momentopnames van de bestanden. De hele geschiedenis (de ‘repository’) wordt gekopieerd. Dus als een server neergaat en deze systemen werkten via die server samen dan kan de repository van elke willekeurige client terug worden gekopieerd naar de server om deze te herstellen. Elke checkout is dus eigenlijk een complete backup van alle data (zie Figuur 1-3).
 
 Insert 18333fig0103.png 
 Figuur 1-3. Diagram van een gedistribueerd versiebeheersysteem
@@ -64,7 +64,7 @@ Een groot verschil tussen Git en elke andere VCS (inclusief Subversion en consoo
 Insert 18333fig0104.png 
 Figuur 1-4. Andere systemen bewaren data meestal als veranderingen aan een basisversie van elk bestand.
 
-Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandsysteem. Elke keer dat je ‘commit’ - de status van van je project in Git opslaat - neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie slaat Git ongewijzigde bestanden niet elke keer opnieuw op — alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
+Git ziet en bewaart zijn data heel anders. De kijk van Git op zijn data kan worden uitgelegd als een reeks momentopnames van een miniatuurbestandssysteem. Elke keer dat je ‘commit’ - de status van van je project in Git opslaat - neemt het een soort van foto van hoe al je bestanden er op dat moment uitzien en slaat een verwijzing naar die momentopname op. Voor efficiëntie slaat Git ongewijzigde bestanden niet elke keer opnieuw op — alleen een verwijzing naar het eerdere identieke bestand dat het eerder al opgeslagen had. In Figuur 1-5 kan je zie hoe Git ongeveer over zijn data denkt.
 
 Insert 18333fig0105.png 
 Figuur 1-5. Git bewaart data als momentopnames van het project.
@@ -83,7 +83,7 @@ Dit betekent dat er maar heel weinig is dat je niet kunt doen als je offline ben
 
 Git maakt een controlegetal (‘checksum’) van alles voordat het wordt opgeslagen en er wordt later naar die data verwezen met dit controlegetal. Dat betekent dat het onmogelijk is om de inhoud van een bestand of map te veranderen zonder dat Git er vanaf weet. Deze functionaliteit is ingebouwd in het diepste deel van Git en staat centraal in zijn filosofie. Je kunt geen informatie kwijtraken als het wordt verstuurd en bestanden kunnen niet corrupt raken zonder dat Git het weet.
 
-Het mechanisme dat Git gebruikt voor deze controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en wordt berekend uit de inhoud van een bestand of mapstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
+Het mechanisme dat Git gebruikt voor deze controlegetallen heet een SHA-1-hash. Dat is een tekenreeks van 40 karakters lang, bestaande uit hexadecimale tekens (0–9 en a–f) en wordt berekend uit de inhoud van een bestand of mappenstructuur in Git. Een SHA-1-hash ziet er ongeveer zo uit:
 
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
@@ -104,7 +104,7 @@ Dit brengt ons tot de drie hoofdonderdelen van een Gitproject: de Gitmap, de wer
 Insert 18333fig0106.png 
 Figuur 1-6. Werkmap, wachtrij en Gitmap
 
-De Gitmap is waar Git de metadata en objectdatabase van je project opslaat. Dit is het belangrijkste deel van Git. Deze map wordt gekopiëerd wanneer je een repository kloont vanaf een andere computer.
+De Gitmap is waar Git de metadata en objectdatabase van je project opslaat. Dit is het belangrijkste deel van Git. Deze map wordt gekopieerd wanneer je een repository kloont vanaf een andere computer.
 
 De werkmap is een kopie van een bepaalde versie van het project (een ‘checkout’). Deze bestanden worden uit de gecomprimeerde database in de Gitmap gehaald en op de harde schijf geplaatst waar jij ze kunt gebruiken of bewerken.
 
@@ -116,7 +116,7 @@ De algemene manier van werken met Git gaat ongeveer zo:
 2. Je bereidt de bestanden voor, waardoor momentopnames worden toegevoegd aan de wachtrij.
 3. Je maakt een commit. Een commit neemt alle momentopnames van de wachtrij en die permanent bewaard in je Gitmap.
 
-Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd als gecommit. Als het is aangepast, maar wel aan de wachtrij is toegevoegd, is het voorbereid. En als het veranderd is sinds het gekopiëerd werd, maar niet voorbereid is, is het aangepast. In Hoofdstuk 2 leer je meer over deze toestanden en hoe je er voordeel van kunt hebben, maar ook hoe je de wachtrij compleet over kunt slaan.
+Als een bepaalde versie van een bestand in de Gitmap staat, wordt het beschouwd als gecommit. Als het is aangepast, maar wel aan de wachtrij is toegevoegd, is het voorbereid. En als het veranderd is sinds het gekopieerd werd, maar niet voorbereid is, is het aangepast. In Hoofdstuk 2 leer je meer over deze toestanden en hoe je er voordeel van kunt hebben, maar ook hoe je de wachtrij compleet over kunt slaan.
 
 ## Git installeren ##
 
@@ -124,7 +124,7 @@ Laten we eens een beetje Git gebruiken. Je kunt natuurlijk niet meteen beginnen 
 
 ### Installeren vanaf de broncode ###
 
-Als het mogelijk is, is het meestal handig om Git vanaf de broncode te installeren, omdat je dan altijd de nieuwste versie hebt. Elke versie van Git brengt meestal goede verbeteringen aan de gebruikersinterface met zich mee, dus de laatste versie is vaak de beste manier als je het gewoon bent software vanaf de broncode te compileren. Vaak hebben Linuxdistributies behoorlijk oude pakketen - tenzij je een hele up-to-date distro hebt of ‘backports’ (verbeteringen van een nieuwe versie op een oudere versie toepassen) gebruikt - is installeren vanaf broncode misschien wel de beste manier voor jou.
+Als het mogelijk is, is het meestal handig om Git vanaf de broncode te installeren, omdat je dan altijd de nieuwste versie hebt. Elke versie van Git brengt meestal goede verbeteringen aan de gebruikersinterface met zich mee, dus de laatste versie is vaak de beste manier als je het gewoon bent software vanaf de broncode te compileren. Vaak hebben Linuxdistributies behoorlijk oude pakketten - tenzij je een hele up-to-date distro hebt of ‘backports’ (verbeteringen van een nieuwe versie op een oudere versie toepassen) gebruikt - is installeren vanaf broncode misschien wel de beste manier voor jou.
 
 Om Git te installeren heb je een aantal bibliotheken (‘libraries’) nodig: curl, zlib, openssl, expat, en libiconv. Als je bijvoorbeeld op een systeem werkt dat yum heeft (zoals Fedora) of apt-get (zoals systemen gebaseerd op Debian), kun je één van de volgende commando's gebruiken om alle bibliotheken waar Git van afhangt te installeren:
 
@@ -161,7 +161,7 @@ Of als je een distributie hebt die op Debian gebaseerd is, zoals Ubuntu, kun je 
 
 ### Op een Mac installeren ###
 
-Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste is om het grafische Gitinstallatieprogram te gebruiken, dat je van de volgende pagina op Google Code kunt downloaden (zie Figuur 1-7):
+Er zijn twee makkelijke manieren om Git op een Mac te installeren. De simpelste is om het grafische Git installatieprogramma te gebruiken, dat je van de volgende pagina op Google Code kunt downloaden (zie Figuur 1-7):
 
 	http://code.google.com/p/git-osx-installer
 
@@ -196,7 +196,7 @@ Op systemen met Windows zoekt Git in de `$HOME` map naar het `.gitconfig`-bestan
 
 ### Jouw identiteit ###
 
-Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebruikersnaam en e-mail addres opgeven. Dat is belangrijk, omdat elke commit in Git deze informatie gebruikt, en het onveranderlijk ingebed zit in de commits die je ronddeelt:
+Het eerste wat je zou moeten doen nadat je Git geïnstalleerd hebt, is je gebruikersnaam en e-mail adres opgeven. Dat is belangrijk, omdat elke commit in Git deze informatie gebruikt, en het onveranderlijk ingebed zit in de commits die je ronddeelt:
 
 	$ git config --global user.name "John Doe"
 	$ git config --global user.email johndoe@example.com

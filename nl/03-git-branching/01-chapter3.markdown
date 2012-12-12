@@ -15,7 +15,7 @@ Om dit te visualiseren, laten we aannemen dat je een map hebt die drie bestanden
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-Als je de commit aanmaakt door `git commit` uit te voeren, zal Git iedere submap van een checksum voorzien (in dit geval, alleen de hoofdmap); en die drie objecten in het Git repository opslaan. Daarna crëeert Git een commit object dat de metagegevens bevat en een verwijzing naar de hoofd project boom zodat het het snapshot kan namaken als dat nodig is.
+Als je de commit aanmaakt door `git commit` uit te voeren, zal Git iedere submap van een checksum voorzien (in dit geval, alleen de hoofdmap); en die drie objecten in het Git repository opslaan. Daarna creëert Git een commit object dat de metagegevens bevat en een verwijzing naar de hoofd project boom zodat het het snapshot kan namaken als dat nodig is.
 
 Je Git repository bevat nu vijf objecten: een blob voor de inhoud van ieder van je drie bestanden, een boom dat de inhoud van de map weergeeft en specificeert welke bestandsnamen opgeslagen zijn als welke blobs, en een commit met de verwijzing naar die hoofd boom en alle commit metagegevens. Conceptueel zien de gegevens in je Git repository eruit zoals in Figuur 3-1.
 
@@ -88,7 +88,7 @@ Figuur 3-9. De branch histories zijn uiteen gegaan.
 
 Omdat een branch in Git in feite een eenvoudig bestand is dat de 40 karakter lange SHA-1 checksum van de commit bevat waar het naar wijst, zijn branches goedkoop om te maken en weg te gooien. Een nieuwe branch aanmaken is zo makkelijk en eenvoudig als 41 bytes naar een bestand schrijven (40 karakters en een harde return).
 
-Dit is in scherp contrast met de manier waarop de meeste VCS applicaties branchen, wat inhoud dat alle project bestanden naar een tweede map gekopieerd worden. Dit kan enkele seconden of zelfs minuten duren, afhankelijk van de grootte van het project, en daarentegen is het in Git altijd meteen klaar. En omdat we de ouders opslaan terwijl we comitten, wordt het vinden van een goed punt als basis voor het samenvoegen automatisch voor ons gedaan en is over het algemeen eenvoudig om te doen. Deze eigenschappen helpen ontwikkelaars aan te moedigen om branches vaak aan te maken en te gebruiken.
+Dit is in scherp contrast met de manier waarop de meeste VCS applicaties branchen, wat inhoud dat alle project bestanden naar een tweede map gekopieerd worden. Dit kan enkele seconden of zelfs minuten duren, afhankelijk van de grootte van het project, en daarentegen is het in Git altijd meteen klaar. En omdat we de ouders opslaan terwijl we committen, wordt het vinden van een goed punt als basis voor het samenvoegen automatisch voor ons gedaan en is over het algemeen eenvoudig om te doen. Deze eigenschappen helpen ontwikkelaars aan te moedigen om branches vaak aan te maken en te gebruiken.
 
 Laten we eens kijken waarom je dat zou moeten doen.
 
@@ -203,12 +203,12 @@ Stel dat je besloten hebt dat je probleem #53 werk compleet is en klaar bent om 
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Dit ziet er iets anders uit dan de snelle reparatie samenvoeging die je eerder deed. In dit geval is je ontwikkelings historie afgeweken van een ouder punt. Omdat de commit op de branch waar je op zit geen directe voorouder is van de branch waar je in samenvoegt, moet Git wat werk doen. In dit geval, doet Git een eenvoudige drieweg samenvoeging, gebruikmakend van de twee snapshots waarnaar gewezen wordt door de branch punten en de gezamenlijke voorouder van die twee. Figuur 3-16 markeert de drie snapshots die Git gebruikt om zijn samenvoeging in dit geval te doen.
+Dit ziet er iets anders uit dan de snelle reparatie samenvoeging die je eerder deed. In dit geval is je ontwikkelingshistorie afgeweken van een ouder punt. Omdat de commit op de branch waar je op zit geen directe voorouder is van de branch waar je in samenvoegt, moet Git wat werk doen. In dit geval, doet Git een eenvoudige drieweg samenvoeging, gebruikmakend van de twee snapshots waarnaar gewezen wordt door de branch punten en de gezamenlijke voorouder van die twee. Figuur 3-16 markeert de drie snapshots die Git gebruikt om zijn samenvoeging in dit geval te doen.
 
 Insert 18333fig0316.png 
-Figuur 3-16. Git identificeert automatisch de beste gezamenlijke voorouder als samenvoegings basis voor het samenvoegen van de branches.
+Figuur 3-16. Git identificeert automatisch de beste gezamenlijke voorouder als samenvoegingsbasis voor het samenvoegen van de branches.
 
-In plaats van de branch verwijzing vooruit te bewegen, maakt Git een nieuw snapshot dat resulteert uit deze drieweg samenvoeging en maakt automatisch een nieuwe commit die daar naar wijst (zie Figuur 3-17). Dit wordt een samenvoegings commit genoemd, en is bijzonder in dat het meer dan één ouder heeft.
+In plaats van de branch verwijzing vooruit te bewegen, maakt Git een nieuw snapshot dat resulteert uit deze drieweg samenvoeging en maakt automatisch een nieuwe commit die daar naar wijst (zie Figuur 3-17). Dit wordt een samenvoegingscommit genoemd, en is bijzonder in dat het meer dan één ouder heeft.
 
 Het is de moeite om te vertellen dat Git de beste gezamenlijke voorouder bepaalt om te gebruiken als samenvoeg basis; dit is anders dan CVS of Subversion (voor versie 1.5), waarbij de ontwikkelaar die de samenvoeging deed zelf de beste samenvoeg basis moest uitzoeken. Dit zorgt er voor dat samenvoegen in Git een serieus stuk eenvoudiger is dan in deze andere systemen.
 
@@ -357,12 +357,12 @@ Ze zijn over het algemeen makkelijker voor te stellen als werk silo's, waar sets
 Insert 18333fig0319.png 
 Figuur 3-19. Het kan handig zijn om je branches voor te stellen als silo's.
 
-Je kunt dit doen voor meerdere nivo's van stabiliteit. Sommige grotere projecten hebben ook een `proposed` of `pu` (proposed updates) branch die branches geïntegreerd heeft die wellicht nog niet klaar zijn om in de `next` of `master` branch te gaan. Het idee is dat je branches op verschillende nivo's van stabiliteit zitten; zodra ze een stabiel nivo bereiken, worden ze in de branch boven hun samengevoegd.
+Je kunt dit doen voor meerdere niveaus van stabiliteit. Sommige grotere projecten hebben ook een `proposed` of `pu` (proposed updates) branch die branches geïntegreerd heeft die wellicht nog niet klaar zijn om in de `next` of `master` branch te gaan. Het idee is dat je branches op verschillende niveaus van stabiliteit zitten; zodra ze een stabiel niveau bereiken, worden ze in de branch boven hun samengevoegd.
 Nogmaals, het hebben van langlopende branches is niet noodzakelijk, maar het helpt vaak wel, in het bijzonder als je moet omgaan met zeer grote of complexe projecten.
 
 ### Onderwerp branches ###
 
-Maar, onderwerp branches zijn bruikbaar in projecten van iedere grootte. Een onderwerp branch is een kortlopende branch die je maakt en gebruikt om een enkele eigenschap of gerelateerd werk in te doen. Dit is iets wat je waarschijnlijk nooit vantevoren met een VCS gedaan hebt, omdat het over het algemeen te duur is om branches aan te maken en samen te voegen. Maar in Git komt het vaak voor om branches aan te maken, op te werken, en te verwijderen meerdere keren per dag.
+Maar, onderwerp branches zijn bruikbaar in projecten van iedere grootte. Een onderwerp branch is een kortlopende branch die je maakt en gebruikt om een enkele eigenschap of gerelateerd werk in te doen. Dit is iets wat je waarschijnlijk nooit van tevoren met een VCS gedaan hebt, omdat het over het algemeen te duur is om branches aan te maken en samen te voegen. Maar in Git komt het vaak voor om branches aan te maken, op te werken, en te verwijderen meerdere keren per dag.
 
 Je zag dit in het laatste gedeelte met de `iss53` en `hotfix` branches die je gemaakt had. Je hebt een aantal commits op ze gedaan en ze meteen verwijderd zodra je ze samengevoegd had in je hoofd branch. Deze techniek staat je toe om snel en volledig van context te veranderen — omdat je werk is gescheiden in silo's waar alle wijzigingen in die branch met dat onderwerp te maken hebben, is het makkelijker te zien wat er is gebeurd tijdens een code review en dergelijke. Je kunt de wijzigingen daar minuten, dagen of maanden bewaren, en ze samenvoegen als je er klaar voor bent, ongeacht in de volgorde waarin ze gemaakt of aan gewerkt zijn.
 
@@ -371,7 +371,7 @@ Neem als voorbeeld een situatie waarbij wat werk gedaan wordt (op `master`), geb
 Insert 18333fig0320.png 
 Figuur 3-20. Je commit geschiedenis met meerdere onderwerp branches.
 
-Nu, laten we zeggen dat je beslist dat je de tweede oplossing voor je probleem het beste vindt (`iss91v2`); en je hebt de `dumbidea` branch aan je collega's laten zien, en het blijkt geniaal te zijn. Je kunt dan de originel `iss91` weggooien (waarbij je commits C5 en C6 verliest), en de andere twee samenvoegen. Je historie ziet er dan uit als Figuur 3-21).
+Nu, laten we zeggen dat je beslist dat je de tweede oplossing voor je probleem het beste vindt (`iss91v2`); en je hebt de `dumbidea` branch aan je collega's laten zien, en het blijkt geniaal te zijn. Je kunt dan de originele `iss91` weggooien (waarbij je commits C5 en C6 verliest), en de andere twee samenvoegen. Je historie ziet er dan uit als Figuur 3-21).
 
 Insert 18333fig0321.png 
 Figuur 3-21. Je historie na het samenvoegen van dumbidea en iss91v2.
@@ -394,7 +394,7 @@ Als je wat werk doet op je lokale master branch, en in de tussentijd zet iemand 
 Insert 18333fig0323.png 
 Figuur 3-23. Lokaal werken terwijl iemand anders naar je remote server terugzet laat iedere historie anders vooruit gaan.
 
-Om je werk te synchroniseren, voer je een `git fetch origin` commando uit. Dit commando bekijkt welke server origin is (in dit geval is het `git.ourcompany.com`), haalt gegevens er vanaf die je nog niet hebt, en vernieuwt je lokale gegevensbank, waarbij je `origin/master` verwijzing naar zijn nieuwere positie verplaast wordt (zie Figuur 3-24).
+Om je werk te synchroniseren, voer je een `git fetch origin` commando uit. Dit commando bekijkt welke server origin is (in dit geval is het `git.ourcompany.com`), haalt gegevens er vanaf die je nog niet hebt, en vernieuwt je lokale gegevensbank, waarbij je `origin/master` verwijzing naar zijn nieuwere positie verplaatst wordt (zie Figuur 3-24).
 
 Insert 18333fig0324.png 
 Figuur 3-24. Het git fetch commando vernieuwt je remote referenties.
@@ -435,7 +435,7 @@ De volgende keer dat één van je medewerkers van de server fetched, zullen ze e
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-Het is belangrijk om op te merken dat als je een fetch doet die nieuwe remote branches ophaalt, je niet automatisch lokale, aanpasbare kopiëen daarvan hebt. In andere woorden, in dit geval heb je geen nieuwe `serverfix` branch — je hebt alleen een `origin/serverfix` verwijzing die je niet kunt aanpassen.
+Het is belangrijk om op te merken dat als je een fetch doet die nieuwe remote branches ophaalt, je niet automatisch lokale, aanpasbare kopieën daarvan hebt. In andere woorden, in dit geval heb je geen nieuwe `serverfix` branch — je hebt alleen een `origin/serverfix` verwijzing die je niet kunt aanpassen.
 
 Om dit werk in je huidige werk branch samen te voegen, kun je `git merge origin/serverfix` uitvoeren. Als je je eigen `serverfix` branch wilt waar je op kunt werken, dan kun je deze vanaf je remote branch baseren:
 
@@ -447,7 +447,7 @@ Dit geeft je een lokale branch waar je op kunt werken, die begint met waar `orig
 
 ### Volg branches ###
 
-Een lokale branch uitchecken van een remote branch creëert automatisch een zogenaamde _volg branch_ (_tracking branch_). Volg branches zijn lokale branches die een directe releatie met een remote branch hebben. Als je op een volg branch zit en git push typed, dat weet Git automatisch naar welke server en branch hij moet terugzetten. En, terwijl je op een van die branches zit zal het uitvoeren van `git pull` alle remote referenties ophalen en ze automatisch in de corresponderende remote branch samenvoegen.
+Een lokale branch uitchecken van een remote branch creëert automatisch een zogenaamde _volg branch_ (_tracking branch_). Volg branches zijn lokale branches die een directe releatie met een remote branch hebben. Als je op een volg branch zit en git push typt, dat weet Git automatisch naar welke server en branch hij moet terugzetten. En, terwijl je op een van die branches zit zal het uitvoeren van `git pull` alle remote referenties ophalen en ze automatisch in de corresponderende remote branch samenvoegen.
 
 Als je een repository cloned, zal het over het algemeen automatisch een `master` branch aanmaken, die `origin/master` volgt. Daarom werken `git push` en `git pull` zo uit het doosje, zonder verdere argumenten. Maar, kun je kunt ook andere volg branches instellen als je dat wilt — anderen die niet branches volgen op `origin` en niet de `master` branch volgen. Het eenvoudige geval is het voorbeeld dat je zojuist zag, `git checkout -b [branch] [remotenaam]/[branch]` uitvoeren. Als je Git versie 1.6.2 of nieuwer hebt, kun je ook de `--track` afkorting gebruiken:
 
@@ -482,9 +482,9 @@ In Git zijn er twee hoofdmanieren om wijzigingen te integreren van één branch 
 Als je teruggaat naar een eerder voorbeeld van de Samenvoegen sectie (zie Figuur 3-27), dan kun je zien dat je werk is afgeweken en dat je commits hebt gedaan op de twee verschillende branches.
 
 Insert 18333fig0327.png 
-Figuur 3-27. Je initiele afgeweken historie.
+Figuur 3-27. Je initiële afgeweken historie.
 
-De eenvoudigste weg om de branches te integreren, zoals we al hebben besproken, is het `samenvoeg` commando. Het voert een drieweg samenvoeging uit tussen de twee laatste snapshots van de branches (C3 en C4), en de meest recente gezamenlijke voorouder van die twee (C2), creëeert een nieuw snapshot (en commit), zoals getoond in Figuur 3-28.
+De eenvoudigste weg om de branches te integreren, zoals we al hebben besproken, is het `samenvoeg` commando. Het voert een drieweg samenvoeging uit tussen de twee laatste snapshots van de branches (C3 en C4), en de meest recente gezamenlijke voorouder van die twee (C2), creëert een nieuw snapshot (en commit), zoals getoond in Figuur 3-28.
 
 Insert 18333fig0328.png 
 Figuur 3-28. Een branch samenvoegen om de afgeweken werk historie te integreren.

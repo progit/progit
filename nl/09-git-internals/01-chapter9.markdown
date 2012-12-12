@@ -2,17 +2,17 @@
 
 Je zult misschien naar dit hoofdstuk gesprongen zijn vanuit een vorig hoofdstuk, of je zult hier gekomen zijn nadat je de rest van het boek gelezen hebt – in ieder geval, zal hier het binnenwerk en implementatie van Git behandeld worden. Ik heb gemerkt dat het leren van deze informatie van fundamenteel belang is om te begrijpen hoe bruikbaar en krachtig Git is, maar anderen hebben daar tegenin gebracht dat het erg verwarrend en onnodig complex kan zijn voor beginners. Daarom heb ik deze beschrijving het laatste hoofdstuk gemaakt in het boek, zodat je het vroeg of later kunt lezen in je leerproces. Ik laat het aan jou over om dat te beslissen.
 
-Laten we beginnen, nu je hier bent. Als eerste, mocht het nog niet duidelijk zijn, is Git eigenlijk een inhouds-toegankelijk bestandssyteem met een gebruikersinterface voor versiebeheer er bovenop geschreven. Je zult over een poosje meer leren over wat dit betekent.
+Laten we beginnen, nu je hier bent. Als eerste, mocht het nog niet duidelijk zijn, is Git eigenlijk een inhouds-toegankelijk bestandssysteem met een gebruikersinterface voor versiebeheer er bovenop geschreven. Je zult over een poosje meer leren over wat dit betekent.
 
-In de eerste dagen van Git (het meerendeel pre 1.5), wat de gebruikersinterface veel complexer, omdat het de nadruk legde op dit bestandssysteem in plaats van op een gepolijst VCS. De laatste paar jaren is de interface verfijnd totdat het zo netjes en eenvoudig te gebruiken is als ieder systeem dat er bestaat; maar vaak blijft het stereotype hangen over de vroegere Gitinterface, die complex was en moeilijk te leren.
+In de eerste dagen van Git (het merendeel pre 1.5), wat de gebruikersinterface veel complexer, omdat het de nadruk legde op dit bestandssysteem in plaats van op een gepolijst VCS. De laatste paar jaren is de interface verfijnd totdat het zo netjes en eenvoudig te gebruiken is als ieder systeem dat er bestaat; maar vaak blijft het stereotype hangen over de vroegere Gitinterface, die complex was en moeilijk te leren.
 
 Deze laag met het inhouds-toegankelijke bestandssysteem is ongelofelijk gaaf, dus dat behandel ik dat als eerste dit hoofdstuk; daarna leer je over de transportmechanismen en het onderhouden van je repository's, iets waar je uiteindelijk te maken mee kunt krijgen.
 
-## Sanitaire inrichtingen en porcelein ##
+## Sanitaire inrichtingen en porselein ##
 
-Dit boek behandeld Git met ongeveer 30 werkwoorden zoals `checkout`, `branch`, `remote` enzovoorts. Maar omdat Git in eerste instantie een toolkit voor een VCS was, in plaats van een volledig gebruiksvriendelijk VCS, heeft het een berg werkwoorden die laagbijdegronds werk doen en ontworpen waren om samengevoegd te worken zoals in UNIX gebruikelijk is, of vanuit scripts aangeroepen te worden. Naar deze commando's wordt over het algemeen als "plumbing" (sanitaire voorzieningen) commando's verwezen, en de meer gebruiksvriendelijke commando's worden "porcelain" (porcelein) commando's genoemd.
+Dit boek behandeld Git met ongeveer 30 werkwoorden zoals `checkout`, `branch`, `remote` enzovoorts. Maar omdat Git in eerste instantie een toolkit voor een VCS was, in plaats van een volledig gebruiksvriendelijk VCS, heeft het een berg werkwoorden die laagbijdegronds werk doen en ontworpen waren om samengevoegd te worden zoals in UNIX gebruikelijk is, of vanuit scripts aangeroepen te worden. Naar deze commando's wordt over het algemeen als "plumbing" (sanitaire voorzieningen) commando's verwezen, en de meer gebruiksvriendelijke commando's worden "porcelain" (porselein) commando's genoemd.
 
-De eerste acht hoofdstukken van het boek behandelen bijna alleen porceleincommando's. Maar in dit hoofdstuk zul je het meest op het laagste niveau van de sanitaire voorzieningen om te gaan. Zij geven je toegang tot de diepste delen van Git, en demonstreren hoe en waarom Git doet wat het doet. Deze commando's zijn niet bedoeld voor normaal gebruik op de commandoregel, maar meer om als bouwstenen voor nieuwe tools en scripts gebruikt te worden.
+De eerste acht hoofdstukken van het boek behandelen bijna alleen porseleincommando's. Maar in dit hoofdstuk zul je het meest op het laagste niveau van de sanitaire voorzieningen om te gaan. Zij geven je toegang tot de diepste delen van Git, en demonstreren hoe en waarom Git doet wat het doet. Deze commando's zijn niet bedoeld voor normaal gebruik op de commandoregel, maar meer om als bouwstenen voor nieuwe tools en scripts gebruikt te worden.
 
 Als je `git init` uitvoert in een nieuwe of bestaande map, zal Git de map `.git` aanmaken, wat de plek is waar Git bijna alles opslaat en manipuleert. Als je een backup of kopie van je repository wilt maken, dan hoef je alleen maar die map te kopiëren, en je hebt bijna alles wat je nodig hebt. Dit hele hoofdstuk gaat in essentie over de inhoud van deze map. Hier zie je hoe het eruit ziet:
 
@@ -34,7 +34,7 @@ Dit laat vier belangrijke vermeldingen over: de bestanden `HEAD` en `index`, en 
 ## Git objecten ##
 
 Git is een inhouds-adresseerbaar bestandssysteem. Mooi. Wat betekend dat?
-Het betekend dat in de kern van Git een eenvoudige sleutel-waarde gegevens opslag zit. Je kunt er ieder soort inhoud in stoppen, en het zal je een sleutel geven dije kunt gebruiken om de inhoud op ieder moment terug te krijgen. Om te demonstreren, kun je het sanitaire voorzieningen commando `hash-object` gebruiken, die wat gegevens aanneemt, het in je `.git` map opslaat, en je de sleutel teruggeeft waarmee de gegevens zijn opgelsagen. Als eerste initialiseer je een nieuw Git repository en verifieer je dat er niets in de `objects` map staat:
+Het betekend dat in de kern van Git een eenvoudige sleutel-waarde gegevens opslag zit. Je kunt er ieder soort inhoud in stoppen, en het zal je een sleutel geven die je kunt gebruiken om de inhoud op ieder moment terug te krijgen. Om te demonstreren, kun je het sanitaire voorzieningen commando `hash-object` gebruiken, die wat gegevens aanneemt, het in je `.git` map opslaat, en je de sleutel teruggeeft waarmee de gegevens zijn opgeslagen. Als eerste initialiseer je een nieuw Git repository en verifieer je dat er niets in de `objects` map staat:
 
 	$ mkdir test
 	$ cd test
@@ -47,12 +47,12 @@ Het betekend dat in de kern van Git een eenvoudige sleutel-waarde gegevens opsla
 	$ find .git/objects -type f
 	$
 
-Git heeft de `objects` map geinitialiseerd en de `pack` en `info` submappen erin aangemaakt, maar er zijn geen reguliere bestanden. Nu sla je wat tekst in je Git databank op:
+Git heeft de `objects` map geïnitialiseerd en de `pack` en `info` submappen erin aangemaakt, maar er zijn geen reguliere bestanden. Nu sla je wat tekst in je Git databank op:
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-De `-w` verteld `hash-object` dat het object opgeslagen moet worden; anders zal het commando je alleen vertellen wat de sleutel zou zijn. `--stdin` verteld het commando dat het moet lezen van stdin; als je dit niet specificeerd verwatch `hash-object` een pad naar een bestand. De uitvoer van het commando is een hash checksum van 40 karakters. Dit is de SHA-1 hash – een checksum van de inhoud die je opslaat plus een kop, waarover je zometeen meer zult leren. Nu kun je zien hoe Git je gegevens opgeslagen heeft:
+De `-w` verteld `hash-object` dat het object opgeslagen moet worden; anders zal het commando je alleen vertellen wat de sleutel zou zijn. `--stdin` verteld het commando dat het moet lezen van stdin; als je dit niet specificeert verwatch `hash-object` een pad naar een bestand. De uitvoer van het commando is een hash checksum van 40 karakters. Dit is de SHA-1 hash – een checksum van de inhoud die je opslaat plus een kop, waarover je zo meteen meer zult leren. Nu kun je zien hoe Git je gegevens opgeslagen heeft:
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
@@ -109,7 +109,7 @@ Het volgende type waar je naar gaat kijken is het boom object, wat het probleem 
 	100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
 	040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib
 
-De `master^{tree}` syntax specificeerd het boom object waarnaar gewezen wordt door de laatste commit op je `master` branch. Zie dat de `lib` submap geen blob is, maar een pointer naar een andere boom:
+De `master^{tree}` syntax specificeert het boom object waarnaar gewezen wordt door de laatste commit op je `master` branch. Zie dat de `lib` submap geen blob is, maar een pointer naar een andere boom:
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
@@ -119,21 +119,21 @@ Conceptueel zijn de gegevens die Git opslaat zoiets als in Figuur 9-1.
 Insert 18333fig0901.png 
 Figuur 9-1. Eenvoudige versie van het Git data model.
 
-Je kunt je eigen boom maken. Normaal gesproken maakt Git een boom door de status van je staging gebied of index te pakken en daar een boom object mee te schrijven. Dus, om een boomobject te maken moet je eerst een index instellen door een paar bestanden te stagen. Om een index te maken met een enkele vermelding – de eerste versie van je test.txt bestand – kun je het sanitaire voorzieningen commando `update-index` gebruiken. Je gebruikt dit commando om kunstmatig de eerdere versie van het test.txt bestand toe te voegen aan een nieuw staging gebied. Je moet het de `--add` optie meegeven, omdat het bestand nog niet bestaat in je staging gebied (je hebt zelfs nog geen staging gebied ingesteld) en `--cacheinfo` omdat het bestand dat je toevoegd niet in je map staat, maar wel in je databank. Daarna specificeer je de mode, SHA-1 en bestandsnaam:
+Je kunt je eigen boom maken. Normaal gesproken maakt Git een boom door de status van je staging gebied of index te pakken en daar een boom object mee te schrijven. Dus, om een boomobject te maken moet je eerst een index instellen door een paar bestanden te stagen. Om een index te maken met een enkele vermelding – de eerste versie van je test.txt bestand – kun je het sanitaire voorzieningen commando `update-index` gebruiken. Je gebruikt dit commando om kunstmatig de eerdere versie van het test.txt bestand toe te voegen aan een nieuw staging gebied. Je moet het de `--add` optie meegeven, omdat het bestand nog niet bestaat in je staging gebied (je hebt zelfs nog geen staging gebied ingesteld) en `--cacheinfo` omdat het bestand dat je toevoegt niet in je map staat, maar wel in je databank. Daarna specificeer je de mode, SHA-1 en bestandsnaam:
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
 
-In dit geval specificeer je een mode van `100644`, wat betekend dat het een normaal bestand is. Andere opties zijn `100755`, wat betekend dat het een uitvoerbaar bestand is; en `120000`, wat een symbolische link specificeerd. De mode is genomen van normale UNIX modes, maar is veel minder flexibel – deze drie modi zijn de enigen die geldig zijn voor bestanden (blobs) in Git (alhoewel andere modi worden gebruikt voor mappen en submodules).
+In dit geval specificeer je een mode van `100644`, wat betekend dat het een normaal bestand is. Andere opties zijn `100755`, wat betekend dat het een uitvoerbaar bestand is; en `120000`, wat een symbolische link specificeert. De mode is genomen van normale UNIX modes, maar is veel minder flexibel – deze drie modi zijn de enigen die geldig zijn voor bestanden (blobs) in Git (alhoewel andere modi worden gebruikt voor mappen en submodules).
 
-Nu kun je het `write-tree` commando gebruiken om het staging gebied naar een boomobject te schrijven. Er is geen `-w` optie nodig – `write-tree` aanroepen zorgt er automatisch voor dat een boomobject gecreëeerd wordt van de status van de index als die boom nog niet bestaat:
+Nu kun je het `write-tree` commando gebruiken om het staging gebied naar een boomobject te schrijven. Er is geen `-w` optie nodig – `write-tree` aanroepen zorgt er automatisch voor dat een boomobject gecreëerd wordt van de status van de index als die boom nog niet bestaat:
 
 	$ git write-tree
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt
 
-Je kunt ook verifieren dat dit een boomobject is:
+Je kunt ook verifiëren dat dit een boomobject is:
 
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
@@ -163,7 +163,7 @@ Zie dat deze boom beide bestandsvermeldingen bevat en ook dat de SHA van test.tx
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
 If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like Figure 9-2.
-Als je een werkmap zou maken van de nieuwe boom die je zojuist geschreven hebt, zou je de twee bestanden in het bovenste nivo van de werkmap krijgen en een submap genaamd `bak` die de eerste versie van het test.txt bestand bevatte. Je kunt over de gegevens die Git bevat voor deze structuren denken zoals getoond in Figuur 9-2.
+Als je een werkmap zou maken van de nieuwe boom die je zojuist geschreven hebt, zou je de twee bestanden in het bovenste niveau van de werkmap krijgen en een submap genaamd `bak` die de eerste versie van het test.txt bestand bevatte. Je kunt over de gegevens die Git bevat voor deze structuren denken zoals getoond in Figuur 9-2.
 
 Insert 18333fig0902.png 
 Figuur 9-2. De inhoud structuur van je huidige Git gegevens.
@@ -172,7 +172,7 @@ Figuur 9-2. De inhoud structuur van je huidige Git gegevens.
 
 Je hebt drie bomen die de verschillende snapshots specificeren die je wilt volgen, maar het eerdere probleem blijft: je moet alledrie de SHA-1 waarden onthouden om de snapshots weer op te halen. Je hebt ook geen informatie over wie de snapshots opgeslagen heeft, wanneer ze opgeslagen zijn, of waarom ze opgeslagen zijn. Dit is de basale informatie die het commit object voor je opslaat.
 
-Om een commit object te creëeren moet je `commit-tree` aanroepen en één boom SHA-1 specificeren en welke commit objecten, als er die zijn, er direct aan vooraf gingen. Start met de eerste boom, die je geschreven hebt:
+Om een commit object te creëren moet je `commit-tree` aanroepen en één boom SHA-1 specificeren en welke commit objecten, als er die zijn, er direct aan vooraf gingen. Start met de eerste boom, die je geschreven hebt:
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
@@ -226,7 +226,7 @@ Ieder van de drie commit objecten wijst naar één van de drie snapshots die je 
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Verbazingwekkend. Je hebt zojuist de lagere operaties uitgevoerd om een Git history op te bouwen, zonder één van de front ends te gebruiken. Dit is in essentie van Git doet als je de `git add` en `git commit` commando's uitvoerd – het slaat de blobs voor de gewijzigde bestanden op, ververst de index, schrijft de bomen weg, en schrijft commit objecten die de bovenste bomen en commits refereren die vlak voor ze kwamen. Deze drie hoofd Git-objecten – de blob, de boom en de commit – worden in eerste instantie als aparte bestanden opgeslagen in je `.git/objects` map. Hier zijn alle objecten die nu in de voorbeeld map staan, voorzien van commentaar met wat ze bevatten:
+Verbazingwekkend. Je hebt zojuist de lagere operaties uitgevoerd om een Git history op te bouwen, zonder één van de front ends te gebruiken. Dit is in essentie wat Git doet als je de `git add` en `git commit` commando's uitvoert – het slaat de blobs voor de gewijzigde bestanden op, ververst de index, schrijft de bomen weg, en schrijft commit objecten die de bovenste bomen en commits refereren die vlak voor ze kwamen. Deze drie hoofd Git-objecten – de blob, de boom en de commit – worden in eerste instantie als aparte bestanden opgeslagen in je `.git/objects` map. Hier zijn alle objecten die nu in de voorbeeld map staan, voorzien van commentaar met wat ze bevatten:
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -285,7 +285,7 @@ Als laatste schrijf je je zlib-gecomprimeerde inhoud naar een object op de schij
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-Dat is het – je hebt nu een geldig Git blob object aangemaakt. Alle Git objecten zijn op dezelfde manier opgeslagen, alleen de types verschillen – in plaats van de tekst blob, zal de kop beginnen met commit of tree. En alhoewel de blob inhoud vrijwel alles kan zijn, hebben de commit en boom inhoud een zeer specificiek formaat.
+Dat is het – je hebt nu een geldig Git blob object aangemaakt. Alle Git objecten zijn op dezelfde manier opgeslagen, alleen de types verschillen – in plaats van de tekst blob, zal de kop beginnen met commit of tree. En alhoewel de blob inhoud vrijwel alles kan zijn, hebben de commit en boom inhoud een zeer specifiek formaat.
 
 ## Git referenties ##
 
@@ -311,7 +311,7 @@ Nu kun je de head referentie, die je zojuist hebt aangemaakt, gebruiken in je Gi
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Je wordt niet aangemoedigd om de referentie bestanden direkt aan te passen. Git levert een veiliger commando mee om dit te doen als je een referentie wilt aanpassen, genaamd `update-ref`:
+Je wordt niet aangemoedigd om de referentie bestanden direct aan te passen. Git levert een veiliger commando mee om dit te doen als je een referentie wilt aanpassen, genaamd `update-ref`:
 
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
@@ -364,7 +364,7 @@ Je kunt geen symbolische referentie instellen die buiten de refs stijl valt:
 
 ### Tags ###
 
-Je bent zojuist door drie hoofdobject types van Git gegaan, maar er bestaat een vierde. Het tag object komt veel overeen met een commit object – het bevat een tagger, een datum, een bericht, en een pointer. Het grootste verschil is dat een tag object naar een commit wijst in plaats van een boom. Het is vergelijkbaar met een branch referentie, maar het beweegt nooit – het zal altijd naar dezelfde commit wijzen, maar geeft het een vriendlijker naam.
+Je bent zojuist door drie hoofdobject types van Git gegaan, maar er bestaat een vierde. Het tag object komt veel overeen met een commit object – het bevat een tagger, een datum, een bericht, en een pointer. Het grootste verschil is dat een tag object naar een commit wijst in plaats van een boom. Het is vergelijkbaar met een branch referentie, maar het beweegt nooit – het zal altijd naar dezelfde commit wijzen, maar geeft het een vriendelijker naam.
 
 Zoals besproken in hoofdstuk 2, zijn er twee soorten tags: beschreven en lichtgewicht. Je kunt een lichtgewicht tag maken door zoiets als dit uit te voeren:
 
@@ -389,7 +389,7 @@ Voer nu het `cat-file` commando uit op die SHA-1 waarde:
 
 	test tag
 
-Zie dat de object regel wijst naar de SHA-1 waarde die je getagged hebt. Zie ook dat het niet naar een commit hoeft te wijzen: je kunt ieder Git object een tag geven. In de Git broncode bijvoorbeeld, heeft de maintainer zijn publieke GPG sleutel als een blob object toegevoegt en het een tag gegeven. Je kunt de publieke sleutel bekijken door dit uit te voeren
+Zie dat de object regel wijst naar de SHA-1 waarde die je getagged hebt. Zie ook dat het niet naar een commit hoeft te wijzen: je kunt ieder Git object een tag geven. In de Git broncode bijvoorbeeld, heeft de maintainer zijn publieke GPG sleutel als een blob object toegevoegd en het een tag gegeven. Je kunt de publieke sleutel bekijken door dit uit te voeren
 
 	$ git cat-file blob junio-gpg-pub
 
@@ -408,7 +408,7 @@ Het derde soort referentie dat je zult zien is een remote referentie. Als je een
 	To git@github.com:schacon/simplegit-progit.git
 	   a11bef0..ca82a6d  master -> master
 
-Daarna kun je zien wat de `master` branch op de `origin` remote was toen je voor 't laatst met de server communiceerder, door het `refs/remotes/origin/master`bestand te bekijken:
+Daarna kun je zien wat de `master` branch op de `origin` remote was toen je voor 't laatst met de server communiceerde, door het `refs/remotes/origin/master`bestand te bekijken:
 
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
@@ -476,7 +476,7 @@ De blob is nu een andere blob, wat betekent dat alhoewel je slechts een enkele r
 
 Je hebt nu twee vrijwel identieke 12K grote objecten op je disk. Zou het niet fijn zijn als Git één van de twee volledig op kon slaan, en het tweede object slechts als delta tussen die en de eerste?
 
-Het blijkt dat dat kan. Het initiele formaat waarin Git objecten opslaat op disk wordt een los object formaat genoemd. Maar, eens in de zoveel tijd pakt Git een aantal van die objecten in een enkel binair bestand wat een packfile genoemd wordt, om wat ruimte te besparen en efficiënter te zijn. Git doet dit als je teveel losse objecten rond hebt slingeren, als je het `git gc` commando handmatig uitvoert, of als je naar een remote server pushed. Om te zien wat er gebeurd, kun je Git handmatig vragen om de objecten in te pakken met het `git gc` commando:
+Het blijkt dat dat kan. Het initiële formaat waarin Git objecten opslaat op disk wordt een los object formaat genoemd. Maar, eens in de zoveel tijd pakt Git een aantal van die objecten in een enkel binair bestand wat een packfile genoemd wordt, om wat ruimte te besparen en efficiënter te zijn. Git doet dit als je teveel losse objecten rond hebt slingeren, als je het `git gc` commando handmatig uitvoert, of als je naar een remote server pushed. Om te zien wat er gebeurd, kun je Git handmatig vragen om de objecten in te pakken met het `git gc` commando:
 
 	$ git gc
 	Counting objects: 17, done.
@@ -523,7 +523,7 @@ Hoe doet Git dit? Als Git objecten inpakt, zoekt het naar bestanden die gelijk g
 	chain length = 1: 1 object
 	pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack: ok
 
-Hier refereert de `9bc1d` blob, wat als je je dat herinnert de eerste versie is van je repo.rb bestand, aan de `05408` blob, wat de tweede versie was van het bestand. De derde kolom in de uitvoer is e grootte van het object in het pakket, zodat je kunt zien dat `05408` 12K van het bestand in beslag neemt maar dat `9bc1d` slechts 7 bytes in beslag neemt. Wat ook interessant is, is dat de tweede versie van het bestand degene is die intakt opgeslagen wordt, terwijl de originele versie als delta opgeslagen wordt – dit is zo gedaan omdat het waarschijnlijker is dat je snellere toegang nodig hebt tot de meest recente versie van het bestand.
+Hier refereert de `9bc1d` blob, wat als je je dat herinnert de eerste versie is van je repo.rb bestand, aan de `05408` blob, wat de tweede versie was van het bestand. De derde kolom in de uitvoer is e grootte van het object in het pakket, zodat je kunt zien dat `05408` 12K van het bestand in beslag neemt maar dat `9bc1d` slechts 7 bytes in beslag neemt. Wat ook interessant is, is dat de tweede versie van het bestand degene is die intact opgeslagen wordt, terwijl de originele versie als delta opgeslagen wordt – dit is zo gedaan omdat het waarschijnlijker is dat je snellere toegang nodig hebt tot de meest recente versie van het bestand.
 
 Het fijnste van dit alles is, is dat het op ieder gewenst moment opnieuw ingepakt kan worden. Git zal op z'n tijd je databank automatisch opnieuw inpakken, waarmee het altijd meer ruimte wil besparen. Je kunt ook handmatig opnieuw inpakken op ieder tijdstip, door `git gc` met de hand uit te voeren.
 
@@ -548,7 +548,7 @@ In het standaard geval dat automatisch geschreven wordt door een `git remote add
 	$ git log remotes/origin/master
 	$ git log refs/remotes/origin/master
 
-Ze zijn allemaal gelijk, omdat Git elk expandeerd naar `refs/remotes/origin/master`.
+Ze zijn allemaal gelijk, omdat Git elk expandeert naar `refs/remotes/origin/master`.
 
 Als je wilt dat Git alleen de `master` branch pulled, en niet alle andere branches op de remote server, kun je de fetch regel veranderen in
 
@@ -592,7 +592,7 @@ Als je een ingewikkeld werkproces hebt waarbij het QA team branches pushed, ontw
 
 Het is fijn dat je op die manier referenties in naamruimten kunt fetchen, maar hoe krijgt het QA team in de eerste plaats al hun branches in een `qa/` naamruimte? Je krijgt dat voor elkaar door refspecs te gebruiken om mee te pushen.
 
-Als het QA team hun `master` branch naar `qa/master` op de remoter server wil pushen, kunnen ze dit uitvoeren
+Als het QA team hun `master` branch naar `qa/master` op de remote server wil pushen, kunnen ze dit uitvoeren
 
 	$ git push origin master:refs/heads/qa/master
 
@@ -619,7 +619,7 @@ Git kan gegevens tussen twee repositories hoofdzakelijk overdragen op twee manie
 
 ### Het domme Protocol ###
 
-Naar Git overdracht over HTTP wordt vaak gerefereerd als het domme protocol, omdat het geen Git-specifieke code vereist op de server gedurene het overdrachtsprocess. Het fetch process is een reeks van GET verzoeken, waarbij de client de opmaak van het Git repository van de server kan overnemen. Laten we het `http-fetch` process eens volgen voor de simplegit bibliotheek:
+Naar Git overdracht over HTTP wordt vaak gerefereerd als het domme protocol, omdat het geen Git-specifieke code vereist op de server gedurende het overdrachtsproces. Het fetch proces is een reeks van GET verzoeken, waarbij de client de opmaak van het Git repository van de server kan overnemen. Laten we het `http-fetch` proces eens volgen voor de simplegit bibliotheek:
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
@@ -633,7 +633,7 @@ Nu heb je een lijst met de remote referenties en SHA's. Daarna kijk je naar wat 
 	=> GET HEAD
 	ref: refs/heads/master
 
-Je moet de `master` branch uitchecken zora je het proces afgerond hebt.
+Je moet de `master` branch uitchecken zodra je het proces afgerond hebt.
 Op dit punt ben je klaar om het doorloop proces te starten. Omdat je startpunt het `ca82a6` commit object is dat je in het `info/refs` bestand zag, begin je met dit op te halen:
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
@@ -664,7 +664,7 @@ Oops – het ziet ernaar uit dat dat boom object niet in het losse formaat op de
 	=> GET objects/info/http-alternates
 	(empty file)
 
-Als dit een lijst met alternatieve URL's bevat, zal Git daar voor losse bestanden en packfiles gaan kijken – dit is een fijn mechanisme voor projecten die een forks zijn van een ander zodat ze objecten kunnen delen op de schijf. Maar, omdat er in dit geval geen alternatieven vermeld staan, moet je object in een packfile zitten. Om te zien welke packfiles beschikbaar zijn op deze server, moet je het `objects/info/packs` bestand halen, wat een lijst hiervan bevat (ook gegenereerd door `update-server-info`):
+Als dit een lijst met alternatieve URL's bevat, zal Git daar voor losse bestanden en packfiles gaan kijken – dit is een fijn mechanisme voor projecten die forks zijn van een ander zodat ze objecten kunnen delen op de schijf. Maar, omdat er in dit geval geen alternatieven vermeld staan, moet je object in een packfile zitten. Om te zien welke packfiles beschikbaar zijn op deze server, moet je het `objects/info/packs` bestand halen, wat een lijst hiervan bevat (ook gegenereerd door `update-server-info`):
 
 	=> GET objects/info/packs
 	P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
@@ -698,7 +698,7 @@ Het gehele uitvoer van dit proces ziet er zo uit:
 
 ### Het slimme protocol ###
 
-De HTTP methode is eenvoudig, maar een beetje inefficient. Slimme protocollen gebruiken is een meer gebruikte manier van gegevensoverdracht. Deze protocollen hebben een proces aan de remote kant dat bewust is van Git – het kan lokale gegevens lezen en uitvinden wat de client heeft, of nodig heeft en hier eigen gegevens voor genereren. Er zijn twee sets processen voor gegevensoverdracht: een paar voor het uploaden van gegevens, en een paar voor het downloaden van gegevens.
+De HTTP methode is eenvoudig, maar een beetje inefficiënt. Slimme protocollen gebruiken is een meer gebruikte manier van gegevensoverdracht. Deze protocollen hebben een proces aan de remote kant dat bewust is van Git – het kan lokale gegevens lezen en uitvinden wat de client heeft, of nodig heeft en hier eigen gegevens voor genereren. Er zijn twee sets processen voor gegevensoverdracht: een paar voor het uploaden van gegevens, en een paar voor het downloaden van gegevens.
 
 #### Gegevens uploaden ####
 
@@ -711,7 +711,7 @@ Bijvoorbeeld, stel dat je `git push origin master` uitvoert in je project, en `o
 	003e085bb3bcb608e1e84b2432f8ecbe6306e7e7 refs/heads/topic
 	0000
 
-Het `git-receive-pack` commando antwoord onmiddelijk met één regel voor iedere referentie die het momenteel heeft – in dit geval alleen de `master` branch en zijn SHA. De eerste regel bevat ook een lijst van de mogelijkheden van de server (in dit geval, `report-status` en `delete-refs`).
+Het `git-receive-pack` commando antwoord onmiddellijk met één regel voor iedere referentie die het momenteel heeft – in dit geval alleen de `master` branch en zijn SHA. De eerste regel bevat ook een lijst van de mogelijkheden van de server (in dit geval, `report-status` en `delete-refs`).
 
 Iedere regel begint met een hexadecimale waarde van 4 bytes, die specificeert hoe lang de rest van de regel is. Je eerste regel begint met 005b, wat 91 in hex is, wat betekend dat er nog 91 bytes over zijn op deze regel. De volgende regel begint met 003e, wat 62 is, zodat je de overgebleven 62 bytes leest. De volgende regel is 0000, wat betekent dat de server klaar is met het tonen van zijn referenties.
 
@@ -751,7 +751,7 @@ In beide gevallen stuurt `upload-pack`, nadat `fetch-pack` verbinding gemaakt he
 
 Dit komt erg overeen met waarmee `receive-pack` antwoord, maar de mogelijkheden zijn verschillend. Daarnaast stuurt het de HEAD referentie zodat de client weet wat er uitgechecked moet worden als dit een clone is.
 
-Op dit punt kijkt het `fetch-pack` process naar welk objecten dat het heeft en antwoord met de objecten die het nodig heeft door "want" te sturen, gevolgd door de SHA die het wil. Het stuurt al de objecten die het al heeft met "have" en dan de SHA. Aan het einde van deze lijst, schrijft het "done" om het `upload-pack` proces te starten met het sturen van de packfile van de gegevens die het nodig heeft:
+Op dit punt kijkt het `fetch-pack` proces naar welk objecten dat het heeft en antwoord met de objecten die het nodig heeft door "want" te sturen, gevolgd door de SHA die het wil. Het stuurt al de objecten die het al heeft met "have" en dan de SHA. Aan het einde van deze lijst, schrijft het "done" om het `upload-pack` proces te starten met het sturen van de packfile van de gegevens die het nodig heeft:
 
 	0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
 	0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
@@ -762,11 +762,11 @@ Dat is een basaal geval van de overdrachtsprotocollen. In meer complexe gevallen
 
 ## Onderhoud en het herstellen van gegevens ##
 
-Soms moet je wat opruimen – een repository compacter maken, een geimporteerd repository opruimen, of verloren werk terughalen. Deze sectie zal deze scenario's doorlopen.
+Soms moet je wat opruimen – een repository compacter maken, een geïmporteerd repository opruimen, of verloren werk terughalen. Deze sectie zal deze scenario's doorlopen.
 
 ### Onderhoud ###
 
-Soms voert Git automatisch een commando genaamg "auto gc" uit. Het meerendeel van de tijd doet dit commando niets. Maar, als je teveel losse objecten (objecten die niet in een packfile zitten) of teveel packfiles hebt, dan lanceert Git een volledig `git gc` commando. Het `gc` staat voor garbage collect (afval ophalen), en het commando doet een aantal zaken: het haalt alle losse objecten op en stopt ze in packfiles, het voegt packfiles samen in één grote packfile, en het verwijderd objecten die niet bereikbaar zijn vanuit een commit en die een paar maanden oud zijn.
+Soms voert Git automatisch een commando genaamd "auto gc" uit. Het merendeel van de tijd doet dit commando niets. Maar, als je teveel losse objecten (objecten die niet in een packfile zitten) of teveel packfiles hebt, dan lanceert Git een volledig `git gc` commando. Het `gc` staat voor garbage collect (afval ophalen), en het commando doet een aantal zaken: het haalt alle losse objecten op en stopt ze in packfiles, het voegt packfiles samen in één grote packfile, en het verwijderd objecten die niet bereikbaar zijn vanuit een commit en die een paar maanden oud zijn.
 
 Je kunt auto gc als volgt handmatig uitvoeren:
 
@@ -782,7 +782,7 @@ Het andere ding dat `gc` zal doen is je referenties in een enkel bestand inpakke
 	.git/refs/tags/v1.0
 	.git/refs/tags/v1.1
 
-Als je `git gc` uitvoert, zul je deze bestanden niet langer in de `refs` map hebben. Git zal ze omwille van efficientie in een bestand genaamd `.git/packed-refs` stoppen, dat er zo uitziet:
+Als je `git gc` uitvoert, zul je deze bestanden niet langer in de `refs` map hebben. Git zal ze omwille van efficiëntie in een bestand genaamd `.git/packed-refs` stoppen, dat er zo uitziet:
 
 	$ cat .git/packed-refs 
 	# pack-refs with: peeled 
@@ -818,7 +818,7 @@ Nu verplaats je de `master` branch terug naar de middelste commit:
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Je bent nu effectief de twee bovenste commits kwijt – je hebt geen branch vanwaar deze commits bereikbaar zijn. Je moet de laatste commit SHA vinden en dan een branch toevoegen die daar naar wijst. De truuk is om de laatste commit SHA te vinden – het is toch niet alsof je die onthouden hebt, toch?
+Je bent nu effectief de twee bovenste commits kwijt – je hebt geen branch vanwaar deze commits bereikbaar zijn. Je moet de laatste commit SHA vinden en dan een branch toevoegen die daar naar wijst. De truc is om de laatste commit SHA te vinden – het is toch niet alsof je die onthouden hebt, toch?
 
 Vaak is de snelste manier een tool genaamd `git reflog` te gebruiken. Terwijl je werkt slaat Git stilletjes op wat je HEAD is, iedere keer als je die wijzigt. Iedere keer dat je commit, of van branch veranderd wordt de reflog vernieuwd. Het reflog wordt ook vernieuwd door het `git update-ref` commando, wat nog een reden is om het te gebruiken in plaats van gewoon de SHA's naar je ref bestanden te schrijven, zoals we beschreven hebben in de "Git References" sectie eerder in dit hoofdstuk. Je kunt op ieder moment zien waar je geweest bent, door `git reflog` uit te voeren.
 
@@ -919,7 +919,7 @@ Je kunt het `count-objects` commando gebruiken om snel te zien hoeveel ruimte je
 
 Op de `size-pack` regel staat de grootte van je packfiles in kilobytes, dus je gebruikt 2Mb. Voor de laatste commit gebruikte je bijna 2K – dus het is duidelijk dat het verwijderen van het bestand uit de vorige commit, het niet uit je geschiedenis verwijderd heeft. Iedere keer als iemand dit repository cloned, zullen ze de volle 2Mb moeten clonen alleen maar om dit kleine project te krijgen, omdat jij per ongeluk een groot bestand toegevoegd hebt. Laten we het kwijtraken.
 
-Eerst moet je het vinden. In dit geval weet je al welk bestand het is. Maar stel dat je het niet wist; hoe zou je kunnen vinden welk bestand of bestanden zoveel ruimte in beslag nemen? Als je `git gc` uitvoert zitten alle objecten in een packfile; je kunt de grote bestanden identificeren door een ander sanitaire voorzieningen commando genaamd `git verify-pack` uit te voeren en te sorteren op het derde veld in de uitvoer, wat de bestandsgrootte is. Je kunt het ook door het `tail` commando leiden omdat je alleen geinteresseerd bent in het laatste paar grote bestanden. 
+Eerst moet je het vinden. In dit geval weet je al welk bestand het is. Maar stel dat je het niet wist; hoe zou je kunnen vinden welk bestand of bestanden zoveel ruimte in beslag nemen? Als je `git gc` uitvoert zitten alle objecten in een packfile; je kunt de grote bestanden identificeren door een ander sanitaire voorzieningen commando genaamd `git verify-pack` uit te voeren en te sorteren op het derde veld in de uitvoer, wat de bestandsgrootte is. Je kunt het ook door het `tail` commando leiden omdat je alleen geïnteresseerd bent in het laatste paar grote bestanden. 
 
 	$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
@@ -945,7 +945,7 @@ Je moet alle commits die stroomafwaarts van `6df76` liggen om dit bestand volled
 	Rewrite da3f30d019005479c99eb4c3406225613985a1db (2/2)
 	Ref 'refs/heads/master' was rewritten
 
-De `--index-filter` optie is vergelijkbaar met de `--tree-filter` optie, die gebruikt is in Hoofstuk 6, behalve dan dat in plaats van het doorgeven van een commando dat bestanden aanpast die uitgechecked staan op je schijf, pas je je staging gebied of index iedere keer aan. In plaats van een specifiek bestand steeds te verwijderen met zoiets als `rm file`, moet je het met `git rm --cached` verwijderen – je moet het uit de index verwijderen, niet van de schijf. Reden om het zo te doen is snelheid – omdat Git niet iedere versie hoeft uit te checken op je schijf voordat het je filter uitvoert, kan het proces vele, vele malen sneller gaan. Je kunt dezelfde taak uitvoeren met `--tree-filter` als je dat wil. De `--ignore-unmatch` optie op `git rm` verteld het niet te stoppen op een fout als het patroon dat je probeert te verwijderen niet aanwezig is. Als laatste zul je `filter-branch` vragen om je geschiedenis alleen vanaf de `6df7640` commit te herschrijven, omdat je weet dat dat de plaats is waar het probleem begon. Anders start het vanaf het begin en duurt het onnodig langer.
+De `--index-filter` optie is vergelijkbaar met de `--tree-filter` optie, die gebruikt is in Hoofdstuk 6, behalve dan dat in plaats van het doorgeven van een commando dat bestanden aanpast die uitgechecked staan op je schijf, pas je je staging gebied of index iedere keer aan. In plaats van een specifiek bestand steeds te verwijderen met zoiets als `rm file`, moet je het met `git rm --cached` verwijderen – je moet het uit de index verwijderen, niet van de schijf. Reden om het zo te doen is snelheid – omdat Git niet iedere versie hoeft uit te checken op je schijf voordat het je filter uitvoert, kan het proces vele, vele malen sneller gaan. Je kunt dezelfde taak uitvoeren met `--tree-filter` als je dat wil. De `--ignore-unmatch` optie op `git rm` verteld het niet te stoppen op een fout als het patroon dat je probeert te verwijderen niet aanwezig is. Als laatste zul je `filter-branch` vragen om je geschiedenis alleen vanaf de `6df7640` commit te herschrijven, omdat je weet dat dat de plaats is waar het probleem begon. Anders start het vanaf het begin en duurt het onnodig langer.
 
 Je geschiedenis zal niet langer een referentie bevatten naar dat bestand. Maar, je reflog en een nieuwe set refs die Git toevoegde toen je de `filter-branch` deed onder `.git/refs/original` bevatten het nog steeds, dus je moet die ook verwijderen en je gegevensbank opnieuw inpakken. Je moet alles dat een pointer naar die oude commits bevat kwijtraken voordat je opnieuw inpakt:
 
@@ -973,6 +973,6 @@ De grootte van je ingepakte repository is omlaag gegaan naar 7 K, wat veel beter
 
 ## Samenvatting ##
 
-Je moet een goed begrip hebben van wat Git op de achtergrond doet en, tot een bepaalde hoogte, hoe het in elkaar gezet is. Dit hoofdstuk heeft een aantal sanitaire voorzieningen commado's beslagen – commando's die op een lager nivo zitten en eenvoudige zijn dan de porcelein commando's waarover je in de rest van het boek geleerd hebt. Begrijpen hoe Git op een lager nivo werkt zou het makkelijker moeten maken om te begrijpen waarom het doet wat het doet en ook om je eigen applicaties te schrijven en hulp scripts om jouw specifieke werkwijze voor je te laten werken.
+Je moet een goed begrip hebben van wat Git op de achtergrond doet en, tot een bepaalde hoogte, hoe het in elkaar gezet is. Dit hoofdstuk heeft een aantal sanitaire voorzieningen commado's beslagen – commando's die op een lager niveau zitten en eenvoudige zijn dan de porselein commando's waarover je in de rest van het boek geleerd hebt. Begrijpen hoe Git op een lager niveau werkt zou het makkelijker moeten maken om te begrijpen waarom het doet wat het doet en ook om je eigen applicaties te schrijven en hulp scripts om jouw specifieke werkwijze voor je te laten werken.
 
 Git is als een inhouds-toegankelijk bestandssysteem een zeer krachtig tool dat je eenvoudig als meer dan alleen een VCS kunt gebruiken. Ik hoop dat je je nieuwe kennis van de werking van Git kunt gebruiken om je eigen coole applicatie te bouwen met deze technologie en je op je gemak voelt bij het gebruik van Git op meer geavanceerde manieren.

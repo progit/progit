@@ -1114,7 +1114,7 @@ In questo modo puoi vedere l'ultimo commit facilmente:
 
 Git semplicemente sostituisce il nuovo comando con quello che corrisponde nell'alias. Magari, vuoi avviare un comando esterno, invece dei sotto comandi Git. In questo caso, devi avviare il comando con il carattere "!". Questo è utile se stai scrivendo i tuoi strumenti di lavoro con un repository Git. Per esempio creiamo un alias `git visual` per lanciare `gitk`:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Conclusione ##
 

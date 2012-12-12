@@ -1115,7 +1115,7 @@ Desse jeito, você pode ver o último comando mais facilmente:
 
 Como você pode ver, Git simplesmente substitui o novo comando com o pseudônimo que você deu à ele. Entretanto, talvez você queira rodar um comando externo ao invés de um sub comando do Git. Neste caso, você começa o comando com `!`. Isto é útil se você escreve suas próprias ferramentas que trabalham com um repositório Git. Podemos demonstrar criando o pseudônimo `git visual` para rodar `gitk`:
 
-    $ git config --global alias.visual "!gitk"
+    $ git config --global alias.visual '!gitk'
 
 ## Sumário ##
 

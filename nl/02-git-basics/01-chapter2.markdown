@@ -1114,7 +1114,7 @@ Op deze manier kun je de laatste commit makkelijk zien:
 
 Zoals je kunt zien, vervangt Git eenvoudigweg het nieuwe commando met waarvoor je het gealiassed hebt. Maar, misschien wil je een extern commando uitvoeren, in plaats van een Git subcommando. In dat geval begin je het commando met een `!` karakter. Dit is handig als je je eigen applicaties maakt die met een Git repository werken. We kunnen dit demonstreren door `git visual` een `gitk` te laten uitvoeren:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Samenvatting ##
 

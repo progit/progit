@@ -1120,7 +1120,7 @@ Git 명령을 입력할 때 `<Tab>` 키를 누르면 Git이 제안하는 명령�
 
 이것으로 쉽게 새로운 명령을 만들 수 있다. 그리고 Git의 명령어뿐만 아니라 외부 명령어도 실행할 수 있다. `!`를 제일 앞에 추가하면 외부 명령을 실행한다. 다음은 `git visual`이라고 입력하면 `gitk`가 실행된다:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## 요약 ##
 

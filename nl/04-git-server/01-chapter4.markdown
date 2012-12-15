@@ -97,7 +97,7 @@ Dat is alles. De `post-update` hook, die standaard bij Git zit, voert het noodza
 
 In dit geval, gebruiken we het `/var/www/htdocs` pad wat gebruikelijk is voor Apache opstellingen, maar je kunt iedere statische webserver gebruiken — stop de kale repository in haar pad. De Git data wordt geserveerd als standaard statische bestanden (zie hoofdstuk 9 voor details over hoe het precies geserveerd wordt).
 
-Het ook is mogelijk om Git over HTTP te laten pushen, alhoewel dat geen veelgebruikte techniek is en erom vraagt dat je complexe WebDAV vereisten insteld. Omdat het zelden gebruikt wordt, zullen we het niet in dit boek beschrijven. Als je geïnteresseerd bent om de HTTP-push protocollen te gebruiken, dan kun je op `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` lezen hoe je een repository kunt maken. Het fijne van Git laten pushen over HTTP is dat je iedere WebDAV server kunt gebruiken, zonder specifieke Git eigenschappen; dus je kunt deze functionaliteit gebruiken als je web-hosting provider WebDAV ondersteunt voor schrijf vernieuwingen aan je webpagina.
+Het ook is mogelijk om Git over HTTP te laten pushen, alhoewel dat geen veelgebruikte techniek is en erom vraagt dat je complexe WebDAV vereisten instelt. Omdat het zelden gebruikt wordt, zullen we het niet in dit boek beschrijven. Als je geïnteresseerd bent om de HTTP-push protocollen te gebruiken, dan kun je op `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt` lezen hoe je een repository kunt maken. Het fijne van Git laten pushen over HTTP is dat je iedere WebDAV server kunt gebruiken, zonder specifieke Git eigenschappen; dus je kunt deze functionaliteit gebruiken als je web-hosting provider WebDAV ondersteunt voor schrijf vernieuwingen aan je webpagina.
 
 #### De voordelen ####
 
@@ -616,7 +616,7 @@ Die regel zal alleen maar toegevoegd worden aan de set regels voor het `gitolite
 
 Op dit punt zul je je misschien afvragen hoe de toegangsregels feitelijk toegepast worden, dus laten we dat kort bespreken.
 
-Er zijn twee lagen van toegang in gitolite. De eerste is op het niveau van het repository; als je lees (of schrijf) toegang hebt op *een* ref in het repository, dan heb je lees (of schrijf) toegang to het repository.
+Er zijn twee lagen van toegang in gitolite. De eerste is op het niveau van het repository; als je lees (of schrijf) toegang hebt op *een* ref in het repository, dan heb je lees (of schrijf) toegang tot het repository.
 
 De tweede laag, die alleen van toepassing is op "schrijf" toegang, is per branch of tag binnen een repository. De gebruikersnaam, de toegang die geprobeerd wordt (`W` of `+`), en de refnaam die aangepast wordt zijn bekend. De toegangsregels worden nagekeken in volgorde van verschijning in het configuratiebestand, waarbij gezocht wordt naar een passende vergelijking voor deze combinatie (maar onthoudt dan de refnaam gepast wordt met een regex, niet slechts met tekst). Als een overeenkomst gevonden wordt, dan slaagt de push. Als de vergelijking er doorheen valt wordt toegang geweigerd.
 
@@ -681,7 +681,7 @@ We ronden deze bespreking af met een voorproefje van andere eigenschappen, die a
 
 **Delegatie**: Voor hele grote installaties, kun je verantwoordelijkheden voor groepen of repositories delegeren aan diverse personen, en ze die onderdelen onafhankelijk laten beheren. Dit beperkt de belasting op de hoofd beheerder, en maakt hem minder een flessenhals. Deze eigenschap heeft zijn eigen documentatiebestand in de `doc/` map. 
 
-**Gitweb ondersteuning**: Gitolite ondersteund gitweb op meerdere manieren. Je kunt specificeren welke repos zichtbaar zijn via gitweb. Je kunt de "eigenaar" en "omschrijving" voor gitweb instellen in het gitolite configuratiebestand. Gitweb heeft een mechanisme voor je om toegangscontrole gebaseerd op HTTP verificatie te implementeren, dus je kunt het het "samengestelde" configuratiebestand laten gebruiken dat gitolite produceerd, wat betekend dat dezelfde toegangsregels (voor leestoegang) van toepassing zijn op gitweb en gitolite.
+**Gitweb ondersteuning**: Gitolite ondersteund gitweb op meerdere manieren. Je kunt specificeren welke repos zichtbaar zijn via gitweb. Je kunt de "eigenaar" en "omschrijving" voor gitweb instellen in het gitolite configuratiebestand. Gitweb heeft een mechanisme voor je om toegangscontrole gebaseerd op HTTP verificatie te implementeren, dus je kunt het het "samengestelde" configuratiebestand laten gebruiken dat gitolite produceert, wat betekend dat dezelfde toegangsregels (voor leestoegang) van toepassing zijn op gitweb en gitolite.
 
 **Spiegeling**: Gitolite kan je helpen met het onderhouden van meerdere spiegels, en er makkelijk tussen wisselen als de hoofdserver plat gaat.
 

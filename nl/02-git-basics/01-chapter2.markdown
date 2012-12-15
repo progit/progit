@@ -1118,4 +1118,4 @@ Zoals je kunt zien, vervangt Git eenvoudigweg het nieuwe commando met waarvoor j
 
 ## Samenvatting ##
 
-Op dit punt kun je alle basis locale Git operaties doen – een repository creëren of clonen, wijzigingen maken, de wijzigingen stagen en committen, en de historie van alle veranderingen die de repository ondergaan heeft is zien. Als volgende gaan we Gits beste optie bekijken: het branching model.
+Op dit punt kun je alle basis locale Git operaties doen – een repository creëren of clonen, wijzigingen maken, de wijzigingen stagen en committen, en de historie bekijken van alle veranderingen die de repository ondergaan heeft. Als volgende gaan we Gits beste optie bekijken: het branching model.

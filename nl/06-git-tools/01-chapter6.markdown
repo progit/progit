@@ -146,7 +146,7 @@ Dan zie je de vorige commit door `HEAD^` te specificeren, wat "de ouder van HEAD
 
 	    Merge commit 'phedders/rdocs'
 
-Je kunt ook een nummer na de `^` zetten – bijvoorbeeld, `d921970^2` betekent "de tweede ouder van d921970." Deze syntax is alleen bruikbaar voor merge commits, die meer dan één ouder hebben. De eerste ouder is de branch waar jij op was toen je merge-te, en de andere is de commit op de branch die in ingemerged hebt:
+Je kunt ook een nummer na de `^` zetten – bijvoorbeeld, `d921970^2` betekent "de tweede ouder van d921970." Deze syntax is alleen bruikbaar voor merge commits, die meer dan één ouder hebben. De eerste ouder is de branch waar jij op was toen je merge-te, en de andere is de commit op de branch die je ingemerged hebt:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -450,7 +450,7 @@ Op dit punt kun je makkelijk van branch wisselen en ergens anders werken; je wij
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-In dit geval waren er twee stashes al eerder opgeslagen, dus heb je toegang tot drie verschillende gestashete werken. Je kunt degene die je zojuist gestashed hebt opnieuw toepassen, door het commando uit te voeren dat in de help output van het originele stash commando stond: `git stash apply`. Als je een van de oudere stashes wilt toepassen, dan kun je die specificeren door hem te noemen, zoals hier: `git apply stash stash@{2}`. Als je geen stash specificeerd, gaat Git uit van de meest recente stash en probeert die toe te passen:
+In dit geval waren er twee stashes al eerder opgeslagen, dus heb je toegang tot drie verschillende gestashete werken. Je kunt degene die je zojuist gestashed hebt opnieuw toepassen, door het commando uit te voeren dat in de help output van het originele stash commando stond: `git stash apply`. Als je een van de oudere stashes wilt toepassen, dan kun je die specificeren door hem te noemen, zoals hier: `git apply stash stash@{2}`. Als je geen stash specificeert, gaat Git uit van de meest recente stash en probeert die toe te passen:
 
 	$ git stash apply
 	# On branch master
@@ -564,7 +564,7 @@ Het is belangrijk om te zien dat deze commits in de omgekeerde volgorde getoond 
 	310154e updated README formatting and added blame
 	f7f3f6d changed my name a bit
 
-Zie de omgekeerde volgorde. De interactieve rebase geeft je een script dat het gaat uitvoeren. Het zal beginnen met de commit die je specificeerd op de commando regel (`HEAD~3`), en de wijzigingen in ieder van deze commits opnieuw afspelen van boven naar beneden. Het toont de oudste aan de bovenkant, in plaats van de nieuwste, omdat dat de eerste is die het zal afspelen.
+Zie de omgekeerde volgorde. De interactieve rebase geeft je een script dat het gaat uitvoeren. Het zal beginnen met de commit die je specificeert op de commando regel (`HEAD~3`), en de wijzigingen in ieder van deze commits opnieuw afspelen van boven naar beneden. Het toont de oudste aan de bovenkant, in plaats van de nieuwste, omdat dat de eerste is die het zal afspelen.
 
 Je moet het script wijzigen zodat het stopt bij de commit die je wilt wijzigen. Om dat te doen moet je het woord pick veranderen in het woord edit voor ieder van de commits waarbij je het script wilt laten stoppen. Bijvoorbeeld, om alleen het derde commit bericht te wijzigen, verander je het bestand zodat het er zo uitziet:
 
@@ -737,7 +737,7 @@ Als je een bug in je code traceert en wilt weten wanneer het was geïntroduceerd
 
 Zie dat het eerste veld de gedeeltelijke SHA-1 van de commit is, die als laatste die regel aangepast heeft. De volgende twee velden zijn waarden, die gehaald zijn uit die commit – de naam van de auteur en de datum van die commit – zodat je makkelijk kunt zien wie wanneer die regel aangepast heeft. Daarna komt het regelnummer en de inhoud van dat bestand. Let op de `^4832fe2` commit regels, die aangeven dat die regels in de eerste commit van dat bestand zaten. Die commit is gedaan toen dit bestand als eerste is toegevoegd aan dit project, en die regels zijn sindsdien ongewijzigd gebleven. Dat is een beetje verwarrend, want nu heb je minstens drie manieren gezien waarop Git het `^` symbool gebruikt om een SHA van een commit aan te passen, maar dat is wat het hier betekent.
 
-Een ander stoer ding van Git is dat het geen naamswijzigingen van bestanden expliciet bijhoudt. Het neemt de snapshots op en probeert impliciet uit te vogelen wat er hernoemd was, nadat het gebeurd is. Een van de interessantste eigenschappen hiervan is dat je ook het kunt vragen om allerlei soorten code verplaatsingen uit te vogelen. Als je `-C` aan `git blame` meegeeft, zal Git het bestand dat je annoteerd analyseren en proberen uit te vinden waar stukjes code erin oorspronkelijk vandaan kwamen als ze ergens vandaan gekopieerd zijn. Recentelijk was ik een bestand genaamd `GITServerHandler.m` aan het refactoren naar meerdere bestanden, waarvan er een `GITPackUpload.m` heette. Door `GITPackUpload.m` te blamen met de `-C` optie, kon ik zien waar delen van de code oorspronkelijk vandaan kwamen:
+Een ander stoer ding van Git is dat het geen naamswijzigingen van bestanden expliciet bijhoudt. Het neemt de snapshots op en probeert impliciet uit te vogelen wat er hernoemd was, nadat het gebeurd is. Een van de interessantste eigenschappen hiervan is dat je ook het kunt vragen om allerlei soorten code verplaatsingen uit te vogelen. Als je `-C` aan `git blame` meegeeft, zal Git het bestand dat je annoteert analyseren en proberen uit te vinden waar stukjes code erin oorspronkelijk vandaan kwamen als ze ergens vandaan gekopieerd zijn. Recentelijk was ik een bestand genaamd `GITServerHandler.m` aan het refactoreren naar meerdere bestanden, waarvan er een `GITPackUpload.m` heette. Door `GITPackUpload.m` te blamen met de `-C` optie, kon ik zien waar delen van de code oorspronkelijk vandaan kwamen:
 
 	$ git blame -C -L 141,153 GITPackUpload.m 
 	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 

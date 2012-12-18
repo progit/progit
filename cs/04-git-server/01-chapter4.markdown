@@ -785,7 +785,7 @@ Pokud už máte lokální repozitář Git, přidejte GitHub jako vzdálený serv
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
 
-Nyní je váš projekt hostován na serveru GitHub a vy můžete dát adresu URL komukoli, s kým chcete svůj projekt sdílet. V tomto případě je adresa `http://github.com/testinguser/iphone_project`. V záhlaví na stránce všech vašich projektů si můžete všimnout, že máte dvě adresy URL (viz obrázek 4.8).
+Nyní je váš projekt hostován na serveru GitHub a vy můžete dát adresu URL komukoli, s kým chcete svůj projekt sdílet. V tomto případě je adresa `http://github.com/testinguser/iphone_project`. V záhlaví na stránce všech vašich projektů si můžete všimnout, že máte dvě adresy URL (viz obrázek 4-8).
 
 Insert 18333fig0408.png
 Figure 4-8. Záhlaví projektu s veřejnou a soukromou adresou URL

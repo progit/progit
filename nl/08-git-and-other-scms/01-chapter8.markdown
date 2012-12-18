@@ -72,7 +72,7 @@ Nu dat je een Subversion repository hebt met schrijftoegang, kun je door een typ
 
 Dit voert het equivalent uit van twee commando's – `git svn init` gevolgd door `git svn fetch` – op de URL die je aanlevert. Het kan een tijdje duren. Het testproject heeft slechts 75 commits en de hoeveelheid code is niet zo groot, dus het neemt maar een paar minuten in beslag. Maar, Git moet iedere versie uitchecken, één voor één, en ze individueel committen. Voor een project met honderdduizenden commits kan dit letterlijk uren of zelfs dagen duren om af te ronden.
 
-Het `-T trunk -b branches -t tags` gedeelte verteld Git dat dit Subversion repository de basale branch en tag conventie volgt. Als je je trunk, branches of tags anders noemt, kun je deze opties veranderen. Omdat dit zo gewoon is, kun je dit hele gedeelte vervangen door `-s`, wat standaard indeling betekend en al die opties impliceerd. Het volgende commando is gelijkwaardig:
+Het `-T trunk -b branches -t tags` gedeelte verteld Git dat dit Subversion repository de basale branch en tag conventie volgt. Als je je trunk, branches of tags anders noemt, kun je deze opties veranderen. Omdat dit zo gewoon is, kun je dit hele gedeelte vervangen door `-s`, wat standaard indeling betekend en al die opties impliceert. Het volgende commando is gelijkwaardig:
 
 	$ git svn clone file:///tmp/test-svn -s
 
@@ -493,7 +493,7 @@ Voor een snelle demonstratie zul je een eenvoudige importeerde schrijven. Stel d
 	back_2009_02_03
 	current
 
-Om naar een Git map te importeren, moet je bekijken hoe Git zijn data opslaat. Je kunt je misschien herinneren dat Git in fundament een gelinkte lijst is met commit objecten die naar een snapshot van inhoud wijzen. Het enige dat je hoeft te doen, is `fast-import` vertellen wat de inhoud snapshots zijn, welke commit data er naar wijst en de volgorde waarin ze moeten staan. Je strategie bestaat uit het doorlopen van de snapshots en commits te creëren met de inhoud van iedere map, waarbij je iedere commit terug linked met de vorige.
+Om naar een Git map te importeren, moet je bekijken hoe Git zijn data opslaat. Je kunt je misschien herinneren dat Git in fundament een gelinkte lijst is met commit objecten die naar een snapshot van inhoud wijzen. Het enige dat je hoeft te doen, is `fast-import` vertellen wat de inhoud snapshots zijn, welke commit data er naar wijst en de volgorde waarin ze moeten staan. Je strategie bestaat uit het doorlopen van de snapshots en commits te creëren met de inhoud van iedere map, waarbij je iedere commit terug linkt met de vorige.
 
 Zoals je dat gedaan hebt in de "Een Voorbeeld van Git Afgedwongen Beleid" sectie van Hoofdstuk 7, gaan we dit in Ruby schrijven, omdat het is waar ik over het algemeen mee werk en het neigt eenvoudig te lezen te zijn. Je kunt dit voorbeeld vrij eenvoudig schrijven in alles waar je bekend mee bent – het hoeft alleen de juiste informatie naar stdout te schrijven. En dat betekent dat als je op Windows werkt, je erg voorzichtig moet zijn om geen carriage returns te introduceren aan het einde van je regels – git fast-import is erg kieskeurig in de manier waarop hij slechts line feeds (LF) wil hebben en niet de cariage return line feeds (CRLF), die Windows gebruikt.
 

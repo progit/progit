@@ -380,7 +380,7 @@ Het is belangrijk om te onthouden dat wanneer je dit alles doet, deze branches v
 
 ## Remote branches ##
 
-Remote branches zijn referenties naar de staat ven de branches op je remote repositories. Ze zijn lokale branches die jij niet kunt verplaatsen; ze worden automatisch verplaatst zodra je wat netwerk communicatie doet. Remote branches gedragen zich als boekenleggers om je eraan te helpen herinneren waar de branches op je remote repositories waren de laatste keer dat je met ze in contact was.
+Remote branches zijn referenties naar de staat van de branches op je remote repositories. Ze zijn lokale branches die jij niet kunt verplaatsen; ze worden automatisch verplaatst zodra je wat netwerk communicatie doet. Remote branches gedragen zich als boekenleggers om je eraan te helpen herinneren waar de branches op je remote repositories waren de laatste keer dat je met ze in contact was.
 
 Ze hebben de vorm `(remote)/(branch)`. Bijvoorbeeld, als je wil zien hoe de `master` branch op je `origin` er uit zag vanaf de laatste dat je er mee gecommuniceerd hebt, dan zou je de `origin/master` branch bekijken. Als je aan het werk bent aan een probleem met een partner en zij hebben een `iss53` branch teruggezet, dan zou je je eigen lokale `iss53` kunnen hebben; maar de branch op de server zou wijzen naar de commit op `origin/iss53`.
 

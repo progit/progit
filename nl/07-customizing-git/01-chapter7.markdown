@@ -1,6 +1,6 @@
 # Git op maat maken #
 
-Tot zover heb ik de fundamentele werking van Git behandeld, en hoe het te gebruiken, en ik heb een aantal tools geïntroduceerd die Git levert om je het makkelijk en efficiënt te laten gebruiken. In dit hoofdstuk zal ik wat operaties doorlopen die je kunt gebruiken om Git op een persoonlijker manier te laten werken door een aantal belangrijke configuratieinstellingen te introduceren en het hakensysteem. Met deze gereedschappen is het makkelijk om Git precies te laten werken op de manier zoals jij, je bedrijf, of je groep het graag wil.
+Tot zover heb ik de fundamentele werking van Git behandeld, en hoe het te gebruiken, en ik heb een aantal tools geïntroduceerd die Git levert om je het makkelijk en efficiënt te laten gebruiken. In dit hoofdstuk zal ik wat operaties doorlopen die je kunt gebruiken om Git op een persoonlijker manier te laten werken door een aantal belangrijke configuratie-instellingen te introduceren en het hakensysteem. Met deze gereedschappen is het makkelijk om Git precies te laten werken op de manier zoals jij, je bedrijf, of je groep het graag wil.
 
 ## Git configuratie ##
 
@@ -438,7 +438,7 @@ Je kunt wel zien hoe krachtig deze techniek is voor gebruik in eigengemaakte toe
 
 ### Je repository exporteren ###
 
-De Git attribute gegevens staan je ook toe om interessante dingen te doen als je een archief van je project exporteerd.
+De Git attribute gegevens staan je ook toe om interessante dingen te doen als je een archief van je project exporteert.
 
 #### export-ignore ####
 
@@ -658,7 +658,7 @@ Je kunt eenvoudig zien welke bestanden gewijzigd zijn in een enkele commit met d
 	README
 	lib/test.rb
 
-Als je gebruik maakt van de ACL structuur die wordt teruggegeven door de `get_acl_access_data` methode en dat controleerd met de bestanden in elk van de commits, dan kun je bepalen of de gebruiker toegang heeft om al hun commits te pushen:
+Als je gebruik maakt van de ACL structuur die wordt teruggegeven door de `get_acl_access_data` methode en dat controleert met de bestanden in elk van de commits, dan kun je bepalen of de gebruiker toegang heeft om al hun commits te pushen:
 
 	# staat alleen bepaalde gebruikers toe om bepaalde submappen in een project te wijzigen
 	def check_directory_perms

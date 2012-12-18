@@ -10,7 +10,7 @@ Deze laag met het inhouds-toegankelijke bestandssysteem is ongelofelijk gaaf, du
 
 ## Sanitaire inrichtingen en porselein ##
 
-Dit boek behandeld Git met ongeveer 30 werkwoorden zoals `checkout`, `branch`, `remote` enzovoorts. Maar omdat Git in eerste instantie een toolkit voor een VCS was, in plaats van een volledig gebruiksvriendelijk VCS, heeft het een berg werkwoorden die laagbijdegronds werk doen en ontworpen waren om samengevoegd te worden zoals in UNIX gebruikelijk is, of vanuit scripts aangeroepen te worden. Naar deze commando's wordt over het algemeen als "plumbing" (sanitaire voorzieningen) commando's verwezen, en de meer gebruiksvriendelijke commando's worden "porcelain" (porselein) commando's genoemd.
+Dit boek behandeld Git met ongeveer 30 werkwoorden zoals `checkout`, `branch`, `remote` enzovoorts. Maar omdat Git in eerste instantie een toolkit voor een VCS was, in plaats van een volledig gebruiksvriendelijk VCS, heeft het een berg werkwoorden die laag-bij-de-gronds werk doen en ontworpen waren om samengevoegd te worden zoals in UNIX gebruikelijk is, of vanuit scripts aangeroepen te worden. Naar deze commando's wordt over het algemeen als "plumbing" (sanitaire voorzieningen) commando's verwezen, en de meer gebruiksvriendelijke commando's worden "porcelain" (porselein) commando's genoemd.
 
 De eerste acht hoofdstukken van het boek behandelen bijna alleen porseleincommando's. Maar in dit hoofdstuk zul je het meest op het laagste niveau van de sanitaire voorzieningen om te gaan. Zij geven je toegang tot de diepste delen van Git, en demonstreren hoe en waarom Git doet wat het doet. Deze commando's zijn niet bedoeld voor normaal gebruik op de commandoregel, maar meer om als bouwstenen voor nieuwe tools en scripts gebruikt te worden.
 
@@ -162,7 +162,6 @@ Zie dat deze boom beide bestandsvermeldingen bevat en ook dat de SHA van test.tx
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like Figure 9-2.
 Als je een werkmap zou maken van de nieuwe boom die je zojuist geschreven hebt, zou je de twee bestanden in het bovenste niveau van de werkmap krijgen en een submap genaamd `bak` die de eerste versie van het test.txt bestand bevatte. Je kunt over de gegevens die Git bevat voor deze structuren denken zoals getoond in Figuur 9-2.
 
 Insert 18333fig0902.png 
@@ -534,7 +533,7 @@ Stel dat je een remote zoals dit toevoegt:
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
-Dit voegt een sectie aan je `.git/config` bestand toe, wat de naam van de remote (`origin`) specificeerd, de URL van de remote repository, en de refspec die nodig is om te fetchen:
+Dit voegt een sectie aan je `.git/config` bestand toe, wat de naam van de remote (`origin`) specificeert, de URL van de remote repository, en de refspec die nodig is om te fetchen:
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
@@ -973,6 +972,6 @@ De grootte van je ingepakte repository is omlaag gegaan naar 7 K, wat veel beter
 
 ## Samenvatting ##
 
-Je moet een goed begrip hebben van wat Git op de achtergrond doet en, tot een bepaalde hoogte, hoe het in elkaar gezet is. Dit hoofdstuk heeft een aantal sanitaire voorzieningen commado's beslagen – commando's die op een lager niveau zitten en eenvoudige zijn dan de porselein commando's waarover je in de rest van het boek geleerd hebt. Begrijpen hoe Git op een lager niveau werkt zou het makkelijker moeten maken om te begrijpen waarom het doet wat het doet en ook om je eigen applicaties te schrijven en hulp scripts om jouw specifieke werkwijze voor je te laten werken.
+Je moet een goed begrip hebben van wat Git op de achtergrond doet en, tot een bepaalde hoogte, hoe het in elkaar gezet is. Dit hoofdstuk heeft een aantal sanitaire voorzieningen commando's beslagen – commando's die op een lager niveau zitten en eenvoudige zijn dan de porselein commando's waarover je in de rest van het boek geleerd hebt. Begrijpen hoe Git op een lager niveau werkt zou het makkelijker moeten maken om te begrijpen waarom het doet wat het doet en ook om je eigen applicaties te schrijven en hulp scripts om jouw specifieke werkwijze voor je te laten werken.
 
 Git is als een inhouds-toegankelijk bestandssysteem een zeer krachtig tool dat je eenvoudig als meer dan alleen een VCS kunt gebruiken. Ik hoop dat je je nieuwe kennis van de werking van Git kunt gebruiken om je eigen coole applicatie te bouwen met deze technologie en je op je gemak voelt bij het gebruik van Git op meer geavanceerde manieren.

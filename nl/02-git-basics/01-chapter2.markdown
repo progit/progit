@@ -616,7 +616,7 @@ Van de bijna 20.000 commits in de Git broncode historie, laat dit commando de 6 
 
 ### Een grafische interface gebruiken om de historie te visualiseren ###
 
-Als je een meer grafische applicatie wilt gebruiken om je commit historie te visualiseren, wil je misschien een kijkje nemen naar het Tcl/Tk programma genaamd `gitk` dat met Git meegeleverd wordt. Gitk is eigenlijk een visuele `git log`, en het accepteerd bijna alle filter opties die `git log` ook accepteerd. Als je `gitk` in op de commandoregel in je project typt, zou je zoiets als in Figuur 2-2 moeten zien.
+Als je een meer grafische applicatie wilt gebruiken om je commit historie te visualiseren, wil je misschien een kijkje nemen naar het Tcl/Tk programma genaamd `gitk` dat met Git meegeleverd wordt. Gitk is eigenlijk een visuele `git log`, en het accepteert bijna alle filter opties die `git log` ook accepteert. Als je `gitk` in op de commandoregel in je project typt, zou je zoiets als in Figuur 2-2 moeten zien.
 
 Insert 18333fig0202.png 
 Figuur 2-2. De gitk historie visualiseerder.
@@ -872,7 +872,7 @@ Git gebruikt twee soorten tags: lightweight (lichtgewicht) en annotated (beschre
 
 ### Beschreven tags ###
 
-Een beschreven tag in Git maken is eenvoudig. Het makkelijkst is om de `-a` optie te specificeren als je het `tag` commando uitvoerd:
+Een beschreven tag in Git maken is eenvoudig. Het makkelijkst is om de `-a` optie te specificeren als je het `tag` commando uitvoert:
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -1049,7 +1049,7 @@ Als je veel tags hebt die je ineens wilt pushen, kun je ook de `--tags` optie aa
 
 Als nu iemand anders van jouw repository cloned of pulled, dan zullen zij al jouw tags ook krijgen.
 
-## Tips and trucs ##
+## Tips en trucs ##
 
 Voordat we dit hoofdstuk over de basis van Git afsluiten laten we je nog wat kleine tips en trucs zien die je Git ervaring een beetje eenvoudiger, makkelijker of bekender maken. Veel mensen gebruiken Git zonder deze tips, en we refereren er niet meer aan of gaan er niet vanuit dat je ze gebruikt verderop in dit boek; maar je zult waarschijnlijk willen weten hoe je ze moet doen.
 
@@ -1077,7 +1077,7 @@ Dit werkt ook met opties, wat waarschijnlijk meer bruikbaar is. Bijvoorbeeld, al
 
 Dat is een erg handig trucje en zal je misschien wat tijd en documentatie lezen besparen.
 
-### Git aliasen ###
+### Git aliassen ###
 
 Git zal geen commando's raden als je het gedeeltelijk intypt. Als je niet de hele tekst van ieder Git commando wilt intypen, kun je gemakkelijk een alias voor ieder commando configureren door `git config` te gebruiken. Hier zijn een aantal voorbeelden die je misschien wilt instellen:
 
@@ -1118,4 +1118,4 @@ Zoals je kunt zien, vervangt Git eenvoudigweg het nieuwe commando met waarvoor j
 
 ## Samenvatting ##
 
-Op dit punt kun je alle basis locale Git operaties doen – een repository creëren of clonen, wijzigingen maken, de wijzigingen stagen en committen, en de historie van alle veranderingen die de repository ondergaan heeft is zien. Als volgende gaan we Gits beste optie bekijken: het branching model.
+Op dit punt kun je alle basis locale Git operaties doen – een repository creëren of clonen, wijzigingen maken, de wijzigingen stagen en committen, en de historie bekijken van alle veranderingen die de repository ondergaan heeft. Als volgende gaan we Gits beste optie bekijken: het branching model.

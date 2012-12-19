@@ -1,6 +1,6 @@
 # Utilitaires Git #
 
-A présent, vous avez appris les commandes et modes de fonctionnements usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
+À présent, vous avez appris les commandes et modes de fonctionnements usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
 Vous avez déroulé les routines de suivi et de validation de fichiers, vous avez exploité la puissance de l'index, de la création et de la fusion de branches locales de travail.
 
 Maintenant, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous utiliserez moins souvent mais dont vous pourriez avoir l'usage à un moment ou à un autre.
@@ -18,7 +18,7 @@ Cette section présente les méthodes pour référencer un *commit* simple.
 ### Empreinte SHA courte ###
 
 Git est capable de deviner de quel *commit* vous parlez si vous ne fournissez que quelques caractères du début de la signature, tant que votre SHA-1 partiel comporte au moins 4 caractères et ne correspond pas à plusieurs *commits*.
-Dans ces conditions, un seul objet correspondra à ce SHA-1.
+Dans ces conditions, un seul objet correspondra à ce SHA-1 partiel.
 
 Par exemple, pour afficher un *commit* précis, supposons que vous exécutiez `git log` et que vous identifiez le *commit* où vous avez introduit une fonctionnalité précise.
 
@@ -42,7 +42,7 @@ Par exemple, pour afficher un *commit* précis, supposons que vous exécutiez `g
 
 	    added some blame and merge stuff
 
-Pour cet exemple, choisissons `1c002dd....`
+Pour cet exemple, choisissons `1c002dd...`.
 Si vous affichez le contenu de ce *commit* via `git show`, les commandes suivantes sont équivalentes (en partant du principe que les SHA-1 courts ne sont pas ambigus).
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -50,7 +50,7 @@ Si vous affichez le contenu de ce *commit* via `git show`, les commandes suivant
 	$ git show 1c002d
 
 Git peut déterminer une référence SHA tout à la fois la plus courte possible et non ambigüe.
-Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut git retiendra 7 caractères et augmentera au besoin :
+Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut Git retiendra 7 caractères et augmentera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
@@ -63,20 +63,20 @@ Un des plus gros projets utilisant Git, le kernel Linux, nécessite de plus en p
 ### QUELQUES MOTS SUR SHA-1 ###
 
 Beaucoup de gens se soucient qu'à un moment donné ils auront, par des circonstances hasardeuses, deux objets dans leur référentiel de hachage de même empreinte SHA-1.
-Qu'en est-il réellement ?
+Qu'en est-il réellement ?
 
-S'il vous arrivait de valider un objet qui se hache de la même empreinte SHA-1 qu'un objet existant dans votre référentiel, Git verrait l'objet existant déjà dans votre base de données et présumerait qu'il était déjà enregistré.
-Si vous essaiyez de récupérer l'objet de nouveau à un moment donné, vous auriez toujours les données du premier objet.
+S'il vous arrivait de valider un objet qui se hache à la même empreinte SHA-1 qu'un objet existant dans votre référentiel, Git verrait l'objet existant déjà dans votre base de données et présumerait qu'il était déjà enregistré.
+Si vous essayez de récupérer l'objet de nouveau à un moment donné, vous auriez toujours les données du premier objet.
 
 Quoi qu'il en soit, vous devriez être conscient à quel point ce scénario est ridiculement improbable.
 Une empreinte SHA-1 porte sur 20 octets soit 160 bits.
-Le nombre d'objets aléatoires à hacher requis pour assurer une probabilité de collision de 50% vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`.
+Le nombre d'objets aléatoires à hacher requis pour assurer une probabilité de collision de 50 % vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`.
 2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards.
-Cela représente 1200 fois le nombre de grains de sable sur terre.
+Cela représente 1200 fois le nombre de grains de sable sur Terre.
 
 Voici un exemple pour vous donner une idée de ce qui pourrait provoquer une collision du SHA-1.
-Si tous les 6,5 milliards d'humains sur Terre programmaient et que chaque seconde, chacun produisait du code équivalent à l'historique entier du noyau Linux (1 million d'objets Git) et le poussait sur un énorme dépôt Git, cela prendrait 5 ans pour que ce dépôt contienne assez d'objets pour avoir une probabilité de 50% qu'une seule collision SHA-1 existe.
-Il y a une probabilité plus grande que tous les membres de votre équipe de programmation seraient attaqués et tués par des loups dans des incidents sans relation la même nuit.
+Si tous les 6,5 milliards d'humains sur Terre programmaient et que chaque seconde, chacun produisait du code équivalent à l'historique entier du noyau Linux (1 million d'objets Git) et le poussait sur un énorme dépôt Git, cela prendrait 5 ans pour que ce dépôt contienne assez d'objets pour avoir une probabilité de 50 % qu'une seule collision SHA-1 existe.
+Il y a une probabilité plus grande que tous les membres de votre équipe de programmation soient attaqués et tués par des loups dans des incidents sans relation la même nuit.
 
 ### Références de branches ###
 
@@ -88,7 +88,7 @@ Par exemple, si vous souhaitez afficher le dernier *commit* d'une branche, les c
 	$ git show sujet1
 
 Pour connaître l'empreinte SHA sur laquelle pointe une branche ou pour savoir parmi tous les exemples précédents ce que cela donne en terme de SHA, vous pouvez utiliser la commande de plomberie nommée `rev-parse`.
-Référez-vous au chapitre 9 pour plus d'informations sur les commandes de plomberie ; `rev-parse` sert aux opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
+Référez-vous au chapitre 9 pour plus d'informations sur les commandes de plomberie ; `rev-parse` sert aux opérations de bas niveau et n'est pas conçue pour être utilisée au jour le jour.
 Quoi qu'il en soit, elle se révèle utile pour comprendre ce qui se passe.
 Je vous invite à tester `rev-parse` sur votre propre branche.
 
@@ -97,7 +97,7 @@ Je vous invite à tester `rev-parse` sur votre propre branche.
 
 ### Raccourcis RefLog ###
 
-Git maintient en arrière-plan un historique des références où sont passés HEAD et vos branches sur les derniers mois - ceci s'appelle le reflog.
+Git maintient en arrière-plan un historique des références où sont passés HEAD et vos branches sur les derniers mois — ceci s'appelle le _reflog_.
 
 Vous pouvez le consulter avec la commande `git reflog` :
 
@@ -162,7 +162,7 @@ Supposons que vous consultiez votre historique :
 	* 1c36188 ignore *.gem
 	* 9b29157 ajout open3_detach à la liste des fichiers gemspcec
 
-Alors, vous pouvez consulter le *commit* précédent en spécifiant `HEAD^`, ce qui signifie "le parent de HEAD" :
+Alors, vous pouvez consulter le *commit* précédent en spécifiant `HEAD^`, ce qui signifie « le parent de HEAD » :
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -172,7 +172,7 @@ Alors, vous pouvez consulter le *commit* précédent en spécifiant `HEAD^`, ce 
 
 	    Merge commit 'phedders/rdocs'
 
-Vous pouvez également spécifier un nombre après `^` — par exemple, `d921970^2` signifie "le second parent de d921970.".
+Vous pouvez également spécifier un nombre après `^` — par exemple, `d921970^2` signifie « le second parent de d921970 ».
 Cette syntaxe ne sert que pour les *commits* de fusion, qui ont plus d'un parent.
 Le premier parent est la branche où vous avez fusionné, et le second est le *commit* de la branche que vous avez fusionnée :
 
@@ -193,7 +193,7 @@ Le premier parent est la branche où vous avez fusionné, et le second est le *c
 Une autre solution courante pour spécifier une référence est le `~`.
 Il fait également référence au premier parent, donc `HEAD~` et `HEAD^` sont équivalents.
 La différence se fait sentir si vous spécifiez un nombre.
-`HEAD~2` signifie "le premier parent du premier parent," ou bien "le grand-parent" ; on remonte les premiers parents autant de fois que demandé.
+`HEAD~2` signifie « le premier parent du premier parent », ou bien « le grand-parent » ; on remonte les premiers parents autant de fois que demandé.
 Par exemple, dans l'historique précédemment présenté, `HEAD~3` serait :
 
 	$ git show HEAD~3
@@ -216,14 +216,14 @@ Vous pouvez également combiner ces syntaxes — vous pouvez obtenir le second p
 
 ### Plages de *commits* ###
 
-A présent que vous pouvez spécifier des *commits* individuels, voyons comment spécifier des plages de *commits*.
-Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour répondre à des questions telles que "Quel travail sur cette branche n'ai-je pas encore fusionné sur ma branche principale ?".
+À présent que vous pouvez spécifier des *commits* individuels, voyons comment spécifier des plages de *commits*.
+Ceci est particulièrement pratique pour la gestion des branches — si vous avez beaucoup de branches, vous pouvez utiliser les plages pour répondre à des questions telles que « Quel travail sur cette branche n'ai-je pas encore fusionné sur ma branche principale ? ».
 
 #### Double point ####
 
 La spécification de plage de *commits* la plus fréquente est la syntaxe double-point.
 En gros, cela demande à Git de résoudre la plage des *commits* qui sont accessibles depuis un *commit* mais ne le sont pas depuis un autre.
-Par exemple, disons que votre historique ressemble à celui de la Figure 6-1.
+Par exemple, disons que votre historique ressemble à celui de la figure 6-1.
 
 Insert 18333fig0601.png
 Figure 6-1. Exemple d'historique pour la sélection de plages de *commits*.
@@ -242,7 +242,7 @@ D'un autre côté, si vous souhaitez voir l'opposé — tous les *commits* dans 
 	E
 
 C'est pratique si vous souhaitez maintenir `experience` à jour et anticiper les fusions.
-Un autre cas fréquent d'utilisation consiste à voir ce que vous vous appréter à pousser sur une branche distante :
+Un autre cas fréquent d'utilisation consiste à voir ce que vous vous apprétez à pousser sur une branche distante :
 
 	$ git log origin/master..HEAD
 
@@ -253,7 +253,7 @@ Par exemple, vous pouvez obtenir les mêmes résultats que précédemment en tap
 
 #### Emplacements multiples ####
 
-La syntaxe double-point est pratique comme raccourci ; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels *commits* sont dans plusieurs branches mais sont absents de la branche courante.
+La syntaxe double-point est pratique comme raccourci ; mais peut-être souhaitez-vous utiliser plus d'une branche pour spécifier une révision, comme pour voir quels *commits* sont dans plusieurs branches mais sont absents de la branche courante.
 Git vous permet cela avec `^` ou `--not` en préfixe de toute référence de laquelle vous ne souhaitez pas voir les *commits*.
 Les 3 commandes ci-après sont équivalentes :
 
@@ -272,7 +272,7 @@ Ceci vous fournit un système de requêtage des révisions très puissant, pour 
 #### Triple point ####
 
 La dernière syntaxe majeure de sélection de plage de *commits* est la syntaxe triple-point qui spécifie tous les *commits* accessibles par l'une des deux références, exclusivement.
-Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qui ce trouve sur `master` ou `experience` mais pas sur les 2, exécutez :
+Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qui ce trouve sur `master` ou `experience` mais pas sur les 2, exécutez :
 
 	$ git log master...experience
 	F
@@ -295,7 +295,7 @@ Avec ces outils, vous pourrez spécifier à Git les *commits* que vous souhaitez
 
 ## Indexation interactive ##
 
-Git propose quelques scripts qui rendent les opérations en ligne de commande plus simple.
+Git propose quelques scripts qui rendent les opérations en ligne de commande plus simples.
 Nous allons à présent découvrir des commandes interactives vous permettant de choisir les fichiers ou les parties d'un fichier à incorporer à un *commit*.
 Ces outils sont particulièrement pratiques si vous modifiez un grand nombre de fichiers et que vous souhaitez valider ces changements en modifications plus atomiques plutôt que d'un tenant.
 De la sorte, vous vous assurez que vos *commits* sont des ensembles cohérents de modifications et qu'ils peuvent être facilement revus par vos collaborateurs.
@@ -412,7 +412,7 @@ Avec ces commandes élémentaires, vous pouvez utiliser l'ajout interactif pour 
 ### Indexations partielles ###
 
 Git est également capable d'indexer certaines parties d'un fichier.
-Par exemple, si vous modifiez en 2 endroits votre fichier `simplegit.rb` et que vous souhaitez indexer une modification seulement, cela peut se faire très aisément avec Git.
+Par exemple, si vous modifiez en deux endroits votre fichier `simplegit.rb` et que vous souhaitez indexer une modification seulement, cela peut se faire très aisément avec Git.
 En mode interactif, tapez `5` ou `p` (pour *patch* en anglais).
 Git vous demandera quels fichiers vous voulez indexer partiellement, puis, pour chacun des fichiers sélectionnés, il affichera les parties du fichier où il y a des différences et vous demandera si vous souhaitez les indexer, une par une :
 
@@ -431,7 +431,7 @@ Git vous demandera quels fichiers vous voulez indexer partiellement, puis, pour 
 	   def blame(path)
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 
-A cette étape, vous disposez de bon nombre d'options.
+À cette étape, vous disposez de bon nombre d'options.
 `?` vous liste les actions possibles dont voici une traduction :
 
 	indexer cette partie [y,n,a,d,/,j,J,g,e,?]?
@@ -476,7 +476,7 @@ Remiser prend l'état en cours de votre répertoire de travail, c'est-à-dire le
 ### Remiser votre travail ###
 
 Pour démontrer cette possibilité, allez dans votre projet et commencez à travailler sur quelques fichiers et à indexer l'un de ces changements.
-Si vous exécutez `git status`, vous pouvez voir votre état instable:
+Si vous exécutez `git status`, vous pouvez voir votre état instable :
 
 	$ git status
 	# On branch master
@@ -506,7 +506,7 @@ Votre répertoire de travail est propre :
 	# On branch master
 	nothing to commit (working directory clean)
 
-À ce moment, vous pouvez facilement changer de branche et travailler autrepart ; vos modifications sont conservées dans votre pile.
+À ce moment, vous pouvez facilement changer de branche et travailler autre part ; vos modifications sont conservées dans votre pile.
 Pour voir quelles remises vous avez sauvegardées, vous pouvez utiliser la commande `git stash list` :
 
 	$ git stash list
@@ -534,7 +534,7 @@ Vous pouvez très bien créer une remise sur une branche, changer de branche et 
 Vous pouvez même avoir des fichiers modifiés et non validés dans votre répertoire de travail quand vous appliquez une remise, Git vous indique les conflits de fusions si quoique ce soit ne s'applique pas proprement.
 
 Par défaut, les modifications de vos fichiers sont réappliquées, mais pas les indexations.
-Pour cela, vous devez exécutez la commande `git stash apply` avec l'option `--index` pour demander à Git d'essayer de réappliquer les modifications de votre index.
+Pour cela, vous devez exécuter la commande `git stash apply` avec l'option `--index` pour demander à Git d'essayer de réappliquer les modifications de votre index.
 Si vous exécutez cela à la place de la commande précédente, vous vous retrouvez dans la position d'origine de la remise :
 
 	$ git stash apply --index
@@ -560,7 +560,7 @@ Pour la supprimer, vous pouvez exécuter `git stash drop` avec le nom de la remi
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-Vous pouvez également exécutez `git stash pop` pour appliquer et supprimer immédiatement la remise de votre pile.
+Vous pouvez également exécuter `git stash pop` pour appliquer et supprimer immédiatement la remise de votre pile.
 
 ### Défaire l'effet d'une remise ###
 
@@ -583,7 +583,7 @@ Par exemple :
 
 ### Créer une branche depuis une remise ###
 
-Si vous remisez votre travail, l'oubliez pendant un temps en continuant sur la branche où vous avez créé la remise, vous pouvez avoir un problème en réappliquant le travail.
+Si vous remisez votre travail, et l'oubliez pendant un temps en continuant sur la branche où vous avez créé la remise, vous pouvez avoir un problème en réappliquant le travail.
 Si l'application de la remise essaye de modifier un fichier que vous avez modifié depuis, vous allez obtenir des conflits de fusion et vous devrez essayer de les résoudre.
 Si vous voulez un moyen plus facile de tester une nouvelle fois les modifications remisées, vous pouvez exécuter `git stash branch`, qui créera une nouvelle branche à votre place, récupérant le *commit* où vous étiez lorsque vous avez créé la remise, réappliquera votre travail dedans, et supprimera finalement votre remise si cela a réussi :
 
@@ -622,7 +622,7 @@ Si vous voulez seulement modifier votre dernier message de validation, c'est vra
 
 	$ git commit --amend
 
-Cela vous ouvre votre éditeur de texte contenant votre dernier message, prêt à être modifié.
+Cela ouvre votre éditeur de texte contenant votre dernier message, prêt à être modifié.
 Lorsque vous sauvegardez et fermez l'éditeur, Git enregistre la nouvelle validation contenant le message et en fait votre dernier *commit*.
 
 Si vous voulez modifier le contenu de votre validation en ajoutant ou modifiant des fichiers, sûrement parce que vous avez oublié d'ajouter les fichiers nouvellement créés quand vous avez validé la première fois, la procédure fonctionne grosso-modo de la même manière.
@@ -630,24 +630,24 @@ Vous indexez les modifications que vous voulez en exécutant `git add` ou `git r
 
 Vous devez être prudent avec cette technique car votre modification modifie également le SHA-1 du *commit*.
 Cela ressemble à un tout petit `rebase`.
-Ne modifiez pas votre dernière validation si vous l'avez déjà publiée !
+Ne modifiez pas votre dernière validation si vous l'avez déjà publiée !
 
 ### Modifier plusieurs messages de validation ###
 
 Pour modifier une validation qui est plus loin dans votre historique, vous devez utiliser des outils plus complexes.
 Git ne contient pas d'outil de modification d'historique, mais vous pouvez utiliser l'outil `rebase` pour rebaser une suite de *commits* depuis la branche HEAD plutôt que de les déplacer vers une autre branche.
-Avec l'outil rebase interactif, vous pouvez vous arrêter après chaque *commit* que vous voulez modifier et changer le message, ajouter des fichiers ou quoique ce soit que vous voulez.
-Vous pouvez exécuter rebase interactivement en ajoutant l'option `-i` à `git rebase`.
+Avec l'outil `rebase` interactif, vous pouvez vous arrêter après chaque *commit* que vous voulez modifier et changer le message, ajouter des fichiers ou quoique ce soit que vous voulez.
+Vous pouvez exécuter `rebase` interactivement en ajoutant l'option `-i` à `git rebase`.
 Vous devez indiquer jusqu'à quand remonter dans votre historique en donnant à la commande le *commit* sur lequel vous voulez vous rebaser.
 
 Par exemple, si vous voulez modifier les 3 derniers messages de validation ou n'importe lequel des messages dans ce groupe, vous fournissez à `git rebase -i` le parent du dernier *commit* que vous voulez éditer, qui est `HEAD~2^` or `HEAD~3`.
-Il peut être plus facile de ce souvenir de `~3`, car vous essayez de modifier les 3 derniers *commits*, mais gardez à l'esprit que vous désignez le 4e, le parent du dernier *commit* que vous voulez modifier :
+Il peut être plus facile de se souvenir de `~3`, car vous essayez de modifier les 3 derniers *commits*, mais gardez à l'esprit que vous désignez le 4e, le parent du dernier *commit* que vous voulez modifier :
 
 	$ git rebase -i HEAD~3
 
-Souvenez-vous également que ceci est une commande de rebasement, chaque *commit* inclus dans l'intervalle `HEAD~3..HEAD` sera réécrit, que vous changiez le message ou non.
-N'incluez pas dans cette commande de *commit* que vous avez déjà poussé sur un serveur central.
-Le faire entrainera la confusion chez les autres développeurs en leur fournissant une version altérée des mêmes modifications.
+Souvenez-vous également que ceci est une commande de rebasage, chaque *commit* inclus dans l'intervalle `HEAD~3..HEAD` sera réécrit, que vous changiez le message ou non.
+N'incluez pas, dans cette commande, de *commit* que vous avez déjà poussé sur un serveur central.
+Le faire entraînera la confusion chez les autres développeurs en leur fournissant une version altérée des mêmes modifications.
 
 Exécuter cette commande vous donne la liste des validations dans votre éditeur de texte, ce qui ressemble à :
 
@@ -680,7 +680,7 @@ Il commencera au *commit* que vous spécifiez sur la ligne de commande (`HEAD~3`
 Il ordonne donc le plus vieux au début, plutôt que le plus récent, car c'est celui qu'il refera en premier.
 
 Vous devez éditer le script afin qu'il s'arrête au *commit* que vous voulez modifier.
-Pour cela, remplacer le mot "pick" par le mot "edit" pour chaque *commit* après lequel vous voulez que le script s'arrête.
+Pour cela, remplacer le mot « pick » par le mot « edit » pour chaque *commit* après lequel vous voulez que le script s'arrête.
 Par exemple, pour modifier uniquement le message du troisième *commit*, vous modifiez le fichier pour ressembler à :
 
 	edit f7f3f6d changed my name a bit
@@ -710,13 +710,13 @@ Puis exécutez :
 	$ git rebase --continue
 
 Cette commande appliquera les deux autres *commits* automatiquement.
-Si vous remplacez "pick" en "edit" sur plusieurs lignes, vous pouvez répéter ces étapes pour chaque *commit* que vous avez marqué pour modification.
+Si vous remplacez « pick » en « edit » sur plusieurs lignes, vous pouvez répéter ces étapes pour chaque *commit* que vous avez marqué pour modification.
 Chaque fois, Git s'arrêtera, vous laissant modifier le *commit* et continuera lorsque vous aurez fini.
 
 ### Réordonner les commits ###
 
 Vous pouvez également utiliser les rebasages interactifs afin de réordonner ou supprimer entièrement des *commits*.
-Si vous voulez supprimer le *commit* "added cat-file" et modifier l'ordre dans lequel les deux autres *commits* se trouvent dans l'historique, vous pouvez modifier le script de rebasage :
+Si vous voulez supprimer le *commit* « added cat-file » et modifier l'ordre dans lequel les deux autres *commits* se trouvent dans l'historique, vous pouvez modifier le script de rebasage :
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -728,7 +728,7 @@ afin qu'il ressemble à ceci :
 	pick f7f3f6d changed my name a bit
 
 Lorsque vous sauvegardez et quittez l'éditeur, Git remet votre branche au niveau du parent de ces *commits*, applique `310154e` puis `f7f3f6d` et s'arrête.
-Vous venez de modifier l'ordre de ces *commits* et de supprimer entièrement le *commit* "added cat-file".
+Vous venez de modifier l'ordre de ces *commits* et de supprimer entièrement le *commit* « added cat-file ».
 
 ### Rassembler des *commits* ###
 
@@ -745,7 +745,7 @@ Le script affiche des instructions utiles dans le message de rebasage :
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-Si, à la place de "pick" ou "edit", vous spécifiez "squash", Git applique cette modification et la modification juste précédente et fusionne les messages de validation.
+Si, à la place de « pick » ou « edit », vous spécifiez « squash », Git applique cette modification et la modification juste précédente et fusionne les messages de validation.
 Donc, si vous voulez faire un seul *commit* de ces trois validations, vous faites en sorte que le script ressemble à ceci :
 
 	pick f7f3f6d changed my name a bit
@@ -772,16 +772,16 @@ Lorsque vous sauvegardez cela, vous obtenez un seul *commit* amenant les modific
 
 Pour diviser un *commit*, il doit être défait, puis partiellement indexé et validé autant de fois que vous voulez pour en finir avec lui.
 Par exemple, supposons que vous voulez diviser le *commit* du milieu dans l'exemple des trois *commits* précédents.
-Plutôt que "updated README formatting and added blame", vous voulez le diviser en deux *commits* : "updated README formatting" pour le premier, et "added blame" pour le deuxième.
-Vous pouvez le faire avec le script `rebase -i` en remplaçant l'instruction sur le *commit* que vous voulez divisez en "edit" :
+Plutôt que « updated README formatting and added blame », vous voulez le diviser en deux *commits* : « updated README formatting » pour le premier, et « added blame » pour le deuxième.
+Vous pouvez le faire avec le script `rebase -i` en remplaçant l'instruction sur le *commit* que vous voulez diviser en « edit » :
 
 	pick f7f3f6d changed my name a bit
 	edit 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-Puis, lorsque le script vous laissera accès à la ligne de commande, vous annulerez (reset) ce *commit*, vous reprendrez les modifications que vous voulez pour créer plusieurs *commits*.
+Puis, lorsque le script vous laissera accès à la ligne de commande, vous annulerez (*reset*) ce *commit*, vous reprendrez les modifications que vous voulez pour créer plusieurs *commits*.
 En reprenant l'exemple, lorsque vous sauvegardez et quittez l'éditeur, Git revient au parent de votre premier *commit* de votre liste, applique le premier *commit* (`f7f3f6d`), applique le deuxième (`310154e`), et vous laisse accès à la console.
-Là, vous pouvez faire une réinitialisation mélangée (mixed reset) de ce *commit* avec `git reset HEAD^`, qui défait ce *commit* et laisse les fichiers modifiés non indexés.
+Là, vous pouvez faire une réinitialisation mélangée (*mixed reset*) de ce *commit* avec `git reset HEAD^`, qui défait ce *commit* et laisse les fichiers modifiés non indexés.
 Maintenant, vous pouvez indexer et valider les fichiers sur plusieurs validations, et exécuter `git rebase --continue` quand vous avez fini :
 
 	$ git reset HEAD^
@@ -799,33 +799,33 @@ Git applique le dernier *commit* (`a5f4a0d`) de votre script, et votre historiqu
 	35cfb2b updated README formatting
 	f3cc40e changed my name a bit
 
-Une fois encore, ceci modifie les empreintes SHA de tous les *commits* dans votre liste, soyez donc sûr qu'aucun *commit* de cette liste ait été poussé dans un dépôt partagé.
+Une fois encore, ceci modifie les empreintes SHA de tous les *commits* dans votre liste, soyez donc sûr qu'aucun *commit* de cette liste n'ait été poussé dans un dépôt partagé.
 
-### L'option nucléaire : filter-branch ###
+### L'option nucléaire : `filter-branch` ###
 
-Il existe une autre option de la réécriture d'historique que vous pouvez utiliser si vous avez besoin de réécrire un grand nombre de *commits* d'une manière scriptable; par exemple, modifier globalement votre adresse mail ou supprimer un fichier de tous les *commits*.
-La commande est `filter-branch`, et elle peut réécrire des pans entiers de votre historique, vous ne devriez donc pas l'utiliser à moins que votre projet ne soit pas encore public ou que personne n'a encore travaillé sur les *commits* que vous allez réécrire.
+Il existe une autre option de la réécriture d'historique que vous pouvez utiliser si vous avez besoin de réécrire un grand nombre de *commits* d'une manière scriptable ; par exemple, modifier globalement votre adresse mail ou supprimer un fichier de tous les *commits*.
+La commande est `filter-branch`, et elle peut réécrire des pans entiers de votre historique, vous ne devriez donc pas l'utiliser à moins que votre projet ne soit pas encore public ou que personne n'ait encore travaillé sur les *commits* que vous allez réécrire.
 Cependant, cela peut être très utile.
 Vous allez maintenant apprendre quelques usages communs pour vous donner une idée de ses capacités.
 
 #### Supprimer un fichier de chaque *commit* ####
 
 Cela arrive assez fréquemment.
-Quelqu'un a accidentellement validé un énorme fichier binaire avec une commande `git add .` irréfléchie, and vous voulez le supprimer partout.
+Quelqu'un a accidentellement validé un énorme fichier binaire avec une commande `git add .` irréfléchie, et vous voulez le supprimer partout.
 Vous avez peut-être validé un fichier contenant un mot de passe et vous voulez rendre votre projet open source.
 `filter-branch` est l'outil que vous voulez probablement utiliser pour nettoyer votre historique entier.
-Pour supprimer un fichier nommé "passwords.txt" de tout votre historique, vous pouvez utiliser l'option `--tree-filter` de `filter-branch` :
+Pour supprimer un fichier nommé « passwords.txt » de tout votre historique, vous pouvez utiliser l'option `--tree-filter` de `filter-branch` :
 
 	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-L'option `--tree-filter` exécute la commande spécifiée pour chaque *commit* et les revalide ensuite
-Dans le cas présent, vous supprimez le fichier nommé "passwords.txt" de chaque contenu, qu'il existait ou non.
+L'option `--tree-filter` exécute la commande spécifiée pour chaque *commit* et le revalide ensuite.
+Dans le cas présent, vous supprimez le fichier nommé « passwords.txt » de chaque contenu, qu'il existait ou non.
 Si vous voulez supprimer tous les fichiers temporaires des éditeurs validés accidentellement, vous pouvez exécuter une commande telle que `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
 Vous pourrez alors regarder Git réécrire l'arbre des *commits* et revalider à chaque fois, pour finir en modifiant la référence de la branche.
-C'est généralement une bonne idée de le faire dans un branche de test puis de faire une réinitialisation forte(hard-reset) de votre branche `master` si le résultat vous convient.
+C'est généralement une bonne idée de le faire dans un branche de test puis de faire une réinitialisation forte (*hard-reset*) de votre branche `master` si le résultat vous convient.
 Pour exécuter `filter-branch` sur toutes vos branches, vous pouvez ajouter `--all` à la commande.
 
 #### Faire d'un sous-répertoire la nouvelle racine ####
@@ -843,7 +843,7 @@ De plus, Git supprimera automatiquement les *commits* qui n'affectent pas ce sou
 #### Modifier globalement l'adresse mail ####
 
 Un autre cas habituel est que vous oubliez d'exécuter `git config` pour configurer votre nom et votre adresse mail avant de commencer à travailler, ou vous voulez peut-être rendre un projet du boulot open source et donc changer votre adresse professionnelle pour celle personnelle.
-Dans tous les cas, vous pouvez modifier l'adresse mail dans plusieurs *commits* avec un script `filter-branch`
+Dans tous les cas, vous pouvez modifier l'adresse mail dans plusieurs *commits* avec un script `filter-branch`.
 Vous devez faire attention de ne changer que votre adresse mail, utilisez donc `--commit-filter` :
 
 	$ git filter-branch --commit-filter '
@@ -913,7 +913,7 @@ En annotant `GITPackUpload.m` avec l'option `-C`, je peux voir quelles sections 
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 
-C'est vraiment utile, non ?
+C'est vraiment utile, non ?
 Normalement, vous obtenez comme *commit* original celui dont votre code a été copié, puisque ce fut la première fois que vous avez touché à ces lignes dans ce fichier.
 Git vous montre le *commit* d'origine, celui où vous avez écrit ces lignes, même si c'était dans un autre fichier.
 
@@ -1049,7 +1049,7 @@ Si vous exécutez `git diff`, vous verrez quelque chose d'intéressant :
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Même si `rack` est un sous répertoire de votre répertoire de travail, Git le voit comme un sous-module et ne suit pas son contenu (si vous n'êtes pas dans ce répertoire).
+Même si `rack` est un sous-répertoire de votre répertoire de travail, Git le voit comme un sous-module et ne suit pas son contenu (si vous n'êtes pas dans ce répertoire).
 En échange, Git l'enregistre comme un *commit* particulier de ce dépôt.
 Lorsque vous faîtes des modifications et des validations dans ce sous-répertoire, le super-projet (le projet contenant le sous-module) remarque que la branche HEAD a changé et enregistre le *commit* exact dans lequel il se trouve à ce moment.
 De cette manière, lorsque d'autres clonent ce super-projet, ils peuvent recréer exactement le même environnement.
@@ -1135,7 +1135,7 @@ Si un autre développeur modifie le code de `rack` et valide, que vous tiriez ce
 	#      modified:   rack
 	#
 
-En réalité, vous n'avez fusionné que la modification de la référence de votre sous-module, mais Git n'a pas mis à jour le code dans le répertoire du sous-module, de ce fait, cela ressemble à un état "en cours" dans votre répertoire de travail :
+En réalité, vous n'avez fusionné que la modification de la référence de votre sous-module, mais Git n'a pas mis à jour le code dans le répertoire du sous-module, de ce fait, cela ressemble à un état « en cours » dans votre répertoire de travail :
 
 	$ git diff
 	diff --git a/rack b/rack
@@ -1179,12 +1179,12 @@ Vous devez regarder qui a modifié le sous-module en dernier :
 
 	    added a submodule reference I will never make public. hahahahaha!
 
-Envoyez-lui un mail pour lui gueuler dessus.
+Envoyez-lui un mail pour lui crier dessus.
 
 ### Super-projets ###
 
 Parfois, les développeurs désirent séparer un gros projet en sous-répertoires en fonction de l'équipe qui travaille dessus.
-C'est logique que si vous venez de CVS ou de Subversion, où vous aviez l'habitude de définir un module ou un ensemble de sous-répertoires, que vous vouliez garder ce type de workflow.
+C'est logique que si vous venez de CVS ou de Subversion, où vous aviez l'habitude de définir un module ou un ensemble de sous-répertoires, et que vous voulez garder ce type de procédure de travail.
 
 Une bonne manière de le faire avec Git est de créer un dépôt Git pour chaque sous-dossiers, et de créer un super-projet contenant les différents modules.
 Le bénéfice de cette approche est de pouvoir spécifier les relations entre les projets avec des étiquettes et des branches depuis le super-projet.
@@ -1196,13 +1196,13 @@ Premièrement, vous devez être relativement prudent lorsque vous travaillez dan
 Lorsque vous exécutez `git submodule update`, cela récupère une version spécifique d'un projet, mais pas à l'intérieur d'une branche.
 Cela s'appelle avoir la tête en l'air (*detached head*), c'est-à-dire que votre HEAD référence directement un *commit*, pas une référence symbolique.
 Le problème est que vous ne voulez généralement pas travailler dans un environnement tête en l'air, car il est facile de perdre des modifications dans ces conditions.
-Si vous faites un premier `git submodule update`, validez des modifications dans ce sous-module sans créer vous-même de branche pour y travailler, et que vous exécutez un nouveau `git submodule update` depuis le projet parent sans y avoir validé pendant ce temps, Git écrasera vos modifications sans vous le dire.
+Si vous faites un premier `git submodule update`, que vous validez des modifications dans ce sous-module sans créer vous-même de branche pour y travailler, et que vous exécutez un nouveau `git submodule update` depuis le projet parent sans y avoir validé pendant ce temps, Git écrasera vos modifications sans vous le dire.
 Techniquement, vous ne perdrez pas votre travail, mais vous n'aurez aucune branche s'y référant, il sera donc assez difficile de le récupérer.
 
 Pour éviter ce problème, créez toujours une branche lorsque vous travaillez dans un répertoire de sous-module avec `git checkout -b work` ou une autre commande équivalente.
 Lorsque vous mettrez à jour le sous-module une deuxième fois, Git réinitialisera toujours votre travail, mais vous aurez au moins une référence à votre travail pour y retourner.
 
-Commuter de branches qui contiennent des sous-modules peut également s'avérer difficile.
+Commuter des branches qui contiennent des sous-modules peut également s'avérer difficile.
 Si vous créez une nouvelle branche, y ajoutez un sous-module, et revenez ensuite à une branche dépourvue de ce sous-module, vous aurez toujours le répertoire de ce sous-module comme un répertoire non suivi :
 
 	$ git checkout -b rack
@@ -1229,9 +1229,9 @@ Si vous créez une nouvelle branche, y ajoutez un sous-module, et revenez ensuit
 
 Vous devez soit déplacer ce répertoire hors de votre dépôt local, soit le supprimer et dans ce dernier cas, vous devrez le cloner une nouvelle fois lorsque vous recommuterez et vous pouvez donc perdre des modifications ou des branches locales si vous ne les avez pas poussées.
 
-La dernière difficulté présentée consiste à passer d'un sous-répertoires à un sous-module.
-Si vous suiviez des fichiers dans votre projet et que vous voulez les déplacer dans un sous-module, vous devez être très prudent où Git sera inflexible.
-Présumons que vous avez les fichiers du projet rack dans un sous-répertoire de votre projet, et que vous voulez les transformer en un sous-module.
+La dernière difficulté présentée consiste à passer d'un sous-répertoire à un sous-module.
+Si vous suiviez des fichiers dans votre projet et que vous voulez les déplacer dans un sous-module, vous devez être très prudent ou Git sera inflexible.
+Présumons que vous avez les fichiers du projet `rack` dans un sous-répertoire de votre projet, et que vous voulez les transformer en un sous-module.
 Si vous supprimez le sous-répertoire et que vous exécutez `submodule add`, Git vous hurle dessus avec :
 
 	$ rm -Rf rack/
@@ -1265,7 +1265,7 @@ Vous devez déplacer le répertoire du sous-module `rack` en dehors de votre dé
 	README	rack
 
 Puis, lorsque vous recommutez, vous aurez un répertoire `rack` vide.
-Vous pouvez soit exécuter `git submodule update` pour clôner une nouvelle fois, ou vous pouvez remettre votre répertoire `/tmp/rack` dans votre répertoire vide.
+Vous pouvez soit exécuter `git submodule update` pour cloner une nouvelle fois, ou vous pouvez remettre votre répertoire `/tmp/rack` dans votre répertoire vide.
 
 ## Fusion de sous-arborescences ##
 
@@ -1274,13 +1274,13 @@ Lorsque Git fusionne, il regarde ce qu'il doit fusionner et choisit alors une st
 Si vous fusionnez deux branches, Git utilise une stratégie _récursive_ (_recursive_ strategy).
 Si vous fusionnez plus de deux branches, Git choisit la stratégie de la _pieuvre_ (_octopus_ strategy).
 Ces stratégies sont choisies automatiquement car la stratégie récursive peut gérer des problèmes complexes de fusions à trois entrées avec par exemple plus d'un ancêtre commun, mais il ne peut gérer que deux branches à fusionner.
-La fusion de la pieuvre peut gérer plusieurs branches mais elle est plus prudent afin d'éviter les conflits difficiles, elle est donc choisie comme stratégie par défaut si vous essayez de fusionner plus de deux branches.
+La fusion de la pieuvre peut gérer plusieurs branches mais elle est plus prudente afin d'éviter les conflits difficiles, elle est donc choisie comme stratégie par défaut si vous essayez de fusionner plus de deux branches.
 
 Cependant, il existe d'autres stratégies que vous pouvez tout aussi bien choisir.
-L'une d'elles est la fusion de sous-arborescence que vous pouvez utiliser pour gérer la problématique de sous-projet.
-Nous allons donc voir comme gérer l'inclusion de rack comme dans la section précédente, mais en utilisant cette fois-ci les fusion de sous-arborescence.
+L'une d'elles est la fusion de sous-arborescence que vous pouvez utiliser pour gérer la problématique du sous-projet.
+Nous allons donc voir comme gérer l'inclusion de `rack` comme dans la section précédente, mais en utilisant cette fois-ci les fusions de sous-arborescence.
 
-La fusion de sous-arborescence suppose que vous avez deux projets et que l'un s'identifie à un sous-répertoire de l'autre.
+La fusion de sous-arborescence suppose que vous ayez deux projets et que l'un s'identifie à un sous-répertoire de l'autre.
 Lorsque vous spécifiez une fusion de sous-arborescence, Git est assez intelligent pour deviner lequel est un sous-répertoire de l'autre et fusionne en conséquence — c'est assez bluffant.
 
 Premièrement, vous ajoutez l'application Rack à votre projet.
@@ -1314,15 +1314,15 @@ Si vous récupérez l'une puis l'autre branche, vous pouvez voir que vous avez d
 	$ ls
 	README
 
-Pour tirer le projet Rack dans votre projet `master` comme un sous répertoire, vous pouvez utiliser la commande `git read-tree`.
-Vous apprendrez d'avantage sur `read-tree` et compagnie dans le Chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branche et l'inscrit dans votre index et votre répertoire de travail.
+Pour tirer le projet Rack dans votre projet `master` comme un sous-répertoire, vous pouvez utiliser la commande `git read-tree`.
+Vous apprendrez d'avantage sur `read-tree` et compagnie dans le chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branches et l'inscrit dans votre index et votre répertoire de travail.
 Vous venez juste de commuter vers votre branche `master` et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal :
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
 Au moment de valider, vous verrez tous les fichiers de Rack de ce sous-répertoire, comme si vous les aviez copiés depuis une archive.
 Ce qui est intéressant, c'est que vous pouvez assez facilement fusionner les changements d'une branche à l'autre.
-Par conséquence, s'il y a des mises à jour pour le projet Rack, vous pouvez les tirez depuis le dépôt principal en commutant dans cette branche et tirant les modifications :
+Par conséquence, s'il y a des mises à jour pour le projet Rack, vous pouvez les tirer depuis le dépôt principal en commutant dans cette branche et tirant les modifications :
 
 	$ git checkout rack_branch
 	$ git pull

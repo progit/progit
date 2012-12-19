@@ -11,9 +11,9 @@ As you briefly saw in the Chapter 1, you can specify Git configuration settings 
 
 Now you’ll learn a few of the more interesting options that you can set in this manner to customize your Git usage.
 
-You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically. 
+You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically.
 
-The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option. 
+The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option.
 
 Finally, Git looks for configuration values in the config file in the Git directory (`.git/config`) of whatever repository you’re currently using. These values are specific to that single repository. Each level overwrites values in the previous level, so values in `.git/config` trump those in `/etc/gitconfig`, for instance. You can also set these values by manually editing the file and inserting the correct syntax, but it’s generally easier to run the `git config` command.
 
@@ -128,7 +128,7 @@ If you want to be more specific about which commands are colored and how, or you
 
 In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run
 
-	$ git config --global color.diff.meta “blue black bold”
+	$ git config --global color.diff.meta "blue black bold"
 
 You can set the color to any of the following values: normal, black, red, green, yellow, blue, magenta, cyan, or white. If you want an attribute like bold in the previous example, you can choose from bold, dim, ul, blink, and reverse.
 
@@ -156,13 +156,13 @@ The diff wrapper checks to make sure seven arguments are provided and passes two
 
 Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need.
 
-	$ cat /usr/local/bin/extDiff 
+	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
 You also need to make sure these tools are executable:
 
-	$ sudo chmod +x /usr/local/bin/extMerge 
+	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
 Now you can set up your config file to use your custom merge resolution and diff tools. This takes a number of custom settings: `merge.tool` to tell Git what strategy to use, `mergetool.*.cmd` to specify how to run the command, `mergetool.trustExitCode` to tell Git if the exit code of that program indicates a successful merge resolution or not, and `diff.external` to tell Git what command to run for diffs. So, you can either run four config commands
@@ -184,12 +184,12 @@ or you can edit your `~/.gitconfig` file to add these lines:
 	  external = extDiff
 
 After all this is set, if you run diff commands such as this:
-	
+
 	$ git diff 32d1776b1^ 32d1776b1
 
 Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 Figure 7-1. P4Merge.
 
 If you try to merge two branches and subsequently have merge conflicts, you can run the command `git mergetool`; it starts P4Merge to let you resolve the conflicts through that GUI tool.
@@ -197,7 +197,7 @@ If you try to merge two branches and subsequently have merge conflicts, you can 
 The nice thing about this wrapper setup is that you can change your diff and merge tools easily. For example, to change your `extDiff` and `extMerge` tools to run the KDiff3 tool instead, all you have to do is edit your `extMerge` file:
 
 	$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 Now, Git will use the KDiff3 tool for diff viewing and merge conflict resolution.
@@ -214,7 +214,7 @@ Formatting and whitespace issues are some of the more frustrating and subtle pro
 
 #### core.autocrlf ####
 
-If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work. 
+If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work.
 
 Git can handle this by auto-converting CRLF line endings into LF when you commit, and vice versa when it checks out code onto your filesystem. You can turn on this functionality with the `core.autocrlf` setting. If you’re on a Windows machine, set it to `true` — this converts LF endings into CRLF when you check out code:
 
@@ -313,7 +313,7 @@ In the 1.6 series of Git, you can use the Git attributes functionality to effect
 
 Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:
 
-	$ git diff 
+	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
@@ -331,7 +331,7 @@ This command adds a section to your `.git/config` that looks like this:
 	[diff "word"]
 		textconv = strings
 
-Side note: There are different kinds of `.doc` files. Some use an UTF-16 encoding or other "codepages" and `strings` won't find anything useful in there. Your mileage may vary.
+Side note: There are different kinds of `.doc` files. Some use an UTF-16 encoding or other "codepages" and `strings` won’t find anything useful in there. Your mileage may vary.
 
 Now Git knows that if it tries to do a diff between two snapshots, and any of the files end in `.doc`, it should run those files through the "word" filter, which is defined as the `strings` program. This effectively makes nice text-based versions of your Word files before attempting to diff them.
 
@@ -345,9 +345,9 @@ Here’s an example. I put Chapter 1 of this book into Git, added some text to a
 	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
 	 re going to cover how to get it and set it up for the first time if you don
 	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
-	-s going on, modify stuff and contribute changes. If the book spontaneously 
-	+s going on, modify stuff and contribute changes. If the book spontaneously 
+	 In Chapter Two we will go over basic Git usage - how to use Git for the 80%
+	-s going on, modify stuff and contribute changes. If the book spontaneously
+	+s going on, modify stuff and contribute changes. If the book spontaneously
 	+Let's see if this works.
 
 Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
@@ -366,18 +366,18 @@ Now set up the `odt` diff filter in `.git/config`:
 		binary = true
 		textconv = /usr/local/bin/odt-to-txt
 
-OpenDocument files are actually zip'ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We'll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
+OpenDocument files are actually zip’ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We’ll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
 
 	#! /usr/bin/env perl
 	# Simplistic OpenDocument Text (.odt) to plain text converter.
 	# Author: Philipp Kempgen
-	
+
 	if (! defined($ARGV[0])) {
 		print STDERR "No filename given!\n";
 		print STDERR "Usage: $0 filename\n";
 		exit 1;
 	}
-	
+
 	my $content = '';
 	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
 	{
@@ -446,17 +446,17 @@ The next time you check out this file, Git injects the SHA of the blob:
 
 	$ rm test.txt
 	$ git checkout -- test.txt
-	$ cat test.txt 
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 However, that result is of limited use. If you’ve used keyword substitution in CVS or Subversion, you can include a datestamp — the SHA isn’t all that helpful, because it’s fairly random and you can’t tell if one SHA is older or newer than another.
 
 It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re checked out ("smudge", see Figure 7-2) and just before they’re committed ("clean", see Figure 7-3). These filters can be set to do all sorts of fun things.
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
 Figure 7-2. The “smudge” filter is run on checkout.
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
 Figure 7-3. The “clean” filter is run when files are staged.
 
 The original commit message for this functionality gives a simple example of running all your C source code through the `indent` program before committing. You can set it up by setting the filter attribute in your `.gitattributes` file to filter `*.c` files with the "indent" filter:
@@ -736,7 +736,7 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 	      access[$user].each do |access_path|
 	        if !access_path || # user has access to everything
 	          (path.index(access_path) == 0) # access to this path
-	          has_file_access = true 
+	          has_file_access = true
 	        end
 	      end
 	      if !has_file_access
@@ -744,12 +744,12 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end
 
 	check_directory_perms
 
-Most of that should be easy to follow. You get a list of new commits being pushed to your server with `git rev-list`. Then, for each of those, you find which files are modified and make sure the user who’s pushing has access to all the paths being modified. One Rubyism that may not be clear is `path.index(access_path) == 0`, which is true if path begins with `access_path` — this ensures that `access_path` is not just in one of the allowed paths, but an allowed path begins with each accessed path. 
+Most of that should be easy to follow. You get a list of new commits being pushed to your server with `git rev-list`. Then, for each of those, you find which files are modified and make sure the user who’s pushing has access to all the paths being modified. One Rubyism that may not be clear is `path.index(access_path) == 0`, which is true if path begins with `access_path` — this ensures that `access_path` is not just in one of the allowed paths, but an allowed path begins with each accessed path.
 
 Now your users can’t push any commits with badly formed messages or with modified files outside of their designated paths.
 
@@ -759,7 +759,7 @@ The only thing left is to enforce fast-forward-only pushes. In Git versions 1.6 
 
 The logic for checking this is to see if any commits are reachable from the older revision that aren’t reachable from the newer one. If there are none, then it was a fast-forward push; otherwise, you deny it:
 
-	# enforces fast-forward only pushes 
+	# enforces fast-forward only pushes
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split("\n").size
@@ -771,7 +771,7 @@ The logic for checking this is to see if any commits are reachable from the olde
 
 	check_fast_forward
 
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file into which you should have put all this code, and then try to push a non-fast-forward reference, you'll get something like this:
+Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file into which you should have put all this code, and then try to push a non-fast-forward reference, you’ll get something like this:
 
 	$ git push -f origin master
 	Counting objects: 5, done.
@@ -779,7 +779,7 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	Writing objects: 100% (3/3), 323 bytes, done.
 	Total 3 (delta 1), reused 0 (delta 0)
 	Unpacking objects: 100% (3/3), done.
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
 	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
@@ -790,7 +790,7 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 
 There are a couple of interesting things here. First, you see this where the hook starts running.
 
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
 
 Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
@@ -917,7 +917,7 @@ Here is an example pre-rebase script that checks for that. It gets a list of all
 	target_shas.each do |sha|
 	  remote_refs.each do |remote_ref|
 	    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
-	    if shas_pushed.split(“\n”).include?(sha)
+	    if shas_pushed.split("\n").include?(sha)
 	      puts "[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"
 	      exit 1
 	    end

@@ -17,6 +17,13 @@ On Fedora you can run something like this::
     $ gem install rdiscount
     $ makeebooks en  # will produce a mobi
 
+On MacOS you can do like this::
+	
+1. INSTALL ruby and rubygems
+2. `$ gem install rdiscount`
+3. DOWNLOAD Calibre for MacOS and install command line tools
+4. `$ makeebooks zh` #will produce a mobi
+
 # Errata
 
 If you see anything that is technically wrong or otherwise in need of

@@ -95,7 +95,7 @@ Vous pouvez aussi ne pas spécifier de nom d'utilisateur et Git utilisera par d�
 
 Les avantages liés à l'utilisation de SSH sont nombreux.
 Primo, vous ne pourrez pas faire autrement si vous souhaitez gérer un accès authentifié en écriture à votre dépôt à travers le réseau.
-Secundo, SSH est relativement simple à mettre en place, les démons SSH sont facilement disponibles, les administrateurs réseaux sont habitués à les gérer et de nombreuses distributions de systèmes d'exploitation en disposent ou proposent des outils pour les gérer.
+Secundo, SSH est relativement simple à mettre en place, les *daemons* SSH sont facilement disponibles, les administrateurs réseaux sont habitués à les gérer et de nombreuses distributions de systèmes d'exploitation en disposent ou proposent des outils pour les gérer.
 Ensuite, l'accès distant à travers SSH est sécurisé, toutes les données sont chiffrées et authentifiées.
 Enfin, comme pour les protocoles Git et local, SSH est efficace et permet de comprimer autant que possible les données avant de les transférer.
 
@@ -108,7 +108,7 @@ Si vous souhaitez proposer de l'accès anonyme en lecture seule à vos projets, 
 
 ### Protocole Git ###
 
-Vient ensuite le protocole Git. Celui-ci est géré par un *daemon* spécial livré avec Git. Ce démon écoute sur un port dédié (9418) et propose un service similaire au protocole SSH, mais sans aucune sécurisation.
+Vient ensuite le protocole Git. Celui-ci est géré par un *daemon* spécial livré avec Git. Ce *daemon* (démon, processus en arrière plan) écoute sur un port dédié (9418) et propose un service similaire au protocole SSH, mais sans aucune sécurisation.
 Pour qu'un dépôt soit publié via le protocole Git, le fichier `git-export-daemon-ok` doit exister mais mise à part cette condition sans laquelle le *daemon* refuse de publier un projet, il n'y a aucune sécurité.
 Soit le dépôt Git est disponible sans restriction en lecture, soit il n'est pas publié.
 Cela signifie qu'il ne permet pas de pousser des modifications.
@@ -438,7 +438,7 @@ Après avoir redémarré Apache, vous devriez être capable de cloner vos dépô
 	$ git clone http://git.gitserveur/projet.git
 
 Ainsi, vous pouvez donner accès en lecture seule à tous vos projets à un grand nombre d'utilisateurs en quelques minutes.
-Une autre option simple pour fournir un accès public non-authentifié consiste à lancer un démon Git, bien que cela requiert de démoniser le processus ─ nous traiterons cette option dans un chapitre ultérieur si vous préférez cette option.
+Une autre option simple pour fournir un accès public non-authentifié consiste à lancer un *daemon* Git, bien que cela requiert de démoniser le processus ─ nous traiterons cette option dans un chapitre ultérieur si vous préférez cette option.
 
 ## GitWeb ##
 
@@ -891,10 +891,10 @@ Grossièrement, il suffit de lancer la commande suivante en tant que *daemon* :
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` autorise le serveur à redémarrer sans devoir attendre que les anciennes connexions expirent, l'option `--base-path` autorise les gens à cloner des projets sans devoir spécifier le chemin complet, et le chemin en fin de ligne indique au démon Git l'endroit où chercher des dépôts à exporter.
+`--reuseaddr` autorise le serveur à redémarrer sans devoir attendre que les anciennes connexions expirent, l'option `--base-path` autorise les gens à cloner des projets sans devoir spécifier le chemin complet, et le chemin en fin de ligne indique au *daemon* Git l'endroit où chercher des dépôts à exporter.
 Si vous utilisez un pare-feu, il sera nécessaire de rediriger le port 9418 sur la machine hébergeant le serveur.
 
-Transformer ce processus en démon se réalise par différentes manières qui dépendent du système d'exploitation sur lequel il est lancé.
+Transformer ce processus en *daemon* se réalise par différentes manières qui dépendent du système d'exploitation sur lequel il est lancé.
 Sur une machine Ubuntu, c'est un script Upstart.
 Donc dans le fichier :
 
@@ -911,7 +911,7 @@ vous mettez le script suivant :
 	    /opt/git/
 	respawn
 
-Par sécurité, ce daemon devrait être lancé par un utilisateur n'ayant que des droits de lecture seule sur les dépôts — simplement en créant un nouvel utilisateur « git-ro » qui servira à lancer le daemon.
+Par sécurité, ce *daemon* devrait être lancé par un utilisateur n'ayant que des droits de lecture seule sur les dépôts — simplement en créant un nouvel utilisateur « git-ro » qui servira à lancer le *daemon*.
 Par simplicité, nous le lancerons avec le même utilisateur « git » qui est utilisé par Gitosis.
 
 Au rédémarrage de la machine, votre *daemon* Git démarrera automatiquement et redémarrera s'il meurt.
@@ -928,9 +928,9 @@ Par exemple, si vous souhaitez un accès par protocole Git à votre projet iphon
 	[repo iphone_projet]
 	daemon = yes
 
-Une fois cette configuration validée et poussée, votre démon devrait commencer à servir des requêtes pour ce projet à toute personne ayant accès au port 9518 de votre serveur.
+Une fois cette configuration validée et poussée, votre *daemon* devrait commencer à servir des requêtes pour ce projet à toute personne ayant accès au port 9518 de votre serveur.
 
-Si vous décidez de ne pas utiliser Gitosis, mais d'utiliser un démon Git, il faudra lancer les commandes suivantes sur chaque projet que vous souhaitez faire servir par le démon Git :
+Si vous décidez de ne pas utiliser Gitosis, mais d'utiliser un *daemon* Git, il faudra lancer les commandes suivantes sur chaque projet que vous souhaitez faire servir par le *daemon* Git :
 
 	$ cd /chemin/au/projet.git
 	$ touch git-daemon-export-ok

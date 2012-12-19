@@ -906,13 +906,13 @@ Le client initialise un exécutable `fetch-pack` qui se connecte à un exécutab
 
 Il y a plusieurs manières d'initialiser l'exécutable `upload-pack` sur le dépôt distant.
 Vous pouvez passer par SSH de la même manière qu'avec l'exécutable `receive-pack`.
-Vous pouvez également initialiser l'exécutable à travers le démon Git, qui écoute sur le port 9418 du serveur par défaut.
+Vous pouvez également initialiser l'exécutable à travers le *daemon* Git, qui écoute sur le port 9418 du serveur par défaut.
 L'exécutable `fetch-pack` envoie des données qui ressemblent à cela juste après la connexion :
 
 	003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 
 Cela commence par les 4 octets désignant la quantité de données qui suit, puis la commande à exécuter suivie par un octet nul, puis le nom d'hôte du serveur suivi d'un octet nul final.
-Le démon Git vérifie que la commande peut être exécutée, que le dépôt existe et est accessible publiquement.
+Le *daemon* Git vérifie que la commande peut être exécutée, que le dépôt existe et est accessible publiquement.
 Si tout va bien, il appelle l'exécutable `upload-pack` et lui passe la main.
 
 Si vous êtes en train de tirer (*fetch*) à travers SSH, `fetch-pack` exécute plutôt quelque chose du genre :

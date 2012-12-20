@@ -97,7 +97,7 @@ Les avantages liés à l'utilisation de SSH sont nombreux.
 Primo, vous ne pourrez pas faire autrement si vous souhaitez gérer un accès authentifié en écriture à votre dépôt à travers le réseau.
 Secundo, SSH est relativement simple à mettre en place, les *daemons* SSH sont facilement disponibles, les administrateurs réseaux sont habitués à les gérer et de nombreuses distributions de systèmes d'exploitation en disposent ou proposent des outils pour les gérer.
 Ensuite, l'accès distant à travers SSH est sécurisé, toutes les données sont chiffrées et authentifiées.
-Enfin, comme pour les protocoles Git et local, SSH est efficace et permet de comprimer autant que possible les données avant de les transférer.
+Enfin, comme les protocoles Git et local, SSH est efficace et permet de comprimer autant que possible les données avant de les transférer.
 
 #### Inconvénients ####
 
@@ -367,7 +367,7 @@ Si vous l'hébergez en interne et avez réglé le DNS pour faire pointer `gitser
 De cette manière, vous pouvez rapidement mettre en place un serveur Git en lecture/écriture pour une poignée de développeurs.
 
 En précaution supplémentaire, vous pouvez simplement restreindre l'utilisateur 'git' à des actions Git avec un shell limité appelé `git-shell` qui est fourni avec Git.
-Si vous positionnez ce shell comme shell de login de l'utilisateur 'git', l'utilisateur Git ne peut pas avoir de shell normal sur ce serveur.
+Si vous positionnez ce shell comme shell de login de l'utilisateur 'git', l'utilisateur `git` ne peut pas avoir de shell normal sur ce serveur.
 Pour utiliser cette fonction, spécifiez `git-shell` en lieu et place de bash ou csh pour shell de l'utilisateur.
 Cela se réalise généralement en éditant le fichier `/etc/passwd` :
 

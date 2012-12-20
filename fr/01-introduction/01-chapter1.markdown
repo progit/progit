@@ -273,9 +273,9 @@ Téléchargez simplement le fichier exe d'installateur depuis la page Google Cod
 Après son installation, vous avez à la fois la version en ligne de commande (avec un client SSH utile pour la suite) et l'interface graphique standard.
 
 Note sur l'usage sous Windows :
-vous devriez utiliser Git avec la ligne de command fournie par msysGit (style Unix), car elle permet d'utiliser les lignes de commandes complexes données dans ce livre.
-Si vous devez, pour une raison quelconque, utiliser la ligne de commande native de Windows (console système), vous devez utiliser des guillemets au lieu des apostrophes pour délimiter les paramètres avec des espaces.
-Et vous devez délimiter avec ces guillemets les paramètres finissant avec l'accent circonflexe (^) s'ils sont en fin de ligne, car c'est un symbole de continuation de Windows.
+vous devriez utiliser Git avec le shell `bash` fourni par msysGit (style Unix), car il permet d'utiliser les lignes de commandes complexes données dans ce livre.
+Si vous devez, pour une raison quelconque, utiliser l'interpreteur de commande natif de Windows (console système), vous devez utiliser des guillemets au lieu des apostrophes pour délimiter les paramètres avec des espaces.
+Vous devez aussi délimiter avec ces guillemets les paramètres finissant avec l'accent circonflexe (^) s'ils sont en fin de ligne, car c'est un symbole de continuation de Windows.
 
 ## Paramétrage à la première utilisation de Git ##
 

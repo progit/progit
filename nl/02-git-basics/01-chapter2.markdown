@@ -374,7 +374,7 @@ Je kunt bestanden, mappen en bestandspatronen aan het `git rm` commando meegeven
 
 	$ git rm log/\*.log
 
-Let op de backslash (`\`) voor de `*`. Dit is nodig omdat Git zijn eigen bestandsnaam expansie doet, naast die van je shell. Dit commando verwijdert alle bestanden die de `.log` extensie hebben in de `log/` map. Of, je kunt zoiets als dit doen:
+Let op de backslash (`\`) voor de `*`. Dit is nodig omdat Git zijn eigen bestandsnaam expansie doet, naast die van je shell. In de Windows systeemconsole moet de backslash worden weggelaten. Dit commando verwijdert alle bestanden die de `.log` extensie hebben in de `log/` map. Of, je kunt zoiets als dit doen:
 
 	$ git rm \*~
 

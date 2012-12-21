@@ -148,7 +148,7 @@ Op dit punt, is je project werkmap precies zoals het was voordat je begon te wer
 
 Vervolgens heb je een snelle reparatie te doen. Laten we een reparatie branch maken om op te werken totdat het af is (zie Figuur 3-13):
 
-	$ git checkout -b 'hotfix'
+	$ git checkout -b hotfix
 	Switched to a new branch "hotfix"
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'

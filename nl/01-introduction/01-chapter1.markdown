@@ -182,17 +182,19 @@ Git op Windows installeren is erg eenvoudig. Het msysGit project heeft één van
 
 Nadat het geïnstalleerd is, kun je Git zowel vanaf de commandprompt gebruiken (waar ook een SSH client bijzit die later nog van pas zal komen) als via de standaard GUI.
 
+Opmerking voor Windows gebruikers: je zou Git moeten gebruiken met de msysGit shell (Unix stijl), dit staat je toe de complexe commando's gegeven in dit boek te gebruiken. Als je om een of andere reden de Windows shell / commandprompt moet gebruiken, moet je dubbele quotes gebruiken in plaats van enkele quotes (voor parameters met spaties ertussen) en je moet quotes gebruiken bij parameters die eindigen met een circumflex (^) als ze achteraan de lijn staan, omdat dit een voortzettingssymbool is in Windows.
+
 ## Git klaarmaken voor eerste gebruik ##
 
 Nu je Git op je computer hebt staan, is het handig dat je een paar dingen doet om je Gitomgeving aan je voorkeuren aan te passen. Je hoeft deze instellingen normaliter maar één keer te doen. Ze blijven hetzelfde als je een nieuwe versie van Git installeert. Je kunt ze op elk moment weer veranderen door de commando’s opnieuw uit te voeren.
 
 Git bevat standaard een stuk gereedschap genaamd `git config`, waarmee je de configuratie-eigenschappen kunt bekijken en veranderen, die alle aspecten van het uiterlijk en gedrag van Git regelen. Deze eigenschappen kunnen op drie verschillende plaatsen worden bewaard:
 
-*	Het bestand `/etc/gitconfig`: Bevat eigenschappen voor elk account op de computer en al hun repositories. Als je de optie `--system` meegeeft aan `git config`, zal het dit de configuratiegegevens in dit bestand lezen of  veranderen. 
+*	Het bestand `/etc/gitconfig`: Bevat eigenschappen voor elk account op de computer en al hun repositories. Als je de optie `--system` meegeeft aan `git config`, zal het de configuratiegegevens in dit bestand lezen of veranderen.
 *	Het bestand `~/.gitconfig`: Eigenschappen voor jouw account. Je kunt Git dit bestand laten gebruiken door de optie `--global` mee te geven.
 *	Het configuratiebestand in de Gitmap (dus `.git/config`) van het repository dat je op het moment gebruikt: Specifiek voor dat ene repository. Elk niveau is belangrijker dan het voorgaande, dus waarden in `.git/config` zullen worden gebruikt in plaats van die in `/etc/gitconfig`.
 
-Op systemen met Windows zoekt Git in de `$HOME` map naar het `.gitconfig`-bestand (`C:\Documents and Settings\$USER` voor de meeste mensen). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
+Op systemen met Windows zoekt Git naar het `.gitconfig` bestand in de `$HOME` map (`%USERPROFILE%` in een Windows omgeving), welke `C:\Documents and Settings\$USER` is of `C:\Users\$USER` voor de meeste mensen, afhankelijk van de versie (`$USER` is `%USERNAME%` in een Windows omgeving). Het kijkt ook nog naar `/etc/gitconfig`, maar dan op de plek waar je MSys hebt staan, wat de plek is waar je Git op je Windowscomputer geïnstalleerd hebt.
 
 ### Jouw identiteit ###
 

@@ -417,7 +417,7 @@ simplegit.rb のステータスがおもしろいことになっています。�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -448,7 +448,7 @@ simplegit.rb のステータスがおもしろいことになっています。�
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
@@ -466,7 +466,7 @@ Git がファイルを変更して、未コミットのファイルが先ほど�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -512,7 +512,7 @@ apply オプションは、スタックに隠した作業を再度適用する�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -936,7 +936,7 @@ rack エントリのモードが 160000 となったことに注目しましょ�
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

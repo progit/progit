@@ -101,13 +101,13 @@ Insert 18333fig0201.png
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-`benchmarks.rb` ファイルは “Changed but not updated” という欄に表示されます。これは、追跡対象のファイルが作業ディレクトリ内で変更されたけれどもまだステージされていないという意味です。ステージするには `git add` コマンドを実行します (このコマンドにはいろんな意味合いがあり、新しいファイルの追跡開始・ファイルのステージング・マージ時に衝突が発生したファイルに対する「解決済み」マーク付けなどで使用します)。では、`git add` で `benchmarks.rb` をステージしてもういちど `git status` を実行してみましょう。
+`benchmarks.rb` ファイルは “Changes not staged for commit” という欄に表示されます。これは、追跡対象のファイルが作業ディレクトリ内で変更されたけれどもまだステージされていないという意味です。ステージするには `git add` コマンドを実行します (このコマンドにはいろんな意味合いがあり、新しいファイルの追跡開始・ファイルのステージング・マージ時に衝突が発生したファイルに対する「解決済み」マーク付けなどで使用します)。では、`git add` で `benchmarks.rb` をステージしてもういちど `git status` を実行してみましょう。
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ Insert 18333fig0201.png
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -189,7 +189,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +244,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -324,7 +324,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -338,13 +338,13 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 ファイルを Git から削除するには、追跡対象からはずし (より正確に言うとステージングエリアから削除し)、そしてコミットします。`git rm` コマンドは、この作業を行い、そして作業ディレクトリからファイルを削除します。つまり、追跡されていないファイルとして残り続けることはありません。
 
-単に作業ディレクトリからファイルを削除しただけの場合は、`git status` の出力の中では “Changed but not updated” (つまり _ステージされていない_) 欄に表示されます。
+単に作業ディレクトリからファイルを削除しただけの場合は、`git status` の出力の中では “Changes not staged for commit” (つまり _ステージされていない_) 欄に表示されます。
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -667,7 +667,7 @@ Insert 18333fig0202.png
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -680,7 +680,7 @@ Insert 18333fig0202.png
 
 `benchmarks.rb` に加えた変更が、実は不要なものだったとしたらどうしますか? 変更を取り消す (直近のコミット時点の状態、あるいは最初にクローンしたり最初に作業ディレクトリに取得したときの状態に戻す) 最も簡単な方法は? 幸いなことに、またもや `git status` がその方法を教えてくれます。先ほどの例の出力結果で、ステージされていないファイル一覧の部分を見てみましょう。
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

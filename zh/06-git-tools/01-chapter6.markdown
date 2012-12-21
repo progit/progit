@@ -425,7 +425,7 @@ simplegit.rb的状态非常有意思。它显示有几行被暂存了，有几�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -456,7 +456,7 @@ simplegit.rb的状态非常有意思。它显示有几行被暂存了，有几�
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
@@ -474,7 +474,7 @@ simplegit.rb的状态非常有意思。它显示有几行被暂存了，有几�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -521,7 +521,7 @@ apply 选项只尝试应用储藏的工作——储藏的内容仍然在栈上�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -950,7 +950,7 @@ Git 通过子模块处理这个问题。子模块允许你将一个 Git 仓库�
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

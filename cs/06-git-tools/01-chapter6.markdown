@@ -422,7 +422,7 @@ Pro názornost uvažujme situaci, že ve svém projektu začnete pracovat na ně
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -453,7 +453,7 @@ V tomto případě byly už dříve provedeny dva další odklady, a máte tak k
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
@@ -471,7 +471,7 @@ Změny byly znovu aplikovány na vaše soubory, ale soubor, který jste předtí
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -517,7 +517,7 @@ Jestliže odložíte část své práce, necháte ji určitou dobu v zásobníku
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -941,7 +941,7 @@ Váš podadresář `rack` je nyní přesně ve stejném stavu, jako když jste p
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

@@ -101,13 +101,13 @@ Insert 18333fig0201.png
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-文件 benchmarks.rb 出现在 “Changed but not updated” 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。要暂存这次更新，需要运行 `git add` 命令（这是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等）。现在让我们运行 `git add` 将 benchmarks.rb 放到暂存区，然后再看看 `git status` 的输出：
+文件 benchmarks.rb 出现在 “Changes not staged for commit” 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。要暂存这次更新，需要运行 `git add` 命令（这是个多功能命令，根据目标文件的状态不同，此命令的效果也不同：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等）。现在让我们运行 `git add` 将 benchmarks.rb 放到暂存区，然后再看看 `git status` 的输出：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ Insert 18333fig0201.png
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -189,7 +189,7 @@ Insert 18333fig0201.png
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +244,7 @@ Insert 18333fig0201.png
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -324,7 +324,7 @@ Insert 18333fig0201.png
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -338,13 +338,13 @@ Insert 18333fig0201.png
 
 要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。可以用 `git rm` 命令完成此项工作，并连带从工作目录中删除指定的文件，这样以后就不会出现在未跟踪文件清单中了。
 
-如果只是简单地从工作目录中手工删除文件，运行 `git status` 时就会在 “Changed but not updated” 部分（也就是_未暂存_清单）看到：
+如果只是简单地从工作目录中手工删除文件，运行 `git status` 时就会在 “Changes not staged for commit” 部分（也就是_未暂存_清单）看到：
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -667,7 +667,7 @@ Insert 18333fig0202.png
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -680,7 +680,7 @@ Insert 18333fig0202.png
 
 如果觉得刚才对 benchmarks.rb 的修改完全没有必要，该如何取消修改，回到之前的状态（也就是修改之前的版本）呢？`git status` 同样提示了具体的撤消方法，接着上面的例子，现在未暂存区域看起来像这样：
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

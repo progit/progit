@@ -421,7 +421,7 @@ simplegit.rb 的狀態非常有意思。它顯示有幾行被暫存了，有幾�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -452,7 +452,7 @@ simplegit.rb 的狀態非常有意思。它顯示有幾行被暫存了，有幾�
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
@@ -470,7 +470,7 @@ simplegit.rb 的狀態非常有意思。它顯示有幾行被暫存了，有幾�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -516,7 +516,7 @@ apply 選項只嘗試應用儲藏的工作——儲藏的內容仍然在堆疊�
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -940,7 +940,7 @@ Git 通過子模組處理這個問題。子模組允許你將一個 Git 倉庫�
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

@@ -140,13 +140,13 @@ Si vous modifiez le fichier sous suivi de version appelé `benchmarks.rb` et que
 	#
 	#	new file:   LISEZMOI
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Le fichier `benchmarks.rb` apparaît sous la section nommée « Changed but not updated » ce qui signifie que le fichier sous suivi de version a été modifié dans la copie de travail mais n'est pas encore indexé.
+Le fichier `benchmarks.rb` apparaît sous la section nommée « Changes not staged for commit » ce qui signifie que le fichier sous suivi de version a été modifié dans la copie de travail mais n'est pas encore indexé.
 Pour l'indexer, il faut lancer la commande `git add` (qui est une commande multi-usage — elle peut être utilisée pour placer un fichier sous suivi de version, pour indexer un fichier ou pour d'autres actions telles que marquer comme résolu des conflits de fusion de fichiers).
 Lançons maintenant `git add` pour indexer le fichier `benchmarks.rb`, et relançons la commande `git status` :
 
@@ -174,7 +174,7 @@ Néanmoins, vous lancez `git status` une dernière fois :
 	#	new file:   LISEZMOI
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -245,7 +245,7 @@ Si vous lancez la commande `status`, vous verrez ceci :
 	#
 	#	new file:   LISEZMOI
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -303,7 +303,7 @@ Par exemple, si vous indexez le fichier `benchmarks.rb` et l'éditez ensuite, vo
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -396,7 +396,7 @@ L'ajout de l'option `-a` à la commande `git commit` ordonne à Git de placer au
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -411,13 +411,13 @@ Notez bien que vous n'avez pas eu à lancer `git add` sur le fichier `benchmarks
 Pour effacer un fichier de Git, vous devez l'éliminer des fichiers en suivi de version (plus précisément, l'effacer dans la zone d'index) puis valider.
 La commande `git rm` réalise cette action mais efface aussi ce fichier de votre copie de travail de telle sorte que vous ne le verrez pas réapparaître comme fichier non suivi en version à la prochaine validation.
 
-Si vous effacez simplement le fichier dans votre copie de travail, il apparaît sous la section “Changed but not updated“ (c'est-à-dire, _non indexé_) dans le résultat de `git status` :
+Si vous effacez simplement le fichier dans votre copie de travail, il apparaît sous la section “Changes not staged for commit“ (c'est-à-dire, _non indexé_) dans le résultat de `git status` :
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -798,7 +798,7 @@ Utilisons donc ce conseil pour désindexer le fichier `benchmarks.rb` :
 	#
 	#       modified:   LISEZMOI.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -815,7 +815,7 @@ Comment le réinitialiser facilement, le ramener à son état du dernier instant
 Heureusement, `git status` est secourable.
 Dans le résultat de la dernière commande, la zone de travail ressemble à ceci :
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

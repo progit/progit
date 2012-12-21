@@ -101,13 +101,13 @@ README 파일은 `Untracked files` 부분에 속해 있는데 이것은 README �
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-이 `benchmarks.rb` 파일은 `Changed but not updated`에 있다. 이것은 수정한 파일이 Tracked 상태이지만 아직 Staged 상태는 아니라는 것이다. Staged 상태로 만들려면 `git add` 명령을 실행해야 한다. `git add`는 파일을 새로 추적할 때도 사용하고 수정한 파일을 Staged 상태로 만드는데에도 사용한다. `git add`를 실행하여 benchmarks.rb 파일을 Staged 상태로 만들고 `git status` 명령으로 결과를 확인해보자:
+이 `benchmarks.rb` 파일은 `Changes not staged for commit`에 있다. 이것은 수정한 파일이 Tracked 상태이지만 아직 Staged 상태는 아니라는 것이다. Staged 상태로 만들려면 `git add` 명령을 실행해야 한다. `git add`는 파일을 새로 추적할 때도 사용하고 수정한 파일을 Staged 상태로 만드는데에도 사용한다. `git add`를 실행하여 benchmarks.rb 파일을 Staged 상태로 만들고 `git status` 명령으로 결과를 확인해보자:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ README 파일은 `Untracked files` 부분에 속해 있는데 이것은 README �
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -189,7 +189,7 @@ README 파일을 수정하고 Staged 상태로 만들어 보자. benchmarks.rb �
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +244,7 @@ benchmarks.rb 파일을 Stage한 후 다시 수정해도 `git diff` 명령을 �
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -326,7 +326,7 @@ Staging Area는 커밋할 파일들을 정리한다는 점에서 매우 유용�
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -340,13 +340,13 @@ Staging Area는 커밋할 파일들을 정리한다는 점에서 매우 유용�
 
 Git에서 파일을 제거하려면 `git rm` 명령으로 Tracked 상태의 파일을 삭제한 후에(정확하게는 Staging Area에서 삭제하는 것) 커밋해야 한다. 이 명령은 작업 디렉토리에 있는 파일도 삭제하기 때문에 실제로 지워진다.
 
-만약 Git없이 그냥 파일을 삭제하고 `git status` 명령으로 상태를 확인하면 `Changed but not updated`(즉, Unstaged) 에 속해 있는 것을 확인할 수 있다:
+만약 Git없이 그냥 파일을 삭제하고 `git status` 명령으로 상태를 확인하면 `Changes not staged for commit`(즉, Unstaged) 에 속해 있는 것을 확인할 수 있다:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -673,7 +673,7 @@ Insert 18333fig0202.png
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -686,7 +686,7 @@ Insert 18333fig0202.png
 
 어떻게 해야 benchmarks.rb 파일을 수정하고 나서 다시 되돌릴 수 있을까? 그러니까 최근 커밋된 버전으로(아니면 처음 Clone했을 때처럼 작업 디렉토리에 처음 Checkout 한 그 내용으로) 되돌리는 방법이 무얼까? `git status` 명령이 친절하게 알려준다. 바로 위에 있는 예제에서 Unstaged 부분을 보자:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

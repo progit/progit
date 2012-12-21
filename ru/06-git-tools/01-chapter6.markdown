@@ -422,7 +422,7 @@ Insert 18333fig0601.png
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -453,7 +453,7 @@ Insert 18333fig0601.png
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
@@ -471,7 +471,7 @@ Insert 18333fig0601.png
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -517,7 +517,7 @@ Insert 18333fig0601.png
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -941,7 +941,7 @@ Git решает эту задачу, используя подмодули (sub
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

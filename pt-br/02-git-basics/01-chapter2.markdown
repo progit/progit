@@ -101,13 +101,13 @@ Vamos alterar um arquivos que já está sendo monitorado. Se você alterar um aq
     #
     #    new file:   README
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #
     #    modified:   benchmarks.rb
     #
 
-O arquivo `benchmarks.rb` aparece sob a seção chamada “Changed but not updated” — que significa que um arquivo monitorado foi modificado no diretório de trabalho mas ainda não foi selecionado (staged). Para selecioná-lo, você utiliza o comando `git add` (é um comando com várias funções — você o utiliza para monitorar novos arquivos, selecionar arquivos, e para fazer outras coisas como marcar como resolvido aquivos com conflito). Agora vamos rodar o comando `git add` para selecionar o arquivo `benchmarks.rb`, e então rodar `git status` novamente:
+O arquivo `benchmarks.rb` aparece sob a seção chamada “Changes not staged for commit” — que significa que um arquivo monitorado foi modificado no diretório de trabalho mas ainda não foi selecionado (staged). Para selecioná-lo, você utiliza o comando `git add` (é um comando com várias funções — você o utiliza para monitorar novos arquivos, selecionar arquivos, e para fazer outras coisas como marcar como resolvido aquivos com conflito). Agora vamos rodar o comando `git add` para selecionar o arquivo `benchmarks.rb`, e então rodar `git status` novamente:
 
     $ git add benchmarks.rb
     $ git status
@@ -130,7 +130,7 @@ Ambos os arquivos estão selecionados e serão consolidados no seu próximo comm
     #    new file:   README
     #    modified:   benchmarks.rb
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #
     #    modified:   benchmarks.rb
@@ -189,7 +189,7 @@ Vamos dizer que você edite e selecione o arquivo `README` de novo e então edit
     #
     #    new file:   README
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #
     #    modified:   benchmarks.rb
@@ -244,7 +244,7 @@ Como um outro exemplo, se você selecionar o arquivo `benchmarks.rb` e então ed
     #
     #    modified:   benchmarks.rb
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #
     #    modified:   benchmarks.rb
     #
@@ -325,7 +325,7 @@ Embora possa ser extraordinariamente útil para a elaboração de commits exatam
     $ git status
     # On branch master
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #
     #    modified:   benchmarks.rb
     #
@@ -339,13 +339,13 @@ Note que, neste caso, você não precisa rodar o `git add` no arquivo `benchmark
 
 Para remover um arquivo do Git, você tem que removê-lo dos arquivos que estão sendo monitorados (mais precisamente, removê-lo da sua área de seleção) e então fazer o commit. O comando `git rm` faz isso e também remove o arquivo do seu diretório para você não ver ele como arquivo não monitorado (untracked file) na próxima vez.
 
-Se você simplesmente remover o arquivo do seu diretório, ele aparecerá em “Changed but not updated” (isto é, fora da sua área de seleção ou _unstaged_) na saida do seu `git status`:
+Se você simplesmente remover o arquivo do seu diretório, ele aparecerá em “Changes not staged for commit” (isto é, fora da sua área de seleção ou _unstaged_) na saida do seu `git status`:
 
     $ rm grit.gemspec
     $ git status
     # On branch master
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add/rm <file>..." to update what will be committed)
     #
     #       deleted:    grit.gemspec
@@ -670,7 +670,7 @@ Logo abaixo do texto “Changes to be committed”, ele diz `use git reset HEAD 
     #
     #       modified:   README.txt
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #   (use "git checkout -- <file>..." to discard changes in working directory)
     #
@@ -683,7 +683,7 @@ O comando é um pouco estranho, mas funciona. O arquivo `benchmarks.rb` está mo
 
 E se você perceber que não quer manter suas modificações no arquivo `benchmarks.rb`? Como você pode facilmente desfazer isso — revertê-lo para o que era antes de fazer o último commit (ou do inicio do clone, ou seja la como você o conseguiu no seu diretório de trabalho)? Felizmente, `git status` diz a você como fazer isso, também. Na saída do último exemplo, a área de trabalho se parecia com isto:
 
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #   (use "git checkout -- <file>..." to discard changes in working directory)
     #

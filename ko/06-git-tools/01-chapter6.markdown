@@ -418,7 +418,7 @@ Stash 명령을 사용하면 작업 디렉토리에서 수정한 파일들만 �
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -449,7 +449,7 @@ Stash 두 개는 원래 있었던 것이다. 그래서 현재 총 세 개의 Sta
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
@@ -467,7 +467,7 @@ Git은 Stash를 적용할 때 staged 상태였던 파일을 자동으로 다시 
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -513,7 +513,7 @@ Stash를 명시하지 않으면 Git은 가장 최근의 Stash를 사용한다:
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -937,7 +937,7 @@ rack 디렉토리의 모드는 160000이다. 160000 모드는 일반적인 파�
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

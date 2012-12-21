@@ -240,7 +240,7 @@ Git hat hier keinen 'merge commit' erstellt. Es hat den Prozess gestoppt, damit 
 	[master*]$ git status
 	index.html: needs merge
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

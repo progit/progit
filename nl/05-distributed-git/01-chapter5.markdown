@@ -10,9 +10,9 @@ In tegenstelling tot gecentraliseerde versiebeheersystemen (CVCS), staat de gedi
 
 ### Gecentraliseerde werkwijze ###
 
-In gecentraliseerde systemen is er over het algemeen een enkel samenwerkingsmodel – de gecentraliseerde werkwijze. Eén centraal punt, of repository, kan code aanvaarden, en iedereen synchroniseert zijn werk daarmee. Een aantal ontwikkelaars zijn knopen – gebruikers van dat centrale punt – en synchroniseren met die plaats (zie Figuur 5-1). 
+In gecentraliseerde systemen is er over het algemeen een enkel samenwerkingsmodel – de gecentraliseerde werkwijze. Eén centraal punt, of repository, kan code aanvaarden, en iedereen synchroniseert zijn werk daarmee. Een aantal ontwikkelaars zijn knopen – gebruikers van dat centrale punt – en synchroniseren met die plaats (zie Figuur 5-1).
 
-Insert 18333fig0501.png 
+Insert 18333fig0501.png
 Figuur 5-1. Gecentraliseerde Werkwijze.
 
 Dit betekent dat als twee ontwikkelaars clonen van het gecentraliseerde punt en beide wijzigingen doen, de eerste ontwikkelaar zijn wijzigingen terug kan zetten zonder problemen. De tweede ontwikkelaar zal het werk van de eerste in het zijne moeten samenvoegen voordat hij het zijne kan terugzetten, om zo niet het werk van de eerste te overschrijven. Dit concept werkt zo in Git zoals het ook werkt in Subversion (of ieder ander CVCS), en dit model werkt perfect in Git.
@@ -31,7 +31,7 @@ Omdat Git je toestaat om meerdere remote repositories te hebben, is het mogelijk
 5. De eigenaar voegt het repo van de bijdrager toe als een remote en voegt lokaal samen.
 6. De eigenaar zet samengevoegde wijzigingen terug in het hoofdrepository.
 
-Insert 18333fig0502.png 
+Insert 18333fig0502.png
 Figuur 5-2. Integratie-manager werkwijze.
 
 Dit is een veel voorkomende werkwijze bij websites zoals GitHub, waarbij het eenvoudig is om een project af te splitsen en je wijzigingen terug te zetten in jouw afgesplitste project zodat iedereen ze kan zien. Een van de grote voordelen van deze aanpak is dat je door kunt gaan met werken, en de eigenaar van het hoofdrepository jouw wijzigingen op ieder moment binnen kan halen. Bijdragers hoeven niet te wachten tot het project hun bijdragen invoegt – iedere partij kan op hun eigen tempo werken.
@@ -45,7 +45,7 @@ Dit is een variant op de multi-repository werkwijze. Het wordt over het algemeen
 3. De dictator voegt de hoofdbranches van de luitenanten samen in de "dictatorhoofdbranch".
 4. De dictator zet zijn hoofdbranch terug naar het referentierepository zodat de andere ontwikkelaars kunnen rebasen.
 
-Insert 18333fig0503.png  
+Insert 18333fig0503.png
 Figuur 5-3. Welwillende-dictatorwerkwijze.
 
 Deze manier van werken komt niet vaak voor, maar kan handig zijn in hele grote projecten of in zeer hierarchische omgevingen, omdat het de projectleider (de dictator) toestaat om het meeste werk te delegeren en grote subsets van code te verzamelen op meerdere punten alvorens ze te integreren.
@@ -120,7 +120,7 @@ Laten we eens kijken hoe het er uit zou kunnen zien als twee ontwikkelaars samen
 	Initialized empty Git repository in /home/john/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim lib/simplegit.rb 
+	$ vim lib/simplegit.rb
 	$ git commit -am 'removed invalid default value'
 	[master 738ee87] removed invalid default value
 	 1 files changed, 1 insertions(+), 1 deletions(-)
@@ -132,7 +132,7 @@ De tweede ontwikkelaar, Jessica, doet hetzelfde – cloned de repository en comm
 	Initialized empty Git repository in /home/jessica/simplegit/.git/
 	...
 	$ cd simplegit/
-	$ vim TODO 
+	$ vim TODO
 	$ git commit -am 'add reset task'
 	[master fbff5bc] add reset task
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -162,7 +162,7 @@ John mag niet terugzetten omdat Jessica in de tussentijd teruggezet heeft. Dit i
 
 Op dit punt ziet John's lokale repository er ongeveer uit zoals Figuur 5-4.
 
-Insert 18333fig0504.png 
+Insert 18333fig0504.png
 Figuur 5-4. John’s initiële repository.
 
 John heeft een referentie naar de wijzigingen die Jessica teruggezet heeft, maar hij moet ze samenvoegen met zijn eigen werk voordat hij het terug mag zetten:
@@ -174,7 +174,7 @@ John heeft een referentie naar de wijzigingen die Jessica teruggezet heeft, maar
 
 Het samenvoegen gaat soepel – de commit historie van John ziet er nu uit als Figuur 5-5.
 
-Insert 18333fig0505.png 
+Insert 18333fig0505.png
 Figuur 5-5. John’s repository na het samenvoegen van origin/master.
 
 Nu kan John zijn code testen om er zeker van te zijn dat het nog steeds goed werkt, en dan kan hij zijn nieuwe samengevoegde werk terugzetten op de server:
@@ -186,12 +186,12 @@ Nu kan John zijn code testen om er zeker van te zijn dat het nog steeds goed wer
 
 Tenslotte ziet John's commit historie eruit als Figuur 5-6.
 
-Insert 18333fig0506.png 
+Insert 18333fig0506.png
 Figuur 5-6. John’s historie na teruggezet te hebben op de origin van de server.
 
 In de tussentijd heeft Jessica gewerkt op een onderwerp branch. Ze heeft een onderwerp branch genaamd `issue54` aangemaakt en daar drie commits op gedaan. Ze heeft John's wijzigingen nog niet opgehaald, dus haar commit historie ziet er uit als Figuur 5-7.
 
-Insert 18333fig0507.png 
+Insert 18333fig0507.png
 Figuur 5-7. Jessica’s initiële commit historie.
 
 Jessica wil met John synchroniseren, dus ze haalt de wijzigingen op:
@@ -204,7 +204,7 @@ Jessica wil met John synchroniseren, dus ze haalt de wijzigingen op:
 
 Dit haalt het werk op dat John in de tussentijd teruggezet heeft. Jessica's historie ziet er nu uit als Figuur 5-8.
 
-Insert 18333fig0508.png 
+Insert 18333fig0508.png
 Figuur 5-8. Jessica’s historie na het ophalen van John's wijzigingen.
 
 Jessica denkt dat haar onderwerp branch nu klaar is, maar ze wil weten wat ze in haar werk moet samenvoegen zodat ze terug kan zetten. Ze voert `git log` uit om dat uit te zoeken:
@@ -241,7 +241,7 @@ Er doen zich geen problemen voor; zoals je kunt zien was het een eenvoudige fast
 
 Alles voegt netjes samen, en Jessica's historie ziet er uit als Figuur 5-9.
 
-Insert 18333fig0509.png 
+Insert 18333fig0509.png
 Figuur 5-9. Jessica’s historie na het samenvoegen van John’s wijzigingen.
 
 Nu is `origin/master` bereikbaar vanuit Jessica's `master` branch, dus ze zou in staat moeten zijn om succesvol terug te kunnen zetten (er vanuit gegaan dat John in de tussentijd niets teruggezet heeft):
@@ -253,12 +253,12 @@ Nu is `origin/master` bereikbaar vanuit Jessica's `master` branch, dus ze zou in
 
 Iedere ontwikkelaar heeft een paar keer gecommit en elkaars werk succesvol samengevoegd; zie Figuur 5-10.
 
-Insert 18333fig0510.png 
+Insert 18333fig0510.png
 Figuur 5-10. Jessica’s historie na alle wijzigingen teruggezet te hebben op de server.
 
 Dat is één van de eenvoudigste werkwijzen. Je werkt een tijdje, over het algemeen in een onderwerp branch, en voegt samen in je master branch als het klaar is om te worden geïntegreerd. Als je dat werk wilt delen, dan voeg je het samen in je eigen master branch, en vervolgens haal je `origin/master` op en voegt het samen als het gewijzigd is, en als laatste zet je terug op de `master` branch op de server. De algemene volgorde is zoiets als die getoond in Figuur 5-11.
 
-Insert 18333fig0511.png 
+Insert 18333fig0511.png
 Figuur 5-11. Algemene volgorde van gebeurtenissen voor een eenvoudige multi-ontwikkelaar Git werkwijze.
 
 ### Besloten aangestuurd team ###
@@ -304,7 +304,7 @@ Nu doet Jessica een paar commits op de `featureB` branch:
 
 Jessica's repository ziet eruit als Figuur 5-12.
 
-Insert 18333fig0512.png 
+Insert 18333fig0512.png
 Figuur 5-12. Jessica’s initiële commit historie.
 
 Ze is klaar om haar werk terug te zetten, maar ze krijgt een e-mail van Josie dat een branch met wat initieel werk erin al teruggezet is naar de server als `featureBee`. Jessica moet die wijzigingen eerst samenvoegen met haar eigen voordat ze terug kan zetten naar de server. Ze kan dan Josie's wijzigingen ophalen met `git fetch`:
@@ -369,18 +369,18 @@ Jessica wil iets fijnstellen, dus doet ze nog een commit en zet dit terug naar d
 
 Jessica's commit historie ziet er nu uit zoals Figuur 5-13.
 
-Insert 18333fig0513.png 
+Insert 18333fig0513.png
 Figuur 5-13. Jessica’s historie na het committen op een functie branch.
 
 Jessica, Josie en John informeren de integrators nu dat de `featureA` en `featureBee` branches op de server klaar zijn voor integratie in de hoofdlijn. Nadat ze die branches in de hoofdlijn geïntegreerd hebben, zal een fetch de nieuwe samenvoeg commits ophalen, waardoor de commit historie er uit ziet zoals Figuur 5-14.
 
 
-Insert 18333fig0514.png 
+Insert 18333fig0514.png
 Figuur 5-14. Jessica’s historie na het samenvoegen van allebei haar onderwerp branches.
 
 Veel groepen schakelen om naar Git voor deze mogelijkheid om meerdere teams in parallel te kunnen laten werken, waarbij de verschillende lijnen van werk laat in het proces samengevoegd worden. De mogelijkheid van kleinere subgroepen of een team om samen te werken via remote branches zonder het betrekken of dwarsliggen van het hele team is een enorm voordeel van Git. De volgorde van de werkwijze die je hier zag is ongeveer zoals Figuur 5-15.
 
-Insert 18333fig0515.png 
+Insert 18333fig0515.png
 Figuur 5-15. Basale volgorde van de werkwijze van dit aangestuurde team.
 
 ### Klein publiek project ###
@@ -440,7 +440,7 @@ Bij een project waarvan je niet de beheerder bent, is het over het algemeen eenv
 
 Nu zijn al je onderwerpen opgeslagen in een silo – vergelijkbaar met een patch rij – die je kunt herschrijven, rebasen en wijzigen zonder dat de onderwerpen elkaar in de weg zitten of afhankelijk zijn zoals in Figuur 5-16.
 
-Insert 18333fig0516.png 
+Insert 18333fig0516.png
 Figuur 5-16. Initiële commit historie met werk van featureB.
 
 Stel dat de project beheerder een berg andere patches binnengehaald heeft en je eerste branch geprobeerd heeft, maar dat die niet langer netjes samenvoegt. In dit geval kun je proberen die branch te rebasen op de punt van `origin/master`, de conflicten proberen op te lossen voor de beheerder, en dan je wijzigingen opnieuw aanbieden:
@@ -451,7 +451,7 @@ Stel dat de project beheerder een berg andere patches binnengehaald heeft en je 
 
 Dit herschrijft je geschiedenis zodat die eruit ziet als in Figuur 5-17.
 
-Insert 18333fig0517.png 
+Insert 18333fig0517.png
 Figuur 5-17. Commit historie na werk van featureA.
 
 Omdat je de branch gerebased hebt, moet je de `-f` specificeren met je push commando om in staat te zijn de `featureA` branch op de server te vervangen met een commit die er geen afstammeling van is. Een alternatief zou zijn dit nieuwe werk naar een andere branch op de server terug te zetten (misschien `featureAv2` genaamd).
@@ -468,7 +468,7 @@ De `--squash` optie pakt al het werk op de samengevoegde branch en perst dat sam
 
 Nu kun je de beheerder een bericht sturen dat je de gevraagde wijzigingen gemaakt hebt en dat ze die wijzigingen kunnen vinden in je `featureBv2` branch (zie Figuur 5-18).
 
-Insert 18333fig0518.png 
+Insert 18333fig0518.png
 Figuur 5-18. Commit historie na het featureBv2 werk.
 
 ### Publiek groot project ###
@@ -491,7 +491,7 @@ Nu heb je twee commits die je wil sturen naar de maillijst. Je gebruikt `git for
 
 Het `format-patch` commando voert de namen uit van de patch bestanden die het maakt. De `-M` optie verteld Git te kijken naar hernoemingen. De bestanden komen er uiteindelijk zo uit te zien:
 
-	$ cat 0001-add-limit-to-log-function.patch 
+	$ cat 0001-add-limit-to-log-function.patch
 	From 330090432754092d704da8e76ca5c05c198e71a8 Mon Sep 17 00:00:00 2001
 	From: Jessica Smith <jessica@example.com>
 	Date: Sun, 6 Apr 2008 10:17:23 -0700
@@ -516,7 +516,7 @@ Het `format-patch` commando voert de namen uit van de patch bestanden die het ma
 	   end
 
 	   def ls_tree(treeish = 'master')
-	-- 
+	--
 	1.6.2.rc1.20.g8c5b.dirty
 
 Je kunt deze patch bestanden ook aanpassen om meer informatie voor de maillijst toe te voegen, die je niet in het commit bericht wil laten zien. Als je tekst toevoegt tussen de `--` regel en het begin van de patch (de `lib/simplegit.rb` regel), dan kunnen ontwikkelaars dit lezen; maar tijdens het toepassen van de patch wordt dit weggelaten.
@@ -539,14 +539,14 @@ Als dat ingesteld is, kun je `git send-email` gebruiken om de patch serie in de 
 	$ git send-email *.patch
 	0001-added-limit-to-log-function.patch
 	0002-changed-log-output-to-30-from-25.patch
-	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>] 
+	Who should the emails appear to be from? [Jessica Smith <jessica@example.com>]
 	Emails will be sent from: Jessica Smith <jessica@example.com>
 	Who should the emails be sent to? jessica@example.com
 	Message-ID to be used as In-Reply-To for the first email? y
 
 Dan spuugt Git een berg log informatie uit, die er zoiets als dit uitziet, voor iedere patch die je stuurt:
 
-	(mbox) Adding cc: Jessica Smith <jessica@example.com> from 
+	(mbox) Adding cc: Jessica Smith <jessica@example.com> from
 	  \line 'From: Jessica Smith <jessica@example.com>'
 	OK. Log says:
 	Sendmail: /usr/sbin/sendmail -i jessica@example.com
@@ -598,7 +598,7 @@ Dit wijzigt de bestanden in je werkmap. Het is vrijwel gelijk aan het uitvoeren 
 
 Je kunt ook git apply gebruiken om te zien of een patch netjes toepast, voordat je het echt toepast – je kunt `git apply --check` uitvoeren met de patch:
 
-	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch 
+	$ git apply --check 0001-seeing-if-this-helps-the-gem.patch
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
 
@@ -621,7 +621,7 @@ Dit is het begin van de uitvoer van het format-patch commando dat je gezien hebt
 
 Maar, als iemand een patch bestand heeft ge-upload die gegenereerd is met `format-patch` naar een ticket systeem of zoiets, kun je het bestand lokaal opslaan en dan dat bestand dat bewaard is op je schijf aan `git am` geven om het toe te passen:
 
-	$ git am 0001-limit-log-function.patch 
+	$ git am 0001-limit-log-function.patch
 	Applying: add limit to log function
 
 Je kunt zien dat het netjes is toegepast, en automatisch een nieuwe commit voor je heeft aangemaakt. De auteur informatie wordt gehaald uit het `From` en `Date` veld in de kop, en het bericht van de commit wordt gehaald uit de `Subject` en inhoud (voor de patch van de e-mail. Bijvoorbeeld, als deze patch was toegepast van het mbox voorbeeld dat ik zojuist getoond heb, dan zou de gegenereerde commit er ongeveer zo uit zien:
@@ -641,7 +641,7 @@ De `Commit` informatie laat de persoon die de patch toepaste en de tijd waarop h
 
 Maar, het is mogelijk dat de patch niet netjes toepast. Misschien is je hoofdbranch te ver afgeweken van de branch waarop de patch gebouwd is, of hangt de patch van een andere patch af, die je nog niet hebt toegepast. In dat geval zal het `git am` proces falen en je vragen wat je wilt doen:
 
-	$ git am 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -653,13 +653,13 @@ Maar, het is mogelijk dat de patch niet netjes toepast. Misschien is je hoofdbra
 Dit commando stopt conflict markeringen in alle bestanden waar het problemen mee heeft, net zoals een conflicterende samenvoeging of rebase operatie. Je lost dit probleem in een vergelijkbare manier op – wijzig het bestand om het conflict op te lossen, stage het bestand, en voer dan `git am --resolved` uit om door te gaan met de volgende patch:
 
 	$ (fix the file)
-	$ git add ticgit.gemspec 
+	$ git add ticgit.gemspec
 	$ git am --resolved
 	Applying: seeing if this helps the gem
 
 Als je wil dat Git een beetje meer intelligent probeert om het conflict op te lossen, kun je een `-3` optie eraan meegeven, wat zorgt dat Git een drieweg samenvoeging probeert. Deze optie staat standaard niet aan, omdat het niet werkt als de commit waarvan de patch zegt dat het op gebaseerd is niet in je repository zit. Als je die commit wel hebt – als de patch gebaseerd was op een publieke commit – dan is de `-3` over het algemeen veel slimmer in het toepassen van een conflicterende patch:
 
-	$ git am -3 0001-seeing-if-this-helps-the-gem.patch 
+	$ git am -3 0001-seeing-if-this-helps-the-gem.patch
 	Applying: seeing if this helps the gem
 	error: patch failed: ticgit.gemspec:1
 	error: ticgit.gemspec: patch does not apply
@@ -676,7 +676,7 @@ Als je een aantal patches van een mbox toepast, kun je ook het `am` commando in 
 	--------------------------
 	seeing if this helps the gem
 	--------------------------
-	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all 
+	Apply? [y]es/[n]o/[e]dit/[v]iew patch/[a]ccept all
 
 Dit is fijn als je een aantal patches bewaard hebt, omdat je de patch eerst kunt zien als je je niet kunt herinneren wat het is, of de patch niet wilt toepassen als je het al gedaan hebt.
 
@@ -740,7 +740,7 @@ Technisch, kun je dat doen door de gezamenlijke voorouder expliciet uit te zoeke
 
 	$ git merge-base contrib master
 	36c7dba2c95e6bbb78dfa822519ecfec6e1ca649
-	$ git diff 36c7db 
+	$ git diff 36c7db
 
 Maar, dat is niet handig, dus levert Git een andere korte manier om hetzelfde te doen: de driedubbele punt syntax. In de context van het `diff` commando, kun je drie punten achter een andere branch zetten, om een `diff` te doen tussen de laatste commit van de branch waar je op zit en zijn gezamenlijke voorouder met een andere branch:
 
@@ -756,7 +756,7 @@ Als al het werk in je onderwerp branch klaar is om te worden geïntegreerd in ee
 
 Een eenvoudige werkwijze voegt je werk in je `master` branch. In dit scenario, heb je een `master` branch die in feite stabiele code bevat. Als je werk in een onderwerp branch hebt dat jij gedaan hebt, of dat iemand anders heeft bijgedragen en jij hebt nagekeken, dan voeg je het in je master branch, verwijderd de onderwerp branch en vervolgt het proces. Als we een repository hebben met werk in twee branches genaamd `ruby_client` en `php_client`, dat eruit ziet zoals Figuur 5-19 en voegen `ruby_client` eerst in en vervolgens `php_client`, dan zal je historie er uit gaan zien zoals in Figuur 5-20.
 
-Insert 18333fig0519.png 
+Insert 18333fig0519.png
 Figuur 5-19. Historie met een aantal onderwerp branches.
 
 Insert 18333fig0520.png
@@ -766,13 +766,13 @@ Dat is waarschijnlijk de eenvoudigste werkwijze, maar het is problematisch als j
 
 Als je meer ontwikkelaars hebt, of een groter project, dan zul je waarschijnlijk een minstens twee fasen samenvoeg cyclus willen gebruiken. In dit scenario, heb je twee langlopende branches, `master` en `develop`, waarin je bepaald dat `master` alleen vernieuwd wordt als een zeer stabiele vrijgave gedaan wordt en alle nieuwe code geïntegreerd is in de `develop` branch. Je zet beide branches regelmatig terug naar het publieke repository. Iedere keer als je een nieuw onderwerp branch hebt om samen te voegen (Figuur 5-21), voeg je het in `develop` (Figuur 5-22); daarna, als je een tag maakt van een vrijgave, dan doe je een fast-forward van `master` naar waar de nu stabiele `develop` branch is (Figuur 5-23).
 
-Insert 18333fig0521.png 
+Insert 18333fig0521.png
 Figuur 5-21. Voor een samenvoeging van een onderwerp branch.
 
-Insert 18333fig0522.png 
+Insert 18333fig0522.png
 Figuur 5-22. Na een samenvoeging van een onderwerp branch.
 
-Insert 18333fig0523.png 
+Insert 18333fig0523.png
 Figuur 5-23. Na een vrijgave van een onderwerp branch.
 
 Als mensen het repository van je project op deze manier clonen, dan kunnen ze of master uit checken om de laatste stabiele versie te bouwen en die eenvoudig te kunnen bijhouden of ze kunnen develop uit checken, wat het nieuwere spul bevat.
@@ -782,12 +782,12 @@ Je kunt dit concept ook doortrekken, waarbij je een integratie branch hebt waar 
 
 Het Git project heeft vier langlopende branches: `master`, `next`, en `pu` (proposed updates, voorgestelde vernieuwingen), en `maint` voor onderhoudswerk. Als nieuw werk wordt geïntroduceerd door bijdragers, wordt het samengeraapt in onderwerp branches in het repository van de beheerder op een manier gelijk aan wat ik omschreven heb (zie Figuur 5-24). Op dit punt, worden de onderwerpen geëvalueerd om te bepalen of ze veilig zijn en klaar voor consumptie of dat ze nog wat werk nodig hebben. Als ze veilig zijn, worden ze in `next` samengevoegd, en wordt die branch teruggezet zodat iedereen de onderwerpen geïntegreerd kan proberen.
 
-Insert 18333fig0524.png 
+Insert 18333fig0524.png
 Figuur 5-24. Een complexe serie van parallelle bijgedragen onderwerp branches beheren.
 
 Als de onderwerpen nog werk nodig hebben, dan worden ze in plaats daarvan samengevoegd in `pu`. Als bepaald wordt dat ze helemaal stabiel zijn, dan worden de onderwerpen opnieuw samengevoegd in `master` en worden dan herbouwd van de onderwerpen die in `next` waren, maar nog niet geslaagd waren voor `master`. Dit betekend dat `master` vrijwel altijd vooruit beweegt, `next` eens in de zoveel tijd gerebased wordt, en `pu` nog vaker gerebased wordt (zie Figuur 5-25).
 
-Insert 18333fig0525.png 
+Insert 18333fig0525.png
 Figuur 5-25. Bijgedragen onderwerp branches samenvoegen in langlopende integratie branches.
 
 Als een onderwerp branch uiteindelijk is samengevoegd in `master`, dan wordt het verwijderd van het repository. Het Git project heeft ook een `main` branch, die geforked is van de laatste vrijgave om teruggewerkte patches te leveren in het geval een onderhoudsvrijgave benodigd is. Dus, als je het Git repository cloned, dan heb je vier branches die je kunt uitchecken om het project in verschillende stadia van ontwikkeling te evalueren, afhankelijk van hoe nieuw je alles wilt hebben of hoe je wil bijdragen; en de beheerder heeft een gestructureerde werkwijze om ze te helpen nieuwe bijdragen aan de tand te voelen.
@@ -798,7 +798,7 @@ Andere beheerders geven de voorkeur aan rebasen of bijgedragen werk te cherry pi
 
 De andere manier om geïntroduceerd werk van de ene naar de andere branch te verplaatsen is om het te cherry picken. Een cherry-pick in Git is een soort rebase voor een enkele commit. Het pakt de patch die was geïntroduceerd in een commit en probeert die opnieuw toe te passen op de branch waar je nu op zit. Dit is handig als je een aantal commits op een onderwerp branch hebt en je er slechts één van wilt integreren, of als je alleen één commit op een onderwerp branch hebt en er de voorkeur aan geeft om het te cherry-picken in plaats van rebase uit te voeren. Bijvoorbeeld, stel dat je een project hebt dat eruit ziet als Figuur 5-26.
 
-Insert 18333fig0526.png 
+Insert 18333fig0526.png
 Figuur 5-26. Voorbeeld historie voor een cherry pick.
 
 Als je commit `e43a6` in je master branch wil halen, dan kun je dit uitvoeren
@@ -810,7 +810,7 @@ Als je commit `e43a6` in je master branch wil halen, dan kun je dit uitvoeren
 
 Dit haalt dezelfde wijziging binnen als geïntroduceerd in `e43a6`, maar je krijgt een nieuwe SHA-1 waarde, omdat de gegevens op een andere manier toegepast zijn. Nu ziet je historie eruit als Figuur 5-27.
 
-Insert 18333fig0527.png 
+Insert 18333fig0527.png
 Figuur 5-27. Historie na het cherry-picken van een commit op een onderwerp branch.
 
 Nu kun je je onderwerp branch verwijderen en de commits die je niet wou binnenhalen weggooien.

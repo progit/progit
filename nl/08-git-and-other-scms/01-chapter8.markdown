@@ -29,14 +29,14 @@ Om het te volgen zul je eerst een nieuw lokaal Subversion repository moeten make
 
 Daarna sta je alle gebruikers toe om revprops te wijzigen – de makkelijke manier is om een pre-revprop-change script toe te voegen dat altijd met 0 afsluit:
 
-	$ cat /tmp/test-svn/hooks/pre-revprop-change 
+	$ cat /tmp/test-svn/hooks/pre-revprop-change
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
 Je kunt dit project nu syncen naar je lokale machine door `svnsync init` aan te roepen met de van en naar repositories.
 
-	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
+	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
 Dit stelt de eigenschappen in om de sync uit te voeren. Je kunt de code dan clonen door dit uit te voeren
 
@@ -281,7 +281,7 @@ Als je gewend bent aan Subversion en je wil je historie in SVN achtige output zi
 
 	------------------------------------------------------------------------
 	r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
-	
+
 	updated the changelog
 
 Je moet twee belangrijke zaken weten over `git svn log`. Ten eerste, het werkt offline en niet zoals het echte `svn log` commando wat de Subversion server vraagt om de data. Ten tweede, het toont je alleen commits die zijn gecommit naar de Subversion server. Lokale Git commits, die je nog niet ge-dcommit hebt worden niet getoond; een ook commits die mensen gedaan hebben in de tussentijd naar de Subversion server. Het is meer zoiets als de laatst bekende status van de commits op de Subversion server.
@@ -290,19 +290,19 @@ Je moet twee belangrijke zaken weten over `git svn log`. Ten eerste, het werkt o
 
 Zoals het `git svn log` commando het `svn log` commando offline simuleert, kun je het equivalent van `svn annotate` krijgen door `git svn blame [BESTAND]` uit te voeren. De output ziet er zo uit:
 
-	$ git svn blame README.txt 
+	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
 	 2   temporal Copyright 2008 Google Inc.
 	 2   temporal http://code.google.com/apis/protocolbuffers/
-	 2   temporal 
+	 2   temporal
 	22   temporal C++ Installation - Unix
 	22   temporal =======================
-	 2   temporal 
+	 2   temporal
 	79    schacon Committing in git-svn.
-	78    schacon 
+	78    schacon
 	 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
 	 2   temporal Buffer compiler (protoc) execute the following:
-	 2   temporal 
+	 2   temporal
 
 Nogmaals, het toont geen commits die je lokaal in Git gedaan hebt, of die in de tussentijd naar Subversion gepushed zijn.
 
@@ -507,7 +507,7 @@ Om te beginnen ga je naar de doelmap en identificeer je iedere submap, waarvan e
 	    next if File.file?(dir)
 
 	    # move into the target directory
-	    Dir.chdir(dir) do 
+	    Dir.chdir(dir) do
 	      last_mark = print_export(dir, last_mark)
 	    end
 	  end
@@ -603,7 +603,7 @@ Let op: Als je op Windows werkt, moet je er zeker van zijn dat je nog één extr
 
 Dat is alles. Als je dit script uitvoert, zul je inhoud krijgen die er ongeveer zo uit ziet:
 
-	$ ruby import.rb /opt/import_from 
+	$ ruby import.rb /opt/import_from
 	commit refs/heads/master
 	mark :1
 	committer Scott Chacon <schacon@geemail.com> 1230883200 -0700

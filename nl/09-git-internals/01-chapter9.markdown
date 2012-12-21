@@ -16,7 +16,7 @@ De eerste acht hoofdstukken van het boek behandelen bijna alleen porseleincomman
 
 Als je `git init` uitvoert in een nieuwe of bestaande map, zal Git de map `.git` aanmaken, wat de plek is waar Git bijna alles opslaat en manipuleert. Als je een backup of kopie van je repository wilt maken, dan hoef je alleen maar die map te kopiëren, en je hebt bijna alles wat je nodig hebt. Dit hele hoofdstuk gaat in essentie over de inhoud van deze map. Hier zie je hoe het eruit ziet:
 
-	$ ls 
+	$ ls
 	HEAD
 	branches/
 	config
@@ -54,7 +54,7 @@ Git heeft de `objects` map geïnitialiseerd en de `pack` en `info` submappen eri
 
 De `-w` verteld `hash-object` dat het object opgeslagen moet worden; anders zal het commando je alleen vertellen wat de sleutel zou zijn. `--stdin` verteld het commando dat het moet lezen van stdin; als je dit niet specificeert verwatch `hash-object` een pad naar een bestand. De uitvoer van het commando is een hash checksum van 40 karakters. Dit is de SHA-1 hash – een checksum van de inhoud die je opslaat plus een kop, waarover je zo meteen meer zult leren. Nu kun je zien hoe Git je gegevens opgeslagen heeft:
 
-	$ find .git/objects -type f 
+	$ find .git/objects -type f
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
 Je kunt een bestand in de `objects` map zien. Dit is hoe Git de inhoud initieel opslaat – as een enkel bestand per stuk inhoud, vernoemd naar de SHA-1 checksum van de inhoud en z'n kop. De submap is vernoemd naar de eerste 2 karakters van de SHA, het het bestandsnaam zijn de overige 38 karakters.
@@ -67,32 +67,32 @@ Je kunt de inhoud terug uit Git halen met het `cat-file` commando. Dit commando 
 Nu kun je inhoud aan Git toevoegen, en het er weer uit halen. Je kunt dit ook doen met inhoud in bestanden. Bijvoorbeeld, je kunt wat eenvoudig versie beheer op een bestand doen. Als eerste maak je een nieuw bestand en slaat de inhoud op in je databank:
 
 	$ echo 'version 1' > test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	83baae61804e65cc73a7201a7252750c76066a30
 
 Daarna schrijf je wat nieuwe inhoud in het bestand en slaat het opnieuw op:
 
 	$ echo 'version 2' > test.txt
-	$ git hash-object -w test.txt 
+	$ git hash-object -w test.txt
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
 Je databank bevat de twee nieuwe versies van het bestand, samen met de eerste inhoud die je daar opgeslagen hebt:
 
-	$ find .git/objects -type f 
+	$ find .git/objects -type f
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
 Nu kun je het bestand terugbrengen naar de eerste versie
 
-	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
-	$ cat test.txt 
+	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt
+	$ cat test.txt
 	version 1
 
 of de tweede versie:
 
-	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
-	$ cat test.txt 
+	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt
+	$ cat test.txt
 	version 2
 
 Maar de SHA-1 sleutel voor iedere versie van je bestand onthouden is niet erg praktisch; plus, je bewaard de bestandsnaam niet in je systeem – alleen de inhoud. Dit objecttype heet een blob. Je kunt Git jou het objecttype van ieder object in Git laten vertellen, gegeven de SHA-1 sleutel, met `cat-file -t`:
@@ -116,7 +116,7 @@ De `master^{tree}` syntax specificeert het boom object waarnaar gewezen wordt do
 
 Conceptueel zijn de gegevens die Git opslaat zoiets als in Figuur 9-1.
 
-Insert 18333fig0901.png 
+Insert 18333fig0901.png
 Figuur 9-1. Eenvoudige versie van het Git data model.
 
 Je kunt je eigen boom maken. Normaal gesproken maakt Git een boom door de status van je staging gebied of index te pakken en daar een boom object mee te schrijven. Dus, om een boomobject te maken moet je eerst een index instellen door een paar bestanden te stagen. Om een index te maken met een enkele vermelding – de eerste versie van je test.txt bestand – kun je het sanitaire voorzieningen commando `update-index` gebruiken. Je gebruikt dit commando om kunstmatig de eerdere versie van het test.txt bestand toe te voegen aan een nieuw staging gebied. Je moet het de `--add` optie meegeven, omdat het bestand nog niet bestaat in je staging gebied (je hebt zelfs nog geen staging gebied ingesteld) en `--cacheinfo` omdat het bestand dat je toevoegt niet in je map staat, maar wel in je databank. Daarna specificeer je de mode, SHA-1 en bestandsnaam:
@@ -141,8 +141,8 @@ Je kunt ook verifiëren dat dit een boomobject is:
 Je zult nu een nieuwe boom aanmaken met de tweede versie van het test.txt bestand en ook een nieuw bestand:
 
 	$ echo 'new file' > new.txt
-	$ git update-index test.txt 
-	$ git update-index --add new.txt 
+	$ git update-index test.txt
+	$ git update-index --add new.txt
 
 Je staging gebied heeft nu een nieuwe versie van test.txt, als ook het nieuwe new.txt bestand. Schrijf de boom (sla de status van het staging gebied of index op als boom object) en kijk hoe het er uit ziet:
 
@@ -164,7 +164,7 @@ Zie dat deze boom beide bestandsvermeldingen bevat en ook dat de SHA van test.tx
 
 Als je een werkmap zou maken van de nieuwe boom die je zojuist geschreven hebt, zou je de twee bestanden in het bovenste niveau van de werkmap krijgen en een submap genaamd `bak` die de eerste versie van het test.txt bestand bevatte. Je kunt over de gegevens die Git bevat voor deze structuren denken zoals getoond in Figuur 9-2.
 
-Insert 18333fig0902.png 
+Insert 18333fig0902.png
 Figuur 9-2. De inhoud structuur van je huidige Git gegevens.
 
 ### Commit objecten ###
@@ -241,7 +241,7 @@ Verbazingwekkend. Je hebt zojuist de lagere operaties uitgevoerd om een Git hist
 
 Als je alle interne verwijzingen volgt, krijg je een object-graaf die er uitzien zoals Figuur 9-3.
 
-Insert 18333fig0903.png 
+Insert 18333fig0903.png
 Figuur 9-3. Alle objecten in je Git map.
 
 ### Object opslag ###
@@ -326,7 +326,7 @@ Je branch zal alleen werk bevatten vanaf die commit en verder:
 
 Nu ziet je Git gegevensbank er conceptueel ongeveer uit zoals in Figuur 9-4.
 
-Insert 18333fig0904.png 
+Insert 18333fig0904.png
 Figuur 9-4. Git map objecten met branch head referenties erbij.
 
 Als je commando's zoals `git branch (branchnaam)` uitvoert, voert Git eigenlijk dat `update-ref` commando uit om de SHA-1 van de laatste commit van de branch waarop je zit, toe te voegen aan welke referentie je ook wil maken.
@@ -335,12 +335,12 @@ Als je commando's zoals `git branch (branchnaam)` uitvoert, voert Git eigenlijk 
 
 De vraag is nu, als je `git branch (branchnaam)` uitvoert, hoe weet Git de SHA-1 van de laatste commit? Het antwoord is het HEAD bestand. Het HEAD bestand is een symbolische referentie naar de branch waar je momenteel op zit. Met symbolische referentie bedoel ik dat, in tegenstelling tot een normale referentie, het over het algemeen geen SHA-1 waarde bevat maar een pointer naar een andere referentie. Als je naar het bestand kijkt, zul je normaal gesproken zoiets als dit zien:
 
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/master
 
 Als je `git checkout test` uitvoert, zal Git het bestand vernieuwen zodat het er zo uit ziet:
 
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/test
 
 Als je `git commit` uitvoert, wordt het commit object gecreëerd, waarbij de ouder van dat commit object gezet wordt naar welke SHA-1 waarde de referentie in HEAD ook wijst.
@@ -353,7 +353,7 @@ Je kunt dit bestand ook handmatig aanpassen, maar ook daar bestaat weer een veil
 Je kunt de waarde van HEAD ook instellen:
 
 	$ git symbolic-ref HEAD refs/heads/test
-	$ cat .git/HEAD 
+	$ cat .git/HEAD
 	ref: refs/heads/test
 
 Je kunt geen symbolische referentie instellen die buiten de refs stijl valt:
@@ -375,7 +375,7 @@ Dat is wat een lichtgewicht tag is – een branch die nooit beweegt. Een beschre
 
 Hier is de object SHA-1 waarde die het creëerde:
 
-	$ cat .git/refs/tags/v1.1 
+	$ cat .git/refs/tags/v1.1
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
 Voer nu het `cat-file` commando uit op die SHA-1 waarde:
@@ -409,10 +409,10 @@ Het derde soort referentie dat je zult zien is een remote referentie. Als je een
 
 Daarna kun je zien wat de `master` branch op de `origin` remote was toen je voor 't laatst met de server communiceerde, door het `refs/remotes/origin/master`bestand te bekijken:
 
-	$ cat .git/refs/remotes/origin/master 
+	$ cat .git/refs/remotes/origin/master
 	ca82a6dff817ec66f44342007202690a93763949
 
-Remote referenties verschillen hoofdzakelijk van branches (`refs/heads` referenties) in het feit dat ze niet uitgechecked kunnen worden. Git verplaatst ze als boekenleggers naar de laatste status van die branches op de servers. 
+Remote referenties verschillen hoofdzakelijk van branches (`refs/heads` referenties) in het feit dat ze niet uitgechecked kunnen worden. Git verplaatst ze als boekenleggers naar de laatste status van die branches op de servers.
 
 ## Packfiles ##
 
@@ -434,7 +434,7 @@ Laten we eens terug gaan naar de object-databank van je test Git repository. Op 
 Git comprimeert de inhoud van deze bestanden met zlib, en je slaat maar weinig op, dus nemen deze bestanden samen maar 925 bytes in beslag. Je zult nu wat grotere inhoud toevoegen aan het repository om een interessante eigenschap van Git te demonstreren. Voeg het repo.rb bestand toe van de Grit bibliotheek waaraan je eerder gewerkt hebt – dit is een broncode bestand van ongeveer 12K groot:
 
 	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
-	$ git add repo.rb 
+	$ git add repo.rb
 	$ git commit -m 'added repo.rb'
 	[master 484a592] added repo.rb
 	 3 files changed, 459 insertions(+), 2 deletions(-)
@@ -456,7 +456,7 @@ Je kunt dan het `git cat-file` commando gebruiken om te zien hoe groot dat objec
 
 Pas het bestand nu eens een beetje aan, en kijk wat er gebeurd:
 
-	$ echo '# testing' >> repo.rb 
+	$ echo '# testing' >> repo.rb
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)
@@ -783,8 +783,8 @@ Het andere ding dat `gc` zal doen is je referenties in een enkel bestand inpakke
 
 Als je `git gc` uitvoert, zul je deze bestanden niet langer in de `refs` map hebben. Git zal ze omwille van efficiëntie in een bestand genaamd `.git/packed-refs` stoppen, dat er zo uitziet:
 
-	$ cat .git/packed-refs 
-	# pack-refs with: peeled 
+	$ cat .git/packed-refs
+	# pack-refs with: peeled
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/heads/experiment
 	ab1afef80fac8e34258ff41fc1b867c702daa24b refs/heads/master
 	cac0cab538b970a37ea1e769cbbde608743bc96d refs/tags/v1.0
@@ -889,7 +889,7 @@ Om het te demonstreren, voeg je een groot bestand in je test repository toe, ver
 
 Oops — je wou geen enorme tarball toevoegen aan je project. Laten we er snel vanaf zien te komen:
 
-	$ git rm git.tbz2 
+	$ git rm git.tbz2
 	rm 'git.tbz2'
 	$ git commit -m 'oops - removed large tarball'
 	[master da3f30d] oops - removed large tarball
@@ -918,7 +918,7 @@ Je kunt het `count-objects` commando gebruiken om snel te zien hoeveel ruimte je
 
 Op de `size-pack` regel staat de grootte van je packfiles in kilobytes, dus je gebruikt 2Mb. Voor de laatste commit gebruikte je bijna 2K – dus het is duidelijk dat het verwijderen van het bestand uit de vorige commit, het niet uit je geschiedenis verwijderd heeft. Iedere keer als iemand dit repository cloned, zullen ze de volle 2Mb moeten clonen alleen maar om dit kleine project te krijgen, omdat jij per ongeluk een groot bestand toegevoegd hebt. Laten we het kwijtraken.
 
-Eerst moet je het vinden. In dit geval weet je al welk bestand het is. Maar stel dat je het niet wist; hoe zou je kunnen vinden welk bestand of bestanden zoveel ruimte in beslag nemen? Als je `git gc` uitvoert zitten alle objecten in een packfile; je kunt de grote bestanden identificeren door een ander sanitaire voorzieningen commando genaamd `git verify-pack` uit te voeren en te sorteren op het derde veld in de uitvoer, wat de bestandsgrootte is. Je kunt het ook door het `tail` commando leiden omdat je alleen geïnteresseerd bent in het laatste paar grote bestanden. 
+Eerst moet je het vinden. In dit geval weet je al welk bestand het is. Maar stel dat je het niet wist; hoe zou je kunnen vinden welk bestand of bestanden zoveel ruimte in beslag nemen? Als je `git gc` uitvoert zitten alle objecten in een packfile; je kunt de grote bestanden identificeren door een ander sanitaire voorzieningen commando genaamd `git verify-pack` uit te voeren en te sorteren op het derde veld in de uitvoer, wat de bestandsgrootte is. Je kunt het ook door het `tail` commando leiden omdat je alleen geïnteresseerd bent in het laatste paar grote bestanden.
 
 	$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667

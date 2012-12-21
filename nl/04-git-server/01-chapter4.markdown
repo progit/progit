@@ -55,7 +55,7 @@ Om een Git repository via SSH te clonen, kun je een ssh:// URL opgeven zoals:
 	$ git clone ssh://user@server:project.git
 
 Of je geeft geen protocol op — Git gaat uit van SSH als je niet expliciet bent:
-	
+
 	$ git clone user@server:project.git
 
 Je kunt ook de gebruiker niet opgeven, en Git neemt aan dat je de gebruiker bedoelt waarmee je op het moment bent ingelogd.
@@ -177,11 +177,11 @@ Als eerste moet je controleren dat je er niet al een hebt. Standaard staan de SS
 
 Je bent op zoek naar een aantal bestanden genaamd iets en iets.pub, waarbij het `iets` meestal zoiets is als `id_dsa` of `id_rsa`. Het `.pub` bestand is je publieke sleutel en het andere bestand is je private sleutel. Als je deze bestanden niet hebt (of als je zelfs geen `.ssh` map hebt), dan kun je ze aanmaken door een applicatie genaamd `ssh-keygen` uit te voeren, wat meegeleverd wordt met het SSH pakket op Linux/Mac systemen en meegeleverd wordt met het MSysGit pakket op Windows:
 
-	$ ssh-keygen 
+	$ ssh-keygen
 	Generating public/private rsa key pair.
-	Enter file in which to save the key (/Users/schacon/.ssh/id_rsa): 
-	Enter passphrase (empty for no passphrase): 
-	Enter same passphrase again: 
+	Enter file in which to save the key (/Users/schacon/.ssh/id_rsa):
+	Enter passphrase (empty for no passphrase):
+	Enter same passphrase again:
 	Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 	Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
 	The key fingerprint is:
@@ -191,7 +191,7 @@ Eerst bevestigt het de locatie waar je de sleutel wilt opslaan (`.ssh/id_rsa`), 
 
 Iedere gebruiker die dit doet, moet zijn sleutel sturen naar jou of degene die de Git server beheert (aangenomen dat je een SSH server gebruikt die publieke sleutels vereist). Het enige dat ze hoeven doen is de inhoud van het `.pub` bestand kopiëren en e-mailen. De publieke sleutel ziet er ongeveer zo uit:
 
-	$ cat ~/.ssh/id_rsa.pub 
+	$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
 	GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 	Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
@@ -287,7 +287,7 @@ Als je een lagere versie dan 1.6 van Git gebruikt, dan is het `mv` commando niet
 
 Wat doet deze `post-update` haak? Het ziet er ongeveer zo uit:
 
-	$ cat .git/hooks/post-update 
+	$ cat .git/hooks/post-update
 	#!/bin/sh
 	exec git-update-server-info
 
@@ -318,7 +318,7 @@ Op deze manier kun je HTTP-gebaseerde toegang voor ieder van je projecten voor e
 
 Nu dat je basis lees/schrijf en alleen-lezen toegang tot je project hebt, wil je misschien een eenvoudige web-gebaseerde visualiseerder instellen. Git levert een CGI script genaamd GitWeb mee, dat veelal voor hiervoor gebruikt wordt. Je kunt GitWeb in gebruik zien bij sites zoals `http://git.kernel.org` (zie Figuur 4-1).
 
-Insert 18333fig0401.png 
+Insert 18333fig0401.png
 Figuur 4-1. De GitWeb web-gebaseerde gebruikers interface.
 
 Als je wil zien hoe GitWeb er op jouw project uitziet, dan heeft Git een commando waarmee je een tijdelijke instantie op kunt starten als je een lichtgewicht server op je systeem hebt zoals `lighttpd` of `webrick`. Op Linux machines is `lighttpd` vaak geïnstalleerd, dus je kunt het misschien draaiend krijgen door `git instaweb` in te typen in je project map. Als je op een Mac werkt: Leopard heeft Ruby voorgeïnstalleerd, dus `webrick` zou je beste gok kunnen zijn. Om `instaweb` met een server anders dan lighttpd te starten, kun je het uitvoeren met de `--httpd` optie.
@@ -331,7 +331,7 @@ Dat start een HTTPD server op poort 1234 op en start automatisch een web browser
 
 	$ git instaweb --httpd=webrick --stop
 
-Als je de web interface doorlopend op een server wilt draaien voor je team of voor een open source project dat je serveert, dan moet je het CGI script instellen zodat het door je normale web server geserveerd wordt. Sommige Linux distributies hebben een `gitweb` pakket dat je misschien kunt installeren via `apt` of `yum`, dus misschien wil je dat eerst proberen. We zullen zeer vlot door een handmatige GitWeb installatie heenlopen. Eerst moet je de Git broncode pakken, waar GitWeb bij zit, en het persoonlijke CGI script genereren: 
+Als je de web interface doorlopend op een server wilt draaien voor je team of voor een open source project dat je serveert, dan moet je het CGI script instellen zodat het door je normale web server geserveerd wordt. Sommige Linux distributies hebben een `gitweb` pakket dat je misschien kunt installeren via `apt` of `yum`, dus misschien wil je dat eerst proberen. We zullen zeer vlot door een handmatige GitWeb installatie heenlopen. Eerst moet je de Git broncode pakken, waar GitWeb bij zit, en het persoonlijke CGI script genereren:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
@@ -425,7 +425,7 @@ Het `gitosis.conf` bestand is het beheer bestand, dat je zult gebruiken om gebru
 
 Als je naar het `gitosis.conf` bestand kijkt, zou het alleen informatie over het zojuist geclonede `gitosis-admin` project mogen bevatten:
 
-	$ cat gitosis.conf 
+	$ cat gitosis.conf
 	[gitosis]
 
 	[group gitosis-admin]
@@ -503,7 +503,7 @@ Nu kan John het project clonen en updates krijgen, maar Gitosis zal hem niet toe
 	writable  = another_iphone_project
 	members   = @mobile_committers john
 
-Als je problemen hebt, kan het handig zijn om `loglevel=DEBUG` onder de `[gitosis]` sectie te zetten. Als je je push-toegang bent verloren door een kapotte configuratie te pushen, kun je het handmatig repareren in het bestand `/home/git/.gitosis.conf` op de server — het bestand waar Gitosis zijn informatie vandaan haalt. Een push naar het project neemt het `gitosis.conf` bestand dat je zojuist gepushed hebt en stopt het daar. Als je het bestand handmatig aanpast, zal het zo blijven totdat de volgende succesvolle push gedaan wordt naar het `gitosis-admin` project. 
+Als je problemen hebt, kan het handig zijn om `loglevel=DEBUG` onder de `[gitosis]` sectie te zetten. Als je je push-toegang bent verloren door een kapotte configuratie te pushen, kun je het handmatig repareren in het bestand `/home/git/.gitosis.conf` op de server — het bestand waar Gitosis zijn informatie vandaan haalt. Een push naar het project neemt het `gitosis.conf` bestand dat je zojuist gepushed hebt en stopt het daar. Als je het bestand handmatig aanpast, zal het zo blijven totdat de volgende succesvolle push gedaan wordt naar het `gitosis-admin` project.
 
 ## Gitolite ##
 
@@ -550,7 +550,7 @@ Standaard worden de `testing` en `gitolite-admin` repositories aangemaakt. Als j
 
 	$ git clone gitolite:gitolite-admin
 	$ git clone gitolite:testing
-	
+
 Om dezelfde repos van ieder ander account te clonen:
 
 	$ git clone gitolite@servername:gitolite-admin
@@ -679,7 +679,7 @@ We ronden deze bespreking af met een voorproefje van andere eigenschappen, die a
              R     indic_web_input
              R     shreelipi_converter
 
-**Delegatie**: Voor hele grote installaties, kun je verantwoordelijkheden voor groepen of repositories delegeren aan diverse personen, en ze die onderdelen onafhankelijk laten beheren. Dit beperkt de belasting op de hoofd beheerder, en maakt hem minder een flessenhals. Deze eigenschap heeft zijn eigen documentatiebestand in de `doc/` map. 
+**Delegatie**: Voor hele grote installaties, kun je verantwoordelijkheden voor groepen of repositories delegeren aan diverse personen, en ze die onderdelen onafhankelijk laten beheren. Dit beperkt de belasting op de hoofd beheerder, en maakt hem minder een flessenhals. Deze eigenschap heeft zijn eigen documentatiebestand in de `doc/` map.
 
 **Gitweb ondersteuning**: Gitolite ondersteund gitweb op meerdere manieren. Je kunt specificeren welke repos zichtbaar zijn via gitweb. Je kunt de "eigenaar" en "omschrijving" voor gitweb instellen in het gitolite configuratiebestand. Gitweb heeft een mechanisme voor je om toegangscontrole gebaseerd op HTTP verificatie te implementeren, dus je kunt het het "samengestelde" configuratiebestand laten gebruiken dat gitolite produceert, wat betekend dat dezelfde toegangsregels (voor leestoegang) van toepassing zijn op gitweb en gitolite.
 
@@ -776,13 +776,13 @@ Figuur 4-2. De GitHub inteken pagina.
 
 Hier moet je een gebruikersnaam kiezen die nog niet bezet is in het systeem, en een e-mail adres invullen dat bij het account hoort, en een wachtwoord (zie Figuur 4-3).
 
-Insert 18333fig0403.png 
+Insert 18333fig0403.png
 Figuur 4-3. Het GitHub gebruikers inteken formulier.
 
 Als je het beschikbaar hebt, is dit een goed moment om je publieke SSH sleutel ook toe te voegen. We hebben je eerder laten zien hoe je een nieuwe sleutel kunt genereren, in de "Eenvoudige Instellingen" sectie. Neem de inhoud van de publieke sleutel van dat paar, en plak het in het SSH publieke sleutel tekstveld. Door op de "explain ssh keys" link te klikken wordt je naar gedetailleerde instructies gebracht die je vertellen hoe dit te doen op alle veelgebruikte besturingssystemen.
 Door op de "I agree, sign me up" knop te klikken wordt je naar je nieuwe gebruikers dashboard gebracht (zie Figuur 4-4).
 
-Insert 18333fig0404.png 
+Insert 18333fig0404.png
 Figuur 4-4. Het GitHub gebruikers dashboard.
 
 Vervolgens kun je een nieuw repository aanmaken.
@@ -791,17 +791,17 @@ Vervolgens kun je een nieuw repository aanmaken.
 
 Start door op de "create a new one" link te klikken naast Your Repositories op het gebruikers dashboard. Je wordt naar het Create a New Repository formulier gebracht (zie Figuur 4-5).
 
-Insert 18333fig0405.png 
+Insert 18333fig0405.png
 Figuur 4-5. Een nieuw repository aanmaken op GitHub.
 
 Het enige dat je eigenlijk moet doen is een projectnaam opgeven, maar je kunt ook een beschrijving toevoegen. Wanneer je dat gedaan hebt, klik dan op de "Create Repository" knop. Nu heb je een nieuw repository op GitHub (zie Figuur 4-6).
 
-Insert 18333fig0406.png 
+Insert 18333fig0406.png
 Figuur 4-6. GitHub project hoofd informatie.
 
 Omdat je er nog geen code hebt, zal GitHub je de instructies tonen hoe je een splinternieuw project moet aanmaken, een bestaand Git project moet pushen, of een project van een publieke Subversion repository moet importeren (zie Figuur 4-7).
 
-Insert 18333fig0407.png 
+Insert 18333fig0407.png
 Figuur 4-7. Instructies voor een nieuwe repository.
 
 Deze instructies zijn vergelijkbaar met wat we al hebben laten zien. Om een project te initialiseren dat nog geen Git project is, gebruik je
@@ -817,7 +817,7 @@ Als je een lokaal Git repository hebt, voeg dan GitHub als remote toe en push je
 
 Nu wordt je project beheerd op GitHub, en kun je de URL aan iedereen geven waarmee je je project wilt delen. In dit geval is het `http://githup.com/testinguser/iphone_project`. Je kunt aan het begin van ieder van je project pagina's zien dat je twee Git URLs hebt (zie Figuur 4-8).
 
-Insert 18333fig0408.png 
+Insert 18333fig0408.png
 Figuur 4-8. Project met een publieke URL en een privé URL.
 
 De publieke Clone URL is een publieke alleen-lezen Git URL, waarmee iedereen het project kan clonen. Deel deze URL maar gewoon uit en zet 'm op je website of wat je ook hebt.
@@ -828,7 +828,7 @@ De Your Clone URL is een lees/schrijf SSH-gebaseerde URL waar je alleen over kun
 
 Als je een bestaande publiek Subversion project hebt dat je in Git wilt importeren, kan GitHub dat vaak voor je doen. Aan de onderkant van de instructies pagina staat een link naar een Subversion import. Als je die aanklikt, zie je een formulier met informatie over het importeer proces een een tekstveld waar je de URL van je publieke Subversion project in kan plakken (zie Figuur 4-9).
 
-Insert 18333fig0409.png 
+Insert 18333fig0409.png
 Figuur 4-9. Subversion importeer interface.
 
 Als je project erg groot is, niet standaard, of privé, dan zal dit proces waarschijnlijk niet voor je werken. In Hoofdstuk 7 zul je leren om meer gecompliceerde handmatige project imports te doen.
@@ -839,17 +839,17 @@ Laten we de rest van het team toevoegen. Als John, Josie en Jessica allemaal int
 
 Klik de "edit" knop aan de bovenkant van het project, of de Admin tab, om de Admin pagina te bereiken van je GitHub project (zie Figuur 4-10).
 
-Insert 18333fig0410.png 
+Insert 18333fig0410.png
 Figuur 4-10. GitHub administratie pagina.
 
-Om een andere gebruiker schrijftoegang tot je project te geven, klik dan de "Add another collaborator" link. Er verschijnt een nieuw tekstveld, waarin je een gebruikersnaam kunt invullen. Op het moment dat je typt, komt er een hulp omhoog, waarin alle mogelijke overeenkomende gebruikersnamen staan. Als je de juiste gebruiker vind, klik dan de Add knop om die gebruiker als een medewerker aan je project toe te voegen (zie Figuur 4-11). 
+Om een andere gebruiker schrijftoegang tot je project te geven, klik dan de "Add another collaborator" link. Er verschijnt een nieuw tekstveld, waarin je een gebruikersnaam kunt invullen. Op het moment dat je typt, komt er een hulp omhoog, waarin alle mogelijke overeenkomende gebruikersnamen staan. Als je de juiste gebruiker vind, klik dan de Add knop om die gebruiker als een medewerker aan je project toe te voegen (zie Figuur 4-11).
 
-Insert 18333fig0411.png 
+Insert 18333fig0411.png
 Figuur 4-11. Een medewerker aan je project toevoegen.
 
 Als je klaar bent met medewerkers toevoegen, dan zou je een lijst met de namen moeten zien in het Repository Collaborators veld (zie Figuur 4-12).
 
-Insert 18333fig0412.png 
+Insert 18333fig0412.png
 Figuur 4-12. Een lijst met medewerkers aan je project.
 
 Als je toegang van individuen moet intrekken, dan kun je de "revoke" link klikken, en dan wordt hun push toegang ingetrokken. Voor toekomstige projecten, kun je ook de medewerker groepen kopiëren door de permissies van een bestaand project te kopiëren.
@@ -858,7 +858,7 @@ Als je toegang van individuen moet intrekken, dan kun je de "revoke" link klikke
 
 Nadat je je project gepushed hebt, of geïmporteerd vanuit Subversion, heb je een hoofd project pagina die er uitziet zoals Figuur 4-13.
 
-Insert 18333fig0413.png 
+Insert 18333fig0413.png
 Figuur 4-13. Een GitHub project hoofdpagina.
 
 Als mensen je project bezoeken, zien ze deze pagina. Het bevat tabs naar de verschillende aspecten van je projecten. De Commits tab laat een lijst van commits in omgekeerde chronologische volgorde zien, vergelijkbaar met de output van het `git log` commando. De Network tab toont alle mensen die je project hebben geforked en bijgedragen hebben. De Downloads tab staat je toe project binaries te uploaden en naar tarballs en gezipte versies van ieder getagged punt in je project te linken. De Wiki tab voorziet in een wiki waar je documentatie kunt schrijven of andere informatie over je project. De Graphs tab heeft wat contributie visualisaties en statistieken over je project. De hoofd Source tab waarop je binnen komt toont de inhoud van de hoofdmap van je project en toont automatisch het README bestand eronder als je er een hebt. Deze tab toont ook een veld met de laatste commit informatie.
@@ -871,12 +871,12 @@ Op deze manier hoeven projecten zich geen zorgen te maken over het toevoegen van
 
 Om een project te forken, bezoek dan de project pagina (in dit geval, mojombo/chronic) en klik de "fork" knop aan de bovenkant (zie Figuur 4-14).
 
-Insert 18333fig0414.png 
+Insert 18333fig0414.png
 Figuur 4-14. Een schrijfbare kopie van een project krijgen door de "fork" knop te klikken.
 
 Na een paar seconden wordt je naar je nieuwe project pagina gebracht, wat aangeeft dat dit project een fork is van een ander (zie Figuur 4-15).
 
-Insert 18333fig0415.png 
+Insert 18333fig0415.png
 Figuur 4-15. Jouw fork van een project.
 
 ### GitHub samenvatting ###

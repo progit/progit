@@ -46,7 +46,7 @@ Onthoud dat ieder bestand in je werkmap in twee statussen kan verkeren: *gevolgd
 
 Zodra je bestanden wijzigt, ziet Git ze als gewijzigd omdat je ze veranderd hebt sinds je laatste commit. Je *staged* deze gewijzigde bestanden en commit al je ge-stagede wijzigingen, en de cyclus herhaalt zichzelf. Deze cyclus wordt in Figuur 2-1 geïllustreerd.
 
-Insert 18333fig0201.png 
+Insert 18333fig0201.png
 Figuur 2-1. De levenscyclus van de status van je bestanden.
 
 ### De status van je bestanden controleren ###
@@ -121,7 +121,7 @@ Het `benchmarks.rb` bestand verschijnt onder een sectie genaamd “Changed but n
 
 Beide bestanden zijn ge-staged en zullen in je volgende commit gaan. Stel dat je je op dit punt herinnert dat je een kleine wijziging in `benchmarks.rb` wil maken voor je volgende commit. Je kunt het opnieuw openen en die wijziging maken, en dan ben je klaar voor de commit. Maar, laten we `git status` nog een keer uitvoeren:
 
-	$ vim benchmarks.rb 
+	$ vim benchmarks.rb
 	$ git status
 	# On branch master
 	# Changes to be committed:
@@ -251,7 +251,7 @@ Nog een voorbeeld. Als je het `benchmarks.rb` bestand staged, en vervolgens vera
 
 Nu kun je `git diff` gebruiken om te zien wat nog niet gestaged is
 
-	$ git diff 
+	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index e445e28..86b2f7c 100644
 	--- a/benchmarks.rb
@@ -259,7 +259,7 @@ Nu kun je `git diff` gebruiken om te zien wat nog niet gestaged is
 	@@ -127,3 +127,4 @@ end
 	 main()
 
-	 ##pp Grit::GitRuby.cache_client.stats 
+	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
 en `git diff --cached` om te zien wat je tot nog toe gestaged hebt:
@@ -276,7 +276,7 @@ en `git diff --cached` om te zien wat je tot nog toe gestaged hebt:
 	+        run_code(x, 'commits 1') do
 	+          git.commits.size
 	+        end
-	+              
+	+
 	        run_code(x, 'commits 2') do
 	          log = git.commits('master', 15)
 	          log.size
@@ -299,7 +299,7 @@ De editor laat de volgende tekst zien (dit voorbeeld is een Vim scherm):
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
 	#       new file:   README
-	#       modified:   benchmarks.rb 
+	#       modified:   benchmarks.rb
 	~
 	~
 	~
@@ -485,7 +485,7 @@ Een van de meest behulpzame opties is `-p`, wat de diff laat zien van de dingen 
 Deze optie toont dezelfde informatie, maar dan met een diff volgend op ieder item. Dit is erg handig voor een code review, of om snel te zien wat er tijdens een serie commits gebeurd is die een medewerker toegevoegd heeft.
 Je kunt ook een serie samenvattende opties met `git log` gebruiken. Bijvoorbeeld, als je wat verkorte statistieken bij iedere commit wilt zien, kun je de `--stat` optie gebruiken:
 
-	$ git log --stat 
+	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -556,12 +556,12 @@ De `oneline` en `format` opties zijn erg handig in combinatie met een andere `lo
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
 	*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit
-	|\  
+	|\
 	| * 420eac9 Added a method for getting the current branch.
 	* | 30e367c timeout code and tests
 	* | 5a09431 add timeout protection to grit
 	* | e1193f8 support for heads with slashes in them
-	|/  
+	|/
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
@@ -618,7 +618,7 @@ Van de bijna 20.000 commits in de Git broncode historie, laat dit commando de 6 
 
 Als je een meer grafische applicatie wilt gebruiken om je commit historie te visualiseren, wil je misschien een kijkje nemen naar het Tcl/Tk programma genaamd `gitk` dat met Git meegeleverd wordt. Gitk is eigenlijk een visuele `git log`, en het accepteert bijna alle filter opties die `git log` ook accepteert. Als je `gitk` in op de commandoregel in je project typt, zou je zoiets als in Figuur 2-2 moeten zien.
 
-Insert 18333fig0202.png 
+Insert 18333fig0202.png
 Figuur 2-2. De gitk historie visualiseerder.
 
 Je kunt de commit historie in de bovenste helft van het scherm zien, samen met een afkomst graaf. De diff in de onderste helft van het scherm laat je de veranderingen zien die bij iedere commit die je aanklikt geïntroduceerd zijn.
@@ -641,7 +641,7 @@ Bijvoorbeeld, als je commit en je dan realiseert dat je vergeten bent de verande
 
 	$ git commit -m 'initial commit'
 	$ git add forgotten_file
-	$ git commit --amend 
+	$ git commit --amend
 
 Alledrie van deze commando's eindigen met één commit — de tweede commit vervangt de resultaten van de eerste.
 
@@ -661,7 +661,7 @@ De volgende twee paragrafen laten zien hoe je je staging gebied en veranderingen
 
 Recht onder de "Changes to be committed" tekst, staat dat je `git reset HEAD <bestand>...` moet gebruiken om te unstagen. Laten we dat advies volgen om het `benchmarks.rb` bestand te unstagen:
 
-	$ git reset HEAD benchmarks.rb 
+	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
 	$ git status
 	# On branch master
@@ -722,7 +722,7 @@ Om te zien welke remote servers je geconfigureerd hebt, kun je het `git remote` 
 	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
 	Resolving deltas: 100% (255/255), done.
 	$ cd ticgit
-	$ git remote 
+	$ git remote
 	origin
 
 Je kunt ook `-v` specificeren, wat je de URL laat zien die Git bij de verkorte naam heeft opgeslagen om naar geëxpandeerd te worden:
@@ -1000,7 +1000,7 @@ Nu, stel dat je vergeten bent het project op v1.2 te taggen, daar waar de "updat
 
 Je kunt zien dat je de commit getagged hebt:
 
-	$ git tag 
+	$ git tag
 	v0.1
 	v1.2
 	v1.3
@@ -1069,7 +1069,7 @@ Druk de Tab toets als je een Git commando aan het typen bent, en het zou een set
 	commit config
 
 In dit geval zal git co en dan de Tab toets twee keer indrukken git commit en config voorstellen. `m<tab>` toevoegen, vult `git commit` automatisch aan.
-	
+
 Dit werkt ook met opties, wat waarschijnlijk meer bruikbaar is. Bijvoorbeeld, als je een `git log` commando uitvoert en je niet meer kunt herinneren wat een van de opties is, dan kun je beginnen met het te typen en Tab indrukken om te zien wat er past:
 
 	$ git log --s<tab>
@@ -1102,7 +1102,7 @@ Het lijkt wat helderder. Het is ook gebruikelijk om een `last` commando toe te v
 	$ git config --global alias.last 'log -1 HEAD'
 
 Op deze manier kun je de laatste commit makkelijk zien:
-	
+
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
 	Author: Josh Goebel <dreamer3@example.com>

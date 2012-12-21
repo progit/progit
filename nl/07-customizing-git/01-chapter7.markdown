@@ -71,7 +71,7 @@ Als je een beleid hebt voor commit boodschappen, dan vergroot het plaatsen van e
 
 #### core.pager ####
 
-De instelling voor 'core.pager' bepaald welke pagineer applicatie gebruikt wordt door Git om de uitvoer van `log` en `diff` weer te geven. Je kunt het instellen als `more` of als je favoriete pagineerder (standaard is het `less`), of je kunt het uit zetten door het als een lege tekst in te stellen: 
+De instelling voor 'core.pager' bepaald welke pagineer applicatie gebruikt wordt door Git om de uitvoer van `log` en `diff` weer te geven. Je kunt het instellen als `more` of als je favoriete pagineerder (standaard is het `less`), of je kunt het uit zetten door het als een lege tekst in te stellen:
 
 	$ git config --global core.pager ''
 
@@ -156,13 +156,13 @@ De diff wrapper controleert dat er zeker zeven argumenten meegegeven zijn, en ge
 
 Omdat je alleen de `oude-bestand` en `nieuwe-bestand` argumenten wil, zul je het wrapper script gebruiken om degenen door te geven die je wil.
 
-	$ cat /usr/local/bin/extDiff 
+	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
 Je moet er ook zeker van zijn dat deze tools uitvoerbaar zijn:
 
-	$ sudo chmod +x /usr/local/bin/extMerge 
+	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
 Nu kun je je config bestand instellen dat het je eigengemaakte samenvoeg en diff tools gebruikt. Dit wordt gedaan met een aantal eigen instellingen: `merge.tool` om Git te vertellen welke strategie hij moet gebruiken, `mergetool.*.cmd` om te specificeren hoe het het commando moet uitvoeren, `mergetool.trustExitCode` om Git te vertellen of de exit code van dat programma een succesvolle samenvoeging betekent of niet, en `diff.external` om Git te vertellen welk commando het moet uitvoeren voor diffs. Dus, je kunt of vier configuratie commando's uitvoeren
@@ -184,12 +184,12 @@ of je kunt je `~/.gitconfig` bestand aanpassen en deze regels toevoegen:
 	  external = extDiff
 
 Nadat dit alles ingesteld is, zul je als je diff commando's zoals deze uitvoert:
-	
+
 	$ git diff 32d1776b1^ 32d1776b1
 
 in plaat van de uitvoer van diff op de commando regel, een instantie van P4Merge gestart door Git krijgen, wat er uitziet zoals in Figuur 7-1.
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 Figuur 7-1. P4Merge.
 
 Als je twee branches probeert samen te voegen en je krijgt conflicten, dan kun je het `git mergetool` commando uitvoeren; het start P4Merge op om je het conflict op te laten lossen met behulp van dat GUI tool.
@@ -197,7 +197,7 @@ Als je twee branches probeert samen te voegen en je krijgt conflicten, dan kun j
 Het aardige van deze wrapper opstelling is dat je je diff en merge tools eenvoudig aan kunt passen. Bijvoorbeeld, om je `extDiff` en `extMerge` tools in te stellen dat ze in plaats daarvan het KDiff3 tool uitvoeren, is het enige dat je moet doen je `extMerge` bestand aanpassen:
 
 	$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 Nu zal Git het KDiff3 tool gebruiken voor het tonen van diff en het oplossen van samenvoeg conflicten.
@@ -311,7 +311,7 @@ In de 1.6 serie van Git, kun je de functionaliteit van Git attributen gebruiken 
 
 Omdat dit een erg stoer en weinig gebruikte eigenschap is, zal ik een paar voorbeelden laten zien. Eerst zul je deze techniek gebruiken om een van de meest irritante problemen van deze mensheid op te lossen: Word documenten versie beheren. Iedereen weet dat Word een van de meest erge editors is die er te vinden is; maar, vreemd genoeg, gebruikt iedereen het. Als je Word documenten wil beheren, kun je ze in een Git repository stoppen en eens in de zoveel tijd committen; maar waar is dat goed voor? Als je `git diff` op een normale manier uitvoert, zie je alleen zoiets als dit:
 
-	$ git diff 
+	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
@@ -336,9 +336,9 @@ Hier is een voorbeeld. Ik heb Hoofdstuk 1 van dit boek in Git gestopt, wat tekst
 	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
 	 re going to cover how to get it and set it up for the first time if you don
 	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
-	-s going on, modify stuff and contribute changes. If the book spontaneously 
-	+s going on, modify stuff and contribute changes. If the book spontaneously 
+	 In Chapter Two we will go over basic Git usage - how to use Git for the 80%
+	-s going on, modify stuff and contribute changes. If the book spontaneously
+	+s going on, modify stuff and contribute changes. If the book spontaneously
 	+Let's see if this works.
 
 Git verteld me succesvol en beknopt dat ik de tekst "Let's see if this works" heb toegevoegd, wat correct is. Het is niet perfect – het voegt een serie willekeurig spul aan het einde toe – maar het werkt wel. Als je een Word-naar-gewone-tekst omvormer kunt vinden of schrijven die goed genoeg werkt, dan zal die oplossing waarschijnlijk zeer effectief zijn. Maar, `strings` is op de meeste Mac en Linux machines beschikbaar, dus dit kan een goede eerste poging zijn om dit te gebruiken bij andere binaire formaten.
@@ -384,17 +384,17 @@ De volgende keer dat je dit bestand uitchecked, injecteert Git de SHA van de blo
 
 	$ rm text.txt
 	$ git checkout -- text.txt
-	$ cat test.txt 
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 Maar, het resultaat is slechts beperkt bruikbaar. Als je sleutelwoord vervanging in CVS of Subversion gebruikt hebt, kun je een tijdstempel toevoegen – de SHA is niet zo bruikbaar, omdat het vrij willekeurig is en je kunt niet zeggen of een SHA ouder of nieuwer is dan een andere.
 
 Het blijkt dat je je eigen filters voor het doen van vervanging bij commit/checkout kunt schrijven. Dit zijn de "clean" en "smudge" filters. In het `.gitattributes` bestand, kun je een filter op bepaalde paden instellen en dan scripts instellen die bestanden bewerkt vlak voordat ze gecommit worden ("clea", zie Figuur 7-2) en vlak voordat ze uitgechecked worden ("smudge", zie Figuur 7-3). De filters kunnen ingesteld worden zodat ze allerlei leuke dingen doen.
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
 Figuur 7-2. Het “smudge” filter wordt bij checkout uitgevoerd.
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
 Figuur 7-3. Het “clean” filter wordt uitgevoerd zodra bestanden worden gestaged.
 
 De originele commit boodschap voor deze functionaliteit geeft een eenvoudig voorbeeld hoe je al je C broncode door het `indent` programma kunt halen alvorens te committen. Je kunt het instellen door het filter attribuut in je `.gitattributes` bestand te veranderen zodat `*.c` bestanden door het "inden" filter gehaald worden:
@@ -514,7 +514,7 @@ De eerste haak die uitgevoerd wordt is `applypatch-msg`. Het accepteert een enke
 
 De volgende haak die wordt uitgevoerd tijdens het toepassen van patches via `git am` is `pre-applypatch`. Dit neemt geen argumenten aan en wordt uitgevoerd nadat de patch is toegepast, zodat je het kunt gebruiken om het snapshot te inspecteren alvorens de commit te doen. Je kunt tests uitvoeren of de werkmap op een andere manier inspecteren met behulp van dit script. Als er iets mist of één van de tests faalt, dan zal eindigen met niet nul het `git am` script afbreken zonder de patch te committen.
 
-De laatste haak die uitgevoerd wordt tijdens een `git am` operatie is de `post-applypatch`. Je kunt dat gebruiken om een groep te notificeren of de auteur van de patch die je zojuist gepulled hebt. Je kunt het patch proces niet stoppen met behulp van dit script. 
+De laatste haak die uitgevoerd wordt tijdens een `git am` operatie is de `post-applypatch`. Je kunt dat gebruiken om een groep te notificeren of de auteur van de patch die je zojuist gepulled hebt. Je kunt het patch proces niet stoppen met behulp van dit script.
 
 #### Andere client haken ####
 
@@ -674,7 +674,7 @@ Als je gebruik maakt van de ACL structuur die wordt teruggegeven door de `get_ac
 	      access[$user].each do |access_path|
 	        if !access_path || # gebruiker heeft overal toegang tot
 	          (path.index(access_path) == 0) # toegang tot dit pad
-	          has_file_access = true 
+	          has_file_access = true
 	        end
 	      end
 	      if !has_file_access
@@ -682,7 +682,7 @@ Als je gebruik maakt van de ACL structuur die wordt teruggegeven door de `get_ac
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end
 
 	check_directory_perms
@@ -718,7 +718,7 @@ Alles is ingesteld. Als je `chmod u+x .git/hooks/update` uitvoert, wat het besta
 	Writing objects: 100% (3/3), 323 bytes, done.
 	Total 3 (delta 1), reused 0 (delta 0)
 	Unpacking objects: 100% (3/3), done.
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
 	[POLICY] Cannot push a non-fast-forward reference
 	error: hooks/update exited with error code 1
@@ -729,7 +729,7 @@ Alles is ingesteld. Als je `chmod u+x .git/hooks/update` uitvoert, wat het besta
 
 Er zijn hier een aantal interessante dingen. Ten eerste, zie je dit als de haak start met uitvoeren.
 
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (fb8c72) (c56860)
 
 Zie dat je dat afgedrukt hebt naar stdout aan het begin van je update script. Het is belangrijk om te zien dat alles dat je script naar stdout uitvoert, naar de client overgebracht wordt.

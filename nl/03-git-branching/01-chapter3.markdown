@@ -19,17 +19,17 @@ Als je de commit aanmaakt door `git commit` uit te voeren, zal Git iedere submap
 
 Je Git repository bevat nu vijf objecten: een blob voor de inhoud van ieder van je drie bestanden, een boom dat de inhoud van de map weergeeft en specificeert welke bestandsnamen opgeslagen zijn als welke blobs, en een commit met de verwijzing naar die hoofd boom en alle commit metagegevens. Conceptueel zien de gegevens in je Git repository eruit zoals in Figuur 3-1.
 
-Insert 18333fig0301.png 
+Insert 18333fig0301.png
 Figuur 3-1. Enkele commit repository gegevens.
 
 Als je wat wijzigingen doet en nogmaals commit, dan slaat de volgende commit een verwijzing op naar de commit die er direct aan vooraf ging. Na nog eens twee commits, zal je historie er misschien uit zien als Figuur 3-2.
 
-Insert 18333fig0302.png 
+Insert 18333fig0302.png
 Figuur 3-2. Git object gegevens voor meerdere commits.
 
 Een branch in Git is simpelweg een lichtgewicht verplaatsbare verwijzing naar een van deze commits. De standaard branch naam in Git is master. Als je initieel commits maakt, dan wordt je een master branch gegeven die wijst naar de laatste commit die je gemaakt hebt. Iedere keer als je commit, beweegt het automatisch vooruit.
 
-Insert 18333fig0303.png 
+Insert 18333fig0303.png
 Figuur 3-3. Branch wijzend in de commit gegevens historie.
 
 Wat gebeurt er als je een nieuwe branch maakt? Wel, door dat te doen wordt een nieuwe verwijzing aangemaakt voor jou om te verplaatsen. Laten we zeggen dat je een nieuwe branch genaamd testing maakt. Je doet dit met het `git branch` commando:
@@ -38,12 +38,12 @@ Wat gebeurt er als je een nieuwe branch maakt? Wel, door dat te doen wordt een n
 
 Dit maakt een nieuwe verwijzing naar dezelfde commit waar je nu op zit (zie Figuur 3-4).
 
-Insert 18333fig0304.png 
+Insert 18333fig0304.png
 Figuur 3-4. Meerdere branches wijzend naar de commit gegevens historie.
 
 Hoe weet Git op welke branch je nu zit? Het houdt een speciale verwijzing bij genaamd HEAD. Let op dat dit heel anders is dan het concept van HEAD in andere VCS's waar je misschien gewend aan bent, zoals bijvoorbeeld Subversion of CVS. In Git, is dit een verwijzing naar de lokale branch waar je nu op zit. In dit geval, zit je nog steeds op master. Het git branch commando heeft alleen een nieuwe branch aangemaakt — het is nog niet omgeschakeld naar die branch (zie Figuur 3-5).
 
-Insert 18333fig0305.png 
+Insert 18333fig0305.png
 Figuur 3-5. HEAD bestand wijzend naar de branch waar je op zit.
 
 Om te schakelen naar een bestaande branch, voer je het `git checkout` commando uit. Laten we eens omschakelen naar de nieuwe testing branch:
@@ -62,7 +62,7 @@ Wat is hier het belang van? Wel, laten we eens een andere commit doen:
 
 Figuur 3-7 toont het resultaat.
 
-Insert 18333fig0307.png 
+Insert 18333fig0307.png
 Figuur 3-7. De branch waar HEAD naar wijst gaat vooruit met iedere commit.
 
 Dit is interessant, omdat je testing branch nu vooruit is gegaan, maar je master branch nog steeds wijst naar de commit waar je op was toen je `git checkout` uitvoerde om om te schakelen. Laten we eens terugschakelen naar de master branch:
@@ -71,7 +71,7 @@ Dit is interessant, omdat je testing branch nu vooruit is gegaan, maar je master
 
 Figuur 3-8 toont het resultaat.
 
-Insert 18333fig0308.png 
+Insert 18333fig0308.png
 Figuur 3-8. HEAD verschuift naar een andere branch bij een checkout.
 
 Dat commando deed twee dingen. Het verplaatste de HEAD verwijzing terug naar de master branch, en het draaide de bestanden in je werkmap terug naar het snapshot waar master naar wijst. Dit betekent ook dat de wijzigingen die je vanaf dit punt maakt zullen afwijken van een oudere versie van het project. Het betekent in essentie dat het het werk dat je in je testing branch hebt gedaan tijdelijk terugdraait zodat je in een andere richting kunt gaan.
@@ -83,7 +83,7 @@ Laten we een paar wijzigingen doen en nog eens committen:
 
 Nu is je project historie afgeweken (zie Figuur 3-9). Je hebt een branch gemaakt en bent er naartoe omgeschakeld, hebt er wat werk op gedaan, en bent toen teruggeschakeld naar je hoofd branch en hebt nog ander werk gedaan. Beide van die veranderingen zijn geïsoleerd van elkaar in aparte branches: je kunt heen en weer schakelen tussen de branches en ze samenvoegen als je klaar bent. En je hebt dat alles gedaan met eenvoudige `branch` en `checkout` commando's.
 
-Insert 18333fig0309.png 
+Insert 18333fig0309.png
 Figuur 3-9. De branch histories zijn uiteen gegaan.
 
 Omdat een branch in Git in feite een eenvoudig bestand is dat de 40 karakter lange SHA-1 checksum van de commit bevat waar het naar wijst, zijn branches goedkoop om te maken en weg te gooien. Een nieuwe branch aanmaken is zo makkelijk en eenvoudig als 41 bytes naar een bestand schrijven (40 karakters en een harde return).
@@ -111,7 +111,7 @@ Dan ontvang je een telefoontje dat je een ander probleem direct moet repareren. 
 
 Als eerste, laten we zeggen dat je aan je project werkt en al een paar commits hebt (zie Figuur 3-10).
 
-Insert 18333fig0310.png 
+Insert 18333fig0310.png
 Figuur 3-10. Een korte en eenvoudige commit historie.
 
 Je hebt besloten dan je gaat werken aan probleem #53 in wat voor probleem beheersysteem je bedrijf ook gebruikt. Om duidelijk te zijn, Git is niet verbonden een een probleem beheersysteem in het bijzonder; maar omdat probleem #53 een beperkt onderwerp is waar je aan werkt, zul je een nieuwe branch aanmaken waarin je gaat werken. Om een branch aan te maken en er meteen naartoe te schakelen, kun je het `git checkout` commando uitvoeren met de `-b` optie:
@@ -126,7 +126,7 @@ Dit is een afkorting voor:
 
 Figuur 3-11 toont het resultaat.
 
-Insert 18333fig0311.png 
+Insert 18333fig0311.png
 Figuur 3-11. Een nieuwe branch verwijzing maken.
 
 Je doet wat werk aan je web site en doet wat commits. Door dat te doen beweegt de `iss53` branch vooruit, omdat je het uitgechecked hebt (dat wil zeggen, je HEAD wijst ernaar; zie Figuur 3-12):
@@ -134,7 +134,7 @@ Je doet wat werk aan je web site en doet wat commits. Door dat te doen beweegt d
 	$ vim index.html
 	$ git commit -a -m 'added a new footer [issue 53]'
 
-Insert 18333fig0312.png 
+Insert 18333fig0312.png
 Figuur 3-12. De iss53 branch is vooruit gegaan met je werk.
 
 Nu krijg je het telefoontje dan er een probleem is met de web site, en je moet het meteen repareren. Met Git hoef je je reparatie niet meteen uit te leveren samen met de `iss53` wijzigingen die je gedaan hebt, en je hoeft ook niet veel moeite te stoppen in het terugdraaien van die wijzigingen voordat je kunt werken aan het toepassen van je reparatie in productie. Het enige dat je moet doen in terugschakelen naar je master branch.
@@ -148,14 +148,14 @@ Op dit punt, is je project werkmap precies zoals het was voordat je begon te wer
 
 Vervolgens heb je een snelle reparatie te doen. Laten we een reparatie branch maken om op te werken totdat het af is (zie Figuur 3-13):
 
-	$ git checkout -b 'hotfix'
+	$ git checkout -b hotfix
 	Switched to a new branch "hotfix"
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'
 	[hotfix]: created 3a0874c: "fixed the broken email address"
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Insert 18333fig0313.png 
+Insert 18333fig0313.png
 Figuur 3-13. snelle reparatie branch gebaseerd op de tip van je master branch.
 
 Je kunt je tests draaien, er zeker van zijn dat de reparatie is wat je wil, en het samenvoegen met je master branch om het naar productie uit te rollen. Je doet dit met het `git merge` commando:
@@ -171,7 +171,7 @@ Je zult de uitdrukking "Fast forward" zien in die samenvoeging. Omdat de commit 
 
 Je wijziging is nu in het snapshot van de commit waar de `master` branch naar wijst, en je kunt je wijziging uitrollen (zie Figuur 3-14).
 
-Insert 18333fig0314.png 
+Insert 18333fig0314.png
 Figuur 3-14. Je master branch wijst naar dezelfde plek als de snelle reparatie branch na de wijziging.
 
 Nadat je super-belangrijke reparatie uitgerold is, ben je klaar om terug te schakelen naar het werk dat je deed voordat je onderbroken werd. Maar, eerst zul je de snelle reparatie branch verwijderen, omdat je die niet langer nodig hebt — de `master` branch wijst naar dezelfde plek. Je kunt het verwijderen met de `-d` optie op `git branch`:
@@ -188,7 +188,7 @@ Nu kun je terugschakelen naar je werk in uitvoering branch voor probleem #53 en 
 	[iss53]: created ad82d7a: "finished the new footer [issue 53]"
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Insert 18333fig0315.png 
+Insert 18333fig0315.png
 Figuur 3-15. Je iss53 branch kan onafhankelijk vooruit bewegen.
 
 Het is interessant om hier op te merken dat het werk dat je in je snelle reparatie branch gedaan hebt, niet zit in de bestanden van je `iss53` branch. Als je dat binnen moet halen, dan kun je je `master` branch in je `iss53` branch samenvoegen door `git merge master` uit te voeren, of je kunt wachten met die wijzigingen te integreren totdat je beslist om je `iss53` branch later in je `master` binnen te halen.
@@ -205,14 +205,14 @@ Stel dat je besloten hebt dat je probleem #53 werk compleet is en klaar bent om 
 
 Dit ziet er iets anders uit dan de snelle reparatie samenvoeging die je eerder deed. In dit geval is je ontwikkelingshistorie afgeweken van een ouder punt. Omdat de commit op de branch waar je op zit geen directe voorouder is van de branch waar je in samenvoegt, moet Git wat werk doen. In dit geval, doet Git een eenvoudige drieweg samenvoeging, gebruikmakend van de twee snapshots waarnaar gewezen wordt door de branch punten en de gezamenlijke voorouder van die twee. Figuur 3-16 markeert de drie snapshots die Git gebruikt om zijn samenvoeging in dit geval te doen.
 
-Insert 18333fig0316.png 
+Insert 18333fig0316.png
 Figuur 3-16. Git identificeert automatisch de beste gezamenlijke voorouder als samenvoegingsbasis voor het samenvoegen van de branches.
 
 In plaats van de branch verwijzing vooruit te bewegen, maakt Git een nieuw snapshot dat resulteert uit deze drieweg samenvoeging en maakt automatisch een nieuwe commit die daar naar wijst (zie Figuur 3-17). Dit wordt een samenvoegingscommit genoemd, en is bijzonder in dat het meer dan één ouder heeft.
 
 Het is de moeite om te vertellen dat Git de beste gezamenlijke voorouder bepaalt om te gebruiken als samenvoeg basis; dit is anders dan CVS of Subversion (voor versie 1.5), waarbij de ontwikkelaar die de samenvoeging deed zelf de beste samenvoeg basis moest uitzoeken. Dit zorgt er voor dat samenvoegen in Git een serieus stuk eenvoudiger is dan in deze andere systemen.
 
-Insert 18333fig0317.png 
+Insert 18333fig0317.png
 Figuur 3-17. Git maakt automatisch een nieuw commit object aan die het samengevoegde werk bevat.
 
 Nu dat je werk samengevoegd is, heb je geen verdere noodzaak voor de `iss53` branch. Je kunt het verwijderen en dan handmatig het ticket in je ticket-volg systeem sluiten:
@@ -349,12 +349,12 @@ Veel Git ontwikkelaars hebben een werkwijze die deze aanpak omarmd, zoals het he
 
 In werkelijkheid praten we over verwijzingen die zich verplaatsen over de lijn van de commits die je maakt. De stabiele branches zijn verder naar achter in je commit historie, en de splinternieuwe branches zijn verder naar voren in de historie (zie Figuur 3-18).
 
-Insert 18333fig0318.png 
+Insert 18333fig0318.png
 Figuur 3-18. Meer stabiele branches zijn vaak verder naar achter in de commit historie.
 
 Ze zijn over het algemeen makkelijker voor te stellen als werk silo's, waar sets van commits slagen naar een meer stabiele silo als ze volledig getest zijn (zie Figuur 3-19).
 
-Insert 18333fig0319.png 
+Insert 18333fig0319.png
 Figuur 3-19. Het kan handig zijn om je branches voor te stellen als silo's.
 
 Je kunt dit doen voor meerdere niveaus van stabiliteit. Sommige grotere projecten hebben ook een `proposed` of `pu` (proposed updates) branch die branches geïntegreerd heeft die wellicht nog niet klaar zijn om in de `next` of `master` branch te gaan. Het idee is dat je branches op verschillende niveaus van stabiliteit zitten; zodra ze een stabiel niveau bereiken, worden ze in de branch boven hun samengevoegd.
@@ -368,12 +368,12 @@ Je zag dit in het laatste gedeelte met de `iss53` en `hotfix` branches die je ge
 
 Neem als voorbeeld een situatie waarbij wat werk gedaan wordt (op `master`), gebranched wordt voor een probleem (`iss91`), waar een beetje aan gewerkt wordt, gebranched wordt vanaf de tweede branch om op een andere manier te proberen hetzelfde op te lossen (`iss91v2`) terug te gaan naar je master branch en daar een tijdje te werken, en dan vanaf daar branchen om wat werk te doen waarvan je niet zeker weet of het wel een goed idee is (`dumbidea` branch). Je commit historie zal er uit zien als Figuur 3-20.
 
-Insert 18333fig0320.png 
+Insert 18333fig0320.png
 Figuur 3-20. Je commit geschiedenis met meerdere onderwerp branches.
 
 Nu, laten we zeggen dat je beslist dat je de tweede oplossing voor je probleem het beste vindt (`iss91v2`); en je hebt de `dumbidea` branch aan je collega's laten zien, en het blijkt geniaal te zijn. Je kunt dan de originele `iss91` weggooien (waarbij je commits C5 en C6 verliest), en de andere twee samenvoegen. Je historie ziet er dan uit als Figuur 3-21).
 
-Insert 18333fig0321.png 
+Insert 18333fig0321.png
 Figuur 3-21. Je historie na het samenvoegen van dumbidea en iss91v2.
 
 Het is belangrijk om te onthouden dat wanneer je dit alles doet, deze branches volledig lokaal zijn. Als je aan het branchen of samenvoegen bent, dan wordt alles gedaan in jouw Git repository — dus er gebeurt geen server communicatie.
@@ -386,27 +386,27 @@ Ze hebben de vorm `(remote)/(branch)`. Bijvoorbeeld, als je wil zien hoe de `mas
 
 Dit kan wat verwarrend zijn, dus laten we eens naar een voorbeeld kijken. Stel dat je een Git server op je netwerk hebt op `git.ourcompany.com`. Als je hiervan cloned dan wordt die automatisch `origin` voor je genoemd, Git haalt al zijn gegevens binnen, maakt een verwijzing naar waar zijn `master` branch is, en noemt dat lokaal `origin/master`; en je kunt het niet verplaatsen. Git geeft je ook je eigen `master` branch, beginnend op dezelfde plaats als de `master` branch van origin, zodat je iets hebt om vanaf te werken (zie Figuur 3-22).
 
-Insert 18333fig0322.png 
+Insert 18333fig0322.png
 Figuur 3-22. Een Git clone geeft je je eigen master branch en origin/master wijzend naar de master branch van origin.
 
 Als je wat werk doet op je lokale master branch, en in de tussentijd zet iemand anders iets terug naar `git.ourcompany.com` en vernieuwt die master branch, dan zijn jullie histories verschillend vooruit geschoven. En, zolang je geen contact hebt met je origin server, zal je `origin/master` verwijzing niet verplaatsen (zie Figuur 3-23).
 
-Insert 18333fig0323.png 
+Insert 18333fig0323.png
 Figuur 3-23. Lokaal werken terwijl iemand anders naar je remote server terugzet laat iedere historie anders vooruit gaan.
 
 Om je werk te synchroniseren, voer je een `git fetch origin` commando uit. Dit commando bekijkt welke server origin is (in dit geval is het `git.ourcompany.com`), haalt gegevens er vanaf die je nog niet hebt, en vernieuwt je lokale gegevensbank, waarbij je `origin/master` verwijzing naar zijn nieuwere positie verplaatst wordt (zie Figuur 3-24).
 
-Insert 18333fig0324.png 
+Insert 18333fig0324.png
 Figuur 3-24. Het git fetch commando vernieuwt je remote referenties.
 
 Om het hebben van meerdere remote servers te demonstreren en hoe remote branches voor die remote projecten er uit zien, laten we eens aannemen dat je nog een interne Git server hebt, die alleen wordt gebruikt voor ontwikkeling gedaan door een van je sprint teams. Deze server bevindt zich op `git.team1.ourcompany.com`. Je kunt het als een nieuwe remote referentie toevoegen aan het project waar je nu aan werkt door het `git remote add` commando uit te voeren, zoals we behandeld hebben in Hoofdstuk 2. Noem deze remote `teamone`, wat je afkorting voor die hele URL wordt (zie Figuur 3-25).
 
-Insert 18333fig0325.png 
+Insert 18333fig0325.png
 Figuur 3-25. Een andere server als een remote toevoegen.
 
 Nu kun je `git fetch teamone` uitvoeren om alles op te halen dat de `teamone` server heeft en jij nog niet. Omdat server een subset is van de gegevens die je `origin` server op dit moment heeft, haalt Git geen gegevens maar stelt een remote branch genaamd `teamone/master` in om te wijzen naar de commit die `teamone` heeft naar zijn `master` branch (zie Figuur 3-26).
 
-Insert 18333fig0326.png 
+Insert 18333fig0326.png
 Figuur 3-26. Je krijgt lokaal een referentie naar de positie van teamone's master branch.
 
 ### Terugzetten ###
@@ -481,12 +481,12 @@ In Git zijn er twee hoofdmanieren om wijzigingen te integreren van één branch 
 
 Als je teruggaat naar een eerder voorbeeld van de Samenvoegen sectie (zie Figuur 3-27), dan kun je zien dat je werk is afgeweken en dat je commits hebt gedaan op de twee verschillende branches.
 
-Insert 18333fig0327.png 
+Insert 18333fig0327.png
 Figuur 3-27. Je initiële afgeweken historie.
 
 De eenvoudigste weg om de branches te integreren, zoals we al hebben besproken, is het `samenvoeg` commando. Het voert een drieweg samenvoeging uit tussen de twee laatste snapshots van de branches (C3 en C4), en de meest recente gezamenlijke voorouder van die twee (C2), creëert een nieuw snapshot (en commit), zoals getoond in Figuur 3-28.
 
-Insert 18333fig0328.png 
+Insert 18333fig0328.png
 Figuur 3-28. Een branch samenvoegen om de afgeweken werk historie te integreren.
 
 Maar, er is een andere manier: je kunt de patch van de wijziging die werd geïntroduceerd in C3 pakken en die opnieuw toepassen bovenop C4. In Git, wordt dit _rebasen_ genoemd. Met het `rebase` commando, kun je alle wijzigingen pakken die zijn gecommit op een branch, en ze opnieuw afspelen op een andere.
@@ -500,12 +500,12 @@ In dit voorbeeld, zou je het volgende uitvoeren:
 
 Het werkt door naar de gezamenlijke voorouder van de twee branches te gaan (degene waar je op zit en degene waar je naar rebased), de verschillen pakken die geïntroduceerd is bij iedere commit op de branch waar je op zit, die diffs in tijdelijke bestanden bewaren, de huidige branch terugzetten naar dezelfde commit als de branch waar je op rebased, en uiteindelijk iedere wijziging om de beurt toepassen, Figuur 3-29 toont dit proces.
 
-Insert 18333fig0329.png 
+Insert 18333fig0329.png
 Figuur 3-29. De wijzigingen die geïntroduceerd zijn in C3 rebasen op C4.
 
 Op dit punt kun je terug gaan naar de master branch en een fast-forward samenvoeging doen (zie Figuur 3-30).
 
-Insert 18333fig0330.png 
+Insert 18333fig0330.png
 Figuur 3-30. De master branch Fast-forwarden.
 
 Nu is het snapshot waar C3' naar wijst precies hetzelfde als degene waar C5 naar wees in het samenvoeg voorbeeld. Er zit geen verschil in het eindproduct van de integratie, maar rebasen zorgt voor een schonere historie. Als je de log van een gerebasete branch bekijkt, ziet het eruit als een lineaire historie: het lijkt alsof al het werk in serie is gebeurt, zelfs als het in werkelijkheid in parallel gedaan is.
@@ -518,7 +518,7 @@ Let op het snapshot waar de laatste commit naar wijst waar je mee eindigt, of he
 
 Je kunt je rebase ook opnieuw laten afspelen op iets anders dan de rebase branch. Pak een historie zoals in Figuur 3-31, bijvoorbeeld. Je hebt een onderwerp branch afgesplitst (`server`) om wat server-kant functionaliteit toe te voegen aan je project, en toen een commit gedaan. Daarna, heb je daar vanaf gebranched om de client-kant wijzigingen te doen (`client`) en een paar keer gecommit. Als laatste, ben je teruggegaan naar je server branch en hebt nog een paar commits gedaan.
 
-Insert 18333fig0331.png 
+Insert 18333fig0331.png
 Figuur 3-31. Een historie met een onderwerp branch vanaf een andere onderwerp branch.
 
 Stel dat je beslist dat je je client-kant wijzigingen wilt samenvoegen in je hoofdlijn voor een vrijgave, maar je wilt de server-kant wijzigingen nog laten wachten totdat het verder getest is. Je kunt de wijzigingen van client pakken, die nog niet op server zitten (C8 en C9) en die opnieuw afspelen op je master branch door de `--onto` optie te gebruiken van `git rebase`:
@@ -527,7 +527,7 @@ Stel dat je beslist dat je je client-kant wijzigingen wilt samenvoegen in je hoo
 
 Dit zegt in feite, "Check de client branch uit, vogel de patches van de gezamenlijke voorouder van de `client` en de `server` branches uit, en speel die opnieuw af op `master`." Het is een beetje complex; maar het resultaat, getoond in Figuur 3-32, is erg vet.
 
-Insert 18333fig0332.png 
+Insert 18333fig0332.png
 Figuur 3-32. Een onderwerp branch rebasen vanaf een andere onderwerp branch.
 
 Nu kun je een fast-forward doen van je master branch (zie Figuur 3-33):
@@ -535,7 +535,7 @@ Nu kun je een fast-forward doen van je master branch (zie Figuur 3-33):
 	$ git checkout master
 	$ git merge client
 
-Insert 18333fig0333.png 
+Insert 18333fig0333.png
 Figuur 3-33. Je master branch fast-forwarden om de client branch wijzigingen mee te nemen.
 
 Stel dat je beslist om je server branch ook binnen te halen. Je kunt de server branch rebasen op de master branch zonder het eerst te moeten uitchecken door `git rebase [basisbranch] [onderwerpbranch]` uit te voeren — wat de onderwerp branch uitchecked (in dit geval, `server`) voor je en het opnieuw afspeelt om de basis branch (`master`):
@@ -544,7 +544,7 @@ Stel dat je beslist om je server branch ook binnen te halen. Je kunt de server b
 
 Dit speelt je `server` werk opnieuw af bovenop je `master` werk, zoals getoond in Figuur 3-34.
 
-Insert 18333fig0334.png 
+Insert 18333fig0334.png
 Figuur 3-34. Je server branch bovenop je master branch rebasen.
 
 Daarna, kun je de basis branch (`master`) fast-forwarden:
@@ -557,7 +557,7 @@ Je kunt de `client` en `server` branches verwijderen, omdat al het werk geïnteg
 	$ git branch -d client
 	$ git branch -d server
 
-Insert 18333fig0335.png 
+Insert 18333fig0335.png
 Figuur 3-35. Uiteindelijke commit historie.
 
 ### De gevaren van rebasen ###
@@ -572,22 +572,22 @@ Als je spullen rebaset, laat je bestaande commits achter en maak je nieuwe aan d
 
 Laten we eens kijken naar een voorbeeld of hoe werk rebasen dat je publiekelijk gemaakt hebt problemen kan veroorzaken. Stel dat je van een centrale server cloned en dan daar wat werk vanaf doet. Je commit historie ziet er uit als Figuur 3-36.
 
-Insert 18333fig0336.png 
+Insert 18333fig0336.png
 Figuur 3-36. Clone een repository, en baseer wat werk daarop.
 
 Nu, doet iemand anders wat meer werk dat een samenvoeging bevat, en zet dat werk terug naar de centrale server. Je pakt dat en voegt de nieuwe remote branch in jouw werk, zodat je historie er uit ziet zoals Figuur 3-37.
 
-Insert 18333fig0337.png 
+Insert 18333fig0337.png
 Figuur 3-37. Haal meer commits op, en voeg ze samen in je werk.
 
 Daarna, beslist de persoon die het werk teruggezet heeft om terug te gaan en hun werk in plaats daarvan te rebasen; ze voeren een `git push --force` uit om de historie op de server te herschrijven. Je haalt dan van die server op, waarbij je de nieuwe commits omlaag haalt.
 
-Insert 18333fig0338.png 
+Insert 18333fig0338.png
 Figuur 3-38. Iemand zet gerebasete commits terug, daarbij commits achterlatend waar jij werk op gebaseerd hebt.
 
 Op dit punt, moet je dit werk opnieuw samenvoegen, alhoewel je dat al gedaan hebt. Rebasen verandert de SHA-1 hashes van deze commits, dus voor Git zien ze er uit als nieuwe commits, terwijl je in feite al het C4 werk in je historie hebt (zie Figuur 3-39).
 
-Insert 18333fig0339.png 
+Insert 18333fig0339.png
 Figuur 3-39. Je voegt hetzelfde werk opnieuw samen in een nieuwe samenvoegingscommit.
 
 Je moet dat werk op een bepaald punt samenvoegen, zodat je bij kunt blijven met de andere ontwikkelaar in de toekomst. Nadat je dat doet, zal je history zowel de C4 als de C4' commits bevatten, die verschillende SHA-1 hashes hebben, maar hetzelfde werk introduceren en hetzelfde commit bericht hebben. Als je een `git log` uitvoert als je historie er zo uitziet, dan zul je twee commits zien die dezelfde auteur en bericht hebben, wat verwarrend zal zijn. Daarnaast, als je deze historie terugzet naar de server, dan zul je al die gerebasete commits opnieuw introduceren op de centrale server, wat mensen nog meer kan verwarren.

@@ -105,7 +105,7 @@ Om reflog informatie te zien, die in hetzelfde formaat gezet is als de `git log`
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
 	Reflog: master@{0} (Scott Chacon <schacon@gmail.com>)
-	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Reflog message: commit: fixed refs handling, added gc auto, updated
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri Jan 2 18:32:33 2009 -0800
 
@@ -129,10 +129,10 @@ Stel dat je naar de geschiedenis van je project kijkt:
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
 	*   d921970 Merge commit 'phedders/rdocs'
-	|\  
+	|\
 	| * 35cfb2b Some rdoc changes
 	* | 1c002dd added some blame and merge stuff
-	|/  
+	|/
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
@@ -190,7 +190,7 @@ Nu dat je individuele commits kunt specificeren, laten we zien hoe je reeksen va
 
 De meest voorkomende reeks specificatie is de dubbele punt syntax. Dit vraagt Git een reeks commits op te zoeken, die bereikbaar zijn van één commit maar niet vanuit een ander. Bijvoorbeeld, stel dat je een commitgeschiedenis hebt die eruit ziet zoals in Figuur 6-1.
 
-Insert 18333fig0601.png 
+Insert 18333fig0601.png
 Figuur 6-1. Voorbeeldgeschiedenis voor reeksselectie.
 
 Je wilt zien wat er in je experimentele branch zit dat nog niet in je hoofdbranch gemerged is. Je kunt Git vragen om je een log te tonen van alleen die commits met `master..experiment` – wat betekent "alle commits die bereikbaar zijn door experiment, die niet bereikbaar zijn door master". Om de voorbeelden kort en duidelijk te houden zal ik de letters van de commitobjecten in het diagram gebruiken in plaats van de echte log output, in de volgorde waarin ze getoond zouden worden:
@@ -264,7 +264,7 @@ Als je `git add` uitvoert met de `-i` of `--interactive` optie, dan gaat Git ove
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
 	  5: patch      6: diff        7: quit       8: help
-	What now> 
+	What now>
 
 Je kunt zien dat dit commando je een heel andere view van je staging area geeft – eigenlijk dezelfde informatie die je krijgt met het `git status` commando, maar dan compacter en meer informatief. Het toont links de wijzigingen die je gestaged hebt, en de niet gestagede wijzigingen rechts.
 
@@ -292,7 +292,7 @@ Om de TODO en index.html bestanden te stagen, kun je de nummers typen:
 
 De `*` naast ieder bestand betekent dat het bestand geselecteerd staat om gestaged te worden. Als je Enter indrukt na niets getypt te hebben op de `Update>>` prompt, dan zal Git alles wat geselecteerd staat pakken en voor je stagen:
 
-	Update>> 
+	Update>>
 	updated 2 paths
 
 	*** Commands ***
@@ -359,7 +359,7 @@ Met deze basiscommando's kun je de interactieve toevoegmodus gebruiken om een be
 
 ### Patches stagen ###
 
-Het is ook mogelijk met Git om bepaalde delen van bestanden te stagen en de rest niet. Bijvoorbeeld, als je twee wijzigingen maakt in je simplegit.rb bestand en één van die twee wilt stagen en de andere niet, dan is dat eenvoudig in Git. Vanaf de interactieve prompt, type `5` of `p` (voor patch). Git zal je vragen welke bestanden je deels wilt stagen; dan, voor iedere sectie van de geselecteerde bestanden, zal het stukken van de bestandsdiff tonen en je vragen of je ze wilt stagen, één voor één: 
+Het is ook mogelijk met Git om bepaalde delen van bestanden te stagen en de rest niet. Bijvoorbeeld, als je twee wijzigingen maakt in je simplegit.rb bestand en één van die twee wilt stagen en de andere niet, dan is dat eenvoudig in Git. Vanaf de interactieve prompt, type `5` of `p` (voor patch). Git zal je vragen welke bestanden je deels wilt stagen; dan, voor iedere sectie van de geselecteerde bestanden, zal het stukken van de bestandsdiff tonen en je vragen of je ze wilt stagen, één voor één:
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -374,7 +374,7 @@ Het is ook mogelijk met Git om bepaalde delen van bestanden te stagen en de rest
 	   end
 
 	   def blame(path)
-	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
+	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 
 Op dit punt heb je veel opties. Door `?` te typen krijg je een lijst met wat je kunt doen:
 
@@ -403,7 +403,7 @@ Over het algemeen zul je `y` of `n` typen als je ieder stuk wilt stagen, maar ze
 
 De status van het simplegit.rb bestand is interessant. Het laat zien dat een paar regels gestaged zijn, en een paar niet. Je hebt dit bestand deels gestaged. Op dit punt kun je het interactieve toevoeg script verlaten en het `git commit` commando uitvoeren om de gedeeltelijk gestagede bestanden te committen.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
+Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line.
 Tot slot hoef je niet in de interactieve toevoeg modus te zijn om het gedeeltelijke bestands-stagen te doen – je kunt hetzelfde script starten door `git add -p` of `git add --patch` op de commando regel te gebruiken.
 
 ## Stashen ##
@@ -722,7 +722,7 @@ Git levert ook een paar tools om je problemen te helpen debuggen in je projecten
 
 Als je een bug in je code traceert en wilt weten wanneer het was geïntroduceerd en waarom, dan is bestandsannotatie vaak je beste tool. Het toont je welke commit de laatste was die iedere regel in een bestand wijzigde. Dus, als je ziet dat een functie in je code bugs bevat, dan kun je het bestand annoteren met `git blame` om te zien wanneer iedere regel van de functie voor het laatst aangepast was, en door wie. Dit voorbeeld gebruikt de `-L` optie om de output te limiteren van regel 12 tot 22:
 
-	$ git blame -L 12,22 simplegit.rb 
+	$ git blame -L 12,22 simplegit.rb
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 13)   command("git show #{tree}")
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 14)  end
@@ -730,7 +730,7 @@ Als je een bug in je code traceert en wilt weten wanneer het was geïntroduceerd
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 16)  def log(tree = 'master')
 	79eaf55d (Scott Chacon  2008-04-06 10:15:08 -0700 17)   command("git log #{tree}")
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 18)  end
-	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19) 
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 20)  def blame(path)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
@@ -739,8 +739,8 @@ Zie dat het eerste veld de gedeeltelijke SHA-1 van de commit is, die als laatste
 
 Een ander stoer ding van Git is dat het geen naamswijzigingen van bestanden expliciet bijhoudt. Het neemt de snapshots op en probeert impliciet uit te vogelen wat er hernoemd was, nadat het gebeurd is. Een van de interessantste eigenschappen hiervan is dat je ook het kunt vragen om allerlei soorten code verplaatsingen uit te vogelen. Als je `-C` aan `git blame` meegeeft, zal Git het bestand dat je annoteert analyseren en proberen uit te vinden waar stukjes code erin oorspronkelijk vandaan kwamen als ze ergens vandaan gekopieerd zijn. Recentelijk was ik een bestand genaamd `GITServerHandler.m` aan het refactoreren naar meerdere bestanden, waarvan er een `GITPackUpload.m` heette. Door `GITPackUpload.m` te blamen met de `-C` optie, kon ik zien waar delen van de code oorspronkelijk vandaan kwamen:
 
-	$ git blame -C -L 141,153 GITPackUpload.m 
-	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
+	$ git blame -C -L 141,153 GITPackUpload.m
+	f344f58d GITServerHandler.m (Scott 2009-01-04 141)
 	f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
 	f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
 	70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@"GATHER COMMI
@@ -837,7 +837,7 @@ Nu heb je het Rack project onder een submap genaamd `rack` binnen je project. Je
 
 Eerst zie je het `.gitmodules` bestand. Dit is een configuratie bestand dat de mapping opslaat tussen de URL van het project en de locale submap waarin je het binnen gepulled hebt:
 
-	$ cat .gitmodules 
+	$ cat .gitmodules
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git

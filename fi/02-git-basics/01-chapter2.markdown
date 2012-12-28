@@ -103,13 +103,13 @@ Muutetaanpa tiedostoa, joka on jo jäljitetty. Jos muutat aikaisemmin jäljitett
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Benchmarks.rb tiedosto näkyy kohdan “Changed but not updated” alla - mikä tarkoittaa, että tiedostoa jota jäljitetään on muokattu työskentely hakemistossa, mutta sitä ei vielä ole lavastettu. Lavastaaksesi sen, ajat `git add` komennon (se on monitoimikomento - käytät sitä aloittaaksesi uusien tiedostojen jäljittämisen, lavastaaksesi tiedostoja, ja tehdäksesi muita asioita, kuten merkataksesi liitos-konflikti tiedostot ratkaistuksi). Ajetaanpa nyt `git add`-komento lavastaaksemme benchmarks.rb tiedoston, ja sitten `git status`-komento uudestaan:
+Benchmarks.rb tiedosto näkyy kohdan “Changes not staged for commit” alla - mikä tarkoittaa, että tiedostoa jota jäljitetään on muokattu työskentely hakemistossa, mutta sitä ei vielä ole lavastettu. Lavastaaksesi sen, ajat `git add` komennon (se on monitoimikomento - käytät sitä aloittaaksesi uusien tiedostojen jäljittämisen, lavastaaksesi tiedostoja, ja tehdäksesi muita asioita, kuten merkataksesi liitos-konflikti tiedostot ratkaistuksi). Ajetaanpa nyt `git add`-komento lavastaaksemme benchmarks.rb tiedoston, ja sitten `git status`-komento uudestaan:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -132,7 +132,7 @@ Kummatkin tiedostot ovat lavastettuja ja tulevat menevät seuraavaan pysyvään 
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -191,7 +191,7 @@ Sanotaan vaikka, että muokkaat ja lavastat README tiedostoa uudestaan, jonka j�
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -246,7 +246,7 @@ Toisena esimerkkinä, jos lavastat benchmarks.rb tiedoston ja sitten muokkaat si
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -327,7 +327,7 @@ Vaikka se voi olla uskomattoman hyödyllinen pysyvien muutoksien tekoon tarkalle
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -341,13 +341,13 @@ Huomaa miten sinun ei tarvitse ajaa `git add`-komentoa benchmarks.rb tiedostolle
 
 Poistaaksesi tiedoston Gitistä, täytyy sinun poistaa se sinun jäljitetyistä tiedostoistasi (tarkemmin sanoen, poistaa se lavastusalueeltasi) ja sitten tehdä pysyvä muutos. Komento `git rm` tekee tämän myös ja myös poistaa tiedoston työskentely hakemistostasi, joten et näe sitä enää jäljittämättömänä tiedostona.
 
-Jos yksinkertaisesti poistat tiedoston työskentely hakemistostasi, näkyy se “Changed but not updated” otsikon alla (se on, _lavastamaton_) `git status` tulosteessasi:
+Jos yksinkertaisesti poistat tiedoston työskentely hakemistostasi, näkyy se “Changes not staged for commit” otsikon alla (se on, _lavastamaton_) `git status` tulosteessasi:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -672,7 +672,7 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -685,7 +685,7 @@ The command is a bit strange, but it works. The benchmarks.rb file is modified b
 
 What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

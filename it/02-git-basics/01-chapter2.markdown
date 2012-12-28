@@ -101,13 +101,13 @@ Ora modifichiamo un file che è già stato tracciato. Se modifichi un file prece
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Il file benchmarks.rb appare sotto la sezione chiamata "Changed but not updated" — che significa che un file che è tracciato è stato modificato nella directory di lavoro ma non ancora messo in stage (parcheggiato). Per parcheggiarlo, avvia il comando `git add` (è un comando multifunzione — è usato per iniziare a tracciare nuovi file, per parcheggiare i file e per fare altre cose come eseguire la fusione dei file che entrano in conflitto dopo che sono stati risolti). Avvia dunque `git add` per parcheggiare ora il file benchmarks.rb, e avvia nuovamente `git status`:
+Il file benchmarks.rb appare sotto la sezione chiamata "Changes not staged for commit" — che significa che un file che è tracciato è stato modificato nella directory di lavoro ma non ancora messo in stage (parcheggiato). Per parcheggiarlo, avvia il comando `git add` (è un comando multifunzione — è usato per iniziare a tracciare nuovi file, per parcheggiare i file e per fare altre cose come eseguire la fusione dei file che entrano in conflitto dopo che sono stati risolti). Avvia dunque `git add` per parcheggiare ora il file benchmarks.rb, e avvia nuovamente `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ Entrambi i file sono parcheggiati ed entreranno nel prossimo commit. A questo pu
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -189,7 +189,7 @@ Nuovamente ti chiedo di modificare e parcheggiare il file README e poi modificar
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +244,7 @@ Per un altro esempio, se parcheggi il file benchmarks.rb e lo modifichi, puoi us
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -325,7 +325,7 @@ Anche se può essere estremamente utile per amministrare i commit esattamente co
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -339,13 +339,13 @@ Nota come non hai bisogno, in questo caso, di lanciare `git add` sul file benchm
 
 Per rimuovere un file con Git, hai bisogno di rimuoverlo dai file tracciati (più precisamente,  rimuoverlo dall'area di staging) e poi di fare il commit. Il comando `git rm` fa questo ed inoltre rimuove il file dalla tua directory di lavoro così non lo vedrai come un file non tracciato la prossima volta.
 
-Se semplicemente rimuovi il file dalla directory di lavoro, sarà visto sotto l'area "Changed but not updated" (cioè, non parcheggiato) dell'output `git status`:
+Se semplicemente rimuovi il file dalla directory di lavoro, sarà visto sotto l'area "Changes not staged for commit" (cioè, non parcheggiato) dell'output `git status`:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -670,7 +670,7 @@ Ora il testo sotto “Changes to be committed”, dice di usare `git reset HEAD 
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -683,7 +683,7 @@ Il comando è un po' strano, ma funziona. Il file benchmarks.rb è modificato ma
 
 Come fare se hai realizzato che non vuoi più tenere le modifiche che hai fatto al file benchmarks.rv? Come puoi annullarle facilmente — ritornare a come era al tuo ultimo commit (o alla clonazione iniziale, o come lo avevi nella tua directory di lavoro)? Fortunatamente, `git status` ci dice come farlo. Nell'ultimo output di esempio, l'area di unstage (file non parcheggiati) assomiglia a:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

@@ -233,7 +233,7 @@ Git no crea automáticamente una nueva fusión confirmada (merge commit). Sino q
 	[master*]$ git status
 	index.html: needs merge
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

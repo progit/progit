@@ -101,13 +101,13 @@ Wenn du eine bereits versionierte Datei `benchmarks.rb` änderst und den `git st
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Die Datei `benchmarks.rb` erscheint in der Sektion "Changed but not updated" - d.h., dass eine versionierte Datei im Arbeitsverzeichnis verändert worden ist, aber noch nicht für den Commit vorgemerkt wurde. Um sie vorzumerken, führst du den Befehl `git add` aus. (`git add` wird zu verschiedenen Zwecken eingesetzt. Man verwendet ihn, um neue Dateien zur Versionskontrolle hinzuzufügen, Dateien für einen Commit zu markieren und verschiedene andere Dinge - beispielsweise, einen Konflikt aus einem Merge als aufgelöst zu kennzeichnen.)
+Die Datei `benchmarks.rb` erscheint in der Sektion "Changes not staged for commit" - d.h., dass eine versionierte Datei im Arbeitsverzeichnis verändert worden ist, aber noch nicht für den Commit vorgemerkt wurde. Um sie vorzumerken, führst du den Befehl `git add` aus. (`git add` wird zu verschiedenen Zwecken eingesetzt. Man verwendet ihn, um neue Dateien zur Versionskontrolle hinzuzufügen, Dateien für einen Commit zu markieren und verschiedene andere Dinge - beispielsweise, einen Konflikt aus einem Merge als aufgelöst zu kennzeichnen.)
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ Beide Dateien sind nun für den nächsten Commit vorgemerkt. Nehmen wir an, du w
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -190,7 +190,7 @@ Nehmen wir an, du hast die Datei `README` geändert und für einen Commit in der
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -245,7 +245,7 @@ Ein anderes Beispiel: Wenn du Änderungen an der Datei `benchmarks.rb` bereits z
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -325,7 +325,7 @@ Obwohl die Staging Area unglaublich nützlich ist, um genau diejenigen Commits a
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -339,13 +339,13 @@ Beachte, dass du in diesem Fall `git add` zuvor noch nicht ausgeführt hast, die
 
 Um eine Datei aus der Git Versionskontrolle zu entfernen, muss diese von den verfolgten Dateien (genauer, aus der Staging Area) entfernt werden und dann mit einem Commit bestätigt werden. Der Befehl `git rm` tut genau das - und löscht die Datei außerdem aus dem Arbeitsverzeichnis, so dass sie dort nicht unbeabsichtigt (als eine nun unversionierte Datei) liegen bleibt.
 
-Wenn du einfach nur eine Datei aus dem Arbeitsverzeichnis löschst, wird sie in der Sektion "Changed but not updated" angezeigt, wenn du `git status` ausführst:
+Wenn du einfach nur eine Datei aus dem Arbeitsverzeichnis löschst, wird sie in der Sektion "Changes not staged for commit" angezeigt, wenn du `git status` ausführst:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -675,7 +675,7 @@ Direkt unter der Zeile "Changes to be committed" findest du den Hinweis "use `gi
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -688,7 +688,7 @@ Der Befehl liest sich zunächst vielleicht etwas merkwürdig, aber wie du siehst
 
 Was aber, wenn du die Änderungen an der Datei `benchmarks.rb` überhaupt nicht beibehalten willst? D.h., wenn du sie in den Zustand zurückversetzen willst, in dem sie sich befand, als du den letzten Commit angelegt hast (oder das Repository geklont hast). Das ist einfach, und glücklicherweise zeigt der `git status` Befehl ebenfalls bereits einen Hinweis dafür an. Die obige Ausgabe enthält den folgenden Text:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

@@ -101,13 +101,13 @@ Insert 18333fig0201.png
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-benchmarks.rb檔案出現在Changed but not updated下方，代表著這個檔案已被追蹤，而且位於工作目錄的該檔案已被修改，但尚未暫存。 要暫存該檔案，可執行git add命令（這是一個多重用途的檔案）。現在，讀者使用 git add將benchmarks.rb檔案暫存起來，並再度執行git status：
+benchmarks.rb檔案出現在Changes not staged for commit下方，代表著這個檔案已被追蹤，而且位於工作目錄的該檔案已被修改，但尚未暫存。 要暫存該檔案，可執行git add命令（這是一個多重用途的檔案）。現在，讀者使用 git add將benchmarks.rb檔案暫存起來，並再度執行git status：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ benchmarks.rb檔案出現在Changed but not updated下方，代表著這個檔�
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -190,7 +190,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -245,7 +245,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -326,7 +326,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -346,7 +346,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -671,7 +671,7 @@ Insert 18333fig0202.png
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -684,7 +684,7 @@ Insert 18333fig0202.png
 
 若讀者發現其者並不需要保留 benchmarks.rb 檔案被更動部份，應該如何做才能很容易的復原為最後一次提交的狀態（或者最被複製儲存庫時、或放到工作目錄時的版本）？ 很幸運的，git status 同樣也告訴讀者如何做。 在最近一次檢視狀態時，暫存區看起來應如下所示：
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

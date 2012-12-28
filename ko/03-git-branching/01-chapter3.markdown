@@ -235,7 +235,7 @@ Git은 자동으로 Merge된 새 커밋을 만들어내지 못했다. 변경사�
 	[master*]$ git status
 	index.html: needs merge
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use 'git add <file>...' to update what will be committed)
 	#   (use 'git checkout -- <file>...' to discard changes in working directory)
 	#

@@ -423,7 +423,7 @@ Ter demonstratie, ga je in je project en begint met werken aan een paar bestande
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -454,7 +454,7 @@ In dit geval waren er twee stashes al eerder opgeslagen, dus heb je toegang tot 
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
@@ -472,7 +472,7 @@ De wijzigingen aan je bestanden zijn opnieuw toegepast, maar het bestand dat je 
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -501,7 +501,7 @@ Als je wat werk stashet, het een poosje laat rusten, en dan doorwerkt op de bran
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
@@ -925,7 +925,7 @@ Nu is je `rack` submap in exact dezelfde status is als het was toen je het eerde
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

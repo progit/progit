@@ -418,7 +418,7 @@ Para demonstrar, você entra no seu projeto e começa a trabalhar em alguns arqu
     #
     #      modified:   index.html
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #
     #      modified:   lib/simplegit.rb
@@ -449,7 +449,7 @@ Nesse caso, duas stashes tinham sido feitas anteriormente, então você tem aces
 
     $ git stash apply
     # On branch master
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #
     #      modified:   index.html
@@ -467,7 +467,7 @@ As alterações em seus arquivos foram reaplicadas, mas o arquivo que você colo
     #
     #      modified:   index.html
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #
     #      modified:   lib/simplegit.rb
@@ -513,7 +513,7 @@ Se você criar um stash, deixá-lo lá por um tempo, e continuar no branch de on
     #
     #      modified:   index.html
     #
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #
     #      modified:   lib/simplegit.rb
@@ -937,7 +937,7 @@ Agora seu subdiretório `rack` está na mesma situação que estava quando você
      1 files changed, 1 insertions(+), 1 deletions(-)
     [master*]$ git status
     # On branch master
-    # Changed but not updated:
+    # Changes not staged for commit:
     #   (use "git add <file>..." to update what will be committed)
     #   (use "git checkout -- <file>..." to discard changes in working directory)
     #

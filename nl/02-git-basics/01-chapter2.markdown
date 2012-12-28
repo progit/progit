@@ -101,13 +101,13 @@ Laten we een gevolgd bestand wijzigen. Als je een voorheen gewijzigd bestand gen
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Het `benchmarks.rb` bestand verschijnt onder een sectie genaamd “Changed but not updated” — wat betekent dat een bestand dat gevolgd wordt gewijzigd is in de werkmap, maar nog niet ge-staged. Om het te stagen, voer je het `git add` commando uit (het is een veelzijdig commando — je gebruikt het om bestanden te volgen, om bestanden te stagen, en andere dingen zoals een bestand met een mergeconflict als opgelost te markeren). Laten we `git add` nu uitvoeren om het `benchmarks.rb` bestand nu te stagen, en dan nog eens `git status` uitvoeren:
+Het `benchmarks.rb` bestand verschijnt onder een sectie genaamd “Changes not staged for commit” — wat betekent dat een bestand dat gevolgd wordt gewijzigd is in de werkmap, maar nog niet ge-staged. Om het te stagen, voer je het `git add` commando uit (het is een veelzijdig commando — je gebruikt het om bestanden te volgen, om bestanden te stagen, en andere dingen zoals een bestand met een mergeconflict als opgelost te markeren). Laten we `git add` nu uitvoeren om het `benchmarks.rb` bestand nu te stagen, en dan nog eens `git status` uitvoeren:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ Beide bestanden zijn ge-staged en zullen in je volgende commit gaan. Stel dat je
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -189,7 +189,7 @@ Stel dat je het `README` bestand opnieuw verandert en staged, en dan het `benchm
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +244,7 @@ Nog een voorbeeld. Als je het `benchmarks.rb` bestand staged, en vervolgens vera
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -325,7 +325,7 @@ Alhoewel het ontzettend makkelijk kan zijn om commits precies zoals je wilt te m
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -339,13 +339,13 @@ Let op dat je nu geen `git add` op het `benchmarks.rb` bestand hoeft te doen voo
 
 Om een bestand van Git te verwijderen, moet je het van de tracked bestanden verwijderen (om precies te zijn, verwijderen van je staging gebied) en dan een commit doen. Het `git rm` commando doet dat, en verwijdert het bestand ook van je werkmap zodat je het de volgende keer niet als een untracked bestand ziet.
 
-Als je het bestand simpelweg verwijdert uit je werkmap, zal het te zien zijn onder het “Changed but not updated” (dat wil zeggen, _unstaged_) gedeelte van je `git status` output:
+Als je het bestand simpelweg verwijdert uit je werkmap, zal het te zien zijn onder het “Changes not staged for commit” (dat wil zeggen, _unstaged_) gedeelte van je `git status` output:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -670,7 +670,7 @@ Recht onder de "Changes to be committed" tekst, staat dat je `git reset HEAD <be
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -683,7 +683,7 @@ Het commando is een beetje vreemd, maar het werkt. Het benchmarks.rb bestand is 
 
 Wat als je je realiseert dat je je wijzigingen aan het `benchmarks.rb` bestand niet wilt behouden? Hoe kun je dit makkelijk ongedaan maken — terug brengen in de staat waarin het was toen je voor het laatst gecommit hebt (of initieel gecloned, of hoe je het ook in je werkmap gekregen hebt)? Gelukkig vertelt `git status` je ook hoe je dat moet doen. In de laatste voorbeeld output, ziet het unstaged gebied er zo uit:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

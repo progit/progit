@@ -10,7 +10,7 @@ A differenza dei gestori di versione centralizzati (CVCSs), la natura distrubuit
 
 ### Workflow centralizzato ###
 
-Nei sistemi centralizzati, generalmente c'è un modo solo di collarare. Un fulcro centrale, o repository, può accettare il codice e tutti sincronizzano il lavoro con questo. Un numero di sviluppatori sono nodi - rispetto al fulcro - e restano sincronizzati rispetto ad un luogo centrale (vedi Figura 5-1).
+Nei sistemi centralizzati, generalmente c'è un modo solo di collaborare. Un fulcro centrale, o repository, può accettare il codice e tutti sincronizzano il lavoro con questo. Un numero di sviluppatori sono nodi - rispetto al fulcro - e restano sincronizzati rispetto ad un luogo centrale (vedi Figura 5-1).
 
 Insert 18333fig0501.png 
 Figura 5-1. Worlflow centralizzato

@@ -100,7 +100,7 @@
             <dia:font family="sans" style="0" name="Helvetica"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="18.3,15.045"/>
@@ -131,7 +131,7 @@
         <dia:real val="13"/>
       </dia:attribute>
       <dia:attribute name="border_width">
-        <dia:real val="0.10000000000000001"/>
+        <dia:real val="0.1"/>
       </dia:attribute>
       <dia:attribute name="show_background">
         <dia:boolean val="true"/>
@@ -148,7 +148,7 @@
             <dia:font family="sans" style="0" name="Helvetica"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="22.5775,15.695"/>
@@ -178,7 +178,7 @@
             <dia:font family="sans" style="80" name="Helvetica-Bold"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="22.6725,10.37"/>
@@ -211,7 +211,7 @@
             <dia:font family="sans" style="80" name="Helvetica-Bold"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="12.65,10.3"/>
@@ -276,7 +276,7 @@
         <dia:int val="1"/>
       </dia:attribute>
       <dia:attribute name="line_width">
-        <dia:real val="0.10000000000000001"/>
+        <dia:real val="0.1"/>
       </dia:attribute>
       <dia:connections>
         <dia:connection handle="0" to="O8" connection="10"/>
@@ -298,7 +298,7 @@
         <dia:int val="1"/>
       </dia:attribute>
       <dia:attribute name="line_width">
-        <dia:real val="0.10000000000000001"/>
+        <dia:real val="0.1"/>
       </dia:attribute>
       <dia:connections>
         <dia:connection handle="0" to="O9" connection="16"/>
@@ -320,7 +320,7 @@
         <dia:int val="1"/>
       </dia:attribute>
       <dia:attribute name="line_width">
-        <dia:real val="0.10000000000000001"/>
+        <dia:real val="0.1"/>
       </dia:attribute>
       <dia:connections>
         <dia:connection handle="0" to="O10" connection="16"/>
@@ -341,10 +341,10 @@
         <dia:point val="10,11"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="5.2499999999999982"/>
+        <dia:real val="5.25"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
-        <dia:real val="2.1499999999999986"/>
+        <dia:real val="2.15"/>
       </dia:attribute>
       <dia:attribute name="line_width">
         <dia:real val="0.10000000149011612"/>
@@ -363,7 +363,7 @@
         <dia:real val="1"/>
       </dia:attribute>
       <dia:attribute name="padding">
-        <dia:real val="0.10000000000000001"/>
+        <dia:real val="0.1"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -374,7 +374,7 @@
             <dia:font family="sans" style="0" name="Helvetica"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="12.625,12.275"/>
@@ -411,10 +411,10 @@
         <dia:point val="20,11"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="5.2499999999999982"/>
+        <dia:real val="5.25"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
-        <dia:real val="2.1499999999999986"/>
+        <dia:real val="2.15"/>
       </dia:attribute>
       <dia:attribute name="line_width">
         <dia:real val="0.10000000149011612"/>
@@ -433,7 +433,7 @@
         <dia:real val="1"/>
       </dia:attribute>
       <dia:attribute name="padding">
-        <dia:real val="0.10000000000000001"/>
+        <dia:real val="0.1"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -444,7 +444,7 @@
             <dia:font family="sans" style="0" name="Helvetica"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="22.625,12.275"/>
@@ -481,10 +481,10 @@
         <dia:point val="20,15"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="5.2499999999999982"/>
+        <dia:real val="5.25"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
-        <dia:real val="2.1499999999999986"/>
+        <dia:real val="2.15"/>
       </dia:attribute>
       <dia:attribute name="line_width">
         <dia:real val="0.10000000149011612"/>
@@ -503,7 +503,7 @@
         <dia:real val="1"/>
       </dia:attribute>
       <dia:attribute name="padding">
-        <dia:real val="0.10000000000000001"/>
+        <dia:real val="0.1"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -514,7 +514,7 @@
             <dia:font family="sans" style="0" name="Helvetica"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="22.625,16.275"/>
@@ -551,10 +551,10 @@
         <dia:point val="20,19"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="5.2499999999999982"/>
+        <dia:real val="5.25"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
-        <dia:real val="2.1499999999999986"/>
+        <dia:real val="2.15"/>
       </dia:attribute>
       <dia:attribute name="line_width">
         <dia:real val="0.10000000149011612"/>
@@ -573,7 +573,7 @@
         <dia:real val="1"/>
       </dia:attribute>
       <dia:attribute name="padding">
-        <dia:real val="0.10000000000000001"/>
+        <dia:real val="0.1"/>
       </dia:attribute>
       <dia:attribute name="text">
         <dia:composite type="text">
@@ -584,7 +584,7 @@
             <dia:font family="sans" style="0" name="Helvetica"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="22.625,20.275"/>
@@ -623,7 +623,7 @@
             <dia:font family="sans" style="0" name="Helvetica"/>
           </dia:attribute>
           <dia:attribute name="height">
-            <dia:real val="0.80000000000000004"/>
+            <dia:real val="0.8"/>
           </dia:attribute>
           <dia:attribute name="pos">
             <dia:point val="22.625,20.075"/>

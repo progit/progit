@@ -363,7 +363,7 @@ Jessica はもう少し手を入れたいところがあったので、再びコ
 	To jessica@githost:simplegit.git
 	   3300904..ed774b3  featureA -> featureA
 
-Jessica のコミット履歴は、この時点で図 Figure 5-13 のようになります。
+Jessica のコミット履歴は、この時点で図 5-13 のようになります。
 
 Insert 18333fig0513.png 
 図 5-13. Jessica がブランチにコミットした後のコミット履歴

@@ -43,9 +43,12 @@ ARGV.each do |lang|
     figure_title = 'Figura'
   else
     figure_title = 'Figure'
+    book_title = 'Pro Git - professional version control'
+    authors = 'Scott Chacon'
+    comments = 'licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
   end
 
-  book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Pro Git - professional version control</title></head><body>)
+  book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>#{book_title}</title></head><body>)
   dir = File.expand_path(File.join(File.dirname(__FILE__), lang))
   Dir[File.join(dir, '**', '*.markdown')].sort.each do |input|
     puts "processing #{input}"
@@ -61,8 +64,8 @@ ARGV.each do |lang|
 
   system('ebook-convert', "progit.#{lang}.html", "progit.#{lang}.#{format}",
          '--cover', 'ebooks/cover.png',
-         '--authors', 'Scott Chacon',
-         '--comments', "licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license",
+         '--authors', authors,
+         '--comments', comments,
          '--level1-toc', '//h:h1', 
          '--level2-toc', '//h:h2', 
          '--level3-toc', '//h:h3',

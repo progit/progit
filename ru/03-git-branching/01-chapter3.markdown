@@ -148,7 +148,7 @@ Insert 18333fig0312.png
 
 Итак, вам надо срочно исправить ошибку. Давайте создадим для этого ветку, на которой вы будете работать (см. рис. 3-13):
 
-	$ git checkout -b 'hotfix'
+	$ git checkout -b hotfix
 	Switched to a new branch "hotfix"
 	$ vim index.html
 	$ git commit -a -m 'fixed the broken email address'

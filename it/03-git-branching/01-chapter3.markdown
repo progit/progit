@@ -401,7 +401,7 @@ Figura 3-24. Il comando git fetch aggiorna i tuoi riferimenti remoti.
 Avendo più server remoti e volendo vedere come sono i rami remoti per questi progetti esterni, assumiamo che hai un altro server Git interno che è usato solamente per lo sviluppo di un tuo team. Questo server è `git.team1.ourcompany.com`. Puoi aggiungerlo come una nuova referenza remoto al tuo progetto su cui stai lavorando avviando il comando `git remote add` come visto al Capitolo 2. Nominalo `teamone`, che sarà l'abbreviazione per tutto l'URL (vedi Figura 3-25).
 
 Insert 18333fig0325.png 
-Figure 3-25. Aggiungere un altro server remoto.
+Figura 3-25. Aggiungere un altro server remoto.
 
 Ora, puoi lanciare `git fetch teamone` per prelevare tutto quello che non possiedi dal server remoto `teamone`. Dato che il server è un sottoinsieme del server `origin` che già possiedi, Git non ricerca nessun dato ma imposta il ramo chiamato `teamone/master` a puntare al commit che `teamone` ha come suo ramo `master` (vedi Figura 3-26).
 

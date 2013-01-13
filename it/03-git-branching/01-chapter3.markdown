@@ -464,7 +464,7 @@ Ora il tuo ramo locale sf verrà automaticamente collegato a origin/serverfix.
 
 ### Eliminare rami remoti ###
 
-Supponiamo che stai lavorando con un ramo remoto — dici che tu e i tuoi collaboratori abbiate finito con una funzionalità e l'avete fusa nel ramo remoto `master` (o qualsiasi ramo stabile del progetto). Puoi eliminare un ramo remoto con una sintassi abbastanza ottusa `git push [remotename] :[branch]`. Se vuoi eliminare il ramo `serverfix', lancia il seguente comando:
+Supponiamo che stai lavorando con un ramo remoto — dici che tu e i tuoi collaboratori abbiate finito con una funzionalità e l'avete fusa nel ramo remoto `master` (o qualsiasi ramo stabile del progetto). Puoi eliminare un ramo remoto con una sintassi abbastanza ottusa `git push [remotename] :[branch]`. Se vuoi eliminare il ramo `serverfix`, lancia il seguente comando:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git

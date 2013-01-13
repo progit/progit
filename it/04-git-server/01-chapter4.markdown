@@ -716,7 +716,7 @@ Quando riavvi la macchina, il tuo demone Git si avvierà automaticamente e si ri
 
 	initctl start local-git-daemon
 
-Su altri sistemi, potresti usare `xinetd`, uno script nel tuo sistema `sysvinit', o altro — insomma un comando che lancia il demone e lo controlla in qualche modo.
+Su altri sistemi, potresti usare `xinetd`, uno script nel tuo sistema `sysvinit`, o altro — insomma un comando che lancia il demone e lo controlla in qualche modo.
 
 Poi, devi dire al tuo server Gitosis quali repository hanno un accesso al server Git senza autenticazione. Se aggiungi una sezione per ogni repository, puoi specificare quelli per cui vuoi il demone Git permetta la scrittura. Se vuoi permettere un accesso al protocollo Git al progetto del tuo iphone, puoi aggiungere alla fine del file `gitosis.conf`:
 
@@ -813,7 +813,7 @@ Quando hai un repository Git locale, aggiungi GitHub come remoto ed invia il tuo
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
 
-Ora il tuo progetto è ospitato su GitHub, e puoi fornire l'URL a chiunque tu voglia per condividere il progetto. In questo caso, è http://github.com/testinguser/iphone_project` . Puoi inoltre vedere dalla parte superiore di ogni pagina del progetto che hai due URL Git (vedi Figura 4-8).
+Ora il tuo progetto è ospitato su GitHub, e puoi fornire l'URL a chiunque tu voglia per condividere il progetto. In questo caso, è `http://github.com/testinguser/iphone_project` . Puoi inoltre vedere dalla parte superiore di ogni pagina del progetto che hai due URL Git (vedi Figura 4-8).
 
 Insert 18333fig0408.png 
 Figura 4-8. Parte superiore del progetto con un URL pubblico ed uno URL privato.

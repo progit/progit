@@ -436,7 +436,7 @@ La prossima volta che i tuoi collaboratori preleveranno dal server, avranno un r
 
 E' importante notare che quando fai un prelievo di un nuovo ramo, non hai automaticamente un ramo locale modificabile. In altre parole, in questo caso, non hai un nuovo ramo `serverfix` — hai solamente il puntatore `origin/serverfix` che non puoi modificare.
 
-Per fondere questo lavoro nel ramo corrente, puoi avviare `gir merge origin/serverfix`. Se vuoi il tuo ramo `serverfix` su cui poter lavorare, puoi basarlo sul ramo remoto:
+Per fondere questo lavoro nel ramo corrente, puoi avviare `git merge origin/serverfix`. Se vuoi il tuo ramo `serverfix` su cui poter lavorare, puoi basarlo sul ramo remoto:
 
 	$ git checkout -b serverfix origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
@@ -551,7 +551,7 @@ Poi, puoi fare una fusione veloce con il ramo base (`master`):
 	$ git checkout master
 	$ git merge server
 
-Puoi rimuovere i rami `client` e `server` perchè tutto il lavoro è integrato e non ne hai più bisogno, lasciando così la storia dell'intero processo come in Figura 3-35:
+Puoi rimuovere i rami `client` e `server` perché tutto il lavoro è integrato e non ne hai più bisogno, lasciando così la storia dell'intero processo come in Figura 3-35:
 
 	$ git branch -d client
 	$ git branch -d server

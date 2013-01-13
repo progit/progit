@@ -24,12 +24,12 @@ This workflow is attractive to a lot of people because it’s a paradigm that ma
 
 Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2):
 
-1.	The project maintainer pushes to their public repository.
-2.	A contributor clones that repository and makes changes.
-3.	The contributor pushes to their own public copy.
-4.	The contributor sends the maintainer an e-mail asking them to pull changes.
-5.	The maintainer adds the contributor’s repo as a remote and merges locally.
-6.	The maintainer pushes merged changes to the main repository.
+1. The project maintainer pushes to their public repository.
+2. A contributor clones that repository and makes changes.
+3. The contributor pushes to their own public copy.
+4. The contributor sends the maintainer an e-mail asking them to pull changes.
+5. The maintainer adds the contributor’s repo as a remote and merges locally.
+6. The maintainer pushes merged changes to the main repository.
 
 Insert 18333fig0502.png 
 Figure 5-2. Integration-manager workflow
@@ -40,10 +40,10 @@ This is a very common workflow with sites like GitHub, where it’s easy to fork
 
 This is a variant of a multiple-repository workflow. It’s generally used by huge projects with hundreds of collaborators; one famous example is the Linux kernel. Various integration managers are in charge of certain parts of the repository; they’re called lieutenants. All the lieutenants have one integration manager known as the benevolent dictator. The benevolent dictator’s repository serves as the reference repository from which all the collaborators need to pull. The process works like this (see Figure 5-3):
 
-1.	Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
-2.	Lieutenants merge the developers’ topic branches into their master branch.
-3.	The dictator merges the lieutenants’ master branches into the dictator’s master branch.
-4.	The dictator pushes their master to the reference repository so the other developers can rebase on it.
+1. Regular developers work on their topic branch and rebase their work on top of master. The master branch is that of the dictator.
+2. Lieutenants merge the developers’ topic branches into their master branch.
+3. The dictator merges the lieutenants’ master branches into the dictator’s master branch.
+4. The dictator pushes their master to the reference repository so the other developers can rebase on it.
 
 Insert 18333fig0503.png  
 Figure 5-3. Benevolent dictator workflow

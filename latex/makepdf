@@ -1,12 +1,10 @@
 #!/usr/bin/env ruby
 # -*- coding: utf-8 -*-
 require 'fileutils'
-require 'open3'
 require 'erb'
 require 'yaml'
 
-include FileUtils, Open3
-alias :pipe :popen3
+include FileUtils
 
 $here = File.expand_path(File.dirname(__FILE__))
 $root = File.join($here, '..')
@@ -37,8 +35,12 @@ USAGE
 end
 
 def command_exists?(command)
-	ENV['PATH'].split(/:/).map do |path|
-		File.executable?("#{path}/#{command}")
+	if File.executable?(command) then
+		return command
+	end
+	ENV['PATH'].split(File::PATH_SEPARATOR).map do |path|
+		cmd = "#{path}/#{command}"
+		File.executable?(cmd) || File.executable?("#{cmd}.exe") || File.executable?("#{cmd}.cmd")
 	end.inject{|a, b| a || b}
 end
 
@@ -59,11 +61,13 @@ end
 def pre_pandoc(string, config)
 	replace(string) do
 		# Pandoc discards #### subsubsections #### - this hack recovers them
+		# be careful to try to match the longest sharp string first
+		s /\#\#\#\#\# (.*?) \#\#\#\#\#/, 'PARAGRAPH: \1'
 		s /\#\#\#\# (.*?) \#\#\#\#/, 'SUBSUBSECTION: \1'
 
 		# Turns URLs into clickable links
-		s /\`(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\`/, '<\1>'
-		s /(\n\n)\t(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\n([^\t]|\t\n)/, '\1<\2>\1'
+		s /\`(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.\(\)\#]+)\`/, '<\1>'
+		s /(\n\n)\t(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.\(\)\#]+)\n([^\t]|\t\n)/, '\1<\2>\1'
 
 		# Process figures
 		s /Insert\s18333fig\d+\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, 'FIG: \1'
@@ -78,6 +82,7 @@ def post_pandoc(string, config)
 		s '\section', '\chap'
 		s '\sub', '\\'
 		s /SUBSUBSECTION: (.*)/, '\subsubsection{\1}'
+		s /PARAGRAPH: (.*)/, '\paragraph{\1}'
 
 		# Enable proper cross-reference
 		s /#{config['fig'].gsub(space, '\s')}\s*(\d+)\-\-(\d+)/, '\imgref{\1.\2}'
@@ -96,13 +101,27 @@ def post_pandoc(string, config)
 		s /\sx\s10\\\^\{\}(\d+)/, '\e{\1}'
 
 		# Convert inline-verbatims into \texttt (which is able to wrap)
-		s /\\verb(\W)(.*?)\1/ do
-			"{\\texttt{#{verbatim_sanitize($2)}}}"
-		end
+		s /\\verb(\W)(.*?)\1/ ,'\\texttt{\2}'
 
-		# Ensure monospaced stuff is in a smaller font
-		s /(\\verb(\W).*?\2)/, '{\footnotesize\1}'
-		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '{\footnotesize\1}'
+		# Make Tables 2-1..2-3 actual tables
+		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)(([^\t\n]*)\n)?\\end\{verbatim\}/ do
+			$cap = $4
+			"\\begin{table}[ht!]
+				\\refstepcounter{tab}
+				\\centering
+				\\label{tab:\\thetab}
+				\\begin{tabular}{p{2.75cm}p{8.25cm}}
+					\\toprule\n" <<
+					verbatim_sanitize($1).
+						gsub(/^([^\n\t]+)\t/, '{\footnotesize\texttt{\1}} & ').
+						gsub(/(\n)/, '\\\\\\\\\1').
+						sub(/\{\\footnotesize\\texttt(.*?)\n/, '{\1\midrule ').
+						concat("
+					\\bottomrule
+				\\end{tabular}
+				\\textbf{\\caption{#{$cap}}}
+			\\end{table}")
+		end
 
 		# Shaded verbatim block
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'
@@ -133,10 +152,10 @@ figures do
 		end.join("\n\n")
 
 		print "\tParsing markdown... "
-		latex = pipe('pandoc -p --no-wrap -f markdown -t latex') do |stdin, stdout|
-			stdin.write(pre_pandoc(markdown, config))
-			stdin.close
-			post_pandoc(stdout.read, config)
+		latex = IO.popen('pandoc -p --no-wrap -f markdown -t latex', 'w+') do |pipe|
+			pipe.write(pre_pandoc(markdown, config))
+			pipe.close_write
+			post_pandoc(pipe.read, config)
 		end
 		puts "done"
 
@@ -154,15 +173,15 @@ figures do
 		cd($root)
 		3.times do |i|
 			print "\t\tPass #{i + 1}... "
-			pipe("xelatex -output-directory='#{dir}' '#{dir}/main.tex' 2>&1") do |_, stdout|
+			IO.popen("xelatex -output-directory=\"#{dir}\" \"#{dir}/main.tex\" 2>&1") do |pipe|
 				unless $DEBUG
-					if ~ /^!\s/
+					if $_[0..1]=='! '
 						puts "failed with:\n\t\t\t#{$_.strip}"
 						puts "\tConsider running this again with --debug."
 						abort = true
-					end while stdout.gets and not abort
+					end while pipe.gets and not abort
 				else
-					STDERR.print while stdout.gets rescue abort = true
+					STDERR.print while pipe.gets rescue abort = true
 				end
 			end
 			break if abort

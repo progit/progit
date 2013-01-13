@@ -101,13 +101,13 @@ Insert 18333fig0201.png
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-benchmarks.rb檔案出現在Changed but not updated下方，代表著這個檔案已被追蹤，而且位於工作目錄的該檔案已被修改，但尚未暫存。 要暫存該檔案，可執行git add命令（這是一個多重用途的檔案）。現在，讀者使用 git add將benchmarks.rb檔案暫存起來，並再度執行git status：
+benchmarks.rb檔案出現在Changes not staged for commit下方，代表著這個檔案已被追蹤，而且位於工作目錄的該檔案已被修改，但尚未暫存。 要暫存該檔案，可執行git add命令（這是一個多重用途的檔案）。現在，讀者使用 git add將benchmarks.rb檔案暫存起來，並再度執行git status：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ benchmarks.rb檔案出現在Changed but not updated下方，代表著這個檔�
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -165,7 +165,7 @@ benchmarks.rb檔案出現在Changed but not updated下方，代表著這個檔�
 *	可以/結尾，代表是目錄。
 *	可使用!符號將特徵反過來使用。
 
-Glob pattern就像是shell使用的簡化版正規運算式。 星號（*）匹配零個或多個字元；[abc]匹配中括弧內的任一字元（此例為a、b、c）；問號（?）匹配單一個字元；中括孤內的字以連字符連接（如：[0-9]），用來匹配任何符合該範圍的字（此例為0到9）。
+Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）匹配零個或多個字元；[abc]匹配中括弧內的任一字元（此例為a、b、c）；問號（?）匹配單一個字元；中括孤內的字以連字符連接（如：[0-9]），用來匹配任何符合該範圍的字（此例為0到9）。
 
 
 以下是其它的範例：
@@ -190,7 +190,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（*）匹�
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -245,7 +245,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（*）匹�
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -326,7 +326,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（*）匹�
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -346,7 +346,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（*）匹�
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -375,7 +375,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（*）匹�
 
 	$ git rm log/\*.log
 
-注意倒斜線（\）前方的星號（*）。 這是必須的，因為Git會在shell以上執行檔案的擴展。 此命令移除log目錄下所有檔名以.log結尾的檔案。 讀者也可以執行類似下列命令：
+注意倒斜線（\）前方的星號（`*`）。 這是必須的，因為Git會在shell以上執行檔案的擴展。 此命令移除log目錄下所有檔名以.log結尾的檔案。 讀者也可以執行類似下列命令：
 
 	$ git rm \*~
 
@@ -660,7 +660,7 @@ Insert 18333fig0202.png
 	#       modified:   benchmarks.rb
 	#
 
-在 "Changes to be commited" 文字下方，註明著使用 "git reset HEAD <file>..."，將 file 移出暫存區。 因此，讓我們依循該建議將 benchmarks.rb 檔案移出暫存區：
+在 "Changes to be commited" 文字下方，註明著使用 "`git reset HEAD <file>...`"，將 file 移出暫存區。 因此，讓我們依循該建議將 benchmarks.rb 檔案移出暫存區：
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -671,7 +671,7 @@ Insert 18333fig0202.png
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -684,7 +684,7 @@ Insert 18333fig0202.png
 
 若讀者發現其者並不需要保留 benchmarks.rb 檔案被更動部份，應該如何做才能很容易的復原為最後一次提交的狀態（或者最被複製儲存庫時、或放到工作目錄時的版本）？ 很幸運的，git status 同樣也告訴讀者如何做。 在最近一次檢視狀態時，暫存區看起來應如下所示：
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -1115,7 +1115,7 @@ This way, you can see the last commit easily:
 
 As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Summary ##
 

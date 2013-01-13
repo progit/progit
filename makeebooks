@@ -1,20 +1,20 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 # This script convers markdown book to one of the serveral e-book
 # formats supported with calibre (http://calibre-ebook.com)
 #
 # Samples:
 # 	
 # Build e-book for amazon kindle for english and russian languages
-# 	$ make-ebook en ru
+# 	$ ruby makeebooks en ru
 # or
-# 	$ FORMAT=mobi make-ebook en ru
+# 	$ FORMAT=mobi ruby makeebooks en ru
 #
 # Build e-book in 'epub' format for russian only
-# 	$ FORMAT=epub make-ebook ru
+# 	$ FORMAT=epub ruby makeebooks ru
 
 require 'rubygems'
 require 'rdiscount'
-require 'ruby-debug'
 
 if ARGV.length == 0
   puts "you need to specify at least one language. For example: makeebooks en"
@@ -27,12 +27,36 @@ puts "using .#{format} (you can change it via FORMAT environment variable. try '
 ARGV.each do |lang|
   puts "convert content for '#{lang}' language"
 
-  book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Pro Git - professional version control</title></head><body>)
+  if lang == 'ko'
+    figure_title = '그림'
+  elsif lang == 'ja'
+    figure_title = '図'
+  elsif lang == 'ru'
+    figure_title = 'Рисунок'
+    book_title = 'Pro Git — профессиональный контроль версий'
+    authors = 'Скот Чакон'
+    comments = 'Лицензия: Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+  elsif lang == 'es'
+    figure_title = 'Figura'
+  elsif lang == 'zh'
+    figure_title = '图'
+  elsif lang == 'zh-tw'
+    figure_title = '圖'
+  elsif lang == 'pt-br'
+    figure_title = 'Figura'
+  else
+    figure_title = 'Figure'
+    book_title = 'Pro Git - professional version control'
+    authors = 'Scott Chacon'
+    comments = 'licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
+  end
+
+  book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>#{book_title}</title></head><body>)
   dir = File.expand_path(File.join(File.dirname(__FILE__), lang))
   Dir[File.join(dir, '**', '*.markdown')].sort.each do |input|
     puts "processing #{input}"
     content = File.read(input)
-    content.gsub!(/Insert\s+(.*)(\.png)\s*\n?\s*Fig[u]*r[ae]*\s+(.*)/, '![\3](figures/\1-tn\2 "\3")')
+    content.gsub!(/Insert\s+(.*)(\.png)\s*\n?\s*#{figure_title}\s*(.*)/, '![\3](figures/\1-tn\2 "\3")')
     book_content << RDiscount.new(content).to_html
   end
   book_content << "</body></html>"
@@ -43,8 +67,8 @@ ARGV.each do |lang|
 
   system('ebook-convert', "progit.#{lang}.html", "progit.#{lang}.#{format}",
          '--cover', 'ebooks/cover.png',
-         '--authors', 'Scott Chacon',
-         '--comments', "licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license",
+         '--authors', authors,
+         '--comments', comments,
          '--level1-toc', '//h:h1', 
          '--level2-toc', '//h:h2', 
          '--level3-toc', '//h:h3',

@@ -112,9 +112,9 @@ Staging area adalah sebuah berkas sederhana, umumnya berada dalam direktori Git 
 
 Alur kerja dasar Git adalah seperti ini:
 
-1.	Anda mengubah berkas dalam direktori kerja anda.
-2.	Anda membawa berkas ke stage, menambahkan snapshotnya ke staging area.
-3.	Anda melakukan commit, yang mengambil berkas seperti yang ada di staging area dan menyimpan snapshotnya secara permanen ke direktori Git anda.
+1. Anda mengubah berkas dalam direktori kerja anda.
+2. Anda membawa berkas ke stage, menambahkan snapshotnya ke staging area.
+3. Anda melakukan commit, yang mengambil berkas seperti yang ada di staging area dan menyimpan snapshotnya secara permanen ke direktori Git anda.
 
 Jika sebuah versi tertentu dari sebuah berkas telah ada di direktori git, ia dianggap 'committed'. Jika berkas diubah (modified) tetapi sudah ditambahkan ke staging area, maka itu adalah 'staged'. Dan jika berkas telah diubah sejak terakhir dilakukan checked out tetapi belum ditambahkan ke staging area maka itu adalah 'modified'. Pada Bab 2, anda akan mempelajari lebih lanjut mengenai keadaan-keadaan ini dan bagaimana anda dapat memanfaatkan keadaan-keadaan tersebut ataupun melewatkan bagian 'staged' seluruhnya.
 

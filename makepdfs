@@ -7,6 +7,8 @@ exclude=('figures' 'figures-dia' 'figures-source' 'latex' 'makepdfs' 'pdf' 'READ
 dirContent=`ls $baseDir`
 argString=""
 
+  echo $i;
+
 for dir in $dirContent; do
 	if [ -n $dir ]; then
 		
@@ -18,7 +20,15 @@ for dir in $dirContent; do
 		done
 		
 		if [ $isLang -eq 1 ]; then
-			argString="${argString} ${dir}"
+			if [ "$1" = "" ]; then
+				argString="${argString} ${dir}"
+			else
+				for i in ${@}; do
+					if [ $i = $dir ]; then
+						argString="${argString} ${dir}"
+					fi
+				done
+			fi
 		fi
 	fi
 done

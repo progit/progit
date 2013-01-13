@@ -1,22 +1,22 @@
-# Git Tools #
+# Nástroje systému Git #
 
-By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging.
+Do této chvíle jste stačili poznat většinu každodenních příkazů a pracovních postupů, které budete při práci se zdrojovým kódem potřebovat k ovládání a správě repozitáře Git. Zvládli jste základní úkony sledování a zapisování souborů a pochopili jste přednosti přípravy souborů k zapsání i snadného vytváření a začleňování větví.
 
-Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point.
+Nyní poznáte několik velmi účinných nástrojů, které vám Git nabízí. Pravděpodobně je nebudete používat každý den, ale přesto se vám mohou čas od času hodit.
 
-## Revision Selection ##
+## Výběr revize ##
 
-Git allows you to specify specific commits or a range of commits in several ways. They aren’t necessarily obvious but are helpful to know.
+Systém Git umožňuje určit jednotlivé revize nebo interval revizí několika způsoby. Není nezbytně nutné, abyste je všechny znali, ale mohou být užitečné.
 
-### Single Revisions ###
+### Jednotlivé revize ###
 
-You can obviously refer to a commit by the SHA-1 hash that it’s given, but there are more human-friendly ways to refer to commits as well. This section outlines the various ways you can refer to a single commit.
+Revizi můžete samozřejmě specifikovat na základě otisku SHA-1, jenž jí byl přidělen. Existují však i uživatelsky příjemnější způsoby, jak označit konkrétní revizi. Tato část uvede několik různých způsobů, jak lze určit jednu konkrétní revizi.
 
-### Short SHA ###
+### Zkrácená hodnota SHA ###
 
-Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1.
+Git je dostatečně chytrý na to, aby pochopil, jakou revizi jste měli na mysli, zadáte-li pouze prvních několik znaků. Tento neúplný otisk SHA-1 musí mít alespoň čtyři znaky a musí být jednoznačný, tj. žádný další objekt v aktuálním repozitáři nesmí začínat stejnou zkrácenou hodnotou SHA-1.
 
-For example, to see a specific commit, suppose you run a `git log` command and identify the commit where you added certain functionality:
+Pokud si chcete například prohlédnout konkrétní revizi, řekněme, že spustíte příkaz `git log` a určíte revizi, do níž jste vložili určitou funkci:
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -38,48 +38,48 @@ For example, to see a specific commit, suppose you run a `git log` command and i
 
 	    added some blame and merge stuff
 
-In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous):
+V tomto případě vyberte `1c002dd...`. Pokud chcete na revizi použít příkaz `git show`, budou všechny následující příkazy ekvivalentní (za předpokladu, že jsou zkrácené verze jednoznačné):
 
 	$ git show 1c002dd4b536e7479fe34593e72e6c6c1819e53b
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous:
+Git dokáže identifikovat krátkou, jednoznačnou zkratku hodnoty SHA-1. Zadáte-li k příkazu `git log` parametr `--abbrev-commit`, výstup bude používat kratší hodnoty, ale pouze v jednoznačném tvaru. Standardně se používá sedm znaků, avšak je-li to kvůli jednoznačnosti hodnoty SHA-1 nezbytné, bude použito znaků více:
 
 	$ git log --abbrev-commit --pretty=oneline
 	ca82a6d changed the version number
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique.
+Osm až deset znaků většinou bohatě stačí, aby byla hodnota v rámci projektu jednoznačná. V jednom z největších projektů Git, v jádru Linuxu, začíná být nutné zadávat pro jednoznačné určení už 12 znaků z celkových 40 možných.
 
-### A SHORT NOTE ABOUT SHA-1 ###
+### Krátká poznámka k hodnotě SHA-1 ###
 
-A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then?
+Někteří uživatelé bývají zmateni, že mohou mít v repozitáři – shodou okolností – dva objekty, které mají stejnou hodnotu SHA-1 otisku. Co teď?
 
-If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, GIt will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. 
+Pokud náhodou zapíšete objekt, který má stejnou hodnotu SHA-1 otisku jako předchozí objekt ve vašem repozitáři, Git už uvidí předchozí objekt v databázi Git a bude předpokládat, že už byl zapsán. Pokud se někdy v budoucnosti pokusíte znovu provést checkout tohoto objektu, vždy dostanete data prvního objektu.
 
-However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth.
+Měli bychom však také říci, jak moc je nepravděpodobné, že taková situace nastane. Otisk SHA-1 má 20 bytů, neboli 160 bitů. Počet objektů s náhodným otiskem, které bychom potřebovali k 50% pravděpodobnosti, že nastane jediná kolize, je asi 280 (vzorec k určení pravděpodobnosti kolize je `p = (n(n-1)/2) * (1/2^160))`. 2^80 je 1,2 * 10^24, neboli 1 milion miliard miliard. To je 1200násobek počtu všech zrnek písku na celé Zemi.
 
-Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night.
+Abyste si udělali představu, jak je nepravděpodobné, že dojde ke kolizi hodnot SHA-1, připojujeme jeden malý příklad. Kdyby 6,5 miliardy lidí na zemi programovalo a každý by každou sekundu vytvořil kód odpovídající celé historii linuxového jádra (1 milion objektů Git) a odesílal ho do jednoho obřího repozitáře Git, trvalo by 5 let, než by repozitář obsahoval dost objektů na to, aby existovala 50% pravděpodobnost, že dojde ke kolizi jediného objektu SHA-1. To už je pravděpodobnější, že všichni členové vašeho programovacího týmu budou během jedné noci v navzájem nesouvisejících incidentech napadeni a zabiti smečkou vlků.
 
-### Branch References ###
+### Reference větví ###
 
-The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`:
+Nejčistší způsob, jak určit konkrétní revizi, vyžaduje, aby měla revize referenci větve, která na ni ukazuje. V takovém případě můžete použít název větve v libovolném příkazu Git, který vyžaduje objekt revize nebo hodnotu SHA-1. Pokud chcete například zobrazit objekt poslední revize větve, můžete využít některý z následujících příkazů (za předpokladu, že větev `topic1` ukazuje na `ca82a6d`):
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch.
+Jestliže vás zajímá, na kterou konkrétní hodnotu SHA větev ukazuje, nebo chcete-li zjistit, jak bude některý z těchto příkladů vypadat v podobě SHA, můžete použít jeden z nízkoúrovňových nástrojů systému Git: `rev-parse`. Více o nízkoúrovňových nástrojích najdete v kapitole 9. Nástroj `rev-parse` se používá v podstatě pouze pro operace na nižších úrovních a není koncipován pro každodenní používání. Může se však hodit, až budete jednou potřebovat zjistit, co se doopravdy odehrává. Tehdy můžete na svou větev spustit příkaz `rev-parse`:
 
 	$ git rev-parse topic1
 	ca82a6dff817ec66f44342007202690a93763949
 
-### RefLog Shortnames ###
+### Zkrácené názvy v záznamu RefLog ###
 
-One of the things Git does in the background while you’re working away is keep a reflog — a log of where your HEAD and branch references have been for the last few months.
+Jednou z věcí, které probíhají na pozadí systému Git, zatímco vy pracujete, je uchovávání záznamu reflog, v němž se ukládají pozice referencí HEAD a všech vašich větví za několik posledních měsíců.
 
-You can see your reflog by using `git reflog`:
+Svůj reflog si můžete nechat zobrazit příkazem `git reflog`:
 
 	$ git reflog
 	734713b... HEAD@{0}: commit: fixed refs handling, added gc auto, updated
@@ -90,22 +90,22 @@ You can see your reflog by using `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output:
+Pokaždé, když je z nějakého důvodu aktualizován vrchol větve, Git tuto informaci uloží v dočasné historii reflog. Pomocí těchto dat lze rovněž specifikovat starší revize. Chcete-li zobrazit pátou poslední hodnotu ukazatele HEAD svého repozitáře, použijte referenci `@{n}` z výstupu reflog:
 
 	$ git show HEAD@{5}
 
-You can also use this syntax to see where a branch was some specific amount of time ago. For instance, to see where your `master` branch was yesterday, you can type
+Tuto syntax můžete použít také k zobrazení pozice, na níž se větev nacházela před určitou dobou. Chcete-li například zjistit, kde byla vaše větev `master` včera (yesterday), můžete zadat příkaz:
 
 	$ git show master@{yesterday}
 
-That shows you where the branch tip was yesterday. This technique only works for data that’s still in your reflog, so you can’t use it to look for commits older than a few months.
+Git vám ukáže, kde se vrchol větve nacházel včera. Tato možnost funguje pouze pro data, jež jsou dosud v záznamu reflog. Nemůžete ji proto použít pro revize starší než několik měsíců.
 
-To see reflog information formatted like the `git log` output, you can run `git log -g`:
+Chcete-li zobrazit informace záznamu reflog ve formátu výstupu `git log`, zadejte příkaz `git log -g`:
 
 	$ git log -g master
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
 	Reflog: master@{0} (Scott Chacon <schacon@gmail.com>)
-	Reflog message: commit: fixed refs handling, added gc auto, updated 
+	Reflog message: commit: fixed refs handling, added gc auto, updated
 	Author: Scott Chacon <schacon@gmail.com>
 	Date:   Fri Jan 2 18:32:33 2009 -0800
 
@@ -119,24 +119,24 @@ To see reflog information formatted like the `git log` output, you can run `git 
 
 	    Merge commit 'phedders/rdocs'
 
-It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you'll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results.
+Měli bychom také doplnit, že informace záznamu reflog jsou čistě lokální, vztahují se pouze na to, co jste provedli ve svém repozitáři. V kopii repozitáře na počítači kohokoli jiného se budou tyto reference lišit. Bezprostředně poté, co poprvé naklonujete repozitář, bude váš reflog prázdný, protože ve vašem repozitáři ještě nebyla provedena žádná operace. Příkaz `git show HEAD@{2.months.ago}` bude fungovat, pouze pokud jste projekt naklonovali minimálně před dvěma měsíci (tedy „2 months ago“). Pokud jste jej naklonovali před pěti minutami, neobdržíte žádný výsledek.
 
-### Ancestry References ###
+### Reference podle původu ###
 
-The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
-Suppose you look at the history of your project:
+Další základní způsob, jak specifikovat konkrétní revizi, je na základě jejího původu. Umístíte-li na konec reference znak `^`, Git bude referenci chápat tak, že označuje rodiče dané revize.
+Můžete mít například takovouto historii projektu:
 
 	$ git log --pretty=format:'%h %s' --graph
 	* 734713b fixed refs handling, added gc auto, updated tests
 	*   d921970 Merge commit 'phedders/rdocs'
-	|\  
+	|\
 	| * 35cfb2b Some rdoc changes
 	* | 1c002dd added some blame and merge stuff
-	|/  
+	|/
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD":
+Zobrazit předchozí revizi pak můžete pomocí `HEAD^`, což doslova znamená „rodič revize HEAD“:
 
 	$ git show HEAD^
 	commit d921970aadf03b3cf0e71becdaab3147ba71cdef
@@ -146,7 +146,7 @@ Then, you can see the previous commit by specifying `HEAD^`, which means "the pa
 
 	    Merge commit 'phedders/rdocs'
 
-You can also specify a number after the `^` — for example, `d921970^2` means "the second parent of d921970." This syntax is only useful for merge commits, which have more than one parent. The first parent is the branch you were on when you merged, and the second is the commit on the branch that you merged in:
+Za znakem `^` můžete zadat také číslo, např. `d921970^2` označuje „druhého rodiče revize d921970“. Tato syntax má význam pouze u revizí vzniklých sloučením, které mají více než jednoho rodiče. První rodič je větev, na níž jste se během začlenění nacházeli, druhým rodičem je větev, kterou jste začleňovali:
 
 	$ git show d921970^
 	commit 1c002dd4b536e7479fe34593e72e6c6c1819e53b
@@ -162,7 +162,7 @@ You can also specify a number after the `^` — for example, `d921970^2` means "
 
 	    Some rdoc changes
 
-The other main ancestry specification is the `~`. This also refers to the first parent, so `HEAD~` and `HEAD^` are equivalent. The difference becomes apparent when you specify a number. `HEAD~2` means "the first parent of the first parent," or "the grandparent" — it traverses the first parents the number of times you specify. For example, in the history listed earlier, `HEAD~3` would be
+Další základní možností označení původu je znak `~`. Také tento znak označuje prvního rodiče, výrazy `HEAD~` a `HEAD^` jsou proto ekvivalentní. Rozdíl mezi nimi je patrný při zadání čísla. `HEAD~2` označuje „prvního rodiče prvního rodiče“, tedy „prarodiče“. Příkaz překročí prvního rodiče tolikrát, kolikrát udává číselná hodnota. Například v historii naznačené výše by `HEAD~3` znamenalo:
 
 	$ git show HEAD~3
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -171,7 +171,7 @@ The other main ancestry specification is the `~`. This also refers to the first 
 
 	    ignore *.gem
 
-This can also be written `HEAD^^^`, which again is the first parent of the first parent of the first parent:
+Totéž by bylo možné označit výrazem `HEAD^^^`, který opět udává prvního rodiče prvního rodiče prvního rodiče:
 
 	$ git show HEAD^^^
 	commit 1c3618887afb5fbcbea25b7c013f4e2114448b8d
@@ -180,57 +180,57 @@ This can also be written `HEAD^^^`, which again is the first parent of the first
 
 	    ignore *.gem
 
-You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on.
+Tyto syntaxe můžete také kombinovat. Druhého rodiče předchozí reference (jestliže se jednalo o revizi sloučením) lze získat výrazem `HEAD~3^2` atd.
 
-### Commit Ranges ###
+### Intervaly revizí ###
 
-Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?"
+Nyní, když umíte určit jednotlivé revize, podíváme se, jak lze určovat celé intervaly revizí. To využijete zejména při správě větví. Máte-li větší množství větví, pomůže vám označení intervalu revizí dohledat odpovědi na otázky typu: „Jaká práce je obsažena v této větvi, kterou jsem ještě nezačlenil do hlavní větve?“
 
-#### Double Dot ####
+#### Dvě tečky ####
 
-The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1.
+Nejčastěji se při označení intervalu používá dvojtečková syntax. Pomocí ní systému Git v podstatě říkáte, aby uvažoval celý interval revizí, které jsou dostupné z jedné revize, ale nejsou dostupné z jiné. Předpokládejme tedy, že máte historii revizí jako na obrázku 6-1.
 
-Insert 18333fig0601.png 
-Figure 6-1. Example history for range selection
+Insert 18333fig0601.png
+Figure 6-1. Příklad historie revizí pro výběr intervalu
 
-You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display:
+Vy chcete vidět, co všechno obsahuje vaše experimentální větev, kterou jste ještě nezačlenili do hlavní větve. Pomocí výrazu `master..experiment` můžete systému Git zadat příkaz, aby vám zobrazil log právě s těmito revizemi, doslova „všemi revizemi dostupnými z větve experiment a nedostupnými z hlavní větve“. V zájmu stručnosti a názornosti použiji v těchto příkladech místo skutečného výstupu logu písmena objektů revizí z diagramu v pořadí, jak by se zobrazily:
 
 	$ git log master..experiment
 	D
 	C
 
-If, on the other hand, you want to see the opposite — all commits in `master` that aren’t in `experiment` — you can reverse the branch names. `experiment..master` shows you everything in `master` not reachable from `experiment`:
+A samozřejmě si můžete nechat zobrazit i pravý opak, všechny revize ve větvi `master`, které nejsou ve větvi `experiment`. K tomu stačí obrátit pořadí názvů větví v příkazu. Výraz `experiment..master` zobrazí vše ve větvi `master`, co není dostupné ve větvi `experiment`:
 
 	$ git log experiment..master
 	F
 	E
 
-This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge in. Another very frequent use of this syntax is to see what you’re about to push to a remote:
+Tento log využijete, pokud chcete udržovat větev `experiment` stále aktuální a zjistit, co hodláte začlenit. Tato syntax se velmi často používá také ke zjištění, co hodláte odeslat do vzdálené větve:
 
 	$ git log origin/master..HEAD
 
-This command shows you any commits in your current branch that aren’t in the `master` branch on your `origin` remote. If you run a `git push` and your current branch is tracking `origin/master`, the commits listed by `git log origin/master..HEAD` are the commits that will be transferred to the server.
-You can also leave off one side of the syntax to have Git assume HEAD. For example, you can get the same results as in the previous example by typing `git log origin/master..` — Git substitutes HEAD if one side is missing.
+Tento příkaz zobrazí všechny revize ve vaší aktuální větvi, které nejsou obsaženy ve větvi `master` vzdáleného repozitáře `origin`. Spustíte-li příkaz `git push` a vaše aktuální větev sleduje větev `origin/master`, budou na server přesunuty revize, které lze zobrazit příkazem `git log origin/master..HEAD`.
+Jednu stranu intervalu můžete zcela vynechat, Git na její místo automaticky dosadí HEAD. Stejné výsledky jako v předchozím příkladu dostanete zadáním příkazu `git log origin/master..` – Git dosadí na prázdnou stranu výraz HEAD.
 
-#### Multiple Points ####
+#### Několik bodů ####
 
-The double-dot syntax is useful as a shorthand; but perhaps you want to specify more than two branches to indicate your revision, such as seeing what commits are in any of several branches that aren’t in the branch you’re currently on. Git allows you to do this by using either the `^` character or `--not` before any reference from which you don’t want to see reachable commits. Thus these three commands are equivalent:
+Dvojtečková syntax je užitečná jako zkrácený výraz. Možná ale budete chtít k označení revize určit více než dvě větve, např. až budete chtít zjistit, které revize jsou obsaženy ve všech ostatních větvích a zároveň nejsou obsaženy ve větvi, na níž se právě nacházíte. V systému Git to můžete provést buď zadáním znaku `^` nebo parametru `--not` před referencí, jejíž dostupné revize si nepřejete zobrazit. Tyto tři příkazy jsou tedy ekvivalentní:
 
 	$ git log refA..refB
 	$ git log ^refA refB
 	$ git log refB --not refA
 
-This is nice because with this syntax you can specify more than two references in your query, which you cannot do with the double-dot syntax. For instance, if you want to see all commits that are reachable from `refA` or `refB` but not from `refC`, you can type one of these:
+Tato syntax je užitečná zejména proto, že pomocí ní můžete zadat více než dvě reference, což není pomocí dvojtečkové syntaxe možné. Pokud chcete zobrazit například všechny revize, které jsou dostupné ve větvi `refA` nebo `refB`, ale nikoli ve větvi `refC`, zadejte jeden z následujících příkazů:
 
 	$ git log refA refB ^refC
 	$ git log refA refB --not refC
 
-This makes for a very powerful revision query system that should help you figure out what is in your branches.
+Tím máte v rukou velmi efektivní systém vyhledávání revizí, který vám pomůže zjistit, co vaše větve obsahují.
 
-#### Triple Dot ####
+#### Tři tečky ####
 
-The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
-If you want to see what is in `master` or `experiment` but not any common references, you can run
+Poslední významnou syntaxí k určení intervalu je trojtečková syntax, která vybere všechny revize dostupné ve dvou referencích, ale ne v obou zároveň. Podívejme se ještě jednou na příklad historie revizí na obrázku 6-1.
+Chcete-li zjistit, co je ve větvi `master` nebo `experiment`, ale nechcete vidět jejich společné reference, zadejte příkaz:
 
 	$ git log master...experiment
 	F
@@ -238,9 +238,9 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
-Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering.
+Výstupem příkazu bude běžný výpis příkazu `log`, ale zobrazí se pouze informace o těchto čtyřech revizích, uspořádané v tradičním pořadí podle data zapsání.
 
-A common switch to use with the `log` command in this case is `--left-right`, which shows you which side of the range each commit is in. This helps make the data more useful:
+Přepínačem, který se v tomto případě běžně používá v kombinaci s příkazem `log`, je parametr `--left-right`. Příkaz pak zobrazí, na jaké straně intervalu se ta která revize nachází. Díky tomu získáte k datům další užitečné informace:
 
 	$ git log --left-right master...experiment
 	< F
@@ -248,12 +248,12 @@ A common switch to use with the `log` command in this case is `--left-right`, wh
 	> D
 	> C
 
-With these tools, you can much more easily let Git know what commit or commits you want to inspect. 
+Pomocí těchto nástrojů můžete v systému Git daleko snáze specifikovat, kterou revizi nebo které revize chcete zobrazit.
 
-## Interactive Staging ##
+## Interaktivní příprava k zapsání ##
 
-Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
-If you run `git add` with the `-i` or `--interactive` option, Git goes into an interactive shell mode, displaying something like this:
+Git nabízí také celou řadu skriptů, které vám mohou usnadnit provádění příkazů zadávaných v příkazovém řádku. V této části se podíváme na několik interaktivních příkazů, které vám mohou pomoci snadno určit, na jaké kombinace a části souborů má být omezena konkrétní revize. Tyto nástroje se vám mohou velmi hodit, jestliže upravujete několik souborů a rozhodnete se, že tyto změny zapíšete raději do několika specializovaných revizí než do jedné velké nepřehledné. Tímto způsobem zajistíte, že budou vaše revize logicky oddělenými sadami změn, jež mohou vaši spolupracovníci snadno zkontrolovat.
+Spustíte-li příkaz `git add` s parametrem `-i` nebo `--interactive`, přejde Git do interaktivního režimu shellu a zobrazí zhruba následující:
 
 	$ git add -i
 	           staged     unstaged path
@@ -264,15 +264,15 @@ If you run `git add` with the `-i` or `--interactive` option, Git goes into an i
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
 	  5: patch      6: diff        7: quit       8: help
-	What now> 
+	What now>
 
-You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. 
+Vidíte, že tento příkaz vám poskytne podstatně odlišný pohled na vaši oblast připravených změn. Stejné informace, i když o něco stručnější a hutnější, získáte také příkazem `git status`. Tento příkaz vypíše všechny změny, které jste připravili k zapsání, na levé straně, nepřipravené změny na pravé.
 
-After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged.
+Za seznamem změn následuje část Commands (Příkazy). Tady můžete provádět celou řadu věcí, včetně přípravy souborů k zapsání, vracení připravených souborů, přípravy částí souborů, přidávání nesledovaných souborů a prohlížení změn v připravených souborech.
 
-### Staging and Unstaging Files ###
+### Příprava souborů k zapsání a jejich vracení ###
 
-If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage:
+Zadáte-li na výzvu `What now>` (Co teď) odpověď `2` nebo `u`, skript se vás zeptá, které soubory chcete připravit k zapsání:
 
 	What now> 2
 	           staged     unstaged path
@@ -281,7 +281,7 @@ If you type `2` or `u` at the `What now>` prompt, the script prompts you for whi
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-To stage the TODO and index.html files, you can type the numbers:
+Jestliže chcete připravit k zapsání soubory TODO a index.html, zadejte příslušná čísla:
 
 	Update>> 1,2
 	           staged     unstaged path
@@ -290,9 +290,9 @@ To stage the TODO and index.html files, you can type the numbers:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you:
+Znak `*` vedle souborů znamená, že je soubor vybrán jako připravený k zapsání. Jestliže na výzvu `Update>>` nic nezadáte a stisknete klávesu Enter, Git vezme všechny vybrané soubory a připraví je k zapsání:
 
-	Update>> 
+	Update>>
 	updated 2 paths
 
 	*** Commands ***
@@ -304,7 +304,7 @@ The `*` next to each file means the file is selected to be staged. If you press 
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option:
+Jak vidíte, soubory TODO a index.html jsou připraveny k zapsání, soubor simplegit.rb nikoli. Chcete-li v tuto chvíli vrátit soubor TODO z oblasti připravených změn, použijte parametr `3` nebo `r` (jako „revert“ neboli „vrátit“):
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -322,7 +322,7 @@ Now you can see that the TODO and index.html files are staged and the simplegit.
 	Revert>> [enter]
 	reverted one path
 
-Looking at your Git status again, you can see that you’ve unstaged the TODO file:
+Pokud se nyní znovu podíváte na stav Git souboru TODO, uvidíte, že už není připraven k zapsání:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -333,7 +333,7 @@ Looking at your Git status again, you can see that you’ve unstaged the TODO fi
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line:
+Chcete-li zobrazit výpis diff připravených souborů, použijte příkaz `6` nebo `d` (jako „diff“). Příkaz zobrazí seznam připravených souborů. Můžete vybrat ty soubory, pro něž chcete zobrazit rozdíly připravených změn. Je to prakticky totéž, jako byste na příkazovém řádku zadali příkaz `git diff --cached`:
 
 	*** Commands ***
 	  1: status     2: update      3: revert     4: add untracked
@@ -355,11 +355,11 @@ To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) c
 
 	 <script type="text/javascript">
 
-With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily.
+Pomocí těchto základních příkazů můžete použít režim interaktivního přidávání, a snáze tak ovládat svou oblast připravených změn.
 
-### Staging Patches ###
+### Příprava záplat ###
 
-It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one:
+Git také může připravit k zapsání pouze určité části souborů a ignorovat jejich zbytek. Pokud například provedete dvě změny v souboru simplegit.rb a chcete k zapsání připravit pouze jednu z nich, není to v systému Git žádný problém. Na interaktivní výzvu zadejte příkaz `5` nebo `p` (jako „patch“ – tedy záplata). Git se vás zeptá, které soubory chcete částečně připravit. Pro každou část vybraných souborů pak zobrazí komplexy (hunks) rozdílů diff daného souboru a u každého z nich se vás zeptá, jestli si ho přejete připravit k zapsání:
 
 	diff --git a/lib/simplegit.rb b/lib/simplegit.rb
 	index dd5ecc4..57399e0 100644
@@ -374,9 +374,9 @@ It’s also possible for Git to stage certain parts of files and not the rest. F
 	   end
 
 	   def blame(path)
-	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? 
+	Stage this hunk [y,n,a,d,/,j,J,g,e,?]?
 
-You have a lot of options at this point. Typing `?` shows a list of what you can do:
+V tomto se nabízí celá řada možností. Zadáte-li znak `?`, zobrazí se seznam možností, které máte k dispozici.
 
 	Stage this hunk [y,n,a,d,/,j,J,g,e,?]? ?
 	y - stage this hunk
@@ -393,7 +393,7 @@ You have a lot of options at this point. Typing `?` shows a list of what you can
 	e - manually edit the current hunk
 	? - print help
 
-Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging all of them in certain files or skipping a hunk decision until later can be helpful too. If you stage one part of the file and leave another part unstaged, your status output will look like this:
+Chcete-li připravit k zapsání jednotlivé komplexy, většinou zadáte `y` nebo `n`. Přesto se vám může někdy hodit i možnost připravit všechny komplexy v určitých souborech nebo přeskočení komplexu, k němuž se vrátíte později. Připravíte-li k zapsání jednu část souboru a druhou nikoli, bude výstup příkazu status vypadat asi takto:
 
 	What now> 1
 	           staged     unstaged path
@@ -401,19 +401,19 @@ Generally, you’ll type `y` or `n` if you want to stage each hunk, but staging 
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files.
+Zajímavý je stav souboru simplegit.rb. Oznamuje vám, že několik řádků je připravených k zapsání a několik není. Soubor je částečně připraven k zapsání. V tomto okamžiku můžete ukončit skript interaktivního přidávání a spustit příkaz `git commit`, jímž zapíšete částečně připravené soubory.
 
-Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. 
+K částečné přípravě souboru ostatně nemusíte být nutně v režimu interaktivního přidávání. Stejný skript spustíte také příkazem `git add -p` nebo `git add --patch` z příkazového řádku.
 
-## Stashing ##
+## Odložení ##
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
+Až budete pracovat na některé části svého projektu, často vám může připadat, že je vaše práce poněkud neuspořádaná a vy budete třeba chtít přepnout větve a pracovat na chvíli na něčem jiném. Problém je, že nebudete chtít zapsat revizi nehotové práce, budete se k ní chtít vrátit později. Řešením této situace je odložení (stashing) příkazem `git stash`.
 
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+Odložení vezme neuspořádaný stav vašeho pracovního adresáře – tj. změněné sledované soubory a změny připravené k zapsání – a uloží ho do zásobníku nehotových změn, který můžete kdykoli znovu aplikovat.
 
-### Stashing Your Work ###
+### Odložení práce ###
 
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
+Pro názornost uvažujme situaci, že ve svém projektu začnete pracovat na několika souborech a jednu z provedených změn připravíte k zapsání. Spustíte-li příkaz `git status`, uvidíte neuspořádaný stav svého projektu:
 
 	$ git status
 	# On branch master
@@ -422,13 +422,13 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
 	#
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+Nyní chcete přepnout na jinou větev, ale nechcete zapsat změny, na nichž jste dosud pracovali – proto změny odložíte. Chcete-li do zásobníku odeslat nový odklad, spusťte příkaz `git stash`:
 
 	$ git stash
 	Saved working directory and index state \
@@ -436,33 +436,33 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
-Your working directory is clean:
+Váš pracovní adresář se vyčistil:
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+Nyní můžete bez obav přepnout větve a pracovat na jiném úkolu, vaše změny byly uloženy do zásobníku. Chcete-li se podívat, které soubory jste odložili, spusťte příkaz `git stash list`:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+V tomto případě byly už dříve provedeny dva další odklady, a máte tak k dispozici tři různé odklady. Naposledy odložené soubory můžete znovu aplikovat příkazem, který byl uveden už v nápovědě ve výstupu původního příkazu stash: `git stash apply`. Chcete-li aplikovat některý ze starších odkladů, můžete ho určit na základě jeho označení, např. `git stash apply stash@{2}`. Pokud u příkazu neoznačíte konkrétní odklad, Git se automaticky pokusí aplikovat ten nejnovější:
 
 	$ git stash apply
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   index.html
 	#      modified:   lib/simplegit.rb
 	#
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+Jak vidíte, Git se pokusí obnovit změněné soubory, které jste nezapsali a uložili při odkladu. V tomto případě jste měli čistý pracovní adresář, když jste se pokusili odklad aplikovat. Pokusili jste se ho aplikovat na stejnou větev, z níž jste ho uložili. K úspěšnému odkladu však není nezbytně nutné, aby byl pracovní adresář čistý ani abyste ho aplikovali na stejnou větev. Odklad můžete uložit na jedné větvi, později přepnout na jinou větev a aplikovat změny tam. Když aplikujete odklad, můžete mít v pracovním adresáři také změněné a nezapsané soubory. Nebude-li něco aplikováno čistě, Git vám oznámí konflikty při slučování.
 
-The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+Změny byly znovu aplikovány na vaše soubory, ale soubor, který jste předtím připravili k zapsání, nebyl znovu připraven. Chcete-li, aby se příkaz pokusil znovu aplikovat i změny připravené k zapsání, musíte zadat příkaz `git stash apply` s parametrem `--index`. Pokud jste spustili příkaz v této podobě, vrátili jste se zpět na svou původní pozici:
 
 	$ git stash apply --index
 	# On branch master
@@ -471,13 +471,13 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
 	#
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
+Parametr apply se pouze pokusí aplikovat odloženou práci, ta zůstává uložena ve vašem zásobníku. Chcete-li ji odstranit, spusťte příkaz `git stash drop` s názvem odkladu, který má být odstraněn:
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
@@ -486,11 +486,28 @@ The apply option only tries to apply the stashed work — you continue to have i
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
+Můžete také spustit příkaz `git stash pop`, jímž odklad aplikujete a současně ho odstraníte ze zásobníku.
 
-### Creating a Branch from a Stash ###
+### Odvolání odkladu ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+V některých případech můžete chtít aplikovat odložené změny, udělat nějakou práci, a pak odvolat změny, které byly v odkladu původně. Git nenabízí žádný příkaz ve smyslu `stash unapply`, ovšem je možné použít reverzní aplikaci patche reprezentujícího odklad:
+
+    $ git stash show -p stash@{0} | git apply -R
+
+Jestliže nespecifikujete konkrétní odklad, Git předpokládá odklad poslední:
+
+    $ git stash show -p | git apply -R
+
+Můžete si také vytvořit alias a do svého gitu přidat například příkaz `stash-unapply`:
+
+    $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
+    $ git stash
+    $ #... work work work
+    $ git stash-unapply
+
+### Vytvoření větve z odkladu ###
+
+Jestliže odložíte část své práce, necháte ji určitou dobu v zásobníku a budete pokračovat ve větvi, z níž jste práci odložili, můžete mít problémy s opětovnou aplikací odkladu. Pokud se příkaz apply pokusí změnit soubor, který jste mezitím ručně změnili jinak, dojde ke konfliktu při slučování, který budete muset vyřešit. Pokud byste uvítali jednodušší způsob, jak znovu otestovat odložené změny, můžete spustit příkaz `git stash branch`, který vytvoří novou větev, stáhne do ní revizi, na níž jste se nacházeli při odložení práce, a aplikuje na ni vaši práci. Proběhne-li aplikace úspěšně, Git odklad odstraní:
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -500,46 +517,46 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#
 	#      modified:   index.html
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#      modified:   lib/simplegit.rb
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+Jedná se o příjemný a jednoduchý způsob, jak obnovit odloženou práci a pokračovat na ní v nové větvi.
 
-## Rewriting History ##
+## Přepis historie ##
 
-Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
+Při práci se systémem Git možná budete z nějakého důvodu čas od času potřebovat poopravit historii revizí. Jednou ze skvělých možností, které vám Git nabízí, jsou rozhodnutí na poslední chvíli. Jaké soubory budou součástí jaké revize? To můžete rozhodnout až těsně před tím, než soubory zapíšete z oblasti připravených změn. Můžete se rozmyslet, že jste na něčem ještě nechtěli pracovat, a použít možnost odložení. A stejně tak můžete přepsat už jednou zapsané revize. Budou vypadat, jako by byly zapsány v jiné podobě. K této možnosti patří změna pořadí revizí, změny ve zprávách nebo úprava souborů v revizích, komprimace i dělení revizí nebo třeba jejich úplné odstranění. Všechno toto můžete provést, dokud nezačnete sdílet revize s ostatními.
 
-In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.
+V této části se dozvíte, jak se tyto velmi užitečné úkony provádějí, abyste mohli svou historii revizí před zveřejněním upravit podle svých představ.
 
-### Changing the Last Commit ###
+### Změna poslední revize ###
 
-Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
+Změna poslední revize je pravděpodobně nejobvyklejším způsobem přepsání historie, který budete provádět. Na poslední revizi budete často chtít měnit dvě věci: zprávu k revizi nebo čerstvě zapsaný snímek, v němž budete chtít přidat, změnit nebo odstranit soubory.
 
-If you only want to modify your last commit message, it’s very simple:
+Chcete-li pouze změnit zprávu k poslední revizi, je to velmi jednoduché:
 
 	$ git commit --amend
 
-That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.
+Tím se přesunete do textového editoru, v němž bude otevřena vaše poslední zpráva k revizi. Nyní ji můžete upravit. Po uložení změn a zavření editoru zapíše editor novou revizi, která bude obsahovat upravenou zprávu a která bude vaší novou poslední revizí.
 
-If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way. You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit.
+Pokud jste zapsali revizi a uvědomíte si, že jste např. zapomněli přidat nově vytvořený soubor, a proto byste chtěli zapsaný snímek změnit (tedy přidat nebo změnit soubory), je postup ke změně v podstatě stejný. Změny, které chcete zapsat, připravíte tím způsobem, že upravíte příslušné soubory a použijete na ně příkaz `git add`, resp. `git rm`. Příkaz `git commit --amend` poté vezme vaši oblast připravených změn v aktuální podobě a vytvoří snímek nové revize.
 
-You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
+Tady byste měli být opatrní, protože oprava revize změní také její hodnotu SHA-1. Je to něco jako malé přeskládání – neopravujte poslední revizi, pokud jste ji už odeslali.
 
-### Changing Multiple Commit Messages ###
+### Změna několika zpráv k revizím ###
 
-To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
+Chcete-li změnit revizi, která leží hlouběji ve vaší historii, budete muset sáhnout po složitějších nástrojích. Git nemá zvláštní nástroj k úpravě historie, ale můžete využít nástroje přeskládání, jímž přeskládáte sérii revizí na revizi HEAD, na níž se původně zakládaly. Revize není třeba přesouvat jinam. S interaktivním nástrojem přeskládání pak můžete zastavit po každé revizi, kterou chcete upravit, a změnit u ní zprávu, přidat soubory nebo cokoli dalšího. Interaktivní režim přeskládání spustíte příkazem `git rebase` s parametrem `-i`. Musíte specifikovat, jak hluboko do historie se chcete vrátit a přepisovat revize. K příkazu proto musíte zadat, na jakou revizi si přejete přeskládání provést.
 
-For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
+Pokud chcete například změnit zprávy u posledních tří revizí nebo jakoukoli zprávu k revizi z této skupiny, přidejte jako parametr k příkazu `git rebase -i` rodiče poslední revize, kterou chcete upravovat, v tomto případě tedy `HEAD~2^` nebo `HEAD~3`. Snazší k zapamatování je varianta s výrazem `~3`, neboť se pokoušíte upravit poslední tři revize. Nezapomeňte ale, že tím ve skutečnosti označujete čtvrtou revizi od konce, tedy rodiče poslední revize, kterou chcete upravit:
 
 	$ git rebase -i HEAD~3
 
-Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
+Mějte na paměti, že se stále jedná o příkaz přeskládání a každá revize zahrnutá v intervalu `HEAD~3..HEAD` bude přepsána, ať už její zprávu změníte, nebo ponecháte. Neměňte tímto způsobem žádné revize, které už jste odeslali na centrální server, způsobili byste tím problémy ostatním vývojářům, kteří by se museli potýkat s jinou verzí téže změny.
 
-Running this command gives you a list of commits in your text editor that looks something like this:
+Spuštěním tohoto příkazu otevřete textový editor se seznamem revizí zhruba v této podobě:
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -556,22 +573,22 @@ Running this command gives you a list of commits in your text editor that looks 
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
+Tady bychom chtěli upozornit, že revize jsou uvedeny v opačném pořadí, než jste zvyklí v případě příkazu `log`. Po spuštění příkazu `log` by se zobrazilo následující:
 
 	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
 	a5f4a0d added cat-file
 	310154e updated README formatting and added blame
 	f7f3f6d changed my name a bit
 
-Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
+Všimněte si, že se pořadí obrátilo. V interaktivním režimu přeskládání se nyní spustí skript. Začne na revizi, kterou jste označili na příkazovém řádku (`HEAD~3`), a přehraje změny provedené v každé z těchto revizí od shora dolů. Seznam uvádí nejstarší revizi nahoře z toho důvodu, že to bude první revize, kterou příkaz přehraje.
 
-You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:
+Skript je třeba upravit tak, aby zastavil na revizi, v níž chcete provést změny. Změňte proto slovo pick na edit pro každou z revizí, po níž má skript zastavit. Chcete-li například změnit pouze zprávu ke třetí revizi, změňte soubor následovně:
 
 	edit f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
+Po uložení změn a zavření editoru vás Git vrátí zpět na poslední revizi v seznamu a zobrazí vám příkazový řádek s touto zprávou:
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -583,34 +600,34 @@ When you save and exit the editor, Git rewinds you back to the last commit in th
 
 	       git rebase --continue
 
-These instructions tell you exactly what to do. Type
+Tyto instrukce vám sdělují, že nyní můžete upravit revizi příkazem git commit --amend, a až budete se změnami hotovi, spustit příkaz git rebase --continue. Zadejme tedy:
 
 	$ git commit --amend
 
-Change the commit message, and exit the editor. Then, run
+Změňte zprávu k revizi a zavřete textový editor. Poté spusťte příkaz:
 
 	$ git rebase --continue
 
-This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.
+Tento příkaz automaticky aplikuje zbývající dvě revize. Tím je celý proces dokončen. Změníte-li výraz pick na edit na více řádcích, můžete tyto kroky opakovat pro každou revizi, u níž jste změnu provedli. Git pokaždé zastaví, nechá vás revizi upravit, a až budete hotovi, bude pokračovat.
 
-### Reordering Commits ###
+### Změna pořadí revizí ###
 
-You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this
+Interaktivní přeskládání můžete použít rovněž ke změně pořadí revizí nebo k jejich odstranění. Budete-li chtít odstranit revizi „added cat-file“ a současně změnit pořadí, v němž se vyskytují zbývající dvě revize, změňte skript přeskládání z podoby:
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-to this:
+na:
 
 	pick 310154e updated README formatting and added blame
 	pick f7f3f6d changed my name a bit
 
-When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.
+Jakmile uložíte změny a zavřete editor, Git vrátí vaši větev zpět na rodiče těchto revizí, aplikuje revizi `310154e`, po ní revizi `f7f3f6d` a zastaví. Jednoduše jste změnili pořadí těchto revizí a zároveň jste zcela odstranili revizi „added cat-file“.
 
-### Squashing a Commit ###
+### Komprimace revize ###
 
-It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:
+Další možností, jak lze využít interaktivního nástroje přeskládání, je komprimace série revizí do jediné revize. Skript vám ve zprávě k přeskládání podává užitečné instrukce:
 
 	#
 	# Commands:
@@ -622,13 +639,13 @@ It’s also possible to take a series of commits and squash them down into a sin
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:
+Zadáte-li místo pick nebo edit instrukci pro komprimaci squash, Git aplikuje změnu na tomto řádku a změnu těsně před ní a zároveň sloučí dohromady obě zprávy k revizím. Chcete-li tedy vytvořit jedinou revizi z těchto tří revizí, bude skript vypadat takto:
 
 	pick f7f3f6d changed my name a bit
 	squash 310154e updated README formatting and added blame
 	squash a5f4a0d added cat-file
 
-When you save and exit the editor, Git applies all three changes and then puts you back into the editor to merge the three commit messages:
+Po uložení změn a zavření editoru aplikuje Git všechny tři změny a znovu otevře textový editor, abyste sloučili všechny zprávy k revizím:
 
 	# This is a combination of 3 commits.
 	# The first commit's message is:
@@ -642,17 +659,17 @@ When you save and exit the editor, Git applies all three changes and then puts y
 
 	added cat-file
 
-When you save that, you have a single commit that introduces the changes of all three previous commits.
+Po uložení zprávy budete mít jedinou revizi, která bude obsahovat všechny změny předchozích tří revizí.
 
-### Splitting a Commit ###
+### Rozdělení revize ###
 
-Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":
+Rozdělení revize vrátí všechny změny v revizi obsažené a po částech je znovu připraví a zapíše do tolika revizí, kolik určíte jako konečný počet. Řekněme, že chcete rozdělit třeba prostřední ze svých tří revizí. Revizi „updated README formatting and added blame“ chcete rozdělit do dvou jiných: „updated README formatting“ jako první a „added blame“ jako druhou. Můžete to provést pomocí skriptu `rebase -i`. U revize, kterou si přejete rozdělit, změňte instrukci na edit:
 
 	pick f7f3f6d changed my name a bit
 	edit 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-Then, when the script drops you to the command line, you reset that commit, take the changes that have been reset, and create multiple commits out of them. When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can stage and commit files until you have several commits, and run `git rebase --continue` when you’re done:
+Až vás poté skript přesune na příkazový řádek, resetujete revizi, vezmete změny, které jste resetovali, a vytvoříte z nich několik dílčích revizí. Až uložíte změny a zavřete editor, Git se vrátí na rodiče první revize ve vašem seznamu, aplikuje první revizi (`f7f3f6d`), aplikuje druhou revizi (`310154e`) a přesune vás na konzoli. Tam můžete vytvořit smíšený reset této revize pomocí příkazu `git reset HEAD^`, který efektivně vrátí všechny změny v revizi a ponechá změněné soubory nepřipraveny k zapsání. Nyní můžete připravit a zapsat soubory. Až budete mít jednotlivé revize hotové a budete spokojeni s jejich podobou, zadejte příkaz `git rebase --continue`:
 
 	$ git reset HEAD^
 	$ git add README
@@ -661,7 +678,7 @@ Then, when the script drops you to the command line, you reset that commit, take
 	$ git commit -m 'added blame'
 	$ git rebase --continue
 
-Git applies the last commit (`a5f4a0d`) in the script, and your history looks like this:
+Git aplikuje poslední revizi (`a5f4a0d`) ve skriptu. Vaše historie bude vypadat takto:
 
 	$ git log -4 --pretty=format:"%h %s"
 	1c002dd added cat-file
@@ -669,37 +686,37 @@ Git applies the last commit (`a5f4a0d`) in the script, and your history looks li
 	35cfb2b updated README formatting
 	f3cc40e changed my name a bit
 
-Once again, this changes the SHAs of all the commits in your list, so make sure no commit shows up in that list that you’ve already pushed to a shared repository.
+Také v tomto případě se změní hodnoty SHA všech revizí v seznamu, a proto se nejprve ujistěte, že seznam neobsahuje žádné revize, které jste už odeslali do sdíleného repozitáře.
 
-### The Nuclear Option: filter-branch ###
+### Pitbul mezi příkazy: filter-branch ###
 
-There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit. The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite. However, it can be very useful. You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
+Existuje ještě další možnost přepisu historie, kterou vám Git nabízí pro případy, kdy potřebujete skriptovatelným způsobem přepsat větší počet revizí, např. globálně změnit e-mailovou adresu nebo odstranit jeden soubor ze všech revizí. Příkaz pro tento případ je `filter-branch`. Dokáže přepsat velké části vaší historie, a proto byste ho určitě neměli používat, pokud už byl váš projekt zveřejněn a ostatní uživatelé už založili svou práci na revizích, které hodláte přepsat. Příkaz přesto může být velmi užitečný. Dále poznáte několik běžných situací, v nichž ho lze použít, a získáte tak představu, co všechno příkaz dovede.
 
-#### Removing a File from Every Commit ####
+#### Odstranění souboru ze všech revizí ####
 
-This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
+Toto je opravdu velmi častá situace. Někdo příkazem `git add .` bezmyšlenkovitě zapsal obří binární soubor a vy ho chcete odstranit ze všech revizí. Nebo jste omylem zapsali soubor obsahující vaše heslo, ale chcete, aby byl váš projekt veřejný. Nástrojem, který hledáte k opravení celé historie, je `filter-branch`. Pro odstranění souboru s názvem passwords.txt z celé historie můžete použít parametr `--tree-filter`, který přidáte k příkazu `filter-branch`:
 
 	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter 'rm -f *~' HEAD`.
+Parametr `--tree-filter` spustí zadaný příkaz po každém checkoutu projektu a znovu zapíše jeho výsledky. V tomto případě odstraníte soubor s názvem passwords.txt ze všech snímků, ať v nich existuje, nebo neexistuje. Chcete-li odstranit všechny nedopatřením zapsané záložní soubory editoru, můžete spustit zhruba toto: `git filter-branch --tree-filter 'rm -f *~' HEAD`.
 
-You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
+Uvidíte, jak Git přepisuje stromy a revize a poté přemístí ukazatel větve na konec. Většinou se vyplatí provádět toto všechno v testovací větvi a k tvrdému resetu hlavní větve přistoupit až poté, co se ujistíte, že výsledek odpovídá vašim očekáváním. Chcete-li spustit příkaz `filter-branch` na všech větvích, zadejte k příkazu parametr `--all`.
 
-#### Making a Subdirectory the New Root ####
+#### Povýšení podadresáře na nový kořenový adresář ####
 
-Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
+Předpokládejme, že jste dokončili import z jiného systému ke správě zdrojového kódu a máte podadresáře, které nedávají žádný smysl (trunk, tags apod.). Chcete-li udělat z podadresáře `trunk` nový kořenový adresář projektu pro všechny revize, i s tím vám pomůže příkaz `filter-branch`:
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
-Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. 
+Vaším nový kořenovým adresářem je nyní obsah podadresáře `trunk`. Git také automaticky odstraní revize, které nemají na podadresář žádný vliv.
 
-#### Changing E-Mail Addresses Globally ####
+#### Globální změna e-mailové adresy ####
 
-Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
+Dalším častým případem bývá, že uživatel zapomene spustit příkaz `git config` a nastavit své jméno a e-mailovou adresu, než začne se systémem Git pracovat. Stejně tak se může stát, že budete chtít převést pracovní projekt na otevřený zdrojový kód a změnit všechny své pracovní e-mailové adresy na soukromé. V obou těchto případech můžete změnit e-mailové adresy v několika revizích hromadně příkazem `filter-branch`. Měli byste být opatrní, abyste změnili jen e-mailové adresy, které jsou opravdu vaše. Použijte proto parametr `--commit-filter`:
 
 	$ git filter-branch --commit-filter '
 	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
@@ -711,17 +728,17 @@ Another common case is that you forgot to run `git config` to set your name and 
 	                git commit-tree "$@";
 	        fi' HEAD
 
-This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
+Příkaz projde a přepíše všechny revize tak, aby obsahovaly novou adresu. Protože revize obsahují hodnoty SHA-1 svých rodičů, změní tento příkaz SHA všech revizí ve vaší historii, ne pouze těch, které mají odpovídající e-mailovou adresu.
 
-## Debugging with Git ##
+## Ladění v systému Git ##
 
-Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.
+Git také nabízí několik nástrojů, které vám pomohou ladit problémy v projektech. Protože je Git navržen tak, aby pracoval téměř s jakýmkoli typem projektu, jsou tyto nástroje velmi univerzální. Často vám mohou pomoci odhalit vzniklou chybu nebo problém.
 
-### File Annotation ###
+### Anotace souboru ###
 
-If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool. It shows you what commit was the last to modify each line of any file. So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom. This example uses the `-L` option to limit the output to lines 12 through 22:
+Zjistíte-li ve svém zdrojovém kódu chybu a chcete vědět, kdy a jak vznikla, je často nejlepším nástrojem anotace souboru (file annotation). Ukáže vám, při které revizi byly jednotlivé řádky každého souboru naposledy změněny. Pokud zjistíte, že některá metoda ve vašem kódu obsahuje chybu, můžete soubor anotovat příkazem `git blame`, který u každého řádku metody zobrazí, kdo a kdy ho naposledy upravil. Následující příklad používá parametr `-L`, který omezí výstup na řádky 12 až 22:
 
-	$ git blame -L 12,22 simplegit.rb 
+	$ git blame -L 12,22 simplegit.rb
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 12)  def show(tree = 'master')
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 13)   command("git show #{tree}")
 	^4832fe2 (Scott Chacon  2008-03-15 10:31:28 -0700 14)  end
@@ -729,17 +746,17 @@ If you track down a bug in your code and want to know when it was introduced and
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 16)  def log(tree = 'master')
 	79eaf55d (Scott Chacon  2008-04-06 10:15:08 -0700 17)   command("git log #{tree}")
 	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 18)  end
-	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19) 
+	9f6560e4 (Scott Chacon  2008-03-17 21:52:20 -0700 19)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 20)  def blame(path)
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 21)   command("git blame #{path}")
 	42cf2861 (Magnus Chacon 2008-04-13 10:45:01 -0700 22)  end
 
-Notice that the first field is the partial SHA-1 of the commit that last modified that line. The next two fields are values extracted from that commit—the author name and the authored date of that commit — so you can easily see who modified that line and when. After that come the line number and the content of the file. Also note the `^4832fe2` commit lines, which designate that those lines were in this file’s original commit. That commit is when this file was first added to this project, and those lines have been unchanged since. This is a tad confusing, because now you’ve seen at least three different ways that Git uses the `^` to modify a commit SHA, but that is what it means here.
+Všimněte si, že první pole je část hodnoty SHA-1 revize, v níž byl řádek naposled změněn. Další dvě pole jsou hodnoty získané z revize: jméno autora a datum, zapsané u této revize. Z toho vyčtete, kdo a kdy tento řádek upravil. Za tímto údajem následuje číslo řádku a obsah souboru. Všimněte si také řádků revize `^4832fe2`, které oznamují, že tyto řádky byly obsaženy v originální revizi tohoto souboru. Tato revize vznikla prvním přidáním tohoto souboru do projektu a tyto řádky zůstaly od té doby nezměněny. Je to trochu matoucí, protože jsme před chvílí viděli minimálně tři různé způsoby, jak Git používá znak `^` k modifikaci hodnoty SHA revize. Tady má tento znak jiný význam.
 
-Another cool thing about Git is that it doesn’t track file renames explicitly. It records the snapshots and then tries to figure out what was renamed implicitly, after the fact. One of the interesting features of this is that you can ask it to figure out all sorts of code movement as well. If you pass `-C` to `git blame`, Git analyzes the file you’re annotating and tries to figure out where snippets of code within it originally came from if they were copied from elsewhere. Recently, I was refactoring a file named `GITServerHandler.m` into multiple files, one of which was `GITPackUpload.m`. By blaming `GITPackUpload.m` with the `-C` option, I could see where sections of the code originally came from:
+Další skvělou věcí na systému Git je, že explicitně nesleduje přejmenování souboru. Zaznamenává snímky a poté se snaží zjistit, co bylo později implicitně přejmenováno. Zajímavou funkcí je také to, že můžete systému Git zadat, aby zjistil všechny druhy přesouvání kódu. Zadáte-li k příkazu `git blame` parametr `-C`, Git zanalyzuje soubor, který anotujete, a pokud jednotlivé kousky kódu v něm obsažené pocházejí původně odjinud, pokusí se Git zjistit odkud. Nedávno jsem refaktoroval soubor s názvem `GITServerHandler.m` do několika jiných souborů, jeden z nich se jmenoval `GITPackUpload.m`. Když jsem zadal příkaz `GITPackUpload.m` s parametrem `-C`, dostal jsem informace, odkud původně pocházejí jednotlivé kousky kódu:
 
-	$ git blame -C -L 141,153 GITPackUpload.m 
-	f344f58d GITServerHandler.m (Scott 2009-01-04 141) 
+	$ git blame -C -L 141,153 GITPackUpload.m
+	f344f58d GITServerHandler.m (Scott 2009-01-04 141)
 	f344f58d GITServerHandler.m (Scott 2009-01-04 142) - (void) gatherObjectShasFromC
 	f344f58d GITServerHandler.m (Scott 2009-01-04 143) {
 	70befddd GITServerHandler.m (Scott 2009-03-22 144)         //NSLog(@"GATHER COMMI
@@ -753,13 +770,13 @@ Another cool thing about Git is that it doesn’t track file renames explicitly.
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 152)                 [refDict setOb
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 
-This is really useful. Normally, you get as the original commit the commit where you copied the code over, because that is the first time you touched those lines in this file. Git tells you the original commit where you wrote those lines, even if it was in another file.
+Tato funkce je opravdu užitečná. Normálně se jako původní revize zobrazí ta, kam jste kód zkopírovali, protože to bylo poprvé, kdy jste v daném souboru sáhli do těchto řádků. Git vám vyhledá původní revizi, kde jste tyto řádky napsali, dokonce i když jsou v jiném souboru.
 
-### Binary Search ###
+### Binární vyhledávání ###
 
-Annotating a file helps if you know where the issue is to begin with. If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help. The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue.
+Anotace souboru má smysl, pokud víte, kde problém hledat. Pokud nemáte ponětí, co může chybu způsobovat, a od posledního zaručeně funkčního stavu kódu byly zapsány desítky nebo stovky revizí, možná budete pomoc hledat raději u příkazu `git bisect`. Příkaz `bisect` zahájí binární vyhledávání ve vaší historii revizí a pomůže vám co nejrychleji identifikovat, která revize je původcem problému.
 
-Let’s say you just pushed out a release of your code to a production environment, you’re getting bug reports about something that wasn’t happening in your development environment, and you can’t imagine why the code is doing that. You go back to your code, and it turns out you can reproduce the issue, but you can’t figure out what is going wrong. You can bisect the code to find out. First you run `git bisect start` to get things going, and then you use `git bisect bad` to tell the system that the current commit you’re on is broken. Then, you must tell bisect when the last known good state was, using `git bisect good [good_commit]`:
+Řekněme, že jste právě odeslali vydání svého zdrojového kódu do produkčního prostředí, ale dostanete hlášení o chybě, která se ve vašem vývojovém prostředí nevyskytovala, a nemáte tušení, proč kód takto zlobí. Vrátíte se zpět ke svému kódu, a ukáže se, že dokážete problém reprodukovat, ne však identifikovat. K odhalení problému můžete použít příkaz bisect (tedy „rozpůlit“). Nejprve spustíte příkaz `git bisect start`, jímž celý proces zahájíte, a poté použijete příkaz `git bisect bad`, jímž systému oznámíte, že aktuální revize, na níž se právě nacházíte, obsahuje chybu. Poté musíte nástroji bisect sdělit, kdy byl kód naposled nepochybně funkční. K tomu použijete příkaz `git bisect good [good_commit]`:
 
 	$ git bisect start
 	$ git bisect bad
@@ -767,19 +784,19 @@ Let’s say you just pushed out a release of your code to a production environme
 	Bisecting: 6 revisions left to test after this
 	[ecb6e1bc347ccecc5f9350d878ce677feb13d3b2] error handling on repo
 
-Git figured out that about 12 commits came between the commit you marked as the last good commit (v1.0) and the current bad version, and it checked out the middle one for you. At this point, you can run your test to see if the issue exists as of this commit. If it does, then it was introduced sometime before this middle commit; if it doesn’t, then the problem was introduced sometime after the middle commit. It turns out there is no issue here, and you tell Git that by typing `git bisect good` and continue your journey:
+Git zjistil, že mezi revizí, kterou jste označili jako poslední dobrou (v1.0), a aktuální problémovou verzí je asi 12 revizí, a provedl checkout prostřední revize. Nyní můžete provést testování a vyzkoušet, zda problém existuje i v této revizi. Pokud ano, vznikla chyba někdy před touto prostřední revizí; pokud ne, pak je problém záležitostí revizí zapsaných až po této prostřední revizi. Ukáže se, že na této revizi k problému nedochází, a tak to systému Git sdělíte příkazem `git bisect good` a budete v hledání pokračovat:
 
 	$ git bisect good
 	Bisecting: 3 revisions left to test after this
 	[b047b02ea83310a70fd603dc8cd7a6cd13d15c04] secure this thing
 
-Now you’re on another commit, halfway between the one you just tested and your bad commit. You run your test again and find that this commit is broken, so you tell Git that with `git bisect bad`:
+Nyní jste na jiné revizi, na půl cesty mezi revizí, kterou jste právě otestovali, a problémovou revizí. Znovu provedete svůj test a zjistíte, že tato revize vykazuje chybu. Systému Git to sdělíte příkazem `git bisect bad`:
 
 	$ git bisect bad
 	Bisecting: 1 revisions left to test after this
 	[f71ce38690acf49c1f3c9bea38e09d82a5ce6014] drop exceptions table
 
-This commit is fine, and now Git has all the information it needs to determine where the issue was introduced. It tells you the SHA-1 of the first bad commit and show some of the commit information and which files were modified in that commit so you can figure out what happened that may have introduced this bug:
+Tato revize je v pořádku, a Git tak má nyní všechny informace, které potřebuje k určení, kde problém vznikl. Sdělí vám SHA-1 první revize s chybou a zobrazí některé další informace o revizi a o tom, které soubory byly v této revizi změněny. Zjistíte tak, co bylo součástí revize a co může způsobovat hledanou chybu:
 
 	$ git bisect good
 	b047b02ea83310a70fd603dc8cd7a6cd13d15c04 is first bad commit
@@ -792,28 +809,28 @@ This commit is fine, and now Git has all the information it needs to determine w
 	:040000 040000 40ee3e7821b895e52c1695092db9bdc4c61d1730
 	f24d3c6ebcfc639b1a3814550e62d60b8e68a8e4 M  config
 
-When you’re finished, you should run `git bisect reset` to reset your HEAD to where you were before you started, or you’ll end up in a weird state:
+Až vyhledávání dokončíte, měli byste použít příkaz `git bisect reset`, abyste se vrátili do jednoznačného stavu. Příkaz vrátí váš ukazatel HEAD na pozici, z níž jste vyhledávání zahajovali:
 
 	$ git bisect reset
 
-This is a powerful tool that can help you check hundreds of commits for an introduced bug in minutes. In fact, if you have a script that will exit 0 if the project is good or non-0 if the project is bad, you can fully automate `git bisect`. First, you again tell it the scope of the bisect by providing the known bad and good commits. You can do this by listing them with the `bisect start` command if you want, listing the known bad commit first and the known good commit second:
+bisect je výkonný nástroj, který vám může pomoci zkontrolovat za pár minut i stovky revizí s neurčitou chybou. A máte-li skript, jehož výstupem bude 0, pokud je projekt v pořádku, nebo nenulovou hodnotu, pokud je v projektu chyba, můžete příkaz `git bisect` dokonce plně automatizovat. Nejprve opět zadáte poslední známé revize s chybou a bez ní, jimiž vytyčíte cílovou oblast pro příkaz bisect. Chcete-li, můžete to provést příkazem `bisect start` – jako první uvedete známou revizi s chybou, jako druhá bude následovat poslední známá dobrá revize:
 
 	$ git bisect start HEAD v1.0
 	$ git bisect run test-error.sh
 
-Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit. You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.
+Automaticky se spustí `test-error.sh` na všech načtených revizích, dokud Git nenajde první revizi s chybou. Podobně můžete spustit také příkaz `make` nebo `make tests` či cokoli jiného, čím spouštíte automatické testování.
 
-## Submodules ##
+## Submoduly ##
 
-It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.
+Často se stává, že pracujete na jednom projektu, ale na chvíli si potřebujete odskočit do jiného. Jedná se třeba o knihovnu, kterou vyvinula třetí strana, nebo kterou vyvíjíte odděleně a používáte ji v několika nadřazených projektech. V obou případech se budete potýkat se stejným problémem: oba projekty chcete zachovat samostatné, a přesto potřebujete používat jeden v rámci druhého.
 
-Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available.
+Uveďme malý příklad. Programujete webové stránky a vytváříte kanály Atom. Místo abyste psali vlastní zdrojový kód ke kanálům Atom, rozhodnete se použít knihovnu. Pravděpodobně budete muset použít tento kód ze sdílené knihovny, jako CPAN install nebo Ruby gem, nebo zkopírovat zdrojový kód do vlastního stromu projektu. Problém s použitím knihovny je ten, že je obtížné knihovnu jakýmkoli způsobem upravit a často ještě těžší ji nasadit, protože se musíte ujistit, že ji má k dispozici každý klient. Problémem s převzetím zdrojového kódu do vlastního projektu bývá, že jakékoli uživatelské změny, které provedete, se obtížně začleňují, pokud se objeví novější změny.
 
-Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.
+Git nabízí jako řešení tohoto problému nástroj submodulů. Submoduly umožňují uchovávat repozitář Git jako podadresář jiného repozitáře Git. Do svého projektu tak můžete naklonovat jiný repozitář a uchovávat revize oddělené.
 
-### Starting with Submodules ###
+### Začátek práce se submoduly ###
 
-Suppose you want to add the Rack library (a Ruby web server gateway interface) to your project, possibly maintain your own changes to it, but continue to merge in upstream changes. The first thing you should do is clone the external repository into your subdirectory. You add external projects as submodules with the `git submodule add` command:
+Předpokládejme, že budete chtít vložit do svého projektu knihovnu Rack (rozhraní brány webového serveru Ruby), udržovat v ní vlastní změny, ale nadále začleňovat i změny ze serveru. První věcí, kterou byste měli udělat, je naklonovat externí repozitář do vlastního podadresáře. Externí projekty přidáte do svého projektu jako submoduly příkazem `git submodule add`:
 
 	$ git submodule add git://github.com/chneukirchen/rack.git rack
 	Initialized empty Git repository in /opt/subtest/rack/.git/
@@ -823,7 +840,7 @@ Suppose you want to add the Rack library (a Ruby web server gateway interface) t
 	Receiving objects: 100% (3181/3181), 675.42 KiB | 422 KiB/s, done.
 	Resolving deltas: 100% (1951/1951), done.
 
-Now you have the Rack project under a subdirectory named `rack` within your project. You can go into that subdirectory, make changes, add your own writable remote repository to push your changes into, fetch and merge from the original repository, and more. If you run `git status` right after you add the submodule, you see two things:
+Nyní máte projekt Rack uložen ve svém projektu v podadresáři `rack`. Můžete přejít do tohoto podadresáře, provést změny, přidat vlastní vzdálený repozitář s oprávněním k zápisu, kam budete změny odesílat, vyzvednout a začlenit data z původního repozitáře atd. Pokud byste bezprostředně po přidání submodulu spustili příkaz `git status`, viděli byste dvě věci:
 
 	$ git status
 	# On branch master
@@ -834,16 +851,16 @@ Now you have the Rack project under a subdirectory named `rack` within your proj
 	#      new file:   rack
 	#
 
-First you notice the `.gitmodules` file. This is a configuration file that stores the mapping between the project’s URL and the local subdirectory you’ve pulled it into:
+Zaprvé si všimnete souboru `.gitmodules`. Jedná se o konfigurační soubor, v němž je uloženo mapování mezi adresou URL projektu a lokálním podadresářem, do nějž jste stáhli repozitář.
 
-	$ cat .gitmodules 
+	$ cat .gitmodules
 	[submodule "rack"]
 	      path = rack
 	      url = git://github.com/chneukirchen/rack.git
 
-If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from.
+Máte-li submodulů více, bude v tomto souboru několik záznamů. Za zmínku stojí, že je tento soubor verzován spolu s ostatními soubory, podobně jako třeba soubor `.gitignore`. Soubor se odesílá a stahuje se zbytkem projektu. Ostatní uživatelé, kteří budou tento projekt klonovat, díky tomu zjistí, kde najdou projekty submodulů.
 
-The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting:
+Tím dalším, co se objevuje ve výstupu příkazu `git status`, je položka rack. Pokud na ni použijete příkaz `git diff`, uvidíte zajímavou věc:
 
 	$ git diff --cached rack
 	diff --git a/rack b/rack
@@ -854,11 +871,11 @@ The other listing in the `git status` output is the rack entry. If you run `git 
 	@@ -0,0 +1 @@
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-Although `rack` is a subdirectory in your working directory, Git sees it as a submodule and doesn’t track its contents when you’re not in that directory. Instead, Git records it as a particular commit from that repository. When you make changes and commit in that subdirectory, the superproject notices that the HEAD there has changed and records the exact commit you’re currently working off of; that way, when others clone this project, they can re-create the environment exactly.
+Ačkoli je `rack` podadresářem ve vašem pracovním adresáři, Git ví, že se jedná o submodul, a dokud se v tomto adresáři nenacházíte, nesleduje jeho obsah. Místo toho zaznamenává Git konkrétní revizi z tohoto adresáře. Provedete-li v tomto podadresáři změny a zapíšete revizi, superprojekt (tedy celkový, nadřízený projekt) zjistí, že se tu ukazatel HEAD změnil, a zaznamená přesnou revizi, na níž právě pracujete. Pokud pak tento projekt naklonují jiní uživatelé, budou schopni přesně obnovit původní prostředí.
 
-This is an important point with submodules: you record them as the exact commit they’re at. You can’t record a submodule at `master` or some other symbolic reference.
+Toto je důležitá vlastnost submodulů: zaznamenáváte je jako přesné revize, na nichž se nacházejí. Submodul nelze zaznamenat na větvi `master` nebo na jiné symbolické referenci.
 
-When you commit, you see something like this:
+Jestliže zapíšete revizi, zobrazí se přibližně toto:
 
 	$ git commit -m 'first commit with submodule rack'
 	[master 0550271] first commit with submodule rack
@@ -866,9 +883,9 @@ When you commit, you see something like this:
 	 create mode 100644 .gitmodules
 	 create mode 160000 rack
 
-Notice the 160000 mode for the rack entry. That is a special mode in Git that basically means you’re recording a commit as a directory entry rather than a subdirectory or a file.
+Všimněte si režimu (mode) 160000 u záznamu rack. Jedná se o speciální režim systému Git, který udává, že revizi zaznamenáváte jako adresář, ne jako podadresář nebo soubor.
 
-You can treat the `rack` directory as a separate project and then update your superproject from time to time with a pointer to the latest commit in that subproject. All the Git commands work independently in the two directories:
+S adresářem `rack` můžete pracovat jako se samostatným projektem a čas od času aktualizovat superprojekt ukazatelem na nejnovější revizi v tomto subprojektu. Všechny příkazy Git pracují v obou adresářích nezávisle:
 
 	$ git log -1
 	commit 0550271328a0038865aad6331e620cd7238601bb
@@ -884,9 +901,9 @@ You can treat the `rack` directory as a separate project and then update your su
 
 	    Document version change
 
-### Cloning a Project with Submodules ###
+### Klonování projektu se submoduly ###
 
-Here you’ll clone a project with a submodule in it. When you receive such a project, you get the directories that contain submodules, but none of the files yet:
+Nyní naklonujeme projekt, jehož součástí je submodul. Pokud takový projekt obdržíte, získáte adresáře, které tyto submoduly obsahují, ale zatím žádný soubor:
 
 	$ git clone git://github.com/schacon/myproject.git
 	Initialized empty Git repository in /opt/myproject/.git/
@@ -902,7 +919,7 @@ Here you’ll clone a project with a submodule in it. When you receive such a pr
 	$ ls rack/
 	$
 
-The `rack` directory is there, but empty. You must run two commands: `git submodule init` to initialize your local configuration file, and `git submodule update` to fetch all the data from that project and check out the appropriate commit listed in your superproject:
+Máte sice adresář `rack`, ten je však prázdný. Budete muset použít dva příkazy: `git submodule init` k inicializaci lokálního konfiguračního souboru a `git submodule update` k vyzvednutí všech dat z tohoto projektu a checkoutu příslušné revize uvedené ve vašem superprojektu:
 
 	$ git submodule init
 	Submodule 'rack' (git://github.com/chneukirchen/rack.git) registered for path 'rack'
@@ -915,7 +932,7 @@ The `rack` directory is there, but empty. You must run two commands: `git submod
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd:
+Váš podadresář `rack` je nyní přesně ve stejném stavu, jako když jste předtím zapisovali revizi. Jestliže jiný vývojář provede změny v kódu adresáře rack a zapíše je do revize a vy poté tuto referenci stáhnete a začleníte, dostanete něco, co bude vypadat poněkud zvláštně:
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -924,14 +941,14 @@ Now your `rack` subdirectory is at the exact state it was in when you committed 
 	 1 files changed, 1 insertions(+), 1 deletions(-)
 	[master*]$ git status
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
 	#      modified:   rack
 	#
 
-You merged in what is basically a change to the pointer for your submodule; but it doesn’t update the code in the submodule directory, so it looks like you have a dirty state in your working directory:
+Začlenili jste něco, co je v podstatě změna ukazatele vašeho submodulu. Neaktualizovali jste tím však zdrojový kód v adresáři submodulu, takže to vypadá, jako že je váš pracovní adresář v chaotickém stavu:
 
 	$ git diff
 	diff --git a/rack b/rack
@@ -942,7 +959,7 @@ You merged in what is basically a change to the pointer for your submodule; but 
 	-Subproject commit 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
-This is the case because the pointer you have for the submodule isn’t what is actually in the submodule directory. To fix this, you must run `git submodule update` again:
+A tak to opravdu je. Ukazatel, který máte pro submodul, není to, co máte skutečně v adresáři submodulu. Abyste tento problém vyřešili, spusťte ještě jednou příkaz `git submodule update`:
 
 	$ git submodule update
 	remote: Counting objects: 5, done.
@@ -953,15 +970,15 @@ This is the case because the pointer you have for the submodule isn’t what is 
 	   08d709f..6c5e70b  master     -> origin/master
 	Submodule path 'rack': checked out '6c5e70b984a60b3cecd395edd5b48a7575bf58e0'
 
-You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works.
+To budete muset udělat pokaždé, když stáhnete změnu v submodulu v hlavním projektu. Je to sice trochu zvláštní, ale opravdu to tak funguje.
 
-One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this:
+K tradičním problémům dochází, jestliže vývojář provede lokální změnu v submodulu, ale neodešle ji na veřejný server. Poté zapíše ukazatel do tohoto neveřejného stavu a superprojekt odešle na server. Když se pak ostatní vývojáři pokusí spustit příkaz `git submodule update`, systém submodulu nemůže najít revizi, k níž se vztahuje jedna z referencí, protože existuje pouze v prvním systému vývojáře. Pokud dojde k něčemu takovému, zobrazí se následující chyba:
 
 	$ git submodule update
 	fatal: reference isn’t a tree: 6c5e70b984a60b3cecd395edd5b48a7575bf58e0
 	Unable to checkout '6c5e70b984a60b3cecd395edd5ba7575bf58e0' in submodule path 'rack'
 
-You have to see who last changed the submodule:
+Musíte zjistit, kdo změnil submodul jako poslední:
 
 	$ git log -1 rack
 	commit 85a3eee996800fcfa91e2119372dd4172bf76678
@@ -970,21 +987,21 @@ You have to see who last changed the submodule:
 
 	    added a submodule reference I will never make public. hahahahaha!
 
-Then, you e-mail that guy and yell at him.
+Nyní znáte provinilcovu e-mailovou adresu a můžete mu vyčinit.
 
-### Superprojects ###
+### Superprojekty ###
 
-Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow.
+Vývojáři někdy chtějí získat kombinaci podadresářů velkého projektu podle toho, v jakém týmu pracují. K tomu může dojít, pokud přecházíte ze systému CVS nebo Subversion, kde jste definovali modul nebo několik podadresářů, a chcete v tomto typu pracovního postupu pokračovat.
 
-A good way to do this in Git is to make each of the subfolders a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects.
+Dobrým způsobem, jak to v systému Git provést, je učinit ze všech podsložek oddělené repozitáře Git a vytvořit repozitáře superprojektu Git, které budou obsahovat několik submodulů. Výhodou tohoto postupu je, že můžete podrobněji definovat vztah mezi projekty se značkami a větvemi v superprojektech.
 
-### Issues with Submodules ###
+### Problémy se submoduly ###
 
-Using submodules isn’t without hiccups, however. First, you must be relatively careful when working in the submodule directory. When you run `git submodule update`, it checks out the specific version of the project, but not within a branch. This is called having a detached head — it means the HEAD file points directly to a commit, not to a symbolic reference. The issue is that you generally don’t want to work in a detached head environment, because it’s easy to lose changes. If you do an initial `submodule update`, commit in that submodule directory without creating a branch to work in, and then run `git submodule update` again from the superproject without committing in the meantime, Git will overwrite your changes without telling you.  Technically you won’t lose the work, but you won’t have a branch pointing to it, so it will be somewhat difficult to retrieive.
+Používání submodulů se však vždy neobejde bez zádrhelů. Zaprvé je třeba, abyste si v adresáři submodulu počínali opatrně. Spustíte-li příkaz `git submodule update`, provedete tím checkout konkrétní verze projektu, avšak nikoli v rámci větve. Říká se tomu oddělená hlava (detached head) – znamená to, že soubor HEAD ukazuje přímo na revizi, ne na symbolickou referenci. Problém je, že většinou nechcete pracovat v prostředí oddělené hlavy, protože tu velmi snadno přijdete o provedené změny. Jestliže nejprve spustíte příkaz `submodule update`, zapíšete v adresáři tohoto submodulu revizi, aniž byste na tuto práci vytvořili novou větev, a poté ze superprojektu znovu spustíte příkaz `git submodule update`, aniž byste mezitím zapisovali revize, Git vaše revize bez varování přepíše. Technicky vzato práci neztratíte, ale nebude žádná větev, která by na ni ukazovala, a tak bude poněkud obtížené získat práci zpět.
 
-To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b` work or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to.
+Aby ve vašem projektu k tomuto problému nedošlo, vytvořte během práce v adresáři submodulu příkazem `git checkout -b work` nebo podobným novou větev. Až budete podruhé provádět příkaz submodule update, i tentokrát sice vrátí vaši práci, ale přinejmenším budete mít ukazatel, k němuž se budete moci vrátit.
 
-Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory:
+Problematické může být také přepínání větví obsahujících submoduly. Vytvoříte-li novou větev, přidáte do ní submodul a poté přepnete zpět na větev bez tohoto submodulu, není adresář submodulu stále ještě sledován:
 
 	$ git checkout -b rack
 	Switched to a new branch "rack"
@@ -1007,15 +1024,15 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	#
 	#      rack/
 
-You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up.
+Budete ho muset buď přemístit, nebo odstranit. V druhém případě ho budete muset znovu naklonovat, až přepnete zpět, navíc hrozí, že ztratíte lokální změny nebo větve, které jste neodeslali.
 
-The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you:
+Poslední velký problém s nímž se uživatelé často setkávají, souvisí s přepínáním z podadresářů na submoduly. Pokud jste ve svém projektu sledovali soubory a chcete je přesunout do submodulu, musíte být velmi opatrní, abyste si Git proti sobě nepoštvali. Řekněme, že máte soubory rack v podadresáři svého projektu a chcete ho přepnout do submodulu. Jestliže odstraníte podadresář a spustíte příkaz `submodule add`, Git vám vynadá:
 
 	$ rm -Rf rack/
 	$ git submodule add git@github.com:schacon/rack.git rack
 	'rack' already exists in the index
 
-You have to unstage the `rack` directory first. Then you can add the submodule:
+Adresář `rack` už byl připraven k zapsání. Proto ho musíte nejprve vrátit, až potom můžete přidat submodul:
 
 	$ git rm -r rack
 	$ git submodule add git@github.com:schacon/rack.git rack
@@ -1026,12 +1043,12 @@ You have to unstage the `rack` directory first. Then you can add the submodule:
 	Receiving objects: 100% (3184/3184), 677.42 KiB | 88 KiB/s, done.
 	Resolving deltas: 100% (1952/1952), done.
 
-Now suppose you did that in a branch. If you try to switch back to a branch where those files are still in the actual tree rather than a submodule — you get this error:
+Nyní předpokládejme, že toto vše se odehrálo ve větvi. Pokud se pokusíte přepnout zpět do větve, kde jsou tyto soubory v aktuálním stromu, a ne v submodulu, zobrazí se tato chyba:
 
 	$ git checkout master
 	error: Untracked working tree file 'rack/AUTHORS' would be overwritten by merge.
 
-You have to move the `rack` submodule directory out of the way before you can switch to a branch that doesn’t have it:
+Nejprve budete muset přemístit adresář submodulu `rack`, než vám Git dovolí přepnout na větev, která adresář neobsahuje:
 
 	$ mv rack /tmp/
 	$ git checkout master
@@ -1039,17 +1056,17 @@ You have to move the `rack` submodule directory out of the way before you can sw
 	$ ls
 	README	rack
 
-Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.
+Až poté přepnete zpět, bude adresář `rack` prázdný. Buď můžete spustit příkaz `git submodule update` a provést nové klonování, nebo můžete přesunout adresář `/tmp/rack` zpět do prázdného adresáře.
 
-## Subtree Merging ##
+## Začlenění podstromu ##
 
-Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.
+Nyní, když jsme poznali obtíže spojené se systémem submodulů, podívejme se na jedno alternativní řešení tohoto problému. Git se vždy při slučování nejprve podívá, co a kam začleňuje, a podle toho zvolí vhodnou strategii začlenění. Pokud slučujete dvě větve, používá Git rekurzivní strategii. Pokud slučujete více než dvě větve, zvolí Git tzv. strategii chobotnice (octopus strategy). Git vybírá tyto strategie automaticky. Rekurzivní strategie zvládá složité třícestné slučování (např. s více než jedním společným předkem), ale nedokáže sloučit více než dvě větve. Chobotnicové sloučení dokáže naproti tomu sloučit několik větví, ale je opatrnější při předcházení složitým konfliktům. Proto je ostatně nastaveno jako výchozí strategie při slučování více než dvou větví.
 
-However, there are other strategies you can choose as well. One of them is the _subtree_ merge, and you can use it to deal with the subproject issue. Here you’ll see how to do the same rack embedding as in the last section, but using subtree merges instead.
+Existují však ještě další strategie. Jednou z nich je tzv. začlenění podstromu (subtree merge), které lze použít jako řešení problémů se subprojektem. Ukažme si, jak se dá začlenit stejný adresář rack jako v předchozí části, tentokrát však s využitím strategie začlenění podstromu.
 
-The idea of the subtree merge is that you have two projects, and one of the projects maps to a subdirectory of the other one and vice versa. When you specify a subtree merge, Git is smart enough to figure out that one is a subtree of the other and merge appropriately — it’s pretty amazing.
+Začlenění podstromu spočívá v tom, že máte dva projekty a jeden z projektů se promítá do podadresáře druhého projektu a naopak. Pokud určíte strategii začlenění podstromu, je Git natolik inteligentní, aby zjistil, že je jeden podstromem druhého, a provedl sloučení odpovídajícím způsobem – počíná si opravdu sofistikovaně.
 
-You first add the Rack application to your project. You add the Rack project as a remote reference in your own project and then check it out into its own branch:
+Nejprve přidáte aplikaci Rack do svého projektu. Projekt Rack přidáte ve vlastním projektu jako vzdálenou referenci a provedete jeho checkout do vlastní větve:
 
 	$ git remote add rack_remote git@github.com:schacon/rack.git
 	$ git fetch rack_remote
@@ -1068,7 +1085,7 @@ You first add the Rack application to your project. You add the Rack project as 
 	Branch rack_branch set up to track remote branch refs/remotes/rack_remote/master.
 	Switched to a new branch "rack_branch"
 
-Now you have the root of the Rack project in your `rack_branch` branch and your own project in the `master` branch. If you check out one and then the other, you can see that they have different project roots:
+Nyní máte kořenový adresář s projektem Rack ve větvi `rack_branch` a vlastní projekt ve větvi `master`. Provedete-li checkout jedné a posléze druhé větve, uvidíte, že mají jiné kořenové adresáře:
 
 	$ ls
 	AUTHORS	       KNOWN-ISSUES   Rakefile      contrib	       lib
@@ -1078,32 +1095,33 @@ Now you have the root of the Rack project in your `rack_branch` branch and your 
 	$ ls
 	README
 
-You want to pull the Rack project into your `master` project as a subdirectory. You can do that in Git with `git read-tree`. You’ll learn more about `read-tree` and its friends in Chapter 9, but for now know that it reads the root tree of one branch into your current staging area and working directory. You just switched back to your `master` branch, and you pull the `rack` branch into the `rack` subdirectory of your `master` branch of your main project:
+Projekt Rack chcete do projektu `master` natáhnout jako podadresář. V systému Git k tomu slouží příkaz `git read-tree`. O příkazu `read-tree` a jeho příbuzných se více dočtete v kapitole 9, nyní však vězte, že načte kořenový strom jedné větve do vaší aktuální oblasti připravených změn a do pracovního adresáře. Přepnuli jste zpět na větev `master` a větev `rack` natáhnete do podadresáře `rack` své větve `master` hlavního projektu:
 
 	$ git read-tree --prefix=rack/ -u rack_branch
 
-When you commit, it looks like you have all the Rack files under that subdirectory — as though you copied them in from a tarball. What gets interesting is that you can fairly easily merge changes from one of the branches to the other. So, if the Rack project updates, you can pull in upstream changes by switching to that branch and pulling:
+Až zapíšete revizi, bude to vypadat, jako byste měli všechny soubory Rack v tomto podadresáři, jako byste je zkopírovali z tarballu. Je zajímavé, že tak lze opravdu jednoduše začlenit změny z jedné větve do druhé. Pokud je proto projekt Rack aktualizován, můžete natáhnout novější změny přepnutím na tuto větev a jejím natažením:
 
 	$ git checkout rack_branch
 	$ git pull
 
-Then, you can merge those changes back into your master branch. You can use `git merge -s subtree` and it will work fine; but Git will also merge the histories together, which you probably don’t want. To pull in the changes and prepopulate the commit message, use the `--squash` and `--no-commit` options as well as the `-s subtree` strategy option:
+Tyto změny pak můžete začlenit zpět do hlavní větve. Můžete použít příkaz `git merge -s subtree` a začlenění proběhne úspěšně. Git však sloučí také obě historie, což pravděpodobně nebylo vaším záměrem. Chcete-li natáhnout změny a předběžně vyplnit zprávu k revizi, použijte parametry `--squash`, `--no-commit` a také parametr strategie `-s subtree`:
 
 	$ git checkout master
 	$ git merge --squash -s subtree --no-commit rack_branch
 	Squash commit -- not updating HEAD
 	Automatic merge went well; stopped before committing as requested
 
-All the changes from your Rack project are merged in and ready to be committed locally. You can also do the opposite — make changes in the `rack` subdirectory of your master branch and then merge them into your `rack_branch` branch later to submit them to the maintainers or push them upstream.
+Všechny změny z projektu Rack budou začleněny a budete je moci lokálně zapsat. Můžete ale postupovat také opačně – provést změny v podadresáři `rack` vaší hlavní větve, poté je začlenit do větve `rack_branch` a poslat je správcům nebo je odeslat do repozitáře.
 
-To get a diff between what you have in your `rack` subdirectory and the code in your `rack_branch` branch — to see if you need to merge them — you can’t use the normal `diff` command. Instead, you must run `git diff-tree` with the branch you want to compare to:
+Chcete-li se podívat na výpis „diff“ s rozdíly mezi tím, co máte v podadresáři `rack`, a kódem ve větvi `rack_branch` (abyste věděli, jestli je nutné je slučovat), nelze použít běžný příkaz `diff`. V tomto případě je třeba zadat příkaz `git diff-tree` a větev, s níž chcete srovnání provést:
 
 	$ git diff-tree -p rack_branch
 
-Or, to compare what is in your `rack` subdirectory with what the `master` branch on the server was the last time you fetched, you can run
+Popřípadě chcete-li porovnat, co je ve vašem podadresáři `rack`, s tím, co bylo ve větvi `master` na serveru v okamžiku, kdy jste naposledy vyzvedávali data, spusťte příkaz:
 
 	$ git diff-tree -p rack_remote/master
 
-## Summary ##
+## Shrnutí ##
 
-You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.
+V této kapitole jste poznali několik pokročilých nástrojů umožňujících preciznější manipulaci s revizemi a oblastí připravených změn. Vyskytnou-li se jakékoli problémy, měli byste být schopni snadno odhalit závadnou revizi, kdo je jejím autorem a kdy byla zapsána. Chcete-li ve svém projektu využívat subprojekty, znáte nyní několik způsobů, jak to provést. V této chvíli byste měli v systému Git zvládat většinu úkonů, které se běžně používají na příkazovém řádku, a neměly by vám činit větší potíže.
+

@@ -96,16 +96,16 @@ Let’s see why you should do so.
 
 Let’s go through a simple example of branching and merging with a workflow that you might use in the real world. You’ll follow these steps:
 
-1.	Do work on a web site.
-2.	Create a branch for a new story you’re working on.
-3.	Do some work in that branch.
+1. Do work on a web site.
+2. Create a branch for a new story you’re working on.
+3. Do some work in that branch.
 
 At this stage, you’ll receive a call that another issue is critical and you need a hotfix. You’ll do the following:
 
-1.	Revert back to your production branch.
-2.	Create a branch to add the hotfix.
-3.	After it’s tested, merge the hotfix branch, and push to production.
-4.	Switch back to your original story and continue working.
+1. Revert back to your production branch.
+2. Create a branch to add the hotfix.
+3. After it’s tested, merge the hotfix branch, and push to production.
+4. Switch back to your original story and continue working.
 
 ### Basic Branching ###
 
@@ -233,7 +233,7 @@ Git hasn’t automatically created a new merge commit. It has paused the process
 	[master*]$ git status
 	index.html: needs merge
 	# On branch master
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#

@@ -1,20 +1,20 @@
-# Git Internals #
+# Git 內部原理 #
 
-You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.
+不管你是從前面的章節直接跳到了本章，還是讀完了其餘各章一直到這，你都將在本章見識 Git 的內部工作原理和實現方式。我個人發現學習這些內容對於理解 Git 的用處和強大是非常重要的，不過也有人認為這些內容對於初學者來說可能難以理解且過於複雜。正因如此我把這部分內容放在最後一章，你在學習過程中可以先閱讀這部分，也可以晚點閱讀這部分，這完全取決於你自己。
 
-Now that you’re here, let’s get started. First, if it isn’t yet clear, Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it. You’ll learn more about what this means in a bit.
+既然已經讀到這了，就讓我們開始吧。首先要弄明白一點，從根本上來講 Git 是一套內容定址 (content-addressable) 檔案系統，在此之上提供了一個 VCS 使用者介面。馬上你就會學到這意味著什麼。
 
-In the early days of Git (mostly pre 1.5), the user interface was much more complex because it emphasized this filesystem rather than a polished VCS. In the last few years, the UI has been refined until it’s as clean and easy to use as any system out there; but often, the stereotype lingers about the early Git UI that was complex and difficult to learn.
+早期的 Git (主要是 1.5 之前版本) 的使用者介面要比現在複雜得多，這是因為它更側重于成為檔案系統而不是一套更精緻的 VCS 。最近幾年改進了 UI 從而使它跟其他任何系統一樣清晰易用。即便如此，還是經常會有一些陳腔濫調提到早期 Git 的 UI 複雜又難學。
 
-The content-addressable filesystem layer is amazingly cool, so I’ll cover that first in this chapter; then, you’ll learn about the transport mechanisms and the repository maintenance tasks that you may eventually have to deal with.
+內容定址檔案系統這一層相當酷，在本章中我會先講解這部分。隨後你會學到傳輸機制和最終要使用的各種倉庫管理任務。 
 
-## Plumbing and Porcelain ##
+## 底層命令 (Plumbing) 和高層命令 (Porcelain) ##
 
-This book covers how to use Git with 30 or so verbs such as `checkout`, `branch`, `remote`, and so on. But because Git was initially a toolkit for a VCS rather than a full user-friendly VCS, it has a bunch of verbs that do low-level work and were designed to be chained together UNIX style or called from scripts. These commands are generally referred to as "plumbing" commands, and the more user-friendly commands are called "porcelain" commands.
+本書講解了使用 `checkout`, `branch`, `remote` 等共約 30 個 Git 命令。然而由於 Git 一開始被設計成供 VCS 使用的工具集，而不是一整套 user-friendly 的 VCS，它還包含了許多底層命令，這些命令用於以 UNIX 風格使用或由腳本呼叫。這些命令一般被稱為 “plumbing” 命令（底層命令），其他的更友好的命令則被稱為 “porcelain” 命令（高層命令）。 
 
-The book’s first eight chapters deal almost exclusively with porcelain commands. But in this chapter, you’ll be dealing mostly with the lower-level plumbing commands, because they give you access to the inner workings of Git and help demonstrate how and why Git does what it does. These commands aren’t meant to be used manually on the command line, but rather to be used as building blocks for new tools and custom scripts.
+本書前八章主要專門討論高層命令。本章將主要討論底層命令以理解 Git 的內部工作機制、演示 Git 如何及為何要以這種方式工作。這些命令主要不是用來從命令列手工使用的，更多的是用來為其他工具和自訂腳本服務的。 
 
-When you run `git init` in a new or existing directory, Git creates the `.git` directory, which is where almost everything that Git stores and manipulates is located. If you want to back up or clone your repository, copying this single directory elsewhere gives you nearly everything you need. This entire chapter basically deals with the stuff in this directory. Here’s what it looks like:
+當你在一個新目錄或已有目錄內執行 `git init` 時，Git 會創建一個 `.git` 目錄，幾乎所有 Git 儲存和操作的內容都位於該目錄下。如果你要備份或複製一個倉庫，基本上將這一目錄拷貝至其他地方就可以了。本章基本上都討論該目錄下的內容。該目錄結構如下： 
 
 	$ ls 
 	HEAD
@@ -27,14 +27,14 @@ When you run `git init` in a new or existing directory, Git creates the `.git` d
 	objects/
 	refs/
 
-You may see some other files in there, but this is a fresh `git init` repository — it’s what you see by default. The `branches` directory isn’t used by newer Git versions, and the `description` file is only used by the GitWeb program, so don’t worry about those. The `config` file contains your project-specific configuration options, and the `info` directory keeps a global exclude file for ignored patterns that you don’t want to track in a .gitignore file. The `hooks` directory contains your client- or server-side hook scripts, which are discussed in detail in Chapter 6.
+該目錄下有可能還有其他檔，但這是一個全新的 `git init` 生成的倉庫，所以預設情況下這些就是你能看到的結構。新版本的 Git 不再使用 `branches` 目錄，`description` 檔僅供 GitWeb 程式使用，所以不用關心這些內容。`config` 檔包含了專案特有的配置選項，`info` 目錄保存了一份不希望在 .gitignore 檔中管理的忽略模式 (ignored patterns) 的全域可執行檔。`hooks` 目錄包含了第六章詳細介紹的用戶端或服務端鉤子腳本。 
 
-This leaves four important entries: the `HEAD` and `index` files and the `objects` and `refs` directories. These are the core parts of Git. The `objects` directory stores all the content for your database, the `refs` directory stores pointers into commit objects in that data (branches), the `HEAD` file points to the branch you currently have checked out, and the `index` file is where Git stores your staging area information. You’ll now look at each of these sections in detail to see how Git operates.
+另外還有四個重要的檔案或目錄：`HEAD` 及 `index` 檔，`objects` 及 `refs` 目錄。這些是 Git 的核心部分。`objects` 目錄存放所有資料內容，`refs` 目錄存放指向資料 (分支) 的提交物件的指標，`HEAD` 檔指向當前分支，`index` 檔保存了暫存區域資訊。馬上你將詳細瞭解 Git 是如何操縱這些內容的。
 
-## Git Objects ##
+## Git 物件 ##
 
-Git is a content-addressable filesystem. Great. What does that mean?
-It means that at the core of Git is a simple key-value data store. You can insert any kind of content into it, and it will give you back a key that you can use to retrieve the content again at any time. To demonstrate, you can use the plumbing command `hash-object`, which takes some data, stores it in your `.git` directory, and gives you back the key the data is stored as. First, you initialize a new Git repository and verify that there is nothing in the `objects` directory:
+Git 是一套內容定址檔案系統。很不錯。不過這是什麼意思呢？
+這種說法的意思是，從內部來看，Git 是簡單的 key-value 資料儲存。它允許插入任意類型的內容，並會回傳一個鍵值，通過該鍵值可以在任何時候再取出該內容。可以通過底層命令 `hash-object` 來示範這點，傳一些資料給該命令，它會將資料保存在 `.git` 目錄並回傳表示這些資料的鍵值。首先初使化一個 Git 倉庫並確認 `objects` 目錄是空的： 
 
 	$ mkdir test
 	$ cd test
@@ -47,104 +47,104 @@ It means that at the core of Git is a simple key-value data store. You can inser
 	$ find .git/objects -type f
 	$
 
-Git has initialized the `objects` directory and created `pack` and `info` subdirectories in it, but there are no regular files. Now, store some text in your Git database:
+Git 初始化了 `objects 目錄`，同時在該目錄下創建了 `pack` 和 `info` 子目錄，但是該目錄下沒有其他常規檔。我們往這個 Git 資料庫裡儲存一些文本：
 
 	$ echo 'test content' | git hash-object -w --stdin
 	d670460b4b4aece5915caf5c68d12f560a9fe3e4
 
-The `-w` tells `hash-object` to store the object; otherwise, the command simply tells you what the key would be. `--stdin` tells the command to read the content from stdin; if you don’t specify this, `hash-object` expects the path to a file. The output from the command is a 40-character checksum hash. This is the SHA-1 hash — a checksum of the content you’re storing plus a header, which you’ll learn about in a bit. Now you can see how Git has stored your data:
+參數 `-w` 指示 `hash-object` 命令儲存 (資料) 物件，若不指定這個參數該命令僅僅回傳鍵值。`--stdin` 指定從標準輸入裝置 (stdin) 來讀取內容，若不指定這個參數，`hash-object` 就需要指定一個要儲存的檔案路徑。該命令輸出長度為 40 個字元的校驗和(checksum hash)。這是個 SHA-1 雜湊值──其值為要儲存的資料加上你馬上會瞭解到的一種頭資訊(header)的校驗和。現在可以查看到 Git 已經儲存了資料： 
 
 	$ find .git/objects -type f 
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-You can see a file in the `objects` directory. This is how Git stores the content initially — as a single file per piece of content, named with the SHA-1 checksum of the content and its header. The subdirectory is named with the first 2 characters of the SHA, and the filename is the remaining 38 characters.
+可以在 `objects` 目錄下看到一個檔。這便是 Git 儲存資料內容的方式──為每份內容生成一個檔，取得該內容與頭資訊的 SHA-1 校驗和，創建以該校驗和前兩個字元為名稱的子目錄，並以 (校驗和) 剩下 38 個字元為檔命名 (保存至子目錄下)。 
 
-You can pull the content back out of Git with the `cat-file` command. This command is sort of a Swiss army knife for inspecting Git objects. Passing `-p` to it instructs the `cat-file` command to figure out the type of content and display it nicely for you:
+通過 `cat-file` 命令可以將資料內容取回。該命令是查看 Git 對象的瑞士軍刀。傳入 `-p` 參數可以讓 `cat-file` 命令輸出資料內容的類型： 
 
 	$ git cat-file -p d670460b4b4aece5915caf5c68d12f560a9fe3e4
 	test content
 
-Now, you can add content to Git and pull it back out again. You can also do this with content in files. For example, you can do some simple version control on a file. First, create a new file and save its contents in your database:
+可以往 Git 中添加更多內容並取回了。也可以直接添加檔案。比方說可以對一個檔進行簡單的版本控制。首先，創建一個新檔，並把檔案內容儲存到資料庫中：
 
 	$ echo 'version 1' > test.txt
 	$ git hash-object -w test.txt 
 	83baae61804e65cc73a7201a7252750c76066a30
 
-Then, write some new content to the file, and save it again:
+接著往該檔中寫入一些新內容並再次保存： 
 
 	$ echo 'version 2' > test.txt
 	$ git hash-object -w test.txt 
 	1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 
-Your database contains the two new versions of the file as well as the first content you stored there:
+資料庫中已經將檔案的兩個新版本連同一開始的內容保存下來了： 
 
 	$ find .git/objects -type f 
 	.git/objects/1f/7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	.git/objects/83/baae61804e65cc73a7201a7252750c76066a30
 	.git/objects/d6/70460b4b4aece5915caf5c68d12f560a9fe3e4
 
-Now you can revert the file back to the first version
+再將檔案修復到第一個版本： 
 
 	$ git cat-file -p 83baae61804e65cc73a7201a7252750c76066a30 > test.txt 
 	$ cat test.txt 
 	version 1
 
-or the second version:
+或恢復到第二個版本： 
 
 	$ git cat-file -p 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a > test.txt 
 	$ cat test.txt 
 	version 2
 
-But remembering the SHA-1 key for each version of your file isn’t practical; plus, you aren’t storing the filename in your system — just the content. This object type is called a blob. You can have Git tell you the object type of any object in Git, given its SHA-1 key, with `cat-file -t`:
+需要記住的是幾個版本的檔 SHA-1 值可能與實際的值不同，其次，儲存的並不是檔案名而僅僅是檔案內容。這種物件類型稱為 blob 。通過傳遞 SHA-1 值給 `cat-file -t` 命令可以讓 Git 返回任何物件的類型： 
 
 	$ git cat-file -t 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a
 	blob
 
-### Tree Objects ###
+### Tree 物件 ###
 
-The next type you’ll look at is the tree object, which solves the problem of storing the filename and also allows you to store a group of files together. Git stores content in a manner similar to a UNIX filesystem, but a bit simplified. All the content is stored as tree and blob objects, with trees corresponding to UNIX directory entries and blobs corresponding more or less to inodes or file contents. A single tree object contains one or more tree entries, each of which contains a SHA-1 pointer to a blob or subtree with its associated mode, type, and filename. For example, the most recent tree in the simplegit project may look something like this:
+接下去來看 tree 物件，tree 物件可以儲存檔案名，同時也允許將一組檔案儲存在一起。Git 以一種類似 UNIX 檔案系統但更簡單的方式來儲存內容。所有內容以 tree 或 blob 物件儲存，其中 tree 物件對應於 UNIX 中的目錄，blob 物件則大致對應於 inodes 或檔案內容。一個單獨的 tree 物件包含一條或多條 tree 記錄，每一條記錄含有一個指向 blob 或子 tree 物件的 SHA-1 指標，並附有該物件的許可權模式 (mode)、類型和檔案名資訊。以 simplegit 專案為例，最新的 tree 可能是這個樣子： 
 
 	$ git cat-file -p master^{tree}
 	100644 blob a906cb2a4a904a152e80877d4088654daad0c859      README
 	100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
 	040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib
 
-The `master^{tree}` syntax specifies the tree object that is pointed to by the last commit on your `master` branch. Notice that the `lib` subdirectory isn’t a blob but a pointer to another tree:
+`master^{tree}` 表示 `master` 分支上最新提交指向的 tree 物件。請注意 `lib` 子目錄並非一個 blob 物件，而是一個指向別一個 tree 物件的指標： 
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb
 
-Conceptually, the data that Git is storing is something like Figure 9-1.
+從概念上來講，Git 保存的資料如圖 9-1 所示。 
 
 Insert 18333fig0901.png 
-Figure 9-1. Simple version of the Git data model.
+Figure 9-1. Git 物件模型的簡化版
 
-You can create your own tree. Git normally creates a tree by taking the state of your staging area or index and writing a tree object from it. So, to create a tree object, you first have to set up an index by staging some files. To create an index with a single entry — the first version of your text.txt file — you can use the plumbing command `update-index`. You use this command to artificially add the earlier version of the test.txt file to a new staging area. You must pass it the `--add` option because the file doesn’t yet exist in your staging area (you don’t even have a staging area set up yet) and `--cacheinfo` because the file you’re adding isn’t in your directory but is in your database. Then, you specify the mode, SHA-1, and filename:
+你可以自己創建 tree 。通常 Git 根據你的暫存區域或 index 來創建並寫入一個 tree 。因此要創建一個 tree 物件的話首先要通過將一些檔暫存從而創建一個 index 。可以使用 plumbing 命令 `update-index` 為一個單獨檔 ── test.txt 檔的第一個版本 ──　創建一個 index。通過該命令人工地將 test.txt 檔的首個版本加入到了一個新的暫存區域中。由於該檔原先並不在暫存區域中 (甚至就連暫存區域也還沒被創建出來呢)，必須傳入 `--add` 參數；由於要添加的檔並不在目前的目錄下而是在資料庫中，必須傳入 `--cacheinfo` 參數。同時指定檔案模式，SHA-1 值和檔案名：
 
 	$ git update-index --add --cacheinfo 100644 \
 	  83baae61804e65cc73a7201a7252750c76066a30 test.txt
 
-In this case, you’re specifying a mode of `100644`, which means it’s a normal file. Other options are `100755`, which means it’s an executable file; and `120000`, which specifies a symbolic link. The mode is taken from normal UNIX modes but is much less flexible — these three modes are the only ones that are valid for files (blobs) in Git (although other modes are used for directories and submodules).
+在本例中，指定了檔案模式為 `100644`，表明這是一個普通檔。其他可用的模式有：`100755` 表示可執行檔，`120000` 表示符號連結(symbolic link)。檔案模式是從一般的 UNIX 檔案模式中參考來的，但是沒有那麼靈活 ── 上述三種模式僅對 Git 中的檔案 (blobs) 有效 (雖然也有其他模式用於目錄和子模組)。 
 
-Now, you can use the `write-tree` command to write the staging area out to a tree object. No `-w` option is needed — calling `write-tree` automatically creates a tree object from the state of the index if that tree doesn’t yet exist:
+現在可以用 `write-tree` 命令將暫存區域的內容寫到一個 tree 物件了。無需 `-w` 參數 ── 如果目標 tree 不存在，呼叫 `write-tree` 會自動根據 index 狀態創建一個 tree 物件。 
 
 	$ git write-tree
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git cat-file -p d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	100644 blob 83baae61804e65cc73a7201a7252750c76066a30      test.txt
 
-You can also verify that this is a tree object:
+可以驗證這確實是一個 tree 物件： 
 
 	$ git cat-file -t d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	tree
 
-You’ll now create a new tree with the second version of test.txt and a new file as well:
+再根據 test.txt 的第二個版本以及一個新檔創建一個新 tree 物件： 
 
 	$ echo 'new file' > new.txt
 	$ git update-index test.txt 
 	$ git update-index --add new.txt 
 
-Your staging area now has the new version of test.txt as well as the new file new.txt. Write out that tree (recording the state of the staging area or index to a tree object) and see what it looks like:
+這時暫存區域中包含了 test.txt 的新版本及一個新檔 new.txt 。創建 (寫) 該 tree 物件 (將暫存區域或 index 狀態寫入到一個 tree 物件)，然後瞧瞧它的樣子： 
 
 	$ git write-tree
 	0155eb4229851634a0f03eb265b69f5a2d56f341
@@ -152,7 +152,7 @@ Your staging area now has the new version of test.txt as well as the new file ne
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-Notice that this tree has both file entries and also that the test.txt SHA is the "version 2" SHA from earlier (`1f7a7a`). Just for fun, you’ll add the first tree as a subdirectory into this one. You can read trees into your staging area by calling `read-tree`. In this case, you can read an existing tree into your staging area as a subtree by using the `--prefix` option to `read-tree`:
+請注意該 tree 物件包含了兩個檔案記錄，且 test.txt 的 SHA 值是早先值的 “第二版” (`1f7a7a`)。來點更有趣的，你將把第一個 tree 物件作為一個子目錄加進該 tree 中。可以用 `read-tree` 命令將 tree 物件讀到暫存區域中去。在這時，通過傳一個 `--prefix` 參數給 `read-tree`，將一個已有的 tree 物件作為一個子 tree 讀到暫存區域中： 
 
 	$ git read-tree --prefix=bak d8329fc1cc938780ffdd9f94e0d364e0ea74f579
 	$ git write-tree
@@ -162,21 +162,21 @@ Notice that this tree has both file entries and also that the test.txt SHA is th
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 1f7a7a472abf3dd9643fd615f6da379c4acb3e3a      test.txt
 
-If you created a working directory from the new tree you just wrote, you would get the two files in the top level of the working directory and a subdirectory named `bak` that contained the first version of the test.txt file. You can think of the data that Git contains for these structures as being like Figure 9-2.
+如果從剛寫入的新 tree 物件創建一個工作目錄，將得到位於工作目錄頂級的兩個檔和一個名為 `bak` 的子目錄，該子目錄包含了 test.txt 檔的第一個版本。可以將 Git 用來包含這些內容的資料想像成如圖 9-2 所示的樣子。 
 
 Insert 18333fig0902.png 
-Figure 9-2. The content structure of your current Git data.
+Figure 9-2. 當前 Git 資料的內容結構 
 
-### Commit Objects ###
+### Commit 物件 ###
 
-You have three trees that specify the different snapshots of your project that you want to track, but the earlier problem remains: you must remember all three SHA-1 values in order to recall the snapshots. You also don’t have any information about who saved the snapshots, when they were saved, or why they were saved. This is the basic information that the commit object stores for you.
+你現在有三個 tree 物件，它們指向了你要跟蹤的專案的不同快照，可是先前的問題依然存在：必須記往三個 SHA-1 值以獲得這些快照。你也沒有關於誰、何時以及為何保存了這些快照的資訊。commit 物件為你保存了這些基本資訊。 
 
-To create a commit object, you call `commit-tree` and specify a single tree SHA-1 and which commit objects, if any, directly preceded it. Start with the first tree you wrote:
+要創建一個 commit 物件，使用 `commit-tree` 命令，指定一個 tree 的 SHA-1，如果有任何前繼提交物件，也可以指定。從你寫的第一個 tree 開始： 
 
 	$ echo 'first commit' | git commit-tree d8329f
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d
 
-Now you can look at your new commit object with `cat-file`:
+通過 `cat-file` 查看這個新 commit 物件： 
 
 	$ git cat-file -p fdf4fc3
 	tree d8329fc1cc938780ffdd9f94e0d364e0ea74f579
@@ -185,16 +185,16 @@ Now you can look at your new commit object with `cat-file`:
 
 	first commit
 
-The format for a commit object is simple: it specifies the top-level tree for the snapshot of the project at that point; the author/committer information pulled from your `user.name` and `user.email` configuration settings, with the current timestamp; a blank line, and then the commit message.
+commit 物件格式很簡單：指明了該時間點專案快照的頂層樹物件、作者/提交者資訊 (從 Git 組態設定的 `user.name` 和 `user.email` 中獲得) 以及當前時間戳記、一個空行，以及提交注釋資訊。
 
-Next, you’ll write the other two commit objects, each referencing the commit that came directly before it:
+接著再寫入另外兩個 commit 物件，每一個都指定其之前的那個 commit 物件： 
 
 	$ echo 'second commit' | git commit-tree 0155eb -p fdf4fc3
 	cac0cab538b970a37ea1e769cbbde608743bc96d
 	$ echo 'third commit'  | git commit-tree 3c4e9c -p cac0cab
 	1a410efbd13591db07496601ebc7a059dd55cfe9
 
-Each of the three commit objects points to one of the three snapshot trees you created. Oddly enough, you have a real Git history now that you can view with the `git log` command, if you run it on the last commit SHA-1:
+每一個 commit 物件都指向了你創建的樹物件快照。出乎意料的是，現在已經有了真實的 Git 歷史了，所以如果執行 `git log` 命令並指定最後那個 commit 物件的 SHA-1 便可以查看歷史：
 
 	$ git log --stat 1a410e
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -225,7 +225,7 @@ Each of the three commit objects points to one of the three snapshot trees you c
 	 test.txt |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Amazing. You’ve just done the low-level operations to build up a Git history without using any of the front ends. This is essentially what Git does when you run the `git add` and `git commit` commands — it stores blobs for the files that have changed, updates the index, writes out trees, and writes commit objects that reference the top-level trees and the commits that came immediately before them. These three main Git objects — the blob, the tree, and the commit — are initially stored as separate files in your `.git/objects` directory. Here are all the objects in the example directory now, commented with what they store:
+真棒。你剛剛通過使用低級操作而不是那些普通命令創建了一個 Git 歷史。這基本上就是執行 `git add` 和 `git commit` 命令時 Git 進行的工作　──保存修改了的檔案的 blob，更新索引，創建 tree 物件，最後創建 commit 物件，這些 commit 物件指向了頂層 tree 物件以及先前的 commit 物件。這三類 Git 物件 ── blob，tree 以及 commit ── 都各自以檔案的方式保存在 `.git/objects` 目錄下。以下所列是目前為止範例目錄的所有物件，每個物件後面的注釋裡標明了它們保存的內容： 
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -239,25 +239,25 @@ Amazing. You’ve just done the low-level operations to build up a Git history w
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-If you follow all the internal pointers, you get an object graph something like Figure 9-3.
+如果你按照以上描述進行了操作，可以得到如圖 9-3 所示的物件圖。 
 
 Insert 18333fig0903.png 
-Figure 9-3. All the objects in your Git directory.
+Figure 9-3. Git 目錄下的所有物件
 
-### Object Storage ###
+### 物件儲存 ###
 
-I mentioned earlier that a header is stored with the content. Let’s take a minute to look at how Git stores its objects. You’ll see how to store a blob object — in this case, the string "what is up, doc?" — interactively in the Ruby scripting language. You can start up interactive Ruby mode with the `irb` command:
+之前我提到當儲存資料內容時，同時會有一個檔頭被儲存起來。我們花些時間來看看 Git 是如何儲存物件的。你將看到如何通過 Ruby 指令碼語言儲存一個 blob 物件 (這裡以字串 “what is up, doc?” 為例) 。使用 `irb` 命令進入 Ruby 互動式模式： 
 
 	$ irb
 	>> content = "what is up, doc?"
 	=> "what is up, doc?"
 
-Git constructs a header that starts with the type of the object, in this case a blob. Then, it adds a space followed by the size of the content and finally a null byte:
+Git 以物件類型為起始內容構造一個檔頭，本例中是一個 blob。然後添加一個空格，接著是資料內容的長度，最後是一個空位元組 (null byte)： 
 
 	>> header = "blob #{content.length}\0"
 	=> "blob 16\000"
 
-Git concatenates the header and the original content and then calculates the SHA-1 checksum of that new content. You can calculate the SHA-1 value of a string in Ruby by including the SHA1 digest library with the `require` command and then calling `Digest::SHA1.hexdigest()` with the string:
+Git 將檔頭與原始資料內容拼接起來，並計算拼接後的新內容的 SHA-1 校驗和。可以在 Ruby 中使用 `require` 語句導入 SHA1 digest 程式庫，然後呼叫 `Digest::SHA1.hexdigest()` 方法計算字串的 SHA-1 值： 
 
 	>> store = header + content
 	=> "blob 16\000what is up, doc?"
@@ -266,14 +266,14 @@ Git concatenates the header and the original content and then calculates the SHA
 	>> sha1 = Digest::SHA1.hexdigest(store)
 	=> "bd9dbf5aae1a3862dd1526723246b20206e5fc37"
 
-Git compresses the new content with zlib, which you can do in Ruby with the zlib library. First, you need to require the library and then run `Zlib::Deflate.deflate()` on the content:
+Git 用 zlib 對資料內容進行壓縮，在 Ruby 中可以用 zlib 程式庫來實現。首先需要導入該程式庫，然後用 `Zlib::Deflate.deflate()` 對資料進行壓縮： 
 
 	>> require 'zlib'
 	=> true
 	>> zlib_content = Zlib::Deflate.deflate(store)
 	=> "x\234K\312\311OR04c(\317H,Q\310,V(-\320QH\311O\266\a\000_\034\a\235"
 
-Finally, you’ll write your zlib-deflated content to an object on disk. You’ll determine the path of the object you want to write out (the first two characters of the SHA-1 value being the subdirectory name, and the last 38 characters being the filename within that directory). In Ruby, you can use the `FileUtils.mkdir_p()` function to create the subdirectory if it doesn’t exist. Then, open the file with `File.open()` and write out the previously zlib-compressed content to the file with a `write()` call on the resulting file handle:
+最後將用 zlib 壓縮後的內容寫入磁片。需要指定保存物件的路徑 (SHA-1 值的頭兩個字元作為子目錄名稱，剩餘 38 個字元作為檔案名保存至該子目錄中)。在 Ruby 中，如果子目錄不存在可以用 `FileUtils.mkdir_p()` 函數創建它。接著用 `File.open` 方法打開檔案，並用 `write()` 方法將之前壓縮的內容寫入該檔： 
 
 	>> path = '.git/objects/' + sha1[0,2] + '/' + sha1[2,38]
 	=> ".git/objects/bd/9dbf5aae1a3862dd1526723246b20206e5fc37"
@@ -284,13 +284,13 @@ Finally, you’ll write your zlib-deflated content to an object on disk. You’l
 	>> File.open(path, 'w') { |f| f.write zlib_content }
 	=> 32
 
-That’s it — you’ve created a valid Git blob object. All Git objects are stored the same way, just with different types — instead of the string blob, the header will begin with commit or tree. Also, although the blob content can be nearly anything, the commit and tree content are very specifically formatted.
+這就行了 ── 你已經創建了一個正確的 blob 物件。所有的 Git 物件都以這種方式儲存，惟一的區別是類型不同 ── 除了字串 blob，檔頭起始內容還可以是 commit 或 tree 。不過雖然 blob 幾乎可以是任意內容，commit 和 tree 的資料卻是有固定格式的。 
 
 ## Git References ##
 
-You can run something like `git log 1a410e` to look through your whole history, but you still have to remember that `1a410e` is the last commit in order to walk that history to find all those objects. You need a file in which you can store the SHA-1 value under a simple name so you can use that pointer rather than the raw SHA-1 value.
+你可以執行像 `git log 1a410e` 這樣的命令來查看完整的歷史，但是這樣你就要記得 `1a410e` 是你最後一次提交，這樣才能在提交歷史中找到這些物件。你需要一個檔來用一個簡單的名字來記錄這些 SHA-1 值，這樣你就可以用這些指標而不是原來的 SHA-1 值去檢索了。 
 
-In Git, these are called "references" or "refs"; you can find the files that contain the SHA-1 values in the `.git/refs` directory. In the current project, this directory contains no files, but it does contain a simple structure:
+在 Git 中，這些我們稱之為「引用」（references 或者 refs，譯者注）。你可以在 `.git/refs` 目錄下面找到這些包含 SHA-1 值的檔。在這個專案裡，這個目錄還沒不包含任何檔，但是包含這樣一個簡單的結構： 
 
 	$ find .git/refs
 	.git/refs
@@ -299,86 +299,86 @@ In Git, these are called "references" or "refs"; you can find the files that con
 	$ find .git/refs -type f
 	$
 
-To create a new reference that will help you remember where your latest commit is, you can technically do something as simple as this:
+如果想要創建一個新的引用幫助你記住最後一次提交，技術上你可以這樣做： 
 
 	$ echo "1a410efbd13591db07496601ebc7a059dd55cfe9" > .git/refs/heads/master
 
-Now, you can use the head reference you just created instead of the SHA-1 value in your Git commands:
+現在，你就可以在 Git 命令中使用你剛才創建的引用而不是 SHA-1 值： 
 
 	$ git log --pretty=oneline  master
 	1a410efbd13591db07496601ebc7a059dd55cfe9 third commit
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-You aren’t encouraged to directly edit the reference files. Git provides a safer command to do this if you want to update a reference called `update-ref`:
+當然，我們並不鼓勵你直接修改這些引用檔。如果你確實需要更新一個引用，Git 提供了一個比較安全的命令 `update-ref`： 
 
 	$ git update-ref refs/heads/master 1a410efbd13591db07496601ebc7a059dd55cfe9
 
-That’s basically what a branch in Git is: a simple pointer or reference to the head of a line of work. To create a branch back at the second commit, you can do this:
+基本上 Git 中的一個分支其實就是一個指向某個工作版本一條 HEAD 記錄的指標或引用。你可以用這條命令創建一個指向第二次提交的分支： 
 
 	$ git update-ref refs/heads/test cac0ca
 
-Your branch will contain only work from that commit down:
+這樣你的分支將會只包含那次提交以及之前的工作： 
 
 	$ git log --pretty=oneline test
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Now, your Git database conceptually looks something like Figure 9-4.
+現在，你的 Git 資料庫應該看起來像圖 9-4 一樣。 
 
 Insert 18333fig0904.png 
-Figure 9-4. Git directory objects with branch head references included.
+Figure 9-4. 包含分支引用的 Git 目錄物件 
 
-When you run commands like `git branch (branchname)`, Git basically runs that `update-ref` command to add the SHA-1 of the last commit of the branch you’re on into whatever new reference you want to create.
+每當你執行 `git branch (分支名稱)` 這樣的命令，Git 基本上就是執行 `update-ref` 命令，把你現在所在分支中最後一次提交的 SHA-1 值，添加到你要創建的分支的引用。 
 
-### The HEAD ###
+### HEAD 標記 ###
 
-The question now is, when you run `git branch (branchname)`, how does Git know the SHA-1 of the last commit? The answer is the HEAD file. The HEAD file is a symbolic reference to the branch you’re currently on. By symbolic reference, I mean that unlike a normal reference, it doesn’t generally contain a SHA-1 value but rather a pointer to another reference. If you look at the file, you’ll normally see something like this:
+現在的問題是，當你執行 `git branch (分支名稱)` 這條命令的時候，Git 怎麼知道最後一次提交的 SHA-1 值呢？答案就是 HEAD 檔。HEAD 檔是一個指向你當前所在分支的引用識別字。這樣的引用識別字——它看起來並不像一個普通的引用——其實並不包含 SHA-1 值，而是一個指向另外一個引用的指標。如果你看一下這個檔，通常你將會看到這樣的內容： 
 
 	$ cat .git/HEAD 
 	ref: refs/heads/master
 
-If you run `git checkout test`, Git updates the file to look like this:
+如果你執行 `git checkout test`，Git 就會更新這個檔，看起來像這樣： 
 
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-When you run `git commit`, it creates the commit object, specifying the parent of that commit object to be whatever SHA-1 value the reference in HEAD points to.
+當你再執行 `git commit` 命令，它就創建了一個 commit 物件，把這個 commit 物件的父級設置為 HEAD 指向的引用的 SHA-1 值。 
 
-You can also manually edit this file, but again a safer command exists to do so: `symbolic-ref`. You can read the value of your HEAD via this command:
+你也可以手動編輯這個檔，但是同樣有一個更安全的方法可以這樣做：`symbolic-ref`。你可以用下面這條命令讀取 HEAD 的值： 
 
 	$ git symbolic-ref HEAD
 	refs/heads/master
 
-You can also set the value of HEAD:
+你也可以設置 HEAD 的值： 
 
 	$ git symbolic-ref HEAD refs/heads/test
 	$ cat .git/HEAD 
 	ref: refs/heads/test
 
-You can’t set a symbolic reference outside of the refs style:
+但是你不能設置成 refs 以外的形式： 
 
 	$ git symbolic-ref HEAD test
 	fatal: Refusing to point HEAD outside of refs/
 
 ### Tags ###
 
-You’ve just gone over Git’s three main object types, but there is a fourth. The tag object is very much like a commit object — it contains a tagger, a date, a message, and a pointer. The main difference is that a tag object points to a commit rather than a tree. It’s like a branch reference, but it never moves — it always points to the same commit but gives it a friendlier name.
+你剛剛已經重溫過了 Git 的三個主要物件類型，現在這是第四種。Tag 物件非常像一個 commit 物件——包含一個標籤，一組資料，一個消息和一個指標。最主要的區別就是 Tag 物件指向一個 commit 而不是一個 tree。它就像是一個分支引用，但是不會變化——永遠指向同一個 commit，僅僅是提供一個更加友好的名字。 
 
-As discussed in Chapter 2, there are two types of tags: annotated and lightweight. You can make a lightweight tag by running something like this:
+正如我們在第二章所討論的，Tag 有兩種類型：annotated 和 lightweight 。你可以類似下面這樣的命令建立一個 lightweight tag： 
 
 	$ git update-ref refs/tags/v1.0 cac0cab538b970a37ea1e769cbbde608743bc96d
 
-That is all a lightweight tag is — a branch that never moves. An annotated tag is more complex, however. If you create an annotated tag, Git creates a tag object and then writes a reference to point to it rather than directly to the commit. You can see this by creating an annotated tag (`-a` specifies that it’s an annotated tag):
+這就是 lightweight tag 的全部 —— 一個永遠不會發生變化的分支。 annotated tag 要更複雜一點。如果你創建一個 annotated tag，Git 會創建一個 tag 物件，然後寫入一個 reference 指向這個 tag，而不是直接指向 commit。你可以這樣創建一個 annotated tag（`-a` 參數表明這是一個 annotated tag）： 
 
 	$ git tag -a v1.1 1a410efbd13591db07496601ebc7a059dd55cfe9 –m 'test tag'
 
-Here’s the object SHA-1 value it created:
+這是所創建物件的 SHA-1 值：
 
 	$ cat .git/refs/tags/v1.1 
 	9585191f37f7b0fb9444f35a9bf50de191beadc2
 
-Now, run the `cat-file` command on that SHA-1 value:
+現在你可以執行 `cat-file` 命令檢查這個 SHA-1 值： 
 
 	$ git cat-file -p 9585191f37f7b0fb9444f35a9bf50de191beadc2
 	object 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -388,15 +388,15 @@ Now, run the `cat-file` command on that SHA-1 value:
 
 	test tag
 
-Notice that the object entry points to the commit SHA-1 value that you tagged. Also notice that it doesn’t need to point to a commit; you can tag any Git object. In the Git source code, for example, the maintainer has added their GPG public key as a blob object and then tagged it. You can view the public key by running
+值得注意的是這個物件指向你所標記的 commit 物件的 SHA-1 值。同時需要注意的是它並不是必須要指向一個 commit 物件；你可以標記任何 Git 物件。例如，在 Git 的原始程式碼裡，管理者添加了一個 GPG 公開金鑰（這是一個 blob 物件）對它做了一個標籤。你可以執行以下命令來查看 
 
 	$ git cat-file blob junio-gpg-pub
 
-in the Git source code. The Linux kernel also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code.
+Git 原始程式碼裡的公開金鑰. Linux kernel 也有一個不是指向 commit 物件的 tag —— 第一個 tag 是在導入原始程式碼的時候創建的，它指向初始 tree （initial tree，譯者注）。
 
 ### Remotes ###
 
-The third type of reference that you’ll see is a remote reference. If you add a remote and push to it, Git stores the value you last pushed to that remote for each branch in the `refs/remotes` directory. For instance, you can add a remote called `origin` and push your `master` branch to it:
+你將會看到的第三種 reference 是 remote reference（遠端參照，譯者注）。如果你添加了一個 remote 然後推送代碼過去，Git 會把你最後一次推送到這個 remote 的每個分支的值都記錄在 `refs/remotes` 目錄下。例如，你可以添加一個叫做 `origin` 的 remote 然後把你的 `master` 分支推送上去： 
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 	$ git push origin master
@@ -407,16 +407,16 @@ The third type of reference that you’ll see is a remote reference. If you add 
 	To git@github.com:schacon/simplegit-progit.git
 	   a11bef0..ca82a6d  master -> master
 
-Then, you can see what the `master` branch on the `origin` remote was the last time you communicated with the server, by checking the `refs/remotes/origin/master` file:
+然後查看 `refs/remotes/origin/master` 這個檔，你就會發現 `origin` remote 中的 `master` 分支就是你最後一次和伺服器的通信。 
 
 	$ cat .git/refs/remotes/origin/master 
 	ca82a6dff817ec66f44342007202690a93763949
 
-Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers.
+Remote references 和分支(`refs/heads` references)的主要區別在於他們是不能被 check out 的。Git 把他們當作是標記了這些分支在伺服器上最後狀態的一種書簽。 
 
 ## Packfiles ##
 
-Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag:
+我們再來看一下 test Git 倉庫。目前為止，有 11 個物件 ── 4 個 blob，3 個 tree，3 個 commit 以及一個 tag： 
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -431,7 +431,7 @@ Let’s go back to the objects database for your test Git repository. At this po
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file:
+Git 用 zlib 壓縮檔案內容，因此這些檔並沒有佔用太多空間，所有檔加起來總共僅用了 925 位元組。接下去你將添加一些大檔以演示 Git 的一個很有意思的功能。將你之前用到過的 Grit 庫中的 repo.rb 檔加進去 ── 這個原始程式碼檔大小約為 12K： 
 
 	$ curl http://github.com/mojombo/grit/raw/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb 
@@ -442,40 +442,40 @@ Git compresses the contents of these files with zlib, and you’re not storing m
 	 create mode 100644 repo.rb
 	 rewrite test.txt (100%)
 
-If you look at the resulting tree, you can see the SHA-1 value your repo.rb file got for the blob object:
+如果查看一下生成的 tree，可以看到 repo.rb 檔的 blob 物件的 SHA-1 值： 
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-You can then use `git cat-file` to see how big that object is:
+然後可以用 `git cat-file` 命令查看這個物件有多大： 
 
 	$ git cat-file -s 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 	12898
 
-Now, modify that file a little, and see what happens:
+稍微修改一下些檔，看會發生些什麼： 
 
 	$ echo '# testing' >> repo.rb 
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Check the tree created by that commit, and you see something interesting:
+查看這個 commit 生成的 tree，可以看到一些有趣的東西： 
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 05408d195263d853f09dca71d55116663690c27c      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-The blob is now a different blob, which means that although you added only a single line to the end of a 400-line file, Git stored that new content as a completely new object:
+blob 物件與之前的已經不同了。這說明雖然只是往一個 400 行的檔最後加入了一行內容，Git 卻用一個全新的物件來保存新的檔案內容： 
 
 	$ git cat-file -s 05408d195263d853f09dca71d55116663690c27c
 	12908
 
-You have two nearly identical 12K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first?
+你的磁片上有了兩個幾乎完全相同的 12K 的物件。如果 Git 只完整保存其中一個，並保存另一個物件的差異內容，豈不更好？ 
 
-It turns out that it can. The initial format in which Git saves objects on disk is called a loose object format. However, occasionally Git packs up several of these objects into a single binary file called a packfile in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server. To see what happens, you can manually ask Git to pack up the objects by calling the `git gc` command:
+事實上 Git 可以那樣做。Git 往磁片保存物件時預設使用的格式叫鬆散物件 (loose object) 格式。Git 時不時地將這些物件打包至一個叫 packfile 的二進位檔案以節省空間並提高效率。當倉庫中有太多的鬆散物件，或是手動執行 `git gc` 命令，或推送至遠端伺服器時，Git 都會這樣做。手動執行 `git gc` 命令讓 Git 將倉庫中的物件打包，並看看會發生些什麼： 
 
 	$ git gc
 	Counting objects: 17, done.
@@ -484,7 +484,7 @@ It turns out that it can. The initial format in which Git saves objects on disk 
 	Writing objects: 100% (17/17), done.
 	Total 17 (delta 1), reused 10 (delta 0)
 
-If you look in your objects directory, you’ll find that most of your objects are gone, and a new pair of files has appeared:
+查看一下 objects 目錄，會發現大部分物件都不在了，與此同時出現了兩個新檔： 
 
 	$ find .git/objects -type f
 	.git/objects/71/08f7ecb345ee9d0084193f147cdad4d2998293
@@ -493,11 +493,12 @@ If you look in your objects directory, you’ll find that most of your objects a
 	.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
 	.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack
 
-The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile.
+仍保留著的幾個物件是未被任何 commit 引用的 blob ── 在此例中是你之前創建的 “what is up, doc?” 和 “test content” 這兩個示例 blob。你從沒將他們添加至任何 commit，所以 Git 認為它們是懸而未決的，不會將它們打包進 packfile 。 
 
 The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 12K in size, the new packfile is only 6K. You’ve halved your disk usage by packing your objects.
+剩下的檔是新創建的 packfile 以及一個索引。packfile 檔包含了剛才從檔案系統中移除的所有物件。索引檔包含了 packfile 的偏移資訊(offset)，這樣就可以快速定位任意一個指定物件。有意思的是執行 `gc` 命令前磁片上的物件大小約為 12K ，而這個新生成的 packfile 僅為 6K 大小。通過打包物件減少了一半磁片使用空間。 
 
-How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
+Git 是如何做到這點的？Git 打包物件時，會查找命名及尺寸相近的檔，並只保存檔案不同版本之間的差異內容。可以查看一下 packfile ，觀察它是如何節省空間的。`git verify-pack` 命令用於顯示已打包的內容： 
 
 	$ git verify-pack -v \
 	  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
@@ -510,9 +511,9 @@ How does Git do this? When Git packs objects, it looks for files that are named 
 	484a59275031909e19aadb7c92262719cfcdf19a commit 226 153 169
 	83baae61804e65cc73a7201a7252750c76066a30 blob   10 19 5362
 	9585191f37f7b0fb9444f35a9bf50de191beadc2 tag    136 127 5476
-	9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e blob   7 18 5193 1
-	05408d195263d853f09dca71d55116663690c27c \
-	  ab1afef80fac8e34258ff41fc1b867c702daa24b commit 232 157 12
+	9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e blob   7 18 5193 1 \
+	  05408d195263d853f09dca71d55116663690c27c
+	ab1afef80fac8e34258ff41fc1b867c702daa24b commit 232 157 12
 	cac0cab538b970a37ea1e769cbbde608743bc96d commit 226 154 473
 	d8329fc1cc938780ffdd9f94e0d364e0ea74f579 tree   36 46 5316
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4352
@@ -522,42 +523,42 @@ How does Git do this? When Git packs objects, it looks for files that are named 
 	chain length = 1: 1 object
 	pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack: ok
 
-Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object in the pack, so you can see that `05408` takes up 12K of the file but that `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file.
+如果你還記得的話, `9bc1d` 這個 blob 是 repo.rb 檔的第一個版本，這個 blob 引用了 `05408` 這個 blob，即該檔的第二個版本。命令輸出內容的第三欄顯示的是物件大小，可以看到 `05408` 佔用了 12K 空間，而 `9bc1d` 僅為 7 位元組。非常有趣的是第二個版本才是完整保存檔案內容的物件，而第一個版本是以差異方式保存的 ── 這是因為大部分情況下需要快速訪問的是檔案的最新版本。 
 
-The really nice thing about this is that it can be repacked at any time. Git will occasionally repack your database automatically, always trying to save more space. You can also manually repack at any time by running `git gc` by hand.
+最妙的是可以隨時進行重新封包。Git 自動定期對倉庫進行重新封包以節省空間。當然也可以手動執行 `git gc` 命令來這麼做。 
 
 ## The Refspec ##
 
-Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.
-Suppose you add a remote like this:
+這本書讀到這裡，你已經使用過一些簡單的遠端分支到本地引用的映射方式了，這種映射可以更為複雜。假設你像這樣添加了一項遠端倉庫： 
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
-It adds a section to your `.git/config` file, specifying the name of the remote (`origin`), the URL of the remote repository, and the refspec for fetching:
+它在你的 `.git/config` 檔中添加了一節，指定了遠程的名稱 (`origin`), 遠程倉庫的 URL 地址，和用於獲取(fetch)操作的 Refspec: 
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
-The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.
+Refspec 的格式是一個可選的 `+` 號，接著是 `<src>:<dst>` 的格式，這裡 `<src>` 是遠端上的引用格式， `<dst>` 是將要記錄在本地的引用格式。可選的 `+` 號告訴 Git 在即使不能快速演進(fast-forward)的情況下，也去強制更新它。 
 
-In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via
+預設情況下 refspec 會被 `git remote add` 命令所自動產生，Git 會獲取遠端伺服器上 `refs/heads/` 下面的所有引用，並將它寫入到本地的 `refs/remotes/origin/`. 所以，如果遠端伺服器上有一個 `master` 分支，你在本地可以通過下面這種方式來取得它的歷史記錄： 
 
 	$ git log origin/master
 	$ git log remotes/origin/master
 	$ git log refs/remotes/origin/master
 
 They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.
+它們的作用都是相同的，因為 Git 把它們都擴展成 `refs/remotes/origin/master`. 
 
-If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to
+如果你想讓 Git 每次只拉取遠端的 `master` 分支，而不是遠端的所有分支，你可以把 fetch 這一行修改成這樣： 
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
-This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run
+這是 `git fetch` 操作對這個遠端的預設 refspec 值。而如果你只想做一次該操作，也可以在命令列上指定這個 refspec. 例如可以這樣拉取遠端的 `master` 分支到本地的 `origin/mymaster` 分支：
 
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
-You can also specify multiple refspecs. On the command line, you can pull down several branches like so:
+你也可以在命令列上指定多個 refspec. 像這樣可以一次獲取遠端的多個分支： 
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic
@@ -565,80 +566,80 @@ You can also specify multiple refspecs. On the command line, you can pull down s
 	 ! [rejected]        master     -> origin/mymaster  (non fast forward)
 	 * [new branch]      topic      -> origin/topic
 
-In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.
+在這個例子中， master 分支因為不是一個可以快速演進的引用而拉取操作被拒絕。你可以在 refspec 之前使用一個 `+` 號來 override 這種行為。 
 
-You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:
+你也可以在設定檔中指定多個 refspec. 如你想在每次獲取時都獲取 master 和 experiment 分支，就添加兩行： 
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 
-You can’t use partial globs in the pattern, so this would be invalid:
+但是這裡不能使用部分萬用字元，像這樣就是不合法的： 
 
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
-However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:
+但是你可以使用命名空間來達到這個目的。如果你有一個 QA 團隊，他們推送一系列分支，你想每次獲取 master 分支和 QA 團隊 的所有分支，你可以使用這樣的配置段落(config section)： 
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.
+如果你的工作流程很複雜，有QA團隊推送的分支、開發人員推送的分支、和集成人員推送的分支，並且他們在遠端分支上協作，你可以採用這種方式為他們創建各自的命名空間。 
 
-### Pushing Refspecs ###
+### 推送 Refspecs ###
 
-It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push.
+採用命名空間的方式確實很棒，但QA團隊第一次是如何將他們的分支推送到 `qa/` 空間裡面的呢？答案是你可以使用 refspec 來推送。 
 
-If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run
+如果QA團隊想把他們的 `master` 分支推送到遠端的 `qa/master` 分支上，可以這樣執行： 
 
 	$ git push origin master:refs/heads/qa/master
 
-If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:
+如果他們想讓 Git 每次運行 `git push origin` 時都這樣自動推送，他們可以在設定檔中添加 `push` 值： 
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 	       push = refs/heads/master:refs/heads/qa/master
 
-Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.
+這樣，就會讓 `git push origin` 預設就把本地的 `master` 分支推送到遠端的 `qa/master` 分支上。 
 
-### Deleting References ###
+### 刪除 References ###
 
-You can also use the refspec to delete references from the remote server by running something like this:
+你也可以使用 refspec 來刪除遠端的引用(references)，是通過執行這樣的命令： 
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. 
+因為 refspec 的格式是 `<src>:<dst>`, 通過把 `<src>` 部分留空的方式，這個意思是是把遠端的 topic 分支變成空，也就是刪除它。 
 
-## Transfer Protocols ##
+## 傳輸協議 ##
 
-Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
+Git 可以用兩種主要的方式跨越兩個倉庫傳輸資料：基於 HTTP 協定之上，和 `file://`, `ssh://`, 和 `git://` 等智慧傳輸協議。這一節帶你快速流覽這兩種主要的協議操作過程。
 
-### The Dumb Protocol ###
+### 啞協議 ###
 
-Git transport over HTTP is often referred to as the dumb protocol because it requires no Git-specific code on the server side during the transport process. The fetch process is a series of GET requests, where the client can assume the layout of the Git repository on the server. Let’s follow the `http-fetch` process for the simplegit library:
+Git 基於 HTTP 之上傳輸通常被稱為啞協議，這是因為它在服務端不需要有針對 Git 特有的代碼。這個獲取過程僅僅是一系列 GET 請求，用戶端可以假定服務端的 Git 倉庫中的佈局。讓我們以 simplegit 倉庫為例來看看 `http-fetch` 的過程： 
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 
-The first thing this command does is pull down the `info/refs` file. This file is written by the `update-server-info` command, which is why you need to enable that as a `post-receive` hook in order for the HTTP transport to work properly:
+它做的第一件事情就是獲取 `info/refs` 檔。這個檔是在服務端運行了 `update-server-info` 所產生的，這也解釋了為什麼在服務端要想使用 HTTP 傳輸，必須要開啟 `post-receive` 鉤子(hook)： 
 
 	=> GET info/refs
 	ca82a6dff817ec66f44342007202690a93763949     refs/heads/master
 
-Now you have a list of the remote references and SHAs. Next, you look for what the HEAD reference is so you know what to check out when you’re finished:
+現在你有一個遠端引用和 SHA 值的列表。下一步是尋找 HEAD 引用，這樣你就知道了在完成後，什麼應該被檢出到工作目錄：
 
 	=> GET HEAD
 	ref: refs/heads/master
 
-You need to check out the `master` branch when you’ve completed the process. 
-At this point, you’re ready to start the walking process. Because your starting point is the `ca82a6` commit object you saw in the `info/refs` file, you start by fetching that:
+這說明在完成獲取後，需要檢出(check out) `master` 分支。
+這時，已經可以開始漫遊操作(walking process)了。因為你的起點是在 `info/refs` 檔中所提到的 `ca82a6` commit 物件，你的開始操作就是獲取它： 
 
 	=> GET objects/ca/82a6dff817ec66f44342007202690a93763949
 	(179 bytes of binary data)
 
-You get an object back — that object is in loose format on the server, and you fetched it over a static HTTP GET request. You can zlib-uncompress it, strip off the header, and look at the commit content:
+然後你取回了這個物件 － 這在服務端是一個鬆散格式的物件，你使用的是靜態的 HTTP GET 請求獲取的。可以使用 zlib 解壓縮它，去除檔頭，查看它的 commmit 內容： 
 
 	$ git cat-file -p ca82a6dff817ec66f44342007202690a93763949
 	tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
@@ -648,39 +649,39 @@ You get an object back — that object is in loose format on the server, and you
 
 	changed the version number
 
-Next, you have two more objects to retrieve — `cfda3b`, which is the tree of content that the commit we just retrieved points to; and `085bb3`, which is the parent commit:
+這樣，就得到了兩個需要進一步獲取的物件 － `cfda3b` 是這個 commit 物件所對應的 tree 物件，和 `085bb3` 是它的父物件：
 
 	=> GET objects/08/5bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	(179 bytes of data)
 
-That gives you your next commit object. Grab the tree object:
+這樣就取得了這它的下一步 commit 物件，再抓取 tree 物件： 
 
 	=> GET objects/cf/da3bf379e4f8dba8717dee55aab78aef7f4daf
 	(404 - Not Found)
 
-Oops — it looks like that tree object isn’t in loose format on the server, so you get a 404 response back. There are a couple of reasons for this — the object could be in an alternate repository, or it could be in a packfile in this repository. Git checks for any listed alternates first:
+哎呀! - 看起來這個 tree 物件在服務端並不以鬆散格式對象存在，所以得到了404回應，代表在 HTTP 服務端沒有找到該物件。這有好幾個原因 － 這個物件可能在替代倉庫裡面，或者在打包檔裡面，Git 會首先檢查任何列出的替代倉庫： 
 
 	=> GET objects/info/http-alternates
 	(empty file)
 
-If this comes back with a list of alternate URLs, Git checks for loose files and packfiles there — this is a nice mechanism for projects that are forks of one another to share objects on disk. However, because no alternates are listed in this case, your object must be in a packfile. To see what packfiles are available on this server, you need to get the `objects/info/packs` file, which contains a listing of them (also generated by `update-server-info`):
+如果這回傳了幾個替代倉庫列表，那麼它會去那些地方檢查鬆散格式物件和檔案 － 這是一種在軟體分叉(forks)之間共用物件以節省磁碟的好方法。然而，在這個例子中，沒有替代倉庫。所以你所需要的物件肯定在某個打包檔中。要檢查服務端有哪些打包格式檔，你需要獲取 `objects/info/packs` 檔，這裡面包含有打包檔列表（是的，它也是被 `update-server-info` 所產生的）：
 
 	=> GET objects/info/packs
 	P pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 
-There is only one packfile on the server, so your object is obviously in there, but you’ll check the index file to make sure. This is also useful if you have multiple packfiles on the server, so you can see which packfile contains the object you need:
+這裡服務端只有一個打包檔，所以你要的物件顯然就在裡面。但是你可以先檢查它的索引檔以確認。這在服務端有多個打包檔時也很有用，因為這樣就可以先檢查你所需要的物件空間是在哪一個打包檔裡面了： 
 
 	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.idx
 	(4k of binary data)
 
-Now that you have the packfile index, you can see if your object is in it — because the index lists the SHAs of the objects contained in the packfile and the offsets to those objects. Your object is there, so go ahead and get the whole packfile:
+現在你有了這個打包檔的索引，你可以看看你要的物件是否在裡面 － 因為索引檔列出了這個打包檔所包含的所有物件的SHA值，和該物件存在於打包檔中的偏移量，所以你只需要簡單地獲取整個打包檔： 
 
 	=> GET objects/pack/pack-816a9b2334da9953e530f27bcac22082a9f5b835.pack
 	(13k of binary data)
 
-You have your tree object, so you continue walking your commits. They’re all also within the packfile you just downloaded, so you don’t have to do any more requests to your server. Git checks out a working copy of the `master` branch that was pointed to by the HEAD reference you downloaded at the beginning.
+現在你也有了這個 tree 物件，你可以繼續在 commit 物件上漫遊。它們全部都在這個你已經下載到的打包檔裡面，所以你不用繼續向服務端請求更多下載了。在這完成之後，由於下載開始時已探明 HEAD 引用是指向 `master` 分支，Git 會將它檢出到工作目錄。 
 
-The entire output of this process looks like this:
+整個過程看起來就像這樣： 
 
 	$ git clone http://github.com/schacon/simplegit-progit.git
 	Initialized empty Git repository in /private/tmp/simplegit-progit/.git/
@@ -695,52 +696,52 @@ The entire output of this process looks like this:
 	walk 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	walk a11bef06a3f659402fe7563abf99ad00de2209e6
 
-### The Smart Protocol ###
+### 智慧協議 ###
 
-The HTTP method is simple but a bit inefficient. Using smart protocols is a more common method of transferring data. These protocols have a process on the remote end that is intelligent about Git — it can read local data and figure out what the client has or needs and generate custom data for it. There are two sets of processes for transferring data: a pair for uploading data and a pair for downloading data.
+HTTP 方法是很簡單但效率不是很高。使用智慧協定是傳送資料的更常用的方法。這些協定在遠端都有 Git 智慧型程序(process)在服務 － 它可以讀出本地資料並計算出用戶端所需要的，並產生合適的資料給它，這有兩類傳輸資料的程序：一對用於上傳資料和一對用於下載。 
 
-#### Uploading Data ####
+#### 上傳資料 ####
 
-To upload data to a remote process, Git uses the `send-pack` and `receive-pack` processes. The `send-pack` process runs on the client and connects to a `receive-pack` process on the remote side.
+為了上傳資料至遠端，Git 使用 `send-pack` 和 `receive-pack` 程序。這個 `send-pack` 程序運行在用戶端上，它連接至遠端運行的 `receive-pack` 程序。 
 
-For example, say you run `git push origin master` in your project, and `origin` is defined as a URL that uses the SSH protocol. Git fires up the `send-pack` process, which initiates a connection over SSH to your server. It tries to run a command on the remote server via an SSH call that looks something like this:
+舉例來說，你在你的專案上執行了 `git push origin master`, 並且 `origin` 被定義為一個使用 SSH 協議的 URL。Git 會使用 `send-pack` 程序，它會啟動一個基於 SSH 的連接(connection)到伺服器。它嘗試像這樣透過 SSH 在服務端運行命令： 
 
 	$ ssh -x git@github.com "git-receive-pack 'schacon/simplegit-progit.git'"
 	005bca82a6dff817ec66f4437202690a93763949 refs/heads/master report-status delete-refs
 	003e085bb3bcb608e1e84b2432f8ecbe6306e7e7 refs/heads/topic
 	0000
 
-The `git-receive-pack` command immediately responds with one line for each reference it currently has — in this case, just the `master` branch and its SHA. The first line also has a list of the server’s capabilities (here, `report-status` and `delete-refs`).
+這裡的 `git-receive-pack` 命令會立即對它所擁有的每一個引用回應一行 － 在這個例子中，只有 `master` 分支和它的SHA值。這裡第1行也包含了服務端的能力清單（這裡是 `report-status` 和 `delete-refs`）。 
 
-Each line starts with a 4-byte hex value specifying how long the rest of the line is. Your first line starts with 005b, which is 91 in hex, meaning that 91 bytes remain on that line. The next line starts with 003e, which is 62, so you read the remaining 62 bytes. The next line is 0000, meaning the server is done with its references listing.
+每一行以4位元組的十六進位開始，用於指定整行的長度。你看到第1行以005b開始，這在十六進位中表示91，意味著第1行有91位元組長。下一行以003e起始，表示有62位元組長，所以需要讀剩下的62位元組。再下一行是0000開始，表示伺服器已完成了引用列表過程。 
 
-Now that it knows the server’s state, your `send-pack` process determines what commits it has that the server doesn’t. For each reference that this push will update, the `send-pack` process tells the `receive-pack` process that information. For instance, if you’re updating the `master` branch and adding an `experiment` branch, the `send-pack` response may look something like this:
+現在它知道了服務端的狀態，你的 `send-pack` 程序會判斷哪些 commit 是它所擁有但服務端沒有的。針對每個引用，這次推送都會告訴對端的 `receive-pack` 這個資訊。舉例說，如果你在更新 `master` 分支，並且增加 `experiment` 分支，這個 `send-pack` 將會是像這樣：
 
 	0085ca82a6dff817ec66f44342007202690a93763949  15027957951b64cf874c3557a0f3547bd83b3ff6 refs/heads/master report-status
 	00670000000000000000000000000000000000000000 cdfdb42577e2506715f8cfeacdbabc092bf63e8d refs/heads/experiment
 	0000
 
-The SHA-1 value of all '0's means that nothing was there before — because you’re adding the experiment reference. If you were deleting a reference, you would see the opposite: all '0's on the right side.
+這裡全部是’0’的SHA-1值表示之前沒有過這個物件 － 因為你是在添加新的 experiment 引用。如果你在刪除一個引用，你會看到相反的： 就是右邊全部是’0’。 
 
-Git sends a line for each reference you’re updating with the old SHA, the new SHA, and the reference that is being updated. The first line also has the client’s capabilities. Next, the client uploads a packfile of all the objects the server doesn’t have yet. Finally, the server responds with a success (or failure) indication:
+Git 針對每個引用發送這樣一行資訊，就是舊的SHA值，新的SHA值，和將要更新的引用的名稱。第1行還會包含有用戶端的能力。下一步，用戶端會發送一個所有那些服務端所沒有的物件的一個打包檔。最後，服務端以成功(或者失敗)來回應： 
 
 	000Aunpack ok
 
-#### Downloading Data ####
+#### 下載資料 ####
 
-When you download data, the `fetch-pack` and `upload-pack` processes are involved. The client initiates a `fetch-pack` process that connects to an `upload-pack` process on the remote side to negotiate what data will be transferred down.
+當你在下載資料時，`fetch-pack` 和 `upload-pack` 程序就起作用了。用戶端啟動 `fetch-pack` 程序，連接至遠端的 `upload-pack` 程序，以協商後續資料傳輸過程。 
 
-There are different ways to initiate the `upload-pack` process on the remote repository. You can run via SSH in the same manner as the `receive-pack` process. You can also initiate the process via the Git daemon, which listens on a server on port 9418 by default. The `fetch-pack` process sends data that looks like this to the daemon after connecting:
+在遠端倉庫有不同的方式啟動 `upload-pack` 程序。你可以使用與 `receive-pack` 相同的透過 SSH 管道的方式，也可以通過 Git 後臺來啟動這個進程，它預設監聽在 9418 號埠上。這裡 `fetch-pack` 程序在連接後像這樣向後臺發送資料： 
 
 	003fgit-upload-pack schacon/simplegit-progit.git\0host=myserver.com\0
 
-It starts with the 4 bytes specifying how much data is following, then the command to run followed by a null byte, and then the server’s hostname followed by a final null byte. The Git daemon checks that the command can be run and that the repository exists and has public permissions. If everything is cool, it fires up the `upload-pack` process and hands off the request to it.
+它也是以4位元組指定後續位元組長度的方式開始，然後是要執行的命令，和一個空位元組，然後是服務端的主機名稱，再跟隨一個最後的空位元組。Git 後臺程序會檢查這個命令是否可以執行，以及那個倉庫是否存在，以及是否具有公開許可權。如果所有檢查都通過了，它會啟動這個 `upload-pack` 程序並將用戶端的請求移交給它。 
 
-If you’re doing the fetch over SSH, `fetch-pack` instead runs something like this:
+如果你透過 SSH 使用獲取(fetch)功能，`fetch-pack` 會像這樣運行： 
 
 	$ ssh -x git@github.com "git-upload-pack 'schacon/simplegit-progit.git'"
 
-In either case, after `fetch-pack` connects, `upload-pack` sends back something like this:
+不管哪種方式，在 `fetch-pack` 連接之後， `upload-pack` 都會以這種形式回傳： 
 
 	0088ca82a6dff817ec66f44342007202690a93763949 HEAD\0multi_ack thin-pack \
 	  side-band side-band-64k ofs-delta shallow no-progress include-tag
@@ -748,32 +749,32 @@ In either case, after `fetch-pack` connects, `upload-pack` sends back something 
 	003e085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 refs/heads/topic
 	0000
 
-This is very similar to what `receive-pack` responds with, but the capabilities are different. In addition, it sends back the HEAD reference so the client knows what to check out if this is a clone.
+這與 `receive-pack` 回應很類似，但是這裡指的能力是不同的。而且它還會指出 HEAD 引用，讓用戶端可以檢查是否是一份 clone。 
 
-At this point, the `fetch-pack` process looks at what objects it has and responds with the objects that it needs by sending "want" and then the SHA it wants. It sends all the objects it already has with "have" and then the SHA. At the end of this list, it writes "done" to initiate the `upload-pack` process to begin sending the packfile of the data it needs:
+在這裡，`fetch-pack` 程序檢查它自己所擁有的物件和所有它需要的物件，通過發送 “want” 和所需物件的 SHA 值，發送 “have” 和所有它已擁有的物件的 SHA 值。在列表完成時，再發送 “done” 通知 `upload-pack` 程序開始發送所需物件的打包檔。這個過程看起來像這樣： 
 
 	0054want ca82a6dff817ec66f44342007202690a93763949 ofs-delta
 	0032have 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	0000
 	0009done
 
-That is a very basic case of the transfer protocols. In more complex cases, the client supports `multi_ack` or `side-band` capabilities; but this example shows you the basic back and forth used by the smart protocol processes.
+這是傳輸協議的一個很基礎的例子，在更複雜的例子中，用戶端可能會支援 `multi_ack` 或者 `side-band` 能力；但是這個例子中展示了智慧協議的基本交互過程。 
 
-## Maintenance and Data Recovery ##
+## 維護及資料復原 ##
 
-Occasionally, you may have to do some cleanup — make a repository more compact, clean up an imported repository, or recover lost work. This section will cover some of these scenarios.
+偶爾，你可能需要進行一些清理工作 ── 如減小一個倉庫的大小，清理導入的倉庫，或是恢復丟失的資料。本節將描述這類使用場景。
 
-### Maintenance ###
+### 維護 ###
 
-Occasionally, Git automatically runs a command called "auto gc". Most of the time, this command does nothing. However, if there are too many loose objects (objects not in a packfile) or too many packfiles, Git launches a full-fledged `git gc` command. The `gc` stands for garbage collect, and the command does a number of things: it gathers up all the loose objects and places them in packfiles, it consolidates packfiles into one big packfile, and it removes objects that aren’t reachable from any commit and are a few months old.
+Git 會不定時地自動執行稱為「auto gc」的命令。大部分情況下該命令什麼都不處理。不過要是存在太多鬆散物件 (loose object, 不在 packfile 中的物件) 或 packfile，Git 會執行 `git gc` 命令。`gc` 指垃圾收集 (garbage collect)，此命令會做很多工作：收集所有鬆散物件並將它們存入 packfile，合併這些 packfile 進一個大的 packfile，然後將不被任何 commit 引用並且已存在一段時間 (數月) 的物件刪除。 
 
-You can run auto gc manually as follows:
+可以如下手動執行 auto gc 命令： 
 
 	$ git gc --auto
 
-Again, this generally does nothing. You must have around 7,000 loose objects or more than 50 packfiles for Git to fire up a real gc command. You can modify these limits with the `gc.auto` and `gc.autopacklimit` config settings, respectively.
+再次強調，這個命令一般什麼都不幹。如果有 7,000 個左右的鬆散對象或是 50 個以上的 packfile，Git 才會真正觸發 gc 命令。你可以修改配置中的 `gc.auto` 和 `gc.autopacklimit` 來調整這兩個設定值。 
 
-The other thing `gc` will do is pack up your references into a single file. Suppose your repository contains the following branches and tags:
+`gc` 還會將所有引用 (references) 併入一個單獨檔。假設倉庫中包含以下分支和標籤： 
 
 	$ find .git/refs -type f
 	.git/refs/heads/experiment
@@ -781,7 +782,7 @@ The other thing `gc` will do is pack up your references into a single file. Supp
 	.git/refs/tags/v1.0
 	.git/refs/tags/v1.1
 
-If you run `git gc`, you’ll no longer have these files in the `refs` directory. Git will move them for the sake of efficiency into a file named `.git/packed-refs` that looks like this:
+這時如果執行 `git gc`, `refs` 下的所有檔都會消失。Git 會將這些檔挪到 `.git/packed-refs` 檔中去以提高效率，該檔是這個樣子的： 
 
 	$ cat .git/packed-refs 
 	# pack-refs with: peeled 
@@ -791,15 +792,15 @@ If you run `git gc`, you’ll no longer have these files in the `refs` directory
 	9585191f37f7b0fb9444f35a9bf50de191beadc2 refs/tags/v1.1
 	^1a410efbd13591db07496601ebc7a059dd55cfe9
 
-If you update a reference, Git doesn’t edit this file but instead writes a new file to `refs/heads`. To get the appropriate SHA for a given reference, Git checks for that reference in the `refs` directory and then checks the `packed-refs` file as a fallback. However, if you can’t find a reference in the `refs` directory, it’s probably in your `packed-refs` file.
+當更新一個引用時，Git 不會修改這個檔，而是在 `refs/heads` 下寫入一個新檔。當查找一個引用的 SHA 時，Git 首先在 `refs` 目錄下查找，如果未找到則到 `packed-refs` 檔中去查找。因此如果在 `refs` 目錄下找不到一個引用，該引用可能存到 `packed-refs` 檔中去了。 
 
-Notice the last line of the file, which begins with a `^`. This means the tag directly above is an annotated tag and that line is the commit that the annotated tag points to.
+請留意檔最後以 `^` 開頭的那一行。這表示該行上一行的那個標籤是一個 annotated 標籤，而該行正是那個標籤所指向的 commit 。
 
-### Data Recovery ###
+### 資料復原 ###
 
-At some point in your Git journey, you may accidentally lose a commit. Generally, this happens because you force-delete a branch that had work on it, and it turns out you wanted the branch after all; or you hard-reset a branch, thus abandoning commits that you wanted something from. Assuming this happens, how can you get your commits back?
+在使用 Git 的過程中，有時會不小心丟失 commit 資訊。這一般出現在以下情況下：強制刪除了一個分支而後又想重新使用這個分支，hard-reset 了一個分支從而丟棄了分支的部分 commit。如果這真的發生了，有什麼辦法把丟失的 commit 找回來呢？ 
 
-Here’s an example that hard-resets the master branch in your test repository to an older commit and then recovers the lost commits. First, let’s review where your repository is at this point:
+下面的例子演示了對 test 倉庫 master 分支進行 hard-reset 到一個老版本的 commit 的操作，然後恢復丟失的 commit 。首先查看一下當前的倉庫狀態： 
 
 	$ git log --pretty=oneline
 	ab1afef80fac8e34258ff41fc1b867c702daa24b modified repo a bit
@@ -808,7 +809,7 @@ Here’s an example that hard-resets the master branch in your test repository t
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Now, move the `master` branch back to the middle commit:
+接著將 `master` 分支移回至中間的一個 commit： 
 
 	$ git reset --hard 1a410efbd13591db07496601ebc7a059dd55cfe9
 	HEAD is now at 1a410ef third commit
@@ -817,15 +818,15 @@ Now, move the `master` branch back to the middle commit:
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-You’ve effectively lost the top two commits — you have no branch from which those commits are reachable. You need to find the latest commit SHA and then add a branch that points to it. The trick is finding that latest commit SHA — it’s not like you’ve memorized it, right?
+這樣就丟棄了最新的兩個 commit ── 包含這兩個 commit 的分支不存在了。現在要做的是找出最新的那個 commit 的 SHA，然後添加一個指向它的分支。關鍵在於找出最新的 commit 的 SHA ── 你不大可能記住了這個 SHA，是吧？ 
 
-Often, the quickest way is to use a tool called `git reflog`. As you’re working, Git silently records what your HEAD is every time you change it. Each time you commit or change branches, the reflog is updated. The reflog is also updated by the `git update-ref` command, which is another reason to use it instead of just writing the SHA value to your ref files, as we covered in the "Git References" section of this chapter earlier.  You can see where you’ve been at any time by running `git reflog`:
+通常最快捷的辦法是使用 `git reflog` 工具。當你 (在一個倉庫下) 工作時，Git 會在你每次修改了 HEAD 時悄悄地將改動記錄下來。當你提交或修改分支時，reflog 就會更新。`git update-ref` 命令也可以更新 reflog，這是在本章前面的 “Git References” 部分我們使用該命令而不是手工將 SHA 值寫入 ref 文件的理由。任何時間執行 `git reflog` 命令可以查看當前的狀態： 
 
 	$ git reflog
 	1a410ef HEAD@{0}: 1a410efbd13591db07496601ebc7a059dd55cfe9: updating HEAD
 	ab1afef HEAD@{1}: ab1afef80fac8e34258ff41fc1b867c702daa24b: updating HEAD
 
-Here we can see the two commits that we have had checked out, however there is not much information here.  To see the same information in a much more useful way, we can run `git log -g`, which will give you a normal log output for your reflog.
+可以看到我們 check out 的兩個 commit ，但沒有更多的相關資訊。執行 `git log -g` 會輸出 reflog 的正常日誌，從而顯示更多有用資訊： 
 
 	$ git log -g
 	commit 1a410efbd13591db07496601ebc7a059dd55cfe9
@@ -844,7 +845,7 @@ Here we can see the two commits that we have had checked out, however there is n
 
 	     modified repo a bit
 
-It looks like the bottom commit is the one you lost, so you can recover it by creating a new branch at that commit. For example, you can start a branch named `recover-branch` at that commit (ab1afef):
+看起來弄丟了的 commit 是底下那個，這樣在那個 commit 上創建一個新分支就能把它恢復過來。比方說，可以在那個 commit (ab1afef) 上創建一個名為 `recover-branch` 的分支： 
 
 	$ git branch recover-branch ab1afef
 	$ git log --pretty=oneline recover-branch
@@ -854,13 +855,13 @@ It looks like the bottom commit is the one you lost, so you can recover it by cr
 	cac0cab538b970a37ea1e769cbbde608743bc96d second commit
 	fdf4fc3344e67ab068f836878b6c4951e3b15f3d first commit
 
-Cool — now you have a branch named `recover-branch` that is where your `master` branch used to be, making the first two commits reachable again. 
-Next, suppose your loss was for some reason not in the reflog — you can simulate that by removing `recover-branch` and deleting the reflog. Now the first two commits aren’t reachable by anything:
+酷！這樣有了一個跟原來 `master` 一樣的 `recover-branch` 分支，最新的兩個 commit 又找回來了。 
+接著，假設引起 commit 丟失的原因並沒有記錄在 reflog 中 ── 可以通過刪除 `recover-branch` 和 reflog 來類比這種情況。這樣最新的兩個 commit 不會被任何東西引用到： 
 
 	$ git branch –D recover-branch
 	$ rm -Rf .git/logs/
 
-Because the reflog data is kept in the `.git/logs/` directory, you effectively have no reflog. How can you recover that commit at this point? One way is to use the `git fsck` utility, which checks your database for integrity. If you run it with the `--full` option, it shows you all objects that aren’t pointed to by another object:
+因為 reflog 資料是保存在 `.git/logs/` 目錄下的，這樣就沒有 reflog 了。現在要怎樣恢復 commit 呢？辦法之一是使用 `git fsck` 工具，該工具會檢查倉庫的資料完整性。如果指定 `--full` 選項，該命令顯示所有未被其他物件引用 (指向) 的所有物件： 
 
 	$ git fsck --full
 	dangling blob d670460b4b4aece5915caf5c68d12f560a9fe3e4
@@ -868,17 +869,17 @@ Because the reflog data is kept in the `.git/logs/` directory, you effectively h
 	dangling tree aea790b9a58f6cf6f2804eeac9f0abbe9631e4c9
 	dangling blob 7108f7ecb345ee9d0084193f147cdad4d2998293
 
-In this case, you can see your missing commit after the dangling commit. You can recover it the same way, by adding a branch that points to that SHA.
+本例中，可以從 dangling commit 找到丟失了的 commit。用相同的方法就可以恢復它，即創建一個指向該 SHA 的分支。 
 
-### Removing Objects ###
+### 移除物件 ###
 
-There are a lot of great things about Git, but one feature that can cause issues is the fact that a `git clone` downloads the entire history of the project, including every version of every file. This is fine if the whole thing is source code, because Git is highly optimized to compress that data efficiently. However, if someone at any point in the history of your project added a single huge file, every clone for all time will be forced to download that large file, even if it was removed from the project in the very next commit. Because it’s reachable from the history, it will always be there.
+Git 有許多過人之處，不過有一個功能有時卻會帶來問題：`git clone` 會將包含每一個檔的所有歷史版本的整個專案下載下來。如果專案包含的僅僅是原始程式碼的話這並沒有什麼壞處，畢竟 Git 可以非常高效地壓縮此類資料。不過如果有人在某個時刻往專案中添加了一個非常大的檔，即便他在後來的提交中將此檔刪掉了，所有的簽出都會下載這個大檔。因為歷史記錄中引用了這個檔，它會一直存在著。 
 
-This can be a huge problem when you’re converting Subversion or Perforce repositories into Git. Because you don’t download the whole history in those systems, this type of addition carries few consequences. If you did an import from another system or otherwise find that your repository is much larger than it should be, here is how you can find and remove large objects.
+當你將 Subversion 或 Perforce 倉庫轉換導入至 Git 時這會成為一個很嚴重的問題。在此類系統中，(簽出時) 不會下載整個倉庫歷史，所以這種情形不大會有不良後果。如果你從其他系統導入了一個倉庫，或是發覺一個倉庫的尺寸遠超出預計，可以用下面的方法找到並移除大 (尺寸) 物件。 
 
-Be warned: this technique is destructive to your commit history. It rewrites every commit object downstream from the earliest tree you have to modify to remove a large file reference. If you do this immediately after an import, before anyone has started to base work on the commit, you’re fine — otherwise, you have to notify all contributors that they must rebase their work onto your new commits.
+警告：此方法會破壞提交歷史。為了移除對一個大檔的引用，從最早包含該引用的 tree 物件開始之後的所有 commit 物件都會被重寫。如果在剛導入一個倉庫並在其他人在此基礎上開始工作之前這麼做，那沒有什麼問題 ── 否則你不得不通知所有協作者 (貢獻者) 去衍合你新修改的 commit 。 
 
-To demonstrate, you’ll add a large file into your test repository, remove it in the next commit, find it, and remove it permanently from the repository. First, add a large object to your history:
+為了演示這點，往 test 倉庫中加入一個大檔，然後在下次提交時將它刪除，接著找到並將這個檔從倉庫中永久刪除。首先，加一個大檔進去： 
 
 	$ curl http://kernel.org/pub/software/scm/git/git-1.6.3.1.tar.bz2 > git.tbz2
 	$ git add git.tbz2
@@ -887,7 +888,7 @@ To demonstrate, you’ll add a large file into your test repository, remove it i
 	 1 files changed, 0 insertions(+), 0 deletions(-)
 	 create mode 100644 git.tbz2
 
-Oops — you didn’t want to add a huge tarball to your project. Better get rid of it:
+喔，你並不想往專案中加進一個這麼大的 tar 包。最後還是去掉它： 
 
 	$ git rm git.tbz2 
 	rm 'git.tbz2'
@@ -896,7 +897,7 @@ Oops — you didn’t want to add a huge tarball to your project. Better get rid
 	 1 files changed, 0 insertions(+), 0 deletions(-)
 	 delete mode 100644 git.tbz2
 
-Now, `gc` your database and see how much space you’re using:
+對倉庫進行 `gc` 操作，並查看佔用了空間： 
 
 	$ git gc
 	Counting objects: 21, done.
@@ -905,7 +906,7 @@ Now, `gc` your database and see how much space you’re using:
 	Writing objects: 100% (21/21), done.
 	Total 21 (delta 3), reused 15 (delta 1)
 
-You can run the `count-objects` command to quickly see how much space you’re using:
+可以執行 `count-objects` 以查看使用了多少空間： 
 
 	$ git count-objects -v
 	count: 4
@@ -916,27 +917,27 @@ You can run the `count-objects` command to quickly see how much space you’re u
 	prune-packable: 0
 	garbage: 0
 
-The `size-pack` entry is the size of your packfiles in kilobytes, so you’re using 2MB. Before the last commit, you were using closer to 2K — clearly, removing the file from the previous commit didn’t remove it from your history. Every time anyone clones this repository, they will have to clone all 2MB just to get this tiny project, because you accidentally added a big file. Let’s get rid of it.
+`size-pack` 是以 KB 為單位表示的 packfiles 的大小，因此已經使用了 2MB 。而在這次提交之前僅用了 2K 左右 ── 顯然在這次提交時刪除檔並沒有真正將其從歷史記錄中刪除。每當有人複製這個倉庫去取得這個小專案時，都不得不複製所有 2MB 資料，而這僅僅因為你曾經不小心加了個大檔。讓我們來解決這個問題。 
 
-First you have to find it. In this case, you already know what file it is. But suppose you didn’t; how would you identify what file or files were taking up so much space? If you run `git gc`, all the objects are in a packfile; you can identify the big objects by running another plumbing command called `git verify-pack` and sorting on the third field in the output, which is file size. You can also pipe it through the `tail` command because you’re only interested in the last few largest files:
+首先要找出這個檔。在本例中，你知道是哪個文件。假設你並不知道這一點，要如何找出哪個 (些) 文件佔用了這麼多的空間？如果執行 `git gc`，所有物件會存入一個 packfile 檔；執行另一個底層命令 `git verify-pack` 以識別出大物件，對輸出的第三欄資訊即檔案大小進行排序，還可以將輸出定向(pipe)到 `tail` 命令，因為你只關心排在最後的那幾個最大的檔： 
 
 	$ git verify-pack -v .git/objects/pack/pack-3f8c0...bb.idx | sort -k 3 -n | tail -3
 	e3f094f522629ae358806b17daf78246c27c007b blob   1486 734 4667
 	05408d195263d853f09dca71d55116663690c27c blob   12908 3478 1189
 	7a9eb2fba2b1811321254ac360970fc169ba2330 blob   2056716 2056872 5401
 
-The big object is at the bottom: 2MB. To find out what file it is, you’ll use the `rev-list` command, which you used briefly in Chapter 7. If you pass `--objects` to `rev-list`, it lists all the commit SHAs and also the blob SHAs with the file paths associated with them. You can use this to find your blob’s name:
+最底下那個就是那個大檔：2MB 。要查看這到底是哪個檔，可以使用第 7 章中已經簡單使用過的 `rev-list` 命令。若給 `rev-list` 命令傳入 `--objects` 選項，它會列出所有 commit SHA 值，blob SHA 值及相應的檔路徑。可以這樣查看 blob 的檔案名： 
 
 	$ git rev-list --objects --all | grep 7a9eb2fb
 	7a9eb2fba2b1811321254ac360970fc169ba2330 git.tbz2
 
-Now, you need to remove this file from all trees in your past. You can easily see what commits modified this file:
+接下來要將該檔從歷史記錄的所有 tree 中移除。很容易找出哪些 commit 修改了這個檔： 
 
 	$ git log --pretty=oneline -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 
-You must rewrite all the commits downstream from `6df76` to fully remove this file from your Git history. To do so, you use `filter-branch`, which you used in Chapter 6:
+必須重寫從 `6df76` 開始的所有 commit 才能將檔從 Git 歷史中完全移除。這麼做需要用到第 6 章中用過的 `filter-branch` 命令： 
 
 	$ git filter-branch --index-filter \
 	   'git rm --cached --ignore-unmatch git.tbz2' -- 6df7640^..
@@ -944,9 +945,9 @@ You must rewrite all the commits downstream from `6df76` to fully remove this fi
 	Rewrite da3f30d019005479c99eb4c3406225613985a1db (2/2)
 	Ref 'refs/heads/master' was rewritten
 
-The `--index-filter` option is similar to the `--tree-filter` option used in Chapter 6, except that instead of passing a command that modifies files checked out on disk, you’re modifying your staging area or index each time. Rather than remove a specific file with something like `rm file`, you have to remove it with `git rm --cached` — you must remove it from the index, not from disk. The reason to do it this way is speed — because Git doesn’t have to check out each revision to disk before running your filter, the process can be much, much faster. You can accomplish the same task with `--tree-filter` if you want. The `--ignore-unmatch` option to `git rm` tells it not to error out if the pattern you’re trying to remove isn’t there. Finally, you ask `filter-branch` to rewrite your history only from the `6df7640` commit up, because you know that is where this problem started. Otherwise, it will start from the beginning and will unnecessarily take longer.
+`--index-filter` 選項類似於第 6 章中使用的 `--tree-filter` 選項，但這裡不是傳入一個命令去修改磁碟上 checked out 的檔，而是修改暫存區域或索引。不能用 `rm file` 命令來刪除一個特定檔，而是必須用 `git rm --cached` 來刪除它 ── 也就是說，從索引而不是從磁碟上刪除它。這樣做是出於速度考慮 ── 由於 Git 在執行你的 filter 之前無需將所有版本簽出到磁片上，這個操作會快得多。也可以用 `--tree-filter` 來完成相同的操作。`git rm` 的 `--ignore-unmatch` 選項指定當你試圖刪除的內容並不存在時不顯示錯誤。最後，因為你清楚問題是從哪個 commit 開始的，使用 `filter-branch` 重寫自 `6df7640` 這個 commit 開始的所有歷史記錄。不這麼做的話會重寫所有歷史記錄，花費不必要的更多時間。 
 
-Your history no longer contains a reference to that file. However, your reflog and a new set of refs that Git added when you did the `filter-branch` under `.git/refs/original` still do, so you have to remove them and then repack the database. You need to get rid of anything that has a pointer to those old commits before you repack:
+現在歷史記錄中已經不包含對那個檔的引用了。不過 reflog 以及執行 `filter-branch` 時 Git 往 `.git/refs/original` 添加的一些 refs 中仍有對它的引用，因此需要將這些引用刪除並對倉庫進行 repack 操作。在進行 repack 前需要將所有對這些 commits 的引用去除： 
 
 	$ rm -Rf .git/refs/original
 	$ rm -Rf .git/logs/
@@ -957,7 +958,7 @@ Your history no longer contains a reference to that file. However, your reflog a
 	Writing objects: 100% (19/19), done.
 	Total 19 (delta 3), reused 16 (delta 1)
 
-Let’s see how much space you saved.
+看一下節省了多少空間。 
 
 	$ git count-objects -v
 	count: 8
@@ -968,10 +969,10 @@ Let’s see how much space you saved.
 	prune-packable: 0
 	garbage: 0
 
-The packed repository size is down to 7K, which is much better than 2MB. You can see from the size value that the big object is still in your loose objects, so it’s not gone; but it won’t be transferred on a push or subsequent clone, which is what is important. If you really wanted to, you could remove the object completely by running `git prune --expire`.
+repack 後倉庫的大小減小到了 7K ，遠小於之前的 2MB 。從 size 值可以看出大檔物件還在鬆散物件中，其實並沒有消失，不過這沒有關係，重要的是在再進行推送或複製，這個物件不會再傳送出去。如果真的要完全把這個物件刪除，可以運行 `git prune --expire` 命令。 
 
-## Summary ##
+## 總結 ##
 
-You should have a pretty good understanding of what Git does in the background and, to some degree, how it’s implemented. This chapter has covered a number of plumbing commands — commands that are lower level and simpler than the porcelain commands you’ve learned about in the rest of the book. Understanding how Git works at a lower level should make it easier to understand why it’s doing what it’s doing and also to write your own tools and helping scripts to make your specific workflow work for you.
+現在你應該對 Git 可以作什麼相當瞭解了，並且在一定程度上也知道了 Git 是如何實現的。本章涵蓋了許多 plumbing 命令 ── 這些命令比較底層，且比你在本書其他部分學到的 porcelain 命令要來得簡單。從底層瞭解 Git 的工作原理可以幫助你更好地理解為何 Git 實現了目前的這些功能，也使你能夠針對你的工作流程寫出自己的工具和腳本。
 
-Git as a content-addressable filesystem is a very powerful tool that you can easily use as more than just a VCS. I hope you can use your newfound knowledge of Git internals to implement your own cool application of this technology and feel more comfortable using Git in more advanced ways.
+Git 作為一套 content-addressable 的檔案系統，是一個非常強大的工具，而不僅僅只是一個 VCS。希望借助於你新學到的 Git 內部原理的知識，你可以自己實做出有趣的應用，並以更進階的方式、更如魚得水的使用 Git。 

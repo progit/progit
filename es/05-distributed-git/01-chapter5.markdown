@@ -24,12 +24,12 @@ Esta forma de trabajar es atractiva para mucha gente, por ser el paradigma con e
 
 Al permitir multiples repositorios remotos, en Git es posible tener un flujo de trabajo donde cada desarrollador tenga acceso de escritura a su propio repositorio público y acceso de lectura a los repositorios de todos los demás. Habitualmente, este escenario suele incluir un repositorio canónico, representante "oficial" del proyecto.  Para contribuir en este tipo de proyecto, crearás tu propio clón público del mismo y enviarás (push) tus cambios a este. Después, enviarás una petición a la persona gestora del proyecto principal, para que recupere y consolide (pull) en él tus cambios. Ella podrá añadir tu repositorio como un remoto, chequear tus cambios localmente, fusionarlos (merge) con su rama y enviarlos (push) de vuelta a su repositorio. El proceso funciona de la siguiente manera (ver Figura 5-2):
 
-1.	La persona gestora del proyecto envia (push) a su repositorio público (repositorio principal).
-2.	Una persona que desea contribuir, clona dicho repositorio y hace algunos cambios.
-3.	La persona colaboradora envia (push) a su propia copia pública.
-4.	Esta persona colaboradora envia a la gestora un correo-e solicitándole recupere e integre los cambios.
-5.	La gestora añade como remoto el repositorio de la colaboradora y fusiona (merge) los cambios localmente.
-6.	La gestora envia (push) los cambios fusionados al repositorio principal.
+1. La persona gestora del proyecto envia (push) a su repositorio público (repositorio principal).
+2. Una persona que desea contribuir, clona dicho repositorio y hace algunos cambios.
+3. La persona colaboradora envia (push) a su propia copia pública.
+4. Esta persona colaboradora envia a la gestora un correo-e solicitándole recupere e integre los cambios.
+5. La gestora añade como remoto el repositorio de la colaboradora y fusiona (merge) los cambios localmente.
+6. La gestora envia (push) los cambios fusionados al repositorio principal.
 
 Insert 18333fig0502.png 
 Figura 5-2. Flujo de trabajo Gestor-de-Integración.
@@ -40,10 +40,10 @@ Esta es una forma de trabajo muy común en sitios tales como GitHub, donde es se
 
 Es una variante del flujo de trabajo con multiples repositorios. Se utiliza generalmente en proyectos muy grandes, con cientos de colaboradores. Un ejemplo muy conocido es el del kernel de Linux. Unos gestores de integración se encargan de partes concretas del repositorio; y se denominan tenientes. Todos los tenientes rinden cuentas a un gestor de integración; conocido como el dictador benevolente. El repositorio del dictador benevolente es el repositorio de referencia, del que recuperan (pull) todos los colaboradores. El proceso funciona como sigue (ver Figura 5-3):
 
-1.	Los desarrolladores habituales trabajan cada uno en su rama puntual y reorganizan (rebase) su trabajo sobre la rama master. La rama master es la del dictador benevolente.
-2.	Los tenienentes fusionan (merge) las ramas puntuales de los desarrolladores sobre su propia rama master.
-3.	El dictador fusiona las ramas master de los tenientes en su propia rama master.
-4.	El dictador envia (push) su rama master al repositorio de referencia, para permitir que los desarrolladores reorganicen (rebase) desde ella.
+1. Los desarrolladores habituales trabajan cada uno en su rama puntual y reorganizan (rebase) su trabajo sobre la rama master. La rama master es la del dictador benevolente.
+2. Los tenienentes fusionan (merge) las ramas puntuales de los desarrolladores sobre su propia rama master.
+3. El dictador fusiona las ramas master de los tenientes en su propia rama master.
+4. El dictador envia (push) su rama master al repositorio de referencia, para permitir que los desarrolladores reorganicen (rebase) desde ella.
 
 Insert 18333fig0503.png  
 Figura 5-3. Fujo de trabajo del dictador benevolente.
@@ -510,7 +510,7 @@ El comando `format-patch` lista los nombres de los archivos de parche que crea. 
 	-- 
 	1.6.2.rc1.20.g8c5b.dirty
 
-Puedes incluso editar esos archivos de parche, para añadirles más información , específica para la lista de correo, y que no desees mostrar en el propio mensaje de la confirmación de cambios.  Si añades texto entre la línea que comienza por `--` y el comienzo del parche (la línea `lib/simplegit.rb). Los desarrolladores de la lista de correo podrán leerlo. Pero será ignorado al aplicar el parche al proyecto.
+Puedes incluso editar esos archivos de parche, para añadirles más información , específica para la lista de correo, y que no desees mostrar en el propio mensaje de la confirmación de cambios.  Si añades texto entre la línea que comienza por `--` y el comienzo del parche (la línea `lib/simplegit.rb`). Los desarrolladores de la lista de correo podrán leerlo. Pero será ignorado al aplicar el parche al proyecto.
 
 Para enviar estos archivos a la lista de correo,puedes tanto pegar directamente el archivo en tu programa de correo electrónico, como enviarlo a través de algún programa basado en línea de comandos. Pegar el texto directamente suele causar problemas de formato. Especialmente con los clientes de correo más "inteligentes", que no preservan adecuadamente los saltos de línea y otros espaciados. Afortunadamente, Git suministra una herramienta que nos puede ser de gran ayuda para enviar parches correctamente formateados a través de protocolo IMAP, facilitandonos así las cosas. Voy a indicar cómo enviar un parche usando Gmail, que da la casualidad de que es el agente de correo utilizado por mí. En el final del anteriormente citado documento, `Documentation/SubmittingPatches`, puedes leer instrucciones detalladas para otros agentes de correo.
 
@@ -837,7 +837,7 @@ Si lanzas el comando 'git push --tags', la etiqueta 'maintainer-pgp-pub' será c
 
 	$ git show maintainer-pgp-pub | gpg --import
 
-De esta forma, pueden utilizar esa clave para verificar todas las etiquetas que firmes. Además, si incluyes instrucciones en el mensaje de etiquetado, con el comando 'git show <tag>', los usuarios podrán tener directrices específicas acerca de la verificación de etiquetas.
+De esta forma, pueden utilizar esa clave para verificar todas las etiquetas que firmes. Además, si incluyes instrucciones en el mensaje de etiquetado, con el comando `git show <tag>`, los usuarios podrán tener directrices específicas acerca de la verificación de etiquetas.
 
 ### Generando un número de ensamblado ###
 

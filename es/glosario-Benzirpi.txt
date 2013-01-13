@@ -1,0 +1,27 @@
+fetch	recuperar
+merge	fusionar, integrar
+pull	recuperar e integrar
+push	enviar, publicar
+rebase	reorganizar
+staging area	área de preparación
+snapshot	instantánea, estado o situación en un determinado momento puntual
+commit	confirmar cambios , almacenar
+checkout    activar , extraer
+check out	activar , extraer
+contributed	aportado por otros
+contribution	aportación
+maintaner	gestor de mantenimiento
+cherry-pick	entresacar
+blob	binary large object.... gran objeto binario
+hook    punto de enganche
+directory	carpeta
+file	archivo
+loose	suelto (loose object => objeto suelto)
+SHA-1 value	código SHA-1	SHA-1 es un protocolo criptográfico de "hash". Dado un archivo digital de cualquier longitud, crea un código representativo unívoco de longitud fija (en el caso de Git, de 40 caracteres).
+stage	añadir al área de preparación	stashing area <=> working area => staging area => commited storage
+stash	guardado rápido (provisional)	stashing area <=> working area => staging area => commited storage
+library	biblioteca
+directory	carpeta
+subdirectory	subcarpeta
+superproject	proyecto padre
+

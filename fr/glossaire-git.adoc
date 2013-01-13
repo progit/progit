@@ -1,16 +1,16 @@
 Glossaire de Git
 ================
 
-:Auteur: Emmanuel Trillaud 
+:Auteur: Emmanuel Trillaud
 :Email: <etrillaud (at) gmail (dot) com>
-:Date: 11/02/10 15:04 
+:Date: 11/02/10 15:04
 :Revision: 2
 
 Glossaire de l'outil de gestion de version Git créé à partir des traductions de
 
 * git-gui, http://repo.or.cz/w/git-gui.git[Sources]
 * gitk, http://git.kernel.org/?p=gitk/gitk.git;a=summary[Sources]
-* du « Git Community Book » http://book.git-scm.com/[en], http://alx.github.com/gitbook/[fr] et 
+* du « Git Community Book » http://book.git-scm.com/[en], http://alx.github.com/gitbook/[fr] et
 * du livre « Progit » http://progit.org/book/[en]
 
 Autre doc utile
@@ -26,9 +26,10 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
   - loose object ->
 * Tree (Object) -> Arbre
 * Commit (Objet) -> Commit
-* Tag (Object) -> Tag
-  - annotated -> tag annoté
-  - ligthweigt tag -> tag léger
+* commit -> valider / validation (pourait être "soumission" / soumettre)(une autre traduction propose consigner / consigne)
+* Tag (Object) -> Étiquette
+  - annotated -> étiquette annotée
+  - ligthweigt tag -> étiquette légère
 * Blob (Object) -> Blob
 * refs -> références
 
@@ -39,7 +40,7 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 * Plumbing -> plomberie
 * Porcelain -> porcelaine
 * index ->
-* staging area ->
+* staging area -> zone d'attente
 
 .VCS
 * version -> révision
@@ -51,7 +52,7 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
   - fast-forward reference -> avance rapide
 * repository -> dépôt
 * diff -> diff
-* patch -> patch
+* patch -> patch (traduction officielle : "retouche" ou "correctif" ; en Canadien, "rustine")
 
 .SHA-1
 * hash -> empreinte
@@ -61,36 +62,37 @@ un « ? » à côté d'un mot signifie que la traduction proposée est discutabl
 * SHA-1 -> empreinte SHA-1
 
 .Actions/Commandes
-Si le mot fait référence à la commande, on ne traduit pas. Par si on fait
-référence à l'action, on peut traduire.
+Si le mot fait référence à la commande, on ne traduit pas. Par contre,
+si on fait référence à l'action, on peut traduire.
 
-* checkout ->
+* checkout -> extraction
+* checkin -> archivage
 * branch(es) -> branches
   - remote branches -> branche distante
 * remote -> distant
   a remote -> un dépôt distant
-* pull -> tirer ("retirer" est peut-être mieux)
+* pull -> tirer ("retirer" est peut-être mieux)(ou "récupérer")
 * fetch -> récupérer
-* push -> pousser (pourquoi pas "publier")
-* stash -> (gitbook propose "remiser"), planquer
+* push -> pousser (pourquoi pas "publier")(+1)
+* stash -> remiser
 * add -> ajouter
 * log -> journal
 * gc ->
- - garbage collector -> ramasse-miette
+ - garbage collector -> ramasse-miettes
 * reset -> réinitialiser
  - hard reset ->
  - soft reset ->
  - mixed reset ->
 * bisect -> bissecter
 * archive -> archiver
-* cherry-pick -> sélectionner (a été préféré à "cueillir")
+* cherry-pick -> sélectionner (a été préféré à "cueillir")(vu au chapitre 5: "picorer")
 * cherry-picking -> sélection (préféré à "cueillette")
 * clean -> nettoyer
-* clone -> clôner
+* clone -> cloner
 * To merge (a branch) -> fusionner
 * To merge (a change) -> incorporer
  - a merge -> une fusion
-* to diff ->
+* to diff -> comparer
 * rebase -> rebaser
 * revert  -> défaire
 * packfile ->
@@ -99,8 +101,8 @@ référence à l'action, on peut traduire.
 
 .Divers
 * hex -> hexa
-* hook ->
+* hook -> crochet
 * namespace -> espace de noms
 * Content-addressable filesystem -> système de fichier adressable par le contenu
-* DAG(Direct Acyclic Graph) -> Graphe orienté acyclique
+* DAG (Direct Acyclic Graph) -> Graphe orienté acyclique
 * pattern -> motif

@@ -13,13 +13,11 @@
 \usepackage{booktabs}
 \usepackage{indentfirst}
 \usepackage{framed,color}
-\usepackage{array}
-\usepackage[font=small,format=plain,labelfont=bf,up,textfont=it,up]{caption}
 
 \definecolor{shadecolor}{gray}{0.90}
 
-\setromanfont[Mapping=tex-text,Bold=<%= config['bold'] %>]{<%= config['font'] %>}
-\setmonofont{<%= config['mono'] %>}
+\setromanfont[Mapping=tex-text,BoldFont=<%= config['bold'] %>]{<%= config['font'] %>}
+\setmonofont[Scale=.85]{<%= config['mono'] %>}
 
 \XeTeXlinebreaklocale{<%= lang %>}
 <%= config['langrule'] %>
@@ -43,8 +41,6 @@
 \date{\w3cdtfymd}
 \renewcommand{\thefootnote}{\fnsymbol{footnote}}
 
-\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
-\let\PBS=\PreserveBackslash
 \makeatletter
   \setlength\headheight{12\p@}
   \setlength\headsep   {.25in}
@@ -90,11 +86,11 @@
 
 \newcounter{img}[chapter]
 \renewcommand{\theimg}{\thechapter.\arabic{img}}
-\newcommand{\img}[1]{\begin{figure}[h!]
+\newcommand{\img}[1]{\begin{figure}[ht!]
 	\refstepcounter{img}
 	\label{img:\theimg}
 	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}
-	\caption{#1}
+	\textbf{\caption{#1}}
 \end{figure}}
 
 \newcounter{tab}[chapter]

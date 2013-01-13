@@ -101,14 +101,14 @@ Vamos a modificar el contenido de algunos archivos que ya han sido versionados. 
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-The benchmarks.rb file appears under a section named “Changed but not updated” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
-El archivo benchmarks.rb aparece debajo de una sección denominada “Changed but not updated” (“Modificada pero no actualizada”), que significa que el archivo versionado ha sido modificado en el directorio de trabajo pero todavía no ha sido estacionado.
+The benchmarks.rb file appears under a section named “Changes not staged for commit” — which means that a file that is tracked has been modified in the working directory but not yet staged. To stage it, you run the `git add` command (it’s a multipurpose command — you use it to begin tracking new files, to stage files, and to do other things like marking merge-conflicted files as resolved). Let’s run `git add` now to stage the benchmarks.rb file, and then run `git status` again:
+El archivo benchmarks.rb aparece debajo de una sección denominada “Changes not staged for commit” (“Modificada pero no actualizada”), que significa que el archivo versionado ha sido modificado en el directorio de trabajo pero todavía no ha sido estacionado.
 
 	$ git add benchmarks.rb
 	$ git status
@@ -131,7 +131,7 @@ Ambos archivos están estacionados y serán enviados en el próximo commit. En e
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -192,7 +192,7 @@ Supongamos que quieres editar y estacionar el archivo README de nuevo y luego ed
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -247,7 +247,7 @@ Para poner otro ejemplo, si estacionas el archivo benchmarks.rb y luego lo edita
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -326,7 +326,7 @@ Although it can be amazingly useful for crafting commits exactly how you want th
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -340,13 +340,13 @@ Notice how you don’t have to run `git add` on the benchmarks.rb file in this c
 
 Para remover un archivo del repositorio Git, es necesario removerlo de los archivos versionados (para ser más exacto, removerlo del área de estacionado) y luego realizar un envío. El comando `git rm` hace exactamente esto y también remueve el archivo de tu copia de trabajo para que no esté presente como no versionado en el futuro.
 
-Si simplemente eliminas el archivo de tu copia de trabajo, aparecerá bajo la sección "Changed but not updated" ("Modificado pero no actualizado", es decir, _no versionado_) cuando ejecutes el comando `git status`:
+Si simplemente eliminas el archivo de tu copia de trabajo, aparecerá bajo la sección "Changes not staged for commit" ("Modificado pero no actualizado", es decir, _no versionado_) cuando ejecutes el comando `git status`:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -671,7 +671,7 @@ Right below the “Changes to be committed” text, it says use `git reset HEAD 
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -684,7 +684,7 @@ The command is a bit strange, but it works. The benchmarks.rb file is modified b
 
 What if you realize that you don’t want to keep your changes to the benchmarks.rb file? How can you easily unmodify it — revert it back to what it looked like when you last committed (or initially cloned, or however you got it into your working directory)? Luckily, `git status` tells you how to do that, too. In the last example output, the unstaged area looks like this:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -1115,7 +1115,7 @@ This way, you can see the last commit easily:
 
 As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Summary ##
 

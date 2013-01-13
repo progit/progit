@@ -101,13 +101,13 @@ Ora modifichiamo un file che è già stato tracciato. Se modifichi un file prece
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
 	#
 
-Il file benchmarks.rb appare sotto la sezione chiamata "Changed but not updated" — che significa che un file che è tracciato è stato modificato nella directory di lavoro ma non ancora messo in stage (parcheggiato). Per parcheggiarlo, avvia il comando `git add` (è un comando multifunzione — è usato per iniziare a tracciare nuovi file, per parcheggiare i file e per fare altre cose come eseguire la fusione dei file che entrano in conflitto dopo che sono stati risolti). Avvia dunque `git add` per parcheggiare ora il file benchmarks.rb, e avvia nuovamente `git status`:
+Il file benchmarks.rb appare sotto la sezione chiamata "Changes not staged for commit" — che significa che un file che è tracciato è stato modificato nella directory di lavoro ma non ancora messo in stage (parcheggiato). Per parcheggiarlo, avvia il comando `git add` (è un comando multifunzione — è usato per iniziare a tracciare nuovi file, per parcheggiare i file e per fare altre cose come eseguire la fusione dei file che entrano in conflitto dopo che sono stati risolti). Avvia dunque `git add` per parcheggiare ora il file benchmarks.rb, e avvia nuovamente `git status`:
 
 	$ git add benchmarks.rb
 	$ git status
@@ -130,7 +130,7 @@ Entrambi i file sono parcheggiati ed entreranno nel prossimo commit. A questo pu
 	#	new file:   README
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -189,7 +189,7 @@ Nuovamente ti chiedo di modificare e parcheggiare il file README e poi modificar
 	#
 	#	new file:   README
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#
 	#	modified:   benchmarks.rb
@@ -244,7 +244,7 @@ Per un altro esempio, se parcheggi il file benchmarks.rb e lo modifichi, puoi us
 	#
 	#	modified:   benchmarks.rb
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -325,7 +325,7 @@ Anche se può essere estremamente utile per amministrare i commit esattamente co
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#
 	#	modified:   benchmarks.rb
 	#
@@ -339,13 +339,13 @@ Nota come non hai bisogno, in questo caso, di lanciare `git add` sul file benchm
 
 Per rimuovere un file con Git, hai bisogno di rimuoverlo dai file tracciati (più precisamente,  rimuoverlo dall'area di staging) e poi di fare il commit. Il comando `git rm` fa questo ed inoltre rimuove il file dalla tua directory di lavoro così non lo vedrai come un file non tracciato la prossima volta.
 
-Se semplicemente rimuovi il file dalla directory di lavoro, sarà visto sotto l'area "Changed but not updated" (cioè, non parcheggiato) dell'output `git status`:
+Se semplicemente rimuovi il file dalla directory di lavoro, sarà visto sotto l'area "Changes not staged for commit" (cioè, non parcheggiato) dell'output `git status`:
 
 	$ rm grit.gemspec
 	$ git status
 	# On branch master
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add/rm <file>..." to update what will be committed)
 	#
 	#       deleted:    grit.gemspec
@@ -633,7 +633,7 @@ Uno degli annullamenti comuni è quando invii troppo presto un commit e magari d
 
 	$ git commit --amend
 
-Questo commando prende la tua area di parcheggio e la usa per il commit. Se non hai fatto cambiamenti dal tuo ultimo commit (per esempio, lanci questo comando subito dopo il tuo commit precedente), allora il tuo snapshot sarà esattamente uguale e potrai cambiare il tuo messaggio di commit.
+Questo comando prende la tua area di parcheggio e la usa per il commit. Se non hai fatto cambiamenti dal tuo ultimo commit (per esempio, lanci questo comando subito dopo il tuo commit precedente), allora il tuo snapshot sarà esattamente uguale e potrai cambiare il tuo messaggio di commit.
 
 L'editor per il messaggio del commit apparirà, ma già contiene il messaggio del commit precedente. Puoi modificare il messaggio come sempre, ma sovrascriverà il commit precedente.
 
@@ -670,7 +670,7 @@ Ora il testo sotto “Changes to be committed”, dice di usare `git reset HEAD 
 	#
 	#       modified:   README.txt
 	#
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -683,7 +683,7 @@ Il comando è un po' strano, ma funziona. Il file benchmarks.rb è modificato ma
 
 Come fare se hai realizzato che non vuoi più tenere le modifiche che hai fatto al file benchmarks.rv? Come puoi annullarle facilmente — ritornare a come era al tuo ultimo commit (o alla clonazione iniziale, o come lo avevi nella tua directory di lavoro)? Fortunatamente, `git status` ci dice come farlo. Nell'ultimo output di esempio, l'area di unstage (file non parcheggiati) assomiglia a:
 
-	# Changed but not updated:
+	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
 	#   (use "git checkout -- <file>..." to discard changes in working directory)
 	#
@@ -778,7 +778,7 @@ Se hai clonato un repository, il comando automaticamente aggiunge un repository 
 
 Se hai un ramo impostato per tracciare un ramo remoto (vedi la prossima sezione e il Capitolo 3 per maggiori informazioni), puoi usare il comando `git pull` per prelevare automaticamente e poi fondere un ramo remoto nel ramo corrente. Questo è un modo più facile e comodo di lavorare; e in modo predefinito, il comando `git clone` automaticamente imposta il tuo ramo locale master per tracciare il ramo remoto master del server che hai clonato (assumendo che il sorgente remoto ha un ramo master). Lanciare `git pull` generalmente preleva i dati dal server di origine clonato e automaticamente prova a fondere il codice con il codice su cui stai lavorando.
 
-### Buttare nel sorgente remoto ###
+### Inserire nel sorgente remoto ###
 
 Quando hai il tuo progetto al punto che lo vuoi condividere, devi metterlo (fare il push) online (in upstream). Il comando per fare questo è semplice: `git push [nome-remoto] [nome-ramo]`. Se vuoi fare il push del tuo ramo master al tuo server `origin` (ancora, generalmente con la clonazione sono impostati entrambi questi nomi automaticamente), puoi lanciare il push per mettere il tuo lavoro sul server:
 
@@ -799,7 +799,7 @@ Se vuoi vedere più informazioni su una sorgente remota in particolare, puoi usa
 	    master
 	    ticgit
 
-Questo elenca tutti gli URL del repository remoto oltre che alle informazione sui rami tracciati. Il comando fortunatamente ti dirà che sei sul ramo principale e se lanci `git pull`, questo automaticamente unirà il ramo master sul server remoto dopo aver prelevato tutte le referenze remote. Inoltre elencherà le referenze che saranno scaricate.
+Questo elenca tutti gli URL del repository remoto oltre che alle informazioni sui rami tracciati. Il comando fortunatamente ti dirà che sei sul ramo principale e se lanci `git pull`, questo automaticamente unirà il ramo master sul server remoto dopo aver prelevato tutte le referenze remote. Inoltre elencherà le referenze che saranno scaricate.
 
 Questo è un semplice esempio che potrai incontrare. Quando usi moltissimo Git, ovviamente, potrai vedere molte informazioni da `git remote show`:
 
@@ -1068,7 +1068,7 @@ Premi il tasto Tab quando stai scrivendo un comando Git, e dovresti avere una se
 	$ git co<tab><tab>
 	commit config
 
-In questo caso, scrivendo git co a poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
+In questo caso, scrivendo git co e poi premendo il tasto Tab due volte compaiono i suggerimenti commit e config. Aggiungendo `m<tab>` si completa `git commit` automaticamente.
 
 Questo funziona anche con le opzioni, cosa che forse è molto più utile. Per esempio, se si lancia il comando `git log` e non si ricorda una opzione, si può iniziare a pigiare il tasto Tab per vedere le corrispondenze:
 
@@ -1114,7 +1114,7 @@ In questo modo puoi vedere l'ultimo commit facilmente:
 
 Git semplicemente sostituisce il nuovo comando con quello che corrisponde nell'alias. Magari, vuoi avviare un comando esterno, invece dei sotto comandi Git. In questo caso, devi avviare il comando con il carattere "!". Questo è utile se stai scrivendo i tuoi strumenti di lavoro con un repository Git. Per esempio creiamo un alias `git visual` per lanciare `gitk`:
 
-	$ git config --global alias.visual "!gitk"
+	$ git config --global alias.visual '!gitk'
 
 ## Conclusione ##
 

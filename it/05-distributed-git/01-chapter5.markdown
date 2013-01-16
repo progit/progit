@@ -6,11 +6,11 @@ In questo capitolo, vedrete come lavorare con Git in un ambiente distribuito com
 
 ## Workflows distribuiti ##
 
-A differenza dei gestori di versione centralizzati (CVCSs), la natura distrubuita di Git render possibile una maggiore flessibilità nel modo in cui gli sviluppatori collaborano nei progetti. Nel sistemi centralizzati, ogni sviluppatore è un nodo che lavora appoggiandosi più o meno ad un fulcro centrale. Con Git invece, ogni sviluppatore è potenzialmente sia un nodo che il fulcro stesso - infatti ogni sviluppatore può fornire del codice agli altri repository e mantenere un pubblico repository sul quale gli altri basano il proprio lavoro e verso il quale contribuiscono. Questo apre ad una vasta gamma di possibilità di workflow per il vostro progetto e/o il vostro team, quindi coprirò alcuni paradigmi che si avvantaggiano di questa flessibilità. Discuterò dei punti di forza e quelli deboli di ogni possibilità; potete usarne una sola, oppure prendere pezzi da diverse ed adattarle alle vostre necessità.
+A differenza dei gestori di versione centralizzati (CVCSs), la natura distribuita di Git renderà possibile una maggiore flessibilità nel modo in cui gli sviluppatori collaborano nei progetti. Nel sistemi centralizzati, ogni sviluppatore è un nodo che lavora appoggiandosi più o meno ad un fulcro centrale. Con Git invece, ogni sviluppatore è potenzialmente sia un nodo che il fulcro stesso - infatti ogni sviluppatore può fornire del codice agli altri repository e mantenere un pubblico repository sul quale gli altri basano il proprio lavoro e verso il quale contribuiscono. Questo apre ad una vasta gamma di possibilità di workflow per il vostro progetto e/o il vostro team, quindi coprirò alcuni paradigmi che si avvantaggiano di questa flessibilità. Discuterò dei punti di forza e quelli deboli di ogni possibilità; potete usarne una sola, oppure prendere pezzi da diverse ed adattarle alle vostre necessità.
 
 ### Workflow centralizzato ###
 
-Nei sistemi centralizzati, generalmente c'è un modo solo di collarare. Un fulcro centrale, o repository, può accettare il codice e tutti sincronizzano il lavoro con questo. Un numero di sviluppatori sono nodi - rispetto al fulcro - e restano sincronizzati rispetto ad un luogo centrale (vedi Figura 5-1).
+Nei sistemi centralizzati, generalmente c'è un modo solo di collaborare. Un fulcro centrale, o repository, può accettare il codice e tutti sincronizzano il lavoro con questo. Un numero di sviluppatori sono nodi - rispetto al fulcro - e restano sincronizzati rispetto ad un luogo centrale (vedi Figura 5-1).
 
 Insert 18333fig0501.png 
 Figura 5-1. Worlflow centralizzato

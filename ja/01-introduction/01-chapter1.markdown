@@ -168,7 +168,7 @@ MacにGitをインストールするには2つの簡単な方法があります�
 	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png 
-Figure 1-7. Git OS X installer
+図 1-7. Git OS X installer
 
 もう一つの主要な方法は、MacPorts (`http://www.macports.org`) からGitをインストールすることです。MacPortsをインストールした状態であれば、Gitを以下のようにインストールできます。
 

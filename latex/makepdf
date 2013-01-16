@@ -66,8 +66,8 @@ def pre_pandoc(string, config)
 		s /\#\#\#\# (.*?) \#\#\#\#/, 'SUBSUBSECTION: \1'
 
 		# Turns URLs into clickable links
-		s /\`(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\`/, '<\1>'
-		s /(\n\n)\t(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.]+)\n([^\t]|\t\n)/, '\1<\2>\1'
+		s /\`(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.\(\)\#]+)\`/, '<\1>'
+		s /(\n\n)\t(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.\(\)\#]+)\n([^\t]|\t\n)/, '\1<\2>\1'
 
 		# Process figures
 		s /Insert\s18333fig\d+\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, 'FIG: \1'

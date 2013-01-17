@@ -27,6 +27,10 @@ puts "using .#{format} (you can change it via FORMAT environment variable. try '
 ARGV.each do |lang|
   puts "convert content for '#{lang}' language"
 
+  figure_title = 'Figure'
+  book_title = 'Pro Git - professional version control'
+  authors = 'Scott Chacon'
+  comments = 'licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
   if lang == 'ko'
     figure_title = '그림'
   elsif lang == 'ja'
@@ -49,11 +53,6 @@ ARGV.each do |lang|
     figure_title = '圖'
   elsif lang == 'pt-br'
     figure_title = 'Figura'
-  else
-    figure_title = 'Figure'
-    book_title = 'Pro Git - professional version control'
-    authors = 'Scott Chacon'
-    comments = 'licensed under the Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'
   end
 
   book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>#{book_title}</title></head><body>)

@@ -59,7 +59,7 @@ Ainsi, si le serveur disparaît et si les systèmes collaboraient via ce serveur
 Chaque extraction devient une sauvegarde complète de toutes les données (voir figure 1-3).
 
 Insert 18333fig0103.png
-Figure 1-3. Diagramme de gestion de version de contrôle centralisée.
+Figure 1-3. Diagramme de gestion de version distribuée.
 
 De plus, un grand nombre de ces systèmes gère particulièrement bien le fait d'avoir plusieurs dépôts avec lesquels travailler, vous permettant de collaborer avec différents groupes de personnes de manières différentes simultanément dans le même projet.
 Cela permet la mise en place de différentes chaînes de traitement qui ne sont pas réalisables avec les systèmes centralisés, tels que les modèles hiérarchiques.
@@ -72,14 +72,14 @@ Pour la plus grande partie de sa vie (1991–2002), les modifications étaient t
 En 2002, le projet du noyau Linux commença à utiliser un DVCS propriétaire appelé BitKeeper.
 
 En 2005, les relations entre la communauté développant le noyau Linux et la société en charge du développement de BitKeeper furent rompues, et le statut de gratuité de l'outil fut révoqué.
-Cela poussa la communauté du développement de Linux (et plus particulièrement Linus Torvalds, le créateur de Linux) à développer leur propre outil en se basant sur les leçons apprises lors de l'utilisation de BitKeeper.
+Cela poussa la communauté du développement de Linux (et plus particulièrement Linus Torvalds, le créateur de Linux) à développer son propre outil en se basant sur les leçons apprises lors de l'utilisation de BitKeeper.
 Certains des objectifs du nouveau système étaient les suivants :
 
-* Vitesse
-* Conception simple
-* Support pour les développements non linéaires (milliers de branches parallèles)
-* Complètement distribué
-* Capacité à gérer efficacement des projets d'envergure tels que le noyau Linux (vitesse et compacité des données)
+* vitesse ;
+* conception simple ;
+* support pour les développements non linéaires (milliers de branches parallèles) ;
+* complètement distribué ;
+* capacité à gérer efficacement des projets d'envergure tels que le noyau Linux (vitesse et compacité des données).
 
 Depuis sa naissance en 2005, Git a évolué et mûri pour être facile à utiliser tout en conservant ses qualités initiales.
 Il est incroyablement rapide, il est très efficace pour de grands projets et il a un incroyable système de branches pour des développements non linéaires (voir chapitre 3).
@@ -123,7 +123,7 @@ Si vous êtes habitué à un CVCS où toutes les opérations sont ralenties par 
 Comme vous disposez de l'historique complet du projet localement sur votre disque dur, la plupart des opérations semblent instantanées.
 
 Par exemple, pour parcourir l'historique d'un projet, Git n'a pas besoin d'aller le chercher sur un serveur pour vous l'afficher ;
-il n'a qu'à simplement le lire directement dans votre base de donnée locale.
+il n'a qu'à simplement le lire directement dans votre base de données locale.
 Cela signifie que vous avez quasi-instantanément accès à l'historique du projet.
 Si vous souhaitez connaître les modifications introduites entre la version actuelle d'un fichier et son état un mois auparavant, Git peut rechercher l'état du fichier un mois auparavant et réaliser le calcul de différence, au lieu d'avoir à demander cette différence à un serveur ou à devoir récupérer l'ancienne version sur le serveur pour calculer la différence localement.
 
@@ -131,9 +131,9 @@ Cela signifie aussi qu'il y a très peu de choses que vous ne puissiez réaliser
 Si vous voyagez en train ou en avion et voulez avancer votre travail, vous pouvez continuer à gérer vos versions sans soucis en attendant de pouvoir de nouveau vous connecter pour partager votre travail.
 Si vous êtes chez vous et ne pouvez avoir une liaison VPN avec votre entreprise, vous pouvez tout de même travailler.
 Pour de nombreux autres systèmes, faire de même est impossible ou au mieux très contraignant.
-Avec Perforce par exemple, vous ne pouvez pas faire grand'chose tant que vous n'êtes pas connecté au serveur.
+Avec Perforce par exemple, vous ne pouvez pas faire grand-chose tant que vous n'êtes pas connecté au serveur.
 Avec Subversion ou CVS, vous pouvez éditer les fichiers, mais vous ne pourrez pas soumettre des modifications à votre base de données (car celle-ci est sur le serveur non accessible).
-Cela peut sembler peu important à priori, mais vous seriez étonné de découvrir quelle grande différence cela peut constituer à l'usage.
+Cela peut sembler peu important a priori, mais vous seriez étonné de découvrir quelle grande différence cela peut constituer à l'usage.
 
 
 ### Git gère l'intégrité ###
@@ -150,7 +150,7 @@ Une empreinte SHA-1 ressemble à ceci :
 	24b9da6552252987aa493b52f8696cd6d3b00373
 
 Vous trouverez ces valeurs à peu près partout dans Git car il les utilise pour tout.
-En fait, Git stocke tout non pas avec des noms de fichier, mais dans la base de données Git indexée par ces valeurs.
+En fait, Git stocke tout non pas avec des noms de fichiers, mais dans la base de données Git indexée par ces valeurs.
 
 ### Généralement, Git ne fait qu'ajouter des données ###
 
@@ -166,7 +166,7 @@ Pour une information plus approfondie sur la manière dont Git stocke ses donné
 
 Ici, il faut être attentif.
 Il est primordial de se souvenir de ce qui suit si vous souhaitez que le reste de votre apprentissage s'effectue sans difficulté.
-Git gère trois états dans lesquel les fichiers peuvent résider : validé, modifié et indexé.
+Git gère trois états dans lesquels les fichiers peuvent résider : validé, modifié et indexé.
 Validé signifie que les données sont stockées en sécurité dans votre base de données locale.
 Modifié signifie que vous avez modifié le fichier mais qu'il n'a pas encore été validé en base.
 Indexé signifie que vous avez marqué un fichier modifié dans sa version actuelle pour qu'il fasse partie du prochain instantané du projet.
@@ -187,9 +187,9 @@ La zone d'index est un simple fichier, généralement situé dans le répertoire
 
 L'utilisation standard de Git se passe comme suit :
 
-1. Vous modifiez des fichiers dans votre répertoire de travail
-2. Vous indexez les fichiers modifiés, ce qui ajoute des instantanés de ces fichiers dans la zone d'index
-3. Vous validez, ce qui a pour effet de basculer les instantanés des fichiers de l'index dans la base de donnée du répertoire Git.
+1. vous modifiez des fichiers dans votre répertoire de travail ;
+2. vous indexez les fichiers modifiés, ce qui ajoute des instantanés de ces fichiers dans la zone d'index ;
+3. vous validez, ce qui a pour effet de basculer les instantanés des fichiers de l'index dans la base de données du répertoire Git.
 
 Si une version particulière d'un fichier est dans le répertoire Git, il est considéré comme validé.
 S'il est modifié mais a été ajouté dans la zone d'index, il est indexé.
@@ -236,7 +236,7 @@ Après ceci, vous pouvez obtenir Git par Git lui-même pour les mises à jour :
 
 ### Installation sur Linux ###
 
-Si vous souhaitez installer Git sur Linux via un installateur d'application, vous pouvez généralement le faire via le système de gestion de paquet de base fourni avec votre distribution.
+Si vous souhaitez installer Git sur Linux via un installateur d'application, vous pouvez généralement le faire via le système de gestion de paquets de base fourni avec votre distribution.
 Si vous êtes sur Fedora, vous pouvez utiliser yum :
 
 	$ yum install git-core

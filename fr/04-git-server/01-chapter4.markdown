@@ -2,7 +2,7 @@
 
 À présent, vous devriez être capable de réaliser la plupart des tâches quotidiennes impliquant Git.
 Néanmoins, pour pouvoir collaborer avec d'autres personnes au moyen de Git, vous allez devoir disposer d'un dépôt distant Git.
-Bien que vous puissiez techniquement tirer des modifications et pousser des modification avec des dépôts personnels, cette pratique est découragée parce qu'elle introduit très facilement une confusion avec votre travail actuel.
+Bien que vous puissiez techniquement tirer et pousser des modifications depuis et vers des dépôts personnels, cette pratique est déconseillée parce qu'elle introduit très facilement une confusion avec votre travail actuel.
 De plus, vous souhaitez que vos collaborateurs puissent accéder à votre dépôt de sources, y compris si vous n'êtes pas connecté — disposer d'un dépôt accessible en permanence peut s'avérer utile.
 De ce fait, la méthode canonique pour collaborer consiste à instancier un dépôt intermédiaire auquel tous ont accès, que ce soit pour pousser ou tirer.
 Nous nommerons ce dépôt le « serveur Git » mais vous vous apercevrez qu'héberger un serveur de dépôt Git ne consomme que peu de ressources et qu'en conséquence, on n'utilise que rarement une machine dédiée à cette tâche.
@@ -28,7 +28,7 @@ Il est à noter que mis à part HTTP, tous les protocoles nécessitent l'install
 
 ### Protocole local ###
 
-Le protocole de base est le protocole _local_ pour lequel le dépôt distant est un autre répertoire dans le système de fichier.
+Le protocole de base est le protocole _local_ pour lequel le dépôt distant est un autre répertoire dans le système de fichiers.
 Il est souvent utilisé si tous les membres de l'équipe ont accès à un répertoire partagé via NFS par exemple ou dans le cas moins probable où tous les développeurs travaillent sur le même ordinateur.
 Ce dernier cas n'est pas optimum car tous les dépôts seraient hébergés de fait sur le même ordinateur, rendant ainsi toute défaillance catastrophique.
 
@@ -56,7 +56,7 @@ Ensuite, vous pouvez pousser vers et tirer depuis ce dépôt distant de la même
 
 #### Avantages ####
 
-Les avantages des dépôts accessibles sur le système de fichier sont qu'ils sont simples et qu'ils utilisent les permissions du système de fichier.
+Les avantages des dépôts accessibles sur le système de fichiers sont qu'ils sont simples et qu'ils utilisent les permissions du système de fichiers.
 Si vous avez déjà un montage partagé auquel toute votre équipe a accès, déployer un dépôt est extrêmement facile.
 Vous placez la copie du dépôt nu à un endroit accessible de tous et positionnez correctement les droits de lecture/écriture de la même manière que pour tout autre partage.
 Nous aborderons la méthode pour exporter une copie de dépôt nu à cette fin dans la section suivante « Déployer Git sur un serveur ».
@@ -138,7 +138,7 @@ Enfin, il reste le protocole HTTP.
 La beauté d'HTTP ou HTTPS tient dans la simplicité à le mettre en place.
 Tout ce qu'il y a à faire, c'est de simplement copier un dépôt Git nu sous votre racine de document HTTP et de paramétrer un crochet `post-update` et c'est prêt (voir chapitre 7 pour les détails sur les crochets de Git).
 À partir de ceci, toute personne possédant un accès au serveur web sur lequel vous avez copié votre dépôt peut le cloner.
-Pour autoriser un accès en lecture à votre dépôt sur HTTP, faîtes ceci :
+Pour autoriser un accès en lecture à votre dépôt sur HTTP, faites ceci :
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /chemin/vers/git_projet projetgit.git
@@ -158,7 +158,7 @@ Les données Git sont servies comme des simples fichiers statiques (voir chapitr
 Il est possible de faire pousser Git à travers HTTP, bien que cette technique ne soit pas utilisée et nécessite de gérer les exigences complexes de WebDAV.
 Comme elle est rarement utilisée, nous ne la détaillerons pas dans ce livre.
 Si vous êtes tout de même intéressé par l'utilisation des protocoles de push-HTTP, vous pouvez vous référer à `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`.
-Un des intérêts à permettre de pousser par HTTP est que vous pouvez utiliser sur n'importe quel serveur WebDAV, sans liaison avec Git.
+Un des intérêts à permettre de pousser par HTTP est que vous pouvez utiliser n'importe quel serveur WebDAV, sans liaison avec Git.
 Il est donc possible d'utiliser cette fonctionnalité si votre fournisseur d'hébergement web supporte WebDAV pour la mise à jour de vos sites.
 
 #### Avantages ####
@@ -231,7 +231,7 @@ Il faut noter que c'est littéralement tout ce dont vous avez besoin pour démar
 Vous êtes prêts à travailler, vous n'avez besoin de rien d'autre.
 
 Dans les chapitres à venir, nous traiterons de mises en place plus sophistiquées.
-Ces sujets incluront l'élimination du besoin de créer un compte système pour chaque utilisateur, l'accès public aux dépôts, la mise en place d'interfaces utilisateurs web, l'utilisation de l'outil Gitosis, etc.
+Ces sujets incluront l'élimination du besoin de créer un compte système pour chaque utilisateur, l'accès public aux dépôts, la mise en place d'interfaces utilisateur web, l'utilisation de l'outil Gitosis, etc.
 Néanmoins, gardez à l'esprit que pour collaborer avec quelques personnes sur un projet privé, tout ce qu'il faut, c'est un serveur SSH et un dépôt nu.
 
 ### Petites installations ###
@@ -244,7 +244,7 @@ Si vous souhaitez que certains dépôts ne soient accessibles à certains utilis
 #### Accès SSH ####
 
 Si vous disposez déjà d'un serveur auquel tous vos développeurs ont un accès SSH, il est généralement plus facile d'y mettre en place votre premier dépôt car vous n'aurez quasiment aucun réglage supplémentaire à faire (comme nous l'avons expliqué dans le chapitre précédent).
-Si vous souhaitez des permissions d'accès plus complexes, vous pouvez les mettre en place par le jeu des permissions standards sur le système de fichier du système d'exploitation de votre serveur.
+Si vous souhaitez des permissions d'accès plus complexes, vous pouvez les mettre en place par le jeu des permissions standards sur le système de fichiers du système d'exploitation de votre serveur.
 
 Si vous souhaitez placer vos dépôts sur un serveur qui ne dispose pas déjà de comptes pour chacun des membres de votre équipe qui aurait accès en écriture, alors vous devrez mettre en place un accès SSH pour eux.
 En supposant que pour vos dépôts, vous disposiez déjà d'un serveur SSH installé et sur lequel vous avez accès.
@@ -274,7 +274,7 @@ Vous pouvez facilement vérifier si vous avez déjà une clé en listant le cont
 	authorized_keys2  id_dsa       known_hosts
 	config            id_dsa.pub
 
-Recherchez une paire de fichiers appelés *quelquechose* et *quelquechose*`.pub` où le `quelquechose` en question est généralement `id_dsa` ou `id_rsa`.
+Recherchez une paire de fichiers appelés *quelquechose* et *quelquechose*`.pub` où le *quelquechose* en question est généralement `id_dsa` ou `id_rsa`.
 Le fichier en `.pub` est la clé publique tandis que l'autre est la clé privée.
 Si vous ne voyez pas ces fichiers (ou n'avez même pas de répertoire `.ssh`), vous pouvez les créer en lançant un programme appelé `ssh-keygen` fourni par le paquet SSH sur les systèmes Linux/Mac et MSysGit pour Windows :
 
@@ -367,7 +367,7 @@ Si vous l'hébergez en interne et avez réglé le DNS pour faire pointer `gitser
 De cette manière, vous pouvez rapidement mettre en place un serveur Git en lecture/écriture pour une poignée de développeurs.
 
 En précaution supplémentaire, vous pouvez simplement restreindre l'utilisateur 'git' à des actions Git avec un shell limité appelé `git-shell` qui est fourni avec Git.
-Si vous positionnez ce shell comme shell de login de l'utilisateur 'git', l'utilisateur `git` ne peut pas avoir de shell normal sur ce serveur.
+Si vous positionnez ce shell comme shell de login de l'utilisateur 'git', l'utilisateur 'git' ne peut pas avoir de shell normal sur ce serveur.
 Pour utiliser cette fonction, spécifiez `git-shell` en lieu et place de bash ou csh pour shell de l'utilisateur.
 Cela se réalise généralement en éditant le fichier `/etc/passwd` :
 
@@ -406,7 +406,7 @@ Premièrement, il faut activer le crochet :
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Si vous utilisez une version de Git antérieure à 1.6, la commande `mv` n'est pas nécessaire car Git n'a commencé à utiliser le nommage des exemples de crochet en utilisant le postfixe .sample que récemment.
+Si vous utilisez une version de Git antérieure à 1.6, la commande `mv` n'est pas nécessaire car Git n'a commencé à utiliser le nommage des exemples de crochet en utilisant le suffixe .sample que récemment.
 
 Quelle est l'action de ce crochet `post-update` ?
 Il contient simplement ceci :
@@ -429,7 +429,7 @@ Ici, nous supposerons que vous avez réglé un DNS avec résolution générique 
 	    </Directory>
 	</VirtualHost>
 
-Vous devrez aussi positionner le groupe d'utilisateur Unix du répertoire `/opt/git` à `www-data` de manière à ce que le serveur web puisse avoir accès en lecture seule aux répertoires si le serveur Apache lance le script CGI avec cet utilisateur (par défaut) :
+Vous devrez aussi positionner le groupe d'utilisateurs Unix du répertoire `/opt/git` à `www-data` de manière à ce que le serveur web puisse avoir accès en lecture seule aux répertoires si le serveur Apache lance le script CGI avec cet utilisateur (par défaut) :
 
 	$ chgrp -R www-data /opt/git
 
@@ -438,7 +438,7 @@ Après avoir redémarré Apache, vous devriez être capable de cloner vos dépô
 	$ git clone http://git.gitserveur/projet.git
 
 Ainsi, vous pouvez donner accès en lecture seule à tous vos projets à un grand nombre d'utilisateurs en quelques minutes.
-Une autre option simple pour fournir un accès public non-authentifié consiste à lancer un *daemon* Git, bien que cela requiert de démoniser le processus ─ nous traiterons cette option dans un chapitre ultérieur si vous préférez cette option.
+Une autre option simple pour fournir un accès public non-authentifié consiste à lancer un *daemon* Git, bien que cela requière de démoniser le processus — nous traiterons cette option dans un chapitre ultérieur si vous préférez cette option.
 
 ## GitWeb ##
 
@@ -526,7 +526,7 @@ Mais vous avez déjà installé vos dépôts sous `/opt/git`, donc au lieu de to
 
 	$ ln -s /opt/git /home/git/repositories
 
-Comme Gitosis gérera vos clés pour vous, il faut effacer le fichier `authorized_keys`, réintroduire les clés plus tard, et laisser Gitosis contrôler le fichier automatiquement.
+Comme Gitosis gèrera vos clés pour vous, il faut effacer le fichier `authorized_keys`, réintroduire les clés plus tard, et laisser Gitosis contrôler le fichier automatiquement.
 Pour l'instant, déplacez le fichier `authorized_keys` ailleurs :
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
@@ -554,7 +554,7 @@ Ensuite, il faudra positionner manuellement le bit « execute » du script `po
 	$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 
 Vous voilà prêt.
-Si tout est réglé correctement, vous pouvez essayer de vous connecter par SSH au serveur en tant que l'utilisateur pour lequel vous avez ajouté la clé publique lors de l'initialisation de Gitosis..
+Si tout est réglé correctement, vous pouvez essayer de vous connecter par SSH au serveur en tant que l'utilisateur pour lequel vous avez ajouté la clé publique lors de l'initialisation de Gitosis.
 Vous devriez voir quelque chose comme :
 
 	$ ssh git@gitserveur
@@ -630,7 +630,7 @@ Gitosis gère les chemins.
 
 Souhaitant travailler sur ce projet avec vos amis, vous devrez rajouter leurs clés publiques.
 Plutôt que de les accoler manuellement au fichier `~/.ssh/authorized_keys` de votre serveur, il faut les ajouter, une clé par fichier, dans le répertoire `keydir`.
-Le nom de fichier détermine les noms de utilisateurs dans le fichier `gitosis.conf`.
+Le nom de fichier détermine le nom de l'utilisateur dans le fichier `gitosis.conf`.
 Rajoutons les clés publiques de John, Josie et Jessica :
 
 	$ cp /tmp/id_rsa.john.pub keydir/john.pub
@@ -679,7 +679,7 @@ Si vous éditez ce fichier à la main, il restera dans cet état jusqu'à la pro
 ## Gitolite ##
 
 Cette section constitue une introduction à Gitolite et fournit des instructions de base pour son installation et sa mise en œuvre.
-Elle ne peut pas cependant se substituer à l'importante quantité de [documenentation][gldpg] fournie avec Gitolite.
+Elle ne peut pas cependant se substituer à l'importante quantité de [documentation][gldpg] fournie avec Gitolite.
 Il se peut qu'elle subisse aussi occasionnellement quelques corrections qui sont disponibles [ici][gltoc].
 
 [gldpg]: http://sitaramc.github.com/gitolite/progit.html
@@ -695,7 +695,7 @@ Vous n'avez besoin que d'un compte sur un serveur de type Unix.
 Vous n'avez pas besoin d'accès root si Git, Perl et un serveur compatible OpenSSH sont déjà installés.
 Dans les exemples qui suivent, un compte `git` sur un serveur `gitserver` sera utilisé.
 
-Pour commencer, créez un utilisateur nommé `git` et loggez vous avec cet utilisateur.
+Pour commencer, créez un utilisateur nommé `git` et loggez-vous avec cet utilisateur.
 Copiez votre clé publique SSH depuis votre station de travail en la renommant `VotreNom.pub`.
 Ensuite, lancez les commandes ci-dessous :
 
@@ -709,7 +709,7 @@ Enfin, de retour sur la station de travail, lancez `git clone git@gitserver:gito
 
 C'est fini !
 Gitolite est à présent installé sur le serveur ainsi qu'un nouveau dépôt appelé `gitolite-admin` qui a été cloné sur la station de travail.
-L'administration de gitolite passe par des modifications dans ce dépôt suivi d'une poussée sur le serveur.
+L'administration de gitolite passe par des modifications dans ce dépôt suivies d'une poussée sur le serveur.
 
 
 ### Personnalisation de l'installation ###
@@ -735,18 +735,18 @@ Une fois l'installation terminée, vous pouvez basculer vers le clone `gitolite-
 	repo testing
 	    RW+                 = @all
 
-Notez que « sitaram » (le nom de la clé publique pour la commande `gl-setup` ci-dessus) détient les permissions en lecture-écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
+Notez que « sitaram » (le nom de la clé publique pour la commande `gl-setup` ci-dessus) détient les permissions en lecture/écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
 
 L'ajout d'utilisateurs est simple.
 Pour ajouter une utilisatrice appelée « alice », demandez-lui de vous fournir une clé publique SSH, renommez-la `alice.pub`, et placez-la dans le répertoire `keydir` du clone du dépôt `gitolite-admin` sur la station de travail.
 Validez le fichier dans le dépôt et poussez les modifications sur le serveur.
-L'utilisatrice alice vient d'être ajoutée.
+L'utilisatrice « alice » vient d'être ajoutée.
 
 Le fichier de configuration est richement commenté et nous n'allons donc mentionner ici que quelques points principaux.
 
 Pour vous simplifier la tâche, vous pouvez grouper les utilisateurs et les dépôts.
 Les noms de groupes sont juste comme des macros.
-À leur définition, il importe peu que ce soient des projets ou de utilisateurs.
+À leur définition, il importe peu que ce soient des projets ou des utilisateurs.
 Cette distinction ne sert que lors de *l'utilisation* de la « macro ».
 
 	@oss_repos      = linux perl rakudo git gitolite
@@ -788,7 +788,7 @@ Il existe deux niveaux de contrôle d'accès dans gitolite.
 Le premier réside au niveau du dépôt.
 Si vous avez un droit d'accès en lecture (resp. en écriture) à *n'importe quelle* `ref` du dépôt, alors vous avez accès en lecture (resp. en écriture) au dépôt.
 
-Le second niveau, applicable seulement pour l'accès en écriture se focalise sur les branches et les étiquettes dans un dépôt.
+Le second niveau, applicable seulement pour l'accès en écriture, se focalise sur les branches et les étiquettes dans un dépôt.
 L'utilisateur, le type d'accès en cours (`W` ou `+`) et le nom de la référence permettent de définir les critères.
 Les règles d'accès sont vérifiées par ordre d'apparition dans le fichier de configuration, par recherche d'une correspondance sur cette combinaison (en se souvenant que la correspondance de référence est une refex, non une simple comparaison).
 Si une correspondance est trouvée, l'accès en poussée est accepté.
@@ -831,7 +831,7 @@ Référez-vous au guide de migration pour plus de détails.
 
 ### Branches personnelles ###
 
-Gitolite a aussi une fonction appelée « branches personnelles » (ou plutôt « espace de branches personnelles ») qui peuvent s'avérer très utiles en environnement professionnel.
+Gitolite a aussi une fonction appelée « branches personnelles » (ou plutôt « espace de branches personnelles ») qui peut s'avérer très utiles en environnement professionnel.
 
 Dans le monde de Git, une grande quantité d'échange de code se passe par requêtes de tirage.
 En environnement professionnel, cependant, les accès non-authentifiés sont inimaginables et une authentification poste à poste est impossible.
@@ -846,7 +846,7 @@ Référez-vous à la documentation pour plus de détails.
 
 Gitolite permet de spécifier des dépôts avec jokers (en fait des regex Perl), comme par exemple, au hasard, `devoirs/s[0-9][0-9]/a[0-9][0-9]`.
 Un nouveau mode de permission devient accessible (« C »).
-En suivant ces schémas de nommage, les utilisateurs peuvent alors créer des dépôts dont ils seront automatiquement propriétaires, leur permettant ainsi de leur assigner des droits en lecture ou lecture-écriture pour d'autres utilisateurs avec lesquels ils souhaitent collaborer.
+En suivant ces schémas de nommage, les utilisateurs peuvent alors créer des dépôts dont ils seront automatiquement propriétaires, leur permettant ainsi de leur assigner des droits en lecture ou lecture/écriture pour d'autres utilisateurs avec lesquels ils souhaitent collaborer.
 Référez-vous à la documentation pour plus de détail.
 
 ### Autres fonctionnalités ###
@@ -857,7 +857,7 @@ Nous terminerons cette section avec quelques échantillons d'autres fonctions qu
 Si vous étiez réticent à donner aux utilisateurs des droits de rembobiner (`RW+`) et qu'un plaisantin a complètement cassé « master », le journal des activités est là pour vous aider à trouver facilement et rapidement le SHA qui a tout déclenché.
 
 **Rapport sur les droits d'accès** : une autre fonctionnalité très utile concerne la prise en charge de la connexion SSH au serveur.
-Gitolite vous affiche quels dépôts vous pouvez accéder et avec quels droits.
+Gitolite vous affiche à quels dépôts vous pouvez accéder et avec quels droits.
 Ci-dessous un exemple :
 
 	hello sitaram, this is git@git running gitolite3 \
@@ -878,7 +878,7 @@ Cela permet de réduire la charge de travail de l'administrateur principal et é
 
 ## Le *daemon* Git ##
 
-Pour garantir les accès publics non authentifiés en lecture à vos projet, il est préférable de dépasser le protocole HTTP et de commencer à utiliser le protocole Git.
+Pour garantir les accès publics non authentifiés en lecture à vos projets, il est préférable de dépasser le protocole HTTP et de commencer à utiliser le protocole Git.
 La raison principale en est la vitesse.
 Le protocole Git est bien plus efficace et de ce fait plus rapide que le protocole HTTP et fera gagner du temps à vos utilisateurs.
 
@@ -956,7 +956,7 @@ Maintenant, si vous validez et poussez le projet `gitosis-admin`, GitWeb commenc
 
 ## Git hébergé ##
 
-Si vous ne vous ne voulez pas vous investir dans la mise en place de votre propre serveur Git, il reste quelques options pour héberger vos projets Git chez un site externe dédié à l'hébergement.
+Si vous ne vous ne voulez pas vous investir dans la mise en place de votre propre serveur Git, il reste quelques options pour héberger vos projets Git sur un site externe dédié à l'hébergement.
 Cette méthode offre de nombreux avantages : un site en hébergement est généralement rapide à créer et facilite le démarrage de projets, et n'implique pas de maintenance et de surveillance de serveur.
 Même si vous montez et faites fonctionner votre serveur en interne, vous souhaiterez surement utiliser un site d'hébergement public pour votre code open source — cela rend généralement plus facile l'accès et l'aide par la communauté.
 
@@ -984,7 +984,7 @@ Nous allons détailler comment faire.
 ### Création d'un compte utilisateur ###
 
 La première chose à faire, c'est de créer un compte utilisateur gratuit.
-Visitez la page « Plans & Pricing » (plans et prix) à `http://github.com/plans` et cliquez sur le bouton « Create a free account » (créer un compte gratuit)de la zone  « Free for open source » (gratuit pour l'open source) (voir figure 4-2) qui vous amène à la page d'enregistrement.
+Visitez la page « Plans & Pricing » (plans et prix) à `http://github.com/plans` et cliquez sur le bouton « Create a free account » (créer un compte gratuit) de la zone  « Free for open source » (gratuit pour l'open source) (voir figure 4-2) qui vous amène à la page d'enregistrement.
 
 Insert 18333fig0402.png
 Figure 4-2. La page des différents plans de GitHub.
@@ -998,7 +998,7 @@ Si vous l'avez, c'est le bon moment pour ajouter votre clé publique SSH.
 Nous avons détaillé comment en générer précédemment au chapitre « Petites installations ».
 Copiez le contenu de la clé publique et collez-le dans la boîte à texte « SSH Public Keys » (clés SSH publiques).
 En cliquant sur le lien « Need help with public keys? » (besoin d'aide avec les clés publiques ?), vous aurez accès aux instructions (en anglais) pour créer des clés sur la majorité des systèmes d'exploitation.
-Cliquez sur le bouton « Create an account » (créer un compte) pour avoir accès à votre tableau de bord de nouvel utilisateur (voir figure 4-4).
+Cliquez sur le bouton « I agree, sign me up » (j'accepte, enregistrez-moi) pour avoir accès à votre tableau de bord de nouvel utilisateur (voir figure 4-4).
 
 Insert 18333fig0404.png
 Figure 4-4. Le tableau de bord d'utilisateur de GitHub.
@@ -1042,7 +1042,7 @@ Dans notre cas, il s'agit de `http://github.com/testinguser/iphone_projet`.
 Vous pouvez aussi voir dans l'en-tête de la page de chaque projet qu'il y a deux URL Git (voir figure 4-8).
 
 Insert 18333fig0408.png
-Figure 4-8. Entête de projet avec une URL publique et une URL privée.
+Figure 4-8. En-tête de projet avec une URL publique et une URL privée.
 
 L'URL « Git Read-Only » (Git en lecture seule) est une URL Git publique en lecture seule que tout le monde peut cloner.
 Utilisez cette URL pour publier et partager votre dépôt sur un site web ou autre.
@@ -1068,15 +1068,15 @@ Ajoutons le reste de l'équipe.
 Si John, Josie et Jessica ouvrent tous un compte sur GitHub, et que vous souhaitez leur donner un accès en écriture à votre dépôt, vous pouvez les ajouter à votre projet comme collaborateurs.
 Cela leur permettra de pousser leur travail sur le dépôt avec leurs clés privées.
 
-Cliquez le bouton « Admin » dans l'en-tête du projet pour accéder à la page d'administration de votre projet GitHub (voir figure 4-10).
+Cliquez sur le bouton « Admin » dans l'en-tête du projet pour accéder à la page d'administration de votre projet GitHub (voir figure 4-10).
 
 Insert 18333fig0410.png
 Figure 4-10. Page d'administration GitHub.
 
-Pour accorder à un autre utilisateur l'accès en écriture au projet, cliquez l'onglet « Collaborators » (Collaborateurs).
+Pour accorder à un autre utilisateur l'accès en écriture au projet, cliquez sur l'onglet « Collaborators » (Collaborateurs).
 Vous pouvez entrer le nom de l'utilisateur dans la boîte à texte qui apparaît.
 Au fur et à mesure de votre frappe, une liste déroulante affiche les noms qui correspondent aux caractères tapés.
-Lorsque vous avez trouvé l'utilisateur correct, cliquez le bouton « Add » (Ajouter) pour ajouter l'utilisateur comme collaborateur au projet (voir figure 4-11).
+Lorsque vous avez trouvé l'utilisateur correct, cliquez sur le bouton « Add » (Ajouter) pour ajouter l'utilisateur comme collaborateur au projet (voir figure 4-11).
 
 Insert 18333fig0411.png
 Figure 4-11. Ajout d'un collaborateur à votre projet.
@@ -1086,7 +1086,7 @@ Lorsque vous avez fini d'ajouter des collaborateurs, vous devriez les voir en li
 Insert 18333fig0412.png
 Figure 4-12. Une liste des collaborateurs sur votre projet.
 
-Si vous devez révoquer l'accès à certaines personnes, vous pouvez cliquer la croix rouge leur correspondant et leur accès en écriture sera effacé.
+Si vous devez révoquer l'accès à certaines personnes, vous pouvez cliquer sur la croix rouge leur correspondant et leur accès en écriture sera effacé.
 Pour des projets futurs vous pouvez aussi copier des groupes de collaborateurs en copiant les permissions d'un projet existant.
 
 ### Votre projet ###
@@ -1100,7 +1100,7 @@ Lorsqu'on visite votre projet, on voit cette page.
 Elle contient des onglets vers différentes vues des projets.
 L'onglet « Commits » (validations) affiche une liste des validations dans l'ordre chronologique inverse, similaire à ce qu'afficherait la commande `git log`.
 L'onglet « Network » (réseau) affiche tous les utilisateurs ayant dupliqué votre projet et contribué.
-L'onglet « Downloads » (téléchargements) vous permet de télécharger les exécutables du projet ou de fournir des archives des sources aux points étiquetés de votre projet .
+L'onglet « Downloads » (téléchargements) vous permet de télécharger les exécutables du projet ou de fournir des archives des sources aux points étiquetés de votre projet.
 L'onglet « Wiki » fournit un wiki où vous pouvez commencer à écrire la documentation ou d'autres informations du projet.
 L'onglet « Graphs » permet de visualiser les contributions et les statistiques.
 L'onglet principal « Source » sur lequel vous arrivez par défaut affiche le contenu du répertoire principal du projet et met en forme dessous le fichier README s'il en contient un.
@@ -1114,12 +1114,12 @@ Si le projet vous semble intéressant et que vous souhaitez le modifier, vous po
 De cette manière, les administrateurs de projet n'ont pas à se soucier d'ajouter des utilisateurs comme collaborateurs pour leur donner un accès en écriture.
 On peut dupliquer un projet et pousser dessus, et le mainteneur principal du projet peut tirer ces modifications en ajoutant les projets dupliqués comme dépôts distants et en fusionnant les changements.
 
-Pour dupliquer un projet, visitez la page du projet (par exemple mojombo/chronic), et cliquez le bouton « Fork » (dupliquer) dans l'en-tête (voir figure 4-14).
+Pour dupliquer un projet, visitez la page du projet (par exemple mojombo/chronic), et cliquez sur le bouton « Fork » (dupliquer) dans l'en-tête (voir figure 4-14).
 
 Insert 18333fig0414.png
-Figure 4-14. Obtenir un copie modifiable et publiable d'un dépôt en cliquant le bouton « Fork ».
+Figure 4-14. Obtenir un copie modifiable et publiable d'un dépôt en cliquant sur le bouton « Fork ».
 
-Quelques secondes plus tard, vous êtes redirigés vers une nouvelle page de projet qui indique que ce projet est un dupliqué d'un autre (voir figure 4-15).
+Quelques secondes plus tard, vous êtes redirigé vers une nouvelle page de projet qui indique que ce projet est un duplicata d'un autre (voir figure 4-15).
 
 Insert 18333fig0415.png
 Figure 4-15. Votre duplicata d'un projet.

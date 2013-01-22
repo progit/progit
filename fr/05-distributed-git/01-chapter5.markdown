@@ -32,11 +32,11 @@ Mettez en place un dépôt unique et donnez à tous l'accès en poussée.
 Git empêchera les utilisateurs d'écraser le travail des autres.
 Si un développeur clone le dépôt central, fait des modifications et essaie de les pousser alors qu'un autre développeur à poussé ses modifications dans le même temps, le serveur rejettera les modifications du premier.
 Il lui sera indiqué qu'il cherche à pousser des modifications sans mode avance rapide et qu'il ne pourra pas le faire tant qu'il n'aura pas récupéré et fusionné les nouvelles modifications depuis le serveur.
-Cette méthode est très intéressante pour de nombreuses personnes car c'est un paradigme avec lequel beaucoup sont familiers et à l'aise.
+Cette méthode est très intéressante pour de nombreuses personnes car c'est un paradigme avec lequel beaucoup sont familiarisés et à l'aise.
 
 ### Mode du gestionnaire d'intégration ###
 
-Comme Git permet une multiplicité de dépôt distants, il est possible d'envisager un mode de fonctionnement où chaque développeur a un accès en écriture à son propre dépôt public et en lecture à tous ceux des autres.
+Comme Git permet une multiplicité de dépôts distants, il est possible d'envisager un mode de fonctionnement où chaque développeur a un accès en écriture à son propre dépôt public et en lecture à tous ceux des autres.
 Ce scénario inclut souvent un dépôt canonique qui représente le projet « officiel ».
 Pour commencer à contribuer au projet, vous créez votre propre clone public du projet et poussez vos modifications dessus.
 Après, il suffit d'envoyer une demande au mainteneur de projet pour qu'il tire vos modifications dans le dépôt canonique.
@@ -79,7 +79,7 @@ Figure 5-3. Le processus du dictateur bienveillant.
 
 Ce schéma de processus n'est pas très utilisé mais s'avère utile dans des projets très gros ou pour lesquels un ordre hiérarchique existe, car il permet au chef de projet (le dictateur) de déléguer une grande partie du travail et de collecter de grands sous-ensembles de codes à différents points avant de les intégrer.
 
-Ce sont des schémas de processus rendu possibles et généralement utilisés avec des systèmes distribués tels que Git, mais de nombreuses variations restent possibles pour coller à un flux de modifications donné.
+Ce sont des schémas de processus rendus possibles et généralement utilisés avec des systèmes distribués tels que Git, mais de nombreuses variations restent possibles pour coller à un flux de modifications donné.
 En espérant vous avoir aidé à choisir le meilleur mode de gestion pour votre cas, je vais traiter des exemples plus spécifiques de méthode de réalisation des rôles principaux constituant les différents flux.
 
 ## Contribution à un projet ##
@@ -103,8 +103,8 @@ La variable suivante est le mode de gestion utilisé pour le projet.
 Est-il centralisé avec chaque développeur ayant un accès égal en écriture sur la ligne de développement principale ?
 Le projet présente-t-il un mainteneur ou un gestionnaire d'intégration qui vérifie tous les patchs ?
 Tous les patchs doivent-ils subir une revue de pair et une approbation ?
-Faîtes-vous partie du processus ?
-Un système à lieutenant est-il en place et doit-on leur soumettre les modifications en premier ?
+Faites-vous partie du processus ?
+Un système à lieutenants est-il en place et doit-on leur soumettre les modifications en premier ?
 
 La variable suivante est la gestion des accès en écriture.
 Le mode de gestion nécessaire à la contribution au projet est très différent selon que vous avez ou non accès au dépôt en écriture.
@@ -147,7 +147,7 @@ Le chapitre 6 décrit justement quelques trucs et astuces de Git pour réécrire
 Le dernier point à soigner est le message de validation.
 S'habituer à écrire des messages de validation de qualité facilite grandement l'emploi et la collaboration avec Git.
 En règle générale, les messages doivent débuter par une ligne unique d'au plus 50 caractères décrivant concisément la modification, suivie d'une ligne vide, suivie d'une explication plus détaillée.
-Le projet Git exige que l'explication détaillée inclut la motivation de la modification en contrastant le nouveau comportement par rapport à l'ancien — c'est une bonne règle de rédaction.
+Le projet Git exige que l'explication détaillée inclue la motivation de la modification en contrastant le nouveau comportement par rapport à l'ancien — c'est une bonne règle de rédaction.
 Un bonne règle consiste aussi à utiliser le présent de l'impératif ou des verbes substantivés dans le message.
 En d'autres termes, utilisez des ordres.
 Au lieu d'écrire « J'ai ajouté des tests pour » ou « En train d'ajouter des tests pour », utilisez juste « Ajoute des tests pour » ou « Ajout de tests pour ».
@@ -189,7 +189,7 @@ Vous bénéficiez toujours d'avantages tels que la validation hors-ligne et la g
 La différence principale reste que les fusions ont lieu du côté client plutôt que sur le serveur au moment de valider.
 Voyons à quoi pourrait ressembler la collaboration de deux développeurs sur un dépôt partagé.
 Le premier développeur, John, clone le dépôt, fait une modification et valide localement.
-Dans les exemples qui suivent, les messages de protocole sont remplacés par `...` pour les raccourcir .
+Dans les exemples qui suivent, les messages de protocole sont remplacés par `...` pour les raccourcir.
 
 	# Ordinateur de John
 	$ git clone john@githost:simplegit.git
@@ -291,7 +291,7 @@ L'historique de Jessica ressemble maintenant à la figure 5-8.
 Insert 18333fig0508.png
 Figure 5-8. L'historique de Jessica après avoir récupéré les modifications de John.
 
-Jessica pense que sa branche thématique et prête mais elle souhaite savoir si elle doit fusionner son travail avant de pouvoir pousser.
+Jessica pense que sa branche thématique est prête mais elle souhaite savoir si elle doit fusionner son travail avant de pouvoir pousser.
 Elle lance `git log` pour s'en assurer :
 
 	$ git log --no-merges origin/master ^issue54
@@ -309,7 +309,7 @@ Premièrement, elle rebascule sur sa branche `master` pour intégrer son travail
 	Your branch is behind 'origin/master' by 2 commits, and can be fast-forwarded.
 
 Elle peut fusionner soit `origin/master` soit `prob54` en premier — les deux sont en avance, mais l'ordre n'importe pas.
-L'instantané final devrait être identique quelque soit l'ordre de fusion qu'elle choisit.
+L'instantané final devrait être identique quel que soit l'ordre de fusion qu'elle choisit.
 Seul l'historique sera légèrement différent.
 Elle choisit de fusionner en premier `prob54` :
 
@@ -347,7 +347,7 @@ Chaque développeur a validé quelques fois et fusionné les travaux de l'autre 
 Insert 18333fig0510.png
 Figure 5-10. L'historique de Jessica après avoir poussé toutes ses modifications sur le serveur.
 
-C'est un des schéma les plus simples.
+C'est un des schémas les plus simples.
 Vous travaillez pendant quelque temps, généralement sur une branche thématique, et fusionnez dans votre branche `master` quand elle est prête à être intégrée.
 Quand vous souhaitez partager votre travail, vous récupérez `origin/master` et la fusionnez si elle a changé, puis finalement vous poussez le résultat sur la branche `master` du serveur.
 La séquence est illustrée par la figure 5-11.
@@ -496,7 +496,7 @@ Figure 5-15. Une séquence simple de gestion orientée équipe.
 ### Petit projet public ###
 
 Contribuer à un projet public est assez différent.
-Il faut présenter le travail au mainteneur d'une autre manière parce que vous n'avez pas possibilité de mettre à jour directement des branches du projet.
+Il faut présenter le travail au mainteneur d'une autre manière parce que vous n'avez pas la possibilité de mettre à jour directement des branches du projet.
 Ce premier exemple décrit un mode de contribution via des serveurs Git qui proposent facilement la duplication de dépôt.
 Les sites repo.or.cz ou GitHub proposent cette méthode, et de nombreux mainteneurs s'attendent à ce style de contribution.
 Le chapitre suivant traite des projets qui préfèrent accepter les contributions sous forme de patch via e-mail.
@@ -519,7 +519,7 @@ Vous devez alors ajouter l'URL de ce nouveau dépôt en tant que second dépôt 
 
 	$ git remote add macopie (url)
 
-Vous devez pousser votre travail sur cette branche distante.
+Vous devez pousser votre travail sur ce dépôt distant.
 C'est beaucoup plus facile de pousser la branche sur laquelle vous travaillez sur une branche distante que de fusionner et de pousser le résultat sur le serveur.
 La raison principale en est que si le travail n'est pas accepté ou s'il est picoré, vous n'aurez pas à faire marche arrière sur votre branche `master`.
 Si le mainteneur fusionne, rebase ou picore votre travail, vous le saurez en tirant depuis son dépôt :
@@ -550,7 +550,7 @@ Par exemple, si Jessica envoie à John une demande de tirage et qu'elle a fait d
 
 Le résultat peut être envoyé au mainteneur — cela lui indique d'où la modification a été branchée, le résumé des validations et d'où tirer ce travail.
 
-Pour un projet dont vous n'êtes pas le mainteneur, il est généralement plus aisé de toujours laisser la branche `master` suivre `origin\master` et de réaliser vos travaux sur des branches thématiques que vous pourrez facilement effacer si elles sont rejetées.
+Pour un projet dont vous n'êtes pas le mainteneur, il est généralement plus aisé de toujours laisser la branche `master` suivre `origin/master` et de réaliser vos travaux sur des branches thématiques que vous pourrez facilement effacer si elles sont rejetées.
 Garder les thèmes de travaux isolés sur des branches thématiques facilite aussi leur rebasage si le sommet du dépôt principal a avancé dans l'intervalle et que vos modifications ne s'appliquent plus proprement.
 Par exemple, si vous souhaitez soumettre un second sujet de travail au projet, ne continuez pas à travailler sur la branche thématique que vous venez de pousser mais démarrez en plutôt une depuis la branche `master` du dépôt principal :
 
@@ -561,10 +561,10 @@ Par exemple, si vous souhaitez soumettre un second sujet de travail au projet, n
 	$ (email au mainteneur)
 	$ git fetch origin
 
-À présent, chaque sujet est contenu dans son propre silo — similaire à une file de patchs — que vous pouvez réécrire, rebaser et modifier sans que les sujets n'interfèrent ou ne dépendent entre eux, comme sur la figure 5-16.
+À présent, chaque sujet est contenu dans son propre silo — similaire à une file de patchs — que vous pouvez réécrire, rebaser et modifier sans que les sujets n'interfèrent ou ne dépendent les uns des autres, comme sur la figure 5-16.
 
 Insert 18333fig0516.png
-Figure 5-16. Historique initial des *commits* avec les modification de fonctionB.
+Figure 5-16. Historique initial des *commits* avec les modifications de fonctionB.
 
 Supposons que le mainteneur du projet a tiré une poignée d'autres patchs et essayé par la suite votre première branche, mais celle-ci ne s'applique plus proprement.
 Dans ce cas, vous pouvez rebaser cette branche au sommet de `origin/master`, résoudre les conflits pour le mainteneur et soumettre de nouveau vos modifications :
@@ -787,7 +787,7 @@ C'est aussi un format e-mail mbox parfaitement valide.
 Si quelqu'un vous a envoyé par e-mail un patch correctement formaté en utilisant `git send-mail` et que vous le téléchargez en format mbox, vous pouvez pointer `git am` sur ce fichier mbox et il commencera à appliquer tous les patchs contenus.
 Si vous utilisez un client e-mail qui sait sauver plusieurs messages au format mbox, vous pouvez sauver la totalité de la série de patchs dans un fichier et utiliser `git am` pour les appliquer tous en une fois.
 
-Néanmoins, si quelqu'un a déposé un fichier de patch généré via `format-patch` sur un système de suivi de faits techniques ou quelque chose similaire, vous pouvez toujours sauvegarder le fichier localement et le passer à `git am` pour l'appliquer :
+Néanmoins, si quelqu'un a déposé un fichier de patch généré via `format-patch` sur un système de suivi de faits techniques ou quelque chose de similaire, vous pouvez toujours sauvegarder le fichier localement et le passer à `git am` pour l'appliquer :
 
 	$ git am 0001-limite-la-fonction-de-log.patch
 	Applying:  Ajout d'une limite à la fonction de log
@@ -965,7 +965,7 @@ Figure 5-20. Après fusion d'une branche thématique.
 
 C'est probablement le mode le plus simple mais cela peut s'avérer problématique si vous avez à gérer des dépôts ou des projets plus gros.
 
-Si vous avez plus de développeurs ou un projet plus important, vous souhaiterez probablement utiliser un cycle à fusion à au moins deux étapes.
+Si vous avez plus de développeurs ou un projet plus important, vous souhaiterez probablement utiliser un cycle de fusion à au moins deux étapes.
 Dans ce scénario, vous avez deux branches au long cours, `master` et `develop`, dans lequel vous déterminez que `master` est mis à jour seulement lors d'une version vraiment stable et tout le nouveau code est intégré dans la branche `develop`.
 Vous poussez régulièrement ces deux branches sur le dépôt public.
 Chaque fois que vous avez une nouvelle branche thématique à fusionner (figure 5-21), vous la fusionnez dans `develop` (figure 5-22).
@@ -1010,7 +1010,7 @@ Le mainteneur a une gestion structurée qui lui permet d'évaluer et sélectionn
 
 #### Gestion par rebasage et sélection de *commit* ####
 
-D'autres mainteneurs préfèrent rebaser ou sélectionner les contributions sur le sommet de la branche `master`, plutôt de les fusionner, de manière à conserver un historique à peu près linéaire.
+D'autres mainteneurs préfèrent rebaser ou sélectionner les contributions sur le sommet de la branche `master`, plutôt que les fusionner, de manière à conserver un historique à peu près linéaire.
 Lorsque plusieurs modifications sont présentes dans une branche thématique et que vous souhaitez les intégrer, vous vous placez sur cette branche et vous lancer la commande `rebase` pour reconstruire les modifications à partir du sommet courant de la branche `master` (ou `develop`, ou autre).
 Si cela fonctionne correctement, vous pouvez faire une avance rapide sur votre branche `master` et vous obtenez au final un historique de projet linéaire.
 
@@ -1036,7 +1036,7 @@ La même modification que celle introduite en `e43a6` est tirée mais vous obten
 Insert 18333fig0527.png
 Figure 5-27. Historique après sélection d'un *commit* dans une branche thématique.
 
-Maintenant, vous pouvez effacer votre branche thématique et abandonner les *commits* que vous n'avez pas tirés dans master.
+Maintenant, vous pouvez effacer votre branche thématique et abandonner les *commits* que vous n'avez pas tirés dans `master`.
 
 ### Étiquetage de vos publications ###
 
@@ -1060,7 +1060,7 @@ Pour faire de même, vous déterminez la clé de votre trousseau que vous voulez
 	uid                  Scott Chacon <schacon@gmail.com>
 	sub   2048g/45D02282 2009-02-09 [expires: 2010-02-09]
 
-Ensuite, vous pouvez importer la clé directement dans la base de donnée Git en l'exportant de votre trousseau et en la redirigeant dans `git hash-object` qui écrit un nouveau blob avec son contenu dans Git et vous donne en sortie le SHA-1 du blob :
+Ensuite, vous pouvez importer la clé directement dans la base de données Git en l'exportant de votre trousseau et en la redirigeant dans `git hash-object` qui écrit un nouveau blob avec son contenu dans Git et vous donne en sortie le SHA-1 du blob :
 
 	$ gpg -a --export F721C45A | git hash-object -w --stdin
 	659ef797d181633c87ec71ac3f9ba29fe5775b92
@@ -1069,18 +1069,18 @@ Ensuite, vous pouvez importer la clé directement dans la base de donnée Git en
 
 	$ git tag -a maintainer-pgp-pub 659ef797d181633c87ec71ac3f9ba29fe5775b92
 
-Si vous lancez `git push --tags`, l'étiquette `mainteneur-pgp-pub` sera partagée publiquement.
+Si vous lancez `git push --tags`, l'étiquette `maintainer-pgp-pub` sera partagée publiquement.
 Un tiers pourra vérifier une étiquette après import direct de votre clé publique PGP, en extrayant le blob de la base de donnée et en l'important dans GPG :
 
 	$ git show maintainer-pgp-pub | gpg --import
 
 Il pourra alors utiliser cette clé pour vérifier vos étiquettes signées.
-Si de plus, vous incluez des instructions d'utilisation pour la vérification de signature dans le message de étiquetage, l'utilisateur aura accès à ces informations en lançant la commande `git show <étiquette>`.
+Si de plus, vous incluez des instructions d'utilisation pour la vérification de signature dans le message d'étiquetage, l'utilisateur aura accès à ces informations en lançant la commande `git show <étiquette>`.
 
 ### Génération d'un nom de révision ###
 
 Comme Git ne fournit pas par nature de nombres croissants tels que « r123 » à chaque validation, la commande `git describe` permet de générer un nom humainement lisible pour chaque *commit*.
-Git concatène la nom de l'étiquette la plus proche, le nombre de validations depuis cette étiquette et un code SHA-1 partiel du *commit* que l'on cherche à définir :
+Git concatène le nom de l'étiquette la plus proche, le nombre de validations depuis cette étiquette et un code SHA-1 partiel du *commit* que l'on cherche à définir :
 
 	$ git describe master
 	v1.6.2-rc1-20-g8c5b85c
@@ -1115,7 +1115,7 @@ Voilà deux belles archives tar.gz et zip de votre projet prêtes à être tél�
 
 Il est temps d'envoyer une annonce à la liste de diffusion des annonces relatives à votre projet.
 Une manière simple d'obtenir rapidement une sorte de liste des modifications depuis votre dernière version ou e-mail est d'utiliser la commande `git shortlog`.
-Elle résume toutes le validations dans l'intervalle qui vous lui spécifiez.
+Elle résume toutes les validations dans l'intervalle que vous lui spécifiez.
 Par exemple, ce qui suit vous donne un résumé de toutes les validations depuis votre dernière version si celle-ci se nomme v1.0.1 :
 
 	$ git shortlog --no-merges master --not v1.0.1

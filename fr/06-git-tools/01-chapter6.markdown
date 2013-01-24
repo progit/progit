@@ -1,6 +1,6 @@
 # Utilitaires Git #
 
-À présent, vous avez appris les commandes et modes de fonctionnements usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
+À présent, vous avez appris les commandes et modes de fonctionnement usuels requis pour gérer et maintenir un dépôt Git pour la gestion de votre code source.
 Vous avez déroulé les routines de suivi et de validation de fichiers, vous avez exploité la puissance de l'index, de la création et de la fusion de branches locales de travail.
 
 Maintenant, vous allez explorer un certain nombre de fonctionnalités particulièrement efficaces, fonctionnalités que vous utiliserez moins souvent mais dont vous pourriez avoir l'usage à un moment ou à un autre.
@@ -20,7 +20,7 @@ Cette section présente les méthodes pour référencer un *commit* simple.
 Git est capable de deviner de quel *commit* vous parlez si vous ne fournissez que quelques caractères du début de la signature, tant que votre SHA-1 partiel comporte au moins 4 caractères et ne correspond pas à plusieurs *commits*.
 Dans ces conditions, un seul objet correspondra à ce SHA-1 partiel.
 
-Par exemple, pour afficher un *commit* précis, supposons que vous exécutiez `git log` et que vous identifiez le *commit* où vous avez introduit une fonctionnalité précise.
+Par exemple, pour afficher un *commit* précis, supposons que vous exécutiez `git log` et que vous identifiiez le *commit* où vous avez introduit une fonctionnalité précise.
 
 	$ git log
 	commit 734713bc047d87bf7eac9674765ae793478c50d3
@@ -49,7 +49,7 @@ Si vous affichez le contenu de ce *commit* via `git show`, les commandes suivant
 	$ git show 1c002dd4b536e7479f
 	$ git show 1c002d
 
-Git peut déterminer une référence SHA tout à la fois la plus courte possible et non ambigüe.
+Git peut déterminer une référence SHA-1 tout à la fois la plus courte possible et non ambigüe.
 Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affiché utilisera des valeurs plus courtes mais uniques ; par défaut Git retiendra 7 caractères et augmentera au besoin :
 
 	$ git log --abbrev-commit --pretty=oneline
@@ -58,11 +58,11 @@ Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affi
 	a11bef0 first commit
 
 En règle générale, entre 8 et 10 caractères sont largement suffisant pour assurer l'unicité dans un projet.
-Un des plus gros projets utilisant Git, le kernel Linux, nécessite de plus en plus fréquemment 12 caractères sur les 40 possibles pour assurer l'unicité.
+Un des plus gros projets utilisant Git, le noyau Linux, nécessite de plus en plus fréquemment 12 caractères sur les 40 possibles pour assurer l'unicité.
 
 ### QUELQUES MOTS SUR SHA-1 ###
 
-Beaucoup de gens se soucient qu'à un moment donné ils auront, par des circonstances hasardeuses, deux objets dans leur référentiel de hachage de même empreinte SHA-1.
+Beaucoup de gens s'inquiètent qu'à un moment donné ils auront, par des circonstances hasardeuses, deux objets dans leur référentiel de hachage de même empreinte SHA-1.
 Qu'en est-il réellement ?
 
 S'il vous arrivait de valider un objet qui se hache à la même empreinte SHA-1 qu'un objet existant dans votre référentiel, Git verrait l'objet existant déjà dans votre base de données et présumerait qu'il était déjà enregistré.
@@ -71,7 +71,7 @@ Si vous essayez de récupérer l'objet de nouveau à un moment donné, vous auri
 Quoi qu'il en soit, vous devriez être conscient à quel point ce scénario est ridiculement improbable.
 Une empreinte SHA-1 porte sur 20 octets soit 160 bits.
 Le nombre d'objets aléatoires à hacher requis pour assurer une probabilité de collision de 50 % vaut environ 2^80 (la formule pour calculer la probabilité de collision est `p = (n(n-1)/2) * (1/2^160))`.
-2^80 vaut 1.2 x 10^24 soit 1 million de milliards de milliards.
+2^80 vaut 1,2 × 10^24 soit 1 million de milliards de milliards.
 Cela représente 1200 fois le nombre de grains de sable sur Terre.
 
 Voici un exemple pour vous donner une idée de ce qui pourrait provoquer une collision du SHA-1.
@@ -148,7 +148,7 @@ Exécuter `git show HEAD@{2.months.ago}` ne fonctionnera que si vous avez dupliq
 
 ### Références passées ###
 
-Une solution fréquente pour référencer un *commit* est d'utiliser son ancêtre.
+Une solution fréquente pour référencer un *commit* est d'utiliser sa descendance.
 Si vous suffixez une référence par `^`, Git la résoudra comme étant le parent de cette référence.
 Supposons que vous consultiez votre historique :
 
@@ -228,7 +228,7 @@ Par exemple, disons que votre historique ressemble à celui de la figure 6-1.
 Insert 18333fig0601.png
 Figure 6-1. Exemple d'historique pour la sélection de plages de *commits*.
 
-Si vous voulez savoir ce qui n'a pas encore été fusionné sur votre branche master depuis votre branche `experience`, vous pouvez demander à Git de vous montrer un listing des *commits* avec `master..experience` — ce qui signifie « tous les *commits* accessibles par `experience` qui ne le sont pas par `master` ».
+Si vous voulez savoir ce qui n'a pas encore été fusionné sur votre branche `master` depuis votre branche `experience`, vous pouvez demander à Git de vous montrer un listing des *commits* avec `master..experience` — ce qui signifie « tous les *commits* accessibles par `experience` qui ne le sont pas par `master` ».
 Dans un souci de brièveté et de clarté de ces exemples, je vais utiliser les lettres des *commits* issus du diagramme à la place du vrai listing dans l'ordre où ils auraient dû être affichés :
 
 	$ git log master..experiment
@@ -242,7 +242,7 @@ D'un autre côté, si vous souhaitez voir l'opposé — tous les *commits* dans 
 	E
 
 C'est pratique si vous souhaitez maintenir `experience` à jour et anticiper les fusions.
-Un autre cas fréquent d'utilisation consiste à voir ce que vous vous apprétez à pousser sur une branche distante :
+Un autre cas d'utilisation fréquent consiste à voir ce que vous vous apprêtez à pousser sur une branche distante :
 
 	$ git log origin/master..HEAD
 
@@ -272,7 +272,7 @@ Ceci vous fournit un système de requêtage des révisions très puissant, pour 
 #### Triple point ####
 
 La dernière syntaxe majeure de sélection de plage de *commits* est la syntaxe triple-point qui spécifie tous les *commits* accessibles par l'une des deux références, exclusivement.
-Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qui ce trouve sur `master` ou `experience` mais pas sur les 2, exécutez :
+Toujours avec l'exemple d'historique à la figure 6-1, si vous voulez voir ce qui se trouve sur `master` ou `experience` mais pas sur les deux, exécutez :
 
 	$ git log master...experience
 	F
@@ -491,7 +491,7 @@ Si vous exécutez `git status`, vous pouvez voir votre état instable :
 	#      modified:   lib/simplegit.rb
 	#
 
-À ce moment là, vous voulez changer de branche, mais vous ne voulez pas encore valider ce travail ; vous allez donc remiser vos modifications.
+À ce moment-là, vous voulez changer de branche, mais vous ne voulez pas encore valider ce travail ; vous allez donc remiser vos modifications.
 Pour créer une nouvelle remise sur votre pile, exécutez `git stash` :
 
 	$ git stash
@@ -531,7 +531,7 @@ Si vous ne spécifiez pas une remise, Git présume que vous voulez la remise la 
 Vous pouvez observer que Git remodifie les fichiers non validés lorsque vous avez créé la remise.
 Dans ce cas, vous aviez un répertoire de travail propre lorsque vous avez essayé d'appliquer la remise et vous l'avez fait sur la même branche que celle où vous l'aviez créée ; mais avoir un répertoire de travail propre et l'appliquer sur la même branche n'est pas nécessaire pour réussir à appliquer une remise.
 Vous pouvez très bien créer une remise sur une branche, changer de branche et essayer d'appliquer les modifications.
-Vous pouvez même avoir des fichiers modifiés et non validés dans votre répertoire de travail quand vous appliquez une remise, Git vous indique les conflits de fusions si quoique ce soit ne s'applique pas proprement.
+Vous pouvez même avoir des fichiers modifiés et non validés dans votre répertoire de travail quand vous appliquez une remise, Git vous indique les conflits de fusions si quoi que ce soit ne s'applique pas proprement.
 
 Par défaut, les modifications de vos fichiers sont réappliquées, mais pas les indexations.
 Pour cela, vous devez exécuter la commande `git stash apply` avec l'option `--index` pour demander à Git d'essayer de réappliquer les modifications de votre index.
@@ -666,7 +666,7 @@ Exécuter cette commande vous donne la liste des validations dans votre éditeur
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-Il est important de signaler que les *commits* sont listés dans l'ordre opposé que vous voyez normalement en utilisant la commande `log`.
+Il est important de signaler que les *commits* sont listés dans l'ordre inverse de celui que vous voyez normalement en utilisant la commande `log`.
 Si vous exécutez la commande `log`, vous verrez quelque chose de ce genre :
 
 	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
@@ -713,7 +713,7 @@ Cette commande appliquera les deux autres *commits* automatiquement.
 Si vous remplacez « pick » en « edit » sur plusieurs lignes, vous pouvez répéter ces étapes pour chaque *commit* que vous avez marqué pour modification.
 Chaque fois, Git s'arrêtera, vous laissant modifier le *commit* et continuera lorsque vous aurez fini.
 
-### Réordonner les commits ###
+### Réordonner les *commits* ###
 
 Vous pouvez également utiliser les rebasages interactifs afin de réordonner ou supprimer entièrement des *commits*.
 Si vous voulez supprimer le *commit* « added cat-file » et modifier l'ordre dans lequel les deux autres *commits* se trouvent dans l'historique, vous pouvez modifier le script de rebasage :
@@ -830,7 +830,7 @@ Pour exécuter `filter-branch` sur toutes vos branches, vous pouvez ajouter `--a
 
 #### Faire d'un sous-répertoire la nouvelle racine ####
 
-Supposons que vous avez importé votre projet depuis un autre système de gestion de configuration et que vous avez des sous-répertoires qui n'ont aucun sens (trunk, tags, etc).
+Supposons que vous avez importé votre projet depuis un autre système de gestion de configuration et que vous avez des sous-répertoires qui n'ont aucun sens (trunk, tags, etc.).
 Si vous voulez faire en sorte que le sous-répertoire `trunk` soit la nouvelle racine de votre projet pour tous les *commits*, `filter-branch` peut aussi vous aider à le faire :
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
@@ -914,7 +914,7 @@ En annotant `GITPackUpload.m` avec l'option `-C`, je peux voir quelles sections 
 	56ef2caf GITServerHandler.m (Scott 2009-01-05 153)
 
 C'est vraiment utile, non ?
-Normalement, vous obtenez comme *commit* original celui dont votre code a été copié, puisque ce fut la première fois que vous avez touché à ces lignes dans ce fichier.
+Normalement, vous obtenez comme *commit* originel celui dont votre code a été copié, puisque ce fut la première fois que vous avez touché à ces lignes dans ce fichier.
 Git vous montre le *commit* d'origine, celui où vous avez écrit ces lignes, même si c'était dans un autre fichier.
 
 ### La recherche dichotomique ###
@@ -978,19 +978,19 @@ Vous pouvez faire cela en une ligne en les entrant à la suite de la commande `b
 	$ git bisect run test-error.sh
 
 Cela exécute automatiquement `test-error.sh` sur chaque *commit* jusqu'à ce que Git trouve le premier *commit* bogué.
-Vous pouvez également exécuter des commandes comme `make` ou `make tests` ou quoique ce soit qui exécute des tests automatisés à votre place.
+Vous pouvez également exécuter des commandes comme `make` ou `make tests` ou quoi que ce soit qui exécute des tests automatisés à votre place.
 
 ## Sous-modules ##
 
-Il arrive souvent lorsque vous travaillez sur un projet, que vous devez utiliser un autre projet comme dépendance.
-Cela peut être une librairie qui est développée par une autre équipe ou que vous développez séparemment pour l'utiliser dans plusieurs projets parents.
-Ce scénario provoque un problème habituel : vous voulez être capable de gérer deux projets séparés tout en utilisant un dans l'autre.
+Il arrive souvent lorsque vous travaillez sur un projet que vous deviez utiliser un autre projet comme dépendance.
+Cela peut être une bibliothèque qui est développée par une autre équipe ou que vous développez séparément pour l'utiliser dans plusieurs projets parents.
+Ce scénario provoque un problème habituel : vous voulez être capable de gérer deux projets séparés tout en utilisant l'un dans l'autre.
 
 Voici un exemple.
 Supposons que vous développez un site web et que vous créez des flux Atom.
-Plutôt que d'écrire votre propre code de génération Atom, vous décidez d'utiliser une librairie.
+Plutôt que d'écrire votre propre code de génération Atom, vous décidez d'utiliser une bibliothèque.
 Vous allez vraisemblablement devoir soit inclure ce code depuis un gestionnaire partagé comme CPAN ou Ruby gem, soit copier le code source dans votre propre arborescence de projet.
-Le problème d'inclure la librairie en tant que librairie externe est qu'il est difficile de la personnaliser de quelque manière que ce soit et encore plus de la déployer, car vous devez vous assurer de la disponibilité de la librairie chez chaque client.
+Le problème d'inclure la bibliothèque en tant que bibliothèque externe est qu'il est difficile de la personnaliser de quelque manière que ce soit et encore plus de la déployer, car vous devez vous assurer de la disponibilité de la bibliothèque chez chaque client.
 Mais le problème d'inclure le code dans votre propre projet est que n'importe quelle personnalisation que vous faites est difficile à fusionner lorsque les modifications du développement principal arrivent.
 
 Git gère ce problème avec les sous-modules.
@@ -999,7 +999,7 @@ Cela vous laisse la possibilité de cloner un dépôt dans votre projet et de ga
 
 ### Démarrer un sous-module ###
 
-Supposons que vous voulez ajouter la librairie Rack (un serveur d'application web en Ruby) à votre projet, avec la possibilité de gérer vos propres changements à celle-ci mais en continuant de fusionner avec la branche principale.
+Supposons que vous voulez ajouter la bibliothèque Rack (un serveur d'application web en Ruby) à votre projet, avec la possibilité de gérer vos propres changements à celle-ci mais en continuant de fusionner avec la branche principale.
 La première chose que vous devez faire est de cloner le dépôt externe dans votre sous-répertoire.
 Ajouter des projets externes comme sous-modules de votre projet se fait avec la commande `git submodule add` :
 
@@ -1051,7 +1051,7 @@ Si vous exécutez `git diff`, vous verrez quelque chose d'intéressant :
 
 Même si `rack` est un sous-répertoire de votre répertoire de travail, Git le voit comme un sous-module et ne suit pas son contenu (si vous n'êtes pas dans ce répertoire).
 En échange, Git l'enregistre comme un *commit* particulier de ce dépôt.
-Lorsque vous faîtes des modifications et des validations dans ce sous-répertoire, le super-projet (le projet contenant le sous-module) remarque que la branche HEAD a changé et enregistre le *commit* exact dans lequel il se trouve à ce moment.
+Lorsque vous faites des modifications et des validations dans ce sous-répertoire, le super-projet (le projet contenant le sous-module) remarque que la branche HEAD a changé et enregistre le *commit* exact dans lequel il se trouve à ce moment.
 De cette manière, lorsque d'autres clonent ce super-projet, ils peuvent recréer exactement le même environnement.
 
 Un autre point important avec les sous-modules : Git enregistre le *commit* exact où ils se trouvent.
@@ -1119,7 +1119,7 @@ Vous devez exécuter deux commandes : `git submodule init` pour initialiser vot
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
 Votre répertoire `rack` est maintenant dans l'état exact dans lequel il était la dernière fois que vous avez validé.
-Si un autre développeur modifie le code de `rack` et valide, que vous tiriez cette référence et que vous fusionniez, vous obtiendrez quelque chose d'un peu étrange :
+Si un autre développeur modifie le code de `rack` et valide, que vous tirez cette référence et que vous fusionnez, vous obtiendrez quelque chose d'un peu étrange :
 
 	$ git merge origin/master
 	Updating 0550271..85a3eee
@@ -1147,7 +1147,7 @@ En réalité, vous n'avez fusionné que la modification de la référence de vot
 	+Subproject commit 08d709f78b8c5b0fbeb7821e37fa53e69afcf433
 
 La cause de tout cela, c'est que la référence pour votre sous-module ne correspond pas à ce qu'il y a actuellement dans son répertoire.
-Pour corriger ça, vous devez exécuter un nouvelle fois `git submodule update` :
+Pour corriger ça, vous devez exécuter une nouvelle fois `git submodule update` :
 
 	$ git submodule update
 	remote: Counting objects: 5, done.
@@ -1184,9 +1184,9 @@ Envoyez-lui un mail pour lui crier dessus.
 ### Super-projets ###
 
 Parfois, les développeurs désirent séparer un gros projet en sous-répertoires en fonction de l'équipe qui travaille dessus.
-C'est logique que si vous venez de CVS ou de Subversion, où vous aviez l'habitude de définir un module ou un ensemble de sous-répertoires, et que vous voulez garder ce type de procédure de travail.
+C'est logique si vous venez de CVS ou de Subversion, où vous aviez l'habitude de définir un module ou un ensemble de sous-répertoires, et que vous voulez garder ce type de procédure de travail.
 
-Une bonne manière de le faire avec Git est de créer un dépôt Git pour chaque sous-dossiers, et de créer un super-projet contenant les différents modules.
+Une bonne manière de le faire avec Git est de créer un dépôt Git pour chaque sous-dossier, et de créer un super-projet contenant les différents modules.
 Le bénéfice de cette approche est de pouvoir spécifier les relations entre les projets avec des étiquettes et des branches depuis le super-projet.
 
 ### Les problèmes avec les sous-modules ###
@@ -1315,7 +1315,7 @@ Si vous récupérez l'une puis l'autre branche, vous pouvez voir que vous avez d
 	README
 
 Pour tirer le projet Rack dans votre projet `master` comme un sous-répertoire, vous pouvez utiliser la commande `git read-tree`.
-Vous apprendrez d'avantage sur `read-tree` et compagnie dans le chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branches et l'inscrit dans votre index et votre répertoire de travail.
+Vous apprendrez davantage sur `read-tree` et compagnie dans le chapitre 9, mais pour le moment, sachez qu'il lit la racine d'une de vos branches et l'inscrit dans votre index et votre répertoire de travail.
 Vous venez juste de commuter vers votre branche `master` et vous tirez la branche `rack` vers le sous-répertoire `rack` de votre branche `master` de votre projet principal :
 
 	$ git read-tree --prefix=rack/ -u rack_branch
@@ -1340,7 +1340,7 @@ Toutes les modifications de votre projet Rack sont fusionnées et prêtes à êt
 Vous pouvez également faire le contraire, faire des modifications dans le sous-répertoire `rack` de votre branche principale et les fusionner plus tard dans votre branche `rack_branch` pour les envoyer aux mainteneurs du projet Rack ou les pousser dans le dépôt principal.
 
 Pour voir les différences entre ce que vous avez dans le sous-répertoire `rack` et le code de la branche `rack_branch` (pour savoir si vous devez les fusionner),  vous ne pouvez pas utiliser la commande `diff` habituelle.
-Vous devez plutôt exécutez `git diff-tree` en renseignant la branche avec laquelle vous voulez comparer :
+Vous devez plutôt exécuter `git diff-tree` en renseignant la branche avec laquelle vous voulez comparer :
 
 	$ git diff-tree -p rack_branch
 
@@ -1350,7 +1350,7 @@ Ou, pour comparer ce qu'il y a dans votre répertoire `rack` avec ce qu'il y ava
 
 ## Résumé ##
 
-Vous venez de voir certains des outils avancés vous permettant de manipuler vos *commit* et votre index plus précisemment.
+Vous venez de voir certains des outils avancés vous permettant de manipuler vos *commits* et votre index plus précisément.
 Lorsque vous remarquez des bogues, vous devriez être capable de facilement trouver quelle validation les a introduits, quand et par qui.
 Si vous voulez utiliser des sous-projets dans votre projet, vous avez appris plusieurs façons de les gérer.
-À partir de maintenant, vous devez être capable de faire la majorité de ce que vous avez besoin avec Git en ligne de commande et de vous y sentir à l'aise.
+À partir de maintenant, vous devez être capable de faire la plupart de ce dont vous avez besoin avec Git en ligne de commande et de vous y sentir à l'aise.

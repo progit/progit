@@ -243,7 +243,7 @@ Si vous êtes sur Fedora, vous pouvez utiliser yum :
 
 Si vous êtes sur un système basé sur Debian, tel qu'Ubuntu, essayez apt-get :
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Installation sur Mac ###
 

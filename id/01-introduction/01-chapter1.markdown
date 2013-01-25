@@ -157,7 +157,7 @@ Jika anda ingin menginstall Git di Linux menggunakan installer biner, anda bisa 
 
 Atau jika anda menggunakan distro berbasis Debian seperti Ubuntu, coba gunakan apt-get:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Menginstall Git pada Mac ###
 

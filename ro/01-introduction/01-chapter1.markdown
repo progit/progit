@@ -157,7 +157,7 @@ Dacă doriți să instalați Git în Linux prin intermediul unui program de inst
 
 Sau dacă folosiți o distribuție bazată pe Debian, de exemplu Ubuntu, încercați apt-get:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Instalarea pe sistemele Mac ###
 

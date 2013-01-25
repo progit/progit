@@ -157,7 +157,7 @@ Git을 설치하려면 다음과 같은 라이브러리들이 필요하다. Git�
 
 Ubuntu같은 데비안류 배포판에서는 apt-get을 사용한다:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Mac에 설치하기 ###
 

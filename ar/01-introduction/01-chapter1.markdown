@@ -161,7 +161,7 @@ If a particular version of a file is in the git directory, it’s considered com
 
 أو اذا كنت على نظام مبنى على ديبيان Debian مثل أوبونتو Ubuntu، يمكنك استخدام apt-get كالتالي:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### التنصيب على نظام الماك أو اس ###
 

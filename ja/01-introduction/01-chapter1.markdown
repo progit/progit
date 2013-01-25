@@ -159,7 +159,7 @@ Gitをインストールするためには、Gitが依存するライブラリ�
 
 もしくは、もしUbuntuのようなDebianベースのディストリュビューションを使っているのであれば、apt-getをやってみましょう：
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Macにインストール ###
 

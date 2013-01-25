@@ -157,7 +157,7 @@ Git 的工作需要调用 curl，zlib，openssl，expat，libiconv 等库的代�
 
 在 Ubuntu 这类 Debian 体系的系统上，可以用 apt-get 安装：
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### 在 Mac 上安装 ###
 

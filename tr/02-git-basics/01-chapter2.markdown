@@ -1,6 +1,6 @@
 # Git'in Temelleri #
 
-Git'i kullanmaya başlamak için yalnızca bir bölüm okuyacak kadar zamanınız varsa, o bölüm, bu bölüm olmalı. Bu bölüm, Git'le i kullanarak yapacağınız şeylerin çok büyük kısmını için kullanacağınız bütün temel komutları içeriyor. Bu bölümün sonunda bir yazılım havuzunun nasıl yapılandırıp, ilkleneceğini (_initialize_), dosyaların nasıl izlemeye alınıp izlemeden çıkarılacağını ve değişikliklerin nasıl hazırlanıp kaydedileceğini öğreneceksiniz. Bunlara ek olarak, Git'i bazı dosyaları ya da konumları belli örüntülere (_pattern_) uyan dosyaları görmezden gelmesi için nasıl ayarlayacağınızı, hataları hızlıca ve kolayca nasıl geri alabileceğinizi, projenizin tarihçesine nasıl göz gezdirip kayıtlar arsındaki farkları nasıl görüntüleyebileceğinizi ve uzak uçbirimlerden nasıl kod çekme işlemi yapabileceğinizi göstereceğiz.
+Git'i kullanmaya başlamak için yalnızca bir bölüm okuyacak kadar zamanınız varsa, o bölüm, bu bölüm olmalı. Bu bölüm, Git'i kullanarak yapacağınız şeylerin çok büyük kısmı için kullanacağınız bütün temel komutları içeriyor. Bu bölümün sonunda bir yazılım havuzunun nasıl yapılandırıp, ilkleneceğini (_initialize_), dosyaların nasıl izlemeye alınıp izlemeden çıkarılacağını ve değişikliklerin nasıl hazırlanıp kaydedileceğini öğreneceksiniz. Bunlara ek olarak, Git'i bazı dosyaları ya da konumları belli örüntülere (_pattern_) uyan dosyaları görmezden gelmesi için nasıl ayarlayacağınızı, hataları hızlıca ve kolayca nasıl geri alabileceğinizi, projenizin tarihçesine nasıl göz gezdirip kayıtlar arasındaki farkları nasıl görüntüleyebileceğinizi ve uzak uçbirimlerden nasıl kod çekme işlemi yapabileceğinizi göstereceğiz.
 
 ## Bir Git Yazılım Havuzu Edinmek ##
 
@@ -34,7 +34,7 @@ Bu komut `grit` adında bir klasör oluşturur, bu klasörün içinde bir `.git`
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
-Bu komut da bir öncekiyle aynı şeyleri yapar, fakat oluşturulan klsörün adı `mygrit`'tir.
+Bu komut da bir öncekiyle aynı şeyleri yapar, fakat oluşturulan klasörün adı `mygrit`'tir.
 
 Git'in bir dizi farklı transfer protokolü vardır. Yukarıdaki örnek `git://` protokolünü kullanıyor, ama `http(s)://`'in ya da SSH  transfer protokolünü kullanan `user@server:/path.git`'in kullanıldığına da tanık olabilirsiniz. _4. Bölüm_'de Git yazılım havuzuna erişmek için sunucunun kullanabileceği bütün geçerli seçenekleri ve bunların olumlu ve olumsuz yanlarını inceleyeceğiz.
 
@@ -157,7 +157,7 @@ Ne oldu? `benchmarks.rb` dosyası hem kayda hazırlanmış hem de kayda hazırla
 	*.[oa]
 	*~
 
-İlk satır, Git'e `.o` ya da `.a` ile biten dosyaları —yazılım derlemesinin sonucunda ortaya çıkmış olabilecek _nesne_ ve _arşiv_ dosyalarını— görmezden gelmesini söylüyor. İkinci satır, Git'e Emacs gibi pek çok metin editörü tarafından geçici dosyaları işaretlemek için kullanılan tilda işaretiyle (`~`) biten bütün dosyaları görmezden gemesini söylüyor. Bu listeye `log`, `tmp` ya da `pid` klasörlerini, otomatik olarak oluşturulan dokümantasyon dosyalarını ve sair dosyayı ekleyebilirsiniz. Daha projenin başlangıcında bir `.gitignore` dosyası oluşturmak yazılım havuzunuzda istemeyeceğiniz dosyaları yanlışlıkla kaydetmenize engel olacağından oldukça iyi bir fikirdir.
+İlk satır, Git'e `.o` ya da `.a` ile biten dosyaları —yazılım derlemesinin sonucunda ortaya çıkmış olabilecek _nesne_ ve _arşiv_ dosyalarını— görmezden gelmesini söylüyor. İkinci satır, Git'e Emacs gibi pek çok metin editörü tarafından geçici dosyaları işaretlemek için kullanılan tilda işaretiyle (`~`) biten bütün dosyaları görmezden gelmesini söylüyor. Bu listeye `log`, `tmp` ya da `pid` klasörlerini, otomatik olarak oluşturulan dokümantasyon dosyalarını ve sair dosyayı ekleyebilirsiniz. Daha projenin başlangıcında bir `.gitignore` dosyası oluşturmak yazılım havuzunuzda istemeyeceğiniz dosyaları yanlışlıkla kaydetmenize engel olacağından oldukça iyi bir fikirdir.
 
 `.gitignore` dosyanızda bulundurabileceğiniz örüntüler şu kurallara bağlıdır:
 
@@ -174,12 +174,12 @@ Bir `.gitignore` dosyası örneği daha:
 	*.a       # .a dosyalarını görmezden gel
 	!lib.a    # ama yukarıda .a dosyalarını görmezden geliyor olsan bile lib.a dosyasını izlemeye al
 	/TODO     # kök dizindeki /TODO dosyasını (TODO adındaki alt klasörü değil) görmezden gel
-	build/    # build/ klasöründeki bütün dosyaları görmexden gel
-	doc/*.txt # doc/notes.txt dosyasını görmeden gel ama doc/server/arch.txt dosyasını görmezden gelme
+	build/    # build/ klasöründeki bütün dosyaları görmezden gel
+	doc/*.txt # doc/notes.txt dosyasını görmezden gel ama doc/server/arch.txt dosyasını görmezden gelme
 
 ### Kayda Hazırlanmış ve Hazırlanmamış Değişiklikleri Görüntülemek ###
 
-`git status` komutunu fazla anlaşılmaz buluyorsanız —yalnızca hangi dosyaların deiştiğini değil, bu dosyalarda tam olarak nelerin değiştiğini görmek istiyorsanız— `git diff` komutunu kullanabilirsiniz. `git diff` komutunu ileride ayrıntılı olarak inceleyeceğiz; ama bu komutu muhtemelen en çok şu iki soruya cevap bulmak için kullanacaksınız: Değiştirip de henüz kayda hazırlamadığınız neler var? Ve kayda olmak üzere hangi değişikliklerin hazırlığını yaptınız? `git status` bu soruları genel biçimde cevaplıyor olsa da `git diff` eklenen ve çıkarılan bütün dosyaları —olduğu gibi yamayı— görsterir.
+`git status` komutunu fazla anlaşılmaz buluyorsanız —yalnızca hangi dosyaların değiştiğini değil, bu dosyalarda tam olarak nelerin değiştiğini görmek istiyorsanız— `git diff` komutunu kullanabilirsiniz. `git diff` komutunu ileride ayrıntılı olarak inceleyeceğiz; ama bu komutu muhtemelen en çok şu iki soruya cevap bulmak için kullanacaksınız: Değiştirip de henüz kayda hazırlamadığınız neler var? Ve kayda olmak üzere hangi değişikliklerin hazırlığını yaptınız? `git status` bu soruları genel biçimde cevaplıyor olsa da `git diff` eklenen ve çıkarılan bütün dosyaları —olduğu gibi yamayı— görsterir.
 
 Diyelim `README` dosyasını düzenleyip kayda hazırladınız, sonra da `benchmarks.rb` dosyasını düzenlediniz ama kayda hazırlamadınız. `status` komutunu çalıştırdığınızda şöyle bir şey görürsünüz:
 
@@ -234,7 +234,7 @@ Kayda hazırlamış olduğunuz değişiklikleri görmek için `git diff --cache`
 
 Dikkat edilmesi gereken nokta, `git diff`'in son kayıttan beri yapılan bütün değişiklikleri değil yalnızca kayda hazırlanmamış değişiklikleri gösteriyor oluşudur. Bu zaman zaman kafa karıştırıcı olabilir, zira, bütün değişikliklerinizi kayda hazırladıysanız, `git diff`'in çıktısı boş olacaktır.
 
-Yine, örnek olarak, `benchmarks.rb` dosyasını kayda hazırlayıp daha sonra üzerinde değişiklik yaparsanız, `git diff` komutunu kullanarak hangi değişikliklerin kayda hazırlandığını hangilerinin hazırlanmadığını görüntüleyebilirsiniz:
+Yine, örnek olarak, `benchmarks.rb` dosyasını kayda hazırlayıp daha sonra üzerinde değişiklik yaparsanız, `git diff` komutunu kullanarak hangi değişikliklerin kayda hazırlandığını, hangilerinin hazırlanmadığını görüntüleyebilirsiniz:
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -316,13 +316,13 @@ Bir başka seçenek de, kayıt mesajınızı `commit` komutunu `-m` seçeneğiyl
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-İlk kaydınızı oluşturmuş oldunuz! Görüldüğü gibi kayıt kendisiyle ilgili bilgiler veriyor: hangi dala kayıt yapmmış olduğunuzu (`master`), kaydın SHA-1 sınama toplamının ne olduğunu (`463dc4f`), kaç dosyada değişiklik yaptığınızı ve kayıtta kaç satır ekleyip çıkardığınıza dair istatistiklerin çıktısını veriyor.
+İlk kaydınızı oluşturmuş oldunuz! Görüldüğü gibi kayıt kendisiyle ilgili bilgiler veriyor: hangi dala kayıt yapmış olduğunuzu (`master`), kaydın SHA-1 sınama toplamının ne olduğunu (`463dc4f`), kaç dosyada değişiklik yaptığınızı ve kayıtta kaç satır ekleyip çıkardığınıza dair istatistiklerin çıktısını veriyor.
 
 Unutmayın, kayıt, hazırlık alanında kayda hazırladığınız bellek kopyasının kaydıdır. Kayda hazırlamadığınız değişiklikler, değişiklik olarak duruyor; onları da proje tarihçesine eklemek isterseniz yeni bir kayıt yapabilirsiniz. Her kayıt işleminde projenizin bir bellek kopyasını kaydediyorsunuz; bu bellek kopyalarını daha sonra geriye sarabilir ya da birbiriyle karşılaştırabilirsiniz.
 
 ### Hazırlık Alanını Atlamak ###
 
-Her ne kadar kayıtları tam istediğiniz gibi düzenlemek inanılmaz derecede yararlı bir şey olsa da, hazırlık alanı kimi zaman iş akışınıza fazladan bir yük getirebilir. Git, hazırlık alanını kullanamdan geçmek isteyenler için basit bir kısayol sunuyor. `git commit` komutunu `-a` seçeneğiyle kullanırsanız, Git, halihazırda izlenmekte olan bütün dosyaları otomatik olarak kayda hazırlayıp, `git add` aşamasını atlamanızı sağlar:
+Her ne kadar kayıtları tam istediğiniz gibi düzenlemek inanılmaz derecede yararlı bir şey olsa da, hazırlık alanı kimi zaman iş akışınıza fazladan bir yük getirebilir. Git, hazırlık alanını kullanmadan geçmek isteyenler için basit bir kısayol sunuyor. `git commit` komutunu `-a` seçeneğiyle kullanırsanız, Git, halihazırda izlenmekte olan bütün dosyaları otomatik olarak kayda hazırlayıp, `git add` aşamasını atlamanızı sağlar:
 
 	$ git status
 	# On branch master
@@ -376,7 +376,7 @@ Yapmak isteyebileceğiniz bir başka şey de dosyayı çalışma klasörünüzde
 
 	$ git rm log/\*.log
 
-`*`'in önündeki ters eğik çizgi işaretini gözden kaçırmayın. Bu işaret gereklidir, çünkü _shell_'inizin dosya adı açımlamasına ek olarak, Git de kendi dosya adı açımlamasını yapar. Yuarıdaki komut, `log/` klasöründeki `.log` eklentili bütün dosyaları ortadan kaldıracaktır. Ya da, şöyle bir şey yapabilirsiniz:
+`*`'in önündeki ters eğik çizgi işaretini gözden kaçırmayın. Bu işaret gereklidir, çünkü _shell_'inizin dosya adı açımlamasına ek olarak, Git de kendi dosya adı açımlamasını yapar. Yukarıdaki komut, `log/` klasöründeki `.log` eklentili bütün dosyaları ortadan kaldıracaktır. Ya da, şöyle bir şey yapabilirsiniz:
 
 	$ git rm \*~
 
@@ -409,11 +409,11 @@ ve istediğinizi elde edersiniz. Hatta, buna benzer bir komut çalıştırdıkta
 	$ git rm README.txt
 	$ git add README
 
-Git dosya taşıma işlemini dolaylı yollardan anlar, dolayısıyla dosyayı yeniden adlandırmayı bu komutlarla mı yaptığınız yoksa `mv` komutunu mu kullandığınız Git açısından önemli değildir. Tek gerçek fark arka arkaya üç komut kullanmak yerine tek bir komut kullanıyor olmanızdır —`mv`bir kullanıcıya kolalık sağlayan bir komuttur. Daha önemlisi, bir dosyanın adını değiştirmek için istediğini her aracı kullanabilir, `add/rm` işlemlerini sonraya kayıttan hemen öncesine bırakablirsiniz.
+Git dosya taşıma işlemini dolaylı yollardan anlar, dolayısıyla dosyayı yeniden adlandırmayı bu komutlarla mı yaptığınız yoksa `mv` komutunu mu kullandığınız Git açısından önemli değildir. Tek gerçek fark arka arkaya üç komut kullanmak yerine tek bir komut kullanıyor olmanızdır —`mv` bir kullanıcıya kolalık sağlayan bir komuttur. Daha önemlisi, bir dosyanın adını değiştirmek için istediğiniz her aracı kullanabilir, `add/rm` işlemlerini sonraya kayıttan hemen öncesine bırakabilirsiniz.
 
 ## Kayıt Tarihçesini Görüntülemek ##
 
-Birkaç kayıt oluşturduktan, ya da halihazırda kayıt tarihçesi olan bir yazılım havuzunu klonladığınızda, muhtemelen geçmişe bakıp neler oluduğuna göz atmak isteyeceksiniz. Bunun için kullanabileceğiniz en temel ve becerikli araç `git log` komutudur.
+Birkaç kayıt oluşturduktan, ya da halihazırda kayıt tarihçesi olan bir yazılım havuzunu klonladığınızda, muhtemelen geçmişe bakıp neler olduğuna göz atmak isteyeceksiniz. Bunun için kullanabileceğiniz en temel ve becerikli araç `git log` komutudur.
 
 Buradaki örnekler benim çoğunlukla tanıtımlarda kullandığım `simplegit` adında bir projeyi kullanıyor. Projeyi edinmek için aşağıdaki komutu çalıştırabilirsiniz:
 
@@ -525,7 +525,7 @@ Gördüğünüz gibi `--stat`  seçeneği, her kaydın altına o kayıtta deği�
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-En ilginç ek seçenek, istediğiniz log çıktısını belirlemenizi sağlayan `format` ek seçeneğidir. Bu, özellikle bilgisayar tarafından işlenecek biir çıktı oluşturmak konusunda elverişlidir —biçimi açıkça kendiniz belirlediğiniz için farklı Git sürümlerinde farklı sonuçlarla karşılaşmazsınız:
+En ilginç ek seçenek, istediğiniz log çıktısını belirlemenizi sağlayan `format` ek seçeneğidir. Bu, özellikle bilgisayar tarafından işlenecek bir çıktı oluşturmak konusunda elverişlidir —biçimi açıkça kendiniz belirlediğiniz için farklı Git sürümlerinde farklı sonuçlarla karşılaşmazsınız:
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
@@ -551,7 +551,7 @@ Tablo 2-1 `format` ek seçeneğinin kabul ettiği bazı biçimlendirme seçenekl
 	%cr	Kaydedilme tarihi (göreceli tarih)
 	%s	Konu
 
-_yazar_'la _kaydeden_ arasında ne gibi biir fark olduğunu merak ediyor olabilirsiniz. _yazar_ yamayı oluşturan kişidir, _kaydeden_'se yamayı projeye uygulayan kişi. Bir, projeye yama gönderdiğinizde, projenin çekirdek üyelerinden biri yamayı projeye uygularsa, her ikinizin de adı kaydedilecektir —sizin adınız yazar olarak onun adı kaydeden olarak. Bu farkı _5. Bölüm_'de biraz daha ayrıntılı olarak ele alacağız.
+_yazar_'la _kaydeden_ arasında ne gibi bir fark olduğunu merak ediyor olabilirsiniz. _yazar_ yamayı oluşturan kişidir, _kaydeden_'se yamayı projeye uygulayan kişi. Bir projeye yama gönderdiğinizde, projenin çekirdek üyelerinden biri yamayı projeye uygularsa, her ikinizin de adı kaydedilecektir —sizin adınız yazar olarak onun adı kaydeden olarak. Bu farkı _5. Bölüm_'de biraz daha ayrıntılı olarak ele alacağız.
 
 `oneline` ve `format` ek seçenekleri özellikle `--graph` ek seçeneğiyle birlikte kullanıldıklarında çok işe yararlar. Bu ek seçenek projenizin dal (_branch_) ve birleştirme (_merge_) tarihçesini gösteren sevimli bir ASCII grafiği oluşturur. Grit yazılım havuzunun grafiğine bakalım:
 
@@ -567,7 +567,7 @@ _yazar_'la _kaydeden_ arasında ne gibi biir fark olduğunu merak ediyor olabili
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-Bunlar`git log`'la birlikte kullanabileceğiniz seçeneklerden yalnızca birkaçı —daha başka çok sayıda seçenek var. Tablo 2-2 yukarıda incelediğimiz seçeneklerin yanı sıra, yararlı olabilecek başka seçenekleri `git log` çıktısına olan etkileriyle birlikte listeliyor..
+Bunlar `git log`'la birlikte kullanabileceğiniz seçeneklerden yalnızca birkaçı —daha başka çok sayıda seçenek var. Tablo 2-2 yukarıda incelediğimiz seçeneklerin yanı sıra, yararlı olabilecek başka seçenekleri `git log` çıktısına olan etkileriyle birlikte listeliyor.
 
 	Seçenek	Açıklama
 	-p	Kayıtların içeriklerini de göster.

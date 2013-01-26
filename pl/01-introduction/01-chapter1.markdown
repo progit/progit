@@ -157,7 +157,7 @@ Jeśli chcesz zainstalować Git w systemie Linux z wykorzystaniem pakietów bina
 
 Jeśli korzystasz z dystrybucji opartej na Debianie (np. Ubuntu), użyj apt-get:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Instalacja na komputerze Mac ###
 

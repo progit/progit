@@ -157,7 +157,7 @@ Als je direct de uitvoerbare bestanden van Git op Linux wilt installeren, kun je
 
 Of als je een distributie hebt die op Debian gebaseerd is, zoals Ubuntu, kun je apt-get proberen:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Op een Mac installeren ###
 

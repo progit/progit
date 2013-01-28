@@ -458,9 +458,6 @@ Insert 18333fig0702.png
 Insert 18333fig0703.png 
 그림 7-3 "clean" 필터는 파일을 Stage할 때 실행된다
 
-???
-The original commit message for this functionality gives a simple example of running all your C source code through the indent program before committing. You can set it up by setting the filter attribute in your .gitattributes file to filter `*.c` files with the "indent" filter:
-
 커밋하기 전에 `indent` 프로그램으로 C 코드 전부를 필터링하지만 커밋 메시지는 단순한 예제를 보자. `*.c` 파일은 indent 필터를 사용하도록 `.gitattributes` 파일에 설정한다:
 
 	*.c     filter=indent
@@ -888,7 +885,7 @@ update 스크립트는 각 브랜치마다 한 번씩 실행된다는 것을 제
 
 	access = get_acl_access_data('.git/acl')
 
-두 번째 차이점은 파일 목록을 얻는 방법이다. 서버 훅에서는 커밋에 있는 파일을 모두 찾았지만 여기서는 아직 커밋하지도 않았다. 그래서 Stage 영역의 파일 목록을 이용한다:
+두 번째 차이점은 파일 목록을 얻는 방법이다. 서버 훅에서는 커밋에 있는 파일을 모두 찾았지만 여기서는 아직 커밋하지도 않았다. 그래서 Staging Area의 파일 목록을 이용한다:
 
 	files_modified = `git log -1 --name-only --pretty=format:'' #{ref}`
 

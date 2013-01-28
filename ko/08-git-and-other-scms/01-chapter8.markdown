@@ -8,7 +8,7 @@ Git은 완벽하지 않다. 프로젝트를 전부 Git으로 옮기기는 어렵
 
 현재도 많은 오픈소스 프로젝트와 수 많은 기업 프로젝트는 Subversion으로 소스코드를 관리한다. 10여년간 Subversion이 가장 인기있는 오픈소스 VCS 도구였다. Subversion은 그 이전 시대에서 가장 많이 사용하던 CVS와 많이 닮았다.
 
-Git이 자랑하는 또 하나의 기능은 `git svn`이라는 양방향 Subversion 지원 도구이다. Git을 Subversion 클라이언트로 사용할 수 있기 때문에 로컬에서는 Git의 기능을 활용하고 Push 할 때는 Subversion 서버에 Push한다. 로컬 브랜치와 Merge, Stage 영역, Rebase, Cherry-pick 등의 Git 기능을 충분히 사용할 수 있다. 같이 일하는 동료는 빛 한줄기 없는 선사시대 동굴에서 일하겠지만 말이다. `git svn`은 기업에서 git을 사용할 수 있도록 돕는 출발점이다. 우리가 Git을 도입하기 위해 기업내에서 노력하는 동안 동료가 효율적으로 환경을 바꿀 수 있도록 도움을 줄 수 잇다. Subversion 지원 도구는 우리를 DVCS 세상으로 인도하는 붉은 알약과 같은 것이다.
+Git이 자랑하는 또 하나의 기능은 `git svn`이라는 양방향 Subversion 지원 도구이다. Git을 Subversion 클라이언트로 사용할 수 있기 때문에 로컬에서는 Git의 기능을 활용하고 Push 할 때는 Subversion 서버에 Push한다. 로컬 브랜치와 Merge, Staging Area, Rebase, Cherry-pick 등의 Git 기능을 충분히 사용할 수 있다. 같이 일하는 동료는 빛 한줄기 없는 선사시대 동굴에서 일하겠지만 말이다. `git svn`은 기업에서 git을 사용할 수 있도록 돕는 출발점이다. 우리가 Git을 도입하기 위해 기업내에서 노력하는 동안 동료가 효율적으로 환경을 바꿀 수 있도록 도움을 줄 수 잇다. Subversion 지원 도구는 우리를 DVCS 세상으로 인도하는 붉은 알약과 같은 것이다.
 
 ### git svn ###
 

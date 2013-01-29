@@ -619,7 +619,7 @@ kannst du folgenden Befehl verwenden:
 
 Aus etwa 20.000 Commits in der Git Quellcode Historie, filtert dieser Befehl gerade einmal 6 Commits heraus, die diesen Kriterien entsprechen.
 
-### Grafische Darstellung der Historie###
+### Grafische Darstellung der Historie ###
 
 Wenn dir eine grafische Anzeige der Commit Historie lieber ist, kannst du das Tcl/Tk Programm `gitk`, welches mit Git ausgeliefert wird, ausprobieren. `gitk` ist im wesentlichen eine grafische Version von `git log` und akzeptiert fast alle Filteroptionen, die `git log` auch akzeptiert. Wenn du `gitk` in einem Projekt ausführst, siehst du etwa folgende Ausgabe:
 
@@ -1054,7 +1054,7 @@ Wenn du viele Tags auf einmal hochladen willst, kannst du dem `git push` Befehl 
 
 Wenn jetzt jemand anderes das Repository klont oder von dort aktualisiert, wird er all diese Tags ebenfalls erhalten.
 
-## Tipps und Tricks ###
+## Tipps und Tricks ##
 
 Bevor wir zum Ende dieses Grundlagenkapitels kommen, möchten wir noch einige Tipps und Tricks vorstellen, die dir den Umgang mit Git ein bißchen vereinfachen können. Du kannst Git natürlich einsetzen, ohne diese Tipps anzuwenden, und wir werden später in diesem Buch auch nicht darauf Bezug nehmen oder sie voraussetzen. Aber wir finden, du solltest sie kennen, weil sie einfach nützlich sind.
 

@@ -1,5 +1,3 @@
-# Git Internals #
-
 # Git Internas #
 
 You may have skipped to this chapter from a previous chapter, or you may have gotten here after reading the rest of the book — in either case, this is where you’ll go over the inner workings and implementation of Git. I found that learning this information was fundamentally important to understanding how useful and powerful Git is, but others have argued to me that it can be confusing and unnecessarily complex for beginners. Thus, I’ve made this discussion the last chapter in the book so you could read it early or later in your learning process. I leave it up to you to decide.
@@ -985,7 +983,7 @@ Die Ausgabe des ganzen Vorgangs sieht dann in etwa so aus:
 
 ### The Smart Protocol ###
 
-### Das Smart Protokoll (xxx) ####
+### Das Smart Protokoll (xxx) ###
 
 The HTTP method is simple but a bit inefficient. Using smart protocols is a more common method of transferring data. These protocols have a process on the remote end that is intelligent about Git — it can read local data and figure out what the client has or needs and generate custom data for it. There are two sets of processes for transferring data: a pair for uploading data and a pair for downloading data.
 

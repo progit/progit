@@ -1,5 +1,3 @@
-# Distributed Git #
-
 # Distribuierte Arbeit mit Git (xxx) #
 
 Now that you have a remote Git repository set up as a point for all the developers to share their code, and you’re familiar with basic Git commands in a local workflow, you’ll look at how to utilize some of the distributed workflows that Git affords you.
@@ -878,7 +876,7 @@ Wenn du einen Patch, den du auf dein Projekt anwenden willst, per E-Mail erhält
 
 #### Applying a Patch with apply ####
 
-#### Einen Patch verwenden: git apply ###
+#### Einen Patch verwenden: git apply ####
 
 If you received the patch from someone who generated it with the `git diff` or a Unix `diff` command, you can apply it with the `git apply` command. Assuming you saved the patch at `/tmp/patch-ruby-client.patch`, you can apply the patch like this:
 
@@ -904,7 +902,7 @@ Wenn dieser Befehl nichts ausgibt, sollte der Befehl sauber anwendbar sein.
 
 #### Applying a Patch with am ####
 
-#### Einen Patch verwenden: git am ###
+#### Einen Patch verwenden: git am ####
 
 If the contributor is a Git user and was good enough to use the `format-patch` command to generate their patch, then your job is easier because the patch contains author information and a commit message for you. If you can, encourage your contributors to use `format-patch` instead of `diff` to generate patches for you. You should only have to use `git apply` for legacy patches and things like that.
 

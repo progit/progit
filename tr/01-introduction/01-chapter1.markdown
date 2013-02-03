@@ -159,7 +159,7 @@ Git'i Linux sisteminize paket kurucu yardımıyla kurmak istiyorsanız, bunu gen
 
 Ubuntu gibi Debian-tabanlı bir sistemdeyseniz, apt-get'i kullanabilirsiniz:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Mac'te Kurulum ###
 

@@ -165,7 +165,7 @@ Let’s get into using some Git. First things first—you have to install it. Yo
 
 若讀者在以Debian為基礎的發行套件，如：Ubuntu。 試試apt-get：
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### 在Mac系統安裝 ###
 

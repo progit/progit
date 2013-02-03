@@ -1,4 +1,3 @@
-# Customizing Git #
 # Git Personalisieren #
 
 Ich habe nun die grundlegende Funktionsweise und die Benutzung von Git besprochen. Weiterhin habe ich einige Werkzeuge von Git eingefuehrt, die dem Benutzer ein einfaches und effizientes Arbeiten erlauben sollen. In diesem Kapitel werde ich nun auf einige Operationen eingehen, die Du benutzen kannst, um die Funktionsweise von Git Deinen persönlichen Beduerfnissen anzupassen. Dazu fuhre ich einige wichtige Konfigurationseinstellungen ein, sowie das Schnittstellen-System, auch Hooks genannt. Mit diesen Mitteln ist es einfach Git so anzupassen, dass es genau den Anspruechen des Benutzers, des Unternehmens oder des Teams entspricht.
@@ -418,7 +417,7 @@ Dies verbietet grundsätzlich das Löschen eines Branches oder einer Marke (Tag)
 This denies branch and tag deletion over a push across the board — no user can do it. To remove remote branches, you must remove the ref files from the server manually. There are also more interesting ways to do this on a per-user basis via ACLs, as you’ll learn at the end of this chapter.
 
 ## Git Attributes ##
-## Git Attribute ###
+## Git Attribute ##
 
 Einige dieser Einstellungen können auch auf bestimmte Pfade eingeschränkt werden, so dass sie nur fuer bestimmte Unterverzeichnisse oder Untergruppen von Dateien gueltig sind. Diese Einstellungen werden Git Attribute genannt und werden entweder in `.gitattributes` in einem der Projektverzeichnisse eingerichtet (ueblicherweise im Rootverzeichnis Deines Projektes), oder in der `.git/info/attributes` Datei, wenn Du nicht möchtest, dass die Attribute mit Deinem Projekt comitted werden.
 

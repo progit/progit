@@ -17,13 +17,13 @@ Si vous commencez à suivre un projet existant dans Git, vous n'avez qu'à vous 
 
 	$ git init
 
-Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous les fichiers nécessaire au dépôt — un squelette de dépôt Git.
+Cela crée un nouveau sous-répertoire nommé `.git` qui contient tous les fichiers nécessaires au dépôt — un squelette de dépôt Git.
 Pour l'instant, aucun fichier n'est encore versionné.
 (Cf. chapitre 9 pour plus d'information sur les fichiers contenus dans le répertoire `.git` que vous venez de créer.)
 
 
 Si vous souhaitez commencer à suivre les versions des fichiers existants (contrairement à un répertoire vide), vous devriez probablement commencer par indexer ces fichiers et faire une validation initiale.
-Vous pouvez réaliser ceci avec une poignée de commandes `git add` qui spécifient les fichiers que vous souhaitez suivre, suivi d'une validation :
+Vous pouvez réaliser ceci avec une poignée de commandes `git add` qui spécifient les fichiers que vous souhaitez suivre, suivie d'une validation :
 
 	$ git add *.c
 	$ git add README
@@ -41,12 +41,12 @@ Toutes les versions de tous les fichiers pour l'historique du projet sont télé
 En fait, si le disque du serveur se corrompt, vous pouvez utiliser n'importe quel clone pour remettre le serveur dans l'état où il était au moment du clonage (vous pourriez perdre quelques paramètres du serveur, mais toutes les données sous gestion de version seraient récupérées — cf. chapitre 4 pour de plus amples détails).
 
 Vous clonez un dépôt avec `git clone [url]`.
-Par exemple, si vous voulez cloner la bibliothèque Git Ruby appelée Grit, vous pouvez le faire de manière suivante :
+Par exemple, si vous voulez cloner la bibliothèque Git Ruby appelée Grit, vous pouvez le faire de la manière suivante :
 
 	$ git clone git://github.com/schacon/grit.git
 
 Ceci crée un répertoire nommé `grit`, initialise un répertoire `.git` à l'intérieur, récupère toutes les données de ce dépôt, et extrait une copie de travail de la dernière version.
-Si vous examinez le nouveau répertoire `grit`, vous y verrez les fichiers du projet, prêt à être modifiés ou utilisés.
+Si vous examinez le nouveau répertoire `grit`, vous y verrez les fichiers du projet, prêts à être modifiés ou utilisés.
 Si vous souhaitez cloner le dépôt dans un répertoire nommé différemment, vous pouvez spécifier le nom dans une option supplémentaire de la ligne de commande :
 
 	$ git clone git://github.com/schacon/grit.git mongrit
@@ -113,7 +113,7 @@ Pour commencer à suivre le fichier `LISEZMOI`, vous pouvez entrer ceci :
 
 	$ git add LISEZMOI
 
-Si vous lancez à nouveau la commande `status`, vous pouvez constater que votre fichier `LISEZMOI` est maintenant suivi et indexé :
+Si vous lancez à nouveau la commande `git status`, vous pouvez constater que votre fichier `LISEZMOI` est maintenant suivi et indexé :
 
 	$ git status
 	# On branch master
@@ -131,7 +131,7 @@ La commande `git add` accepte en paramètre un chemin qui correspond à un fichi
 ### Indexer des fichiers modifiés ###
 
 Maintenant, modifions un fichier qui est déjà sous suivi de version.
-Si vous modifiez le fichier sous suivi de version appelé `benchmarks.rb` et que vous lancez à nouveau votre commande `status`, vous verrez ceci :
+Si vous modifiez le fichier sous suivi de version appelé `benchmarks.rb` et que vous lancez à nouveau votre commande `git status`, vous verrez ceci :
 
 	$ git status
 	# On branch master
@@ -147,7 +147,7 @@ Si vous modifiez le fichier sous suivi de version appelé `benchmarks.rb` et que
 	#
 
 Le fichier `benchmarks.rb` apparaît sous la section nommée « Changes not staged for commit » ce qui signifie que le fichier sous suivi de version a été modifié dans la copie de travail mais n'est pas encore indexé.
-Pour l'indexer, il faut lancer la commande `git add` (qui est une commande multi-usage — elle peut être utilisée pour placer un fichier sous suivi de version, pour indexer un fichier ou pour d'autres actions telles que marquer comme résolu des conflits de fusion de fichiers).
+Pour l'indexer, il faut lancer la commande `git add` (qui est une commande multi-usage — elle peut être utilisée pour placer un fichier sous suivi de version, pour indexer un fichier ou pour d'autres actions telles que marquer comme résolus des conflits de fusion de fichiers).
 Lançons maintenant `git add` pour indexer le fichier `benchmarks.rb`, et relançons la commande `git status` :
 
 	$ git add benchmarks.rb
@@ -206,17 +206,17 @@ Voici ci-dessous un exemple de fichier `.gitignore` :
 	*.[oa]
 	*~
 
-La première ligne ordonne à Git d'ignorer tout fichier se terminant en .o ou .a — des fichiers objet ou archive qui sont généralement produits par la compilation d'un programme.
+La première ligne ordonne à Git d'ignorer tout fichier se terminant en `.o` ou `.a` — des fichiers objet ou archive qui sont généralement produits par la compilation d'un programme.
 La seconde ligne indique à Git d'ignorer tous les fichiers se terminant par un tilde (`~`), ce qui est le cas des noms des fichiers temporaires pour de nombreux éditeurs de texte tels qu'Emacs.
-On peut aussi inclure un répertoire log, tmp ou pid, ou le répertoire de documentation générée automatiquement, ou tout autre fichier.
+On peut aussi inclure un répertoire `log`, `tmp` ou `pid`, ou le répertoire de documentation générée automatiquement, ou tout autre fichier.
 Renseigner un fichier `.gitignore` avant de commencer à travailler est généralement une bonne idée qui évitera de valider par inadvertance des fichiers qui ne doivent pas apparaître dans le dépôt Git.
 
 Les règles de construction des patrons à placer dans le fichier `.gitignore` sont les suivantes :
 
-* Les lignes vides ou commençant par `#` sont ignorées
-* Les patrons standards de fichiers sont utilisables
-* Si le patron se termine par une barre oblique (`/`), il indique un répertoire
-* Un patron commençant par un point d'exclamation (`!`) indique des fichiers à inclure malgré les autres règles.
+* les lignes vides ou commençant par `#` sont ignorées ;
+* les patrons standards de fichiers sont utilisables ;
+* si le patron se termine par une barre oblique (`/`), il indique un répertoire ;
+* un patron commençant par un point d'exclamation (`!`) indique des fichiers à inclure malgré les autres règles.
 
 Les patrons standards de fichiers sont des expressions régulières simplifiées utilisées par les shells.
 Un astérisque (`*`) correspond à un ou plusieurs caractères ; `[abc]` correspond à un des trois caractères listés dans les crochets, donc a ou b ou c ; un point d'interrogation (`?`) correspond à un unique caractère ; des crochets entourant des caractères séparés par un signe moins (`[0-9]`) correspond à un caractère dans l'intervalle des deux caractères indiqués, donc ici de 0 à 9.
@@ -236,7 +236,7 @@ Si le résultat de la commande `git status` est encore trop vague — lorsqu'on
 Cette commande sera traitée en détail plus loin ; mais elle sera vraisemblablement utilisée le plus souvent pour répondre aux questions suivantes : qu'est-ce qui a été modifié mais pas encore indexé ? Quelle modification a été indexée et est prête pour la validation ? Là où `git status` répond de manière générale à ces questions, `git diff` montre les lignes exactes qui ont été ajoutées, modifiées ou effacées — le patch en somme.
 
 Supposons que vous éditez et indexez le fichier `LISEZMOI` et que vous éditez le fichier `benchmarks.rb` sans l'indexer.
-Si vous lancez la commande `status`, vous verrez ceci :
+Si vous lancez la commande `git status`, vous verrez ceci :
 
 	$ git status
 	# On branch master
@@ -411,7 +411,7 @@ Notez bien que vous n'avez pas eu à lancer `git add` sur le fichier `benchmarks
 Pour effacer un fichier de Git, vous devez l'éliminer des fichiers en suivi de version (plus précisément, l'effacer dans la zone d'index) puis valider.
 La commande `git rm` réalise cette action mais efface aussi ce fichier de votre copie de travail de telle sorte que vous ne le verrez pas réapparaître comme fichier non suivi en version à la prochaine validation.
 
-Si vous effacez simplement le fichier dans votre copie de travail, il apparaît sous la section “Changes not staged for commit“ (c'est-à-dire, _non indexé_) dans le résultat de `git status` :
+Si vous effacez simplement le fichier dans votre copie de travail, il apparaît sous la section « Changes not staged for commit » (c'est-à-dire, _non indexé_) dans le résultat de `git status` :
 
 	$ rm grit.gemspec
 	$ git status
@@ -472,7 +472,7 @@ Si vous souhaitez renommer un fichier dans Git, vous pouvez lancer quelque chose
 	$ git mv nom_origine nom_cible
 
 et cela fonctionne.
-En fait, si vous lancez quelque chose comme ceci et inspectez le résultat d'une commande `status`, vous constaterez que Git gère le renommage de fichier :
+En fait, si vous lancez quelque chose comme ceci et inspectez le résultat d'une commande `git status`, vous constaterez que Git gère le renommage de fichier :
 
 	$ git mv LISEZMOI.txt LISEZMOI
 	$ git status
@@ -744,7 +744,7 @@ Le visualisateur de diff dans la partie inférieure de la fenêtre affiche les m
 
 À tout moment, vous pouvez désirer annuler une de vos dernières actions.
 Dans cette section, nous allons passer en revue quelques outils de base permettant d'annuler des modifications.
-Il faut être très attentif car certaines de ces annulations sont définitives (elles ne peuvent pas être elles-même annulées).
+Il faut être très attentif car certaines de ces annulations sont définitives (elles ne peuvent pas être elles-mêmes annulées).
 C'est donc un des rares cas d'utilisation de Git où des erreurs de manipulation peuvent entraîner des pertes définitives de données.
 
 ### Modifier le dernier *commit* ###
@@ -869,7 +869,7 @@ Si vous avez cloné un dépôt, vous devriez au moins voir l'origine `origin` �
 	$ git remote
 	origin
 
-Vous pouvez aussi spécifier `-v`, qui vous montre l'URL que Git a stocké pour chaque nom court :
+Vous pouvez aussi spécifier `-v`, qui vous montre l'URL que Git a stockée pour chaque nom court :
 
 	$ git remote -v
 	origin  git://github.com/schacon/ticgit.git (fetch)

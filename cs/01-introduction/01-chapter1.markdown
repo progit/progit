@@ -157,7 +157,7 @@ Chcete-li nainstalovat Git v Linuxu pomocí binárního instalátoru, většinou
 
 V distribuci založené na Debianu (např. Ubuntu) zkuste použít program apt-get:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Instalace v systému Mac ###
 

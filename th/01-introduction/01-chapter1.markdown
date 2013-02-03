@@ -157,7 +157,7 @@ staging area เป็นไฟล์ธรรมดาไฟล์นึง โ
 
 หรือถ้าคุณใช้ระบบแบบ Debian อย่าง Ubuntu คุณสามารถติดตั้งผ่าน apt-get ได้:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### การติดตั้งบนแมค ###
 

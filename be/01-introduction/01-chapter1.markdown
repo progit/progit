@@ -157,7 +157,7 @@ Insert 18333fig0106.png
 
 Ці калі ў вас дыстрыбутыў на базе Debian, напрыклад Ubuntu, паспрабуйце apt-get:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Усталёўка на Mac ###
 

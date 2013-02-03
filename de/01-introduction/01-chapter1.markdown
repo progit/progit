@@ -157,7 +157,7 @@ Wenn Du Git unter Linux mit einem Installationsprogramm installieren willst, kan
 
 Auf einem Debian-basierten System wie Ubuntu steht dir apt-get zur Verfügung:
 
-	$ apt-get install git-core
+	$ apt-get install git
 
 ### Installation unter Mac OS X ###
 

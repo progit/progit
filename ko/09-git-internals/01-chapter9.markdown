@@ -816,8 +816,6 @@ Git을 사용하다 보면 커밋을 잃어 버리는 실수를 할 때도 있�
 
 최근 커밋 두 개는 어떤 브랜치도 가리키지 않는다. 잃어 버렸다고 볼 수 있다. 그 두 커밋을 브랜치에 다시 포함하려면 마지막 커밋을 다시 찾아야 한다. SHA 값을 외웠을 리도 없고 뭔가 찾아낼 방법이 필요하다.
 
-Often, the quickest way is to use a tool called git reflog. As you’re working, Git silently records what your HEAD is every time you change it. Each time you commit or change branches, the reflog is updated. The reflog is also updated by the git update-ref command, which is another reason to use it instead of just writing the SHA value to your ref files, as we covered in the "Git References" section of this chapter earlier. You can see where you’ve been at any time by running git reflog:
-
 보통 `git reflog` 명령을 사용하는 게 가장 쉽다. HEAD가 가리키는 커밋이 바뀔 때마다 Git은 자동으로 그 커밋이 무엇인지 기록한다. 새로 커밋하거나 브랜치를 바꾸면 Reflog도 늘어난다. "Git 레퍼런스" 절에서 배운 `git update-ref` 명령으로도 Reflog를 남길 수 있다. 이 것이 `git update-ref`를 꼭 사용해야 하는 이유중에 하나다. `git reflog` 명령만 실행하면 언제나 발자취를 돌아볼 수 있다:
 
 	$ git reflog

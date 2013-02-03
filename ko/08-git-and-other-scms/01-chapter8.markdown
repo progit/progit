@@ -108,8 +108,6 @@ Git에서 브랜치와 태그 정보가 제대로 보이는 것을 확인한다:
 
 이 결과를 보면 리모트 저장소가  두 개 있다. `gitserver`라는 리모트 저장소에 `master` 브랜치가 있고 `origin`이라는 리모트 저장소에 `master`, `testing` 브랜치가 있다.
 
-Notice how in the example of remote references imported from git svn, tags are added as remote branches, not as real Git tags. Your Subversion import looks like it has a remote named tags with branches under it.
-
 `git svn`으로 저장소를 가져오면 Subversion 태그는 Git 태그가 아니라 리모트 브랜치로 등록되는 점을 잘 기억하자. `git svn`은 Subversion 태그를 tags라는 리모트 서버에 있는 브랜치처럼 만든다.
 
 ### Subversion 서버에 커밋하기 ###
@@ -500,8 +498,6 @@ Author 정보가 훨씬 Git답고 `git-svn-id` 항목도 기록되지 않았다.
 	back_2009_01_14
 	back_2009_02_03
 	current
-
-Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one
 
 Importer를 만들기 전에 우선 Git이 어떻게 데이터를 저장하는지 알아야 한다. 이미 알고 있듯이 Git은 기본적으로 스냅샷을 가리키는 커밋 개체가 연결된 리스트이다. 스냅샷이 뭐고, 그걸 가리키는 커밋은 또 뭐고, 그 커밋의 순서가 어떻게 되는지 `fast-import`에 알려 줘야 한다. 이 것이 해야할 일의 전부다. 그러면 디렉토리마다 스냅샷을 만들고, 그 스냅샷을 가리키는 커밋 개체를 만들고, 이전 커밋과 연결 시킨다.
 

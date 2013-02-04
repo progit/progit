@@ -182,6 +182,8 @@ Instalace systému Git v OS Windows je velice nenáročná. Postup instalace pro
 
 Po dokončení instalace budete mít k dispozici jak verzi pro příkazový řádek (včetně SSH klienta, který se vám bude hodit později), tak standardní grafické uživatelské rozhraní.
 
+Poznámka k používání pod Windows: Git byste měli používat z dodaného shellu msysGit (unixový styl). Umožní vám zadávat složité řádkové příkazy, které v této knize naleznete. Pokud z nějakého důvodu potřebujete používat původní windowsovský shell / konzoli příkazové řádky, budete muset používat místo apostrofů uvozovky (pro parametry s mezerami uvnitř), a parametry končící stříškou (^) budete muset uzavírat do uvozovek v případě, kdy se stříška nachází na konci řádku. Ve Windows se totiž používá jako pokračovací znak.
+
 ## První nastavení systému Git ##
 
 Nyní, když máte Git nainstalovaný, můžete provést některá uživatelská nastavení systému. Nastavení stačí provést pouze jednou — zůstanou zachována i po případných aktualizacích.
@@ -190,9 +192,9 @@ Nastavení konfiguračních proměnných systému, které ovlivňují jak vzhled
 
 *	Soubor `/etc/gitconfig` obsahuje údaje o všech uživatelích systému a jejich repozitářích. Pokud příkazu `git config` zadáme parametr `--system` bude číst a zapisovat jen do tohoto souboru.
 *	Soubor `~/.gitconfig` je vázán na uživatelský účet. Čtení a zápis do tohoto souboru zajistíte zadáním parametru `--global`.
-*	Konfigurační soubor v adresáři Git (tedy `.git/config) jakéhokoliv užívaného repozitáře přísluší tomuto konkrétnímu repozitáři. Každá úroveň je nadřazená hodnotám úrovně předchozí, takže hodnoty  v `.git/config` přebíjejí hodnotamy v `/etc/gitconfig`.
+*	Konfigurační soubor v adresáři Git (tedy `.git/config`) jakéhokoliv užívaného repozitáře přísluší tomuto konkrétnímu repozitáři. Každá úroveň je nadřazená hodnotám úrovně předchozí, takže hodnoty  v `.git/config` přebíjejí hodnotami v `/etc/gitconfig`.
 
-Ve Windows používá Git soubor `.gitconfig`, který je umístěný v adresáři `$HOME` (v prostředí Windows je to `%USERPTOFILE%`), což je u většiny uživatelů `C:\Documents and Settings\$USER` nebo `C:\Users\$USER` (kde `$USER` se v prostředí Windows označuje `%USERNAME%`). I ve Windows se hledá soubor `/etc/gitconfig`, který je ale umístěn relativně v kořeni Msys, tedy vůči místu, do kterého jste se po spuštění instalačního programu rozhodli Git nainstalovat.
+Ve Windows používá Git soubor `.gitconfig`, který je umístěný v adresáři `$HOME` (v prostředí Windows je to `%USERPROFILE%`), což je u většiny uživatelů `C:\Documents and Settings\$USER` nebo `C:\Users\$USER` (kde `$USER` se v prostředí Windows označuje `%USERNAME%`). I ve Windows se hledá soubor `/etc/gitconfig`, který je ale umístěn relativně v kořeni Msys, tedy vůči místu, do kterého jste se po spuštění instalačního programu rozhodli Git nainstalovat.
 
 ### Totožnost uživatele ###
 
@@ -255,4 +257,3 @@ Pokud nenajdete pomoc na manuálové stránce ani v této knize a uvítali byste
 ## Shrnutí ##
 
 Nyní byste měli mít základní představu o tom, co je to Git a v čem se liší od systému CVCS, který jste možná dosud používali. Také byste nyní měli mít nainstalovanou fungující verzi systému Git, nastavenou na vaše osobní údaje. Nejvyšší čas podívat se na základy práce se systémem Git.
-

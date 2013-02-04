@@ -338,8 +338,8 @@ Díky tomu si nemusíte projekt znečišťovat soubory `.gitignore`. Tuto možno
 
 Nástroje `git svn` využijete, jestliže chcete pozvolna přejít ze systému Subversion na systém Git nebo pokud pracujete ve vývojovém prostředí, v němž je z nějakého důvodu nutné používat server Subversion. Mějte však stále na paměti, že v tomto případě nelze používat systém Git v celé jeho šíři. Mohlo by se stát, že způsobíte chyby v překladu, které znepříjemní život vám i vašim kolegům. Chcete-li se vyhnout problémům, dodržujte tato pravidla:
 
-*	 Udržujte lineární historii Git, která neobsahuje revize sloučením, vytvořené příkazem git merge. Práci, kterou provedete mimo základní větev, na ni přeskládejte, nezačleňujte ji.
-*	 Nevytvářejte oddělený server Git ani na žádný takový nepřispívejte. Můžete ho sice využít k urychlení klonování pro nové vývojáře, ale neodesílejte na něj nic, co nemá záznam git-svn-id. Možná by nebylo od věci ani vytvořit zásuvný modul pre-receive, který by kontroloval všechny zprávy k revizím, zda obsahují git-svn-id, a odmítl by všechna odeslání, která obsahují revize bez něj.
+*	 Udržujte lineární historii Git, která neobsahuje revize sloučením, vytvořené příkazem `git merge`. Práci, kterou provedete mimo základní větev, na ni přeskládejte (rebase), nezačleňujte ji (merge).
+*	 Nevytvářejte oddělený server Git ani na žádný takový nepřispívejte. Můžete ho sice využít k urychlení klonování pro nové vývojáře, ale neodesílejte na něj nic, co nemá záznam `git-svn-id`. Možná by nebylo od věci ani vytvořit zásuvný modul `pre-receive`, který by kontroloval všechny zprávy k revizím, zda obsahují `git-svn-id`, a odmítl by všechna odeslání, která obsahují revize bez něj.
 
 Budete-li dodržovat tato pravidla, bude práce se serverem Subversion snesitelnější. Stále však platí, že pokud máte možnost přejít na skutečný server Git, získáte vy i váš tým daleko více.
 
@@ -417,7 +417,7 @@ Na novém serveru Git tak nyní máte v úhledném, čistém importu uloženy v�
 
 ### Perforce ###
 
-Dalším systémem, z nějž budeme importovat, bude Perforce. Také importér Perforce je distribuován se systémem Git, avšak pouze v části `contrib` zdrojového kódu. Není standardně dostupný jako `git svn`. Abyste ho mohli spustit, budete muset stáhnout zdrojový kód systému Git ze serveru git.kernel.org:
+Dalším systémem, z nějž budeme importovat, bude Perforce. Také importér Perforce je distribuován se systémem Git. Pokud máte verzi Git starší než 1.7.11, pak importér naleznete jen v sekci `contrib` zdrojového kódu.  V takovém případě budete muset získat zdrojový text systému Git, který můžete stáhnout ze serveru git.kernel.org:
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
@@ -687,4 +687,3 @@ Nástroj `fast-import` vám nabízí ještě spoustu dalších možností – na
 ## Shrnutí ##
 
 Po přečtení této kapitoly byste měli hravě zvládat používání systému Git v kombinaci se systémem Subversion a import téměř jakéhokoli existujícího repozitáře do repozitáře Git, aniž by došlo ke ztrátě dat. V následující kapitole se podíváme na elementární principy systému Git, abyste dokázali efektivně využívat každý jeho byte.
-

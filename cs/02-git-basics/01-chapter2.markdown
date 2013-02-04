@@ -160,10 +160,10 @@ První řádek říká systému Git, že má ignorovat všechny soubory končíc
 
 Toto jsou pravidla pro masky, které můžete použít v souboru `.gitignore`:
 
-*	Prázdné řádky nebo řádky začínající znakem # budou ignorovány.
+*	Prázdné řádky nebo řádky začínající znakem `#` budou ignorovány.
 *	Standardní masku souborů.
-*	Chcete-li označit adresář, můžete masku zakončit lomítkem (/).
-*	Pokud řádek začíná vykřičníkem (!), maska na něm je negována.
+*	Chcete-li označit adresář, můžete masku zakončit lomítkem (`/`).
+*	Pokud řádek začíná vykřičníkem (`!`), maska na něm je negována.
 
 Masky souborů jsou jako zjednodušené regulární výrazy, které používá shell. Hvězdička (`*`) označuje žádný nebo více znaků; `[abc]` označuje jakýkoli znak uvedený v závorkách (v tomto případě `a`, `b` nebo `c`); otazník (`?`) označuje jeden znak; znaky v závorkách oddělené pomlčkou (`[0-9]`) označují jakýkoli znak v daném rozmezí (v našem případě 0 až 9).
 
@@ -574,7 +574,7 @@ To je jen několik základních parametrů k formátování výstupu pro příka
 	--name-only	Za informacemi o revizi zobrazí seznam změněných souborů.
 	--name-status	Zobrazí seznam dotčených souborů spolu s informací přidáno/změněno/smazáno.
 	--abbrev-commit	Zobrazí pouze prvních několik znaků kontrolního součtu SHA-1 místo všech 40.
-	--relative-date	Zobrazí datum v relativním formátu (např. „2 weeks ago“, tj. před 2 týdny) místo formátu s úplným datem.
+	--relative-date	Zobrazí datum v relativním formátu (např. "2 weeks ago", tj. před 2 týdny) místo formátu s úplným datem.
 	--graph	Zobrazí vedle výstupu logu ASCII graf k historii větve a slučování.
 	--pretty	Zobrazí revize v alternativním formátu. Parametry příkazu jsou oneline, short, full, fuller a format (lze zadat vlastní formát).
 
@@ -1120,4 +1120,3 @@ Chtělo by se tedy říci, že Git jednoduše nahradí nový příkaz jakýmkoli
 ## Shrnutí ##
 
 V tomto okamžiku už tedy umíte v systému Git provádět všechny základní lokální operace: vytvářet a klonovat repozitáře, provádět změny, připravit je k zapsání i zapisovat nebo třeba zobrazit historii všech změn, které prošly repozitářem. V další kapitole se podíváme na exkluzivní funkci systému Git – na model větvení.
-

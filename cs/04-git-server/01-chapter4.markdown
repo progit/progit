@@ -519,7 +519,7 @@ Gitolite umožňuje nastavit přístupová práva nejen na repozitáře (podobn�
 
 Instalace Gitolite je velmi jednoduchá a to i když nebudete číst obsáhlou dokumentaci, která je k dispozici. Budete potřebovat účet na nějakém unixovém serveru (bylo testováno na různých distribucích Linuxu a na Solarisu 10), kde musí být nainstalovány git, Perl a SSH server kompatibilní s OpenSSH. V příkladech uvedených níže budeme používat účet `git` na serveru `gitserver`.
 
-Nástroj Gitolite je ve smyslu "serverového" softwaru poněkud neobvyklý. Přístup se realizuje přes ssh, takže každá serverová userid je potenciálně "hostitelem gitolite" (gitolite host). Teď si popíšeme nejjednodušší způsob instalace. V dokumentaci naleznete další metody.
+Nástroj Gitolite je ve smyslu „serverového“ softwaru poněkud neobvyklý. Přístup se realizuje přes ssh, takže každá serverová userid je potenciálně „hostitelem gitolite“ (gitolite host). Teď si popíšeme nejjednodušší způsob instalace. V dokumentaci naleznete další metody.
 
 Začněte tím, že na serveru vytvoříte uživatele nazvaného `git` a přihlásíte se na něj. Z vaší pracovní stanice nakopírujte svůj veřejný ssh klíč (pokud jste spustili `ssh-keygen` s implicitními hodnotami, jde o soubor `~/.ssh/id_rsa.pub`) a přejmenujte jej na `VaseJmeno.pub`. Potom proveďte následující příkazy:
 
@@ -557,7 +557,7 @@ Přepněte se do repozitáře `gitolite-admin` (je umístěn ve vašem domácím
 
 Všimněte si, že „sitaram“ (jméno veřejného klíče v dříve použitém příkazu gl-setup) má práva pro čtení i zápis k repozitáři `gitolite-admin` a také stejnojmenný veřejný klíč.
 
-Přidávání dalších uživatelů je snadné. Pokud chceme přidat uživatele "alice", získáme její veřejný klíč, pojmenujeme jej "alice.pub" a umístíme jej do adresáře "keydir". Je součástí klonu repozitáře gitolite-admin, který jsme právě vytvořili na pracovní stanici. Přidáme, potvrdíme a odešleme změny (add, commit, push). Tím jsme dosáhli přidání uživatele.
+Přidávání dalších uživatelů je snadné. Pokud chceme přidat uživatele „alice“, získáme její veřejný klíč, pojmenujeme jej `alice.pub` a umístíme jej do adresáře `keydir`. Je součástí klonu repozitáře gitolite-admin, který jsme právě vytvořili na pracovní stanici. Přidáme, potvrdíme a odešleme změny (add, commit, push). Tím jsme dosáhli přidání uživatele.
 
 Syntaxe konfiguračního souboru pro Gitolite je dobře dokumentovaná, takže zde uvedu jen pár zajímavých věcí.
 
@@ -629,9 +629,9 @@ To by za normálních okolností způsobilo stejný zmatek ve jménech větví j
 
 Gitolite vám umožní nadefinovat pro každého vývojáře jmenné prostory s prefixy „personal“ nebo „scratch“ (např. `refs/personal/<devname>/*`). Podrobnosti hledejte v dokumentaci.
 
-### "Wildcard" repozitáře ###
+### „Wildcard“ repozitáře ###
 
-Gitolite vám umožní určit repozitáře zástupnými znaky (wildcards; ve skutečnosti jde o perlovské regulární výrazy) -- například k náhodnému výběru zadání příkladu můžeme použít `assignments/s[0-9][0-9]/a[0-9][0-9]`. Umožní nám též přidělit nový režim oprávnění ("C"), který uživatelům povoluje vytvářet repozitáře popsané zástupnými znaky, automaticky přidělí vlastnictví konkrétnímu uživateli, který jej vytvořil, umožní mu přidělit oprávnění R a RW dalším spolupracovníkům atd. Podrobnosti opět hledejte v dokumentaci.
+Gitolite vám umožní určit repozitáře zástupnými znaky (wildcards; ve skutečnosti jde o perlovské regulární výrazy) -- například k náhodnému výběru zadání příkladu můžeme použít `assignments/s[0-9][0-9]/a[0-9][0-9]`. Umožní nám též přidělit nový režim oprávnění („C“), který uživatelům povoluje vytvářet repozitáře popsané zástupnými znaky, automaticky přidělí vlastnictví konkrétnímu uživateli, který jej vytvořil, umožní mu přidělit oprávnění R a RW dalším spolupracovníkům atd. Podrobnosti opět hledejte v dokumentaci.
 
 ### Další vlastnosti ###
 
@@ -860,4 +860,3 @@ Existuje několik možností, jak vytvořit a zprovoznit vzdálený repozitář 
 Provoz vlastního serveru vám dává celou řadu možností kontroly a umožňuje provozovat server za vaším firewallem. Nastavení a správa takového serveru však obvykle bývají časově náročné. Umístíte-li data na hostovaný server, je jejich nastavení a správa jednoduchá. Svůj zdrojový kód však v takovém případě ukládáte na cizím serveru, což některé organizace nedovolují.
 
 Mělo by být jasně dáno, které řešení nebo jaká kombinace řešení je vhodná pro vás a pro vaši organizaci.
-

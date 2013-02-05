@@ -1,4 +1,4 @@
-# Elementární principy systému Git #
+# Git pod pokličkou #
 
 Ať už jste do této kapitoly přeskočili z některé z předchozích, nebo jste se sem pročetli napříč celou knihou, v této kapitole se dozvíte něco o vnitřním fungování a implementaci systému Git. Osobně se domnívám, že je tato informace velmi důležitá, aby uživatel pochopil, jak užitečný a výkonný je systém Git. Ostatní mi však oponovali, že pro začátečníky mohou být tyto informace matoucí a zbytečně složité. Proto jsem tyto úvahy shrnul do poslední kapitoly knihy, kterou si můžete přečíst v libovolné fázi seznamování se systémem Git. Vhodný okamžik záleží jen na vás.
 
@@ -765,7 +765,7 @@ Občas budete patrně nuceni přistoupit k menšímu úklidu – uvést repozit�
 
 ### Správa ###
 
-Git čas od času automaticky spustí příkaz "auto gc". Ve většině případů neprovede tento příkaz vůbec nic. Pokud však identifikuje příliš mnoho volných objektů (objektů nezabalených do balíčkového souboru) nebo balíčkových souborů, spustí Git plnou verzi příkazu `git gc`. Písmena `gc` jsou zkratkou anglického výrazu „garbage collect“ (sběr odpadků). Příkaz provádí hned několik věcí: sbírá všechny volné objekty a umisťuje je do balíčkových souborů, spojuje balíčkové soubory do jednoho velkého a odstraňuje objekty, jež nejsou dostupné z žádné revize a jsou starší několika měsíců.
+Git čas od času automaticky spustí příkaz „auto gc“. Ve většině případů neprovede tento příkaz vůbec nic. Pokud však identifikuje příliš mnoho volných objektů (objektů nezabalených do balíčkového souboru) nebo balíčkových souborů, spustí Git plnou verzi příkazu `git gc`. Písmena `gc` jsou zkratkou anglického výrazu „garbage collect“ (sběr odpadků). Příkaz provádí hned několik věcí: sbírá všechny volné objekty a umisťuje je do balíčkových souborů, spojuje balíčkové soubory do jednoho velkého a odstraňuje objekty, jež nejsou dostupné z žádné revize a jsou starší několika měsíců.
 
 Příkaz auto gc můžete spustit také ručně:
 

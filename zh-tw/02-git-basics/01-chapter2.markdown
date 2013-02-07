@@ -1,6 +1,6 @@
 # Git 基礎 #
 
-若讀者只需要讀取一個章節即可開始使用Git，這就是了。 本章節涵蓋讀者大部份用到Git時需要使用的所有基本命令。 在讀完本章節後，讀者應該有能力組態及初始化一個儲存庫、開始及停止追蹤檔案、暫存及提供更新。 還會提到如何讓Git忽略某些檔案、如何輕鬆且很快的救回失誤、如何瀏覽讀者的專案的歷史及觀看各個已提交的更新之間的變更、以及如何上傳到遠端儲存庫或取得。
+若讀者只需要閱讀一個章節即可開始使用Git，這章就是你所需要的。 本章節涵蓋讀者大部份用到Git時需要使用的所有基本命令。 在讀完本章節後，讀者應該有能力組態及初始化一個儲存庫、開始及停止追蹤檔案、暫存及提交更新。 還會提到如何讓Git忽略某些檔案、如何輕鬆且很快地救回失誤、如何瀏覽讀者的專案歷史及觀看各個已提交的更新之間的變更、以及如何從遠端儲存庫`拉`更新下來或將更新`推`上去。
 
 ## 取得Git儲存庫 ##
 
@@ -12,7 +12,7 @@
 
 	$ git init
 
-這個命令會建立名為 .git 的子目錄，該目錄包含一個Git儲存庫架構必要的所有檔案。 目前來說，專案內任何檔案都還沒有被追蹤。（關於.git目錄內有些什麼檔案，可參考第九章）
+這個命令會建立名為 `.git` 的子目錄，該目錄包含一個Git儲存庫架構必要的所有檔案。 目前來說，專案內任何檔案都還沒有被追蹤。（關於.git目錄內有些什麼檔案，可參考第九章）
 
 若讀者想要開始對現有的檔案開始做版本控制（除了空的目錄以外），讀者也許應該開始追蹤這些檔案並做第一次的提交。 讀者能以少數的git add命令指定要追蹤的檔案，並將它們提交：
 
@@ -24,19 +24,19 @@
 
 ### 複製現有的儲存庫 ###
 
-若讀者想要取得現有的Git儲存庫的複本（例如：讀者想要散佈的），那需要使用的命令是 git clone。 若讀者熟悉其它版本控制系統，例如：Subversion，讀者應該注意這個命令是複製，而不是取出特定版本。 這一點非常重要，Git取得的是大部份伺服器端所有的資料複本。 該專案歷史中所有檔案的所有版本都在讀者執行過 git clone 後拉回來。 事實上，若伺服器的磁碟機損毀，讀者可使用任何一個客戶端的複本還原伺服器為當初取得該複本的狀態（讀者可能會遺失一些僅存於伺服器的攔截程式，不過所有版本的資料都健在），參考第四章取得更多資訊。
+若讀者想要取得現有的Git儲存庫的複本（例如：讀者想要散佈的），那需要使用的命令是 `git clone`。 若讀者熟悉其它版本控制系統，例如：Subversion，讀者應該注意這個命令是複製(clone)，而不是取出特定版本(checkout)。 這一點非常重要，Git取得的是大部份伺服器端所有的資料複本。 該專案歷史中所有檔案的所有版本都在讀者執行過 `git clone` 後拉回來。 事實上，若伺服器的磁碟機損毀，讀者可使用任何一個客戶端的複本還原伺服器為當初取得該複本的狀態（讀者可能會遺失一些僅存於伺服器的攔截程式，不過所有版本的資料都健在），參考第四章取得更多資訊。
 
-讀者可以 git clone 超連結，複製一個儲存庫。 例如：若讀者想複製名為Grit的Ruby Git程式庫，可以執行下列命令：
+讀者可以 `git clone [url]`，複製一個儲存庫。 例如：若讀者想複製名為Grit的Ruby Git程式庫，可以執行下列命令：
 
 	$ git clone git://github.com/schacon/grit.git
 
-接下來會有個名為grit的目錄被建立，並在其下初始化名為.git的目錄。 拉下所有存在該儲存庫的所有資料，並取出最新版本為工作複本。 若讀者進入新建立的 grit 目錄，會看到專案的檔案都在這兒，且可使用。 若讀者想畏複製儲存庫到grit以外其它名字的目錄，只需要在下一個參數指定即可：
+接下來會有個名為`grit`的目錄被建立，並在其下初始化名為`.git`的目錄。 拉下所有存在該儲存庫的所有資料，並取出最新版本為工作複本。 若讀者進入新建立的 `grit` 目錄，會看到專案的檔案都在這兒，且可使用。 若讀者想畏複製儲存庫到grit以外其它名字的目錄，只需要在下一個參數指定即可：
 
 	$ git clone git://github.com/schacon/grit.git mygrit
 
 這個命令做的事大致如同上一個命令，只不過目的目錄名為mygrit。
 
-Git提供很多種協定給讀者使用。 上一個範例採用 git:// 協定，讀者可能會看過 http(s):// 或者 user@server:/path.git 等使用 SSH 傳輸的協定。 在第四章會介紹設定存取伺服器上的 Git 儲存庫的所有可用的選項，以及它們的優點及缺點。
+Git提供很多種協定給讀者使用。 上一個範例採用 `git://` 協定，讀者可能會看過 `http(s)://` 或者 `user@server:/path.git` 等使用 SSH 傳輸的協定。 在第四章會介紹設定存取伺服器上的 Git 儲存庫的所有可用的選項，以及它們的優點及缺點。
 
 ## 提交更新到儲存庫 ##
 
@@ -59,7 +59,7 @@ Insert 18333fig0201.png
 
 這意謂著讀者有一份乾淨的工作目錄（換句話說，沒有未被追蹤或已被修改的檔案）。 Git未看到任何未被追蹤的檔案，否則會將它們列出。 最後，這個命令告訴讀者目前在哪一個分支。 到目前為止，一直都是master，這是預設的。 目前讀者不用考慮它。 下一個章節會詳細介紹分支。
 
-假設讀者新增一些檔案到專案，如README。 若該檔案先前並不存在，執行 git status 命令後，讀者會看到未被追蹤的檔案，如下：
+假設讀者新增一些檔案到專案，如`README`。 若該檔案先前並不存在，執行 `git status` 命令後，讀者會看到未被追蹤的檔案，如下：
 
 	$ vim README
 	$ git status
@@ -70,15 +70,15 @@ Insert 18333fig0201.png
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-讀者可看到新增的README尚未被追蹤，因為它被列在輸出訊息的 Untracked files 下方。 除非讀者明確指定要將該檔案加入提交的快照，Git不會主動將它加入。 這樣就不會突然地將一些二進位格式的檔案或其它讀者並不想加入的檔案含入。 讀者的確是要新增 README 檔案，因此讓我們開始追蹤該檔案。
+讀者可看到新增的`README`尚未被追蹤，因為它被列在輸出訊息的 Untracked files 下方。 除非讀者明確指定要將該檔案加入提交的快照，Git不會主動將它加入。 這樣就不會突然地將一些二進位格式的檔案或其它讀者並不想加入的檔案含入。 讀者的確是要新增 `README` 檔案，因此讓我們開始追蹤該檔案。
 
 ### 追蹤新檔案 ###
 
-要追蹤新增的檔案，讀者可使用git add命令。 欲追蹤README檔案，讀者可執行：
+要追蹤新增的檔案，讀者可使用`git add`命令。 欲追蹤`README`檔案，讀者可執行：
 
 	$ git add README
 
-若讀者再度檢查目前狀態，可看到README檔案已被列入追蹤並且已被暫存：
+若讀者再度檢查目前狀態，可看到`README`檔案已被列入追蹤並且已被暫存：
 
 	$ git status
 	# On branch master
@@ -88,11 +88,11 @@ Insert 18333fig0201.png
 	#	new file:   README
 	#
 
-因為它被放在Changes to be commited文字下方，讀者可得知它已被暫存起來。 若讀者此時提交更新，剛才執行git add加進來的檔案就會被記錄在歷史的快照。 讀者可能可回想一下先前執行git init後也有執行過git add，開始追蹤目錄內的檔案。 git add命令可接受檔名或者目錄名。 若是目錄名，會遞迴將整個目錄下所有檔案及子目錄都加進來。
+因為它被放在Changes to be commited文字下方，讀者可得知它已被暫存起來。 若讀者此時提交更新，剛才執行`git add`加進來的檔案就會被記錄在歷史的快照。 讀者可能可回想一下先前執行`git init`後也有執行過`git add`，開始追蹤目錄內的檔案。 `git add`命令可接受檔名或者目錄名。 若是目錄名，會遞迴將整個目錄下所有檔案及子目錄都加進來。
 
 ### 暫存已修改檔案 ###
 
-讓我們修改已被追蹤的檔案。 若讀者修改先前已被追蹤的檔案，名為benchmarks.rb，並檢查目前儲存庫的狀態。 讀者會看到類似以下文字：
+讓我們修改已被追蹤的檔案。 若讀者修改先前已被追蹤的檔案，名為`benchmarks.rb`，並檢查目前儲存庫的狀態。 讀者會看到類似以下文字：
 
 	$ git status
 	# On branch master
@@ -107,7 +107,7 @@ Insert 18333fig0201.png
 	#	modified:   benchmarks.rb
 	#
 
-benchmarks.rb檔案出現在Changes not staged for commit下方，代表著這個檔案已被追蹤，而且位於工作目錄的該檔案已被修改，但尚未暫存。 要暫存該檔案，可執行git add命令（這是一個多重用途的檔案）。現在，讀者使用 git add將benchmarks.rb檔案暫存起來，並再度執行git status：
+`benchmarks.rb`檔案出現在 “Changes not staged for commit” 下方，代表著這個檔案已被追蹤，而且位於工作目錄的該檔案已被修改，但尚未暫存。 要暫存該檔案，可執行`git add`命令（這是一個多重用途的指令）。現在，讀者使用 `git add` 將`benchmarks.rb`檔案暫存起來，並再度執行`git status`：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -119,7 +119,7 @@ benchmarks.rb檔案出現在Changes not staged for commit下方，代表著這�
 	#	modified:   benchmarks.rb
 	#
 
-這兩個檔案目前都被暫存起來，而且會進入下一次的提交。 假設讀者記得仍需要對benchmarks.rb做一點修改後才要提交，可再度開啟並編輯該檔案。 然而，當我們再度執行git status：
+這兩個檔案目前都被暫存起來，而且會進入下一次的提交。 假設讀者記得仍需要對`benchmarks.rb`做一點修改後才要提交，可再度開啟並編輯該檔案。 然而，當我們再度執行`git status`：
 
 	$ vim benchmarks.rb 
 	$ git status
@@ -136,7 +136,7 @@ benchmarks.rb檔案出現在Changes not staged for commit下方，代表著這�
 	#	modified:   benchmarks.rb
 	#
 
-到底發生了什麼事？ 現在benchmarks.rb同時被列在已被暫存及未被暫存。 這怎麼可能？ 這表示Git的確在讀者執行git add命令後，將檔案暫存起來。 若讀者現在提交更新，最近一次執行git add命令時暫存的benchmarks.rb會被提交。 若讀者在git add後修改檔案，需要再度執行git add將最新版的檔案暫存起來：
+到底發生了什麼事？ 現在`benchmarks.rb`同時被列在已被暫存及未被暫存。 這怎麼可能？ 這表示Git的確在讀者執行`git add`命令後，將檔案暫存起來。 若讀者現在提交更新，最近一次執行`git add`命令時暫存的`benchmarks.rb`會被提交。 若讀者在`git add`後修改檔案，需要再度執行`git add`將最新版的檔案暫存起來：
 
 	$ git add benchmarks.rb
 	$ git status
@@ -150,25 +150,25 @@ benchmarks.rb檔案出現在Changes not staged for commit下方，代表著這�
 
 ### 忽略某些檔案 ###
 
-通常讀者會有一類不想讓Git自動新增，也不希望它們被列入未被追蹤的檔案。 這些通常是自動產生的檔案，例如：記錄檔或者編譯系統產生的檔案。 在這情況下，讀者可建立一個名為.gitignore檔案，列出符合這些檔案檔名的特徵。 以下是一個範例：
+通常讀者會有一類不想讓Git自動新增，也不希望它們被列入未被追蹤的檔案。 這些通常是自動產生的檔案，例如：記錄檔或者編譯系統產生的檔案。 在這情況下，讀者可建立一個名為`.gitignore`檔案，列出符合這些檔案檔名的特徵。 以下是一個範例：
 
 	$ cat .gitignore
 	*.[oa]
 	*~
 
-第一列告訴Git忽略任何檔名為.o或.a結尾的檔案，它們是可能是編譯系統建置讀者的程式碼時產生的目的檔及程式庫。 第二列告訴Git忽略所有檔名為~結尾的檔案，通常被很多文書編輯器，如：Emacs，使用的暫存檔案。 讀者可能會想一併將log、tmp、pid目錄及自動產生的文件等也一併加進來。 依據類推。 在讀者要開始開發之前將.gitignore設定好，通常是一個不錯的點子。 這樣子讀者不會意外的將真的不想追蹤的檔案提交到Git儲存庫。
+第一列告訴Git忽略任何檔名為`.o`或`.a`結尾的檔案，它們是可能是編譯系統建置讀者的程式碼時產生的目的檔及程式庫。 第二列告訴Git忽略所有檔名為~結尾的檔案，通常被很多文書編輯器，如：Emacs，使用的暫存檔案。 讀者可能會想一併將log、tmp、pid目錄及自動產生的文件等也一併加進來。 依據類推。 在讀者要開始開發之前將`.gitignore`設定好，通常是一個不錯的點子。 這樣子讀者不會意外地將真的不想追蹤的檔案提交到Git儲存庫。
 
-編寫.gitignore檔案的規則如下：
+編寫`.gitignore`檔案的規則如下：
 
 *	空白列或者以#開頭的列會被忽略。
 *	可使用標準的Glob pattern。
 *	可以/結尾，代表是目錄。
 *	可使用!符號將特徵反過來使用。
 
-Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）匹配零個或多個字元；[abc]匹配中括弧內的任一字元（此例為a、b、c）；問號（?）匹配單一個字元；中括孤內的字以連字符連接（如：[0-9]），用來匹配任何符合該範圍的字（此例為0到9）。
+Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）匹配零個或多個字元；`[abc]`匹配中括弧內的任一字元（此例為`a`、`b`、`c`）；問號（`?`）匹配單一個字元；中括孤內的字以連字符連接（如：`[0-9]`），用來匹配任何符合該範圍的字（此例為0到9）。
 
 
-以下是其它的範例：
+以下是另一個`.gitignore`的範例檔案：
 
 	# 註解，會被忽略。
 	*.a       # 不要追蹤檔名為 .a 結尾的檔案
@@ -179,9 +179,9 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 
 ### 檢視已暫存及尚未暫存的更動 ###
 
-若git status命令仍無法清楚告訴讀者想要的資訊（讀者想知道的是更動了哪些內容，而不是哪些檔案）。 可使用git diff命令。 稍後我們會更詳盡講解該命令。 讀者使用它時通常會是為了瞭解兩個問題： 目前已做的修改但尚未暫存的內容是哪些？ 以及將被提交的暫存資料有哪些？ 雖然git status一般來說即可回答這些問題。 git diff可精確的顯示哪些列被加入或刪除，以修補檔方式表達。
+若`git status`命令仍無法清楚告訴讀者想要的資訊（讀者想知道的是更動了哪些內容，而不是哪些檔案）。 可使用`git diff`命令。 稍後我們會更詳盡講解該命令。 讀者使用它時通常會是為了瞭解兩個問題： 目前已做的修改但尚未暫存的內容是哪些？ 以及將被提交的暫存資料有哪些？ 雖然`git status`一般來說即可回答這些問題。 `git diff`可精確的顯示哪些列被加入或刪除，以修補檔方式表達。
 
-假設讀者編輯並暫存README，接者修改benchmarks.rb檔案，卻未暫存。 若讀者檢視目前的狀況，會看到類似下方文字：
+假設讀者編輯並暫存`README`，接者修改`benchmarks.rb`檔案，卻未暫存。 若讀者檢視目前的狀況，會看到類似下方文字：
 
 	$ git status
 	# On branch master
@@ -196,7 +196,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	#	modified:   benchmarks.rb
 	#
 
-想瞭解尚未暫存的修改，執行git diff，不用帶任何參數：
+想瞭解尚未暫存的修改，執行`git diff`，不用帶任何參數：
 
 	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -217,7 +217,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 
 這命令比對目前工作目錄及暫存區域後告訴讀者哪些變更尚未被暫存。
 
-若讀者想知道將被提交的暫存資料，使用git diff --cached（在Git 1.6.1及更新版本，也可以使用較易記憶的git diff --staged命令）。 這命令比對暫存區域及最後一個提交。
+若讀者想知道將被提交的暫存資料，使用`git diff --cached`（在Git 1.6.1及更新版本，也可以使用較易記憶的`git diff --staged` 命令）。 這命令比對暫存區域及最後一個提交。
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -232,9 +232,9 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	+
 	+Grit is a Ruby library for extracting information from a Git repository
 
-很重要的一點是git diff不會顯示最後一次commit後的所有變更；只會顯示尚未暫存的變更。 這一點可能會混淆，若讀者已暫存所有的變更，git diff不會顯示任何資訊。
+很重要的一點是`git diff`不會顯示最後一次commit後的所有變更；只會顯示尚未暫存的變更。 這一點可能會混淆，若讀者已暫存所有的變更，`git diff`不會顯示任何資訊。
 
-舉其它例子，若讀者暫存benchmarks.rb檔案後又編輯，可使用git diff看已暫存的版本與工作目錄內版本尚未暫存的變更：
+舉其它例子，若讀者暫存`benchmarks.rb`檔案後又編輯，可使用`git diff`看已暫存的版本與工作目錄內版本尚未暫存的變更：
 
 	$ git add benchmarks.rb
 	$ echo '# test line' >> benchmarks.rb
@@ -250,7 +250,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	#	modified:   benchmarks.rb
 	#
 
-現在讀者可使用git diff檢視哪些部份尚未被暫存：
+現在讀者可使用`git diff`檢視哪些部份尚未被暫存：
 
 	$ git diff 
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -263,7 +263,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	 ##pp Grit::GitRuby.cache_client.stats 
 	+# test line
 
-以及使用git diff --cached檢視目前已暫存的變更：
+以及使用`git diff --cached`檢視目前已暫存的變更：
 
 	$ git diff --cached
 	diff --git a/benchmarks.rb b/benchmarks.rb
@@ -285,11 +285,11 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 ### 提交修改 ###
 
 現在讀者的暫存區域已被更新為讀者想畏的，可開始提交變更的部份。 要記得任何尚未被暫存的新建檔案或已被修改但尚未使用git add暫存的檔案將不會被記錄在本次的提交中。 它們仍會以被修改的檔案的身份存在磁碟中。
-在這情況下，最後一次執行git status，讀者會看到所有已被暫存的檔案，讀者也準備好要提交修改。 最簡單的提交是執行git commit：
+在這情況下，最後一次執行`git status`，讀者會看到所有已被暫存的檔案，讀者也準備好要提交修改。 最簡單的提交是執行`git commit`：
 
 	$ git commit
 
-執行此命令會叫出讀者指定的編輯器。（由讀者shell的$EDITOR環境變數指定，通常是vim或emacs。讀者也可以如同第1章介紹的，使用git config --global core.editor命令指定）
+執行此命令會叫出讀者指定的編輯器。（由讀者shell的$EDITOR環境變數指定，通常是vim或emacs。讀者也可以如同第1章介紹的，使用`git config --global core.editor` 命令指定）
 
 編輯器會顯示如下文字（此範例為Vim的畫面）：
 
@@ -306,22 +306,22 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	~
 	".git/COMMIT_EDITMSG" 10L, 283C
 
-讀者可看到預設的提交訊息包含最近一次git status的輸出以註解方式呈現，以及螢幕最上方有一列空白列。 讀者可移除這些註解後再輸入提交的訊息，或者保留它們，提醒你現在正在進行提交。（若想知道更動的內容，可傳遞-v參數給git commit。如此一來連比對的結果也會一併顯示在編輯器內，方便讀者明確看到有什麼變更。） 當讀者離開編輯器，Git會利用這些提交訊息產生新的提交（註解及比對的結果會先被濾除）。
+讀者可看到預設的提交訊息包含最近一次`git status`的輸出以註解方式呈現，以及螢幕最上方有一列空白列。 讀者可移除這些註解後再輸入提交的訊息，或者保留它們，提醒你現在正在進行提交。（若想知道更動的內容，可傳遞-v參數給`git commit`。如此一來連比對的結果也會一併顯示在編輯器內，方便讀者明確看到有什麼變更。） 當讀者離開編輯器，Git會利用這些提交訊息產生新的提交（註解及比對的結果會先被濾除）。
 
-另一種方式則是在commit命令後方以-m參數指定提交訊息，如下：
+另一種方式則是在commit命令後方以`-m`參數指定提交訊息，如下：
 
 	$ git commit -m "Story 182: Fix benchmarks for speed"
 	[master]: created 463dc4f: "Fix benchmarks for speed"
 	 2 files changed, 3 insertions(+), 0 deletions(-)
 	 create mode 100644 README
 
-現在讀者已建立第一個提交！ 讀者可從輸出的訊息看到此提交、放到哪個分支（master）、SHA-1查核碼（463dc4f）、有多少檔案被更動，以及統計此提交有多少列被新增及移除。
+現在讀者已建立第一個提交！ 讀者可從輸出的訊息看到此提交、放到哪個分支（`master`）、SHA-1查核碼（`463dc4f`）、有多少檔案被更動，以及統計此提交有多少列被新增及移除。
 
 記得提交記錄讀者放在暫存區的快照。 任何讀者未暫存的仍然保持在已被修改狀態；讀者可進行其它的提交，將它增加到歷史。 每一次讀者執行提供，都是記錄專案的快照，而且以後可用來比對或者復原。
 
 ### 跳過暫存區域 ###
 
-雖然優秀好用的暫存區域能很有技巧且精確的提交讀者想記錄的資訊，有時候暫存區域也比讀者實際需要的工作流程繁瑣。 若讀者想跳過暫存區域，Git提供了簡易的使用方式。 在git commit命令後方加上-a參數，Git自動將所有已被追蹤且被修改的檔案送到暫存區域並開始提交程序，讓讀者略過git add的步驟：
+雖然優秀好用的暫存區域能很有技巧且精確的提交讀者想記錄的資訊，有時候暫存區域也比讀者實際需要的工作流程繁瑣。 若讀者想跳過暫存區域，Git提供了簡易的使用方式。 在`git commit`命令後方加上`-a`參數，Git自動將所有已被追蹤且被修改的檔案送到暫存區域並開始提交程序，讓讀者略過`git add`的步驟：
 
 	$ git status
 	# On branch master
@@ -334,13 +334,13 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	[master 83e38c7] added new benchmarks
 	 1 files changed, 5 insertions(+), 0 deletions(-)
 
-留意本次的提交之前，讀者並不需要執行git add將benchmarks.rb檔案加入。
+留意本次的提交之前，讀者並不需要執行`git add`將`benchmarks.rb`檔案加入。
 
 ### 刪除檔案 ###
 
-要從Git刪除檔案，讀者需要將它從已被追蹤檔案中移除（更精確的來說，是從暫存區域移除），並且提交。 git rm命令除了完成此工作外，也會將該檔案從工作目錄移除。 因此讀者以後不會在未被追蹤檔案列表看到它。
+要從Git刪除檔案，讀者需要將它從已被追蹤檔案中移除（更精確的來說，是從暫存區域移除），並且提交。 `git rm`命令除了完成此工作外，也會將該檔案從工作目錄移除。 因此讀者以後不會在未被追蹤檔案列表看到它。
 
-若讀者僅僅是將檔案從工作目錄移除，那麼在git status的輸出，可看見該檔案將會被視為已被變更且尚未被更新（也就是尚未存到暫存區域）：
+若讀者僅僅是將檔案從工作目錄移除，那麼在`git status`的輸出，可看見該檔案將會被視為“已被變更且尚未被更新”（也就是尚未存到暫存區域）：
 
 	$ rm grit.gemspec
 	$ git status
@@ -352,7 +352,7 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	#       deleted:    grit.gemspec
 	#
 
-接著，若執行git rm，則會將暫存區域內的該檔案移除：
+接著，若執行`git rm`，則會將暫存區域內的該檔案移除：
 
 	$ git rm grit.gemspec
 	rm 'grit.gemspec'
@@ -365,9 +365,9 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 	#       deleted:    grit.gemspec
 	#
 
-下一次提交時，該檔案將會消失而且不再被追蹤。 若已更動過該檔案且將它記錄到暫存區域。 必須使用-f參數才能將它強制移除。 這是為了避免已被記錄的快照意外被移除且再也無法使用Git復原。
+下一次提交時，該檔案將會消失而且不再被追蹤。 若已更動過該檔案且將它記錄到暫存區域。 必須使用`-f`參數才能將它強制移除。 這是為了避免已被記錄的快照意外被移除且再也無法使用Git復原。
 
-其它有用的技巧的是保留工作目錄內的檔案，但從暫存區域移除。 換句話說，或許讀者想在磁碟機上的檔案且不希望Git繼續追蹤它。 這在讀者忘記將某些檔案記錄到.gitignore且不小心將它增加到暫存區域時特別有用。 比如說：巨大的記錄檔、或大量在編譯時期產生的.a檔案。 欲使用此功能，加上--cached參數：
+其它有用的技巧的是保留工作目錄內的檔案，但從暫存區域移除。 換句話說，或許讀者想在磁碟機上的檔案且不希望Git繼續追蹤它。 這在讀者忘記將某些檔案記錄到`.gitignore`且不小心將它增加到暫存區域時特別有用。 比如說：巨大的記錄檔、或大量在編譯時期產生的`.a`檔案。 欲使用此功能，加上`--cached`參數：
 
 	$ git rm --cached readme.txt
 
@@ -375,17 +375,17 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 
 	$ git rm log/\*.log
 
-注意倒斜線（\）前方的星號（`*`）。 這是必須的，因為Git會在shell以上執行檔案的擴展。 此命令移除log目錄下所有檔名以.log結尾的檔案。 讀者也可以執行類似下列命令：
+注意倒斜線（`\`）前方的星號（`*`）。 這是必須的，因為Git會在shell以上執行檔案的擴展。 此命令移除log目錄下所有檔名以`.log`結尾的檔案。 讀者也可以執行類似下列命令：
 
 	$ git rm \*~
 
-此命令移除所有檔名以~結尾的檔案。
+此命令移除所有檔名以`~`結尾的檔案。
 
 ### 搬動檔案 ###
 
-Git並不像其它檔案控制系統一樣，很精確的追蹤檔案的移動。 若將被Git追蹤的檔名更名，Git並沒有任何元數據記錄此更名動作。 然而Git能很聰明的指出這一點。 稍後會介紹關於偵測檔案的搬動。
+Git並不像其它檔案控制系統一樣，明確地追蹤檔案的移動。 若將被Git追蹤的檔名更名，並沒有任何元數據儲存在Git中去標示此更名動作。 然而Git能很聰明地指出這一點。 稍後會介紹關於偵測檔案的搬動。
 
-因此Git的mv指令會造成一點混淆。 若想要用Git更名某個檔案，可執行以下命令：
+因此Git存在`mv`這個指令會造成一點混淆。 若想要在Git中更名某個檔案，可執行以下命令：
 
 	$ git mv file_from file_to
 
@@ -408,17 +408,17 @@ Git並不像其它檔案控制系統一樣，很精確的追蹤檔案的移動�
 	$ git rm README.txt
 	$ git add README
 
-Git會在背後判斷檔案是否被更名，因此不管是用上述方法還是mv命令都沒有差別。 實際上唯一不同的是mv是一個命令，而不是三個。 使用上較方便。 更重畏的是讀者可使用任何慣用的工具更名，再使用add/rm，接著才提交。
+Git會在背後判斷檔案是否被更名，因此不管是用上述方法還是'mv'命令都沒有差別。 實際上唯一不同的是'mv'是一個命令，而不是三個。 使用上較方便。 更重要的是讀者可使用任何慣用的工具更名，再使用add/rm，接著才提交。
 
 ## 檢視提交的歷史記錄 ##
 
-在提交數個更新，或者複製已有一些歷史記錄的儲存庫後。 或許會想希望檢視之前發生過什麼事。 最基本也最具威力的工具就是 git log 命令。
+在提交數個更新，或者複製已有一些歷史記錄的儲存庫後。 或許會想希望檢視之前發生過什麼事。 最基本也最具威力的工具就是 `git log` 命令。
 
-以下採用非常簡單，名為 simplegit 的專案做展示。 欲取得此專案，執行以下命令：
+以下採用非常簡單，名為 `simplegit` 的專案做展示。 欲取得此專案，執行以下命令：
 
 	git clone git://github.com/schacon/simplegit-progit.git
 
-在此專案目錄內執行 git log，應該會看到類似以下訊息：
+在此專案目錄內執行 `git log`，應該會看到類似以下訊息：
 
 	$ git log
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -439,11 +439,11 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 
 	    first commit
 
-在未加任何參數情況下，git log以新到舊的順序列出儲存庫的提交的歷史記錄。 也就是說最新的更新會先被列出來。 同時也會列出每個更新的 SHA1 查核值、作者大名及電子郵件地址、及提交時輸入的訊息。
+在未加任何參數情況下，`git log`以新到舊的順序列出儲存庫的提交的歷史記錄。 也就是說最新的更新會先被列出來。 同時也會列出每個更新的 SHA-1 查核值、作者大名及電子郵件地址、及提交時輸入的訊息。
 
-git log命令有很多樣化的選項，供讀者精確指出想搜尋的結果。 接下來會介紹一些常用的選項。
+`git log`命令有很多樣化的選項，供讀者精確指出想搜尋的結果。 接下來會介紹一些常用的選項。
 
-最常用的選項之一為 -p，用來顯示每個更新之間差別的內容。 另外還可以加上 -2 參數，限制為只輸出最後兩個更新。
+最常用的選項之一為 `-p`，用來顯示每個更新之間差別的內容。 另外還可以加上 `-2` 參數，限制為只輸出最後兩個更新。
 
 	$ git log –p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -484,7 +484,7 @@ git log命令有很多樣化的選項，供讀者精確指出想搜尋的結果�
 	\ No newline at end of file
 
 這個選項除了顯示相同的資訊外，還另外附上每個更新的差異。 這對於重新檢視或者快速的瀏覽協同工作伙伴新增的更新非常有幫助。
-另外也可以使用git log提供的一系統摘要選項。 例如：若想檢視每個更新的簡略統計資訊，可使用 --stat 選項：
+另外也可以使用`git log`提供的一系統摘要選項。 例如：若想檢視每個更新的簡略統計資訊，可使用 `--stat` 選項：
 
 	$ git log --stat 
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -516,22 +516,22 @@ git log命令有很多樣化的選項，供讀者精確指出想搜尋的結果�
 	 lib/simplegit.rb |   25 +++++++++++++++++++++++++
 	 3 files changed, 54 insertions(+), 0 deletions(-)
 
-如以上所示，--stat選項在每個更新項目的下方列出被更動的檔案、有多少檔案被更動，以及有多行列被加入或移出該檔案。 也會在最後印出摘要的訊息。
-其它實用的選項是 --pretty。 這個選項改變原本預設輸出的格式。 有數個內建的選項供讀者選用。 其中 oneline 選項將每一個更新印到單獨一行，對於檢視很多更新時很有用。 更進一步，short、full、fuller 選項輸出的格式大致相同，但會少一些或者多一些資訊。
+如以上所示，`--stat`選項在每個更新項目的下方列出被更動的檔案、有多少檔案被更動，以及有多行列被加入或移出該檔案。 也會在最後印出摘要的訊息。
+其它實用的選項是 `--pretty`。 這個選項改變原本預設輸出的格式。 有數個內建的選項供讀者選用。 其中 `oneline` 選項將每一個更新印到單獨一行，對於檢視很多更新時很有用。 更進一步，`short`、`full`、`fuller` 選項輸出的格式大致相同，但會少一些或者多一些資訊。
 
 	$ git log --pretty=oneline
 	ca82a6dff817ec66f44342007202690a93763949 changed the version number
 	085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7 removed unnecessary test code
 	a11bef06a3f659402fe7563abf99ad00de2209e6 first commit
 
-最有趣的選項是 format，允許讀者指定自訂的輸出格式1。 當需要輸出給機器分析時特別有用。 因為明確的指定了格式，即可確定它不會因為更新 Git 而被更動：
+最有趣的選項是 `format`，允許讀者指定自訂的輸出格式。 當需要輸出給機器分析時特別有用。 因為明確地指定了格式，即可確定它不會因為更新 Git 而被更動：
 
 	$ git log --pretty=format:"%h - %an, %ar : %s"
 	ca82a6d - Scott Chacon, 11 months ago : changed the version number
 	085bb3b - Scott Chacon, 11 months ago : removed unnecessary test code
 	a11bef0 - Scott Chacon, 11 months ago : first commit
 
-表格2-1列出一些 format 支援的選項。
+表格2-1列出一些 `format` 支援的選項。
 
 	選項	選項的說明
 	%H	該更新的SHA1雜湊值
@@ -550,9 +550,9 @@ git log命令有很多樣化的選項，供讀者精確指出想搜尋的結果�
 	%cr	相對於目前時間的提交的日期
 	%s	標題
 
-讀者可能會好奇作者與提交者之間的差別。 作者是完成該工作的人，而提交者則是最後將該工作提交出來的人。 因此，若讀者將某個專案的修補檔送出，而且該專案的核心成員中一員套用該更新，則讀者與該成員皆會被列入該更新。 讀者即作者，而該成員則是提交者。 在第五章會提到較多之間的差別。
+讀者可能會好奇_作者_與_提交者_之間的差別。 _作者_是完成該工作的人，而_提交者_則是最後將該工作提交出來的人。 因此，若讀者將某個專案的修補檔送出，而且該專案的核心成員中一員套用該更新，則讀者與該成員皆會被列入該更新。 讀者即作者，而該成員則是提交者。 在第五章會提到較多之間的差別。
 
-oneline 及 format 選項對於另一個名為 --graph 的選項特別有用。 該選項以 ASCII 畫出分支的分歧及合併的歷史。 可參考我們的 Grit 的儲存庫：
+`oneline` 及 `format` 選項對於另一個名為 `--graph` 的選項特別有用。 該選項以 ASCII 畫出分支的分歧及合併的歷史。 可參考我們的 Grit 的儲存庫：
 
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
@@ -566,7 +566,7 @@ oneline 及 format 選項對於另一個名為 --graph 的選項特別有用。 
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-這些只是一些簡單的 git log 的選項，還有許多其它的。 表格2-2列出目前我們涵蓋的及一些可能有用的格式選項，以及它們如何更動 git log 命令的輸出格式。
+這些只是一些簡單的 `git log` 的選項，還有許多其它的。 表格2-2列出目前我們涵蓋的及一些可能有用的格式選項，以及它們如何更動 `log` 命令的輸出格式。
 
 	選項	選項的說明
 	-p	顯示每個更新與上一個的差異。
@@ -581,15 +581,15 @@ oneline 及 format 選項對於另一個名為 --graph 的選項特別有用。 
 
 ### 限制 log 的輸出範圍 ###
 
-除了輸出格式的選項，git log也接受一些好用的選項。 也就是指定只顯示某一個子集合的更新。 先前已介紹過僅顯示最後兩筆更新的 -2 選項。 實際上可指定 -n，而 n 是任何整數，用來顯示最後的 n 個更新。 不過讀者可能不太會常用此選項，因為 Git 預設將所有的輸出導到分頁程式，故一次只會看到一頁。
+除了輸出格式的選項，`git log`也接受一些好用的選項。 也就是指定只顯示某一個子集合的更新。 先前已介紹過僅顯示最後兩筆更新的 `-2` 選項。 實際上可指定 `-<n>`，而 `n` 是任何整數，用來顯示最後的 `n` 個更新。 不過讀者可能不太會常用此選項，因為 Git 預設將所有的輸出導到分頁程式，故一次只會看到一頁。
 
-然而，像 --since 及 --until 限制時間的選項就很有用。 例如，以下命令列出最近兩週的更新：
+然而，像 `--since` 及 `--until` 限制時間的選項就很有用。 例如，以下命令列出最近兩週的更新：
 
 	$ git log --since=2.weeks
 
-此命令支援多種格式。 可指定特定日期（如：2008-01-15）或相對的日期，如：2 years 1day 3minutes ago。
+此命令支援多種格式。 可指定特定日期（如：“2008-01-15”）或相對的日期，如：“2 years 1 day 3 minutes ago”。
 
-使用者也可以過濾出符合某些搜尋條件的更新。 --author 選項允許使用者過濾出特定作者，而 --grep 選項允許以關鍵字搜尋提交的訊息。（注意：若希望同時符合作者名字及字串比對，需要再加上 --all-match；否則預設為列出符合任一條件的更新）
+使用者也可以過濾出符合某些搜尋條件的更新。 `--author` 選項允許使用者過濾出特定作者，而 `--grep` 選項允許以關鍵字搜尋提交的訊息。（注意：若希望同時符合作者名字及字串比對，需要再加上 `--all-match`；否則預設為列出符合任一條件的更新）
 
 最後一個有用的選項是過濾路徑。 若指定目錄或檔案名稱，可僅印出更動到這些檔案的更新。 這選項永遠放在最後，而且一般來說會在前方加上 -- 以資區別。
 
@@ -617,7 +617,7 @@ Git 原始碼的更新歷史接近二萬筆更新，本命令顯示符合條件�
 
 ### 使用圖形界面檢視歷史 ###
 
-若讀者較偏向使用圖形界面檢視歷史，或與會想看一下隨著 Git 發怖的，名為 gitk 的 Tcl/Tk 程式。 Gitk 基本上就是 git log 的圖形界面版本，而且幾乎接受所有 git log 支援的過濾用選項。 若在專案所在目錄下執行 gitk 命令，將會看到如圖2-2的畫面。
+若讀者較偏向使用圖形界面檢視歷史，或與會想看一下隨著 Git 發佈的，名為 `gitk` 的 Tcl/Tk 程式。 Gitk 基本上就是 `git log` 的圖形界面版本，而且幾乎接受所有 `git log` 支援的過濾用選項。 若在專案所在目錄下執行 gitk 命令，將會看到如圖2-2的畫面。
 
 Insert 18333fig0202.png 
 圖2-2。 gitk檢視歷史程式。
@@ -630,7 +630,7 @@ Insert 18333fig0202.png
 
 ### 更動最後一筆更新 ###
 
-最常見的復原發生在太早提交更新，也許忘了加入某些檔案、或者搞砸了提交的訊息。 若想要試著重新提交，可試著加上 --amend 選項：
+最常見的復原發生在太早提交更新，也許忘了加入某些檔案、或者搞砸了提交的訊息。 若想要試著重新提交，可試著加上 `--amend` 選項：
 
 	$ git commit --amend
 
@@ -648,7 +648,7 @@ Insert 18333fig0202.png
 
 ### 取消已被暫存的檔案 ###
 
-接下來兩節展示如何應付暫存區及工作目錄的復原。 用來判斷這兩個區域狀態的命令也以相當好的方式提示如何復原。 比如說已經修改兩個檔案，並想要以兩個不同的更新提交它們，不過不小心執行 git add * 將它們同時都加入暫存區。 應該如何將其中一個移出暫存區？ git status 命令已附上相關的提示：
+接下來兩節展示如何應付暫存區及工作目錄的復原。 用來判斷這兩個區域狀態的命令也以相當好的方式提示如何復原。 比如說已經修改兩個檔案，並想要以兩個不同的更新提交它們，不過不小心執行 `git add *` 將它們同時都加入暫存區。 應該如何將其中一個移出暫存區？ `git status` 命令已附上相關的提示：
 
 	$ git add .
 	$ git status
@@ -660,7 +660,7 @@ Insert 18333fig0202.png
 	#       modified:   benchmarks.rb
 	#
 
-在 "Changes to be commited" 文字下方，註明著使用 "`git reset HEAD <file>...`"，將 file 移出暫存區。 因此，讓我們依循該建議將 benchmarks.rb 檔案移出暫存區：
+在 “Changes to be commited” 文字下方，註明著使用 “`git reset HEAD <file>...`，將 file 移出暫存區”。 因此，讓我們依循該建議將 `benchmarks.rb` 檔案移出暫存區：
 
 	$ git reset HEAD benchmarks.rb 
 	benchmarks.rb: locally modified
@@ -678,11 +678,11 @@ Insert 18333fig0202.png
 	#       modified:   benchmarks.rb
 	#
 
-這個命令看起來有點奇怪，不過它的確可用。 benchmarks.rb 檔案被移出暫存區了。
+這個命令看起來有點奇怪，不過它的確可用。 `benchmarks.rb` 檔案被移出暫存區了。
 
 ### 復原已被更動的檔案 ###
 
-若讀者發現其者並不需要保留 benchmarks.rb 檔案被更動部份，應該如何做才能很容易的復原為最後一次提交的狀態（或者最被複製儲存庫時、或放到工作目錄時的版本）？ 很幸運的，git status 同樣也告訴讀者如何做。 在最近一次檢視狀態時，暫存區看起來應如下所示：
+若讀者發現其者並不需要保留 `benchmarks.rb` 檔案被更動部份，應該如何做才能很容易的復原為最後一次提交的狀態（或者最被複製儲存庫時、或放到工作目錄時的版本）？ 很幸運的，`git status` 同樣也告訴讀者如何做。 在最近一次檢視狀態時，暫存區看起來應如下所示：
 
 	# Changes not staged for commit:
 	#   (use "git add <file>..." to update what will be committed)
@@ -704,7 +704,7 @@ Insert 18333fig0202.png
 
 在上述文字可看到該變更已被復原。 讀者應該瞭解這是危險的命令，任何對該檔案做的修改將不復存在，就好像複製別的檔案將它覆蓋。 除非很清楚真的不需要該檔案，絕不要使用此檔案。 若需要將這些修改排除，我們在下一章節會介紹備份及分支。 一般來說會比此方法來的好。
 
-切記，任何在 Git 提交的更新幾乎都是可復原的。 即使是分支中的更新被刪除或被 --amend 覆寫，皆能被覆原。（參考第九章關於資料的復原） 然而，未被提交的則幾乎無法救回。
+切記，任何在 Git 提交的更新幾乎都是可復原的。 即使是分支中的更新被刪除或被 `--amend` 覆寫，皆能被覆原。（參考第九章關於資料的復原） 然而，未被提交的則幾乎無法救回。
 
 ## 與遠端協同工作 ##
 
@@ -713,7 +713,7 @@ Insert 18333fig0202.png
 
 ### 顯示所有的遠端儲存庫 ###
 
-欲瞭解目前已加進來的遠端儲存庫，可執行 git remote 命令。 它會列出當初加入遠端儲存庫時指定的名稱。 若目前所在儲存庫是從其它儲存庫複製過來的，至少應該看到 origin，也就是 Git 複製儲存庫時預設取的名字：
+欲瞭解目前已加進來的遠端儲存庫，可執行 `git remote` 命令。 它會列出當初加入遠端儲存庫時指定的名稱。 若目前所在儲存庫是從其它儲存庫複製過來的，至少應該看到 *origin*，也就是 Git 複製儲存庫時預設取的名字：
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -726,7 +726,7 @@ Insert 18333fig0202.png
 	$ git remote 
 	origin
 
-也可以再加上 -v 參數，將會在名稱後方顯示其URL：
+也可以再加上 `-v` 參數，將會在名稱後方顯示其URL：
 
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
@@ -745,7 +745,7 @@ Insert 18333fig0202.png
 
 ### 新增遠端儲存庫 ###
 
-在先前章節已提到並示範如何新增遠端儲存庫，這邊會很明確的說明如何做這項工作。 欲新增遠端儲存庫並取一個簡短的名字，執行 git remote add名字 URL： 
+在先前章節已提到並示範如何新增遠端儲存庫，這邊會很明確的說明如何做這項工作。 欲新增遠端儲存庫並取一個簡短的名字，執行 `git remote add [shortname] [url]`： 
 
 	$ git remote
 	origin
@@ -754,7 +754,7 @@ Insert 18333fig0202.png
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-現在可看到命令列中的 pb 字串取代了整個 URL。 例如，若想取得 Paul 上傳的且本地端儲存庫沒有的更新，可執行 git fetch pb：
+現在可看到命令列中的 `pb` 字串取代了整個 URL。 例如，若想取得 Paul 上傳的且本地端儲存庫沒有的更新，可執行 git fetch pb：
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -765,7 +765,7 @@ Insert 18333fig0202.png
 	 * [new branch]      master     -> pb/master
 	 * [new branch]      ticgit     -> pb/ticgit
 
-現在可在本地端使用 pb/master 存取 Paul 的 master 分支。 讀者可將它合併到本地端任一分支、或者建立一個本地端的分支指向它，如果讀者想監看它。
+現在可在本地端使用 `pb/master` 存取 Paul 的 master 分支。 讀者可將它合併到本地端任一分支、或者建立一個本地端的分支指向它，如果讀者想監看它。
 
 ### 從遠端儲存庫擷取或合併 ###
 
@@ -775,13 +775,13 @@ Insert 18333fig0202.png
 
 此命令到該遠端專案將所有本地端沒有的資料拉下來。 在執行此動作後，讀者應該有參考到該遠端專案所有分支的參考點，可在任何時間點用來合併或監看。（在第三章將會提及更多關於如何使用分支的細節）
 
-若複製了一個儲存庫，會自動將該遠端儲存庫命令為 origin。 因此 git fetch origin 取出所有在複製或最後一下擷取後被上傳到該儲存庫的更新。 需留意的是 fetch 命令僅僅將資料拉到本地端的儲存庫，並未自動將它合併進來，也沒有修改任何目前工作的項目。 讀者得在必要時將它們手動合併進來。
+若複製了一個儲存庫，會自動將該遠端儲存庫命令為 *origin*。 因此 `git fetch origin` 取出所有在複製或最後一下擷取後被上傳到該儲存庫的更新。 需留意的是 `fetch` 命令僅僅將資料拉到本地端的儲存庫，並未自動將它合併進來，也沒有修改任何目前工作的項目。 讀者得在必要時將它們手動合併進來。
 
-若讀者設定一個會追蹤遠端分支的分支（參考下一節及第三章，取得更多資料），可使用 git pull 命令自動擷取及合併遠端分支到目錄的分支。 這對讀者來說或許是較合適的工作流程。 而且 git clone 命令預設情況下會自動設定本地端的 master 分支追蹤被複製的遠端儲存庫的 master 分支。（假設該儲存庫有 master 分支） 執行 git pull 一般來說會從當初複製時的來源儲存庫擷取資料並自動試著合併到目前工作的版本。
+若讀者設定一個會追蹤遠端分支的分支（參考下一節及第三章，取得更多資料），可使用 `git pull` 命令自動擷取及合併遠端分支到目錄的分支。 這對讀者來說或許是較合適的工作流程。 而且 `git clone` 命令預設情況下會自動設定本地端的 master 分支追蹤被複製的遠端儲存庫的 master 分支。（假設該儲存庫有 master 分支） 執行 `git pull` 一般來說會從當初複製時的來源儲存庫擷取資料並自動試著合併到目前工作的版本。
 
 ### 上傳到遠端儲存庫 ###
 
-當讀者有想分享出去的專案，可將更新上傳到上游。 執行此動作的命令很簡單：git push 遠端儲存庫名字 分支名。 若想要上傳 master 分支到 origin 伺服器（再說一次，複製時通常自動設定此名字），接著執行以下命令即可上傳到伺服器：
+當讀者有想分享出去的專案，可將更新上傳到上游。 執行此動作的命令很簡單：`git push [remote-name] [branch-name]`。 若想要上傳 master 分支到 `origin` 伺服器（再說一次，複製時通常自動設定此名字），接著執行以下命令即可上傳到伺服器：
 
 	$ git push origin master
 
@@ -789,7 +789,7 @@ Insert 18333fig0202.png
 
 ### 監看遠端儲存庫 ###
 
-若讀者想取得遠端儲存庫某部份更詳盡的資料，可執行 git remote show 遠端儲存庫名字。 若執行此命令時加上特定的遠端名字，比如說： origin。 會看到類似以下輸出：
+若讀者想取得遠端儲存庫某部份更詳盡的資料，可執行 `git remote show [remote-name]`。 若執行此命令時加上特定的遠端名字，比如說： `origin`。 會看到類似以下輸出：
 
 	$ git remote show origin
 	* remote origin
@@ -1050,9 +1050,9 @@ If you have a lot of tags that you want to push up at once, you can also use the
 
 Now, when someone else clones or pulls from your repository, they will get all your tags as well.
 
-## Tips and Tricks ##
+## 提示和技巧 ##
 
-Before we finish this chapter on basic Git, a few little tips and tricks may make your Git experience a bit simpler, easier, or more familiar. Many people use Git without using any of these tips, and we won’t refer to them or assume you’ve used them later in the book; but you should probably know how to do them.
+在結束Git基礎這個章節前，我們將介紹有一些將會使你的Git使用經驗更簡單、方便和親切的提示和技巧。或許很多人從未運用過這些技巧，我們也不會假設你在本書的後續章節會使用它們。但你也許會想知道如何使用它們。
 
 ### Auto-Completion ###
 
@@ -1078,31 +1078,31 @@ This also works with options, which is probably more useful. For instance, if yo
 
 That’s a pretty nice trick and may save you some time and documentation reading.
 
-### Git Aliases ###
+### Git 命令別名 ###
 
-Git doesn’t infer your command if you type it in partially. If you don’t want to type the entire text of each of the Git commands, you can easily set up an alias for each command using `git config`. Here are a couple of examples you may want to set up:
+如果僅輸入命令的部份字元，Git並不會幫你推論出你想要下的完整命令。如果你想偷懶，不想輸入Git命令的所有字元，你可以輕易地利用`git config`設定別名(alias)。你也許會想要設定以下這幾個範例：
 
 	$ git config --global alias.co checkout
 	$ git config --global alias.br branch
 	$ git config --global alias.ci commit
 	$ git config --global alias.st status
 
-This means that, for example, instead of typing `git commit`, you just need to type `git ci`. As you go on using Git, you’ll probably use other commands frequently as well; in this case, don’t hesitate to create new aliases.
+這些例子顯示出，你可以只輸入`git ci`，取代輸入`git commit`。隨著你深入使用Git，將會發現某些命令用得頻繁；這時不妨建立新的別名提高使用效率。
 
-This technique can also be very useful in creating commands that you think should exist. For example, to correct the usability problem you encountered with unstaging a file, you can add your own unstage alias to Git:
+利用這個技術將有助於創造出你認為應該存在的命令。舉例而言，為了提高取消暫存檔案的便利性，你可以加入以下命令：
 
 	$ git config --global alias.unstage 'reset HEAD --'
 
-This makes the following two commands equivalent:
+這將使得下列兩個命令完全相等：
 
 	$ git unstage fileA
 	$ git reset HEAD fileA
 
-This seems a bit clearer. It’s also common to add a `last` command, like this:
+使用別名看起來更清楚。另外，加入`last`別名也是很常用的技巧：
 
 	$ git config --global alias.last 'log -1 HEAD'
 
-This way, you can see the last commit easily:
+如此一來，將可更簡單地看到最新的提交訊息：
 	
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
@@ -1113,10 +1113,10 @@ This way, you can see the last commit easily:
 
 	    Signed-off-by: Scott Chacon <schacon@example.com>
 
-As you can tell, Git simply replaces the new command with whatever you alias it for. However, maybe you want to run an external command, rather than a Git subcommand. In that case, you start the command with a `!` character. This is useful if you write your own tools that work with a Git repository. We can demonstrate by aliasing `git visual` to run `gitk`:
+你可以發現，Git只是簡單地在命令中替換你設定的別名。然而，你不僅希望執行Git 的子命令，而想執行外部命令。在這個情形中，你可以加入`!`字元在所要執行的命令前。這將有助於設計運作於Git儲存庫的自製工具。這個範例藉由設定`git visual`別名去執行`gitk`：
 
 	$ git config --global alias.visual '!gitk'
 
-## Summary ##
+## 總結 ##
 
-At this point, you can do all the basic local Git operations — creating or cloning a repository, making changes, staging and committing those changes, and viewing the history of all the changes the repository has been through. Next, we’ll cover Git’s killer feature: its branching model.
+至此，讀者已具備所有Git的本地端操作，包括：創建和副本儲存庫、建立修改、暫存和提交這些修改，以及檢視在儲存庫中所有修改歷史。接下來，我們將觸及Git的殺手級特性，也就是他的分支模型。

@@ -521,17 +521,16 @@ Installing Gitolite is very easy, even if you don’t read the extensive documen
 
 Gitolite is somewhat unusual as far as "server" software goes — access is via SSH, and so every userid on the server is a potential "gitolite host".  We will describe the simplest install method in this article; for the other methods please see the documentation.
 
-To begin, create a user called `git` on your server and login to this user.  Copy your SSH public key (a file called `~/.ssh/id_rsa.pub` if you did a plain `ssh-keygen` with all the defaults) from your workstation, renaming it to `YourName.pub`.  Then run these commands:
+To begin, create a user called `git` on your server and login to this user.  Copy your SSH public key (a file called `~/.ssh/id_rsa.pub` if you did a plain `ssh-keygen` with all the defaults) from your workstation, renaming it to `<yourname>.pub` (we'll use `scott.pub` in our examples).  Then run these commands:
 
 	$ git clone git://github.com/sitaramc/gitolite
 	$ gitolite/install -ln
 	    # assumes $HOME/bin exists and is in your $PATH
-	$ gitolite setup -pk $HOME/YourName.pub
-	    # for example, I would run 'gitolite setup -pk $HOME/sitaram.pub'
+	$ gitolite setup -pk $HOME/scott.pub
 
-Finally, back on your workstation, run `git clone git@gitserver:gitolite-admin`.
+That last command creates new Git repository called `gitolite-admin` on the server.
 
-And you’re done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in your workstation.  You administer your Gitolite setup by making changes to this repository and pushing.
+Finally, back on your workstation, run `git clone git@gitserver:gitolite-admin`. And you’re done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in your workstation.  You administer your Gitolite setup by making changes to this repository and pushing.
 
 ### Customising the Install ###
 
@@ -546,16 +545,16 @@ Once the install is done, you switch to the `gitolite-admin` clone you just made
 	conf/  keydir/
 	$ find conf keydir -type f
 	conf/gitolite.conf
-	keydir/sitaram.pub
+	keydir/scott.pub
 	$ cat conf/gitolite.conf
 
 	repo gitolite-admin
-	    RW+                 = sitaram
+	    RW+                 = scott
 
 	repo testing
 	    RW+                 = @all
 
-Notice that "sitaram" (the name of the pubkey in the gl-setup command you used earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.
+Notice that "scott" (the name of the pubkey in the `gitolite setup` command you used earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.
 
 Adding users is easy.  To add a user called "alice", obtain her public key, name it `alice.pub`, and put it in the `keydir` directory of the clone of the `gitolite-admin` repo you just made on your workstation.  Add, commit, and push the change, and the user has been added.
 
@@ -566,8 +565,8 @@ You can group users or repos for convenience.  The group names are just like mac
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
 
-	@admins         = scott     # Adams, not Chacon, sorry :)
-	@interns        = ashok     # get the spelling right, Scott!
+	@admins         = scott
+	@interns        = ashok
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
@@ -641,7 +640,7 @@ We’ll round off this discussion with a sampling of other features, all of whic
 
 **Access rights reporting**: Another convenient feature is what happens when you try and just ssh to the server.  Gitolite shows you what repos you have access to, and what that access may be.  Here’s an example:
 
-        hello sitaram, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
+        hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
              R     anu-wsd
              R     entrans

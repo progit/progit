@@ -529,7 +529,7 @@ To begin, create a user called `git` on your server and login to this user.  Cop
 	$ gitolite setup -pk $HOME/YourName.pub
 	    # for example, I would run 'gitolite setup -pk $HOME/sitaram.pub'
 
-Finally, back on your workstation, run `git clone git@server:gitolite-admin`.
+Finally, back on your workstation, run `git clone git@gitserver:gitolite-admin`.
 
 And you’re done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in your workstation.  You administer your Gitolite setup by making changes to this repository and pushing.
 

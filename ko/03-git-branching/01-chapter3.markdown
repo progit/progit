@@ -407,7 +407,7 @@ Insert 18333fig0324.png
 Insert 18333fig0325.png
 그림 3-25 서버를 리모트 저장소로 추가하기
 
-서버를 추가하고 나면 `git fetch teamone` 명령으로 teamone 서버의 데이터를 내려받는다. 명령을 실행해도 teamone 서버의 데이터는 모두 origin 서버에도 있는 것들이라서 아무것도 내려받지 않는다. 하지만, 이 명령을 실행하면 teamone/master 브랜치의 포인터가 teamone의 master 브랜치와 가리키는 것을 가리키게 한다.
+서버를 추가하고 나면 git fetch teamone 명령으로 teamone 서버의 데이터를 내려받는다. 명령을 실행해도 teamone 서버의 데이터는 모두 origin 서버에도 있는 것들이라서 아무것도 내려받지 않는다. 하지만, 이 명령은 teamone/master 브랜치가 teamone 서버의 master 브랜치가 가리키는 커밋을 가리키게 한다.
 
 Insert 18333fig0326.png
 그림 3-26 로컬 저장소에 만들어진 teamone의 master 브랜치를 가리키는 포인터

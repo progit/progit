@@ -577,6 +577,7 @@ Those are only some simple output-formatting options to `git log` — there are 
 	--relative-date	Display the date in a relative format (for example, “2 weeks ago”) instead of using the full date format.
 	--graph	Display an ASCII graph of the branch and merge history beside the log output.
 	--pretty	Show commits in an alternate format. Options include oneline, short, full, fuller, and format (where you specify your own format).
+	--oneline	A convenience option short for `--pretty=oneline --abbrev-commit`.
 
 ### Limiting Log Output ###
 

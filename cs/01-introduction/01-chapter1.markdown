@@ -178,7 +178,7 @@ Není nutné přidávat všechny doplňky, ale pokud budete někdy používat Gi
 
 Instalace systému Git v OS Windows je velice nenáročná. Postup instalace projektu msysGit patří k těm nejjednodušším. Ze stránky Google Code stáhněte instalační soubor exe a spusťte ho:
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 Po dokončení instalace budete mít k dispozici jak verzi pro příkazový řádek (včetně SSH klienta, který se vám bude hodit později), tak standardní grafické uživatelské rozhraní.
 

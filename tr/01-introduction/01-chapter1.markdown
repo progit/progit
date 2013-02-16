@@ -180,7 +180,7 @@ Bütün ek paketleri kurmanız şart değil, ama Git'i Subversion yazılım havu
 
 Git'i Windows'da kurmak oldukça kolaydır. mysysGit projesi en basit kurulum yöntemlerinden birine sahip. Çalıştırılabilir kurulum dosyasını Google Code sayfasından indirip çalıştırmanız yeterli:
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 Kurulum tamamlandığında hem (daha sonra işe yarayacak olan SSH istemcisini de içeren) komut satırı nüshasına hem de standart kullanıcı arayüzüne sahip olacaksınız.
 

@@ -178,7 +178,7 @@ MacPorts(`http://www.macports.org`)를 사용하는 방법도 있다. MacPorts�
 
 Git을 윈도우에 설치하기도 쉽다. 그저 구글 코드 페이지에서 msysGit 인스톨러를 내려받고 실행하면 된다:
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 설치가 완료되면 CLI 프로그램과 GUI 프로그램을 둘 다 사용할 수 있다. CLI 프로그램에는 SSH 클라이언트가 포함돼 있기 때문에 유용하다.
 

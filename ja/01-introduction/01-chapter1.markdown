@@ -180,7 +180,7 @@ Insert 18333fig0107.png
 
 WindowsにGitをインストールするのはとても簡単です。msysGitプロジェクトは、より簡単なインストール手続きの一つを備えています。Google Codeのページから、単純にインストーラーのexeファイルをダウンロードをし、実行してください：
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 インストール後、コマンドライン版（後で役に立つSSHクライアントを含む）とスタンダードGUI版の両方を使う事ができます。
 

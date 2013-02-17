@@ -506,32 +506,31 @@ If you have any issues, it may be useful to add `loglevel=DEBUG` under the `[git
 
 ## Gitolite ##
 
-This section serves as a quick introduction to gitolite, and provides basic installation and setup instructions.  It cannot, however, replace the enormous amount of [documentation][gltoc] that gitolite comes with.  There may also be occasional changes to this section itself, so you may also want to look at the latest version [here][gldpg].
+This section serves as a quick introduction to Gitolite, and provides basic installation and setup instructions.  It cannot, however, replace the enormous amount of [documentation][gltoc] that Gitolite comes with.  There may also be occasional changes to this section itself, so you may also want to look at the latest version [here][gldpg].
 
 [gldpg]: http://sitaramc.github.com/gitolite/progit.html
 [gltoc]: http://sitaramc.github.com/gitolite/master-toc.html
 
-Gitolite is an authorisation layer on top of git, relying on sshd or httpd for authentication.  (Recap: authentication is identifying who the user is, authorisation is deciding if he is allowed to do what he is attempting to).
+Gitolite is an authorization layer on top of Git, relying on `sshd` or `httpd` for authentication.  (Recap: authentication is identifying who the user is, authorization is deciding if he is allowed to do what he is attempting to).
 
 Gitolite allows you to specify permissions not just by repository, but also by branch or tag names within each repository.  That is, you can specify that certain people (or groups of people) can only push certain "refs" (branches or tags) but not others.
 
 ### Installing ###
 
-Installing Gitolite is very easy, even if you don’t read the extensive documentation that comes with it.  You need an account on a Unix server of some kind.  You do not need root access, assuming git, perl, and an openssh compatible ssh server are already installed.  In the examples below, we will use the `git` account on a host called `gitserver`.
+Installing Gitolite is very easy, even if you don’t read the extensive documentation that comes with it.  You need an account on a Unix server of some kind.  You do not need root access, assuming Git, Perl, and an OpenSSH compatible SSH server are already installed.  In the examples below, we will use the `git` account on a host called `gitserver`.
 
-Gitolite is somewhat unusual as far as "server" software goes -- access is via ssh, and so every userid on the server is a potential "gitolite host".  We will describe the simplest install method in this article; for the other methods please see the documentation.
+Gitolite is somewhat unusual as far as "server" software goes — access is via SSH, and so every userid on the server is a potential "gitolite host".  We will describe the simplest install method in this article; for the other methods please see the documentation.
 
-To begin, create a user called `git` on your server and login to this user.  Copy your ssh pubkey (a file called `~/.ssh/id_rsa.pub` if you did a plain `ssh-keygen` with all the defaults) from your workstation, renaming it to `YourName.pub`.  Then run these commands:
+To begin, create a user called `git` on your server and login to this user.  Copy your SSH public key (a file called `~/.ssh/id_rsa.pub` if you did a plain `ssh-keygen` with all the defaults) from your workstation, renaming it to `<yourname>.pub` (we'll use `scott.pub` in our examples).  Then run these commands:
 
-    git clone git://github.com/sitaramc/gitolite
-    gitolite/install -ln
-        # assumes $HOME/bin exists and is in your $PATH
-    gitolite setup -pk $HOME/YourName.pub
-        # for example, I would run 'gitolite setup -pk $HOME/sitaram.pub'
+	$ git clone git://github.com/sitaramc/gitolite
+	$ gitolite/install -ln
+	    # assumes $HOME/bin exists and is in your $PATH
+	$ gitolite setup -pk $HOME/scott.pub
 
-Finally, back on your workstation, run `git clone git@server:gitolite-admin`.
+That last command creates new Git repository called `gitolite-admin` on the server.
 
-And you’re done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in your workstation.  You administer your gitolite setup by making changes to this repository and pushing.
+Finally, back on your workstation, run `git clone git@gitserver:gitolite-admin`. And you’re done!  Gitolite has now been installed on the server, and you now have a brand new repository called `gitolite-admin` in your workstation.  You administer your Gitolite setup by making changes to this repository and pushing.
 
 ### Customising the Install ###
 
@@ -546,28 +545,28 @@ Once the install is done, you switch to the `gitolite-admin` clone you just made
 	conf/  keydir/
 	$ find conf keydir -type f
 	conf/gitolite.conf
-	keydir/sitaram.pub
+	keydir/scott.pub
 	$ cat conf/gitolite.conf
 
 	repo gitolite-admin
-	    RW+                 = sitaram
+	    RW+                 = scott
 
 	repo testing
 	    RW+                 = @all
 
-Notice that "sitaram" (the name of the pubkey in the gl-setup command you used earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.
+Notice that "scott" (the name of the pubkey in the `gitolite setup` command you used earlier) has read-write permissions on the `gitolite-admin` repository as well as a public key file of the same name.
 
-Adding users is easy.  To add a user called "alice", obtain her public key, name it "alice.pub", and put it in the "keydir" directory of the clone of the gitolite-admin repo you just made on your workstation.  Add, commit, and push the change, and the user has been added.
+Adding users is easy.  To add a user called "alice", obtain her public key, name it `alice.pub`, and put it in the `keydir` directory of the clone of the `gitolite-admin` repo you just made on your workstation.  Add, commit, and push the change, and the user has been added.
 
-The config file syntax for gitolite is well documented, so we’ll only mention some highlights here.
+The config file syntax for Gitolite is well documented, so we’ll only mention some highlights here.
 
 You can group users or repos for convenience.  The group names are just like macros; when defining them, it doesn’t even matter whether they are projects or users; that distinction is only made when you *use* the "macro".
 
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
 
-	@admins         = scott     # Adams, not Chacon, sorry :)
-	@interns        = ashok     # get the spelling right, Scott!
+	@admins         = scott
+	@interns        = ashok
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
@@ -610,20 +609,20 @@ Again, you simply follow the rules top down until you hit a match for your acces
 
 ### Restricting pushes by files changed ###
 
-In addition to restricting what branches a user can push changes to, you can also restrict what files they are allowed to touch.  For example, perhaps the Makefile (or some other program) is really not supposed to be changed by just anyone, because a lot of things depend on it or would break if the changes are not done *just right*.  You can tell gitolite:
+In addition to restricting what branches a user can push changes to, you can also restrict what files they are allowed to touch.  For example, perhaps the Makefile (or some other program) is really not supposed to be changed by just anyone, because a lot of things depend on it or would break if the changes are not done *just right*.  You can tell Gitolite:
 
     repo foo
         RW                      =   @junior_devs @senior_devs
 
         -   VREF/NAME/Makefile  =   @junior_devs
 
-User who are migrating from the older gitolite should note that there is a significant change in behaviour with regard to this feature; please see the migration guide for details.
+User who are migrating from the older Gitolite should note that there is a significant change in behaviour with regard to this feature; please see the migration guide for details.
 
 ### Personal Branches ###
 
 Gitolite also has a feature called "personal branches" (or rather, "personal branch namespace") that can be very useful in a corporate environment.
 
-A lot of code exchange in the git world happens by "please pull" requests.  In a corporate environment, however, unauthenticated access is a no-no, and a developer workstation cannot do authentication, so you have to push to the central server and ask someone to pull from there.
+A lot of code exchange in the Git world happens by "please pull" requests.  In a corporate environment, however, unauthenticated access is a no-no, and a developer workstation cannot do authentication, so you have to push to the central server and ask someone to pull from there.
 
 This would normally cause the same branch name clutter as in a centralised VCS, plus setting up permissions for this becomes a chore for the admin.
 
@@ -631,17 +630,17 @@ Gitolite lets you define a "personal" or "scratch" namespace prefix for each dev
 
 ### "Wildcard" repositories ###
 
-Gitolite allows you to specify repositories with wildcards (actually perl regexes), like, for example `assignments/s[0-9][0-9]/a[0-9][0-9]`, to pick a random example.  It also allows you to assign a new permission mode ("C") which enables users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out R and RW permissions to other users to collaborate, etc.  Again, please see the documentation for details.
+Gitolite allows you to specify repositories with wildcards (actually Perl regexes), like, for example `assignments/s[0-9][0-9]/a[0-9][0-9]`, to pick a random example.  It also allows you to assign a new permission mode (`C`) which enables users to create repositories based on such wild cards, automatically assigns ownership to the specific user who created it, allows him/her to hand out `R` and `RW` permissions to other users to collaborate, etc.  Again, please see the documentation for details.
 
 ### Other Features ###
 
 We’ll round off this discussion with a sampling of other features, all of which, and many more, are described in great detail in the documentation.
 
-**Logging**: Gitolite logs all successful accesses.  If you were somewhat relaxed about giving people rewind permissions (`RW+`) and some kid blew away "master", the log file is a life saver, in terms of easily and quickly finding the SHA that got hosed.
+**Logging**: Gitolite logs all successful accesses.  If you were somewhat relaxed about giving people rewind permissions (`RW+`) and some kid blew away `master`, the log file is a life saver, in terms of easily and quickly finding the SHA that got hosed.
 
 **Access rights reporting**: Another convenient feature is what happens when you try and just ssh to the server.  Gitolite shows you what repos you have access to, and what that access may be.  Here’s an example:
 
-        hello sitaram, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
+        hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
              R     anu-wsd
              R     entrans

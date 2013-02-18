@@ -89,7 +89,8 @@
 \newcommand{\img}[1]{\begin{figure}[ht!]
 	\refstepcounter{img}
 	\label{img:\theimg}
-	\centering\includegraphics[width=\maxwidth]{figures/\theimg.png}
+	\centering\IfFileExists{figures/\theimg.pdf}{\includegraphics[width=\maxwidth]{figures/\theimg.pdf}}{\includegraphics[width=\maxwidth]{figures/\theimg.png}}
+
 	\textbf{\caption{#1}}
 \end{figure}}
 

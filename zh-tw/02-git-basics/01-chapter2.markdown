@@ -550,7 +550,7 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	%cr	相對於目前時間的提交的日期
 	%s	標題
 
-讀者可能會好奇_作者_與_提交者_之間的差別。 _作者_是完成該工作的人，而_提交者_則是最後將該工作提交出來的人。 因此，若讀者將某個專案的修補檔送出，而且該專案的核心成員中一員套用該更新，則讀者與該成員皆會被列入該更新。 讀者即作者，而該成員則是提交者。 在第五章會提到較多之間的差別。
+讀者可能會好奇 __作者__ 與 __提交者__ 之間的差別。 __作者__ 是完成該工作的人，而 __提交者__ 則是最後將該工作提交出來的人。 因此，若讀者將某個專案的修補檔送出，而且該專案的核心成員中一員套用該更新，則讀者與該成員皆會被列入該更新。 讀者即 __作者__，而該成員則是 __提交者__。 在第五章會提到較多之間的差別。
 
 `oneline` 及 `format` 選項對於另一個名為 `--graph` 的選項特別有用。 該選項以 ASCII 畫出分支的分歧及合併的歷史。 可參考我們的 Grit 的儲存庫：
 
@@ -602,7 +602,7 @@ Git會在背後判斷檔案是否被更名，因此不管是用上述方法還�
 	--author	列出作者名稱符合指定字串的更新。
 	--committer	列出提交者名稱符合指定字串的更新。
 
-例如：若想檢視 Git 的原始碼中，Junio Hamano 在 2008 年十月份提交且不是合併用的更新。 可執行以下命令：
+例如：若想檢視 Git 的原始碼中，Junio Hamano 在 2008 年十月提交且不是合併用的更新。 可執行以下命令：
 
 	$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
 	   --before="2008-11-01" --no-merges -- t/
@@ -678,7 +678,7 @@ Insert 18333fig0202.png
 	#       modified:   benchmarks.rb
 	#
 
-這個命令看起來有點奇怪，不過它的確可用。 `benchmarks.rb` 檔案被移出暫存區了。
+這個命令看起來有點奇怪，不過它的確可行。 `benchmarks.rb` 檔案被移出暫存區了。
 
 ### 復原已被更動的檔案 ###
 
@@ -708,12 +708,12 @@ Insert 18333fig0202.png
 
 ## 與遠端協同工作 ##
 
-欲在任何Git控管的專案協同作業，需要瞭解如何管理遠端的儲存庫。 遠端儲存庫讀者是置放在網際網路或網路其它地方的複本。 讀者可設定多個遠端儲存庫，唯讀或者可讀寫。 與他人協同作業時，需要管理這些遠端儲存庫，並在需要分享工作時上傳或下載資料。
+想要在任何Git控管的專案協同作業，需要瞭解如何管理遠端的儲存庫。 遠端儲存庫是置放在網際網路或網路其它地方中的專案版本。 讀者可設定多個遠端儲存庫，具備唯讀或可讀寫的權限。 與他人協同作業時，需要管理這些遠端儲存庫，並在需要分享工作時上傳或下載資料。
 管理遠端儲存庫包含瞭解如何新增遠端儲存庫、移除已失效的儲存庫、管理許多分支及定義是否要追蹤它們等等。 本節包含如何遠端管理的技巧。
 
 ### 顯示所有的遠端儲存庫 ###
 
-欲瞭解目前已加進來的遠端儲存庫，可執行 `git remote` 命令。 它會列出當初加入遠端儲存庫時指定的名稱。 若目前所在儲存庫是從其它儲存庫複製過來的，至少應該看到 *origin*，也就是 Git 複製儲存庫時預設取的名字：
+欲瞭解目前已加進來的遠端儲存庫，可執行 `git remote` 命令。 它會列出當初加入遠端儲存庫時指定的名稱。 若目前所在儲存庫是從其它儲存庫複製過來的，至少應該看到 *origin*，也就是 Git 複製儲存庫時預設名字：
 
 	$ git clone git://github.com/schacon/ticgit.git
 	Initialized empty Git repository in /private/tmp/ticgit/.git/
@@ -731,7 +731,7 @@ Insert 18333fig0202.png
 	$ git remote -v
 	origin	git://github.com/schacon/ticgit.git
 
-若有一個以上遠端儲存庫，此命令會列出全部。 例如：我的 Grit 儲存庫包含以下遠端儲存庫。
+若有一個以上遠端儲存庫，此命令會全部列出。 例如：我的 Grit 儲存庫包含以下遠端儲存庫。
 
 	$ cd grit
 	$ git remote -v
@@ -754,7 +754,7 @@ Insert 18333fig0202.png
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-現在可看到命令列中的 `pb` 字串取代了整個 URL。 例如，若想取得 Paul 上傳的且本地端儲存庫沒有的更新，可執行 git fetch pb：
+現在可看到命令列中的 `pb` 字串取代了整個 URL。 例如，若想取得 Paul 上傳的且本地端儲存庫沒有的更新，可執行 `git fetch pb`：
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -828,7 +828,7 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 
 This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
 
-### Removing and Renaming Remotes ###
+### 移除或更名遠端儲存庫 ###
 
 If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
 

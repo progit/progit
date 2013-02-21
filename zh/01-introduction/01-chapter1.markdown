@@ -176,7 +176,7 @@ Insert 18333fig0107.png
 
 ### 在 Windows 上安装 ###
 
-在 Windows 上安装 Git 同样轻松，有个叫做 msysGit 的项目提供了安装包，可以到 Google Code 的页面上下载 exe 安装文件并运行：
+在 Windows 上安装 Git 同样轻松，有个叫做 msysGit 的项目提供了安装包，可以到 GitHub 的页面上下载 exe 安装文件并运行：
 
 	http://msysgit.github.com/
 

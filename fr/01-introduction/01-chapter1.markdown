@@ -266,7 +266,7 @@ Vous n'avez pas à ajouter tous les extras, mais vous souhaiterez sûrement incl
 
 Installer Git sur Windows est très facile.
 Le projet msysGit fournit une des procédures d'installation les plus simples.
-Téléchargez simplement le fichier exe d'installateur depuis la page Google Code, et lancez-le :
+Téléchargez simplement le fichier exe d'installateur depuis la page GitHub, et lancez-le :
 
 	http://msysgit.github.com/
 

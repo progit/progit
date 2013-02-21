@@ -176,7 +176,7 @@ Sinun ei tarvitse asentaa kaikkia ekstroista, mutta varmaankin haluat sis채lt채�
 
 ### Asennus Windowsilla ###
 
-Gitin asennus Windowsilla on eritt채in helppoa. msysGit projektilla on yksi helpoimmista asennusmenetelmist채. Yksinkertaisesti lataa asennus exe tiedosto Googlen Code verkkosivuilta ja suorita se:
+Gitin asennus Windowsilla on eritt채in helppoa. msysGit projektilla on yksi helpoimmista asennusmenetelmist채. Yksinkertaisesti lataa asennus exe tiedosto GitHub verkkosivuilta ja suorita se:
 
 	http://msysgit.github.com/
 

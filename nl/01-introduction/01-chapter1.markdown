@@ -176,7 +176,7 @@ Je hoeft niet al die extra’s toe te voegen, maar je wilt waarschijnlijk +svn e
 
 ### Op Windows installeren ###
 
-Git op Windows installeren is erg eenvoudig. Het msysGit project heeft één van de eenvoudiger installatieprocedures. Je hoeft alleen maar het installatieprogramma te downloaden van Google Code, en het uit te voeren:
+Git op Windows installeren is erg eenvoudig. Het msysGit project heeft één van de eenvoudiger installatieprocedures. Je hoeft alleen maar het installatieprogramma te downloaden van GitHub, en het uit te voeren:
 
 	http://msysgit.github.com/
 

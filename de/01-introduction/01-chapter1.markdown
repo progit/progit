@@ -176,7 +176,7 @@ Du brauchst die optionalen Features natürlich nicht mit zu installieren, aber e
 
 ### Installation unter Windows ###
 
-Das msysGit Projekt macht die Installation von Git unter Windows sehr einfach. Lade einfach das Installationsprogramm für Windows von der Google Code Webseite herunter und führe es aus:
+Das msysGit Projekt macht die Installation von Git unter Windows sehr einfach. Lade einfach das Installationsprogramm für Windows von der GitHub Webseite herunter und führe es aus:
 
 	http://msysgit.github.com/
 

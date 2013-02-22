@@ -176,7 +176,7 @@ Anda tidak harus menambahkan extras-nya, tetapi anda mungkin membutuhkan +svn ji
 
 ### Menginstall pada Sistem Operasi Windows ###
 
-Menginstall Git pada Windows sangatlah mudah. Cara termudah dapat anda peroleh dengan menggunakan msysGit. Cukup download file installernya dari halaman Google Code, lalu eksekusi.
+Menginstall Git pada Windows sangatlah mudah. Cara termudah dapat anda peroleh dengan menggunakan msysGit. Cukup download file installernya dari halaman GitHub, lalu eksekusi.
 
 	http://msysgit.github.com/
 

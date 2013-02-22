@@ -176,7 +176,7 @@ No necesitas añadir todos los extras, pero probablemente quieras incluir +svn e
 
 ### Instalando en Windows ###
 
-Instalar Git en Windows es muy fácil. El proyecto msysGit tiene uno de los procesos de instalación más sencillos. Simplemente descarga el archivo exe del instalador desde la página de Google Code, y ejecútalo:
+Instalar Git en Windows es muy fácil. El proyecto msysGit tiene uno de los procesos de instalación más sencillos. Simplemente descarga el archivo exe del instalador desde la página de GitHub, y ejecútalo:
 
 	http://msysgit.github.com/
 

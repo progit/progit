@@ -764,7 +764,7 @@ Si vous lancez ce script, vous obtiendrez un contenu qui ressemble à ceci :
 	new version one
 	(...)
 
-Pour lancer l'outil d'import, redirigez cette sortie dans `git fast-import` alors que vous vous trouvez dans le répertoire Git dans lequel vous souhaitez importer.
+Pour lancer l'outil d'import, redirigez cette sortie dans `git fast-import` alors que vous vous trouvez dans le projet Git dans lequel vous souhaitez importer.
 Vous pouvez créer un nouveau répertoire, puis l'initialiser avec `git init`, puis lancer votre script :
 
 	$ git init

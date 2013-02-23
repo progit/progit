@@ -685,7 +685,7 @@ Il se peut qu'elle subisse aussi occasionnellement quelques corrections qui sont
 [gldpg]: http://sitaramc.github.com/gitolite/progit.html
 [gltoc]: http://sitaramc.github.com/gitolite/master-toc.html
 
-Gitolite est une couche de gestion d'accès posée au dessus de Git, reposant sur sshd et httpd pour l'authentification.
+Gitolite est une couche de gestion d'accès posée au dessus de Git, reposant sur `sshd` et `httpd` pour l'authentification.
 L'authentification consiste à identifier l'utilisateur, la gestion d'accès permet de décider si celui-ci est autorisé à accomplir ce qu'il s'apprête à faire.
 
 ### Installation ###
@@ -699,17 +699,17 @@ Pour commencer, créez un utilisateur nommé `git` et loggez-vous avec cet utili
 Copiez votre clé publique SSH depuis votre station de travail en la renommant `VotreNom.pub`.
 Ensuite, lancez les commandes ci-dessous :
 
-	git clone git://github.com/sitaramc/gitolite
-	gitolite/install -ln
+	$ git clone git://github.com/sitaramc/gitolite
+	$ gitolite/install -ln
 	  # suppose que $HOME/bin existe et apparaît dans $PATH
-    gitolite setup -pk $HOME/VotreNom.pub
+    $ gitolite setup -pk $HOME/VotreNom.pub
 	  # Par exemple, je lancerais 'gitolite setup -pk $HOME/sitaram.pub'
 
 Enfin, de retour sur la station de travail, lancez `git clone git@gitserver:gitolite-admin`.
 
 C'est fini !
 Gitolite est à présent installé sur le serveur ainsi qu'un nouveau dépôt appelé `gitolite-admin` qui a été cloné sur la station de travail.
-L'administration de gitolite passe par des modifications dans ce dépôt suivies d'une poussée sur le serveur.
+L'administration de Gitolite passe par des modifications dans ce dépôt suivies d'une poussée sur le serveur.
 
 
 ### Personnalisation de l'installation ###
@@ -845,7 +845,7 @@ Référez-vous à la documentation pour plus de détails.
 ### Dépôts « joker » ###
 
 Gitolite permet de spécifier des dépôts avec jokers (en fait des regex Perl), comme par exemple, au hasard, `devoirs/s[0-9][0-9]/a[0-9][0-9]`.
-Un nouveau mode de permission devient accessible (« C »).
+Un nouveau mode de permission devient accessible (`C`).
 En suivant ces schémas de nommage, les utilisateurs peuvent alors créer des dépôts dont ils seront automatiquement propriétaires, leur permettant ainsi de leur assigner des droits en lecture ou lecture/écriture pour d'autres utilisateurs avec lesquels ils souhaitent collaborer.
 Référez-vous à la documentation pour plus de détail.
 

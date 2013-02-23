@@ -683,6 +683,7 @@ Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'
 	--relative-date	Affiche la date en format relatif (par exemple "2 weeks ago" : il y a deux semaines) au lieu du format de date complet
 	--graph	Affiche en caractères ASCII le graphe de branches et fusions en vis-à-vis de l'historique
 	--pretty=<format>	Affiche les *commits* dans un format alternatif. Les formats incluent `oneline`, `short`, `full`, `fuller`, et `format` (où on peut spécifier son propre format)
+	--oneline	Option de convenance correspondant à `--pretty=oneline --abbrev-commit`
 
 ### Limiter la longueur de l'historique ###
 

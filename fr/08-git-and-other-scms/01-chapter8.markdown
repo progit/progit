@@ -509,9 +509,9 @@ Toutes vos données, branches et tags sont à présent disponibles sur le serveu
 ### Perforce ###
 
 L'autre système duquel on peut souhaiter importer les données est Perforce.
-Un outil d'import Perforce est aussi distribué avec Git, mais seulement dans la section `contrib` du code source.
-Il n'est pas disponible par défaut comme `git svn`.
-Pour le lancer, il vous faut récupérer le code source de Git que vous pouvez télécharger à partir de `git.kernel.org` :
+Un outil d'import Perforce est aussi distribué avec Git.
+Si votre version de Git est antérieures à 1.7.11, celui-ci n'est disponible que dans la section `contrib` du code source.
+Dans ce dernier cas, pour le lancer, il vous faut récupérer le code source de Git que vous pouvez télécharger à partir de `git.kernel.org` :
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import

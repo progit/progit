@@ -521,7 +521,7 @@ Si vous remplacez une image dans votre projet et lancez `git diff`, vous verrez 
 	@@ -1,12 +1,12 @@
 	 ExifTool Version Number         : 7.74
 	-File Size                       : 70 kB
-	-File Modification Date/Time     : 2009:04:21 07:02:45-07:00
+	-File Modification Date/Time     : 2009:04:17 10:12:35-07:00
 	+File Size                       : 94 kB
 	+File Modification Date/Time     : 2009:04:21 07:02:43-07:00
 	 File Type                       : PNG

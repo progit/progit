@@ -446,7 +446,7 @@ Créez un fichier appelé `users.txt` contenant cette équivalence dans le forma
 Pour récupérer la liste des noms d'auteurs utilisés par SVN, vous pouvez utiliser la ligne suivante :
 
 	$ svn log --xml | grep -P "^<author" | sort -u | \
-	      perl -pe 's/<author>(.*?)<\/author>/$1 = /'
+	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 Cela génère une sortie au format XML — vous pouvez visualiser les auteurs, créer une liste unique puis éliminer l'XML.
 Évidemment, cette ligne ne fonctionne que sur une machine disposant des commandes `grep`, `sort` et `perl`.

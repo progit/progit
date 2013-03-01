@@ -362,7 +362,8 @@ Maar, de import is niet perfect; en omdat het zo lang zal duren, kun je het maar
 
 Om een lijst te krijgen van de auteurnamen, die SVN gebruikt kun je dit uitvoeren:
 
-	$ svn log --xml | grep author | sort -u | perl -pe 's/.>(.?)<./$1 = /'
+	$ svn log --xml | grep -P "^<author" | sort -u | \
+	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 Daarmee krijg je de log output in XML formaat – je kunt hierin zoeken naar de auteurs, een lijst met unieke vermeldingen creëren en dan de XML eruit halen. (Dit werkt natuurlijk alleen op een machine waarop `grep`, `sort` en `Perl` geïnstalleerd is.) Daarna stuur je die output naar je users.txt bestand zodat je de gelijkwaardige Git gebruiker data naast iedere vermelding kunt zetten.
 

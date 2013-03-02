@@ -26,7 +26,10 @@ def figures(lang,&block)
 		Dir["#{lang}/figures/*.png"].each do |file|
 			cp(file,"figures")
 		end
-
+		Dir["#{lang}/figures-dia/*.dia"].each do |file|
+			png_dest= file.sub(/.*fig0(\d)0?(\d+).dia/, 'figures/\1.\2.png')
+			system("dia -e #{png_dest} #{file}")
+		end
 		block.call
 	ensure
 		Dir["figures/18333*.png"].each do |file|

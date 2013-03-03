@@ -441,7 +441,7 @@ Si vous avez auparavant modifié et indexé le fichier, son élimination doit ê
 C'est une mesure de sécurité pour empêcher un effacement accidentel de données qui n'ont pas encore été enregistrées dans un instantané et qui seraient définitivement perdues.
 
 Un autre scénario serait de vouloir abandonner le suivi de version d'un fichier tout en le conservant dans la copie de travail.
-Ceci est particulièrement utile lorsqu'on a oublié de spécifier un patron dans le fichier `.gitignore` et on a accidentellement ajouté un fichier dans l'instantané, tel qu'un gros fichier de journal ou une série d'archives de compilation `.a`.
+Ceci est particulièrement utile lorsqu'on a oublié de spécifier un patron dans le fichier `.gitignore` et on a accidentellement indexé un fichier, tel qu'un gros fichier de journal ou une série d'archives de compilation `.a`.
 Pour réaliser ce scénario, utilisez l'option `--cached` :
 
 	$ git rm --cached readme.txt
@@ -683,6 +683,7 @@ Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'
 	--relative-date	Affiche la date en format relatif (par exemple "2 weeks ago" : il y a deux semaines) au lieu du format de date complet
 	--graph	Affiche en caractères ASCII le graphe de branches et fusions en vis-à-vis de l'historique
 	--pretty=<format>	Affiche les *commits* dans un format alternatif. Les formats incluent `oneline`, `short`, `full`, `fuller`, et `format` (où on peut spécifier son propre format)
+	--oneline	Option de convenance correspondant à `--pretty=oneline --abbrev-commit`
 
 ### Limiter la longueur de l'historique ###
 

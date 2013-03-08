@@ -577,6 +577,7 @@ To je jen několik základních parametrů k formátování výstupu pro příka
 	--relative-date	Zobrazí datum v relativním formátu (např. "2 weeks ago", tj. před 2 týdny) místo formátu s úplným datem.
 	--graph	Zobrazí vedle výstupu logu ASCII graf k historii větve a slučování.
 	--pretty	Zobrazí revize v alternativním formátu. Parametry příkazu jsou oneline, short, full, fuller a format (lze zadat vlastní formát).
+	--oneline	Užitečná zkratka pro `--pretty=oneline --abbrev-commit`.
 
 ### Omezení výstupu logu ###
 

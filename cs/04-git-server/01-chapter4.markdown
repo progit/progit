@@ -511,7 +511,7 @@ Git se stal hodně populárním v korporátním prostředí, které obvykle mív
 [gldpg]: http://sitaramc.github.com/gitolite/progit.html
 [gltoc]: http://sitaramc.github.com/gitolite/master-toc.html
 
-Gitolite je autorizační vrstva nad gitem, která při autentizaci spoléhá na sshd nebo httpd. (Připomeňme si: autentizace spočívá v rozpoznání uživatele, autorizací rozumíme rozhodování, zda má povolení k provádění toho, co se provést pokouší.)
+Gitolite je autorizační vrstva nad gitem, která při autentizaci spoléhá na `sshd` nebo `httpd`. (Připomeňme si: autentizace spočívá v rozpoznání uživatele, autorizací rozumíme rozhodování, zda má povolení k provádění toho, co se provést pokouší.)
 
 Gitolite umožňuje nastavit přístupová práva nejen na repozitáře (podobně jako Gitosis), ale také na větve a značky v každém repozitáři. To znamená, že lze nastavit, aby určití lidé mohli odesílat jen do určité reference (větve nebo značky) a do jiné ne.
 
@@ -523,15 +523,14 @@ Nástroj Gitolite je ve smyslu „serverového“ softwaru poněkud neobvyklý. 
 
 Začněte tím, že na serveru vytvoříte uživatele nazvaného `git` a přihlásíte se na něj. Z vaší pracovní stanice nakopírujte svůj veřejný ssh klíč (pokud jste spustili `ssh-keygen` s implicitními hodnotami, jde o soubor `~/.ssh/id_rsa.pub`) a přejmenujte jej na `VaseJmeno.pub`. Potom proveďte následující příkazy:
 
-    git clone git://github.com/sitaramc/gitolite
-    gitolite/install -ln
-        # předpokládá existenci $HOME/bin a uvedení tohoto adresáře v $PATH
-    gitolite setup -pk $HOME/VaseJmeno.pub
-        # já bych například spustil 'gitolite setup -pk $HOME/sitaram.pub'
+	$ git clone git://github.com/sitaramc/gitolite
+	$ gitolite/install -ln
+	    # předpokládá existenci $HOME/bin a uvedení tohoto adresáře v $PATH
+	$ gitolite setup -pk $HOME/scott.pub
 
-Nakonec přejděte zpět na pracovní stanici a spusťte `git clone git@server:gitolite-admin`.
+Poslední příkaz vytvoří na serveru nový gitovský repozitář nazvaný `gitolite-admin`.
 
-To je všechno! Nyní máte Gitolite nainstalovaný na serveru a v domácím adresáři vaší pracovní stanice máte také úplně nový repozitář `gitolite-admin`. Své nastavení Gitolite spravujete pomocí provádění změn v tomto repozitáři jejich odesíláním (push).
+Nakonec přejděte zpět na pracovní stanici a spusťte `git clone git@gitserver:gitolite-admin`. To je všechno! Nyní máte Gitolite nainstalovaný na serveru a v domácím adresáři vaší pracovní stanice máte také úplně nový repozitář `gitolite-admin`. Své nastavení Gitolite spravujete pomocí provádění změn v tomto repozitáři jejich odesíláním (push).
 
 ### Přizpůsobení instalace ###
 
@@ -546,18 +545,18 @@ Přepněte se do repozitáře `gitolite-admin` (je umístěn ve vašem domácím
 	conf/  keydir/
 	$ find conf keydir -type f
 	conf/gitolite.conf
-	keydir/sitaram.pub
+	keydir/scott.pub
 	$ cat conf/gitolite.conf
 
 	repo gitolite-admin
-	    RW+                 = sitaram
+	    RW+                 = scott
 
 	repo testing
 	    RW+                 = @all
 
-Všimněte si, že „sitaram“ (jméno veřejného klíče v dříve použitém příkazu gl-setup) má práva pro čtení i zápis k repozitáři `gitolite-admin` a také stejnojmenný veřejný klíč.
+Všimněte si, že „scott“ (jméno veřejného klíče v dříve použitém příkazu `gitolite setup`) má práva pro čtení i zápis k repozitáři `gitolite-admin` a také stejnojmenný veřejný klíč.
 
-Přidávání dalších uživatelů je snadné. Pokud chceme přidat uživatele „alice“, získáme její veřejný klíč, pojmenujeme jej `alice.pub` a umístíme jej do adresáře `keydir`. Je součástí klonu repozitáře gitolite-admin, který jsme právě vytvořili na pracovní stanici. Přidáme, potvrdíme a odešleme změny (add, commit, push). Tím jsme dosáhli přidání uživatele.
+Přidávání dalších uživatelů je snadné. Pokud chceme přidat uživatele „alice“, získáme její veřejný klíč, pojmenujeme jej `alice.pub` a umístíme jej do adresáře `keydir`. Je součástí klonu repozitáře `gitolite-admin`, který jsme právě vytvořili na pracovní stanici. Přidáme, potvrdíme a odešleme změny (add, commit, push). Tím jsme dosáhli přidání uživatele.
 
 Syntaxe konfiguračního souboru pro Gitolite je dobře dokumentovaná, takže zde uvedu jen pár zajímavých věcí.
 
@@ -566,8 +565,8 @@ Pro usnadnění můžete dávat uživatele i repozitáře do skupin. Jména skup
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
 
-	@admins         = scott     # Adams, not Chacon, sorry :)
-	@interns        = ashok     # get the spelling right, Scott!
+	@admins         = scott
+	@interns        = ashok
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
@@ -631,17 +630,17 @@ Gitolite vám umožní nadefinovat pro každého vývojáře jmenné prostory s 
 
 ### „Wildcard“ repozitáře ###
 
-Gitolite vám umožní určit repozitáře zástupnými znaky (wildcards; ve skutečnosti jde o perlovské regulární výrazy) -- například k náhodnému výběru zadání příkladu můžeme použít `assignments/s[0-9][0-9]/a[0-9][0-9]`. Umožní nám též přidělit nový režim oprávnění („C“), který uživatelům povoluje vytvářet repozitáře popsané zástupnými znaky, automaticky přidělí vlastnictví konkrétnímu uživateli, který jej vytvořil, umožní mu přidělit oprávnění R a RW dalším spolupracovníkům atd. Podrobnosti opět hledejte v dokumentaci.
+Gitolite vám umožní určit repozitáře zástupnými znaky (wildcards; ve skutečnosti jde o perlovské regulární výrazy) -- například k náhodnému výběru zadání příkladu můžeme použít `assignments/s[0-9][0-9]/a[0-9][0-9]`. Umožní nám též přidělit nový režim oprávnění (`C`), který uživatelům povoluje vytvářet repozitáře popsané zástupnými znaky, automaticky přidělí vlastnictví konkrétnímu uživateli, který jej vytvořil, umožní mu přidělit oprávnění `R` a `RW` dalším spolupracovníkům atd. Podrobnosti opět hledejte v dokumentaci.
 
 ### Další vlastnosti ###
 
 Vysvětlení Gitolite završíme přehledem několika vlastností, které jsou detailně popsány v dokumentaci.
 
-**Logování:** Gitolite loguje všechny úspěšné přístupy. Jestliže máte volná pravidla pro přidělování oprávnění vracet změny (práva `RW+`) a stane se, že někdo takto „zkazí“ hlavní větev, je tu ještě log soubor, který vám zachrání život, protože v něm můžete postižené SHA najít.
+**Logování:** Gitolite loguje všechny úspěšné přístupy. Jestliže máte volná pravidla pro přidělování oprávnění vracet změny (práva `RW+`) a stane se, že někdo takto „zkazí“ větev `master`, je tu ještě log soubor, který vám zachrání život, protože v něm můžete postižené SHA najít.
 
 **Přehledy uživatelských oprávnění:** Další příjemnou vlastností je to, co se stane, pokud se pouze pokusíte připojit pomocí SSH na server. Gitolite vám ukáže, ke kterým repozitářům máte přístup a s jakoými oprávněními. Příklad:
 
-        hello sitaram, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
+        hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
              R     anu-wsd
              R     entrans

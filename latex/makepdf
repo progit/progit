@@ -10,16 +10,25 @@ $here = File.expand_path(File.dirname(__FILE__))
 $root = File.join($here, '..')
 $outDir = File.join($root, 'pdf')
 
-def figures(&block)
+def figures(lang,&block)
 	begin
 		Dir["#$root/figures/18333*.png"].each do |file|
 			cp(file, file.sub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2'))
 		end
+		Dir["#$root/#{lang}/figures-dia/*.dia"].each do |file|
+			eps_dest= file.sub(/.*fig0(\d)0?(\d+).dia/, '\1.\2.eps')
+			system("dia -t eps-pango -e #$root/figures/#{eps_dest} #{file}")
+			system("epstopdf #$root/figures/#{eps_dest}")
+		end
+		cp(Dir["#$root/#{lang}/figures/*.png"],"#$root/figures")
+		cp(Dir["#$root/#{lang}/figures/*.pdf"],"#$root/figures")
 		block.call
 	ensure
 		Dir["#$root/figures/18333*.png"].each do |file|
 			rm(file.gsub(/18333fig0(\d)0?(\d+)\-tn/, '\1.\2'))
 		end
+		rm(Dir["#$root/figures/*.pdf"])
+		rm(Dir["#$root/figures/*.eps"])
 	end
 end
 
@@ -142,8 +151,8 @@ unless missing.empty?
 	exit
 end
 
-figures do
-	languages.each do |lang|
+languages.each do |lang|
+	figures(lang) do
 		config = $config['default'].merge($config[lang]) rescue $config['default']
 
 		puts "#{lang}:"

@@ -367,11 +367,11 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 
 下一次提交時，該檔案將會消失而且不再被追蹤。 若已更動過該檔案且將它記錄到暫存區域。 必須使用`-f`參數才能將它強制移除。 這是為了避免已被記錄的快照意外被移除且再也無法使用Git復原。
 
-其它有用的技巧的是保留工作目錄內的檔案，但從暫存區域移除。 換句話說，或許讀者想在磁碟機上的檔案且不希望Git繼續追蹤它。 這在讀者忘記將某些檔案記錄到`.gitignore`且不小心將它增加到暫存區域時特別有用。 比如說：巨大的記錄檔、或大量在編譯時期產生的`.a`檔案。 欲使用此功能，加上`--cached`參數：
+其它有用的技巧是保留工作目錄內的檔案，但從暫存區域移除。 換句話說，或許讀者想在磁碟機上的檔案且不希望Git繼續追蹤它。 這在讀者忘記將某些檔案記錄到`.gitignore`且不小心將它增加到暫存區域時特別有用。 比如說：巨大的記錄檔、或大量在編譯時期產生的`.a`檔案。 欲使用此功能，加上`--cached`參數：
 
 	$ git rm --cached readme.txt
 
-除了檔名、目錄名以外，還可以指定簡化的正規運算式給git rm命令。 這意謂著可執行類似下列指令：
+除了檔名、目錄名以外，還可以指定簡化的正規運算式給`git rm`命令。 這意謂著可執行類似下列指令：
 
 	$ git rm log/\*.log
 
@@ -800,9 +800,9 @@ Insert 18333fig0202.png
 	    master
 	    ticgit
 
-It lists the URL for the remote repository as well as the tracking branch information. The command helpfully tells you that if you’re on the master branch and you run `git pull`, it will automatically merge in the master branch on the remote after it fetches all the remote references. It also lists all the remote references it has pulled down.
+它將同時列出遠端儲存庫的URL位置和追蹤分支資訊。特別是告訴你如果你在master分支時用`git pull`時，會去自動抓取數據合併到本地的master分支。它也列出所有曾經被抓取過的遠端分支。
 
-That is a simple example you’re likely to encounter. When you’re using Git more heavily, however, you may see much more information from `git remote show`:
+當你使用Git更頻繁之後，你或許會想利用 `git remote show` 去看到更多的資訊。
 
 	$ git remote show origin
 	* remote origin
@@ -826,26 +826,27 @@ That is a simple example you’re likely to encounter. When you’re using Git m
 	  Local branch pushed with 'git push'
 	    master:master
 
-This command shows which branch is automatically pushed when you run `git push` on certain branches. It also shows you which remote branches on the server you don’t yet have, which remote branches you have that have been removed from the server, and multiple branches that are automatically merged when you run `git pull`.
+這個指令顯示當你執行`git push`會自動推送的哪個分支(最後兩行)。它也顯示哪些遠端分支還沒被同步到本地端(在這個例子是caching)，哪些已同步到本地的遠端分支在遠端已被刪除(libwalker和walker2)，以及當執行`git pull`時會自動被合併的分支。
 
 ### 移除或更名遠端儲存庫 ###
 
-If you want to rename a reference, in newer versions of Git you can run `git remote rename` to change a remote’s shortname. For instance, if you want to rename `pb` to `paul`, you can do so with `git remote rename`:
+在新版 Git 中可以用 `git remote rename` 命令修改某個遠端儲存庫在本地的簡稱，舉例而言，想把 `pb` 改成 `paul`，可以執行下列指令：
+
 
 	$ git remote rename pb paul
 	$ git remote
 	origin
 	paul
 
-It’s worth mentioning that this changes your remote branch names, too. What used to be referenced at `pb/master` is now at `paul/master`.
+值得留意的是這也改變了遠端分支的名稱，原來的 `pb/master` 分支現在變成 `paul/master`。
 
-If you want to remove a reference for some reason — you’ve moved the server or are no longer using a particular mirror, or perhaps a contributor isn’t contributing anymore — you can use `git remote rm`:
+當你為了種種原因想要移除某個遠端，像是換伺服器或是已不再使用某個特別的鏡像，又或是某個貢獻者已不再貢獻時。你可以使用`git remote rm`：
 
 	$ git remote rm paul
 	$ git remote
 	origin
 
-## Tagging ##
+## 標籤 ##
 
 Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
 

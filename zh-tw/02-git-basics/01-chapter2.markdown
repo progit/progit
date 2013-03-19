@@ -848,19 +848,20 @@ Insert 18333fig0202.png
 
 ## 標籤 ##
 
-Like most VCSs, Git has the ability to tag specific points in history as being important. Generally, people use this functionality to mark release points (v1.0, and so on). In this section, you’ll learn how to list the available tags, how to create new tags, and what the different types of tags are.
+就像大多數的版本管理系統，Git具備在特定時間點加入標籤去註明其重要性的功能。一般而言，我們會使用這個功能去標記出發行版本(如V1.0等等)。這個小節中，你將會學到如何列出既有的標籤、建立新標籤以及各種不同標籤間的差異。
 
-### Listing Your Tags ###
 
-Listing the available tags in Git is straightforward. Just type `git tag`:
+### 列出標籤 ###
+
+在Git中列出既有的標籤是非常簡單的。直接輸入`git tag`：
 
 	$ git tag
 	v0.1
 	v1.3
 
-This command lists the tags in alphabetical order; the order in which they appear has no real importance.
+這個指令將以字母順序列出標籤；所以這個順序並不代表其重要性。
 
-You can also search for tags with a particular pattern. The Git source repo, for instance, contains more than 240 tags. If you’re only interested in looking at the 1.4.2 series, you can run this:
+你也可以用特定的字串規則去搜尋標籤。以Git本身的儲存庫為例，其中包含超過240個標籤。當你只對1.4.2感興趣時，你可以執行以下指令：
 
 	$ git tag -l 'v1.4.2.*'
 	v1.4.2.1
@@ -868,13 +869,13 @@ You can also search for tags with a particular pattern. The Git source repo, for
 	v1.4.2.3
 	v1.4.2.4
 
-### Creating Tags ###
+### 建立標簽 ###
 
-Git uses two main types of tags: lightweight and annotated. A lightweight tag is very much like a branch that doesn’t change — it’s just a pointer to a specific commit. Annotated tags, however, are stored as full objects in the Git database. They’re checksummed; contain the tagger name, e-mail, and date; have a tagging message; and can be signed and verified with GNU Privacy Guard (GPG). It’s generally recommended that you create annotated tags so you can have all this information; but if you want a temporary tag or for some reason don’t want to keep the other information, lightweight tags are available too.
+Git使用兩大類的標籤：輕量級(lightweight)和含附註(annotated)。輕量級標籤就像是沒有更動的分支，實際上它僅是指到特定commit的指標。然而，含附註的標籤則是實際存在Git資料庫上的完整物件。它具備檢查碼、e-mail和日期，也包含標籤訊息，並可以被GNU Privacy Guard (GPG)簽署和驗證。一般而言，我們都建議使用含附註的標籤以便保留相關訊息；但如果只是臨時加註標籤或不需要保留其他訊息，就是使用輕量級標籤的時機。
 
-### Annotated Tags ###
+### 含附註的標籤 ###
 
-Creating an annotated tag in Git is simple. The easiest way is to specify `-a` when you run the `tag` command:
+建立一個含附註的標籤很簡單。最容易的方法是加入`-a`到`tag`指令上：
 
 	$ git tag -a v1.4 -m 'my version 1.4'
 	$ git tag
@@ -882,9 +883,9 @@ Creating an annotated tag in Git is simple. The easiest way is to specify `-a` w
 	v1.3
 	v1.4
 
-The `-m` specifies a tagging message, which is stored with the tag. If you don’t specify a message for an annotated tag, Git launches your editor so you can type it in.
+而`-m`選項用來設定標籤訊息。如果你沒有設定該訊息，Git會啟動文字編輯器讓你輸入。
 
-You can see the tag data along with the commit that was tagged by using the `git show` command:
+透過`git show`可看到指定標籤的資料與對應的commit。
 
 	$ git show v1.4
 	tag v1.4
@@ -899,18 +900,18 @@ You can see the tag data along with the commit that was tagged by using the `git
 
 	    Merge branch 'experiment'
 
-That shows the tagger information, the date the commit was tagged, and the annotation message before showing the commit information.
+在列出commit資訊前，我們可以看到這個標籤的設定者資訊，下標籤時間與附註訊息。
 
-### Signed Tags ###
+### 簽署標籤 ###
 
-You can also sign your tags with GPG, assuming you have a private key. All you have to do is use `-s` instead of `-a`:
+假設你有私鑰(private key)，你也可以用GPG簽署在標籤上。只要用`-s`取代`-a`：
 
 	$ git tag -s v1.5 -m 'my signed 1.5 tag'
 	You need a passphrase to unlock the secret key for
 	user: "Scott Chacon <schacon@gee-mail.com>"
 	1024-bit DSA key, ID F721C45A, created 2009-02-09
 
-If you run `git show` on that tag, you can see your GPG signature attached to it:
+再對這個標籤執行`git show`，你就能看到你的GPG簽章以經附在裡面：
 
 	$ git show v1.5
 	tag v1.5
@@ -932,11 +933,11 @@ If you run `git show` on that tag, you can see your GPG signature attached to it
 
 	    Merge branch 'experiment'
 
-A bit later, you’ll learn how to verify signed tags.
+稍後你會看到如何驗證已簽署的標籤。
 
-### Lightweight Tags ###
+### 輕量級的標簽 ###
 
-Another way to tag commits is with a lightweight tag. This is basically the commit checksum stored in a file — no other information is kept. To create a lightweight tag, don’t supply the `-a`, `-s`, or `-m` option:
+另一種則是輕量級的標簽。基本上就是只保存commit檢查碼的文件。要建立這樣的標籤，不必下任何選項，直接設定標籤名稱即可。
 
 	$ git tag v1.4-lw
 	$ git tag
@@ -946,7 +947,7 @@ Another way to tag commits is with a lightweight tag. This is basically the comm
 	v1.4-lw
 	v1.5
 
-This time, if you run `git show` on the tag, you don’t see the extra tag information. The command just shows the commit:
+這樣一來，當執行`git show`查看這個標籤時，你不會看到其他標籤資訊，只會顯示對應的commit：
 
 	$ git show v1.4-lw
 	commit 15027957951b64cf874c3557a0f3547bd83b3ff6
@@ -956,9 +957,9 @@ This time, if you run `git show` on the tag, you don’t see the extra tag infor
 
 	    Merge branch 'experiment'
 
-### Verifying Tags ###
+### 驗證標籤 ###
 
-To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG to verify the signature. You need the signer’s public key in your keyring for this to work properly:
+想要驗證已簽署的標籤，需要使用`git tag -v [tag-name]`。這個指令透過GPG去驗證簽章。而且在你的keyring中需要有簽署者的公鑰才能進行驗證：
 
 	$ git tag -v v1.4.2.1
 	object 883653babd8ee7ea23e6a5c392bb739348b1eb61
@@ -974,15 +975,15 @@ To verify a signed tag, you use `git tag -v [tag-name]`. This command uses GPG t
 	gpg:                 aka "[jpeg image of size 1513]"
 	Primary key fingerprint: 3565 2A26 2040 E066 C9A7  4A7D C0C6 D9A4 F311 9B9A
 
-If you don’t have the signer’s public key, you get something like this instead:
+如果沒有簽署者的公鑰，則會看到下列訊息：
 
 	gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
 	gpg: Can't check signature: public key not found
 	error: could not verify the tag 'v1.4.2.1'
 
-### Tagging Later ###
+### 追加標籤 ###
 
-You can also tag commits after you’ve moved past them. Suppose your commit history looks like this:
+你也可以對過去的commit上加入標籤。假設你的commit歷史如下：
 
 	$ git log --pretty=oneline
 	15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
@@ -996,11 +997,11 @@ You can also tag commits after you’ve moved past them. Suppose your commit his
 	964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo
 	8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme
 
-Now, suppose you forgot to tag the project at v1.2, which was at the "updated rakefile" commit. You can add it after the fact. To tag that commit, you specify the commit checksum (or part of it) at the end of the command:
+如果你之前忘了將"updated rakefile"這個commit加入v1.2標籤。仍然可在事後設定。要完成這個動作，你必須加入該次commit的檢查碼(或前幾碼即可)到以下指令：
 
 	$ git tag -a v1.2 9fceb02
 
-You can see that you’ve tagged the commit:
+你可以看到標籤已經補上：
 
 	$ git tag 
 	v0.1
@@ -1023,9 +1024,9 @@ You can see that you’ve tagged the commit:
 	    updated rakefile
 	...
 
-### Sharing Tags ###
+### 分享標籤 ###
 
-By default, the `git push` command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them.  This process is just like sharing remote branches – you can run `git push origin [tagname]`.
+在預設的情況下，`git push`指令並不會將標籤傳到遠端伺服器上。當建立新標籤後，你必須特別下指令才會將它推送到遠端儲存庫上。類似將分支推送到遠端的過程，透過`git push origin [tagname]`指令。
 
 	$ git push origin v1.5
 	Counting objects: 50, done.
@@ -1035,7 +1036,7 @@ By default, the `git push` command doesn’t transfer tags to remote servers. Yo
 	To git@github.com:schacon/simplegit.git
 	* [new tag]         v1.5 -> v1.5
 
-If you have a lot of tags that you want to push up at once, you can also use the `--tags` option to the `git push` command.  This will transfer all of your tags to the remote server that are not already there.
+如果你有很多標籤需要一次推送上去，你也可以加入`--tags`選項到`git push`指令中。這將會傳送所有尚未在遠端伺服器上的標籤。
 
 	$ git push origin --tags
 	Counting objects: 50, done.
@@ -1049,35 +1050,37 @@ If you have a lot of tags that you want to push up at once, you can also use the
 	 * [new tag]         v1.4-lw -> v1.4-lw
 	 * [new tag]         v1.5 -> v1.5
 
-Now, when someone else clones or pulls from your repository, they will get all your tags as well.
+現在，當其他使用者clone或pull你的儲存庫時，他們也同時會取得所有你的標籤。
+
 
 ## 提示和技巧 ##
 
 在結束Git基礎這個章節前，我們將介紹有一些將會使你的Git使用經驗更簡單、方便和親切的提示和技巧。或許很多人從未運用過這些技巧，我們也不會假設你在本書的後續章節會使用它們。但你也許會想知道如何使用它們。
 
-### Auto-Completion ###
+### 自動補齊 ###
 
-If you use the Bash shell, Git comes with a nice auto-completion script you can enable. Download the Git source code, and look in the `contrib/completion` directory; there should be a file called `git-completion.bash`. Copy this file to your home directory, and add this to your `.bashrc` file:
+如果你用的是 Bash shell，你可以啟動Git本身寫好的自動補齊腳本。下載Git原始碼，切到`contrib/completion`目錄；可以看到檔案名為`git-completion.bash`。將它複製到你的家目錄，並加入以下指令到你的`.bashrc`檔案裡：
 
 	source ~/.git-completion.bash
 
-If you want to set up Git to automatically have Bash shell completion for all users, copy this script to the `/opt/local/etc/bash_completion.d` directory on Mac systems or to the `/etc/bash_completion.d/` directory on Linux systems. This is a directory of scripts that Bash will automatically load to provide shell completions.
+如果你想為所有使用者都自動設置Bash shell的補齊功能，在Mac系統上將這個腳本複製到`/opt/local/etc/bash_completion.d`目錄，若你使用Linux系統複製到 `/etc/bash_completion.d/`目錄。這兩個目錄中的脚本，都會在 Bash 啟動時自動載入。
 
-If you’re using Windows with Git Bash, which is the default when installing Git on Windows with msysGit, auto-completion should be preconfigured.
+如果你在Windows使用Git Bash，也就是利用Windows with msysGit安裝Git，自動補齊功能已預先設定好，可以直接使用。
 
-Press the Tab key when you’re writing a Git command, and it should return a set of suggestions for you to pick from:
+在你輸入Git指令時，只要按下Tab鍵，便會列出所有合適的指令建議：
 
 	$ git co<tab><tab>
 	commit config
 
-In this case, typing git co and then pressing the Tab key twice suggests commit and config. Adding `m<tab>` completes `git commit` automatically.
-	
-This also works with options, which is probably more useful. For instance, if you’re running a `git log` command and can’t remember one of the options, you can start typing it and press Tab to see what matches:
+然後按下Tab鍵兩次，便會提示commit和config這些可用指令。當再輸入`m<tab>`便會自動補齊`git commit`。
+
+指令的選項也可以自動補齊，這或許是更實用的功能。舉例而言，當你下`git log`指令時，若忘記該輸入哪個選項，只要輸入開頭字元然後按下Tab去看看可能的選項：
 
 	$ git log --s<tab>
 	--shortstat  --since=  --src-prefix=  --stat   --summary
 
-That’s a pretty nice trick and may save you some time and documentation reading.
+這是個好用的小技巧，或許可以省下許多輸入和查文件的時間
+
 
 ### Git 命令別名 ###
 

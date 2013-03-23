@@ -485,7 +485,7 @@ Je import is nu klaar om naar je nieuwe Git server gepushed te worden.
 
 Als het door jou gebruikte systeem niet Subversion of Perforce is, zou je online voor een importeerder moeten zoeken – er zijn importeerders van goede kwaliteit beschikbaar voor CVS, Clear Case, Visual Source Safe, en zelfs een map met archieven. Als geen van deze tools voor jou geschikt is, je hebt een zeldzamer tool, of je hebt om een andere reden een eigen import proces nodig, dan zou je `git fast-import` moeten gebruiken. Dit commando leest eenvoudige instructies van stdin om specifieke Git data te schrijven. Het is veel eenvoudiger om op deze manier Git objecten te maken, dan de rauwe Git commando's uit te voeren, of om te proberen de rauwe objecten te schrijven (zie hoofdstuk 9 voor meer informatie). Op deze manier kun je een import script schrijven dat de noodzakelijke data uit het systeem leest dat je aan het importeren bent en rechttoe rechtaan instructies op stdout afdrukt. Je kunt dit programma dan uitvoeren en de output door `git fast-import` sluizen.
 
-Voor een snelle demonstratie zul je een eenvoudige importeerde schrijven. Stel dan je in current werkt, waarbij je je project eens in de zoveel tijd backup'ed door de map te kopiëren naar een backup map die gelabeld is met de tijd `back_YYYY_MM_DD`, en je wil dit in Git importeren. Je mappenstructuur ziet er zo uit:
+Voor een snelle demonstratie zul je een eenvoudige importeerder schrijven. Stel dat je in current werkt, waarbij je je project eens in de zoveel tijd backup'ed door de map te kopiëren naar een backup map die gelabeld is met de tijd `back_YYYY_MM_DD`, en je wil dit in Git importeren. Je mappenstructuur ziet er zo uit:
 
 	$ ls /opt/import_from
 	back_2009_01_02

@@ -184,6 +184,17 @@ namespace :ci do
         mk_file = File.open(mk_filename, 'r') do |mk|
           mark+= mk.read.encode("UTF-8")
         end
+        src_file = File.open(mk_filename, 'r')
+        until src_file.eof?
+          line = src_file.readline
+          matches = line.match /^#/
+          if matches
+            if line.match /^(#+).*#[[:blank:]]+$/
+              print "\nBadly formatted title in #{mk_filename}: #{line}\n"
+ 	      error_code = true
+            end
+          end
+        end
       end
       begin
         code = Maruku.new(mark, :on_error => :raise)

@@ -176,6 +176,16 @@ namespace :ci do
       langs -= excluded_langs
     end
     error_code = false
+    chapter_figure = {
+      "01-introduction"       => 7,
+      "02-git-basics"         => 2,
+      "03-git-branching"      => 39,
+      "04-git-server"         => 15,
+      "05-distributed-git"    => 27,
+      "06-git-tools"          => 1,
+      "07-customizing-git"    => 3,
+      "08-git-and-other-scms" => 0,
+      "09-git-internals"      => 4}
     langs.each do |lang|
       print "processing #{lang} "
       mark = ''
@@ -185,6 +195,7 @@ namespace :ci do
           mark+= mk.read.encode("UTF-8")
         end
         src_file = File.open(mk_filename, 'r')
+        figure_count = 0
         until src_file.eof?
           line = src_file.readline
           matches = line.match /^#/
@@ -194,6 +205,17 @@ namespace :ci do
  	      error_code = true
             end
           end
+          if line.match /^\s*Insert\s(.*)/
+            figure_count = figure_count + 1
+          end
+        end
+	# This extraction is a bit contorted, because the pl translation renamed
+	# the files, so the match is done on the directories.
+        tab_fig_count = chapter_figure[File.basename(File.dirname(mk_filename))]
+        expected_figure_count = tab_fig_count ? tab_fig_count:0
+        if figure_count > expected_figure_count
+          print "\nToo many figures declared in #{mk_filename}\n"
+          error_code = true
         end
       end
       begin

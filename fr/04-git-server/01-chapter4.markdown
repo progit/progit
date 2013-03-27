@@ -685,7 +685,7 @@ Il se peut qu'elle subisse aussi occasionnellement quelques corrections qui sont
 [gldpg]: http://sitaramc.github.com/gitolite/progit.html
 [gltoc]: http://sitaramc.github.com/gitolite/master-toc.html
 
-Gitolite est une couche de gestion d'accès posée au dessus de Git, reposant sur sshd et httpd pour l'authentification.
+Gitolite est une couche de gestion d'accès posée au dessus de Git, reposant sur `sshd` et `httpd` pour l'authentification.
 L'authentification consiste à identifier l'utilisateur, la gestion d'accès permet de décider si celui-ci est autorisé à accomplir ce qu'il s'apprête à faire.
 
 ### Installation ###
@@ -696,20 +696,20 @@ Vous n'avez pas besoin d'accès root si Git, Perl et un serveur compatible OpenS
 Dans les exemples qui suivent, un compte `git` sur un serveur `gitserver` sera utilisé.
 
 Pour commencer, créez un utilisateur nommé `git` et loggez-vous avec cet utilisateur.
-Copiez votre clé publique SSH depuis votre station de travail en la renommant `VotreNom.pub`.
+Copiez votre clé publique SSH depuis votre station de travail en la renommant `<votrenom>.pub` (nous utiliserons `scott.pub` pour l'exemple de cette section).
 Ensuite, lancez les commandes ci-dessous :
 
-	git clone git://github.com/sitaramc/gitolite
-	gitolite/install -ln
+	$ git clone git://github.com/sitaramc/gitolite
+	$ gitolite/install -ln
 	  # suppose que $HOME/bin existe et apparaît dans $PATH
-    gitolite setup -pk $HOME/VotreNom.pub
-	  # Par exemple, je lancerais 'gitolite setup -pk $HOME/sitaram.pub'
+	$ gitolite setup -pk $HOME/scott.pub
+
+Cette dernière commande crée un nouveau dépôt Git appelé `gitolite-admin` sur le serveur.
 
 Enfin, de retour sur la station de travail, lancez `git clone git@gitserver:gitolite-admin`.
-
 C'est fini !
 Gitolite est à présent installé sur le serveur ainsi qu'un nouveau dépôt appelé `gitolite-admin` qui a été cloné sur la station de travail.
-L'administration de gitolite passe par des modifications dans ce dépôt suivies d'une poussée sur le serveur.
+L'administration de Gitolite passe par des modifications dans ce dépôt suivies d'une poussée sur le serveur.
 
 
 ### Personnalisation de l'installation ###
@@ -726,16 +726,16 @@ Une fois l'installation terminée, vous pouvez basculer vers le clone `gitolite-
 	conf/  keydir/
 	$ find conf keydir -type f
 	conf/gitolite.conf
-	keydir/sitaram.pub
+	keydir/scott.pub
 	$ cat conf/gitolite.conf
 
 	repo gitolite-admin
-	    RW+                 = sitaram
+	    RW+                 = scott
 
 	repo testing
 	    RW+                 = @all
 
-Notez que « sitaram » (le nom de la clé publique pour la commande `gl-setup` ci-dessus) détient les permissions en lecture/écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
+Notez que « scott » (le nom de la clé publique pour la commande `gl-setup` ci-dessus) détient les permissions en lecture/écriture sur le dépôt `gitolite-admin` ainsi qu'une clé publique du même nom.
 
 L'ajout d'utilisateurs est simple.
 Pour ajouter une utilisatrice appelée « alice », demandez-lui de vous fournir une clé publique SSH, renommez-la `alice.pub`, et placez-la dans le répertoire `keydir` du clone du dépôt `gitolite-admin` sur la station de travail.
@@ -752,8 +752,8 @@ Cette distinction ne sert que lors de *l'utilisation* de la « macro ».
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
 
-	@admins         = scott     # Adams, not Chacon, sorry :)
-	@interns        = ashok     # get the spelling right, Scott!
+	@admins         = scott
+	@interns        = ashok
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
@@ -845,7 +845,7 @@ Référez-vous à la documentation pour plus de détails.
 ### Dépôts « joker » ###
 
 Gitolite permet de spécifier des dépôts avec jokers (en fait des regex Perl), comme par exemple, au hasard, `devoirs/s[0-9][0-9]/a[0-9][0-9]`.
-Un nouveau mode de permission devient accessible (« C »).
+Un nouveau mode de permission devient accessible (`C`).
 En suivant ces schémas de nommage, les utilisateurs peuvent alors créer des dépôts dont ils seront automatiquement propriétaires, leur permettant ainsi de leur assigner des droits en lecture ou lecture/écriture pour d'autres utilisateurs avec lesquels ils souhaitent collaborer.
 Référez-vous à la documentation pour plus de détail.
 
@@ -860,7 +860,7 @@ Si vous étiez réticent à donner aux utilisateurs des droits de rembobiner (`R
 Gitolite vous affiche à quels dépôts vous pouvez accéder et avec quels droits.
 Ci-dessous un exemple :
 
-	hello sitaram, this is git@git running gitolite3 \
+	hello scott, this is git@git running gitolite3 \
 	v3.01-18-g9609868 on git 1.7.4.4
 
 	         R     anu-wsd

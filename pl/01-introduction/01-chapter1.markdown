@@ -176,9 +176,9 @@ Nie musisz instalować wszystkich dodatków, ale dobrym pomysłem jest dołącze
 
 ### Instalacja w systemie Windows ###
 
-Instalacja Git w systemie Windows jest bardzo prosta. Projekt msysGit posiada jedną z najprostszych procedur instalacji. Po prostu pobierz program instalatora z witryny Google Code i uruchom go:
+Instalacja Git w systemie Windows jest bardzo prosta. Projekt msysGit posiada jedną z najprostszych procedur instalacji. Po prostu pobierz program instalatora z witryny GitHub i uruchom go:
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 Po instalacji masz dostęp zarówno do wersji konsolowej, uruchamianej z linii poleceń (w tym do klienta SSH, który przyda się jeszcze później) oraz do standardowego GUI.
 

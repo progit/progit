@@ -446,7 +446,7 @@ Créez un fichier appelé `users.txt` contenant cette équivalence dans le forma
 Pour récupérer la liste des noms d'auteurs utilisés par SVN, vous pouvez utiliser la ligne suivante :
 
 	$ svn log --xml | grep -P "^<author" | sort -u | \
-	      perl -pe 's/<author>(.*?)<\/author>/$1 = /'
+	      perl -pe 's/<author>(.*?)<\/author>/$1 = /' > users.txt
 
 Cela génère une sortie au format XML — vous pouvez visualiser les auteurs, créer une liste unique puis éliminer l'XML.
 Évidemment, cette ligne ne fonctionne que sur une machine disposant des commandes `grep`, `sort` et `perl`.
@@ -509,9 +509,9 @@ Toutes vos données, branches et tags sont à présent disponibles sur le serveu
 ### Perforce ###
 
 L'autre système duquel on peut souhaiter importer les données est Perforce.
-Un outil d'import Perforce est aussi distribué avec Git, mais seulement dans la section `contrib` du code source.
-Il n'est pas disponible par défaut comme `git svn`.
-Pour le lancer, il vous faut récupérer le code source de Git que vous pouvez télécharger à partir de `git.kernel.org` :
+Un outil d'import Perforce est aussi distribué avec Git.
+Si votre version de Git est antérieures à 1.7.11, celui-ci n'est disponible que dans la section `contrib` du code source.
+Dans ce dernier cas, pour le lancer, il vous faut récupérer le code source de Git que vous pouvez télécharger à partir de `git.kernel.org` :
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
@@ -764,7 +764,7 @@ Si vous lancez ce script, vous obtiendrez un contenu qui ressemble à ceci :
 	new version one
 	(...)
 
-Pour lancer l'outil d'import, redirigez cette sortie dans `git fast-import` alors que vous vous trouvez dans le répertoire Git dans lequel vous souhaitez importer.
+Pour lancer l'outil d'import, redirigez cette sortie dans `git fast-import` alors que vous vous trouvez dans le projet Git dans lequel vous souhaitez importer.
 Vous pouvez créer un nouveau répertoire, puis l'initialiser avec `git init`, puis lancer votre script :
 
 	$ git init

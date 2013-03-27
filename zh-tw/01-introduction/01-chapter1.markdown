@@ -182,7 +182,7 @@ Insert 18333fig0107.png
 
 在Windows系統安裝Git相當地容易。 msysGit專案已提供相當容易安裝的程序。 只要從Google Code網頁下載安裝程式並執行即可：
 
-	http://code.google.com/p/msysgit
+	http://msysgit.github.com/
 
 在安裝完畢後，讀者同時會有命令列版本（包含SSH客戶端程式）及標準的圖形界面版本。
 

@@ -1167,7 +1167,7 @@ Switching branches with submodules in them can also be tricky. If you create a n
 	$ git status
 	# On branch master
 	# Untracked files:
-	#   (use "git add f<ile>..." to include in what will be committed)
+	#   (use "git add <file>..." to include in what will be committed)
 	#
 	#      rack/
 

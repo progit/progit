@@ -1,3 +1,4 @@
+# Customizing Git #
 # Git Personalisieren #
 
 Ich habe nun die grundlegende Funktionsweise und die Benutzung von Git besprochen. Weiterhin habe ich einige Werkzeuge von Git eingefuehrt, die dem Benutzer ein einfaches und effizientes Arbeiten erlauben sollen. In diesem Kapitel werde ich nun auf einige Operationen eingehen, die Du benutzen kannst, um die Funktionsweise von Git Deinen persönlichen Beduerfnissen anzupassen. Dazu fuhre ich einige wichtige Konfigurationseinstellungen ein, sowie das Schnittstellen-System, auch Hooks genannt. Mit diesen Mitteln ist es einfach Git so anzupassen, dass es genau den Anspruechen des Benutzers, des Unternehmens oder des Teams entspricht.
@@ -20,11 +21,11 @@ Now you’ll learn a few of the more interesting options that you can set in thi
 
 In Kapitel 1 hast Du bereits einige einfache Konfigurationsdetails von Git kennengelernt, aber ich möchte sie hier noch einmal schnell wiederholen. Git benutzt eine Reihe von Konfigurationsdateien, um nicht-Standard Verhalten zu kontrollieren, an dem Du interessiert sein könntest. Der erste Ort, an dem Git danach sucht ist in der Datei `/etc/gitconfig`. Diese Datei enthält Werte fuer alle Benutzer des Systems und alle ihre Repositories. Wenn Du `git config` mit der Option `--system` benutzt, liest und schreibt Git speziell in dieser Datei.
 
-You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically. 
+You saw some simple Git configuration details in the first chapter, but I’ll go over them again quickly here. Git uses a series of configuration files to determine non-default behavior that you may want. The first place Git looks for these values is in an `/etc/gitconfig` file, which contains values for every user on the system and all of their repositories. If you pass the option `--system` to `git config`, it reads and writes from this file specifically.
 
 Als nächstes sucht Git in der benutzerspezifischen Datei `~/.gitconfig` nach Kofigurationsdaten. Damit Git diese Date zum Lesen und Schreiben nutzt, kannst Du die Option `--global` benutzen.
 
-The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option. 
+The next place Git looks is the `~/.gitconfig` file, which is specific to each user. You can make Git read and write to this file by passing the `--global` option.
 
 Als letztes sucht Git in der Konfigurationsdatei im Git Verzeichnis (`.git/config`) des aktuell benutzten Repositories nach Konfigurationsdaten. Diese Daten sind dann speziell fuer dieses Repository gueltig. Jede der erwähnten Ebenen ueberschreibt die vorhergehende, das heisst also das zum Beispiel die Konfiguration aus `.git/config` Vorrang vor derjenigen aus `/etc/gitconfig` hat. Du kannst alle Konfigurationen auch surch manuelles Editieren dieser Dateien mit der korrekten Syntax vornehmen, aber in der Regel ist es einfacher den Befehl `git config` zu benutzen.
 
@@ -75,6 +76,7 @@ To tell Git to use it as the default message that appears in your editor when yo
 	$ git commit
 
 Wenn Du dann das nächste Mal ein Commit ausfuehrst, wird Dein Editor mit etwas ähnlichem wie dieser Nachricht starten:
+
 Then, your editor will open to something like this for your placeholder commit message when you commit:
 
 	subject line
@@ -108,7 +110,7 @@ The core.pager setting determines what pager is used when Git pages output such 
 
 Wenn Du dies ausfuehrst wird Git immer die komplette Ausgabe aller Befehle anzeigen, egal wie lang sie ist. 
 
-If you run that, Git will page the entire output of all commands, no matter how long they are.
+If you run that, Git will page the entire output of all commands, no matter how long it is.
 
 #### user.signingkey ####
 
@@ -183,7 +185,7 @@ Jede von diesen hat zusätzliche Unteroptionen, die Du benutzen kannst, um spezi
 
 In addition, each of these has subsettings you can use to set specific colors for parts of the output, if you want to override each color. For example, to set the meta information in your diff output to blue foreground, black background, and bold text, you can run
 
-	$ git config --global color.diff.meta “blue black bold”
+	$ git config --global color.diff.meta "blue black bold"
 
 Du kannst als Farben jeden der folgenden Werte verwenden: `normal`, `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, oder `white`. Falls Du ein Attribute wie Fettschrift im vorigen Beispiel willst kannst Du aus `bold`, `dim`, `ul`, `blink`, und `reverse` auswählen.
 
@@ -196,7 +198,7 @@ See the `git config` manpage for all the subsettings you can configure, if you w
 
 Git besitzt zwar eine interne Implementierung von diff, das Du bisher benutzt hast, aber Du kannst stattdessen auch eine externe Anwendung benutzen. Du kannst auch ein grafisches Merge Werkzeug zur Auflösung von Konflikten benutzen, statt diese manuell zu lösen. Ich werde demonstrieren, wie man das visuelle Merge Tool von Perforce (P4Merge) installiert, um Diffs und Merges zu bearbeiten. Ich habe P4Merge gewählt, da es ein freies und nettes grafisches Werkzeug ist.
 
-Although Git has an internal implementation of diff, which is what you’ve been using, you can set up an external tool instead. You can also set up a graphical merge conflict–resolution tool instead of having to resolve conflicts manually. I’ll demonstrate setting up the Perforce Visual Merge Tool (P4Merge) to do your diffs and merge resolutions, because it’s a nice graphical tool and it’s free.
+Although Git has an internal implementation of diff, which is what you’ve been using, you can set up an external tool instead. You can also set up a graphical merge conflict-resolution tool instead of having to resolve conflicts manually. I’ll demonstrate setting up the Perforce Visual Merge Tool (P4Merge) to do your diffs and merge resolutions, because it’s a nice graphical tool and it’s free.
 
 Falls Du dies testen willst, sollte es kein Problem sein, da P4Merge auf allen ueblichen Plattformen arbeitet. Ich werde Pfadnamen benutzen, die auf Mac und Linux Systemen funktionieren; fuer Windows musst Du `/usr/local/bin` durch einen Pfad ersetzen, der in der Umgebungsvariablen `PATH` gelistet ist. 
 
@@ -226,7 +228,7 @@ Da Du nur die Parameter `old-file` und `new-file` benötigst, wirst Du das Wrapp
 
 Because you only want the `old-file` and `new-file` arguments, you use the wrapper script to pass the ones you need.
 
-	$ cat /usr/local/bin/extDiff 
+	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
@@ -234,7 +236,7 @@ Du musst ausserdem sicherstellen, dass die Skripten ausfuehrbar sind:
 
 You also need to make sure these tools are executable:
 
-	$ sudo chmod +x /usr/local/bin/extMerge 
+	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
 Jetzt kannst Du Git so konfigurieren, dass es deine persönlichen Merge und Diff Werkzeuge benutzt. Dazu sind einige angepasste Einstellungen nötig: `merge.tool`, um Git zu sagen welche Merge Strategie es nutzen soll, `mergetool.*.cmd`, um festzulegen, wie der Befehl auszufuehren ist, `mergetool.trustExitCode`, damit Git weiss ob der Antwortcode des Programms eine erfolgreiche Merge Auflösung anzeigt oder nicht, und `diff.external`, um einzustellen welches Diff Kommando Git benutzen soll. Also kannst Du entweder vier Konfigrationsbefehle ausfuehren
@@ -262,14 +264,14 @@ or you can edit your `~/.gitconfig` file to add these lines:
 Wenn all dies eingestellt ist und Du Diff Befehle wie diesen ausfuehrst:
 
 After all this is set, if you run diff commands such as this:
-	
+
 	$ git diff 32d1776b1^ 32d1776b1
 
 wird Git statt einer Diff Ausgabe auf der Kommandozeile P4Merge starten, was ähnlich aussehen wird wie Abbildung 7-1.
 
 Instead of getting the diff output on the command line, Git fires up P4Merge, which looks something like Figure 7-1.
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 Figure 7-1. P4Merge.
 
 Wenn Du versuchst zwei Branches zu Mergen und darauffolgende Merge Konflikte hast, kannst Du den Befehl `git mergetool` ausfuehren; das startet P4Merge und erlaubt Dir, die Konflikte mit dem GUI Werkzeug aufzulösen.
@@ -281,7 +283,7 @@ Das Angenehme an diesem Wrapper Ansatz ist, dass Du Deine Diff und Merge Werkzeu
 The nice thing about this wrapper setup is that you can change your diff and merge tools easily. For example, to change your `extDiff` and `extMerge` tools to run the KDiff3 tool instead, all you have to do is edit your `extMerge` file:
 
 	$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 Nun wird Git KDiff3 zur Anzeige von Diffs und zur Auflösung von Merge Konflikten verwenden.
@@ -309,7 +311,7 @@ Formatting and whitespace issues are some of the more frustrating and subtle pro
 
 Falls Du unter Windows programmierst oder ein anderes System benutzt und mit anderen zusammenarbeitest, die unter Windows programmieren, wirst Du sehr wahrscheinlich irgendwann dem Problem der Zeilenenden begegnen. Dies liegt daran, dass Windows sowohl ein CR-Zeichen als auch ein LF-Zeichen zum Signalisieren einer neuen Zeile in einer Datei benutzt, während Mac und Linux nur ein LF-Zeichen benutzen. Dies ist eine kleine aber extrem störende Tatsache beim Arbeiten ueber Plattformgrenzen hinweg.
 
-If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work. 
+If you’re programming on Windows or using another system but working with people who are programming on Windows, you’ll probably run into line-ending issues at some point. This is because Windows uses both a carriage-return character and a linefeed character for newlines in its files, whereas Mac and Linux systems use only the linefeed character. This is a subtle but incredibly annoying fact of cross-platform work.
 
 Git kann dies vermeiden, indem es CR-LF Zeichen am Zeilenende automatisch zu LF konvertiert, wenn Du ein Commit machst, und umgekehrt wenn es bei einem Checkout Code mit Deinem lokalen Dateisystem synchronisiert. Du kannst diese Funktionalität mittels der Option `core.autocrlf` aktivieren. Falls Du auf einem Windows System arbeitest, setze sie auf `true` — dies konvertiert LF Zeichen zu CRLF Zeichen, wenn Du Code mit einem Checkout synchronisierst:
 
@@ -368,7 +370,7 @@ Or you can have Git try to automatically fix the issue before applying the patch
 
 Diese Optionen sind auch fuer den Rebase Befehl gueltig. Falls Du einen Commit gemacht hast, der problematische Leerzeichen enthält, aber Du die Änderungen noch nicht auf den Server gepusht hast, kannst Du ein `rebase` mit dem Parameter `--whitespace=fix` ausfuehren, damit Git automatisch die Leerzeichenfehler behebt, wenn es dir Patches aktualisiert.
 
-These options apply to the git rebase option as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
+These options apply to the `git rebase` command as well. If you’ve committed whitespace issues but haven’t yet pushed upstream, you can run a `rebase` with the `--whitespace=fix` option to have Git automatically fix whitespace issues as it’s rewriting the patches.
 
 ### Server Configuration ###
 
@@ -459,11 +461,13 @@ Bei 1.6er Versionen von Git ist es möglich, die Funktionalität von Git Attribu
 
 In the 1.6 series of Git, you can use the Git attributes functionality to effectively diff binary files. You do this by telling Git how to convert your binary data to a text format that can be compared via the normal diff.
 
+##### MS Word files #####
+
 Da das eine ziemlich praktische und nicht sehr bekannte Funktionalität ist, werde ich einige Beispiele besprechen. Als erstes wirst Du diese Technik benutzen, um eines der lästigsten Probleme der Menschheit zu lösen: Versionskontrolle von Word Dokumenten. Jeder weiss, dass Word der schrecklichste Editor ist, den es gibt; aber komischerweise benutzt ihn jeder. Wenn Du eine Versionskontrolle fuer Word Dokumente willst, kannst Du sie einfach in ein Git Repository packen und ab und zu ein Commit machen; aber wozu ist das nuetzlich? Wenn Du ein normales `git diff` ausfuehrst, wirst Du eine ähnliche Ausgabe wie diese sehen:
 
 Because this is a pretty cool and not widely known feature, I’ll go over a few examples. First, you’ll use this technique to solve one of the most annoying problems known to humanity: version-controlling Word documents. Everyone knows that Word is the most horrific editor around; but, oddly, everyone uses it. If you want to version-control Word documents, you can stick them in a Git repository and commit every once in a while; but what good does that do? If you run `git diff` normally, you only see something like this:
 
-	$ git diff 
+	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
@@ -479,6 +483,13 @@ Dies weist Git an, dass auf jede Datei, die diesem Dateimuster (.doc) entspricht
 This tells Git that any file that matches this pattern (.doc) should use the "word" filter when you try to view a diff that contains changes. What is the "word" filter? You have to set it up. Here you’ll configure Git to use the `strings` program to convert Word documents into readable text files, which it will then diff properly:
 
 	$ git config diff.word.textconv strings
+
+This command adds a section to your `.git/config` that looks like this:
+
+	[diff "word"]
+		textconv = strings
+
+Side note: There are different kinds of `.doc` files. Some use an UTF-16 encoding or other "codepages" and `strings` won’t find anything useful in there. Your mileage may vary.
 
 Jetzt weiss Git, dass es Dateien mit der Endung `.doc`, wenn es ein Diff zwischen zwei Schnappschuessen versucht, durch den "word" Filter schicken soll, welcher durch das `strings` Programm definiert ist. Das erzeugt praktisch gut lesbare Textversionen Deiner Word Dateien bevor ein Diff mit ihnen versucht wird.
 
@@ -496,18 +507,71 @@ Here’s an example. I put Chapter 1 of this book into Git, added some text to a
 	@@ -8,7 +8,8 @@ re going to cover Version Control Systems (VCS) and Git basics
 	 re going to cover how to get it and set it up for the first time if you don
 	 t already have it on your system.
-	 In Chapter Two we will go over basic Git usage - how to use Git for the 80% 
-	-s going on, modify stuff and contribute changes. If the book spontaneously 
-	+s going on, modify stuff and contribute changes. If the book spontaneously 
+	 In Chapter Two we will go over basic Git usage - how to use Git for the 80%
+	-s going on, modify stuff and contribute changes. If the book spontaneously
+	+s going on, modify stuff and contribute changes. If the book spontaneously
 	+Let's see if this works.
 
 Git war erfolgrweich und zeigt nun kurz und buendig an, dass Ich den Text "Let's see if this works" hinzugefuegt habe, was korrekt ist. Es ist nicht perfekt, es wird etwas zufälliger Kram am Ende angefuegt — aber es funktioniert auf jeden Fall. Falls Du einen guten Word-nach-Text Konverter findest oder schreibst, dann ist diese Lösung wahrscheinlich aeusserst effektiv. Fuer den Anfang sollte allerdings `strings` fuer die meisten Binärformate ausreichend sein, vor allem da es auf den meisten Mac und Linux Systemen läuft. 
 
 Git successfully and succinctly tells me that I added the string "Let’s see if this works", which is correct. It’s not perfect — it adds a bunch of random stuff at the end — but it certainly works. If you can find or write a Word-to-plain-text converter that works well enough, that solution will likely be incredibly effective. However, `strings` is available on most Mac and Linux systems, so it may be a good first try to do this with many binary formats.
 
+##### OpenDocument Text files #####
+
+The same approach that we used for MS Word files (`*.doc`) can be used for OpenDocument Text files (`*.odt`) created by OpenOffice.org.
+
+Add the following line to your `.gitattributes` file:
+
+	*.odt diff=odt
+
+Now set up the `odt` diff filter in `.git/config`:
+
+	[diff "odt"]
+		binary = true
+		textconv = /usr/local/bin/odt-to-txt
+
+OpenDocument files are actually zip’ped directories containing multiple files (the content in an XML format, stylesheets, images, etc.). We’ll need to write a script to extract the content and return it as plain text. Create a file `/usr/local/bin/odt-to-txt` (you are free to put it into a different directory) with the following content:
+
+	#! /usr/bin/env perl
+	# Simplistic OpenDocument Text (.odt) to plain text converter.
+	# Author: Philipp Kempgen
+
+	if (! defined($ARGV[0])) {
+		print STDERR "No filename given!\n";
+		print STDERR "Usage: $0 filename\n";
+		exit 1;
+	}
+
+	my $content = '';
+	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
+	{
+		local $/ = undef;  # slurp mode
+		$content = <$fh>;
+	}
+	close $fh;
+	$_ = $content;
+	s/<text:span\b[^>]*>//g;           # remove spans
+	s/<text:h\b[^>]*>/\n\n*****  /g;   # headers
+	s/<text:list-item\b[^>]*>\s*<text:p\b[^>]*>/\n    --  /g;  # list items
+	s/<text:list\b[^>]*>/\n\n/g;       # lists
+	s/<text:p\b[^>]*>/\n  /g;          # paragraphs
+	s/<[^>]+>//g;                      # remove all XML tags
+	s/\n{2,}/\n\n/g;                   # remove multiple blank lines
+	s/\A\n+//;                         # remove leading blank lines
+	print "\n", $_, "\n\n";
+
+And make it executable
+
+	chmod +x /usr/local/bin/odt-to-txt
+
+Now `git diff` will be able to tell you what changed in `.odt` files.
+
+
+##### Image files #####
+
 Ein weiteres interessantes Problem, dass man auf diese Weise lösen kann sind Dateiunterschiede bei Bilddaten. Eine Möglichkeit dies zu tun  ist es, JPEG Dateien durch einen Filter zu schicken, der ihre EXIF Informationen extrahiert — Metainformationen die bei den meisten Bildformaten mitgefuehrt wird. Wenn Du das Programm `exiftool` herunterlädst und installierst, dann kannst Du es benutzen, um Deine Bilder in einen Text mit diesen Metainformationen umzuwandeln, so dass ein Diff Dir zumindest eine textuelle Repräsentation aller Veränderungen an der Datei anzeigt:
 
-Another interesting problem you can solve this way involves diffing image files. One way to do this is to run JPEG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
+Another interesting problem you can solve this way involves diffing image files. One way to do this is to run PNG files through a filter that extracts their EXIF information — metadata that is recorded with most image formats. If you download and install the `exiftool` program, you can use it to convert your images into text about the metadata, so at least the diff will show you a textual representation of any changes that happened:
 
 	$ echo '*.png diff=exif' >> .gitattributes
 	$ git config diff.exif.textconv exiftool
@@ -523,7 +587,7 @@ If you replace an image in your project and run `git diff`, you see something li
 	@@ -1,12 +1,12 @@
 	 ExifTool Version Number         : 7.74
 	-File Size                       : 70 kB
-	-File Modification Date/Time     : 2009:04:21 07:02:45-07:00
+	-File Modification Date/Time     : 2009:04:17 10:12:35-07:00
 	+File Size                       : 94 kB
 	+File Modification Date/Time     : 2009:04:21 07:02:43-07:00
 	 File Type                       : PNG
@@ -557,9 +621,9 @@ Wenn Du diese Datei das nächste Mal auscheckst wird Git den SHA Wert des Blobs 
 
 The next time you check out this file, Git injects the SHA of the blob:
 
-	$ rm text.txt
-	$ git checkout -- text.txt
-	$ cat test.txt 
+	$ rm test.txt
+	$ git checkout -- test.txt
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 Allerdings ist das Ergebnis nur mässig nuetzlich. Falls Du schon mal Schluesselwort-Ersetzen in CVS oder Subversion benutzt hast weisst Du, dass man dort auch Zeit und Datum einfuegen kann — der SHA Wert ist nicht sehr hilfreich, da er recht zufällig ist, und man nicht feststellen kann, ob er neuer oder älter ist als ein anderer.
@@ -568,13 +632,13 @@ However, that result is of limited use. If you’ve used keyword substitution in
 
 Wie sich herausstellt kann man aber seine eigenen Filter schreiben, um bei Commits oder Checkouts Schluesselworter in Dateien bei zu ersetzen. In der `.gitattributes` Datei kann man einen Filter fuer bestimmte Pfade angeben und dann Skripte einrichten, die Dateien kurz vor einem Checkout ("smudge", siehe Abbildung 7-2) und kurz vor einem Commit ("clean", siehe Abbildung 7-3) modifizieren. Diese Filter können eingerichtet werden, um alle möglichen witzigen Dinge zu machen.
 
-It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re committed ("clean", see Figure 7-2) and just before they’re checked out ("smudge", see Figure 7-3). These filters can be set to do all sorts of fun things.
+It turns out that you can write your own filters for doing substitutions in files on commit/checkout. These are the "clean" and "smudge" filters. In the `.gitattributes` file, you can set a filter for particular paths and then set up scripts that will process files just before they’re checked out ("smudge", see Figure 7-2) and just before they’re committed ("clean", see Figure 7-3). These filters can be set to do all sorts of fun things.
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
 Abbildung 7-2. Der "smudge" Filter wird beim Checkout ausgefuehrt.
 Figure 7-2. The “smudge” filter is run on checkout.
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
 Abbildung 7-3. Der "clean" Filter wird beim Transfer in den Stage Bereich ausgefuehrt.
 Figure 7-3. The “clean” filter is run when files are staged.
 
@@ -586,7 +650,7 @@ The original commit message for this functionality gives a simple example of run
 
 Dann muss Git noch gesagt werden, was der "indent" Filter bei "smudge" und "clean" zu tun hat:
 
-Then, tell Git what the "indent"" filter does on smudge and clean:
+Then, tell Git what the "indent" filter does on smudge and clean:
 
 	$ git config --global filter.indent.clean indent
 	$ git config --global filter.indent.smudge cat
@@ -722,7 +786,7 @@ To enable a hook script, put a file in the `hooks` subdirectory of your Git dire
 
 Es gibt eine Menge Hooks auf Seiten des Clients. Dieser Abschnitt teilt sie in Hooks fuer einen Commit-Arbeitsablauf, Skripte bezogen auf e-Mail und den Rest der Client-seitigen Skripte.
 
-There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail–workflow scripts, and the rest of the client-side scripts.
+There are a lot of client-side hooks. This section splits them into committing-workflow hooks, e-mail-workflow scripts, and the rest of the client-side scripts.
 
 #### Committing-Workflow Hooks ####
 #### Hooks fuer einen Commit Arbeitsablauf ####
@@ -752,7 +816,7 @@ The committing-workflow client-side scripts can be used in just about any workfl
 
 Fuer einen e-Mail basierten Arbeitsablauf kannst Du drei Client-seitige Hooks einrichten. Sie werden alle mit dem Befehl `git am` aufgerufen, wenn Du diesen Befehl also in Deinem normalen Arbeitsablauf nicht verwendest, kannst Du zum nächsten Abschnitt springen. Falls Du Patches per e-Mail erhältst, die mit `git format-patch` erstellt wurden, könnten trotzdem einige dieser Skripte fuer Dich nuetzich sein.
 
-You can set up three client-side hooks for an e-mail–based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
+You can set up three client-side hooks for an e-mail-based workflow. They’re all invoked by the `git am` command, so if you aren’t using that command in your workflow, you can safely skip to the next section. If you’re taking patches over e-mail prepared by `git format-patch`, then some of these may be helpful to you.
 
 Der erste Hook, der ausgefuehrt wird is `applypatch-msg`. Er akzeptiert genau einen Parameter: den Namen der temporären Datei, die die vorgegebene Commit Nachricht enthält. Git bricht den Patch ab, falls dieses Skript nicht Null zurueckgibt. Du kannst dies benutzen um sicherzustellen, dass die Commit Nachricht richtig formatiert ist, oder um die Nachricht zu standardisieren, indem das Skript sie direkt editiert.
 
@@ -939,7 +1003,7 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 	      access[$user].each do |access_path|
 	        if !access_path || # user has access to everything
 	          (path.index(access_path) == 0) # access to this path
-	          has_file_access = true 
+	          has_file_access = true
 	        end
 	      end
 	      if !has_file_access
@@ -947,12 +1011,12 @@ If you use the ACL structure returned from the `get_acl_access_data` method and 
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end
 
 	check_directory_perms
 
-Most of that should be easy to follow. You get a list of new commits being pushed to your server with `git rev-list`. Then, for each of those, you find which files are modified and make sure the user who’s pushing has access to all the paths being modified. One Rubyism that may not be clear is `path.index(access_path) == 0`, which is true if path begins with `access_path` — this ensures that `access_path` is not just in one of the allowed paths, but an allowed path begins with each accessed path. 
+Most of that should be easy to follow. You get a list of new commits being pushed to your server with `git rev-list`. Then, for each of those, you find which files are modified and make sure the user who’s pushing has access to all the paths being modified. One Rubyism that may not be clear is `path.index(access_path) == 0`, which is true if path begins with `access_path` — this ensures that `access_path` is not just in one of the allowed paths, but an allowed path begins with each accessed path.
 
 Now your users can’t push any commits with badly formed messages or with modified files outside of their designated paths.
 
@@ -962,7 +1026,7 @@ The only thing left is to enforce fast-forward-only pushes. In Git versions 1.6 
 
 The logic for checking this is to see if any commits are reachable from the older revision that aren’t reachable from the newer one. If there are none, then it was a fast-forward push; otherwise, you deny it:
 
-	# enforces fast-forward only pushes 
+	# enforces fast-forward only pushes
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split("\n").size
@@ -974,7 +1038,7 @@ The logic for checking this is to see if any commits are reachable from the olde
 
 	check_fast_forward
 
-Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file you into which you should have put all this code, and then try to push a non-fast-forwarded reference, you get something like this:
+Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the file into which you should have put all this code, and then try to push a non-fast-forward reference, you’ll get something like this:
 
 	$ git push -f origin master
 	Counting objects: 5, done.
@@ -982,9 +1046,9 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 	Writing objects: 100% (3/3), 323 bytes, done.
 	Total 3 (delta 1), reused 0 (delta 0)
 	Unpacking objects: 100% (3/3), done.
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -993,8 +1057,8 @@ Everything is set up. If you run `chmod u+x .git/hooks/update`, which is the fil
 
 There are a couple of interesting things here. First, you see this where the hook starts running.
 
-	Enforcing Policies... 
-	(refs/heads/master) (fb8c72) (c56860)
+	Enforcing Policies...
+	(refs/heads/master) (8338c5) (c5b616)
 
 Notice that you printed that out to stdout at the very beginning of your update script. It’s important to note that anything your script prints to stdout will be transferred to the client.
 
@@ -1120,7 +1184,7 @@ Here is an example pre-rebase script that checks for that. It gets a list of all
 	target_shas.each do |sha|
 	  remote_refs.each do |remote_ref|
 	    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
-	    if shas_pushed.split(“\n”).include?(sha)
+	    if shas_pushed.split("\n").include?(sha)
 	      puts "[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"
 	      exit 1
 	    end

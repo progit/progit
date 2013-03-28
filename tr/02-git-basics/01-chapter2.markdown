@@ -171,11 +171,16 @@ _Glob_ örüntüleri _shell_'ler tarafından kullanılan basitleştirilmiş kura
 Bir `.gitignore` dosyası örneği daha:
 
 	# bir yorum - bu görmezden gelinir
-	*.a       # .a dosyalarını görmezden gel
-	!lib.a    # ama yukarıda .a dosyalarını görmezden geliyor olsan bile lib.a dosyasını izlemeye al
-	/TODO     # kök dizindeki /TODO dosyasını (TODO adındaki alt klasörü değil) görmezden gel
-	build/    # build/ klasöründeki bütün dosyaları görmezden gel
-	doc/*.txt # doc/notes.txt dosyasını görmezden gel ama doc/server/arch.txt dosyasını görmezden gelme
+	# .a dosyalarını görmezden gel
+	*.a
+	# ama yukarıda .a dosyalarını görmezden geliyor olsan bile lib.a dosyasını izlemeye al
+	!lib.a
+	# kök dizindeki /TODO dosyasını (TODO adındaki alt klasörü değil) görmezden gel
+	/TODO
+	# build/ klasöründeki bütün dosyaları görmezden gel
+	build/
+	# doc/notes.txt dosyasını görmezden gel ama doc/server/arch.txt dosyasını görmezden gelme
+	doc/*.txt
 
 ### Kayda Hazırlanmış ve Hazırlanmamış Değişiklikleri Görüntülemek ###
 

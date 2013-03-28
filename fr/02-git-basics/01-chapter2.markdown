@@ -224,11 +224,16 @@ Un astérisque (`*`) correspond à un ou plusieurs caractères ; `[abc]` corres
 Voici un autre exemple de fichier `.gitignore` :
 
 	# un commentaire, cette ligne est ignorée
-	*.a       # pas de fichier .a
-	!lib.a    # mais suivre lib.a malgré la règle précédente
-	/TODO     # ignorer uniquement le fichier TODO à la racine du projet
-	build/    # ignorer tous les fichiers dans le répertoire build
-	doc/*.txt # ignorer doc/notes.txt, mais pas doc/server/arch.txt
+	# pas de fichier .a
+	*.a
+	# mais suivre lib.a malgré la règle précédente
+	!lib.a
+	# ignorer uniquement le fichier TODO à la racine du projet
+	/TODO
+	# ignorer tous les fichiers dans le répertoire build
+	build/
+	# ignorer doc/notes.txt, mais pas doc/server/arch.txt
+	doc/*.txt
 
 ### Inspecter les modifications indexées et non indexées ###
 

@@ -170,11 +170,16 @@ I glob pattern sono semplicemente espressioni regolari usate dalla shell.  Un as
 Questo è un altro esempio di file .gitignore:
 
 	# un commento - questo è ignorato
-	*.a       # no file .a
-	!lib.a    # ma traccia lib.a, mentre vengono ignorati tutti i file .a come sopra
-	/TODO     # ignora solamente il file TODO in root, non del tipo subdir/TODO
-	build/    # ignora tutti i file nella directory build/
-	doc/*.txt # ignora doc/note.txt, ma non doc/server/arch.txt
+	# no file .a
+	*.a
+	# ma traccia lib.a, mentre vengono ignorati tutti i file .a come sopra
+	!lib.a
+	# ignora solamente il file TODO in root, non del tipo subdir/TODO
+	/TODO
+	# ignora tutti i file nella directory build/
+	build/
+	# ignora doc/note.txt, ma non doc/server/arch.txt
+	doc/*.txt
 
 ### Visualizza le tue modifiche parcheggiate e non ###
 

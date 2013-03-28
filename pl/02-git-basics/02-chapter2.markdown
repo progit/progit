@@ -170,11 +170,16 @@ Wyrażenia glob są jak uproszczone wyrażenia regularne, używane przez powłok
 Poniżej znajdziesz kolejny przykład pliku `.gitignore`:
 
 	# komentarz — ta linia jest ignorowana
-	*.a       # żadnych plików .a
-	!lib.a    # ale uwzględniaj lib.a, pomimo ignorowania .a w linijce powyżej
-	/TODO     # ignoruj plik TODO w katalogu głównym, ale nie podkatalog/TODO
-	build/    # ignoruj wszystkie pliki znajdujące się w katalogu build/
-	doc/*.txt # ignoruj doc/notatki.txt, ale nie doc/server/arch.txt
+	# żadnych plików .a
+	*.a
+	# ale uwzględniaj lib.a, pomimo ignorowania .a w linijce powyżej
+	!lib.a
+	# ignoruj plik TODO w katalogu głównym, ale nie podkatalog/TODO
+	/TODO
+	# ignoruj wszystkie pliki znajdujące się w katalogu build/
+	build/
+	# ignoruj doc/notatki.txt, ale nie doc/server/arch.txt
+	doc/*.txt
 
 ### Podgląd zmian w poczekalni i poza nią ###
 

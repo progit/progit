@@ -172,11 +172,16 @@ Keräysmallit ovat kuin yksinkertaistettuja 'säännöllisiä ilmaisuja' (regula
 Tässä toinen esimerkki .gitignore tiedostosta:
 
 	# kommentti – tämä sivuutetaan
-	*.a       # ei .a tiedostoja
-	!lib.a    # mutta jäljitä lib.a, vaikka sivuutatkin .a tiedostot yllä
-	/TODO     # sivuttaa vain juuren TODO tiedosto, ei subdir/TODO hakemistoa
-	build/    # sivuttaa kaikki tiedostot build/ hakemistosta
-	doc/*.txt # sivuttaa doc/notes.txt, mutta ei doc/server/arch.txt
+	# ei .a tiedostoja
+	*.a
+	# mutta jäljitä lib.a, vaikka sivuutatkin .a tiedostot yllä
+	!lib.a
+	# sivuttaa vain juuren TODO tiedosto, ei subdir/TODO hakemistoa
+	/TODO
+	# sivuttaa kaikki tiedostot build/ hakemistosta
+	build/
+	# sivuttaa doc/notes.txt, mutta ei doc/server/arch.txt
+	doc/*.txt
 
 ### Lavastettujen ja lavastattomien muutosten tarkastelu ###
 

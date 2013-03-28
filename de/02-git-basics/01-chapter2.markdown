@@ -170,12 +170,18 @@ Glob Muster sind vereinfachte reguläre Ausdrücke, die von der Shell verwendet 
 Hier ist ein weiteres Beispiel für eine `.gitignore` Datei:
 
 	# ein Kommentar - dieser wird ignoriert
-	*.a       # ignoriert alle Dateien, die mit .a enden
-	!lib.a    # nicht aber lib.a Dateien (obwohl obige Zeile *.a ignoriert)
-	/TODO     # ignoriert eine TODO Datei nur im Wurzelverzeichnis, nicht aber
-	          # in Unterverzeichnissen
-	build/    # ignoriert alle Dateien im build/ Verzeichnis
-	doc/*.txt # ignoriert doc/notes.txt, aber nicht doc/server/arch.txt
+	# ignoriert alle Dateien, die mit .a enden
+	*.a
+	# nicht aber lib.a Dateien (obwohl obige Zeile *.a ignoriert)
+	!lib.a
+	# ignoriert eine TODO Datei nur im Wurzelverzeichnis, nicht aber
+	/TODO
+	# in Unterverzeichnissen
+	 
+	# ignoriert alle Dateien im build/ Verzeichnis
+	build/
+	# ignoriert doc/notes.txt, aber nicht doc/server/arch.txt
+	doc/*.txt
 
 ### Die Änderungen in der Staging Area durchsehen ###
 

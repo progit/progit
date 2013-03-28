@@ -171,11 +171,16 @@ Glob pattern就像是shell使用的簡化版正規運算式。 星號（`*`）�
 以下是另一個`.gitignore`的範例檔案：
 
 	# 註解，會被忽略。
-	*.a       # 不要追蹤檔名為 .a 結尾的檔案
-	!lib.a    # 但是要追蹤 lib.a，即使上方已指定忽略所有的 .a 檔案
-	/TODO     # 只忽略根目錄下的 TODO 檔案。 不包含子目錄下的 TODO
-	build/    # 忽略build/目錄下所有檔案
-	doc/*.txt # 忽略doc/notes.txt但不包含doc/server/arch.txt
+	# 不要追蹤檔名為 .a 結尾的檔案
+	*.a
+	# 但是要追蹤 lib.a，即使上方已指定忽略所有的 .a 檔案
+	!lib.a
+	# 只忽略根目錄下的 TODO 檔案。 不包含子目錄下的 TODO
+	/TODO
+	# 忽略build/目錄下所有檔案
+	build/
+	# 忽略doc/notes.txt但不包含doc/server/arch.txt
+	doc/*.txt
 
 ### 檢視已暫存及尚未暫存的更動 ###
 

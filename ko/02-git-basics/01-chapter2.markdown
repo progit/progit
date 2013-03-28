@@ -170,11 +170,16 @@ Glob 패턴은 정규표현식을 단순하게 만든 것으로 생각하면 되
 다음은 .gitignore 파일의 예이다:
 
 	# a comment - 이 줄은 무시한다.
-	*.a       # 확장자가 .a인 파일 무시
-	!lib.a    # 윗 줄에서 확장자가 .a인 파일은 무시하게 했지만 lib.a는 무시하지 않는다.
-	/TODO     # 루트 디렉토리에 있는 TODO파일은 무시하고 subdir/TODO처럼 하위디렉토리에 있는 파일은 무시하지 않는다.
-	build/    # build/ 디렉토리에 있는 모든 파일은 무시한다.
-	doc/*.txt # `doc/notes.txt`같은 파일은 무시하고 doc/server/arch.txt같은 파일은 무시하지 않는다.
+	# 확장자가 .a인 파일 무시
+	*.a
+	# 윗 줄에서 확장자가 .a인 파일은 무시하게 했지만 lib.a는 무시하지 않는다.
+	!lib.a
+	# 루트 디렉토리에 있는 TODO파일은 무시하고 subdir/TODO처럼 하위디렉토리에 있는 파일은 무시하지 않는다.
+	/TODO
+	# build/ 디렉토리에 있는 모든 파일은 무시한다.
+	build/
+	# `doc/notes.txt`같은 파일은 무시하고 doc/server/arch.txt같은 파일은 무시하지 않는다.
+	doc/*.txt
 
 ### Staged와 Unstaged 상태의 변경 내용을 보기 ###
 

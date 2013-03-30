@@ -169,12 +169,17 @@ Padrões glob são como expressões regulares simples que os shells usam. Um ast
 
 Segue um outro exemplo de arquivo `.gitignore`:
 
-    # um comentário - isto é ignorado
-    *.a       # sem arquivos terminados em .a
-    !lib.a    # mas rastreie lib.a, mesmo que você tenha ignorado arquivos terminados em .a acima
-    /TODO     # apenas ignore o arquivo TODO na raiz, não o subdiretório TODO
-    build/    # ignore todos os arquivos no diretório build/
-    doc/*.txt # ignore doc/notes.txt mas, não ignore doc/server/arch.txt
+	# um comentário - isto é ignorado
+	# sem arquivos terminados em .a
+	*.a
+	# mas rastreie lib.a, mesmo que você tenha ignorado arquivos terminados em .a acima
+	!lib.a
+	# apenas ignore o arquivo TODO na raiz, não o subdiretório TODO
+	/TODO
+	# ignore todos os arquivos no diretório build/
+	build/
+	# ignore doc/notes.txt mas, não ignore doc/server/arch.txt
+	doc/*.txt
 
 ### Visualizando Suas Mudanças Selecionadas e Não Selecionadas ###
 

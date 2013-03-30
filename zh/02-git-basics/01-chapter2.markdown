@@ -170,11 +170,16 @@ Insert 18333fig0201.png
 我们再看一个 `.gitignore` 文件的例子：
 
 	# 此为注释 – 将被 Git 忽略
-	*.a       # 忽略所有 .a 结尾的文件
-	!lib.a    # 但 lib.a 除外
-	/TODO     # 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
-	build/    # 忽略 build/ 目录下的所有文件
-	doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+	# 忽略所有 .a 结尾的文件
+	*.a
+	# 但 lib.a 除外
+	!lib.a
+	# 仅仅忽略项目根目录下的 TODO 文件，不包括 subdir/TODO
+	/TODO
+	# 忽略 build/ 目录下的所有文件
+	build/
+	# 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
+	doc/*.txt
 
 ### 查看已暂存和未暂存的更新 ###
 

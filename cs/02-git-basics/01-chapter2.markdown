@@ -170,11 +170,16 @@ Masky souborů jsou jako zjednodušené regulární výrazy, které používá s
 Tady je další příklad souboru `.gitignore`:
 
 	# komentář – ignoruje se
-	*.a       # žádné soubory s příponou .a
-	!lib.a    # ale sleduj soubor lib.a, přestože máš ignorovat soubory s příponou .a
-	/TODO     # ignoruj soubor TODO pouze v kořenovém adresáři, ne v podadresářích
-	build/    # ignoruj všechny soubory v adresáři build/
-	doc/*.txt # ignoruj doc/notes.txt, ale nikoli doc/server/arch.txt
+	# žádné soubory s příponou .a
+	*.a
+	# ale sleduj soubor lib.a, přestože máš ignorovat soubory s příponou .a
+	!lib.a
+	# ignoruj soubor TODO pouze v kořenovém adresáři, ne v podadresářích
+	/TODO
+	# ignoruj všechny soubory v adresáři build/
+	build/
+	# ignoruj doc/notes.txt, ale nikoli doc/server/arch.txt
+	doc/*.txt
 
 ### Zobrazení připravených a nepřipravených změn ###
 

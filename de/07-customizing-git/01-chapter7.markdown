@@ -363,7 +363,6 @@ Instead of getting the diff output on the command line, Git fires up P4Merge, wh
 
 Insert 18333fig0701.png
 Abbildung 7-1. P4Merge
-<!-- Figure 7-1. P4Merge. -->
 
 Wenn Du versuchst zwei Branches zu mergen und dabei Merge Konflikte auftreten, kannst du den Befehl `git mergetool` ausführen. Das Kommando startet P4Merge und erlaubt es Dir, die Konflikte mit Hilfe des grafischen Werkzeugs aufzulösen.
 

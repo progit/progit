@@ -43,12 +43,12 @@ Après, il suffit d'envoyer une demande au mainteneur de projet pour qu'il tire 
 Il peut ajouter votre dépôt comme dépôt distant, tester vos modifications localement, les fusionner dans sa branche et les pousser vers le dépôt public.
 Le processus se passe comme ceci (voir figure 5-2) :
 
-1.      Le mainteneur du projet pousse vers son dépôt public.
-2.      Un contributeur clone ce dépôt et introduit des modifications.
-3.      Le contributeur pousse son travail sur son dépôt public.
-4.      Le contributeur envoie au mainteneur un e-mail de demande pour tirer depuis son dépôt.
-5.      Le mainteneur ajoute le dépôt du contributeur comme dépôt distant et fusionne localement.
-6.      Le mainteneur pousse les modifications fusionnées sur le dépôt principal.
+1. Le mainteneur du projet pousse vers son dépôt public.
+2. Un contributeur clone ce dépôt et introduit des modifications.
+3. Le contributeur pousse son travail sur son dépôt public.
+4. Le contributeur envoie au mainteneur un e-mail de demande pour tirer depuis son dépôt.
+5. Le mainteneur ajoute le dépôt du contributeur comme dépôt distant et fusionne localement.
+6. Le mainteneur pousse les modifications fusionnées sur le dépôt principal.
 
 Insert 18333fig0502.png
 Figure 5-2. Le mode du gestionnaire d'intégration.
@@ -69,10 +69,10 @@ Tous les lieutenants ont un unique gestionnaire d'intégration, le dictateur bie
 Le dépôt du dictateur sert de dépôt de référence à partir duquel tous les collaborateurs doivent tirer.
 Le processus se déroule comme suit (voir figure 5-3) :
 
-1.      Les développeurs de base travaillent sur la branche thématique et rebasent leur travail sur master. La branche `master` est celle du dictateur.
-2.      Les lieutenants fusionnent les branches thématiques des développeurs dans leur propre branche `master`.
-3.      Le dictateur fusionne les branches master de ses lieutenants dans sa propre branche `master`.
-4.      Le dictateur pousse sa branche `master` sur le dépôt de référence pour que les développeurs se rebasent dessus.
+1. Les développeurs de base travaillent sur la branche thématique et rebasent leur travail sur master. La branche `master` est celle du dictateur.
+2. Les lieutenants fusionnent les branches thématiques des développeurs dans leur propre branche `master`.
+3. Le dictateur fusionne les branches master de ses lieutenants dans sa propre branche `master`.
+4. Le dictateur pousse sa branche `master` sur le dépôt de référence pour que les développeurs se rebasent dessus.
 
 Insert 18333fig0503.png
 Figure 5-3. Le processus du dictateur bienveillant.

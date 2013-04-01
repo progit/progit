@@ -26,7 +26,7 @@ On MacOS you can do like this::
 # Errata
 
 If you see anything that is technically wrong or otherwise in need of
-correction, please [open an issue](https://github.com/progit/progit/issues) and one of the maintainers will take a look.
+correction, please [open an issue](https://github.com/progit/progit/issues/new) and one of the maintainers will take a look.
 
 
 # Translation
@@ -35,5 +35,12 @@ If you wish to translate the book, your work will be put up on the
 git-scm.com site.  Please put your translation into the appropriate
 subdirectory of this project, using the 
 [ISO 639](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) 
-and send a pull request. Be careful to use UTF-8 encoding in your files.
+and send a pull request.
 
+# Sending a pull request
+
+* Be careful to use UTF-8 encoding in your files.
+* Do not mix changes to the original english with translations in a single pull request.
+* If your pull request changes a translation, prefix your pull request and commits'messages with the ISO 639 code, e.g. `[de] Update chapter 2`.
+* Make sure the translation changes can be automatically merged. The maintainers can not make the merge manually if there are some conflicts.
+* Make as sure as possible that the changes work correctly for publishing to pdf, ebooks and the git-scm.com website

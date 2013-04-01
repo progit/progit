@@ -635,7 +635,7 @@ Le tableau 2-1 liste les options de formatage les plus utiles.
 
 	Option	Description du formatage
 	%H	Somme de contrôle du commit
-	%h	Somme de contrôle abrégée du *commit*
+	%h	Somme de contrôle abrégée du commit
 	%T	Somme de contrôle de l'arborescence
 	%t	Somme de contrôle abrégée de l'arborescence
 	%P	Sommes de contrôle des parents
@@ -674,10 +674,10 @@ Les options ci-dessus ne sont que des options simples de format de sortie de `gi
 Le tableau 2-2 donne une liste des options que nous avons traitées ainsi que d'autres options communément utilisées accompagnées de la manière dont elles modifient le résultat de la commande `log`.
 
 	Option	Description
-	-p	Affiche le patch appliqué par chaque *commit*
-	--stat	Affiche les statistiques de chaque fichier pour chaque *commit*
+	-p	Affiche le patch appliqué par chaque commit
+	--stat	Affiche les statistiques de chaque fichier pour chaque commit
 	--shortstat	N'affiche que les ligne modifiées/insérées/effacées de l'option --stat
-	--name-only	Affiche la liste des fichiers modifiés après les informations du *commit*
+	--name-only	Affiche la liste des fichiers modifiés après les informations du commit
 	--name-status	Affiche la liste des fichiers affectés accompagnés des informations d'ajout/modification/suppression
 	--abbrev-commit	N'affiche que les premiers caractères de la somme de contrôle SHA-1
 	--relative-date	Affiche la date en format relatif (par exemple "2 weeks ago" : il y a deux semaines) au lieu du format de date complet

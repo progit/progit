@@ -9,6 +9,12 @@ Apress and me by purchasing a print copy of the book at Amazon:
 
 http://tinyurl.com/amazonprogit
 
+It is also available online at:
+
+http://git-scm.com/book/
+
+and fully translated in 10 languages.
+
 # Making Ebooks
 
 On Fedora (16 and later) you can run something like this::

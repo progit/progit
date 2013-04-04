@@ -60,7 +60,7 @@ Ajoutez l'option `--abbrev-commit` à la commande `git log` et le résultat affi
 En règle générale, entre 8 et 10 caractères sont largement suffisant pour assurer l'unicité dans un projet.
 Un des plus gros projets utilisant Git, le noyau Linux, nécessite de plus en plus fréquemment 12 caractères sur les 40 possibles pour assurer l'unicité.
 
-### QUELQUES MOTS SUR SHA-1 ###
+### Quelques mots sur SHA-1 ###
 
 Beaucoup de gens s'inquiètent qu'à un moment donné ils auront, par des circonstances hasardeuses, deux objets dans leur référentiel de hachage de même empreinte SHA-1.
 Qu'en est-il réellement ?

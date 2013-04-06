@@ -492,6 +492,26 @@ One of the more helpful options is `-p`, which shows the diff introduced in each
 	\ No newline at end of file
 
 This option displays the same information but with a diff directly following each entry. This is very helpful for code review or to quickly browse what happened during a series of commits that a collaborator has added.
+
+Sometimes it's easier to review changes by words than by lines. There is a `--word-diff` option available in Git, that you can append to the `git log -p` command to get word diff instead of normal line by line diff. Word diff format is quite useless when applied to source code, but it comes in handy when applied to large text files, like books or your dissertation. Here is an example:
+
+	$ git log -U1 --word-diff
+	commit da734f4151c0bf92798edd67fb571f86ab4179e6
+	Author: Jed Hartman <jhartman@google.com>
+	Date:   Tue Mar 19 18:00:35 2013 -0700
+
+	    Added a missing "in" to a sentence.
+
+	diff --git a/en/01-chapter2.markdown b/en/01-chapter2.markdown
+	index 879e48c..a992ff3 100644
+	--- a/en/01-chapter2.markdown
+	+++ b/en/01-chapter2.markdown
+	@@ -553,3 +553,3 @@ You may be wondering what the difference is
+
+	This option adds a nice little ASCII graph showing your branch and merge history, which we can see {+in+} our copy of the Grit project repository:
+
+As you can see, there is no added and removed lines in this output as in a normal diff. Changes are shown inline instead. You can see the added word enclosed in `{+ +}` (removed words would have been shown as `[-removed-]`). You may also want to reduce the usual three lines context in diff output to only one line, as the context is now words, not lines. You can do this with `-U1` as we did in the example above.
+
 You can also use a series of summarizing options with `git log`. For example, if you want to see some abbreviated stats for each commit, you can use the `--stat` option:
 
 	$ git log --stat
@@ -578,6 +598,7 @@ Those are only some simple output-formatting options to `git log` — there are 
 
 	Option	Description
 	-p	Show the patch introduced with each commit.
+	--word-diff	Show the patch in a word diff format.
 	--stat	Show statistics for files modified in each commit.
 	--shortstat	Display only the changed/insertions/deletions line from the --stat command.
 	--name-only	Show the list of files modified after the commit information.

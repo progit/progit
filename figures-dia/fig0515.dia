@@ -442,7 +442,7 @@
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#Josle#</dia:string>
+            <dia:string>#Josie#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="Verdana" style="0" name="Courier"/>
@@ -792,7 +792,7 @@
       <dia:attribute name="text">
         <dia:composite type="text">
           <dia:attribute name="string">
-            <dia:string>#Josle#</dia:string>
+            <dia:string>#Josie#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="Verdana" style="0" name="Courier"/>

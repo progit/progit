@@ -180,6 +180,10 @@ Here is another example `.gitignore` file:
 	build/
 	# ignore doc/notes.txt, but not doc/server/arch.txt
 	doc/*.txt
+	# ignore all .txt files in the doc/ directory
+	doc/**/*.txt
+
+A `**/` pattern is available in Git since version 1.8.2.
 
 ### Viewing Your Staged and Unstaged Changes ###
 

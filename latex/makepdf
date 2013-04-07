@@ -78,6 +78,22 @@ def pre_pandoc(string, config)
 		s /\`(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.\(\)\#]+)\`/, '<\1>'
 		s /(\n\n)\t(http:\/\/[A-Za-z0-9\/\%\&\=\-\_\\\.\(\)\#]+)\n([^\t]|\t\n)/, '\1<\2>\1'
 
+		# Match table in markdown and change them to pandoc's markdown tables
+		s /(\n(\n\t([^\t\n]+)\t([^\t\n]+))+\n\n)/ do
+			first_col=20
+			t = $1.gsub /(\n?)\n\t([^\t\n]+)\t([^\t\n]+)/ do
+				if $1=="\n"
+					# This is the header, need to add the dash line
+					$1 << "\n " << $2 << " "*(first_col-$2.length) << $3 <<
+					"\n " << "-"*18 << "  " << "-"*$3.length
+				else
+					# Table row : format the first column as typewriter and align
+					$1 << "\n `" << $2 << "`" + " "*(first_col-$2.length-2) << $3
+				end
+			end
+			t << "\n"
+		end
+
 		# Process figures
 		s /Insert\s18333fig\d+\.png\s*\n.*?\d{1,2}-\d{1,2}\. (.*)/, 'FIG: \1'
 	end
@@ -112,25 +128,8 @@ def post_pandoc(string, config)
 		# Convert inline-verbatims into \texttt (which is able to wrap)
 		s /\\verb(\W)(.*?)\1/ ,'\\texttt{\2}'
 
-		# Make Tables 2-1..2-3 actual tables
-		s /\\begin\{verbatim\}\n(([^\t\n]+\t.*?\n)+)(([^\t\n]*)\n)?\\end\{verbatim\}/ do
-			$cap = $4
-			"\\begin{table}[ht!]
-				\\refstepcounter{tab}
-				\\centering
-				\\label{tab:\\thetab}
-				\\begin{tabular}{p{2.75cm}p{8.25cm}}
-					\\toprule\n" <<
-					verbatim_sanitize($1).
-						gsub(/^([^\n\t]+)\t/, '{\footnotesize\texttt{\1}} & ').
-						gsub(/(\n)/, '\\\\\\\\\1').
-						sub(/\{\\footnotesize\\texttt(.*?)\n/, '{\1\midrule ').
-						concat("
-					\\bottomrule
-				\\end{tabular}
-				\\textbf{\\caption{#{$cap}}}
-			\\end{table}")
-		end
+		# Style ctables
+		s /ctable\[pos = H, center, botcap\]\{..\}/ , 'ctable[pos = ht!, caption = ~ ,width = 130mm, center, botcap]{lX}'
 
 		# Shaded verbatim block
 		s /(\\begin\{verbatim\}.*?\\end\{verbatim\})/m, '\begin{shaded}\1\end{shaded}'

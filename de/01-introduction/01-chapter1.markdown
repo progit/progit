@@ -317,6 +317,8 @@ Danach hast Du sowohl eine Kommandozeilenversion (inklusive eines SSH Clients, d
 
 <!--Note on Windows usage: you should use Git with the provided msysGit shell (Unix style), it allows to use the complex lines of command given in this book. If you need, for some reason, to use the native Windows shell / command line console, you have to use double quotes instead of simple quotes (for parameters with spaces in them) and you must quote the parameters ending with the circumflex accent (^) if they are last on the line, as it is a continuation symbol in Windows.-->
 
+Hinweis für Windows Benutzer: Du solltest Git mit der in msysGit enthaltenen Shell (Unix Style) ausführen. Dies erlaubt es Dir auch die komplexen Kommandozeilenbefehle aus diesem Buch auszuführen. Wenn Du aus irgendeinem Grund die native Windows Shell, also die Eingabeaufforderung, verwenden musst, müssen Gänsefüßchen, statt einzelnen Anführungszeichen verwendet werden (für Parameter, die ein Leerzeichen enthalten). Außerdem müssen alle Parameter, die mit einem Zirkumflex (^) enden und am Ende einer Zeile stehen, mit Gänsefüßchen umschlossen werden. Der Zirkumflex am Ende einer Zeile teilt Windows sonst mit, dass diese Zeile noch nicht beendet ist und in der nächsten Zeile fortgesetzt werden soll.
+
 <!--## First-Time Git Setup ##-->
 ## Git konfigurieren ##
 

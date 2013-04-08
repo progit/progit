@@ -283,8 +283,6 @@ First you need to enable the hook:
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-If you’re using a version of Git earlier than 1.6, the `mv` command isn’t necessary — Git started naming the hooks examples with the .sample postfix only recently.
-
 What does this `post-update` hook do? It looks basically like this:
 
 	$ cat .git/hooks/post-update

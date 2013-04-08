@@ -1,4 +1,4 @@
-# Deutsche Übersetzung
+# Deutsche Übersetzung #
 
 Wenn du mitarbeiten willst, melde dich einfach. Ich werde dich als
 Collaborator hinzufügen - es ist leichter im gleichen Repository zu arbeiten.
@@ -12,13 +12,13 @@ Konvention, einer Mailingliste und untenstehenden Workflows.
 Andere sehen dann, daß jemand bereits an diesem Kapitel arbeitet, und wir
 können hoffentlich doppelte Arbeit vermeiden.
 
-Mailingliste:
+## Mailingliste: ##
 
 Unsere Mailingliste ist hier: http://groups.google.com/group/progit-german
 
 Wenn du an der deutschen Übersetzung von Progit arbeitest oder arbeiten willst, sag uns dort bitte bescheid, damit wir uns alle eventuelle doppelte Arbeit sparen :)
 
-Workflow:
+## Workflow: ##
 
 Wir arbeiten lokal in einem working/topic branch. Du kannst diesen branch nach Github pushen, wenn du willst, aber du solltest die working branches anderer nicht ändern.
 
@@ -26,43 +26,52 @@ Der branch, in den wir unsere gemeinsame Arbeit an der deutschen Übersetzung sy
 
 git clone git@github.com:svenfuchs/progit.git
 
-# Lokalen working branch anlegen, darin arbeiten, rebasen und pushen
-git checkout --track -b translation-de origin/translation-de
-git checkout -b work
-# ... Änderungen in diesem branch vornehmen ...
-git checkout translation-de
-git pull
-git checkout work
-git rebase translation-de
-# ggf. Konflikte beheben:
-# git mergetool
-# git rebase --continue
-git checkout translation-de
-git merge work
-git push
+Lokalen working branch anlegen, darin arbeiten, rebasen und pushen
 
-# Möglicherweise vorhandene Änderungen bei uns auf progit/master rebasen
-git remote add progit git://github.com/progit/progit.git
-git fetch progit
-git rebase progit/master
-# ggf. Konflikte beheben:
-# git mergetool
-# git rebase --continue
-git push
+	git checkout --track -b translation-de origin/translation-de
+	git checkout -b work
 
-# Änderungen aus translation-de auf master rebasen
-git checkout master
-git pull
-git checkout translation-de
-git rebase master
-# ggf. Konflikte beheben:
-# git mergetool
-# git rebase --continue
-git checkout master
-git merge translation-de
-git push
+... Änderungen in diesem branch vornehmen ...
 
-Einige Erfahrungen:
+	git checkout translation-de
+	git pull
+	git checkout work
+	git rebase translation-de
+
+ggf. Konflikte beheben:
+
+	git mergetool
+	git rebase --continue
+	git checkout translation-de
+	git merge work
+	git push
+
+Möglicherweise vorhandene Änderungen bei uns auf progit/master rebasen
+
+	git remote add progit git://github.com/progit/progit.git
+	git fetch progit
+	git rebase progit/master
+
+ggf. Konflikte beheben:
+	git mergetool
+	git rebase --continue
+	git push
+
+Änderungen aus translation-de auf master rebasen
+
+	git checkout master
+	git pull
+	git checkout translation-de
+	git rebase master
+	
+ggf. Konflikte beheben:
+	git mergetool
+	git rebase --continue
+	git checkout master
+	git merge translation-de
+	git push
+
+## Einige Erfahrungen ##
 
 * Es macht Sinn, möglichst oft zu rebasen und zu pushen, damit man nicht
   allzuviele Konflikte erhält.

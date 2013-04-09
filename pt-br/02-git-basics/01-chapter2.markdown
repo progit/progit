@@ -537,22 +537,22 @@ A opção mais interessante é `format`, que permite que você especifique seu p
 
 Tabela 2-1 lista algumas das opções mais importantes para formatação.
 
-    Opção    Descrição da saída
-    %H     Hash do commit
-    %h     Hash do commit abreviado
-    %T     Árvore hash
-    %t     Árvore hash abreviada
-    %P     Hashes pais
-    %p     Hashes pais abreviados
-    %an    Nome do autor
-    %ae    Email do autor
-    %ad    Data do autor (formato respeira a opção -date=)
-    %ar    Data do autor, relativa
-    %cn    Nome do committer
-    %ce    Email do committer
-    %cd    Data do committer
-    %cr    Data do committer, relativa
-    %s     Assunto
+	Opção	Descrição da saída
+	%H	Hash do commit
+	%h	Hash do commit abreviado
+	%T	Árvore hash
+	%t	Árvore hash abreviada
+	%P	Hashes pais
+	%p	Hashes pais abreviados
+	%an	Nome do autor
+	%ae	Email do autor
+	%ad	Data do autor (formato respeira a opção -date=)
+	%ar	Data do autor, relativa
+	%cn	Nome do committer
+	%ce	Email do committer
+	%cd	Data do committer
+	%cr	Data do committer, relativa
+	%s	Assunto
 
 Você deve estar se perguntando qual a diferença entre _autor_ e _committer_. O _autor_ é a pessoa que originalmente escreveu o trabalho, enquanto o _commiter_ é a pessoa que por último aplicou o trabalho. Então, se você envia um patch para o projeto e algum dos membros do núcleo aplicar o patch, ambos receberão créditos — você como o autor e o membro do núcleo como o commiter. Nós cobriremos esta distinção mais um pouco mais no *Capítulo 5*.
 
@@ -572,16 +572,16 @@ As opções `oneline` e `format` são particularmente úteis com outra opção c
 
 Estas são apenas algumas opções de formatação de saída do `git log` — há muito mais. A tabela 2-2 lista as opções que nós cobrimos e algumas outras comuns que podem ser úteis, junto com a descrição de como elas mudam a saída do comando `log`.
 
-    Opção    Descrição
-    -p    Mostra o patch introduzido com cada commit.
-    --stat    Mostra estatísticas de arquivos modificados em cada commit.
-    --shortstat    Mostra somente as linhas modificadas/inseridas/excluídas do comando --stat.
-    --name-only    Mostra a lista de arquivos modificados depois das informações do commit.
-    --name-status    Mostra a lista de arquivos afetados com informações sobre adição/modificação/exclusão dos mesmos.
-    --abbrev-commit    Mostra somente os primeiros caracteres do checksum SHA-1 em vez de todos os 40.
-    --relative-date    Mostra a data em um formato relativo (por exemplo, “2 semanas atrás”) em vez de usar o formato de data completo.
-    --graph    Mostra um gráfico ASCII do branch e histórico de merges ao lado da saída de log.
-    --pretty    Mostra os commits em um formato alternativo. Opções incluem oneline, short, full, fuller, e format (onde você especifica seu próprio formato).
+	Opção	Descrição
+	-p	Mostra o patch introduzido com cada commit.
+	--stat	Mostra estatísticas de arquivos modificados em cada commit.
+	--shortstat	Mostra somente as linhas modificadas/inseridas/excluídas do comando --stat.
+	--name-only	Mostra a lista de arquivos modificados depois das informações do commit.
+	--name-status	Mostra a lista de arquivos afetados com informações sobre adição/modificação/exclusão dos mesmos.
+	--abbrev-commit	Mostra somente os primeiros caracteres do checksum SHA-1 em vez de todos os 40.
+	--relative-date	Mostra a data em um formato relativo (por exemplo, “2 semanas atrás”) em vez de usar o formato de data completo.
+	--graph	Mostra um gráfico ASCII do branch e histórico de merges ao lado da saída de log.
+	--pretty	Mostra os commits em um formato alternativo. Opções incluem oneline, short, full, fuller, e format (onde você especifica seu próprio formato).
 
 ### Limitando a Saída de Log ###
 
@@ -599,12 +599,12 @@ A última opção realmente útil para passar para `git log` como um filtro é o
 
 Na Tabela 2-3 nós listamos estas e outras opções comuns para sua referência.
 
-    Opção    Descrição
-    -(n)    Mostra somente os últimos n commits
-    --since, --after    Limita aos commits feitos depois da data especificada.
-    --until, --before    Limita aos commits feitos antes da data especificada.
-    --author    Somente mostra commits que o autor bate com a string especificada.
-    --committer    Somente mostra os commits em que a entrada do commiter bate com a string especificada.
+	Opção	Descrição
+	-(n)	Mostra somente os últimos n commits
+	--since, --after	Limita aos commits feitos depois da data especificada.
+	--until, --before	Limita aos commits feitos antes da data especificada.
+	--author	Somente mostra commits que o autor bate com a string especificada.
+	--committer	Somente mostra os commits em que a entrada do commiter bate com a string especificada.
 
 Por exemplo, se você quer ver quais commits modificaram arquivos de teste no histórico do código fonte do Git que foram commitados por Julio Hamano e não foi feito merge no mês de Outrubro de 2008, você pode executar algo como:
 

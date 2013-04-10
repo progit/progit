@@ -80,6 +80,11 @@ Falls Du einen neuen Begriff hinzufügen willst, so füge ihn hier in die alphab
 <td>-</td>
 </tr>
 <tr>
+<td>Branch</td>
+<td>Branch</td>
+<td>Verzweigung</td>
+</tr>
+<tr>
 <td>Diff</td>
 <td>Vergleich</td>
 <td>Diff</td>
@@ -237,7 +242,7 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Teilweise Übersetzung doppelt, Rechtschreibfehler oder Grammatikfehler</td>
+<td bgcolor="red">Review notwendig</td>
 </tr>
 <tr>
 <td>3.1</td>

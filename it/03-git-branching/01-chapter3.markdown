@@ -1,21 +1,21 @@
-# Git Branching, le diramazioni #
+# Diramazioni in Git #
 
-Praticamente ogni VCS ha un suo modo di supportare il branching. Branching significa distanziarsi dal flusso principale di sviluppo continuando a lavorare senza correre il rischio di fare pasticci sul flusso principale. In molti strumenti VCS questo è un processo in alcuni termini dispendioso, spesso richiede la creazione di una nuova copia della directory del codice sorgente che in grandi progetti può richiedere molto tempo.
+Praticamente ogni VCS ha un suo modo di supportare le diramazioni. Diramazione significa divergere dal flusso principale di sviluppo continuando a lavorare senza correre il rischio senza pasticciare il flusso principale. In molti strumenti VCS questo è un processo per certi versi dispendioso, spesso richiede la creazione di una nuova copia della directory del codice sorgente che in grandi progetti può richiedere molto tempo.
 
-Molte persone fanno riferimento al modello di branching di Git indicandola come la “killer feature“, e questo certamente separa Git dagli altri VCS. Perché è così speciale? Git crea ramificazioni in modo incredibilmente semplice e leggero, permettendo operazioni di branching praticamente istantanee come lo sono anche i passaggi da un ramo ad un altro. Diversamente da molti altri VCS, Git incoraggia un sistema di lavorare che sfrutta le ramificazioni e le unioni frequentemente, anche molte volte al giorno. Capire e padroneggiare questa funzionalità mette a disposizione uno strumento potente ed unico e può letteralmente modificare il modo in cui si lavora.
+Molte persone fanno riferimento al modello di diramazioni di Git indicandola come la “caratteristica vincente“, e questo certamente separa Git dagli altri VCS. Perché è così speciale? Git crea ramificazioni in modo incredibilmente semplice e leggero, permettendo operazioni di diramazione praticamente istantanee come lo sono anche i passaggi da un ramo ad un altro. Diversamente da molti altri VCS, Git incoraggia un metodo di lavoro che sfrutta le ramificazioni e le unioni frequentemente, anche molte volte al giorno. Capire e padroneggiare questa funzionalità mette a disposizione uno strumento potente ed unico e può letteralmente modificare il modo in cui si lavora.
 
-## Cos'è un branch o ramo ##
+## Cos'è un Ramo ##
 
-Per capire realmente come Git fa il branching, dobbiamo tornare un attimo indietro ed esaminare come Git immagazzina i dati. Come ricorderai dal Capitolo 1, Git non salva i dati in una serie di piccoli cambiamenti o delta file, ma in una serie di snapshot, istantanee.
+Per capire realmente come Git sfrutta le diramazioni, dobbiamo tornare un attimo indietro ed esaminare come Git immagazzina i dati. Come ricorderai dal Capitolo 1, Git non salva i dati come una serie di cambiamenti o codifiche delta, ma come una serie di istantanee.
 
-Quando fai un commit con Git, Git immagazzina i commit che contengono un puntatore allo snapshot del contenuto di ciò che hai parcheggiato, l'autore ed il messaggio, e zero o più puntatori al o ai commit che sono i diretti genitori del commit: zero genitori per il primo commit, un genitore per un commit normale, e più genitori per un commit che risulta da una fusione di due o più rami.
+Quando fai un commit con Git, Git immagazzina un oggetto commit che contiene un puntatore all'istantanea del contenuto di ciò che hai parcheggiato, l'autore ed il messaggio, e zero o più puntatori al o ai commit che sono i diretti genitori del commit: zero genitori per il primo commit, un genitore per un commit normale, e più genitori per un commit che risulta da una fusione di due o più rami.
 
 Per visualizzarli, assumiamo che tu abbia una directory con tre file, li parcheggi ed esegui il commit. Parcheggiando il checksum di ogni singolo file (abbiamo parlato dell'hash SHA-1 nel Capitolo 1), salviamo la versione del file nel repository Git (Git fa riferimento ad essi come blob), e aggiunge questi checksum all'area di staging, o di parcheggio:
 
 	$ git add README test.rb LICENSE
 	$ git commit -m 'initial commit of my project'
 
-Quando crei il commit lanciado `git commit`, Git calcola il checksum di ogni directory (in questo caso, solamente la directory radice del progetto) e salva questi tre oggetti nel repository Git. Git poi crea un commit dell'oggetto che ha i metadati ed un puntatore alla radice dell'albero del progetto in maniera da ricreare lo snapshot quando si vuole.
+Quando crei il commit lanciado `git commit`, Git calcola il checksum di ogni directory (in questo caso, solamente la directory radice del progetto) e salva questi tre oggetti nel repository Git. Git poi crea un commit dell'oggetto che ha i metadati ed un puntatore alla radice dell'albero del progetto in maniera da ricreare l'istantanea quando si vuole.
 
 Il tuo repository Git ora contiene cinque oggetti: un blob per i contenuti di ogni singolo file nell'albero, un albero che elenca i contenuti della directory e specifica i nomi dei file che devono essere salvati come blob, e un commit con il puntatore alla radice dell'albero e a tutti i metadati del commit. Concettualmente, i dati nel tuo repository Git assomigliano alla Figura 3-1. 
 
@@ -27,12 +27,12 @@ Se fai dei cambiamenti ed esegui il commit nuovamente, il commit successivo imma
 Insert 18333fig0302.png 
 Figura 3-2. Dati di Git per commit multipli.
 
-In Git un ramo (branch) è semplicemente un puntatore ad uno di questi commit. Il nome del ramo principale in Git è master. Quando inizi a fare dei commit, li stai dando al ramo master che punterà all'ultimo commit che hai eseguito. Ogni volta che invierai un commit, lui si sposterà in avanti automaticamente.
+In Git un ramo è semplicemente un puntatore ad uno di questi commit. Il nome del ramo principale in Git è master. Quando inizi a fare dei commit, li stai dando al ramo master che punterà all'ultimo commit che hai eseguito. Ogni volta che invierai un commit, lui si sposterà in avanti automaticamente.
 
 Insert 18333fig0303.png 
 Figura 3-3. Ramo che punta alla storia dei commit dei dati.
 
-Cosa succede se crei un nuovo ramo? Bene, fallo così creerai un nuovo puntatore su cui muoverti. Diciamo che crei un ramo chiamato testing. Lo farai con il comando `git branch`:
+Cosa succede se crei un nuovo ramo? Beh, farlo crea un nuovo puntatore che tu puoi muovere. Diciamo che crei un ramo chiamato testing. Lo farai con il comando `git branch`:
 
 	$ git branch testing
 
@@ -88,33 +88,33 @@ Figura 3-9. Le storie dei rami sono separate.
 
 Dato che un ramo in Git è semplicemente un file che contiene 40 caratteri di un checksum SHA-1 del commit al quale punta, i rami si possono creare e distruggere facilmente. Creare un nuovo ramo è semplice e veloce quanto scrivere 41 byte in un file (40 caratteri ed il fine riga).
 
-Questo è in netto contrasto con il sistema utilizzato da molti altri VCS, che funzionano copiano tutti i file di un progetto in una seconda directory. Questo può richiedere diversi secondi o minuti, a seconda delle dimensioni del progetto, mentre in Git è un processo sempre istantaneo.  Inoltre, dato che registreremo i genitori dei commit, trovare una base di unione per il merging è automaticamente già fatto ed è generalmente molto semplice da fare. Questa funzionalità aiuta ed incoraggia gli sviluppatori a creare e fare uso dei rami di sviluppo.
+Questo è in netto contrasto con il sistema utilizzato da molti altri VCS, che comporta la copia di tutti i file di un progetto in una seconda directory. Questo può richiedere diversi secondi o minuti, a seconda delle dimensioni del progetto, mentre in Git è un processo sempre istantaneo.  Inoltre, dato che registreremo i genitori dei commit, trovare la base adatta per la fusione è fatto automaticamente per noi ed è generalmente molto semplice da fare. Questa funzionalità aiuta ed incoraggia gli sviluppatori a creare e fare uso dei rami di sviluppo.
 
 Andiamo a vedere perché dovresti usarli.
 
-## Le basi de Branching e del Merging ##
+## Basi di Diramazione e Fusione ##
 
-Ora vediamo un po' di esempi di branching e merging in un flusso di lavoro che potresti seguire nella vita reale. Supponiamo questi passaggi:
+Ora vediamo un semplice esempio di diramazione e fusione in un flusso di lavoro che potresti seguire nella vita reale. Supponiamo questi passaggi:
 
-1.	Stai facendo un lavoro in un sito web.
-2.	Crei un ramo per una nuova storia su cui puoi lavorare.
+1.	Lavori su un sito web.
+2.	Crei un ramo per una nuova storia su cui stai lavorando.
 3.	Fai un po' di lavoro in questo nuovo ramo.
 
 A questo punto, ricevi una chiamata per un problema critico e hai bisogno subito di risolvere il problema. Farai in questo modo:
 
 1.	Tornerai indietro nel tuo ramo di produzione.
-2.	Creerai un ramo su cui aggiungere la soluzione.
+2.	Creerai un ramo in cui aggiungere la soluzione.
 3.	Dopo aver testato il tutto, unirai il ramo con la soluzione e lo metterai in produzione.
 4.	Salterai indietro alla tua storia originaria e continuerai con il tuo lavoro.
 
-### Branching base ###
+### Basi di Diramazione ###
 
 Primo, diciamo che stai lavorando sul tuo progetto e hai già un po' di commit (vedi Figura 3-10).
 
 Insert 18333fig0310.png 
 Figura 3-10. Una storia di commit corta e semplice.
 
-Hai deciso che lavorerai alla richiesta #53 di un qualsiasi sistema di tracciamento dei problemi che la tua compagnia utilizza. Per essere chiari, Git non si allaccia a nessun particolare sistema di tracciamento; ma dato che il problema #53 è un discorso su cui vuoi lavorare, creerai un nuovo ramo su cui lavorerai. Per creare un ramo e spostarsi direttamente in esso, puoi lanciare il comando `git checkout` con `-b`:
+Hai deciso che lavorerai alla richiesta #53 di un qualsiasi sistema di tracciamento dei problemi che la tua compagnia utilizza. Per essere chiari, Git non si allaccia a nessun particolare sistema di tracciamento; ma dato che il problema #53 è un argomento specifico su cui vuoi lavorare, creerai un nuovo ramo su cui lavorare. Per creare un ramo e spostarsi direttamente in esso, puoi lanciare il comando `git checkout` con `-b`:
 
 	$ git checkout -b iss53
 	Switched to a new branch "iss53"
@@ -127,7 +127,7 @@ Questa è la scorciatoia per:
 La Figura 3-11 illustra il risultato.
 
 Insert 18333fig0311.png 
-Figura 3-11. E' stato creato un nuovo ramo.
+Figura 3-11. É stato creato un nuovo ramo.
 
 Lavori sul tuo sito web e fai alcuni commit. Facendo questo muoverai il ramo `iss53` avanti, perché ti sei spostato in esso (infatti, il puntatore HEAD rimanda ad esso, vedi Figura 3-12):
 
@@ -139,14 +139,14 @@ Figura 3-12. Il ramo iss53 è stato spostato in avanti con il tuo lavoro.
 
 Ora ricevi la telefonata che ti avverte c'è un problema con il sito web, e devi risolverlo immediatamente. Con Git, non devi fare un deploy della tua soluzione con i cambiamenti del ramo `iss53` e non devi fare alcuno sforzo per riavvolgere le modifiche che hai fatto prima di applicare il fix a quello che è in produzione. Tutto ciò che devi fare è spostarti nel ramo master.
 
-Ovviamente, prima di fare questo, nota che se hai delle modifiche nella tua directory di lavoro o nell'area di parcheggio (staging) che vanno in conflitto con il ramo su cui ti vuoi spostare, Git non ti permetterà lo spostamento. E' meglio avere uno stato di lavoro pulito quando ci si sposta nei vari rami. Ci sono dei modi per aggirare questa cosa (namely, stashing e commit amending) che vedremo in seguito. Per ora, ha inviato in commit tutte le tue modifiche, così puoi spostarti nel ramo master:
+Ovviamente, prima di fare questo, nota che se hai delle modifiche nella tua directory di lavoro o nell'area di parcheggio (staging) che vanno in conflitto con il ramo su cui ti vuoi spostare, Git non ti permetterà lo spostamento. E' meglio avere uno stato di lavoro pulito quando ci si sposta nei vari rami. Ci sono dei modi per aggirare questa cosa (cioè, riporre e modificare i commit) che vedremo in seguito. Per ora, ha inviato tutte le tue modifiche, così puoi spostarti nel ramo master:
 
 	$ git checkout master
 	Switched to branch "master"
 
-A questo punto, la directory di lavoro del tuo progetto è esattamente come era prima che tu iniziassi a lavorare alla richiesta #53, e puoi concentrarti sulla soluzione al problema. Questo è un punto importante da ricordare: Git reimposta la tua directory di lavoro all'istantanea del commit eseguito quando ti sei spostato di ramo. Lui aggiunge, rimuove e modifica i file automaticamente per essere sicuro che la tua copia di lavoro sia identica al tuo ultimo commit in quel ramo.
+A questo punto, la directory di lavoro del tuo progetto è esattamente come era prima che tu iniziassi a lavorare alla richiesta #53, e puoi concentrarti sulla soluzione al problema. Questo è un punto importante da ricordare: Git reimposta la tua directory di lavoro all'istantanea del commit a cui punta il checkout. Lui aggiunge, rimuove e modifica i file automaticamente per essere sicuro che la tua copia di lavoro sia identica al tuo ultimo commit in quel ramo.
 
-Successivamente, hai una soluzione da creare. Crea un ramo hotfix su cui lavorare fin quando non è completo (vedi Figura 3-13): 
+Successivamente, hai un hotfix da creare. Crea un ramo hotfix su cui lavorare fin quando non è completo (vedi Figura 3-13): 
 
 	$ git checkout -b 'hotfix'
 	Switched to a new branch "hotfix"
@@ -156,7 +156,7 @@ Successivamente, hai una soluzione da creare. Crea un ramo hotfix su cui lavorar
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
 Insert 18333fig0313.png 
-Figura 3-13. Ramo hotfix branch basato sul ramo master.
+Figura 3-13. Ramo hotfix basato sul ramo master.
 
 Puoi avviare il tuo test, essere sicuro che la tua soluzione sia ciò che vuoi ottenere, e fonderla nel ramo master per inserirla nella fase di produzione. Puoi fare questo con il comando `git merge`:
 
@@ -167,7 +167,7 @@ Puoi avviare il tuo test, essere sicuro che la tua soluzione sia ciò che vuoi o
 	 README |    1 -
 	 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Avrai notato la frase "Fast forward" nel merge. Dato che il commit di unione punta direttamente a monte rispetto al commit in cui ci si trova, Git muove il puntatore in avanti. Per parafrasare in un altro modo, quando provi ad unire un commit con un commit che può essere portato al primo commit della storia, Git semplifica le cose muovendo il puntatore in avanti perché non c'è un lavoro differente da fondere insieme — questo sistema è chiamato "fast forward".
+Avrai notato la frase "Fast forward" nella fusione. Dato che il commit a cui puntava il ramo unito era direttamente a monte rispetto al commit in cui ci ti trovi, Git muove il puntatore in avanti. Per dirla in un altro modo, quando provi ad unire un commit con un commit che può essere portato al primo commit della storia, Git semplifica le cose muovendo il puntatore in avanti perché non c'è un lavoro differente da fondere insieme — questo sistema è chiamato "fast forward".
 
 I tuoi cambiamenti sono ora nell'istantanea del commit che punta al ramo `master`, e puoi utilizzare la tua modifica (vedi Figura 3-14).
 
@@ -193,9 +193,9 @@ Figura 3-15. Il ramo iss53 può andare avanti indipendentemente.
 
 Non è un problema non avere il lavoro svolto nel ramo `hotfix` nei file del ramo `iss53`. Se hai bisogno di inserire le modifiche, puoi fondere il ramo `master` nel ramo `iss53` lanciando `git merge master`, o puoi aspettare di integrare queste modifiche quando deciderai ti inserire il ramo `iss53` nel ramo `master`.
 
-### Merging base ###
+### Basi di Fusione ###
 
-Supponiamo che hai deciso che il lavoro sul discorso #53 sia completo e pronto per la fusione con il ramo `master`. Per fare questo, unirai il ramo `iss53`, esattamente come la fusione precedente del ramo `hotfix`. Tutto ciò che devi fare è spostarti nel ramo in cui vuoi fare la fusione e lanciare il comando `git merge`:
+Supponiamo tu abbia deciso che il lavoro sul problema #53 sia completo e pronto per la fusione con il ramo `master`. Per fare questo, unirai il ramo `iss53`, esattamente come la fusione precedente del ramo `hotfix`. Tutto ciò che devi fare è spostarti nel ramo in cui vuoi fare la fusione e lanciare il comando `git merge`:
 
 	$ git checkout master
 	$ git merge iss53
@@ -203,7 +203,7 @@ Supponiamo che hai deciso che il lavoro sul discorso #53 sia completo e pronto p
 	 README |    1 +
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Il risultato è leggermente differente rispetto alla fusione precedente di `hotfix`. In questo caso, Git ha eseguito la fusione in tre vie, usando le due istantanee (snapshot) che puntano all'estremità del ramo e al progenitore comune dei due. La Figura 3-16 evidenza i tre snapshot che Git usa per fare la fusione di questo caso.
+Il risultato è leggermente differente rispetto alla fusione precedente di `hotfix`. In questo caso, Git ha eseguito la fusione in tre punti, usando le due istantanee che puntano all'estremità del ramo e al progenitore comune dei due. La Figura 3-16 evidenza i tre snapshot che Git usa per fare la fusione di questo caso.
 
 Insert 18333fig0316.png 
 Figura 3-16. Git automaticamente identifica il miglior progenitore comune su cui basare la fusione dei rami.
@@ -219,7 +219,7 @@ Ora che il tuo lavoro è fuso, non hai più bisogno del ramo `iss53`. Puoi elimi
 
 	$ git branch -d iss53
 
-### Basi sui conflitti di fusione ###
+### Basi sui Conflitti di Fusione ###
 
 Occasionalmente, questo processo non è così semplice. Se modifichi la stessa parte di uno stesso file in modo differente nei due rami che stai fondendo assieme, Git non è in grado di unirli in modo pulito. Se il tuo fix per il problema #53 modifica la stessa parte di un file di `hotfix`, avrai un conflitto di fusione che assomiglierà a qualcosa di simile a questo:
 
@@ -250,7 +250,7 @@ Qualsiasi cosa che ha un conflitto di fusione e non è stato risolto è elencato
 	</div>
 	>>>>>>> iss53:index.html
 
-Questo significa che la versione in HEAD (del ramo principale, perché è dove ti sei spostato precedentemente quando hai avviato il comando di fusione) è la parte superiore del blocco (tutto quello che sta sopra a `=======`), mentre la versione nel ramo `iss53` sarà la parte sottostante. Per risolvere il conflitto, dovrai scegliere quale parte o altro o fondere i contenuti di persona. Per esempio, puoi risolvere il conflitto sostituendo l'intero blocco con questo:
+Questo significa che la versione in HEAD (del ramo principale, perché è dove ti sei spostato precedentemente quando hai avviato il comando di fusione) è la parte superiore del blocco (tutto quello che sta sopra a `=======`), mentre la versione nel ramo `iss53` sarà la parte sottostante. Per risolvere il conflitto, dovrai scegliere una parte o l'altra oppure fondere i contenuti di persona. Per esempio, puoi risolvere il conflitto sostituendo l'intero blocco con questo:
 
 	<div id="footer">
 	please contact us at email.support@github.com
@@ -282,7 +282,7 @@ Puoi avviare `git status` nuovamente per verificare che tutti i conflitti sono s
 	#	modified:   index.html
 	#
 
-Se sei soddisfatto di questo, e hai verificato che tutti i conflitti sono stati messi in stage, puoi dare `git commit` per terminare la fusione. Il messaggio del commit di default assomiglierà a qualcosa tipo:
+Se sei soddisfatto di questo, e hai verificato che tutti i conflitti sono stati messi in stage, puoi dare `git commit` per terminare la fusione. Il messaggio del commit predefinito assomiglierà a qualcosa tipo:
 
 	Merge branch 'iss53'
 
@@ -297,18 +297,18 @@ Se sei soddisfatto di questo, e hai verificato che tutti i conflitti sono stati 
 
 Puoi modificare questo messaggio con i dettagli su come hai risolto la fusione se pensi possa tornare utile ad altri che vedranno questa unione in futuro — perché hai fatto quel che hai fatto, se non era ovvio.
 
-## Amministrazione dei rami ##
+## Amministrazione dei Rami ##
 
-Ora che hai creato, fuso ed eliminato alcuni rami, diamo un occhio ad alcuni strumenti di amministrazione dei rami che risulteranno utili quando inizierai ad usare i rami di continuo.
+Ora che hai creato, fuso ed eliminato alcuni rami, diamo un'occhiata ad alcuni strumenti di amministrazione dei rami che risulteranno utili quando inizierai ad usare i rami di continuo.
 
-Il comando `git branch` fa molto di più che creare ed eliminare rami. Se lo si lancia senza argomenti, otterrai una semplice lista dei rami correnti:
+Il comando `git branch` fa molto di più che creare ed eliminare rami. Se lo lanci senza argomenti, otterrai una semplice lista dei rami correnti:
 
 	$ git branch
 	  iss53
 	* master
 	  testing
 
-Nota il carattere `*` che premette il ramo `master`: esso indica il ramo in cui ti trovi in questo momento. Significa che se esegui un commit a questo punto, la branca `master` avanzerà con il tuo lavoro. Per vedere l'ultimo commit di ogni ramo, puoi lanciare `git branch -v`:
+Nota il carattere `*` che precede il ramo `master`: esso indica il ramo in cui ti trovi in questo momento. Significa che se esegui un commit a questo punto, il ramo `master` avanzerà con il tuo lavoro. Per vedere l'ultimo commit di ogni ramo, puoi lanciare `git branch -v`:
 
 	$ git branch -v
 	  iss53   93b412c fix javascript issue
@@ -321,7 +321,7 @@ Un'altra opzione utile per vedere in che stato sono i tuoi rami è filtrare la l
 	  iss53
 	* master
 
-Dato che già hai fuso precedentemente `iss53`, lo vedrai nella tua lista.  Rami in questa lista senza l'`*` davanti possono generalmente essere eliminati con `git branch -d`; hai già incorporato il loro lavoro in un altro ramo, quindi non perderai niente.
+Dato che già hai fuso precedentemente `iss53`, lo vedrai nella tua lista.  Rami in questa lista senza lo `*` davanti possono generalmente essere eliminati con `git branch -d`; hai già incorporato il loro lavoro in un altro ramo, quindi non perderai niente.
 
 Per vedere tutti i rami che contengono un lavoro non ancora fuso nel ramo attuale, puoi lanciare `git branch --no-merged`:
 
@@ -334,61 +334,61 @@ Questo mostrerà gli altri tuoi rami. Dato che contengono lavoro che non è stat
 	error: The branch 'testing' is not an ancestor of your current HEAD.
 	If you are sure you want to delete it, run 'git branch -D testing'.
 
-Se vuoi realmente cancellare questo ramo e perdere il lavoro svolto, puoi forzare la cosa con `-D`, come avvisato dal messaggio di informazione.
+Se vuoi realmente cancellare questo ramo e perdere il lavoro svolto, puoi forzare la cosa con `-D`, come l'utile messaggio ti fa notare.
 
-## Lavorare con i rami di sviluppo ##
+## Flusso di Lavoro con le Ramificazioni ##
 
-Ora che hai le basi suoi rami e sulle fusioni, cosa puoi o dovresti fare con loro? In questa sezione, vedremo il modo di lavorare comune che questo sistema leggero di ramificazione rende possibile, così puoi decidere se incorporare Git nel tuo ciclo di sviluppo questo sistema di sviluppo.
+Ora che hai le basi sui rami e sulle fusioni, cosa puoi o dovresti fare con loro? In questa sezione, vedremo il modo di lavorare comune che questo sistema leggero di ramificazioni rende possibile, così puoi decidere se incorporarlo nel tuo ciclo di sviluppo questo sistema di sviluppo.
 
-### Rami di lunga durata ###
+### Rami di Lunga Durata ###
 
-Dato che Git usa un sistema semplice di fusione a tre vie, unire un ramo con un altro più volte dopo un lungo periodo è generalmente facile da fare.  Questo significa che puoi avere molti rami che sono sempre aperti e che puoi usare per differenti fai del tuo ciclo di sviluppo; puoi fare fusioni regolarmente da alcune di esse in altre.
+Dato che Git usa un sistema semplice di fusione a tre vie, unire un ramo con un altro più volte dopo un lungo periodo è generalmente facile da fare.  Questo significa che puoi avere molti rami che sono sempre aperti e che puoi usare per differenti fasi del tuo ciclo di sviluppo; puoi fare fusioni regolarmente da alcune di esse in altre.
 
-Alcuni sviluppatori Git hanno un flusso di lavoro che abbraccia questo approccio, come avere un unico codice che è interamente stabile nel loro ramo `master` — possibilmente solo codice che è o sarà rilasciato. Loro hanno poi un altro ramo parallelo chiamato sviluppo o successivo su cui lavorano o usano per i test di stabilità — non necessariamente sempre stabile, ma ogni volta che è in uno stato stabile, può essere fuso in `master`. E' usato per inserire "topic branch" (rami a tema o short-lived branche, come visto per il ramo `iss53`) nei rami principali quando sono pronti, per essere sicuri di aver passato tutti i test e non introdurre bug.
+Alcuni sviluppatori Git hanno un flusso di lavoro che abbraccia questo approccio, come avere un unico codice che è interamente stabile nel loro ramo `master` — possibilmente solo codice che è o sarà rilasciato. Essi hanno poi un altro ramo parallelo chiamato sviluppo o successivo su cui lavorano o usano per i test di stabilità — non necessariamente sempre stabile, ma ogni volta che è in uno stato stabile, può essere fuso in `master`. É usato per inserire rami a tema (rami di breve durata, come il precedente ramo `iss53`) nei rami principali quando sono pronti, per essere sicuri di aver passato tutti i test e non introdurre bug.
 
 In realtà, stiamo parlando dello spostamento dei puntatori sulla linea dei commit eseguiti. I rami stabili saranno alla base della storia dei tuoi commit e i rami di sviluppo saranno al di sopra della storia (vedi Figura 3-18).
 
 Insert 18333fig0318.png 
 Figura 3-18. I rami più stabili sono generalmente all'inizio della storia dei commit.
 
-E' generalmente facile pensare come un sistema di silos, dove una serie di commit gradualmente vanno in un contenitore più stabile quando sono bene testati (vedi Figura 3-19).
+É generalmente facile pensare come un sistema di silos, dove una serie di commit gradualmente vanno in un contenitore più stabile quando sono bene testati (vedi Figura 3-19).
 
 Insert 18333fig0319.png 
 Figura 3-19. Può essere di aiuto pensare ai rami come dei silos.
 
-Puoi mantenere questa cosa per una serie di livelli di stabilità. Alcuni progetti molto grandi hanno inoltre un ramo `proposed` (proposta) o `pu` (proposed updates) che integrano rami che non sono pronti per entrare nel ramo `master` o `next`. L'idea è che i tuoi rami sono a vari livelli di stabilità; quando raggiungono un maggior livello di stabilità, sono fusi nel ramo superiore.
+Puoi mantenere questa cosa per svariati livelli di stabilità. Alcuni progetti molto grandi hanno inoltre un ramo `proposte` o `ap` (aggiornamenti proposti) che integrano rami che non sono pronti per entrare nel ramo `master` o `successivo`. L'idea è che i tuoi rami sono a vari livelli di stabilità; quando raggiungono un maggior livello di stabilità, sono fusi nel ramo superiore.
 Ancora, avere rami di lunga durata non è necessario, ma a volte può essere utile, specialmente quando si ha a che fare con progetti molto grandi e complessi.
 
-### Rami a tema (Topic Branches) ###
+### Rami a Tema ###
 
-I rami a tema, o topic branches, come sempre, sono utili in progetti di ogni dimensione. Un ramo a tema è un ramo a breve vita che crei e usi per una singola funzionalità particolare o per un lavoro collegato. Questo è qualcosa che non hai mai fatto con un VCS prima perché è generalmente troppo dispendioso creare e fondere rami di sviluppo. Ma con Git è facile creare, lavorare, unire ed eliminare rami più volte al giorno.
+I rami a tema, tuttavia, sono utili in progetti di ogni dimensione. Un ramo a tema è un ramo di breve durata che crei e usi per una singola funzionalità particolare o per un lavoro collegato. Questo è qualcosa che non hai mai fatto con un VCS prima perché è generalmente troppo dispendioso creare e fondere rami di sviluppo. Ma con Git è facile creare, lavorare, unire ed eliminare rami più volte al giorno.
 
-Lo hai visto nell'ultima sezione per le branche `iss53` e `hotfix`. Hai fatto alcuni commit in questi rami, li hai eliminati direttamente dopo averli fusi nel ramo principale. Questa tecnica ti permette di cambiare contenuto velocemente e completamente — perché il tuo lavoro è separato in silos dove tutti i cambiamenti in quei rami avverranno li, è più facile vedere cosa è successo durante una revisione del codice o altro. Puoi lasciare li i cambiamenti per minuti, giorni o mesi e fonderli assieme quando sono pronti, indipendentemente dall'ordine con cui sono stati creati o su come si è lavorato.
+Lo hai visto nell'ultima sezione per i rami `iss53` e `hotfix`. Hai fatto alcuni commit in essi, li hai eliminati direttamente dopo averli fusi nel ramo principale. Questa tecnica ti permette di cambiare contenuto velocemente e completamente — perché il tuo lavoro è separato in silos dove tutti i cambiamenti in quei rami avverranno li, è più facile vedere cosa è successo durante una revisione del codice o altro. Puoi lasciare lì i cambiamenti per minuti, giorni o mesi e fonderli assieme quando sono pronti, indipendentemente dall'ordine con cui sono stati creati o su come si è lavorato.
 
 Considera un esempio di lavoro (su `master`), ti sposti in un altro ramo per un problema (`iss91`), lavori su questo per un po', ti sposti in una seconda branca per provare un altro modo per risolvere il problema (`iss91v2`), torni al ramo principale e lavori su questo per un poco, e poi vai in un altro ramo per fare un lavoro che non sei sicuro sia proprio una buona idea (ramo `dumbidea`). La storia dei tuoi commit assomiglierà a qualcosa come la Figura 3-20.
 
 Insert 18333fig0320.png 
 Figura 3-20. La storia dei tuoi commit con più rami.
 
-Ora, diciamo che hai deciso che ti piace la seconda soluzione per risolvere il problema (`iss91v2`); e hai mostrato il ramo `dumbidea` ai tuoi collaboratori, e si scopre una genialata. Puoi tornare al ramo `iss91` (perdere i commit C5 e C6) e fonderlo negli altri due. La tua storia assomiglierà alla Figura 3-21.
+Ora, diciamo che hai deciso che ti piace la seconda soluzione per risolvere il problema (`iss91v2`); e hai mostrato il ramo `dumbidea` ai tuoi collaboratori, e si scopre una genialata. Puoi gettare via il ramo `iss91` (perdendo i commit C5 e C6) e fondere gli altri due. La tua storia assomiglierà alla Figura 3-21.
 
 Insert 18333fig0321.png 
-Figura 3-21. La tua storia dopo che hai fatto la fusione in dumbidea e iss91v2.
+Figura 3-21. La tua storia dopo che hai fatto la fusione di dumbidea e iss91v2.
 
-E' importante ricordare che ogni volta che si fa una cosa simile le branche sono completamente separate. Quando crei rami o fai fusioni, tutto è eseguito nel tuo repository Git — nessuna comunicazione con il server è avvenuta.
+É importante ricordare che ogni volta che si fa una cosa simile i rami sono completamente separate. Quando crei rami o fai fusioni, tutto è eseguito nel tuo repository Git — nessuna comunicazione con il server è avvenuta.
 
-## Rami remoti ##
+## Rami Remoti ##
 
-I rami remoti (o Remote Branches) fanno riferimento allo stato dei tuoi rami sul repository remoto. Sono branche locali che non puoi muovere; sono spostate automaticamente ogni volta che tu fai una comunicazione in rete.  I rami remoti sono come dei segnalibri per ricordarti dove i rami sul tuo repository remoto erano quando tu sei connesso l'ultima volta.
+I rami remoti sono riferimenti allo stato dei rami sui tuoi repository remoti. Sono rami locali che non puoi muovere; sono spostate automaticamente ogni volta che fai una comunicazione di rete.  I rami remoti sono come dei segnalibri per ricordarti dove i rami sui tuoi repository remoti erano quando ti sei connesso l'ultima volta.
 
-Prendono la forma di `(remote)/(branch)`. Per esempio, se vuoi vedere cosa assomigliava il ramo `master` sul tuo ramo `origin` l'ultima volta che hai comunicato con lui, puoi controllare il ramo `origin/master`. Se stavi lavorando su un problema con un compagno ed hanno inviato un ramo `iss53`, potresti avere il ramo `iss53` in locale; ma il ramo sul server punta al commit `origin/iss53`.
+Prendono la forma di `(remote)/(branch)`. Per esempio, se vuoi vedere come appariva il ramo `master` sul tuo ramo `origin` l'ultima volta che hai comunicato con esso, puoi controllare il ramo `origin/master`. Se stavi lavorando su un problema con un compagno ed hanno inviato un ramo `iss53`, potresti avere il ramo `iss53` in locale; ma il ramo sul server punta al commit `origin/iss53`.
 
-Questo può un po' confondere, quindi vediamo un esempio. Diciamo che hai un server Git nella tua rete raggiungibile a `git.ourcompany.com`. Se fai una clonazione da qui, Git automaticamente lo nomina `origin` per te, effettua il pull di tutti i dati, crea un puntatore dove si trova il ramo `master` e lo nomina localmente `origin/master`; e non puoi spostarlo. Git inoltre ti da il tuo ramo `master` che parte dallo stesso punto del ramo originario `master`, così hai qualcosa da cui puoi inizierai a lavorare (vedi Figura 3-22).
+Questo può un po' confondere, quindi vediamo un esempio. Diciamo che hai un server Git nella tua rete raggiungibile a `git.ourcompany.com`. Se fai una clonazione da qui, Git automaticamente lo nomina `origin` per te, effettua il pull di tutti i dati, crea un puntatore dove si trova il ramo `master` e lo nomina localmente `origin/master`; e non puoi spostarlo. Git inoltre ti da il tuo ramo `master` che parte dallo stesso punto del ramo originario `master`, così hai qualcosa da cui puoi iniziare a lavorare (vedi Figura 3-22).
 
 Insert 18333fig0322.png 
 Figura 3-22. Un clone con Git fornisce un proprio ramo principale e un puntatore origin/master al ramo principale di origine.
 
-Se fai del lavoro sul tuo ramo principale locale, e, allo stesso temo, qualcuno ha inviato degli aggiornamento al ramo principale di `git.ourcompany.com`, allora la tua storia si muoverà in avanti in modo differente. Inoltre, mentre non hai contatti con il tuo server di partenza, il tuo puntatore `origin/master` non si sposterà (vedi Figura 3-23).
+Se fai del lavoro sul tuo ramo principale locale, e, allo stesso temo, qualcuno ha inviato degli aggiornamenti al ramo principale di `git.ourcompany.com`, allora la tua storia si muoverà in avanti in modo differente. Inoltre, mentre non hai contatti con il tuo server di partenza, il tuo puntatore `origin/master` non si sposterà (vedi Figura 3-23).
 
 Insert 18333fig0323.png 
 Figura 3-23. Lavorando in locale ed avendo qualcuno che ha inviato al server remoto qualcosa rende l'avanzamento delle storie differente.
@@ -398,21 +398,21 @@ Per sincronizzare il tuo lavoro, devi avviare il comando `git fetch origin`. Que
 Insert 18333fig0324.png 
 Figura 3-24. Il comando git fetch aggiorna i tuoi riferimenti remoti.
 
-Avendo più server remoti e volendo vedere come sono i rami remoti per questi progetti esterni, assumiamo che hai un altro server Git interno che è usato solamente per lo sviluppo di un tuo team. Questo server è `git.team1.ourcompany.com`. Puoi aggiungerlo come una nuova referenza remoto al tuo progetto su cui stai lavorando avviando il comando `git remote add` come visto al Capitolo 2. Nominalo `teamone`, che sarà l'abbreviazione per tutto l'URL (vedi Figura 3-25).
+Avendo più server remoti e volendo vedere come sono i rami remoti per questi progetti esterni, assumiamo che abbia un altro server Git interno che è usato solamente per lo sviluppo di un tuo team. Questo server è `git.team1.ourcompany.com`. Puoi aggiungerlo come una nuova referenza remoto al tuo progetto su cui stai lavorando avviando il comando `git remote add` come visto al Capitolo 2. Nominalo `teamone`, che sarà l'abbreviazione per tutto l'URL (vedi Figura 3-25).
 
 Insert 18333fig0325.png 
 Figura 3-25. Aggiungere un altro server remoto.
 
-Ora, puoi lanciare `git fetch teamone` per prelevare tutto quello che non possiedi dal server remoto `teamone`. Dato che il server è un sottoinsieme del server `origin` che già possiedi, Git non ricerca nessun dato ma imposta il ramo chiamato `teamone/master` a puntare al commit che `teamone` ha come suo ramo `master` (vedi Figura 3-26).
+Ora, puoi lanciare `git fetch teamone` per prelevare tutto quello che non possiedi dal server remoto `teamone`. Dato che il server ha un sottoinsieme dei dati del server `origin` che già possiedi, Git non va a prendere nessun dato ma imposta un ramo remoto chiamato `teamone/master` a puntare al commit che `teamone` ha come suo ramo `master` (vedi Figura 3-26).
 
 Insert 18333fig0326.png 
-Figura 3-26. Hai una referenza al ramo principale di teamone posizionato localmente.
+Figura 3-26. Hai un riferimento al ramo principale di teamone posizionato localmente.
 
-### Pushing ###
+### Invio ###
 
-Quando vuoi condividere un ramo con il mondo, hai bisogno di inviarlo su un server remoto su cui hai accesso in scrittura. I tuoi rami locali non sono automaticamente sincronizzati sul remoto in cui scrivi — devi esplicitamente dire di inviare il ramo che vuoi condividere. In questo modo, puoi usare rami privati per il lavoro che non vuoi condividere ed inviare solamente le branche su cui vuoi collaborazione.
+Quando vuoi condividere un ramo con il mondo, hai bisogno di inviarlo su di un server remoto su cui hai accesso in scrittura. I tuoi rami locali non sono automaticamente sincronizzati sul remoto in cui scrivi — devi esplicitamente dire di inviare il ramo che vuoi condividere. In questo modo, puoi usare rami privati per il lavoro che non vuoi condividere ed inviare solamente i rami su cui vuoi collaborare.
 
-Se hai un ramo chiamato `serverfix` su cui vuoi lavorare con altri, puoi inviarlo nello stesso modo con cui hai inviato la prima branca. Lancia `git push (remote) (branch)`:
+Se hai un ramo chiamato `serverfix` su cui vuoi lavorare con altri, puoi inviarlo nello stesso modo con cui hai inviato il primo ramo. Lancia `git push (remote) (branch)`:
 
 	$ git push origin serverfix
 	Counting objects: 20, done.
@@ -422,7 +422,7 @@ Se hai un ramo chiamato `serverfix` su cui vuoi lavorare con altri, puoi inviarl
 	To git@github.com:schacon/simplegit.git
 	 * [new branch]      serverfix -> serverfix
 
-Questa è una piccola abbreviazione. Git automaticamente espande il nome del ramo `serverfix` to `refs/heads/serverfix:refs/heads/serverfix`, questo significa, “Prendi il mio ramo locale serverfix e buttalo per l'aggiornamento sul ramo remoto serverfix.“ Vedremo in modo più approfondito la parte `refs/heads/` nel Capitolo 9, ma puoi generalmente lasciare perdere. Puoi anche fare `git push origin serverfix:serverfix`, che fa la stessa cosa — questo dice, “Prendi il mio serverfix e crea il serverfix remoto.“ Puoi usare questo formato per inviare rami locali in rami remoti che hanno nomi differenti. Se non vuoi chiamare il ramo remoto `serverfix`, puoi avviare `git push origin serverfix:awesomebranch` per inviare il tuo ramo locale `serverfix` in `awesomebranch` sul progetto remoto.
+Questa è una piccola abbreviazione. Git automaticamente espande il nome del ramo `serverfix` to `refs/heads/serverfix:refs/heads/serverfix`, questo significa, “Prendi il mio ramo locale serverfix ed invialo per aggiornare il ramo remoto serverfix.“ Vedremo in modo più approfondito la parte `refs/heads/` nel Capitolo 9, ma puoi generalmente lasciare perdere. Puoi anche fare `git push origin serverfix:serverfix`, che fa la stessa cosa — questo dice, “Prendi il mio serverfix e crea il serverfix remoto.“ Puoi usare questo formato per inviare rami locali in rami remoti che hanno nomi differenti. Se non vuoi chiamare il ramo remoto `serverfix`, puoi avviare `git push origin serverfix:awesomebranch` per inviare il tuo ramo locale `serverfix` in `awesomebranch` sul progetto remoto.
 
 La prossima volta che i tuoi collaboratori preleveranno dal server, avranno un riferimento di dove si trova la versione del server di `serverfix` nel ramo `origin/serverfix`:
 
@@ -434,7 +434,7 @@ La prossima volta che i tuoi collaboratori preleveranno dal server, avranno un r
 	From git@github.com:schacon/simplegit
 	 * [new branch]      serverfix    -> origin/serverfix
 
-E' importante notare che quando fai un prelievo di un nuovo ramo, non hai automaticamente un ramo locale modificabile. In altre parole, in questo caso, non hai un nuovo ramo `serverfix` — hai solamente il puntatore `origin/serverfix` che non puoi modificare.
+É importante notare che quando fai un prelievo di un nuovo ramo, non hai automaticamente un ramo locale modificabile. In altre parole, in questo caso, non hai un nuovo ramo `serverfix` — hai solamente il puntatore `origin/serverfix` che non puoi modificare.
 
 Per fondere questo lavoro nel ramo corrente, puoi avviare `git merge origin/serverfix`. Se vuoi il tuo ramo `serverfix` su cui poter lavorare, puoi basarlo sul ramo remoto:
 
@@ -444,11 +444,11 @@ Per fondere questo lavoro nel ramo corrente, puoi avviare `git merge origin/serv
 
 Questo ti fornirà un ramo locale da dove si trovava `origin/serverfix` su cui tu puoi iniziare a lavorare.
 
-### Il Tracking Branch ###
+### Rami di Monitoraggio ###
 
-Quando crei e ti sposti in un ramo locale partendo da un ramo remoto crei quello che viene chiamato tracking branch. Questi sono rami locali che hanno una relazione diretta con il ramo remoto. Se ti trovi su uno di questi rami e dai `git push`, Git automaticamente sa a quale server e ramo inviare i dati. Inoltre, avviando `git pull` mentre si è su uno di questi rami si prelevano tutte le referenze remote ed automaticamente si fa la fusione dei corrispondenti rami remoti.
+Quando crei e ti sposti in un ramo locale partendo da un ramo remoto crei quello che viene chiamato _ramo di monitoraggio_. Questi sono rami locali che hanno una relazione diretta con il ramo remoto. Se ti trovi su uno di questi rami e dai `git push`, Git automaticamente sa a quale server e ramo inviare i dati. Inoltre, avviando `git pull` mentre si è su uno di questi rami si prelevano tutte le referenze remote ed automaticamente si fa la fusione dei corrispondenti rami remoti.
 
-Quando cloni un repository, generalmente crea automaticamente un ramo `master` che traccia `origin/master`. Questo perché `git push` e `git pull` lavorano senza argomenti. Come sempre, puoi impostare altre traccie di branche che vuoi — quelle che non tracciano i rami su `origin` e non tracciano il ramo `master`. Il modo più semplice è l'esempio che hai già visto, lancia `git checkout -b [branch] [remotename]/[branch]`. Se hai una versione 1.6.2 o successiva di Git, puoi inoltre usare l'abbreviazione `--track`:
+Quando cloni un repository, generalmente crea automaticamente un ramo `master` che traccia `origin/master`. Questa è la ragione per cui `git push` e `git pull` lavorano senza argomenti dall'inizio. Tuttavia, puoi impostare altri rami di monitoraggio se vuoi — che non monitorano i rami su `origin` e non monitorano il ramo `master`. Il caso più semplice è l'esempio che hai già visto, lancia `git checkout -b [branch] [remotename]/[branch]`. Se hai una versione 1.6.2 o successiva di Git, puoi inoltre usare l'abbreviazione `--track`:
 
 	$ git checkout --track origin/serverfix
 	Branch serverfix set up to track remote branch refs/remotes/origin/serverfix.
@@ -462,9 +462,9 @@ Per impostare un ramo locale con un nome differente rispetto al remoto, puoi fac
 
 Ora il tuo ramo locale sf verrà automaticamente collegato a origin/serverfix.
 
-### Eliminare rami remoti ###
+### Eliminazione di Rami Remoti ###
 
-Supponiamo che stai lavorando con un ramo remoto — dici che tu e i tuoi collaboratori abbiate finito con una funzionalità e l'avete fusa nel ramo remoto `master` (o qualsiasi ramo stabile del progetto). Puoi eliminare un ramo remoto con una sintassi abbastanza ottusa `git push [remotename] :[branch]`. Se vuoi eliminare il ramo `serverfix`, lancia il seguente comando:
+Supponiamo che tu stia lavorando con un ramo remoto — diciamo che tu e i tuoi collaboratori avete finito con una funzionalità e l'avete fusa nel ramo remoto `master` (o qualsiasi ramo stabile del progetto). Puoi eliminare un ramo remoto con una sintassi abbastanza ottusa `git push [remotename] :[branch]`. Se vuoi eliminare il ramo `serverfix`, lancia il seguente comando:
 
 	$ git push origin :serverfix
 	To git@github.com:schacon/simplegit.git
@@ -472,23 +472,23 @@ Supponiamo che stai lavorando con un ramo remoto — dici che tu e i tuoi collab
 
 Boom. Non c'è più il ramo sul server. Tieni d'occhio questa pagina perché avrai bisogno di questo comando e dimenticherai facilmente la sintassi. Un modo per ricordare questo comando è richiamare la sintassi `git push [remotename] [localbranch]:[remotebranch]` che abbiamo visto precedentemente. Se lasci bianca la porzione `[localbranch]`, stai dicendo, “Non prendere niente dalla mia parte e rendila `[remotebranch]`.“
 
-## Rebasing##
+## Rifondazione ##
 
-In Git, ci sono due modi per integrare i cambiamenti da un ramo in un altro: il `merge` ed il `rebase`. In questa sezione imparerai cos'è il rebasing, come farlo, perché è uno strumento così fantastico, ed in quali casi puoi non volerlo utilizzare.
+In Git, ci sono due modi per integrare i cambiamenti da un ramo in un altro: il `merge` ed il `rebase`. In questa sezione imparerai cos'è la rifondazione, come farlo, perché è uno strumento così fantastico, ed in quali casi puoi non volerlo utilizzare.
 
-### Le basi del rebase ###
+### Le Basi del Rebase ###
 
 Se torni indietro in un precedente esempio alla sezione sulla fusione (vedi Figura 3-27), puoi vedere che hai separato il tuo lavoro e hai fatto dei commit in rami differenti.
 
 Insert 18333fig0327.png 
 Figura 3-27. L'inizio della divisione della storia dei commit.
 
-Il modo più semplice per integrare le due branche, come abbiamo visto, è il comando `merge`. Lui avvia una fusione a tre vie con le ultime due istantanee dei rami (C3 e C4) ed il più recente progenitore comune dei due (C2), creando un nuovo snapshot (e commit), come visualizzato in Figura 3-28.
+Il modo più semplice per integrare i due rami, come abbiamo visto, è il comando `merge`. Lui avvia una fusione a tre vie con le ultime due istantanee dei rami (C3 e C4) ed il più recente progenitore comune dei due (C2), creando un nuovo snapshot (e commit), come visualizzato in Figura 3-28.
 
 Insert 18333fig0328.png 
 Figura 3-28. Fusione di un ramo per integrare una storia divisa.
 
-Tuttavia, esiste un'altra possibilità: puoi prendere una patch del cambiamento che abbiamo introdotto in C3 ed applicarla all'inizio di C4. In Git, questo è chiamato _rebasing_. E con il comando `rebase`, puoi prendere tutti i cambiamenti che sono stati inviati su un ramo ed applicarli su un altro.
+Tuttavia, esiste un'altra possibilità: puoi prendere una patch del cambiamento che abbiamo introdotto in C3 ed applicarla all'inizio di C4. In Git, questo è chiamato _rifondazione_. E con il comando `rebase`, puoi prendere tutti i cambiamenti che sono stati inviati su un ramo ed applicarli su un altro.
 
 In questo esempio, digita quanto segue:
 
@@ -500,34 +500,34 @@ In questo esempio, digita quanto segue:
 Questi comandi funzionano andando al progenitore comune dei due rami (uno è quello in cui ti trovi e uno è quello su cui stai facendo il rebase), ottiene il diff di ogni commit del ramo in cui ti trovi, salva le informazioni in un file temporaneo, reimposta il ramo corrente allo stesso commit del ramo su cui stai facendo il rebase, e alla fine applica ogni singolo cambiamento. La Figura 3-29 illustra questo processo.
 
 Insert 18333fig0329.png 
-Figura 3-29. Rebasing dei cambiamenti introdotti in C3 in C4.
+Figura 3-29. Rifondazione dei cambiamenti introdotti in C3 in C4.
 
 A questo punto, puoi tornare indietro sul ramo principale e fare una fusione veloce (vedi Figura 3-30).
 
 Insert 18333fig0330.png 
-Figura 3-30. Fast-forwarding del ramo principale.
+Figura 3-30. Avanzamento veloce del ramo principale.
 
-Ora, lo snapshot puntato da C3' è esattamente lo stesso del puntatore nell'esempio di fusione. Non c'è differenza nel prodotto finale dell'integrazione, ma il rebasing crea una storia più pulita. Se esamini il log del ramo su cui è stato fatto il rebase, assomiglia ad una storia lineare: appare come se tutto il lavoro è stato fatto in serie, invece è stato fatto in parallelo.
+Ora, lo snapshot puntato da C3' è esattamente lo stesso del puntatore nell'esempio di fusione. Non c'è differenza nel prodotto finale dell'integrazione, ma la rifondazione crea una storia più pulita. Se esamini il log del ramo su cui è stato fatto il rebase, assomiglia ad una storia lineare: appare come se tutto il lavoro fosse stato fatto in serie, invece è stato fatto in parallelo.
 
 A volte, farai questa cosa per essere sicuro che i tuoi commit appaiano puliti nel ramo remoto — probabilmente in un progetto a cui stai cercando di contribuire ma che non mantieni. In questo caso, fai il tuo lavoro in  un ramo e poi fai il rebase in `origin/master` quando sei pronto per inviare le tue patch al progetto principale. In questo modo, gli amministratori non hanno da integrare niente — semplicemente applicano la fusione o fanno una fusione veloce.
 
-Nota che lo snapshot punta al commit finale, che è l'ultimo dei commit su cui è stato fatto il rebase per un rebase o il commit finale di fusione dopo un merge, è lo stesso snapshot — è solo la storia che è differente. Il rebasing applica i cambiamenti su una linea di lavoro in un'altra nell'ordine con cui sono stati introdotti, dove la fusione prende lo stato finale e fa una unione di essi.
+Nota che lo snapshot punta al commit finale, che è l'ultimo dei commit su cui è stato fatto il rebase per un rebase o il commit finale di fusione dopo un merge, è lo stesso snapshot — è solo la storia che è differente. La rifondazione applica i cambiamenti su una linea di lavoro in un'altra nell'ordine con cui sono stati introdotti, dove la fusione prende lo stato finale e fa un'unione di essi.
 
-### Rebase più interessante ###
+### Rebase Più Interessanti ###
 
-Puoi anche avere il tuo rebase su qualcosa che non è il ramo di rebase.  Prendi la storia della Figura 3-31, per esempio. Hai un ramo a tema (`server`) per aggiungere delle funzioni lato server al tuo progetto, e fai un commit. Poi, ti sposti su un altro ramo per creare dei cambiamenti sul lato client (`client`) e fai dei commit. Alla fine, torni sul tuo ramo server e fai degli altri commit.
+Puoi anche avere il tuo rebase su qualcosa che non è il ramo di rebase. Prendi la storia della Figura 3-31, per esempio. Hai un ramo a tema (`server`) per aggiungere delle funzioni lato server al tuo progetto, e fai un commit. Poi, ti sposti su un altro ramo per creare dei cambiamenti sul lato client (`client`) e fai dei commit. Alla fine, torni sul tuo ramo server e fai degli altri commit.
 
 Insert 18333fig0331.png 
 Figura 3-31. Una storia con un ramo a tema ed un altro ramo a tema da questo.
 
-Supponiamo che hai deciso che vuoi unire i tuoi cambiamenti lato client nella linea principale per un rilascio, ma non vuoi unire le modifiche lato server per testarle ulteriormente. Puoi prendere le modifiche sul client che non sono sul server (C8 e C9) ed applicarle nel ramo master usano l'opzione `--onto` di `git rebase`:
+Supponiamo che tu decida di voler unire i tuoi cambiamenti lato client nella linea principale per un rilascio, ma non vuoi unire le modifiche lato server per testarle ulteriormente. Puoi prendere le modifiche sul client che non sono sul server (C8 e C9) ed applicarle nel ramo master usano l'opzione `--onto` di `git rebase`:
 
 	$ git rebase --onto master server client
 
-Questo dice, “Prendi il ramo client, fai le patch a partire dall'ancora comune dei rami `client` e `server`, ed applicali in `master`.“ E' un po' complesso; ma il risultato, mostrato in Figura 3-32, è davvero interessante.
+Questo dice, “Prendi il ramo client, fai le patch a partire dall'ancora comune dei rami `client` e `server`, ed applicali in `master`.“ É un po' complesso; ma il risultato, mostrato in Figura 3-32, è davvero interessante.
 
 Insert 18333fig0332.png 
-Figura 3-32. Rebasing di un ramo a tema con un altro ramo a tema.
+Figura 3-32. Rifondazione di un ramo a tema con un altro ramo a tema.
 
 Ora puoi fare una fusione veloce con il ramo master (vedi Figura 3-33):
 
@@ -535,7 +535,7 @@ Ora puoi fare una fusione veloce con il ramo master (vedi Figura 3-33):
 	$ git merge client
 
 Insert 18333fig0333.png 
-Figura 3-33. Fusione fast-forward con il ramo master per includere i cambiamenti del ramo client.
+Figura 3-33. Fusione ad avanzamento veloce con il ramo master per includere i cambiamenti del ramo client.
 
 Diciamo che hai deciso di inviare il tutto nel ramo server. Puoi fare un rebase del ramo server in quello master senza dover controllarlo prima lanciando `git rebase [basebranch] [topicbranch]` — che controlla il ramo a tema (in questo caso, `server`) per te e gli applica il ramo base (`master`):
 
@@ -544,7 +544,7 @@ Diciamo che hai deciso di inviare il tutto nel ramo server. Puoi fare un rebase 
 Questo applica il tuo lavoro `server` sopra al tuo lavoro `master`, come in Figura 3-34.
 
 Insert 18333fig0334.png 
-Figura 3-34. Rebasing del ramo server sopra al ramo master.
+Figura 3-34. Rifondazione del ramo server sopra al ramo master.
 
 Poi, puoi fare una fusione veloce con il ramo base (`master`):
 
@@ -559,9 +559,9 @@ Puoi rimuovere i rami `client` e `server` perché tutto il lavoro è integrato e
 Insert 18333fig0335.png 
 Figura 3-35. Storia finale dei commit.
 
-### Il rischio del rebasing ###
+### I Rischio della Rifondazione ###
 
-Ahh, ma la bellezza del rebasing non è senza macchia, che può essere riassunta in una singola frase:
+Ahh, ma la bellezza della rifondazione non è senza macchia, che può essere riassunta in una singola frase:
 
 **Non fare il rebase dei commit che hai inviato in un repository pubblico.**
 
@@ -569,7 +569,7 @@ Se segui queste linea guida è ok. Se non lo farai, le persone ti odieranno e sa
 
 Quando fai il rebase di qualcosa, stai abbandonando i commit esistenti per crearne di nuovi che sono simili ma differenti. Se invii i commit da qualche parte e altri li hanno scaricati hanno basato il loro lavoro su questi, e tu riscrivi questi commit con `git rebase` e poi li invii nuovamente, i tuoi collaboratori dovranno fare una nuova fusione del loro lavoro e le cose saranno disordinate quando cercherai di scaricare il loro lavoro nel tuo.
 
-Vedi l'esempio su come funziona il rebase che hai reso pubblico e cosa può causare. Supponiamo che hai clonato un repository da un server centrale e poi hai fatto dei lavori. La storia dei tuoi commit assomiglierà alla Figura 3-36.
+Vedi l'esempio su come funziona il rebase che hai reso pubblico e cosa può causare. Supponiamo che abbia clonato un repository da un server centrale e poi abbia fatto dei lavori. La storia dei tuoi commit assomiglierà alla Figura 3-36.
 
 Insert 18333fig0336.png 
 Figura 3-36. Repository clonato e del lavoro basato su questo.
@@ -584,15 +584,15 @@ Poi, la persona che ha inviato il suo lavoro decide di tornare indietro e fa un 
 Insert 18333fig0338.png 
 Figura 3-38. Qualcuno ha inviato dei commit su cui è stato fatto il rebase, abbandonando i commit che su cui avevi basato il tuo lavoro.
 
-A questo punto devi fondere di nuovo il tuo lavoro, e tu lo avevi già fatto. Il rebasing modifica gli hash SHA-1 di questi commit così per Git sono come dei nuovi commit, mentre di fatto hai già il lavoro C4 nel tuo repository (vedi Figura 3-39).
+A questo punto devi fondere di nuovo il tuo lavoro, e tu lo avevi già fatto. La rifondazione modifica gli hash SHA-1 di questi commit così per Git sono come dei nuovi commit, mentre di fatto hai già il lavoro C4 nel tuo repository (vedi Figura 3-39).
 
 Insert 18333fig0339.png 
 Figura 3-39. Fai la fusione nello stesso lavoro con un nuovo commit di unione.
 
 Devi fondere questo lavoro in ogni punto così puoi rimanere aggiornato con l'altro sviluppatore in futuro. Dopo che hai fatto questo, la storia dei tuoi commit contiene sia i commit C4 e C4', che hanno un hash SHA-1 differente ma introducono lo stesso lavoro e hanno lo stesso messaggio per il commit. Se lanci `git log` quando la tua storia assomiglia a questo, vedrai i due commit che hanno lo stesso autore data e messaggio, e ciò confonde. Inoltre, Se invii questa storia al server, tu reinserisci nel server centrale questi commit che hanno subito un rebase, ciò confonde ulteriormente le persone.
 
-Se tratti il rebasing com un modo per essere pulito e lavorare con i commit prima di inviarli, e se fai il rebase solamente dei commit che non sono mai diventati pubblici, allora la cosa è ok. Se fai il rebase dei commit che sono già stati inviati e sono pubblici, e le persone hanno basato il loro lavoro su questi commit, allora farai parte delle frustrazioni e dei problemi di questi.
+Se tratti la rifondazione com un modo per essere pulito e lavorare con i commit prima di inviarli, e se fai il rebase solamente dei commit che non sono mai diventati pubblici, allora la cosa è ok. Se fai il rebase dei commit che sono già stati inviati e sono pubblici, e le persone hanno basato il loro lavoro su questi commit, allora potresti creare dei problemi di frustazione.
 
 ## Riassunto ##
 
-Abbiamo visto le basi di ramificazione e di fusione in Git. Dovresti sentirti a tuo agio nel creare e spostarti in nuovi rami, spostarti fra le varie branche e fondere i rami locali insieme. Dovresti essere ingrado anche di condividere i tuoi rami su un server condiviso, lavorare con altri su rami condivisi e fare il rebase delle tue branche prima di condividerle.
+Abbiamo visto le basi di diramazione e di fusione in Git. Dovresti sentirti a tuo agio nel creare e spostarti in nuovi rami, spostarti fra i vari rami e fondere i rami locali insieme. Dovresti essere ingrado anche di condividere i tuoi rami su un server condiviso, lavorare con altri su rami condivisi e fare il rebase dei tuoi rami prima di condividerli.

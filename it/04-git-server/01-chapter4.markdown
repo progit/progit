@@ -1,24 +1,24 @@
-# Git sul server #
+# Git sul Server #
 
-A questo punto, dovresti essere in grado di fare la maggior parte delle operazioni quotidiane che si fanno con Git. Tuttavia, per avere una qualsiasi collaborazione in Git, devi avere un repository remoto Git. Anche se puoi tecnicamente inviare e scaricare modifiche da repository individuali, procedere in questo modo è sconsigliato, perché se non si sta attenti, ci si può confondere abbastanza facilmente riguardo a quello su cui si sta lavorando. Inoltre, se vuoi che i tuoi collaboratori siano in grado di accedere al repository anche se non sei in linea — avere un repository comune più affidabile è spesso utile. Pertanto, il metodo preferito per collaborare con qualcuno, è quello di creare un repository intermedio a cui entrambi avete accesso per inviare e scaricare dati. Faremo riferimento a questo repository come un "server Git"; vedrai che in genere ospitare un repository Git ha bisogno di una piccola quantità di risorse, quindi raramente c'è bisogno di usare un intero server per esso.
+A questo punto, dovresti essere in grado di fare la maggior parte delle operazioni quotidiane che si fanno con Git. Tuttavia, per avere una qualsiasi collaborazione in Git, devi avere un repository remoto Git. Anche se puoi tecnicamente inviare e scaricare modifiche da repository individuali, procedere in questo modo è sconsigliato, perché se non si sta attenti, ci si può confondere abbastanza facilmente riguardo a quello su cui si sta lavorando. Inoltre, se vuoi che i tuoi collaboratori siano in grado di accedere al repository anche se non sei in linea — avere un repository comune più affidabile è spesso utile. Pertanto, il metodo preferito per collaborare con qualcuno, è quello di creare un repository intermedio a cui entrambi avete accesso per inviare e scaricare dati. Faremo riferimento a questo repository come un "server Git"; vedrai che in genere ospitare un repository Git richiede di una piccola quantità di risorse, quindi raramente c'è bisogno di usare un intero server per esso.
 
 Avviare un server Git è semplice. In primo luogo, si sceglie quali protocolli si desidera utilizzare per comunicare con il server. La prima sezione di questo capitolo descriverà i protocolli disponibili con i pro e i contro di ciascuno. La sezione seguente spiegherà alcune impostazioni tipiche nell'utilizzo di questi protocolli e come utilizzarle nel proprio server. Infine, se non si hanno problemi ad ospitare il proprio codice su un server esterno e se non si vuole dedicare del tempo alla creazione e al mantenimento di un proprio server, si prenderà in considerazione qualche opzione per l'hosting.
 
 Se non si ha interesse a gestire il proprio server, è possibile passare all'ultima sezione del capitolo per vedere alcune opzioni per la creazione di un account hosting e poi saltare al capitolo successivo, dove si discutono i flussi in ingresso e uscita in un ambiente distribuito per il controllo del codice sorgente. 
 
-Un repository remoto è in genere un _bare repository_ — cioè un repository Git che non ha la cartella di lavoro. Dato che il repository viene usato solo come un punto di collaborazione, non c'è ragione di avere uno snapshot estratto dal disco; sono solo dati di Git. In termini più semplici, un repository bare è il contenuto della directory `.git` del progetto e nient'altro.
+Un repository remoto è in genere un _bare repository_ — cioè un repository Git che non ha la directory di lavoro. Dato che il repository viene usato solo come un punto di collaborazione, non c'è ragione di avere un'instatanea sul disco; sono solo dati di Git. In termini più semplici, un bare repository è il contenuto della directory `.git` del progetto e nient'altro.
 
-## I protocolli ##
+## I Protocolli ##
 
-Git può utilizzare i maggiori quattro protocolli di rete per trasferire i dati: Local, Secure Shell (SSH), Git e HTTP. Qui vedremo cosa sono e in quali circostanze di base si vogliono (o non si vogliono) usare.
+Git può utilizzare i maggiori quattro protocolli di rete per trasferire i dati: Locale, Secure Shell (SSH), Git e HTTP. Qui vedremo cosa sono e in quali circostanze di base si vogliono (o non si vogliono) usare.
 
-E' importante notare che, ad eccezione dei protocolli HTTP, tutti questi richiedono che Git sia installato e funzionante sul server.
+É importante notare che, ad eccezione dei protocolli HTTP, tutti questi richiedono che Git sia installato e funzionante sul server.
 
-### Il protocollo Local ###
+### Il Protocollo Locale ###
 
-Quello più semplice è il _protocollo locale_ (Local protocol), in cui il repository remoto è in un'altra directory sul disco. Questo è spesso utilizzato se ciascuno nel tuo team ha un accesso ad un file system condiviso come NFS, o nel caso meno probabile tutti accedano allo stesso computer. Quest'ultimo caso non è l'ideale, perché tutte le istanze del codice nel repository risiederebbero sullo stesso computer, facendo diventare molto più probabile una perdita catastrofica dei dati.
+Quello più semplice è il _protocollo locale_, in cui il repository remoto è in un'altra directory sul disco. Questo è spesso utilizzato se ciascuno nel tuo team ha un accesso ad un file system condiviso come NFS, o nel caso meno probabile tutti accedano allo stesso computer. Quest'ultimo caso non è l'ideale, perché tutte le istanze del codice nel repository risiederebbero sullo stesso computer, facendo diventare molto più probabile una perdita catastrofica dei dati.
 
-Se disponi di un filesystem montato in comune, allora si può clonare, fare un push e un pull da un repository locale basato su file. Per clonare un repository come questo o per aggiungerne uno da remoto per un progetto esistente, utilizza il percorso al repository come URL. Ad esempio, per clonare un repository locale, è possibile eseguire qualcosa di simile a questo:
+Se disponi di un filesystem montato in comune, allora si può clonare, inviare e trarre da un repository locale basato su file. Per clonare un repository come questo o per aggiungerne uno da remoto per un progetto esistente, utilizza il percorso al repository come URL. Ad esempio, per clonare un repository locale, è possibile eseguire qualcosa di simile a questo:
 
 	$ git clone /opt/git/project.git
 
@@ -26,13 +26,13 @@ O questo:
 
 	$ git clone file:///opt/git/project.git
 
-Git funziona in modo leggermente diverso se si specifica esplicitamente `file://` all'inizio dell'URL. Se si specifica il percorso, Git tenta di utilizzare gli hardlink o copia direttamente i file necessari. Se specifichi `file://`, Git abilita i processi che normalmente si usano per trasferire i dati su una rete che sono generalmente un metodo molto meno efficace per il trasferimento dei dati. La ragione principale per specificare il prefisso `file://`  è quella in cui si desidera una copia pulita del repository senza riferimenti od oggetti estranei — in genere dopo l'importazione da un altro sistema di controllo di versione o qualcosa di simile (vedi il Capitolo 9 relativo ai task per la manutenzione). Qui useremo il percorso normale, perché così facendo è quasi sempre più veloce.
+Git funziona in modo leggermente diverso se si specifica esplicitamente `file://` all'inizio dell'URL. Se si specifica il percorso, Git tenta di utilizzare gli hardlink o copia direttamente i file necessari. Se specifichi `file://`, Git abilita i processi che normalmente si usano per trasferire i dati su una rete che sono generalmente un metodo molto meno efficace per il trasferimento dei dati. La ragione principale per specificare il prefisso `file://`  è quella in cui si desidera una copia pulita del repository senza riferimenti od oggetti estranei — in genere dopo l'importazione da un altro sistema di controllo di versione o qualcosa di simile (vedi il Capitolo 9 relativo ai compiti per la manutenzione). Qui useremo il percorso normale, perché così facendo è quasi sempre più veloce.
 
 Per aggiungere un repository locale a un progetto Git esistente, puoi eseguire qualcosa di simile a questo:
 
 	$ git remote add local_proj /opt/git/project.git
 
-Quindi, puoi fare eseguire i push e i pull da remoto come se si stesse lavorando su una rete.
+Quindi, puoi fare inviare e trarre da quel remoto come se si stesse lavorando su una rete.
 
 #### I Pro ####
 
@@ -44,11 +44,11 @@ Questa è anche una interessante possibilità per recuperare rapidamente il lavo
 
 Il contro di questo metodo è che l'accesso condiviso è generalmente più difficile da impostare e da raggiungere da più postazioni rispetto ad un normale accesso di rete. Se vuoi fare un push dal computer quando sei a casa, devi montare il disco remoto, e può essere difficile e lento rispetto ad un accesso di rete.
 
-E' anche importante ricordare che questa non è necessariamente l'opzione più veloce, se utilizzi un mount condiviso di qualche tipo. Un repository locale è veloce solo se si dispone di un accesso veloce ai dati. Un repository su NFS è spesso più lento di un repository via SSH sullo stesso server, permettendo a Git di andare con dischi locali su ogni sistema.
+É anche importante ricordare che questa non è necessariamente l'opzione più veloce, se utilizzi un mount condiviso di qualche tipo. Un repository locale è veloce solo se si dispone di un accesso veloce ai dati. Un repository su NFS è spesso più lento di un repository via SSH sullo stesso server, permettendo a Git di andare con dischi locali su ogni sistema.
 
-### Il protocollo SSH ###
+### Il Protocollo SSH ###
 
-Probabilmente il protocollo più utilizzato per Git è SSH. Questo perché un accesso via SSH ad un server è già impostato in molti posti — e se non c'è, è facile crearlo. SSH inoltre è l'unico protocollo di rete in cui puoi facilmente leggere e scrivere. Gli altri due protocolli (HTTP e Git) sono generalmente solo di lettura, quindi se li hai a disposizione per la massa, hai comunque bisogno di SSH per i tuoi comandi di scrittura. SSH è inoltre un protocollo di rete con autenticazione; e dato che è dappertutto, è generalmente facile da configurare e usare.
+Probabilmente il protocollo più utilizzato per Git è SSH. Questo perché un accesso via SSH ad un server è già impostato in molti posti — e se non c'è, è facile crearlo. SSH inoltre è l'unico protocollo di rete in cui puoi facilmente leggere e scrivere. Gli altri due protocolli (HTTP e Git) sono generalmente solo di lettura, quindi se li hai a disposizione per la massa generica, hai comunque bisogno di SSH per i tuoi comandi di scrittura. SSH è inoltre un protocollo di rete con autenticazione; e dato che è dappertutto, è generalmente facile da configurare e usare.
 
 Per clonare un repository Git via SSH, puoi specificare un URL ssh:// come questo:
 
@@ -62,28 +62,28 @@ Puoi anche non specificare l'utente, e Git utilizzerà l'utente con il quale sei
 
 #### I Pro ####
 
-I pro nell'usare SSH sono tanti. Primo, se vuoi avere un'autenticazione con l'accesso in scrittura al tuo repository su una rete devi usarlo. Secondo, SSH è relativamente semplice da impostare — il demone SSH è ovunque, molti amministratori di rete hanno esperienza con lui e molte distribuzioni di OS sono impostate con lui o hanno dei strumenti per amministrarlo. Poi, l'accesso via SSH è sicuro — tutti i dati trasferiti sono criptati ed autenticati. Infine, come i protocolli Git e Local, SSH è efficiente, rende i dati il più compressi possibili prima di trasferirli.
+I pro nell'usare SSH sono tanti. Primo, se vuoi avere un'autenticazione con l'accesso in scrittura al tuo repository su una rete devi usarlo. Secondo, SSH è relativamente semplice da impostare — il demone SSH è ovunque, molti amministratori di rete hanno esperienza con lui e molte distribuzioni di OS sono impostate con lui o hanno dei strumenti per amministrarlo. Poi, l'accesso via SSH è sicuro — tutti i dati trasferiti sono criptati ed autenticati. Infine, come i protocolli Git e Local, SSH è efficiente, rende i dati il più compressi possibile prima di trasferirli.
 
-#### I contro ####
+#### I Contro ####
 
-L'aspetto negativo di SSH è che non puoi dare accesso anonimo al tuo repository tramite lui. Le persone devono avere un accesso alla macchina tramite SSH, anche per la sola lettura, ciò rende SSH poco appetibile per i progetti open source. Se lo stai usando solo con la rete della tua azienda, SSH può essere l'unico protocollo con cui avrai a che fare. Se vuoi fornire un accesso anonimo di sola lettura al tuo progetto, devi impostare un SSH per i tuoi push ma qualcos'altro per per permettere ad altri di fare il pull.
+L'aspetto negativo di SSH è che non puoi dare accesso anonimo al tuo repository tramite lui. Le persone devono avere un accesso alla macchina tramite SSH, anche per la sola lettura, ciò rende SSH poco appetibile per i progetti open source. Se lo stai usando solo con la rete della tua azienda, SSH può essere l'unico protocollo con cui avrai a che fare. Se vuoi fornire un accesso anonimo di sola lettura al tuo progetto, devi impostare un SSH per i tuoi invii ma qualcos'altro per per permettere ad altri di trarre i dati.
 
-### Il protocollo Git ###
+### Il Protocollo Git ###
 
-Poi c'è il protocollo Git. Questo è un demone speciale che è incluso nel pacchetto Git; è in ascolto su una porta dedicata (9418) e fornisce un servizio simile al protocollo SSH, ma assolutamente senza autenticazione. Per permettere ad un repository di essere servito tramite il protocollo Git, devi creare un file `git-export-daemon-ok` — il demone non serve il repository senza l'inserimento di questo file — altrimenti non ci sarebbe sicurezza. O il repository Git è disponibile per chiunque voglia copiarlo o altrimenti niente. Questo significa che generalmente non si fa il push tramite questo protocollo. Puoi abilitare l'accesso al push; ma data la mancanza di autenticazione, se abiliti l'accesso di scrittura, chiunque trovi su internet l'URL al progetto può fare il push. E' sufficiente dire che questo è raro.
+Poi c'è il protocollo Git. Questo è un demone speciale che è incluso nel pacchetto Git; è in ascolto su una porta dedicata (9418) e fornisce un servizio simile al protocollo SSH, ma assolutamente senza autenticazione. Per permettere ad un repository di essere servito tramite il protocollo Git, devi creare un file `git-export-daemon-ok` — il demone non serve il repository senza l'inserimento di questo file — altrimenti non ci sarebbe sicurezza. O il repository Git è disponibile per chiunque voglia copiarlo o altrimenti niente. Questo significa che generalmente non si invia tramite questo protocollo. Puoi abilitare l'accesso all'invio; ma data la mancanza di autenticazione, se abiliti l'accesso di scrittura, chiunque trovi su internet l'URL al progetto può inviare dati. Basti dire che questo è raro.
 
-#### I pro ####
+#### I Pro ####
 
-Il protocollo Git è il protocollo disponibile più veloce. Se hai un grande traffico per un tuo progetto pubblico o hai un progetto molto grande che non richiede un'autenticazione per l'accesso in lettura, è esattamente quello che ciò che vorrai impostare per un demone Git per fornire il progetto. Usa lo stesso meccanismo di trasferimento dei dati del protocollo SSH ma senza criptazione e autenticazione.
+Il protocollo Git è il protocollo disponibile più veloce. Se hai un grande traffico per un tuo progetto pubblico o hai un progetto molto grande che non richiede un'autenticazione per l'accesso in lettura, è probabile che vorrai impostare per un demone Git per servire il progetto. Usa lo stesso meccanismo di trasferimento dei dati del protocollo SSH ma senza criptazione e autenticazione.
 
-#### I contro ####
+#### I Contro ####
 
-Il rovescio della medaglia è che al protocollo Git manca l'autenticazione.  E' generalmente non desiderabile avere l'accesso al progetto solo tramite il protocollo Git. Generalmente, si utilizzano insieme un accesso SSH per gli sviluppatori che hanno permessi di scrittura e per tutti gli altri si usa l'accesso in sola lettura `git://`.
-Inoltre è probabilmente il protocollo più difficile da configurare. Deve avviare un proprio demone, che è personale — vedremo le impostazioni nella sezione “Gitosis” di questo capitolo — richiede la configurazione di `xinetd` o simili, che non è una passeggiata. Inoltre richiede un accesso tramite il firewall alla porta 9418, che non è una porta standard che i firewall delle aziende permettono di usare. Un firewall di una grande azienda spesso blocca questa porta.
+Il rovescio della medaglia è che al protocollo Git manca l'autenticazione.  É generalmente non desiderabile avere l'accesso al progetto solo tramite il protocollo Git. Generalmente, si utilizzano insieme un accesso SSH per gli sviluppatori che hanno permessi di scrittura e per tutti gli altri si usa l'accesso in sola lettura `git://`.
+Inoltre è probabilmente il protocollo più difficile da configurare. Deve avviare un proprio demone, che è particolare — vedremo le impostazioni nella sezione “Gitosis” di questo capitolo — richiede la configurazione di `xinetd` o simili, il che non è una passeggiata. Inoltre richiede un accesso tramite il firewall alla porta 9418, che non è una porta standard che i firewall delle aziende permettono di usare sempre. Un firewall di una grande azienda spesso blocca questa sconosciuta porta.
 
-### Il protocollo HTTP/S ###
+### Il Protocollo HTTP/S ###
 
-Infine abbiamo il protocollo HTTP. Il bello del protocollo HTTP o HTTPS è la semplicità nel configurarlo. Fondamentalmente, tutto quello che devi fare è mettere solo il repository Git sulla document root HTTP ed impostare uno specifico gancio `post-update` ed il gioco è fatto (vedi il Capitolo 7 per i dettagli sugli agganci Git). A questo punto, chiunque in grado di accedere al server web sotto cui hai messo il repository può clonare il repository. Per permettere l'accesso in lettura al repository via HTTP, fai una cosa simile:
+Infine abbiamo il protocollo HTTP. Il bello del protocollo HTTP o HTTPS è la semplicità nel configurarlo. Fondamentalmente, tutto quello che devi fare è mettere solo il repository Git sulla document root HTTP ed impostare uno specifico gancio `post-update` ed il gioco è fatto (vedi il Capitolo 7 per i dettagli sui ganci Git). A questo punto, chiunque in grado di accedere al server web sotto cui hai messo il repository può clonare il repository. Per permettere l'accesso in lettura al repository via HTTP, fai una cosa simile:
 
 	$ cd /var/www/htdocs/
 	$ git clone --bare /path/to/git_project gitproject.git
@@ -91,15 +91,15 @@ Infine abbiamo il protocollo HTTP. Il bello del protocollo HTTP o HTTPS è la se
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Questo è quanto. L'aggancio `post-update` che è messo assieme a Git di default avvia il comando appropriato (`git update-server-info`) per far lavorare correttamente il prelievo e la clonazione HTTP. Questo comando è avviato quando lanci un push al tuo repository via SSH; poi, possono clonarlo con una cosa simile:
+Questo è quanto. L'aggancio `post-update` che è messo assieme a Git di default avvia il comando appropriato (`git update-server-info`) per far lavorare correttamente il prelievo e la clonazione HTTP. Questo comando è avviato quando lanci un invio al tuo repository via SSH; poi, altre persone possono clonarlo con una cosa simile:
 
 	$ git clone http://example.com/gitproject.git
 
-In questo caso particolare, stiamo usando il path `/var/www/htdocs` che è comunemente presente nelle installazioni di Apache, ma puoi usare un qualsiasi altro server web — basta mettere la base del repository nella path. I dati di Git sono forniti come file statici (vedi Capitolo 9 per dettagli su come sono esattamente forniti).
+In questo caso particolare, stiamo usando il percorso `/var/www/htdocs` che è comunemente presente nelle installazioni di Apache, ma puoi usare un qualsiasi altro server web — basta mettere la base del repository nel percorso. I dati di Git sono forniti come file statici (vedi Capitolo 9 per dettagli su come sono esattamente forniti).
 
-E' anche possibile fare il push con Git via HTTP, la tecnica non è molto utilizzata e richiede di impostare un complesso WebDAV. Dato che è raramente utilizzato, non lo vedremo in questo libro. Se sei interessato nel fare il push tramite protocollo HTTP, puoi leggere qualcosa su come preparare un repository qui `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. Una cosa carina per fare il push con Git via HTTP è utilizzare un server WebDAV, senza alcune specifiche funzionalità di Git; così, puoi usare questa funzionalità se il tuo hosting web fornisce un supporto WebDAV per scrivere aggiornamenti al tuo sito web.
+É anche possibile fare l'invio con Git via HTTP, la tecnica non è molto utilizzata e richiede di impostare un complesso WebDAV. Dato che è raramente utilizzato, non lo vedremo in questo libro. Se sei interessato ad usare i protocolli HTTP-push, puoi leggere su come preparare un repository a questo scopo a `http://www.kernel.org/pub/software/scm/git/docs/howto/setup-git-server-over-http.txt`. Una cosa carina dell'invio con Git via HTTP è utilizzare un qualsiasi server WebDAV, senza alcune specifiche funzionalità di Git; così, puoi usare questa funzionalità se il tuo hosting web fornisce un supporto WebDAV per scrivere aggiornamenti al tuo sito web.
 
-#### I pro ####
+#### I Pro ####
 
 Il bello di usare il protocollo HTTP è che è facile da configurare. Con pochi comandi si può dare facilmente al mondo un accesso in lettura al tuo repository Git. Porta via solo pochi minuti. Inoltre il protocollo HTTP non richiede tante risorse al tuo server. Perché in genere è utilizzato un server statico HTTP per fornire i dati, un server Apache in media può servire migliaia di file al secondo — è difficile sovraccaricare anche un piccolo server.
 
@@ -107,11 +107,11 @@ Puoi anche fornire un accesso in sola lettura via HTTPS, il che significa che pu
 
 Un'altra cosa carina è che l'HTTP è un protocollo comunissimo che i firewall delle aziende in genere configurano per permettere il traffico tramite la sua porta.
 
-#### I contro ####
+#### I Contro ####
 
-L'altra faccia della medaglia nel fornire il tuo repository via HTTP è che è relativamente inefficiente per il client. In genere porta via molto tempo per clonare o scaricare dal repository, e si ha spesso un sovraccarico della rete tramite il trasferimento di volumi via HTTP rispetto ad altri protocolli di rete. Non essendo abbastanza intelligente da trasferire solo i dati di cui hai bisogno — non c'è un lavoro dinamico dalla parte del server in questa transazione — il protocollo HTTP viene a volte chiamato protocollo _dumb_. Per maggiori informazioni sulle differenze nell'efficienza tra il protocollo HTTP e gli altri, vedi il Capitolo 9.
+L'altra faccia della medaglia nel fornire il tuo repository via HTTP è che è relativamente inefficiente per il client. In genere porta via molto tempo per clonare o scaricare dal repository, e si ha spesso un sovraccarico della rete tramite il trasferimento di volumi via HTTP rispetto ad altri protocolli di rete. Non essendo abbastanza intelligente da trasferire solo i dati di cui hai bisogno — non c'è un lavoro dinamico dalla parte del server in questa transazione — il protocollo HTTP viene spesso definito un protocollo _stupido_. Per maggiori informazioni sulle differenze nell'efficienza tra il protocollo HTTP e gli altri, vedi il Capitolo 9.
 
-## Avere Git su un Server ##
+## Ottenere Git su di un Server ##
 
 Per inizializzare un qualsiasi server Git, devi esportare un repository esistente in un nuovo repository di soli dati — cioè un repository che non contiene la directory di lavoro. Questo è generalmente molto semplice da fare.
 Per clonare il tuo repository per creare un nuovo repository di soli dati, devi avviare il comando clone con l'opzione `--bare`. Convenzionalmente, un repository di soli dati in finisce in `.git`, ad esempio:
@@ -119,17 +119,17 @@ Per clonare il tuo repository per creare un nuovo repository di soli dati, devi 
 	$ git clone --bare my_project my_project.git
 	Initialized empty Git repository in /opt/projects/my_project.git/
 
-L'output di questo comando confonde un pochino. Fondamentalmente `clone` è un `git init` e non un `git fetch`, abbiamo visto alcuni output nella parte su `git init` nel creare una directory vuota. L'oggetto attuale di trasferimento non da output, ma funziona. Ora dovresti avere una copia della directory dei dati di Git nella directory `my_project.git`.
+L'output di questo comando confonde un pochino. Dato che `clone` è un `git init` quindi un `git fetch`, vediamo parte dell'output dalla parte `git init`, il quale crea una directory vuota. L'effecttivo trasferimento dell'oggetto non fornisce output, ma avviene. Ora dovresti avere una copia della directory dei dati di Git nella directory `my_project.git`.
 
 La stessa cosa la si può ottenere con
 
 	$ cp -Rf my_project/.git my_project.git
 
-Ci sono solo poche differenze nel file di configurazione; ma per tua conoscenza, questo copia le stesse cose. Lui prende il repository Git da solo, senza la directory di lavoro e crea una directory specifica per i soli dati.
+Ci sono solo un paio di differenze minori nel file di configurazione; ma per il tuo scopo, è quasi la stessa cosa. Lui prende il repository Git da solo, senza la directory di lavoro e crea una directory specifica per i soli dati.
 
-### Mettere il repository di soli dati su un server ###
+### Mettere il Repository Soli Dati su un Server ###
 
-Ora che hai la copia dei soli dati del tuo repository, tutto quello che devi fare è mettere su un server e configurare il protocollo. Diciamo che hai impostato un server chiamato `git.example.com` su cui hai anche un accesso SSH e vuoi salvare tutti i tuoi repository Git nella directory `/opt/git`. Puoi impostare il tuo nuovo repository copiandoci sopra i dati del repository:
+Ora che hai la copia dei soli dati del tuo repository, tutto quello che devi fare è metterli su un server e configurare il protocollo. Diciamo che hai impostato un server chiamato `git.example.com` su cui hai anche un accesso SSH e vuoi salvare tutti i tuoi repository Git nella directory `/opt/git`. Puoi impostare il tuo nuovo repository copiandoci sopra i dati del repository:
 
 	$ scp -r my_project.git user@git.example.com:/opt/git
 
@@ -137,7 +137,7 @@ A questo punto, gli altri utenti che hanno un accesso SSH allo stesso server con
 
 	$ git clone user@git.example.com:/opt/git/my_project.git
 
-Se gli utenti che entrano in SSH su un server e hanno l'accesso in scrittura alla directory `/opt/git/my_project.git`, avranno automaticamente la possibilità di inviare push. Git automaticamente aggiunge al repository i permessi di scrittura al gruppo se darai il comando `git init` con l'opzione `--shared`.
+Se gli utenti entrano in SSH su di un server ed hanno l'accesso in scrittura alla directory `/opt/git/my_project.git`, avranno automaticamente la possibilità di inviare dati. Git automaticamente aggiunge al repository i permessi di scrittura al gruppo se darai il comando `git init` con l'opzione `--shared`.
 
 	$ ssh user@git.example.com
 	$ cd /opt/git/my_project.git
@@ -145,19 +145,19 @@ Se gli utenti che entrano in SSH su un server e hanno l'accesso in scrittura all
 
 Hai visto quanto è semplice creare un repository Git, creare una versione di soli dati e posizionarlo su un server dove tu e i tuoi collaboratori avete un accesso SSH. Ora siete pronti per collaborare sullo stesso progetto.
 
-E' importante notare che questo è letteralmente tutto ciò di cui hai bisogno per avviare un server Git dove vari utenti hanno accesso — semplicemente aggiungi un account SSH sul server e metti un repository di dati da qualche parte dove i tuoi utenti hanno un accesso in lettura e anche in scrittura. Sei pronto per procedere — non hai bisogno di niente altro.
+É importante notare che questo è letteralmente tutto ciò di cui hai bisogno per avviare un server Git dove vari utenti hanno accesso — semplicemente aggiungi un account SSH sul server e metti un repository di dati da qualche parte dove i tuoi utenti hanno un accesso in lettura e anche in scrittura. Sei pronto per procedere — non hai bisogno di niente altro.
 
-Nelle prossime sezioni, vedrai come un'installazione più sofisticata. Questa discussione includerà non solo la creazione di account utenti per ogni utente, l'aggiunta di un accesso in lettura pubblico ai repository, configurare delle interfaccie web, usare Gitosis ma molto altro. Comunque, tieni in mente che per collaborare con altre persone su un progetto privato, tutto quello di cui hai bisogno è un server SSH e i dati del repository.
+Nelle prossime sezioni, vedrai come adattarsi ad un'installazione più sofisticata. Questa discussione includerà non dover creare account utente per ogni utente, l'aggiunta di un accesso in lettura pubblico ai repository, configurare delle interfaccie web, usare Gitosis e molto altro. Comunque, tieni in mente che per collaborare con altre persone su un progetto privato, tutto quello di cui hai bisogno è un server SSH e i dati del repository.
 
-### Configurazione base ###
+### Piccole Configurazioni ###
 
-Se hai poche risorse stai provando Git nella tua organizzazione e hai pochi utenti, le cose sono semplici. Una delle cose più complicate di configurazione di un server Git è l'amministrazione degli utenti. Se vuoi alcuni repositori in sola lettura per alcuni utenti e l'accesso in lettura e scrittura per altri, accessi e permessi possono essere un po' complicati da configurare.
+Se hai poche risorse o stai provando Git nella tua organizzazione e hai pochi sviluppatori, le cose possono essere semplici per te. Una delle cose più complicate del configurare un server Git è l'amministrazione degli utenti. Se vuoi alcuni repository in sola lettura per alcuni utenti e l'accesso in lettura e scrittura per altri, accessi e permessi possono essere un po' complicati da configurare.
 
 #### Accesso SSH ####
 
 Se hai già un server dove tutti i tuoi sviluppatori hanno un accesso SSH, è generalmente facile impostare qui il tuo primo repository, perché la gran parte del lavoro è già stato fatto (come abbiamo visto nell'ultima sezione). Se vuoi un controllo più articolato sugli accessi e suoi permessi sul tuo repository, puoi ottenerli con i normali permessi del filesystem del sistema operativo del server che stai utilizzando.
 
-Se vuoi mettere il tuo repository su un server che non ha account per ciascun utente del tuo team e vuoi l'accesso in scrittura per alcuni, allora devi impostare un accesso SSH. Se assumiamo che già hai un server che fa questo, hai già un server SSH installato, questo diventerà il sistema di accesso.
+Se vuoi mettere i tuoi repository su un server che non ha account per ogni persona del tuo team che tu vuoi abbia l'accesso in scrittura, allora devi impostare un accesso SSH per loro. Noiu supponiamo che se tu hai un server con cui fare questo, tu abbia già un server SSH installato, ed è con esso che stati accedendo al server.
 
 Ci sono vari modi con cui puoi dare accesso a tutto il tuo team. Il primo è impostare degli account per ognuno, è semplice ma porta via molto tempo. Probabilmente non hai voglia di lanciare `adduser` ed impostare una password temporanea per ciascun utente.
 
@@ -165,7 +165,7 @@ Un secondo metodo è creare un singolo utente 'git' sulla macchina, chiedendo a 
 
 Un altro modo è avere un'autenticazione al tuo server SSH via server LDAP o un altro sistema centralizzato di autenticazione che hai già configurato. Così ogni utente può avere un accesso shell sulla macchina, qualsiasi meccanismo di autenticazione SSH a cui puoi pensare dovrebbe funzionare.
 
-## Generare la propria chiave pubblica SSH ##
+## Generare la Propria Chiave Pubblica SSH ##
 
 Come detto precedentemente, molti server Git usano l'autenticazione con la chiave pubblica SSH. Per poter avere una chiave pubblica, ogni utente del tuo sistema deve generarne una se già non la possiede. Questo processo è simile per tutti i sistemi operativi.
 Primo, devi controllare di non avere già una chiave. Di base, le chiavi SSH degli utenti sono salvate nella directory `~/.ssh`. Puoi facilmente controllare spostandoti nella directory e controllandone il contenuto:
@@ -189,7 +189,7 @@ Devi cercare una coppia di chiavi dal nome simile a qualcosa e qualcosa.pub, dov
 
 Prima chiede la conferma dove vuoi salvare la chiave (`.ssh/id_rsa`) e poi chiede due volte la passphrase, che puoi lasciare vuota se non vuoi inserire una password quando usi la chiave.
 
-Ora, ogni utente che ha fatto questo deve inviare la propria chiave pubblica a te o a chi amministra il server Git (assumiamo che tu stai usando un server SSH impostato in modo da richiedere le chiavi pubbliche). Tutto quello che devono fare è copiare il contenuto del file `.pub` ed inviarlo via e-mail. La chiave pubblica è qualcosa di simile a questo:
+Ora, ogni utente che ha fatto questo deve inviare la propria chiave pubblica a te o a chi amministra il server Git (supponiamo che tu stia usando un server SSH impostato in modo da richiedere le chiavi pubbliche). Tutto quello che devono fare è copiare il contenuto del file `.pub` ed inviarlo via e-mail. La chiave pubblica è qualcosa di simile a questo:
 
 	$ cat ~/.ssh/id_rsa.pub 
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
@@ -201,9 +201,9 @@ Ora, ogni utente che ha fatto questo deve inviare la propria chiave pubblica a t
 
 Per una guida più specifica sulla creazione di una chiave SSH su sistemi operativi multipli, vedi la guida GitHub sulle chiavi SSH `http://github.com/guides/providing-your-ssh-key`.
 
-## Configurare il server ##
+## Configurare il Server ##
 
-Ora vediamo come configurare un accesso SSH lato server. In questo esempio, utilizzeremo il metodo `authorized_keys` per autenticare gli utenti. Assumiamo anche che stai utilizzando una distribuzione standard di Linux come Ubuntu. Prima, crea un utente 'git' e una directory `.ssh` per questo utente.
+Ora vediamo come configurare un accesso SSH lato server. In questo esempio, utilizzeremo il metodo `authorized_keys` per autenticare gli utenti. Supponiamo anche che stia utilizzando una distribuzione standard di Linux come Ubuntu. Prima, crea un utente 'git' e una directory `.ssh` per questo utente.
 
 	$ sudo adduser git
 	$ su git
@@ -233,7 +233,7 @@ Ora, puoi impostare un repository vuoto avviando `git init` con l'opzione `--bar
 	$ cd project.git
 	$ git --bare init
 
-Poi, John, Josie o Jessica possono inviare la prima versione del loro progetto nel repository aggiungendolo come ramo remoto e di push. Nota che qualcuno deve accedere via shell alla macchina e creare un repository base ogni volta che si vuole aggiungere un progetto. Usiamo il nome `gitserver` per il server dove hai impostato il tuo utente 'git' ed il repository. Se lo stai usando nella rete interna e hai impostato un DNS con il punto `gitserver` per puntare a questo server, allora puoi usare il comando:
+Poi, John, Josie o Jessica possono inviare la prima versione del loro progetto nel repository aggiungendolo come ramo remoto ed inviandolo su di un ramo. Nota che qualcuno deve accedere via shell alla macchina e creare un repository base ogni volta che si vuole aggiungere un progetto. Usiamo il nome `gitserver` per il server dove hai impostato il tuo utente 'git' ed il repository. Se lo stai usando nella rete interna e hai impostato un DNS con il punto `gitserver` per puntare a questo server, allora puoi usare il comando:
 
 	# sul computer di Johns
 	$ cd myproject
@@ -243,9 +243,10 @@ Poi, John, Josie o Jessica possono inviare la prima versione del loro progetto n
 	$ git remote add origin git@gitserver:/opt/git/project.git
 	$ git push origin master
 
-A questo punto, gli altri possono clonare e fare i push dei cambiamenti molto facilmente:
+A questo punto, gli altri possono clonare ed inviare dei cambiamenti molto facilmente:
 
 	$ git clone git@gitserver:/opt/git/project.git
+	$ cd project
 	$ vim README
 	$ git commit -am 'fix for the README file'
 	$ git push origin master
@@ -264,35 +265,33 @@ Modifica `/bin/sh` in `/usr/bin/git-shell` (o lancia `which git-shell` per veder
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
-Ora, l'utente 'git' può solamente usare la connessione SSH per inviare e scaricare i repository Git e non può accedere all shell della macchina. Se provi vedrai il rigetto dell'autenticazione:
+Ora, l'utente 'git' può solamente usare la connessione SSH per inviare e scaricare i repository Git e non può accedere alla shell della macchina. Se provi vedrai il rifiuto dell'autenticazione:
 
 	$ ssh git@gitserver
 	fatal: What do you think I am? A shell?
 	Connection to gitserver closed.
 
-## Accesso pubblico ##
+## Accesso Pubblico ##
 
 E se vuoi un accesso in lettura anonimo al tuo progetto? Probabilmente invece di ospitare un progetto privato interno, vuoi ospitare un progetto open source. O magari hai un gruppo di server automatizzati o server in continua integrazione che cambiano, e non vuoi generare chiavi SSH tutte le volte — vuoi solamente dare un semplice accesso anonimo in lettura.
 
-Probabilmente il modo più semplice per una piccola installazione è avviare un server web statico con il suo document root dove si trovano i repository Git, e poi abilitare l'hook `post-update` che abbiamo visto nella prima sezione di questo capitolo. Partiamo dall'esempio precedente. Diciamo che hai i tuoi repository nella directory `/opt/git`, ed un server Apache sulla macchina. Ancora, puoi usare un qualsiasi server web per questo; ma come esempio, vediamo alcune configurazioni basi di Apache che ti dovrebbero dare una idea di cosa hai bisogno.
+Probabilmente il modo più semplice per una piccola installazione è avviare un server web statico con il suo document root dove si trovano i repository Git, e poi abilitare l'aggancio `post-update` che abbiamo visto nella prima sezione di questo capitolo. Partiamo dall'esempio precedente. Diciamo che hai i tuoi repository nella directory `/opt/git`, ed un server Apache sulla macchina. Ancora, puoi usare un qualsiasi server web per questo; ma come esempio, vediamo alcune configurazioni basi di Apache che ti dovrebbero dare una idea di cosa hai bisogno.
 
-Prima devi abilitare l'hook:
+Prima devi abilitare l'aggancio:
 
 	$ cd project.git
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Se stai usando una versione di Git precedente alla 1.6, il comando `mv` non è necessario — Git ha iniziato a nominare gli esempi di ancore solo recentemente con l'estensione .sample.
-
-Cosa fa quest'ancora (hook) `post-update`? Fondamentalmente una cosa del genere:
+Cosa fa questo aggancio `post-update`? Fondamentalmente una cosa del genere:
 
 	$ cat .git/hooks/post-update 
 	#!/bin/sh
 	exec git-update-server-info
 
-Questo significa che quando fai un push al server via SSH, Git automaticamente avvia questo comando per aggiornare i file necessari per essere scaricati via HTTP.
+Questo significa che quando invii dati al server via SSH, Git automaticamente avvia questo comando per aggiornare i file necessari per il prelievo via HTTP.
 
-Poi, hai bisogno di aggiungere una voce VirtualHost alla configurazione del tuo Apache con la document root che è la directory dei tuoi progetti Git. Qui, assumiamo che hai un DNS asteriscato impostato per inviare `*.gitserver` ad ogni box che stai usando:
+Poi, hai bisogno di aggiungere una voce VirtualHost alla configurazione del tuo Apache con la document root che è la directory dei tuoi progetti Git. Qui, supponiamo che abbia un wildcard DNS impostato per inviare `*.gitserver` ad ogni box che stai usando:
 
 	<VirtualHost *:80>
 	    ServerName git.gitserver
@@ -303,7 +302,7 @@ Poi, hai bisogno di aggiungere una voce VirtualHost alla configurazione del tuo 
 	    </Directory>
 	</VirtualHost>
 
-Devi inoltre impostare il gruppo utente Unix alle directory `/opt/git` in `www-data` così il tuo server web può avere un accesso di lettura ai repository, perché l'istanza Apache lancia lo script CGI (di default) quando è eseguito come questo utente:
+Devi inoltre impostare il gruppo utente Unix della directory `/opt/git` in `www-data` così il tuo server web può avere un accesso di lettura ai repository, perché l'istanza Apache lancia lo script CGI (di default) quando è eseguito come questo utente:
 
 	$ chgrp -R www-data /opt/git
 
@@ -326,7 +325,7 @@ Se vuoi verificare come GitWeb presenta il tuo progetto, Git è dotato di un com
 	[2009-02-21 10:02:21] INFO  WEBrick 1.3.1
 	[2009-02-21 10:02:21] INFO  ruby 1.8.6 (2008-03-03) [universal-darwin9.0]
 
-Questo avvia un server HTTPD sulla porta 1234 e automaticamente avvia un browser web che apre questa pagina. E' davvero molto semplice. Quando hai fatto e vuoi chiudere il server, puoi usare lo stesso comando con l'opzione `--stop`:
+Questo avvia un server HTTPD sulla porta 1234 e automaticamente avvia un browser web che apre questa pagina. É davvero molto semplice. Quando hai fatto e vuoi chiudere il server, puoi usare lo stesso comando con l'opzione `--stop`:
 
 	$ git instaweb --httpd=webrick --stop
 
@@ -353,7 +352,7 @@ Nota che devi dire al comando dove trovare i tuoi repository Git con la variabil
 	    </Directory>
 	</VirtualHost>
 
-Ancora, GitWeb può essere utilizzato con qualsiasi server web che supporta CGI; se preferisci usare qualcos'altro, non dovresti avere difficoltà nella configurazione. A questo punto, dovresti essere ingrado di vedere in `http://gitserver/` i tui repository online, e puoi usare `http://git.gitserver/` per clonare e controllare i tuoi repository via HTTP.
+Ancora, GitWeb può essere utilizzato con qualsiasi server web che supporta CGI; se preferisci usare qualcos'altro, non dovresti avere difficoltà nella configurazione. A questo punto, dovresti essere ingrado di vedere in `http://gitserver/` i tuoi repository online, e puoi usare `http://git.gitserver/` per clonare e controllare i tuoi repository via HTTP.
 
 ## Gitosis ##
 
@@ -361,9 +360,9 @@ Mantenere tutte le chiavi pubbliche degli utenti nel file `authorized_keys` funz
 
 A questo punto, potresti voler passare ad un software maggiormente utilizzato chiamato Gitosis. Gitosis è fondamentalmente una serie di script che aiutano ad amministrare il file `authorized_keys` esattamente come implementare un sistema di controllo degli accessi. La parte davvero interessante è che l'UI di questo strumento per aggiungere utenti e determinare gli accessi non è un'interfaccia web ma uno speciale repository Git. Puoi impostare le informazioni in questo progetto; e quando le re-invii, Gitosis riconfigura il server basandosi su di esse, è fantastico.
 
-Installare Gitosis non è un'operazione proprio semplice, ma non è così tanto difficile. E' facilissimo usarlo su un server Linux — questo esempio usa un server Ubuntu 8.10.
+Installare Gitosis non è un'operazione proprio semplice, ma non è così tanto difficile. É facilissimo usarlo su un server Linux — questo esempio usa un server Ubuntu 8.10.
 
-Gitosis richiede alcuni strumenti Python, così prima devi installare i pacchetti di setup Python, che Ubuntu fornisce tramite python-setuptools:
+Gitosis richiede alcuni strumenti Python, così prima devi installare il pacchetto di Python setuptools, che Ubuntu fornisce tramite python-setuptools:
 
 	$ apt-get install python-setuptools
 
@@ -381,7 +380,7 @@ Gitosis amministrerà le chiavi per te, così dovrai rimuovere il file corrente,
 
 	$ mv /home/git/.ssh/authorized_keys /home/git/.ssh/ak.bak
 
-Poi devi reimpostare la shell del tuo utente 'git', se l'hai cambiato con il comandi `git-shell`. Le persone non sono ora in grado di fare il login, ma Gitosis controllerà questa cosa per te. Così, modifica questa linea nel tuo file `/etc/passwd`
+Poi devi reimpostare la shell del tuo utente 'git', se lo hai cambiato con il comandi `git-shell`. Le persone non sono ora in grado di fare il login, ma Gitosis controllerà questa cosa per te. Così, modifica questa linea nel tuo file `/etc/passwd`
 
 	git:x:1000:1000::/home/git:/usr/bin/git-shell
 
@@ -399,7 +398,7 @@ Questo permetterà all'utente con questa chiave di modificare il repository Git 
 
 	$ sudo chmod 755 /opt/git/gitosis-admin.git/hooks/post-update
 
-Sei pronto per partire. Se hai configurato correttamente, puoi provare ad entrare via SSH nel tuo server come utente che ha aggiunto la chiave pubblica iniziale in Gitosis. Dovresti vedere qualcosa di simile a:
+Sei pronto per partire. Se sei configurato correttamente, puoi provare ad entrare via SSH nel tuo server come utente che ha aggiunto la chiave pubblica iniziale in Gitosis. Dovresti vedere qualcosa di simile a:
 
 	$ ssh git@gitserver
 	PTY allocation request failed on channel 0
@@ -451,7 +450,7 @@ Ogni volta che fai una modifica al progetto `gitosis-admin`, devi fare un commit
 	To git@gitserver:/opt/git/gitosis-admin.git
 	   fb27aec..8962da8  master -> master
 
-Puoi ora fare il tuo push al nuovo progetto `iphone_project` aggiungendo il tuo server come sorgente remota alla tua versione locale del progetto. Non hai bisogno di creare manualmente un repository base per nuovi progetti sul server — Gitosis li crea automaticamente quando vede il loro primo push:
+Puoi ora fare il tuo push al nuovo progetto `iphone_project` aggiungendo il tuo server come sorgente remota alla tua versione locale del progetto. Non hai bisogno di creare manualmente un repository base per nuovi progetti sul server — Gitosis li crea automaticamente quando vede il loro primo invio:
 
 	$ git remote add origin git@gitserver:iphone_project.git
 	$ git push origin master
@@ -462,9 +461,9 @@ Puoi ora fare il tuo push al nuovo progetto `iphone_project` aggiungendo il tuo 
 	To git@gitserver:iphone_project.git
 	 * [new branch]      master -> master
 
-Nota che non devi specificare la path (infatti, se lo si fa non funziona), basta solamente la colonna e poi il nome del progetto — Gitosis farà il resto.
+Nota che non devi specificare il percorso (infatti, se lo si fa non funziona), basta solamente la colonna e poi il nome del progetto — Gitosis farà il resto.
 
-Se vuoi lavorare sul progetto con i tuoi amici, devi ri-aggiungere le chiavi pubbliche. Ma invece di aggiungerle manualmente nel file `~/.ssh/authorized_keys` sul server, le devi aggiungere, un file per volta, nella directory `keydir`. Come nomini queste chiavi determinerà come fai riferimento agli utenti nel file `gitosis.conf`. Ri-aggiungiamo le chiavi pubbliche per John, Josie e Jessica:
+Se vuoi lavorare sul progetto con i tuoi amici, devi riaggiungere le chiavi pubbliche. Ma invece di aggiungerle manualmente nel file `~/.ssh/authorized_keys` sul server, le devi aggiungere, un file per volta, nella directory `keydir`. Come nomini queste chiavi determinerà come fai riferimento agli utenti nel file `gitosis.conf`. Riaggiungiamo le chiavi pubbliche per John, Josie e Jessica:
 
 	$ cp /tmp/id_rsa.john.pub keydir/john.pub
 	$ cp /tmp/id_rsa.josie.pub keydir/josie.pub
@@ -476,7 +475,7 @@ Ora puoi aggiungerli al tuo team 'mobile' così avranno accesso in lettura e scr
 	writable = iphone_project
 	members = scott john josie jessica
 
-Dopo che hai fatto il commit ed il push delle modifiche, tutti e quattro gli utenti saranno in grado di leggere e scrivere nel progetto.
+Dopo che hai fatto il commit ed l'invio delle modifiche, tutti e quattro gli utenti saranno in grado di leggere e scrivere nel progetto.
 
 Gitosis ha un semplice controllo dell'accesso. Se vuoi che John abbia solo un accesso in lettura al progetto, devi fare così:
 
@@ -501,99 +500,75 @@ Ora John può clonare il progetto ed ottenere gli aggiornamenti, ma Gitosis non 
 	writable  = another_iphone_project
 	members   = @mobile_committers john
 
-Se hai un qualsiasi dubbio, può essere utile aggiungere `loglevel=DEBUG` nell sezione `[gitosis]`. Se hai perso l'accesso alla scrittura perché hai inviato una configurazione sbagliata, puoi risolvere la cosa manualmente sul server `/home/git/.gitosis.conf` — il file da dove Gitosis legge le informazioni. Un push al progetto prende il file `gitosis.conf` che hai appena inviato e lo posiziona li. Se modifichi questo file manualmente, rimarrà come lo hai lasciato fino al prossimo push andato a termine nel progetto `gitosis-admin`.
+Se hai un qualsiasi dubbio, può essere utile aggiungere `loglevel=DEBUG` nell sezione `[gitosis]`. Se hai perso l'accesso alla scrittura perché hai inviato una configurazione sbagliata, puoi risolvere la cosa manualmente sul server `/home/git/.gitosis.conf` — il file da dove Gitosis legge le informazioni. Un invio al progetto prende il file `gitosis.conf` che hai appena inviato e lo posiziona li. Se modifichi questo file manualmente, rimarrà come lo hai lasciato fino al prossimo invio andato a termine nel progetto `gitosis-admin`.
 
 ## Gitolite ##
 
-Nota: l'ultima parte di questa sezione del libro ProGit è sempre disponibile nella [documentazione di gitolite][gldpg]. L'autore inoltre vuole modestamente far sapere che se questa sezione è accurata e *può* (se non *deve*) essere usata per installare gitolite senza leggere altra documentazione, per necessità non è completa e non può sostituire completamente l'enorme quantità di documentazione che è fornita con gitolite.
+Questa sezione serve come veloce introduzione a Gitolite, e fornisce basilari istruzioni di installazione e setup. Non può, tuttavia, sostituire l'enorme quantità di [documentazionee][gltoc] che è fornita con Gitolite. Potrebbero anche esserci occasionali cambiamenti a questa stessa sezione, pertanto potresti volere guardare l'ultima versione [qui][gldpg].
 
-[gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
+[gldpg]: http://sitaramc.github.com/gitolite/progit.html
+[gltoc]: http://sitaramc.github.com/gitolite/master-toc.html
 
-Git ha iniziato a diventare davvero popolare nelle grandi aziende, che tendono ad avere alcune richieste in più in termini di controllo degli accessi. Gitolite è stato inizialmente creato per venire incontro a queste richieste, ma è ugualmente utile nel mondo open source: il controllo degli accessi del Fedora Project al loro repository per la manutenzione dei pacchetti (sono più di 10,000!) usano gitolite e probabilmente è l'installazione più grande di gitolite esistente.
+Gitolite è un livello di autorizzazione sopra Git, affidandosi su `sshd` o `httpd` per l'autenticazione. (Riepilogo: autenticazione significa identificare chi sia l'utente, autorizzazione significa decidere se ad egli è consentito di fare ciò che sta provando a fare).
 
-Gitolite permette di specificare non solo i permessi per un repository, ma anche per i rami o i tag di ogni repository. Così si può specificare che certe persone (o gruppi di persone) possono fare il push solo su alcune "refs" (rami o tag) ma non su altri.
+Gitolite ti permette di specificare non solo i permessi per un repository, ma anche per i rami o le etichette di ogni repository. Così si può specificare che certe persone (o gruppi di persone) possono solo inviare ad alcuni "refs" (rami o etichette) ma non su altri.
 
 ### Installazione ###
 
-Installare Gitolite è davvero molto semplice, anche se non hai letto tutta la documentazione con cui è rilasciato. Quello di cui hai bisogno è un account su un server Unix o simile; varie versioni di Linux e Solaris 10 sono state testate. Non hai bisogno di un accesso root, assumiamo che git, perl ed un server ssh compatibile con openssh sono già installati. Nell'esempio di seguito, utilizzeremo l'account `gitolite` sull'host chiamato `gitserver`.
+Installare Gitolite è davvero molto semplice, anche se non hai letto tutta la documentazione con cui è rilasciato. Quello di cui hai bisogno è un account su un server Unix di qualche tipo. Non hai bisogno di un accesso root, supponendo che Git, Perl ed un server SSH compatibile con OpenSSH siano già installati. Nell'esempio di seguito, utilizzeremo l'account `git` sull'host chiamato `gitserver`.
 
-Gitolite è qualche cosa di inusuale rispetto ai conosciuti software "server" -- l'accesso è via ssh, e ogni userid sul server è potenzialmente un "host gitolite". Come risultato, c'è una idea di "installazione" software e poi la "configurazione" di un utente come "host gitolite".
+Gitolite è qualche cosa di inusuale rispetto ai conosciuti software "server" — l'accesso è via SSH, e pertanto ogni userid sul server è potenzialmente un "host gitolite". Descriveremo il metodo di installazione più semplice in questo articolo; per gli altri metodi vedi la documentazione.
 
-Gitolite ha 4 metodi di installazione. Chi usa Fedora o Debian può ottenere un RPM o un DEB ed installare questi. Chi ha un accesso root può installarlo manualmente. Con questi due metodi, qualsiasi utente sul sistema può diventare un "host gitolite".
-
-Chi non ha un accesso root può installarlo con il suo userid. E alla fine, gitolite può essere installato avviando lo script *sulla postazione di lavoro*, da una shell bash. (Anche con la bash fornita con msysgit, se te lo stavi chiedendo.)
-
-Descriviamo quest'ultimo metodo in questo articolo; per gli altri metodi vedi la documentazione.
-
-Si inizia ottenendo una chiave pubblica per l'accesso al server, così puoi fare il login dalla tua postazione di lavoro sul server senza dover inserire password. Il seguente metodo funziona su Linux; per altri sistemi operativi dovresti farlo manualmente. Assumiamo che hai già una coppia di chiavi generata tramite `ssh-keygen`.
-
-	$ ssh-copy-id -i ~/.ssh/id_rsa gitolite@gitserver
-
-Questo ti chiederà la password per il tuo account gitolite, e poi imposterà la tua chiave pubblica. Questo è **essenziale** per lo script di installazione, per cui controlla di poter avviare comandi senza dover inserire password:
-
-	$ ssh gitolite@gitserver pwd
-	/home/gitolite
-
-Poi, clona Gitolite dal progetto principale e lancia lo script "easy install" (il terzo argomento è il tuo nome se vuoi che appaia nel tuo repository gitolite-admin):
+Per iniziare, crea un utente chiamato `git` sul tuo server ed entra come questo utente. Copia la tua chiave pubblica SSH (un file chiamato `~/.ssh/id_rsa.pub` se hai eseguito un semplice `ssh-keygen` con tutti i valori predefiniti) dalla tua postazione di lavoro, rinominala come `<tuonome>.pub` (useremo `scott.pub` in questi esempi). Quindi esegui questi comandi:
 
 	$ git clone git://github.com/sitaramc/gitolite
-	$ cd gitolite/src
-	$ ./gl-easy-install -q gitolite gitserver sitaram
-
-E ora è tutto fatto! Gitolite è installato sul server, e ora hai un nuovo repository chiamato `gitolite-admin` nella home directory della tua postazione di lavoro. Puoi controllare le impostazioni di gitolite facendo cambiamenti al repository ed poi inviandole con il push.
-
-L'ultimo comando produce una serie di output, che sono interessanti da leggere. Inoltre, la prima volta che lo lanci, una nuova coppia di chiavi è creata; devi scegliere una passphrase o non inserire niente. Il perché una seconda coppia di chiavi è necessaria, è spiegato nella documentazione "ssh troubleshooting" fornita con Gitolite. (Hey la documentazione serve a *qualcosa*!)
-
-I repo chiamati `gitolite-admin` e `testing` sono creati sul server di default. Se vuoi clonarli entrambi (da un account che ha un accesso alla console SSH all'account gitolite via *authorized_keys*), digita:
-
-	$ git clone gitolite:gitolite-admin
-	$ git clone gitolite:testing
+	$ gitolite/install -ln
+	    # presuppone che $HOME/bin esista e sia nel tuo $PATH
+	$ gitolite setup -pk $HOME/scott.pub
 	
-Per clonare gli stessi repo da un altro account:
+L'ultimo comando crea un nuovo repository Git chiamato `gitolite-admin` sul server.
 
-	$ git clone gitolite@servername:gitolite-admin
-	$ git clone gitolite@servername:testing
+Infine, torna alla tua postazione di lavoro, esegui `git clone git@gitserver:gitolite-admin`. Ed è fatta! Gitolite adesso è installato sul server, e tu ora hai un nuovo repository chiamato `gitolite-admin` nella tua postazione di lavoro.  Amministri il tuo setup Gitolite facendo cambiamenti a questo repository ed inviandoli.
 
+### Personalizzare l'Installazione ###
 
-### Personalizzare l'installazione ###
+Mentre di base, l'installazione veloce va bene per la maggior parte delle persone, ci sono alcuni modi per personalizzare l'installazione se ne hai bisogno. Alcuni cambiamenti possono essere fatti semplicemente modificando il file rc, ma se questo non è sufficiente, c'è la documentazione su come personalizzare Gitolite.
 
-Mentre di base, l'installazione veloce va bene per la maggior parte delle persone, ci sono alcuni modi per personalizzare l'installazione se ne hai bisogno. Se ometti l'argomento `-q`, farai l'installazione in modalità verbose -- informazioni dettagliate su come procede l'installazione ad ogni passaggio. La modalità verbose inoltre ti permette di cambiare certi parametri lato server, come la posizione dei repository attuali, modificando un file "rc" che il server usa. Questo file "rc" è ben commentato così dovresti essere in grado di fare qualsiasi modifica di cui hai bisogno, salvalo e continuare. Questo file inoltre contiene varie impostazioni che puoi modificare per abilitare o disabilitare qualche funzionalità avanzata di gitolite.
+### File di Configurazione e Regole per il Controllo dell'Accesso ###
 
-### File di configurazione e regole per il controllo dell'accesso ###
-
-Una volta che l'installazione è fatta, puoi spostarti nel repository `gitolite-admin` (posizionato nella tua directory HOME) e girarti intorno per vedere cosa c'è:
+Una volta che l'installazione è fatta, puoi spostarti nel repository `gitolite-admin` (posizionato nella tua directory HOME) e curiosare in giro per vedere cosa c'è:
 
 	$ cd ~/gitolite-admin/
 	$ ls
 	conf/  keydir/
 	$ find conf keydir -type f
 	conf/gitolite.conf
-	keydir/sitaram.pub
+	keydir/scott.pub
 	$ cat conf/gitolite.conf
-	#gitolite conf
-	# please see conf/example.conf for details on syntax and features
 
 	repo gitolite-admin
-	    RW+                 = sitaram
+	    RW+                 = scott
 
 	repo testing
 	    RW+                 = @all
 
-Nota che "sitearam" (l'ultimo argomento del comando `gl-easy-install` dato priam) ha i permessi in lettura e scrittura sul repository `gitolite-admin` esattamente come il file della chiave pubblica con lo stesso nome.
+Osserva che "scott" (il nome della pubkey nel comando `gitolite setup` che hai usato precedentemente) ha permessi di scrittura-lettura per la repository `gitolite-admin` così come un file con la chiave pubblica con lo stesso nome.
 
-La sintassi del file di configurazione per gitolite è ben documentato in `conf/example.conf`, così citiamo solo alcune cose importanti qui.
+Aggiungere utenti è semplice. Per aggiungere un utente chiamato "alice", procurati la sua chiave pubblica, chiamala `alice.pub`, e mettila nella directory `keydir` del clone della repository `gitolite-admin` che hai appena fatto sulla tua postazione di lavoro. Aggiungi, affida, ed invia la modifica, e l'utente è stato aggiunto.
+
+La sintassi del file di configurazione di Gitolite è ben documentata, pertanto qui menzioneremo solo alcuni aspetti importanti.
 
 Puoi raggruppare utenti o i repo per convenienza. Il nome del gruppo è come una macro; quando le definisci, non importa nemmeno se sono progetti o utenti; la distinzione è fatta solamente quando tu *usi* la "macro".
 
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
 
-	@admins         = scott     # Adams, not Chacon, sorry :)
-	@interns        = ashok     # get the spelling right, Scott!
+	@admins         = scott
+	@interns        = ashok
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
-Puoi controllare i permessi del livello "ref". Nel seguente esempio, gli interni possono solo fare il push al ramo "int". Gli ingegneri possono fare il push ad ogni ramo che inizia con "eng-", e i tag che iniziano con "rc" e finiscono con un numero. E gli amministratori possono fare tutto (incluso il rewind) per ogni ref.
+Puoi controllare i permessi a livello "ref". Nel seguente esempio, gli interni possono solo fare il push al ramo "int". Gli ingegneri possono fare il push ad ogni ramo che inizia con "eng-", e i tag che iniziano con "rc" e finiscono con un numero. E gli amministratori possono fare tutto (incluso il rewind) per ogni ref.
 
 	repo @oss_repos
 	    RW  int$                = @interns
@@ -601,7 +576,7 @@ Puoi controllare i permessi del livello "ref". Nel seguente esempio, gli interni
 	    RW  refs/tags/rc[0-9]   = @engineers
 	    RW+                     = @admins
 
-L'espressione dopo `RW` o `RW+` è una espressione regolare (regex) contro cui il nome che viene inviato viene controllato. Così la chiameremo "refex"! Certamente, una refex può essere più complessa di quella mostrata, quindi non strafare se non sei pratico con le regex perl.
+L'espressione dopo `RW` o `RW+` è una espressione regolare (regex) contro cui il nome di riferimento (refname) che viene inviato viene controllato. Così la chiameremo "refex"! Certamente, una refex può essere più complessa di quella mostrata, quindi non strafare se non sei pratico con le regex perl.
 
 Inoltre, come avrai supposto, i prefissi Gitolite `refs/heads/` sono convenienze sintattiche se la refex non inizia con `refs/`.
 
@@ -610,15 +585,15 @@ Una funzione importante nella sintassi di configurazione è che tutte le regole 
 	repo gitolite
 	    RW+                     = sitaram
 
-Questa regola è già stata aggiunta nella serie delle regole per il repository `gitolite`.
+Questa regola sarà aggiunta nella serie delle regole per il solo repository `gitolite`.
 
 A questo punto ti starai chiedendo come le regole di controllo degli accessi sono impostate, le vediamo brevemente.
 
-Ci sono due livelli di controllo degli accessi in gitolite. Il primo è a livello di repository; se hai un accesso in lettora (o scrittura) a *qualsiasi* ref del repository, allora hai accesso in lettura (o scrittura) al repository.
+Ci sono due livelli di controllo degli accessi in gitolite. Il primo è a livello di repository; se hai un accesso in lettura (o scrittura) a *qualsiasi* ref del repository, allora hai accesso in lettura (o scrittura) al repository.
 
-Il secondo livello, applica gli accessi di sola "scrittura", è per i rami o i tag del repository. Il nome utente, l'accesso (`W` o `+`), e il refname in fase di aggiornamento è noto. Le regole dell'accesso sono impostate in ordine di apparizione nel file di configurazione, per cercare un controllo per questa combinazione (ma ricorda che il refname è una espressione regolare, non una semplice stringa). Se un controllo è stato trovato, il push avviene. Tutto il resto non ha alcun tipo di accesso.
+Il secondo livello, applica gli accessi di sola "scrittura", è per i rami o le etichette del repository. Il nome utente, l'accesso (`W` o `+`), e il refname in fase di aggiornamento è noto. Le regole dell'accesso sono impostate in ordine di apparizione nel file di configurazione, per cercare un controllo per questa combinazione (ma ricorda che il refname è una espressione regolare, non una semplice stringa). Se un controllo è stato trovato, l'invio avviene. Tutto il resto non ha alcun tipo di accesso.
 
-### Controllo avanzato degli accessi con le regole "deny" ###
+### Controllo Avanzato degli Accessi con le Regole "deny" ###
 
 Finora abbiamo visto solo che i permessi possono essere `R`, `RW` o`RW+`. Ovviamente, gitolite permette altri permessi: `-`, che sta per "deny". Questo ti da molto più potere, a scapito di una certa complessità, perché non è l'*unico* modo per negare l'accesso, quindi *l'ordine delle regole ora conta*!
 
@@ -628,47 +603,43 @@ Diciamo, nella situazione seguente, vogliamo gli ingegneri in grado di fare il r
 	    -   master integ    = @engineers
 	    RW+                 = @engineers
 
-Ancora, devi semplicemente seguire le regole da cima a fondo fino a quando non inserisci una corrispondenza per il tipo di accesso, o di negazione. Un push non-rewind non corrisponde alla prima regola, scende alla seconda, ed è quindi negato. Qualsiasi push (rewind o non-rewind) ad un refs diverso da master o integ non corrisponde alle prime due regole comunque, e la terza regola lo permette.
+Ancora, devi semplicemente seguire le regole da cima a fondo fino a quando non inserisci una corrispondenza per il tipo di accesso, o di negazione. Un invio non-rewind non corrisponde alla prima regola, scende alla seconda, ed è quindi negato. Qualsiasi invio (rewind o non-rewind) ad un ref diverso da master o integ non corrisponde alle prime due regole comunque, e la terza regola lo permette.
 
-### Push ristretti dalla modifica dei file ###
+### Restringere Invii in Base ai File Modificati ###
 
-In aggiunta alle restrizioni per il push a specifici rami, puoi restringere ulteriormente a quali file sono permesse le modifiche. Per esempio, probabilmente il Makefile (o altri programmi) non dovrebbe essere modificato da nessuno, perché molte cose dipende da esso e potrebbero esserci problemi se le modifiche non sono fatte *correttamente*. Puoi dire a gitolite:
+In aggiunta alle restrizioni per l'invio a specifici rami, puoi restringere ulteriormente a quali file sono permesse le modifiche. Per esempio, probabilmente il Makefile (o altri programmi) non dovrebbe essere modificato da nessuno, perché molte cose dipendono da esso e potrebbero esserci problemi se le modifiche non sono fatte *correttamente*. Puoi dire a gitolite:
 
     repo foo
-        RW                  =   @junior_devs @senior_devs
+        RW                      =   @junior_devs @senior_devs
 
-        RW  NAME/           =   @senior_devs
-        -   NAME/Makefile   =   @junior_devs
-        RW  NAME/           =   @junior_devs
+        -   VREF/NAME/Makefile  =   @junior_devs
 
-Questa funzione molto potente è documentata in `conf/example.conf`.
+L'utente che sta migrando dal vecchio Gitolite dovrebbe osservare che c'è un significativo cambiamento nel comportamento di questa caratteristica; guardare la guida alla migrazione per i dettagli.
 
-### Rami personali ###
+### Rami Personali ###
 
-Gitolite ha anche una funzionalità che è chiamata "personal banches" (rami personalizzati, o anche "personal branch namespace") che è molto utile in un ambiente aziendale.
+Gitolite ha anche una funzionalità che è chiamata "rami personali" (o piuttosto, "spazio dei nomi dei rami personali") che è molto utile in un ambiente aziendale.
 
-Moltissimo codice nel mondo git è scambiato per mezzo di richieste "please pull". In un ambiente aziendale, comunque, un accesso non autenticato è un no-no, e una macchina di sviluppo non può fare autenticazioni, così devi inviare al server centrale e poi chiedere a qualcuno di scaricarsi le modifiche.
+Moltissimo codice nel mondo git è scambiato per mezzo di richieste "please pull". In un ambiente aziendale, comunque, un accesso non autenticato è un no-no, e una macchina di sviluppo non può fare autenticazioni, così devi inviare al server centrale e poi chiedere a qualcuno di scaricarsi le modifiche da lì.
 
-Questo normalmente causa lo stesso disordine nel ramo come in un VCS centralizzato, oltre ad impostare le autorizzazioni di routine per l'amministratore.
+Questo normalmente causa lo stesso disordine nel ramo come in un VCS centralizzato, inoltre impostare le autorizzazioni per questo diventa un fastidio per l'amministratore.
 
-Gitolite ti permette di definire un namespace di prefisso "personale" e "nuovo" per ogni sviluppatore (per esempio, `refs/personal/<devname>/*`); vedi la sezione "personal branches" in `doc/3-faq-tips-etc.mkd` per i dettagli.
+Gitolite ti permette di definire un prefisso per lo spazio dei nomi "personale" e "nuovo" per ogni sviluppatore (per esempio, `refs/personal/<devname>/*`); vedi la sezione "personal branches" in `doc/3-faq-tips-etc.mkd` per i dettagli.
 
-### repository "wildcard" ###
+### Repository "Wildcard" ###
 
-Gitolite ti permette di specificare repository con il wildcard (attualmente espressioni regolari perl), come, per esempio `assignments/s[0-9][0-9]/a[0-9][0-9]`, per prendere un esempio casuale. Questa è una funzione *molto* potente, che è stata abilitata impostando `$GL_WILDREPOS = 1;` nel file rc. Ti permette di assegnare un nuovo modo di permesso ("C") per permettere agli utenti di creare repository basati su questo pattern, assegnando automaticamente il proprietario allo specifico utente che lo ha creato, permettendogli di prendere mano ai permessi di R e RW per gli altri utenti di collaborazione, etc. Questa funzionalità è documentata in `doc/4-wildcard-repositories.mkd`.
+Gitolite ti permette di specificare repository con il wildcard (nei fatti espressioni regolari perl), come, per esempio `assignments/s[0-9][0-9]/a[0-9][0-9]`, per prendere un esempio a caso. Ti permette anche di assegnare un nuovo modo di permesso ("C") per permettere agli utenti di creare repository basati su questi schemi, assegnando automaticamente il proprietario allo specifico utente che lo ha creato, permettendogli di gestire i permessi di R e RW per gli altri utenti per collaborazione, etc. Di nuovo, vedi la documentazione per i dettagli.
 
 ### Altre funzionalità ###
 
-Concludiamo questa discussione con un elenco di altre funzioni, ognuna delle quali, e molte altre, sono descritte molto bene nelle "faq, suggerimenti, ecc" e altra documentazione.
+Concludiamo questa discussione con un elenco di altre funzioni, ognuna delle quali, e molte altre, sono descritte in grande dettagli nella documentazione.
 
-**Logging**: Gitolite fa il log di tutti gli accessi riusciti. Se hai dato tranquillamente il permesso di rewind (`RW+`) alle persone qualcuno ha spazzato via il "master", il log è un salvavita per ritrovare lo SHA di chi ha fatto il casino.
+**Logging**: Gitolite registra tutti gli accessi riusciti. Se hai dato tranquillamente il permesso di rewind (`RW+`) alle persone e qualcuno ha spazzato via il "master", il log è un toccasana per ritrovare lo SHA di chi ha fatto il casino.
 
-**Git al di fuori del PATH normale**: Un'altra funzionalità estremamente utile in Gitolite è supportare l'installazione di Git al di fuori del normale `$PATH` (questo è molto più comune di quanto tu possa pensare; alcune aziende o alcuni fornitori di servizio rifiutano di installarlo a livello di sistema e devi metterlo nelle tue directory). Normalmente, sei spinto ad utilizzare Git nel *lato client* invece di questa localizzazione non standard dei binari Git. Con Gitolite, semplicemente scegli l'installazione verbosa ed imposta il `$GIT_PATH` nei file "rc". Nessuna modifica lato client è necessaria per questo :-)
+**Rapporto sui diritti di accesso**: Un'altra funzione conveniente è quando provi ad entrare via ssh sul server. Gitolite ti mostrerà a quali repo hai accesso, e che tipo di accesso hai. Ecco un esempio:
 
-**Diritti di accesso riportati**: Un'altra funzione conveniente è quando provi ad entrare via ssh sul server. Gitolite ti mostrerà a quali repo hai accesso, e che tipo di accesso hai. Ecco un esempio:
-
-        hello sitaram, the gitolite version here is v1.5.4-19-ga3397d4
-        the gitolite config gives you the following access:
+        hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
+        
              R     anu-wsd
              R     entrans
              R  W  git-notes
@@ -677,25 +648,23 @@ Concludiamo questa discussione con un elenco di altre funzioni, ognuna delle qua
              R     indic_web_input
              R     shreelipi_converter
 
-**Delega**: Per un'istallazione davvero grande, puoi delegare la responsabilità di alcuni gruppi di repository a varie persone e dare a loro l'amministrazione di questi pezzi in modo indipendente. Questo riduce il carico dell'amministrazione centrale, ed elimina questo collo di bottiglia. Questa funzione ha la sua documentazione in un file nella directory `doc/`.
+**Delega**: Per un'istallazione davvero grande, puoi delegare la responsabilità di alcuni gruppi di repository a varie persone e dare a loro l'amministrazione di questi pezzi in modo indipendente. Questo riduce il carico dell'amministrazione centrale, e lo rende meno il collo di bottiglia. 
 
-**Supporto gitweb**: Gitolite supporta il gitweb in vari modi. Puoi specificare quali repo sono visibili via gitweb. Puoi impostare il "proprietario" e la "descrizione" per gitweb dal file di configurazione di gitolite. Gitweb ha un meccanismo per implementare gli accessi basati sull'autenticazione HTTP, così puoi usare il file di configurazione "compilato" che gitolite produce, che significa lo stesso controllo degli accessi (per la lettura) applicati a gitweb e gitolite.
-
-**Mirroring**: Gitolite può aiutarti a mantenere mirror multipli, e spostarti fra di loro facilmente se il server primario è caduto.
+**Mirroring**: Gitolite può aiutarti a mantenere mirror multipli, e spostarti fra di loro facilmente se il server primario va giù.
 
 ## Demone Git ##
 
-Per un accesso pubblico, senza autenticazione al tuo progetto, puoi muoverti dal vecchio protocollo HTTP ed iniziare ad usare il protocollo Git. Il motivo principale è la velocità. Il protocollo Git è più efficiente e veloce del protocollo HTTP, quindi usarlo salverà tempo agli utenti.
+Per un accesso pubblico, senza autenticazione al tuo progetto, vorrai muoverti dal vecchio protocollo HTTP ed iniziare ad usare il protocollo Git. Il motivo principale è la velocità. Il protocollo Git è più efficiente e veloce del protocollo HTTP, quindi usarlo risparmierà tempo agli utenti.
 
-Questo è solo per un accesso senza autenticazione in sola lettura. Se lo stai usando su un server al di fuori del tuo firewall, dovrebbe essere usato solamente per progetti che hanno una visibilità pubblica al mondo. Se il server che stai usando è all'interno del tuo firewall, lo puoi usare per i progetti con un gran numero di persone o computer (integrazione continua o sostituzioni server) con accesso in sola lettura, quando non vuoi aggiungere una chiave SSH a ciascuno.
+Questo è solo per un accesso senza autenticazione in sola lettura. Se lo stai usando su un server al di fuori del tuo firewall, dovrebbe essere usato solamente per progetti che hanno una visibilità pubblica al mondo. Se il server che stai usando è all'interno del tuo firewall, lo puoi usare per i progetti con un gran numero di persone o computer (integrazione continua o server di build) con accesso in sola lettura, quando non vuoi aggiungere una chiave SSH per ciascuno.
 
 In ogni caso, il protocollo Git è relativamente facile da impostare. Fondamentalmente, devi lanciare il comando in modo da renderlo un demone:
 
 	git daemon --reuseaddr --base-path=/opt/git/ /opt/git/
 
-`--reuseaddr` permette al server di riavviarsi senza aspettare che la vecchia connessione concluda, l'opzione `--base-path` permette alle persone di clonare il progetto senza specificare l'intera path, e la path alla fine dice al demone Git dove cercare i repository da esportare. Se stai utilizzando un firewall, devi premettere l'accesso alla porta 9418 della macchina che hai configurato.
+`--reuseaddr` permette al server di riavviarsi senza aspettare che la vecchia connessione concluda, l'opzione `--base-path` permette alle persone di clonare il progetto senza specificare l'intera path, e la path alla fine dice al demone Git dove cercare i repository da esportare. Se stai utilizzando un firewall, devi aprire l'accesso alla porta 9418 della macchina che hai configurato.
 
-Puoi creare il demone di questo processo in vari modi, in dipendenza del sistema operativo che usi. Su una macchina Ubuntu, usa uno script Upstart. Così, nel seguente file
+Puoi creare il demone di questo processo in vari modi, in base al sistema operativo che usi. Su una macchina Ubuntu, usa uno script Upstart. Così, nel seguente file
 
 	/etc/event.d/local-git-daemon
 
@@ -723,7 +692,7 @@ Poi, devi dire al tuo server Gitosis quali repository hanno un accesso al server
 	[repo iphone_project]
 	daemon = yes
 
-Quando effettui un commit e un push, il tuo demone dovrebbe iniziare a servire le richieste per il progetto a chiunque abbia un accesso alla porta 9418 del tuo server.
+Quando hai effettuato il commit ed inviatolo, il tuo demone dovrebbe iniziare a servire le richieste per il progetto a chiunque abbia un accesso alla porta 9418 del tuo server.
 
 Se decidi di non usare Gitosis, ma vuoi configurare un demone Git, devi avviare quanto segue su ogni singolo progetto che il demone Git deve servire:
 
@@ -732,20 +701,20 @@ Se decidi di non usare Gitosis, ma vuoi configurare un demone Git, devi avviare 
 
 La presenza di questo file dice a Git che è OK per essere servito senza autenticazione.
 
-Gitosis può inoltre controllare quali progetti mostrano GitWeb. Primo, devi aggiungere qualcosa al file `/etc/gitweb.conf`:
+Gitosis può inoltre controllare quali progetti GitWeb mostra. Primo, devi aggiungere qualcosa del genere al file `/etc/gitweb.conf`:
 
 	$projects_list = "/home/git/gitosis/projects.list";
 	$projectroot = "/home/git/repositories";
 	$export_ok = "git-daemon-export-ok";
 	@git_base_url_list = ('git://gitserver');
 
-Puoi controllare quali progetti GitWeb possono essere visti dagli utenti via browser aggiungendo o rimuovendo impostazioni `gitweb` nel file di configurazione Gitosis. Per esempio, se vuoi che il progetto iphone sia visto con GitWeb, devi impostare il `repo` come segue:
+Puoi controllare quali progetti GitWeb lascia sfogliare agli utenti via browser aggiungendo o rimuovendo impostazioni `gitweb` nel file di configurazione Gitosis. Per esempio, se vuoi che il progetto iphone sia visto con GitWeb, devi impostare il `repo` come segue:
 
 	[repo iphone_project]
 	daemon = yes
 	gitweb = yes
 
-Ora, se fai il commit ed il push del progetto, GitWeb automaticamente inizierà a far vedere il progetto iphone.
+Ora, se fai il commit ed il push del progetto, GitWeb automaticamente inizierà a mostrare il progetto iphone.
 
 ## Hosted Git ##
 
@@ -757,17 +726,17 @@ Oggi, hai un'enorme quantità di opzioni di hosting tra cui scegliere, ognuna co
 
 Dato che non possiamo vederli tutti, e dato che lavoro principalmente su uno di questi, in questa sezione vedremo come impostare un account e creare un nuovo progetto su GitHub. Questo ti darà una idea di come funzionano.
 
-GitHub è da molto tempo il più grande hosting Git di progetti open source ed è anche uno dei pochi che offre sia un hosting pubblico sia privato così puoi mantenere il tuo codice open source o il codice commerciale privato nello stesso posto. Infatti, noi usiamo GitHub per collaborare a questo libro.
+GitHub è di gran lunga il più grande hosting Git di progetti open source ed è anche uno dei pochi che offre sia un hosting pubblico sia privato così puoi mantenere il tuo codice open source o il codice commerciale privato nello stesso posto. Infatti, noi usiamo GitHub per collaborare a questo libro.
 
 ### GitHub ###
 
-GitHub è molto differente nel namespace che usa per i progetti rispetto agli altri siti di hosting di codice. Invece di essere principalmente basato sul progetto, GitHub è utente centrico. Questo significa che quando metto il mio progetto `grit` su GitHub, non troverai `github.com/grit` ma invece lo trovi in `github.com/shacon/grit`. Non c'è una versione canonica di un progetto, ciò permette ad un progetto di essere mosso da un utente ad un altro senza soluzione di continuità se il primo autore abbandona il progetto.
+GitHub è leggermente differente nello spazio dei nomi che usa per i progetti rispetto agli altri siti di hosting di codice. Invece di essere principalmente basato sul progetto, GitHub è utente centrico. Questo significa che quando metto il mio progetto `grit` su GitHub, non troverai `github.com/grit` ma invece lo trovi in `github.com/shacon/grit`. Non c'è una versione canonica di un progetto, ciò permette ad un progetto di essere mosso da un utente ad un altro senza soluzione di continuità se il primo autore abbandona il progetto.
 
-GitHub è inoltre una organizzazione commerciale che carica gli account che mantengono repository privati, ma chiunque può avere un account libero per ospitare qualsiasi progetto open source come preferisce. Vedremo velocemente come ottenere questo.
+GitHub è inoltre una organizzazione commerciale che addebita gli account che mantengono repository privati, ma chiunque può avere un account libero per ospitare qualsiasi progetto open source come preferisce. Vedremo velocemente come ottenere ciò.
 
-### Impostare un account utente ###
+### Configurare un Account Utente ###
 
-La prima cosa di cui hai bisogno è impostare un account utente gratuito. Se visiti la pagina "Pricing and Signup" all'inidirizzo `http://github.com/plans` e fai click sul bottone "Sign Up" per un account gratuito (vedi figura 4-2), entrerai nella pagina di iscrizione.
+La prima cosa di cui hai bisogno è configurare un account utente gratuito. Se visiti la pagina "Pricing and Signup" all'inidirizzo `http://github.com/plans` e fai click sul pulsante "Sign Up" per un account gratuito (vedi figura 4-2), sarai portato alla pagina di iscrizione.
 
 Insert 18333fig0402.png
 Figura 4-2. La pagina dei piani di GitHub.
@@ -777,38 +746,38 @@ Qui devi scegliere un nome utente che non è già stato scelto nel sistema ed in
 Insert 18333fig0403.png 
 Figura 4-3. Il form di iscrizione di GitHub.
 
-Se ne hai una, è buona cosa aggiungere la propria chiave pubblica SSH. Abbiamo già visto come generare una nuova chiave, nella sezione "Impostazioni base". Prendi il contenuto della chiave pubblica della tua coppia di chiavi, ed incollala nel box SSH Public Key. Facendo click sul link "explain ssh keys" otterrai le istruzioni dettagliate su come fare questa cosa sui maggiori sistemi operativi.
-Fai click sul bottone "I agree, sign me up" per vedere il tuo nuovo pannello utente (vedi Figura 4-4).
+Se ne hai una, è buona cosa aggiungere la propria chiave pubblica SSH. Abbiamo già visto come generare una nuova chiave, nella sezione "Piccole Configurazioni". Prendi il contenuto della chiave pubblica della tua coppia di chiavi, ed incollala nel box SSH Public Key. Facendo click sul link "explain ssh keys" otterrai le istruzioni dettagliate su come fare questa cosa sui maggiori sistemi operativi.
+Cliccare il pulsante "I agree, sign me up" ti porta al tuo nuovo pannello utente (vedi Figura 4-4).
 
 Insert 18333fig0404.png 
 Figura 4-4. Pannello utente GitHub.
 
 Poi puoi creare un nuovo repository.
 
-### Creare un nuovo repository ###
+### Creare un Nuovo Repository ###
 
-Inizia facendo click sul link "create a new one" nel pannello del tuo utente. Vedrai il form per creare un nuovo repository (vedi Figura 4-5).
+Inizia cliccando il link "create a new one" vicino a Your Repositories nel pannello utente. Sarai portato al modulo Create a New Repository (vedi Figura 4-5).
 
 Insert 18333fig0405.png 
 Figura 4-5. Creare un nuovo repository GitHub.
 
-Tutto quello che devi fare è fornire un nome del progetto, ma puoi aggiungere anche una descrizione. Quando questo è fatto, fai click sul bottone "Create Repository". Ora hai un nuovo repository su GitHub (vedi Figura 4-6).
+Tutto quello che devi fare è in realtà fornire un nome per il progetto, ma puoi aggiungere anche una descrizione. Quando questo è fatto, clicca sul pulsante "Create Repository". Ora hai un nuovo repository su GitHub (vedi Figura 4-6).
 
 Insert 18333fig0406.png 
 Figura 4-6. Informazioni del progetto su GitHub.
 
-Se non hai ancora nessun codice, GitHub ti mostrerà le istruzione su come creare un nuovo progetto, inviare un progetto Git esistente, o importare un progetto da un altro repository Subversion pubblico (vedi Figura 4-7).
+Dato che non hai ancora nessun codice, GitHub ti mostrerà le istruzioni su come creare un nuovo progetto, inviare un progetto Git esistente, od importare un progetto da un repository Subversion pubblico (vedi Figura 4-7).
 
 Insert 18333fig0407.png 
 Figura 4-7. Istruzioni per un nuovo repository.
 
-Queste istruzioni sono simili a quello che già avevamo dato precedentemente. Per inizializzare un progetto se non è già un progetto Git, devi usare
+Queste istruzioni sono simili a quello che già avevamo dato precedentemente. Per inizializzare un progetto che non è già un progetto Git, devi usare
 
 	$ git init
 	$ git add .
 	$ git commit -m 'initial commit'
 
-Quando hai un repository Git locale, aggiungi GitHub come remoto ed invia il tuo ramo master:
+Quando hai un repository Git in locale, aggiungi GitHub come remoto ed invia il tuo ramo master:
 
 	$ git remote add origin git@github.com:testinguser/iphone_project.git
 	$ git push origin master
@@ -818,73 +787,73 @@ Ora il tuo progetto è ospitato su GitHub, e puoi fornire l'URL a chiunque tu vo
 Insert 18333fig0408.png 
 Figura 4-8. Parte superiore del progetto con un URL pubblico ed uno URL privato.
 
-L'URL per la clonazione pubblica è pubblico, è un URL Git di sola lettura con cui chiunque può clonare il progetto. Sentiti libero di dare questo URL ed inserirlo sul tuo sito web o dove preferisci.
+Il Public Clone URL è un URL Git di sola lettura, pubblico, con cui chiunque può clonare il progetto. Sentiti libero di dare questo URL ed inserirlo sul tuo sito web o dove preferisci.
 
-Il tuo URL per la clonazione privata è basato su SSH ed è per la lettura e la scrittura e vuoi scriverci o leggerci solamente se ti sei connesso con la tua chiave SSH privata associata alla chiave pubblica che hai caricato per il tuo utente. Quando altri utenti visitano la pagina del tuo progetto, vedranno solamente l'URL pubblico.
+Il Your Clone URL è un URL basato su SSH di scrittura/lettura che puoi leggere o scrivere solamente se ti sei connesso con la tua chiave SSH privata associata alla chiave pubblica che hai caricato per il tuo utente. Quando altri utenti visitano la pagina del tuo progetto, vedranno solamente l'URL pubblico.
 
 ### Importare da Subversion ###
 
-Se hai un progetto pubblico esistente su Subversion che vuoi importare in Git, GitHub può farlo per te. Alla fine della pagina delle istruzioni c'è un link per l'importazione di un Subversion. Se fai click su di esso, vedrai un form con le informazioni per il processo di importazione ed un campo dove incollare l'URL del tuo progetto Subversion pubblico (vedi Figura 4-9).
+Se hai un progetto pubblico esistente su Subversion che vuoi importare in Git, GitHub può farlo per te. Alla fine della pagina delle istruzioni c'è un link per l'importazione di un Subversion. Se fai click su di esso, vedrai un modulo con le informazioni per il processo di importazione ed un campo dove incollare l'URL del tuo progetto Subversion pubblico (vedi Figura 4-9).
 
 Insert 18333fig0409.png 
 Figura 4-9. Interfaccia importazione Subversion.
 
 Se il tuo progetto è molto grande, non standard, o privato, questo processo probabilmente non funzionerà. Nel Capitolo 7, vedrai come fare importazioni più complicate manualmente.
 
-### Aggiungere collaboratori ###
+### Aggiungere Collaboratori ###
 
-Aggiungiamo il resto del team. Se John, Joise e Jessica hanno sottoscritto un account su GitHub e vuoi dare loro un accesso per il push al tuo progetto, puoi aggiungerli al tuo progetto come collaboratori. Facendo questo gli dai il permesso di fare il push tramite le loro chiavi pubbliche.
+Aggiungiamo il resto della squadre. Se John, Joise e Jessica hanno sottoscritto un account su GitHub e vuoi dare loro un accesso per il push al tuo progetto, puoi aggiungerli al tuo progetto come collaboratori. Facendo questo gli dai il permesso di inviare dati tramite le loro chiavi pubbliche.
 
-Fai click sul bottone "edit" nella parte superiore della pagina del progetto o nel tab Admin all'inizio del progetto per vedere la pagina di Admin del tuo progetto GitHub (vedi Figura 4-10).
+Clicca sul pulsante "edit" nella parte superiore della pagina del progetto o sulla linguetta Admin all'inizio del progetto per vedere la pagina di Admin del tuo progetto GitHub (vedi Figura 4-10).
 
 Insert 18333fig0410.png 
 Figura 4-10. Pagina amministrazione GitHub.
 
-Per dare ad un altro utente l'accesso in scrittura al tuo progetto, fai click sul link “Add another collaborator”. Un nuovo box di testo apparirà, in cui puoi inserire il nome utente. Quando scrivi, un pop up di aiuto, ti mostrerà i nomi utenti possibili. Quando hai trovato l'utente corretto, fai click sul bottone Add per aggiungerlo come collaboratore del progetto (vedi Figura 4-11).
+Per dare ad un altro utente l'accesso in scrittura al tuo progetto, clicca sul link “Add another collaborator”. Un nuovo riquadro di testo apparirà, in cui puoi inserire il nome utente. Quando scrivi, un pop up di aiuto, ti mostrerà i nomi utenti possibili. Quando hai trovato l'utente corretto, fai click sul bottone Add per aggiungerlo come collaboratore del progetto (vedi Figura 4-11).
 
 Insert 18333fig0411.png 
 Figura 4-11. Aggiungere un collaboratore al tuo progetto.
 
-Quando hai finito di aggiungere collaboratori, dovresti vedere una lista di questi nel box dei collaboratori del repository (vedi Figura 4-12).
+Quando hai finito di aggiungere collaboratori, dovresti vedere una lista di questi nel riquadro dei collaboratori del repository (vedi Figura 4-12).
 
 Insert 18333fig0412.png 
 Figura 4-12. Una lista di collaboratori al tuo progetto.
 
-Se hai bisogno di revocare l'accesso a qualcuno, puoi fare click sul link "revoke", ed il loro accesso al push è rimosso. Per progetti futuri, puoi anche copiare il gruppo dei collaboratori copiando i permessi di un progetto esistente.
+Se hai bisogno di revocare l'accesso a qualcuno, puoi cliccare sul link "revoke", ed il loro accesso all'invio è rimosso. Per progetti futuri, puoi anche copiare il gruppo dei collaboratori copiando i permessi di un progetto esistente.
 
-### Il tuo progetto ###
+### Il tuo Progetto ###
 
-Dopo che hai fatto il push del tuo progetto o hai fatto l'importazione da Subversion, hai la pagina del progetto principale che assomiglia alla Figura 4-13.
+Dopo che hai inviato il tuo progetto o hai fatto l'importazione da Subversion, hai la pagina del progetto principale che assomiglia alla Figura 4-13.
 
 Insert 18333fig0413.png 
 Figura 4-13. La pagina principale del progetto su GitHub.
 
-Quando le persone visiteranno il tuo progetto, vedranno questa pagina. Essa contiene i tab per differenti aspetti del progetto. Il tab dei commit mostra una lista dei commit in ordine cronologico inversi, simile all'output del comando `git log`. Il tab network mostra tutte le persone che hanno eseguito il fork del progetto e hanno contribuito ad esso. Il tab download permette di caricare il binario del progetto e di avere il link alla versione tarball o zip di ogni punto del progetto con un tag. Il tab Wiki fornisce un wiki dove puoi scrivere la documentazione o altre informazioni sul progetto. Il tab grafico ha mostra alcuni contributi e statistiche sul progetto. Il tab sorgente è la pagina principale del progetto e visualizza la directory principale e automaticamente legge il file di README mostrandolo di sotto, se ne hai uno. Questo tab mostra anche le informazioni degli ultimi commit.
+Quando le persone visiteranno il tuo progetto, vedranno questa pagina. Essa contiene linguette per differenti aspetti del progetto. La linguetta Commits mostra una lista dei commit in ordine cronologico inversi, simile all'output del comando `git log`. La linguetta Network mostra tutte le persone che hanno eseguito il fork del progetto e hanno contribuito ad esso. La linguetta Downloads permette di caricare il binario del progetto e di avere il link alla versione tarball o zip di ogni punto del progetto con una etichetta. La linguetta Wiki fornisce un wiki dove puoi scrivere la documentazione o altre informazioni sul progetto. La linguetta Graphs mostra alcuni contributi e statistiche sul progetto. La linguetta principale Source su cui approdi mostra l'elenco di directory principale del tuo progetto e automaticamente visualizza il file di README mostrandolo di sotto, se ne hai uno. Questa linguetta mostra anche le informazioni dell'ultimo commit.
 
-### Fare il fork dei progetti ###
+### Biforcare i Progetti ###
 
-Se vuoi contribuire ad un progetto esistente a cui non hai un accesso per il push, GitHub incoraggia il fork del progetto. Quando vai sulla pagina di un progetto che credi interessante e vuoi lavorarci un po' su, puoi fare click sul bottone "fork" nella parte superiore del progetto per avere una copia su GitHub nel tuo utente a cui puoi inviare le modifiche.
+Se vuoi contribuire ad un progetto esistente a cui non hai un accesso per l'invio, GitHub incoraggia la biforcazione del progetto. Quando vai sulla pagina di un progetto che credi interessante e vuoi lavorarci un po' su, puoi cliccare sul pulsante "fork" nella parte superiore del progetto per avere una copia su GitHub nel tuo utente a cui puoi inviare le modifiche.
 
-In questo modo, i progetti non devono preoccuparsi di aggiungere utenti come collaboratori per dare loro accesso come push. Le persone possono fare il fork del progetto e fare il push a questo, ed il progetto principale può scaricare questi cambiamenti aggiungendoli come sorgenti remote e fondendo il loro lavoro.
+In questo modo, i progetti non devono preoccuparsi di aggiungere utenti come collaboratori per dare loro accesso per inviare. Le persone possono biforcare il progetto ed inviare a questo, ed il progetto principale può scaricare questi cambiamenti aggiungendoli come sorgenti remote e fondendo il loro lavoro.
 
-Per fare il fork di un progetto, visita la pagina del progetto (in questo caso, mojombo/chronic) e fai click sul bottone "fork" in alto (vedi Figura 4-14).
+Per biforcare un progetto, visita la pagina del progetto (in questo caso, mojombo/chronic) e clicca sul pulsante "fork" in alto (vedi Figura 4-14).
 
 Insert 18333fig0414.png 
 Figura 4-14. Ottenere una copia scrivibile di un qualsiasi repository facendo click sul bottone "fork".
 
-Dopo qualche secondo, otterrai la pagina del tuo nuovo repository, che indica che questo progetto è un fork di un altro (vedi Figura 4-15).
+Dopo qualche secondo, otterrai la pagina del tuo nuovo repository, che indica che questo progetto è la biforcazione di un altro (vedi Figura 4-15).
 
 Insert 18333fig0415.png 
-Figura 4-15. Il tuo fork di un progetto.
+Figura 4-15. La tua biforcazione di un progetto.
 
 ### Riassunto GitHub ###
 
-Questo è quanto su GitHub, ma è importante notare quanto è veloce fare tutto questo. Puoi creare un account, aggiungere un nuovo progetto, e inviare un push a questo in pochi minuti. Se il tuo progetto è open source, puoi avere un'ampia comunità di sviluppatori che possono vedere nel tuo progetto e fare un fork di questo ed aiutarti. Ed infine, questo è un modo per iniziare ad usare Git ed imparare ad usarlo velocemente.
+Questo è quanto su GitHub, ma è importante notare quanto è veloce fare tutto questo. Puoi creare un account, aggiungere un nuovo progetto, e inviare dati a questo in pochi minuti. Se il tuo progetto è open source, puoi avere un'ampia comunità di sviluppatori che possono vedere nel tuo progetto e biforcarlo ed aiutarti. Ed infine, questo è un modo per iniziare ad usare Git ed imparare ad usarlo velocemente.
 
 ## Riassunto ##
 
 Hai varie opzioni per ottenere un repository Git e poter dunque collaborare con altri o condividere il tuo lavoro.
 
-Utilizzare il proprio server ti permette di avere molto controllo e ti permette di avere un tuo firewall, ma un server del genere richiede un certa quantità del tuo tempo per essere impostato e mantenuto. Se metti i tuoi dati su un servizio di hosting, è facile da configurare e mantenere; tuttavia, puoi mantenere il tuo codice su altri server, e alcune aziende non lo permettono.
+Utilizzare il proprio server ti permette di avere molto controllo e ti permette di avere un tuo firewall, ma un server del genere richiede un certa quantità del tuo tempo per essere configurato e mantenuto. Se metti i tuoi dati su un servizio di hosting, è facile da configurare e mantenere; tuttavia, devi poter mantenere il tuo codice su altri server, ed alcune aziende non lo permettono.
 
-E' davvero molto difficile dire quale soluzione o combinazione di soluzione è davvero appropriata per te e la tua azienda.
+É davvero molto difficile dire quale soluzione o combinazione di soluzioni è davvero appropriata per te e la tua azienda.

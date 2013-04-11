@@ -196,7 +196,7 @@ Gitには、git configと呼ばれるツールが付属します。これで、�
 *  `~/.gitconfig` file: 特定のユーザーに対する設定値を保持します. `--global`オプションを指定することで、Gitに、明確にこのファイルに読み書きを行なわせることができます。
 *  現在使っている、あらゆるリポジトリのGitディレクトリの設定ファイル(`.git/config`のことです): 特定の単一リポジトリに対する設定値を保持します。それぞれのレベルの値は以前のレベルの値を上書きするため、`.git/config`の中の設定値は`/etc/gitconfig`の設定値に優先されます。
 
-Windows環境下では、Gitは`$HOME`ディレクトリ（ほとんどのユーザーは`C:\Documents and Settings\$USER`)（訳者注：環境変数`USERPROFILE`で指定される）の中の`.gitconfig`ファイルを検索に行きます。また、インストーラー時にWidnowsシステムにGitをインストールすると決めたところにある、MSysのルートとの相対位置であったとしても、/etc/gitconfigも見に行きます。
+Windows環境下では､Gitは`$HOME`ディレクトリ（環境変数`USERPROFILE`で指定)の中の`.gitconfig`ファイルを検索に行きます。`$HOME`ディレクトリはほとんどの場合`C:\Documents and Settings\$USER`か`C:\Users\$USER`のいずれかです($USERは環境変数`USERNAME`で指定)｡また、インストーラー時にWindowsシステムにGitをインストールすると決めたところにある、MSysのルートとの相対位置であったとしても、/etc/gitconfigも見に行きます。
 
 ### 個人の識別情報 ###
 

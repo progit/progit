@@ -46,11 +46,11 @@ Insert 18333fig0103.png
 
 2005年に、Linuxカーネルを開発していたコミュニティと、BitKeeperを開発していた営利企業との間の協力関係が崩壊して、課金無しの状態が取り消されました。これは、Linux開発コミュニティ（と、特にLinuxの作者のLinus Torvalds）に、BitKeeperを利用している間に学んだ幾つかの教訓を元に、彼ら独自のツールの開発を促しました。新しいシステムの目標の幾つかは、次の通りでした：
 
-*  スピード
-*  シンプルな設計
-*  ノンリニア開発(数千の並列ブランチ)への強力なサポート
-*  完全な分散
-*  Linux カーネルのような大規模プロジェクトを(スピードとデータサイズで)効率的に取り扱い可能
+*	スピード
+*	シンプルな設計
+*	ノンリニア開発(数千の並列ブランチ)への強力なサポート
+*	完全な分散
+*	Linux カーネルのような大規模プロジェクトを(スピードとデータサイズで)効率的に取り扱い可能
 
 2005年のその誕生から、Gitは使いやすく発展・成熟してきており、さらにその初期の品質を維持しています。とても高速で、巨大プロジェクトではとても効率的で、ノンリニア開発のためのすごい分岐システム（branching system）を備えています（第3章参照）。
 
@@ -87,7 +87,7 @@ Gitの全てのものは、格納される前にチェックサムが取られ�
 
 Gitがチェックサム生成に用いる機構は、SHA-1ハッシュと呼ばれます。これは、16進数の文字（0-9とa-f）で構成された40文字の文字列で、ファイルの内容もしくはGit内のディレクトリ構造を元に計算されます。SHA-1ハッシュは、このようなもののように見えます:
 
-  24b9da6552252987aa493b52f8696cd6d3b00373
+	24b9da6552252987aa493b52f8696cd6d3b00373
 
 Gitはハッシュ値を大変よく利用するので、Gitのいたるところで、これらのハッシュ値を見ることでしょう。事実、Gitはファイル名ではなく、ファイル内容のハッシュ値によってアドレスが呼び出されるGitデータベースの中に全てを格納しています。
 
@@ -130,49 +130,49 @@ Gitディレクトリは、プロジェクトのためのメタデータ（訳�
 
 Gitをインストールするためには、Gitが依存するライブラリーである、curl、zlib、openssl、expat、libiconvを入手する必要があります。例えば、もし（Fedoraなどで）yumか（Debianベースのシステムなどで）apt-getが入ったシステムを使っているのであれば、これらのコマンドの一つを依存対象の全てをインストールするのに使う事ができます：
 
-  $ yum install curl-devel expat-devel gettext-devel \
-    openssl-devel zlib-devel
+	$ yum install curl-devel expat-devel gettext-devel \
+	  openssl-devel zlib-devel
 
-  $ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
-    libz-dev libssl-dev
-
+	$ apt-get install libcurl4-gnutls-dev libexpat1-dev gettext \
+	  libz-dev libssl-dev
+	
 全ての必要な依存対象を持っているのであれば、先に進んでGitのウェブサイトから最新版のスナップショットを持ってくる事ができます：
 
-  http://git-scm.com/download
-
+	http://git-scm.com/download
+	
 そして、コンパイルしてインストールします：
 
-  $ tar -zxf git-1.7.2.2.tar.gz
-  $ cd git-1.7.2.2
-  $ make prefix=/usr/local all
-  $ sudo make prefix=/usr/local install
+	$ tar -zxf git-1.7.2.2.tar.gz
+	$ cd git-1.7.2.2
+	$ make prefix=/usr/local all
+	$ sudo make prefix=/usr/local install
 
 また、Gitのインストール後、アップデートでGitを通して最新版のGitを得ることができます。
 
-  $ git clone git://git.kernel.org/pub/scm/git/git.git
-
+	$ git clone git://git.kernel.org/pub/scm/git/git.git
+	
 ### Linuxにインストール ###
 
 バイナリのインストーラーを通じてLinux上にGitをインストールしたいのであれば、大抵はディストリビューションに付属する基本的なパッケージ・マネジメント・ツールを使って、それを行なう事ができます。もしFedoraを使っているのであれば、yumを使う事が出来ます：
 
-  $ yum install git-core
+	$ yum install git-core
 
 もしくは、もしUbuntuのようなDebianベースのディストリュビューションを使っているのであれば、apt-getをやってみましょう：
 
-  $ apt-get install git
+	$ apt-get install git
 
 ### Macにインストール ###
 
 MacにGitをインストールするには2つの簡単な方法があります。もっとも簡単な方法は、グラフィカルなGitインストーラーを使うことで、このGitインストーラーはGoogle Codeのページ（図1-7参照）からダウンロードすることができます：
 
-  http://code.google.com/p/git-osx-installer
+	http://code.google.com/p/git-osx-installer
 
 Insert 18333fig0107.png
 図 1-7. Git OS X installer
 
 もう一つの主要な方法は、MacPorts (`http://www.macports.org`) からGitをインストールすることです。MacPortsをインストールした状態であれば、Gitを以下のようにインストールできます。
 
-  $ sudo port install git-core +svn +doc +bash_completion +gitweb
+	$ sudo port install git-core +svn +doc +bash_completion +gitweb
 
 全てのvariantsを追加する必要はありませんが、SubversionのリポジトリでGitを使う必要がまだあるなら、恐らく+svnを含めないといけないでしょう（第8章参照）。
 
@@ -180,7 +180,7 @@ Insert 18333fig0107.png
 
 WindowsにGitをインストールするのはとても簡単です。msysGitプロジェクトは、より簡単なインストール手続きの一つを備えています。GitHubのページから、単純にインストーラーのexeファイルをダウンロードをし、実行してください：
 
-  http://msysgit.github.com/
+	http://msysgit.github.com/
 
 インストール後、コマンドライン版（後で役に立つSSHクライアントを含む）とスタンダードGUI版の両方を使う事ができます。
 
@@ -192,18 +192,18 @@ Windows利用時の注意点: この本で紹介されている複雑なコマ�
 
 Gitには、git configと呼ばれるツールが付属します。これで、どのようにGitが見えて機能するかの全ての面を制御できる設定変数を取得し、設定することができます。これらの変数は三つの異なる場所に格納されうります：
 
-*  `/etc/gitconfig` file: システム上の全てのユーザーと全てのリポジトリに対する設定値を保持します。もし`--system`オプションを`git config`に指定すると、明確にこのファイルに読み書きを行ないます。
-*  `~/.gitconfig` file: 特定のユーザーに対する設定値を保持します. `--global`オプションを指定することで、Gitに、明確にこのファイルに読み書きを行なわせることができます。
-*  現在使っている、あらゆるリポジトリのGitディレクトリの設定ファイル(`.git/config`のことです): 特定の単一リポジトリに対する設定値を保持します。それぞれのレベルの値は以前のレベルの値を上書きするため、`.git/config`の中の設定値は`/etc/gitconfig`の設定値に優先されます。
+*	`/etc/gitconfig` file: システム上の全てのユーザーと全てのリポジトリに対する設定値を保持します。もし`--system`オプションを`git config`に指定すると、明確にこのファイルに読み書きを行ないます。
+*	`~/.gitconfig` file: 特定のユーザーに対する設定値を保持します. `--global`オプションを指定することで、Gitに、明確にこのファイルに読み書きを行なわせることができます。
+*	現在使っている、あらゆるリポジトリのGitディレクトリの設定ファイル(`.git/config`のことです): 特定の単一リポジトリに対する設定値を保持します。それぞれのレベルの値は以前のレベルの値を上書きするため、`.git/config`の中の設定値は`/etc/gitconfig`の設定値に優先されます。
 
-Windows環境下では､Gitは`$HOME`ディレクトリ（環境変数`USERPROFILE`で指定)の中の`.gitconfig`ファイルを検索に行きます。`$HOME`ディレクトリはほとんどの場合`C:\Documents and Settings\$USER`か`C:\Users\$USER`のいずれかです($USERは環境変数`USERNAME`で指定)｡また、インストーラー時にWindowsシステムにGitをインストールすると決めたところにある、MSysのルートとの相対位置であったとしても、/etc/gitconfigも見に行きます。
+Windows環境下では､Gitは`$HOME`ディレクトリ（環境変数`USERPROFILE`で指定)の中の`.gitconfig`ファイルを検索に行きます。`$HOME`ディレクトリはほとんどの場合 `C:\Documents and Settings\$USER` か `C:\Users\$USER` のいずれかです($USERは環境変数`USERNAME`で指定)｡また、インストーラー時にWindowsシステムにGitをインストールすると決めたところにある、MSysのルートとの相対位置であったとしても、 /etc/gitconfigも見に行きます。
 
 ### 個人の識別情報 ###
 
 Gitをインストールしたときに最初にすべきことは、ユーザー名とE-mailアドレスを設定することです。全てのGitのコミットはこの情報を用いるため、これは重要で、次々とまわすコミットに永続的に焼き付けられます：
 
-  $ git config --global user.name "John Doe"
-  $ git config --global user.email johndoe@example.com
+	$ git config --global user.name "John Doe"
+	$ git config --global user.email johndoe@example.com
 
 また、もし`--global`オプションを指定するのであれば、Gitはその後、そのシステム上で行なう（訳者注：あるユーザーの）全ての操作に対して常にこの情報を使うようになるため、この操作を行なう必要はたった一度だけです。もし、違う名前とE-mailアドレスを特定のプロジェクトで上書きしたいのであれば、そのプロジェクトの（訳者注：Gitディレクトリの）中で、`--global`オプション無しでこのコマンドを実行することができます。
 
@@ -211,13 +211,13 @@ Gitをインストールしたときに最初にすべきことは、ユーザ�
 
 今や、個人の識別情報が設定され、Gitがメッセージのタイプをさせる必要があるときに使う、標準のテキストエディターを設定できます。標準では、Gitはシステムのデフォルト・エディターを使います。これは大抵の場合、ViかVimです。Emacsのような違うテキスト・エディターを使いたい場合は、次のようにします：
 
-  $ git config --global core.editor emacs
-
+	$ git config --global core.editor emacs
+	
 ### diffツール ###
 
 設定したいと思われる、その他の便利なオプションは、マージ（訳者注：複数のリポジトリを併合すること）時の衝突を解決するために使う、標準のdiffツールです。vimdiffを使いたいとします：
 
-  $ git config --global merge.tool vimdiff
+	$ git config --global merge.tool vimdiff
 
 Gitはkdiff3、tkdiff、meld、xxdiff、emerge、vimdiff、gvimdiff、ecmerge、opendiffを確かなマージ・ツールとして扱えます。カスタム・ツールもまた設定できますが、これをする事に関しての詳細な情報は第7章を参照してください。
 
@@ -225,33 +225,33 @@ Gitはkdiff3、tkdiff、meld、xxdiff、emerge、vimdiff、gvimdiff、ecmerge、
 
 設定を確認したい場合は、その時点でGitが見つけられる全ての設定を一覧するコマンドである`git config --list`を使う事ができます：
 
-  $ git config --list
-  user.name=Scott Chacon
-  user.email=schacon@gmail.com
-  color.status=auto
-  color.branch=auto
-  color.interactive=auto
-  color.diff=auto
-  ...
+	$ git config --list
+	user.name=Scott Chacon
+	user.email=schacon@gmail.com
+	color.status=auto
+	color.branch=auto
+	color.interactive=auto
+	color.diff=auto
+	...
 
 Gitは異なったファイル(例えば`/etc/gitconfig`と`~/.gitconfig`)から同一のキーを読み込むため、同一のキーを1度以上見ることになるでしょう。この場合、Gitは見つけたそれぞれ同一のキーに対して最後の値を用います。
 
 また、Gitに設定されている特定のキーの値を、`git config {key}`をタイプすることで確認することができます：
 
-  $ git config user.name
-  Scott Chacon
+	$ git config user.name
+	Scott Chacon
 
 ## ヘルプを見る ##
 
 もし、Gitを使っている間は助けがいつも必要なら、あらゆるGitコマンドのヘルプのマニュアル・ページ（manpage）を参照する3種類の方法があります。
 
-  $ git help <verb>
-  $ git <verb> --help
-  $ man git-<verb>
+	$ git help <verb>
+	$ git <verb> --help
+	$ man git-<verb>
 
 例えば、configコマンドのヘルプのmanpageを次のコマンドを走らせることで見ることができます。
 
-  $ git help config
+	$ git help config
 
 これらのコマンドは、オフラインのときでさえ、どこでも見る事ができるので、すばらしいです。
 もしmanpageとこの本が十分でなく、人の助けが必要であれば、フリーノードIRCサーバー（irc.freenode.net）の`#git`もしくは`#github`チャンネルにアクセスしてみてください。これらのチャンネルはいつも、全員がGitに関してとても知識があり、よく助けてくれようとする数百人の人々でいっぱいです。

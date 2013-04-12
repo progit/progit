@@ -416,7 +416,7 @@ Author フィールドの見た目がずっとよくなっただけではなく�
 
 ### Perforce ###
 
-次のインポート元としてとりあげるのは Perforce です。Perforce からのインポートツールも Git に同梱されていますが、本体ではなく `contrib` の中にあります。`git svn` のようにデフォルトで使えるわけではありません。このツールを使うには Git のソースコードを取得する必要があります。ソースコードは git.kernel.org からダウンロードできます。
+次のインポート元としてとりあげるのは Perforce です。Perforce からのインポートツールも Git に同梱されています｡ただし､使用しているGitのバージョンが1.7.11より古い場合は同梱されておらず､Gitソースコードの `contrib` から取り出す必要があります。ソースコードは git.kernel.org からダウンロードできます。
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import

@@ -406,7 +406,11 @@ Author フィールドの見た目がずっとよくなっただけではなく�
 
 	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
-これで、今まであった古いブランチはすべて Git のブランチとなり、古いタグもすべて Git のタグになりました。最後に残る作業は、新しい Git サーバーをリモートに追加してプッシュすることです。すべてのブランチやタグを一緒にプッシュするには、このようにします。
+これで、今まであった古いブランチはすべて Git のブランチとなり、古いタグもすべて Git のタグになりました。最後に残る作業は、新しい Git サーバーをリモートに追加してプッシュすることです。自分のサーバーをリモートとして追加するには以下のようにします｡
+
+	$ git remote add origin git@my-git-server:myrepository.git
+
+すべてのブランチやタグを一緒にプッシュするには、このようにします。
 
 	$ git push origin --all
 	$ git push origin --tags

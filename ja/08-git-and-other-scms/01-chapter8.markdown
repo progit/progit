@@ -398,19 +398,18 @@ Author フィールドの見た目がずっとよくなっただけではなく�
 
 タグを Git のタグとして扱うには、次のコマンドを実行します。
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
 
 これは、リモートブランチのうち `tag/` で始まる名前のものを、実際の (軽量な) タグに変えます。
 
 次に、`refs/remotes` 以下にあるそれ以外の参照をローカルブランチに移動します。
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
 これで、今まであった古いブランチはすべて Git のブランチとなり、古いタグもすべて Git のタグになりました。最後に残る作業は、新しい Git サーバーをリモートに追加してプッシュすることです。すべてのブランチやタグを一緒にプッシュするには、このようにします。
 
 	$ git push origin --all
+	$ git push origin --tags
 
 これで、ブランチやタグも含めたすべてを、新しい Git サーバーにきれいにインポートできました。
 

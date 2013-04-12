@@ -30,14 +30,14 @@ Git と Subversion の橋渡しをするコマンド群のベースとなるコ�
 
 そして、すべてのユーザーが revprop を変更できるようにします。簡単な方法は、常に 0 で終了する pre-revprop-change スクリプトを追加することです。
 
-	$ cat /tmp/test-svn/hooks/pre-revprop-change 
+	$ cat /tmp/test-svn/hooks/pre-revprop-change
 	#!/bin/sh
 	exit 0;
 	$ chmod +x /tmp/test-svn/hooks/pre-revprop-change
 
 これで、ローカルマシンにこのプロジェクトを同期できるようになりました。同期元と同期先のリポジトリを指定して `svnsync init` を実行します。
 
-	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/ 
+	$ svnsync init file:///tmp/test-svn http://progit-example.googlecode.com/svn/
 
 このコマンドは、同期を実行するためのプロパティを設定します。次に、このコマンドでコードをコピーします。
 
@@ -282,7 +282,7 @@ Subversion に慣れているので SVN が出力する形式で歴史を見た�
 
 	------------------------------------------------------------------------
 	r85 | schacon | 2009-05-02 16:00:09 -0700 (Sat, 02 May 2009) | 2 lines
-	
+
 	updated the changelog
 
 `git svn log` に関して知っておくべき重要なことがふたつあります。まず。このコマンドはオフラインで動作します。実際の `svn log` コマンドのように Subversion サーバーにデータを問い合わせたりしません。次に、すでに Subversion サーバーにコミット済みのコミットしか表示されません。つまり、ローカルの Git へのコミットのうちまだ dcommit していないものは表示されないし、その間に他の人が Subversion サーバーにコミットした内容も表示されません。最後に Subversion サーバーの状態を調べたときのログが表示されると考えればよいでしょう。
@@ -291,19 +291,19 @@ Subversion に慣れているので SVN が出力する形式で歴史を見た�
 
 `git svn log` コマンドが `svn log` コマンドをオフラインでシミュレートしているのと同様に、`svn annotate` と同様のことを `git svn blame [FILE]` で実現できます。出力は、このようになります。
 
-	$ git svn blame README.txt 
+	$ git svn blame README.txt
 	 2   temporal Protocol Buffers - Google's data interchange format
 	 2   temporal Copyright 2008 Google Inc.
 	 2   temporal http://code.google.com/apis/protocolbuffers/
-	 2   temporal 
+	 2   temporal
 	22   temporal C++ Installation - Unix
 	22   temporal =======================
-	 2   temporal 
+	 2   temporal
 	79    schacon Committing in git-svn.
-	78    schacon 
+	78    schacon
 	 2   temporal To build and install the C++ Protocol Buffer runtime and the Protocol
 	 2   temporal Buffer compiler (protoc) execute the following:
-	 2   temporal 
+	 2   temporal
 
 先ほどと同様、このコマンドも Git にローカルにコミットした内容や他から Subversion にプッシュされていたコミットは表示できません。
 
@@ -398,25 +398,28 @@ Author フィールドの見た目がずっとよくなっただけではなく�
 
 タグを Git のタグとして扱うには、次のコマンドを実行します。
 
-	$ cp -Rf .git/refs/remotes/tags/* .git/refs/tags/
-	$ rm -Rf .git/refs/remotes/tags
+	$ git for-each-ref refs/remotes/tags | cut -d / -f 4- | grep -v @ | while read tagname; do git tag "$tagname" "tags/$tagname"; git branch -r -d "tags/$tagname"; done
 
 これは、リモートブランチのうち `tag/` で始まる名前のものを、実際の (軽量な) タグに変えます。
 
 次に、`refs/remotes` 以下にあるそれ以外の参照をローカルブランチに移動します。
 
-	$ cp -Rf .git/refs/remotes/* .git/refs/heads/
-	$ rm -Rf .git/refs/remotes
+	$ git for-each-ref refs/remotes | cut -d / -f 3- | grep -v @ | while read branchname; do git branch "$branchname" "refs/remotes/$branchname"; git branch -r -d "$branchname"; done
 
-これで、今まであった古いブランチはすべて Git のブランチとなり、古いタグもすべて Git のタグになりました。最後に残る作業は、新しい Git サーバーをリモートに追加してプッシュすることです。すべてのブランチやタグを一緒にプッシュするには、このようにします。
+これで、今まであった古いブランチはすべて Git のブランチとなり、古いタグもすべて Git のタグになりました。最後に残る作業は、新しい Git サーバーをリモートに追加してプッシュすることです。自分のサーバーをリモートとして追加するには以下のようにします｡
+
+	$ git remote add origin git@my-git-server:myrepository.git
+
+すべてのブランチやタグを一緒にプッシュするには、このようにします。
 
 	$ git push origin --all
+	$ git push origin --tags
 
 これで、ブランチやタグも含めたすべてを、新しい Git サーバーにきれいにインポートできました。
 
 ### Perforce ###
 
-次のインポート元としてとりあげるのは Perforce です。Perforce からのインポートツールも Git に同梱されていますが、本体ではなく `contrib` の中にあります。`git svn` のようにデフォルトで使えるわけではありません。このツールを使うには Git のソースコードを取得する必要があります。ソースコードは git.kernel.org からダウンロードできます。
+次のインポート元としてとりあげるのは Perforce です。Perforce からのインポートツールも Git に同梱されています｡ただし､使用しているGitのバージョンが1.7.11より古い場合は同梱されておらず､Gitソースコードの `contrib` から取り出す必要があります。ソースコードは git.kernel.org からダウンロードできます。
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
@@ -510,7 +513,7 @@ Git のディレクトリにインポートするにはまず、これらのデ�
 	    next if File.file?(dir)
 
 	    # 対象ディレクトリに移動
-	    Dir.chdir(dir) do 
+	    Dir.chdir(dir) do
 	      last_mark = print_export(dir, last_mark)
 	    end
 	  end
@@ -605,7 +608,7 @@ Git のディレクトリにインポートするにはまず、これらのデ�
 
 これで終わりです。このスクリプトを実行すれば、次のような結果が得られます。
 
-	$ ruby import.rb /opt/import_from 
+	$ ruby import.rb /opt/import_from
 	commit refs/heads/master
 	mark :1
 	committer Scott Chacon <schacon@geemail.com> 1230883200 -0700
@@ -628,7 +631,7 @@ Git のディレクトリにインポートするにはまず、これらのデ�
 	new version one
 	(...)
 
-インポーターを動かすには、この出力をパイプで `git fast-import` に渡します。これは、インポート先の Git ディレクトリで実行します。新しいディレクトリを作成してそこで `git init` を実行し、そしてスクリプトを実行することになります。
+インポーターを動かすには、インポート先の Git レポジトリにおいて､インポーターの出力をパイプで `git fast-import` に渡す必要があります。インポート先に新しいディレクトリを作成したら､以下のように `git init` を実行し、そしてスクリプトを実行してみましょう｡
 
 	$ git init
 	Initialized empty Git repository in /opt/import_to/.git/

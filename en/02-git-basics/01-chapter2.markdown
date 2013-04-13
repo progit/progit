@@ -561,6 +561,11 @@ The most interesting option is `format`, which allows you to specify your own lo
 
 Table 2-1 lists some of the more useful options that format takes.
 
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
+
 	Option	Description of Output
 	%H	Commit hash
 	%h	Abbreviated commit hash
@@ -596,6 +601,11 @@ The `oneline` and `format` options are particularly useful with another `log` op
 
 Those are only some simple output-formatting options to `git log` — there are many more. Table 2-2 lists the options we’ve covered so far and some other common formatting options that may be useful, along with how they change the output of the `log` command.
 
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
+
 	Option	Description
 	-p	Show the patch introduced with each commit.
 	--word-diff	Show the patch in a word diff format.
@@ -624,6 +634,11 @@ You can also filter the list to commits that match some search criteria. The `--
 The last really useful option to pass to `git log` as a filter is a path. If you specify a directory or file name, you can limit the log output to commits that introduced a change to those files. This is always the last option and is generally preceded by double dashes (`--`) to separate the paths from the options.
 
 In Table 2-3 we’ll list these and a few other common options for your reference.
+
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
 	Option	Description
 	-(n)	Show only the last n commits

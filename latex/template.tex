@@ -13,6 +13,10 @@
 \usepackage{booktabs}
 \usepackage{indentfirst}
 \usepackage{framed,color}
+\usepackage{caption}
+\captionsetup{font=bf,position=below}
+
+\usepackage{ctable}
 
 \definecolor{shadecolor}{gray}{0.90}
 
@@ -91,7 +95,7 @@
 	\label{img:\theimg}
 	\centering\IfFileExists{figures/\theimg.pdf}{\includegraphics[width=\maxwidth]{figures/\theimg.pdf}}{\includegraphics[width=\maxwidth]{figures/\theimg.png}}
 
-	\textbf{\caption{#1}}
+	\caption{#1}
 \end{figure}}
 
 \newcounter{tab}[chapter]

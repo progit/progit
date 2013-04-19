@@ -781,7 +781,7 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 	Unpacking objects: 100% (3/3), done.
 	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -791,7 +791,7 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 この中には、いくつか興味深い点があります。まず、フックの実行が始まったときの次の表示に注目しましょう。
 
 	Enforcing Policies...
-	(refs/heads/master) (fb8c72) (c56860)
+	(refs/heads/master) (8338c5) (c5b616)
 
 これは、スクリプトの先頭で標準出力に表示した内容でした。ここで重要なのは「スクリプトから標準出力に送った内容は、すべてクライアントにも送られる」ということです。
 

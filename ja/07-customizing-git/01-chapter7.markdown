@@ -93,7 +93,7 @@ core.pager は、Git が `log` や `diff` などを出力するときに使う�
 
 #### help.autocorrect ####
 
-このオプションが使えるのは Git 1.6.1 以降だけです。Git 1.6 でコマンドを打ち間違えると、こんなふうに表示されます。
+このオプションが使えるのは Git 1.6.1 以降だけです。Git でコマンドを打ち間違えると、こんなふうに表示されます。
 
 	$ git com
 	git: 'com' is not a git-command. See 'git --help'.
@@ -113,13 +113,13 @@ Git では、ターミナルへの出力に色をつけることができます�
 
 	$ git config --global color.ui true
 
-これを設定すると、出力がターミナルに送られる場合に Git がその出力を色づけします。ほかに false という値を指定することもでき、これは出力に決して色をつけません。また always を指定すると、すべての場合に色をつけます。すべての場合とは、Git コマンドをファイルにリダイレクトしたり他のコマンドにパイプでつないだりする場合も含みます。この設定項目は Git バージョン 1.5.5 で追加されました。それより前のバージョンを使っている場合は、すべての色設定を個別に指定しなければなりません。
+これを設定すると、出力がターミナルに送られる場合に Git がその出力を色づけします。ほかに false という値を指定することもでき、これは出力に決して色をつけません。また always を指定すると、すべての場合に色をつけます。すべての場合とは、Git コマンドをファイルにリダイレクトしたり他のコマンドにパイプでつないだりする場合も含みます。
 
 `color.ui = always` を使うことは、まずないでしょう。たいていの場合は、カラーコードを含む結果をリダイレクトしたい場合は Git コマンドに `--color` フラグを渡してカラーコードの使用を強制します。ふだんは `color.ui = true` の設定で要望を満たせるでしょう。
 
 #### `color.*` ####
 
-どのコマンドをどのように色づけするかをより細やかに指定したい場合、あるいはバージョンが古くて先ほどの設定が使えない場合は、コマンド単位の色づけ設定を使用します。これらの項目には `true`、`false` あるいは `always` を指定することができます。
+どのコマンドをどのように色づけするかをより細やかに指定したい場合、コマンド単位の色づけ設定を使用します。これらの項目には `true`、`false` あるいは `always` を指定することができます。
 
 	color.branch
 	color.diff
@@ -128,7 +128,7 @@ Git では、ターミナルへの出力に色をつけることができます�
 
 さらに、これらの項目ではサブ設定が使え、出力の一部について特定の色を使うように指定することもできます。たとえば、diff の出力でのメタ情報を青の太字で出力させたい場合は次のようにします。
 
-	$ git config --global color.diff.meta “blue black bold”
+	$ git config --global color.diff.meta "blue black bold"
 
 色として指定できる値は normal、black、red、green、yellow、blue、magenta、cyan あるいは white のいずれかです。先ほどの例の bold のように属性を指定することもできます。bold、dim、ul、blink および reverse のいずれかを指定できます。
 
@@ -156,13 +156,13 @@ diff のラッパーは、7 つの引数が渡されていることを確認し�
 
 ここで必要な引数は `old-file` と `new-file` だけなので、ラッパースクリプトではこれらを渡すようにします。
 
-	$ cat /usr/local/bin/extDiff 
+	$ cat /usr/local/bin/extDiff
 	#!/bin/sh
 	[ $# -eq 7 ] && /usr/local/bin/extMerge "$2" "$5"
 
 また、これらのツールは実行可能にしておかなければなりません。
 
-	$ sudo chmod +x /usr/local/bin/extMerge 
+	$ sudo chmod +x /usr/local/bin/extMerge
 	$ sudo chmod +x /usr/local/bin/extDiff
 
 これで、自前のマージツールや diff ツールを使えるように設定する準備が整いました。設定項目はひとつだけではありません。まず `merge.tool` でどんなツールを使うのかを Git に伝え、`mergetool.*.cmd` でそのコマンドを実行する方法を指定し、`mergetool.trustExitCode` では「そのコマンドの終了コードでマージが成功したかどうかを判断できるのか」を指定し、`diff.external` では diff の際に実行するコマンドを指定します。つまり、このような 4 つのコマンドを実行することになります。
@@ -184,12 +184,12 @@ diff のラッパーは、7 つの引数が渡されていることを確認し�
 	  external = extDiff
 
 すべて設定し終えたら、
-	
+
 	$ git diff 32d1776b1^ 32d1776b1
 
 このような diff コマンドを実行すると、結果をコマンドラインに出力するかわりに P4Merge を立ち上げ、図 7-1 のようになります。
 
-Insert 18333fig0701.png 
+Insert 18333fig0701.png
 図 7-1. P4Merge
 
 ふたつのブランチをマージしてコンフリクトが発生した場合は `git mergetool` を実行します。すると P4Merge が立ち上がり、コンフリクトの解決を GUI ツールで行えるようになります。
@@ -197,7 +197,7 @@ Insert 18333fig0701.png
 このようなラッパーを設定しておくと、あとで diff ツールやマージツールを変更したくなったときにも簡単に変更することができます。たとえば `extDiff` や `extMerge` で KDiff3 を実行させるように変更するには `extMerge` ファイルをこのように変更するだけでよいのです。
 
 	$ cat /usr/local/bin/extMerge
-	#!/bin/sh	
+	#!/bin/sh
 	/Applications/kdiff3.app/Contents/MacOS/kdiff3 $*
 
 これで、Git での diff の閲覧やコンフリクトの解決の際に KDiff3 が立ち上がるようになりました。
@@ -301,19 +301,19 @@ Git の属性を使ってできるちょっとした技として、どのファ�
 
 	*.pbxproj -crlf -diff
 
-これで、Git が CRLF 問題の対応をすることもなくなりますし、git show や git diff を実行したときにもこのファイルの diff を調べることはなくなります。Git 1.6 系では、次のようなマクロを使うこともできます。これは `-crlf -diff` と同じ意味です。
+これで、Git が CRLF 問題の対応をすることもなくなりますし、`git show` や `git diff` を実行したときにもこのファイルの diff を調べることはなくなります。また､次のようなマクロ`binary`を使うこともできます。これは `-crlf -diff` と同じ意味です。
 
 	*.pbxproj binary
 
 #### バイナリファイルの差分 ####
 
-Git 1.6系では、バイナリファイルの差分を効果的に扱うためにGitの属性機能を使うことができます。通常のdiff機能を使って比較を行うことができるように、バイナリデータをテキストデータに変換する方法をGitに教えればいいのです。
+Gitでは、バイナリファイルの差分を効果的に扱うためにGitの属性機能を使うことができます。通常のdiff機能を使って比較を行うことができるように、バイナリデータをテキストデータに変換する方法をGitに教えればいいのです。
 
 ##### MS Word ファイル #####
 
-これは素晴らしい機能ですがほとんど知られていないので、少し例をあげてみたいと思います。あなたはまず最初に人類にとっても最も厄介な問題のひとつを解決するためにこのテクニックを使いたいと思うでしょう。そう、Wordで作成した文書のバージョン管理です。奇妙なことに、Wordは最悪のエディタだと全ての人が知ってるいるにも係わらず、全ての人がWordを使っています。Word文書をバージョン管理したいと思ったなら、Gitのリポジトリにそれらを追加して、まとめてcommitすればいいのです。しかし、それでいいのでしょうか？ あなたが'git diff'をいつも通りに実行すると、次のように表示されるだけです。
+これは素晴らしい機能ですがほとんど知られていないので、少し例をあげてみたいと思います。あなたはまず最初に人類にとっても最も厄介な問題のひとつを解決するためにこのテクニックを使いたいと思うでしょう。そう、Wordで作成した文書のバージョン管理です。奇妙なことに、Wordは最悪のエディタだと全ての人が知っているにも係わらず、全ての人がWordを使っています。Word文書をバージョン管理したいと思ったなら、Gitのリポジトリにそれらを追加して、まとめてcommitすればいいのです。しかし、それでいいのでしょうか？ あなたが'git diff'をいつも通りに実行すると、次のように表示されるだけです。
 
-	$ git diff 
+	$ git diff
 	diff --git a/chapter1.doc b/chapter1.doc
 	index 88839c4..4afcb7c 100644
 	Binary files a/chapter1.doc and b/chapter1.doc differ
@@ -371,13 +371,13 @@ OpenDocument ファイルの正体は zip で、複数のファイル (XML 形�
 	#! /usr/bin/env perl
 	# Simplistic OpenDocument Text (.odt) to plain text converter.
 	# Author: Philipp Kempgen
-	
+
 	if (! defined($ARGV[0])) {
 		print STDERR "No filename given!\n";
 		print STDERR "Usage: $0 filename\n";
 		exit 1;
 	}
-	
+
 	my $content = '';
 	open my $fh, '-|', 'unzip', '-qq', '-p', $ARGV[0], 'content.xml' or die $!;
 	{
@@ -446,17 +446,17 @@ SubversionやCVSを使っていた開発者から、キーワード展開機能�
 
 	$ rm test.txt
 	$ git checkout -- test.txt
-	$ cat test.txt 
+	$ cat test.txt
 	$Id: 42812b7653c7b88933f8a9d6cad0ca16714b9bb3 $
 
 しかし、このやりかたには制限があります。CVSやSubversionのキーワード展開ではタイムスタンプを含めることができます。対して、SHA-1チェックサムは完全にランダムな値ですから、2つの値の新旧を知るための助けにはなりません。
 
 これには、commit/checkout時にキーワード展開を行うためのフィルタを書いてやることで対応できます。このために"clean"と"smudge"フィルタがあります。特定のファイルに対して使用するフィルタを設定し、checkoutされる前("smudge" 図7-2参照)もしくはcommitされる前("clean" 図7-3参照)に指定したスクリプトが実行させるよう、`.gitattributes`ファイルで設定できます。これらのフィルタはあらゆる種類の面白い内容を実行するように設定できます。
 
-Insert 18333fig0702.png 
+Insert 18333fig0702.png
 図7-2. checkoutする時に"smudge"フィルタを実行する
 
-Insert 18333fig0703.png 
+Insert 18333fig0703.png
 図7-3. ステージする時に"clean"フィルタを実行する。
 
 この機能に対してオリジナルのcommitメッセージは簡単な例を与えてくれています。それはcommit前にあなたのCのソースコードを`indent`プログラムに通すというものです。`*.c`ファイルに対して"indent"フィルタを実行するように、`.gitattributes`ファイルにfilter属性を設定することができます。
@@ -548,7 +548,7 @@ Git属性を使えば、プロジェクトにある指定したファイルに�
 
 ### フックをインストールする ###
 
-フックはGitディレクトリの`hooks`サブディレクトリに格納されています。一般的なプロジェクトでは、`.git/hooks`がそれにあたります。Gitはデフォルトでこのディレクトリに例となるスクリプトを生成します。それらの多くはそのままでも十分有用ですし、引数も記載されています。全ての例は基本的にシェルスクリプトで書かれています。いくつかPerlを含むものもありますが、適切に命名されたそれらの実行可能スクリプトはうまく動きます。RubyやPython等で自作していただいてもかまいません。バージョン1.6以降のGitの場合、それらのフックファイルの末尾は.sampleとなっていますので適時リネームしてください。バージョン1.6以前のGitの場合ファイル名は適切ですが実行可能にはなっていません。
+フックはGitディレクトリの`hooks`サブディレクトリに格納されています。一般的なプロジェクトでは、`.git/hooks`がそれにあたります。Gitはデフォルトでこのディレクトリに例となるスクリプトを生成します。それらの多くはそのままでも十分有用ですし、引数も記載されています。全ての例は基本的にシェルスクリプトで書かれています。いくつかPerlを含むものもありますが、適切に命名されたそれらの実行可能スクリプトはうまく動きます。RubyやPython等で自作していただいてもかまいません｡それらのフックファイルの末尾は.sampleとなっていますので適時リネームしてください。
 
 フックスクリプトを有効にするには、Gitディレクトリの`hooks`サブディレクトリに適切な名前の実行可能なファイルを配置する必要があります。これによってファイルが呼び出されることになります。ここでは重要なフックファイル名をいくつか取り上げます。
 
@@ -736,7 +736,7 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 	      access[$user].each do |access_path|
 	        if !access_path || # user has access to everything
 	          (path.index(access_path) == 0) # access to this path
-	          has_file_access = true 
+	          has_file_access = true
 	        end
 	      end
 	      if !has_file_access
@@ -744,7 +744,7 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 	        exit 1
 	      end
 	    end
-	  end  
+	  end
 	end
 
 	check_directory_perms
@@ -755,11 +755,11 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 
 #### Fast-Forward なプッシュへの限定 ####
 
-最後は、fast-forward なプッシュに限るという仕組みです。Git バージョン 1.6 以降には `receive.denyDeletes` および `receive.denyNonFastForwards` という設定項目がありますが、これをフックで記述しておけば、古いバージョンの Git でも動作します。また、特定のユーザーにだけこの制約を加えたいなどといった変更にも対応できます。
+最後は、fast-forward なプッシュに限るという仕組みです。 `receive.denyDeletes` および `receive.denyNonFastForwards` という設定項目で設定できます｡また､フックを用いてこの制限を課すこともできますし､特定のユーザーにだけこの制約を加えたいなどといった変更にも対応できます。
 
 これを調べるには、旧リビジョンからたどれるすべてのコミットについて、新リビジョンから到達できないものがないかどうかを探します。もしひとつもなければ、それは fast-forward なプッシュです。ひとつでも見つかれば、却下することになります。
 
-	# enforces fast-forward only pushes 
+	# enforces fast-forward only pushes
 	def check_fast_forward
 	  missed_refs = `git rev-list #{$newrev}..#{$oldrev}`
 	  missed_ref_count = missed_refs.split("\n").size
@@ -779,9 +779,9 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 	Writing objects: 100% (3/3), 323 bytes, done.
 	Total 3 (delta 1), reused 0 (delta 0)
 	Unpacking objects: 100% (3/3), done.
-	Enforcing Policies... 
+	Enforcing Policies...
 	(refs/heads/master) (8338c5) (c5b616)
-	[POLICY] Cannot push a non-fast-forward reference
+	[POLICY] Cannot push a non fast-forward reference
 	error: hooks/update exited with error code 1
 	error: hook declined to update refs/heads/master
 	To git@gitserver:project.git
@@ -790,8 +790,8 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 
 この中には、いくつか興味深い点があります。まず、フックの実行が始まったときの次の表示に注目しましょう。
 
-	Enforcing Policies... 
-	(refs/heads/master) (fb8c72) (c56860)
+	Enforcing Policies...
+	(refs/heads/master) (8338c5) (c5b616)
 
 これは、スクリプトの先頭で標準出力に表示した内容でした。ここで重要なのは「スクリプトから標準出力に送った内容は、すべてクライアントにも送られる」ということです。
 
@@ -917,7 +917,7 @@ SHA-1 値がわかっているときにコミットからコミットメッセ�
 	target_shas.each do |sha|
 	  remote_refs.each do |remote_ref|
 	    shas_pushed = `git rev-list ^#{sha}^@ refs/remotes/#{remote_ref}`
-	    if shas_pushed.split(“\n”).include?(sha)
+	    if shas_pushed.split("\n").include?(sha)
 	      puts "[POLICY] Commit #{sha} has already been pushed to #{remote_ref}"
 	      exit 1
 	    end

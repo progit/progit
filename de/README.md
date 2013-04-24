@@ -24,11 +24,11 @@ Beispielhaftes Vorgehen:
 	# Wenn Deine Arbeit in sich abgeschlossen ist, kannst Du die Ergebnisse pushen.
 	# Vor einem Push solltest Du allerdings prüfen, ob sich zwischenzeitlich
 	# das Repository git@github.com:progit-de/progit.git aktualisiert hat.
-	git pull progit-de
+	git fetch progit-de
 	
 	# Falls es sich aktualisiert hat, führe einen Rebase aus und 
 	# behebe die ggf. aufgetretenden Konflikte
-	git rebase progit-de/master
+	git rebase progit-de/next
 	
 	# Pushe Deine Ergebnisse in Dein Github Repository
 	git push origin

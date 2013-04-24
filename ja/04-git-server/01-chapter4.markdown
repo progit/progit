@@ -502,7 +502,7 @@ John はプロジェクトをクローンして変更内容を受け取れます
 
 注意: Progit のこのセクションの最新版は、常に [gitolite のドキュメント][gldpg] として公開しています。筆者としては、このセクションさえ読めば gitolite をインストールできるよう正確に記述しているつもりです。しかし、完全な状態ではなく、gitolite に付属する大量のドキュメントに取って代わるものというわけでもありません。
 
-[gldpg]: http://github.com/sitaramc/gitolite/blob/pu/doc/progit-article.mkd
+[gldpg]: http://sitaramc.github.com/gitolite/progit.html
 
 Git は法人の環境でもよく使われるようになってきました。それにつれて、アクセス制御に関する要望もいくつか出てきました。Gitolite は、最初はそのような要望ににこたえるために作られたものでしたが、オープンソースの世界でも便利に使えることがわかりました。Fedora Project では、パッケージ管理リポジトリ (なんと 10,000 以上もある!) のアクセス制御に gitolite を使っています。おそらく gitolite の使用例としては最大規模のものでしょう。
 

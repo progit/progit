@@ -330,7 +330,7 @@ Insert 18333fig0401.png
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/
 	$ make GITWEB_PROJECTROOT="/opt/git" \
-	        prefix=/usr gitweb/gitweb.cgi
+	        prefix=/usr gitweb
 	$ sudo cp -Rf gitweb /var/www/
 
 コマンドを実行する際に、Git リポジトリの場所 `GITWEB_PROJECTROOT` 変数で指定しなければならないことに注意しましょう。さて、次は Apache にこのスクリプトを処理させるようにしなければなりません。VirtualHost に次のように追加しましょう。

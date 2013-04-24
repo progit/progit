@@ -279,8 +279,6 @@ Git サーバーを立ち上げるには、既存のリポジトリをエクス�
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-バージョン 1.6 より前の Git を使っている場合は `mv` コマンドは不要です。Git がフックのサンプルに .sample という拡張子をつけるようになったのは、つい最近のことです。
-
 この `post-update` は、いったい何をするのでしょうか? その中身はこのようになります。
 
 	$ cat .git/hooks/post-update 

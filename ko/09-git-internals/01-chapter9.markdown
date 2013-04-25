@@ -33,7 +33,7 @@ Git 초기에는 (1.5 이전 버전) 사용자 인터페이스가 훨씬 복잡�
 
 ## Git 개체 ##
 
-Git은 Content-addressible 파일시스템이다. 이게 무슨 말이냐 하면 Git이 단순한 Key-Value 데이터 저장소라는 것이다. 어떤 형식의 데이터라도 집어넣을 수 있고 해당 Key로 언제든지 데이터를 다시 가져올 수 있다. Plumbing 명령어 `hash-object`에 데이터를 주면 `.git` 디렉토리에 저장하고 그 key를 알려준다. 우선 Git 저장소를 새로 만들고 `objects` 디렉토리에 뭐가 들어 있는지 확인한다:
+Git은 Content-addressable 파일시스템이다. 이게 무슨 말이냐 하면 Git이 단순한 Key-Value 데이터 저장소라는 것이다. 어떤 형식의 데이터라도 집어넣을 수 있고 해당 Key로 언제든지 데이터를 다시 가져올 수 있다. Plumbing 명령어 `hash-object`에 데이터를 주면 `.git` 디렉토리에 저장하고 그 key를 알려준다. 우선 Git 저장소를 새로 만들고 `objects` 디렉토리에 뭐가 들어 있는지 확인한다:
 
 	$ mkdir test
 	$ cd test

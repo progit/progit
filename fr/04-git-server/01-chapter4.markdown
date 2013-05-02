@@ -406,8 +406,6 @@ Premièrement, il faut activer le crochet :
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Si vous utilisez une version de Git antérieure à 1.6, la commande `mv` n'est pas nécessaire car Git n'a commencé à utiliser le nommage des exemples de crochet en utilisant le suffixe .sample que récemment.
-
 Quelle est l'action de ce crochet `post-update` ?
 Il contient simplement ceci :
 

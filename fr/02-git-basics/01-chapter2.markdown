@@ -234,6 +234,10 @@ Voici un autre exemple de fichier `.gitignore` :
 	build/
 	# ignorer doc/notes.txt, mais pas doc/server/arch.txt
 	doc/*.txt
+	# ignorer tous les fichiers .txt sous le répertoire doc/
+	doc/**/*.txt
+
+Le patron `**/` est disponible dans Git depuis la version 1.8.2.
 
 ### Inspecter les modifications indexées et non indexées ###
 

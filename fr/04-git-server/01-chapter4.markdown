@@ -784,7 +784,7 @@ Cette règle sera juste ajoutée à l'ensemble des règles préexistantes du dé
 
 Du coup, il est nécessaire d'expliciter la politique d'application des règles de contrôle d'accès.
 
-Il existe deux niveaux de contrôle d'accès dans gitolite.
+Il existe deux niveaux de contrôle d'accès dans Gitolite.
 Le premier réside au niveau du dépôt.
 Si vous avez un droit d'accès en lecture (resp. en écriture) à *n'importe quelle* `ref` du dépôt, alors vous avez accès en lecture (resp. en écriture) au dépôt.
 

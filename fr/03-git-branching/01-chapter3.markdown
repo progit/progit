@@ -399,8 +399,8 @@ Pour visualiser les dernières validations sur chaque branche, vous pouvez lance
 	* master   7a98805 Merge branch 'prob53'
 	  test     782fd34 add scott to the author list in the readmes
 
-Une autre option permettant de voir l'état des branches permet de filtrer cette liste par les branches qui ont ou n'ont pas encore été fusionnées dans la branche courante.
-Les options `--merged` et `--no-merged` sont disponibles depuis la version 1.5.6 de Git.
+D'autres options permettent de voir l'état des branches en filtrant cette liste par les branches qui ont ou n'ont pas encore été fusionnées dans la branche courante.
+Ce sont les options `--merged` et `--no-merged`.
 Pour voir quelles branches ont déjà été fusionnées dans votre branche actuelle, lancez `git branch --merged` :
 
 	$ git branch --merged

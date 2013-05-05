@@ -234,6 +234,10 @@ Voici un autre exemple de fichier `.gitignore` :
 	build/
 	# ignorer doc/notes.txt, mais pas doc/server/arch.txt
 	doc/*.txt
+	# ignorer tous les fichiers .txt sous le répertoire doc/
+	doc/**/*.txt
+
+Le patron `**/` est disponible dans Git depuis la version 1.8.2.
 
 ### Inspecter les modifications indexées et non indexées ###
 
@@ -552,11 +556,13 @@ Vous pouvez aussi utiliser `-2` qui limite la sortie de la commande aux deux ent
 	index a874b73..8f94139 100644
 	--- a/Rakefile
 	+++ b/Rakefile
-	@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+	@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
 	 spec = Gem::Specification.new do |s|
+	     s.name      =   "simplegit"
 	-    s.version   =   "0.1.0"
 	+    s.version   =   "0.1.1"
 	     s.author    =   "Scott Chacon"
+	     s.email     =   "schacon@gee-mail.com
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -581,6 +587,32 @@ Vous pouvez aussi utiliser `-2` qui limite la sortie de la commande aux deux ent
 
 Cette option affiche la même information mais avec un diff suivant directement chaque entrée.
 C'est très utile pour des revues de code ou pour naviguer rapidement à travers l'historique des modifications qu'un collaborateur a apportées.
+
+Quelques fois, il est plus facile de visualiser les modifications au niveau des mots plutôt qu'au niveau des lignes.
+L'option `--word-diff` ajoutée à la commande `git log -p` modifie l'affichage des différences en indiquant les modifications au sein des lignes.
+Le format de différence sur les mots est généralement peu utile pour les fichiers de code source, mais s'avère particulièrement pertinent pour les grands fichiers de texte, tels que des livres ou des dissertations. En voici un exemple :
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+Comme vous le voyez, les indications de lignes ajoutées ou retirées d'un *diff* normal ont disparu.
+Les modifications sont affichées en ligne.
+Les mots ajoutés sont encadrés par `{+ +}` tandis que les mots effacés sont encadrés par `{- -}`.
+Vous souhaiterez sûrement réduire le contexte habituel de trois lignes à seulement une ligne, du fait qu'il est à présent constitué de mots et non de lignes.
+Cela est réalisé avec l'option `-U1` utilisée dans l'exemple précédent.
 
 Vous pouvez aussi utiliser une liste d'options de résumé avec `git log`.
 Par exemple, si vous souhaitez visualiser des statistiques résumées pour chaque *commit*, vous pouvez utiliser l'option `--stat` :

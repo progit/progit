@@ -406,8 +406,6 @@ Premièrement, il faut activer le crochet :
 	$ mv hooks/post-update.sample hooks/post-update
 	$ chmod a+x hooks/post-update
 
-Si vous utilisez une version de Git antérieure à 1.6, la commande `mv` n'est pas nécessaire car Git n'a commencé à utiliser le nommage des exemples de crochet en utilisant le suffixe .sample que récemment.
-
 Quelle est l'action de ce crochet `post-update` ?
 Il contient simplement ceci :
 
@@ -784,7 +782,7 @@ Cette règle sera juste ajoutée à l'ensemble des règles préexistantes du dé
 
 Du coup, il est nécessaire d'expliciter la politique d'application des règles de contrôle d'accès.
 
-Il existe deux niveaux de contrôle d'accès dans gitolite.
+Il existe deux niveaux de contrôle d'accès dans Gitolite.
 Le premier réside au niveau du dépôt.
 Si vous avez un droit d'accès en lecture (resp. en écriture) à *n'importe quelle* `ref` du dépôt, alors vous avez accès en lecture (resp. en écriture) au dépôt.
 

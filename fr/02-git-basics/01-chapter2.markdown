@@ -610,7 +610,7 @@ Le format de différence sur les mots est généralement peu utile pour les fich
 
 Comme vous le voyez, les indications de lignes ajoutées ou retirées d'un *diff* normal ont disparu.
 Les modifications sont affichées en ligne.
-Les mots ajoutés sont encadrés par `{+ +}` tandis que les mots effacés sont encadrés par `{- -}`.
+Les mots ajoutés sont encadrés par `{+ +}` tandis que les mots effacés sont encadrés par `[- -]`.
 Vous souhaiterez sûrement réduire le contexte habituel de trois lignes à seulement une ligne, du fait qu'il est à présent constitué de mots et non de lignes.
 Cela est réalisé avec l'option `-U1` utilisée dans l'exemple précédent.
 

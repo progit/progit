@@ -333,49 +333,49 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>4.6</td>
-<td>Nein</td>
+<td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>4.7</td>
-<td>Nein</td>
+<td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>4.8</td>
-<td>Nein</td>
+<td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>4.9</td>
-<td>Nein</td>
+<td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>4.10</td>
-<td>Nein</td>
+<td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>4.11</td>
-<td>Nein</td>
+<td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td bgcolor="yellow">Review notwendig</td>
 </tr>
 <tr>
 <td>5</td>

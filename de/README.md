@@ -242,14 +242,14 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Review notwendig</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>3.1</td>
 <td>Ja</td>
 <td>Nein</td>
 <td>Ja</td>
-<td bgcolor="red">Teilweise Übersetzung doppelt, Rechtschreibfehler oder Grammatikfehler</td>
+<td bgcolor="green">Ok</td>
 </tr>
 <tr>
 <td>3.2</td>

@@ -524,7 +524,7 @@ Gitolite は、いわゆる "サーバー" ソフトウェアとしては少し�
     gitolite setup -pk $HOME/YourName.pub
         # 筆者の場合であれば､ 'gitolite setup -pk $HOME/sitaram.pub' を実行することになります
 
-最後に､あなたのワークステーションに戻って､`git clone git@server:gitolite-admin`を実行します｡
+最後に､あなたのワークステーションに戻って､`git clone git@gitserver:gitolite-admin`を実行します｡
 
 これで完了です! Gitolite はサーバにインストールされ、`gitolite-admin` という新しいリポジトリがあなたのワークステーションにできあがりました。Gitolite の設定を管理するには、このリポジトリに変更を加えてプッシュします。
 

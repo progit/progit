@@ -55,7 +55,7 @@ Git リポジトリを SSH 越しにクローンするには、次のように s
 	$ git clone ssh://user@server:project.git
 
 あるいは、プロトコルを省略することもできます。プロトコルを明示しなくても、Git はそれが SSH であると見なします。
-	
+
 	$ git clone user@server:project.git
 
 ユーザー名も省略することもできます。その場合、Git は現在ログインしているユーザーでの接続を試みます。
@@ -174,11 +174,11 @@ Git サーバーを立ち上げるには、既存のリポジトリをエクス�
 
 そして「○○」「○○.pub」というファイル名の組み合わせを探します。「○○」の部分は、通常は `id_dsa` あるいは `id_rsa` となります。もし見つかったら、`.pub` がついているほうのファイルがあなたの公開鍵で、もう一方があなたの秘密鍵です。そのようなファイルがない (あるいはそもそも `.ssh` ディレクトリがない) 場合は、`ssh-keygen` というプログラムを実行してそれを作成します。このプログラムは Linux/Mac なら SSH パッケージに含まれており、Windows では MSysGit パッケージに含まれています。
 
-	$ ssh-keygen 
+	$ ssh-keygen
 	Generating public/private rsa key pair.
-	Enter file in which to save the key (/Users/schacon/.ssh/id_rsa): 
-	Enter passphrase (empty for no passphrase): 
-	Enter same passphrase again: 
+	Enter file in which to save the key (/Users/schacon/.ssh/id_rsa):
+	Enter passphrase (empty for no passphrase):
+	Enter same passphrase again:
 	Your identification has been saved in /Users/schacon/.ssh/id_rsa.
 	Your public key has been saved in /Users/schacon/.ssh/id_rsa.pub.
 	The key fingerprint is:
@@ -188,7 +188,7 @@ Git サーバーを立ち上げるには、既存のリポジトリをエクス�
 
 さて、次に各ユーザーは自分の公開鍵をあなた (あるいは Git サーバーの管理者である誰か) に送らなければなりません (ここでは、すでに公開鍵認証を使用するように SSH サーバーが設定済みであると仮定します)。公開鍵を送るには、`.pub` ファイルの中身をコピーしてメールで送ります (訳注: メールなんかで送っていいの? とツッコミたいところだ……)。公開鍵は、このようなファイルになります。
 
-	$ cat ~/.ssh/id_rsa.pub 
+	$ cat ~/.ssh/id_rsa.pub
 	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSU
 	GPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3
 	Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XA
@@ -282,7 +282,7 @@ Git サーバーを立ち上げるには、既存のリポジトリをエクス�
 
 この `post-update` は、いったい何をするのでしょうか? その中身はこのようになります。
 
-	$ cat .git/hooks/post-update 
+	$ cat .git/hooks/post-update
 	#!/bin/sh
 	exec git-update-server-info
 
@@ -313,7 +313,7 @@ Apache を再起動すれば、プロジェクトの URL を指定してリポ�
 
 これで、読み書き可能なアクセス方法と読み込み専用のアクセス方法を用意できるようになりました。次にほしくなるのは、ウェブベースでの閲覧方法でしょうか。Git には標準で GitWeb という CGI スクリプトが付属しており、これを使うことができます。GitWeb の使用例は、たとえば `http://git.kernel.org` で確認できます (図 4-1 を参照ください)。
 
-Insert 18333fig0401.png 
+Insert 18333fig0401.png
 図 4-1. GitWeb のユーザーインターフェイス
 
 自分のプロジェクトでためしに GitWeb を使ってみようという人のために、一時的なインスタンスを立ち上げるためのコマンドが Git に付属しています。これを実行するには `lighttpd` や `webrick` といった軽量なサーバーが必要です。Linux マシンなら、たいてい `lighttpd` がインストールされています。これを実行するには、プロジェクトのディレクトリで `git instaweb` と打ち込みます。Mac の場合なら、Leopard には Ruby がプレインストールされています。したがって `webrick` が一番よい選択肢でしょう。`instaweb` を lighttpd 以外で実行するには、`--httpd` オプションを指定します。
@@ -419,7 +419,7 @@ Gitosis は鍵の管理も行うので、まず現在の鍵ファイルを削除
 
 `gitosis.conf` ファイルを見ると、今のところは先ほどクローンした `gitosis-admin` プロジェクトについての情報しか書かれていません。
 
-	$ cat gitosis.conf 
+	$ cat gitosis.conf
 	[gitosis]
 
 	[group gitosis-admin]
@@ -631,7 +631,7 @@ Gitolite のアクセス制御には二段階のレベルがあります。ま�
 変更をプッシュすることのできるブランチを制限するだけでなく、変更できるファイルを制限することも可能です。たとえば、Makefile (あるいはその他のプログラム) などは誰もが変更できるというものではないでしょう。このファイルはさまざまなものに依存しており、変更によっては壊れてしまうことがあるかもしれないからです。そんな場合は次のように設定します。
 
     repo foo
-        RW                  =   @junior_devs @senior_devs
+        RW                      =   @junior_devs @senior_devs
 
         RW  NAME/           =   @senior_devs
         -   NAME/Makefile   =   @junior_devs
@@ -770,12 +770,12 @@ Insert 18333fig0402.png
 
 ユーザー名を選び、メールアドレスを入力します。アカウントとパスワードがこのメールアドレスに関連づけられます (図 4-3 を参照ください)。
 
-Insert 18333fig0403.png 
+Insert 18333fig0403.png
 図 4-3. GitHub のユーザー登録フォーム
 
 それが終われば、次に SSH の公開鍵を追加しましょう。新しい鍵を作成する方法については、さきほど「ちょっとしたセットアップ」のところで説明しました。公開鍵の内容をコピーし、SSH Public Key のテキストボックスに貼り付けます。"explain ssh keys" のリンクをクリックすると、主要 OS 上での公開鍵の作成手順を詳しく説明してくれます。"I agree, sign me up" ボタンをクリックすると、あなたのダッシュボードに移動します (図 4-4 を参照ください)。
 
-Insert 18333fig0404.png 
+Insert 18333fig0404.png
 図 4-4. GitHub のユーザーダッシュボード
 
 では次に、新しいリポジトリの作成に進みましょう。
@@ -784,17 +784,17 @@ Insert 18333fig0404.png
 
 ダッシュボードで、Your Repositories の横にあるリンク "create a new one" をクリックしましょう。新規リポジトリの作成フォームに進みます (図 4-5 を参照ください)。
 
-Insert 18333fig0405.png 
+Insert 18333fig0405.png
 図 4-5. GitHub での新しいリポジトリの作成
 
 ここで必要なのはプロジェクト名を決めることだけです。ただ、それ以外に説明文を追加することもできます。ここで "Create Repository" ボタンを押せば、GitHub 上での新しいリポジトリのできあがりです (図 4-6 を参照ください)。
 
-Insert 18333fig0406.png 
+Insert 18333fig0406.png
 図 4-6. GitHub でのプロジェクトのヘッダ情報
 
 まだ何もコードが追加されていないので、ここでは「新しいプロジェクトを作る方法」「既存の Git プロジェクトをプッシュする方法」「Subversion の公開リポジトリからインポートする方法」が説明されています (図 4-7 を参照ください)。
 
-Insert 18333fig0407.png 
+Insert 18333fig0407.png
 図 4-7. 新しいリポジトリに関する説明
 
 この説明は、本書でこれまでに説明してきたものとほぼ同じです。まだ Git プロジェクトでないプロジェクトを初期化するには、次のようにします。
@@ -810,7 +810,7 @@ Insert 18333fig0407.png
 
 これで GitHub 上でリポジトリが公開され、だれもがプロジェクトにアクセスできるような URL ができあがりました。この例の場合は `http://github.com/testinguser/iphone_project` です。各プロジェクトのページのヘッダには、ふたつの Git URL が表示されています (図 4-8 を参照ください)。
 
-Insert 18333fig0408.png 
+Insert 18333fig0408.png
 図 4-8. 公開 URL とプライベート URL が表示されたヘッダ
 
 Public Clone URL は、読み込み専用の公開 URL で、これを使えば誰でもプロジェクトをクローンできます。この URL は、あなたのウェブサイトをはじめとしたお好みの場所で紹介することができます。
@@ -821,7 +821,7 @@ Your Clone URL は、読み書き可能な SSH の URL で、先ほどアップ�
 
 GitHub では、Subversion で公開しているプロジェクトを Git にインポートすることもできます。先ほどの説明ページの最後のリンクをクリックすると、Subversion からのインポート用ページに進みます。このページにはインポート処理についての情報が表示されており、公開 Subversion リポジトリの URL を入力するテキストボックスが用意されています。
 
-Insert 18333fig0409.png 
+Insert 18333fig0409.png
 図 4-9. Subversion からのインポート
 
 もしそのプロジェクトが非常に大規模なものであったり標準とは異なるものであったり、あるいは公開されていないものであったりした場合は、この手順ではうまくいかないでしょう。第 7 章で、手動でのプロジェクトのインポート手順について詳しく説明します。
@@ -832,17 +832,17 @@ Insert 18333fig0409.png
 
 プロジェクトのヘッダにある "edit" ボタンをクリックするかプロジェクトの上の Admin タブを選択すると、GitHub プロジェクトの管理者用ページに移動します (図 4-10 を参照ください)。
 
-Insert 18333fig0410.png 
+Insert 18333fig0410.png
 図 4-10. GitHub の管理者用ページ
 
 別のユーザーにプロジェクトへの書き込み権限を付与するには、“Add another collaborator”リンクをクリックします。新しいテキストボックスがあらわれるので、そこにユーザー名を記入します。何か入力すると、マッチするユーザー名の候補がポップアップ表示されます。ユーザーが見つかれば、Add ボタンをクリックすればそのユーザーを共同作業者に追加できます (図 4-11 を参照ください)。
 
-Insert 18333fig0411.png 
+Insert 18333fig0411.png
 図 4-11. プロジェクトへの共同作業者の追加
 
 対象者を全員追加し終えたら、Repository Collaborators のところにその一覧が見えるはずです (図 4-12 を参照ください)。
 
-Insert 18333fig0412.png 
+Insert 18333fig0412.png
 図 4-12. プロジェクトの共同作業者一覧
 
 誰かのアクセス権を剥奪したい場合は、"revoke" リンクをクリックすればそのユーザーはプッシュできなくなります。また、今後新たにプロジェクトを作ったときに、この共同作業者一覧をコピーして使うこともできます。
@@ -851,7 +851,7 @@ Insert 18333fig0412.png
 
 プロジェクトをプッシュするか、あるいは Subversion からのインポートを済ませると、プロジェクトのメインページは図 4-13 のようになります。
 
-Insert 18333fig0413.png 
+Insert 18333fig0413.png
 図 4-13. GitHub プロジェクトのメインページ
 
 他の人がこのプロジェクトにアクセスしたときに見えるのがこのページとなります。このページには、さまざまな情報を見るためのタブが用意されています。Commits タブに表示されるのはコミットの一覧で、`git log` コマンドの出力と同様にコミット時刻が新しい順に表示されます。Network タブには、このプロジェクトをフォークして何か貢献してくれた人の一覧が表示されます。Downloads タブには、プロジェクト内でタグが打たれている任意の点について tar や zip でまとめたものをアップロードすることができます。Wiki タブには、プロジェクトに関するドキュメントやその他の情報を書き込むための wiki が用意されています。Graphs タブは、プロジェクトに対する貢献やその他の統計情報を視覚化して表示します。そして、Source タブにはプロジェクトのメインディレクトリの一覧が表示され、もし README ファイルがあればその内容が下に表示されます。このタブでは、最新のコミットについての情報も表示されます。
@@ -864,12 +864,12 @@ Insert 18333fig0413.png
 
 プロジェクトをフォークするには、そのプロジェクトのページ (この場合は mojombo/chronic) に移動してヘッダの "fork" ボタンをクリックします (図 4-14 を参照ください)。
 
-Insert 18333fig0414.png 
+Insert 18333fig0414.png
 図 4-14. 任意のプロジェクトの書き込み可能なコピーを取得する "fork" ボタン
 
 数秒後に新しいプロジェクトのページに移動します。そこには、このプロジェクトがどのプロジェクトのフォークであるかが表示されています (図 4-15 を参照ください)。
 
-Insert 18333fig0415.png 
+Insert 18333fig0415.png
 図 4-15. フォークしたプロジェクト
 
 ### GitHub のまとめ ###

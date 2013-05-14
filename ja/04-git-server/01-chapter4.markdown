@@ -516,17 +516,16 @@ Gitolite のインストールは非常に簡単で、豊富な付属ドキュ�
 
 Gitolite は、いわゆる "サーバー" ソフトウェアとしては少し変わっています。アクセスは SSH 経由で行うので、サーバー上のすべての userid が "gitolite host" となり得ます。もっともシンプルなインストール方法をこれから解説していきますので､その他の方法についてはドキュメントを確認してください｡
 
-まずは､ユーザー`git`をインストール先のサーバー上に作成し､そのユーザーでログインします｡sshの公開鍵(デフォルト設定で`ssh-keygen`を実行している場合は､`~/.ssh/id_rsa.pub`がそれに当たります)をあなたのワークステーションからコピーし､ファイル名を`YourName.pub`に変更しておきます｡次に､以下のコマンドを実行します:
+まずは､ユーザー`git`をインストール先のサーバー上に作成し､そのユーザーでログインします｡sshの公開鍵(デフォルト設定で`ssh-keygen`を実行している場合は､`~/.ssh/id_rsa.pub`がそれに当たります)をあなたのワークステーションからコピーし､ファイル名を`<yourname>.pub` (以下の例では`scott.pub`を使用します)に変更しておきます｡次に､以下のコマンドを実行します:
 
     git clone git://github.com/sitaramc/gitolite
     gitolite/install -ln
         # $HOME/bin が存在し､かつPATHが通っているものとします
-    gitolite setup -pk $HOME/YourName.pub
-        # 筆者の場合であれば､ 'gitolite setup -pk $HOME/sitaram.pub' を実行することになります
+    gitolite setup -pk $HOME/scott.pub
 
-最後に､あなたのワークステーションに戻って､`git clone git@gitserver:gitolite-admin`を実行します｡
+`gitolite-admin`という名前のGitリポジトリが､最後のコマンドにより作成されます｡
 
-これで完了です! Gitolite はサーバにインストールされ、`gitolite-admin` という新しいリポジトリがあなたのワークステーションにできあがりました。Gitolite の設定を管理するには、このリポジトリに変更を加えてプッシュします。
+最後に､あなたのワークステーションに戻って､`git clone git@gitserver:gitolite-admin`を実行します｡これで完了です! Gitolite はサーバにインストールされ、`gitolite-admin` という新しいリポジトリがあなたのワークステーションにできあがりました。Gitolite の設定を管理するには、このリポジトリに変更を加えてプッシュします。
 
 ### インストールのカスタマイズ ###
 
@@ -541,16 +540,16 @@ Gitolite は、いわゆる "サーバー" ソフトウェアとしては少し�
 	conf/  keydir/
 	$ find conf keydir -type f
 	conf/gitolite.conf
-	keydir/sitaram.pub
+	keydir/scott.pub
 	$ cat conf/gitolite.conf
 
 	repo gitolite-admin
-	    RW+                 = sitaram
+	    RW+                 = scott
 
 	repo testing
 	    RW+                 = @all
 
-"sitaram" (先ほどの gl-setup コマンドで、指定した公開鍵の名前です) が、`gitolite-admin` リポジトリおよび同名の公開鍵ファイルへの読み書き権限を持っていることに注目しましょう。
+"scott" (先ほどの `gitolite setup` コマンドで、指定した公開鍵の名前です) が、`gitolite-admin` リポジトリおよび同名の公開鍵ファイルへの読み書き権限を持っていることに注目しましょう。
 
 ユーザーを追加するのは簡単です｡"alice"というユーザーを追加するなら､彼女の公開鍵を取得し､`alice.pub`に名前を変更､そしてそれをあなたのワークステーションにクローンされたgitolite-adminレポジトリ内の`keydir`ディレクトリにコピーします｡変更を追加し､コミットし､プッシュすれば､ユーザーの追加は完了です｡
 
@@ -561,8 +560,8 @@ Gitolite の設定ファイルの構文はドキュメントに詳しく書か�
 	@oss_repos      = linux perl rakudo git gitolite
 	@secret_repos   = fenestra pear
 
-	@admins         = scott     # Adams, not Chacon, sorry :)
-	@interns        = ashok     # get the spelling right, Scott!
+	@admins         = scott
+	@interns        = ashok
 	@engineers      = sitaram dilbert wally alice
 	@staff          = @admins @engineers @interns
 
@@ -636,7 +635,7 @@ Gitolite では、ワイルドカード (実際のところは Perl の正規表
 
 **アクセス権の報告**: もうひとつの便利な機能は、サーバに ssh で接続したときに起こります。gitolite はあなたがアクセスするリポジトリとどのようなアクセスができるかを表示します。たとえばこんな感じです。
 
-        hello sitaram, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
+        hello scott, this is git@git running gitolite3 v3.01-18-g9609868 on git 1.7.4.4
 
              R     anu-wsd
              R     entrans

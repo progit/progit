@@ -579,6 +579,7 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 	--relative-date	完全な日付フォーマットではなく、相対フォーマット (“2 weeks ago” など) で日付を表示する
 	--graph	ブランチやマージの歴史を、ログ出力とともにアスキーグラフで表示する
 	--pretty	コミットを別のフォーマットで表示する。オプションとして oneline, short, full, fuller そして format (独自フォーマットを設定する) を指定可能
+	--oneline	`--pretty=oneline --abbrev-commit`と同じ意味の便利なオプション
 
 ### ログ出力の制限 ###
 

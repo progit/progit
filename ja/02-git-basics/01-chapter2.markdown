@@ -18,7 +18,7 @@ Git プロジェクトを取得するには、大きく二通りの方法があ�
 
 	$ git add *.c
 	$ git add README
-	$ git commit –m 'initial project version'
+	$ git commit -m 'initial project version'
 
 これが実際のところどういう意味なのかについては後で説明します。ひとまずこの時点で、監視対象のファイルを持つ Git リポジトリができあがり最初のコミットまで済んだことになります。
 
@@ -46,7 +46,7 @@ Git では、さまざまな転送プロトコルを使用することができ�
 
 ファイルを編集すると、Git はそれを「変更された」とみなします。直近のコミットの後で変更が加えられたからです。変更されたファイルを *ステージ* し、それをコミットする。この繰り返しです。ここまでの流れを図 2-1 にまとめました。
 
-Insert 18333fig0201.png 
+Insert 18333fig0201.png
 図 2-1. ファイルの状態の流れ
 
 ### ファイルの状態の確認 ###
@@ -121,7 +121,7 @@ Insert 18333fig0201.png
 
 両方のファイルがステージされました。これで、次回のコミットに両方のファイルが含まれるようになります。ここで、さらに `benchmarks.rb` にちょっとした変更を加えてからコミットしたくなったとしましょう。ファイルを開いて変更を終え、コミットの準備が整いました。しかし、`git status` を実行してみると何か変です。
 
-	$ vim benchmarks.rb 
+	$ vim benchmarks.rb
 	$ git status
 	# On branch master
 	# Changes to be committed:
@@ -221,7 +221,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 このコマンドは、作業ディレクトリの内容とステージングエリアの内容を比較します。この結果を見れば、あなたが変更した内容のうちまだステージされていないものを知ることができます。
 
-次のコミットに含めるべくステージされた内容を知りたい場合は、`git diff –-cached` を使用します (Git バージョン 1.6.1 以降では `git diff –-staged` も使えます。こちらのほうが覚えやすいでしょう)。このコマンドは、ステージされている変更と直近のコミットの内容を比較します。
+次のコミットに含めるべくステージされた内容を知りたい場合は、`git diff --cached` を使用します (Git バージョン 1.6.1 以降では `git diff --staged` も使えます。こちらのほうが覚えやすいでしょう)。このコマンドは、ステージされている変更と直近のコミットの内容を比較します。
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -256,7 +256,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 ここで `git diff` を使うと、まだステージされていない内容を知ることができます。
 
-	$ git diff 
+	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index e445e28..86b2f7c 100644
 	--- a/benchmarks.rb
@@ -264,7 +264,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	@@ -127,3 +127,4 @@ end
 	 main()
 
-	 ##pp Grit::GitRuby.cache_client.stats 
+	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
 そして `git diff --cached` を使うと、これまでにステージした内容を知ることができます。
@@ -281,7 +281,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	+        run_code(x, 'commits 1') do
 	+          git.commits.size
 	+        end
-	+              
+	+
 	        run_code(x, 'commits 2') do
 	          log = git.commits('master', 15)
 	          log.size
@@ -303,7 +303,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
 	#       new file:   README
-	#       modified:   benchmarks.rb 
+	#       modified:   benchmarks.rb
 	~
 	~
 	~
@@ -448,7 +448,7 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 
 もっとも便利なオプションのひとつが `-p` で、これは各コミットの diff を表示します。また `-2` は、直近の 2 エントリだけを出力します。
 
-	$ git log –p -2
+	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -488,7 +488,7 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 
 このオプションは、先ほどと同じ情報を表示するとともに、各エントリの直後にその diff を表示します。これはコードレビューのときに非常に便利です。また、他のメンバーが一連のコミットで何を行ったのかをざっと眺めるのにも便利でしょう。また、`git log` では「まとめ」系のオプションを使うこともできます。たとえば、各コミットに関するちょっとした統計情報を見たい場合は `--stat` オプションを使用します。
 
-	$ git log --stat 
+	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -543,7 +543,7 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 	%p	親のハッシュ (短縮版)
 	%an	Author の名前
 	%ae	Author のメールアドレス
-	%ad	Author の日付 (-date= オプションに従った形式)
+	%ad	Author の日付 (--date= オプションに従った形式)
 	%ar	Author の相対日付
 	%cn	Committer の名前
 	%ce	Committer のメールアドレス
@@ -558,12 +558,12 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
 	*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit
-	|\  
+	|\
 	| * 420eac9 Added a method for getting the current branch.
 	* | 30e367c timeout code and tests
 	* | 5a09431 add timeout protection to grit
 	* | e1193f8 support for heads with slashes in them
-	|/  
+	|/
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
@@ -620,7 +620,7 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 
 もう少しグラフィカルなツールでコミットの歴史を見たい場合は、Tcl/Tk のプログラムである `gitk` を見てみましょう。これは Git に同梱されています。gitk は、簡単に言うとビジュアルな `git log` ツールです。`git log` で使えるフィルタリングオプションにはほぼすべて対応しています。プロジェクトのコマンドラインで `gitk` と打ち込むと、図 2-2 のような画面があらわれるでしょう。
 
-Insert 18333fig0202.png 
+Insert 18333fig0202.png
 図 2-2. gitk history visualizer
 
 ウィンドウの上半分に、コミットの歴史がきれいな家系図とともに表示されます。ウィンドウの下半分には diff ビューアがあり、任意のコミットをクリックしてその変更内容を確認することができます。
@@ -643,7 +643,7 @@ Insert 18333fig0202.png
 
 	$ git commit -m '初期コミット'
 	$ git add 忘れてたファイル
-	$ git commit --amend 
+	$ git commit --amend
 
 これら 3 つのコマンドの実行後、最終的にできあがるのはひとつのコミットです。二番目のコミットが、最初のコミットの結果を上書きするのです。
 
@@ -663,7 +663,7 @@ Insert 18333fig0202.png
 
 “Changes to be committed” の直後に、"use `git reset HEAD <file>...` to unstage" と書かれています。では、アドバイスに従って `benchmarks.rb` ファイルのステージを解除してみましょう。
 
-	$ git reset HEAD benchmarks.rb 
+	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
 	$ git status
 	# On branch master
@@ -723,7 +723,7 @@ Git を使ったプロジェクトで共同作業を進めていくには、リ�
 	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
 	Resolving deltas: 100% (255/255), done.
 	$ cd ticgit
-	$ git remote 
+	$ git remote
 	origin
 
 `-v` を指定すると、その名前に対応する URL を表示します。
@@ -1001,7 +1001,7 @@ GPG 秘密鍵を持っていれば、タグに署名をすることができま�
 
 これで、そのコミットにタグがつけられたことが確認できます。
 
-	$ git tag 
+	$ git tag
 	v0.1
 	v1.2
 	v1.3
@@ -1103,7 +1103,7 @@ Git は、コマンドの一部だけが入力された状態でそのコマン�
 	$ git config --global alias.last 'log -1 HEAD'
 
 こうすれば、直近のコミットの情報を見ることができます。
-	
+
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
 	Author: Josh Goebel <dreamer3@example.com>

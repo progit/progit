@@ -729,7 +729,8 @@ Git を使ったプロジェクトで共同作業を進めていくには、リ�
 `-v` を指定すると、その名前に対応する URL を表示します。
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 複数のリモートを設定している場合は、このコマンドはそれをすべて表示します。たとえば、私の Grit リポジトリの場合はこのようになっています。
 

@@ -670,6 +670,7 @@ Zu diesem Zeitpunkt, kannst du beliebig in andere Branches wechseln und an ander
 <!--This is a nice shortcut to recover stashed work easily and work on it in a new branch.-->
 
 <!--## Rewriting History ##-->
+## Änderungshistorie verändern ##
 
 <!--Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.-->
 
@@ -874,6 +875,7 @@ Zu diesem Zeitpunkt, kannst du beliebig in andere Branches wechseln und an ander
 <!--This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.-->
 
 <!--## Debugging with Git ##-->
+## Mit Hilfe von Git debuggen ##
 
 <!--Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.-->
 
@@ -964,6 +966,7 @@ Zu diesem Zeitpunkt, kannst du beliebig in andere Branches wechseln und an ander
 <!--Doing so automatically runs `test-error.sh` on each checked-out commit until Git finds the first broken commit. You can also run something like `make` or `make tests` or whatever you have that runs automated tests for you.-->
 
 <!--## Submodules ##-->
+## Submodule ##
 
 <!--It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other.-->
 
@@ -1202,6 +1205,7 @@ Zu diesem Zeitpunkt, kannst du beliebig in andere Branches wechseln und an ander
 <!--Then, when you switch back, you get an empty `rack` directory. You can either run `git submodule update` to reclone, or you can move your `/tmp/rack` directory back into the empty directory.-->
 
 <!--## Subtree Merging ##-->
+## Subtree Merging ##
 
 <!--Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches.-->
 
@@ -1265,5 +1269,6 @@ Zu diesem Zeitpunkt, kannst du beliebig in andere Branches wechseln und an ander
 	$ git diff-tree -p rack_remote/master
 
 <!--## Summary ##-->
+## Zusammenfassung ##
 
 <!--You’ve seen a number of advanced tools that allow you to manipulate your commits and staging area more precisely. When you notice issues, you should be able to easily figure out what commit introduced them, when, and by whom. If you want to use subprojects in your project, you’ve learned a few ways to accommodate those needs. At this point, you should be able to do most of the things in Git that you’ll need on the command line day to day and feel comfortable doing so.-->

@@ -573,7 +573,7 @@ Dann kannst du herausfinden, in welchem Zustand sich der `master` Branch auf dem
 Externe Referenzen unterscheiden sich von Branches (`refs/heads`) hauptsächlich dadurch, daß man sie nicht auschecken kann. Git verwendet sie quasi als Lesezeichen für den zuletzt bekannten Status, in dem sich die Branches auf externen Servern jeweils befanden.
 
 <!--## Packfiles ##-->
-## xxx ##
+## Pack-Dateien ##
 
 <!--Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag:-->
 

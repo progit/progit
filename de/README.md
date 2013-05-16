@@ -65,46 +65,8 @@ Beispiel:
 
 ### Übersetzung von Git spezifischen Begriffen ###
 
-Bitte verwende die hier angegebenen Begriffe, falls Du einen Git spezifischen Begriff übersetzen musst.
-Falls Du einen neuen Begriff hinzufügen willst, so füge ihn hier in die alphabetisch sortierte Liste ein.
-
-<table>
-<tr>
-<td><b>Englisch</b></td>
-<td><b>Deutsch (bevorzugt)</b></td>
-<td><b>Deutsche Alternative</b></td>
-</tr>
-<tr>
-<td>Annotated tag</td>
-<td>Kommentierter Tag</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Branch</td>
-<td>Branch</td>
-<td>Verzweigung</td>
-</tr>
-<tr>
-<td>Diff</td>
-<td>Vergleich</td>
-<td>Diff</td>
-</tr>
-<tr>
-<td>to merge</td>
-<td>zusammenführen</td>
-<td>mergen</td>
-</tr>
-<tr>
-<td>Repository</td>
-<td>Repository</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Remote Repository</td>
-<td>Remote Repository</td>
-<td>Externes Repository</td>
-</tr>
-</table>
+Wir versuchen die englischen Fachbegriffe, die in der Welt von Git existieren, zu benutzen. Zusätzlich versuchen wir aber immer, dass ein neu eingeführter Git-spezifischer Begriff, auch auf Deutsch erklärt wird.
+Wir bevorzugen die englischen Fachbegriffe, da sie in zahlreichen Befehlen und Ausgaben von Git verwendet werden.
 
 ## Status der Übersetzung ##
 

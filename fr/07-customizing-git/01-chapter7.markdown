@@ -218,7 +218,7 @@ ou vous pouvez éditer votre fichier `~/.gitconfig` pour y ajouter ces lignes :
 	[merge]
 	  tool = extMerge
 	[mergetool "extMerge"]
-	  cmd = extMerge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+	  cmd = extMerge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
 	  trustExitCode = false
 	[diff]
 	  external = extDiff

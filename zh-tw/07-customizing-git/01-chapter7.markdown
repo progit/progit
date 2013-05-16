@@ -179,7 +179,7 @@ diff 包裝腳本首先確定傳遞過來7個參數，隨後把其中2個傳遞�
 	[merge]
 	  tool = extMerge
 	[mergetool "extMerge"]
-	  cmd = extMerge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+	  cmd = extMerge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
 	  trustExitCode = false
 	[diff]
 	  external = extDiff

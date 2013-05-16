@@ -178,7 +178,7 @@ diff包装脚本首先确定传递过来7个参数，随后把其中2个传递�
 	[merge]
 	  tool = extMerge
 	[mergetool "extMerge"]
-	  cmd = extMerge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+	  cmd = extMerge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
 	  trustExitCode = false
 	[diff]
 	  external = extDiff

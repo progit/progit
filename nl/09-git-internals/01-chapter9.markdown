@@ -932,7 +932,7 @@ Het grote object staat aan het einde: 2 Mb. Om uit te vinden welk bestand het is
 
 Nu moet je dit bestand verwijderen van alle bomen in je verleden. Je kunt eenvoudig zien welke commits dit bestand aangepast hebben:
 
-	$ git log --pretty=oneline -- git.tbz2
+	$ git log --pretty=oneline --branches -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 

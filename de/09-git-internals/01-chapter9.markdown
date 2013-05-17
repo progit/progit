@@ -1301,7 +1301,7 @@ Das größte Objekt ist ganz klar das letzte: es ist 2 MB groß. Um herauszufind
 
 Du mußt diese Datei jetzt aus allen Trees entfernen, in denen er sich befindet. Du kannst leicht herausfinden, welche Commits diese Datei verändert haben:
 
-	$ git log --pretty=oneline -- git.tbz2
+	$ git log --pretty=oneline --branches -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 

@@ -1169,7 +1169,7 @@ Vous pouvez utilisez cette commande pour trouver le nom de votre blob :
 Maintenant, vous voulez supprimer ce fichier de toutes les arborescences passées.
 Vous pouvez facilement voir quels *commits* ont modifié ce fichier :
 
-	$ git log --pretty=oneline -- git.tbz2
+	$ git log --pretty=oneline --branches -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 

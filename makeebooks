@@ -75,6 +75,10 @@ ARGV.each do |lang|
       figure_title = '圖'
     elsif lang == 'pt-br'
       figure_title = 'Figura'
+    elsif lang == 'pl'
+      figure_title = 'Rysunek'
+      book_title = 'Pro Git — profesjonalna kontrola wersji'
+      comments = 'udostępnione na licencji Creative Commons Attribution-Non Commercial-Share Alike 3.0 license'	 
     end
 
     book_content = %(<html xmlns="http://www.w3.org/1999/xhtml"><head><title>#{book_title}</title></head><body>)

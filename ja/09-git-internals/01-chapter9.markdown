@@ -939,7 +939,7 @@ Subversion または Perforce のレポジトリを Git に変換するときに
 
 ここで、あなたは過去のすべてのツリーからこのファイルを取り除く必要があります。このファイルを変更したのは何のコミットなのか知ることは簡単です。
 
-	$ git log --pretty=oneline -- git.tbz2
+	$ git log --pretty=oneline --branches -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 

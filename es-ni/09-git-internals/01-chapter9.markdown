@@ -931,7 +931,7 @@ The big object is at the bottom: 2MB. To find out what file it is, you’ll use 
 
 Now, you need to remove this file from all trees in your past. You can easily see what commits modified this file:
 
-	$ git log --pretty=oneline -- git.tbz2
+	$ git log --pretty=oneline --branches -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 

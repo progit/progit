@@ -931,7 +931,7 @@ Git 有许多过人之处，不过有一个功能有时却会带来问题：`git
 
 接下来要将该文件从历史记录的所有 tree 中移除。很容易找出哪些 commit 修改了这个文件：
 
-	$ git log --pretty=oneline -- git.tbz2
+	$ git log --pretty=oneline --branches -- git.tbz2
 	da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
 	6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 

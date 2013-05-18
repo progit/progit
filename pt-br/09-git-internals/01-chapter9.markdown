@@ -932,7 +932,7 @@ O objeto grande está na parte inferior: 2MB. Para saber qual é o arquivo, voc�
 
 Agora, você precisa remover o arquivo de todas as árvores em que ele estiver. Você pode facilmente ver quais commits modificaram este arquivo:
 
-    $ git log --pretty=oneline -- git.tbz2
+    $ git log --pretty=oneline --branches -- git.tbz2
     da3f30d019005479c99eb4c3406225613985a1db oops - removed large tarball
     6df764092f3e7c8f5f94cbe08ee5cf42e92a0289 added git tarball
 

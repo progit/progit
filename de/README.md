@@ -397,10 +397,10 @@ Bitte den Status nicht aktualisieren. Dies übernimmt ein Maintainer.
 </tr>
 <tr>
 <td>6.3</td>
-<td>Teilweise</td>
 <td>Ja</td>
 <td>Nein</td>
-<td bgcolor="red">Übersetzung fehlt</td>
+<td>Ja</td>
+<td bgcolor="red">Review notwendig</td>
 </tr>
 <tr>
 <td>6.4</td>

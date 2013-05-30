@@ -52,7 +52,7 @@ Git 使用的传输协议中最常见的可能就是 SSH 了。这是因为大�
 
 通过 SSH 克隆一个 Git 仓库，你可以像下面这样给出 ssh:// 的 URL：
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 或者不指明某个协议 — 这时 Git 会默认使用 SSH ：
 	

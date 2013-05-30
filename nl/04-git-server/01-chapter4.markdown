@@ -52,7 +52,7 @@ Waarschijnlijk het meest voorkomende protocol voor Git is SSH. Dit is omdat SSH 
 
 Om een Git repository via SSH te clonen, kun je een ssh:// URL opgeven zoals:
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 Of je geeft geen protocol op — Git gaat uit van SSH als je niet expliciet bent:
 

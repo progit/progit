@@ -52,7 +52,7 @@ Git の転送プロトコルのうちもっとも一般的なのが SSH でし�
 
 Git リポジトリを SSH 越しにクローンするには、次のように ssh:// URL を指定します。
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 あるいは、プロトコルを省略することもできます。プロトコルを明示しなくても、Git はそれが SSH であると見なします。
 

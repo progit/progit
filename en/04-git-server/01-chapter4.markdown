@@ -52,7 +52,7 @@ Probably the most common transport protocol for Git is SSH. This is because SSH 
 
 To clone a Git repository over SSH, you can specify ssh:// URL like this:
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 Or you can not specify a protocol — Git assumes SSH if you aren’t explicit:
 

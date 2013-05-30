@@ -52,7 +52,7 @@ Patrně nejčastějším přenosovým protokolem pro systém Git je SSH. Je to z
 
 Chcete-li naklonovat repozitář Git pomocí protokolu SSH, zadejte „ssh:// URL“, například:
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 Protokol ostatně ani nemusíte zadávat – pokud žádný výslovně neurčíte, Git použije SSH jako výchozí možnost:
 

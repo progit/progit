@@ -52,7 +52,7 @@ SSH to prawdopodobnie najczęściej wykorzystywany protokół transportowy dla G
 
 Aby sklonować repozytorium Git po SSH, użyj przedrostka `ssh://` jak poniżej:
 
-    $ git clone ssh://user@server:project.git
+    $ git clone ssh://user@server/project.git
 
 Możesz także nie określać protokołu - Git zakłada właśnie SSH, jeśli go nie określisz:
    

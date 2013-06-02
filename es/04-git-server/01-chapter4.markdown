@@ -52,7 +52,7 @@ Probablemente, SSH sea el protocolo más habitual para Git. Debido a disponibili
 
 Para clonar un repositorio a través de SSH, puedes indicar una URL ssh:// tal como:
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 O puedes prescindir del protocolo; Git asume SSH si no indicas nada expresamente: $ git clone user@server:project.git
 

@@ -52,7 +52,7 @@ Git의 대표 프로토콜은 SSH이다. 대부분 서버는 SSH로 접근할 �
 
 SSH를 통해 Git 저장소를 Clone하려면 `ssh://`로 시작하는 URL을 사용한다:
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 아래와 같이 프로토콜 이름을 명시하지 않고도 SSH를 사용할 수 있다:
 	

@@ -52,7 +52,7 @@ Probabilmente il protocollo più utilizzato per Git è SSH. Questo perché un ac
 
 Per clonare un repository Git via SSH, puoi specificare un URL ssh:// come questo:
 
-	$ git clone ssh://user@server:project.git
+	$ git clone ssh://user@server/project.git
 
 O non specificare proprio il protocollo — Git utilizza SSH non lo specifichi:
 	

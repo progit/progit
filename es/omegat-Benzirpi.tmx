@@ -646,7 +646,7 @@ Figura 5-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>Or you can not specify a protocol — Git assumes SSH if you aren’t explicit:
+        <seg>Or you can use the shorter scp-like syntax for SSH protocol:
 	
 	$ git clone user@server:project.git</seg>
       </tuv>
@@ -19906,10 +19906,10 @@ Figura 3-4.</seg>
     </tu>
     <tu>
       <tuv lang="EN">
-        <seg>$ git clone ssh://user@server:project.git</seg>
+        <seg>$ git clone ssh://user@server/project.git</seg>
       </tuv>
       <tuv lang="ES">
-        <seg>$ git clone ssh://user@server:project.git</seg>
+        <seg>$ git clone ssh://user@server/project.git</seg>
       </tuv>
     </tu>
     <tu>

@@ -722,7 +722,7 @@ If you don’t want to go through all of the work involved in setting up your ow
 
 These days, you have a huge number of hosting options to choose from, each with different advantages and disadvantages. To see an up-to-date list, check out the following page:
 
-	http://en.wikipedia.org/wiki/Git_(software)#Source_code_hosting
+	https://git.wiki.kernel.org/index.php/GitHosting
 
 Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved.
 

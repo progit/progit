@@ -750,7 +750,7 @@ Gitosis 还能设定哪些项目允许放在 GitWeb 上显示。先打开 GitWeb
 
 目前，可供选择的托管服务数量繁多，各有利弊。在 Git 官方 wiki 上的 Githosting 页面有一个最新的托管服务列表：
 
-	http://git.or.cz/gitwiki/GitHosting
+	https://git.wiki.kernel.org/index.php/GitHosting
 
 由于本书无法全部一一介绍，而本人（译注：指本书作者 Scott Chacon。）刚好在其中一家公司工作，所以接下来我们将会介绍如何在 GitHub 上建立新账户并启动项目。至于其他托管服务大体也是这么一个过程，基本的想法都是差不多的。
 

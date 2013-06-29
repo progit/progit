@@ -1088,7 +1088,7 @@ Wenn Du Dir die ganze Arbeit sparen willst, die beim Einrichten eines eigenen Gi
 
 Heutzutage stehen Dir viele Anbieter zur Auswahl. Jeder hat seine Vor- und Nachteile. Eine aktuelle Liste von Anbietern findest Du auf der folgenden Seite:
 
-	http://en.wikipedia.org/wiki/Git_(software)#Source_code_hosting
+	https://git.wiki.kernel.org/index.php/GitHosting
 
 <!--Because we can’t cover all of them, and because I happen to work at one of them, we’ll use this section to walk through setting up an account and creating a new project at GitHub. This will give you an idea of what is involved.-->
 

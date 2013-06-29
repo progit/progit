@@ -755,7 +755,7 @@ Als je niet door al het werk heen wilt om je eigen Git server op te zetten, heb 
 
 Vandaag de dag heb je een enorm aantal beheer opties om uit te kiezen, elk met verschillende voor- en nadelen. Om een recente lijst te zien, ga dan kijken op de volgende pagina :
 
-	http://git-scm.com/tools#hosting
+	https://git.wiki.kernel.org/index.php/GitHosting
 
 Omdat we ze niet allemaal kunnen behandelen, en ik toevallig bij een ervan werk, zullen we deze sectie gebruiken om door het instellen van een account en het opzetten van een project op GitHub lopen. Dit geeft je een idee van het benodigde werk.
 

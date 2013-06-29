@@ -760,7 +760,7 @@ Jeśli nie chcesz przechodzić przez wszystkie prace związane z tworzeniem wła
 
 Na dzień dzisiejszy masz do wyboru bardzo dużo stron hostingowych. Każda z nich posiada swoje wady i zalety. Aby zobaczyć aktualną listę takich stron odwiedź adres:
 
-	http://en.wikipedia.org/wiki/Git_(software)#Source_code_hosting
+	https://git.wiki.kernel.org/index.php/GitHosting
 
 Ponieważ nie możemy opisać wszystkich z nich, a zdarza mi się na jednej z nich pracować, w tym rozdziale przejdziemy przez założenie konta i utworzenie nowego projektu w GitHubie. Da nam to wyobrażenie o tym co jest potrzebne.
 

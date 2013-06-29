@@ -724,7 +724,7 @@ Pokud nemáte chuť absolvovat celý proces nastavování vlastního serveru Git
 
 V dnešní době můžete vybírat z velkého počtu možností hostingu. Každá má jiné klady a zápory. Aktuální seznam těchto míst najdete na stránce GitHosting, dostupné z hlavní stránky GitWiki:
 
-	http://en.wikipedia.org/wiki/Git_(software)#Source_code_hosting
+	https://git.wiki.kernel.org/index.php/GitHosting
 
 Protože se tu nemůžeme věnovat všem možnostem a protože shodou okolností na jednom hostingovém místě pracuji, využijeme tuto část k tomu, abychom ukázali nastavení účtu a vytvoření nového projektu na serveru GitHub. Získáte tak představu, co všechno vás čeká.
 

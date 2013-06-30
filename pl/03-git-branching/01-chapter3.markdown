@@ -336,7 +336,7 @@ Pokazuje to twoją drugą gałąź. Ponieważ zawiera ona zmiany, które nie zos
 
 Jeśli naprawdę chcesz usunąć gałąź i stracić tę część pracy, możesz wymusić to opcją `-D` zgodnie z tym, co podpowiada komunikat na ekranie.
 
-## Sposoby pracy w gałęziami ##
+## Sposoby pracy z gałęziami ##
 
 Teraz, kiedy poznałeś już podstawy gałęzi i scalania, co ze zdobytą wiedzą możesz i co powinieneś zrobić? W tej części zajmiemy się typowymi schematami pracy, które stają się dostępne dzięki tak lekkiemu modelowi gałęzi. Pozwoli ci to samemu zdecydować, czy warto stosować je w swoim cyklu rozwoju projektów.
 

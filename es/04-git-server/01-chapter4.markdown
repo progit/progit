@@ -571,7 +571,7 @@ Si no quieres realizar todo el trabajo de preparar tu propio servidor Git, tiene
 
 Actualmente tienes un gran número de opciones del alojamiento, cada una con sus ventajas y desventajas. Para obtener una lista actualizada, puedes mirar en la página GitHosting del wiki principal de Git:
 
-	http://git.or.cz/gitwiki/GitHosting
+	https://git.wiki.kernel.org/index.php/GitHosting
 
 Por ser imposible el cubrir todos ellos, y porque da la casualidad de que trabajo en uno de ellos, concretamente, en esta sección veremos cómo crear una cuenta y nuevos proyectos albergados en 'GitHub'. Así podrás hacerte una idea de cómo suelen funcionar estos alberges externos. 
 

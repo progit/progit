@@ -559,7 +559,12 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 
 表 2-1 は、format で使用できる便利なオプションをまとめたものです。
 
-	オプション 	出力される内容
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
+
+	オプション	出力される内容
 	%H	コミットのハッシュ
 	%h	コミットのハッシュ (短縮版)
 	%T	ツリーのハッシュ
@@ -594,6 +599,11 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 
 これらは `git log` の出力フォーマット指定のほんの一部でしかありません。まだまだオプションはあります。表 2-2 に、今まで取り上げたオプションとそれ以外によく使われるオプション、そしてそれぞれが`log`の出力をどのように変えるのかをまとめました。
 
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
+
 	オプション	説明
 	-p	各コミットのパッチを表示する
 	--word-diff	変更点を単語単位で表示する
@@ -622,6 +632,11 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 最後に紹介する `git log` のフィルタリング用オプションは、パスです。ディレクトリ名あるいはファイル名を指定すると、それを変更したコミットのみが対象となります。このオプションは常に最後に指定し、一般にダブルダッシュ (`--`) の後に記述します。このダブルダッシュが他のオプションとパスの区切りとなります。
 
 表 2-3 に、これらのオプションとその他の一般的なオプションをまとめました。
+
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
 	オプション	説明
 	-(n)	直近の n 件のコミットのみを表示する

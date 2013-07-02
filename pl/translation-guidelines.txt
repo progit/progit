@@ -46,8 +46,10 @@ merge - scalenie, łączenie
 
 fast-forward - przesunięcie
 
-checkout - 
+checkout - pobranie
 
 blob - obiekt binarny
 
-build - kompilacja
+build - kompilacja, wersja
+
+reflog - reflog

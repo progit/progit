@@ -18,7 +18,7 @@ Git プロジェクトを取得するには、大きく二通りの方法があ�
 
 	$ git add *.c
 	$ git add README
-	$ git commit –m 'initial project version'
+	$ git commit -m 'initial project version'
 
 これが実際のところどういう意味なのかについては後で説明します。ひとまずこの時点で、監視対象のファイルを持つ Git リポジトリができあがり最初のコミットまで済んだことになります。
 
@@ -46,7 +46,7 @@ Git では、さまざまな転送プロトコルを使用することができ�
 
 ファイルを編集すると、Git はそれを「変更された」とみなします。直近のコミットの後で変更が加えられたからです。変更されたファイルを *ステージ* し、それをコミットする。この繰り返しです。ここまでの流れを図 2-1 にまとめました。
 
-Insert 18333fig0201.png 
+Insert 18333fig0201.png
 図 2-1. ファイルの状態の流れ
 
 ### ファイルの状態の確認 ###
@@ -59,7 +59,7 @@ Insert 18333fig0201.png
 
 これは、クリーンな作業コピーである (つまり、追跡されているファイルの中に変更されているものがない) ことを意味します。また、追跡されていないファイルも存在しません (もし追跡されていないファイルがあれば、Git はそれを表示します)。最後に、このコマンドを実行するとあなたが今どのブランチにいるのかを知ることができます。現時点では常に `master` となります。これはデフォルトであり、ここでは特に気にする必要はありません。ブランチについては次の章で詳しく説明します。
 
-ではここで、新しいファイルをプロジェクトに追加してみましょう。シンプルに、README ファイルを追加してみます。それ以前に README ファイルがなかった場合、`git status` を実行すると次のように表示されます。
+ではここで、新しいファイルをプロジェクトに追加してみましょう。シンプルに、`README` ファイルを追加してみます。それ以前に README ファイルがなかった場合、`git status` を実行すると次のように表示されます。
 
 	$ vim README
 	$ git status
@@ -70,15 +70,15 @@ Insert 18333fig0201.png
 	#	README
 	nothing added to commit but untracked files present (use "git add" to track)
 
-出力結果の “Untracked files” 欄に README ファイルがあることから、このファイルが追跡されていないということがわかります。これは、Git が「前回のスナップショット (コミット) にはこのファイルが存在しなかった」とみなしたということです。明示的に指示しない限り、Git はコミット時にこのファイルを含めることはありません。自動生成されたバイナリファイルなど、コミットしたくないファイルを間違えてコミットしてしまう心配はないということです。今回は README をコミットに含めたいわけですから、まずファイルを追跡対象に含めるようにしましょう。
+出力結果の “Untracked files” 欄に `README` ファイルがあることから、このファイルが追跡されていないということがわかります。これは、Git が「前回のスナップショット (コミット) にはこのファイルが存在しなかった」とみなしたということです。明示的に指示しない限り、Git はコミット時にこのファイルを含めることはありません。自動生成されたバイナリファイルなど、コミットしたくないファイルを間違えてコミットしてしまう心配はないということです。今回は README をコミットに含めたいわけですから、まずファイルを追跡対象に含めるようにしましょう。
 
 ### 新しいファイルの追跡 ###
 
-新しいファイルの追跡を開始するには `git add` コマンドを使用します。README ファイルの追跡を開始する場合はこのようになります。
+新しいファイルの追跡を開始するには `git add` コマンドを使用します。`README` ファイルの追跡を開始する場合はこのようになります。
 
 	$ git add README
 
-再び status コマンドを実行すると、README ファイルが追跡対象となり、ステージされていることがわかるでしょう。
+再び status コマンドを実行すると、`README` ファイルが追跡対象となり、ステージされていることがわかるでしょう。
 
 	$ git status
 	# On branch master
@@ -121,7 +121,7 @@ Insert 18333fig0201.png
 
 両方のファイルがステージされました。これで、次回のコミットに両方のファイルが含まれるようになります。ここで、さらに `benchmarks.rb` にちょっとした変更を加えてからコミットしたくなったとしましょう。ファイルを開いて変更を終え、コミットの準備が整いました。しかし、`git status` を実行してみると何か変です。
 
-	$ vim benchmarks.rb 
+	$ vim benchmarks.rb
 	$ git status
 	# On branch master
 	# Changes to be committed:
@@ -180,6 +180,10 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	build/
 	# doc/notes.txt は無視しますが、doc/server/arch.txt は無視しません
 	doc/*.txt
+	# doc/ ディレクトリの .txt ファイル全てを無視します
+	doc/**/*.txt
+
+`**/` 形式は 1.8.2 以降のGitで利用可能です｡
 
 ### ステージされている変更 / されていない変更の閲覧 ###
 
@@ -221,7 +225,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 このコマンドは、作業ディレクトリの内容とステージングエリアの内容を比較します。この結果を見れば、あなたが変更した内容のうちまだステージされていないものを知ることができます。
 
-次のコミットに含めるべくステージされた内容を知りたい場合は、`git diff –-cached` を使用します (Git バージョン 1.6.1 以降では `git diff –-staged` も使えます。こちらのほうが覚えやすいでしょう)。このコマンドは、ステージされている変更と直近のコミットの内容を比較します。
+次のコミットに含めるべくステージされた内容を知りたい場合は、`git diff --cached` を使用します (Git バージョン 1.6.1 以降では `git diff --staged` も使えます。こちらのほうが覚えやすいでしょう)。このコマンドは、ステージされている変更と直近のコミットの内容を比較します。
 
 	$ git diff --cached
 	diff --git a/README b/README
@@ -256,7 +260,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 ここで `git diff` を使うと、まだステージされていない内容を知ることができます。
 
-	$ git diff 
+	$ git diff
 	diff --git a/benchmarks.rb b/benchmarks.rb
 	index e445e28..86b2f7c 100644
 	--- a/benchmarks.rb
@@ -264,7 +268,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	@@ -127,3 +127,4 @@ end
 	 main()
 
-	 ##pp Grit::GitRuby.cache_client.stats 
+	 ##pp Grit::GitRuby.cache_client.stats
 	+# test line
 
 そして `git diff --cached` を使うと、これまでにステージした内容を知ることができます。
@@ -281,7 +285,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	+        run_code(x, 'commits 1') do
 	+          git.commits.size
 	+        end
-	+              
+	+
 	        run_code(x, 'commits 2') do
 	          log = git.commits('master', 15)
 	          log.size
@@ -303,7 +307,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 	#   (use "git reset HEAD <file>..." to unstage)
 	#
 	#       new file:   README
-	#       modified:   benchmarks.rb 
+	#       modified:   benchmarks.rb
 	~
 	~
 	~
@@ -370,7 +374,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 次にコミットするときにファイルが削除され、追跡対象外となります。変更したファイルをすでにステージしている場合は、`-f` オプションで強制的に削除しなければなりません。まだスナップショットに記録されていないファイルを誤って削除してしまうと Git で復旧することができなくなってしまうので、それを防ぐための安全装置です。
 
-ほかに「こんなことできたらいいな」と思われるであろう機能として、ファイル自体は作業ツリーに残しつつステージングエリアからの削除だけを行うこともできます。つまり、ハードディスク上にはファイルを残しておきたいけれど、もう Git では追跡させたくないというような場合のことです。これが特に便利なのは、`.gitignore` ファイルに書き足すのを忘れたために巨大なログファイルや大量の `.a` ファイルが追加されてしまったなどというときです。そんな場合は `--cached` オプションを使用します。
+ほかに「こんなことできたらいいな」と思われるであろう機能として、ファイル自体は作業ツリーに残しつつステージングエリアからの削除だけを行うこともできます。つまり、ハードディスク上にはファイルを残しておきたいけれど、もう Git では追跡させたくないというような場合のことです。これが特に便利なのは、`.gitignore` ファイルに書き足すのを忘れたために巨大なログファイルや大量の `.a` ファイルがステージされてしまったなどというときです。そんな場合は `--cached` オプションを使用します。
 
 	$ git rm --cached readme.txt
 
@@ -378,7 +382,7 @@ glob パターンとは、シェルで用いる簡易正規表現のようなも
 
 	$ git rm log/\*.log
 
-`*` の前にバックスラッシュ (`\`) があることに注意しましょう。これが必要なのは、シェルによるファイル名の展開だけでなく Git が自前でファイル名の展開を行うからです。このコマンドは、`log/` ディレクトリにある拡張子 `.log` のファイルをすべて削除します。あるいは、このような書き方もできます。
+`*` の前にバックスラッシュ (`\`) があることに注意しましょう。これが必要なのは、シェルによるファイル名の展開だけでなく Git が自前でファイル名の展開を行うからです。ただしWindowsのコマンドプロンプトの場合は､バックスラッシュは取り除かなければなりません｡このコマンドは、`log/` ディレクトリにある拡張子 `.log` のファイルをすべて削除します。あるいは、このような書き方もできます。
 
 	$ git rm \*~
 
@@ -448,7 +452,7 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 
 もっとも便利なオプションのひとつが `-p` で、これは各コミットの diff を表示します。また `-2` は、直近の 2 エントリだけを出力します。
 
-	$ git log –p -2
+	$ git log -p -2
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -459,11 +463,13 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 	index a874b73..8f94139 100644
 	--- a/Rakefile
 	+++ b/Rakefile
-	@@ -5,7 +5,7 @@ require 'rake/gempackagetask'
+	@@ -5,5 +5,5 @@ require 'rake/gempackagetask'
 	 spec = Gem::Specification.new do |s|
+	     s.name      =   "simplegit"
 	-    s.version   =   "0.1.0"
 	+    s.version   =   "0.1.1"
 	     s.author    =   "Scott Chacon"
+	     s.email     =   "schacon@gee-mail.com
 
 	commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
 	Author: Scott Chacon <schacon@gee-mail.com>
@@ -486,9 +492,31 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 	-end
 	\ No newline at end of file
 
-このオプションは、先ほどと同じ情報を表示するとともに、各エントリの直後にその diff を表示します。これはコードレビューのときに非常に便利です。また、他のメンバーが一連のコミットで何を行ったのかをざっと眺めるのにも便利でしょう。また、`git log` では「まとめ」系のオプションを使うこともできます。たとえば、各コミットに関するちょっとした統計情報を見たい場合は `--stat` オプションを使用します。
+このオプションは、先ほどと同じ情報を表示するとともに、各エントリの直後にその diff を表示します。これはコードレビューのときに非常に便利です。また、他のメンバーが一連のコミットで何を行ったのかをざっと眺めるのにも便利でしょう。
 
-	$ git log --stat 
+コードレビューの際､行単位ではなく単語単位でレビューするほうが容易な場合もあるでしょう｡`git log -p` コマンドのオプション `--word-diff` を使えば､通常の行単位diffではなく､単語単位のdiffを表示させることができます｡単語単位のdiffはソースコードのレビューに用いても役に立ちませんが､書籍や論文など､長文テキストファイルのレビューを行う際は便利です｡こんな風に使用します｡
+
+	$ git log -U1 --word-diff
+	commit ca82a6dff817ec66f44342007202690a93763949
+	Author: Scott Chacon <schacon@gee-mail.com>
+	Date:   Mon Mar 17 21:52:11 2008 -0700
+
+	    changed the version number
+
+	diff --git a/Rakefile b/Rakefile
+	index a874b73..8f94139 100644
+	--- a/Rakefile
+	+++ b/Rakefile
+	@@ -7,3 +7,3 @@ spec = Gem::Specification.new do |s|
+	    s.name      =   "simplegit"
+	    s.version   =   [-"0.1.0"-]{+"0.1.1"+}
+	    s.author    =   "Scott Chacon"
+
+ご覧のとおり､通常のdiffにある｢追加行や削除行の表示｣はありません｡その代わりに､変更点はインラインで表示されることになります｡追加された単語は `{+ +}` で､削除された単語は `[- -]` で囲まれます｡また､着目すべき点が行ではなく単語なので､diffの出力を通常の｢変更行前後3行ずつ｣から｢変更行前後1行ずつ｣に減らしたほうがよいかもしれません｡上記の例で使用した `-U1` オプションを使えば行数を減らせます｡
+
+また、`git log` では「まとめ」系のオプションを使うこともできます。たとえば、各コミットに関するちょっとした統計情報を見たい場合は `--stat` オプションを使用します。
+
+	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
 	Author: Scott Chacon <schacon@gee-mail.com>
 	Date:   Mon Mar 17 21:52:11 2008 -0700
@@ -534,7 +562,12 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 
 表 2-1 は、format で使用できる便利なオプションをまとめたものです。
 
-	オプション 	出力される内容
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
+
+	オプション	出力される内容
 	%H	コミットのハッシュ
 	%h	コミットのハッシュ (短縮版)
 	%T	ツリーのハッシュ
@@ -543,7 +576,7 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 	%p	親のハッシュ (短縮版)
 	%an	Author の名前
 	%ae	Author のメールアドレス
-	%ad	Author の日付 (-date= オプションに従った形式)
+	%ad	Author の日付 (--date= オプションに従った形式)
 	%ar	Author の相対日付
 	%cn	Committer の名前
 	%ce	Committer のメールアドレス
@@ -558,19 +591,25 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 	$ git log --pretty=format:"%h %s" --graph
 	* 2d3acf9 ignore errors from SIGCHLD on trap
 	*  5e3ee11 Merge branch 'master' of git://github.com/dustin/grit
-	|\  
+	|\
 	| * 420eac9 Added a method for getting the current branch.
 	* | 30e367c timeout code and tests
 	* | 5a09431 add timeout protection to grit
 	* | e1193f8 support for heads with slashes in them
-	|/  
+	|/
 	* d6016bc require time for xmlschema
 	*  11d191e Merge branch 'defunkt' into local
 
-これらは `git log` の出力フォーマット指定のほんの一部でしかありません。まだまだオプションはあります。表 2-2 に、今まで取り上げたオプションとそれ以外によく使われるオプション、そしてそれぞれがログの出力をどのように変えるのかをまとめました。
+これらは `git log` の出力フォーマット指定のほんの一部でしかありません。まだまだオプションはあります。表 2-2 に、今まで取り上げたオプションとそれ以外によく使われるオプション、そしてそれぞれが`log`の出力をどのように変えるのかをまとめました。
+
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
 	オプション	説明
 	-p	各コミットのパッチを表示する
+	--word-diff	変更点を単語単位で表示する
 	--stat	各コミットで変更されたファイルの統計情報を表示する
 	--shortstat	--stat コマンドのうち、変更/追加/削除 の行だけを表示する
 	--name-only	コミット情報の後に変更されたファイルの一覧を表示する
@@ -579,6 +618,7 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 	--relative-date	完全な日付フォーマットではなく、相対フォーマット (“2 weeks ago” など) で日付を表示する
 	--graph	ブランチやマージの歴史を、ログ出力とともにアスキーグラフで表示する
 	--pretty	コミットを別のフォーマットで表示する。オプションとして oneline, short, full, fuller そして format (独自フォーマットを設定する) を指定可能
+	--oneline	`--pretty=oneline --abbrev-commit`と同じ意味の便利なオプション
 
 ### ログ出力の制限 ###
 
@@ -595,6 +635,11 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 最後に紹介する `git log` のフィルタリング用オプションは、パスです。ディレクトリ名あるいはファイル名を指定すると、それを変更したコミットのみが対象となります。このオプションは常に最後に指定し、一般にダブルダッシュ (`--`) の後に記述します。このダブルダッシュが他のオプションとパスの区切りとなります。
 
 表 2-3 に、これらのオプションとその他の一般的なオプションをまとめました。
+
+<!-- Attention to translators: this is a table declaration.
+The lines must be formatted as follows
+<TAB><First column text><TAB><Second column text>
+-->
 
 	オプション	説明
 	-(n)	直近の n 件のコミットのみを表示する
@@ -620,7 +665,7 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 
 もう少しグラフィカルなツールでコミットの歴史を見たい場合は、Tcl/Tk のプログラムである `gitk` を見てみましょう。これは Git に同梱されています。gitk は、簡単に言うとビジュアルな `git log` ツールです。`git log` で使えるフィルタリングオプションにはほぼすべて対応しています。プロジェクトのコマンドラインで `gitk` と打ち込むと、図 2-2 のような画面があらわれるでしょう。
 
-Insert 18333fig0202.png 
+Insert 18333fig0202.png
 図 2-2. gitk history visualizer
 
 ウィンドウの上半分に、コミットの歴史がきれいな家系図とともに表示されます。ウィンドウの下半分には diff ビューアがあり、任意のコミットをクリックしてその変更内容を確認することができます。
@@ -643,9 +688,9 @@ Insert 18333fig0202.png
 
 	$ git commit -m '初期コミット'
 	$ git add 忘れてたファイル
-	$ git commit --amend 
+	$ git commit --amend
 
-これら 3 つのコマンドの実行後、最終的にできあがるのはひとつのコミットです。二番目の commit コマンドが、最初のコミットの結果を上書きするのです。
+これら 3 つのコマンドの実行後、最終的にできあがるのはひとつのコミットです。二番目のコミットが、最初のコミットの結果を上書きするのです。
 
 ### ステージしたファイルの取り消し ###
 
@@ -663,7 +708,7 @@ Insert 18333fig0202.png
 
 “Changes to be committed” の直後に、"use `git reset HEAD <file>...` to unstage" と書かれています。では、アドバイスに従って `benchmarks.rb` ファイルのステージを解除してみましょう。
 
-	$ git reset HEAD benchmarks.rb 
+	$ git reset HEAD benchmarks.rb
 	benchmarks.rb: locally modified
 	$ git status
 	# On branch master
@@ -723,13 +768,14 @@ Git を使ったプロジェクトで共同作業を進めていくには、リ�
 	Receiving objects: 100% (595/595), 73.31 KiB | 1 KiB/s, done.
 	Resolving deltas: 100% (255/255), done.
 	$ cd ticgit
-	$ git remote 
+	$ git remote
 	origin
 
 `-v` を指定すると、その名前に対応する URL を表示します。
 
 	$ git remote -v
-	origin	git://github.com/schacon/ticgit.git
+	origin  git://github.com/schacon/ticgit.git (fetch)
+	origin  git://github.com/schacon/ticgit.git (push)
 
 複数のリモートを設定している場合は、このコマンドはそれをすべて表示します。たとえば、私の Grit リポジトリの場合はこのようになっています。
 
@@ -754,7 +800,7 @@ Git を使ったプロジェクトで共同作業を進めていくには、リ�
 	origin	git://github.com/schacon/ticgit.git
 	pb	git://github.com/paulboone/ticgit.git
 
-これで、コマンドラインに URL を全部打ち込むかわりに `pb` という文字列を指定するだけでよくなりました。たとえば、Paul が持つ情報の中で自分のリポジトリにまだ存在しないものをすべて取得するには、git fetch pb を実行すればよいのです。
+これで、コマンドラインに URL を全部打ち込むかわりに `pb` という文字列を指定するだけでよくなりました。たとえば、Paul が持つ情報の中で自分のリポジトリにまだ存在しないものをすべて取得するには、`git fetch pb` を実行すればよいのです。
 
 	$ git fetch pb
 	remote: Counting objects: 58, done.
@@ -997,11 +1043,11 @@ GPG 秘密鍵を持っていれば、タグに署名をすることができま�
 
 今になって、このプロジェクトに `v1.2` のタグをつけるのを忘れていたことに気づきました。本来なら "updated rakefile" のコミットにつけておくべきだったものです。しかし今からでも遅くありません。特定のコミットにタグをつけるには、そのコミットのチェックサム (あるいはその一部) をコマンドの最後に指定します。
 
-	$ git tag -a v1.2 9fceb02
+	$ git tag -a v1.2 -m 'version 1.2' 9fceb02
 
 これで、そのコミットにタグがつけられたことが確認できます。
 
-	$ git tag 
+	$ git tag
 	v0.1
 	v1.2
 	v1.3
@@ -1103,7 +1149,7 @@ Git は、コマンドの一部だけが入力された状態でそのコマン�
 	$ git config --global alias.last 'log -1 HEAD'
 
 こうすれば、直近のコミットの情報を見ることができます。
-	
+
 	$ git last
 	commit 66938dae3329c7aebe598c2246a8e6af90d04646
 	Author: Josh Goebel <dreamer3@example.com>

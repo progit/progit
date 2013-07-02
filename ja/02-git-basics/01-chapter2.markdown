@@ -490,7 +490,28 @@ Git はこれが暗黙的なファイル名の変更であると理解するの�
 	-end
 	\ No newline at end of file
 
-このオプションは、先ほどと同じ情報を表示するとともに、各エントリの直後にその diff を表示します。これはコードレビューのときに非常に便利です。また、他のメンバーが一連のコミットで何を行ったのかをざっと眺めるのにも便利でしょう。また、`git log` では「まとめ」系のオプションを使うこともできます。たとえば、各コミットに関するちょっとした統計情報を見たい場合は `--stat` オプションを使用します。
+このオプションは、先ほどと同じ情報を表示するとともに、各エントリの直後にその diff を表示します。これはコードレビューのときに非常に便利です。また、他のメンバーが一連のコミットで何を行ったのかをざっと眺めるのにも便利でしょう。
+
+コードレビューの際､行単位ではなく単語単位でレビューするほうが容易な場合もあるでしょう｡`git log -p` コマンドのオプション `--word-diff` を使えば､通常の行単位diffではなく､単語単位のdiffを表示させることができます｡単語単位のdiffはソースコードのレビューに用いても役に立ちませんが､書籍や論文など､長文テキストファイルのレビューを行う際は便利です｡こんな風に使用します｡
+
+	$ git log -U1 --word-diff
+	commit da734f4151c0bf92798edd67fb571f86ab4179e6
+	Author: Jed Hartman <jhartman@google.com>
+	Date:   Tue Mar 19 18:00:35 2013 -0700
+
+		Added a missing "in" to a sentence.
+
+	diff --git a/en/01-chapter2.markdown b/en/01-chapter2.markdown
+	index 879e48c..a992ff3 100644
+	--- a/en/01-chapter2.markdown
+	+++ b/en/01-chapter2.markdown
+	@@ -553,3 +553,3 @@ You may be wondering what the difference is
+
+	This option adds a nice little ASCII graph showing your branch and merge history, which we can see {+in+} our copy of the Grit project repository:
+
+ご覧のとおり､通常のdiffにある｢追加行や削除行の表示｣はありません｡その代わりに､変更点はインラインで表示されることになります｡追加された単語は `{+ +}` で囲われます(削除された単語は `[-removed-]` のように表示されます)｡また､着目すべき点が行ではなく単語なので､diffの出力を通常の｢変更行前後3行ずつ｣から｢変更行前後1行ずつ｣に減らしたほうがよいかもしれません｡上記の例で使用した `-U1` オプションを使えば行数を減らせます｡
+
+また、`git log` では「まとめ」系のオプションを使うこともできます。たとえば、各コミットに関するちょっとした統計情報を見たい場合は `--stat` オプションを使用します。
 
 	$ git log --stat
 	commit ca82a6dff817ec66f44342007202690a93763949
@@ -575,6 +596,7 @@ oneline オプションおよび format オプションは、`log` のもうひ�
 
 	オプション	説明
 	-p	各コミットのパッチを表示する
+	--word-diff	変更点を単語単位で表示する
 	--stat	各コミットで変更されたファイルの統計情報を表示する
 	--shortstat	--stat コマンドのうち、変更/追加/削除 の行だけを表示する
 	--name-only	コミット情報の後に変更されたファイルの一覧を表示する

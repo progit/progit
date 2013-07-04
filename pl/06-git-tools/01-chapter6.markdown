@@ -552,16 +552,26 @@ Wreszcie, nie musisz być w trybie interaktywnym aby dodać część pliku do pr
 
 <!-- Finally, you don’t need to be in interactive add mode to do the partial-file staging — you can start the same script by using `git add -p` or `git add --patch` on the command line. -->
 
-<!--
-## Stashing ##
+## Schowek ##
 
-Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command.
+<!-- ## Stashing ## -->
 
-Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time.
+Często, gdy pracujesz nad jakąś częścią swojego projektu i są w nim wprowadzone zmiany, chciałbyś przełączyć się na inną gałąź, aby popracować nad inną funkcjonalnością. Problem w tym, że nie chcesz commitować zmian które są tylko częściowo wprowadzone, tylko po to abyś mógł do nich wrócić później. Rozwiązaniem tego problemu jest komenda `git stash`. 
 
-### Stashing Your Work ###
+<!-- Often, when you’ve been working on part of your project, things are in a messy state and you want to switch branches for a bit to work on something else. The problem is, you don’t want to do a commit of half-done work just so you can get back to this point later. The answer to this issue is the `git stash` command. -->
 
-To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state:
+Podczas dodawania do schowka, pobrane zostaną zmiany które są w obecnym katalogu - czyli pliki które są śledzone i zostały zmodyfikowane oraz dodane do przechowalni - i zapisane zostaną w nim, tak aby mogły być ponownie użyte w dowolnym momencie.
+
+<!-- Stashing takes the dirty state of your working directory — that is, your modified tracked files and staged changes — and saves it on a stack of unfinished changes that you can reapply at any time. -->
+
+
+### Zapisywanie Twojej pracy w schowku ###
+
+<!-- ### Stashing Your Work ### -->
+
+W celu zaprezentowania jak to działa, w projekcie nad którym obecnie pracujesz, wprowadzisz zmiany w kilku plikach i dodasz jeden z nich do przechowalni. Jeżeli uruchomisz komendę `git status`, zobaczysz następujący wynik:
+
+<!-- To demonstrate, you’ll go into your project and start working on a couple of files and possibly stage one of the changes. If you run `git status`, you can see your dirty state: -->
 
 	$ git status
 	# On branch master
@@ -576,7 +586,9 @@ To demonstrate, you’ll go into your project and start working on a couple of f
 	#      modified:   lib/simplegit.rb
 	#
 
-Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`:
+Teraz chcesz zmianić gałęzie, ale nie chcesz commitować tego nad czym pracowałeś do tej pory, więc dodasz te zmiany do przechowalni. Aby zapisać je w przechowalni, uruchom `git stash`:
+
+<!-- Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`: -->
 
 	$ git stash
 	Saved working directory and index state \
@@ -584,20 +596,26 @@ Now you want to switch branches, but you don’t want to commit what you’ve be
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
-Your working directory is clean:
+Teraz Twój katalog roboczy jest w stanie niezmienionym:
+
+<!-- Your working directory is clean: -->
 
 	$ git status
 	# On branch master
 	nothing to commit (working directory clean)
 
-At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`:
+W tej chwili, możesz bez problemu przejść na inną gałąź i rozpocząć pracę nad innymi zmianami; Twoje poprzednie modyfikacje zapisane są w przechowalni. Aby zobaczyć listę zapisanych zmian w przechowalni, użyj komendy `git stash list`: 
+
+<!-- At this point, you can easily switch branches and do work elsewhere; your changes are stored on your stack. To see which stashes you’ve stored, you can use `git stash list`: -->
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it:
+W tym przykładzie, dwie poprzednie zmiany również zostały zapisane, masz więc dostęp do trzech. Możesz ponownie nałozyć tą którą ostatnio stworzyłeś, przy użyciu komendy, widocznej w tekście pomocy do komendy stash: `git stash apply`. Jeżeli chcesz nałożyć jedną ze starszych zmian, wskazujesz ją poprzez nazwę, w taki sposób: `git stash apply stash@{2}`. Jeżeli nie podasz nazwy, Git założy najnowszą i spróbuje ją zintegrować:
+
+<!-- In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it: -->
 
 	$ git stash apply
 	# On branch master
@@ -608,9 +626,13 @@ In this case, two stashes were done previously, so you have access to three diff
 	#      modified:   lib/simplegit.rb
 	#
 
-You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly.
+Możesz zauważyć, że Git zmodyfikował pliki które nie były commitnięte w czasie zapisywania w schowku. W tej sytuacji, miałeś niezmodyfikowany katalog roboczy, w chwili, gdy próbowałeś zaaplikować zmiany ze schowka na tą samą gałąź na której je stworzyłeś; jednak nie musisz mieć niezmiodyfikowanego katalogu, ani nie musisz pracować na tej samej gałęzi, aby poprawnie zaaplikować zmiany ze schowka. Możesz zapisać w ten sposób zmiany w jednej gałęzi, zmienić gałąź na inną i spróbować nałożyć je. Możesz również mieć wprowadzone zmiany i zmodyfikowane pliki, w czasie, gdy będziesz próbował nałożyć zmiany - Git pozwoli Ci na rozwiązanie ewentualnych konfliktów jeżeli zmiany nie będą mogły się czysto połączyć.
 
-The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position:
+<!-- You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly. -->
+
+Zmiany na Twoich plikach zostały ponownie nałożone, ale plik który poprzednio był w przechowalni, teraz nie jest. Aby go dodać, musisz uruchomić `git stash apply` z parametrem `--index`, w celu ponownego dodania zmian do przechowalni. Jeżeli uruchomiłeś ją, otrzymasz w wyniki oryginalny stan:
+
+<!-- The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position: -->
 
 	$ git stash apply --index
 	# On branch master
@@ -625,7 +647,9 @@ The changes to your files were reapplied, but the file you staged before wasn’
 	#      modified:   lib/simplegit.rb
 	#
 
-The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove:
+Opcja "apply" próbuje tylko zintegrować zapisane zmiany - będziesz nadal miał je na liście zmian w schowku. Aby je usunąć, uruchom `git stash drop` z nazwą zmiany którą chcesz usunąć:
+
+<!-- The apply option only tries to apply the stashed work — you continue to have it on your stack. To remove it, you can run `git stash drop` with the name of the stash to remove: -->
 
 	$ git stash list
 	stash@{0}: WIP on master: 049d078 added the index file
@@ -634,28 +658,43 @@ The apply option only tries to apply the stashed work — you continue to have i
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-You can also run `git stash pop` to apply the stash and then immediately drop it from your stack.
+Możesz również uruchomić `git stash pop`, aby nałożyć ostatnio zapisane zmiany ze schowka, a następnie usunąć je z listy zmian. 
 
-### Un-applying a Stash ###
+<!-- You can also run `git stash pop` to apply the stash and then immediately drop it from your stack. -->
 
-In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse:
+### Cofanie zmian nałożonych ze schowka ###
+
+<!-- ### Un-applying a Stash ### -->
+
+Może się zdarzyć sytuacja, w której nałożysz zmiany ze schowka, wprowadzisz jakieś inne zmiany, aby potem zechcieć cofnąć zmiany które zostały wprowadzone ze schowka. Git nie udostępnia komendy `git unapply`, ale można to osiągnąć poprzez pobranie wprowadzonych zmian i nałożenia ich w od tyłu:
+
+<!-- In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse: -->
 
     $ git stash show -p stash@{0} | git apply -R
 
-Again, if you don’t specify a stash, Git assumes the most recent stash:
+Ponownie, jeżeli nie wskażesz schowka, Git założy najnowszy:
+
+<!-- Again, if you don’t specify a stash, Git assumes the most recent stash: -->
 
     $ git stash show -p | git apply -R
 
-You may want to create an alias and effectively add a `stash-unapply` command to your git. For example:
+Możesz chcieć stworzyć alias i dodać komendę `stash-unapply` do Gita. Na przykład tak:
+
+<!-- You may want to create an alias and effectively add a `stash-unapply` command to your git. For example: -->
 
     $ git config --global alias.stash-unapply '!git stash show -p | git apply -R'
     $ git stash
     $ #... work work work
     $ git stash-unapply
 
-### Creating a Branch from a Stash ###
 
-If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully:
+### Tworzenie gałęzi ze schowka ###
+
+<!-- ### Creating a Branch from a Stash ### -->
+
+Jeżeli zapiszesz w schowku zmiany, zostawisz je na jakiś czas i będziesz kontynuował pracę na tej samej gałęzi, możesz napotkać problem z ponownym nałożeniem zapisanych zmian. Jeżeli nakładane zmiany, będą dotyczyły plików które zdążyłeś zmienić, dojdzie do konfliktu, który będziesz musiał ręcznie rozwiązać. Jeżeli chcesz poznać łatwiejszy sposób na sprawdzenie zmian ze schowka, uruchom `git stash branch`, komenda ta stworzy nową gałąź, pobierze ostatnią wersję plików, nałoży zmiany ze schowka, oraz usunie zapisany schowek jeżeli wszystko odbędzie się bez problemów:
+
+<!-- If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully: -->
 
 	$ git stash branch testchanges
 	Switched to a new branch "testchanges"
@@ -672,8 +711,12 @@ If you stash some work, leave it there for a while, and continue on the branch f
 	#
 	Dropped refs/stash@{0} (f0dfc4d5dc332d1cee34a634182e168c4efc3359)
 
-This is a nice shortcut to recover stashed work easily and work on it in a new branch.
+Jest to bardzo pomocny skrót do odzyskiwania zapisanych w schowku zmian i kontynuowania pracy w nowej gałęzi.
 
+<!-- This is a nice shortcut to recover stashed work easily and work on it in a new branch. -->
+
+
+<!--
 ## Rewriting History ##
 
 Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.

@@ -53,3 +53,8 @@ blob - obiekt binarny
 build - kompilacja, wersja
 
 reflog - reflog
+
+stash - schowek
+
+dirty state - zmieniony stan, zmodyfikowany stan
+

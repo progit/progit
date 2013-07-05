@@ -54,7 +54,7 @@ Git リポジトリを SSH 越しにクローンするには、次のように s
 
 	$ git clone ssh://user@server/project.git
 
-あるいは、プロトコルを省略することもできます。プロトコルを明示しなくても、Git はそれが SSH であると見なします。
+あるいは、SCPコマンドのような省略形を使うこともできます｡
 
 	$ git clone user@server:project.git
 

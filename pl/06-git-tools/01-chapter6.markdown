@@ -6,7 +6,7 @@ Do tej chwili poznałeś większość komend potrzebnych do codziennej pracy, or
 
 <!--  By now, you’ve learned most of the day-to-day commands and workflows that you need to manage or maintain a Git repository for your source code control. You’ve accomplished the basic tasks of tracking and committing files, and you’ve harnessed the power of the staging area and lightweight topic branching and merging. -->
 
-Teraz dowiesz się o kolejnych rzeczach, które może Git zaoferować, z których być może nie będziesz korzystał codziennie, ale z pewnością będą przydatne.
+Teraz dowiesz się o kolejnych rzeczach, które Git ma do zaoferowania, z których być może nie będziesz korzystał codziennie, ale które z pewnością będą przydatne.
 
 <!-- Now you’ll explore a number of very powerful things that Git can do that you may not necessarily use on a day-to-day basis but that you may need at some point. -->
 
@@ -26,7 +26,7 @@ Jak wiesz, możesz odwoływać się do pojedynczej zmiany poprzez skrót SHA-1, 
 
 ### Krótki SHA ###
 
-Git jest na tyle inteligentny, że potrafi domyśleć się o którą zmianę Ci chodziło po dodaniu zaledwie kilku znaków, o ile ta część SHA-1 ma przynajmniej 4 znaki i jest unikalna, to znaczy że istnieje tylko jeden obiekt w repozytorium, który od nich się zaczyna.
+Git jest na tyle inteligentny, że potrafi domyśleć się o którą zmianę Ci chodziło po dodaniu zaledwie kilku znaków, o ile ta część sumy SHA-1 ma przynajmniej 4 znaki i jest unikalna, co oznacza, że istnieje tylko jeden obiekt w repozytorium, który od nich się zaczyna.
 
 <!-- Git is smart enough to figure out what commit you meant to type if you provide the first few characters, as long as your partial SHA-1 is at least four characters long and unambiguous — that is, only one object in the current repository begins with that partial SHA-1. -->
 
@@ -54,7 +54,7 @@ Dla przykładu, aby zobaczyć konkretną zmianę, uruchamiasz komendę `git log`
 
 	    added some blame and merge stuff
 
-W tej sytuacji, wybierasz `1c002dd....` Jeżeli chcesz wykonać na nim `git show`, każda z poniższych komend da identyczny efekt (zakładając że krótsze wersje są jednoznaczne):
+W tej sytuacji, wybierasz `1c002dd....` Jeżeli chcesz wykonać na nim `git show`, każda z poniższych komend da identyczny efekt (zakładając, że krótsze wersje są jednoznaczne):
 
 <!-- In this case, choose `1c002dd....` If you `git show` that commit, the following commands are equivalent (assuming the shorter versions are unambiguous): -->
 
@@ -63,7 +63,7 @@ W tej sytuacji, wybierasz `1c002dd....` Jeżeli chcesz wykonać na nim `git show
 	$ git show 1c002d
 
 
-Git może sam odnaleźć unikalne występowania wartości SHA-1. Jeżeli przekażesz parametr `--abbrev-commit` do komendy `git log`, jej wynik pokaże krótsze wartości SHA-1, przy zachowaniu ich unikalności; domyślnie stosuje długość 7 znaków, ale może ją zwiększyć aby zachować unikalność sum kontrolnych:
+Git może sam odnaleźć unikalne występowania wartości SHA-1. Jeżeli przekażesz parametr `--abbrev-commit` do komendy `git log`, jej wynik pokaże krótsze wartości SHA-1, przy zachowaniu ich unikalności; domyślnie stosuje długość 7 znaków, ale może ją zwiększyć, aby zachować unikalność sum kontrolnych:
 
 <!-- Git can figure out a short, unique abbreviation for your SHA-1 values. If you pass `--abbrev-commit` to the `git log` command, the output will use shorter values but keep them unique; it defaults to using seven characters but makes them longer if necessary to keep the SHA-1 unambiguous: -->
 
@@ -72,27 +72,27 @@ Git może sam odnaleźć unikalne występowania wartości SHA-1. Jeżeli przeka�
 	085bb3b removed unnecessary test code
 	a11bef0 first commit
 
-Generalnie, 8 do 10 znaków to wystarczająca ilość aby mieć unikalne wartości w projekcie. Jeden z największych projektów korzystających z Gita, jądro linuksa, zaczyna używać 12 znaków z dostępnych 40. 
+Generalnie, 8 do 10 znaków to wystarczająca ilość, aby mieć unikalne wartości w projekcie. Jeden z największych projektów korzystających z Gita, jądro systemu linuks, zaczyna używać 12 znaków z dostępnych 40. 
 
 <!-- Generally, eight to ten characters are more than enough to be unique within a project. One of the largest Git projects, the Linux kernel, is beginning to need 12 characters out of the possible 40 to stay unique. -->
 
-### KRÓTKA INFORMACJA NA TEMAT SHA-1 ###
+### KRÓTKA UWAGA NA TEMAT SHA-1 ###
 
 <!-- ### A SHORT NOTE ABOUT SHA-1 ### -->
 
-Duża ilość osób zdziwiła się, gdy ze względna na szczęśliwy przypadek, mieli w swoim repozytorium dwa różne obiekty posiadające tą samą wartość SHA-1.
+Duża ilość osób zaniepokoiła się, gdy ze względu na jakiś szczęśliwy przypadek, mieli w swoim repozytorium dwa różne obiekty posiadające tą samą wartość SHA-1.
 
 <!-- A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then? -->
 
-Jeżeli zdarzy Ci się zapisać objekt który ma sumę kontrolną SHA-1 taką samą jak inny obiekt będący już w repozytorium, w takiej sytuacji Git będzie zauważy, że objekt taki już istnieje i założy że został on już zapisany. Jeżeli spróbujesz pobrać jego zawartość, zawsze otrzymasz dane pierwszego obiektu.
+Jeżeli zdarzy Ci się zapisać objekt który ma sumę kontrolną SHA-1 taką samą jak inny obiekt będący już w repozytorium, Git zauważy, że objekt taki już istnieje i założy, że został on już zapisany. Jeżeli spróbujesz pobrać jego zawartość, zawsze otrzymasz dane pierwszego obiektu.
 
 <!-- If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, Git will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. -->
 
-Powinieneś wiedzieć jednak, że taki scenariusz jest strasznie rzadki. Skrót SHA-1 ma długość 20 bajtów lub 160 bitów. Ilość losowych obiektów potrzebnych do zapewnienia 50% prawdopodobieństwa kolizji to około 2^80 (wzór na obliczenie prawdopodobieństwa kolizji to `p = (n(n-1)/2) * (1/2^160))`. 2^80 to 1.2 x 10^24 lub 1 milion miliardów miliardów. Jest to około 1200 razy ilość ziarenek piasku na kuli ziemskiej).
+Powinieneś wiedzieć jednak, że taki scenariusz jest strasznie rzadki. Skrót SHA-1 ma długość 20 bajtów lub 160 bitów. Ilość losowych obiektów potrzebnych do zapewnienia 50% prawdopodobieństwa kolizji to około 2^80 (wzór na obliczenie prawdopodobieństwa kolizji to `p = (n(n-1)/2) * (1/2^160)`). 2^80 to 1.2 x 10^24 lub 1 milion miliardów miliardów. Jest to około 1200 razy ilość ziarenek piasku na kuli ziemskiej.
 
 <!--However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth. -->
 
-Weźmy przykład, aby zaprezentować Ci jak trudne jest wygenerowanie kolizji SHA-1. Jeżeli wszyscy z 6,5 miliarda osób na ziemi byłaby programistami i w każdej sekundzie, każdy z nich tworzyłby kod wielkości całego jądra Linuksa (1 milion objektów Gita) i wgrywał go do ogromnego repozytorium Gita, zajęłoby około 5 lat, zanim w repozytorium byłoby tyle obiektów aby mieć pewność 50% wystąpienia kolizji. Istnieje większe prawdopodobieństwo, że każdy z członków Twojego zespołu programistycznego zostanie zaatakowany i zabity przez wilki, w nie związanych ze sobą zdarzeniach, w ciągu tej samej nocy. 
+Weźmy przykład, aby zaprezentować Ci jak trudne jest wygenerowanie kolizji SHA-1. Jeżeli wszyscy z 6,5 miliarda osób na ziemi byłaby programistami i w każdej sekundzie, każdy z nich tworzyłby kod wielkości całego jądra Linuksa (1 milion objektów Gita) i wgrywał go do ogromnego repozytorium Gita, zajęłoby około 5 lat, zanim w repozytorium byłoby tyle obiektów, aby mieć pewność 50% wystąpienia kolizji. Istnieje większe prawdopodobieństwo, że każdy z członków Twojego zespołu programistycznego zostanie zaatakowany i zabity przez wilki, w nie związanych ze sobą zdarzeniach, w ciągu tej samej nocy. 
 
 <!-- Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night. -->
 
@@ -100,14 +100,14 @@ Weźmy przykład, aby zaprezentować Ci jak trudne jest wygenerowanie kolizji SH
 
 <!-- ### Branch References ### -->
 
-Najprostszym sposobem na wskazanie konkretnej zmiany, jest stworzenie odniesienia do gałęzi wskazującej na nią. Następnie, będziesz mógł używać nazwy gałęzi we wszystkich komendach Gita które przyjmują jako parametr objekt lub wartość SHA-1. Na przykład, jeżeli chcesz pokazać ostatni zmieniony obiekt w gałęzi, podane niżej komendy są identyczne, przy założeniu że `topic1` wskazuje na `ca82a6d`:
+Najprostszym sposobem na wskazanie konkretnej zmiany, jest stworzenie odniesienia do gałęzi wskazującej na nią. Następnie, będziesz mógł używać nazwy gałęzi we wszystkich komendach Gita które przyjmują jako parametr objekt lub wartość SHA-1. Na przykład, jeżeli chcesz pokazać ostatni zmieniony obiekt w gałęzi, podane niżej komendy są identyczne, przy założeniu, że `topic1` wskazuje na `ca82a6d`:
 
 <!-- The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`: -->
 
 	$ git show ca82a6dff817ec66f44342007202690a93763949
 	$ git show topic1
 
-Jeżeli chciałbyś zobaczyć, na jaką sumę SHA-1 wskazuje dana gałąź, lub jeżeli chcesz zobaczyć na jaką sumę SHA-1 każdy z tych przykładów się rozwija, możesz użyć komendy `rev-parse`. Możesz zobaczyć również rozdział 9 aby dowiedzieć się o tym narzędziu więcej; ale, `rev-parse` wykonuje operacje niskopoziomowo i nie jest stworzony do codziennej pracy. Jednakże, potrafi być czasami przydatny, jeżeli musisz zobaczyć co tak naprawdę się dzieje. Możesz teraz wywołać `rev-parse` na swojej gałęzi.
+Jeżeli chciałbyś zobaczyć, na jaką sumę SHA-1 wskazuje dana gałąź, lub jeżeli chcesz zobaczyć na jaką sumę SHA-1 każdy z tych przykładów się rozwiązuje, możesz użyć komendy `rev-parse`. Możesz zobaczyć również rozdział 9, aby dowiedzieć się o tym narzędziu więcej; ale, `rev-parse` wykonuje operacje niskopoziomowo i nie jest stworzony do codziennej pracy. Jednakże potrafi być czasami przydatny, jeżeli musisz zobaczyć co tak naprawdę się dzieje. Możesz teraz wywołać `rev-parse` na swojej gałęzi.
 
 <!-- If you want to see which specific SHA a branch points to, or if you want to see what any of these examples boils down to in terms of SHAs, you can use a Git plumbing tool called `rev-parse`. You can see Chapter 9 for more information about plumbing tools; basically, `rev-parse` exists for lower-level operations and isn’t designed to be used in day-to-day operations. However, it can be helpful sometimes when you need to see what’s really going on. Here you can run `rev-parse` on your branch. -->
 
@@ -135,7 +135,7 @@ Możesz zobaczyć reflog-a za pomocą komendy `git reflog`:
 	1c36188... HEAD@{5}: rebase -i (squash): updating HEAD
 	7e05da5... HEAD@{6}: rebase -i (pick): updating HEAD
 
-Za każdym razem, gdy Twoja gałąź się przesuwa, Git przechowuje tą informację w tej tymczasowej historii. Za ich pomocą, możesz wskazać również starsze zmiany. Jeżeli chcesz zobaczyć zawartość HEAD-a sprzed 5 zmian, możesz użyć odwołania `@{n}`, które widać w wyniku komendy reflog: 
+Za każdym razem, gdy Twoja gałąź się przesuwa, Git przechowuje tą informację w tej tymczasowej historii. Za jej pomocą, możesz wskazać również starsze zmiany. Jeżeli chcesz zobaczyć zawartość HEAD-a sprzed 5 zmian, możesz użyć odwołania `@{n}`, które widać w wyniku komendy reflog: 
 
 <!-- Every time your branch tip is updated for any reason, Git stores that information for you in this temporary history. And you can specify older commits with this data, as well. If you want to see the fifth prior value of the HEAD of your repository, you can use the `@{n}` reference that you see in the reflog output: -->
 
@@ -172,7 +172,7 @@ Aby zobaczyć wynik reflog-a w formacie podobnym do wyniku `git log`, możesz ur
 
 	    Merge commit 'phedders/rdocs'
 
-Należy zaznaczyć, że informacje z reflog-a są wyłącznie lokalne - jest to zapis zmian które wprowadzałeś w swoim repozytorium.  Referencje nie będą takie same na kopii repozytorium u kogoś innego; a od razu po pierwszym sklonowaniu repozytorium, będziesz miał pusty reflog, ze względu na to, że żadna aktywność nie została wykonana. Uruchomienie `git show HEAD{2.months.ago}` zadziała tylko wówczas, gdy sklonowałeś swoje repozytorium przynajmniej dwa miesiące temu - jeżeli sklonowałeś je pięć minut temu, otrzymasz pusty wynik.
+Należy zaznaczyć, że informacje z reflog-a są wyłącznie lokalne - jest to zapis zmian które wprowadzałeś w swoim repozytorium. Referencje nie będą takie same na kopii repozytorium u kogoś innego; a od razu po pierwszym sklonowaniu repozytorium, będziesz miał pusty reflog, ze względu na to, że żadna aktywność nie została wykonana. Uruchomienie `git show HEAD{2.months.ago}` zadziała tylko wówczas, gdy sklonowałeś swoje repozytorium przynajmniej dwa miesiące temu - jeżeli sklonowałeś je pięć minut temu, otrzymasz pusty wynik.
 
 <!-- It’s important to note that the reflog information is strictly local — it’s a log of what you’ve done in your repository. The references won’t be the same on someone else’s copy of the repository; and right after you initially clone a repository, you’ll have an empty reflog, as no activity has occurred yet in your repository. Running `git show HEAD@{2.months.ago}` will work only if you cloned the project at least two months ago — if you cloned it five minutes ago, you’ll get no results. -->
 
@@ -181,7 +181,7 @@ Należy zaznaczyć, że informacje z reflog-a są wyłącznie lokalne - jest to 
 
 <!-- ### Ancestry References ### -->
 
-Innym często używanym sposobem na wskazanie konkretnego commit-a jest wskazanie przodka. Jeżeli umieścisz znak `^` na końcu referencji, Git rozwinie to to rodzica tego commit-a. Załóżmy, że spojrzałeś na historię zmian w swoim projekcie:
+Innym często używanym sposobem na wskazanie konkretnego commit-a jest wskazanie przodka. Jeżeli umieścisz znak `^` na końcu referencji, Git rozwinie to do rodzica tego commit-a. Załóżmy, że spojrzałeś na historię zmian w swoim projekcie:
 
 <!-- The other main way to specify a commit is via its ancestry. If you place a `^` at the end of a reference, Git resolves it to mean the parent of that commit.
 Suppose you look at the history of your project: -->
@@ -196,7 +196,7 @@ Suppose you look at the history of your project: -->
 	* 1c36188 ignore *.gem
 	* 9b29157 add open3_detach to gemspec file list
 
-Następne, możesz zobaczyć poprzednią zmianę, poprzez użycie `HEAD^`, co zonacza "rodzic HEAD-a":
+Następne, możesz zobaczyć poprzednią zmianę, poprzez użycie `HEAD^`, co oznacza "rodzic HEAD-a":
 
 <!-- Then, you can see the previous commit by specifying `HEAD^`, which means "the parent of HEAD": -->
 
@@ -252,11 +252,11 @@ Możesz również łączyć obie składnie - możesz dostać drugiego rodzica po
 
 <!-- You can also combine these syntaxes — you can get the second parent of the previous reference (assuming it was a merge commit) by using `HEAD~3^2`, and so on. -->
 
-### Zasięgi zmian ###
+### Zakresy zmian ###
 
 <!-- ### Commit Ranges ### -->
 
-Teraz gdy możesz już wskazywać pojedyncze zmiany, sprawdźmy jak wskazać ich zasięg. Jest to szczególnie przydatne podczas zarządzania gałęziami - w sytuacji, gdy masz dużą ilość gałęzi, możesz użyć wskaźnika zasięgu zmian, aby odpowiedzieć na pytanie, w stylu "Jakie są zmiany na obecnej gałęzi, których jeszcze nie włączyłem do gałęzi głównej?"
+Teraz gdy możesz już wskazywać pojedyncze zmiany, sprawdźmy jak wskazać ich zakres. Jest to szczególnie przydatne podczas zarządzania gałęziami - w sytuacji, gdy masz dużą ilość gałęzi, możesz użyć wskaźnika zakresu zmian, aby odpowiedzieć na pytanie, w stylu "Jakie są zmiany na obecnej gałęzi, których jeszcze nie włączyłem do gałęzi głównej?"
 
 <!-- Now that you can specify individual commits, let’s see how to specify ranges of commits. This is particularly useful for managing your branches — if you have a lot of branches, you can use range specifications to answer questions such as, "What work is on this branch that I haven’t yet merged into my main branch?" -->
 
@@ -264,16 +264,16 @@ Teraz gdy możesz już wskazywać pojedyncze zmiany, sprawdźmy jak wskazać ich
 
 <!-- #### Double Dot #### -->
 
-Najczęściej używaną składnią wskazywania zasięgu zmian jest podwójna kropka. Mówi ona Gitowi, aby rozwinął zakres zmian które są osiągalne z pierwszego commitu, ale nie są z drugiego. Na przykład, załóżmy że masz historię zmian która wygląda tak jak na rysunku 6-1.
+Najczęściej używaną składnią wskazywania zakresu zmian jest podwójna kropka. Mówi ona Gitowi, aby rozwinął zakres zmian które są osiągalne z pierwszego commitu, ale nie są z drugiego. Na przykład, załóżmy że masz historię zmian która wygląda tak jak na rysunku 6-1.
 
 <!-- The most common range specification is the double-dot syntax. This basically asks Git to resolve a range of commits that are reachable from one commit but aren’t reachable from another. For example, say you have a commit history that looks like Figure 6-1. -->
 
 Insert 18333fig0601.png
-Figure 6-1. Przykładowa historia dla wskazania zasięgu zmian.
+Figure 6-1. Przykładowa historia dla wskazania zakresu zmian.
 
 <!-- Figure 6-1. Example history for range selection. -->
 
-Chcesz zobaczyć co z tego co znajduje się w Twojej gałęzi "experiment" nie zostało jeszcze włączone do gałęzi "master". Możesz poprosić Gita, aby pokazał Ci logi z informacjami o tych zmianach przy pomocy `master..experiment` - co oznacza "wszystkie zmiany dostępne z experiment które nie są dostępne przez master". Dla zachowania zwięzłości i przejrzystości w tych przykładach, użyję liter ze zmian znajdujących się na wykresie zamiast pełnego wyniku komendy, w kolejności w jakiej pokażą się:
+Chcesz zobaczyć co z tego co znajduje się w Twojej gałęzi "experiment" nie zostało jeszcze włączone do gałęzi "master". Możesz poprosić Gita, aby pokazał Ci logi z informacjami o tych zmianach przy pomocy `master..experiment` - co oznacza "wszystkie zmiany dostępne z experiment które nie są dostępne przez master". Dla zachowania zwięzłości i przejrzystości w tych przykładach, użyję liter ze zmian znajdujących się na wykresie zamiast pełnego wyniku komendy, w kolejności w jakiej się pokażą:
 
 <!-- You want to see what is in your experiment branch that hasn’t yet been merged into your master branch. You can ask Git to show you a log of just those commits with `master..experiment` — that means "all commits reachable by experiment that aren’t reachable by master." For the sake of brevity and clarity in these examples, I’ll use the letters of the commit objects from the diagram in place of the actual log output in the order that they would display: -->
 
@@ -290,7 +290,7 @@ Jeżeli, z drugiej strony, chcesz zobaczyć odwrotne działanie - wszystkie zmia
 	F
 	E
 
-Jest to przydatne, jeżeli zamierzasz utrzymywać gałąź `experiment` zaktualizowaną, oraz przeglądać co będziesz włączał. Innym bardzo często używanym przykładem użycia tej składni jest zobaczenie, co zamierzasz wypchnąć do zdalnego repozytorium:
+Jest to przydatne, jeżeli zamierzasz utrzymywać gałąź `experiment` zaktualizowaną, oraz przeglądać co będziesz integrował. Innym bardzo często używanym przykładem użycia tej składni jest sprawdzenie, co zamierzasz wypchnąć do zdalnego repozytorium:
  
 <!-- This is useful if you want to keep the `experiment` branch up to date and preview what you’re about to merge in. Another very frequent use of this syntax is to see what you’re about to push to a remote: -->
 
@@ -329,7 +329,7 @@ Tworzy to bardzo użyteczną składnię zapytań, która powinna Ci pomóc dowie
 
 <!-- #### Triple Dot #### -->
 
-Ostatnią z głównych składni zasięgu jest składnia z trzema kropkami, która wskazuje na wszystkie zmiany które są dostępne z jednej z dwóch referencji, ale nie z obu. Spójrz ponownie na przykład z historią zmian na rysunku 6-1. 
+Ostatnią z głównych składni zakresu jest składnia z trzema kropkami, która wskazuje na wszystkie zmiany które są dostępne z jednej z dwóch referencji, ale nie z obu. Spójrz ponownie na przykład z historią zmian na rysunku 6-1. 
 Jeżeli chcesz zobaczyć co jest zmienione w `master` lub `experiment`, poza wspólnymi, możesz uruchomić
 
 <!-- The last major range-selection syntax is the triple-dot syntax, which specifies all the commits that are reachable by either of two references but not by both of them. Look back at the example commit history in Figure 6-1.
@@ -341,7 +341,7 @@ If you want to see what is in `master` or `experiment` but not any common refere
 	D
 	C
 
-Ponownie, otrzymasz normalny wynik `log`, ale pokazujący tylko informacje o czterech zmianach, występujących w normalnej kolejności.  
+Ponownie, otrzymasz normalny wynik `log`, ale pokazujący tylko informacje o czterech zmianach, występujących w normalnej kolejności.
 
 <!-- Again, this gives you normal `log` output but shows you only the commit information for those four commits, appearing in the traditional commit date ordering. -->
 
@@ -363,7 +363,7 @@ Przy pomocy tych narzędzi, możesz dużo łatwiej wskazać którą zmianę lub 
 
 <!-- ## Interactive Staging ## -->
 
-Git dostarcza kilku skryptów, które ułatwiają wykonywanie zadań z linii poleceń. Zobaczysz tutaj parę interaktywnych komend, które pomogą Ci z łatwością dopracować commity, aby zawierały tylko pewnie kombinacje i części plików. Narzędzia te są bardzo przydatne, w sytuacji, gdy zmieniasz kilka plików, i następnie decydujesz, że chciałbyś, aby te zmiany były w kilku mniejszych commitach, zamiast w jednym dużym. W ten sposób, możesz mieć pewność, że Twoje commity są logicznie oddzielnymi zestawami zmian i mogą być łatwiej zweryfikowane przez innych programistów pracujących z Tobą.
+Git dostarcza kilku skryptów, które ułatwiają wykonywanie zadań z linii poleceń. Zobaczysz tutaj parę interaktywnych komend, które pomogą Ci z łatwością dopracować commity, aby zawierały tylko pewnie kombinacje i części plików. Narzędzia te są bardzo przydatne w sytuacji, gdy zmieniasz kilka plików i następnie decydujesz, że chciałbyś, aby te zmiany były w kilku mniejszych commitach, zamiast w jednym dużym. W ten sposób możesz mieć pewność, że Twoje commity są logicznie oddzielnymi zestawami zmian i mogą być łatwiej zweryfikowane przez innych programistów pracujących z Tobą.
 Jeżeli uruchomisz `git add` z opcją `-i` lub `-interactive`, Git wejdzie w tryb interaktywny, pokazując coś podobnego do:
 
 <!-- Git comes with a couple of scripts that make some command-line tasks easier. Here, you’ll look at a few interactive commands that can help you easily craft your commits to include only certain combinations and parts of files. These tools are very helpful if you modify a bunch of files and then decide that you want those changes to be in several focused commits rather than one big messy commit. This way, you can make sure your commits are logically separate changesets and can be easily reviewed by the developers working with you.
@@ -384,7 +384,7 @@ Możesz zauważyć, że ta komenda pokazuje zupełnie inny obraz przechowalni - 
 
 <!-- You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. -->
 
-Po tym pokazana jest sekcja komend. Możesz w niej zrobić kilka rzeczy, włączając dodanie plików do przechalni, usunięcie z niej, dodanie do przechowalni części plików, dodanie nieśledzonych plików, oraz otrzymania różnicy między tym co jest w przechowalni.
+Po nich pokazana jest sekcja komend. Możesz w niej zrobić kilka rzeczy takich jak dodanie plików do przechalni, usunięcie z niej, dodanie do przechowalni części plików, dodanie nieśledzonych plików, czy otrzymanie różnicy między tym co jest w przechowalni.
 
 <!-- After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged. -->
 
@@ -392,7 +392,7 @@ Po tym pokazana jest sekcja komend. Możesz w niej zrobić kilka rzeczy, włącz
 
 <!-- ### Staging and Unstaging Files ### -->
 
-Jeżeli naciśniesz `2` lub `u` w linii `What now>`, skrypt dopyta Cie o to, które pliki chcesz dodać do przechowalni:
+Jeżeli naciśniesz `2` lub `u` w linii `What now>`, skrypt dopyta Cię o to, które pliki chcesz dodać do przechowalni:
 
 <!-- If you type `2` or `u` at the `What now>` prompt, the script prompts you for which files you want to stage: -->
 
@@ -414,7 +414,7 @@ Aby dodać pliki TODO i index.html do przechowalni, możesz wpisać numery:
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 	Update>>
 
-Znak `*` obok każdego pliku, oznacza że plik ten będzie dodany do przechowalni. Jeżeli naciśniesz Enter, bez wpisywania niczego w `Update>>`, Git weźmie wszystkie zaznaczone pliku i doda je do przechowalni:
+Znak `*` obok każdego pliku, oznacza że plik ten będzie dodany do przechowalni. Jeżeli naciśniesz Enter, bez wpisywania niczego w `Update>>`, Git weźmie wszystkie zaznaczone pliki i doda je do przechowalni:
 
 <!-- The `*` next to each file means the file is selected to be staged. If you press Enter after typing nothing at the `Update>>` prompt, Git takes anything selected and stages it for you: -->
 
@@ -430,7 +430,7 @@ Znak `*` obok każdego pliku, oznacza że plik ten będzie dodany do przechowaln
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Teraz możesz zauważyć, że pliki TODO i index.html są w przechowalni, a plik simplegit.rb nie. Jeżeli chcesz usunąć plik TODO z przechowalni, musisz użyć opcji `3` lub `r` (ang. revert):
+Teraz możesz zauważyć, że pliki TODO i index.html są w przechowalni, a plik simplegit.rb nie. Jeżeli chcesz usunąć plik TODO z przechowalni, musisz użyć opcji `3` lub `r` (cofnij, od ang. revert):
 
 <!-- Now you can see that the TODO and index.html files are staged and the simplegit.rb file is still unstaged. If you want to unstage the TODO file at this point, you use the `3` or `r` (for revert) option: -->
 
@@ -464,7 +464,7 @@ Spójrz ponownie na status Gita, zobaczysz teraz, że usunąłeś z poczekalni p
 	  2:        +1/-1      nothing index.html
 	  3:    unchanged        +5/-1 lib/simplegit.rb
 
-Aby zobaczyć porównanie tego co jest w przechowalni, możesz użyć komendy `6` lub `d` (ang. diff). Pokaże ona listę plików, które możesz wybrać aby zobaczyć wprowadzone zmiany. Jest to podobne do działania komeny `git diff --cached`:
+Aby zobaczyć porównanie tego co jest w przechowalni, możesz użyć komendy `6` lub `d` (ang. diff). Pokaże ona listę plików, które możesz wybrać aby zobaczyć wprowadzone zmiany. Jest to podobne do działania komendy `git diff --cached`:
 
 <!-- To see the diff of what you’ve staged, you can use the `6` or `d` (for diff) command. It shows you a list of your staged files, and you can select the ones for which you would like to see the staged diff. This is much like specifying `git diff --cached` on the command line: -->
 
@@ -492,11 +492,11 @@ Przy użyciu tych prostych komend, możesz używać trybu interaktywnego do łat
 
 <!-- With these basic commands, you can use the interactive add mode to deal with your staging area a little more easily. -->
 
-### Dodaanie łat do przechowalni ###
+### Dodawanie łat do przechowalni ###
 
 <!-- ### Staging Patches ### -->
 
-Dla Gita możliwe jest również, aby dodać do przechowalni tylko część plików, a nie całość. Na przykład, jeżeli zrobisz dwie zmiany w swoim pliku simplegit.rb, ale chcesz dodać do przechowalni tylko jedną z nich, a nie drugą. Z interaktywnej linii poleceń, wybierz `5` lub `p` (ang. patch). Git zapyta Cię, które pliki chciałbyś tylko w części dodać do przechowalni; następnie dla każdego zaznaczonego pliku, wyświetli kawałek różnicy na plikach i zapyta czy cesz je dodać do przechowalni po kolei: 
+Dla Gita możliwe jest również, aby dodać do przechowalni tylko część plików, a nie całość. Na przykład, jeżeli zrobisz dwie zmiany w swoim pliku simplegit.rb, ale chcesz dodać do przechowalni tylko jedną z nich, a drugą nie. Z interaktywnej linii poleceń, wybierz `5` lub `p` (ang. patch). Git zapyta Cię, które pliki chciałbyś tylko w części dodać do przechowalni; następnie dla każdego zaznaczonego pliku, wyświetli kawałek różnicy na plikach i zapyta czy chesz je dodać do przechowalni po kolei: 
 
 <!-- It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one: -->
 
@@ -544,7 +544,7 @@ Zazwyczaj, będziesz wybierał `y` lub `n` jeżeli chcesz dodać do przechowalni
 	  2:        +1/-1      nothing index.html
 	  3:        +1/-1        +4/-0 lib/simplegit.rb
 
-Wynik komendy status na pliku simplegit.rb jest interesujący. Pokazuje on, że kilka linii jest dodanych do przechowalni, a kilka nie. Masz plik, który jest tylko w częsci w przechowalni. W tym momencie, możesz zakończyć działanie trybu interaktywnego i uruchomić `git commit` w celu zapisania zmian.
+Wynik komendy status dla pliku simplegit.rb jest interesujący. Pokazuje on, że kilka linii jest dodanych do przechowalni, a kilka nie. Masz plik, który jest tylko w części w przechowalni. W tym momencie, możesz zakończyć działanie trybu interaktywnego i uruchomić `git commit` w celu zatwierdzenia zmian.
 
 <!-- The status of the simplegit.rb file is interesting. It shows you that a couple of lines are staged and a couple are unstaged. You’ve partially staged this file. At this point, you can exit the interactive adding script and run `git commit` to commit the partially staged files. -->
 
@@ -596,7 +596,7 @@ Teraz chcesz zmianić gałęzie, ale nie chcesz commitować tego nad czym pracow
 	HEAD is now at 049d078 added the index file
 	(To restore them type "git stash apply")
 
-Teraz Twój katalog roboczy jest w stanie niezmienionym:
+Twój katalog roboczy jest teraz w stanie niezmienionym:
 
 <!-- Your working directory is clean: -->
 
@@ -613,7 +613,7 @@ W tej chwili, możesz bez problemu przejść na inną gałąź i rozpocząć pra
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-W tym przykładzie, dwie poprzednie zmiany również zostały zapisane, masz więc dostęp do trzech. Możesz ponownie nałozyć tą którą ostatnio stworzyłeś, przy użyciu komendy, widocznej w tekście pomocy do komendy stash: `git stash apply`. Jeżeli chcesz nałożyć jedną ze starszych zmian, wskazujesz ją poprzez nazwę, w taki sposób: `git stash apply stash@{2}`. Jeżeli nie podasz nazwy, Git założy najnowszą i spróbuje ją zintegrować:
+W powyższym przykładzie, dwie poprzednie zmiany również zostały zapisane, masz więc dostęp do łącznie trzech. Możesz ponownie nałozyć tą którą ostatnio stworzyłeś, przy użyciu komendy widocznej w tekście pomocy do komendy stash: `git stash apply`. Jeżeli chcesz nałożyć jedną ze starszych zmian, wskazujesz ją poprzez nazwę w taki sposób: `git stash apply stash@{2}`. Jeżeli nie podasz nazwy, Git założy najnowszą i spróbuje ją zintegrować:
 
 <!-- In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it: -->
 
@@ -626,11 +626,11 @@ W tym przykładzie, dwie poprzednie zmiany również zostały zapisane, masz wi�
 	#      modified:   lib/simplegit.rb
 	#
 
-Możesz zauważyć, że Git zmodyfikował pliki które nie były commitnięte w czasie zapisywania w schowku. W tej sytuacji, miałeś niezmodyfikowany katalog roboczy, w chwili, gdy próbowałeś zaaplikować zmiany ze schowka na tą samą gałąź na której je stworzyłeś; jednak nie musisz mieć niezmiodyfikowanego katalogu, ani nie musisz pracować na tej samej gałęzi, aby poprawnie zaaplikować zmiany ze schowka. Możesz zapisać w ten sposób zmiany w jednej gałęzi, zmienić gałąź na inną i spróbować nałożyć je. Możesz również mieć wprowadzone zmiany i zmodyfikowane pliki, w czasie, gdy będziesz próbował nałożyć zmiany - Git pozwoli Ci na rozwiązanie ewentualnych konfliktów jeżeli zmiany nie będą mogły się czysto połączyć.
+Możesz zauważyć, że Git zmodyfikował pliki które nie były zatwierdzone w czasie zapisywania w schowku. W tej sytuacji, miałeś niezmodyfikowany katalog roboczy, w chwili, gdy próbowałeś zaaplikować zmiany ze schowka na tą samą gałąź na której je stworzyłeś; jednak nie musisz mieć niezmiodyfikowanego katalogu, ani nie musisz pracować na tej samej gałęzi, aby poprawnie zaaplikować zmiany ze schowka. Możesz zapisać w ten sposób zmiany w jednej gałęzi, zmienić gałąź na inną i spróbować nałożyć je. Możesz również mieć wprowadzone zmiany i zmodyfikowane pliki w czasie, gdy będziesz próbował nałożyć zmiany - Git pozwoli Ci na rozwiązanie ewentualnych konfliktów, jeżeli zmiany nie będą mogły się czysto połączyć.
 
 <!-- You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly. -->
 
-Zmiany na Twoich plikach zostały ponownie nałożone, ale plik który poprzednio był w przechowalni, teraz nie jest. Aby go dodać, musisz uruchomić `git stash apply` z parametrem `--index`, w celu ponownego dodania zmian do przechowalni. Jeżeli uruchomiłeś ją, otrzymasz w wyniki oryginalny stan:
+Zmiany na Twoich plikach zostały ponownie nałożone, ale plik który poprzednio był w przechowalni, teraz nie jest. Aby go dodać, musisz uruchomić `git stash apply` z parametrem `--index`, w celu ponownego dodania zmian do przechowalni. Jeżeli uruchomiłeś ją, otrzymasz w wyniku oryginalny stan:
 
 <!-- The changes to your files were reapplied, but the file you staged before wasn’t restaged. To do that, you must run the `git stash apply` command with a `--index` option to tell the command to try to reapply the staged changes. If you had run that instead, you’d have gotten back to your original position: -->
 
@@ -658,7 +658,7 @@ Opcja "apply" próbuje tylko zintegrować zapisane zmiany - będziesz nadal mia�
 	$ git stash drop stash@{0}
 	Dropped stash@{0} (364e91f3f268f0900bc3ee613f9f733e82aaed43)
 
-Możesz również uruchomić `git stash pop`, aby nałożyć ostatnio zapisane zmiany ze schowka, a następnie usunąć je z listy zmian. 
+Możesz również uruchomić `git stash pop`, aby nałożyć ostatnio zapisane zmiany ze schowka, a następnie usunąć je z listy zmian.
 
 <!-- You can also run `git stash pop` to apply the stash and then immediately drop it from your stack. -->
 
@@ -666,7 +666,7 @@ Możesz również uruchomić `git stash pop`, aby nałożyć ostatnio zapisane z
 
 <!-- ### Un-applying a Stash ### -->
 
-Może się zdarzyć sytuacja, w której nałożysz zmiany ze schowka, wprowadzisz jakieś inne zmiany, aby potem zechcieć cofnąć zmiany które zostały wprowadzone ze schowka. Git nie udostępnia komendy `git unapply`, ale można to osiągnąć poprzez pobranie wprowadzonych zmian i nałożenia ich w od tyłu:
+Może się zdarzyć sytuacja, w której nałożysz zmiany ze schowka, wprowadzisz jakieś inne zmiany, aby potem zechciesz cofnąć zmiany które zostały wprowadzone ze schowka. Git nie udostępnia komendy `git unapply`, ale można to osiągnąć poprzez pobranie wprowadzonych zmian i nałożenie ich w od tyłu:
 
 <!-- In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse: -->
 
@@ -692,7 +692,7 @@ Możesz chcieć stworzyć alias i dodać komendę `stash-unapply` do Gita. Na pr
 
 <!-- ### Creating a Branch from a Stash ### -->
 
-Jeżeli zapiszesz w schowku zmiany, zostawisz je na jakiś czas i będziesz kontynuował pracę na tej samej gałęzi, możesz napotkać problem z ponownym nałożeniem zapisanych zmian. Jeżeli nakładane zmiany, będą dotyczyły plików które zdążyłeś zmienić, dojdzie do konfliktu, który będziesz musiał ręcznie rozwiązać. Jeżeli chcesz poznać łatwiejszy sposób na sprawdzenie zmian ze schowka, uruchom `git stash branch`, komenda ta stworzy nową gałąź, pobierze ostatnią wersję plików, nałoży zmiany ze schowka, oraz usunie zapisany schowek jeżeli wszystko odbędzie się bez problemów:
+Jeżeli zapiszesz w schowku zmiany, zostawisz je na jakiś czas i będziesz kontynuował pracę na tej samej gałęzi, możesz napotkać problem z iich ponownym nałożeniem. Jeżeli nakładane zmiany, będą dotyczyły plików które zdążyłeś zmienić dojdzie do konfliktu, który będziesz musiał ręcznie rozwiązać. Jeżeli chcesz poznać łatwiejszy sposób na sprawdzenie zmian ze schowka, uruchom `git stash branch`, komenda ta stworzy nową gałąź, pobierze ostatnią wersję plików, nałoży zmiany ze schowka, oraz usunie zapisany schowek jeżeli wszystko odbędzie się bez problemów:
 
 <!-- If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully: -->
 
@@ -716,38 +716,65 @@ Jest to bardzo pomocny skrót do odzyskiwania zapisanych w schowku zmian i konty
 <!-- This is a nice shortcut to recover stashed work easily and work on it in a new branch. -->
 
 
-<!--
-## Rewriting History ##
+## Przepisywanie Historii ##
 
-Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others.
+<!-- ## Rewriting History ## -->
 
-In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others.
+Często, pracując z Gitem możesz chcieć zmienić historię commitów z jakiegoś powodu. Jedną z najlepszych rzeczy w Gitcie jest to, że pozwala on podejmować decyzję w ostatnim możliwym momencie. Możesz zdecydować które pliki idą w których commitach, dokładnie przed commitem przy użyciu przechowalni, możesz zdecydować że nie chciałeś nad czymś teraz pracować przy pomocy schowka, możesz również nadpisać commity które już wprowadziłeś, tak aby wyglądały inaczej. Możesz w ten sposób zmienić kolejność commitów, treść komentarza lub zawartość plików, złączyć lub rozdzielić commity, lub je w całości usunąć - wszystko zanim podzielisz się swoją praca z innymi.
 
-### Changing the Last Commit ###
+<!-- Many times, when working with Git, you may want to revise your commit history for some reason. One of the great things about Git is that it allows you to make decisions at the last possible moment. You can decide what files go into which commits right before you commit with the staging area, you can decide that you didn’t mean to be working on something yet with the stash command, and you can rewrite commits that already happened so they look like they happened in a different way. This can involve changing the order of the commits, changing messages or modifying files in a commit, squashing together or splitting apart commits, or removing commits entirely — all before you share your work with others. -->
 
-Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files.
+W tej sekcji, dowiesz się jak wykonać te zadania, tak abyś mógł zorganizować historię commitów w taki sposób w jaki chcesz, przed podzieleniem się tymi zmianami z innymi.
 
-If you only want to modify your last commit message, it’s very simple:
+<!-- In this section, you’ll cover how to accomplish these very useful tasks so that you can make your commit history look the way you want before you share it with others. -->
+
+### Zmienianie ostatniego commita ###
+
+<!-- ### Changing the Last Commit ### -->
+
+Zmienianie ostatniego commita jest chyba najczęstszą rzeczą którą będziesz robił. Często chcesz zrobić jedną z dwóch rzeczy: zmienić treść komentarza, lub zawartość migawki którą właśnie stworzyłeś, poprzez dodanie, zmianę lub usunięcie plików.
+
+<!-- Changing your last commit is probably the most common rewriting of history that you’ll do. You’ll often want to do two basic things to your last commit: change the commit message, or change the snapshot you just recorded by adding, changing and removing files. -->
+
+Jeżeli chcesz zmienić tylko treść ostatniego komentarza, najprościej wykonać:
+
+<!-- If you only want to modify your last commit message, it’s very simple: -->
 
 	$ git commit --amend
 
-That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit.
+Ta komenda uruchomi edytor tekstowy, który będzie zawierał Twój ostatni komentarz gotowy do wprowadzenia zmian. Kiedy zapiszesz i zamkniesz edytor, nowy tekst komentarza nadpisze poprzedni, stając się tym samym Twoim nowym ostatnim commitem.
 
-If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way. You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit.
+<!-- That drops you into your text editor, which has your last commit message in it, ready for you to modify the message. When you save and close the editor, the editor writes a new commit containing that message and makes it your new last commit. -->
 
-You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
+Jeżeli wykonałeś komendę "commit", a potem chcesz zmienić ostatnio zapisaną migawkę przez dodanie lub zmianę plików, być może dlatego że zapomniałeś dodać plik który stworzyłeś, cały proces działa bardzo podobnie. Dodajesz do przechowalni zmiany lub pliki poprzez wykonanie komendy `git add` na nich, lub `git rm` na jakimś pliku, a następnie uruchamiasz komendę `git commit --ammend`, która pobiera obecną zawartość przechowalni i robi z niej nową migawkę do commitu.
 
-### Changing Multiple Commit Messages ###
+<!-- If you’ve committed and then you want to change the snapshot you committed by adding or changing files, possibly because you forgot to add a newly created file when you originally committed, the process works basically the same way. You stage the changes you want by editing a file and running `git add` on it or `git rm` to a tracked file, and the subsequent `git commit --amend` takes your current staging area and makes it the snapshot for the new commit. -->
 
-To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto.
+Musisz być ostrożny z tymi zmianami, ponieważ wykonywanie komendy "ammend", zmienia sumę SHA-1 dla commitu. Działa to podobnie do bardzo małej zmiany bazy (and. rebase) - nie wykonuj komendy "amend" na ostatnim commicie, jeżeli zdążyłeś go już udostępnić innym.
 
-For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit:
+<!-- You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it. -->
+
+### Zmiana kilku komentarzy jednocześnie ###
+
+<!-- ### Changing Multiple Commit Messages ### -->
+
+Aby zmienić zapisaną zmianę która jest głębiej w historii, musisz użyć bardziej zaawansowanych narzędzi. Git nie posiada narzędzia do modyfikowania historii, ale możesz użyć komendy "rebase", aby zmienić bazę kilku commitów do HEAD z których się wywodzą, zamiast przenosić je do innej. Przy pomocy interaktywnej komendy rebase, możesz zatrzymać się przy każdym commicie przeznaczonym do zmiany i zmienić treść komentarza, dodać pliki, lub cokolwiek zechcesz. Możesz uruchomić komendę "rebase" w trybie interaktywnym poprzez dodanie opcji `-i` do `git rebase`. Musisz wskazać jak daleko chcesz nadpisać zmiany, poprzez wskazanie do którego commitu zmienić bazę.
+
+<!-- To modify a commit that is farther back in your history, you must move to more complex tools. Git doesn’t have a modify-history tool, but you can use the rebase tool to rebase a series of commits onto the HEAD they were originally based on instead of moving them to another one. With the interactive rebase tool, you can then stop after each commit you want to modify and change the message, add files, or do whatever you wish. You can run rebase interactively by adding the `-i` option to `git rebase`. You must indicate how far back you want to rewrite commits by telling the command which commit to rebase onto. -->
+
+Na przykład, jeżeli chcesz zmienić 3 ostatnie komentarze, albo jakikolwiek z nich, podajesz jako argument do komendy `git rebase -i` rodzica ostatniego commita który chcesz zmienić, np. `HEAD~2^` lub `HEAD~3`. Łatwiejsze do zapamiętania może być `~3`, ponieważ próbujesz zmienić ostatnie trzy commity; ale zwróć uwagę na to, że tak naprawdę określiłeś cztery ostatnie commity, rodzica ostatniej zmiany którą chcesz zmienić: 
+
+<!--  For example, if you want to change the last three commit messages, or any of the commit messages in that group, you supply as an argument to `git rebase -i` the parent of the last commit you want to edit, which is `HEAD~2^` or `HEAD~3`. It may be easier to remember the `~3` because you’re trying to edit the last three commits; but keep in mind that you’re actually designating four commits ago, the parent of the last commit you want to edit: -->
 
 	$ git rebase -i HEAD~3
 
-Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change.
+Postaraj się zapamiętać, że jest to komenda zmiany bazy - każdy commit znajdujący się w zakresie `HEAD~3..HEAD` będzie przepisany, bez względu na to, czy zmienisz treść komentarza czy nie. Nie zawieraj commitów które zdąrzyłeś już wgrać na centralny serwer - takie działanie będzie powodowało zamieszanie dla innych programistów, poprzez dostarczenie alternatywnej wersji tej samej zmiany.
 
-Running this command gives you a list of commits in your text editor that looks something like this:
+<!-- Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change. -->
+
+Uruchomienie tej komendy da Ci listę commitów w edytorze tekstowym, podobną do tej:
+
+<!-- Running this command gives you a list of commits in your text editor that looks something like this: -->
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
@@ -764,22 +791,30 @@ Running this command gives you a list of commits in your text editor that looks 
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this:
+Warto zaznaczyć, że te zmiany są wypisane w odwrotnej kolejności, w stosunku do tej, którą widzisz po wydaniu komendy `log`. Jeżeli uruchomisz `log`, zobaczysz coś podobnego do:
+
+<!-- It’s important to note that these commits are listed in the opposite order than you normally see them using the `log` command. If you run a `log`, you see something like this: -->
 
 	$ git log --pretty=format:"%h %s" HEAD~3..HEAD
 	a5f4a0d added cat-file
 	310154e updated README formatting and added blame
 	f7f3f6d changed my name a bit
 
-Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay.
+Zauważ odwrotną kolejność. Interaktywny tryb "rebase" udostępnia Ci skrypt który będzie uruchamiany. Rozpocznie on działanie od zmiany, którą wskazałeś w linii komend (`HEAD~3`) i odtworzy zmiany wprowadzanie przez każdy z commitów od góry do dołu. Listuje najstarszy na górze, zamiast najnowszego, ponieważ będzie to pierwszy który zostanie odtworzony. 
 
-You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this:
+<!-- Notice the reverse order. The interactive rebase gives you a script that it’s going to run. It will start at the commit you specify on the command line (`HEAD~3`) and replay the changes introduced in each of these commits from top to bottom. It lists the oldest at the top, rather than the newest, because that’s the first one it will replay. -->
+
+Trzeba zmienić skrypt, aby ten zatrzymał się na zmianie którą chcesz wyedytować. Aby to zrobić, zmień słowo "pick" na "edit" przy każdym commicie po którym skrypt ma się zatrzymać. Dla przykładu, aby zmienić tylko trzecią treść komentarza, zmieniasz plik aby wygląda tak jak ten:
+
+<!-- You need to edit the script so that it stops at the commit you want to edit. To do so, change the word pick to the word edit for each of the commits you want the script to stop after. For example, to modify only the third commit message, you change the file to look like this: -->
 
 	edit f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message:
+Kiedy zapiszesz zmiany i wyjdziesz z edytora, Git cofnie Cię do ostatniego commita w liście i pokaże linię komend z następującym komunikatem:
+
+<!-- When you save and exit the editor, Git rewinds you back to the last commit in that list and drops you on the command line with the following message: -->
 
 	$ git rebase -i HEAD~3
 	Stopped at 7482e0d... updated the gemspec to hopefully work better
@@ -791,34 +826,52 @@ When you save and exit the editor, Git rewinds you back to the last commit in th
 
 	       git rebase --continue
 
-These instructions tell you exactly what to do. Type
+Te instrukcje mówią dokładnie co zrobić. Napisz
+
+<!-- These instructions tell you exactly what to do. Type -->
 
 	$ git commit --amend
 
-Change the commit message, and exit the editor. Then, run
+Zmień treść komentarza i zamknij edytor. Następnie uruchom
+
+<!-- Change the commit message, and exit the editor. Then, run -->
 
 	$ git rebase --continue
 
-This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished.
+Ta komenda nałoży dwie pozostałe zmiany automatycznie i po wszystkim. Jeżeli zmienisz "pick" na "edit" w większej liczbie linii, możesz powtórzyć te kroki dla każdego commita który zmieniasz. Za każdym razem Git zatrzyma się, pozwoli Ci nadpisać treść za pomocą komendy "amend" i przejdzie dalej jak skończysz.
 
-### Reordering Commits ###
+<!-- This command will apply the other two commits automatically, and then you’re done. If you change pick to edit on more lines, you can repeat these steps for each commit you change to edit. Each time, Git will stop, let you amend the commit, and continue when you’re finished. -->
 
-You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this
+### Zmiana kolejności commitów ###
+
+<!-- ### Reordering Commits ### -->
+
+Możesz również użyć interaktywnego trybu "rebase" aby zmienić kolejność lub usunąć commity w całości. Jeżeli chcesz usunąć zmianę opisaną jako "added cat-file", oraz zmienić kolejność w jakiej pozostałe dwie zmiany zostały wprowadzone, możesz zmienić zawartość skryptu rebase z takiego
+
+<!-- You can also use interactive rebases to reorder or remove commits entirely. If you want to remove the "added cat-file" commit and change the order in which the other two commits are introduced, you can change the rebase script from this -->
 
 	pick f7f3f6d changed my name a bit
 	pick 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-to this:
+na taki:
+
+<!-- to this: -->
 
 	pick 310154e updated README formatting and added blame
 	pick f7f3f6d changed my name a bit
 
-When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely.
+Kiedy zapiszesz zmiany i wyjdziesz z edytora, Git cofnie gałąź do rodzica tych commitów, nałoży `310154e` i potem `f7f3f6d`, a następnie się zatrzyma. W efekcie zmieniłeś kolejność tych commitów i usunąłeś "added cat-file" kompletnie.
 
-### Squashing Commits ###
+<!-- When you save and exit the editor, Git rewinds your branch to the parent of these commits, applies `310154e` and then `f7f3f6d`, and then stops. You effectively change the order of those commits and remove the "added cat-file" commit completely. -->
 
-It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:
+### Łączenie commitów ###
+
+<!-- ### Squashing Commits ### -->
+
+Możliwe jest również pobranie kilku commitów i połączenie ich w jeden za pomocą interaktywnego trybu rebase. Skrypt ten pokazuje pomocne instrukcje w treści rebase:
+
+<!-- It’s also possible to take a series of commits and squash them down into a single commit with the interactive rebasing tool. The script puts helpful instructions in the rebase message:-->
 
 	#
 	# Commands:
@@ -830,13 +883,17 @@ It’s also possible to take a series of commits and squash them down into a sin
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this:
+Jeżeli zamiast "pick" lub "edit", użyjesz "squash", Git nałoży obie te zmiany i tą znajdującą się przed nimi, i pozwoli Ci na scalenie treści komentarzy ze sobą. Więc, jezeli chcesz zrobić jeden commit z tych trzech, robisz skrypt wyglądający tak jak ten:
+
+<!-- If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this: -->
 
 	pick f7f3f6d changed my name a bit
 	squash 310154e updated README formatting and added blame
 	squash a5f4a0d added cat-file
 
-When you save and exit the editor, Git applies all three changes and then puts you back into the editor to merge the three commit messages:
+Kiedy zapiszesz zmiany i opuścisz edytor, Git nałoży wszystkie trzy i przejdzie ponownie do edytora, tak abyś mógł połączyć treści komentarzy:
+
+<!-- When you save and exit the editor, Git applies all three changes and then puts you back into the editor to merge the three commit messages: -->
 
 	# This is a combination of 3 commits.
 	# The first commit's message is:
@@ -850,17 +907,25 @@ When you save and exit the editor, Git applies all three changes and then puts y
 
 	added cat-file
 
-When you save that, you have a single commit that introduces the changes of all three previous commits.
+Kiedy to zapiszesz, otrzymasz jeden commit, który wprowadza zmiany ze wszystkich trzech poprzednich.
 
-### Splitting a Commit ###
+<!-- When you save that, you have a single commit that introduces the changes of all three previous commits. -->
 
-Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit":
+### Rozdzielanie commitów ###
+
+<!-- ### Splitting a Commit ### -->
+
+Rozdzielanie commitu cofa jego nałożenie, a następnie część po części dodaje do przechowalni i commituje, tyle razy ile chcesz otrzymać commitów. Na przykład, załóżmy że chcesz podzielić środkową zmianę ze swoich trzech. Zamiast zmiany "updated README formatting and added blame", chcesz otrzymać dwie: "updated README formatting" dla pierwszego, oraz "added blame" dla drugiego. Możesz to zrobić za pomocą komendy `rebase -i` i skryptu w którym zmienisz instrukcję przy commicie na "edit":
+
+<!-- Splitting a commit undoes a commit and then partially stages and commits as many times as commits you want to end up with. For example, suppose you want to split the middle commit of your three commits. Instead of "updated README formatting and added blame", you want to split it into two commits: "updated README formatting" for the first, and "added blame" for the second. You can do that in the `rebase -i` script by changing the instruction on the commit you want to split to "edit": -->
 
 	pick f7f3f6d changed my name a bit
 	edit 310154e updated README formatting and added blame
 	pick a5f4a0d added cat-file
 
-When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can take the changes that have been reset, and create multiple commits out of them. Simply stage and commit files until you have several commits, and run `git rebase --continue` when you’re done:
+Kiedy zapiszesz zmiany i wyjdziesz z edytora, Git cofnie się do rodzica pierwszego commita z listy, nałoży pierwszą zmianę (`f7f3f6d`), nałoży kolejną (`310154e`) i uruchomi konsolę. Tam możesz zrobić "reset" na kolejnym commicie za pomocą `git reset HEAD^`, co w efekcie cofnie zmiany i zostawi zmodyfikowane pliki poza przechowalnią. Teraz możesz wskazać zmiany które zostały zresetowane i utworzyć kilka osobnych commitów z nich. Po prostu dodaj do przechowalni i zapisz zmiany, do czasu aż będziesz miał kilka commitów, a następnie uruchom `git rebase --continue` gdy skończysz:
+
+<!-- When you save and exit the editor, Git rewinds to the parent of the first commit in your list, applies the first commit (`f7f3f6d`), applies the second (`310154e`), and drops you to the console. There, you can do a mixed reset of that commit with `git reset HEAD^`, which effectively undoes that commit and leaves the modified files unstaged. Now you can take the changes that have been reset, and create multiple commits out of them. Simply stage and commit files until you have several commits, and run `git rebase --continue` when you’re done: -->
 
 	$ git reset HEAD^
 	$ git add README
@@ -869,7 +934,9 @@ When you save and exit the editor, Git rewinds to the parent of the first commit
 	$ git commit -m 'added blame'
 	$ git rebase --continue
 
-Git applies the last commit (`a5f4a0d`) in the script, and your history looks like this:
+Git nałoży ostatnią zmianę w skrypcie (`a5f4a0d`), a historia będzie wyglądała tak:
+
+<!-- Git applies the last commit (`a5f4a0d`) in the script, and your history looks like this: -->
 
 	$ git log -4 --pretty=format:"%h %s"
 	1c002dd added cat-file
@@ -877,37 +944,61 @@ Git applies the last commit (`a5f4a0d`) in the script, and your history looks li
 	35cfb2b updated README formatting
 	f3cc40e changed my name a bit
 
-Once again, this changes the SHAs of all the commits in your list, so make sure no commit shows up in that list that you’ve already pushed to a shared repository.
+Ponownie warto zaznaczyć, że ta operacja zmienia sumy SHA wszystkich commitów z listy, upewnij się więc, że żadnego z tych commitów nie wypchnąłeś i nie udostępniłeś w wspólnym repozytorium.
 
-### The Nuclear Option: filter-branch ###
+<!-- Once again, this changes the SHAs of all the commits in your list, so make sure no commit shows up in that list that you’ve already pushed to a shared repository. -->
 
-There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit. The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite. However, it can be very useful. You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of.
+### Zabójcza opcja: filter-branch ###
 
-#### Removing a File from Every Commit ####
+<!-- ### The Nuclear Option: filter-branch ### -->
 
-This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`:
+Istnieje jeszcze jedna opcja umożliwiająca nadpisanie historii, której możesz użyć, gdy chcesz nadpisać większą liczbę commitów w sposób który można oprogramować - na przykład, zmiana Twojego adresu email lub usunięcie pliku z każdego commita. Komenda ta to `filter-branch` i może ona zmodyfikować duże części Twojej historii, nie powinieneś jej prawdopodobnie używać, chyba że Twój projekt nie jest publiczny i inne osoby nie mają zmian bazujących na commitach które zamierzasz zmienić. Może oba być jednak przydatna. Nauczysz się kilku częstych przypadków użycia i zobaczysz co może ta komenda. 
+
+<!-- There is another history-rewriting option that you can use if you need to rewrite a larger number of commits in some scriptable way — for instance, changing your e-mail address globally or removing a file from every commit. The command is `filter-branch`, and it can rewrite huge swaths of your history, so you probably shouldn’t use it unless your project isn’t yet public and other people haven’t based work off the commits you’re about to rewrite. However, it can be very useful. You’ll learn a few of the common uses so you can get an idea of some of the things it’s capable of. -->
+
+#### Usuwanie pliku z każdego commita ####
+
+<!-- #### Removing a File from Every Commit #### -->
+
+To często występująca sytuacja. Ktoś niechcący zapisać duży plik za pomocą pochopnie wydanej komendy `git add .`, a Ty chcesz usunąć ten plik z każdego commita. Być może przez pomyłkę zapisałeś plik zawierający hasła, a chcesz upublicznić swój projekt. Komenda `filter-branch` jest tą, którą prawdopodobnie będziesz chciał użyć, aby obrobić całą historię zmian. Aby usunąć plik nazywający się paddwords.txt z całej Twojej historii w projekcie, możesz użyć opcji `--tree-filter` dodanej do `filter-branch`:
+
+<!-- This occurs fairly commonly. Someone accidentally commits a huge binary file with a thoughtless `git add .`, and you want to remove it everywhere. Perhaps you accidentally committed a file that contained a password, and you want to make your project open source. `filter-branch` is the tool you probably want to use to scrub your entire history. To remove a file named passwords.txt from your entire history, you can use the `--tree-filter` option to `filter-branch`: -->
 
 	$ git filter-branch --tree-filter 'rm -f passwords.txt' HEAD
 	Rewrite 6b9b3cf04e7c5686a9cb838c3f36a8cb6a0fc2bd (21/21)
 	Ref 'refs/heads/master' was rewritten
 
-The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter "rm -f *~" HEAD`.
+Opcja `--tree-filter` umożliwia wykonanie jakiejś komendy po każdej zmianie i następnie ponownie zapisuje wynik. W tym przypadku, usuwasz plik passwords.txt z każdej migawki, bez względu na to czy on istnieje czy nie. Jeżeli chcesz usunąć wszystkie niechcący dodane kopie zapasowe plików stworzone przez edytor, możesz uruchomić coś podobnego do `git filter-branch --tree-filter "rm -f *~" HEAD`.
 
-You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command.
+<!-- The `--tree-filter` option runs the specified command after each checkout of the project and then recommits the results. In this case, you remove a file called passwords.txt from every snapshot, whether it exists or not. If you want to remove all accidentally committed editor backup files, you can run something like `git filter-branch --tree-filter "rm -f *~" HEAD`. -->
 
-#### Making a Subdirectory the New Root ####
+Będziesz mógł obserwować jak Git nadpisuje strukturę projektu i zmiany, a następnie przesuwa wskaźnik gałęzi. Jest to generalnie całkiem dobrym pomysłem, aby wykonać to na testowej gałęzi, a następnie zresetować na twardo (ang. hard reset) gałąź master, po tym jak stwierdzisz że wynik jest tym czego oczekiwałeś. Aby uruchomić `filter-branch` an wszystkich gałęziach, dodajesz opcję `--all`.
 
-Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too:
+<!-- You’ll be able to watch Git rewriting trees and commits and then move the branch pointer at the end. It’s generally a good idea to do this in a testing branch and then hard-reset your master branch after you’ve determined the outcome is what you really want. To run `filter-branch` on all your branches, you can pass `--all` to the command. -->
+
+#### Wskazywanie podkatalogu jako katalogu głównego ####
+
+<!-- #### Making a Subdirectory the New Root #### -->
+
+Założymy że zaimportowałeś projekt z innego systemu kontroli wersji, zawierającego niepotrzebne podkatalogu (trunk, tags, itd). Jeżeli chcesz, aby katalog `trunk` był nowym głównym katalogiem dla wszystkich commitów, komenda `filter-branch` również to umożliwi:
+
+<!-- Suppose you’ve done an import from another source control system and have subdirectories that make no sense (trunk, tags, and so on). If you want to make the `trunk` subdirectory be the new project root for every commit, `filter-branch` can help you do that, too: -->
 
 	$ git filter-branch --subdirectory-filter trunk HEAD
 	Rewrite 856f0bf61e41a27326cdae8f09fe708d679f596f (12/12)
 	Ref 'refs/heads/master' was rewritten
 
-Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory.
+Teraz Twoim nowym katalogiem głównym w projekcie, jest to, na co wskazywał podkatalog `trunk`. Git również automatycznie usunie commity, które nie dotyczyły podkatalogu.
 
-#### Changing E-Mail Addresses Globally ####
+<!-- Now your new project root is what was in the `trunk` subdirectory each time. Git will also automatically remove commits that did not affect the subdirectory. -->
 
-Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`:
+#### Zmienianie adresu e-mail globalnie ####
+
+<!-- #### Changing E-Mail Addresses Globally #### -->
+
+Innym częstym przypadkiem jest ten, w którym zapomniałeś uruchomić `git config` aby ustawić imię i adres email przed rozpoczeciem prac, lub chcesz udostępnić projekt jako open-source i zmienić swój adres email na adres prywatny. W każdym przypadku, możesz zmienić adres email w wielu commitach również za pomocą `filter-branch`. Musisz uważać, aby zmienić adresy email które należą do Ciebie, użyjesz więc `--commit-filter`:
+
+<!-- Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`: -->
 
 	$ git filter-branch --commit-filter '
 	        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
@@ -919,8 +1010,11 @@ Another common case is that you forgot to run `git config` to set your name and 
 	                git commit-tree "$@";
 	        fi' HEAD
 
-This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address.
+To obrobi i nadpisze każdy commit, aby zawierał Twój nowy adres. Ze względu na to, że commity zawierają sumę SHA-1 swoich rodziców, ta komenda zmieni wszystkie sumy SHA-1 dla commitów z historii, a nie tylko tych które zawierały zmieniany adres.
 
+<!-- This goes through and rewrites every commit to have your new address. Because commits contain the SHA-1 values of their parents, this command changes every commit SHA in your history, not just those that have the matching e-mail address. -->
+
+<!--
 ## Debugging with Git ##
 
 Git also provides a couple of tools to help you debug issues in your projects. Because Git is designed to work with nearly any type of project, these tools are pretty generic, but they can often help you hunt for a bug or culprit when things go wrong.

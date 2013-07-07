@@ -62,3 +62,5 @@ dirty state - zmieniony stan, zmodyfikowany stan
 
 submodule - moduł zależny, moduł zdalny, podmoduł
 
+subproject - podprojekt
+

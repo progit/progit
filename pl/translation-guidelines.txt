@@ -18,6 +18,8 @@ staging area - przechowalnia
 
 staged - w przechowalni, śledzony
 
+unstage - usunąć z przechowalni
+
 contributor - współpracownik, współautor, uczestnik
 
 contribute - wgrać
@@ -57,4 +59,6 @@ reflog - reflog
 stash - schowek
 
 dirty state - zmieniony stan, zmodyfikowany stan
+
+submodule - moduł zależny, moduł zdalny, podmoduł
 

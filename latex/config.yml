@@ -60,6 +60,7 @@ ja:
   fig: "図"
   tab: "表"
   indent: "あ"
+  thanks: "これは､書籍 Pro Git のPDF版です｡クリエイティブ・コモンズ3.0 表示 - 非営利 - 継承 (CC BY-NC-SA 3.0) でライセンスされています｡Git を学ぶ際の助けになれば幸いです｡もし役にたったなら､書籍の方もぜひよろしくお願いします｡ \\url{http://tinyurl.com/amazonprogit}\\newline Pro Git 日本語版の電子書籍(PDF/EPUB/MOBI)を \\url{http://progit-ja.github.io/} で公開しています｡誤訳の指摘､訳文の改善提案､その他ご意見がありましたら､そちらからお願いいたします｡また､Pro Git 日本語版の翻訳､改善にご尽力いただいた皆さんに､厚く御礼申し上げます｡" 
 ru:
   prechap: "Глава "
   presect: "Раздел "

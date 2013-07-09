@@ -26,7 +26,9 @@ On MacOS you can do like this::
 	
 1. INSTALL ruby and rubygems
 2. `$ gem install rdiscount`
-3. DOWNLOAD Calibre for MacOS and install command line tools
+3. DOWNLOAD Calibre for MacOS and install command line tools. You'll need some dependencies to generate a PDF:
+    * pandoc: http://johnmacfarlane.net/pandoc/installing.html
+    * xelatex: http://tug.org/mactex/
 4. `$ makeebooks zh` #will produce a mobi
 
 # Errata

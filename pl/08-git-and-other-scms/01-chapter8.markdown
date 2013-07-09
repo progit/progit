@@ -604,18 +604,22 @@ Wszystkie gałęzie i tagi powinny być już na Twoim serwerze Gita, zaimportowa
 
 ### Perforce ###
 
-Następnym systemem z którego nauczysz się importować to Perforce. Program umożliwiający import z Perforce jest również dostarczany z Gitem. Jeżeli masz 
+Następnym systemem z którego nauczysz się importować to Perforce. Program umożliwiający import z Perforce jest również dostarczany z Gitem. Jeżeli masz wersję Gita wcześniejszą niż 1.7.11, to program importujący jest dostępny jedynie w katalogu `contrib` w kodzie źródłowym. W takiej sytuacji musisz pobrać kod źródłowy Gita, który jest dostępny z git.kernel.org:
 
 <!-- The next system you’ll look at importing from is Perforce. A Perforce importer is also distributed with Git. If you have a version of Git earlier than 1.7.11, then the importer is only available in the `contrib` section of the source code. In that case you must get the Git source code, which you can download from git.kernel.org: -->
 
 	$ git clone git://git.kernel.org/pub/scm/git/git.git
 	$ cd git/contrib/fast-import
 
-In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot:
+W tym katalogu `fast-import` powinieneś znaleźć skrypt napisany w języku Python o nazwie `git-p4`. Aby import się powiódł, musisz mieć zainstalowane na swoim komputerze programy Pythona i `p4`. Dla przykładu, zaimportujesz projekt Jam z publicznego serwera Perforce. Aby ustawić swój program, musisz wyeksportować zmienną środowiskową P4PORT wskazującą na serwer Perforce:
+
+<!-- In this `fast-import` directory, you should find an executable Python script named `git-p4`. You must have Python and the `p4` tool installed on your machine for this import to work. For example, you’ll import the Jam project from the Perforce Public Depot. To set up your client, you must export the P4PORT environment variable to point to the Perforce depot: -->
 
 	$ export P4PORT=public.perforce.com:1666
 
-Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project:
+Uruchom komendę `git-p4 clone`, aby zaimportować projekt Jam z serwera Perforce wskazując adres i ścieżkę projektu, oraz katalog do którego chcesz go zaimportować:
+
+<!-- Run the `git-p4 clone` command to import the Jam project from the Perforce server, supplying the depot and project path and the path into which you want to import the project: -->
 
 	$ git-p4 clone //public/jam/src@all /opt/p4import
 	Importing from //public/jam/src@all into /opt/p4import
@@ -623,7 +627,9 @@ Run the `git-p4 clone` command to import the Jam project from the Perforce serve
 	Import destination: refs/remotes/p4/master
 	Importing revision 4409 (100%)
 
-If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work:
+Jeżeli przejdziesz do katalogu `/opt/p4import`i uruchomisz `git log`, zobaczysz zaimportowane dane:
+
+<!-- If you go to the `/opt/p4import` directory and run `git log`, you can see your imported work: -->
 
 	$ git log -2
 	commit 1fd4ec126171790efd2db83548b85b1bbbc07dc2
@@ -645,7 +651,9 @@ If you go to the `/opt/p4import` directory and run `git log`, you can see your i
 
 	    [git-p4: depot-paths = "//public/jam/src/": change = 3108]
 
-You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse:
+Możesz zauważyć, że każdy commit posiada identyfikator `git-p4`. Może on zostać, w razie gdybyś potrzebował dotrzeć do informacji o numerze zmiany zapisanym w Perforce. Jednak, gdybyś chciał usunąć ten identyfikator, teraz jest dobry moment aby to zrobić - przed wprowadzeniem jakichkolwiek zmian w nowym repozytorium. Możesz użyć `git filter-branch` aby usunąć wszystkie identyfikatory:
+
+<!-- You can see the `git-p4` identifier in each commit. It’s fine to keep that identifier there, in case you need to reference the Perforce change number later. However, if you’d like to remove the identifier, now is the time to do so — before you start doing work on the new repository. You can use `git filter-branch` to remove the identifier strings en masse: -->
 
 	$ git filter-branch --msg-filter '
 	        sed -e "/^\[git-p4:/d"
@@ -653,7 +661,9 @@ You can see the `git-p4` identifier in each commit. It’s fine to keep that ide
 	Rewrite 1fd4ec126171790efd2db83548b85b1bbbc07dc2 (123/123)
 	Ref 'refs/heads/master' was rewritten
 
-If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages:
+Jeżeli uruchomisz `git log`, zobaczysz że wszystkie sumy SHA-1 dla commitów zostały zmienione i nie ma już identyfikatorów pozostawionych przez `git-p4` w treściach komentarzy:
+
+<!-- If you run `git log`, you can see that all the SHA-1 checksums for the commits have changed, but the `git-p4` strings are no longer in the commit messages: -->
 
 	$ git log -2
 	commit 10a16d60cffca14d454a15c6164378f4082bc5b0
@@ -671,7 +681,9 @@ If you run `git log`, you can see that all the SHA-1 checksums for the commits h
 
 	    Update derived jamgram.c
 
-Your import is ready to push up to your new Git server.
+Twój kod jest teraz gotowy do wypchnięcia na nowy serwer Gita.
+
+<!-- Your import is ready to push up to your new Git server. -->
 
 ### A Custom Importer ###
 

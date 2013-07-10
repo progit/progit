@@ -685,11 +685,17 @@ Twój kod jest teraz gotowy do wypchnięcia na nowy serwer Gita.
 
 <!-- Your import is ready to push up to your new Git server. -->
 
-### A Custom Importer ###
+### Własny skrypt importujący ###
 
-If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`.
+<!-- ### A Custom Importer ### -->
 
-To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this:
+Jeżeli Twój system to nie Subversion lub Perforce, powinieneś spojrzeć na importery dostępne w sieci - dobrej jakości importery dostępne są dla CVS, Clear Case, Visual Source Safe, a nawet katalogu z archiwami. Jeżeli żadne z tych narzędzi nie zadziała, lub używasz żadszego systemu, lub potrzebujesz bardziej dostosowanego importu, powinieneś użyć `git fast-import`. Ta komenda odczytuje instrukcje przekazane na standardowe wejście programu i zapisuje dane w Git. Dużo łatwiej w ten sposób tworzyć obiekty Gita, niż uruchamiać niskopoziomowe komendy Gita lub zapisywać surowe obiekty (zobacz rozdział 9 po więcej informacji). W ten sposób możesz napisać skrypt importujący, który odczyta wszystkie potrzebne informacje z systemu z którego importujesz i wypisze instrukcje do wykonania na ekran. Możesz następnie uruchomić ten program i przekazać wynik do `git fast-import`.
+
+<!-- If your system isn’t Subversion or Perforce, you should look for an importer online — quality importers are available for CVS, Clear Case, Visual Source Safe, even a directory of archives. If none of these tools works for you, you have a rarer tool, or you otherwise need a more custom importing process, you should use `git fast-import`. This command reads simple instructions from stdin to write specific Git data. It’s much easier to create Git objects this way than to run the raw Git commands or try to write the raw objects (see Chapter 9 for more information). This way, you can write an import script that reads the necessary information out of the system you’re importing from and prints straightforward instructions to stdout. You can then run this program and pipe its output through `git fast-import`. -->
+
+W celach demonstracyjnych, napiszesz prosty skrypt importujący. Załóżmy, że pracujesz na najnowszej kopii kodu źródłowego i wykonujesz czasami kopie zapasowe poprzez skopiowanie do katalogu z datą w formacie `back_YYYY_MM_DD` i chciałbyś zaimportować to do Gita. Twoja struktura katalogów wygląda następująco:
+
+<!-- To quickly demonstrate, you’ll write a simple importer. Suppose you work in current, you back up your project by occasionally copying the directory into a time-stamped `back_YYYY_MM_DD` backup directory, and you want to import this into Git. Your directory structure looks like this: -->
 
 	$ ls /opt/import_from
 	back_2009_01_02
@@ -698,11 +704,17 @@ To quickly demonstrate, you’ll write a simple importer. Suppose you work in cu
 	back_2009_02_03
 	current
 
-In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one.
+Aby zaimportować katalog do Gita, musisz przypomnieć sobie w jaki sposób Git przechowuje dane. Być może pamiętasz, Git z założenia jest zbiorem połączonych obiektów dotyczących commitów, które wskazują na ostatnią migawkę z zawartością. Wszystko co musisz zrobić, to wskazać `fast-import` jaka jest zawartość migawek, który commit na nie wskazuje, oraz kolejność w której są. Twoją strategią będzie przejście kolejno przez wszystkie migawki, oraz stworzenie commitów z zawartością dla każdego z nich, łącząc każdy commit z poprzednim.
 
-As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout. And, if you are running on Windows, this means you’ll need to take special care to not introduce carriage returns at the end your lines — git fast-import is very particular about just wanting line feeds (LF) not the carriage return line feeds (CRLF) that Windows uses.
+<!-- In order to import a Git directory, you need to review how Git stores its data. As you may remember, Git is fundamentally a linked list of commit objects that point to a snapshot of content. All you have to do is tell `fast-import` what the content snapshots are, what commit data points to them, and the order they go in. Your strategy will be to go through the snapshots one at a time and create commits with the contents of each directory, linking each commit back to the previous one. -->
 
-To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this:
+Jak robiłeś już to w sekcji "Przykładowa polityka wymuszająca Gita" w rozdziale 7, napiszemy to w Ruby, ponieważ to na nim zazwyczaj pracuję i jest on prosty dość czytelny. Możesz stworzyć ten przykład bardzo szybko, w praktycznie każdym innym języku który dobrze znasz - musi on wypisać po na ekran właściwe informacje. Oraz, jeżlei pracujesz na systemie Windows, będziesz musiał zwrócić szczególną uwagę aby nie wprowadzić znaków powrotu karetki na końcach linii - git fast-import potrzebuje dokładnie linie zakończone znakami nowej linii (LF), a nie powrotem karetki (CRLF) których używa Windows.
+
+<!-- As you did in the "An Example Git Enforced Policy" section of Chapter 7, we’ll write this in Ruby, because it’s what I generally work with and it tends to be easy to read. You can write this example pretty easily in anything you’re familiar with — it just needs to print the appropriate information to stdout. And, if you are running on Windows, this means you’ll need to take special care to not introduce carriage returns at the end your lines — git fast-import is very particular about just wanting line feeds (LF) not the carriage return line feeds (CRLF) that Windows uses. -->
+
+Aby rozpocząć, przejdziesz do docelowego katalogu i znajdziesz wszystkie podakatalogi, z których wszystkie będą migawkami które chcesz zaimportować jako commit. Następnie wejdziesz do każdego podkatalogu i wypiszesz komendy konieczne do eksportu. Twoja pętla główna w programie wygląda tak:
+
+<!-- To begin, you’ll change into the target directory and identify every subdirectory, each of which is a snapshot that you want to import as a commit. You’ll change into each subdirectory and print the commands necessary to export it. Your basic main loop looks like this: -->
 
 	last_mark = nil
 
@@ -718,11 +730,15 @@ To begin, you’ll change into the target directory and identify every subdirect
 	  end
 	end
 
-You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name:
+Uruchamiasz `print_export` w każdym katalogu, która przyjmuje jako parametry nazwę katalogu oraz znacznik poprzedniej migawki, a zwraca znacznik obecnej; w ten sposób możesz połączyć je poprawnie ze sobą. "Znacznik" jest terminem używanym przez `fast-import`, dla identyfikatora który przypisujesz do commita; podczas tworzenia kolejnych commitów, nadajesz każdemu z nich znacznik, który będzie użyty do połączenia go z innymi commitami. Dlatego pierwszą rzeczą ktorą robisz w metodzie `print_export` jest wygenerowanie znacznika pobranego z nazwy katalogu:
+
+<!-- You run `print_export` inside each directory, which takes the manifest and mark of the previous snapshot and returns the manifest and mark of this one; that way, you can link them properly. "Mark" is the `fast-import` term for an identifier you give to a commit; as you create commits, you give each one a mark that you can use to link to it from other commits. So, the first thing to do in your `print_export` method is generate a mark from the directory name: -->
 
 	mark = convert_dir_to_mark(dir)
 
-You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this:
+Zrobisz to poprzez wygenerowanie tablicy z nazwami katalogów, używającej jako indeksu znacznika, ponieważ ten musi być liczbą całkowitą. Twoja metoda wygląda więc tak:
+
+<!-- You’ll do this by creating an array of directories and using the index value as the mark, because a mark must be an integer. Your method looks like this: -->
 
 	$marks = []
 	def convert_dir_to_mark(dir)
@@ -732,11 +748,15 @@ You’ll do this by creating an array of directories and using the index value a
 	  ($marks.index(dir) + 1).to_s
 	end
 
-Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is
+Teraz, gdy masz już liczbę reprezentującą Twój commit, potrzebujesz daty do zamieszczeenia w metadanych commita. Ponieważ data jest użyta w nazwie katalogu, pobierzesz ją z nazwy. Następną linią w pliku `print_export` jest
+
+<!-- Now that you have an integer representation of your commit, you need a date for the commit metadata. Because the date is expressed in the name of the directory, you’ll parse it out. The next line in your `print_export` file is -->
 
 	date = convert_dir_to_date(dir)
 
-where `convert_dir_to_date` is defined as
+gdzie `convert_dir_to_date` jest zdefiniowana jako 
+
+<!-- where `convert_dir_to_date` is defined as -->
 
 	def convert_dir_to_date(dir)
 	  if dir == 'current'
@@ -748,11 +768,15 @@ where `convert_dir_to_date` is defined as
 	  end
 	end
 
-That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable:
+Zwraca ona liczbę całkowitą dla daty z katalogu. Ostatnią rzeczą potrzebną do zapisania meta-danych są informacje o osobie wprowdzającej zmiany, którą zapisujesz na stałe w zmiennej globalnej:
+
+<!-- That returns an integer value for the date of each directory. The last piece of meta-information you need for each commit is the committer data, which you hardcode in a global variable: -->
 
 	$author = 'Scott Chacon <schacon@example.com>'
 
-Now you’re ready to begin printing out the commit data for your importer. The initial information states that you’re defining a commit object and what branch it’s on, followed by the mark you’ve generated, the committer information and commit message, and then the previous commit, if any. The code looks like this:
+Teraz możesz rozpocząć wypisywanie danych dotyczących commitów dla swojego programu importującego. Początkowe informacje wskazują, że definiujesz nowy object commit, oraz nazwę gałęzi do której będzie on przypisany, następnie podajesz znaczki który wygenerowałeś, informacje o osobie wprowadzającej zmiany oraz treść komentarza do zmiany, a na końcu poprzedni znacznik commita. Kod wygląda tak:
+
+<!-- Now you’re ready to begin printing out the commit data for your importer. The initial information states that you’re defining a commit object and what branch it’s on, followed by the mark you’ve generated, the committer information and commit message, and then the previous commit, if any. The code looks like this: -->
 
 	# print the import information
 	puts 'commit refs/heads/master'
@@ -761,18 +785,24 @@ Now you’re ready to begin printing out the commit data for your importer. The 
 	export_data('imported from ' + dir)
 	puts 'from :' + last_mark if last_mark
 
-You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset.
-The commit message must be expressed in a special format:
+Wpisujesz na sztywno strefę czasową (-0700), ponieważ takie podejście jest bradzo proste. Jeżeli imoprtujesz z innego systemu, musisz wskazać strefę czasową jako offset. Treść komentarza do zmiany musi być wyrażona w specjanym formacie:
+
+<!-- You hardcode the time zone (-0700) because doing so is easy. If you’re importing from another system, you must specify the time zone as an offset.
+The commit message must be expressed in a special format: -->
 
 	data (size)\n(contents)
 
-The format consists of the word data, the size of the data to be read, a newline, and finally the data. Because you need to use the same format to specify the file contents later, you create a helper method, `export_data`:
+Format składa się z słowa kluczowego data, długości danych do wczytania, znaku nowej linii, oraz na końcu samych danych. Ponieważ musisz używać tego samego formatu, do przekazania zawartości plików w dalszych etapach, stwórz metodę pomocniczą, `export_data`: 
+
+<!-- The format consists of the word data, the size of the data to be read, a newline, and finally the data. Because you need to use the same format to specify the file contents later, you create a helper method, `export_data`: -->
 
 	def export_data(string)
 	  print "data #{string.size}\n#{string}"
 	end
 
-All that’s left is to specify the file contents for each snapshot. This is easy, because you have each one in a directory — you can print out the `deleteall` command followed by the contents of each file in the directory. Git will then record each snapshot appropriately:
+Jedyne co pozostało, to wskazanie zawartości pliku dla każdej migawki. Jest to łatwe, ponieważ masz wszystkie pliki w katalogu - możesz wypisać komendę `deleteall`, a następnie zawartość wszystkich plików w katalogu. Następnie Git zapisze każdą migawkę:
+
+<!-- All that’s left is to specify the file contents for each snapshot. This is easy, because you have each one in a directory — you can print out the `deleteall` command followed by the contents of each file in the directory. Git will then record each snapshot appropriately: -->
 
 	puts 'deleteall'
 	Dir.glob("**/*").each do |file|
@@ -780,15 +810,21 @@ All that’s left is to specify the file contents for each snapshot. This is eas
 	  inline_data(file)
 	end
 
-Note:	Because many systems think of their revisions as changes from one commit to another, fast-import can also take commands with each commit to specify which files have been added, removed, or modified and what the new contents are. You could calculate the differences between snapshots and provide only this data, but doing so is more complex — you may as well give Git all the data and let it figure it out. If this is better suited to your data, check the `fast-import` man page for details about how to provide your data in this manner.
+Uwaga:	Ponieważ spora część systemów (SCM przyp. tłum.) myśli o kolejnych rewizjach jako o zmianach z jednego commita do drugiego, fast-import może również pobrać komendy dla każdego commita, w których można wskazać jakie pliki zostały dodane, usunięte, lub zmodyfikowane i jaka jest ich nowa zawartość. Mógłbyś obliczyć różnice między migawkami i dostarczyć tylko te dane, ale działanie w ten sposób jest bardziej skomplikowane - możesz wskazać Gitowi wszystkie dane, a on sam się tym zajmie. Jeżeli jednak uważasz, że ten sposób jest bardziej dopasowany do danych które posiadasz, sprawdź podręcznik systemowy dla komendy `fast-import`, aby dowiedzieć się w jaki sposób przekazać dane w ten sposób.
 
-The format for listing the new file contents or specifying a modified file with the new contents is as follows:
+<!-- Note:	Because many systems think of their revisions as changes from one commit to another, fast-import can also take commands with each commit to specify which files have been added, removed, or modified and what the new contents are. You could calculate the differences between snapshots and provide only this data, but doing so is more complex — you may as well give Git all the data and let it figure it out. If this is better suited to your data, check the `fast-import` man page for details about how to provide your data in this manner. -->
+
+Format przekazywania zawartości nowego pliku lub wskazywania zmodyfikowanego z nową zawartością jest następujący:
+
+<!-- The format for listing the new file contents or specifying a modified file with the new contents is as follows: -->
 
 	M 644 inline path/to/file
 	data (size)
 	(file contents)
 
-Here, 644 is the mode (if you have executable files, you need to detect and specify 755 instead), and inline says you’ll list the contents immediately after this line. Your `inline_data` method looks like this:
+W tym przykładzie, 644 oznacza uprawnienia do pliku (jeżeli masz pliki wykonywalne, musisz wskazać 755), a inline mówi o tym, że będziesz przekazywał dane zaraz po tej linii. Twoja metoda `inline_data` wygląda tak:
+
+<!-- Here, 644 is the mode (if you have executable files, you need to detect and specify 755 instead), and inline says you’ll list the contents immediately after this line. Your `inline_data` method looks like this: -->
 
 	def inline_data(file, code = 'M', mode = '644')
 	  content = File.read(file)
@@ -796,17 +832,23 @@ Here, 644 is the mode (if you have executable files, you need to detect and spec
 	  export_data(content)
 	end
 
-You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data.
+Używasz ponownie metody `export_data`, którą zdefiniowałeś wcześniej, ponieważ działa to tak samo jak podczas wskazywania treści komentarza do commita.
 
-The last thing you need to do is to return the current mark so it can be passed to the next iteration:
+<!-- You reuse the `export_data` method you defined earlier, because it’s the same as the way you specified your commit message data. -->
+
+<!-- The last thing you need to do is to return the current mark so it can be passed to the next iteration: -->
 
 	return mark
 
-NOTE: If you are running on Windows you’ll need to make sure that you add one extra step. As metioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF:
+UWAGA: Jeżeli pracujesz na systemie Windows, musisz upewnieć się, że dodajesz jeszcze jeden krok. Jak wspomniałem wcześniej, system Windows używa znaków CRLF jak znaczników końca linii, a `git fast-import` oczekuje tylko LF. Aby obejść ten problem i uszczęśliwić `git fast-import`, musisz wskazać ruby, aby używał znaków LF zamiast CRLF:
+
+<!-- NOTE: If you are running on Windows you’ll need to make sure that you add one extra step. As metioned before, Windows uses CRLF for new line characters while git fast-import expects only LF. To get around this problem and make git fast-import happy, you need to tell ruby to use LF instead of CRLF: -->
 
 	$stdout.binmode
 
-That’s it. If you run this script, you’ll get content that looks something like this:
+Tylko tyle. Jeżeli uruchomisz ten skrypt, otrzymasz wynik podobny do tego:
+
+<!-- That’s it. If you run this script, you’ll get content that looks something like this: -->
 
 	$ ruby import.rb /opt/import_from
 	commit refs/heads/master
@@ -831,7 +873,9 @@ That’s it. If you run this script, you’ll get content that looks something l
 	new version one
 	(...)
 
-To run the importer, pipe this output through `git fast-import` while in the Git repository you want to import into. You can create a new directory and then run `git init` in it for a starting point, and then run your script:
+Aby uruchomić importer, przekaż wynik do `got fast-import` będą w katalogu z repozytorium Gita do którego chcesz zaimportować dane. Możesz stworzyć nowy katalog, następnie uruchomić `git init` w nim, a potem uruchomić skrypt:
+
+<!-- To run the importer, pipe this output through `git fast-import` while in the Git repository you want to import into. You can create a new directory and then run `git init` in it for a starting point, and then run your script: -->
 
 	$ git init
 	Initialized empty Git repository in /opt/import_to/.git/
@@ -860,7 +904,9 @@ To run the importer, pipe this output through `git fast-import` while in the Git
 	pack_report: pack_mapped              =       1356 /       1356
 	---------------------------------------------------------------------
 
-As you can see, when it completes successfully, it gives you a bunch of statistics about what it accomplished. In this case, you imported 18 objects total for 5 commits into 1 branch. Now, you can run `git log` to see your new history:
+Jak widzisz, jeżeli zakończy się powodzeniem, pokaże Ci trochę statystyk na temat tego co zdziałał. W tym przypadku, zaimportowałeś łącznie 18 obiektów, dla 5 commitów w jednej gałęzi. Teraz możesz uruchomić `git log`, aby zobaczyć swoją nową historię projektu:
+
+<!-- As you can see, when it completes successfully, it gives you a bunch of statistics about what it accomplished. In this case, you imported 18 objects total for 5 commits into 1 branch. Now, you can run `git log` to see your new history: -->
 
 	$ git log -2
 	commit 10bfe7d22ce15ee25b60a824c8982157ca593d41
@@ -875,7 +921,9 @@ As you can see, when it completes successfully, it gives you a bunch of statisti
 
 	    imported from back_2009_02_03
 
-There you go — a nice, clean Git repository. It’s important to note that nothing is checked out — you don’t have any files in your working directory at first. To get them, you must reset your branch to where `master` is now:
+Proszę - ładne, czyste repozytorium Gita. Warto zauważyć, że żadne dane nie zostały pobrane - nie masz żadnych plików w swoim katalogu roboczym. Aby je pobrać, musisz wykonać reset do momentu w którym `master` jest teraz:
+
+<!-- There you go — a nice, clean Git repository. It’s important to note that nothing is checked out — you don’t have any files in your working directory at first. To get them, you must reset your branch to where `master` is now: -->
 
 	$ ls
 	$ git reset --hard master
@@ -883,11 +931,17 @@ There you go — a nice, clean Git repository. It’s important to note that not
 	$ ls
 	file.rb  lib
 
-You can do a lot more with the `fast-import` tool — handle different modes, binary data, multiple branches and merging, tags, progress indicators, and more. A number of examples of more complex scenarios are available in the `contrib/fast-import` directory of the Git source code; one of the better ones is the `git-p4` script I just covered.
+Możesz zrobić dużo więcej przy pomocy narzędzia `fast-import` - obsłużyć różne tryby, dane binarne, gałęzie i ich łączenie, tagi, wskaźniki postępu i inne. Trochę przykładów bardziej skomplikowanych scenariuszy jest dostępnych w katalogu `contrib/fast-import` w kodzie źródłowym Gita; jednym z lepszych jest skrypt `git-p4` który wcześniej opisałem.
 
-## Summary ##
+<!-- You can do a lot more with the `fast-import` tool — handle different modes, binary data, multiple branches and merging, tags, progress indicators, and more. A number of examples of more complex scenarios are available in the `contrib/fast-import` directory of the Git source code; one of the better ones is the `git-p4` script I just covered. -->
 
-You should feel comfortable using Git with Subversion or importing nearly any existing repository into a new Git one without losing data. The next chapter will cover the raw internals of Git so you can craft every single byte, if need be.
+## Podsumowanie ##
+
+<!-- ## Summary ## -->
+
+Powinieneś już czuć się komfortowo podczas używania Gita z Subversion, lub podczas importowania praktycznie każdego repozytorium do Gita, bez utratu danych. Następny rozdział opisuje niskopoziomowe funkcje Gita, tak abyś mógł zmienić nawet każdy bajt, w razie gdybyś chciał.
+
+<!-- You should feel comfortable using Git with Subversion or importing nearly any existing repository into a new Git one without losing data. The next chapter will cover the raw internals of Git so you can craft every single byte, if need be.-->
 
 
 

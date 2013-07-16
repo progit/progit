@@ -84,7 +84,7 @@ Duża ilość osób zaniepokoiła się, gdy ze względu na jakiś szczęśliwy p
 
 <!-- A lot of people become concerned at some point that they will, by random happenstance, have two objects in their repository that hash to the same SHA-1 value. What then? -->
 
-Jeżeli zdarzy Ci się zapisać objekt który ma sumę kontrolną SHA-1 taką samą jak inny obiekt będący już w repozytorium, Git zauważy, że objekt taki już istnieje i założy, że został on już zapisany. Jeżeli spróbujesz pobrać jego zawartość, zawsze otrzymasz dane pierwszego obiektu.
+Jeżeli zdarzy Ci się zapisać obiekt który ma sumę kontrolną SHA-1 taką samą jak inny obiekt będący już w repozytorium, Git zauważy, że obiekt taki już istnieje i założy, że został on już zapisany. Jeżeli spróbujesz pobrać jego zawartość, zawsze otrzymasz dane pierwszego obiektu.
 
 <!-- If you do happen to commit an object that hashes to the same SHA-1 value as a previous object in your repository, Git will see the previous object already in your Git database and assume it was already written. If you try to check out that object again at some point, you’ll always get the data of the first object. -->
 
@@ -92,7 +92,7 @@ Powinieneś wiedzieć jednak, że taki scenariusz jest strasznie rzadki. Skrót 
 
 <!--However, you should be aware of how ridiculously unlikely this scenario is. The SHA-1 digest is 20 bytes or 160 bits. The number of randomly hashed objects needed to ensure a 50% probability of a single collision is about 2^80 (the formula for determining collision probability is `p = (n(n-1)/2) * (1/2^160))`. 2^80 is 1.2 x 10^24 or 1 million billion billion. That’s 1,200 times the number of grains of sand on the earth. -->
 
-Weźmy przykład, aby zaprezentować Ci jak trudne jest wygenerowanie kolizji SHA-1. Jeżeli wszyscy z 6,5 miliarda osób na ziemi byłaby programistami i w każdej sekundzie, każdy z nich tworzyłby kod wielkości całego jądra Linuksa (1 milion objektów Gita) i wgrywał go do ogromnego repozytorium Gita, zajęłoby około 5 lat, zanim w repozytorium byłoby tyle obiektów, aby mieć pewność 50% wystąpienia kolizji. Istnieje większe prawdopodobieństwo, że każdy z członków Twojego zespołu programistycznego zostanie zaatakowany i zabity przez wilki, w nie związanych ze sobą zdarzeniach, w ciągu tej samej nocy. 
+Weźmy przykład, aby zaprezentować Ci jak trudne jest wygenerowanie kolizji SHA-1. Jeżeli wszyscy z 6,5 miliarda osób na ziemi byłaby programistami i w każdej sekundzie, każdy z nich tworzyłby kod wielkości całego jądra Linuksa (1 milion obiektów Gita) i wgrywał go do ogromnego repozytorium Gita, zajęłoby około 5 lat, zanim w repozytorium byłoby tyle obiektów, aby mieć pewność 50% wystąpienia kolizji. Istnieje większe prawdopodobieństwo, że każdy z członków Twojego zespołu programistycznego zostanie zaatakowany i zabity przez wilki, w nie związanych ze sobą zdarzeniach, w ciągu tej samej nocy. 
 
 <!-- Here’s an example to give you an idea of what it would take to get a SHA-1 collision. If all 6.5 billion humans on Earth were programming, and every second, each one was producing code that was the equivalent of the entire Linux kernel history (1 million Git objects) and pushing it into one enormous Git repository, it would take 5 years until that repository contained enough objects to have a 50% probability of a single SHA-1 object collision. A higher probability exists that every member of your programming team will be attacked and killed by wolves in unrelated incidents on the same night. -->
 
@@ -100,7 +100,7 @@ Weźmy przykład, aby zaprezentować Ci jak trudne jest wygenerowanie kolizji SH
 
 <!-- ### Branch References ### -->
 
-Najprostszym sposobem na wskazanie konkretnej zmiany, jest stworzenie odniesienia do gałęzi wskazującej na nią. Następnie, będziesz mógł używać nazwy gałęzi we wszystkich komendach Gita które przyjmują jako parametr objekt lub wartość SHA-1. Na przykład, jeżeli chcesz pokazać ostatni zmieniony obiekt w gałęzi, podane niżej komendy są identyczne, przy założeniu, że `topic1` wskazuje na `ca82a6d`:
+Najprostszym sposobem na wskazanie konkretnej zmiany, jest stworzenie odniesienia do gałęzi wskazującej na nią. Następnie, będziesz mógł używać nazwy gałęzi we wszystkich komendach Gita które przyjmują jako parametr obiekt lub wartość SHA-1. Na przykład, jeżeli chcesz pokazać ostatni zmieniony obiekt w gałęzi, podane niżej komendy są identyczne, przy założeniu, że `topic1` wskazuje na `ca82a6d`:
 
 <!-- The most straightforward way to specify a commit requires that it have a branch reference pointed at it. Then, you can use a branch name in any Git command that expects a commit object or SHA-1 value. For instance, if you want to show the last commit object on a branch, the following commands are equivalent, assuming that the `topic1` branch points to `ca82a6d`: -->
 
@@ -384,7 +384,7 @@ Możesz zauważyć, że ta komenda pokazuje zupełnie inny obraz przechowalni - 
 
 <!-- You can see that this command shows you a much different view of your staging area — basically the same information you get with `git status` but a bit more succinct and informative. It lists the changes you’ve staged on the left and unstaged changes on the right. -->
 
-Po nich pokazana jest sekcja komend. Możesz w niej zrobić kilka rzeczy takich jak dodanie plików do przechalni, usunięcie z niej, dodanie do przechowalni części plików, dodanie nieśledzonych plików, czy otrzymanie różnicy między tym co jest w przechowalni.
+Po nich pokazana jest sekcja komend. Możesz w niej zrobić kilka rzeczy takich jak dodanie plików do przechowalni, usunięcie z niej, dodanie do przechowalni części plików, dodanie nieśledzonych plików, czy otrzymanie różnicy między tym co jest w przechowalni.
 
 <!-- After this comes a Commands section. Here you can do a number of things, including staging files, unstaging files, staging parts of files, adding untracked files, and seeing diffs of what has been staged. -->
 
@@ -496,7 +496,7 @@ Przy użyciu tych prostych komend, możesz używać trybu interaktywnego do łat
 
 <!-- ### Staging Patches ### -->
 
-Dla Gita możliwe jest również, aby dodać do przechowalni tylko część plików, a nie całość. Na przykład, jeżeli zrobisz dwie zmiany w swoim pliku simplegit.rb, ale chcesz dodać do przechowalni tylko jedną z nich, a drugą nie. Z interaktywnej linii poleceń, wybierz `5` lub `p` (ang. patch). Git zapyta Cię, które pliki chciałbyś tylko w części dodać do przechowalni; następnie dla każdego zaznaczonego pliku, wyświetli kawałek różnicy na plikach i zapyta czy chesz je dodać do przechowalni po kolei: 
+Dla Gita możliwe jest również, aby dodać do przechowalni tylko część plików, a nie całość. Na przykład, jeżeli zrobisz dwie zmiany w swoim pliku simplegit.rb, ale chcesz dodać do przechowalni tylko jedną z nich, a drugą nie. Z interaktywnej linii poleceń, wybierz `5` lub `p` (ang. patch). Git zapyta Cię, które pliki chciałbyś tylko w części dodać do przechowalni; następnie dla każdego zaznaczonego pliku, wyświetli kawałek różnicy na plikach i zapyta czy chcesz je dodać do przechowalni po kolei: 
 
 <!-- It’s also possible for Git to stage certain parts of files and not the rest. For example, if you make two changes to your simplegit.rb file and want to stage one of them and not the other, doing so is very easy in Git. From the interactive prompt, type `5` or `p` (for patch). Git will ask you which files you would like to partially stage; then, for each section of the selected files, it will display hunks of the file diff and ask if you would like to stage them, one by one: -->
 
@@ -586,7 +586,7 @@ W celu zaprezentowania jak to działa, w projekcie nad którym obecnie pracujesz
 	#      modified:   lib/simplegit.rb
 	#
 
-Teraz chcesz zmianić gałęzie, ale nie chcesz commitować tego nad czym pracowałeś do tej pory, więc dodasz te zmiany do przechowalni. Aby zapisać je w przechowalni, uruchom `git stash`:
+Teraz chcesz zmienić gałęzie, ale nie chcesz commitować tego nad czym pracowałeś do tej pory, więc dodasz te zmiany do przechowalni. Aby zapisać je w przechowalni, uruchom `git stash`:
 
 <!-- Now you want to switch branches, but you don’t want to commit what you’ve been working on yet; so you’ll stash the changes. To push a new stash onto your stack, run `git stash`: -->
 
@@ -613,7 +613,7 @@ W tej chwili, możesz bez problemu przejść na inną gałąź i rozpocząć pra
 	stash@{1}: WIP on master: c264051... Revert "added file_size"
 	stash@{2}: WIP on master: 21d80a5... added number to log
 
-W powyższym przykładzie, dwie poprzednie zmiany również zostały zapisane, masz więc dostęp do łącznie trzech. Możesz ponownie nałozyć tą którą ostatnio stworzyłeś, przy użyciu komendy widocznej w tekście pomocy do komendy stash: `git stash apply`. Jeżeli chcesz nałożyć jedną ze starszych zmian, wskazujesz ją poprzez nazwę w taki sposób: `git stash apply stash@{2}`. Jeżeli nie podasz nazwy, Git założy najnowszą i spróbuje ją zintegrować:
+W powyższym przykładzie, dwie poprzednie zmiany również zostały zapisane, masz więc dostęp do łącznie trzech. Możesz ponownie nałożyć tą którą ostatnio stworzyłeś, przy użyciu komendy widocznej w tekście pomocy do komendy stash: `git stash apply`. Jeżeli chcesz nałożyć jedną ze starszych zmian, wskazujesz ją poprzez nazwę w taki sposób: `git stash apply stash@{2}`. Jeżeli nie podasz nazwy, Git założy najnowszą i spróbuje ją zintegrować:
 
 <!-- In this case, two stashes were done previously, so you have access to three different stashed works. You can reapply the one you just stashed by using the command shown in the help output of the original stash command: `git stash apply`. If you want to apply one of the older stashes, you can specify it by naming it, like this: `git stash apply stash@{2}`. If you don’t specify a stash, Git assumes the most recent stash and tries to apply it: -->
 
@@ -626,7 +626,7 @@ W powyższym przykładzie, dwie poprzednie zmiany również zostały zapisane, m
 	#      modified:   lib/simplegit.rb
 	#
 
-Możesz zauważyć, że Git zmodyfikował pliki które nie były zatwierdzone w czasie zapisywania w schowku. W tej sytuacji, miałeś niezmodyfikowany katalog roboczy, w chwili, gdy próbowałeś zaaplikować zmiany ze schowka na tą samą gałąź na której je stworzyłeś; jednak nie musisz mieć niezmiodyfikowanego katalogu, ani nie musisz pracować na tej samej gałęzi, aby poprawnie zaaplikować zmiany ze schowka. Możesz zapisać w ten sposób zmiany w jednej gałęzi, zmienić gałąź na inną i spróbować nałożyć je. Możesz również mieć wprowadzone zmiany i zmodyfikowane pliki w czasie, gdy będziesz próbował nałożyć zmiany - Git pozwoli Ci na rozwiązanie ewentualnych konfliktów, jeżeli zmiany nie będą mogły się czysto połączyć.
+Możesz zauważyć, że Git zmodyfikował pliki które nie były zatwierdzone w czasie zapisywania w schowku. W tej sytuacji, miałeś niezmodyfikowany katalog roboczy, w chwili, gdy próbowałeś zaaplikować zmiany ze schowka na tą samą gałąź na której je stworzyłeś; jednak nie musisz mieć niezmodyfikowanego katalogu, ani nie musisz pracować na tej samej gałęzi, aby poprawnie zaaplikować zmiany ze schowka. Możesz zapisać w ten sposób zmiany w jednej gałęzi, zmienić gałąź na inną i spróbować nałożyć je. Możesz również mieć wprowadzone zmiany i zmodyfikowane pliki w czasie, gdy będziesz próbował nałożyć zmiany - Git pozwoli Ci na rozwiązanie ewentualnych konfliktów, jeżeli zmiany nie będą mogły się czysto połączyć.
 
 <!-- You can see that Git re-modifies the files you uncommitted when you saved the stash. In this case, you had a clean working directory when you tried to apply the stash, and you tried to apply it on the same branch you saved it from; but having a clean working directory and applying it on the same branch aren’t necessary to successfully apply a stash. You can save a stash on one branch, switch to another branch later, and try to reapply the changes. You can also have modified and uncommitted files in your working directory when you apply a stash — Git gives you merge conflicts if anything no longer applies cleanly. -->
 
@@ -666,7 +666,7 @@ Możesz również uruchomić `git stash pop`, aby nałożyć ostatnio zapisane z
 
 <!-- ### Un-applying a Stash ### -->
 
-Może się zdarzyć sytuacja, w której nałożysz zmiany ze schowka, wprowadzisz jakieś inne zmiany, aby potem zechciesz cofnąć zmiany które zostały wprowadzone ze schowka. Git nie udostępnia komendy `git unapply`, ale można to osiągnąć poprzez pobranie wprowadzonych zmian i nałożenie ich w od tyłu:
+Może się zdarzyć sytuacja, w której nałożysz zmiany ze schowka, wprowadzisz jakieś inne zmiany, aby potem zechcesz cofnąć zmiany które zostały wprowadzone ze schowka. Git nie udostępnia komendy `git unapply`, ale można to osiągnąć poprzez pobranie wprowadzonych zmian i nałożenie ich w od tyłu:
 
 <!-- In some use case scenarios you might want to apply stashed changes, do some work, but then un-apply those changes that originally came from the stash. Git does not provide such a `stash unapply` command, but it is possible to achieve the effect by simply retrieving the patch associated with a stash and applying it in reverse: -->
 
@@ -692,7 +692,7 @@ Możesz chcieć stworzyć alias i dodać komendę `stash-unapply` do Gita. Na pr
 
 <!-- ### Creating a Branch from a Stash ### -->
 
-Jeżeli zapiszesz w schowku zmiany, zostawisz je na jakiś czas i będziesz kontynuował pracę na tej samej gałęzi, możesz napotkać problem z iich ponownym nałożeniem. Jeżeli nakładane zmiany, będą dotyczyły plików które zdążyłeś zmienić dojdzie do konfliktu, który będziesz musiał ręcznie rozwiązać. Jeżeli chcesz poznać łatwiejszy sposób na sprawdzenie zmian ze schowka, uruchom `git stash branch`, komenda ta stworzy nową gałąź, pobierze ostatnią wersję plików, nałoży zmiany ze schowka, oraz usunie zapisany schowek jeżeli wszystko odbędzie się bez problemów:
+Jeżeli zapiszesz w schowku zmiany, zostawisz je na jakiś czas i będziesz kontynuował pracę na tej samej gałęzi, możesz napotkać problem z ich ponownym nałożeniem. Jeżeli nakładane zmiany, będą dotyczyły plików które zdążyłeś zmienić dojdzie do konfliktu, który będziesz musiał ręcznie rozwiązać. Jeżeli chcesz poznać łatwiejszy sposób na sprawdzenie zmian ze schowka, uruchom `git stash branch`, komenda ta stworzy nową gałąź, pobierze ostatnią wersję plików, nałoży zmiany ze schowka, oraz usunie zapisany schowek jeżeli wszystko odbędzie się bez problemów:
 
 <!-- If you stash some work, leave it there for a while, and continue on the branch from which you stashed the work, you may have a problem reapplying the work. If the apply tries to modify a file that you’ve since modified, you’ll get a merge conflict and will have to try to resolve it. If you want an easier way to test the stashed changes again, you can run `git stash branch`, which creates a new branch for you, checks out the commit you were on when you stashed your work, reapplies your work there, and then drops the stash if it applies successfully: -->
 
@@ -768,7 +768,7 @@ Na przykład, jeżeli chcesz zmienić 3 ostatnie komentarze, albo jakikolwiek z 
 
 	$ git rebase -i HEAD~3
 
-Postaraj się zapamiętać, że jest to komenda zmiany bazy - każdy commit znajdujący się w zakresie `HEAD~3..HEAD` będzie przepisany, bez względu na to, czy zmienisz treść komentarza czy nie. Nie zawieraj commitów które zdąrzyłeś już wgrać na centralny serwer - takie działanie będzie powodowało zamieszanie dla innych programistów, poprzez dostarczenie alternatywnej wersji tej samej zmiany.
+Postaraj się zapamiętać, że jest to komenda zmiany bazy - każdy commit znajdujący się w zakresie `HEAD~3..HEAD` będzie przepisany, bez względu na to, czy zmienisz treść komentarza czy nie. Nie zawieraj commitów które zdążyłeś już wgrać na centralny serwer - takie działanie będzie powodowało zamieszanie dla innych programistów, poprzez dostarczenie alternatywnej wersji tej samej zmiany.
 
 <!-- Remember again that this is a rebasing command — every commit included in the range `HEAD~3..HEAD` will be rewritten, whether you change the message or not. Don’t include any commit you’ve already pushed to a central server — doing so will confuse other developers by providing an alternate version of the same change. -->
 
@@ -883,7 +883,7 @@ Możliwe jest również pobranie kilku commitów i połączenie ich w jeden za p
 	# However, if you remove everything, the rebase will be aborted.
 	#
 
-Jeżeli zamiast "pick" lub "edit", użyjesz "squash", Git nałoży obie te zmiany i tą znajdującą się przed nimi, i pozwoli Ci na scalenie treści komentarzy ze sobą. Więc, jezeli chcesz zrobić jeden commit z tych trzech, robisz skrypt wyglądający tak jak ten:
+Jeżeli zamiast "pick" lub "edit", użyjesz "squash", Git nałoży obie te zmiany i tą znajdującą się przed nimi, i pozwoli Ci na scalenie treści komentarzy ze sobą. Więc, jeżeli chcesz zrobić jeden commit z tych trzech, robisz skrypt wyglądający tak jak ten:
 
 <!-- If, instead of "pick" or "edit", you specify "squash", Git applies both that change and the change directly before it and makes you merge the commit messages together. So, if you want to make a single commit from these three commits, you make the script look like this: -->
 
@@ -996,7 +996,7 @@ Teraz Twoim nowym katalogiem głównym w projekcie, jest to, na co wskazywał po
 
 <!-- #### Changing E-Mail Addresses Globally #### -->
 
-Innym częstym przypadkiem jest ten, w którym zapomniałeś uruchomić `git config` aby ustawić imię i adres email przed rozpoczeciem prac, lub chcesz udostępnić projekt jako open-source i zmienić swój adres email na adres prywatny. W każdym przypadku, możesz zmienić adres email w wielu commitach również za pomocą `filter-branch`. Musisz uważać, aby zmienić adresy email które należą do Ciebie, użyjesz więc `--commit-filter`:
+Innym częstym przypadkiem jest ten, w którym zapomniałeś uruchomić `git config` aby ustawić imię i adres email przed rozpoczęciem prac, lub chcesz udostępnić projekt jako open-source i zmienić swój adres email na adres prywatny. W każdym przypadku, możesz zmienić adres email w wielu commitach również za pomocą `filter-branch`. Musisz uważać, aby zmienić adresy email które należą do Ciebie, użyjesz więc `--commit-filter`:
 
 <!-- Another common case is that you forgot to run `git config` to set your name and e-mail address before you started working, or perhaps you want to open-source a project at work and change all your work e-mail addresses to your personal address. In any case, you can change e-mail addresses in multiple commits in a batch with `filter-branch` as well. You need to be careful to change only the e-mail addresses that are yours, so you use `--commit-filter`: -->
 
@@ -1026,7 +1026,7 @@ Git udostępnia również kilka narzędzi, które pomogą Ci znaleźć przyczyny
 
 <!-- ### File Annotation ### -->
 
-Jeżeli namierzasz błąd w swoim kodzie i chcesz wiedzieć kiedy został on wprowadzony i z jakiego powodu, adnotacje do plików są często najlepszym z narzedzi. Pokazuje ona który commit był tym który jako ostatni modyfikował dany każdą z linii w pliku. Jeżeli więc, zobaczysz że jakaś metoda w Twoim kodzie jest błędna, możesz zobaczyć adnotacje związane z tym plikiem za pomocą `git blame` i otrzymać wynik z listą osób które jako ostatnie modyfikowały daną linię. Ten przykład używa opcji `-L`, aby ograniczyć wynik do linii od 12 do 22:
+Jeżeli namierzasz błąd w swoim kodzie i chcesz wiedzieć kiedy został on wprowadzony i z jakiego powodu, adnotacje do plików są często najlepszym z narzędzi. Pokazuje ona który commit był tym który jako ostatni modyfikował dany każdą z linii w pliku. Jeżeli więc, zobaczysz że jakaś metoda w Twoim kodzie jest błędna, możesz zobaczyć adnotacje związane z tym plikiem za pomocą `git blame` i otrzymać wynik z listą osób które jako ostatnie modyfikowały daną linię. Ten przykład używa opcji `-L`, aby ograniczyć wynik do linii od 12 do 22:
 
 <!-- If you track down a bug in your code and want to know when it was introduced and why, file annotation is often your best tool. It shows you what commit was the last to modify each line of any file. So, if you see that a method in your code is buggy, you can annotate the file with `git blame` to see when each line of the method was last edited and by whom. This example uses the `-L` option to limit the output to lines 12 through 22: -->
 
@@ -1074,7 +1074,7 @@ Jest to bardzo pomocne. Normalnie otrzymasz jako commit źródłowy, commit z kt
 
 <!-- ### Binary Search ### -->
 
-Adnotacje w pliku są pomocne w sytuacji, gdy wiesz od czego zacząć. Jeżeli nie wiesz co psuje, a było wprowadzonych kilkadziesiąt lub kilkaset zmian, od momentu gdy miałeś pewność z kod działał prawidłowo, z pewnością spojrzysz na `git bisect` po pomoc. Komenda `bisect` wykonuje birnarne szukanie przez Twoją historię commitów, aby pomóc Ci zidentyfikować tak szybko jak się da, który commit wprowadził błąd.
+Adnotacje w pliku są pomocne w sytuacji, gdy wiesz od czego zacząć. Jeżeli nie wiesz co psuje, a było wprowadzonych kilkadziesiąt lub kilkaset zmian, od momentu gdy miałeś pewność z kod działał prawidłowo, z pewnością spojrzysz na `git bisect` po pomoc. Komenda `bisect` wykonuje binarne szukanie przez Twoją historię commitów, aby pomóc Ci zidentyfikować tak szybko jak się da, który commit wprowadził błąd.
 
 <!-- Annotating a file helps if you know where the issue is to begin with. If you don’t know what is breaking, and there have been dozens or hundreds of commits since the last state where you know the code worked, you’ll likely turn to `git bisect` for help. The `bisect` command does a binary search through your commit history to help you identify as quickly as possible which commit introduced an issue. -->
 
@@ -1144,11 +1144,11 @@ Często podczas pracy na jednym projektem, musisz włączyć inny projekt do nie
 
 <!-- It often happens that while working on one project, you need to use another project from within it. Perhaps it’s a library that a third party developed or that you’re developing separately and using in multiple parent projects. A common issue arises in these scenarios: you want to be able to treat the two projects as separate yet still be able to use one from within the other. -->
 
-Sprawdźmy przykład. Załóżmy, że tworzysz stronę wykorzystującą kanały RSS/Atom. Jednak zamiast stworzenia własnego kodu który będzie się tym zajmował, decydujesz się na użycie zewnętrznej biblioteki. Będziesz musiał zainstalować ją z pakietu dostarczonego przez CPAN lub pakietu Ruby gem, lub skopiować jej kod źródłowy do swojego projektu. Problem z włączaniem biblioteki z zewnętrznego pakietu jest taki, że ciężko jest dostosować ją w jakikolwiek sposób oraz ciężko wdrożyć, ponieważ każdy użytkownik ma musi mieć taką boibliotekę zainstalowaną. Problem z włączaniem kodu biblioteki do własnego repozytorium jest taki, że po wprowadzeniu w niej jakichkolwiek zmian ciężko jest je włączyć, gdy kod biblioteki rozwinął się.
+Sprawdźmy przykład. Załóżmy, że tworzysz stronę wykorzystującą kanały RSS/Atom. Jednak zamiast stworzenia własnego kodu który będzie się tym zajmował, decydujesz się na użycie zewnętrznej biblioteki. Będziesz musiał zainstalować ją z pakietu dostarczonego przez CPAN lub pakietu Ruby gem, lub skopiować jej kod źródłowy do swojego projektu. Problem z włączaniem biblioteki z zewnętrznego pakietu jest taki, że ciężko jest dostosować ją w jakikolwiek sposób oraz ciężko wdrożyć, ponieważ każdy użytkownik ma musi mieć taką bibliotekę zainstalowaną. Problem z włączaniem kodu biblioteki do własnego repozytorium jest taki, że po wprowadzeniu w niej jakichkolwiek zmian ciężko jest je włączyć, gdy kod biblioteki rozwinął się.
 
 <!-- Here’s an example. Suppose you’re developing a web site and creating Atom feeds. Instead of writing your own Atom-generating code, you decide to use a library. You’re likely to have to either include this code from a shared library like a CPAN install or Ruby gem, or copy the source code into your own project tree. The issue with including the library is that it’s difficult to customize the library in any way and often more difficult to deploy it, because you need to make sure every client has that library available. The issue with vendoring the code into your own project is that any custom changes you make are difficult to merge when upstream changes become available. -->
 
-Git rozwiązuje te problemy przez użycie modułów zależnych. Pozwalają one na trzymanie repozytorium Gita w podkatalogu znajdującym się w innym repozytorium. Pozwala to na sklonowanie repozytorium do swojego projektu i utzrymywanie zmian niezależnie. 
+Git rozwiązuje te problemy przez użycie modułów zależnych. Pozwalają one na trzymanie repozytorium Gita w podkatalogu znajdującym się w innym repozytorium. Pozwala to na sklonowanie repozytorium do swojego projektu i utrzymywanie zmian niezależnie. 
 
 <!-- Git addresses this issue using submodules. Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate. -->
 
@@ -1195,7 +1195,7 @@ Jeżeli masz więcej modułów zależnych, będziesz miał więcej wpisów w tym
 
 <!-- If you have multiple submodules, you’ll have multiple entries in this file. It’s important to note that this file is version-controlled with your other files, like your `.gitignore` file. It’s pushed and pulled with the rest of your project. This is how other people who clone this project know where to get the submodule projects from. -->
 
-Inny wynik komendy `git status` ma katalog rack. Jeżeli uruchmisz `git diff` na nim, zobaczysz coś interesującego:
+Inny wynik komendy `git status` ma katalog rack. Jeżeli uruchomisz `git diff` na nim, zobaczysz coś interesującego:
 
 <!-- The other listing in the `git status` output is the rack entry. If you run `git diff` on that, you see something interesting: -->
 
@@ -1286,7 +1286,7 @@ Powstał katalog `rack`, ale pusty. Musisz uruchomić dwie komendy: `git submodu
 	Resolving deltas: 100% (1951/1951), done.
 	Submodule path 'rack': checked out '08d709f78b8c5b0fbeb7821e37fa53e69afcf433'
 
-Teraz któj podkatalog `rack` jest w dokładnie takim samym stanie w jakim był, gdy commitowałeś go wcześniej. Jeżeli inny programista zrobi zmiany w kodzie rack i zapisze je, a Ty pobierzesz je i włączysz, otrzymasz dziwny wynik:
+Teraz Twój podkatalog `rack` jest w dokładnie takim samym stanie w jakim był, gdy commitowałeś go wcześniej. Jeżeli inny programista zrobi zmiany w kodzie rack i zapisze je, a Ty pobierzesz je i włączysz, otrzymasz dziwny wynik:
 
 <!-- Now your `rack` subdirectory is at the exact state it was in when you committed earlier. If another developer makes changes to the rack code and commits, and you pull that reference down and merge it in, you get something a bit odd: -->
 
@@ -1334,7 +1334,7 @@ Musisz wykonywać tą komendę, za każdym razem gdy ściągniesz zmiany z modu�
 
 <!-- You have to do this every time you pull down a submodule change in the main project. It’s strange, but it works. -->
 
-Często zdarza się natrafić na problem związany z tym, że programista wprowadza zmiany lokalnie w jakimś module, ale nie wypycha ich na publiczny serwer. Następnie commituje on wskaźnik do tej nie publicznej zmiany i wypycha do głównego projektu. Kiedy inni programiści będą chcieli uruchomić `git submodule update`, komenda ta nie będzie mogła znaleźć commita na który zmiana wskazuje, ponieważ istnieje ona tylko na komputerze tematego programisty. Jeżeli tak się stanie, zobaczysz błąd podobny do:
+Często zdarza się natrafić na problem związany z tym, że programista wprowadza zmiany lokalnie w jakimś module, ale nie wypycha ich na publiczny serwer. Następnie commituje on wskaźnik do tej nie publicznej zmiany i wypycha do głównego projektu. Kiedy inni programiści będą chcieli uruchomić `git submodule update`, komenda ta nie będzie mogła znaleźć commita na który zmiana wskazuje, ponieważ istnieje ona tylko na komputerze tamtego programisty. Jeżeli tak się stanie, zobaczysz błąd podobny do:
 
 <!-- One common problem happens when a developer makes a change locally in a submodule but doesn’t push it to a public server. Then, they commit a pointer to that non-public state and push up the superproject. When other developers try to run `git submodule update`, the submodule system can’t find the commit that is referenced, because it exists only on the first developer’s system. If that happens, you see an error like this: -->
 
@@ -1365,7 +1365,7 @@ Czasami, programiści chcą pobrać tylko część podkatalogów z dużego proje
 
 <!-- Sometimes, developers want to get a combination of a large project’s subdirectories, depending on what team they’re on. This is common if you’re coming from CVS or Subversion, where you’ve defined a module or collection of subdirectories, and you want to keep this type of workflow. -->
 
-Można to łatwo osiągnąć w Gitcie, tworząć dla każdego podkatalogu osobne repozytorium Gita, a następnie tworząć superprojekt który zawiera różne moduły. Zyskiem z takiego podejścia jest to, że możesz dokładniej określić zależności między projektami za pomocą tagów i gałęzi w superprojekcie.
+Można to łatwo osiągnąć w Gitcie, tworząc dla każdego podkatalogu osobne repozytorium Gita, a następnie tworząc superprojekt który zawiera różne moduły. Zyskiem z takiego podejścia jest to, że możesz dokładniej określić zależności między projektami za pomocą tagów i gałęzi w superprojekcie.
 
 <!-- A good way to do this in Git is to make each of the subdirectories a separate Git repository and then create superproject Git repositories that contain multiple submodules. A benefit of this approach is that you can more specifically define the relationships between the projects with tags and branches in the superprojects. -->
 
@@ -1381,7 +1381,7 @@ Aby uniknąć tego problemu, stwórz gałąź gdy pracujesz w katalogu modułu z
 
 <!-- To avoid this issue, create a branch when you work in a submodule directory with `git checkout -b work` or something equivalent. When you do the submodule update a second time, it will still revert your work, but at least you have a pointer to get back to. -->
 
-Przełączanie gałęzi które mają w sobie moduły zależne może również być kłopotliwe. Gdy stworzysz nową gałąź, dodanie w niej moduł, a następnie przełączusz się z powrotem na gałąź która nie zawiera tego modułu, będziesz miał nadal katalog w którym jest moduł, ale nie będzie on śledzony:
+Przełączanie gałęzi które mają w sobie moduły zależne może również być kłopotliwe. Gdy stworzysz nową gałąź, dodanie w niej moduł, a następnie przełączysz się z powrotem na gałąź która nie zawiera tego modułu, będziesz miał nadal katalog w którym jest moduł, ale nie będzie on śledzony:
 
 <!-- Switching branches with submodules in them can also be tricky. If you create a new branch, add a submodule there, and then switch back to a branch without that submodule, you still have the submodule directory as an untracked directory: -->
 
@@ -1410,7 +1410,7 @@ Musisz albo przenieść go gdzieś lub usunąć, będziesz musiał ponownie go s
 
 <!-- You have to either move it out of the way or remove it, in which case you have to clone it again when you switch back—and you may lose local changes or branches that you didn’t push up. -->
 
-Ostatnim głównym problemem z którym ludzie się spotykają, jest sytuacja w której, chcemy przejść z podkatalogów na moduły zalezne. Jeżeli miałeś dodane pliki w swoim projekcie, a następnie chciałbyś przenieść część z nich do osobnego modułu, musisz być ostrożny bo inaczej Git będzie sprawiał kłopoty. Załóżmy że masz pliki związane z rack w podkatalogu swojego projektu i chcesz przenieść je do osobnego modułu. Jeżeli usuniesz ten podkatalog i uruchomisz `submodule add`, Git pokaże błąd:
+Ostatnim głównym problemem z którym ludzie się spotykają, jest sytuacja w której, chcemy przejść z podkatalogów na moduły zależne. Jeżeli miałeś dodane pliki w swoim projekcie, a następnie chciałbyś przenieść część z nich do osobnego modułu, musisz być ostrożny bo inaczej Git będzie sprawiał kłopoty. Załóżmy że masz pliki związane z rack w podkatalogu swojego projektu i chcesz przenieść je do osobnego modułu. Jeżeli usuniesz ten podkatalog i uruchomisz `submodule add`, Git pokaże błąd:
 
 <!-- The last main caveat that many people run into involves switching from subdirectories to submodules. If you’ve been tracking files in your project and you want to move them out into a submodule, you must be careful or Git will get angry at you. Assume that you have the rack files in a subdirectory of your project, and you want to switch it to a submodule. If you delete the subdirectory and then run `submodule add`, Git yells at you: -->
 
@@ -1457,7 +1457,7 @@ Potem, gdy przełączysz się z powrotem, otrzymasz pusty katalog `rack`. Musisz
 
 <!-- ## Subtree Merging ## -->
 
-Teraz, gdy znasz już trudności związane z modułami zależnymi, spójrzmy na alternatywny sposób rozwiązania tego problemu. Kiedy Git ma włączyć zmiany, najpierw sprawdza jakie zmiany ma włączyć, a następnie wybiera najlepszą strategię do wykonania tego zadania. Jeżeli łączysz dwie gałęzie, Git użyje strategii _rekurencyjnej_. Jeżeli łączysz więcej niż dwie gałęzie, Git wybierze stratęgię _ośmiornicy_. Te strategie są automatycznie wybierane za Ciebie, ponieważ rekurencyjna startegia może obsłużyć sytuacje łączenia trójstronnego - na przykład, w przypadku więcej niż jednego wspólnego przodka - ale może obsłużyć tylko łączenie dwóch gałęzi. Strategia ośmiornicy może obsłużyć większą ilość gałęzi, ale jest bardziej ostrożna, aby uniknąć trudnych do rozwiązania konfliktów, dlatego jest domyślną strategią w przypadku gdy łączysz więcej niż dwie gałęzie.
+Teraz, gdy znasz już trudności związane z modułami zależnymi, spójrzmy na alternatywny sposób rozwiązania tego problemu. Kiedy Git ma włączyć zmiany, najpierw sprawdza jakie zmiany ma włączyć, a następnie wybiera najlepszą strategię do wykonania tego zadania. Jeżeli łączysz dwie gałęzie, Git użyje strategii _rekurencyjnej_. Jeżeli łączysz więcej niż dwie gałęzie, Git wybierze strategię _ośmiornicy_. Te strategie są automatycznie wybierane za Ciebie, ponieważ rekurencyjna strategia może obsłużyć sytuacje łączenia trójstronnego - na przykład, w przypadku więcej niż jednego wspólnego przodka - ale może obsłużyć tylko łączenie dwóch gałęzi. Strategia ośmiornicy może obsłużyć większą ilość gałęzi, ale jest bardziej ostrożna, aby uniknąć trudnych do rozwiązania konfliktów, dlatego jest domyślną strategią w przypadku gdy łączysz więcej niż dwie gałęzie.
 
 <!-- Now that you’ve seen the difficulties of the submodule system, let’s look at an alternate way to solve the same problem. When Git merges, it looks at what it has to merge together and then chooses an appropriate merging strategy to use. If you’re merging two branches, Git uses a _recursive_ strategy. If you’re merging more than two branches, Git picks the _octopus_ strategy. These strategies are automatically chosen for you because the recursive strategy can handle complex three-way merge situations — for example, more than one common ancestor — but it can only handle merging two branches. The octopus merge can handle multiple branches but is more cautious to avoid difficult conflicts, so it’s chosen as the default strategy if you’re trying to merge more than two branches. -->
 

@@ -31,7 +31,7 @@ This workflow is attractive to a lot of people because it’s a paradigm that ma
 ### Przepływ pracy z osobą integrującą zmiany ###
 
 
-Ponieważ Git powala na posiadanie wielu zdalnych repozytoriów, możliwy jest schamat pracy w którym każdy programista ma uprawnienia do zapisu do swojego własnego repozytorium oraz uprawnienia do odczytu do repozytorium innych osób w zespole. Ten scenariusz często zawiera jedno centralne - "oficjalne" repozytorium projektu. Aby wgrać zmiany do projektu, należy stworzyć publiczną kopię tego repozytorium i wgrać ("push") zmiany do niego. Następnie należy wysłać prośbę do opiekuna aby pobrał zmiany do głównego repozytorium. Może on dodać twoje repozytorium jako zdalne, przetestować twoje zmiany lokalnie, włączyć je do nowej gałęzi i następnie wgrać do repozytorium. Proces ten wygląda następująco (rys. 5-2):
+Ponieważ Git powala na posiadanie wielu zdalnych repozytoriów, możliwy jest schemat pracy w którym każdy programista ma uprawnienia do zapisu do swojego własnego repozytorium oraz uprawnienia do odczytu do repozytorium innych osób w zespole. Ten scenariusz często zawiera jedno centralne - "oficjalne" repozytorium projektu. Aby wgrać zmiany do projektu, należy stworzyć publiczną kopię tego repozytorium i wgrać ("push") zmiany do niego. Następnie należy wysłać prośbę do opiekuna aby pobrał zmiany do głównego repozytorium. Może on dodać twoje repozytorium jako zdalne, przetestować twoje zmiany lokalnie, włączyć je do nowej gałęzi i następnie wgrać do repozytorium. Proces ten wygląda następująco (rys. 5-2):
 
 <!-- Because Git allows you to have multiple remote repositories, it’s possible to have a workflow where each developer has write access to their own public repository and read access to everyone else’s. This scenario often includes a canonical repository that represents the "official" project. To contribute to that project, you create your own public clone of the project and push your changes to it. Then, you can send a request to the maintainer of the main project to pull in your changes. They can add your repository as a remote, test your changes locally, merge them into their branch, and push back to their repository. The process works as follow (see Figure 5-2): -->
 
@@ -579,7 +579,7 @@ Kiedy wgrasz wprowadzone zmiany do swojego rozwidlenia projektu, powinieneś pow
 
 <!-- When your work has been pushed up to your fork, you need to notify the maintainer. This is often called a pull request, and you can either generate it via the website — GitHub has a "pull request" button that automatically messages the maintainer — or run the `git request-pull` command and e-mail the output to the project maintainer manually. -->
 
-Komenda `request-pull` pobiera docelową gałąź do której chcesz wysłać zmiany, oraz adres URL repozytorium Gita z którego chcesz pobrać zmiany, oraz generuje podsumowanie zmian które będziesz wysyłał. Na przykład, jeżeli Jessica chce wysłać do Johna `pull request`, a wykonała dwe zmiany na swojej gałęzi którą właśnie wypchnęła, powinna uruchomić:
+Komenda `request-pull` pobiera docelową gałąź do której chcesz wysłać zmiany, oraz adres URL repozytorium Gita z którego chcesz pobrać zmiany, oraz generuje podsumowanie zmian które będziesz wysyłał. Na przykład, jeżeli Jessica chce wysłać do Johna `pull request`, a wykonała dwie zmiany na swojej gałęzi którą właśnie wypchnęła, powinna uruchomić:
 
 <!-- The `request-pull` command takes the base branch into which you want your topic branch pulled and the Git repository URL you want them to pull from, and outputs a summary of all the changes you’re asking to be pulled in. For instance, if Jessica wants to send John a pull request, and she’s done two commits on the topic branch she just pushed up, she can run this: -->
 
@@ -645,7 +645,7 @@ Z powodu zmiany bazy ("rebase") na gałęzi, musisz użyć przełącznika `-f` d
 
 <!-- Because you rebased the branch, you have to specify the `-f` to your push command in order to be able to replace the `featureA` branch on the server with a commit that isn’t a descendant of it. An alternative would be to push this new work to a different branch on the server (perhaps called `featureAv2`). -->
 
-Spójrzmy na jeszcze jeden scenariusz: opiekun spojrzał na zmiany w twojej drugiej gałęzi i spodobał mu się pomysł, ale chciałby abyś zmienił sposób w jaki je zaimplementowałeś. Wykorzystasz to również do tego, aby przenieść zmiany do obecnej gałęzi `master`. Tworzysz więc nową gałąź bazująć na `origin/master`, złączasz zmiany z gałęzi `featureB` tam, rozwiązujesz ewentualne konflikty, wprowadzasz zmiany w implementacji i następnie wypychasz zmiany do nowej gałęzi:
+Spójrzmy na jeszcze jeden scenariusz: opiekun spojrzał na zmiany w twojej drugiej gałęzi i spodobał mu się pomysł, ale chciałby abyś zmienił sposób w jaki je zaimplementowałeś. Wykorzystasz to również do tego, aby przenieść zmiany do obecnej gałęzi `master`. Tworzysz więc nową gałąź bazując na `origin/master`, złączasz zmiany z gałęzi `featureB` tam, rozwiązujesz ewentualne konflikty, wprowadzasz zmiany w implementacji i następnie wypychasz zmiany do nowej gałęzi:
 
 <!-- Let’s look at one more possible scenario: the maintainer has looked at work in your second branch and likes the concept but would like you to change an implementation detail. You’ll also take this opportunity to move the work to be based off the project’s current `master` branch. You start a new branch based off the current `origin/master` branch, squash the `featureB` changes there, resolve any conflicts, make the implementation change, and then push that up as a new branch: -->
 
@@ -675,7 +675,7 @@ Duża ilość większych projektów ma ustalone reguły dotyczące akceptowania 
 
 <!-- Many larger projects have established procedures for accepting patches — you’ll need to check the specific rules for each project, because they will differ. However, many larger public projects accept patches via a developer mailing list, so I’ll go over an example of that now. -->
 
-Przepływ pracy jest podobny do poprzedniego - tworzysz tematyczne gałęzie dla każdej grupy zmian nad którymi pracujesz. Różnica polega na tym, w jaki sposób wysyłasz je do projektu. Zamiast tworzyć rozwidlenie i wypychać do niego zmiany, tworzysz wiadomość e-email dla każdego zestawu zmian i wysyłasz je na listę dyskusyjną:
+Przepływ pracy jest podobny do poprzedniego - tworzysz tematyczne gałęzie dla każdej grupy zmian nad którymi pracujesz. Różnica polega na tym, w jaki sposób wysyłasz je do projektu. Zamiast tworzyć rozwidlenie i wypychać do niego zmiany, tworzysz wiadomość email dla każdego zestawu zmian i wysyłasz je na listę dyskusyjną:
 
 <!-- The workflow is similar to the previous use case — you create topic branches for each patch series you work on. The difference is how you submit them to the project. Instead of forking the project and pushing to your own writable version, you generate e-mail versions of each commit series and e-mail them to the developer mailing list: -->
 
@@ -729,7 +729,7 @@ Możesz oczywiście zmienić te pliki i dodać większą ilość informacji w ma
 
 <!-- You can also edit these patch files to add more information for the e-mail list that you don’t want to show up in the commit message. If you add text between the `--` line and the beginning of the patch (the `lib/simplegit.rb` line), then developers can read it; but applying the patch excludes it. -->
 
-Aby wysłać to na listę dyskusyjną, możesz albo wkleić zawartość plików w programie e-mail lub użyć programu uruchamianego z linii komend. Wklejanie tekstu często wprowadza problemy z zachowaniem formatowania, szczególnie przy użyciu tych "mądrzejszych" programów pocztowych, które nie zachowują poprawnie znaków nowej linii i spacji. Na szczęście Git udostępnia narzędzie, które pomoże Ci wysłać poprawnie sformatowane łaty poprzez protokół IMAP, może to być łatwiejsze dla Ciebie. Pokażę w jaki sposób wysyłać łaty przy pomocy Gmaila, którego używam; możesz znaleźć bardziej szczegółowe instrukcje dla różnych programów pocztowych na końcu wcześniej wymienonego pliku `Documentation/SubmittingPatches`, który znajduje się w kodzie źródłowym Gita.
+Aby wysłać to na listę dyskusyjną, możesz albo wkleić zawartość plików w programie e-mail lub użyć programu uruchamianego z linii komend. Wklejanie tekstu często wprowadza problemy z zachowaniem formatowania, szczególnie przy użyciu tych "mądrzejszych" programów pocztowych, które nie zachowują poprawnie znaków nowej linii i spacji. Na szczęście Git udostępnia narzędzie, które pomoże Ci wysłać poprawnie sformatowane łaty poprzez protokół IMAP, może to być łatwiejsze dla Ciebie. Pokażę w jaki sposób wysyłać łaty przy pomocy Gmaila, którego używam; możesz znaleźć bardziej szczegółowe instrukcje dla różnych programów pocztowych na końcu wcześniej wymienionego pliku `Documentation/SubmittingPatches`, który znajduje się w kodzie źródłowym Gita.
 
 <!-- To e-mail this to a mailing list, you can either paste the file into your e-mail program or send it via a command-line program. Pasting the text often causes formatting issues, especially with "smarter" clients that don’t preserve newlines and other whitespace appropriately. Luckily, Git provides a tool to help you send properly formatted patches via IMAP, which may be easier for you. I’ll demonstrate how to send a patch via Gmail, which happens to be the e-mail agent I use; you can read detailed instructions for a number of mail programs at the end of the aforementioned `Documentation/SubmittingPatches` file in the Git source code. -->
 
@@ -871,7 +871,7 @@ Również, jeżeli ktoś wgrał łatkę wygenerowaną poprzez `format-patch` do 
     $ git am 0001-limit-log-function.patch
     Applying: add limit to log function
 
-Możesz zobaczyć, że został czysto nałożony i automatycznie skomitowany. Informacje o autorze zostały pobrane z wiadomości e-mail z nagłówków `From` i `Date`, a treść komentarz została pobrana z tematu i treści (przed łatką) e-maila. Na przykład, jeżeli ta łatka została zaaplikowana z pliku mbox który przed chwilą pokazałem, wygenerowany commit będzie wygląda podobnie do:
+Możesz zobaczyć, że został czysto nałożony i automatycznie zatwierdzony. Informacje o autorze zostały pobrane z wiadomości e-mail z nagłówków `From` i `Date`, a treść komentarz została pobrana z tematu i treści (przed łatką) e-maila. Na przykład, jeżeli ta łatka została zaaplikowana z pliku mbox który przed chwilą pokazałem, wygenerowany commit będzie wygląda podobnie do:
 
 <!-- You can see that it applied cleanly and automatically created the new commit for you. The author information is taken from the e-mail’s `From` and `Date` headers, and the message of the commit is taken from the `Subject` and body (before the patch) of the e-mail. For example, if this patch was applied from the mbox example I just showed, the commit generated would look something like this: -->
 
@@ -1016,7 +1016,7 @@ Aby zobaczyć różnice tego co się stanie, jeżeli chciałbyś połączyć tą
 
     $ git diff master
 
-Ta komenda pokaże ci różnice w kodzie, ale może to być mylące. Jeżeli twoja gałąź `master` zmieniła się od czasu stworzenia gałęzi tematycznej, otrzymasz dziwne wyniki. Tak dzieje się dlatego, ponieważ Git porównuje bezpośrednio ostatnią migawkę z gałęzi tematycznej, z ostatnią migawkę w gałęzi `master`. Na przykład, jeżeli dodasz linię w pliku w gałęzi `master`, bezpośrednie porównanie pokaże, że gałąż tematyczna zamierza usunąć tą linię.
+Ta komenda pokaże ci różnice w kodzie, ale może to być mylące. Jeżeli twoja gałąź `master` zmieniła się od czasu stworzenia gałęzi tematycznej, otrzymasz dziwne wyniki. Tak dzieje się dlatego, ponieważ Git porównuje bezpośrednio ostatnią migawkę z gałęzi tematycznej, z ostatnią migawkę w gałęzi `master`. Na przykład, jeżeli dodasz linię w pliku w gałęzi `master`, bezpośrednie porównanie pokaże, że gałąź tematyczna zamierza usunąć tą linię.
 
 <!-- This command gives you a diff, but it may be misleading. If your `master` branch has moved forward since you created the topic branch from it, then you’ll get seemingly strange results. This happens because Git directly compares the snapshots of the last commit of the topic branch you’re on and the snapshot of the last commit on the `master` branch. For example, if you’ve added a line in a file on the `master` branch, a direct comparison of the snapshots will look like the topic branch is going to remove that line. -->
 
@@ -1069,7 +1069,7 @@ Figure 5-20. Po scaleniu gałęzi.
 
 <!-- Figure 5-20. After a topic branch merge. -->
 
-To jest prawdopodobnie najprostszy schamat pracy, ale jest on również problematyczny jeżeli masz do czynienia z dużymi repozytoriami lub projektami.
+To jest prawdopodobnie najprostszy schemat pracy, ale jest on również problematyczny jeżeli masz do czynienia z dużymi repozytoriami lub projektami.
 
 <!-- That is probably the simplest workflow, but it’s problematic if you’re dealing with larger repositories or projects. -->
 
@@ -1220,7 +1220,7 @@ W ten sposób, możesz udostępnić konkretną wersję lub kompilację pod nazw�
 
 <!-- This way, you can export a snapshot or build and name it something understandable to people. In fact, if you build Git from source code cloned from the Git repository, `git --version` gives you something that looks like this. If you’re describing a commit that you have directly tagged, it gives you the tag name. -->
 
-Komenda `git describe` faworyzuje etykiety stworzone przy użyciu opcji `-a` lub `-s`, więc etykiety dotyczące konkretnych wersji powinny być tworzone w ten sposób, jezeli używasz `git describe` w celu zapewnienia poprawnych nazw commitów. Możesz również używać tej nazwy do komend "checkout" lub "show", choć polegają one na skróconej wartości SHA-1, mogą więc nie być wiecznie poprawne. Na przykład, projekt jądra Linuksa przeszedł ostatnio z 8 na 10 znaków aby zapewnić unikalność sum SHA-1, więc poprzednie nazwy wygenerowane za pomocą `git describe` zostały unieważnione. 
+Komenda `git describe` faworyzuje etykiety stworzone przy użyciu opcji `-a` lub `-s`, więc etykiety dotyczące konkretnych wersji powinny być tworzone w ten sposób, jeżeli używasz `git describe` w celu zapewnienia poprawnych nazw commitów. Możesz również używać tej nazwy do komend "checkout" lub "show", choć polegają one na skróconej wartości SHA-1, mogą więc nie być wiecznie poprawne. Na przykład, projekt jądra Linuksa przeszedł ostatnio z 8 na 10 znaków aby zapewnić unikalność sum SHA-1, więc poprzednie nazwy wygenerowane za pomocą `git describe` zostały unieważnione. 
 
 <!-- The `git describe` command favors annotated tags (tags created with the `-a` or `-s` flag), so release tags should be created this way if you’re using `git describe`, to ensure the commit is named properly when described. You can also use this string as the target of a checkout or show command, although it relies on the abbreviated SHA-1 value at the end, so it may not be valid forever. For instance, the Linux kernel recently jumped from 8 to 10 characters to ensure SHA-1 object uniqueness, so older `git describe` output names were invalidated. -->
 

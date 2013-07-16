@@ -132,3 +132,11 @@ be:
   con: "Змест"
   fig: "Малюнак "
   tab: "Табліца "
+pl:
+  prechap: "Rozdział "
+  presect: "Dział "
+  con: "Spis treści"
+  fig: "Rysunek "
+  tab: "Tabela "
+  indent: "\\qquad"
+  thanks: "Jest to plik PDF z zawartością książki Pro Git. Rozpowszechniana jest ona na licencji Creative Commons Attribution-Non Commercial-Share Alike 3.0. Mam nadzieję, że spodoba Ci się, że pomoże nauczyć się Gita, oraz mam nadzieję, że wesprzesz wydawnictwo Apress oraz mnie poprzez kupno papierowej wersji tej książki na Amazon: \\url{http://tinyurl.com/amazonprogit}"

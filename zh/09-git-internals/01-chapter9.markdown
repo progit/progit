@@ -109,7 +109,7 @@ Git 初始化了 `objects` 目录，同时在该目录下创建了 `pack` 和 `i
 	100644 blob 8f94139338f9404f26296befa88755fc2598c289      Rakefile
 	040000 tree 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0      lib
 
-`master^{tree}` 表示 `branch` 分支上最新提交指向的 tree 对象。请注意 `lib` 子目录并非一个 blob 对象，而是一个指向别一个 tree 对象的指针：
+`master^{tree}` 表示 `branch` 分支上最新提交指向的 tree 对象。请注意 `lib` 子目录并非一个 blob 对象，而是一个指向另一个 tree 对象的指针：
 
 	$ git cat-file -p 99f1a6d12cb4b6f19c8655fca46c3ecf317074e0
 	100644 blob 47c6340d6459e05787f644c2447d2595f5d3a54b      simplegit.rb

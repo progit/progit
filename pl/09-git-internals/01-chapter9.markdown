@@ -553,7 +553,7 @@ Zauważ, że wpis rozpoczynający się od "object" wskazuje na sumą SHA-1 commi
 
 	$ git cat-file blob junio-gpg-pub
 
-w kodzie źródłowym Gita. Repozytorium ze źródłami projektu Linux ma również taki tag - pierwszy stworzony tag stworzony z początkowego stanu kodu źródłowego.
+w kodzie źródłowym Gita. Repozytorium ze źródłami projektu Linux ma również taki tag - pierwszy tag stworzony z początkowego stanu kodu źródłowego.
 
 <!-- in the Git source code repository. The Linux kernel repository also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code. -->
 
@@ -586,11 +586,14 @@ Zdalne referencje różnią się od gałęzi (referencji w `refs/heads`) główn
 <!-- Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers. -->
 
 
-<!--
 
-## Packfiles ##
+## Spakowane pliki (packfiles) ##
 
-Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag:
+<!-- ## Packfiles ## -->
+
+Spójrzmy na obiekty które znajdują się w testowym repozytorium Gita. W tej chwili, masz 11 obiektów - 4 blob, 3 tree, 3 commit i 1 tag.
+
+<!-- Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag: -->
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -605,7 +608,9 @@ Let’s go back to the objects database for your test Git repository. At this po
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file:
+Git kompresuje zawartość tych plików za pomocą biblioteki zlib, a Ty nie masz dużej ilości danych, więc te pliki łącznie zajmują tylko 925 bajtów. Dodajmy trochę większych plików do repozytorium, aby pokazać bardzo ciekawą funkcję Gita. Dodaj plik repo.rb z biblioteki Grit na której wcześniej pracowaliśmy - ma on około 12 tysięcy znaków:
+
+<!-- Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file: -->
 
 	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb
@@ -616,40 +621,54 @@ Git compresses the contents of these files with zlib, and you’re not storing m
 	 create mode 100644 repo.rb
 	 rewrite test.txt (100%)
 
-If you look at the resulting tree, you can see the SHA-1 value your repo.rb file got for the blob object:
+Jak spojrzysz na wynikowe drzewo, zobaczysz jaką sumę SHA-1 plik repo.rb otrzymał:
+
+<!-- If you look at the resulting tree, you can see the SHA-1 value your repo.rb file got for the blob object: -->
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-You can then check how big is that object on your disk:
+Następnie możesz sprawdzić ile miejsca zajmuje on na dysku:
+
+<!-- You can then check how big is that object on your disk: -->
 
 	$ du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 	4102	.git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 
-Now, modify that file a little, and see what happens:
+Teraz, zmodyfikujmy trochę ten plik i sprawdźmy co się stanie:
+
+<!-- Now, modify that file a little, and see what happens: -->
 
 	$ echo '# testing' >> repo.rb 
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Check the tree created by that commit, and you see something interesting:
+Sprawdź ponownie wynikowe drzewo projektu, a zobaczysz coś interesującego:
+
+<!-- Check the tree created by that commit, and you see something interesting: -->
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 05408d195263d853f09dca71d55116663690c27c      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-The blob is now a different blob, which means that although you added only a single line to the end of a 400-line file, Git stored that new content as a completely new object:
+Obiekt blog jest teraz zypełnie inny, co oznacza, że pomimo tego że dodałeś tylko jedną linię na końcu pliku który miał 400 linii, Git zapisał całą nową zawartość jako nowy obiekt:
+
+<!-- The blob is now a different blob, which means that although you added only a single line to the end of a 400-line file, Git stored that new content as a completely new object: -->
 
 	$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
 	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
-You have two nearly identical 4K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first?
+Masz teraz dwa prawie takie same obiekty zajmujące 4kb na dysku. Czy nie byłoby fajnie, gdyby Git mógł przechowywać tylko jeden z nich, a drugi tylko jako różnicę między nim a pierwszym?
 
-It turns out that it can. The initial format in which Git saves objects on disk is called a loose object format. However, occasionally Git packs up several of these objects into a single binary file called a packfile in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server. To see what happens, you can manually ask Git to pack up the objects by calling the `git gc` command:
+<!-- You have two nearly identical 4K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first? -->
+
+Okazuje się że może. Początkowym formatem w jakim Git przechowuje obiekty na dysku jest tak zwany luźny format. Jednak, czasami Git pakuje kilka obiektów w pojedynczy plik binarny  określany jako "packfile", aby zmniejszyć użycie przestrzeni dyskowej i przez to być bardziej wydajnym. Git wykona to, jeżeli masz dużą ilość luźnych obiektów, jeżeli uruchomisz komendę `git gc`, lub jeżeli wypchniesz dane na zdalny serwer. Aby zobaczyć jak to wygląda, możesz ręcznie zmusić Gita aby spakował te obiekty, za pomocą wywołania komendy `git gc`:
+
+<!-- It turns out that it can. The initial format in which Git saves objects on disk is called a loose object format. However, occasionally Git packs up several of these objects into a single binary file called a packfile in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server. To see what happens, you can manually ask Git to pack up the objects by calling the `git gc` command: -->
 
 	$ git gc
 	Counting objects: 17, done.
@@ -658,7 +677,9 @@ It turns out that it can. The initial format in which Git saves objects on disk 
 	Writing objects: 100% (17/17), done.
 	Total 17 (delta 1), reused 10 (delta 0)
 
-If you look in your objects directory, you’ll find that most of your objects are gone, and a new pair of files has appeared:
+Jak spojrzysz na katalog "objects", zauważysz że większość Twoich obiektów zniknęła i pojawiła się para nowych plików:
+
+<!-- If you look in your objects directory, you’ll find that most of your objects are gone, and a new pair of files has appeared: -->
 
 	$ find .git/objects -type f
 	.git/objects/71/08f7ecb345ee9d0084193f147cdad4d2998293
@@ -667,11 +688,17 @@ If you look in your objects directory, you’ll find that most of your objects a
 	.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
 	.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack
 
-The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile.
+Obiekty blob które pozostały, to obiekty które nie wskazywały na żaden obiekt commit - w tym przypadku, przykładpwe obiekty blob "what is up, doc?" oraz "test content", które zostały stworzone wcześniej. Ponieważ nie zostały one nigdy powiązane z żadnym commitem, Git uznał że nie są z niczym powiązane i nie włączył ich do żadnego pliku packfile.
 
-The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 8K in size, the new packfile is only 4K. You’ve halved your disk usage by packing your objects.
+<!-- The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile. -->
 
-How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
+Kolejne nowe pliki to plik packfile oraz indeks. Plik packfile to pojedynczy plik, zawierający zawartość wszystkich obiektów które zostały usunięte. Plik indeks zawiera informacje o tym, w którym miejscu w pliku packfile znajduje się konkretny obiekt. Co jest ciekawe, to to, że przed uruchomieniem `gc` obiekty na dysku zajmowały łącznie około 8K, a nowy plik packfile tylko 4K. Przez spakowanie obiektów, zmniejszyłeś o połowę ilość zajmowanego miejsca.
+
+<!-- The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 8K in size, the new packfile is only 4K. You’ve halved your disk usage by packing your objects. -->
+
+W jaki sposób Git to robi? Gdy Git pakuje obiekty, szuka plików które pod względem nazwy pliku i rozmiaru są podobne, i zachowuje tylko różnicę między wersjami. Możesz obejrzeć zawartość pliku packfile i zobaczyć co Git zrobił aby ograniczyć zużycie przestrzeni dyskowej. Komenda `git verify-pack` pozwala na podgląd tego, co zostało spakowane:
+
+<!-- How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up: -->
 
 	$ git verify-pack -v \
 	  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
@@ -696,10 +723,15 @@ How does Git do this? When Git packs objects, it looks for files that are named 
 	chain length = 1: 1 object
 	pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack: ok
 
-Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object’s content, so you can see that the content of `05408` takes up 12K, but that of `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file.
+W tym przypadku, obiekt blob `9bc1d`, co możesz pamiętać był pierwszą wersją pliku repo.rb, oraz jest on powiązany z obiektem blob `05408`, który był drugą wersją tego pliku. Trzeca kolumna w wyniku pokazuje rozmiar zawartości obiektu, możesz więc zobaczyć, że zawartość `05408` zajmuje 12K, ale `9bc1d` tylko 7 bajtów. Interesujące jest również to, że to druga wersja pliku została zachowana bez zmian, a poprzednia wersja jest różnicą zmian w stosunku do niej - dzieje się tak dlatego, że najczęściej potrzebujesz szybko dostać się do najnowszej wersji pliku.
 
-The really nice thing about this is that it can be repacked at any time. Git will occasionally repack your database automatically, always trying to save more space. You can also manually repack at any time by running `git gc` by hand.
+<!-- Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object’s content, so you can see that the content of `05408` takes up 12K, but that of `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file. -->
 
+Bardzo fajną rzeczą z tym związaną jest to, że te pliki mogą być przepakowane w każdej chwili. Git czasami przepakuje bazę danych automatycznie, zawsze starając się aby zachować jak najwięcej miejsca. Możesz również ręcznie przepokować te pliki, wywołując w dowolnym momencie komendę `git gc`.
+
+<!-- The really nice thing about this is that it can be repacked at any time. Git will occasionally repack your database automatically, always trying to save more space. You can also manually repack at any time by running `git gc` by hand. -->
+
+<!--
 ## The Refspec ##
 
 Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.

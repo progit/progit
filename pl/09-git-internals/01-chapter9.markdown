@@ -553,7 +553,7 @@ Zauważ, że wpis rozpoczynający się od "object" wskazuje na sumą SHA-1 commi
 
 	$ git cat-file blob junio-gpg-pub
 
-w kodzie źródłowym Gita. Repozytorium ze źródłami projektu Linux ma również taki tag - pierwszy stworzony tag stworzony z początkowego stanu kodu źródłowego.
+w kodzie źródłowym Gita. Repozytorium ze źródłami projektu Linux ma również taki tag - pierwszy tag stworzony z początkowego stanu kodu źródłowego.
 
 <!-- in the Git source code repository. The Linux kernel repository also has a non-commit-pointing tag object — the first tag created points to the initial tree of the import of the source code. -->
 
@@ -586,11 +586,14 @@ Zdalne referencje różnią się od gałęzi (referencji w `refs/heads`) główn
 <!-- Remote references differ from branches (`refs/heads` references) mainly in that they can’t be checked out. Git moves them around as bookmarks to the last known state of where those branches were on those servers. -->
 
 
-<!--
 
-## Packfiles ##
+## Spakowane pliki (packfiles) ##
 
-Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag:
+<!-- ## Packfiles ## -->
+
+Spójrzmy na obiekty które znajdują się w testowym repozytorium Gita. W tej chwili, masz 11 obiektów - 4 blob, 3 tree, 3 commit i 1 tag.
+
+<!-- Let’s go back to the objects database for your test Git repository. At this point, you have 11 objects — 4 blobs, 3 trees, 3 commits, and 1 tag: -->
 
 	$ find .git/objects -type f
 	.git/objects/01/55eb4229851634a0f03eb265b69f5a2d56f341 # tree 2
@@ -605,7 +608,9 @@ Let’s go back to the objects database for your test Git repository. At this po
 	.git/objects/fa/49b077972391ad58037050f2a75f74e3671e92 # new.txt
 	.git/objects/fd/f4fc3344e67ab068f836878b6c4951e3b15f3d # commit 1
 
-Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file:
+Git kompresuje zawartość tych plików za pomocą biblioteki zlib, a Ty nie masz dużej ilości danych, więc te pliki łącznie zajmują tylko 925 bajtów. Dodajmy trochę większych plików do repozytorium, aby pokazać bardzo ciekawą funkcję Gita. Dodaj plik repo.rb z biblioteki Grit na której wcześniej pracowaliśmy - ma on około 12 tysięcy znaków:
+
+<!-- Git compresses the contents of these files with zlib, and you’re not storing much, so all these files collectively take up only 925 bytes. You’ll add some larger content to the repository to demonstrate an interesting feature of Git. Add the repo.rb file from the Grit library you worked with earlier — this is about a 12K source code file: -->
 
 	$ curl https://raw.github.com/mojombo/grit/master/lib/grit/repo.rb > repo.rb
 	$ git add repo.rb
@@ -616,40 +621,54 @@ Git compresses the contents of these files with zlib, and you’re not storing m
 	 create mode 100644 repo.rb
 	 rewrite test.txt (100%)
 
-If you look at the resulting tree, you can see the SHA-1 value your repo.rb file got for the blob object:
+Jak spojrzysz na wynikowe drzewo, zobaczysz jaką sumę SHA-1 plik repo.rb otrzymał:
+
+<!-- If you look at the resulting tree, you can see the SHA-1 value your repo.rb file got for the blob object: -->
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 9bc1dc421dcd51b4ac296e3e5b6e2a99cf44391e      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-You can then check how big is that object on your disk:
+Następnie możesz sprawdzić ile miejsca zajmuje on na dysku:
+
+<!-- You can then check how big is that object on your disk: -->
 
 	$ du -b .git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 	4102	.git/objects/9b/c1dc421dcd51b4ac296e3e5b6e2a99cf44391e
 
-Now, modify that file a little, and see what happens:
+Teraz, zmodyfikujmy trochę ten plik i sprawdźmy co się stanie:
+
+<!-- Now, modify that file a little, and see what happens: -->
 
 	$ echo '# testing' >> repo.rb 
 	$ git commit -am 'modified repo a bit'
 	[master ab1afef] modified repo a bit
 	 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Check the tree created by that commit, and you see something interesting:
+Sprawdź ponownie wynikowe drzewo projektu, a zobaczysz coś interesującego:
+
+<!-- Check the tree created by that commit, and you see something interesting: -->
 
 	$ git cat-file -p master^{tree}
 	100644 blob fa49b077972391ad58037050f2a75f74e3671e92      new.txt
 	100644 blob 05408d195263d853f09dca71d55116663690c27c      repo.rb
 	100644 blob e3f094f522629ae358806b17daf78246c27c007b      test.txt
 
-The blob is now a different blob, which means that although you added only a single line to the end of a 400-line file, Git stored that new content as a completely new object:
+Obiekt blog jest teraz zypełnie inny, co oznacza, że pomimo tego że dodałeś tylko jedną linię na końcu pliku który miał 400 linii, Git zapisał całą nową zawartość jako nowy obiekt:
+
+<!-- The blob is now a different blob, which means that although you added only a single line to the end of a 400-line file, Git stored that new content as a completely new object: -->
 
 	$ du -b .git/objects/05/408d195263d853f09dca71d55116663690c27c
 	4109	.git/objects/05/408d195263d853f09dca71d55116663690c27c
 
-You have two nearly identical 4K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first?
+Masz teraz dwa prawie takie same obiekty zajmujące 4kb na dysku. Czy nie byłoby fajnie, gdyby Git mógł przechowywać tylko jeden z nich, a drugi tylko jako różnicę między nim a pierwszym?
 
-It turns out that it can. The initial format in which Git saves objects on disk is called a loose object format. However, occasionally Git packs up several of these objects into a single binary file called a packfile in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server. To see what happens, you can manually ask Git to pack up the objects by calling the `git gc` command:
+<!-- You have two nearly identical 4K objects on your disk. Wouldn’t it be nice if Git could store one of them in full but then the second object only as the delta between it and the first? -->
+
+Okazuje się że może. Początkowym formatem w jakim Git przechowuje obiekty na dysku jest tak zwany luźny format. Jednak, czasami Git pakuje kilka obiektów w pojedynczy plik binarny  określany jako "packfile", aby zmniejszyć użycie przestrzeni dyskowej i przez to być bardziej wydajnym. Git wykona to, jeżeli masz dużą ilość luźnych obiektów, jeżeli uruchomisz komendę `git gc`, lub jeżeli wypchniesz dane na zdalny serwer. Aby zobaczyć jak to wygląda, możesz ręcznie zmusić Gita aby spakował te obiekty, za pomocą wywołania komendy `git gc`:
+
+<!-- It turns out that it can. The initial format in which Git saves objects on disk is called a loose object format. However, occasionally Git packs up several of these objects into a single binary file called a packfile in order to save space and be more efficient. Git does this if you have too many loose objects around, if you run the `git gc` command manually, or if you push to a remote server. To see what happens, you can manually ask Git to pack up the objects by calling the `git gc` command: -->
 
 	$ git gc
 	Counting objects: 17, done.
@@ -658,7 +677,9 @@ It turns out that it can. The initial format in which Git saves objects on disk 
 	Writing objects: 100% (17/17), done.
 	Total 17 (delta 1), reused 10 (delta 0)
 
-If you look in your objects directory, you’ll find that most of your objects are gone, and a new pair of files has appeared:
+Jak spojrzysz na katalog "objects", zauważysz że większość Twoich obiektów zniknęła i pojawiła się para nowych plików:
+
+<!-- If you look in your objects directory, you’ll find that most of your objects are gone, and a new pair of files has appeared: -->
 
 	$ find .git/objects -type f
 	.git/objects/71/08f7ecb345ee9d0084193f147cdad4d2998293
@@ -667,11 +688,17 @@ If you look in your objects directory, you’ll find that most of your objects a
 	.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
 	.git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack
 
-The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile.
+Obiekty blob które pozostały, to obiekty które nie wskazywały na żaden obiekt commit - w tym przypadku, przykładpwe obiekty blob "what is up, doc?" oraz "test content", które zostały stworzone wcześniej. Ponieważ nie zostały one nigdy powiązane z żadnym commitem, Git uznał że nie są z niczym powiązane i nie włączył ich do żadnego pliku packfile.
 
-The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 8K in size, the new packfile is only 4K. You’ve halved your disk usage by packing your objects.
+<!-- The objects that remain are the blobs that aren’t pointed to by any commit — in this case, the "what is up, doc?" example and the "test content" example blobs you created earlier. Because you never added them to any commits, they’re considered dangling and aren’t packed up in your new packfile. -->
 
-How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up:
+Kolejne nowe pliki to plik packfile oraz indeks. Plik packfile to pojedynczy plik, zawierający zawartość wszystkich obiektów które zostały usunięte. Plik indeks zawiera informacje o tym, w którym miejscu w pliku packfile znajduje się konkretny obiekt. Co jest ciekawe, to to, że przed uruchomieniem `gc` obiekty na dysku zajmowały łącznie około 8K, a nowy plik packfile tylko 4K. Przez spakowanie obiektów, zmniejszyłeś o połowę ilość zajmowanego miejsca.
+
+<!-- The other files are your new packfile and an index. The packfile is a single file containing the contents of all the objects that were removed from your filesystem. The index is a file that contains offsets into that packfile so you can quickly seek to a specific object. What is cool is that although the objects on disk before you ran the `gc` were collectively about 8K in size, the new packfile is only 4K. You’ve halved your disk usage by packing your objects. -->
+
+W jaki sposób Git to robi? Gdy Git pakuje obiekty, szuka plików które pod względem nazwy pliku i rozmiaru są podobne, i zachowuje tylko różnicę między wersjami. Możesz obejrzeć zawartość pliku packfile i zobaczyć co Git zrobił aby ograniczyć zużycie przestrzeni dyskowej. Komenda `git verify-pack` pozwala na podgląd tego, co zostało spakowane:
+
+<!-- How does Git do this? When Git packs objects, it looks for files that are named and sized similarly, and stores just the deltas from one version of the file to the next. You can look into the packfile and see what Git did to save space. The `git verify-pack` plumbing command allows you to see what was packed up: -->
 
 	$ git verify-pack -v \
 	  .git/objects/pack/pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.idx
@@ -696,42 +723,65 @@ How does Git do this? When Git packs objects, it looks for files that are named 
 	chain length = 1: 1 object
 	pack-7a16e4488ae40c7d2bc56ea2bd43e25212a66c45.pack: ok
 
-Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object’s content, so you can see that the content of `05408` takes up 12K, but that of `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file.
+W tym przypadku, obiekt blob `9bc1d`, co możesz pamiętać był pierwszą wersją pliku repo.rb, oraz jest on powiązany z obiektem blob `05408`, który był drugą wersją tego pliku. Trzeca kolumna w wyniku pokazuje rozmiar zawartości obiektu, możesz więc zobaczyć, że zawartość `05408` zajmuje 12K, ale `9bc1d` tylko 7 bajtów. Interesujące jest również to, że to druga wersja pliku została zachowana bez zmian, a poprzednia wersja jest różnicą zmian w stosunku do niej - dzieje się tak dlatego, że najczęściej potrzebujesz szybko dostać się do najnowszej wersji pliku.
 
-The really nice thing about this is that it can be repacked at any time. Git will occasionally repack your database automatically, always trying to save more space. You can also manually repack at any time by running `git gc` by hand.
+<!-- Here, the `9bc1d` blob, which if you remember was the first version of your repo.rb file, is referencing the `05408` blob, which was the second version of the file. The third column in the output is the size of the object’s content, so you can see that the content of `05408` takes up 12K, but that of `9bc1d` only takes up 7 bytes. What is also interesting is that the second version of the file is the one that is stored intact, whereas the original version is stored as a delta — this is because you’re most likely to need faster access to the most recent version of the file. -->
 
-## The Refspec ##
+Bardzo fajną rzeczą z tym związaną jest to, że te pliki mogą być przepakowane w każdej chwili. Git czasami przepakuje bazę danych automatycznie, zawsze starając się aby zachować jak najwięcej miejsca. Możesz również ręcznie przepokować te pliki, wywołując w dowolnym momencie komendę `git gc`.
 
-Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.
-Suppose you add a remote like this:
+<!-- The really nice thing about this is that it can be repacked at any time. Git will occasionally repack your database automatically, always trying to save more space. You can also manually repack at any time by running `git gc` by hand. -->
+
+## Refspec ##
+
+<!-- ## The Refspec ## -->
+
+W trakcie czytania tej książki, używałeś prostych mapowań ze zdalnych gałęzi do lokalnych referencji; jednak mogą one być znaczniej bardziej złożone.
+Załóżmy, że dodajesz zdalne repozytorium w taki sposób:
+
+<!-- Throughout this book, you’ve used simple mappings from remote branches to local references; but they can be more complex.
+Suppose you add a remote like this: -->
 
 	$ git remote add origin git@github.com:schacon/simplegit-progit.git
 
-It adds a section to your `.git/config` file, specifying the name of the remote (`origin`), the URL of the remote repository, and the refspec for fetching:
+Doda to kolejną sekcję w pliku `.git/config`, określającą nazwę zdalnego repozytorium (`origin`), adres URL tego repozutorium, oraz refspec do pobierania:
+
+<!-- It adds a section to your `.git/config` file, specifying the name of the remote (`origin`), the URL of the remote repository, and the refspec for fetching: -->
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 
-The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward.
+Refspec składa się z opcjonalnego znaka `+`, oraz wskazania ścieżki źródłowej i docelowej `<src>:<dst>`, gdzie `<src>` wskazuje referencję na zewenętrznym serwerze, a `<dst>` jest miejscem, w którym te referencje będą zapisywane lokalnie. Znak `+` wskazuje Gitowi, aby wykonywał aktualizację nawet wtedy, gdy ta referencja nie jest zwykłym przesunięciem (ang. fast-forward).
 
-In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via
+<!-- The format of the refspec is an optional `+`, followed by `<src>:<dst>`, where `<src>` is the pattern for references on the remote side and `<dst>` is where those references will be written locally. The `+` tells Git to update the reference even if it isn’t a fast-forward. -->
+
+W zwyczajnym przypadku, jest to zapisywane automatycznie przez komendę `git remote add`, Git pobiera wszystkie referencje z `refs/heads/` na serwerze i zapisuje je do `refs/remotes/origin/` lokalnie. Więc, jeżeli istnieje gałąź `master` na serwerze, możesz uzyskać dostęp do logów tej gałęzi poprzez
+
+<!-- In the default case that is automatically written by a `git remote add` command, Git fetches all the references under `refs/heads/` on the server and writes them to `refs/remotes/origin/` locally. So, if there is a `master` branch on the server, you can access the log of that branch locally via -->
 
 	$ git log origin/master
 	$ git log remotes/origin/master
 	$ git log refs/remotes/origin/master
 
-They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`.
+Wszystkie te komendy są równoważne, ponieważ Git rozwinie je wszystkie do `refs/remotes/origin/master`.
 
-If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to
+<!-- They’re all equivalent, because Git expands each of them to `refs/remotes/origin/master`. -->
+
+Jeżeli chciałbyś, aby Git pobierał za każdym razem tylko gałąź `master`, a nie wszystkie inne gałęzie na zdalnym serwerze, możesz zmienić linię fetch na
+
+<!-- If you want Git instead to pull down only the `master` branch each time, and not every other branch on the remote server, you can change the fetch line to -->
 
 	fetch = +refs/heads/master:refs/remotes/origin/master
 
-This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run
+Jest to po prostu domyślna definicja refspec używana przez komendę `git fetch` podczas pobierania danych ze zdalnego repozytorium. Jeżeli chcesz wykonać coś jednorazowo, możesz podać definicję refspec również z linii komend. Aby pobrać gałąż `master` z zdalnego serwera, do `origin/mymaster` możesz uruchomić
+
+<!-- This is just the default refspec for `git fetch` for that remote. If you want to do something one time, you can specify the refspec on the command line, too. To pull the `master` branch on the remote down to `origin/mymaster` locally, you can run -->
 
 	$ git fetch origin master:refs/remotes/origin/mymaster
 
-You can also specify multiple refspecs. On the command line, you can pull down several branches like so:
+Możesz również ustawić kilka refspec. Z linii komend, możesz pobrać kilka gałęzi za pomocą:
+
+<!-- You can also specify multiple refspecs. On the command line, you can pull down several branches like so: -->
 
 	$ git fetch origin master:refs/remotes/origin/mymaster \
 	   topic:refs/remotes/origin/topic
@@ -739,53 +789,81 @@ You can also specify multiple refspecs. On the command line, you can pull down s
 	 ! [rejected]        master     -> origin/mymaster  (non fast forward)
 	 * [new branch]      topic      -> origin/topic
 
-In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec.
+W tym wypadku, pobieranie gałęzi master zostało odrzucone, ponieważ nie była to gałąź fast-forward (tzn. nie było możliwe wykonanie prostego przesunięcia w celu włączenia zmian). Możesz to zmienić, poprzez ustawienie znaku `+` na początku definicji refspec.
 
-You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines:
+<!-- In this case, the  master branch pull was rejected because it wasn’t a fast-forward reference. You can override that by specifying the `+` in front of the refspec. -->
+
+Możesz również ustawić wiele definicji refspec w pliku konfiguracyjnym. Jeżeli zawsze chcesz pobierać gałęzie master i experiment, dodaj dwie linie:
+
+<!-- You can also specify multiple refspecs for fetching in your configuration file. If you want to always fetch the master and experiment branches, add two lines: -->
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/experiment:refs/remotes/origin/experiment
 
-You can’t use partial globs in the pattern, so this would be invalid:
+Nie możesz użyć masek na ścieżkach, więc takie ustawienie będzie błędne:
+
+<!-- You can’t use partial globs in the pattern, so this would be invalid: -->
 
 	fetch = +refs/heads/qa*:refs/remotes/origin/qa*
 
-However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this:
+Możesz jednak użyć przestrzeni nazw aby osiągnąć podobny efekt. Jeżeli masz zespół QA, który wypycha nowe gałęzie, a Ty chcesz pobrać tylko gałąź master oraz wszystkie gałęzie stworzone przez zespół QA, możesz wpisać w pliku konfiguracyjnym coś takiego:
+
+<!-- However, you can use namespacing to accomplish something like that. If you have a QA team that pushes a series of branches, and you want to get the master branch and any of the QA team’s branches but nothing else, you can use a config section like this: -->
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/master:refs/remotes/origin/master
 	       fetch = +refs/heads/qa/*:refs/remotes/origin/qa/*
 
-If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way.
+Jeżeli masz bardziej złożony sposób współpracy, w którym zespół QA wypycha gałęzie, programiści wypychają gałęzie, oraz zespół integrujący również wypycha oraz współpracuje ze zdalnymi gałęziami, możesz stworzyć dla każdego z nich przestrzenie nazw w ten sposób. 
 
-### Pushing Refspecs ###
+<!-- If you have a complex workflow process that has a QA team pushing branches, developers pushing branches, and integration teams pushing and collaborating on remote branches, you can namespace them easily this way. -->
 
-It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push.
+### Wypychanie Refspecs ###
 
-If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run
+<!-- ### Pushing Refspecs ### -->
+
+Fajnie, że w tym sposobem możesz pobrać referencje z konkretnych referencji, ale w jaki sposób zespół QA ma wstawiać swoje gałęzie do przestrzeni `qa/` w pierwszej kolejności? Możesz to osiągnąć, poprzez użycie refspec dla komendy push.
+
+<!-- It’s nice that you can fetch namespaced references that way, but how does the QA team get their branches into a `qa/` namespace in the first place? You accomplish that by using refspecs to push. -->
+
+Jeżeli zespół QA chce wypychać swoją gałąź `master` do `qa/master` na zdalnym serwerze, mogą oni uruchomić
+
+<!-- If the QA team wants to push their `master` branch to `qa/master` on the remote server, they can run -->
 
 	$ git push origin master:refs/heads/qa/master
 
-If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file:
+Jeżeli zechcą, aby Git robił to automatycznie za każdym razem po uruchomieniu `git push origin`, mogą dodać definicję `push` do swojego pliku konfiguracyjnego:
+
+<!-- If they want Git to do that automatically each time they run `git push origin`, they can add a `push` value to their config file: -->
 
 	[remote "origin"]
 	       url = git@github.com:schacon/simplegit-progit.git
 	       fetch = +refs/heads/*:refs/remotes/origin/*
 	       push = refs/heads/master:refs/heads/qa/master
 
-Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default.
+I znowu, to spowoduje, że komenda `git push origin` będzie domyślnie wypychała lokalną gałąź `master` do zdalnej `qa/master`.
 
-### Deleting References ###
+<!-- Again, this will cause a `git push origin` to push the local `master` branch to the remote `qa/master` branch by default. -->
 
-You can also use the refspec to delete references from the remote server by running something like this:
+### Usuwanie referencji ###
+
+<!-- ### Deleting References ### -->
+
+Możesz również używać definicji refspec do usuwania referencji ze zdanego serwera, poprzez uruchomienie komendy podobnej do:
+
+<!-- You can also use the refspec to delete references from the remote server by running something like this: -->
 
 	$ git push origin :topic
 
-Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it.
+Ponieważ refspec składa się z `<src>:<dst>`, przez opuszczenie części `<src>`, wskazujesz aby stworzyć nową pustą gałąź tematyczną, co ją kasuje.
 
+<!-- Because the refspec is `<src>:<dst>`, by leaving off the `<src>` part, this basically says to make the topic branch on the remote nothing, which deletes it. -->
+
+
+<!--
 ## Transfer Protocols ##
 
 Git can transfer data between two repositories in two major ways: over HTTP and via the so-called smart protocols used in the `file://`, `ssh://`, and `git://` transports. This section will quickly cover how these two main protocols operate.
